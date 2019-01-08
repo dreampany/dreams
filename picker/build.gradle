@@ -1,0 +1,88 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.1'
+
+    defaultConfig {
+        minSdkVersion 18
+        targetSdkVersion 28
+        versionCode 1
+        versionName "0.0.1"
+
+        multiDexEnabled true
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            //shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //consumerProguardFiles 'proguard-rules.pro'
+            //zipAlignEnabled true
+            //shrinkResources true
+
+            //consumerProguardFiles getDefaultProguardFile('proguard-android.txt')
+            //consumerProguardFiles 'proguard-play-service.pro'
+            //consumerProguardFiles 'proguard-data-binding.pro'
+            //consumerProguardFiles 'proguard-joda-time.pro'
+            //consumerProguardFiles 'proguard-joda-time-android.pro'
+        }
+        release {
+            minifyEnabled true
+            //shrinkResources true
+            useProguard false
+            crunchPngs false
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled true
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    //library
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    //kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    //framework
+    implementation project(':frame')
+}

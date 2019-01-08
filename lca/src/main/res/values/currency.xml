@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="crypto_formatter">#,###.########</string>
+
+    <!--AIC, USDT, NZD, CAD, CLP, COP, HKD, MXN, TTD, XCD, ARS-->
+    <string name="usd_format">&#36; %1$,.3f</string>
+    <string name="usd_format_2f">&#36; %1$,.2f</string>
+    <!--Australian Dollar-->
+    <string name="aud_format">\u0041\u0024 %1$,.6f</string>
+    <!--brazilian real-->
+    <string name="brl_format">\u0052\u0024 %1$,.6f</string>
+    <!--Bahamian Dollar-->
+    <string name="bsd_format">\u0042\u0024 %1$,.6f</string>
+    <!--swiss franc-->
+    <string name="chf_format">\u0043\u0048\u0046 %1$,.6f</string>
+    <!--Chinese Yuan Renminbi-->
+    <string name="cny_format">\u00a5 %1$,.6f</string>
+    <!--Czech Koruna-->
+    <string name="czk_format">\u004b\u010d %1$,.6f</string>
+    <!--Danish Krone-->
+    <string name="dkk_format">\u006b\u0072 %1$,.6f</string>
+    <!--Euro-->
+    <string name="euro_format">\u20AC %1$,.6f</string>
+    <!--Fiji Dollar-->
+    <string name="fjd_format">\u0046\u004a\u0024 %1$,.6f</string>
+    <!--british pound-->
+    <string name="gbp_format">\u00a3 %1$,.6f</string>
+    <!--Ghanaian New Cedi-->
+    <string name="ghs_format">\u0047\u0048\u20b5 %1$,.6f</string>
+    <!--Guatemalan Quetzal-->
+    <string name="gtq_format">\u0051 %1$,.6f</string>
+    <!--Honduran Lempira-->
+    <string name="hnl_format">\u004c %1$,.6f</string>
+    <!--Croatian Kuna-->
+    <string name="hrk_format">\u006b\u006e %1$,.6f</string>
+    <!--Hungarian Forint-->
+    <string name="huf_format">\u0046\u0074 %1$,.6f</string>
+    <!--Indonesian Rupiah-->
+    <string name="idr_format">\u0052\u0070 %1$,.6f</string>
+    <!--Israeli New Shekel-->
+    <string name="ils_format">\u20aa %1$,.6f</string>
+    <!--Indian Rupee-->
+    <string name="inr_format">\u20b9 %1$,.6f</string>
+    <!--Iceland Krona, NOK, SEK-->
+    <string name="isk_format">\u006b\u0072 %1$,.6f</string>
+    <!--Jamaican Dollar-->
+    <string name="jmd_format">\u004a\u0024 %1$,.6f</string>
+    <!--Japanese Yen-->
+    <string name="jpy_format">\u00A5  %1$,.6f</string>
+    <!--South-Korean Won-->
+    <string name="krw_format">\u20A9  %1$,.6f</string>
+    <!--Sri Lanka Rupee, PKR-->
+    <string name="lkr_format">\u20a8 %1$,.6f</string>
+    <!--Myanmar Kyat-->
+    <string name="mmk_format">\u004b %1$,.6f</string>
+    <!--Malaysian Ringgit-->
+    <string name="myr_format">\u0052\u004d %1$,.6f</string>
+    <!--Panamanian Balboa-->
+    <string name="pab_format">\u0042\u002f\u002e %1$,.6f</string>
+    <!--Peruvian Nuevo Sol-->
+    <string name="pen_format">\u0053\u002f\u002e %1$,.6f</string>
+    <!--Philippine Peso-->
+    <string name="php_format">\u20b1 %1$,.6f</string>
+    <!--Polish Zloty-->
+    <string name="pln_format">\u007a\u0142 %1$,.6f</string>
+    <!--Romanian New Lei-->
+    <string name="ron_format">\u006c\u0065\u0069 %1$,.6f</string>
+    <!--Serbian Dinar-->
+    <string name="rsd_format">\u0052\u0053\u0044 %1$,.6f</string>
+    <!--Russian Rouble-->
+    <string name="rub_format">\u0440\u0443\u0431 %1$,.6f</string>
+    <!--Singapore Dollar-->
+    <string name="sgd_format">\u0053\u0024 %1$,.6f</string>
+    <!--Thai Baht-->
+    <string name="thb_format">\u0e3f %1$,.6f</string>
+    <!--Turkish Lira-->
+    <string name="try_format">\u0054\u004c %1$,.6f</string>
+    <!--Taiwan Dollar-->
+    <string name="twd_format">\u004e\u0054\u0024 %1$,.6f</string>
+    <!--Venezuelan Bolivar Fuerte-->
+    <string name="vef_format">\u0042\u0073 %1$,.6f</string>
+    <!--vietnamese DONG-->
+    <string name="vnd_format">\u20AB %1$,.6f</string>
+    <!--CFA Franc BEAC-->
+    <string name="xaf_format">\u0046\u0043\u0046\u0041 %1$,.6f</string>
+    <!--CFP Franc-->
+    <string name="xpf_format">\u0046 %1$,.6f</string>
+    <!--South African Rand-->
+    <string name="zar_format">\u0052 %1$,.6f</string>
+    <!--Nigerian Naira-->
+    <string name="ngn_format">\u0052 %1$,.6f</string>
+
+    <string name="btc_format">\u0E3F %1$s</string>
+    <string name="eth_format">\u039e %1$s</string>
+    <string name="ltc_format">\u0141 %1$s</string>
+
+</resources>

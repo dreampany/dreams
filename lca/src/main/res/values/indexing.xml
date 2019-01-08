@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_description">
+    Live Crypto Alert - Live prices of trending and hot cryptocurrencies on the market.
+    It gives you the detailed price and market value for individual currencies, market caps, coin details, exchange rates, charts, instant alerts and crypto news on the go.
+Live crypto prices.
+Live market price and exchange rates to different currencies.
+Daily and historical price graph to show hikes and falls of each currency.
+Shows hourly, daily and weekly price changes.
+Sets a priority list for your favorite coins by using the Favorite button.
+Alerts about prices so that you can be aware of price changes.
+Easily search for a particular coin among all coins.
+Easy to know the market cap of all cryptocurrencies.
+Cryptocurrency TAB- A clear overview of trending currencies with details, MarketCaps, and change logs.
+MARKET EXCHANGE - Check exchange rates for cryptocurrencies from different exchanges.
+Favorites - Add coins to your Favorite list if you just want to keep track of certain cryptocurrencies.
+NEWS - Read the latest news about cryptocurrencies, market, shares, wallets from famous online portals. "Live Crypto Alert" updates NEWS real-time so that you can\'t miss anything.
+ALL THE COINS - With overall coins supported, "Live Crypto Alert" offers the widest range of coins, including Bitcoin, Ethereum, Bitcoin Cash, Litecoin, IOTA, Ripple, Dash, NEM, Monero, Bitcoin Gold, Cardano, Ethereum Classic, EOS, Stellar Lumens, NEO, BitConnect, Populous, Waves, Qtum, Zcash, Lisk, OmiseGO, Stratis, Ardor, MonaCoin and remaining altcoins.
+</string>
+<string name="app_url">https://play.google.com/store/apps/text?id=%1$s</string>
+</resources>

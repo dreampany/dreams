@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/item_search"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        android:visible="false"
+        auto:actionViewClass="android.support.v7.widget.SearchView"
+        auto:showAsAction="collapseActionView|always"
+        tools:visible="true" />
+
+    <item
+        android:id="@+id/item_edit"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_edit_black_24dp"
+        android:title="@string/edit"
+        android:visible="false"
+        auto:showAsAction="ifRoom|withText"
+        tools:visible="true" />
+</menu>

@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">todo</string>
+
+    <string name="task">Task</string>
+    <string name="tasks">Tasks</string>
+    <string name="filter">Filter</string>
+    <string name="clear_completed">Clear Completed</string>
+    <string name="refresh">Refresh</string>
+    <string name="description">Description</string>
+
+    <string name="completed_tasks_cleared">Completed tasks cleared</string>
+    <string name="label_all">All TO-DOs</string>
+    <string name="label_active">Active TO-DOs</string>
+    <string name="label_completed">Completed TO-DOs</string>
+    <string name="saved_task_message_successfully">TO-DO saved</string>
+    <string name="empty_task_message">TO DOs cannot be empty</string>
+    <string name="add_task">New TO-DO</string>
+    <string name="edit_task">Edit TO-DO</string>
+</resources>

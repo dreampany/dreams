@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activity.LaunchActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.dynamitechetan.flowinggradient.FlowingGradient
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            auto:transition_drawable="@drawable/transition_gradient"
+            auto:transition_duration="4000" />
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            auto:srcCompat="@drawable/ic_launcher"
+            tools:ignore="ContentDescription" />
+
+        <io.supercharge.shimmerlayout.ShimmerLayout
+            android:id="@+id/shimmer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            auto:shimmer_animation_duration="1200">
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/material_white"
+                android:textSize="20sp"
+                auto:smart_font="@string/fontRobotoSlabTitle" />
+
+        </io.supercharge.shimmerlayout.ShimmerLayout>
+
+    </RelativeLayout>
+
+</layout>

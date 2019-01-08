@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/home" />
+
+<!--    <item
+        android:id="@+id/item_recent"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        android:title="@string/recent" />-->
+
+    <item
+        android:id="@+id/item_favourite"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:title="@string/favourite" />
+
+    <item
+        android:id="@+id/item_search"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search" />
+
+    <item
+        android:id="@+id/item_ocr"
+        android:icon="@drawable/ic_filter_center_focus_black_24dp"
+        android:title="@string/ocr" />
+
+<!--    <item
+        android:id="@+id/item_quiz"
+        android:icon="@drawable/ic_question_answer_black_24dp"
+        android:title="@string/title_quiz"
+        tools:ignore="PrivateResource" />-->
+
+<!--    <item
+        android:id="@+id/item_tools"
+        android:icon="@drawable/ic_add_circle_black_24dp"
+        android:title="@string/title_add_words"
+        tools:ignore="PrivateResource" />-->
+
+<!--    <item
+        android:id="@+id/item_library"
+        android:icon="@drawable/ic_view_list_black_24dp"
+        android:title="@string/title_library" />-->
+
+<!--    <item
+        android:id="@+id/item_status"
+        android:icon="@drawable/ic_ev_station_black_24dp"
+        android:title="@string/title_status" />-->
+
+    <item
+        android:id="@+id/item_more"
+        android:icon="@drawable/ic_more_black_24dp"
+        android:title="@string/more" />
+</menu>

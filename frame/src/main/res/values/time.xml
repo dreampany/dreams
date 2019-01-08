@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="today">Today</string>
+    <string name="day_ago">%dD ago</string>
+    <string name="week_ago">%dW ago</string>
+    <string name="month_ago">%dM ago</string>
+    <string name="year_ago">%dY ago</string>
+
+</resources>

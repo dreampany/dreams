@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.dreampany.word.ui.model.WordItem" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_grey400">
+
+        <com.beardedhen.androidbootstrap.BootstrapProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:visibility="gone"
+            auto:animated="true"
+            auto:bootstrapBrand="danger"
+            auto:bootstrapMaxProgress="100"
+            auto:bootstrapProgress="100"
+            auto:bootstrapSize="sm"
+            auto:striped="true"
+            tools:visibility="visible" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/layout_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            auto:cardCornerRadius="4dp"
+            auto:cardElevation="3dp"
+            tools:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="15dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="8dp">
+
+                <fr.arnaudguyon.smartfontslib.FontTextView
+                    android:id="@+id/text_word"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:drawablePadding="5dp"
+                    android:ellipsize="end"
+                    android:text="@{item.item.word}"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    auto:smart_font="@string/fontRobotoSlabTitle" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_word"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal">
+
+                    <fr.arnaudguyon.smartfontslib.FontTextView
+                        android:id="@+id/text_part_of_speech"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="@{item.item.partOfSpeech}"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="14sp"
+                        auto:smart_font="@string/fontRobotoSlabBody" />
+
+                    <fr.arnaudguyon.smartfontslib.FontTextView
+                        android:id="@+id/text_pronunciation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@{item.item.pronunciation}"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        auto:smart_font="@string/fontRobotoSlabBody" />
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_translate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:paddingBottom="3dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <fr.arnaudguyon.smartfontslib.FontTextView
+                        android:id="@+id/text_translate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+                        android:text=""
+                        android:textColor="@color/material_grey700"
+                        android:textSize="16sp"
+                        auto:smart_font="@string/fontRobotoSlabBody"
+                        tools:visibility="visible" />
+
+
+                    <!--                    <com.jaredrummler.materialspinner.MaterialSpinner
+                                            android:id="@+id/spinnerLanguage"
+                                            android:layout_width="180dp"
+                                            android:layout_height="40dp"
+                                            android:layout_below="@id/viewTranslate"
+                                            android:layout_centerHorizontal="true"
+                                            android:layout_marginTop="5dp"
+                                            auto:ms_dropdown_height="wrap_content"
+                                            auto:ms_dropdown_max_height="350dp"
+                                            auto:ms_text_color="@color/colorBlack1" />-->
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_word"
+            android:scrollbars="none"
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="8dp">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/layout_related"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    auto:cardCornerRadius="4dp"
+                    auto:cardElevation="3dp"
+                    tools:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
+
+                        <fr.arnaudguyon.smartfontslib.FontTextView
+                            android:id="@+id/text_synonym"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="15dp"
+                            android:textColor="@color/material_grey800"
+                            android:textSize="16sp"
+                            auto:smart_font="@string/fontRobotoSlabBody" />
+
+                        <fr.arnaudguyon.smartfontslib.FontTextView
+                            android:id="@+id/text_antonym"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginEnd="15dp"
+                            android:textColor="@color/material_grey800"
+                            android:textSize="16sp"
+                            auto:smart_font="@string/fontRobotoSlabBody" />
+
+                    </LinearLayout>
+
+                </android.support.v7.widget.CardView>
+
+                <include
+                    android:id="@+id/layout_definition"
+                    layout="@layout/content_definition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/layout_example"
+                    layout="@layout/content_example"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/layout_yandex"
+                    layout="@layout/content_yandex_translation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="35dp"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/layout_bottom"
+            layout="@layout/content_word_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            auto:borderWidth="0dp"
+            auto:elevation="6dp"
+            auto:rippleColor="@color/white"
+            auto:pressedTranslationZ="12dp"
+            auto:srcCompat="@drawable/ic_keyboard_voice_white_24dp" />
+
+    </RelativeLayout>
+</layout>

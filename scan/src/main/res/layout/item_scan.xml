@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:cardCornerRadius="3dp"
+        auto:cardPreventCornerOverlap="false"
+        auto:elevation="2dp">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:padding="10dp">
+
+            <com.like.LikeButton
+                android:id="@+id/button_like"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                auto:icon_size="25dp"
+                auto:icon_type="heart"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintEnd_toEndOf="parent" />
+
+            <com.beardedhen.androidbootstrap.BootstrapLabel
+                android:id="@+id/label_scan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="TEXT"
+                auto:bootstrapBrand="info"
+                auto:bootstrapHeading="h5"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintEnd_toStartOf="@id/button_like"
+                auto:roundedCorners="true" />
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:id="@+id/text_scan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:text="This is the scanned item value. No need to update the spec."
+                android:textColor="@color/material_grey700"
+                android:textSize="18sp"
+                auto:layout_constraintBottom_toTopOf="@id/label_scan"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
+                auto:smart_font="@string/fontRobotoSlabTitle" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+</layout>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <data>
+
+        <variable
+            name="items"
+            type="android.databinding.ObservableArrayList" />
+    </data>
+
+    <cz.kinst.jakub.view.SimpleStatefulLayout
+        android:id="@+id/stateful"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        auto:emptyLayout="@layout/state_empty"
+        auto:offlineLayout="@layout/state_offline"
+        auto:progressLayout="@layout/state_progress">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/layout_expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/material_grey400"
+                auto:el_duration="500"
+                auto:el_expanded="false"
+                auto:el_parallax="0.5">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp">
+
+                    <fr.arnaudguyon.smartfontslib.FontTextView
+                        android:id="@+id/text_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="@string/offline"
+                        android:textColor="@color/material_grey600"
+                        android:textSize="18sp"
+                        auto:smart_font="@string/fontRobotoSlabBody" />
+
+                </RelativeLayout>
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/layout_expandable">
+
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/layout_refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="none"
+                        auto:items="@{items}"
+                        tools:listitem="@layout/item_list" />
+
+                </android.support.v4.widget.SwipeRefreshLayout>
+
+            </FrameLayout>
+
+            <com.dreampany.frame.ui.widget.SmartFab
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:visibility="visible"
+                auto:elevation="6dp"
+                auto:fabSize="normal"
+                auto:layout_anchorGravity="bottom|right|end"
+                auto:pressedTranslationZ="12dp"
+                auto:rippleColor="@color/material_white"
+                auto:srcCompat="@drawable/ic_add_black_24dp" />
+
+        </RelativeLayout>
+    </cz.kinst.jakub.view.SimpleStatefulLayout>
+</layout>

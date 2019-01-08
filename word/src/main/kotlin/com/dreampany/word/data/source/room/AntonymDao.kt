@@ -1,0 +1,36 @@
+package com.dreampany.word.data.source.room
+
+import android.arch.persistence.room.Dao
+import android.arch.persistence.room.Query
+import com.dreampany.frame.data.source.dao.BaseDao
+import com.dreampany.word.data.model.Antonym
+import com.dreampany.word.data.model.Synonym
+import io.reactivex.Flowable
+import io.reactivex.Single
+
+
+/**
+ * Created by Hawladar Roman on 9/5/2018.
+ * BJIT Group
+ * hawladar.roman@bjitgroup.com
+ */
+@Dao
+interface AntonymDao : BaseDao<Antonym> {
+    @get:Query("select count(*) from antonym")
+    val count: Int
+
+    @get:Query("select count(*) from antonym")
+    val countRx: Single<Int>
+
+    @get:Query("select * from antonym")
+    val items: List<Synonym>
+
+    @get:Query("select * from antonym")
+    val itemsRx: Flowable<List<Synonym>>
+
+    @Query("select * from antonym where lefter = :word or righter = :word")
+    fun getItems(word: String): List<Synonym>
+
+    @Query("select * from antonym where lefter = :word or righter = :word")
+    fun getItemsRx(word: String): Single<List<Synonym>>
+}

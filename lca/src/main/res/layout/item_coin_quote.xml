@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        auto:cardCornerRadius="4dp"
+        auto:cardPreventCornerOverlap="false"
+        auto:elevation="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <include
+                android:id="@+id/layout_circulating"
+                layout="@layout/item_coin_pair" />
+
+            <include
+                android:id="@+id/layout_total"
+                layout="@layout/item_coin_pair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <include
+                android:id="@+id/layout_max"
+                layout="@layout/item_coin_pair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:id="@+id/text_last_updated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="@string/time"
+                android:textColor="@color/material_grey800"
+                auto:smart_font="@string/fontRobotoSlabBody" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</layout>

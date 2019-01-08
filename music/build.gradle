@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'idea'
+apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'io.fabric'
+apply plugin: 'ua.eshepelyuk.ManifestClasspath'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.0'
+    defaultConfig {
+        applicationId "com.dreampany.music"
+        minSdkVersion 18
+        targetSdkVersion 28
+        versionCode 1
+        versionName "0.0.1"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            shrinkResources true
+            crunchPngs false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
+    }
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    //framework
+    implementation project(':frame')
+    //android arch - lifecycle, room
+    kapt 'android.arch.lifecycle:compiler:1.1.1'
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
+    //google - dagger
+    kapt 'com.google.dagger:dagger-compiler:2.16'
+    kapt 'com.google.dagger:dagger-android-processor:2.16'
+    //firebase
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-ads:15.0.1'
+    implementation 'com.google.android.gms:play-services-gcm:15.0.1'
+    //facebook
+    implementation 'com.facebook.fresco:fresco:1.9.0'
+    //track selector
+    implementation 'de.Maxr1998:track-selector-lib:1.2'
+}

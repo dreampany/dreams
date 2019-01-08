@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item
+        android:id="@+id/item_search"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="@string/search"
+        android:visible="false"
+        auto:actionViewClass="android.support.v7.widget.SearchView"
+        auto:showAsAction="collapseActionView|always"
+        tools:visible="true" />
+
+    <item
+        android:id="@+id/item_wifi"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_portable_wifi_off_white_24dp"
+        android:title="@string/edit"
+        android:visible="true"
+        auto:showAsAction="always|withText"
+        tools:visible="true" />
+
+    <item
+        android:id="@+id/item_bluetooth"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_bluetooth_disabled_white_24dp"
+        android:title="@string/edit"
+        android:visible="true"
+        auto:showAsAction="always|withText"
+        tools:visible="true" />
+</menu>

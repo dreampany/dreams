@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.dreampany.word.ui.activity.NavigationActivity">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="false">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            auto:elevation="0dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/content_toolbar" />
+
+                <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+<!--                <com.chivorn.hum.smartsearchview.SmartSearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    auto:smsv_close_search_on_keyboard_dismiss="false"
+                    auto:smsv_dimBackground="false"
+                    auto:smsv_dismissOnOutsideTouch="true"
+                    auto:smsv_leftActionMode="showHamburger"
+                    auto:smsv_menu="@menu/menu_search_view"
+                    auto:smsv_searchBarMarginLeft="@dimen/search_view_inset"
+                    auto:smsv_searchBarMarginRight="@dimen/search_view_inset"
+                    auto:smsv_searchBarMarginTop="@dimen/search_view_inset"
+                    auto:smsv_searchHint="Search..."
+                    auto:smsv_showSearchKey="true"
+                    auto:smsv_suggestionsListAnimDuration="250" />-->
+
+            </FrameLayout>
+
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/navigation_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="?android:attr/windowBackground"
+                auto:menu="@menu/menu_navigation" />
+
+            <include
+                layout="@layout/content_frame_adview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@id/navigation_view"
+                auto:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        </RelativeLayout>
+
+        <!-- <FrameLayout
+             android:id="@+id/layout"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:animateLayoutChanges="true"
+             auto:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</layout>

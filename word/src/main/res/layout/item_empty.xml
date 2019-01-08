@@ -1,0 +1,28 @@
+<LinearLayout android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/image_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:alpha="0.5"
+        android:scaleType="fitCenter"
+        auto:srcCompat="@drawable/ic_hourglass_empty_accent_24dp" />
+
+    <fr.arnaudguyon.smartfontslib.FontTextView
+        android:id="@+id/text_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="@string/empty"
+        android:textColor="@color/material_grey700"
+        android:textSize="16sp"
+        auto:smart_font="@string/fontRobotoSlabBody" />
+
+</LinearLayout>

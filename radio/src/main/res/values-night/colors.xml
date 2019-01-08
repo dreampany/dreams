@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- NIGHT THEME COLORS -->
+    <color name="app_window_background">@color/transistor_black</color>
+    <color name="status_bar_background">@color/transistor_black</color>
+    <color name="app_onboarding_icons">@color/transistor_grey_very_light</color>
+
+    <color name="player_sheet_background_main">@color/transistor_grey_darker</color>
+    <color name="player_sheet_text_main">@color/transistor_grey_very_light</color>
+    <color name="player_sheet_background_details">@color/transistor_grey_darker</color>
+    <color name="player_sheet_text_details">@color/transistor_grey_very_light</color>
+    <color name="player_button_background">@color/transistor_blue_dark</color>
+
+    <color name="list_item_background">@color/transistor_black</color>
+    <color name="list_item_background_selected">@color/transistor_grey_darker</color>
+    <color name="list_item_divider">@color/transistor_grey_darker</color>
+
+    <color name="station_image_background">@color/transistor_grey_light</color>
+
+</resources>

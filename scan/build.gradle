@@ -1,0 +1,168 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'io.fabric'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.2'
+
+    defaultConfig {
+        applicationId 'com.dreampany.scan'
+        minSdkVersion 18
+        targetSdkVersion 28
+        versionCode 19
+        versionName "0.1.9"
+
+        multiDexEnabled true
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
+            ext.enableCrashlytics = true
+            ext.alwaysUpdateBuildId = false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            useProguard true
+            shrinkResources false
+            crunchPngs false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules-crashlytics.pro'
+            proguardFiles 'proguard-rules-webview.pro'
+            proguardFiles 'proguard-rules-data-model.pro'
+            proguardFiles 'proguard-rules-jni.pro'
+            proguardFiles 'proguard-rules-firebase.pro'
+            proguardFiles 'proguard-rules-play-service.pro'
+            proguardFiles 'proguard-rules-data-binding.pro'
+            proguardFiles 'proguard-rules-joda-time.pro'
+            proguardFiles 'proguard-rules-joda-time-android.pro'
+            proguardFiles 'proguard-rules-eventbus.pro'
+            proguardFiles 'proguard-rules-about.pro'
+            proguardFiles 'proguard-rules-support.pro'
+            proguardFiles 'proguard-rules-guava.pro'
+            proguardFiles 'proguard-rules-fresco.pro'
+            proguardFiles 'proguard-rules-flexible-adapter.pro'
+            proguardFiles 'proguard-rules-condom.pro'
+            proguardFiles 'proguard-rules-retrofit.pro'
+            proguardFiles 'proguard-rules-okhttp.pro'
+            proguardFiles 'proguard-rules-okio.pro'
+            proguardFiles 'proguard-rules-dagger.pro'
+            proguardFiles 'proguard-rules-reactive-network.pro'
+            proguardFiles 'proguard-rules-jackson.pro'
+            proguardFiles 'proguard-rules-butterknife.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+    }
+
+    dexOptions {
+        //jumboMode = true
+        preDexLibraries true
+        maxProcessCount 8
+        // Instead of setting the heap size for the DEX process, increase Gradle's
+        // heap size to enable dex-in-process. To learm more, read the next section.
+        // javaMaxHeapSize "2048m"
+    }
+
+    aaptOptions {
+        cruncherEnabled false
+    }
+/*    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+        //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
+    }
+    */
+/*    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/services/com.fasterxml.jackson.core.ObjectCodec'
+        exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
+    }*/
+
+}
+
+dependencies {
+    //library
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //test
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //frame
+    implementation project(':frame')
+    //network
+    implementation project(':network')
+    //toggle
+    implementation project(':toggle')
+    //android arch - lifecycle, room, databinding
+    kapt 'android.arch.lifecycle:compiler:1.1.1'
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
+    //dagger - core, android
+    kapt 'com.google.dagger:dagger-compiler:2.16'
+    kapt 'com.google.dagger:dagger-android-processor:2.16'
+    //butterknife
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+    //fabric
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+        transitive = true;
+    }
+    //firebase
+    implementation 'com.google.firebase:firebase-ml-vision:17.0.0'
+    //rx photo
+    implementation 'com.github.oliveiradev:RxPhoto:0.+'
+}
+
+apply plugin: 'com.google.gms.google-services'

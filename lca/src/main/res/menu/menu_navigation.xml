@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_live"
+        android:icon="@drawable/ic_coin"
+        android:title="@string/coins" />
+
+    <item
+        android:id="@+id/item_favorite"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:title="@string/favorite" />
+
+    <item
+        android:id="@+id/item_ico"
+        android:icon="@drawable/ic_event_note_black_24dp"
+        android:title="@string/ico" />
+
+    <item
+        android:id="@+id/item_news"
+        android:icon="@drawable/ic_news"
+        android:title="@string/news" />
+
+<!--    <item
+        android:id="@+id/item_share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share" />-->
+
+    <item
+        android:id="@+id/item_more"
+        android:icon="@drawable/ic_more_black_24dp"
+        android:title="@string/more" />
+</menu>

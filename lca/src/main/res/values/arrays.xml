@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="coin_graph_currencies">
+        <item>USD</item>
+        <item>BTC</item>
+    </string-array>
+
+    <string-array name="coin_exchange_currencies">
+        <item>USD</item>
+    </string-array>
+</resources>

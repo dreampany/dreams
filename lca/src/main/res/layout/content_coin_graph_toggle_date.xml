@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <com.dreampany.toggle.SingleSelectToggleGroup
+        android:id="@+id/toggle_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:tbgCheckedButton="@+id/toggle_day"
+        auto:tbgChildSpacing="auto">
+
+        <com.dreampany.toggle.button.CircularToggle
+            android:id="@+id/toggle_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/one_day"
+            android:textSize="16sp"
+            auto:tbgMarkerColor="@color/colorAccent" />
+
+        <com.dreampany.toggle.button.CircularToggle
+            android:id="@+id/toggle_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/week"
+            android:textSize="16sp"
+            auto:tbgMarkerColor="@color/colorAccent" />
+
+        <com.dreampany.toggle.button.CircularToggle
+            android:id="@+id/toggle_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/month"
+            android:textSize="16sp"
+            auto:tbgMarkerColor="@color/colorAccent" />
+
+        <com.dreampany.toggle.button.CircularToggle
+            android:id="@+id/toggle_three_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/three_month"
+            android:textSize="16sp"
+            auto:tbgMarkerColor="@color/colorAccent" />
+
+        <com.dreampany.toggle.button.CircularToggle
+            android:id="@+id/toggle_six_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/six_month"
+            android:textSize="16sp"
+            auto:tbgMarkerColor="@color/colorAccent" />
+
+        <com.dreampany.toggle.button.CircularToggle
+            android:id="@+id/toggle_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/year"
+            android:textSize="16sp"
+            auto:tbgMarkerColor="@color/colorAccent" />
+
+        <com.dreampany.toggle.button.CircularToggle
+            android:id="@+id/toggle_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all"
+            android:textSize="16sp"
+            auto:tbgMarkerColor="@color/colorAccent" />
+
+    </com.dreampany.toggle.SingleSelectToggleGroup>
+
+</layout>

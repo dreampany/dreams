@@ -1,0 +1,78 @@
+package com.dreampany.lca.data.source.room;
+
+import android.arch.persistence.room.TypeConverter;
+
+import com.dreampany.frame.util.DataUtil;
+import com.dreampany.lca.api.cmc.enums.Currency;
+import com.dreampany.lca.api.cmc.model.PriceQuote;
+import com.google.common.base.Strings;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by Hawladar Roman on 15/6/18.
+ * Dreampany Ltd
+ * dreampanymail@gmail.com
+ */
+public final class Converters {
+    private static Gson gson = new Gson();
+    private static Type typeOfListString = new TypeToken<List<String>>() {}.getType();
+    private static Type typeOfMap = new TypeToken<Map<Currency, PriceQuote>>() {
+    }.getType();
+    private static Type typeOfListPrices = new TypeToken<List<List<Float>>>() {
+    }.getType();
+
+    @TypeConverter
+    synchronized public static String toString(List<String> values) {
+        if (DataUtil.isEmpty(values)) {
+            return null;
+        }
+        return gson.toJson(values, typeOfListString);
+    }
+
+    @TypeConverter
+    synchronized  public static List<String> toList(String json) {
+        if (DataUtil.isEmpty(json)) {
+            return null;
+        }
+        return gson.fromJson(json, typeOfListString);
+    }
+
+
+    @TypeConverter
+    synchronized public static String fromPriceQuotes(Map<Currency, PriceQuote> quotes) {
+        if (quotes == null || quotes.isEmpty()) {
+            return null;
+        }
+        return gson.toJson(quotes, typeOfMap);
+    }
+
+    @TypeConverter
+    synchronized public static String fromListOfListPrice(List<List<Float>> prices) {
+        if (prices == null || prices.isEmpty()) {
+            return null;
+        }
+
+        return gson.toJson(prices, typeOfListPrices);
+    }
+
+    @TypeConverter
+    synchronized public static Map<Currency, PriceQuote> fromMapString(String json) {
+        if (Strings.isNullOrEmpty(json)) {
+            return null;
+        }
+        return gson.fromJson(json, typeOfMap);
+    }
+
+    @TypeConverter
+    synchronized public static List<List<Float>> fromListOfListPricesString(String json) {
+        if (Strings.isNullOrEmpty(json)) {
+            return null;
+        }
+        return gson.fromJson(json, typeOfListPrices);
+    }
+}

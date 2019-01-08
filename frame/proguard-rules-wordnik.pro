@@ -1,0 +1,2 @@
+-keep class com.wordnik.client.** { *; }
+-keepclassmembers class com.wordnik.client.** { *; }

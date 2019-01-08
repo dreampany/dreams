@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Share - Offline Transfer</string>
+
+    <string name="discover">Discover</string>
+    <string name="download">Download</string>
+    <string name="share">Share</string>
+    <string name="media">Media</string>
+    <string name="apk">Apk</string>
+    <string name="image">Image</string>
+
+    <string name="selected">Selected (%d)</string>
+    <string name="total">Total (%d)</string>
+</resources>

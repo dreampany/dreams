@@ -54,7 +54,7 @@ class ToolsActivity : BaseActivity() {
         if (type == null || subtype == null) {
             return
         }
-        //ad.loadBanner(findViewById(R.id.adview))
+        ad.loadBanner(findViewById(R.id.adview))
         when (type) {
             UiType.MORE -> {
                 when (subtype) {

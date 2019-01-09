@@ -2,7 +2,6 @@ package com.dreampany.lca.vm;
 
 
 import android.app.Application;
-
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -26,15 +25,6 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -42,6 +32,13 @@ import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.

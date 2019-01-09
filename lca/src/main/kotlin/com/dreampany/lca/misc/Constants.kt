@@ -57,7 +57,7 @@ object Constants {
     }
 
     object Period {
-        val Coin = TimeUnit.SECONDS.toMillis(10)
+        val Coin = TimeUnit.SECONDS.toMillis(30)
         val CoinDetails = TimeUnit.SECONDS.toMillis(20)
         val Notify = TimeUnit.HOURS.toSeconds(1)
     }

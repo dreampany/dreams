@@ -210,7 +210,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Maybe<List<Coin>> getItemsByCoinIdsRx(List<Long> coinIds) {
-        return null;
+        return remote.getItemsByCoinIdsRx(coinIds);
     }
 
     @Override

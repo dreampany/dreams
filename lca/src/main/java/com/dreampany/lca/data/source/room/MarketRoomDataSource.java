@@ -3,12 +3,12 @@ package com.dreampany.lca.data.source.room;
 import com.dreampany.lca.data.misc.MarketMapper;
 import com.dreampany.lca.data.model.Market;
 import com.dreampany.lca.data.source.api.MarketDataSource;
-import com.dreampany.lca.data.source.local.MarketDao;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import com.dreampany.lca.data.source.dao.MarketDao;
 import io.reactivex.Maybe;
 
 /**

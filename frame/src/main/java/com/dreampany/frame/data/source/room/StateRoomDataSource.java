@@ -2,14 +2,13 @@ package com.dreampany.frame.data.source.room;
 
 import com.dreampany.frame.data.misc.StateMapper;
 import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.StateDataSource;
+import com.dreampany.frame.data.source.api.StateDataSource;
 import com.dreampany.frame.data.source.local.StateDao;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
-import io.reactivex.Maybe;
 import io.reactivex.Maybe;
 
 /**

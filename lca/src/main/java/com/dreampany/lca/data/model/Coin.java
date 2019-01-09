@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.api.cmc.enums.Currency;
 import com.dreampany.lca.api.cmc.model.PriceQuote;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -101,20 +102,10 @@ public class Coin extends Base {
         }
     };
 
+    @NonNull
     @Override
     public String toString() {
-        return "Coin{" +
-                "CoinId=" + coinId +
-                ", name='" + name + '\'' +
-                ", symbol='" + symbol + '\'' +
-                ", slug='" + slug + '\'' +
-                ", rank=" + rank +
-                ", circulatingSupply=" + circulatingSupply +
-                ", totalSupply=" + totalSupply +
-                ", maxSupply=" + maxSupply +
-                ", lastUpdated=" + lastUpdated +
-                ", priceQuote=" + priceQuote +
-                '}';
+        return ReflectionToStringBuilder.toString(this);
     }
 
     public void setCoinId(long coinId) {

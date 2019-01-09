@@ -3,7 +3,7 @@ package com.dreampany.radio.vm;
 import android.app.Application;
 
 import com.dreampany.radio.app.App;
-import com.dreampany.radio.ui.model.DemoItem;
+import com.dreampany.radio.ui.model.StationItem;
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -60,7 +60,7 @@ public class NotifyViewModel {
                 .subscribe(this::postResult, this::postFailed);
     }
 
-    private Flowable<List<DemoItem>> getDemoItems() {
+    private Flowable<List<StationItem>> getDemoItems() {
         return null;
     }
 
@@ -70,7 +70,7 @@ public class NotifyViewModel {
     }
 
     @DebugLog
-    private void postResult(List<DemoItem> items) {
+    private void postResult(List<StationItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
             //return;

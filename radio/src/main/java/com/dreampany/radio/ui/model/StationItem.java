@@ -6,6 +6,7 @@ import android.view.View;
 import com.dreampany.radio.data.model.Demo;
 import com.dreampany.frame.ui.model.BaseItem;
 
+import com.dreampany.radio.data.model.Station;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -19,14 +20,14 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class DemoItem extends BaseItem<Demo, DemoItem.ViewHolder> {
+public class StationItem extends BaseItem<Station, StationItem.ViewHolder> {
 
-    private DemoItem(Demo item, @LayoutRes int layoutId) {
+    private StationItem(Station item, @LayoutRes int layoutId) {
         super(item, layoutId);
     }
 
-    public static DemoItem getSimpleItem(Demo item, @LayoutRes int layoutId) {
-        return new DemoItem(item, layoutId);
+    public static StationItem getSimpleItem(Station item, @LayoutRes int layoutId) {
+        return new StationItem(item, layoutId);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class DemoItem extends BaseItem<Demo, DemoItem.ViewHolder> {
             super(view, adapter);
         }
 
-        void bind(DemoItem item) {
+        void bind(StationItem item) {
         }
     }
 }

@@ -4,12 +4,12 @@ import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.misc.IcoMapper;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.api.IcoDataSource;
-import com.dreampany.lca.data.source.local.IcoDao;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import com.dreampany.lca.data.source.dao.IcoDao;
 import io.reactivex.Maybe;
 
 /**

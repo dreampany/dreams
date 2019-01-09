@@ -3,12 +3,12 @@ package com.dreampany.lca.data.source.room;
 import com.dreampany.lca.data.misc.ExchangeMapper;
 import com.dreampany.lca.data.model.Exchange;
 import com.dreampany.lca.data.source.api.ExchangeDataSource;
-import com.dreampany.lca.data.source.local.ExchangeDao;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import com.dreampany.lca.data.source.dao.ExchangeDao;
 import io.reactivex.Maybe;
 
 /**

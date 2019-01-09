@@ -1,4 +1,4 @@
-package com.dreampany.lca.data.source.local
+package com.dreampany.lca.data.source.dao
 
 /**
  * Created by Hawladar Roman on 4/6/18.

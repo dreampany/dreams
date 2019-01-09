@@ -1,7 +1,7 @@
 package com.dreampany.radio.injector.data
 
 import com.dreampany.radio.data.model.Demo
-import com.dreampany.radio.misc.DemoAnnote
+import com.dreampany.radio.misc.StationAnnote
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import dagger.Module
@@ -19,15 +19,15 @@ class SupportModule {
 
     @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartMap(): SmartMap<Long, Demo> {
+    @StationAnnote
+    fun provideStationSmartMap(): SmartMap<Long, Demo> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartCache(): SmartCache<Long, Demo> {
+    @StationAnnote
+    fun provideStationSmartCache(): SmartCache<Long, Demo> {
         return SmartCache.newCache()
     }
 }

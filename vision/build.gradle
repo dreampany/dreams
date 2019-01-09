@@ -1,13 +1,19 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'idea'
 
 idea {
     module {
         downloadJavadoc = true
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
     }
 }
 
@@ -55,17 +61,17 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     dataBinding {
         enabled true
     }
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
@@ -75,34 +81,36 @@ android {
 }
 
 dependencies {
-    //library
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    //kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    /** kotlin */
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
 
-    //test
+    /** test */
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //frame
+    /** library */
     implementation project(':frame')
 
-    //camera
-    implementation 'com.otaliastudios:cameraview:1.6.0'
+    /** android arch */
+    kapt 'android.arch.lifecycle:compiler:1.1.1'
+    kapt 'android.arch.persistence.room:compiler:1.1.1'
 
-    //firebase
+    /** dagger */
+    kapt 'com.google.dagger:dagger-compiler:2.20'
+    kapt 'com.google.dagger:dagger-android-processor:2.20'
+
+    /** firebase */
     implementation 'com.google.firebase:firebase-ml-common:16.1.6'
     implementation 'com.google.firebase:firebase-ml-vision:18.0.2'
 
-    //android arch - lifecycle, room, databinding
-    kapt 'android.arch.lifecycle:compiler:1.1.1'
-    kapt 'android.arch.persistence.room:compiler:1.1.1'
-    //dagger - core, android
-    kapt 'com.google.dagger:dagger-compiler:2.16'
-    kapt 'com.google.dagger:dagger-android-processor:2.16'
-    //butterknife
+    /** butterknife */
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    /** misc */
+    implementation 'com.otaliastudios:cameraview:1.6.0'
 }

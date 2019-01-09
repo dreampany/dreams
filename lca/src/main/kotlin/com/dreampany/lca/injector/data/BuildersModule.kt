@@ -7,9 +7,9 @@ import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
 import com.dreampany.lca.data.misc.*
 import com.dreampany.lca.data.source.api.*
-import com.dreampany.lca.data.source.local.*
-import com.dreampany.lca.data.source.remote.*
+import com.dreampany.lca.data.source.dao.*
 import com.dreampany.lca.data.source.room.*
+import com.dreampany.lca.data.source.remote.*
 import com.dreampany.lca.injector.vm.ViewModelModule
 import com.dreampany.lca.misc.*
 import com.dreampany.network.NetworkManager
@@ -35,57 +35,58 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideLocalCoinDataSource(mapper: CoinMapper,
-                                   dao: CoinDao,
-                                   flagRepo: FlagRepository): CoinDataSource {
+    fun provideRoomCoinDataSource(mapper: CoinMapper,
+                                  dao: CoinDao,
+                                  flagRepo: FlagRepository): CoinDataSource {
         return CoinRoomDataSource(mapper, dao, flagRepo)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideLocalPriceDataSource(mapper: PriceMapper,
-                                    dao: PriceDao): PriceDataSource {
+    fun provideRoomPriceDataSource(mapper: PriceMapper,
+                                   dao: PriceDao): PriceDataSource {
         return PriceRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideLocalExchangeDataSource(mapper: ExchangeMapper,
-                                       dao: ExchangeDao): ExchangeDataSource {
+    fun provideRoomExchangeDataSource(mapper: ExchangeMapper,
+                                      dao: ExchangeDao): ExchangeDataSource {
         return ExchangeRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideLocalMarketDataSource(mapper: MarketMapper,
-                                     dao: MarketDao): MarketDataSource {
+    fun provideRoomMarketDataSource(mapper: MarketMapper,
+                                    dao: MarketDao
+    ): MarketDataSource {
         return MarketRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideLocalGraphDataSource(mapper: GraphMapper,
-                                    dao: GraphDao): GraphDataSource {
+    fun provideRoomGraphDataSource(mapper: GraphMapper,
+                                   dao: GraphDao): GraphDataSource {
         return GraphRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideLocalNewsDataSource(mapper: NewsMapper,
-                                   dao: NewsDao): NewsDataSource {
+    fun provideRoomNewsDataSource(mapper: NewsMapper,
+                                  dao: NewsDao): NewsDataSource {
         return NewsRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideLocalIcoDataSource(mapper: IcoMapper,
-                                  dao: IcoDao): IcoDataSource {
+    fun provideRoomIcoDataSource(mapper: IcoMapper,
+                                 dao: IcoDao): IcoDataSource {
         return IcoRoomDataSource(mapper, dao)
     }
 
@@ -138,7 +139,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteICODataSource(network: NetworkManager,
+    fun provideRemoteIcoDataSource(network: NetworkManager,
                                    mapper: IcoMapper,
                                    service: IcoService): IcoDataSource {
         return IcoRemoteDataSource(network, mapper, service)
@@ -234,7 +235,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @IcoWatchList
-    fun provideICOWatchListRetrofit(client: OkHttpClient): Retrofit {
+    fun provideIcoWatchListRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
                 .client(client)
                 .baseUrl(Constants.Api.ICOWatchListApiUrl)
@@ -276,7 +277,7 @@ class BuildersModule {
     }
 
     @Provides
-    fun provideICOService(@IcoWatchList retrofit: Retrofit): IcoService {
+    fun provideIcoService(@IcoWatchList retrofit: Retrofit): IcoService {
         return retrofit.create(IcoService::class.java);
     }
 

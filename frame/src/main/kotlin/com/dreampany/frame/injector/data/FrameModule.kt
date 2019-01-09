@@ -3,9 +3,9 @@ package com.dreampany.frame.injector.data
 import com.dreampany.frame.data.misc.FlagMapper
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.source.FlagDataSource
-import com.dreampany.frame.data.source.StateDataSource
-import com.dreampany.frame.data.source.StoreDataSource
+import com.dreampany.frame.data.source.api.FlagDataSource
+import com.dreampany.frame.data.source.api.StateDataSource
+import com.dreampany.frame.data.source.api.StoreDataSource
 import com.dreampany.frame.data.source.local.FlagDao
 import com.dreampany.frame.data.source.room.FlagRoomDataSource
 import com.dreampany.frame.data.source.room.StateRoomDataSource

@@ -1,4 +1,4 @@
-package com.dreampany.lca.data.source.local
+package com.dreampany.lca.data.source.dao
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query

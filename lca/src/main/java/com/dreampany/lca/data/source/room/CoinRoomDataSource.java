@@ -10,7 +10,7 @@ import com.dreampany.lca.data.enums.ItemType;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.source.api.CoinDataSource;
-import com.dreampany.lca.data.source.local.CoinDao;
+import com.dreampany.lca.data.source.dao.CoinDao;
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;

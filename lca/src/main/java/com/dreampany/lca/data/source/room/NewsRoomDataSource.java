@@ -3,12 +3,12 @@ package com.dreampany.lca.data.source.room;
 import com.dreampany.lca.data.misc.NewsMapper;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.api.NewsDataSource;
-import com.dreampany.lca.data.source.local.NewsDao;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import com.dreampany.lca.data.source.dao.NewsDao;
 import io.reactivex.Maybe;
 
 /**

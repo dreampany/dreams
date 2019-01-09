@@ -2,7 +2,7 @@ package com.dreampany.frame.data.source.room;
 
 import com.dreampany.frame.data.misc.StoreMapper;
 import com.dreampany.frame.data.model.Store;
-import com.dreampany.frame.data.source.StoreDataSource;
+import com.dreampany.frame.data.source.api.StoreDataSource;
 import com.dreampany.frame.data.source.local.StoreDao;
 
 import java.util.List;

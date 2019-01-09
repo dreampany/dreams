@@ -8,7 +8,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.radio.data.model.Demo;
-import com.dreampany.radio.ui.model.DemoItem;
+import com.dreampany.radio.ui.model.StationItem;
 import com.dreampany.radio.ui.model.UiTask;
 
 import javax.inject.Inject;
@@ -18,16 +18,16 @@ import javax.inject.Inject;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class DemoViewModel extends BaseViewModel<Demo, DemoItem, UiTask<Demo>> {
+public class StationViewModel extends BaseViewModel<Demo, StationItem, UiTask<Demo>> {
 
     private final NetworkManager network;
 
     @Inject
-    DemoViewModel(Application application,
-                  RxMapper rx,
-                  AppExecutors ex,
-                  ResponseMapper rm,
-                  NetworkManager network) {
+    StationViewModel(Application application,
+                     RxMapper rx,
+                     AppExecutors ex,
+                     ResponseMapper rm,
+                     NetworkManager network) {
         super(application, rx, ex, rm);
         this.network = network;
     }

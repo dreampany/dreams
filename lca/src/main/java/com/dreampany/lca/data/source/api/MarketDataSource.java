@@ -1,6 +1,6 @@
 package com.dreampany.lca.data.source.api;
 
-import com.dreampany.frame.data.source.DataSource;
+import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.lca.data.model.Market;
 
 import java.util.List;

@@ -14,13 +14,7 @@ import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.model.Market;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.model.Price;
-import com.dreampany.lca.data.source.local.CoinDao;
-import com.dreampany.lca.data.source.local.ExchangeDao;
-import com.dreampany.lca.data.source.local.GraphDao;
-import com.dreampany.lca.data.source.local.IcoDao;
-import com.dreampany.lca.data.source.local.MarketDao;
-import com.dreampany.lca.data.source.local.NewsDao;
-import com.dreampany.lca.data.source.local.PriceDao;
+import com.dreampany.lca.data.source.dao.*;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 

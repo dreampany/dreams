@@ -2,7 +2,7 @@ package com.dreampany.radio.injector.vm
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.dreampany.radio.vm.DemoViewModel
+import com.dreampany.radio.vm.StationViewModel
 import com.dreampany.radio.vm.MoreViewModel
 import com.dreampany.frame.vm.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
@@ -27,8 +27,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DemoViewModel::class)
-    abstract fun bindDemoViewModel(demoViewModel: DemoViewModel): ViewModel
+    @ViewModelKey(StationViewModel::class)
+    abstract fun bindStationViewModel(vm: StationViewModel): ViewModel
 
     @Singleton
     @Binds

@@ -5,7 +5,7 @@ import com.crashlytics.android.Crashlytics
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.radio.BuildConfig
 import com.dreampany.radio.R
-import com.dreampany.radio.data.source.local.Pref
+import com.dreampany.radio.data.source.pref.Pref
 import com.dreampany.radio.injector.app.DaggerAppComponent
 import com.dreampany.radio.misc.Constants
 import com.dreampany.radio.service.NotifyService

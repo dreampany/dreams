@@ -1,7 +1,7 @@
 package com.dreampany.frame.data.source.repository;
 
 import com.dreampany.frame.data.model.Flag;
-import com.dreampany.frame.data.source.FlagDataSource;
+import com.dreampany.frame.data.source.api.FlagDataSource;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;

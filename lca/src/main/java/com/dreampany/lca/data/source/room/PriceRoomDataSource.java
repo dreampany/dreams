@@ -3,12 +3,12 @@ package com.dreampany.lca.data.source.room;
 import com.dreampany.lca.data.misc.PriceMapper;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.data.source.api.PriceDataSource;
-import com.dreampany.lca.data.source.local.PriceDao;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import com.dreampany.lca.data.source.dao.PriceDao;
 import io.reactivex.Maybe;
 
 /**

@@ -3,11 +3,18 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'io.fabric'
 apply plugin: 'idea'
 
 idea {
     module {
         downloadJavadoc = true
+    }
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
     }
 }
 
@@ -39,7 +46,7 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
-            ext.enableCrashlytics = true
+            ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -76,11 +83,6 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     dataBinding {
         enabled = true
     }
@@ -89,12 +91,9 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/library_release.kotlin_module'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     dexOptions {
@@ -118,6 +117,14 @@ android {
         //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
     }
 
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/library_release.kotlin_module'
+    }
+
 /*    packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -136,41 +143,38 @@ android {
 }
 
 dependencies {
-    //library
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    //test
+
+    /** test */
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    //frame
+
+    /** library */
     implementation project(':frame')
-    //network
     implementation project(':network')
-    //toggle
     implementation project(':toggle')
-    //firebase
     implementation project(':firebase')
-    //vision
     implementation project(':vision')
-    //android arch - lifecycle, room, databinding
+
+    /** android arch */
     kapt 'android.arch.lifecycle:compiler:1.1.1'
     kapt 'android.arch.persistence.room:compiler:1.1.1'
-    //dagger - core, android
-    kapt 'com.google.dagger:dagger-compiler:2.16'
-    kapt 'com.google.dagger:dagger-android-processor:2.16'
-    //butterknife
+
+    /** dagger */
+    kapt 'com.google.dagger:dagger-compiler:2.20'
+    kapt 'com.google.dagger:dagger-android-processor:2.20'
+
+    /** butterknife */
     implementation 'com.jakewharton:butterknife:8.8.1'
     kapt 'com.jakewharton:butterknife-compiler:8.8.1'
-    //fabric
-    //implementation 'com.crashlytics.sdk.android:crashlytics:2.9.6'
-/*    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
-        transitive = true;
-    }*/
-    //wordkink
+
+    /** crashlytics */
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+
+    /** misc */
     implementation 'com.wordnik:wordnik-android-client:4.0'
-    //firebase
-    //implementation 'com.github.FrangSierra:RxFirebase:1.5.0'
-    //rxphoto
     implementation 'com.github.oliveiradev:RxPhoto:0.+'
 }
+
 apply plugin: 'com.google.gms.google-services'

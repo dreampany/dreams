@@ -1,7 +1,7 @@
 package com.dreampany.frame.data.source.repository;
 
 import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.StateDataSource;
+import com.dreampany.frame.data.source.api.StateDataSource;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;

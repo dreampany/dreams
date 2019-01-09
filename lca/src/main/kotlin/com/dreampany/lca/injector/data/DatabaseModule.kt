@@ -1,7 +1,7 @@
 package com.dreampany.lca.injector.data
 
 import android.app.Application
-import com.dreampany.lca.data.source.local.*
+import com.dreampany.lca.data.source.dao.*
 import com.dreampany.lca.data.source.room.DatabaseManager
 import dagger.Module
 import dagger.Provides

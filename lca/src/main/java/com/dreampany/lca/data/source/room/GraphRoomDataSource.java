@@ -3,12 +3,12 @@ package com.dreampany.lca.data.source.room;
 import com.dreampany.lca.data.misc.GraphMapper;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.api.GraphDataSource;
-import com.dreampany.lca.data.source.local.GraphDao;
 
 import java.util.List;
 
 import javax.inject.Singleton;
 
+import com.dreampany.lca.data.source.dao.GraphDao;
 import io.reactivex.Maybe;
 
 /**

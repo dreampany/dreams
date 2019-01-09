@@ -3,7 +3,7 @@ package com.dreampany.radio.ui.fragment;
 import android.os.Bundle;
 
 import com.dreampany.radio.R;
-import com.dreampany.radio.data.source.local.Pref;
+import com.dreampany.radio.data.source.pref.Pref;
 import com.dreampany.radio.service.NotifyService;
 import com.dreampany.frame.api.service.ServiceManager;
 import com.dreampany.frame.misc.ActivityScope;

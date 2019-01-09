@@ -2,7 +2,7 @@ package com.dreampany.frame.data.source.room;
 
 import com.dreampany.frame.data.misc.FlagMapper;
 import com.dreampany.frame.data.model.Flag;
-import com.dreampany.frame.data.source.FlagDataSource;
+import com.dreampany.frame.data.source.api.FlagDataSource;
 import com.dreampany.frame.data.source.local.FlagDao;
 
 import java.util.List;

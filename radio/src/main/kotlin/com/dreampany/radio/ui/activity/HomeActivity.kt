@@ -41,7 +41,7 @@ class HomeActivity : BaseMenuActivity() {
     override fun onStartUi(state: Bundle?) {
         //ad.loadBanner(findViewById(R.id.adview))
         ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
-        commitFragment(StationFragment::class.java, stationProvider, R.id.layout)
+        //commitFragment(StationFragment::class.java, stationProvider, R.id.layout)
     }
 
     override fun onStopUi() {

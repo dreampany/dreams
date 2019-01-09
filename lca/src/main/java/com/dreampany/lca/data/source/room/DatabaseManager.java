@@ -33,7 +33,7 @@ import com.google.common.collect.Iterables;
                 Ico.class,
                 News.class
         },
-        version = 5
+        version = 6
 )
 @TypeConverters(Converters.class)
 public abstract class DatabaseManager extends RoomDatabase {

@@ -137,8 +137,8 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         if (!preLoads(fresh)) {
-            updateUiRx();
-            updateVisibleItems();
+            //updateUiRx();
+            //updateVisibleItems();
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;
@@ -311,6 +311,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return Maybe.fromCallable(() -> getItems(result));
     }
 
+    @DebugLog
     private List<CoinItem> getItems(List<Coin> result) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();

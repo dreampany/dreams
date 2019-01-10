@@ -77,8 +77,8 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
-        //return dao.getItemsRx(start, start + limit, limit);
-        return Maybe.empty();
+        return dao.getItemsRx(start, limit);
+        //return Maybe.empty();
     }
 
     @Override

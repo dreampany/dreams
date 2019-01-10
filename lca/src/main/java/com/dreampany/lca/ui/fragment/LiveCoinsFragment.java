@@ -147,6 +147,11 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     }
 
     @Override
+    public void noMoreLoad(int newItemsSize) {
+        //super.noMoreLoad(newItemsSize);
+    }
+
+    @Override
     public boolean onQueryTextChange(@NonNull String newText) {
         if (adapter.hasNewFilter(newText)) {
             adapter.setFilter(newText);
@@ -218,9 +223,10 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         adapter = new CoinAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener(true) {
+            @DebugLog
             @Override
             public void onScrollingAtEnd() {
-                vm.updateVisibleItems();
+                //vm.updateVisibleItems();
             }
         };
         adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());

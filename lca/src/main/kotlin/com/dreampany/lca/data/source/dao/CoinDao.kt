@@ -60,6 +60,9 @@ interface CoinDao : BaseDao<Coin> {
     @Query("select * from coin where rank >= :start and rank < :end order by rank asc limit :limit")
     fun getItems(start: Int, end: Int, limit: Int): List<Coin>
 
+    @Query("select * from coin where rank >= :start order by rank asc limit :limit")
+    fun getItemsRx(start: Int, limit: Int): Maybe<List<Coin>>
+
     @Query("select * from coin where rank >= :start and rank < :end order by rank asc limit :limit")
     fun getItemsRx(start: Int, end: Int, limit: Int): Maybe<List<Coin>>
 }

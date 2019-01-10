@@ -133,7 +133,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        vm.refresh(!adapter.isEmpty());
     }
 
     @Override

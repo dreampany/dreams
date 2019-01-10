@@ -126,6 +126,14 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
+    public void refresh(boolean onlyVisibleItems) {
+        if (onlyVisibleItems) {
+            updateVisibleItems();
+            return;
+        }
+        loads(onlyVisibleItems);
+    }
+
     @DebugLog
     public void loads(boolean fresh) {
         loads(Constants.Limit.COIN_DEFAULT_START, fresh);
@@ -137,8 +145,8 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         if (!preLoads(fresh)) {
-            //updateUiRx();
-            //updateVisibleItems();
+            updateUiRx();
+            updateVisibleItems();
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;
@@ -208,10 +216,8 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         updateVisibleItemsDisposable = getRx()
-                .backToMain(updateVisibleItemsIntervalRx())
-                .subscribe(this::postResult, error -> {
-
-                });
+                .backToMain(getVisibleItemsIfRx())
+                .subscribe(this::postResultWithProgress, this::postFailure);
         addSubscription(updateVisibleItemsDisposable);
     }
 
@@ -245,7 +251,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 
-    private List<CoinItem> getVisibleItems() {
+    private List<CoinItem> getVisibleItemsIf() {
         if (uiCallback == null) {
             return null;
         }
@@ -266,14 +272,14 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return items;
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsRx() {
-        return Maybe.fromCallable(this::getVisibleItems);
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx() {
+        return Maybe.fromCallable(this::getVisibleItemsIf);
     }
 
     private Flowable<List<CoinItem>> updateVisibleItemsIntervalRx() {
         Flowable<List<CoinItem>> flowable = Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .map(tick -> getVisibleItems()).retry(retry);
+                .map(tick -> getVisibleItemsIf()).retry(retry);
         return flowable;
     }
 

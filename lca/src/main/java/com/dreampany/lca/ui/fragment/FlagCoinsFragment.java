@@ -88,7 +88,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        vm.loads(false);
+        //vm.loads(false);
     }
 
     @Override
@@ -96,11 +96,11 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         vm.clear();
     }
 
-/*    @Override
+    @Override
     public void onResume() {
         super.onResume();
         vm.loads(false);
-    }*/
+    }
 
     @Override
     public void onPause() {
@@ -129,7 +129,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        vm.refresh(!adapter.isEmpty());
     }
 
     @Override

@@ -29,7 +29,7 @@
                 auto:layout_constraintBottom_toBottomOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent"
-                auto:progressBarImage="@drawable/ic_progress_grey" />
+                auto:placeholderImage="@mipmap/ic_launcher" />
 
             <fr.arnaudguyon.smartfontslib.FontTextView
                 android:id="@+id/text_title"

@@ -29,7 +29,7 @@
                 auto:failureImageScaleType="centerInside"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent"
-                auto:placeholderImage="@drawable/ic_event_note_black_24dp"
+                auto:placeholderImage="@drawable/ic_event_note_accent_24dp"
                 auto:placeholderImageScaleType="fitCenter" />
 
             <fr.arnaudguyon.smartfontslib.FontTextView

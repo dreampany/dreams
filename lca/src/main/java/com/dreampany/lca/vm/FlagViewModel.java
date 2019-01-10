@@ -15,6 +15,7 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinItem;
@@ -22,6 +23,7 @@ import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -51,9 +53,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private static final int retry = 3;
 
     private final NetworkManager network;
+    private final Pref pref;
     private final CoinRepository repo;
     private SmartAdapter.Callback<CoinItem> uiCallback;
-    private Disposable updateItemDisposable, updateVisibleItemsDisposable;
+    private Disposable updateUiDisposable, updateItemDisposable, updateVisibleItemsDisposable;
 
     @Inject
     FlagViewModel(Application application,
@@ -61,9 +64,11 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                   AppExecutors ex,
                   ResponseMapper rm,
                   NetworkManager network,
+                  Pref pref,
                   CoinRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
+        this.pref = pref;
         this.repo = repo;
         network.observe(this::onResult, true);
     }
@@ -102,6 +107,14 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
+    public void refresh(boolean onlyVisibleItems) {
+        if (onlyVisibleItems) {
+            updateVisibleItems();
+            return;
+        }
+        loads(onlyVisibleItems);
+    }
+
     public void loads(boolean fresh) {
         if (!OPEN) {
             return;
@@ -117,7 +130,23 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
-        updateVisibleItems();
+        //updateVisibleItems();
+    }
+
+    public void updateUiRx() {
+        if (!OPEN) {
+            return;
+        }
+        if (hasDisposable(updateUiDisposable)) {
+            Timber.v("updateUiRx Running...");
+            return;
+        }
+        updateUiDisposable = getRx()
+                .backToMain(getUiItemsRx())
+                .subscribe(this::postResult, error -> {
+
+                });
+        addSubscription(updateUiDisposable);
     }
 
     public void toggle(Coin coin) {
@@ -158,15 +187,25 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         }
         updateVisibleItemsDisposable = getRx()
                 .backToMain(getVisibleItemsRx())
-                .subscribe(this::postResult, error -> {
-
-                });
+                .subscribe(this::postResultWithProgress, this::postFailure);
         addSubscription(updateVisibleItemsDisposable);
     }
 
     private Maybe<List<CoinItem>> getItemsRx() {
         return repo.getFlagsRx()
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
+    }
+
+    private Maybe<List<CoinItem>> getUiItemsRx() {
+        return Maybe.fromCallable(() -> {
+            List<CoinItem> items = uiCallback.getItems();
+            if (!DataUtil.isEmpty(items)) {
+                for (CoinItem item : items) {
+                    adjustFlag(item.getItem(), item);
+                }
+            }
+            return items;
+        });
     }
 
     private Maybe<List<CoinItem>> getVisibleItemsRx() {
@@ -179,6 +218,27 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             }
             return items;
         });
+    }
+
+    private List<CoinItem> getVisibleItemsIf() {
+        if (uiCallback == null) {
+            return null;
+        }
+        List<CoinItem> items = uiCallback.getVisibleItems();
+        if (!DataUtil.isEmpty(items)) {
+            List<Long> ids = new ArrayList<>();
+            for (CoinItem item : items) {
+                if (needToUpdate(item.getItem())) {
+                    ids.add(item.getItem().getCoinId());
+                }
+            }
+            items = null;
+            if (!ids.isEmpty()) {
+                List<Coin> result = repo.getItemsByCoinIdsRx(ids).blockingGet();
+                items = getItems(result);
+            }
+        }
+        return items;
     }
 
     private Flowable<CoinItem> updateItemInterval() {
@@ -226,6 +286,26 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return item;
     }
 
+    private List<CoinItem> getItems(List<Coin> result) {
+        List<Coin> coins = new ArrayList<>(result);
+        List<Coin> ranked = new ArrayList<>();
+        for (Coin coin : coins) {
+            if (coin.getRank() > 0) {
+                ranked.add(coin);
+            }
+        }
+        Collections.sort(ranked, (left, right) -> left.getRank() - right.getRank());
+        coins.removeAll(ranked);
+        coins.addAll(0, ranked);
+
+        List<CoinItem> items = new ArrayList<>(coins.size());
+        for (Coin coin : coins) {
+            CoinItem item = getItem(coin);
+            items.add(item);
+        }
+        return items;
+    }
+
     private void adjustFlag(Coin coin, CoinItem item) {
         boolean flagged = repo.isFlagged(coin);
         item.setFlagged(flagged);
@@ -238,5 +318,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             CoinItem item = getItem(coin);
             return item;
         });
+    }
+
+    private boolean needToUpdate(Coin coin) {
+        long lastTime = pref.getCoinUpdateTime(coin.getSymbol());
+        return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 }

@@ -35,8 +35,10 @@ public class OnVerticalScrollListener extends RecyclerView.OnScrollListener {
         } else if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
             scrolling = true;
             onScrolling();
-            handler.removeCallbacks(runner);
-            handler.postDelayed(runner, delay);
+            if (scrollingCallAtEnd) {
+                handler.removeCallbacks(runner);
+                handler.postDelayed(runner, delay);
+            }
         }
     }
 

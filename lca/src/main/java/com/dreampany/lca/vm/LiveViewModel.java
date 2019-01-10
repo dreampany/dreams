@@ -53,6 +53,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private static final long period = Constants.Period.INSTANCE.getCoin();
     private static final int retry = 3;
 
+
     private final NetworkManager network;
     private final Pref pref;
     private final LoadPref loadPref;
@@ -127,6 +128,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     @DebugLog
     public void loads(boolean fresh) {
+        loads(Constants.Limit.COIN_DEFAULT_START, fresh);
+    }
+
+    @DebugLog
+    public void loads(int start, boolean fresh) {
         if (!OPEN) {
             return;
         }
@@ -135,18 +141,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             updateVisibleItems();
             return;
         }
+        int limit = Constants.Limit.COIN_PAGE;
         Disposable disposable = getRx()
-                .backToMain(getListingRx())
+                .backToMain(getListingRx(start, limit))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResultWithProgress(items);
-                    getEx().postToUi(() -> {
-                        //    update();
-                        //   updateItem();
-                        updateVisibleItems();
-                    }, 2000L);
-
-                }, error -> {
+                .subscribe(this::postResultWithProgress, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
@@ -241,8 +240,8 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getListingRx() {
-        return repo.getListingRx(CoinSource.CMC)
+    private Maybe<List<CoinItem>> getListingRx(int start, int limit) {
+        return repo.getListingRx(CoinSource.CMC, start, limit)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 

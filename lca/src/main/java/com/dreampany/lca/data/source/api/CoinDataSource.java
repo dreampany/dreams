@@ -3,10 +3,9 @@ package com.dreampany.lca.data.source.api;
 import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
+import io.reactivex.Maybe;
 
 import java.util.List;
-
-import io.reactivex.Maybe;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -18,6 +17,8 @@ public interface CoinDataSource extends DataSource<Coin> {
     List<Coin> getListing(CoinSource source);
 
     Maybe<List<Coin>> getListingRx(CoinSource source);
+
+    Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit);
 
     List<Coin> getListing(CoinSource source, int limit);
 

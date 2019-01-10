@@ -1,5 +1,7 @@
 package com.dreampany.frame.ui.listener;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
@@ -10,7 +12,20 @@ import android.support.v7.widget.RecyclerView;
  */
 public class OnVerticalScrollListener extends RecyclerView.OnScrollListener {
 
+    private int delay = 10000;
     private boolean scrolling;
+    private boolean scrollingCallAtEnd;
+    private Handler handler;
+    private Runnable runner = this::onScrollingAtEnd;
+
+    public OnVerticalScrollListener() {
+
+    }
+
+    public OnVerticalScrollListener(boolean scrollingCallAtEnd) {
+        this.scrollingCallAtEnd = scrollingCallAtEnd;
+        handler = new Handler(Looper.getMainLooper());
+    }
 
     @Override
     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -20,6 +35,8 @@ public class OnVerticalScrollListener extends RecyclerView.OnScrollListener {
         } else if (newState == RecyclerView.SCROLL_STATE_SETTLING) {
             scrolling = true;
             onScrolling();
+            handler.removeCallbacks(runner);
+            handler.postDelayed(runner, delay);
         }
     }
 
@@ -57,6 +74,9 @@ public class OnVerticalScrollListener extends RecyclerView.OnScrollListener {
     }
 
     public void onScrolling() {
+    }
+
+    public void onScrollingAtEnd() {
     }
 
     public void onScrolledUp() {

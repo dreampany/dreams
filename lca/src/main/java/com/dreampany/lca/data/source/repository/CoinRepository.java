@@ -169,6 +169,23 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
+    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
+        Maybe<List<Coin>> room = fullRoom(this.room.getListingRx(source, start, limit));
+        Maybe<List<Coin>> remote = saveRoom(this.remote.getListingRx(source, start, limit),
+                items -> {
+                    rx.compute(putItemsRx(items)).subscribe();
+                    pref.commitCoinListingTime();
+                });
+
+        long lastTime = pref.getCoinListingTime();
+        long period = Constants.Delay.INSTANCE.getCoinListing();
+        if (TimeUtil.isExpired(lastTime, period)) {
+            return concatFirstRx(remote, room);
+        }
+        return concatFirstRx(room, remote);
+    }
+
+    @Override
     public List<Coin> getListing(CoinSource source, int limit) {
         return null;
     }

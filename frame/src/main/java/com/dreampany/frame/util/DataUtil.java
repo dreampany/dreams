@@ -136,6 +136,11 @@ public final class DataUtil {
         return list;
     }
 
+    public static <T> List<T> removeAll(List<T> list, List<T> sub) {
+        list.removeAll(sub);
+        return list;
+    }
+
     public static <T> T getRandomItem(List<T> items) {
         if (isEmpty(items)) {
             return null;

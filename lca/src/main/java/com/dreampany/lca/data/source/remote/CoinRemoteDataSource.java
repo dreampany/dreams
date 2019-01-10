@@ -1,6 +1,5 @@
 package com.dreampany.lca.data.source.remote;
 
-import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcCoinResponse;
 import com.dreampany.lca.api.cmc.model.CmcCoinsResponse;
@@ -25,7 +24,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -157,14 +155,21 @@ public class CoinRemoteDataSource implements CoinDataSource {
 /*        return Maybe.fromCallable(new Callable<List<Coin>>() {
             @Override
             public List<Coin> call() throws Exception {
-                Response<CmcListingResponseV1> response = service.getListing(Constants.Key.CMC_PRO, Constants.Limit.START, Constants.Limit.COIN).execute();
+                Response<CmcListingResponseV1> response = service.getListing(Constants.Key.CMC_PRO, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN).execute();
 
                 CmcListingResponseV1 result = response.body();
                 return new ArrayList<>();
             }
         });*/
         return service
-                .getListingRx(Constants.Key.CMC_PRO, Constants.Limit.START, Constants.Limit.COIN)
+                .getListingRx(Constants.Key.CMC_PRO, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN)
+                .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
+    }
+
+    @Override
+    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
+        return service
+                .getListingRx(Constants.Key.CMC_PRO, start, limit)
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
     }
 

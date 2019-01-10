@@ -40,9 +40,10 @@ object Constants {
     }
 
     object Limit {
-        const val START = 1
-        const val COIN = 500
+        const val COIN_DEFAULT_PAGE = 0
+        const val COIN_DEFAULT_START = 1
         const val COIN_PAGE = 100
+        const val COIN = 500
         const val COIN_MARKET = 100
         const val COIN_EXCHANGE = 50
         const val ICO = 500

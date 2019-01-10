@@ -30,7 +30,7 @@ open class SmartAdapter<T : BaseItem<*, *>>(listener: Any) : BindingFlexibleAdap
     }
 
     interface Callback<T> {
-        val items : List<T>?
+        val items: List<T>?
         val visibleItems: List<T>?
         val visibleItem: T?
     }
@@ -73,7 +73,7 @@ open class SmartAdapter<T : BaseItem<*, *>>(listener: Any) : BindingFlexibleAdap
     }
 
     open fun addItems(items: List<T>): Boolean {
-        return return addItems(0, items)
+        return addItems(0, items)
     }
 
     open fun addItems(items: List<T>, comparator: Comparator<IFlexible<*>>): Boolean {

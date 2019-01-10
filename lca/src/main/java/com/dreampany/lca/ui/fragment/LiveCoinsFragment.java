@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -30,22 +29,19 @@ import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.LiveViewModel;
-
-import net.cachapa.expandablelayout.ExpandableLayout;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import javax.inject.Inject;
-
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.fastscroller.FastScroller;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import hugo.weaving.DebugLog;
+import net.cachapa.expandablelayout.ExpandableLayout;
+import org.jetbrains.annotations.Nullable;
+import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -93,7 +89,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        vm.loads(false);
+        //vm.loads(false);
     }
 
     @DebugLog
@@ -102,11 +98,11 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         vm.clear();
     }
 
-/*    @Override
+    @Override
     public void onResume() {
         super.onResume();
         vm.loads(false);
-    }*/
+    }
 
     @Override
     public void onPause() {
@@ -140,14 +136,15 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         vm.loads(true);
     }
 
-/*    @Override
+    @Override
     public void onLoadMore(int lastPosition, int currentPage) {
+        Timber.v("LastPosition %d CurrentPage %d", lastPosition, currentPage);
         if (adapter.hasFilter()) {
             adapter.onLoadMoreComplete(null);
             return;
         }
-        vm.loads(true);
-    }*/
+        vm.loads(lastPosition + 1, true);
+    }
 
     @Override
     public boolean onQueryTextChange(@NonNull String newText) {
@@ -220,13 +217,14 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         FastScroller fs = ViewUtil.getViewById(this, R.id.fast_scroller);
         adapter = new CoinAdapter(this);
         adapter.setStickyHeaders(false);
-        scroller = new OnVerticalScrollListener() {
+        scroller = new OnVerticalScrollListener(true) {
             @Override
-            public void onScrolling() {
+            public void onScrollingAtEnd() {
                 vm.updateVisibleItems();
             }
         };
-        //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
+        adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
+        //adapter.setEndlessPageSize(Constants.Limit.COIN_PAGE);
         ViewUtil.setRecycler(
                 adapter,
                 recycler,
@@ -238,7 +236,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
                 scroller,
                 null
         );
-       // adapter.setFastScroller(fs);
+        // adapter.setFastScroller(fs);
     }
 
     private void processUiState(UiState state) {
@@ -336,8 +334,8 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             return;
         }
         recycler.setNestedScrollingEnabled(false);
-        adapter.addItems(items);
-        //adapter.onLoadMoreComplete(items, (items.isEmpty() ? -1 : 3000L));
+        //adapter.addItems(items);
+        adapter.loadMoreComplete(items);
         recycler.setNestedScrollingEnabled(true);
         processUiState(UiState.EXTRA);
     }

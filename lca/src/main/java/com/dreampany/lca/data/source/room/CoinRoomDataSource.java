@@ -12,18 +12,16 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Singleton;
-
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -75,6 +73,12 @@ public class CoinRoomDataSource implements CoinDataSource {
     @Override
     public Maybe<List<Coin>> getListingRx(CoinSource source) {
         return dao.getItemsRx();
+    }
+
+    @Override
+    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
+        //return dao.getItemsRx(start, start + limit, limit);
+        return Maybe.empty();
     }
 
     @Override

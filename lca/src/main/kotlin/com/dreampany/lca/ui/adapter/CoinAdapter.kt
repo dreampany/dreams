@@ -1,6 +1,7 @@
 package com.dreampany.lca.ui.adapter
 
 import com.dreampany.frame.ui.adapter.SmartAdapter
+import com.dreampany.frame.util.DataUtil
 import com.dreampany.lca.api.cmc.enums.Currency
 import com.dreampany.lca.data.model.Coin
 import com.dreampany.lca.ui.model.CoinItem
@@ -28,6 +29,22 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
             addItem(item, rankComparator)
         }
         return true
+    }
+
+     fun loadMoreComplete(items: List<CoinItem>?) {
+        if (items == null || items.isEmpty()) {
+            super.onLoadMoreComplete(items, -1);
+        } else {
+            val updates = ArrayList<CoinItem>()
+            for (item in items) {
+                if (contains(item)) {
+                    updates.add(item)
+                }
+            }
+            DataUtil.removeAll(items, updates)
+            addItems(updates)
+            super.onLoadMoreComplete(items, 3000)
+        }
     }
 
     fun addFlagItems(items: List<CoinItem>): Boolean {

@@ -26,8 +26,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 40
-        versionName "0.4.0"
+        versionCode 41
+        versionName "0.4.1"
 
         multiDexEnabled true
 

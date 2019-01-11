@@ -169,6 +169,10 @@ dependencies {
 
     /** crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
+
+    /** firebase */
+    implementation 'com.google.android.gms:play-services-fitness:16.0.1'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

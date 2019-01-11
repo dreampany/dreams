@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.dreampany.demo"
+    package="com.dreampany.fit"
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -37,7 +37,7 @@
             tools:node="remove"/>
 
     <application
-        android:name=".app.App"
+        android:name="com.dreampany.fit.app.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -60,7 +60,7 @@
             android:value="@string/admob_app_id"/>
 
         <activity
-            android:name=".ui.activity.LaunchActivity"
+            android:name="com.dreampany.fit.ui.activity.LaunchActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:launchMode="singleTask">
             <intent-filter>
@@ -72,7 +72,7 @@
 
         <activity
 			android:resizeableActivity="true"
-            android:name=".ui.activity.NavigationActivity"
+            android:name="com.dreampany.fit.ui.activity.NavigationActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
@@ -87,12 +87,12 @@
 
         <activity
 			android:resizeableActivity="true"
-            android:name=".ui.activity.ToolsActivity"
+            android:name="com.dreampany.fit.ui.activity.ToolsActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:windowSoftInputMode="adjustResize" />
 			
 	    <service
-            android:name=".service.NotifyService"
+            android:name="com.dreampany.fit.service.NotifyService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />

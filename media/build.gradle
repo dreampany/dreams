@@ -47,10 +47,6 @@ android {
             crunchPngs false
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     dataBinding {
         enabled true
@@ -59,25 +55,33 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    //library
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    //test
+    /** test */
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //framework
+    /** library */
     implementation project(':frame')
 
-    //android arch - lifecycle, room, databinding
+    /** android arch */
     kapt 'android.arch.lifecycle:compiler:1.1.1'
     kapt 'android.arch.persistence.room:compiler:1.1.1'
 
-    //dagger - core, android
-    kapt 'com.google.dagger:dagger-compiler:2.16'
-    kapt 'com.google.dagger:dagger-android-processor:2.16'
+    /** dagger */
+    kapt 'com.google.dagger:dagger-compiler:2.20'
+    kapt 'com.google.dagger:dagger-android-processor:2.20'
 }

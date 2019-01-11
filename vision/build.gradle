@@ -69,23 +69,19 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    lintOptions {
-        abortOnError false
     }
 
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    /** kotlin */
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0'
 
     /** test */
     testImplementation 'junit:junit:4.12'
@@ -104,8 +100,12 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.20'
 
     /** firebase */
-    implementation 'com.google.firebase:firebase-ml-common:16.1.6'
-    implementation 'com.google.firebase:firebase-ml-vision:18.0.2'
+    implementation ('com.google.firebase:firebase-ml-common:16.1.6') {
+        exclude group: 'com.google.android.gms', module: 'play-services-basement'
+    }
+    implementation('com.google.firebase:firebase-ml-vision:18.0.2') {
+        exclude group: 'com.google.android.gms', module: 'play-services-basement'
+    }
 
     /** butterknife */
     implementation 'com.jakewharton:butterknife:8.8.1'

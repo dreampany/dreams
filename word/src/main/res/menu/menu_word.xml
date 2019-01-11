@@ -5,7 +5,7 @@
     <item
         android:id="@+id/item_favourite_toggle"
         android:icon="@drawable/ic_turned_in_not_white_24dp"
-        android:title="@string/favourite"
+        android:title="@string/favorite"
         auto:showAsAction="ifRoom|withText" />
 
     <item

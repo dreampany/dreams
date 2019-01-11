@@ -1,19 +1,14 @@
 package com.dreampany.vision.ui.activity;
 
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MotionEvent;
-
 import com.dreampany.frame.ui.activity.BaseMenuActivity;
 import com.dreampany.vision.R;
 import com.dreampany.vision.ui.fragment.TextOcrFragment;
-
-import org.jetbrains.annotations.NotNull;
+import dagger.Lazy;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
-
-import dagger.Lazy;
 
 /**
  * Created by air on 10/22/17.
@@ -33,10 +28,7 @@ public class TextOcrActivity extends BaseMenuActivity {
         return R.layout.activity_base;
     }
 
-    @Override
-    protected void onMenuCreated(@NotNull Menu menu) {
 
-    }
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {

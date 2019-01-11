@@ -33,6 +33,7 @@ import com.dreampany.word.vm.RecentViewModel;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -83,29 +84,19 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
 
     @Override
     protected void onStopUi() {
+        vm.clear();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        vm.loads(false);
     }
 
     @Override
     public boolean onQueryTextChange(@NonNull String newText) {
         BaseFragment fragment = getCurrentFragment();
         return fragment != null && fragment.onQueryTextChange(newText);
-    }
-
-    private void initMenu(Menu menu) {
-        MenuItem searchItem = menu.findItem(R.id.item_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        if (searchView != null) {
-            searchView.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER);
-            searchView.setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_FULLSCREEN);
-            searchView.setQueryHint(getString(R.string.search));
-            SearchManager searchManager = (SearchManager) searchView.getContext().getSystemService(Context.SEARCH_SERVICE);
-            Activity activity = getActivity();
-            if (searchManager != null && activity != null) {
-                searchView.setSearchableInfo(searchManager.getSearchableInfo(activity.getComponentName()));
-                searchView.setOnQueryTextListener(this);
-            }
-        }
     }
 
     private void initView() {
@@ -125,7 +116,7 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
         scroller = new OnVerticalScrollListener() {
             @Override
             public void onScrolling() {
-                vm.update();
+                vm.updateVisibleItemIf();
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
@@ -151,6 +142,12 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
     @org.jetbrains.annotations.Nullable
     @Override
     public WordItem getVisibleItem() {
+        return null;
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public List<WordItem> getItems() {
         return null;
     }
 }

@@ -97,16 +97,16 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        //vm.loads(false);
     }
 
     @Override
     public void onPause() {
         vm.removeMultipleSubscription();
         vm.removeSingleSubscription();
-        vm.removeUpdateDisposable();
-        vm.removeUpdateItemDisposable();
-        vm.removeUpdateVisibleItemsDisposable();
+        //vm.removeUpdateDisposable();
+        //vm.removeUpdateItemDisposable();
+        //vm.removeUpdateVisibleItemsDisposable();
         super.onPause();
     }
 
@@ -117,19 +117,19 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
             return;
         }
         if (isVisibleToUser) {
-            vm.loads(false);
+            //vm.loads(false);
         } else {
             vm.removeMultipleSubscription();
             vm.removeSingleSubscription();
-            vm.removeUpdateDisposable();
-            vm.removeUpdateItemDisposable();
-            vm.removeUpdateVisibleItemsDisposable();
+            //vm.removeUpdateDisposable();
+            //vm.removeUpdateItemDisposable();
+            //vm.removeUpdateVisibleItemsDisposable();
         }
     }
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        //vm.loads(true);
     }
 
 /*    @Override
@@ -157,7 +157,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
                 vm.toggle((Coin) v.getTag());
                 break;*/
             case R.id.button_empty:
-                vm.loads(true);
+                //vm.loads(true);
                 break;
         }
     }
@@ -214,7 +214,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
         scroller = new OnVerticalScrollListener() {
             @Override
             public void onScrolling() {
-                vm.updateItem();
+                //vm.updateItem();
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());

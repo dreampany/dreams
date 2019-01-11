@@ -172,7 +172,7 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
 
     @Nullable
     @Override
-    public ArrayList<WordItem> getVisibleItems() {
+    public List<WordItem> getVisibleItems() {
         return adapter.getVisibleItems();
     }
 
@@ -364,5 +364,11 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
         task.setSubtype(UiSubtype.RECENTS);
         task.setFull(true);
         openActivity(ToolsActivity.class, task);
+    }
+
+    @Nullable
+    @Override
+    public List<WordItem> getItems() {
+        return null;
     }
 }

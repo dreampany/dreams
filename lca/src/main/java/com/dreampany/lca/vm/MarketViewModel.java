@@ -99,7 +99,7 @@ public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Co
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(this::postResultWithProgress, error -> {
+                .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);

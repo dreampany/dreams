@@ -126,11 +126,13 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(this::postResultWithProgress, error -> {
+                .subscribe(
+                        result -> postResult(result, true),
+                        error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
-        //updateVisibleItems();
+        //update();
     }
 
     public void updateUiRx() {
@@ -143,9 +145,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         }
         updateUiDisposable = getRx()
                 .backToMain(getUiItemsRx())
-                .subscribe(this::postResult, error -> {
-
-                });
+                .subscribe(
+                        result -> postResult(result, false),
+                        error -> {
+                            });
         addSubscription(updateUiDisposable);
     }
 
@@ -173,7 +176,9 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         }
         updateItemDisposable = getRx()
                 .backToMain(updateItemInterval())
-                .subscribe(this::postResult, this::postFailure);
+                .subscribe(
+                        result -> postResult(result, false),
+                        this::postFailure);
         addSubscription(updateItemDisposable);
     }
 
@@ -182,12 +187,12 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         if (hasDisposable(updateVisibleItemsDisposable )) {
-            Timber.v("updateVisibleItems Running...");
+            Timber.v("update Running...");
             return;
         }
         updateVisibleItemsDisposable = getRx()
                 .backToMain(getVisibleItemsRx())
-                .subscribe(this::postResultWithProgress, this::postFailure);
+                .subscribe(result -> postResult(result, true), this::postFailure);
         addSubscription(updateVisibleItemsDisposable);
     }
 

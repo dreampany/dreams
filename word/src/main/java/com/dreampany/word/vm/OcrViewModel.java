@@ -206,7 +206,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
                                 if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
-                                    Timber.d("Next Item to update %s", item.getItem().getWord());
+                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
                                     getEx().postToUi(() -> postProgress(true));
                                     next = updateItemRx(item.getItem()).blockingGet();
                                     break;

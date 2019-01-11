@@ -156,7 +156,7 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
 
     @Nullable
     @Override
-    public ArrayList<WordItem> getVisibleItems() {
+    public List<WordItem> getVisibleItems() {
         return adapter.getVisibleItems();
     }
 
@@ -382,5 +382,11 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
         task.setUiType(UiType.OCR);
         task.setSubtype(UiSubtype.TEXT);
         openActivity(ToolsActivity.class, task, REQUEST_OCR);
+    }
+
+    @Nullable
+    @Override
+    public List<WordItem> getItems() {
+        return null;
     }
 }

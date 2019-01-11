@@ -91,7 +91,7 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
         Disposable disposable = getRx()
                 .backToMain(getItemsInterval())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(this::postResultWithProgress, error -> {
+                .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);

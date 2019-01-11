@@ -119,7 +119,7 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         Disposable disposable = getRx()
                 .backToMain(getItemRx())
                 .doOnSubscribe(subscription -> postProgress(true))
-                .subscribe(this::postResultWithProgress, error -> {
+                .subscribe(result -> postResult(result, true), error -> {
                     postFailure(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);

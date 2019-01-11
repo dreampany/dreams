@@ -97,8 +97,8 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResultWithProgress(items);
+                .subscribe(result -> {
+                    postResult(result, true);
                     update();
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
@@ -112,7 +112,7 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         }
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(coin))
-                .subscribe(this::postResultWithProgress, this::postFailure);
+                .subscribe(result -> postResult(result, true), this::postFailure);
         addSingleSubscription(disposable);
     }
 
@@ -123,7 +123,7 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         }
         updateDisposable = getRx()
                 .backToMain(updateItemsIntervalRx())
-                .subscribe(this::postResult, this::postFailure);
+                .subscribe(result -> postResult(result, false), this::postFailure);
         addSubscription(updateDisposable);
     }
 

@@ -59,7 +59,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private final LoadPref loadPref;
     private final CoinRepository repo;
     private SmartAdapter.Callback<CoinItem> uiCallback;
-    private Disposable updateUiDisposable, updateVisibleItemsDisposable, updateDisposable, updateItemDisposable;
+    private Disposable updateDisposable;
 
     @Inject
     LiveViewModel(Application application,
@@ -82,14 +82,14 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     public void clear() {
         network.deObserve(this::onResult, true);
         this.uiCallback = null;
-        removeUpdateUiDisposable();
-        removeUpdateVisibleItemsDisposable();
-        removeUpdateDisposable();
-        removeUpdateItemDisposable();
+        //removeUpdateUiDisposable();
+        //removeUpdateVisibleItemsDisposable();
+        //removeUpdateDisposable();
+        //removeUpdateItemDisposable();
         super.clear();
     }
 
-    public void removeUpdateUiDisposable() {
+/*    public void removeUpdateUiDisposable() {
         removeSubscription(updateUiDisposable);
     }
 
@@ -103,7 +103,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     public void removeUpdateVisibleItemsDisposable() {
         removeSubscription(updateVisibleItemsDisposable);
-    }
+    }*/
 
     public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
         this.uiCallback = callback;
@@ -117,7 +117,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    getEx().postToUi(() -> loads(false), 250L);
+                    getEx().postToUi(() -> loads(false, false), 250L);
                 }
                 //getEx().postToUi(this::updateItem, 2000L);
             }
@@ -126,41 +126,54 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
-    public void refresh(boolean onlyVisibleItems) {
-        if (onlyVisibleItems) {
-            updateVisibleItems();
+    public void refresh(boolean onlyUpdate, boolean withProgress) {
+        if (onlyUpdate) {
+            update();
             return;
         }
-        loads(onlyVisibleItems);
+        loads(false, withProgress);
     }
 
     @DebugLog
-    public void loads(boolean fresh) {
-        loads(Constants.Limit.COIN_DEFAULT_START, fresh);
+    public void loads(boolean fresh, boolean withProgress) {
+        loads(Constants.Limit.COIN_DEFAULT_START, fresh, withProgress);
     }
 
     @DebugLog
-    public void loads(int start, boolean fresh) {
+    public void loads(int start, boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
         }
         if (!preLoads(fresh)) {
-            updateUiRx();
-            updateVisibleItems();
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;
         Disposable disposable = getRx()
                 .backToMain(getListingRx(start, limit))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(this::postResultWithProgress, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
-                });
+                .subscribe(
+                        result -> postResult(result, withProgress),
+                        error -> {
+                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        });
         addMultipleSubscription(disposable);
-        //updateVisibleItems();
     }
 
-    public void updateUiRx() {
+    public void update() {
+        if (!OPEN) {
+            return;
+        }
+        if (hasDisposable(updateDisposable)) {
+            Timber.v("update Running...");
+            return;
+        }
+        updateDisposable = getRx()
+                .backToMain(getVisibleItemsIfRx())
+                .subscribe(result -> postResult(result, false), this::postFailure);
+        addSubscription(updateDisposable);
+    }
+
+/*    public void updateUiRx() {
         if (!OPEN) {
             return;
         }
@@ -174,10 +187,10 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
                 });
         addSubscription(updateUiDisposable);
-    }
+    }*/
 
 
-    @DebugLog
+/*    @DebugLog
     public void update() {
         if (!OPEN) {
             return;
@@ -190,9 +203,9 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 .backToMain(updateInterval())
                 .subscribe(this::postResult, this::postFailure);
         addSubscription(updateDisposable);
-    }
+    }*/
 
-    @DebugLog
+/*    @DebugLog
     public void updateItem() {
         if (!OPEN) {
             return;
@@ -205,34 +218,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 .backToMain(updateItemInterval())
                 .subscribe(this::postResult, this::postFailure);
         addSubscription(updateItemDisposable);
-    }
-
-    public void updateVisibleItems() {
-        if (!OPEN) {
-            return;
-        }
-        if (hasDisposable(updateVisibleItemsDisposable)) {
-            Timber.v("updateVisibleItems Running...");
-            return;
-        }
-        updateVisibleItemsDisposable = getRx()
-                .backToMain(getVisibleItemsIfRx())
-                .subscribe(this::postResultWithProgress, this::postFailure);
-        addSubscription(updateVisibleItemsDisposable);
-    }
-
-    public void toggle(Coin coin) {
-        if (!OPEN) {
-            return;
-        }
-        if (hasSingleDisposable()) {
-            return;
-        }
-        Disposable disposable = getRx()
-                .backToMain(toggleImpl(coin))
-                .subscribe(this::postFlag, this::postFailure);
-        addSingleSubscription(disposable);
-    }
+    }*/
 
     private Maybe<List<CoinItem>> getUiItemsRx() {
         return Maybe.fromCallable(() -> {

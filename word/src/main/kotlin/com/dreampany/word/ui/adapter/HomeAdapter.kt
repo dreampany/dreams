@@ -23,7 +23,7 @@ class HomeAdapter(listener: Any) : SmartAdapter<BaseItem<Any, *>>(listener) {
 
     fun addItem(item : BaseItem<Any, *>, type : ItemType, subtype: ItemSubtype, state : ItemState) {
         val triple = Triple(type, subtype, state)
-        // remove old or update same
+        // remove old or updateVisibleItemIf same
         if (types.inverse().containsKey(triple)) {
             if (contains(item)) {
                 updateItem(item);

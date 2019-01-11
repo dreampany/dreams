@@ -14,7 +14,6 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.util.AndroidUtil
 import hugo.weaving.DebugLog
-import io.reactivex.Flowable
 import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -33,10 +32,10 @@ import java.util.*
  * B1 - Removed = Updated
  */
 abstract class BaseViewModel<T, X, Y> protected constructor(
-        application: Application,
-        protected val rx: RxMapper,
-        protected val ex: AppExecutors,
-        protected val rm: ResponseMapper
+    application: Application,
+    protected val rx: RxMapper,
+    protected val ex: AppExecutors,
+    protected val rm: ResponseMapper
 ) : AndroidViewModel(application), LifecycleOwner/*, Observer<X>*/ {
 
     private val lifecycleRegistry: LifecycleRegistry
@@ -450,20 +449,20 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
 
     @DebugLog
-    fun postResult(data: X) {
-        rm.response(input, data)
+    fun postResult(data: X, withProgress: Boolean) {
+        if (withProgress) {
+            rm.responseWithProgress(input, data)
+        } else {
+            rm.response(input, data)
+        }
     }
 
-    fun postResultWithProgress(data: X) {
-        rm.responseWithProgress(input, data)
-    }
-
-    fun postResult(data: List<X>) {
-        rm.response(inputs, data)
-    }
-
-    fun postResultWithProgress(data: List<X>) {
-        rm.responseWithProgress(inputs, data)
+    fun postResult(data: List<X>, withProgress: Boolean) {
+        if (withProgress) {
+            rm.responseWithProgress(inputs, data)
+        } else {
+            rm.response(inputs, data)
+        }
     }
 
     fun postFlag(data: X) {

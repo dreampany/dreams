@@ -168,7 +168,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
                                 if (!item.hasState(ItemState.STATE, ItemSubstate.FULL)) {
-                                    Timber.d("Next Item to update %s", item.getItem().getWord());
+                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
                                     next = updateItemRx(item.getItem()).blockingGet();
                                     break;
                                 }

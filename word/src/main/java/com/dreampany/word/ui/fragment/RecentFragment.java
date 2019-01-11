@@ -216,7 +216,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         scroller = new OnVerticalScrollListener() {
             @Override
             public void onScrolling() {
-                vm.update();
+                vm.updateVisibleItemIf();
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
@@ -376,6 +376,12 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         task.setSubtype(UiSubtype.RECENTS);
         task.setFull(true);
         openActivity(ToolsActivity.class, task);
+    }
+
+    @Nullable
+    @Override
+    public List<WordItem> getItems() {
+        return null;
     }
 
 /*    private void openSheet() {

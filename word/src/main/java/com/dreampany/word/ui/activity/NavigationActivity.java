@@ -140,6 +140,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
         binding = (ActivityNavigationBinding) super.binding;
         vm = ViewModelProviders.of(this, factory).get(LoaderViewModel.class);
         ad.loadBanner(findViewById(R.id.adview));
+        ad.loadInterstitial(R.string.debug_banner_ad_unit_id);
         vm.loads();
     }
 }

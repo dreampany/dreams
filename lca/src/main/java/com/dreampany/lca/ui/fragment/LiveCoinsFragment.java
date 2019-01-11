@@ -89,22 +89,22 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        //vm.loads(false);
+        //vm.loads(false, true);
     }
 
     @DebugLog
     @Override
     protected void onStopUi() {
-        vm.clear();
+        //vm.clear();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
     }
 
-    @Override
+/*    @Override
     public void onPause() {
         vm.removeMultipleSubscription();
         vm.removeSingleSubscription();
@@ -112,7 +112,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         vm.removeUpdateItemDisposable();
         vm.removeUpdateVisibleItemsDisposable();
         super.onPause();
-    }
+    }*/
 
 /*    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -133,7 +133,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty());
+        vm.refresh(!adapter.isEmpty(), false);
     }
 
     @Override
@@ -143,7 +143,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             adapter.onLoadMoreComplete(null);
             return;
         }
-        vm.loads(lastPosition + 1, true);
+        vm.loads(lastPosition + 1, true, false);
     }
 
     @Override
@@ -164,7 +164,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_empty:
-                vm.loads(true);
+                vm.loads(true, true);
                 break;
         }
     }
@@ -226,7 +226,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             @DebugLog
             @Override
             public void onScrollingAtEnd() {
-                //vm.updateVisibleItems();
+                //vm.update();
             }
         };
         adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());

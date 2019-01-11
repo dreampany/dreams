@@ -1,17 +1,14 @@
 package com.dreampany.word.data.source.api;
 
 import android.graphics.Bitmap;
-
 import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.DataSource;
+import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.model.Word;
+import io.reactivex.Maybe;
 
 import java.util.List;
-
-import io.reactivex.Maybe;
 
 /**
  * Created by Hawladar Roman on 2/9/18.

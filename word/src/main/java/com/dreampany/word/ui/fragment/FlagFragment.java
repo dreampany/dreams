@@ -157,7 +157,7 @@ public class FlagFragment extends BaseMenuFragment implements SmartAdapter.Callb
 
     @Nullable
     @Override
-    public ArrayList<WordItem> getVisibleItems() {
+    public List<WordItem> getVisibleItems() {
         return adapter.getVisibleItems();
     }
 
@@ -312,5 +312,11 @@ public class FlagFragment extends BaseMenuFragment implements SmartAdapter.Callb
         task.setUiType(UiType.WORD);
         task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
+    }
+
+    @Nullable
+    @Override
+    public List<WordItem> getItems() {
+        return null;
     }
 }

@@ -16,15 +16,12 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -104,7 +101,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(items -> {
                     postResultWithProgress(items);
-                    update();
+                    updateVisibleItemIf();
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
@@ -112,7 +109,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         updateVisibleItems();
     }
 
-    public void update() {
+    public void updateVisibleItemIf() {
         if (hasDisposable(updateDisposable)) {
             Timber.v("Updater Running...");
             return;
@@ -207,7 +204,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
                                 if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
-                                    Timber.d("Next Item to update %s", item.getItem().getWord());
+                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
                                     getEx().postToUi(() -> postProgress(true));
                                     next = updateItemRx(item.getItem()).blockingGet();
                                     break;

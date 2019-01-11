@@ -1,4 +1,4 @@
-include ':frame'
+include ':frame', ':fit'
 include ':network'
 include ':toggle'
 include ':vision'

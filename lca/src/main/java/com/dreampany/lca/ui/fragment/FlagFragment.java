@@ -90,7 +90,7 @@ public class FlagFragment extends BaseFragment implements SmartAdapter.Callback<
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        //vm.loads(false);
     }
 
     @Override
@@ -98,8 +98,8 @@ public class FlagFragment extends BaseFragment implements SmartAdapter.Callback<
         super.onPause();
         vm.removeMultipleSubscription();
         vm.removeSingleSubscription();
-        vm.removeUpdateItemDisposable();
-        vm.removeUpdateVisibleItemsDisposable();
+       // vm.removeUpdateItemDisposable();
+        //vm.removeUpdateVisibleItemsDisposable();
     }
 
     @Override
@@ -109,18 +109,18 @@ public class FlagFragment extends BaseFragment implements SmartAdapter.Callback<
             return;
         }
         if (isVisibleToUser) {
-            vm.loads(false);
+            //vm.loads(false);
         } else {
             vm.removeMultipleSubscription();
             vm.removeSingleSubscription();
-            vm.removeUpdateItemDisposable();
-            vm.removeUpdateVisibleItemsDisposable();
+            //vm.removeUpdateItemDisposable();
+           // vm.removeUpdateVisibleItemsDisposable();
         }
     }
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+       // vm.loads(true);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class FlagFragment extends BaseFragment implements SmartAdapter.Callback<
                 vm.toggle((Coin) v.getTag());
                 break;
             case R.id.button_empty:
-                vm.loads(true);
+                //vm.loads(true);
                 break;
         }
     }

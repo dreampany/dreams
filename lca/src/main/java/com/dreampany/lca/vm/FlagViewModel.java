@@ -2,7 +2,6 @@ package com.dreampany.lca.vm;
 
 
 import android.app.Application;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -22,15 +21,6 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -38,6 +28,13 @@ import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -56,7 +53,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private final Pref pref;
     private final CoinRepository repo;
     private SmartAdapter.Callback<CoinItem> uiCallback;
-    private Disposable updateUiDisposable, updateItemDisposable, updateVisibleItemsDisposable;
+    private Disposable updateDisposable, updateUiDisposable;
 
     @Inject
     FlagViewModel(Application application,
@@ -77,18 +74,18 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     public void clear() {
         network.deObserve(this::onResult, true);
         this.uiCallback = null;
-        removeUpdateItemDisposable();
-        removeUpdateVisibleItemsDisposable();
+        //removeUpdateItemDisposable();
+        //removeUpdateVisibleItemsDisposable();
         super.clear();
     }
 
-    public void removeUpdateItemDisposable() {
+/*    public void removeUpdateItemDisposable() {
         removeSubscription(updateItemDisposable);
     }
 
     public void removeUpdateVisibleItemsDisposable() {
         removeSubscription(updateVisibleItemsDisposable);
-    }
+    }*/
 
     public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
         this.uiCallback = callback;
@@ -107,40 +104,56 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
-    public void refresh(boolean onlyVisibleItems) {
-        if (onlyVisibleItems) {
-            updateVisibleItems();
+    public void refresh(boolean onlyUpdate, boolean withProgress) {
+        if (onlyUpdate) {
+            //updateUi();
+            update();
             return;
         }
-        loads(onlyVisibleItems);
+        loads(false, withProgress);
     }
 
-    public void loads(boolean fresh) {
+    public void loads(boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
         }
         if (!preLoads(fresh)) {
-            updateVisibleItems();
+            //update();
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(
-                        result -> postResult(result, true),
+                        result -> postResult(result, withProgress),
                         error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
-                });
+                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        });
         addMultipleSubscription(disposable);
         //update();
     }
 
-    public void updateUiRx() {
+    public void update() {
+        if (!OPEN) {
+            return;
+        }
+        if (hasDisposable(updateDisposable)) {
+            Timber.v("update Running...");
+            return;
+        }
+        updateDisposable = getRx()
+                .backToMain(getVisibleItemsIfRx())
+                .subscribe(result -> postResult(result, true), this::postFailure);
+        addSubscription(updateDisposable);
+    }
+
+    @DebugLog
+    public void updateUi() {
         if (!OPEN) {
             return;
         }
         if (hasDisposable(updateUiDisposable)) {
-            Timber.v("updateUiRx Running...");
+            Timber.v("updateUi Running...");
             return;
         }
         updateUiDisposable = getRx()
@@ -165,7 +178,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         addSingleSubscription(disposable);
     }
 
-    @DebugLog
+/*    @DebugLog
     public void updateItem() {
         if (!OPEN) {
             return;
@@ -180,21 +193,9 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                         result -> postResult(result, false),
                         this::postFailure);
         addSubscription(updateItemDisposable);
-    }
+    }*/
 
-    public void updateVisibleItems() {
-        if (!OPEN) {
-            return;
-        }
-        if (hasDisposable(updateVisibleItemsDisposable )) {
-            Timber.v("update Running...");
-            return;
-        }
-        updateVisibleItemsDisposable = getRx()
-                .backToMain(getVisibleItemsRx())
-                .subscribe(result -> postResult(result, true), this::postFailure);
-        addSubscription(updateVisibleItemsDisposable);
-    }
+
 
     private Maybe<List<CoinItem>> getItemsRx() {
         return repo.getFlagsRx()
@@ -213,16 +214,8 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsRx() {
-        return Maybe.fromCallable(() -> {
-            List<CoinItem> items = uiCallback.getVisibleItems();
-            if (!DataUtil.isEmpty(items)) {
-                for (CoinItem item : items) {
-                    adjustFlag(item.getItem(), item);
-                }
-            }
-            return items;
-        });
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx() {
+        return Maybe.fromCallable(this::getVisibleItemsIf);
     }
 
     private List<CoinItem> getVisibleItemsIf() {

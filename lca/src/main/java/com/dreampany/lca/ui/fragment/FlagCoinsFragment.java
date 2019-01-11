@@ -93,22 +93,22 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     protected void onStopUi() {
-        vm.clear();
+        //vm.clear();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        vm.refresh(false, adapter.isEmpty());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        vm.removeMultipleSubscription();
-        vm.removeSingleSubscription();
-        vm.removeUpdateItemDisposable();
-        vm.removeUpdateVisibleItemsDisposable();
+        //vm.removeMultipleSubscription();
+        //vm.removeSingleSubscription();
+        //vm.removeUpdateItemDisposable();
+        //vm.removeUpdateVisibleItemsDisposable();
     }
 
 /*    @Override
@@ -129,7 +129,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty());
+        vm.refresh(false, true);
     }
 
     @Override
@@ -148,7 +148,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
                 vm.toggle((Coin) v.getTag());
                 break;
             case R.id.button_empty:
-                vm.loads(true);
+                vm.loads(true, true);
                 break;
         }
     }

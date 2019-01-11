@@ -173,12 +173,12 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         addSubscription(updateDisposable);
     }
 
-/*    public void updateUiRx() {
+/*    public void updateUi() {
         if (!OPEN) {
             return;
         }
         if (hasDisposable(updateUiDisposable)) {
-            Timber.v("updateUiRx Running...");
+            Timber.v("updateUi Running...");
             return;
         }
         updateUiDisposable = getRx()

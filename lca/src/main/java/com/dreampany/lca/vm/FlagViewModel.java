@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -101,7 +102,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             }
         }
         UiState finalState = state;
-        getEx().postToUiSmartly(() -> updateUiState(finalState));
+        //getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
     public void refresh(boolean onlyUpdate, boolean withProgress) {
@@ -110,7 +111,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             update();
             return;
         }
-        loads(false, withProgress);
+        loads(true, withProgress);
     }
 
     public void loads(boolean fresh, boolean withProgress) {
@@ -122,7 +123,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         Disposable disposable = getRx()
-                .backToMain(getItemsRx())
+                .backToMain(getFlagItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(
                         result -> postResult(result, withProgress),
@@ -161,7 +162,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 .subscribe(
                         result -> postResult(result, false),
                         error -> {
-                            });
+                        });
         addSubscription(updateUiDisposable);
     }
 
@@ -196,10 +197,37 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }*/
 
 
-
     private Maybe<List<CoinItem>> getItemsRx() {
         return repo.getFlagsRx()
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
+    }
+
+
+    private Maybe<List<CoinItem>> getFlagItemsRx() {
+        return Maybe.fromCallable(() -> {
+            List<CoinItem> result = new ArrayList<>();
+            List<Coin> real = repo.getFlags();
+            if (real == null) {
+                real = new ArrayList<>();
+            }
+            List<CoinItem> ui = uiCallback.getItems();
+            for (Coin coin : real) {
+                CoinItem item = getItem(coin);
+                item.setFlagged(true);
+                result.add(item);
+            }
+
+
+            if (!DataUtil.isEmpty(ui)) {
+                for (CoinItem item : ui) {
+                    if (!real.contains(item.getItem())) {
+                        item.setFlagged(false);
+                        result.add(item);
+                    }
+                }
+            }
+            return result;
+        });
     }
 
     private Maybe<List<CoinItem>> getUiItemsRx() {
@@ -280,7 +308,6 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             map.put(coin.getId(), item);
         }
         item.setItem(coin);
-        adjustFlag(coin, item);
         return item;
     }
 

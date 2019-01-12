@@ -93,7 +93,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     protected void onStopUi() {
-        //vm.clear();
+        vm.clear();
     }
 
     @Override
@@ -102,7 +102,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         vm.refresh(false, adapter.isEmpty());
     }
 
-    @Override
+ /*   @Override
     public void onPause() {
         super.onPause();
         //vm.removeMultipleSubscription();
@@ -111,7 +111,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         //vm.removeUpdateVisibleItemsDisposable();
     }
 
-/*    @Override
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isResumed()) {
@@ -129,7 +129,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     public void onRefresh() {
-        vm.refresh(false, true);
+        vm.refresh(!adapter.isEmpty(), false);
     }
 
     @Override
@@ -162,6 +162,13 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
         return false;
     }
+
+    @Nullable
+    @Override
+    public List<CoinItem> getItems() {
+        return adapter.getCurrentItems();
+    }
+
 
     @Nullable
     @Override
@@ -300,11 +307,5 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
-    }
-
-    @Nullable
-    @Override
-    public ArrayList<CoinItem> getItems() {
-        return null;
     }
 }

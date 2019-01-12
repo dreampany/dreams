@@ -95,7 +95,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     @DebugLog
     @Override
     protected void onStopUi() {
-        //vm.clear();
+        vm.clear();
     }
 
     @Override

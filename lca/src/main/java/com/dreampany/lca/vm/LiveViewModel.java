@@ -131,7 +131,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             update();
             return;
         }
-        loads(false, withProgress);
+        loads(true, withProgress);
     }
 
     @DebugLog

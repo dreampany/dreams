@@ -75,24 +75,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     public void clear() {
         network.deObserve(this::onResult, true);
         this.uiCallback = null;
-        //removeUpdateItemDisposable();
-        //removeUpdateVisibleItemsDisposable();
+        removeUpdateDisposable();
         super.clear();
     }
 
-/*    public void removeUpdateItemDisposable() {
-        removeSubscription(updateItemDisposable);
-    }
-
-    public void removeUpdateVisibleItemsDisposable() {
-        removeSubscription(updateVisibleItemsDisposable);
-    }*/
-
-    public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
-        this.uiCallback = callback;
-    }
-
-    @DebugLog
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
@@ -105,15 +91,24 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         //getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
+    public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
+        this.uiCallback = callback;
+    }
+
+    public void removeUpdateDisposable() {
+        removeSubscription(updateDisposable);
+    }
+
     public void refresh(boolean onlyUpdate, boolean withProgress) {
         if (onlyUpdate) {
             //updateUi();
-            update();
+            //update();
             return;
         }
         loads(true, withProgress);
     }
 
+    @DebugLog
     public void loads(boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
@@ -126,8 +121,12 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 .backToMain(getFlagItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(
-                        result -> postResult(result, withProgress),
+                        result -> {
+                            Timber.v("Flag Result %s", "Result Published");
+                            postResult(result, withProgress);
+                        },
                         error -> {
+                            Timber.v("Flag Result %s", error.getMessage());
                             postFailureMultiple(new MultiException(error, new ExtraException()));
                         });
         addMultipleSubscription(disposable);
@@ -138,8 +137,9 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         if (!OPEN) {
             return;
         }
+        Timber.v("Flag update calling");
         if (hasDisposable(updateDisposable)) {
-            Timber.v("update Running...");
+            Timber.v("Flag update Running...");
             return;
         }
         updateDisposable = getRx()
@@ -217,7 +217,6 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 result.add(item);
             }
 
-
             if (!DataUtil.isEmpty(ui)) {
                 for (CoinItem item : ui) {
                     if (!real.contains(item.getItem())) {
@@ -226,6 +225,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                     }
                 }
             }
+
+
+            Timber.v("Flag Result in VM %d", result.size());
+
             return result;
         });
     }

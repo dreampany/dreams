@@ -30,6 +30,7 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.FlagViewModel;
 
+import hugo.weaving.DebugLog;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +44,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -84,6 +86,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         return R.id.item_search;
     }
 
+    @DebugLog
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
@@ -91,8 +94,10 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         //vm.loads(false);
     }
 
+    @DebugLog
     @Override
     protected void onStopUi() {
+        //vm.removeUpdateDisposable();
         vm.clear();
     }
 
@@ -102,15 +107,14 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         vm.refresh(false, adapter.isEmpty());
     }
 
- /*   @Override
+/*    @Override
     public void onPause() {
+        vm.removeMultipleSubscription();
+        vm.removeUpdateDisposable();
+        vm.clearInputs();
         super.onPause();
-        //vm.removeMultipleSubscription();
-        //vm.removeSingleSubscription();
-        //vm.removeUpdateItemDisposable();
-        //vm.removeUpdateVisibleItemsDisposable();
-    }
-
+    }*/
+ /*
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -296,6 +300,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             return;
         }
         recycler.setNestedScrollingEnabled(false);
+        Timber.v("Flag Result %s", items.size());
         adapter.addFlagItems(items);
         recycler.setNestedScrollingEnabled(true);
         processUiState(UiState.EXTRA);

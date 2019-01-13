@@ -68,7 +68,8 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     internal var visible: Boolean = false
 
     open fun isDebug(): Boolean {
-        return BuildConfig.DEBUG; }
+        return BuildConfig.DEBUG;
+    }
 
     open fun hasStrict(): Boolean {
         return false

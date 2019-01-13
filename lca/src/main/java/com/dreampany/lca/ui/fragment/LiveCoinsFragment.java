@@ -340,6 +340,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             return;
         }
         recycler.setNestedScrollingEnabled(false);
+        Timber.v("Live Result %s", items.size());
         //adapter.addItems(items);
         adapter.loadMoreComplete(items);
         recycler.setNestedScrollingEnabled(true);

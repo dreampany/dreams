@@ -82,34 +82,10 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     public void clear() {
         network.deObserve(this::onResult, true);
         this.uiCallback = null;
-        //removeUpdateUiDisposable();
-        //removeUpdateVisibleItemsDisposable();
-        //removeUpdateDisposable();
-        //removeUpdateItemDisposable();
+        removeUpdateDisposable();
         super.clear();
     }
 
-/*    public void removeUpdateUiDisposable() {
-        removeSubscription(updateUiDisposable);
-    }
-
-    public void removeUpdateDisposable() {
-        removeSubscription(updateDisposable);
-    }
-
-    public void removeUpdateItemDisposable() {
-        removeSubscription(updateItemDisposable);
-    }
-
-    public void removeUpdateVisibleItemsDisposable() {
-        removeSubscription(updateVisibleItemsDisposable);
-    }*/
-
-    public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
-        this.uiCallback = callback;
-    }
-
-    @DebugLog
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
@@ -117,13 +93,21 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    getEx().postToUi(() -> loads(false, false), 250L);
+                    //getEx().postToUi(() -> loads(false, false), 250L);
                 }
                 //getEx().postToUi(this::updateItem, 2000L);
             }
         }
         UiState finalState = state;
-        getEx().postToUiSmartly(() -> updateUiState(finalState));
+        //getEx().postToUiSmartly(() -> updateUiState(finalState));
+    }
+
+    public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
+        this.uiCallback = callback;
+    }
+
+    public void removeUpdateDisposable() {
+        removeSubscription(updateDisposable);
     }
 
     public void refresh(boolean onlyUpdate, boolean withProgress) {
@@ -169,7 +153,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         }
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx())
-                .subscribe(result -> postResult(result, false), this::postFailure);
+                .subscribe(result -> {
+                    if (!DataUtil.isEmpty(result)) {
+                        postResult(result, false);
+                    }
+                }, this::postFailure);
         addSubscription(updateDisposable);
     }
 
@@ -294,7 +282,6 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return flowable;
     }
 
-    @DebugLog
     private Maybe<CoinItem> updateItemRx(Coin item) {
         return repo.getItemByCoinIdRx(item.getCoinId(), true).map(this::getItem);
     }
@@ -303,7 +290,6 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return Maybe.fromCallable(() -> getItems(result));
     }
 
-    @DebugLog
     private List<CoinItem> getItems(List<Coin> result) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
@@ -322,6 +308,9 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             CoinItem item = getItem(coin);
             items.add(item);
         }
+
+        Timber.v("Live Result in VM %d", items.size());
+
         return items;
     }
 

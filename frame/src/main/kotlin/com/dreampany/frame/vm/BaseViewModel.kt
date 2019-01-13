@@ -57,6 +57,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     var multipleOwners: MutableList<LifecycleOwner> = mutableListOf()
 
     val disposables: CompositeDisposable
+    val ioDisposables: CompositeDisposable
     var singleDisposable: Disposable? = null
     var multipleDisposable: Disposable? = null
 
@@ -81,17 +82,17 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         //register(this)
 
         disposables = CompositeDisposable()
+        ioDisposables = CompositeDisposable()
         uiMode = SingleLiveEvent()
         uiState = SingleLiveEvent()
         event = SingleLiveEvent()
+        liveTitle = SingleLiveEvent()
+        liveSubtitle = SingleLiveEvent()
         flag = MutableLiveData()
         input = PublishSubject.create()
         inputs = PublishSubject.create()
-        output = rx.toLiveData(input, disposables)
-        outputs = rx.toLiveData(inputs, disposables)
-        liveTitle = SingleLiveEvent()
-        liveSubtitle = SingleLiveEvent()
-
+        output = rx.toLiveData(input, ioDisposables)
+        outputs = rx.toLiveData(inputs, ioDisposables)
         uiMap = SmartMap.newMap()
         uiCache = SmartCache.newCache()
         uiFlags = Collections.synchronizedSet<T>(HashSet<T>())
@@ -125,6 +126,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     override fun onCleared() {
         clear()
+        ioDisposables.clear()
         super.onCleared()
     }
 
@@ -160,16 +162,22 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         for (owner in multipleOwners) {
             owner.let { outputs.removeObservers(it) }
         }
+        singleOwners.clear()
+        multipleOwners.clear()
         removeSingleSubscription()
         removeMultipleSubscription()
         uiMap.clear()
         uiCache.clear()
-        disposables.clear()
     }
 
-    open fun clearInputs() {
+    open fun clearInput() {
         input.onNext(Response.responseEmpty(null))
         inputs.onNext(Response.responseEmpty(null))
+    }
+
+    open fun clearOutput() {
+        output.value = null
+        outputs.value = null
     }
 
     fun hasSelection(): Boolean {

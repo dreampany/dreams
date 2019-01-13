@@ -72,6 +72,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     protected void onStartUi(Bundle state) {
         binding = (ActivityNavigationBinding) super.binding;
         ad.loadBanner(findViewById(R.id.adview));
+        ad.loadInterstitial(R.string.interstitial_ad_unit_id);
     }
 
     @Override

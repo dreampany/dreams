@@ -5,10 +5,8 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
-
 import com.dreampany.frame.data.model.Base;
-import com.dreampany.lca.api.cmc.enums.Currency;
-import com.dreampany.lca.api.cmc.model.PriceQuote;
+import com.google.common.collect.Maps;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
@@ -37,7 +35,8 @@ public class Coin extends Base {
     private long lastUpdated;
     private long dateAdded;
     private List<String> tags;
-    private Map<Currency, PriceQuote> priceQuote;
+    @Ignore
+    private Map<Currency, Quote> quotes;
 
     @Ignore
     public Coin() {
@@ -47,12 +46,6 @@ public class Coin extends Base {
     public Coin(long id) {
         this.id = id;
     }
-
-/*    public Coin(long coinId, String name, @NonNull String symbol) {
-        this.coinId = coinId;
-        this.name = name;
-        this.symbol = symbol;
-    }*/
 
     @Ignore
     private Coin(Parcel in) {
@@ -69,7 +62,7 @@ public class Coin extends Base {
         lastUpdated = in.readLong();
         dateAdded = in.readLong();
         tags = in.createStringArrayList();
-        priceQuote = (Map<Currency, PriceQuote>) in.readSerializable();
+        quotes = (Map<Currency, Quote>) in.readSerializable();
     }
 
     @Override
@@ -87,7 +80,7 @@ public class Coin extends Base {
         dest.writeLong(lastUpdated);
         dest.writeLong(dateAdded);
         dest.writeStringList(tags);
-        dest.writeSerializable((Serializable) priceQuote);
+        dest.writeSerializable((Serializable) quotes);
     }
 
     public static final Creator<Coin> CREATOR = new Creator<Coin>() {
@@ -156,8 +149,15 @@ public class Coin extends Base {
         this.tags = tags;
     }
 
-    public void setPriceQuote(Map<Currency, PriceQuote> priceQuote) {
-        this.priceQuote = priceQuote;
+    public void setQuotes(Map<Currency, Quote> quotes) {
+        this.quotes = quotes;
+    }
+
+    public void setQuote(Currency currency, Quote quote) {
+        if (quotes == null) {
+            quotes = Maps.newHashMap();
+        }
+        quotes.put(currency, quote);
     }
 
     public long getCoinId() {
@@ -212,22 +212,30 @@ public class Coin extends Base {
         return tags;
     }
 
-    public Map<Currency, PriceQuote> getPriceQuote() {
-        return priceQuote;
+    public Map<Currency, Quote> getQuotes() {
+        return quotes;
     }
 
-    public PriceQuote getPriceQuote(Currency currency) {
-        if (priceQuote != null) {
-            return priceQuote.get(currency);
+    public boolean hasQuote(String currency) {
+        return quotes.containsKey(Currency.valueOf(currency));
+    }
+
+    public boolean hasQuote(Currency currency) {
+        return quotes.containsKey(currency);
+    }
+
+    public Quote getQuote(Currency currency) {
+        if (quotes != null) {
+            return quotes.get(currency);
         }
         return null;
     }
 
-    public PriceQuote getUsdPriceQuote() {
-        return getPriceQuote(Currency.USD);
+    public Quote getUsdQuote() {
+        return getQuote(Currency.USD);
     }
 
-    public PriceQuote getBtcPriceQuote() {
-        return getPriceQuote(Currency.BTC);
+    public Quote getBtcQuote() {
+        return getQuote(Currency.BTC);
     }
 }

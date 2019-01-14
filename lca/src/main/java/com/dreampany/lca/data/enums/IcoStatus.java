@@ -1,7 +1,6 @@
 package com.dreampany.lca.data.enums;
 
 import android.os.Parcel;
-
 import com.dreampany.frame.data.enums.Type;
 
 public enum IcoStatus implements Type {
@@ -27,14 +26,14 @@ public enum IcoStatus implements Type {
         return code;
     }
 
-    public String toLowerValue() {
-        return name().toLowerCase();
-    }
-
-
     @Override
     public String value() {
         return name();
+    }
+
+    @Override
+    public String toLowerValue() {
+        return name().toLowerCase();
     }
 
     @Override

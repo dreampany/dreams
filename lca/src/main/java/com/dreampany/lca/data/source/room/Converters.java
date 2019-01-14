@@ -3,8 +3,9 @@ package com.dreampany.lca.data.source.room;
 import android.arch.persistence.room.TypeConverter;
 
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.lca.api.cmc.enums.Currency;
-import com.dreampany.lca.api.cmc.model.PriceQuote;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
+import com.dreampany.lca.api.cmc.model.CmcQuote;
+import com.dreampany.lca.data.model.Currency;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,7 +22,7 @@ import java.util.Map;
 public final class Converters {
     private static Gson gson = new Gson();
     private static Type typeOfListString = new TypeToken<List<String>>() {}.getType();
-    private static Type typeOfMap = new TypeToken<Map<Currency, PriceQuote>>() {
+    private static Type typeOfMap = new TypeToken<Map<CmcCurrency, CmcQuote>>() {
     }.getType();
     private static Type typeOfListPrices = new TypeToken<List<List<Float>>>() {
     }.getType();
@@ -42,9 +43,8 @@ public final class Converters {
         return gson.fromJson(json, typeOfListString);
     }
 
-
     @TypeConverter
-    synchronized public static String fromPriceQuotes(Map<Currency, PriceQuote> quotes) {
+    synchronized public static String fromPriceQuotes(Map<CmcCurrency, CmcQuote> quotes) {
         if (quotes == null || quotes.isEmpty()) {
             return null;
         }
@@ -61,7 +61,7 @@ public final class Converters {
     }
 
     @TypeConverter
-    synchronized public static Map<Currency, PriceQuote> fromMapString(String json) {
+    synchronized public static Map<CmcCurrency, CmcQuote> fromMapString(String json) {
         if (Strings.isNullOrEmpty(json)) {
             return null;
         }
@@ -74,5 +74,21 @@ public final class Converters {
             return null;
         }
         return gson.fromJson(json, typeOfListPrices);
+    }
+
+    @TypeConverter
+    synchronized public static String toString(Currency currency) {
+        if (currency == null) {
+            return null;
+        }
+        return currency.toString();
+    }
+
+    @TypeConverter
+    synchronized  public static Currency toCurrency(String currency) {
+        if (DataUtil.isEmpty(currency)) {
+            return null;
+        }
+        return Currency.valueOf(currency);
     }
 }

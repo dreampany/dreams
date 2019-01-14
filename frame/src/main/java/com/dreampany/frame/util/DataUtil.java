@@ -27,7 +27,7 @@ public final class DataUtil {
     private static final String COLLISION_TAG = "collision";
     public static final String NewLine = "\n";
     public static final String NewLine2 = "\n\n";
-    public static final String comma = ", ";
+    public static final String COMMA = ",";
     public static final String SEMI = ":";
     public static final String SPACE = " ";
 
@@ -101,7 +101,7 @@ public final class DataUtil {
         return Strings.isNullOrEmpty(item);
     }
 
-    public static boolean isEmpty(String... items) {
+    public static boolean isEmpty(String[] items) {
         if (items == null || items.length == 0) {
             return true;
         }
@@ -189,13 +189,28 @@ public final class DataUtil {
         return name.matches("[a-zA-Z]+");
     }
 
+    public static String toString(String[] values) {
+        String value = null;
+        if (!DataUtil.isEmpty(values)) {
+            StringBuilder builder = new StringBuilder();
+            for (String v : values) {
+                if (builder.length() > 0) {
+                    builder.append(COMMA);
+                }
+                builder.append(v);
+            }
+            value = builder.toString();
+        }
+        return value;
+    }
+
     public static String toString(List<String> values) {
         String value = null;
         if (!DataUtil.isEmpty(values)) {
             StringBuilder builder = new StringBuilder();
             for (String v : values) {
                 if (builder.length() > 0) {
-                    builder.append(comma);
+                    builder.append(COMMA);
                 }
                 builder.append(v);
             }

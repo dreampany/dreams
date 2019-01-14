@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class PriceQuote implements Serializable {
+public class CmcQuote implements Serializable {
 
     private final double price;
     private final double dayVolume;
@@ -21,13 +21,13 @@ public class PriceQuote implements Serializable {
     private final String lastUpdated;
 
     @JsonCreator
-    public PriceQuote(@JsonProperty("price") double price,
-                      @JsonProperty("volume_24h") double dayVolume,
-                      @JsonProperty("market_cap") double marketCap,
-                      @JsonProperty("percent_change_1h") double hourChange,
-                      @JsonProperty("percent_change_24h") double dayChange,
-                      @JsonProperty("percent_change_7d") double weekChange,
-                      @JsonProperty("last_updated") String lastUpdated) {
+    public CmcQuote(@JsonProperty("price") double price,
+                    @JsonProperty("volume_24h") double dayVolume,
+                    @JsonProperty("market_cap") double marketCap,
+                    @JsonProperty("percent_change_1h") double hourChange,
+                    @JsonProperty("percent_change_24h") double dayChange,
+                    @JsonProperty("percent_change_7d") double weekChange,
+                    @JsonProperty("last_updated") String lastUpdated) {
         this.price = price;
         this.dayVolume = dayVolume;
         this.marketCap = marketCap;
@@ -68,7 +68,7 @@ public class PriceQuote implements Serializable {
 
     @Override
     public String toString() {
-        return "PriceQuote{" +
+        return "CmcQuote{" +
                 "price=" + price +
                 ", dayVolume=" + dayVolume +
                 ", marketCap=" + marketCap +
@@ -84,7 +84,7 @@ public class PriceQuote implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PriceQuote that = (PriceQuote) o;
+        CmcQuote that = (CmcQuote) o;
 
         if (Double.compare(that.price, price) != 0) return false;
         if (Double.compare(that.dayVolume, dayVolume) != 0) return false;

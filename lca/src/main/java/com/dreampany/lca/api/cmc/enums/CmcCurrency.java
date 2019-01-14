@@ -10,8 +10,7 @@ import java.io.Serializable;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public enum Currency implements Serializable {
-
+public enum CmcCurrency implements Serializable {
     AUD(),
     BRL(),
     CAD(),
@@ -50,15 +49,15 @@ public enum Currency implements Serializable {
     LTC(CurrencyType.CRYPTO),
     BCH(CurrencyType.CRYPTO);
 
-    private static Currency[] fiatCurrencies;
-    private static Currency[] cryptoCurrencies;
+    private static CmcCurrency[] fiatCurrencies;
+    private static CmcCurrency[] cryptoCurrencies;
     private final CurrencyType type;
 
-    Currency() {
+    CmcCurrency() {
         this(CurrencyType.FIAT);
     }
 
-    Currency(CurrencyType type) {
+    CmcCurrency(CurrencyType type) {
         this.type = type;
     }
 
@@ -74,16 +73,16 @@ public enum Currency implements Serializable {
         return CurrencyType.CRYPTO == this.type;
     }
 
-    public static Currency[] getFiatCurrencies() {
+    public static CmcCurrency[] getFiatCurrencies() {
         if (fiatCurrencies == null) {
-            fiatCurrencies = Stream.of(values()).filter(Currency::isFiat).toArray(Currency[]::new);
+            fiatCurrencies = Stream.of(values()).filter(CmcCurrency::isFiat).toArray(CmcCurrency[]::new);
         }
         return fiatCurrencies;
     }
 
-    public static Currency[] getCryptoCurrencies() {
+    public static CmcCurrency[] getCryptoCurrencies() {
         if (cryptoCurrencies == null) {
-            cryptoCurrencies = Stream.of(values()).filter(Currency::isCrypto).toArray(Currency[]::new);
+            cryptoCurrencies = Stream.of(values()).filter(CmcCurrency::isCrypto).toArray(CmcCurrency[]::new);
         }
         return cryptoCurrencies;
     }

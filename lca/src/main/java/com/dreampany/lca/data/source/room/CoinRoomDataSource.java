@@ -9,6 +9,7 @@ import com.dreampany.lca.data.enums.ItemSubtype;
 import com.dreampany.lca.data.enums.ItemType;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.google.common.collect.Maps;
@@ -19,9 +20,8 @@ import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -78,7 +78,33 @@ public class CoinRoomDataSource implements CoinDataSource {
     @Override
     public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
         return dao.getItemsRx(start, limit);
-        //return Maybe.empty();
+    }
+
+    @Override
+    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit, String[] currencies) {
+        return Maybe.fromCallable(new Callable<List<Coin>>() {
+            @Override
+            public List<Coin> call() throws Exception {
+                List<Coin> room = dao.getItems();
+                while (true) {
+                    Coin next = null;
+    /*                for (Coin item : room) {
+                        if (item.getPriceQuote())
+                    }*/
+                    if (next == null) {
+                        break;
+                    }
+                }
+
+                Collections.sort(room, new Comparator<Coin>() {
+                    @Override
+                    public int compare(Coin left, Coin right) {
+                        return 0;
+                    }
+                });
+                return null;
+            }
+        });
     }
 
     @Override

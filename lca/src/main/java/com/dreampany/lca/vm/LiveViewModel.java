@@ -17,6 +17,7 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.LoadPref;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.CoinRepository;
@@ -132,8 +133,9 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;
+        Currency currency = Currency.USD;
         Disposable disposable = getRx()
-                .backToMain(getListingRx(start, limit))
+                .backToMain(getListingRx(start, limit, currency))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(
                         result -> postResult(result, withProgress),
@@ -220,8 +222,8 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getListingRx(int start, int limit) {
-        return repo.getListingRx(CoinSource.CMC, start, limit)
+    private Maybe<List<CoinItem>> getListingRx(int start, int limit, Currency currency) {
+        return repo.getListingRx(CoinSource.CMC, start, limit, currency)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 

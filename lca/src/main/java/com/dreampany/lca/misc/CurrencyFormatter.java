@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.Currency;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -32,9 +32,9 @@ public class CurrencyFormatter {
     @NonNull
     private final Context context;
     @NonNull
-    private final Map<Currency, String> formats;
+    private final Map<CmcCurrency, String> formats;
     @NonNull
-    private Set<Currency> cryptos;
+    private Set<CmcCurrency> cryptos;
     @NonNull
     private DecimalFormat cryptoFormatter;
 
@@ -53,27 +53,27 @@ public class CurrencyFormatter {
     public CurrencyFormatter(Context context) {
         this.context = context;
         formats = Maps.newHashMap();
-        cryptos = Sets.newHashSet(Currency.getCryptoCurrencies());
+        cryptos = Sets.newHashSet(CmcCurrency.getCryptoCurrencies());
         cryptoFormatter = new DecimalFormat(context.getString(R.string.crypto_formatter));
 
         loadFormats();
     }
 
     private void loadFormats() {
-        formats.put(Currency.BTC, context.getString(R.string.btc_format));
-        formats.put(Currency.ETH, context.getString(R.string.eth_format));
-        formats.put(Currency.LTC, context.getString(R.string.ltc_format));
+        formats.put(CmcCurrency.BTC, context.getString(R.string.btc_format));
+        formats.put(CmcCurrency.ETH, context.getString(R.string.eth_format));
+        formats.put(CmcCurrency.LTC, context.getString(R.string.ltc_format));
 
-        formats.put(Currency.AUD, getString(R.string.aud_format));
-        formats.put(Currency.BRL, getString(R.string.brl_format));
-        formats.put(Currency.CAD, getString(R.string.usd_format));
-        formats.put(Currency.CHF, getString(R.string.chf_format));
-        formats.put(Currency.CLP, getString(R.string.usd_format));
-        formats.put(Currency.CNY, getString(R.string.cny_format));
-        formats.put(Currency.CZK, getString(R.string.czk_format));
-        formats.put(Currency.DKK, getString(R.string.dkk_format));
-        formats.put(Currency.GBP, getString(R.string.gbp_format));
-        formats.put(Currency.USD, getString(R.string.usd_format));
+        formats.put(CmcCurrency.AUD, getString(R.string.aud_format));
+        formats.put(CmcCurrency.BRL, getString(R.string.brl_format));
+        formats.put(CmcCurrency.CAD, getString(R.string.usd_format));
+        formats.put(CmcCurrency.CHF, getString(R.string.chf_format));
+        formats.put(CmcCurrency.CLP, getString(R.string.usd_format));
+        formats.put(CmcCurrency.CNY, getString(R.string.cny_format));
+        formats.put(CmcCurrency.CZK, getString(R.string.czk_format));
+        formats.put(CmcCurrency.DKK, getString(R.string.dkk_format));
+        formats.put(CmcCurrency.GBP, getString(R.string.gbp_format));
+        formats.put(CmcCurrency.USD, getString(R.string.usd_format));
     }
 
     @NonNull
@@ -85,18 +85,18 @@ public class CurrencyFormatter {
         return cryptoFormatter.format(price);
     }
 
-    public String format(Currency currency, double price) {
-        if (cryptos.contains(currency)) {
+    public String format(CmcCurrency cmcCurrency, double price) {
+        if (cryptos.contains(cmcCurrency)) {
             String priceValue = getCryptoString(price);
-            return String.format(formats.get(currency), priceValue);
+            return String.format(formats.get(cmcCurrency), priceValue);
         }
-        String format = formats.get(currency);
+        String format = formats.get(cmcCurrency);
         if (format != null) {
             return String.format(format, price);
         }
         NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
         nf.setMaximumFractionDigits(10);
-        return currency.name() + " " + nf.format(price);
+        return cmcCurrency.name() + " " + nf.format(price);
     }
 
     public String format(String currencyValue, double price) {
@@ -105,10 +105,10 @@ public class CurrencyFormatter {
         return currencyValue + " " + nf.format(price);
     }
 
-    public Currency getCurrency(String currencyValue) {
-        for (Currency currency : Currency.values()) {
-            if (currency.name().equalsIgnoreCase(currencyValue)) {
-                return currency;
+    public CmcCurrency getCurrency(String currencyValue) {
+        for (CmcCurrency cmcCurrency : CmcCurrency.values()) {
+            if (cmcCurrency.name().equalsIgnoreCase(currencyValue)) {
+                return cmcCurrency;
             }
         }
         return null;

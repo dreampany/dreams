@@ -11,7 +11,7 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.model.PriceQuote;
+import com.dreampany.lca.api.cmc.model.CmcQuote;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.adapter.CoinDetailAdapter;
@@ -116,7 +116,7 @@ public class CoinDetailItem extends BaseItem<Coin, CoinDetailItem.ViewHolder> {
             FrescoUtil.loadImage(icon, iconUrl);
             name.setText(coin.getName());
 
-            PriceQuote priceQuote = coin.getUsdPriceQuote();
+            CmcQuote priceQuote = coin.getUsdPriceQuote();
             price.setText(String.format(usdFormat, priceQuote.getPrice()));
             time.setText(TimeUtil.getUtcTime(coin.getLastUpdated()));
         }
@@ -128,7 +128,7 @@ public class CoinDetailItem extends BaseItem<Coin, CoinDetailItem.ViewHolder> {
                     name.setText(value);
                     break;
                 case PRICE_USD:
-                    PriceQuote priceQuote = coin.getUsdPriceQuote();
+                    CmcQuote priceQuote = coin.getUsdPriceQuote();
                     value = getItemText(R.string.price_usd, String.format(usdFormat, priceQuote.getPrice()));
                     itemValue.setText(value);
                     break;

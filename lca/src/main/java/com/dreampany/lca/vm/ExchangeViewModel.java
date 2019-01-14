@@ -10,7 +10,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.lca.api.cmc.enums.Currency;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Exchange;
 import com.dreampany.lca.data.source.repository.ExchangeRepository;
@@ -49,7 +49,7 @@ public class ExchangeViewModel extends BaseViewModel<Exchange, ExchangeItem, UiT
     private final NetworkManager network;
     private final ExchangeRepository repo;
     private CurrencyFormatter formatter;
-    private Currency currency;
+    private CmcCurrency cmcCurrency;
     private TimeType timeType;
 
     @Inject

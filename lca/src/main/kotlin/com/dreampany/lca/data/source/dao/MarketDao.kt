@@ -1,10 +1,5 @@
 package com.dreampany.lca.data.source.dao
 
-/**
- * Created by Hawladar Roman on 4/6/18.
- * Dreampany Ltd
- * dreampanymail@gmail.com
- */
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query
@@ -12,6 +7,12 @@ import com.dreampany.frame.data.source.dao.BaseDao
 import com.dreampany.lca.data.model.Market
 import io.reactivex.Flowable
 import io.reactivex.Single
+
+/**
+ * Created by Hawladar Roman on 4/6/18.
+ * Dreampany Ltd
+ * dreampanymail@gmail.com
+ */
 
 @Dao
 interface MarketDao : BaseDao<Market> {

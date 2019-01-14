@@ -9,14 +9,13 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.model.PriceQuote;
+import com.dreampany.lca.api.cmc.model.CmcQuote;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
-import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.NavigationActivity;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.network.NetworkManager;
@@ -44,7 +43,6 @@ import timber.log.Timber;
 @Singleton
 public class NotifyViewModel {
 
-    private static final int LIMIT = Constants.Limit.COIN;
     private final Application application;
     private final RxMapper rx;
     private final CoinRepository repo;
@@ -134,13 +132,13 @@ public class NotifyViewModel {
 
     @DebugLog
     private boolean isProfitable(Coin coin) {
-        PriceQuote priceQuote = coin.getUsdPriceQuote();
-        return priceQuote.getDayChange() >= 0;
+        CmcQuote cmcQuote = coin.getUsdPriceQuote();
+        return cmcQuote.getDayChange() >= 0;
     }
 
 /*    @DebugLog
     private boolean isProfitable(Coin coin) {
-        PriceQuote priceQuote = coin.getUsdPriceQuote();
+        CmcQuote priceQuote = coin.getUsdPriceQuote();
         if (!prices.containsKey(coin)) {
             Price price = new Price(coin.getId(), priceQuote.getPrice());
             prices.put(coin, price);

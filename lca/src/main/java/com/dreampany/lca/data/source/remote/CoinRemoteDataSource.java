@@ -1,5 +1,7 @@
 package com.dreampany.lca.data.source.remote;
 
+import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcCoinResponse;
 import com.dreampany.lca.api.cmc.model.CmcCoinsResponse;
@@ -8,6 +10,7 @@ import com.dreampany.lca.api.cmc.model.CmcQuotesResponse;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinMarketCap;
 import com.dreampany.lca.misc.Constants;
@@ -161,15 +164,21 @@ public class CoinRemoteDataSource implements CoinDataSource {
                 return new ArrayList<>();
             }
         });*/
-        return service
-                .getListingRx(Constants.Key.CMC_PRO, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN)
-                .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
+        return getListingRx(source, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN_PAGE);
     }
 
     @Override
     public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
         return service
                 .getListingRx(Constants.Key.CMC_PRO, start, limit)
+                .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
+    }
+
+    @Override
+    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit, String[] currencies) {
+        String currency = DataUtil.toString(currencies);
+        return service
+                .getListingRx(Constants.Key.CMC_PRO, start, limit, currency)
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
     }
 
@@ -341,25 +350,25 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     private Maybe<List<Coin>> getItemsRx(CmcListingResponse response) {
-        if (!response.hasError()) {
-            Collection<CmcCoin> items = response.getData();
-            return Flowable.fromIterable(items)
-                    .map(in -> mapper.toItem(in, true))
-                    .toList()
-                    .toMaybe();
+        if (response.hasError()) {
+            return null;
         }
-        return null;
+        Collection<CmcCoin> items = response.getData();
+        return Flowable.fromIterable(items)
+                .map(in -> mapper.toItem(in, true))
+                .toList()
+                .toMaybe();
     }
 
     private Maybe<List<Coin>> getItemsRx(CmcQuotesResponse response) {
-        if (!response.hasError()) {
-            Collection<CmcCoin> items = response.getData().values();
-            return Flowable.fromIterable(items)
-                    .map(in -> mapper.toItem(in, true))
-                    .toList()
-                    .toMaybe();
+        if (response.hasError()) {
+            return null;
         }
-        return null;
+        Collection<CmcCoin> items = response.getData().values();
+        return Flowable.fromIterable(items)
+                .map(in -> mapper.toItem(in, true))
+                .toList()
+                .toMaybe();
     }
 
     private Maybe<List<Coin>> getItemsRx(CmcCoinsResponse response) {

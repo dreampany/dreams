@@ -25,7 +25,7 @@ import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.Currency;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentGraphBinding;
 import com.dreampany.lca.ui.enums.TimeType;
@@ -76,7 +76,7 @@ public class GraphFragment extends BaseFragment
 
     private LineChart chart;
     private int displayWidth;
-    private Currency currency;
+    private CmcCurrency cmcCurrency;
     private TimeType timeType;
 
     @Inject
@@ -102,7 +102,7 @@ public class GraphFragment extends BaseFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.load(currency, timeType, false);
+        vm.load(cmcCurrency, timeType, false);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class GraphFragment extends BaseFragment
             return;
         }
         if (isVisibleToUser) {
-            vm.load(currency, timeType, false);
+            vm.load(cmcCurrency, timeType, false);
         } else {
             vm.removeSingleSubscription();
         }
@@ -126,7 +126,7 @@ public class GraphFragment extends BaseFragment
 
     @Override
     public void onRefresh() {
-        vm.load(currency, timeType, true);
+        vm.load(cmcCurrency, timeType, true);
     }
 
     @Override
@@ -141,11 +141,11 @@ public class GraphFragment extends BaseFragment
     @Override
     public void onItemClick(ViewGroup parent, View v, int id) {
         String currencyValue = binding.dropDownCurrency.getDropdownData()[id];
-        Currency currency = Currency.valueOf(currencyValue);
-        if (this.currency != currency) {
-            this.currency = currency;
+        CmcCurrency cmcCurrency = CmcCurrency.valueOf(currencyValue);
+        if (this.cmcCurrency != cmcCurrency) {
+            this.cmcCurrency = cmcCurrency;
             binding.dropDownCurrency.setText(currencyValue);
-            vm.load(currency, timeType, true);
+            vm.load(cmcCurrency, timeType, true);
         }
     }
 
@@ -178,7 +178,7 @@ public class GraphFragment extends BaseFragment
         }
         if (this.timeType != timeType) {
             this.timeType = timeType;
-            vm.load(currency, timeType, true);
+            vm.load(cmcCurrency, timeType, true);
         }
     }
 
@@ -211,7 +211,7 @@ public class GraphFragment extends BaseFragment
         displayWidth = DisplayUtil.getScreenWidthInPx(Objects.requireNonNull(getContext()));
         scroller = binding.smartScroller;
         chart = binding.lineChart;
-        currency = Currency.USD;
+        cmcCurrency = CmcCurrency.USD;
         timeType = TimeType.DAY;
 
         binding.buttonSource.setOnClickListener(this);
@@ -361,7 +361,7 @@ public class GraphFragment extends BaseFragment
     }
 
     private void updatePrice(float price) {
-        String priceData = vm.getFormattedPrice(currency, price);
+        String priceData = vm.getFormattedPrice(cmcCurrency, price);
         binding.textPrice.setText(priceData);
     }
 

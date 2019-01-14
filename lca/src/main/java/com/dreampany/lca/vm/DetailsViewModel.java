@@ -11,7 +11,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.lca.api.cmc.enums.Currency;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.misc.Constants;
@@ -146,14 +146,14 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         Coin coin = Objects.requireNonNull(getTask()).getInput();
         return Maybe.zip(
                 getDetailsCoinItem(coin),
-                getQuoteCoinItem(coin, Currency.USD),
+                getQuoteCoinItem(coin, CmcCurrency.USD),
                 (left, right) -> Arrays.asList(left, right));
     }
 
     private Maybe<List<CoinItem>> getItemsRx(Coin coin) {
         return Maybe.zip(
                 getDetailsCoinItem(coin),
-                getQuoteCoinItem(coin, Currency.USD),
+                getQuoteCoinItem(coin, CmcCurrency.USD),
                 (left, right) -> Arrays.asList(left, right));
     }
 
@@ -167,9 +167,9 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
                 });
     }
 
-    private Maybe<CoinItem> getQuoteCoinItem(Coin coin, Currency currency) {
+    private Maybe<CoinItem> getQuoteCoinItem(Coin coin, CmcCurrency cmcCurrency) {
         return Maybe.fromCallable(() -> {
-            CoinItem item = CoinItem.getQuoteItem(coin, currency);
+            CoinItem item = CoinItem.getQuoteItem(coin, cmcCurrency);
             adjustFlag(coin, item);
             return item;
         });

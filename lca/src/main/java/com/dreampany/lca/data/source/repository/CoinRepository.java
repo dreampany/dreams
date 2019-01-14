@@ -12,6 +12,7 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
@@ -172,6 +173,23 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
         Maybe<List<Coin>> room = fullRoom(this.room.getListingRx(source, start, limit));
         Maybe<List<Coin>> remote = saveRoom(this.remote.getListingRx(source, start, limit),
+                items -> {
+                    rx.compute(putItemsRx(items)).subscribe();
+                    pref.commitCoinListingTime();
+                });
+
+        long lastTime = pref.getCoinListingTime();
+        long period = Constants.Delay.INSTANCE.getCoinListing();
+        if (TimeUtil.isExpired(lastTime, period)) {
+            return concatFirstRx(remote, room);
+        }
+        return concatFirstRx(room, remote);
+    }
+
+    @Override
+    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit, String[] currencies) {
+        Maybe<List<Coin>> room = fullRoom(this.room.getListingRx(source, start, limit, currencies));
+        Maybe<List<Coin>> remote = saveRoom(this.remote.getListingRx(source, start, limit, currencies),
                 items -> {
                     rx.compute(putItemsRx(items)).subscribe();
                     pref.commitCoinListingTime();

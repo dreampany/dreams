@@ -1,7 +1,7 @@
 package com.dreampany.lca.api.cmc.model;
 
 import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.lca.api.cmc.enums.Currency;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -31,7 +31,7 @@ public class CmcCoin {
     private final String lastUpdated;
     private final String dateAdded;
     private final List<String> tags;
-    private final Map<Currency, PriceQuote> priceQuote;
+    private final Map<CmcCurrency, CmcQuote> priceQuote;
 
     @JsonCreator
     public CmcCoin(@JsonProperty("id") long id,
@@ -46,7 +46,7 @@ public class CmcCoin {
                    @JsonProperty("last_updated") String lastUpdated,
                    @JsonProperty("date_added") String dateAdded,
                    @JsonProperty("tags") List<String> tags,
-                   @JsonProperty("quote") Map<Currency, PriceQuote> priceQuote) {
+                   @JsonProperty("quote") Map<CmcCurrency, CmcQuote> priceQuote) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
@@ -119,20 +119,20 @@ public class CmcCoin {
     }
 
 
-    public Map<Currency, PriceQuote> getPriceQuote() {
+    public Map<CmcCurrency, CmcQuote> getPriceQuote() {
         return priceQuote;
     }
 
-    public PriceQuote getPriceQuote(Currency currency) {
-        return getPriceQuote().get(currency);
+    public CmcQuote getPriceQuote(CmcCurrency cmcCurrency) {
+        return getPriceQuote().get(cmcCurrency);
     }
 
-    public PriceQuote getUSDPriceQuote() {
-        return getPriceQuote(Currency.USD);
+    public CmcQuote getUSDPriceQuote() {
+        return getPriceQuote(CmcCurrency.USD);
     }
 
-    public PriceQuote getBTCPriceQuote() {
-        return getPriceQuote(Currency.BTC);
+    public CmcQuote getBTCPriceQuote() {
+        return getPriceQuote(CmcCurrency.BTC);
     }
 
     @Override

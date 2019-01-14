@@ -19,7 +19,7 @@ import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.Currency;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.repository.GraphRepository;
@@ -59,7 +59,7 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
     private final NetworkManager network;
     private final GraphRepository repo;
     private CurrencyFormatter formatter;
-    private Currency currency;
+    private CmcCurrency cmcCurrency;
     private TimeType timeType;
 
     @Inject
@@ -100,14 +100,14 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         if (event == NetworkState.ONLINE) {
             Response<GraphItem> result = getOutput().getValue();
             if (result instanceof Response.Failure) {
-                getEx().getUiExecutor().execute(() -> load(currency, timeType, false));
+                getEx().getUiExecutor().execute(() -> load(cmcCurrency, timeType, false));
             }
         }
     }*/
 
     @DebugLog
-    public void load(Currency currency, TimeType timeType, boolean fresh) {
-        this.currency = currency;
+    public void load(CmcCurrency cmcCurrency, TimeType timeType, boolean fresh) {
+        this.cmcCurrency = cmcCurrency;
         this.timeType = timeType;
         if (fresh) {
             removeSingleSubscription();
@@ -133,8 +133,8 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
     }
 
     private GraphItem getItem(Graph graph) {
-        GraphItem item = GraphItem.getItem(graph, currency);
-        List<Entry> prices = buildPrices(graph, currency);
+        GraphItem item = GraphItem.getItem(graph, cmcCurrency);
+        List<Entry> prices = buildPrices(graph, cmcCurrency);
         if (!DataUtil.isEmpty(prices)) {
             float currentPrice = getCurrentPrice(prices);
             long currentTime = getCurrentTime(prices);
@@ -195,17 +195,17 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         }
     }
 
-    private List<Entry> buildPrices(Graph coinChart, Currency currency) {
+    private List<Entry> buildPrices(Graph coinChart, CmcCurrency cmcCurrency) {
         List<Entry> result = new ArrayList<>();
-        List<List<Float>> prices = getPrices(coinChart, currency);
+        List<List<Float>> prices = getPrices(coinChart, cmcCurrency);
         for (List<Float> price : prices) {
             result.add(new Entry(price.get(0), price.get(1)));
         }
         return result;
     }
 
-    private List<List<Float>> getPrices(Graph coinChart, Currency currency) {
-        switch (currency) {
+    private List<List<Float>> getPrices(Graph coinChart, CmcCurrency cmcCurrency) {
+        switch (cmcCurrency) {
             case BTC:
                 return coinChart.getPriceBTC();
             case USD:
@@ -310,8 +310,8 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         return TextUtil.getString(getApplication(), resId);
     }
 
-    public String getFormattedPrice(Currency currency, float price) {
-        return formatter.format(currency, price);
+    public String getFormattedPrice(CmcCurrency cmcCurrency, float price) {
+        return formatter.format(cmcCurrency, price);
     }
 
     public void openSourceSite(Activity activity) {

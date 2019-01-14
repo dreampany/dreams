@@ -2,7 +2,7 @@ package com.dreampany.lca.ui.adapter
 
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.util.DataUtil
-import com.dreampany.lca.api.cmc.enums.Currency
+import com.dreampany.lca.api.cmc.enums.CmcCurrency
 import com.dreampany.lca.data.model.Coin
 import com.dreampany.lca.ui.model.CoinItem
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -64,8 +64,8 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
 
     fun load(coin: Coin) {
         addItem(CoinItem.getDetailsItem(coin))
-        addItem(CoinItem.getQuoteItem(coin, Currency.USD))
-        addItem(CoinItem.getQuoteItem(coin, Currency.EUR))
+        addItem(CoinItem.getQuoteItem(coin, CmcCurrency.USD))
+        addItem(CoinItem.getQuoteItem(coin, CmcCurrency.EUR))
     }
 
     class RankComparator : Comparator<IFlexible<*>> {

@@ -100,6 +100,10 @@ public class Quote extends Base {
         this.dayVolume = dayVolume;
     }
 
+    public void setMarketCap(double marketCap) {
+        this.marketCap = marketCap;
+    }
+
     public void setHourChange(double hourChange) {
         this.hourChange = hourChange;
     }
@@ -130,6 +134,10 @@ public class Quote extends Base {
 
     public double getDayVolume() {
         return dayVolume;
+    }
+
+    public double getMarketCap() {
+        return marketCap;
     }
 
     public double getHourChange() {

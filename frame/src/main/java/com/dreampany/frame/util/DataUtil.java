@@ -40,6 +40,17 @@ public final class DataUtil {
         return getSha512(uuid);
     }
 
+    public static long getSha512(long first, String... data) {
+        if (DataUtil.isEmpty(data)) {
+            return 0L;
+        }
+        StringBuilder builder = new StringBuilder(String.valueOf(first));
+        for (String item : data) {
+            builder.append(item);
+        }
+        return getSha512(builder.toString());
+    }
+
     public static long getSha512(String... data) {
         if (DataUtil.isEmpty(data)) {
             return 0L;

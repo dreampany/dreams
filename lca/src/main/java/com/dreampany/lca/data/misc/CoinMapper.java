@@ -80,6 +80,7 @@ public class CoinMapper {
             out.setDateAdded(in.getDateAddedTime());
             out.setTags(in.getTags());
         }
+        bindQuote(out, in.getPriceQuote());
         return out;
     }
 
@@ -87,6 +88,7 @@ public class CoinMapper {
         for (Map.Entry<CmcCurrency, CmcQuote> entry : quotes.entrySet()) {
             Currency currency = toCurrency(entry.getKey());
             Quote quote = toQuote(out, currency, entry.getValue());
+            out.setQuote(currency, quote);
         }
     }
 
@@ -98,14 +100,24 @@ public class CoinMapper {
         if (in == null) {
             return null;
         }
-        long id = DataUtil.getSha512(out.getId(), currency.name());
-        Coin out = map.get(id);
+        long id = DataUtil.getSha512(coin.getId(), currency.name());
+        Quote out = quoteMap.get(id);
         if (out == null) {
-            out = new Coin();
-            if (full) {
-                map.put(id, out);
-            }
+            out = new Quote();
+            quoteMap.put(id, out);
         }
+        out.setId(id);
+        out.setTime(TimeUtil.currentTime());
+        out.setCoinId(coin.getId());
+        out.setCurrency(currency);
+        out.setPrice(in.getPrice());
+        out.setDayVolume(in.getDayVolume());
+        out.setMarketCap(in.getMarketCap());
+        out.setHourChange(in.getHourChange());
+        out.setDayChange(in.getDayChange());
+        out.setWeekChange(in.getWeekChange());
+        out.setLastUpdated(in.getLastUpdated());
+        return out;
     }
 
     public Coin toItem(Flag flag, CoinDataSource source) {

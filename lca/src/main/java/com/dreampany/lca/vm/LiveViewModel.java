@@ -133,9 +133,9 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;
-        Currency currency = Currency.USD;
+        String[] currencies = {Currency.USD.name()};
         Disposable disposable = getRx()
-                .backToMain(getListingRx(start, limit, currency))
+                .backToMain(getListingRx(start, limit, currencies))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(
                         result -> postResult(result, withProgress),
@@ -222,8 +222,8 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getListingRx(int start, int limit, Currency currency) {
-        return repo.getListingRx(CoinSource.CMC, start, limit, currency)
+    private Maybe<List<CoinItem>> getListingRx(int start, int limit, String[] currencies) {
+        return repo.getListingRx(CoinSource.CMC, start, limit, currencies)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 

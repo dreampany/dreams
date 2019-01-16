@@ -16,6 +16,8 @@ import com.dreampany.lca.R;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.api.cmc.model.CmcQuote;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
@@ -43,18 +45,18 @@ import eu.davidea.flexibleadapter.items.IFlexible;
 public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     private CoinItemType type;
-    private CmcCurrency cmcCurrency;
+    private Currency currency;
     private boolean flagged;
 
     private CoinItem(Coin coin, CoinItemType type, @LayoutRes int layoutId) {
         super(coin, layoutId);
         this.type = type;
-        cmcCurrency = CmcCurrency.USD;
+        currency = Currency.USD;
     }
 
-    private CoinItem(Coin coin, CmcCurrency cmcCurrency, CoinItemType type, @LayoutRes int layoutId) {
+    private CoinItem(Coin coin, Currency currency, CoinItemType type, @LayoutRes int layoutId) {
         super(coin, layoutId);
-        this.cmcCurrency = cmcCurrency;
+        this.currency = currency;
         this.type = type;
     }
 
@@ -70,8 +72,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         return new CoinItem(coin, CoinItemType.DETAILS, R.layout.item_coin_details);
     }
 
-    public static CoinItem getQuoteItem(@NonNull Coin coin, @NonNull CmcCurrency cmcCurrency) {
-        return new CoinItem(coin, cmcCurrency, CoinItemType.QUOTE, R.layout.item_coin_quote);
+    public static CoinItem getQuoteItem(@NonNull Coin coin, @NonNull Currency currency) {
+        return new CoinItem(coin, currency, CoinItemType.QUOTE, R.layout.item_coin_quote);
     }
 
     public void setFlagged(boolean flagged) {
@@ -89,7 +91,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         CoinItem item = (CoinItem) inObject;
         return Objects.equal(item.getItem(), getItem())
                 && item.type == type
-                && (item.type != CoinItemType.QUOTE || item.cmcCurrency == cmcCurrency);
+                && (item.type != CoinItemType.QUOTE || item.currency == currency);
     }
 
     @Override
@@ -197,7 +199,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
             name.setText(nameText);
 
-            CmcQuote quote = coin.getUsdPriceQuote();
+            Quote quote = coin.getUsdQuote();
 
             double price = 0f;
             double hourChange = 0f;
@@ -290,7 +292,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
             name.setText(nameText);
 
-            CmcQuote quote = coin.getPriceQuote(item.cmcCurrency);
+            Quote quote = coin.getQuote(item.currency);
             if (quote != null) {
                 double price = quote.getPrice();
                 double hourChange = quote.getHourChange();

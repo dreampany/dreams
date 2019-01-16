@@ -14,6 +14,7 @@ import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Price;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.ui.activity.NavigationActivity;
@@ -112,13 +113,13 @@ public class NotifyViewModel {
         if (!DataUtil.isEmpty(items)) {
             CoinItem profitable = items.get(0);
             for (int index = 1; index < items.size(); index++) {
-                if (items.get(index).getItem().getUsdPriceQuote().getDayChange() >
-                        profitable.getItem().getUsdPriceQuote().getDayChange()) {
+                if (items.get(index).getItem().getUsdQuote().getDayChange() >
+                        profitable.getItem().getUsdQuote().getDayChange()) {
                     profitable = items.get(index);
                 }
             }
             Coin coin = profitable.getItem();
-            message = TextUtil.getString(app, R.string.profitable_coin, coin.getSymbol(), coin.getName(), coin.getUsdPriceQuote().getDayChange());
+            message = TextUtil.getString(app, R.string.profitable_coin, coin.getSymbol(), coin.getName(), coin.getUsdQuote().getDayChange());
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
@@ -132,8 +133,8 @@ public class NotifyViewModel {
 
     @DebugLog
     private boolean isProfitable(Coin coin) {
-        CmcQuote cmcQuote = coin.getUsdPriceQuote();
-        return cmcQuote.getDayChange() >= 0;
+        Quote quote = coin.getUsdQuote();
+        return quote.getDayChange() >= 0;
     }
 
 /*    @DebugLog

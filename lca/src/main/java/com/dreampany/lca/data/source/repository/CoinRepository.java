@@ -390,7 +390,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     private Maybe<List<Coin>> saveRoom(Maybe<List<Coin>> source, Consumer<List<Coin>> onSuccess) {
         Maybe<List<Coin>> maybe = source
-                .onErrorReturnItem(new ArrayList<>())
+                //.onErrorReturnItem(new ArrayList<>())
                 .filter(items -> !(DataUtil.isEmpty(items)));
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess);

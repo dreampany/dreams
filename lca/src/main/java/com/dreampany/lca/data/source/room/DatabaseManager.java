@@ -56,6 +56,8 @@ public abstract class DatabaseManager extends RoomDatabase {
 
     public abstract CoinDao coinDao();
 
+    public abstract QuoteDao quoteDao();
+
     public abstract PriceDao priceDao();
 
     public abstract ExchangeDao exchangeDao();

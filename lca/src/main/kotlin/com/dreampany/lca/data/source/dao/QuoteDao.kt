@@ -3,7 +3,6 @@ package com.dreampany.lca.data.source.dao
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Query
 import com.dreampany.frame.data.source.dao.BaseDao
-import com.dreampany.lca.data.model.Coin
 import com.dreampany.lca.data.model.Quote
 import io.reactivex.Maybe
 

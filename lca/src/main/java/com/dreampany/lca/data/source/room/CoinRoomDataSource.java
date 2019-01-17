@@ -11,6 +11,7 @@ import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
+import com.dreampany.lca.data.source.dao.QuoteDao;
 import com.google.common.collect.Maps;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -35,14 +35,17 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     private final CoinMapper mapper;
     private final CoinDao dao;
+    private final QuoteDao quoteDao;
     private final FlagRepository flagRepo;
     private final Map<Coin, Boolean> flags;
 
     public CoinRoomDataSource(CoinMapper mapper,
                               CoinDao dao,
+                              QuoteDao quoteDao,
                               FlagRepository flagRepo) {
         this.mapper = mapper;
         this.dao = dao;
+        this.quoteDao = quoteDao;
         this.flagRepo = flagRepo;
         flags = Maps.newConcurrentMap();
     }

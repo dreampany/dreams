@@ -31,6 +31,12 @@ class DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideQuoteDao(database: DatabaseManager): QuoteDao {
+        return database.quoteDao()
+    }
+
+    @Singleton
+    @Provides
     fun providePriceDao(database: DatabaseManager): PriceDao {
         return database.priceDao()
     }

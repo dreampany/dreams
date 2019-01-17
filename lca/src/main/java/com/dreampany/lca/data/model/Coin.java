@@ -153,6 +153,10 @@ public class Coin extends Base {
         this.quotes = quotes;
     }
 
+/*    public boolean hasQuote(String[] currencies) {
+
+    }*/
+
     public void setQuote(Currency currency, Quote quote) {
         if (quotes == null) {
             quotes = Maps.newHashMap();

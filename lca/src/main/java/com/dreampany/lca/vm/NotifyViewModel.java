@@ -12,10 +12,12 @@ import com.dreampany.lca.R;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.NavigationActivity;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.network.NetworkManager;
@@ -80,12 +82,16 @@ public class NotifyViewModel {
             //return;
         }
         Timber.v("Processing");
-        this.disposable = rx.backToMain(getProfitableItemsRx())
+        int limit = Constants.Limit.COIN_PAGE;
+        String[] currencies = {Currency.USD.name()};
+        this.disposable = rx.backToMain(getProfitableItemsRx(currencies))
                 .subscribe(this::postResult, this::postFailed);
     }
 
-    private Maybe<List<CoinItem>> getProfitableItemsRx() {
-        return repo.getItemsRx(CoinSource.CMC)
+    private Maybe<List<CoinItem>> getProfitableItemsRx(String[] currencies) {
+        int listStart = Constants.Limit.COIN_DEFAULT_START;
+        int listLimit = Constants.Limit.COIN_PAGE;
+        return repo.getItemsRx(CoinSource.CMC, listStart, listLimit, currencies)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getProfitableItemsRx);
     }
 

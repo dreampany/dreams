@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "179c008ab5f11368e998f0da05d85ffa",
+    "identityHash": "a001679dd91eec862ae948b913330a2b",
     "entities": [
       {
         "tableName": "Coin",
@@ -107,6 +107,97 @@
               "id"
             ],
             "createSql": "CREATE UNIQUE INDEX `index_Coin_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Quote",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `coinId` INTEGER NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` TEXT, PRIMARY KEY(`id`, `currency`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coinId",
+            "columnName": "coinId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayVolume",
+            "columnName": "dayVolume",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marketCap",
+            "columnName": "marketCap",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourChange",
+            "columnName": "hourChange",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayChange",
+            "columnName": "dayChange",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weekChange",
+            "columnName": "weekChange",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id",
+            "currency"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Quote_id_currency",
+            "unique": true,
+            "columnNames": [
+              "id",
+              "currency"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Quote_id_currency` ON `${TABLE_NAME}` (`id`, `currency`)"
           }
         ],
         "foreignKeys": []
@@ -588,7 +679,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"179c008ab5f11368e998f0da05d85ffa\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a001679dd91eec862ae948b913330a2b\")"
     ]
   }
 }

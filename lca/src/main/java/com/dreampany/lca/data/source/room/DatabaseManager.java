@@ -7,13 +7,7 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
 import com.dreampany.lca.BuildConfig;
-import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Exchange;
-import com.dreampany.lca.data.model.Graph;
-import com.dreampany.lca.data.model.Ico;
-import com.dreampany.lca.data.model.Market;
-import com.dreampany.lca.data.model.News;
-import com.dreampany.lca.data.model.Price;
+import com.dreampany.lca.data.model.*;
 import com.dreampany.lca.data.source.dao.*;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
@@ -26,6 +20,7 @@ import com.google.common.collect.Iterables;
 @Database(
         entities = {
                 Coin.class,
+                Quote.class,
                 Price.class,
                 Exchange.class,
                 Market.class,

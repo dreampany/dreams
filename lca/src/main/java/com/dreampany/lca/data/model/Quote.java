@@ -20,6 +20,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 public class Quote extends Base {
 
     private long coinId;
+    @NonNull
     private Currency currency;
     private double price;
     private double dayVolume;

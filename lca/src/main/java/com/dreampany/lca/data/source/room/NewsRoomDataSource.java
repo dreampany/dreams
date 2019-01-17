@@ -120,7 +120,7 @@ public class NewsRoomDataSource implements NewsDataSource {
     }
 
     @Override
-    public Maybe<List<News>> getItems(int limit) {
-        return dao.getItems(limit);
+    public Maybe<List<News>> getCoins(int limit) {
+        return dao.getCoins(limit);
     }*/
 }

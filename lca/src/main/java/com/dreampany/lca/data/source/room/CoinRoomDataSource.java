@@ -9,7 +9,6 @@ import com.dreampany.lca.data.enums.ItemSubtype;
 import com.dreampany.lca.data.enums.ItemType;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.google.common.collect.Maps;
@@ -20,7 +19,10 @@ import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Singleton;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -66,91 +68,39 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getListing(CoinSource source) {
-        return dao.getItems();
-    }
-
-    @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source) {
-        return dao.getItemsRx();
-    }
-
-    @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
-        return dao.getItemsRx(start, limit);
-    }
-
-    @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit, String[] currencies) {
-        return Maybe.fromCallable(new Callable<List<Coin>>() {
-            @Override
-            public List<Coin> call() throws Exception {
-                List<Coin> room = dao.getItems();
-                while (true) {
-                    Coin next = null;
-    /*                for (Coin item : room) {
-                        if (item.getPriceQuote())
-                    }*/
-                    if (next == null) {
-                        break;
-                    }
-                }
-
-                Collections.sort(room, new Comparator<Coin>() {
-                    @Override
-                    public int compare(Coin left, Coin right) {
-                        return 0;
-                    }
-                });
-                return null;
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies) {
+        return Maybe.fromCallable(() -> {
+            Coin coin = mapper.getCoin(symbol);
+            if (coin == null) {
+                coin = dao.getItemBySymbol(symbol);
             }
+            //todo resolve quotes for currencies
+            return coin;
         });
     }
 
     @Override
-    public List<Coin> getListing(CoinSource source, int limit) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, String[] currencies) {
+        return Maybe.fromCallable(() -> {
+            if (!mapper.hasCoins()) {
+                List<Coin> room = dao.getItems();
+                //todo load quote for each coin as currencies
+                mapper.add(room);
+            }
+            List<Coin> cache = mapper.getCoins();
+            if (!DataUtil.isEmpty(cache)) {
+                Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+                return DataUtil.sub(cache, start - 1, limit);
+            }
+            return null;
+        });
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, String[] currencies) {
         return null;
     }
 
-    @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source, int limit) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, int start) {
-        return dao.getItems(start);
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start) {
-        return dao.getItemsRx(start);
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, int start, int limit) {
-        return dao.getItems(start, start + limit, limit);
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit) {
-        return dao.getItemsRx(start, start + limit, limit);
-    }
-
-    @Override
-    public Coin getItemByCoinId(long coinId) {
-        return dao.getItemByCoinId(coinId);
-    }
-
-    @Override
-    public Maybe<Coin> getItemByCoinIdRx(long coinId) {
-        return dao.getItemByCoinIdRx(coinId);
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsByCoinIdsRx(List<Long> coinIds) {
-        return null;
-    }
 
     @Override
     public Coin getItem(long id) {
@@ -160,16 +110,6 @@ public class CoinRoomDataSource implements CoinDataSource {
     @Override
     public Maybe<Coin> getItemRx(long id) {
         return dao.getItemRx(id);
-    }
-
-    @Override
-    public Coin getItemBySymbol(String symbol) {
-        return dao.getItemBySymbol(symbol);
-    }
-
-    @Override
-    public Maybe<Coin> getItemBySymbolRx(String symbol) {
-        return dao.getItemBySymbolRx(symbol);
     }
 
     @Override
@@ -271,6 +211,7 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public long putItem(Coin coin) {
+        mapper.add(coin); //adding mapper to reuse
         return dao.insertOrReplace(coin);
     }
 

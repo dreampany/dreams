@@ -14,9 +14,10 @@ import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinAnnote;
 import com.dreampany.lca.misc.QuoteAnnote;
+import com.google.common.collect.Sets;
 
 import javax.inject.Inject;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -25,6 +26,7 @@ import java.util.Map;
  */
 public class CoinMapper {
 
+    private final Set<Coin> coins;
     private final SmartMap<Long, Coin> map;
     private final SmartCache<Long, Coin> cache;
 
@@ -36,10 +38,40 @@ public class CoinMapper {
                @CoinAnnote SmartCache<Long, Coin> cache,
                @QuoteAnnote SmartMap<Long, Quote> quoteMap,
                @QuoteAnnote SmartCache<Long, Quote> quoteCache) {
+        coins = Sets.newConcurrentHashSet();
         this.map = map;
         this.cache = cache;
         this.quoteMap = quoteMap;
         this.quoteCache = quoteCache;
+    }
+
+    public boolean hasCoins() {
+        return !coins.isEmpty();
+    }
+
+    public void add(Coin coin) {
+        coins.add(coin);
+    }
+
+    public void add(List<Coin> coins) {
+        if (!DataUtil.isEmpty(coins)) {
+            for (Coin coin : coins) {
+                add(coin);
+            }
+        }
+    }
+
+    public Coin getCoin(String symbol) {
+        for (Coin coin : coins) {
+            if (symbol.equals(coin.getSymbol())) {
+                return coin;
+            }
+        }
+        return null;
+    }
+
+    public List<Coin> getCoins() {
+        return new ArrayList<>(coins);
     }
 
     public boolean isExists(Coin in) {

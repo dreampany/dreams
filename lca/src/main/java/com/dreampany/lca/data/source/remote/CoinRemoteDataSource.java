@@ -1,6 +1,5 @@
 package com.dreampany.lca.data.source.remote;
 
-import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.api.cmc.model.*;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
@@ -24,7 +23,6 @@ import java.util.List;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-
 @Singleton
 public class CoinRemoteDataSource implements CoinDataSource {
 
@@ -95,7 +93,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 /*        try {
             Response<CMCCoinResponse> response = service.getCoin(id, Constants.Structure.ARRAY).execute();
             if (response.isSuccessful()) {
-                return getItems(Objects.requireNonNull(response.body()));
+                return getCoins(Objects.requireNonNull(response.body()));
             }
         } catch (IOException | RuntimeException e) {
             Timber.e(e);
@@ -131,22 +129,10 @@ public class CoinRemoteDataSource implements CoinDataSource {
         return null;
     }
 
-    @Override
-    public List<Coin> getListing(CoinSource source) {
-/*        try {
-            Response<CMCCoinListingResponse> response = service.getListing().execute();
-            if (response.isSuccessful()) {
-                return getItems(response.body());
-            }
-        } catch (IOException | RuntimeException e) {
-            Timber.e(e);
-        }*/
-        return null;
-    }
 
-    @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source) {
-/*        return Maybe.fromCallable(new Callable<List<Coin>>() {
+/*    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source) {
+        return Maybe.fromCallable(new Callable<List<Coin>>() {
             @Override
             public List<Coin> call() throws Exception {
                 Response<CmcListingResponseV1> response = service.getListing(Constants.Key.CMC_PRO, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN).execute();
@@ -154,90 +140,37 @@ public class CoinRemoteDataSource implements CoinDataSource {
                 CmcListingResponseV1 result = response.body();
                 return new ArrayList<>();
             }
-        });*/
+        });
         return getListingRx(source, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN_PAGE);
-    }
+    }*/
 
-    @Override
+/*    @Override
     public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
         return service
                 .getListingRx(Constants.Key.CMC_PRO, start, limit)
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
+    }*/
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies) {
+        return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit, String[] currencies) {
-        String currency = DataUtil.toString(currencies);
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, String[] currencies) {
+        String currency = StringUtil.join(currencies, Constants.Sep.SEP_COMMA);
         return service
                 .getListingRx(Constants.Key.CMC_PRO, start, limit, currency)
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
     }
 
     @Override
-    public List<Coin> getListing(CoinSource source, int limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source, int limit) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, int start) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start) {
-        return Maybe.empty();
-        /*        return service
-                .getCoinsRx(start, Constants.Structure.ARRAY)
-                .flatMap((Function<CMCCoinsResponse, MaybeSource<List<Coin>>>) this::getItemsRx);*/
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, int start, int limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit) {
-        return Maybe.empty();
-        /*        return service
-                .getCoinsRx(start, limit, Constants.Structure.ARRAY)
-                .flatMap((Function<CMCCoinsResponse, MaybeSource<List<Coin>>>) this::getItemsRx);*/
-    }
-
-    @Override
-    public Coin getItemByCoinId(long coinId) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Coin> getItemByCoinIdRx(long coinId) {
-        return Maybe.empty();
-        /*        return service
-                .getCoinRx(coinId, Constants.Structure.ARRAY)
-                .map(this::getItems);*/
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsByCoinIdsRx(List<Long> coinIds) {
-        String ids = StringUtil.join(coinIds, Constants.Sep.SEP_COMMA);
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, String[] currencies) {
+        String symbol = StringUtil.join(symbols, Constants.Sep.SEP_COMMA);
+        String currency = StringUtil.join(currencies, Constants.Sep.SEP_COMMA);
         return service
-                .getQuotesRx(Constants.Key.CMC_PRO, ids)
+                .getQuotesRx(Constants.Key.CMC_PRO, symbol, currency)
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
-    }
-
-    @Override
-    public Coin getItemBySymbol(String symbol) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Coin> getItemBySymbolRx(String symbol) {
-        return null;
     }
 
     @Override
@@ -303,12 +236,12 @@ public class CoinRemoteDataSource implements CoinDataSource {
     private Coin getItem(CmcCoinResponse response) {
         Coin result = null;
 /*        if (!response.hasError()) {
-            result = mapper.toItem(response.getItems(), true);
+            result = mapper.toItem(response.getCoins(), true);
         }*/
         return result;
     }
 
-/*    private List<Coin> getItems(CmcCoinListingResponse response) {
+/*    private List<Coin> getCoins(CmcCoinListingResponse response) {
         if (response != null && !response.hasError()) {
             Collection<CmcCoin> items = response.getData();
             if (!DataUtil.isEmpty(items)) {
@@ -334,10 +267,18 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     private Maybe<Coin> getItemRx(CmcCoinResponse response) {
 /*        if (!response.hasError()) {
-            CmcCoin item = response.getItems();
+            CmcCoin item = response.getCoins();
             return Maybe.just(item).map(in -> mapper.toItem(in, true));
         }*/
         return null;
+    }
+
+    private Maybe<Coin> getItemRx(CmcQuotesResponse response) {
+        if (response.hasError() || !response.hasData()) {
+            return null;
+        }
+        CmcCoin item = response.getFirst();
+        return Maybe.just(item).map(in -> mapper.toItem(in, true));
     }
 
     private Maybe<List<Coin>> getItemsRx(CmcListingResponse response) {
@@ -347,7 +288,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
         Collection<CmcCoin> items = response.getData();
         return Flowable.fromIterable(items)
                 .map(in -> mapper.toItem(in, true))
-                .toList()
+                .toSortedList((left, right) -> left.getRank() - right.getRank())
                 .toMaybe();
     }
 
@@ -358,7 +299,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
         Collection<CmcCoin> items = response.getData().values();
         return Flowable.fromIterable(items)
                 .map(in -> mapper.toItem(in, true))
-                .toList()
+                .toSortedList((left, right) -> left.getRank() - right.getRank())
                 .toMaybe();
     }
 

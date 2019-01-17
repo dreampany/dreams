@@ -1,7 +1,6 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -11,7 +10,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
+import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.repository.CoinRepository;
@@ -20,19 +19,14 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
+import hugo.weaving.DebugLog;
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
 
+import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.disposables.Disposable;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -100,7 +94,6 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(result -> {
                     postResult(result, true);
-                    update();
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
@@ -117,7 +110,7 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         addSingleSubscription(disposable);
     }
 
-    @DebugLog
+/*    @DebugLog
     public void update() {
         if (hasDisposable(updateDisposable)) {
             return;
@@ -126,9 +119,9 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
                 .backToMain(updateItemsIntervalRx())
                 .subscribe(result -> postResult(result, false), this::postFailure);
         addSubscription(updateDisposable);
-    }
+    }*/
 
-    private Flowable<List<CoinItem>> updateItemsIntervalRx() {
+/*    private Flowable<List<CoinItem>> updateItemsIntervalRx() {
         return Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> {
@@ -136,11 +129,11 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
                     Timber.d("Next Item to update %s", item);
                     return updateItemsRx(item).blockingGet();
                 }).retry(RETRY_COUNT);
-    }
+    }*/
 
     @DebugLog
-    private Maybe<List<CoinItem>> updateItemsRx(Coin item) {
-        return repo.getItemByCoinIdRx(item.getCoinId(), true).map(coin -> getItemsRx(coin).blockingGet());
+    private Maybe<List<CoinItem>> updateItemsRx(Coin item, String[] currencies) {
+        return repo.getItemRx(CoinSource.CMC, item.getSymbol(),  currencies, true).map(coin -> getItemsRx(coin).blockingGet());
     }
 
     private Maybe<List<CoinItem>> getItemsRx() {

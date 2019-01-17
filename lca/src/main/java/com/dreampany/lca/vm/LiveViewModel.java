@@ -38,7 +38,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -153,8 +153,9 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             Timber.v("update Running...");
             return;
         }
+        String[] currencies = {Currency.USD.name()};
         updateDisposable = getRx()
-                .backToMain(getVisibleItemsIfRx())
+                .backToMain(getVisibleItemsIfRx(currencies))
                 .subscribe(result -> {
                     if (!DataUtil.isEmpty(result)) {
                         postResult(result, false);
@@ -223,48 +224,49 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     private Maybe<List<CoinItem>> getListingRx(int start, int limit, String[] currencies) {
-        return repo.getListingRx(CoinSource.CMC, start, limit, currencies)
+        return repo.getItemsRx(CoinSource.CMC, start, limit, currencies)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 
-    private List<CoinItem> getVisibleItemsIf() {
+    private List<CoinItem> getVisibleItemsIf(String[] currencies) {
         if (uiCallback == null) {
             return null;
         }
         List<CoinItem> items = uiCallback.getVisibleItems();
         if (!DataUtil.isEmpty(items)) {
-            List<Long> ids = new ArrayList<>();
+            List<String> symbols = new ArrayList<>();
             for (CoinItem item : items) {
                 if (needToUpdate(item.getItem())) {
-                    ids.add(item.getItem().getCoinId());
+                    symbols.add(item.getItem().getSymbol());
                 }
             }
             items = null;
-            if (!ids.isEmpty()) {
-                List<Coin> result = repo.getItemsByCoinIdsRx(ids).blockingGet();
-                items = getItems(result);
+            if (!DataUtil.isEmpty(symbols)) {
+                String[] result = DataUtil.toStringArray(symbols);
+                List<Coin> coins = repo.getItemsRx(CoinSource.CMC, result, currencies).blockingGet();
+                items = getItems(coins);
             }
         }
         return items;
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsIfRx() {
-        return Maybe.fromCallable(this::getVisibleItemsIf);
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx(String[] currencies) {
+        return Maybe.fromCallable(() -> getVisibleItemsIf(currencies));
     }
 
-    private Flowable<List<CoinItem>> updateVisibleItemsIntervalRx() {
+/*    private Flowable<List<CoinItem>> updateVisibleItemsIntervalRx() {
         Flowable<List<CoinItem>> flowable = Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> getVisibleItemsIf()).retry(retry);
         return flowable;
-    }
+    }*/
 
-    private Maybe<List<CoinItem>> updateInterval() {
+/*    private Maybe<List<CoinItem>> updateInterval() {
         return repo.getRemoteListingIfRx(CoinSource.CMC)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
-    }
+    }*/
 
-    private Flowable<CoinItem> updateItemInterval() {
+ /*   private Flowable<CoinItem> updateItemInterval() {
         Flowable<CoinItem> flowable = Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> {
@@ -282,11 +284,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                     return null;
                 }).retry(retry);
         return flowable;
-    }
+    }*/
 
-    private Maybe<CoinItem> updateItemRx(Coin item) {
+/*    private Maybe<CoinItem> updateItemRx(Coin item) {
         return repo.getItemByCoinIdRx(item.getCoinId(), true).map(this::getItem);
-    }
+    }*/
 
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
         return Maybe.fromCallable(() -> getItems(result));

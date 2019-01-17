@@ -132,11 +132,22 @@ public final class DataUtil {
         return collection == null || collection.isEmpty();
     }
 
+    public static <T> boolean isNotEmpty(Collection<T> collection) {
+        return !isEmpty(collection);
+    }
+
     public static <T> List<T> sub(List<T> list, int count) {
         if (isEmpty(list) || list.size() <= count) {
-            return list;
+            return null;
         }
         return list.subList(0, count);
+    }
+
+    public static <T> List<T> sub(List<T> list, int index, int limit) {
+        if (isEmpty(list) || index < 0 || limit < 1 || (list.size() - index) < limit) {
+            return null;
+        }
+        return list.subList(index, index + limit);
     }
 
     public static <T> List<T> removeFirst(List<T> list, int count) {
@@ -156,7 +167,7 @@ public final class DataUtil {
         if (isEmpty(items)) {
             return null;
         }
-        return items.get(NumberUtil.nextRand(0, items.size()-1));
+        return items.get(NumberUtil.nextRand(0, items.size() - 1));
     }
 
     public static String getReadableDuration(long duration) {
@@ -240,5 +251,9 @@ public final class DataUtil {
                 builder.append(v);
             }
         }
+    }
+
+    public static String[] toStringArray(List<String> list) {
+       return list.toArray(new String[0]);
     }
 }

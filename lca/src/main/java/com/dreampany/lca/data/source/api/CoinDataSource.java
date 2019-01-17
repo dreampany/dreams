@@ -14,35 +14,11 @@ import java.util.List;
  */
 public interface CoinDataSource extends DataSource<Coin> {
 
-    List<Coin> getListing(CoinSource source);
+    Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies);
 
-    Maybe<List<Coin>> getListingRx(CoinSource source);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, String[] currencies);
 
-    Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit);
-
-    Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit, String[] currencies);
-
-    List<Coin> getListing(CoinSource source, int limit);
-
-    Maybe<List<Coin>> getListingRx(CoinSource source, int limit);
-
-    List<Coin> getItems(CoinSource source, int start);
-
-    Maybe<List<Coin>> getItemsRx(CoinSource source, int start);
-
-    List<Coin> getItems(CoinSource source, int start, int limit);
-
-    Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit);
-
-    Coin getItemByCoinId(long coinId);
-
-    Maybe<Coin> getItemByCoinIdRx(long coinId);
-
-    Maybe<List<Coin>> getItemsByCoinIdsRx(List<Long> coinIds);
-
-    Coin getItemBySymbol(String symbol);
-
-    Maybe<Coin> getItemBySymbolRx(String symbol);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, String[] currencies);
 
     boolean isFlagged(Coin coin);
 

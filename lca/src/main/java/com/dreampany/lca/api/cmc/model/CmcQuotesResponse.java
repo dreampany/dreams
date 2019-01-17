@@ -2,6 +2,7 @@ package com.dreampany.lca.api.cmc.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Iterables;
 
 import java.util.Map;
 
@@ -20,5 +21,13 @@ public class CmcQuotesResponse extends CmcResponse<Map<String, CmcCoin>> {
 
     public long count() {
         return data.size();
+    }
+
+    public boolean hasData() {
+        return count() > 0;
+    }
+
+    public CmcCoin getFirst() {
+        return Iterables.getFirst(data.values(), null);
     }
 }

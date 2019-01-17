@@ -13,7 +13,9 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.misc.Constants;
@@ -33,9 +35,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -142,8 +141,9 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             Timber.v("Flag update Running...");
             return;
         }
+        String[] currencies = {Currency.USD.name()};
         updateDisposable = getRx()
-                .backToMain(getVisibleItemsIfRx())
+                .backToMain(getVisibleItemsIfRx(currencies))
                 .subscribe(result -> postResult(result, true), this::postFailure);
         addSubscription(updateDisposable);
     }
@@ -245,32 +245,33 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsIfRx() {
-        return Maybe.fromCallable(this::getVisibleItemsIf);
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx(String[] currencies) {
+        return Maybe.fromCallable(() -> getVisibleItemsIf(currencies));
     }
 
-    private List<CoinItem> getVisibleItemsIf() {
+    private List<CoinItem> getVisibleItemsIf(String[] currencies) {
         if (uiCallback == null) {
             return null;
         }
         List<CoinItem> items = uiCallback.getVisibleItems();
         if (!DataUtil.isEmpty(items)) {
-            List<Long> ids = new ArrayList<>();
+            List<String> symbols = new ArrayList<>();
             for (CoinItem item : items) {
                 if (needToUpdate(item.getItem())) {
-                    ids.add(item.getItem().getCoinId());
+                    symbols.add(item.getItem().getSymbol());
                 }
             }
             items = null;
-            if (!ids.isEmpty()) {
-                List<Coin> result = repo.getItemsByCoinIdsRx(ids).blockingGet();
-                items = getItems(result);
+            if (!DataUtil.isEmpty(symbols)) {
+                String[] result = DataUtil.toStringArray(symbols);
+                List<Coin> coins = repo.getItemsRx(CoinSource.CMC, result, currencies).blockingGet();
+                items = getItems(coins);
             }
         }
         return items;
     }
 
-    private Flowable<CoinItem> updateItemInterval() {
+/*    private Flowable<CoinItem> updateItemInterval() {
         Flowable<CoinItem> flowable = Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> {
@@ -293,7 +294,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     @DebugLog
     private Maybe<CoinItem> updateItemRx(Coin item) {
         return repo.getItemByCoinIdRx(item.getCoinId(), true).map(this::getItem);
-    }
+    }*/
 
     @DebugLog
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> items) {

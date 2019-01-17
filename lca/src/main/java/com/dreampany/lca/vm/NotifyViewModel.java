@@ -9,7 +9,6 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.model.CmcQuote;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -86,7 +85,7 @@ public class NotifyViewModel {
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx() {
-        return repo.getListingRx(CoinSource.CMC)
+        return repo.getItemsRx(CoinSource.CMC)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getProfitableItemsRx);
     }
 

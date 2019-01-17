@@ -47,5 +47,6 @@ public interface CmcService {
 
     @GET("cryptocurrency/quotes/latest")
     Maybe<CmcQuotesResponse> getQuotesRx(@Query("CMC_PRO_API_KEY") String apiKey,
-                                         @Query("id") String ids);
+                                         @Query("symbol") String symbols,
+                                         @Query("convert") String currencies);
 }

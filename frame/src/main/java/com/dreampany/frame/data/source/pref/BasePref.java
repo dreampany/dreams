@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.dreampany.frame.util.AndroidUtil;
+import com.facebook.common.logging.FLog;
 import com.github.pwittchen.prefser.library.rx2.Prefser;
 import com.github.pwittchen.prefser.library.rx2.TypeToken;
 
@@ -113,6 +114,10 @@ public abstract class BasePref {
 
     public long getPrivately(String key, long defaultValue) {
         return privatePref.get(key, Long.class, defaultValue);
+    }
+
+    public float getPrivately(String key, float defaultValue) {
+        return privatePref.get(key, Float.class, defaultValue);
     }
 
     public boolean getPrivately(String key, boolean defaultValue) {

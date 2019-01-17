@@ -86,7 +86,7 @@ android {
     }
 
     lintOptions {
-        //checkReleaseBuilds false
+        checkReleaseBuilds false
         abortOnError false
         //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
         //disable 'MissingTranslation'

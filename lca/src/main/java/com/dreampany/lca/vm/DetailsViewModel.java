@@ -132,7 +132,7 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
     }*/
 
     @DebugLog
-    private Maybe<List<CoinItem>> updateItemsRx(Coin item, String[] currencies) {
+    private Maybe<List<CoinItem>> updateItemsRx(Coin item, Currency[] currencies) {
         return repo.getItemRx(CoinSource.CMC, item.getSymbol(),  currencies, true).map(coin -> getItemsRx(coin).blockingGet());
     }
 

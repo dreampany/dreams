@@ -35,6 +35,10 @@ class App : BaseApp() {
         return true
     }
 
+    override fun hasStetho(): Boolean {
+        return true
+    }
+
     override fun hasAppIndex(): Boolean {
         return true
     }

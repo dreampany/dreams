@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 6,
-    "identityHash": "a001679dd91eec862ae948b913330a2b",
+    "identityHash": "366a810236a86bf75bd3fb34149edcde",
     "entities": [
       {
         "tableName": "Coin",
@@ -113,7 +113,7 @@
       },
       {
         "tableName": "Quote",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `coinId` INTEGER NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` TEXT, PRIMARY KEY(`id`, `currency`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `coinId` INTEGER NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` TEXT, PRIMARY KEY(`coinId`, `currency`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -184,20 +184,20 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id",
+            "coinId",
             "currency"
           ],
           "autoGenerate": false
         },
         "indices": [
           {
-            "name": "index_Quote_id_currency",
+            "name": "index_Quote_coinId_currency",
             "unique": true,
             "columnNames": [
-              "id",
+              "coinId",
               "currency"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_Quote_id_currency` ON `${TABLE_NAME}` (`id`, `currency`)"
+            "createSql": "CREATE UNIQUE INDEX `index_Quote_coinId_currency` ON `${TABLE_NAME}` (`coinId`, `currency`)"
           }
         ],
         "foreignKeys": []
@@ -679,7 +679,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a001679dd91eec862ae948b913330a2b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"366a810236a86bf75bd3fb34149edcde\")"
     ]
   }
 }

@@ -7,6 +7,7 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
@@ -180,19 +181,19 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }*/
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies) {
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, String[] currencies) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies) {
         Maybe<List<Coin>> room = getRoomItemsIfRx(source, start, limit, currencies);
         Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, start, limit, currencies);
         return concatFirstRx(room, remote);
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, String[] currencies) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies) {
         Maybe<List<Coin>> room = getRoomItemsIfRx(source, symbols, currencies);
         Maybe<List<Coin>> remote = saveRoom(this.remote.getItemsRx(source, symbols, currencies), items -> {
             rx.compute(putItemsRx(items)).subscribe();
@@ -262,7 +263,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
 
     /** public api */
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies, boolean fresh) {
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies, boolean fresh) {
         Maybe<Coin> room = this.room.getItemRx(source, symbol, currencies);
         Maybe<Coin> remote = getWithSingleSave(this.remote.getItemRx(source, symbol, currencies));
         return fresh ? concatSingleFirstRx(remote, room) : concatSingleFirstRx(room, remote);
@@ -271,7 +272,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     /**
      * internal api
      */
-    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int start, int limit, String[] currencies) {
+    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int start, int limit, Currency[] currencies) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
                 return room.getItemsRx(source, start, limit, currencies).blockingGet();
@@ -280,7 +281,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, String[] symbols, String[] currencies) {
+    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, String[] symbols, Currency[] currencies) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
                 return room.getItemsRx(source, symbols, currencies).blockingGet();
@@ -289,7 +290,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, int start, int limit, String[] currencies) {
+    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, int start, int limit, Currency[] currencies) {
         return Maybe.fromCallable(() -> {
             if (isCoinListingExpired()) {
                 int listStart = Constants.Limit.COIN_DEFAULT_START;

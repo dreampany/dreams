@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -153,15 +154,11 @@ public class Coin extends Base {
         this.quotes = quotes;
     }
 
-/*    public boolean hasQuote(String[] currencies) {
-
-    }*/
-
-    public void setQuote(Currency currency, Quote quote) {
+    public void addQuote(Quote quote) {
         if (quotes == null) {
             quotes = Maps.newHashMap();
         }
-        quotes.put(currency, quote);
+        quotes.put(quote.getCurrency(), quote);
     }
 
     public long getCoinId() {
@@ -220,12 +217,35 @@ public class Coin extends Base {
         return quotes;
     }
 
+    public List<Quote> getQuotesAsList() {
+        return new ArrayList<>(quotes.values());
+    }
+
+    public boolean hasQuote() {
+        return !quotes.isEmpty();
+    }
+
     public boolean hasQuote(String currency) {
         return quotes.containsKey(Currency.valueOf(currency));
     }
 
     public boolean hasQuote(Currency currency) {
         return quotes.containsKey(currency);
+    }
+
+    public boolean hasQuote(Currency[] currencies) {
+        for (Currency currency : currencies) {
+            if (!quotes.containsKey(currency)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void addQuotes(List<Quote> quotes) {
+        for (Quote quote : quotes) {
+            addQuote(quote);
+        }
     }
 
     public Quote getQuote(Currency currency) {

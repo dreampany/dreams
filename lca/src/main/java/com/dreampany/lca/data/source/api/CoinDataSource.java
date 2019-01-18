@@ -3,6 +3,7 @@ package com.dreampany.lca.data.source.api;
 import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import io.reactivex.Maybe;
 
 import java.util.List;
@@ -14,11 +15,11 @@ import java.util.List;
  */
 public interface CoinDataSource extends DataSource<Coin> {
 
-    Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies);
+    Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies);
 
-    Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, String[] currencies);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies);
 
-    Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, String[] currencies);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies);
 
     boolean isFlagged(Coin coin);
 

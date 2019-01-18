@@ -13,8 +13,10 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinAnnote;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Sets;
+import org.jsoup.helper.StringUtil;
 
 import javax.inject.Inject;
 import java.util.*;
@@ -120,7 +122,7 @@ public class CoinMapper {
         for (Map.Entry<CmcCurrency, CmcQuote> entry : quotes.entrySet()) {
             Currency currency = toCurrency(entry.getKey());
             Quote quote = toQuote(out, currency, entry.getValue());
-            out.setQuote(currency, quote);
+            out.addQuote(quote);
         }
     }
 
@@ -140,7 +142,7 @@ public class CoinMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setCoinId(coin.getId());
+        out.setCoinId(coin.getId());  //coin id to coinId of quote
         out.setCurrency(currency);
         out.setPrice(in.getPrice());
         out.setDayVolume(in.getDayVolume());
@@ -159,5 +161,26 @@ public class CoinMapper {
             map.put(coin.getId(), coin);
         }
         return coin;
+    }
+
+    public String joinString(String[] values, String separator) {
+        return StringUtil.join(values, separator);
+    }
+
+    public String join(Currency[] currencies, String separator) {
+        StringBuilder builder = new StringBuilder();
+        for (Currency currency : currencies) {
+            DataUtil.joinString(builder, currency.name(), separator);
+        }
+        String currency = builder.toString();
+        return currency;
+    }
+
+    public String[] toStringArray(Currency[] currencies) {
+        String[] currency = new String[currencies.length];
+        for (int index = 0; index < currencies.length; index++) {
+            currency[index] = currencies[index].name();
+        }
+        return currency;
     }
 }

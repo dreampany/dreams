@@ -37,8 +37,9 @@ class BuildersModule {
     @Room
     fun provideRoomCoinDataSource(mapper: CoinMapper,
                                   dao: CoinDao,
+                                  quoteDao: QuoteDao,
                                   flagRepo: FlagRepository): CoinDataSource {
-        return CoinRoomDataSource(mapper, dao, flagRepo)
+        return CoinRoomDataSource(mapper, dao, quoteDao, flagRepo)
     }
 
     @Singleton

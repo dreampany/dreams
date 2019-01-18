@@ -241,12 +241,12 @@ public final class DataUtil {
         return value;
     }
 
-    public static void joinString(StringBuilder builder, String value) {
+    public static void joinString(StringBuilder builder, String value, String separator) {
         List<String> values = TextUtil.getWords(value);
         if (!DataUtil.isEmpty(values)) {
             for (String v : values) {
                 if (builder.length() > 0) {
-                    builder.append(SPACE);
+                    builder.append(separator);
                 }
                 builder.append(v);
             }

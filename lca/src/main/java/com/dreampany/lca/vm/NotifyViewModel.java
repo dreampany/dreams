@@ -83,12 +83,12 @@ public class NotifyViewModel {
         }
         Timber.v("Processing");
         int limit = Constants.Limit.COIN_PAGE;
-        String[] currencies = {Currency.USD.name()};
+        Currency[] currencies = {Currency.USD};
         this.disposable = rx.backToMain(getProfitableItemsRx(currencies))
                 .subscribe(this::postResult, this::postFailed);
     }
 
-    private Maybe<List<CoinItem>> getProfitableItemsRx(String[] currencies) {
+    private Maybe<List<CoinItem>> getProfitableItemsRx(Currency[] currencies) {
         int listStart = Constants.Limit.COIN_DEFAULT_START;
         int listLimit = Constants.Limit.COIN_PAGE;
         return repo.getItemsRx(CoinSource.CMC, listStart, listLimit, currencies)

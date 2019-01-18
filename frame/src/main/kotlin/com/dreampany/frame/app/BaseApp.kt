@@ -22,6 +22,7 @@ import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.common.internal.Supplier
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
+import com.facebook.stetho.Stetho
 import com.github.javiersantos.appupdater.AppUpdater
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
@@ -76,6 +77,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     open fun hasLeakCanary(): Boolean {
+        return false
+    }
+
+    open fun hasStetho() : Boolean {
         return false
     }
 
@@ -177,6 +182,11 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
                 return
             }
         }
+
+        if (isDebug() && hasStetho()) {
+            Stetho.initializeWithDefaults(this);
+        }
+
         if (isDebug()) {
             Timber.plant(Timber.DebugTree())
         }

@@ -9,6 +9,8 @@ import com.dreampany.lca.data.enums.ItemSubtype;
 import com.dreampany.lca.data.enums.ItemType;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
@@ -71,19 +73,19 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies) {
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies) {
         return Maybe.fromCallable(() -> {
             Coin coin = mapper.getCoin(symbol);
             if (coin == null) {
                 coin = dao.getItemBySymbol(symbol);
             }
-            //todo resolve quotes for currencies
+            bindQuote(coin, currencies);
             return coin;
         });
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, String[] currencies) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies) {
         return Maybe.fromCallable(() -> {
             if (!mapper.hasCoins()) {
                 List<Coin> room = dao.getItems();
@@ -100,10 +102,9 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, String[] currencies) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies) {
         return null;
     }
-
 
     @Override
     public Coin getItem(long id) {
@@ -215,6 +216,9 @@ public class CoinRoomDataSource implements CoinDataSource {
     @Override
     public long putItem(Coin coin) {
         mapper.add(coin); //adding mapper to reuse
+        if (coin.hasQuote()) {
+            quoteDao.insertOrReplace(coin.getQuotesAsList());
+        }
         return dao.insertOrReplace(coin);
     }
 
@@ -274,6 +278,18 @@ public class CoinRoomDataSource implements CoinDataSource {
     @Override
     public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
+    }
+
+    /**
+     * private api
+     */
+
+    private void bindQuote(Coin coin, Currency[] currencies) {
+        if (coin != null && !coin.hasQuote(currencies)) {
+            String[] currency = mapper.toStringArray(currencies);
+            List<Quote> quotes = quoteDao.getItems(coin.getId(), currency);
+            coin.addQuotes(quotes);
+        }
     }
 
     private List<Coin> getItems(List<Flag> items) {

@@ -15,11 +15,11 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * Last modified $file.lastModified
  */
 
-@Entity(indices = {@Index(value = {"id", "currency"}, unique = true)},
-        primaryKeys = {"id", "currency"})
+@Entity(indices = {@Index(value = {"coinId", "currency"}, unique = true)},
+        primaryKeys = {"coinId", "currency"})
 public class Quote extends Base {
 
-    private long coinId;
+    private long coinId; // id of coin
     @NonNull
     private Currency currency;
     private double price;

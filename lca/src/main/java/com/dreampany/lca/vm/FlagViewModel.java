@@ -141,7 +141,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             Timber.v("Flag update Running...");
             return;
         }
-        String[] currencies = {Currency.USD.name()};
+        Currency[] currencies = {Currency.USD};
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currencies))
                 .subscribe(result -> postResult(result, true), this::postFailure);
@@ -245,11 +245,11 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsIfRx(String[] currencies) {
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency[] currencies) {
         return Maybe.fromCallable(() -> getVisibleItemsIf(currencies));
     }
 
-    private List<CoinItem> getVisibleItemsIf(String[] currencies) {
+    private List<CoinItem> getVisibleItemsIf(Currency[] currencies) {
         if (uiCallback == null) {
             return null;
         }

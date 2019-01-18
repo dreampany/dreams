@@ -4,6 +4,7 @@ import com.dreampany.lca.api.cmc.model.*;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinMarketCap;
 import com.dreampany.lca.misc.Constants;
@@ -152,22 +153,22 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }*/
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, String[] currencies) {
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, String[] currencies) {
-        String currency = StringUtil.join(currencies, Constants.Sep.SEP_COMMA);
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies) {
+        String currency = mapper.join(currencies, Constants.Sep.SEP_COMMA);
         return service
                 .getListingRx(Constants.Key.CMC_PRO, start, limit, currency)
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, String[] currencies) {
-        String symbol = StringUtil.join(symbols, Constants.Sep.SEP_COMMA);
-        String currency = StringUtil.join(currencies, Constants.Sep.SEP_COMMA);
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies) {
+        String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
+        String currency = mapper.join(currencies, Constants.Sep.SEP_COMMA);
         return service
                 .getQuotesRx(Constants.Key.CMC_PRO, symbol, currency)
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);

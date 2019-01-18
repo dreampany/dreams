@@ -133,7 +133,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;
-        String[] currencies = {Currency.USD.name()};
+        Currency[] currencies = {Currency.USD};
         Disposable disposable = getRx()
                 .backToMain(getListingRx(start, limit, currencies))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
@@ -153,7 +153,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             Timber.v("update Running...");
             return;
         }
-        String[] currencies = {Currency.USD.name()};
+        Currency[] currencies = {Currency.USD};
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currencies))
                 .subscribe(result -> {
@@ -223,12 +223,12 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getListingRx(int start, int limit, String[] currencies) {
+    private Maybe<List<CoinItem>> getListingRx(int start, int limit, Currency[] currencies) {
         return repo.getItemsRx(CoinSource.CMC, start, limit, currencies)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 
-    private List<CoinItem> getVisibleItemsIf(String[] currencies) {
+    private List<CoinItem> getVisibleItemsIf(Currency[] currencies) {
         if (uiCallback == null) {
             return null;
         }
@@ -250,7 +250,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return items;
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsIfRx(String[] currencies) {
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency[] currencies) {
         return Maybe.fromCallable(() -> getVisibleItemsIf(currencies));
     }
 

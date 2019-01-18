@@ -17,7 +17,16 @@ public interface CoinDataSource extends DataSource<Coin> {
 
     Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies);
 
-    Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies);
+    /**
+     * @param source
+     * @param index      >= 0
+     * @param limit
+     * @param currencies
+     * @return
+     */
+    List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies);
+
+    Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies);
 
     Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies);
 

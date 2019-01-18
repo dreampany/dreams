@@ -6,4 +6,8 @@ package com.dreampany.frame.misc.exception;
  * hawladar.roman@bjitgroup.com
  */
 public class EmptyException extends Exception {
+
+    public EmptyException() {
+
+    }
 }

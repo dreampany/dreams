@@ -135,13 +135,13 @@ public class CoinRemoteDataSource implements CoinDataSource {
         return Maybe.fromCallable(new Callable<List<Coin>>() {
             @Override
             public List<Coin> call() throws Exception {
-                Response<CmcListingResponseV1> response = service.getListing(Constants.Key.CMC_PRO, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN).execute();
+                Response<CmcListingResponseV1> response = service.getListing(Constants.Key.CMC_PRO, Constants.Limit.COIN_DEFAULT_INDEX, Constants.Limit.COIN).execute();
 
                 CmcListingResponseV1 result = response.body();
                 return new ArrayList<>();
             }
         });
-        return getListingRx(source, Constants.Limit.COIN_DEFAULT_START, Constants.Limit.COIN_PAGE);
+        return getListingRx(source, Constants.Limit.COIN_DEFAULT_INDEX, Constants.Limit.COIN_PAGE);
     }*/
 
 /*    @Override
@@ -156,9 +156,22 @@ public class CoinRemoteDataSource implements CoinDataSource {
         return null;
     }
 
+    /**
+     * @param source
+     * @param index      >= 0
+     * @param limit
+     * @param currencies
+     * @return
+     */
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies) {
+    public List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies) {
         String currency = mapper.join(currencies, Constants.Sep.SEP_COMMA);
+        int start = index + 1;
         return service
                 .getListingRx(Constants.Key.CMC_PRO, start, limit, currency)
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);

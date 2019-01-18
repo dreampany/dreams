@@ -39,6 +39,18 @@ public interface CmcService {
                                            @Query("start") int start,
                                            @Query("limit") int limit);
 
+    /**
+     *
+     * @param apiKey
+     * @param start integer >= 1
+     *              Default 1
+     *              Optionally offset the start (1-based index) of the paginated list of items to return.
+     * @param limit integer [ 1 .. 5000 ]
+     *              Default 100
+     *              Optionally specify the number of results to return. Use this parameter and the "start" parameter to determine your own pagination size.
+     * @param currencies
+     * @return
+     */
     @GET("cryptocurrency/listings/latest")
     Maybe<CmcListingResponse> getListingRx(@Query("CMC_PRO_API_KEY") String apiKey,
                                            @Query("start") int start,

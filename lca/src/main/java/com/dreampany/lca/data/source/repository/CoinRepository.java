@@ -13,13 +13,13 @@ import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -185,10 +185,22 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return null;
     }
 
+    /**
+     * @param source
+     * @param index      >= 0
+     * @param limit
+     * @param currencies
+     * @return
+     */
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies) {
-        Maybe<List<Coin>> room = getRoomItemsIfRx(source, start, limit, currencies);
-        Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, start, limit, currencies);
+    public List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies) {
+        Maybe<List<Coin>> room = getRoomItemsIfRx(source, index, limit, currencies);
+        Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, index, limit, currencies);
         return concatFirstRx(room, remote);
     }
 
@@ -262,7 +274,9 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
 
-    /** public api */
+    /**
+     * public api
+     */
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies, boolean fresh) {
         Maybe<Coin> room = this.room.getItemRx(source, symbol, currencies);
         Maybe<Coin> remote = getWithSingleSave(this.remote.getItemRx(source, symbol, currencies));
@@ -272,10 +286,10 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     /**
      * internal api
      */
-    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int start, int limit, Currency[] currencies) {
+    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int index, int limit, Currency[] currencies) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
-                return room.getItemsRx(source, start, limit, currencies).blockingGet();
+                return room.getItems(source, index, limit, currencies);
             }
             return null;
         });
@@ -290,17 +304,18 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, int start, int limit, Currency[] currencies) {
+    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, int index, int limit, Currency[] currencies) {
         return Maybe.fromCallable(() -> {
             if (isCoinListingExpired()) {
-                int listStart = Constants.Limit.COIN_DEFAULT_START;
-                int listLimit = Constants.Limit.COIN_PAGE;
-                List<Coin> remotes = remote.getItemsRx(source, listStart, listLimit, currencies).blockingGet();
+                int listIndex = Constants.Limit.COIN_DEFAULT_INDEX;
+                int listLimit = Constants.Limit.COIN_PAGE_MAX;
+                List<Coin> remotes = remote.getItemsRx(source, listIndex, listLimit, currencies).blockingGet();
 
                 if (!DataUtil.isEmpty(remotes)) {
                     room.putItems(remotes);
                     pref.commitCoinListingTime();
-                    return DataUtil.sub(remotes, start - 1, limit);
+                    List<Coin> result = DataUtil.sub(remotes, index, limit);
+                    return result;
                 }
             }
             return null;

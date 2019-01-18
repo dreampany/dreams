@@ -22,6 +22,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
@@ -143,7 +144,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             adapter.onLoadMoreComplete(null);
             return;
         }
-        vm.loads(lastPosition + 1, true, false);
+        vm.loads(lastPosition, true, false);
     }
 
     @Override
@@ -223,7 +224,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         adapter = new CoinAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener(true) {
-            @DebugLog
             @Override
             public void onScrollingAtEnd() {
                 //vm.update();
@@ -275,6 +275,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
+    @DebugLog
     public void processResponse(Response<List<CoinItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
@@ -286,10 +287,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             Response.Result<List<CoinItem>> result = (Response.Result<List<CoinItem>>) response;
             processSuccess(result.getData());
         }
-    }
-
-    public void onFlag(CoinItem item) {
-        adapter.updateSilently(item);
     }
 
     public void processSingleResponse(Response<CoinItem> response) {
@@ -321,6 +318,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
+    @DebugLog
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
             vm.updateUiState(UiState.OFFLINE);
@@ -335,15 +333,16 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
+    @DebugLog
     private void processSuccess(List<CoinItem> items) {
         if (scroller.isScrolling()) {
             return;
         }
-        recycler.setNestedScrollingEnabled(false);
+        //recycler.setNestedScrollingEnabled(false);
         Timber.v("Live Result %s", items.size());
         //adapter.addItems(items);
         adapter.loadMoreComplete(items);
-        recycler.setNestedScrollingEnabled(true);
+        //recycler.setNestedScrollingEnabled(true);
         processUiState(UiState.EXTRA);
     }
 

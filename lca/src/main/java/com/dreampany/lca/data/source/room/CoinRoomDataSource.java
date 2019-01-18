@@ -15,6 +15,7 @@ import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
 import com.google.common.collect.Maps;
+import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -84,23 +85,38 @@ public class CoinRoomDataSource implements CoinDataSource {
         });
     }
 
+    /**
+     * @param source
+     * @param index      >= 0
+     * @param limit
+     * @param currencies
+     * @return
+     */
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int start, int limit, Currency[] currencies) {
-        return Maybe.fromCallable(() -> {
-            if (!mapper.hasCoins()) {
-                List<Coin> room = dao.getItems();
-                mapper.add(room);
-            }
-            List<Coin> cache = mapper.getCoins();
-            if (!DataUtil.isEmpty(cache)) {
-                Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
-                List<Coin> result = DataUtil.sub(cache, start - 1, limit);
-                for (Coin coin : result) {
-                    bindQuote(coin, currencies);
-                }
-            }
+    public List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies) {
+        if (!mapper.hasCoins()) {
+            List<Coin> room = dao.getItems();
+            mapper.add(room);
+        }
+        List<Coin> cache = mapper.getCoins();
+        if (DataUtil.isEmpty(cache)) {
             return null;
-        });
+        }
+        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+        List<Coin> result = DataUtil.sub(cache, index, limit);
+        if (DataUtil.isEmpty(result)) {
+            return null;
+        }
+        //Timber.v("Room result Items %d", result.size());
+        for (Coin coin : result) {
+            bindQuote(coin, currencies);
+        }
+        return result;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies) {
+        return Maybe.fromCallable(() -> getItems(source, index, limit, currencies));
     }
 
     @Override
@@ -236,9 +252,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     public List<Long> putItems(List<Coin> coins) {
         List<Long> result = new ArrayList<>();
         Stream.of(coins).forEach(coin -> {
-            if (!isExists(coin)) {
-                result.add(putItem(coin));
-            }
+            result.add(putItem(coin));
         });
         int count = getCount();
         Timber.v("Input Coins %d Inserted Coins %d total %d", coins.size(), result.size(), count);

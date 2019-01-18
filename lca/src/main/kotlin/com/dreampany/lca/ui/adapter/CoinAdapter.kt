@@ -33,7 +33,7 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
 
      fun loadMoreComplete(items: List<CoinItem>?) {
         if (items == null || items.isEmpty()) {
-            super.onLoadMoreComplete(items, -1);
+            super.onLoadMoreComplete(items, 1000);
         } else {
             val updates = ArrayList<CoinItem>()
             for (item in items) {

@@ -5,16 +5,14 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.exceptions.Exceptions;
+import io.reactivex.functions.Function;
+import io.reactivex.subjects.PublishSubject;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.NoSuchElementException;
-
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
-import io.reactivex.exceptions.UndeliverableException;
-import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Hawladar Roman on 5/30/2018.
@@ -64,7 +62,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
+                throw Exceptions.propagate(error);
             }
             return item;
         });
@@ -77,11 +75,16 @@ public abstract class Repository<K, V> {
             Exception error = null;
             List<V> items = null;
 
+            if (true) {
+                //throw new EmptyException();
+            }
+
             for (Maybe<List<V>> source : sources) {
                 try {
                     items = source.blockingGet();
                 } catch (Exception ignored) {
                     error = new IOException();
+                    //Timber.e(error);
                 }
                 if (!DataUtil.isEmpty(items)) {
                     break;
@@ -90,6 +93,7 @@ public abstract class Repository<K, V> {
             if (DataUtil.isEmpty(items)) {
                 if (error == null) {
                     error = new EmptyException();
+                    //Timber.e(error);
                 }
                 throw error;
             }
@@ -117,7 +121,8 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
+                throw Exceptions.propagate(error);
+                //throw error;
             }
             return items;
         });
@@ -144,7 +149,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
+                throw Exceptions.propagate(error);
             }
             return result;
         });
@@ -171,7 +176,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
+                throw Exceptions.propagate(error);
             }
             return result;
         });
@@ -198,7 +203,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
+                throw Exceptions.propagate(error);
             }
             return result;
         });

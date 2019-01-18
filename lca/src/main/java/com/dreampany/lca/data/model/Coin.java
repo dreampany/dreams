@@ -234,6 +234,9 @@ public class Coin extends Base {
     }
 
     public boolean hasQuote(Currency[] currencies) {
+        if (quotes == null) {
+            return false;
+        }
         for (Currency currency : currencies) {
             if (!quotes.containsKey(currency)) {
                 return false;

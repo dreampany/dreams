@@ -38,8 +38,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -113,7 +111,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     public void refresh(boolean onlyUpdate, boolean withProgress) {
         if (onlyUpdate) {
-            update();
+            //update();
             return;
         }
         loads(true, withProgress);
@@ -121,11 +119,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     @DebugLog
     public void loads(boolean fresh, boolean withProgress) {
-        loads(Constants.Limit.COIN_DEFAULT_START, fresh, withProgress);
+        loads(Constants.Limit.COIN_DEFAULT_INDEX, fresh, withProgress);
     }
 
     @DebugLog
-    public void loads(int start, boolean fresh, boolean withProgress) {
+    public void loads(int index, boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
         }
@@ -135,7 +133,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         int limit = Constants.Limit.COIN_PAGE;
         Currency[] currencies = {Currency.USD};
         Disposable disposable = getRx()
-                .backToMain(getListingRx(start, limit, currencies))
+                .backToMain(getListingRx(index, limit, currencies))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(
                         result -> postResult(result, withProgress),
@@ -223,8 +221,10 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         });
     }
 
-    private Maybe<List<CoinItem>> getListingRx(int start, int limit, Currency[] currencies) {
-        return repo.getItemsRx(CoinSource.CMC, start, limit, currencies)
+    private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency[] currencies) {
+        return repo
+                .getItemsRx(CoinSource.CMC, index, limit, currencies)
+                .onErrorReturn(throwable -> new ArrayList<>())
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 
@@ -290,10 +290,12 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return repo.getItemByCoinIdRx(item.getCoinId(), true).map(this::getItem);
     }*/
 
+    @DebugLog
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
         return Maybe.fromCallable(() -> getItems(result));
     }
 
+    @DebugLog
     private List<CoinItem> getItems(List<Coin> result) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
@@ -312,9 +314,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             CoinItem item = getItem(coin);
             items.add(item);
         }
-
         Timber.v("Live Result in VM %d", items.size());
-
         return items;
     }
 

@@ -13,7 +13,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
-import org.jsoup.helper.StringUtil;
 
 import javax.inject.Singleton;
 import java.util.Collection;

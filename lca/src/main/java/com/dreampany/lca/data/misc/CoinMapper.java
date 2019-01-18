@@ -13,13 +13,15 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinAnnote;
-import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Sets;
 import org.jsoup.helper.StringUtil;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.

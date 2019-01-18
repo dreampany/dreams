@@ -89,13 +89,15 @@ public class CoinRoomDataSource implements CoinDataSource {
         return Maybe.fromCallable(() -> {
             if (!mapper.hasCoins()) {
                 List<Coin> room = dao.getItems();
-                //todo load quote for each coin as currencies
                 mapper.add(room);
             }
             List<Coin> cache = mapper.getCoins();
             if (!DataUtil.isEmpty(cache)) {
                 Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
-                return DataUtil.sub(cache, start - 1, limit);
+                List<Coin> result = DataUtil.sub(cache, start - 1, limit);
+                for (Coin coin : result) {
+                    bindQuote(coin, currencies);
+                }
             }
             return null;
         });
@@ -283,7 +285,6 @@ public class CoinRoomDataSource implements CoinDataSource {
     /**
      * private api
      */
-
     private void bindQuote(Coin coin, Currency[] currencies) {
         if (coin != null && !coin.hasQuote(currencies)) {
             String[] currency = mapper.toStringArray(currencies);

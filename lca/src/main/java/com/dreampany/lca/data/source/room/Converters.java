@@ -1,11 +1,9 @@
 package com.dreampany.lca.data.source.room;
 
 import android.arch.persistence.room.TypeConverter;
-
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
-import com.dreampany.lca.api.cmc.model.CmcQuote;
 import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.model.Quote;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -22,7 +20,7 @@ import java.util.Map;
 public final class Converters {
     private static Gson gson = new Gson();
     private static Type typeOfListString = new TypeToken<List<String>>() {}.getType();
-    private static Type typeOfMap = new TypeToken<Map<CmcCurrency, CmcQuote>>() {
+    private static Type typeOfMap = new TypeToken<Map<Currency, Quote>>() {
     }.getType();
     private static Type typeOfListPrices = new TypeToken<List<List<Float>>>() {
     }.getType();
@@ -44,11 +42,19 @@ public final class Converters {
     }
 
     @TypeConverter
-    synchronized public static String fromPriceQuotes(Map<CmcCurrency, CmcQuote> quotes) {
+    synchronized public static String fromPriceQuotes(Map<Currency, Quote> quotes) {
         if (quotes == null || quotes.isEmpty()) {
             return null;
         }
         return gson.toJson(quotes, typeOfMap);
+    }
+
+    @TypeConverter
+    synchronized public static Map<Currency, Quote> fromMapString(String json) {
+        if (Strings.isNullOrEmpty(json)) {
+            return null;
+        }
+        return gson.fromJson(json, typeOfMap);
     }
 
     @TypeConverter
@@ -58,14 +64,6 @@ public final class Converters {
         }
 
         return gson.toJson(prices, typeOfListPrices);
-    }
-
-    @TypeConverter
-    synchronized public static Map<CmcCurrency, CmcQuote> fromMapString(String json) {
-        if (Strings.isNullOrEmpty(json)) {
-            return null;
-        }
-        return gson.fromJson(json, typeOfMap);
     }
 
     @TypeConverter

@@ -111,7 +111,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     public void refresh(boolean onlyUpdate, boolean withProgress) {
         if (onlyUpdate) {
-            //update();
+            update(withProgress);
             return;
         }
         loads(true, withProgress);
@@ -143,7 +143,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         addMultipleSubscription(disposable);
     }
 
-    public void update() {
+    public void update(boolean withProgress) {
         if (!OPEN) {
             return;
         }
@@ -155,9 +155,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currencies))
                 .subscribe(result -> {
-                    if (!DataUtil.isEmpty(result)) {
-                        postResult(result, false);
-                    }
+                    postResult(result, withProgress);
                 }, this::postFailure);
         addSubscription(updateDisposable);
     }
@@ -304,6 +302,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 ranked.add(coin);
             }
         }
+
         Collections.sort(ranked, (left, right) -> left.getRank() - right.getRank());
         coins.removeAll(ranked);
         coins.addAll(0, ranked);
@@ -314,7 +313,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             CoinItem item = getItem(coin);
             items.add(item);
         }
-        Timber.v("Live Result in VM %d", items.size());
+        Timber.v("Live Update Result in VM %d", items.size());
         return items;
     }
 
@@ -354,7 +353,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     private boolean needToUpdate(Coin coin) {
-        long lastTime = pref.getCoinUpdateTime(coin.getSymbol());
+        long lastTime = pref.getCoinUpdateTime(coin.getSymbol(), "");
         return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 

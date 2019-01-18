@@ -134,7 +134,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty(), false);
+        vm.refresh(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -249,11 +249,15 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         switch (state) {
             case SHOW_PROGRESS:
                 if (adapter.isEmpty()) {
-                    refresh.setRefreshing(true);
+                    if (!refresh.isRefreshing()) {
+                        refresh.setRefreshing(true);
+                    }
                 }
                 break;
             case HIDE_PROGRESS:
-                refresh.setRefreshing(false);
+                if (refresh.isRefreshing()) {
+                    refresh.setRefreshing(false);
+                }
                 break;
             case OFFLINE:
                 expandable.expand();

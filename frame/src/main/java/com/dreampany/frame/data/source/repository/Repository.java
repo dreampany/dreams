@@ -7,11 +7,11 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.Function;
+import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,7 +62,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw Exceptions.propagate(error);
+                throw error;
             }
             return item;
         });
@@ -121,8 +121,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw Exceptions.propagate(error);
-                //throw error;
+                throw error;
             }
             return items;
         });
@@ -149,7 +148,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw Exceptions.propagate(error);
+                throw error;
             }
             return result;
         });
@@ -176,7 +175,7 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw Exceptions.propagate(error);
+                throw error;
             }
             return result;
         });
@@ -203,9 +202,20 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw Exceptions.propagate(error);
+                throw error;
             }
             return result;
         });
+    }
+
+
+    protected final Maybe<List<V>> contactSuccess(Maybe<List<V>> source, Consumer<List<V>> onSuccess) {
+        Maybe<List<V>> maybe = source
+                .onErrorReturnItem(new ArrayList<>())
+                .filter(items -> !(DataUtil.isEmpty(items)));
+        if (onSuccess != null) {
+            maybe = maybe.doOnSuccess(onSuccess);
+        }
+        return maybe;
     }
 }

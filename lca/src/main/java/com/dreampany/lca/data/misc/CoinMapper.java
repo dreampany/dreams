@@ -14,14 +14,13 @@ import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinAnnote;
 import com.dreampany.lca.misc.QuoteAnnote;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Maps;
 import org.jsoup.helper.StringUtil;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -30,7 +29,7 @@ import java.util.Set;
  */
 public class CoinMapper {
 
-    private final Set<Coin> coins;
+    private final Map<String, Coin> coins;
     private final SmartMap<Long, Coin> map;
     private final SmartCache<Long, Coin> cache;
 
@@ -42,7 +41,7 @@ public class CoinMapper {
                @CoinAnnote SmartCache<Long, Coin> cache,
                @QuoteAnnote SmartMap<Long, Quote> quoteMap,
                @QuoteAnnote SmartCache<Long, Quote> quoteCache) {
-        coins = Sets.newConcurrentHashSet();
+        this.coins = Maps.newConcurrentMap();
         this.map = map;
         this.cache = cache;
         this.quoteMap = quoteMap;
@@ -53,8 +52,17 @@ public class CoinMapper {
         return !coins.isEmpty();
     }
 
+    public boolean hasCoins(String[] symbols) {
+        for (String symbol : symbols) {
+            if (!coins.containsKey(symbol)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void add(Coin coin) {
-        coins.add(coin);
+        coins.put(coin.getSymbol(), coin);
     }
 
     public void add(List<Coin> coins) {
@@ -66,16 +74,19 @@ public class CoinMapper {
     }
 
     public Coin getCoin(String symbol) {
-        for (Coin coin : coins) {
-            if (symbol.equals(coin.getSymbol())) {
-                return coin;
-            }
-        }
-        return null;
+        return coins.get(symbol);
     }
 
     public List<Coin> getCoins() {
-        return new ArrayList<>(coins);
+        return new ArrayList<>(coins.values());
+    }
+
+    public List<Coin> getCoins(String[] symbols) {
+        List<Coin> result = new ArrayList<>();
+        for (String symbol : symbols) {
+            result.add(getCoin(symbol));
+        }
+        return result;
     }
 
     public boolean isExists(Coin in) {

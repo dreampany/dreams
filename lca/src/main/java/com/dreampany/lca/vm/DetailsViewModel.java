@@ -14,7 +14,6 @@ import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.repository.CoinRepository;
-import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
@@ -34,10 +33,6 @@ import java.util.Objects;
  * hawladar.roman@bjitgroup.com
  */
 public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
-
-    private static final long initialDelay = 0L;
-    private static final long period = Constants.Period.INSTANCE.getCoinDetails();
-    private static final int RETRY_COUNT = 3;
 
     private final NetworkManager network;
     private final CoinRepository repo;
@@ -81,7 +76,7 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
             }
         }
         UiState finalState = state;
-        getEx().postToUiSmartly(() -> updateUiState(finalState));
+        //getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
     @DebugLog
@@ -110,32 +105,7 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         addSingleSubscription(disposable);
     }
 
-/*    @DebugLog
-    public void update() {
-        if (hasDisposable(updateDisposable)) {
-            return;
-        }
-        updateDisposable = getRx()
-                .backToMain(updateItemsIntervalRx())
-                .subscribe(result -> postResult(result, false), this::postFailure);
-        addSubscription(updateDisposable);
-    }*/
-
-/*    private Flowable<List<CoinItem>> updateItemsIntervalRx() {
-        return Flowable
-                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .map(tick -> {
-                    Coin item = Objects.requireNonNull(getTask()).getInput();
-                    Timber.d("Next Item to update %s", item);
-                    return updateItemsRx(item).blockingGet();
-                }).retry(RETRY_COUNT);
-    }*/
-
-    @DebugLog
-    private Maybe<List<CoinItem>> updateItemsRx(Coin item, Currency[] currencies) {
-        return repo.getItemRx(CoinSource.CMC, item.getSymbol(),  currencies, true).map(coin -> getItemsRx(coin).blockingGet());
-    }
-
+    /** private api */
     private Maybe<List<CoinItem>> getItemsRx() {
         Coin coin = Objects.requireNonNull(getTask()).getInput();
         return Maybe.zip(

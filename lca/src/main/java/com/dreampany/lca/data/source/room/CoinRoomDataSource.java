@@ -15,7 +15,6 @@ import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
 import com.google.common.collect.Maps;
-import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -74,13 +73,13 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies) {
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
         return Maybe.fromCallable(() -> {
             Coin coin = mapper.getCoin(symbol);
             if (coin == null) {
                 coin = dao.getItemBySymbol(symbol);
             }
-            bindQuote(coin, currencies);
+            bindQuote(coin, currency);
             return coin;
         });
     }
@@ -89,11 +88,11 @@ public class CoinRoomDataSource implements CoinDataSource {
      * @param source
      * @param index      >= 0
      * @param limit
-     * @param currencies
+     * @param currency
      * @return
      */
     @Override
-    public List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies) {
+    public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
         if (!mapper.hasCoins()) {
             List<Coin> room = dao.getItems();
             mapper.add(room);
@@ -107,20 +106,39 @@ public class CoinRoomDataSource implements CoinDataSource {
         if (DataUtil.isEmpty(result)) {
             return null;
         }
-        //Timber.v("Room result Items %d", result.size());
         for (Coin coin : result) {
-            bindQuote(coin, currencies);
+            bindQuote(coin, currency);
         }
         return result;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies) {
-        return Maybe.fromCallable(() -> getItems(source, index, limit, currencies));
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
+        return Maybe.fromCallable(() -> getItems(source, index, limit, currency));
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies) {
+    public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
+        if (!mapper.hasCoins(symbols)) {
+            List<Coin> room = dao.getItems(symbols);
+            mapper.add(room);
+        }
+        List<Coin> cache = mapper.getCoins(symbols);
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        for (Coin coin : cache) {
+            bindQuote(coin, currency);
+        }
+        return cache;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
         return null;
     }
 
@@ -254,8 +272,8 @@ public class CoinRoomDataSource implements CoinDataSource {
         Stream.of(coins).forEach(coin -> {
             result.add(putItem(coin));
         });
-        int count = getCount();
-        Timber.v("Input Coins %d Inserted Coins %d total %d", coins.size(), result.size(), count);
+        //int count = getCount();
+        //Timber.v("Input Coins %d Inserted Coins %d total %d", coins.size(), result.size(), count);
         return result;
     }
 
@@ -299,11 +317,10 @@ public class CoinRoomDataSource implements CoinDataSource {
     /**
      * private api
      */
-    private void bindQuote(Coin coin, Currency[] currencies) {
-        if (coin != null && !coin.hasQuote(currencies)) {
-            String[] currency = mapper.toStringArray(currencies);
-            List<Quote> quotes = quoteDao.getItems(coin.getId(), currency);
-            coin.addQuotes(quotes);
+    private void bindQuote(Coin coin, Currency currency) {
+        if (coin != null && !coin.hasQuote(currency)) {
+            Quote quote = quoteDao.getItems(coin.getId(), currency.name());
+            coin.addQuote(quote);
         }
     }
 

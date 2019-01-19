@@ -90,7 +90,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        //vm.loads(false, true);
     }
 
     @DebugLog
@@ -203,9 +202,10 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         binding = (FragmentCoinsBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_coins);
+
         refresh = binding.layoutRefresh;
-        expandable = binding.layoutTopStatus.layoutExpandable;
-        recycler = binding.layoutRecycler.recycler;
+        expandable = binding.layoutTopStatus.findViewById(R.id.layout_expandable);
+        recycler = binding.layoutRecycler.findViewById(R.id.recycler);
 
         ViewUtil.setSwipe(refresh, this);
 
@@ -215,7 +215,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
-        vm.observeOutput(this, this::processSingleResponse);
     }
 
     private void initRecycler() {
@@ -293,32 +292,11 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
-    public void processSingleResponse(Response<CoinItem> response) {
-        if (response instanceof Response.Progress) {
-            Response.Progress result = (Response.Progress) response;
-            processSingleProgress(result.getLoading());
-        } else if (response instanceof Response.Failure) {
-            Response.Failure result = (Response.Failure) response;
-            processFailure(result.getError());
-        } else if (response instanceof Response.Result) {
-            Response.Result<CoinItem> result = (Response.Result<CoinItem>) response;
-            processSingleSuccess(result.getData());
-        }
-    }
-
     private void processProgress(boolean loading) {
         if (loading) {
             vm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
             vm.updateUiState(UiState.HIDE_PROGRESS);
-        }
-    }
-
-    private void processSingleProgress(boolean loading) {
-        if (loading) {
-            binding.progress.setVisibility(View.VISIBLE);
-        } else {
-            binding.progress.setVisibility(View.GONE);
         }
     }
 
@@ -348,10 +326,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
         processUiState(UiState.EXTRA);
-    }
-
-    private void processSingleSuccess(CoinItem item) {
-        adapter.updateSilently(item);
     }
 
     private void openCoinUi(Coin coin) {

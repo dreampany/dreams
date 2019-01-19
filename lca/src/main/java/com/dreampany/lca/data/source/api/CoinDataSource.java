@@ -15,20 +15,23 @@ import java.util.List;
  */
 public interface CoinDataSource extends DataSource<Coin> {
 
-    Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies);
+    Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency);
 
     /**
      * @param source
-     * @param index      >= 0
+     * @param index    >= 0
      * @param limit
-     * @param currencies
+     * @param currency
      * @return
      */
-    List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies);
+    List<Coin> getItems(CoinSource source, int index, int limit, Currency currency);
 
-    Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency);
 
-    Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies);
+    List<Coin> getItems(CoinSource source, String[] symbols, Currency currency);
+
+    Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency);
+
 
     boolean isFlagged(Coin coin);
 

@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -29,22 +28,17 @@ import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.FlagViewModel;
-
-import hugo.weaving.DebugLog;
-import net.cachapa.expandablelayout.ExpandableLayout;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import javax.inject.Inject;
-
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import hugo.weaving.DebugLog;
+import net.cachapa.expandablelayout.ExpandableLayout;
+import org.jetbrains.annotations.Nullable;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -91,20 +85,18 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        //vm.loads(false);
     }
 
     @DebugLog
     @Override
     protected void onStopUi() {
-        //vm.removeUpdateDisposable();
         vm.clear();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        vm.refresh(false, adapter.isEmpty());
+        vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
     }
 
 /*    @Override
@@ -133,7 +125,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty(), false);
+        vm.refresh(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -148,9 +140,6 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
-            case R.id.button_like:
-                vm.toggle((Coin) v.getTag());
-                break;
             case R.id.button_empty:
                 vm.loads(true, true);
                 break;
@@ -193,8 +182,8 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_flags);
 
         refresh = binding.layoutRefresh;
-        expandable = binding.layoutTopStatus.layoutExpandable;
-        recycler = binding.layoutRecycler.recycler;
+        expandable = binding.layoutTopStatus.findViewById(R.id.layout_expandable);
+        recycler = binding.layoutRecycler.findViewById(R.id.recycler);
 
         ViewUtil.setSwipe(refresh, this);
         UiTask<Coin> uiTask = getCurrentTask(true);
@@ -227,11 +216,15 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         switch (state) {
             case SHOW_PROGRESS:
                 if (adapter.isEmpty()) {
-                    refresh.setRefreshing(true);
+                    if (!refresh.isRefreshing()) {
+                        refresh.setRefreshing(true);
+                    }
                 }
                 break;
             case HIDE_PROGRESS:
-                refresh.setRefreshing(false);
+                if (refresh.isRefreshing()) {
+                    refresh.setRefreshing(false);
+                }
                 break;
             case OFFLINE:
                 expandable.expand();
@@ -266,24 +259,11 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
-    public void onFlag(CoinItem item) {
-        adapter.addFlagItem(item);
-        vm.updateUiState(UiState.EXTRA);
-    }
-
     private void processProgress(boolean loading) {
         if (loading) {
             vm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
             vm.updateUiState(UiState.HIDE_PROGRESS);
-        }
-    }
-
-    private void processSingleProgress(boolean loading) {
-        if (loading) {
-            binding.progress.setVisibility(View.VISIBLE);
-        } else {
-            binding.progress.setVisibility(View.GONE);
         }
     }
 

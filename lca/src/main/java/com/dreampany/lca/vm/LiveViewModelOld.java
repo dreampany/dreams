@@ -44,9 +44,14 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
+public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private static final boolean OPEN = true;
+
+    private static final long initialDelay = 0L;
+    private static final long period = Constants.Period.INSTANCE.getCoin();
+    private static final int retry = 3;
+
 
     private final NetworkManager network;
     private final Pref pref;
@@ -56,14 +61,14 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private Disposable updateDisposable;
 
     @Inject
-    LiveViewModel(Application application,
-                  RxMapper rx,
-                  AppExecutors ex,
-                  ResponseMapper rm,
-                  NetworkManager network,
-                  Pref pref,
-                  LoadPref loadPref,
-                  CoinRepository repo) {
+    LiveViewModelOld(Application application,
+                     RxMapper rx,
+                     AppExecutors ex,
+                     ResponseMapper rm,
+                     NetworkManager network,
+                     Pref pref,
+                     LoadPref loadPref,
+                     CoinRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
@@ -126,14 +131,15 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;
-        Currency currency = Currency.USD;
+        Currency[] currencies = {Currency.USD};
         Disposable disposable = getRx()
-                .backToMain(getListingRx(index, limit, currency))
+                .backToMain(getListingRx(index, limit, currencies))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(
                         result -> postResult(result, withProgress),
-                        error -> postFailureMultiple(new MultiException(error, new ExtraException()))
-                );
+                        error -> {
+                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        });
         addMultipleSubscription(disposable);
     }
 
@@ -142,26 +148,85 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             return;
         }
         if (hasDisposable(updateDisposable)) {
+            Timber.v("update Running...");
             return;
         }
-        Currency currency = Currency.USD;
+        Currency[] currencies = {Currency.USD};
         updateDisposable = getRx()
-                .backToMain(getVisibleItemsIfRx(currency))
+                .backToMain(getVisibleItemsIfRx(currencies))
                 .subscribe(result -> {
                     postResult(result, withProgress);
                 }, this::postFailure);
         addSubscription(updateDisposable);
     }
 
-    /** private api */
-    private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
+/*    public void updateUi() {
+        if (!OPEN) {
+            return;
+        }
+        if (hasDisposable(updateUiDisposable)) {
+            Timber.v("updateUi Running...");
+            return;
+        }
+        updateUiDisposable = getRx()
+                .backToMain(getUiItemsRx())
+                .subscribe(this::postResult, error -> {
+
+                });
+        addSubscription(updateUiDisposable);
+    }*/
+
+
+/*    @DebugLog
+    public void update() {
+        if (!OPEN) {
+            return;
+        }
+        if (hasDisposable(updateDisposable)) {
+            Timber.v("Updater Running...");
+            return;
+        }
+        updateDisposable = getRx()
+                .backToMain(updateInterval())
+                .subscribe(this::postResult, this::postFailure);
+        addSubscription(updateDisposable);
+    }*/
+
+/*    @DebugLog
+    public void updateItem() {
+        if (!OPEN) {
+            return;
+        }
+        if (hasDisposable(updateItemDisposable)) {
+            Timber.v("Updater Running...");
+            return;
+        }
+        updateItemDisposable = getRx()
+                .backToMain(updateItemInterval())
+                .subscribe(this::postResult, this::postFailure);
+        addSubscription(updateItemDisposable);
+    }*/
+
+    private Maybe<List<CoinItem>> getUiItemsRx() {
+        return Maybe.fromCallable(() -> {
+            List<CoinItem> items = uiCallback.getItems();
+            if (!DataUtil.isEmpty(items)) {
+                for (CoinItem item : items) {
+                    adjustFlag(item.getItem(), item);
+                }
+            }
+            return items;
+        });
+    }
+
+    private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency[] currencies) {
         return repo
-                .getItemsRx(CoinSource.CMC, index, limit, currency)
+                .getItemsRx(CoinSource.CMC, index, limit, currencies)
                 .onErrorReturn(throwable -> new ArrayList<>())
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 
-    private List<CoinItem> getVisibleItemsIf(Currency currency) {
+    private List<CoinItem> getVisibleItemsIf(Currency[] currencies) {
         if (uiCallback == null) {
             return null;
         }
@@ -169,23 +234,59 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         if (!DataUtil.isEmpty(items)) {
             List<String> symbols = new ArrayList<>();
             for (CoinItem item : items) {
-                symbols.add(item.getItem().getSymbol());
+                if (needToUpdate(item.getItem())) {
+                    symbols.add(item.getItem().getSymbol());
+                }
             }
             items = null;
             if (!DataUtil.isEmpty(symbols)) {
                 String[] result = DataUtil.toStringArray(symbols);
-                List<Coin> coins = repo.getItems(CoinSource.CMC, result, currency);
-                if (!DataUtil.isEmpty(coins)) {
-                    items = getItems(coins);
-                }
+                List<Coin> coins = repo.getItemsRx(CoinSource.CMC, result, currencies).blockingGet();
+                items = getItems(coins);
             }
         }
         return items;
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency currency) {
-        return Maybe.fromCallable(() -> getVisibleItemsIf(currency));
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency[] currencies) {
+        return Maybe.fromCallable(() -> getVisibleItemsIf(currencies));
     }
+
+/*    private Flowable<List<CoinItem>> updateVisibleItemsIntervalRx() {
+        Flowable<List<CoinItem>> flowable = Flowable
+                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
+                .map(tick -> getVisibleItemsIf()).retry(retry);
+        return flowable;
+    }*/
+
+/*    private Maybe<List<CoinItem>> updateInterval() {
+        return repo.getRemoteListingIfRx(CoinSource.CMC)
+                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
+    }*/
+
+ /*   private Flowable<CoinItem> updateItemInterval() {
+        Flowable<CoinItem> flowable = Flowable
+                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
+                .map(tick -> {
+                    if (uiCallback != null) {
+                        List<CoinItem> items = uiCallback.getVisibleItems();
+                        if (!DataUtil.isEmpty(items)) {
+                            Collections.sort(items, (left, right) -> (int) (left.getItem().getLastUpdated() - right.getItem().getLastUpdated()));
+                            CoinItem item = items.get(0);
+                            Timber.d("Next Item to update %s", item.getItem().getName());
+                            if (TimeUtil.isExpired(item.getItem().getTime(), Constants.Time.INSTANCE.getCoin())) {
+                                return updateItemRx(Objects.requireNonNull(item.getItem())).blockingGet();
+                            }
+                        }
+                    }
+                    return null;
+                }).retry(retry);
+        return flowable;
+    }*/
+
+/*    private Maybe<CoinItem> updateItemRx(Coin item) {
+        return repo.getItemByCoinIdRx(item.getCoinId(), true).map(this::getItem);
+    }*/
 
     @DebugLog
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
@@ -249,6 +350,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 pref.commitDefaultFlag();
             }
         }
+    }
+
+    private boolean needToUpdate(Coin coin) {
+        long lastTime = pref.getCoinUpdateTime(coin.getSymbol(), "");
+        return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 
 }

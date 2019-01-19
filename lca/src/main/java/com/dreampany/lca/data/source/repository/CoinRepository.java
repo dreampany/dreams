@@ -13,12 +13,12 @@ import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -181,7 +181,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }*/
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies) {
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
         return null;
     }
 
@@ -189,28 +189,34 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
      * @param source
      * @param index      >= 0
      * @param limit
-     * @param currencies
+     * @param currency
      * @return
      */
     @Override
-    public List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies) {
+    public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies) {
-        Maybe<List<Coin>> room = getRoomItemsIfRx(source, index, limit, currencies);
-        Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, index, limit, currencies);
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
+        Maybe<List<Coin>> room = getRoomItemsIfRx(source, index, limit, currency);
+        Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, index, limit, currency);
+        if (isCoinListingExpired()) {
+            return concatFirstRx(remote, room);
+        }
         return concatFirstRx(room, remote);
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies) {
-        Maybe<List<Coin>> room = getRoomItemsIfRx(source, symbols, currencies);
-        Maybe<List<Coin>> remote = saveRoom(this.remote.getItemsRx(source, symbols, currencies), items -> {
-            rx.compute(putItemsRx(items)).subscribe();
-        });
-        return concatFirstRx(room, remote);
+    public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
+        Maybe<List<Coin>> room = getRoomItemsIfRx(source, symbols, currency);
+        Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, symbols, currency);
+        return concatLastRx(remote, room);
     }
 
     @Override
@@ -277,47 +283,67 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     /**
      * public api
      */
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies, boolean fresh) {
-        Maybe<Coin> room = this.room.getItemRx(source, symbol, currencies);
-        Maybe<Coin> remote = getWithSingleSave(this.remote.getItemRx(source, symbol, currencies));
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency, boolean fresh) {
+        Maybe<Coin> room = this.room.getItemRx(source, symbol, currency);
+        Maybe<Coin> remote = getWithSingleSave(this.remote.getItemRx(source, symbol, currency));
         return fresh ? concatSingleFirstRx(remote, room) : concatSingleFirstRx(room, remote);
     }
 
     /**
-     * internal api
+     * private api
      */
-    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int index, int limit, Currency[] currencies) {
+    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int index, int limit, Currency currency) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
-                return room.getItems(source, index, limit, currencies);
+                return room.getItems(source, index, limit, currency);
             }
             return null;
         });
     }
 
-    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, String[] symbols, Currency[] currencies) {
+    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, String[] symbols, Currency currency) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
-                return room.getItemsRx(source, symbols, currencies).blockingGet();
+                return room.getItems(source, symbols, currency);
             }
             return null;
         });
     }
 
-    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, int index, int limit, Currency[] currencies) {
+    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, int index, int limit, Currency currency) {
         return Maybe.fromCallable(() -> {
             if (isCoinListingExpired()) {
                 int listIndex = Constants.Limit.COIN_DEFAULT_INDEX;
                 int listLimit = Constants.Limit.COIN_PAGE_MAX;
-                List<Coin> remotes = remote.getItemsRx(source, listIndex, listLimit, currencies).blockingGet();
+                List<Coin> remotes = remote.getItemsRx(source, listIndex, listLimit, currency).blockingGet();
 
                 if (!DataUtil.isEmpty(remotes)) {
                     room.putItems(remotes);
                     pref.commitCoinListingTime();
+                    Collections.sort(remotes, (left, right) -> left.getRank() - right.getRank());
                     List<Coin> result = DataUtil.sub(remotes, index, limit);
                     return result;
                 }
             }
+            return null;
+        });
+    }
+
+    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, String[] symbols, Currency currency) {
+        return Maybe.fromCallable(() -> {
+            List<String> possible = new ArrayList<>();
+            for (String symbol : symbols) {
+                if (needToUpdate(symbol, currency)) {
+                    possible.add(symbol);
+                }
+            }
+            if (!DataUtil.isEmpty(possible)) {
+                String[] result = DataUtil.toStringArray(possible);
+                List<Coin> remotes = remote.getItemsRx(source, result, currency).blockingGet();
+                room.putItems(remotes);
+                return remotes;
+            }
+
             return null;
         });
     }
@@ -330,7 +356,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     private Maybe<List<Coin>> getItemsRx(boolean fresh) {
         Maybe<List<Coin>> local = this.room.getItemsRx();
-        Maybe<List<Coin>> remote = saveRoom(this.remote.getItemsRx(),
+        Maybe<List<Coin>> remote = contactSuccess(this.remote.getItemsRx(),
                 items -> {
                     rx.compute(putItemsRx(items)).subscribe();
                 });
@@ -369,26 +395,20 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     private Maybe<Coin> getWithSingleSave(Maybe<Coin> source) {
         return source
                 .doOnSuccess(item -> {
-                    Timber.v("Single update %s", item);
                     if (item != null) {
                         rx.compute(putItemRx(item)).subscribe();
                     }
                 });
     }
 
-    private Maybe<List<Coin>> saveRoom(Maybe<List<Coin>> source, Consumer<List<Coin>> onSuccess) {
-        Maybe<List<Coin>> maybe = source
-                //.onErrorReturnItem(new ArrayList<>())
-                .filter(items -> !(DataUtil.isEmpty(items)));
-        if (onSuccess != null) {
-            maybe = maybe.doOnSuccess(onSuccess);
-        }
-        return maybe;
-    }
-
     private boolean isCoinListingExpired() {
         long listingTime = pref.getCoinListingTime();
         return TimeUtil.isExpired(listingTime, Constants.Time.INSTANCE.getListing());
+    }
+
+    private boolean needToUpdate(String symbol, Currency currency) {
+        long lastTime = pref.getCoinUpdateTime(symbol, currency.name());
+        return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 
     //syncing process

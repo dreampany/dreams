@@ -152,7 +152,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }*/
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency[] currencies) {
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
         return null;
     }
 
@@ -160,29 +160,32 @@ public class CoinRemoteDataSource implements CoinDataSource {
      * @param source
      * @param index      >= 0
      * @param limit
-     * @param currencies
+     * @param currency
      * @return
      */
     @Override
-    public List<Coin> getItems(CoinSource source, int index, int limit, Currency[] currencies) {
+    public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency[] currencies) {
-        String currency = mapper.join(currencies, Constants.Sep.SEP_COMMA);
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
         int start = index + 1;
         return service
-                .getListingRx(Constants.Key.CMC_PRO, start, limit, currency)
+                .getListingRx(Constants.Key.CMC_PRO, start, limit, currency.name())
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency[] currencies) {
+    public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
         String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
-        String currency = mapper.join(currencies, Constants.Sep.SEP_COMMA);
         return service
-                .getQuotesRx(Constants.Key.CMC_PRO, symbol, currency)
+                .getQuotesRx(Constants.Key.CMC_PRO, symbol, currency.name())
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
     }
 

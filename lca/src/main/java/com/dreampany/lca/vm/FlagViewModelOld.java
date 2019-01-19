@@ -22,6 +22,7 @@ import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
@@ -36,7 +37,7 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
+public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private static final boolean OPEN = true;
 
@@ -47,13 +48,13 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private Disposable updateDisposable;
 
     @Inject
-    FlagViewModel(Application application,
-                  RxMapper rx,
-                  AppExecutors ex,
-                  ResponseMapper rm,
-                  NetworkManager network,
-                  Pref pref,
-                  CoinRepository repo) {
+    FlagViewModelOld(Application application,
+                     RxMapper rx,
+                     AppExecutors ex,
+                     ResponseMapper rm,
+                     NetworkManager network,
+                     Pref pref,
+                     CoinRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
@@ -128,6 +129,19 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 .backToMain(getVisibleItemsIfRx(currency))
                 .subscribe(result -> postResult(result, withProgress), this::postFailure);
         addSubscription(updateDisposable);
+    }
+
+    public void toggle(Coin coin) {
+        if (!OPEN) {
+            return;
+        }
+        if (hasSingleDisposable()) {
+            return;
+        }
+        Disposable disposable = getRx()
+                .backToMain(toggleImpl(coin))
+                .subscribe(this::postFlag, this::postFailure);
+        addSingleSubscription(disposable);
     }
 
     /** private api */
@@ -220,5 +234,14 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private void adjustFlag(Coin coin, CoinItem item) {
         boolean flagged = repo.isFlagged(coin);
         item.setFlagged(flagged);
+    }
+
+    //todo need to improve for flowable and completable working
+    private Flowable<CoinItem> toggleImpl(Coin coin) {
+        return Flowable.fromCallable(() -> {
+            repo.toggleFlag(coin);
+            CoinItem item = getItem(coin);
+            return item;
+        });
     }
 }

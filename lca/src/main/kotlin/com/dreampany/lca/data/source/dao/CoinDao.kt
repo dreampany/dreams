@@ -49,12 +49,6 @@ interface CoinDao : BaseDao<Coin> {
     @Query("select * from coin where coinId = :coinId limit 1")
     fun getItemByCoinIdRx(coinId: Long): Maybe<Coin>
 
-    @Query("select * from coin where symbol = :symbol limit 1")
-    fun getItemBySymbol(symbol: String): Coin
-
-    @Query("select * from coin where symbol = :symbol limit 1")
-    fun getItemBySymbolRx(symbol: String): Maybe<Coin>
-
     @Query("select * from coin where rank >= :start order by rank asc")
     fun getItems(start: Int): List<Coin>
 

@@ -91,7 +91,7 @@ public class CoinRoomDataSource implements CoinDataSource {
         return Maybe.fromCallable(() -> {
             Coin coin = mapper.getCoin(symbol);
             if (coin == null) {
-                coin = dao.getItemBySymbol(symbol);
+                coin = dao.getItem(symbol);
             }
             bindQuote(coin, currency);
             return coin;

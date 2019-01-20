@@ -9,7 +9,6 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -25,10 +24,8 @@ import io.reactivex.disposables.Disposable;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -142,20 +139,17 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
      * private api
      */
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
-        return Maybe.fromCallable(new Callable<List<CoinItem>>() {
-            @Override
-            public List<CoinItem> call() throws Exception {
-                Coin coin = Objects.requireNonNull(getTask()).getInput();
-                Coin result = repo.getItemRx(CoinSource.CMC, coin.getSymbol(), currency).blockingGet();
-                if (result != null) {
-                    getTask().setInput(result);
-                    coin = result;
-                }
-                List<CoinItem> items = new ArrayList<>();
-                items.add(getDetailsCoinItem(coin));
-                items.add(getQuoteCoinItem(coin, currency));
-                return items;
+        return Maybe.fromCallable(() -> {
+            Coin coin = Objects.requireNonNull(getTask()).getInput();
+            Coin result = repo.getItemRx(CoinSource.CMC, coin.getSymbol(), currency).blockingGet();
+            if (result != null) {
+                getTask().setInput(result);
+                coin = result;
             }
+            List<CoinItem> items = new ArrayList<>();
+            items.add(getDetailsCoinItem(coin));
+            items.add(getQuoteCoinItem(coin, currency));
+            return items;
         });
     }
 

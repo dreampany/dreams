@@ -152,8 +152,15 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }*/
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
+    public Coin getItem(CoinSource source, String symbol, Currency currency) {
         return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
+        return service
+                .getQuotesRx(Constants.Key.CMC_PRO, symbol, currency.name())
+                .flatMap((Function<CmcQuotesResponse, MaybeSource<Coin>>) this::getItemRx);
     }
 
     /**
@@ -309,7 +316,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     private Maybe<List<Coin>> getItemsRx(CmcQuotesResponse response) {
-        if (response.hasError()) {
+        if (response.hasError() || !response.hasData()) {
             return null;
         }
         Collection<CmcCoin> items = response.getData().values();

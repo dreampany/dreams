@@ -179,8 +179,15 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }*/
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
+    public Coin getItem(CoinSource source, String symbol, Currency currency) {
         return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
+        Maybe<Coin> room = getRoomItemIfRx(source, symbol, currency);
+        Maybe<Coin> remote = getRemoteItemIfRx(source, symbol, currency);
+        return concatSingleLastRx(remote, room);
     }
 
     /**
@@ -277,7 +284,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return room.getFlagsRx(limit);
     }
 
-
     /**
      * public api
      */
@@ -299,21 +305,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-    private Maybe<Coin> getRemoteItemsIfRx(CoinSource source, String[] symbols, Currency currency) {
+    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, Currency currency) {
         return Maybe.fromCallable(() -> {
-            List<String> possible = new ArrayList<>();
-            for (String symbol : symbols) {
-                if (needToUpdate(symbol, currency)) {
-                    possible.add(symbol);
-                }
+            if (needToUpdate(symbol, currency)) {
+                Coin result = remote.getItemRx(source, symbol, currency).blockingGet();
+                room.putItem(result);
+                return result;
             }
-            if (!DataUtil.isEmpty(possible)) {
-                String[] result = DataUtil.toStringArray(possible);
-                List<Coin> remotes = remote.getItemsRx(source, result, currency).blockingGet();
-                room.putItems(remotes);
-                return remotes;
-            }
-
             return null;
         });
     }

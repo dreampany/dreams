@@ -15,6 +15,8 @@ import java.util.List;
  */
 public interface CoinDataSource extends DataSource<Coin> {
 
+    Coin getItem(CoinSource source, String symbol, Currency currency);
+
     Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency);
 
     /**

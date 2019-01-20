@@ -52,9 +52,13 @@ public class CoinMapper {
         return !coins.isEmpty();
     }
 
+    public boolean hasCoin(String symbol) {
+        return coins.containsKey(symbol);
+    }
+
     public boolean hasCoins(String[] symbols) {
         for (String symbol : symbols) {
-            if (!coins.containsKey(symbol)) {
+            if (!hasCoin(symbol)) {
                 return false;
             }
         }

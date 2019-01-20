@@ -9,6 +9,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -23,9 +24,11 @@ import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -33,6 +36,8 @@ import java.util.Objects;
  * hawladar.roman@bjitgroup.com
  */
 public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
+
+    private static final boolean OPEN = true;
 
     private final NetworkManager network;
     private final CoinRepository repo;
@@ -58,10 +63,6 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         super.clear();
     }
 
-    public void removeUpdateDisposable() {
-        removeSubscription(updateDisposable);
-    }
-
     @DebugLog
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
@@ -79,20 +80,52 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         //getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
+    public void removeUpdateDisposable() {
+        removeSubscription(updateDisposable);
+    }
+
+    public void refresh(boolean onlyUpdate, boolean withProgress) {
+        if (onlyUpdate) {
+            update(withProgress);
+            return;
+        }
+        loads(true, withProgress);
+    }
+
     @DebugLog
-    public void loads(boolean fresh) {
+    public void loads(boolean fresh, boolean withProgress) {
+        if (!OPEN) {
+            return;
+        }
         if (!preLoads(fresh)) {
             return;
         }
+        Currency currency = Currency.USD;
         Disposable disposable = getRx()
-                .backToMain(getItemsRx())
+                .backToMain(getItemsRx(currency))
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(result -> {
-                    postResult(result, true);
+                    postResult(result, withProgress);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
+    }
+
+    public void update(boolean withProgress) {
+        if (!OPEN) {
+            return;
+        }
+        if (hasDisposable(updateDisposable)) {
+            return;
+        }
+        Currency currency = Currency.USD;
+        updateDisposable = getRx()
+                .backToMain(getItemsRx(currency))
+                .subscribe(result -> {
+                    postResult(result, withProgress);
+                }, this::postFailure);
+        addSubscription(updateDisposable);
     }
 
     public void toggle(Coin coin) {
@@ -101,42 +134,49 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         }
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(coin))
-                .subscribe(result -> postResult(result, true), this::postFailure);
+                .subscribe(result -> postResult(result, false), this::postFailure);
         addSingleSubscription(disposable);
     }
 
-    /** private api */
-    private Maybe<List<CoinItem>> getItemsRx() {
-        Coin coin = Objects.requireNonNull(getTask()).getInput();
-        return Maybe.zip(
-                getDetailsCoinItem(coin),
-                getQuoteCoinItem(coin, Currency.USD),
-                (left, right) -> Arrays.asList(left, right));
-    }
-
-    private Maybe<List<CoinItem>> getItemsRx(Coin coin) {
-        return Maybe.zip(
-                getDetailsCoinItem(coin),
-                getQuoteCoinItem(coin, Currency.USD),
-                (left, right) -> Arrays.asList(left, right));
-    }
-
-    private Maybe<CoinItem> getDetailsCoinItem(Coin coin) {
-        return Maybe.fromCallable(
-                () -> {
-                    CoinItem item = CoinItem.getDetailsItem(coin);
-                    boolean flagged = repo.isFlagged(coin);
-                    item.setFlagged(flagged);
-                    return item;
-                });
-    }
-
-    private Maybe<CoinItem> getQuoteCoinItem(Coin coin, Currency currency) {
-        return Maybe.fromCallable(() -> {
-            CoinItem item = CoinItem.getQuoteItem(coin, currency);
-            adjustFlag(coin, item);
-            return item;
+    /**
+     * private api
+     */
+    private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
+        return Maybe.fromCallable(new Callable<List<CoinItem>>() {
+            @Override
+            public List<CoinItem> call() throws Exception {
+                Coin coin = Objects.requireNonNull(getTask()).getInput();
+                Coin result = repo.getItemRx(CoinSource.CMC, coin.getSymbol(), currency).blockingGet();
+                if (result != null) {
+                    getTask().setInput(result);
+                    coin = result;
+                }
+                List<CoinItem> items = new ArrayList<>();
+                items.add(getDetailsCoinItem(coin));
+                items.add(getQuoteCoinItem(coin, currency));
+                return items;
+            }
         });
+    }
+
+/*    private Maybe<List<CoinItem>> getItemsRx(Coin coin, Currency currency) {
+        return Maybe.zip(
+                getDetailsCoinItem(coin),
+                getQuoteCoinItem(coin, currency),
+                (left, right) -> Arrays.asList(left, right));
+    }*/
+
+    private CoinItem getDetailsCoinItem(Coin coin) {
+        CoinItem item = CoinItem.getDetailsItem(coin);
+        boolean flagged = repo.isFlagged(coin);
+        item.setFlagged(flagged);
+        return item;
+    }
+
+    private CoinItem getQuoteCoinItem(Coin coin, Currency currency) {
+        CoinItem item = CoinItem.getQuoteItem(coin, currency);
+        adjustFlag(coin, item);
+        return item;
     }
 
     private Maybe<CoinItem> toggleImpl(Coin coin) {

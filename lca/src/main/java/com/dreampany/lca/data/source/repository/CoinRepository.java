@@ -12,8 +12,6 @@ import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import io.reactivex.Maybe;
-import io.reactivex.functions.Consumer;
-import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -187,7 +185,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     /**
      * @param source
-     * @param index      >= 0
+     * @param index    >= 0
      * @param limit
      * @param currency
      * @return
@@ -292,6 +290,35 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     /**
      * private api
      */
+    private Maybe<Coin> getRoomItemIfRx(CoinSource source, String symbol, Currency currency) {
+        return Maybe.fromCallable(() -> {
+            if (!isEmpty()) {
+                return room.getItem(source, symbol, currency);
+            }
+            return null;
+        });
+    }
+
+    private Maybe<Coin> getRemoteItemsIfRx(CoinSource source, String[] symbols, Currency currency) {
+        return Maybe.fromCallable(() -> {
+            List<String> possible = new ArrayList<>();
+            for (String symbol : symbols) {
+                if (needToUpdate(symbol, currency)) {
+                    possible.add(symbol);
+                }
+            }
+            if (!DataUtil.isEmpty(possible)) {
+                String[] result = DataUtil.toStringArray(possible);
+                List<Coin> remotes = remote.getItemsRx(source, result, currency).blockingGet();
+                room.putItems(remotes);
+                return remotes;
+            }
+
+            return null;
+        });
+    }
+
+
     private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int index, int limit, Currency currency) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {

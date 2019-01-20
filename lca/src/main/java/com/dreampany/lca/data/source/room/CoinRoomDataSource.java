@@ -73,6 +73,20 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, String symbol, Currency currency) {
+        if (!mapper.hasCoin(symbol)) {
+            Coin room = dao.getItem(symbol);
+            mapper.add(room);
+        }
+        Coin cache = mapper.getCoin(symbol);
+        if (cache == null) {
+            return null;
+        }
+        bindQuote(cache, currency);
+        return cache;
+    }
+
+    @Override
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
         return Maybe.fromCallable(() -> {
             Coin coin = mapper.getCoin(symbol);

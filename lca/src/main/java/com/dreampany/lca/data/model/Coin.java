@@ -218,18 +218,30 @@ public class Coin extends Base {
     }
 
     public List<Quote> getQuotesAsList() {
+        if (quotes == null) {
+            return null;
+        }
         return new ArrayList<>(quotes.values());
     }
 
     public boolean hasQuote() {
+        if (quotes == null) {
+            return false;
+        }
         return !quotes.isEmpty();
     }
 
     public boolean hasQuote(String currency) {
+        if (quotes == null) {
+            return false;
+        }
         return quotes.containsKey(Currency.valueOf(currency));
     }
 
     public boolean hasQuote(Currency currency) {
+        if (quotes == null) {
+            return false;
+        }
         return quotes.containsKey(currency);
     }
 

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.vm;
 
 
@@ -39,11 +40,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
+*
  * Created by Hawladar Roman on 5/31/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+
+
 public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private static final boolean OPEN = true;
@@ -160,7 +162,7 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         addSubscription(updateDisposable);
     }
 
-/*    public void updateUi() {
+    public void updateUi() {
         if (!OPEN) {
             return;
         }
@@ -174,10 +176,11 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
 
                 });
         addSubscription(updateUiDisposable);
-    }*/
+    }
 
 
-/*    @DebugLog
+
+    @DebugLog
     public void update() {
         if (!OPEN) {
             return;
@@ -190,9 +193,10 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
                 .backToMain(updateInterval())
                 .subscribe(this::postResult, this::postFailure);
         addSubscription(updateDisposable);
-    }*/
+    }
 
-/*    @DebugLog
+
+    @DebugLog
     public void updateItem() {
         if (!OPEN) {
             return;
@@ -205,7 +209,8 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
                 .backToMain(updateItemInterval())
                 .subscribe(this::postResult, this::postFailure);
         addSubscription(updateItemDisposable);
-    }*/
+    }
+
 
     private Maybe<List<CoinItem>> getUiItemsRx() {
         return Maybe.fromCallable(() -> {
@@ -252,19 +257,21 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         return Maybe.fromCallable(() -> getVisibleItemsIf(currencies));
     }
 
-/*    private Flowable<List<CoinItem>> updateVisibleItemsIntervalRx() {
+    private Flowable<List<CoinItem>> updateVisibleItemsIntervalRx() {
         Flowable<List<CoinItem>> flowable = Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> getVisibleItemsIf()).retry(retry);
         return flowable;
-    }*/
+    }
 
-/*    private Maybe<List<CoinItem>> updateInterval() {
+
+    private Maybe<List<CoinItem>> updateInterval() {
         return repo.getRemoteListingIfRx(CoinSource.CMC)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
-    }*/
+    }
 
- /*   private Flowable<CoinItem> updateItemInterval() {
+
+   private Flowable<CoinItem> updateItemInterval() {
         Flowable<CoinItem> flowable = Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> {
@@ -282,11 +289,13 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
                     return null;
                 }).retry(retry);
         return flowable;
-    }*/
+    }
 
-/*    private Maybe<CoinItem> updateItemRx(Coin item) {
+
+    private Maybe<CoinItem> updateItemRx(Coin item) {
         return repo.getItemByCoinIdRx(item.getCoinId(), true).map(this::getItem);
-    }*/
+    }
+
 
     @DebugLog
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
@@ -358,3 +367,4 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
     }
 
 }
+*/

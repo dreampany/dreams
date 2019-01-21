@@ -82,7 +82,7 @@ public class DetailsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -92,7 +92,7 @@ public class DetailsFragment extends BaseFragment {
         super.onPause();
     }
 
-    @Override
+/*    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isResumed()) {
@@ -104,11 +104,11 @@ public class DetailsFragment extends BaseFragment {
             vm.removeMultipleSubscription();
             vm.removeUpdateDisposable();
         }
-    }
+    }*/
 
     @Override
     public void onRefresh() {
-        vm.loads(false);
+        vm.refresh(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class DetailsFragment extends BaseFragment {
                 vm.toggle((Coin) v.getTag());
                 break;
             case R.id.button_empty:
-                vm.loads(true);
+                //vm.loads(true);
                 break;
         }
     }
@@ -126,8 +126,8 @@ public class DetailsFragment extends BaseFragment {
     private void initView() {
         binding = (FragmentDetailsBinding) super.binding;
         refresh = binding.layoutRefresh;
-        expandable = binding.layoutTop.layoutExpandable;
-        recycler = binding.layoutRecycler.recycler;
+        expandable = findViewById(R.id.layout_expandable);
+        recycler = findViewById(R.id.recycler);
 
         ViewUtil.setSwipe(refresh, this);
         ViewUtil.setClickListener(this, R.id.button_empty);

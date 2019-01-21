@@ -204,8 +204,8 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_coins);
 
         refresh = binding.layoutRefresh;
-        expandable = binding.layoutTopStatus.findViewById(R.id.layout_expandable);
-        recycler = binding.layoutRecycler.findViewById(R.id.recycler);
+        expandable = findViewById(R.id.layout_expandable);
+        recycler = findViewById(R.id.recycler);
 
         ViewUtil.setSwipe(refresh, this);
 

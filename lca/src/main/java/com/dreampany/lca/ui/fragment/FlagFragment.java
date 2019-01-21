@@ -136,7 +136,7 @@ public class FlagFragment extends BaseFragment implements SmartAdapter.Callback<
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_like:
-                vm.toggle((Coin) v.getTag());
+                //vm.toggle((Coin) v.getTag());
                 break;
             case R.id.button_empty:
                 //vm.loads(true);
@@ -172,8 +172,8 @@ public class FlagFragment extends BaseFragment implements SmartAdapter.Callback<
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_flags);
 
         refresh = binding.layoutRefresh;
-        expandable = binding.layoutTopStatus.layoutExpandable;
-        recycler = binding.layoutRecycler.recycler;
+        expandable = findViewById(R.id.layout_expandable);
+        recycler = findViewById(R.id.recycler);
 
         ViewUtil.setSwipe(refresh, this);
         UiTask<Coin> uiTask = getCurrentTask(true);

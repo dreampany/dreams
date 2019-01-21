@@ -83,15 +83,15 @@ public class NotifyViewModel {
         }
         Timber.v("Processing");
         int limit = Constants.Limit.COIN_PAGE;
-        Currency[] currencies = {Currency.USD};
-        this.disposable = rx.backToMain(getProfitableItemsRx(currencies))
+        Currency currency = Currency.USD;
+        this.disposable = rx.backToMain(getProfitableItemsRx(currency))
                 .subscribe(this::postResult, this::postFailed);
     }
 
-    private Maybe<List<CoinItem>> getProfitableItemsRx(Currency[] currencies) {
+    private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
         int listStart = Constants.Limit.COIN_DEFAULT_INDEX;
         int listLimit = Constants.Limit.COIN_PAGE;
-        return repo.getItemsRx(CoinSource.CMC, listStart, listLimit, currencies)
+        return repo.getItemsRx(CoinSource.CMC, listStart, listLimit, currency)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getProfitableItemsRx);
     }
 

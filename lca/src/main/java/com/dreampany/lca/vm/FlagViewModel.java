@@ -3,6 +3,7 @@ package com.dreampany.lca.vm;
 
 import android.app.Application;
 import com.dreampany.frame.data.enums.UiState;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -74,11 +75,14 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         for (Network network : networks) {
             if (network.isConnected()) {
                 state = UiState.ONLINE;
-                //getEx().postToUi(this::updateItem, 2000L);
+                Response<List<CoinItem>> result = getOutputs().getValue();
+                if (result instanceof Response.Failure) {
+                    getEx().postToUi(() -> loads(false, false), 250L);
+                }
             }
         }
         UiState finalState = state;
-        //getEx().postToUiSmartly(() -> updateUiState(finalState));
+        getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
     public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {

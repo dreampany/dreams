@@ -98,7 +98,7 @@ public class FinishedIcoFragment extends BaseFragment {
         vm.removeMultipleSubscription();
     }
 
-    @Override
+/*    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isResumed()) {
@@ -109,7 +109,7 @@ public class FinishedIcoFragment extends BaseFragment {
         } else {
             vm.removeMultipleSubscription();
         }
-    }
+    }*/
 
     @Override
     public void onRefresh() {

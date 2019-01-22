@@ -126,8 +126,8 @@ public class DetailsFragment extends BaseFragment {
     private void initView() {
         binding = (FragmentDetailsBinding) super.binding;
         refresh = binding.layoutRefresh;
-        expandable = findViewById(R.id.layout_expandable);
-        recycler = findViewById(R.id.recycler);
+        expandable = binding.layoutTop.layoutExpandable;
+        recycler = binding.layoutRecycler.recycler;
 
         ViewUtil.setSwipe(refresh, this);
         ViewUtil.setClickListener(this, R.id.button_empty);

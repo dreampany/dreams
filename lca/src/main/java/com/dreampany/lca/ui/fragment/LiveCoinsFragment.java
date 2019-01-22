@@ -18,6 +18,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
@@ -204,8 +205,8 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_coins);
 
         refresh = binding.layoutRefresh;
-        expandable = findViewById(R.id.layout_expandable);
-        recycler = findViewById(R.id.recycler);
+        expandable = binding.layoutTopStatus.layoutExpandable;
+        recycler = binding.layoutRecycler.recycler;
 
         ViewUtil.setSwipe(refresh, this);
 
@@ -325,7 +326,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         //adapter.addItems(items);
         adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
-        processUiState(UiState.EXTRA);
+        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void openCoinUi(Coin coin) {

@@ -17,6 +17,7 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
@@ -182,8 +183,8 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_flags);
 
         refresh = binding.layoutRefresh;
-        expandable = findViewById(R.id.layout_expandable);
-        recycler = findViewById(R.id.recycler);
+        expandable = binding.layoutTopStatus.layoutExpandable;
+        recycler = binding.layoutRecycler.recycler;
 
         ViewUtil.setSwipe(refresh, this);
         UiTask<Coin> uiTask = getCurrentTask(true);
@@ -279,11 +280,11 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         if (scroller.isScrolling()) {
             return;
         }
-        recycler.setNestedScrollingEnabled(false);
+        //recycler.setNestedScrollingEnabled(false);
         Timber.v("Flag Result %s", items.size());
         adapter.addFlagItems(items);
-        recycler.setNestedScrollingEnabled(true);
-        processUiState(UiState.EXTRA);
+        //recycler.setNestedScrollingEnabled(true);
+        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void openCoinUi(Coin coin) {

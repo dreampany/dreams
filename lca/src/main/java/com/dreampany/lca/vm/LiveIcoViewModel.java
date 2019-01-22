@@ -39,9 +39,9 @@ import io.reactivex.functions.Function;
 public class LiveIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
 
     private static final int LIMIT = Constants.Limit.ICO;
-    private static final long initialDelay = 0L;
+/*    private static final long initialDelay = 0L;
     private static final long period = Constants.Time.INSTANCE.getIcoPeriod();
-    private static final int RETRY_COUNT = 3;
+    private static final int RETRY_COUNT = 3;*/
 
     private final NetworkManager network;
     private final IcoRepository repo;
@@ -87,7 +87,7 @@ public class LiveIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
             return;
         }
         Disposable disposable = getRx()
-                .backToMain(getItemsInterval())
+                .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
@@ -95,11 +95,11 @@ public class LiveIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
         addMultipleSubscription(disposable);
     }
 
-    private Flowable<List<IcoItem>> getItemsInterval() {
+/*    private Flowable<List<IcoItem>> getItemsInterval() {
         return Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> getItemsRx().blockingGet());
-    }
+    }*/
 
     private Maybe<List<IcoItem>> getItemsRx() {
         return repo

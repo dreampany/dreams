@@ -87,13 +87,13 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    //getEx().postToUi(() -> loads(false, false), 250L);
+                    getEx().postToUi(() -> loads(false, false), 250L);
                 }
                 //getEx().postToUi(this::updateItem, 2000L);
             }
         }
         UiState finalState = state;
-        //getEx().postToUiSmartly(() -> updateUiState(finalState));
+        getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
     public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {

@@ -87,7 +87,7 @@ public class FinishedIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
             return;
         }
         Disposable disposable = getRx()
-                .backToMain(getItemsInterval())
+                .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
@@ -95,13 +95,13 @@ public class FinishedIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
         addMultipleSubscription(disposable);
     }
 
-    private Flowable<List<IcoItem>> getItemsInterval() {
+/*    private Flowable<List<IcoItem>> getItemsInterval() {
         return Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> getItems().blockingGet());
-    }
+    }*/
 
-    private Maybe<List<IcoItem>> getItems() {
+    private Maybe<List<IcoItem>> getItemsRx() {
         return repo
                 .getFinishedItemsRx(LIMIT)
                 .flatMap((Function<List<Ico>, MaybeSource<List<IcoItem>>>) this::getItemsRx);

@@ -70,12 +70,12 @@ public class UpcomingIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
                 state = UiState.ONLINE;
                 Response<List<IcoItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    //getEx().postToUi(() -> loads(false), 250L);
+                    getEx().postToUi(() -> loads(false), 250L);
                 }
             }
         }
         UiState finalState = state;
-        //getEx().postToUiSmartly(() -> updateUiState(finalState));
+        getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
     @DebugLog

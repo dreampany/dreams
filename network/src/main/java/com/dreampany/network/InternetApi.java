@@ -17,6 +17,7 @@ import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 8/18/2018.
@@ -54,13 +55,13 @@ public class InternetApi {
         disposable = ReactiveNetwork.observeNetworkConnectivity(context)
                 .flatMapSingle((Function<Connectivity, SingleSource<Boolean>>) connectivity -> {
                     if (connectivity.available()) {
-                        return checkInternet();
+                        return ReactiveNetwork.checkInternetConnectivity();
                     }
-                    return lastState;
+                    return Single.just(false);
                 })
                 .subscribeOn(rx.io())
                 .observeOn(rx.io())
-                .subscribe(this::postResult);
+                .subscribe(this::postResult, this::postError);
     }
 
     public void stop(Callback callback) {
@@ -84,8 +85,14 @@ public class InternetApi {
         }
     }
 
+    private void postError(Throwable error) {
+        Timber.e(error);
+    }
+
     private Single<Boolean> checkInternet() {
-        lastState = ReactiveNetwork.checkInternetConnectivity();
+        if (lastState == null) {
+            lastState = ReactiveNetwork.checkInternetConnectivity();
+        }
         return lastState;
     }
 }

@@ -36,7 +36,7 @@ class App : BaseApp() {
     }
 
     override fun hasStetho(): Boolean {
-        return true
+        return false
     }
 
     override fun hasAppIndex(): Boolean {

@@ -185,7 +185,6 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
-        recycler = binding.layoutRecycler.recycler;
 
         ViewUtil.setSwipe(refresh, this);
         UiTask<Coin> uiTask = getCurrentTask(true);

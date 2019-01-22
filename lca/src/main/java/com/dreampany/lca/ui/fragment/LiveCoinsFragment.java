@@ -250,7 +250,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
                 //vm.update();
             }
         };
-        adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
+        //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
         //adapter.setEndlessPageSize(Constants.Limit.COIN_PAGE);
         ViewUtil.setRecycler(
                 adapter,
@@ -342,8 +342,8 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
         //recycler.setNestedScrollingEnabled(false);
         Timber.v("Live Result %s", items.size());
-        //adapter.addItems(items);
-        adapter.loadMoreComplete(items);
+        adapter.addItems(items);
+        //adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
         AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }

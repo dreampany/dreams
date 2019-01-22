@@ -23,7 +23,6 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
-import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
@@ -65,6 +64,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     private SwipeRefreshLayout refresh;
     private ExpandableLayout expandable;
     private RecyclerView recycler;
+    private View empty, filter;
 
 
     @Inject
@@ -153,6 +153,24 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         //super.noMoreLoad(newItemsSize);
     }
 
+/*    @Override
+    public void onUpdateEmptyDataView(int size) {
+        if (size > 0) {
+            processUiState(UiState.CONTENT);
+        } else  {
+            processUiState(UiState.EMPTY);
+        }
+    }
+
+    @Override
+    public void onUpdateEmptyFilterView(int size) {
+        if (size > 0) {
+            processUiState(UiState.CONTENT);
+        } else  {
+            processUiState(UiState.EMPTY);
+        }
+    }*/
+
     @Override
     public boolean onQueryTextChange(@NonNull String newText) {
         if (adapter.hasNewFilter(newText)) {
@@ -208,6 +226,8 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
+        empty = binding.getRoot().findViewById(R.id.empty_view);
+        filter = binding.getRoot().findViewById(R.id.filter_view);
 
         ViewUtil.setSwipe(refresh, this);
 
@@ -240,9 +260,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
                         .addItemViewType(R.layout.item_coin, vm.getItemOffset())
                         .withEdge(true),
                 null,
-                scroller,
-                null
-        );
+                scroller);
         // adapter.setFastScroller(fs);
     }
 

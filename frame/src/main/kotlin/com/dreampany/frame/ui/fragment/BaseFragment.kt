@@ -41,6 +41,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.helpers.EmptyViewHelper
 import hugo.weaving.DebugLog
 import javax.inject.Inject
 
@@ -52,17 +53,18 @@ import javax.inject.Inject
  */
 @Suppress("UNCHECKED_CAST")
 abstract class BaseFragment : PreferenceFragmentCompat(),
-        HasSupportFragmentInjector,
-        ViewTreeObserver.OnWindowFocusChangeListener,
-        UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
-        View.OnClickListener,
-        SwipeRefreshLayout.OnRefreshListener,
-        MultiplePermissionsListener,
-        PermissionRequestErrorListener,
-        SearchView.OnQueryTextListener,
-        FlexibleAdapter.OnItemClickListener,
-        FlexibleAdapter.OnItemLongClickListener,
-        FlexibleAdapter.EndlessScrollListener {
+    HasSupportFragmentInjector,
+    ViewTreeObserver.OnWindowFocusChangeListener,
+    UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
+    View.OnClickListener,
+    SwipeRefreshLayout.OnRefreshListener,
+    MultiplePermissionsListener,
+    PermissionRequestErrorListener,
+    SearchView.OnQueryTextListener,
+    FlexibleAdapter.OnItemClickListener,
+    FlexibleAdapter.OnItemLongClickListener,
+    FlexibleAdapter.EndlessScrollListener,
+    EmptyViewHelper.OnEmptyViewListener {
 
     @Inject
     internal lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
@@ -158,13 +160,15 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
         val activity = activity
         if (BaseActivity::class.java.isInstance(activity) && UiCallback::class.java.isInstance(activity)) {
-            activityCallback = activity as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
+            activityCallback =
+                    activity as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
         }
 
         // this will be worked when parent and child fragment relation
         val parentFragment = parentFragment
         if (BaseFragment::class.java.isInstance(parentFragment) && UiCallback::class.java.isInstance(parentFragment)) {
-            fragmentCallback = parentFragment as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
+            fragmentCallback =
+                    parentFragment as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
         }
 
         if (hasColor()) {
@@ -267,6 +271,14 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     }
 
     override fun onLoadMore(lastPosition: Int, currentPage: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onUpdateEmptyDataView(size: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onUpdateEmptyFilterView(size: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -404,9 +416,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         val parent = getParent();
         parent?.let {
             Dexter.withActivity(it)
-                    .withPermissions(*permissions)
-                    .withListener(listener)
-                    .check()
+                .withPermissions(*permissions)
+                .withListener(listener)
+                .check()
         }
 
     }
@@ -428,7 +440,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     }
 
     fun showAlert(title: String, text: String, backgroundColor: Int, timeout: Long) {
-       showAlert(title, text, backgroundColor, timeout, null)
+        showAlert(title, text, backgroundColor, timeout, null)
     }
 
     fun showAlert(title: String, text: String, backgroundColor: Int, timeout: Long, listener: View.OnClickListener?) {

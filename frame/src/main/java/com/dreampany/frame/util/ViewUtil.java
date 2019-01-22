@@ -102,7 +102,7 @@ public final class ViewUtil {
         }
     }
 
-    public static void setTextColor(TextView view,@ColorInt int color) {
+    public static void setTextColor(TextView view, @ColorInt int color) {
         if (view != null) {
             view.setTextColor(color);
         }
@@ -172,8 +172,32 @@ public final class ViewUtil {
                                    @NonNull RecyclerView.LayoutManager layout,
                                    @Nullable RecyclerView.ItemDecoration decoration,
                                    @Nullable RecyclerView.ItemAnimator animator,
+                                   @Nullable RecyclerView.OnScrollListener scroller) {
+
+        ViewUtil.setRecycler(adapter, recycler, layout, decoration, animator, scroller,
+                null, null, null);
+    }
+
+    public static void setRecycler(@NonNull SmartAdapter adapter,
+                                   @NonNull RecyclerView recycler,
+                                   @NonNull RecyclerView.LayoutManager layout,
+                                   @Nullable RecyclerView.ItemDecoration decoration,
+                                   @Nullable RecyclerView.ItemAnimator animator,
                                    @Nullable RecyclerView.OnScrollListener scroller,
                                    @Nullable View empty) {
+
+        ViewUtil.setRecycler(adapter, recycler, layout, decoration, animator, scroller, empty, null, null);
+    }
+
+    public static void setRecycler(@NonNull SmartAdapter adapter,
+                                   @NonNull RecyclerView recycler,
+                                   @NonNull RecyclerView.LayoutManager layout,
+                                   @Nullable RecyclerView.ItemDecoration decoration,
+                                   @Nullable RecyclerView.ItemAnimator animator,
+                                   @Nullable RecyclerView.OnScrollListener scroller,
+                                   @Nullable View empty,
+                                   @Nullable View filter,
+                                   @Nullable EmptyViewHelper.OnEmptyViewListener emptyListener) {
 
         layout.setItemPrefetchEnabled(false);
         recycler.setHasFixedSize(true);
@@ -196,7 +220,9 @@ public final class ViewUtil {
             recycler.addOnScrollListener(scroller);
         }
 
-        if (empty != null) {
+        if (empty != null && filter != null) {
+            EmptyViewHelper.create(adapter, empty, filter, emptyListener);
+        } else if (empty != null) {
             EmptyViewHelper.create(adapter, empty);
         }
     }

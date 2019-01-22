@@ -25,6 +25,12 @@
 
         <include layout="@layout/fast_scroller" />
 
+        <!-- EmptyView layout for RV when empty -->
+        <!--<include layout="@layout/empty_view"/>-->
+
+        <!-- EmptyView layout for RV when filter has empty result -->
+        <!--<include layout="@layout/filter_view"/>-->
+
     </FrameLayout>
 
 </layout>

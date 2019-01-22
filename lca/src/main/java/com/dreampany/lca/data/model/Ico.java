@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.source.room.IcoStatusConverter;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -96,12 +97,10 @@ public class Ico extends Base {
         }
     };
 
+    @NonNull
     @Override
     public String toString() {
-        return "ICO{" +
-                ", name='" + name + '\'' +
-                ", endTime=" + endTime +
-                '}';
+        return ReflectionToStringBuilder.toString(this);
     }
 
     public void setName(String name) {

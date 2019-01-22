@@ -186,10 +186,16 @@ public class NewsFragment extends BaseMenuFragment {
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                refresh.setRefreshing(true);
+                if (adapter.isEmpty()) {
+                    if (!refresh.isRefreshing()) {
+                        refresh.setRefreshing(true);
+                    }
+                }
                 break;
             case HIDE_PROGRESS:
-                refresh.setRefreshing(false);
+                if (refresh.isRefreshing()) {
+                    refresh.setRefreshing(false);
+                }
                 break;
             case OFFLINE:
                 expandable.expand();

@@ -8,6 +8,7 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
@@ -164,7 +165,13 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency currency) {
-        return Maybe.fromCallable(() -> getVisibleItemsIf(currency));
+        return Maybe.fromCallable(() -> {
+            List<CoinItem> result = getVisibleItemsIf(currency);
+            if (DataUtil.isEmpty(result)) {
+                throw new EmptyException();
+            }
+            return result;
+        }).onErrorReturn(throwable -> new ArrayList<>());
     }
 
     private List<CoinItem> getVisibleItemsIf(Currency currency) {

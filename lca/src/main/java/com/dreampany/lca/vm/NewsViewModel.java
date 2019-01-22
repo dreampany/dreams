@@ -1,7 +1,6 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
-
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -19,19 +18,15 @@ import com.dreampany.lca.ui.model.NewsItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
-import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -41,9 +36,6 @@ import io.reactivex.functions.Function;
 public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
 
     private static final int LIMIT = Constants.Limit.NEWS;
-    private static final long initialDelay = 0L;
-    private static final long period = Constants.Time.INSTANCE.getNewsPeriod();
-    private static final int RETRY_COUNT = 3;
 
     private final NetworkManager network;
     private final NewsRepository repo;
@@ -89,7 +81,7 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
             return;
         }
         Disposable disposable = getRx()
-                .backToMain(getItemsInterval())
+                .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgressMultiple(true))
                 .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
@@ -97,12 +89,12 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
         addMultipleSubscription(disposable);
     }
 
-    private Flowable<List<NewsItem>> getItemsInterval() {
+/*    private Flowable<List<NewsItem>> getItemsInterval() {
         return Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
                 .map(tick -> getItemsRx().blockingGet())
                 .retry(RETRY_COUNT);
-    }
+    }*/
 
     private Maybe<List<NewsItem>> getItemsRx() {
         return repo

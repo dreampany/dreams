@@ -9,6 +9,7 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
@@ -31,6 +32,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
 
@@ -38,6 +40,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -137,19 +140,19 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         addMultipleSubscription(disposable);
     }
 
+    @DebugLog
     public void update(boolean withProgress) {
         if (!OPEN) {
             return;
         }
+        Timber.v("update fired");
         if (hasDisposable(updateDisposable)) {
             return;
         }
         Currency currency = Currency.USD;
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currency))
-                .subscribe(result -> {
-                    postResult(result, withProgress);
-                }, this::postFailure);
+                .subscribe(result -> postResult(result, withProgress), this::postFailure);
         addSubscription(updateDisposable);
     }
 
@@ -161,6 +164,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 
+    @DebugLog
     private List<CoinItem> getVisibleItemsIf(Currency currency) {
         if (uiCallback == null) {
             return null;
@@ -184,7 +188,13 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency currency) {
-        return Maybe.fromCallable(() -> getVisibleItemsIf(currency));
+        return Maybe.fromCallable(() -> {
+            List<CoinItem> result = getVisibleItemsIf(currency);
+            if (DataUtil.isEmpty(result)) {
+                throw new EmptyException();
+            }
+            return result;
+        }).onErrorReturn(throwable -> new ArrayList<>());
     }
 
     @DebugLog

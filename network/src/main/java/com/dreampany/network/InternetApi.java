@@ -35,6 +35,7 @@ public class InternetApi {
     private Disposable disposable;
     private final Set<Callback> callbacks;
     private volatile boolean connected;
+    private volatile Single<Boolean> lastState;
 
     @Inject
     InternetApi(Context context,
@@ -53,9 +54,9 @@ public class InternetApi {
         disposable = ReactiveNetwork.observeNetworkConnectivity(context)
                 .flatMapSingle((Function<Connectivity, SingleSource<Boolean>>) connectivity -> {
                     if (connectivity.available()) {
-                        return ReactiveNetwork.checkInternetConnectivity();
+                        return checkInternet();
                     }
-                    return Single.fromCallable(() -> false);
+                    return lastState;
                 })
                 .subscribeOn(rx.io())
                 .observeOn(rx.io())
@@ -81,5 +82,10 @@ public class InternetApi {
         for (Callback callback : callbacks) {
             callback.onResult(connected);
         }
+    }
+
+    private Single<Boolean> checkInternet() {
+        lastState = ReactiveNetwork.checkInternetConnectivity();
+        return lastState;
     }
 }

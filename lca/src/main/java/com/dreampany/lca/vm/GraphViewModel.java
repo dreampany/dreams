@@ -5,7 +5,6 @@ import android.app.Application;
 import android.content.Context;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
-
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.misc.AppExecutors;
@@ -13,21 +12,15 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.util.ColorUtil;
-import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.TextUtil;
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.frame.util.*;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.repository.GraphRepository;
-import com.dreampany.lca.misc.Constants;
-import com.dreampany.lca.misc.CurrencyFormatter;
-import com.dreampany.lca.misc.MonthSlashDayDateFormatter;
-import com.dreampany.lca.misc.MonthSlashYearFormatter;
-import com.dreampany.lca.misc.TimeDateFormatter;
+import com.dreampany.lca.misc.*;
+import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.enums.TimeType;
 import com.dreampany.lca.ui.model.GraphItem;
 import com.dreampany.lca.ui.model.UiTask;
@@ -37,17 +30,15 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import com.thefinestartist.finestwebview.FinestWebView;
+import hugo.weaving.DebugLog;
+import im.delight.android.webview.AdvancedWebView;
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
-import io.reactivex.Maybe;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -318,6 +309,13 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         Coin coin = getTask().getInput();
         String webUrl = Constants.Api.CoinMarketCapSiteUrl;
         String url = String.format(webUrl, coin.getSlug());
-        new FinestWebView.Builder(activity).show(url);
+
+        if (AdvancedWebView.Browsers.hasAlternative(activity)) {
+            AdvancedWebView.Browsers.openUrl(activity, url);
+        } else {
+            UiTask<?> task = new UiTask<>(true);
+            task.setComment(url);
+            AndroidUtil.openActivity(activity, WebActivity.class, task);
+        }
     }
 }

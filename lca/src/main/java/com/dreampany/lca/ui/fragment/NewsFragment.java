@@ -9,7 +9,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import com.dreampany.frame.data.enums.Event;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -24,26 +23,23 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.databinding.FragmentNewsBinding;
+import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.NewsAdapter;
 import com.dreampany.lca.ui.model.NewsItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.NewsViewModel;
-import com.thefinestartist.finestwebview.FinestWebView;
-
-import net.cachapa.expandablelayout.ExpandableLayout;
-
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import javax.inject.Inject;
-
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import hugo.weaving.DebugLog;
+import im.delight.android.webview.AdvancedWebView;
+import net.cachapa.expandablelayout.ExpandableLayout;
+import org.jetbrains.annotations.Nullable;
+
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -271,6 +267,12 @@ public class NewsFragment extends BaseMenuFragment {
     }
 
     private void openNewsUi(News news) {
-        new FinestWebView.Builder(Objects.requireNonNull(getActivity())).show(news.getUrl());
+        if (AdvancedWebView.Browsers.hasAlternative(getContext())) {
+            AdvancedWebView.Browsers.openUrl(getParent(), news.getUrl());
+        } else {
+            UiTask<?> task = new UiTask<>(true);
+            task.setComment(news.getUrl());
+            openActivity(WebActivity.class, task);
+        }
     }
 }

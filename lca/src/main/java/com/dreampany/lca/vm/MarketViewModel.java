@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Application;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -12,6 +11,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
@@ -19,22 +19,21 @@ import com.dreampany.lca.data.model.Market;
 import com.dreampany.lca.data.source.repository.MarketRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
+import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.model.MarketItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import com.thefinestartist.finestwebview.FinestWebView;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
+import im.delight.android.webview.AdvancedWebView;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -152,6 +151,12 @@ public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Co
     public void openMarket(Activity activity, String market) {
         String webUrl = Constants.Api.CryptoCompareMarketOverviewUrl;
         String url = String.format(webUrl, market);
-        new FinestWebView.Builder(activity).show(url);
+        if (AdvancedWebView.Browsers.hasAlternative(activity)) {
+            AdvancedWebView.Browsers.openUrl(activity, url);
+        } else {
+            UiTask<?> task = new UiTask<>(true);
+            task.setComment(url);
+            AndroidUtil.openActivity(activity, WebActivity.class, task);
+        }
     }
 }

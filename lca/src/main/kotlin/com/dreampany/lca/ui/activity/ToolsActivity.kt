@@ -43,7 +43,7 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun hasRatePermitted(): Boolean {
-        return true
+        return false
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -75,7 +75,7 @@ class ToolsActivity : BaseActivity() {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         commitFragment(CoinFragment::class.java, coinProvider, R.id.layout, uiTask)
-                        ad.loadInterstitial(R.string.interstitial_ad_unit_id)
+                        //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
                     }
                     else -> {
                     }

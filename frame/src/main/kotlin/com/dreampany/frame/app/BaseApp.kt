@@ -197,7 +197,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
                     .build()
             Fabric.with(fabric)*/
         }
-        //configRx()
+        configRx()
         configFresco()
         FirebaseApp.initializeApp(this)
         if (hasAd() && getAdmobAppId() != 0) {

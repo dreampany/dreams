@@ -109,6 +109,11 @@ public class NewsRoomDataSource implements NewsDataSource {
         return dao.getItemsRx(limit);
     }
 
+    @Override
+    public void clear() {
+        mapper.clear();
+    }
+
 /*    @Override
     public Completable putItem(News item) {
         return Completable.fromAction(() -> dao.insertOrReplace(item));

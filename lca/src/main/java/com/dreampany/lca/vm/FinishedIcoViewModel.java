@@ -11,6 +11,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.repository.IcoRepository;
 import com.dreampany.lca.misc.Constants;
@@ -62,6 +63,7 @@ public class FinishedIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
     @Override
     public void clear() {
         network.deObserve(this::onResult, true);
+        repo.clear(IcoStatus.FINISHED);
         super.clear();
     }
 

@@ -144,8 +144,13 @@ public final class DataUtil {
     }
 
     public static <T> List<T> sub(List<T> list, int index, int limit) {
-        if (isEmpty(list) || index < 0 || limit < 1 || (list.size() - index) < limit) {
+
+        if (isEmpty(list) || index < 0 || limit < 1 || list.size() <= index) {
             return null;
+        }
+        //limit = getMin(list.size(), limit);
+        if ((list.size() - index) < limit) {
+            limit = list.size() - index;
         }
         return list.subList(index, index + limit);
     }
@@ -254,6 +259,10 @@ public final class DataUtil {
     }
 
     public static String[] toStringArray(List<String> list) {
-       return list.toArray(new String[0]);
+        return list.toArray(new String[0]);
+    }
+
+    public static int getMin(int left, int right) {
+        return left < right ? left : right;
     }
 }

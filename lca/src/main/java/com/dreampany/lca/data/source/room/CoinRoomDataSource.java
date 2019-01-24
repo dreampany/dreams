@@ -19,7 +19,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
-import timber.log.Timber;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -73,6 +72,11 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public void clear() {
+
+    }
+
+    @Override
     public Coin getItem(CoinSource source, String symbol, Currency currency) {
         if (!mapper.hasCoin(symbol)) {
             Coin room = dao.getItem(symbol);
@@ -98,13 +102,6 @@ public class CoinRoomDataSource implements CoinDataSource {
         });
     }
 
-    /**
-     * @param source
-     * @param index      >= 0
-     * @param limit
-     * @param currency
-     * @return
-     */
     @Override
     public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
         if (!mapper.hasCoins()) {
@@ -334,6 +331,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     private void bindQuote(Coin coin, Currency currency) {
         if (coin != null && !coin.hasQuote(currency)) {
             Quote quote = quoteDao.getItems(coin.getId(), currency.name());
+            //coin.clearQuote();
             coin.addQuote(quote);
         }
     }

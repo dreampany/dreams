@@ -1,6 +1,7 @@
 package com.dreampany.lca.data.source.api;
 
 import com.dreampany.frame.data.source.api.DataSource;
+import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.model.Ico;
 
 import java.util.List;
@@ -13,6 +14,8 @@ import io.reactivex.Maybe;
  * hawladar.roman@bjitgroup.com
  */
 public interface IcoDataSource extends DataSource<Ico> {
+
+    void clear(IcoStatus status);
 
     List<Ico> getLiveItems(int limit);
 

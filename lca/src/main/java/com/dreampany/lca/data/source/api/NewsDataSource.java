@@ -10,4 +10,5 @@ import com.dreampany.lca.data.model.News;
  */
 public interface NewsDataSource extends DataSource<News> {
 
+    void clear();
 }

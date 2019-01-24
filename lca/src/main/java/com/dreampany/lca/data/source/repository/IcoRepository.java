@@ -41,7 +41,7 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
                   Pref pref,
                   @Room IcoDataSource room,
                   @Remote IcoDataSource remote) {
-        super( rx, rm);
+        super(rx, rm);
         this.pref = pref;
         this.room = room;
         this.remote = remote;
@@ -125,6 +125,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     @Override
     public Maybe<List<Ico>> getItemsRx(int limit) {
         return null;
+    }
+
+    @Override
+    public void clear(IcoStatus status) {
+        room.clear(status);
+        remote.clear(status);
     }
 
     @Override

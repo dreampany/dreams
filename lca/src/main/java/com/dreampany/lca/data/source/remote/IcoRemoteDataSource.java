@@ -121,6 +121,11 @@ public class IcoRemoteDataSource implements IcoDataSource {
     }
 
     @Override
+    public void clear(IcoStatus status) {
+
+    }
+
+    @Override
     public List<Ico> getLiveItems(int limit) {
         return null;
     }

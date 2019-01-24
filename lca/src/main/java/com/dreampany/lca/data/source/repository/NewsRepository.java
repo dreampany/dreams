@@ -29,7 +29,7 @@ import io.reactivex.Maybe;
 public class NewsRepository extends Repository<Long, News> implements NewsDataSource {
 
     private final Pref pref;
-    private final NewsDataSource local;
+    private final NewsDataSource room;
     private final NewsDataSource remote;
 
     @DebugLog
@@ -37,11 +37,11 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
     NewsRepository(RxMapper rx,
                    ResponseMapper rm,
                    Pref pref,
-                   @Room NewsDataSource local,
+                   @Room NewsDataSource room,
                    @Remote NewsDataSource remote) {
         super( rx, rm);
         this.pref = pref;
-        this.local = local;
+        this.room = room;
         this.remote = remote;
     }
 
@@ -57,7 +57,7 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
 
     @Override
     public int getCount() {
-        return local.getCount();
+        return room.getCount();
     }
 
     @Override
@@ -77,22 +77,22 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
 
     @Override
     public long putItem(News news) {
-        return local.putItem(news);
+        return room.putItem(news);
     }
 
     @Override
     public Maybe<Long> putItemRx(News news) {
-        return local.putItemRx(news);
+        return room.putItemRx(news);
     }
 
     @Override
     public List<Long> putItems(List<News> news) {
-        return local.putItems(news);
+        return room.putItems(news);
     }
 
     @Override
     public Maybe<List<Long>> putItemsRx(List<News> news) {
-        return local.putItemsRx(news);
+        return room.putItemsRx(news);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
     }
 
     public Maybe<List<News>> getItemsRx(int limit, boolean fresh) {
-        Maybe<List<News>> local = this.local.getItemsRx(limit);
+        Maybe<List<News>> local = this.room.getItemsRx(limit);
         Maybe<List<News>> remote = getRemoteItemsIfRx(limit);
         return concatFirstRx(remote, local);
     }
@@ -142,5 +142,11 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
                     });
         }
         return null;
+    }
+
+    @Override
+    public void clear() {
+        room.clear();
+        remote.clear();
     }
 }

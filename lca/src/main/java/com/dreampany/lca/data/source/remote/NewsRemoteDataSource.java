@@ -126,4 +126,9 @@ public class NewsRemoteDataSource implements NewsDataSource {
                 .toList()
                 .toMaybe();
     }
+
+    @Override
+    public void clear() {
+
+    }
 }

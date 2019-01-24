@@ -1,14 +1,12 @@
 package com.dreampany.frame.misc;
 
 import android.support.annotation.NonNull;
-
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 /**
  * Created by Hawladar Roman on 15/6/18.
@@ -26,6 +24,10 @@ public class SmartMap<K, V> {
 
     public static <K, V>  SmartMap<K, V> newMap() {
         return new SmartMap<>();
+    }
+
+    public Iterator<Map.Entry<K, V>> getIterator() {
+       return map.entrySet().iterator();
     }
 
     public boolean contains(K key) {

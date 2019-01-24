@@ -28,6 +28,11 @@ public class NewsMapper {
         this.cache = cache;
     }
 
+    public void clear() {
+        map.clear();
+        cache.clear();
+    }
+
     public News toNews(CcNews in) {
         if (in == null) {
             return null;

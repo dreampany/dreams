@@ -21,7 +21,6 @@ import io.reactivex.Maybe;
 @Singleton
 public class IcoRoomDataSource implements IcoDataSource {
 
-
     private final IcoMapper mapper;
     private final IcoDao dao;
 
@@ -109,6 +108,11 @@ public class IcoRoomDataSource implements IcoDataSource {
     @Override
     public Maybe<List<Ico>> getItemsRx(int limit) {
         return null;
+    }
+
+    @Override
+    public void clear(IcoStatus status) {
+        mapper.clear(status);
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.repository.IcoRepository;
 import com.dreampany.lca.misc.Constants;
@@ -35,9 +36,6 @@ import java.util.List;
 public class LiveIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
 
     private static final int LIMIT = Constants.Limit.ICO;
-/*    private static final long initialDelay = 0L;
-    private static final long period = Constants.Time.INSTANCE.getIcoPeriod();
-    private static final int RETRY_COUNT = 3;*/
 
     private final NetworkManager network;
     private final IcoRepository repo;
@@ -58,6 +56,7 @@ public class LiveIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
     @Override
     public void clear() {
         network.deObserve(this::onResult, true);
+        repo.clear(IcoStatus.LIVE);
         super.clear();
     }
 

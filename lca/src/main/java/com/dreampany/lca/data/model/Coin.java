@@ -224,6 +224,10 @@ public class Coin extends Base {
         return new ArrayList<>(quotes.values());
     }
 
+    public void clearQuote() {
+        quotes.clear();
+    }
+
     public boolean hasQuote() {
         if (quotes == null) {
             return false;

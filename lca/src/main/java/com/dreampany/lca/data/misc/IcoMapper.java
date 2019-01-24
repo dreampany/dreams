@@ -10,6 +10,8 @@ import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.misc.IcoAnnote;
 
 import javax.inject.Inject;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -26,6 +28,16 @@ public class IcoMapper {
               @IcoAnnote SmartCache<Long, Ico> cache) {
         this.map = map;
         this.cache = cache;
+    }
+
+    public void clear(IcoStatus status) {
+        Iterator<Map.Entry<Long, Ico>> it = map.getIterator();
+        while (it.hasNext()) {
+            Map.Entry<Long, Ico> entry = it.next();
+            if (status.equals(entry.getValue().getStatus())) {
+                it.remove();
+            }
+        }
     }
 
     public Ico toIco(ApiIco in, IcoStatus status) {

@@ -152,6 +152,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }*/
 
     @Override
+    public void clear() {
+
+    }
+
+    @Override
     public Coin getItem(CoinSource source, String symbol, Currency currency) {
         return null;
     }

@@ -56,6 +56,7 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
     @Override
     public void clear() {
         network.deObserve(this::onResult, true);
+        repo.clear();
         super.clear();
     }
 

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
  * hawladar.roman@bjitgroup.com
  */
 public class SmartCache<K, V> {
+
     @NonNull
     private final Cache<K, V> cache;
 

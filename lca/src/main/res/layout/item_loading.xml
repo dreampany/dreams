@@ -11,10 +11,10 @@
         android:layout_height="164dp"
         android:alpha="0.5"
         android:scaleType="fitCenter"
-        auto:srcCompat="@drawable/ic_feedback_accent_24dp" />
+        auto:srcCompat="@drawable/ic_hourglass_empty_accent_24dp" />
 
     <fr.arnaudguyon.smartfontslib.FontTextView
-        android:id="@+id/text_empty"
+        android:id="@+id/text_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

@@ -113,9 +113,16 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
                 .backToMain(getFlagItemsRx(currency))
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
+                .doOnSubscribe(subscription ->{
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
                 .subscribe(
-                        result -> postResult(result, withProgress),
+                        result -> {
+                            postProgress(false);
+                            postResult(result);
+                        },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
         addMultipleSubscription(disposable);
@@ -131,7 +138,20 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         Currency currency = Currency.USD;
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currency))
-                .subscribe(result -> postResult(result, withProgress), this::postFailure);
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(
+                        result -> {
+                            if (!DataUtil.isEmpty(result)) {
+                                postProgress(false);
+                                postResult(result);
+                            } else {
+                                postProgress(false);
+                            }
+                        }, this::postFailure);
         addSubscription(updateDisposable);
     }
 

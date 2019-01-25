@@ -83,7 +83,7 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
+                .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });

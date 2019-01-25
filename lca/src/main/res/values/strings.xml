@@ -15,6 +15,7 @@
     <string name="finished">Finished</string>
 
     <string name="empty_flags">Sorry! There are no favourite coins.</string>
+    <string name="loading_coins">Loading coins…</string>
     <string name="empty_coins">Sorry! There are no coins.</string>
     <string name="empty_news">No News! to see.</string>
     <string name="empty_live_ico">No Live ICO! right now.</string>

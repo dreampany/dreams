@@ -53,6 +53,7 @@ import java.util.Objects;
 @ActivityScope
 public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.Callback<CoinItem> {
 
+    private static final String LOADING = "loading";
     private static final String EMPTY = "empty";
 
     @Inject
@@ -220,7 +221,9 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     private void initView() {
         setTitle(R.string.live_crypto);
         binding = (FragmentCoinsBinding) super.binding;
+        binding.stateful.setStateView(LOADING, LayoutInflater.from(getContext()).inflate(R.layout.item_loading, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
+        ViewUtil.setText(this, R.id.text_loading, R.string.loading_coins);
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_coins);
 
         refresh = binding.layoutRefresh;
@@ -271,6 +274,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
                     if (!refresh.isRefreshing()) {
                         refresh.setRefreshing(true);
                     }
+                    //binding.stateful.setState(LOADING);
                 }
                 break;
             case HIDE_PROGRESS:

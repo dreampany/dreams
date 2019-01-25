@@ -14,7 +14,6 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -32,7 +31,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
 
@@ -40,7 +38,6 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -90,13 +87,13 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    getEx().postToUi(() -> loads(false, false), 250L);
+                    //getEx().postToUi(() -> loads(false, false), 250L);
                 }
                 //getEx().postToUi(this::updateItem, 2000L);
             }
         }
         UiState finalState = state;
-        getEx().postToUiSmartly(() -> updateUiState(finalState));
+        //getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
     public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
@@ -132,9 +129,16 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
                 .backToMain(getListingRx(index, limit, currency))
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
                 .subscribe(
-                        result -> postResult(result, withProgress),
+                        result -> {
+                            postProgress(false);
+                            postResult(result);
+                        },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
         addMultipleSubscription(disposable);
@@ -152,11 +156,26 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         Currency currency = Currency.USD;
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currency))
-                .subscribe(result -> postResult(result, withProgress), this::postFailure);
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(
+                        result -> {
+                            if (!DataUtil.isEmpty(result)) {
+                                postProgress(false);
+                                postResult(result);
+                            } else {
+                                postProgress(false);
+                            }
+                        }, this::postFailure);
         addSubscription(updateDisposable);
     }
 
-    /** private api */
+    /**
+     * private api
+     */
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
         return repo
                 .getItemsRx(CoinSource.CMC, index, limit, currency)

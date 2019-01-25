@@ -196,13 +196,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return concatSingleLastRx(remote, room);
     }
 
-    /**
-     * @param source
-     * @param index    >= 0
-     * @param limit
-     * @param currency
-     * @return
-     */
     @Override
     public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
         return null;

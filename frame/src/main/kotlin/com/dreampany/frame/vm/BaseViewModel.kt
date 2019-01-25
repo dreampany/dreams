@@ -13,7 +13,6 @@ import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.util.AndroidUtil
-import hugo.weaving.DebugLog
 import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -391,7 +390,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         updateUiState(uiState)
     }*/
 
-    fun processProgress(loading: Boolean) {
+    fun postProgress(loading: Boolean) {
         updateUiState(if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
     }
 
@@ -409,37 +408,6 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }
 
-    fun processFailureWithProgress(error: Throwable) {
-        processProgress(false)
-        processFailure(error)
-    }
-
-    fun processResult(data: X) {
-        rm.response(input, data)
-    }
-
-    fun processResultWithProgress(data: X) {
-        processProgress(false)
-        processResult(data)
-    }
-
-    fun processResult(data: List<X>) {
-        rm.response(inputs, data)
-    }
-
-    fun processResultWithProgress(data: List<X>) {
-        processProgress(false)
-        processResult(data)
-    }
-
-    fun postProgress(loading: Boolean) {
-        rm.response(input, loading)
-    }
-
-    fun postProgressMultiple(loading: Boolean) {
-        rm.response(inputs, loading)
-    }
-
     fun postFailure(error: Throwable) {
         if (!hasSingleDisposable()) {
             return
@@ -447,7 +415,6 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         rm.responseWithProgress(input, error)
     }
 
-    @DebugLog
     fun postFailureMultiple(error: Throwable) {
         if (!hasMultipleDisposable()) {
             return
@@ -455,14 +422,20 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         rm.responseWithProgress(inputs, error)
     }
 
+    fun postResult(data: X) {
+        rm.response(input, data)
+    }
 
-    @DebugLog
     fun postResult(data: X, withProgress: Boolean) {
         if (withProgress) {
             rm.responseWithProgress(input, data)
         } else {
             rm.response(input, data)
         }
+    }
+
+    fun postResult(data: List<X>) {
+        rm.response(inputs, data)
     }
 
     fun postResult(data: List<X>, withProgress: Boolean) {

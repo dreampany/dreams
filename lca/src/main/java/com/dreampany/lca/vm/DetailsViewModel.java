@@ -100,7 +100,7 @@ public class DetailsViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
                 .backToMain(getItemsRx(currency))
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
+                .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(result -> {
                     postResult(result, withProgress);
                 }, error -> {

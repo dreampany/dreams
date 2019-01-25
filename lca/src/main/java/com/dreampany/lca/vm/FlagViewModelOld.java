@@ -109,7 +109,7 @@ public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
                 .backToMain(getFlagItemsRx(currency))
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
+                .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(
                         result -> postResult(result, withProgress),
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))

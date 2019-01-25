@@ -83,7 +83,7 @@ public class LiveIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
+                .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });

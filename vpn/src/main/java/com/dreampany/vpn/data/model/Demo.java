@@ -1,6 +1,6 @@
 package com.dreampany.vpn.data.model;
 
-import android.arch.persistence.room.Ignore;
+import androidx.room.Ignore;
 import android.os.Parcel;
 
 import com.dreampany.frame.data.model.Base;

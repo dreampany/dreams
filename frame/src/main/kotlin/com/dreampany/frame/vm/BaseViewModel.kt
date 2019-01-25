@@ -1,8 +1,8 @@
 package com.dreampany.frame.vm
 
 import android.app.Application
-import android.arch.lifecycle.*
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import com.dreampany.frame.data.enums.Event
 import com.dreampany.frame.data.enums.NetworkState
 import com.dreampany.frame.data.enums.UiMode

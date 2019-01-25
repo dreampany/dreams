@@ -1,6 +1,6 @@
 package com.dreampany.fit.ui.model;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.dreampany.fit.data.model.Demo;

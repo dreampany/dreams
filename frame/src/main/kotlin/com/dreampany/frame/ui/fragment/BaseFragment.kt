@@ -2,20 +2,20 @@ package com.dreampany.frame.ui.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.IdRes
-import android.support.annotation.StringRes
-import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.preference.PreferenceFragmentCompat
-import android.support.v7.widget.SearchView
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.preference.PreferenceFragmentCompat
+import androidx.appcompat.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +57,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     ViewTreeObserver.OnWindowFocusChangeListener,
     UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
     View.OnClickListener,
-    SwipeRefreshLayout.OnRefreshListener,
+    androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener,
     MultiplePermissionsListener,
     PermissionRequestErrorListener,
     SearchView.OnQueryTextListener,
@@ -67,7 +67,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     EmptyViewHelper.OnEmptyViewListener {
 
     @Inject
-    internal lateinit var childFragmentInjector: DispatchingAndroidInjector<Fragment>
+    internal lateinit var childFragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
     @Inject
     internal lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
@@ -115,11 +115,11 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     @DebugLog
     protected abstract fun onStopUi()
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
         return childFragmentInjector
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
         super.onAttach(context)
     }

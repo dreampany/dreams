@@ -2,8 +2,8 @@ package com.dreampany.frame.ui.listener;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Hawladar Roman on 7/13/2018.

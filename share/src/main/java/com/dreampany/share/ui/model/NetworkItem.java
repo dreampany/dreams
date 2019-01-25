@@ -1,7 +1,7 @@
 package com.dreampany.share.ui.model;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.dreampany.frame.ui.model.BaseItem;

@@ -8,10 +8,10 @@
 
         <variable
             name="items"
-            type="android.databinding.ObservableArrayList" />
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,7 +28,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/layout_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                     auto:layout_constraintEnd_toEndOf="parent"
                     auto:layout_constraintTop_toTopOf="parent"
                     auto:roundedCorners="true" />
-            </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <cz.kinst.jakub.view.SimpleStatefulLayout
                 android:id="@+id/stateful"
@@ -78,7 +78,7 @@
 
             </cz.kinst.jakub.view.SimpleStatefulLayout>
         </RelativeLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
 
 

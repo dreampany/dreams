@@ -1,7 +1,7 @@
 package com.dreampany.tensor.injector;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.dreampany.frame.injector.ViewModelKey;
 import com.dreampany.tensor.factory.TaskViewModelFactory;

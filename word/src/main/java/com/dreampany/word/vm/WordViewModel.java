@@ -1,7 +1,7 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.model.State;

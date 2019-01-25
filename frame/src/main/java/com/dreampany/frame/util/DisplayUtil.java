@@ -5,7 +5,7 @@ import android.content.res.Resources;
 import android.hardware.display.DisplayManager;
 import android.os.Build;
 import android.os.PowerManager;
-import android.support.annotation.DimenRes;
+import androidx.annotation.DimenRes;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;

@@ -1,11 +1,10 @@
 package com.dreampany.lca.ui.model;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import android.view.View;
 
-import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Exchange;

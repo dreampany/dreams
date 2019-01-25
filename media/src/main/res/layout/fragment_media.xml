@@ -8,7 +8,7 @@
 
         <variable
             name="items"
-            type="android.databinding.ObservableArrayList" />
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
     <android.support.v4.widget.SwipeRefreshLayout

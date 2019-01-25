@@ -1,8 +1,8 @@
 package com.dreampany.frame.ui.activity
 
-import android.support.design.widget.NavigationView
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
+import com.google.android.material.navigation.NavigationView
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
 import com.dreampany.frame.R
 
 
@@ -15,7 +15,7 @@ abstract class BaseNavigationActivity: BaseMenuActivity(), NavigationView.OnNavi
 
     private var currentNavigationId: Int = 0
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var drawerLayout: androidx.drawerlayout.widget.DrawerLayout
 
     open fun getDrawerLayoutId(): Int {
         return 0

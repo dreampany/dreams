@@ -1,6 +1,6 @@
 package com.dreampany.media.data.source.room;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 
 import com.dreampany.media.data.enums.MediaType;
 import com.google.common.base.Strings;

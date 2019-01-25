@@ -1,7 +1,7 @@
 package com.dreampany.frame.data.model;
 
 import android.os.Parcel;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.common.base.Objects;
 

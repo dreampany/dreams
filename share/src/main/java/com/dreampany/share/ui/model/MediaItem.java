@@ -1,8 +1,8 @@
 package com.dreampany.share.ui.model;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 

@@ -1,7 +1,7 @@
 package com.dreampany.lca.ui.model;
 
 import android.os.Parcel;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.BaseParcel;
 import com.dreampany.frame.data.model.Task;

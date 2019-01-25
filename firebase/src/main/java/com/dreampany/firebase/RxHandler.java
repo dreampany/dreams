@@ -1,6 +1,6 @@
 package com.dreampany.firebase;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.firebase.exceptions.RxFirebaseNullDataException;
 import com.google.android.gms.tasks.OnCompleteListener;

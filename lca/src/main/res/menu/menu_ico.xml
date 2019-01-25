@@ -7,7 +7,7 @@
         android:animateLayoutChanges="true"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/action_search"
-        auto:actionViewClass="android.support.v7.widget.SearchView"
+        auto:actionViewClass="androidx.appcompat.widget.SearchView"
         auto:showAsAction="collapseActionView|always" />
 
 </menu>

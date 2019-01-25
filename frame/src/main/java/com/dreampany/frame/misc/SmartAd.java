@@ -2,7 +2,7 @@ package com.dreampany.frame.misc;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 import android.view.View;
 
 import com.dreampany.frame.data.source.pref.AdPref;

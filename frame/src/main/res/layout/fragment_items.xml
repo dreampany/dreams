@@ -8,7 +8,7 @@
 
         <variable
             name="items"
-            type="android.databinding.ObservableArrayList" />
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
     <cz.kinst.jakub.view.SimpleStatefulLayout
@@ -34,12 +34,12 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/layout_status">
 
-                <android.support.v4.widget.SwipeRefreshLayout
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/swipe_refresh"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -47,7 +47,7 @@
                         auto:items="@{items}"
                         tools:listitem="@layout/item_list" />
 
-                </android.support.v4.widget.SwipeRefreshLayout>
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             </FrameLayout>
 

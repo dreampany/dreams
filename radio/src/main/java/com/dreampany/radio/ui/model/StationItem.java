@@ -1,6 +1,6 @@
 package com.dreampany.radio.ui.model;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.dreampany.radio.data.model.Demo;

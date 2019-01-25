@@ -1,7 +1,7 @@
 
 package com.dreampany.frame.vm
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
 import dagger.MapKey
 import kotlin.reflect.KClass
 

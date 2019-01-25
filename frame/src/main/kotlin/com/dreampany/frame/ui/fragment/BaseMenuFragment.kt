@@ -3,7 +3,7 @@ package com.dreampany.frame.ui.fragment
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuInflater
@@ -38,7 +38,7 @@ abstract class BaseMenuFragment : BaseFragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
 
         this.menu = menu

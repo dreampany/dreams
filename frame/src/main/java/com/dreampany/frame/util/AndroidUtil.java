@@ -17,7 +17,7 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.Surface;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;

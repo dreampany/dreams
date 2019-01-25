@@ -1,8 +1,8 @@
 package com.dreampany.frame.ui.adapter
 
 import android.os.Parcelable
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import android.util.SparseArray
 import android.view.ViewGroup
 import com.dreampany.frame.data.model.Task
@@ -15,7 +15,7 @@ import com.dreampany.frame.util.FragmentUtil
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal val manager: FragmentManager) : FragmentStatePagerAdapter(manager) {
+abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal val manager: androidx.fragment.app.FragmentManager) : FragmentStatePagerAdapter(manager) {
     internal val fragments: SparseArray<T>
     internal val pageTitles: SparseArray<String>
     internal val pageClasses: SparseArray<Class<T>>
@@ -48,7 +48,7 @@ abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal 
         val position = fragments.indexOfValue(inFragment as T?)
         return if (position >= 0) {
             position
-        } else FragmentStatePagerAdapter.POSITION_NONE
+        } else androidx.fragment.app.FragmentStatePagerAdapter.POSITION_NONE
     }
 
     override fun saveState(): Parcelable? {
@@ -129,7 +129,7 @@ abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal 
         return this
     }
 
-    internal fun newFragment(position: Int): T? {
+    internal fun newFragment(position: Int): T {
         val clazz = pageClasses.get(position)
         val task = pageTasks.get(position)
         val fragment = FragmentUtil.newFragment(clazz, task)

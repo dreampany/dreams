@@ -2,8 +2,8 @@ package com.dreampany.lca.vm;
 
 import android.app.Activity;
 import android.app.Application;
-import android.support.annotation.ColorRes;
-import android.support.annotation.StringRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.StringRes;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;

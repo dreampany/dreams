@@ -1,6 +1,6 @@
 package com.dreampany.frame.ui.callback;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Hawladar Roman on 2/6/18.

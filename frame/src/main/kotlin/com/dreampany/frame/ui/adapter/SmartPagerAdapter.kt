@@ -1,7 +1,7 @@
 package com.dreampany.frame.ui.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.dreampany.frame.ui.fragment.BaseFragment
 
 
@@ -10,9 +10,9 @@ import com.dreampany.frame.ui.fragment.BaseFragment
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class SmartPagerAdapter<T : BaseFragment>(fragmentManager: FragmentManager) : BaseStateAdapter<T>(fragmentManager) {
+class SmartPagerAdapter<T : BaseFragment>(fragmentManager: androidx.fragment.app.FragmentManager) : BaseStateAdapter<T>(fragmentManager) {
 
-    override fun getItem(position: Int): Fragment? {
+    override fun getItem(position: Int): androidx.fragment.app.Fragment {
         val fragment = getFragment(position)
         return if (fragment != null) fragment else newFragment(position)
     }

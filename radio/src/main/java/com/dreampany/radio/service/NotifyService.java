@@ -1,6 +1,6 @@
 package com.dreampany.radio.service;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.dreampany.radio.vm.NotifyViewModel;
 import com.dreampany.frame.api.service.BaseJobService;
 import com.firebase.jobdispatcher.JobParameters;

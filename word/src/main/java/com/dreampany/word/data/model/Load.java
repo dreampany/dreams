@@ -1,8 +1,8 @@
 package com.dreampany.word.data.model;
 
-import android.arch.persistence.room.Ignore;
+import androidx.room.Ignore;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.Base;
 

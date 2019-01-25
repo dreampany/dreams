@@ -1,6 +1,6 @@
 package com.dreampany.tensor.data.source.local;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.tensor.data.model.Task;
 import com.dreampany.tensor.data.source.TaskDataSource;

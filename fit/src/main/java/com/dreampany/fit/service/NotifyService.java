@@ -1,6 +1,6 @@
 package com.dreampany.fit.service;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.dreampany.fit.vm.NotifyViewModel;
 import com.dreampany.frame.api.service.BaseJobService;
 import com.firebase.jobdispatcher.JobParameters;

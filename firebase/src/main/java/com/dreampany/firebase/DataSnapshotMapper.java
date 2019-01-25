@@ -1,6 +1,6 @@
 package com.dreampany.firebase;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.firebase.exceptions.RxFirebaseDataCastException;
 import com.google.firebase.database.DataSnapshot;

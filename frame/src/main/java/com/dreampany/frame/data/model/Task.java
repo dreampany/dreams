@@ -2,7 +2,7 @@ package com.dreampany.frame.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Hawladar Roman on 30/4/18.

@@ -1,8 +1,8 @@
 package com.dreampany.lca.ui.model;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -13,8 +13,6 @@ import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
-import com.dreampany.lca.api.cmc.model.CmcQuote;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;

@@ -1,6 +1,6 @@
 package com.dreampany.word.ui.model;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;

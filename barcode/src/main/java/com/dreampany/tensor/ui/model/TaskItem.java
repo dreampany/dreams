@@ -1,6 +1,6 @@
 package com.dreampany.tensor.ui.model;
 
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;

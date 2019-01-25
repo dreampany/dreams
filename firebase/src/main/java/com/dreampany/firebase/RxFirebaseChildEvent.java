@@ -1,6 +1,6 @@
 package com.dreampany.firebase;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Hawladar Roman on 6/5/2018.

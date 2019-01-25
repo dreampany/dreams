@@ -1,6 +1,6 @@
 package com.dreampany.play2048.service;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.play2048.vm.NotifyViewModel;
 import com.dreampany.frame.api.service.BaseJobService;

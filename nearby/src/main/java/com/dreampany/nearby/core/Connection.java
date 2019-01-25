@@ -1,7 +1,7 @@
 package com.dreampany.nearby.core;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.nearby.misc.Runner;
 import com.dreampany.nearby.misc.SmartQueue;

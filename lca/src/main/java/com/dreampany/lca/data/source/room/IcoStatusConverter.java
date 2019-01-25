@@ -1,6 +1,6 @@
 package com.dreampany.lca.data.source.room;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 
 import com.dreampany.lca.data.enums.IcoStatus;
 

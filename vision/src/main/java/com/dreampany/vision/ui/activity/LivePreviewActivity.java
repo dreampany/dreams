@@ -2,7 +2,7 @@ package com.dreampany.vision.ui.activity;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.dreampany.frame.ui.activity.BaseActivity;
 import com.dreampany.vision.R;

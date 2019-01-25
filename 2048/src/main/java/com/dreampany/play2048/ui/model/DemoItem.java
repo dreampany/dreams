@@ -1,6 +1,6 @@
 package com.dreampany.play2048.ui.model;
 
-import android.support.annotation.LayoutRes;
+import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.dreampany.play2048.data.model.Demo;

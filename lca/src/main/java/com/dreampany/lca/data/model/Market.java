@@ -1,15 +1,12 @@
 package com.dreampany.lca.data.model;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.Base;
-import com.google.common.base.Objects;
-
-import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 24/6/18.

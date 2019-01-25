@@ -1,9 +1,9 @@
 package com.dreampany.fit.ui.fragment;
 
-import android.arch.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.ActivityScope;

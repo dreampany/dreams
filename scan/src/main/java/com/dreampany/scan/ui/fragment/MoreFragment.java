@@ -1,8 +1,8 @@
 package com.dreampany.scan.ui.fragment;
 
-import android.databinding.ObservableArrayList;
+import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
 

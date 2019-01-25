@@ -1,6 +1,6 @@
 package com.dreampany.firebase.exceptions;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.

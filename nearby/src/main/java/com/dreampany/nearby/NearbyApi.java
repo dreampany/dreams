@@ -2,7 +2,7 @@ package com.dreampany.nearby;
 
 import android.Manifest;
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.dreampany.nearby.core.Api;
 import com.dreampany.nearby.core.Packets;

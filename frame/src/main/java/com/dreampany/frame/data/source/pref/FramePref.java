@@ -1,7 +1,7 @@
 package com.dreampany.frame.data.source.pref;
 
 import android.content.Context;
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 import com.dreampany.frame.R;
 import com.dreampany.frame.util.TimeUtil;

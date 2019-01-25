@@ -1,6 +1,6 @@
 package com.dreampany.frame.misc;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;

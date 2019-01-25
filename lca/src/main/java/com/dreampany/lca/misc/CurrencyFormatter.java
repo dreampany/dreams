@@ -1,8 +1,8 @@
 package com.dreampany.lca.misc;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 import com.dreampany.lca.R;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;

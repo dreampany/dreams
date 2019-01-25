@@ -1,7 +1,7 @@
 package com.dreampany.frame.data.source.local
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Query
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.dao.BaseDao
 import io.reactivex.Maybe

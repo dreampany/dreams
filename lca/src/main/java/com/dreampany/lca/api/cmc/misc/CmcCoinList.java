@@ -1,6 +1,6 @@
 package com.dreampany.lca.api.cmc.misc;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.annimon.stream.Optional;
 import com.annimon.stream.Stream;

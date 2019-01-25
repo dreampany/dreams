@@ -1,6 +1,6 @@
 package com.dreampany.frame.data.model;
 
-import android.databinding.BaseObservable;
+import androidx.databinding.BaseObservable;
 
 import java.io.Serializable;
 

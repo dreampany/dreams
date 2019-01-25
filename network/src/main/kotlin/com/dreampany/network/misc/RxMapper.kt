@@ -1,6 +1,6 @@
 package com.dreampany.network.misc
 
-import android.arch.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.*
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.AsyncSubject

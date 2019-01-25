@@ -11,6 +11,7 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.network.NetworkManager;
 import io.reactivex.Maybe;
 
 import javax.inject.Inject;
@@ -29,6 +30,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     private final Object guard = new Object();
 
+    private final NetworkManager network;
     private final Pref pref;
     private final CoinDataSource room;
     private final CoinDataSource remote;
@@ -39,10 +41,12 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     @Inject
     CoinRepository(RxMapper rx,
                    ResponseMapper rm,
+                   NetworkManager network,
                    Pref pref,
                    @Room CoinDataSource room,
                    @Remote CoinDataSource remote) {
         super(rx, rm);
+        this.network = network;
         this.pref = pref;
         this.room = room;
         this.remote = remote;
@@ -205,7 +209,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
         Maybe<List<Coin>> room = getRoomItemsIfRx(source, index, limit, currency);
         Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, index, limit, currency);
-        if (isCoinListingExpired()) {
+        if (isCoinListingExpired() && network.hasInternet()) {
             return concatFirstRx(remote, room);
         }
         return concatFirstRx(room, remote);

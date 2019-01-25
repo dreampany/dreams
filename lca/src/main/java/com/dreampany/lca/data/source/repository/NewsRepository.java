@@ -1,9 +1,9 @@
 package com.dreampany.lca.data.source.repository;
 
 import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.Remote;
 import com.dreampany.frame.misc.ResponseMapper;
+import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
@@ -11,14 +11,13 @@ import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.api.NewsDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
-
-import java.util.List;
+import com.dreampany.network.NetworkManager;
+import hugo.weaving.DebugLog;
+import io.reactivex.Maybe;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import hugo.weaving.DebugLog;
-import io.reactivex.Maybe;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -28,6 +27,7 @@ import io.reactivex.Maybe;
 @Singleton
 public class NewsRepository extends Repository<Long, News> implements NewsDataSource {
 
+    private final NetworkManager network;
     private final Pref pref;
     private final NewsDataSource room;
     private final NewsDataSource remote;
@@ -36,10 +36,12 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
     @Inject
     NewsRepository(RxMapper rx,
                    ResponseMapper rm,
+                   NetworkManager network,
                    Pref pref,
                    @Room NewsDataSource room,
                    @Remote NewsDataSource remote) {
         super( rx, rm);
+        this.network = network;
         this.pref = pref;
         this.room = room;
         this.remote = remote;
@@ -122,18 +124,31 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
 
     @Override
     public Maybe<List<News>> getItemsRx(int limit) {
-        return null;
+        Maybe<List<News>> room = getRoomItemsIfRx(limit);
+        Maybe<List<News>> remote = getRemoteItemsIfRx(limit);
+        if (isNewsExpired() && network.hasInternet()) {
+            return concatFirstRx(remote, room);
+        }
+        return concatFirstRx(room, remote);
     }
 
-    public Maybe<List<News>> getItemsRx(int limit, boolean fresh) {
-        Maybe<List<News>> local = this.room.getItemsRx(limit);
-        Maybe<List<News>> remote = getRemoteItemsIfRx(limit);
-        return concatFirstRx(remote, local);
+    @Override
+    public void clear() {
+        room.clear();
+        remote.clear();
+    }
+
+    private Maybe<List<News>> getRoomItemsIfRx(int limit) {
+        return Maybe.fromCallable(() -> {
+            if (!isEmpty()) {
+                return room.getItems(limit);
+            }
+            return null;
+        });
     }
 
     private Maybe<List<News>> getRemoteItemsIfRx(int limit) {
-        long lastTime = pref.getNewsTime();
-        if (TimeUtil.isExpired(lastTime, Constants.Delay.INSTANCE.getNews())) {
+        if (isNewsExpired()) {
             return this.remote.getItemsRx(limit)
                     .filter(items -> !(DataUtil.isEmpty(items)))
                     .doOnSuccess(items -> {
@@ -144,9 +159,8 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
         return null;
     }
 
-    @Override
-    public void clear() {
-        room.clear();
-        remote.clear();
+    private boolean isNewsExpired() {
+        long lastTime = pref.getNewsTime();
+        return TimeUtil.isExpired(lastTime, Constants.Delay.INSTANCE.getNews());
     }
 }

@@ -32,7 +32,7 @@ object Constants {
         const val CryptoCompareApiUrl = "https://min-api.cryptocompare.com/data/"
         const val CryptoCompareMarketOverviewUrl = "https://www.cryptocompare.com/exchanges/binance/overview/%s"
 
-        const val ICOWatchListApiUrl = "https://api.icowatchlist.com/public/v1/"
+        const val IcoWatchListApiUrl = "https://api.icowatchlist.com/public/v1/"
     }
 
     object ImageUrl {

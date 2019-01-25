@@ -79,6 +79,7 @@ public class LiveIcoFragment extends BaseFragment {
 
     @Override
     protected void onStopUi() {
+        processUiState(UiState.HIDE_PROGRESS);
         vm.clear();
     }
 

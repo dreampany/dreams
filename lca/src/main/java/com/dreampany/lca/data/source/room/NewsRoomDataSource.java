@@ -101,7 +101,7 @@ public class NewsRoomDataSource implements NewsDataSource {
 
     @Override
     public List<News> getItems(int limit) {
-        return null;
+        return dao.getItems(limit);
     }
 
     @Override

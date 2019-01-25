@@ -239,7 +239,7 @@ class BuildersModule {
     fun provideIcoWatchListRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
                 .client(client)
-                .baseUrl(Constants.Api.ICOWatchListApiUrl)
+                .baseUrl(Constants.Api.IcoWatchListApiUrl)
                 //.addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

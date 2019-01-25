@@ -99,7 +99,8 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
 
     private Maybe<List<NewsItem>> getItemsRx() {
         return repo
-                .getItemsRx(LIMIT, true)
+                .getItemsRx(LIMIT)
+                .onErrorReturn(throwable -> new ArrayList<>())
                 .flatMap((Function<List<News>, MaybeSource<List<NewsItem>>>) this::getItemsRx);
     }
 

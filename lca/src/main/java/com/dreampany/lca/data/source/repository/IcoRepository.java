@@ -19,6 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.dreampany.network.NetworkManager;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 
@@ -30,6 +31,7 @@ import io.reactivex.Maybe;
 @Singleton
 public class IcoRepository extends Repository<Long, Ico> implements IcoDataSource {
 
+    private final NetworkManager network;
     private final Pref pref;
     private final IcoDataSource room;
     private final IcoDataSource remote;
@@ -38,10 +40,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     @Inject
     IcoRepository(RxMapper rx,
                   ResponseMapper rm,
+                  NetworkManager network,
                   Pref pref,
                   @Room IcoDataSource room,
                   @Remote IcoDataSource remote) {
         super(rx, rm);
+        this.network = network;
         this.pref = pref;
         this.room = room;
         this.remote = remote;
@@ -140,9 +144,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
 
     @Override
     public Maybe<List<Ico>> getLiveItemsRx(int limit) {
-        Maybe<List<Ico>> room = fullRoom(this.room.getLiveItemsRx(limit));
-        Maybe<List<Ico>> remote = saveRoom(this.remote.getLiveItemsRx(limit), IcoStatus.LIVE);
-        return concatLastRx(remote, room);
+        Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getLiveItemsRx(limit));
+        Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getLiveItemsRx(limit), IcoStatus.LIVE);
+        if (isIcoExpired(IcoStatus.LIVE) && network.hasInternet()) {
+            return concatFirstRx(remote, room);
+        }
+        return concatFirstRx(room, remote);
     }
 
     @Override
@@ -152,9 +159,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
 
     @Override
     public Maybe<List<Ico>> getUpcomingItemsRx(int limit) {
-        Maybe<List<Ico>> room = fullRoom(this.room.getUpcomingItemsRx(limit));
-        Maybe<List<Ico>> remote = saveRoom(this.remote.getUpcomingItemsRx(limit), IcoStatus.UPCOMING);
-        return concatLastRx(remote, room);
+        Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getUpcomingItemsRx(limit));
+        Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getUpcomingItemsRx(limit), IcoStatus.UPCOMING);
+        if (isIcoExpired(IcoStatus.UPCOMING) && network.hasInternet()) {
+            return concatFirstRx(remote, room);
+        }
+        return concatFirstRx(room, remote);
     }
 
     @Override
@@ -164,62 +174,25 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
 
     @Override
     public Maybe<List<Ico>> getFinishedItemsRx(int limit) {
-        Maybe<List<Ico>> room = fullRoom(this.room.getFinishedItemsRx(limit));
-        Maybe<List<Ico>> remote = saveRoom(this.remote.getFinishedItemsRx(limit), IcoStatus.FINISHED);
-        return concatLastRx(remote, room);
+        Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getFinishedItemsRx(limit));
+        Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getFinishedItemsRx(limit), IcoStatus.FINISHED);
+        if (isIcoExpired(IcoStatus.FINISHED) && network.hasInternet()) {
+            return concatFirstRx(remote, room);
+        }
+        return concatFirstRx(room, remote);
     }
 
-/*    private Maybe<List<Ico>> getRemoteLiveItemsIfRx(int limit) {
-        long lastTime = pref.getIcoTime(IcoStatus.LIVE);
-        if (TimeUtil.isExpired(lastTime, Constants.Delay.INSTANCE.getIco())) {
-            return this.remote.getLiveItemsRx(limit)
-                    .filter(items -> !(DataUtil.isEmpty(items)))
-                    .doOnSuccess(items -> {
-                        rx.compute(putItemsRx(items)).subscribe();
-                        pref.commitIcoTime(IcoStatus.LIVE);
-                    });
-        }
-        return null;
-    }
-
-    private Maybe<List<Ico>> getRemoteUpcomingItemsIfRx(int limit) {
-        long lastTime = pref.getIcoTime(IcoStatus.UPCOMING);
-        if (TimeUtil.isExpired(lastTime, Constants.Delay.INSTANCE.getIco())) {
-            return this.remote.getUpcomingItemsRx(limit)
-                    .filter(items -> !(DataUtil.isEmpty(items)))
-                    .doOnSuccess(items -> {
-                        rx.compute(putItemsRx(items)).subscribe();
-                        pref.commitIcoTime(IcoStatus.UPCOMING);
-                    });
-        }
-        return null;
-    }
-
-    private Maybe<List<Ico>> getRemoteFinishedItemsIfRx(int limit) {
-        long lastTime = pref.getIcoTime(IcoStatus.FINISHED);
-        if (TimeUtil.isExpired(lastTime, Constants.Delay.INSTANCE.getIco())) {
-            return this.remote.getFinishedItemsRx(limit)
-                    .filter(items -> !(DataUtil.isEmpty(items)))
-                    .doOnSuccess(items -> {
-                        rx.compute(putItemsRx(items)).subscribe();
-                        pref.commitIcoTime(IcoStatus.FINISHED);
-                    });
-        }
-        return null;
-    }*/
-
-    private Maybe<List<Ico>> fullRoom(Maybe<List<Ico>> room) {
+    private Maybe<List<Ico>> getRoomItemsIfRx(Maybe<List<Ico>> source) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
-                return room.blockingGet();
+                return source.blockingGet();
             }
             return null;
         });
     }
 
-    private Maybe<List<Ico>> saveRoom(Maybe<List<Ico>> source, IcoStatus status) {
-        long lastTime = pref.getIcoTime(status);
-        if (TimeUtil.isExpired(lastTime, Constants.Delay.INSTANCE.getIco())) {
+    private Maybe<List<Ico>> getRemoteItemsIfRx(Maybe<List<Ico>> source, IcoStatus status) {
+        if (isIcoExpired(status)) {
             return source
                     .onErrorReturnItem(new ArrayList<>())
                     .filter(items -> !(DataUtil.isEmpty(items)))
@@ -229,5 +202,10 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
                     });
         }
         return null;
+    }
+
+    private boolean isIcoExpired(IcoStatus status) {
+        long lastTime = pref.getIcoTime(status);
+        return TimeUtil.isExpired(lastTime, Constants.Delay.INSTANCE.getIco());
     }
 }

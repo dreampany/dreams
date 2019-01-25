@@ -167,6 +167,11 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         removeMultipleSubscription()
         uiMap.clear()
         uiCache.clear()
+        clearUiState()
+    }
+
+    open fun clearUiState() {
+        updateUiState(UiState.NONE)
     }
 
     open fun clearInput() {
@@ -370,9 +375,9 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     fun updateUiState(state: UiState?) {
         state?.let {
-            if (it != UiState.NONE) {
+            //if (it != UiState.NONE) {
                 uiState.value = it
-            }
+            //}
         }
     }
 

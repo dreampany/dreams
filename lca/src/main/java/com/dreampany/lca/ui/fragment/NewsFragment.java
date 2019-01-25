@@ -92,6 +92,7 @@ public class NewsFragment extends BaseMenuFragment {
     @DebugLog
     @Override
     protected void onStopUi() {
+        processUiState(UiState.HIDE_PROGRESS);
         vm.clear();
     }
 

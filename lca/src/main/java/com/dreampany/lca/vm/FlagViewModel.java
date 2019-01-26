@@ -71,6 +71,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         super.clear();
     }
 
+    public void start() {
+        network.observe(this::onResult, true);
+    }
+
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {

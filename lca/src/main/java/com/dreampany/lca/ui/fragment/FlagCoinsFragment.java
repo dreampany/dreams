@@ -86,6 +86,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        vm.start();
     }
 
     @DebugLog

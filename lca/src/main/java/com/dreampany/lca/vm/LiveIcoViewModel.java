@@ -60,6 +60,10 @@ public class LiveIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
         super.clear();
     }
 
+    public void start() {
+        network.observe(this::onResult, true);
+    }
+
     @DebugLog
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;

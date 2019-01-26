@@ -60,7 +60,10 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
         super.clear();
     }
 
-    @DebugLog
+    public void start() {
+        network.observe(this::onResult, true);
+    }
+
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {

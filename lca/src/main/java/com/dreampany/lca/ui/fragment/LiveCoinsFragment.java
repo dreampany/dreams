@@ -92,6 +92,7 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        vm.start();
     }
 
     @DebugLog

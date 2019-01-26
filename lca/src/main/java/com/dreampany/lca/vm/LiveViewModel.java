@@ -69,7 +69,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         this.pref = pref;
         this.loadPref = loadPref;
         this.repo = repo;
-        //network.observe(this::onResult, true);
+
     }
 
     @Override
@@ -78,6 +78,10 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
+    }
+
+    public void start() {
+        network.observe(this::onResult, true);
     }
 
     void onResult(Network... networks) {

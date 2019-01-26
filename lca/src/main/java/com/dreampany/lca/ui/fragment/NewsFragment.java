@@ -87,6 +87,7 @@ public class NewsFragment extends BaseMenuFragment {
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        vm.start();
     }
 
     @DebugLog

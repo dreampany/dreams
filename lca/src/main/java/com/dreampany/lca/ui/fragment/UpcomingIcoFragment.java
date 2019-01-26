@@ -75,6 +75,7 @@ public class UpcomingIcoFragment extends BaseFragment {
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        vm.start();
     }
 
     @Override

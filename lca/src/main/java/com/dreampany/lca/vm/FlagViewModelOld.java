@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.vm;
 
 
@@ -32,11 +33,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 5/31/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private static final boolean OPEN = true;
@@ -144,7 +147,9 @@ public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         addSingleSubscription(disposable);
     }
 
-    /** private api */
+    */
+/** private api *//*
+
     private Maybe<List<CoinItem>> getFlagItemsRx(Currency currency) {
         return Maybe.fromCallable(() -> {
             List<CoinItem> result = new ArrayList<>();
@@ -245,3 +250,4 @@ public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         });
     }
 }
+*/

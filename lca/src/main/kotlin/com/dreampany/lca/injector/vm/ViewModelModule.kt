@@ -41,8 +41,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DetailsViewModel::class)
-    abstract fun bindDetailsViewModel(vm: DetailsViewModel): ViewModel
+    @ViewModelKey(CoinViewModel::class)
+    abstract fun bindDetailsViewModel(vm: CoinViewModel): ViewModel
 
     @Binds
     @IntoMap

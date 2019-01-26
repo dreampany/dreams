@@ -60,7 +60,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         this.network = network;
         this.pref = pref;
         this.repo = repo;
-        network.observe(this::onResult, true);
+        //network.observe(this::onResult, true);
     }
 
     @Override

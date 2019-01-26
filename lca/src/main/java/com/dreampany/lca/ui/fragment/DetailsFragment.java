@@ -23,7 +23,7 @@ import com.dreampany.lca.databinding.FragmentDetailsBinding;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.lca.vm.DetailsViewModel;
+import com.dreampany.lca.vm.CoinViewModel;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -51,7 +51,7 @@ public class DetailsFragment extends BaseFragment {
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentDetailsBinding binding;
-    private DetailsViewModel vm;
+    private CoinViewModel vm;
     private CoinAdapter adapter;
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
@@ -133,7 +133,7 @@ public class DetailsFragment extends BaseFragment {
         ViewUtil.setClickListener(this, R.id.button_empty);
 
         UiTask<Coin> uiTask = getCurrentTask(true);
-        vm = ViewModelProviders.of(this, factory).get(DetailsViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(CoinViewModel.class);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);

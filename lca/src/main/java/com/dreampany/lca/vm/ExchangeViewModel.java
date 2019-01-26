@@ -64,7 +64,7 @@ public class ExchangeViewModel extends BaseViewModel<Exchange, ExchangeItem, UiT
         this.network = network;
         this.repo = repo;
         this.formatter = formatter;
-        network.observe(this::onResult, true);
+        //network.observe(this::onResult, true);
     }
 
     @Override

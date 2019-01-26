@@ -50,7 +50,7 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
         super(application, rx, ex, rm);
         this.network = network;
         this.repo = repo;
-        network.observe(this::onResult, true);
+        //network.observe(this::onResult, true);
     }
 
     @Override

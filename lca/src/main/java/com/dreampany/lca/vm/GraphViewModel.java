@@ -65,7 +65,7 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         this.network = network;
         this.repo = repo;
         this.formatter = formatter;
-        network.observe(this::onResult, true);
+        //network.observe(this::onResult, true);
     }
 
     @Override

@@ -69,7 +69,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         this.pref = pref;
         this.loadPref = loadPref;
         this.repo = repo;
-        network.observe(this::onResult, true);
+        //network.observe(this::onResult, true);
     }
 
     @Override

@@ -43,8 +43,6 @@ import java.util.List;
 public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Coin>> {
 
     private static final int LIMIT = Constants.Limit.COIN_MARKET;
-    private static final long INITIAL_DELAY_IN_SECOND = 0L;
-    private static final long PERIOD_IN_SECOND = 10L;
 
     private final NetworkManager network;
     private final MarketRepository repo;
@@ -63,7 +61,7 @@ public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Co
         this.network = network;
         this.repo = repo;
         this.formatter = formatter;
-        network.observe(this::onResult, true);
+        //network.observe(this::onResult, true);
     }
 
     @Override
@@ -76,7 +74,7 @@ public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Co
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.isConnected()) {
+            if (network.hasInternet()) {
                 state = UiState.ONLINE;
             }
         }

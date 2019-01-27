@@ -67,7 +67,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .doOnSubscribe(subscription -> {
                     postProgress(true);
                 })
-                .subscribe(                        result -> {
+                .subscribe(result -> {
                     postProgress(false);
                     postResult(result);
                 }, error -> {

@@ -167,7 +167,6 @@ dependencies {
     /** misc */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.libRG:customtextview:1.4'
-    //implementation 'com.thefinestartist:finestwebview:1.2.7'
     implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
 }
 

@@ -173,7 +173,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
 
     @Nullable
     @Override
-    public ArrayList<WordItem> getVisibleItems() {
+    public List<WordItem> getVisibleItems() {
         return adapter.getVisibleItems();
     }
 

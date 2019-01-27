@@ -67,9 +67,12 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsOfText(text))
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResultWithProgress(items);
+                .doOnSubscribe(subscription -> {
+                    postProgress(true);
+                })
+                .subscribe(                        result -> {
+                    postProgress(false);
+                    postResult(result);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });

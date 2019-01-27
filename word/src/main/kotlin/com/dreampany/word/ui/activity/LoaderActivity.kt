@@ -1,10 +1,10 @@
 package com.dreampany.word.ui.activity
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.exception.EmptyException
@@ -26,8 +26,7 @@ import javax.inject.Inject
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class                                                                                                                                              LoaderActivity : BaseActivity() {
-
+class LoaderActivity : BaseActivity() {
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     internal lateinit var vm: LoaderViewModel

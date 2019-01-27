@@ -11,7 +11,7 @@
             type="androidx.databinding.ObservableArrayList" />
     </data>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -49,5 +49,5 @@
             </cz.kinst.jakub.view.StatefulLayout>
 
         </RelativeLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

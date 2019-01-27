@@ -88,10 +88,12 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
         }
         Disposable disposable = getRx()
                 .backToMain(getRecentItemsRx())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResultWithProgress(items);
-                    update();
+                .doOnSubscribe(subscription -> {
+                    postProgress(true);
+                })
+                .subscribe(                        result -> {
+                    postProgress(false);
+                    postResult(result);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
@@ -118,7 +120,10 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                 .backToMain(getItemRx(word))
                 .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(
-                        this::postResultWithProgress,
+                        result -> {
+                            postProgress(false);
+                            postResult(result);
+                        },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
         addSingleSubscription(disposable);

@@ -1,7 +1,7 @@
 package com.dreampany.word.injector.vm
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.dreampany.frame.vm.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
 import com.dreampany.word.vm.*

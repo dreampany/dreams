@@ -348,7 +348,7 @@ public class Word extends Base {
     }
 
     public boolean hasPartial() {
-        if (DataUtil.isEmpty(partOfSpeech, pronunciation) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)) {
+        if (DataUtil.isEmpty(new String[]{partOfSpeech, pronunciation}) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)) {
             return false;
         }
         return true;

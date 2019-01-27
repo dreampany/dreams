@@ -111,7 +111,7 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
         vm.loads(adapter.isEmpty());
     }
 
-    @Override
+/*    @Override
     public void onPause() {
         vm.removeMultipleSubscription();
         vm.removeSingleSubscription();
@@ -119,7 +119,7 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
         vm.removeUpdateVisibleItemsDisposable();
         tvm.clearInputs();
         super.onPause();
-    }
+    }*/
 
     @Override
     public void onRefresh() {

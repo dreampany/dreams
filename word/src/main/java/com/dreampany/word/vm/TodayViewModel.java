@@ -59,7 +59,10 @@ public class TodayViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> 
                 .backToMain(getTodayItemRx())
                 .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(
-                        this::postResultWithProgress,
+                        result -> {
+                            postProgress(false);
+                            postResult(result);
+                        },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
         addSingleSubscription(disposable);

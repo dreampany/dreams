@@ -112,6 +112,18 @@ public final class DataUtil {
         return Strings.isNullOrEmpty(item);
     }
 
+/*    public static boolean isEmpty(String... items) {
+        if (items == null || items.length == 0) {
+            return true;
+        }
+        for (String item : items) {
+            if (!Strings.isNullOrEmpty(item)) {
+                return false;
+            }
+        }
+        return true;
+    }*/
+
     public static boolean isEmpty(String[] items) {
         if (items == null || items.length == 0) {
             return true;
@@ -244,6 +256,10 @@ public final class DataUtil {
             value = builder.toString();
         }
         return value;
+    }
+
+    public static void joinString(StringBuilder builder, String value) {
+        joinString(builder, value, COMMA);
     }
 
     public static void joinString(StringBuilder builder, String value, String separator) {

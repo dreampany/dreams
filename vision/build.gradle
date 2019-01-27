@@ -24,7 +24,7 @@ android {
         multiDexEnabled true
 
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -79,15 +79,15 @@ dependencies {
 
     /** test */
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     /** library */
     implementation project(':frame')
 
     /** android arch */
-    kapt 'android.arch.lifecycle:compiler:1.1.1'
-    kapt 'android.arch.persistence.room:compiler:1.1.1'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha01'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha03'
 
     /** dagger */
     kapt 'com.google.dagger:dagger-compiler:2.20'
@@ -102,8 +102,8 @@ dependencies {
     }
 
     /** butterknife */
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.0.0'
 
     /** misc */
     implementation 'com.otaliastudios:cameraview:1.6.0'

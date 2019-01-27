@@ -108,10 +108,12 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         }
         Disposable disposable = getRx()
                 .backToMain(getOcrItemsRx(fresh))
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResultWithProgress(items);
-                    update();
+                .doOnSubscribe(subscription -> {
+                    postProgress(true);
+                })
+                .subscribe(                        result -> {
+                    postProgress(false);
+                    postResult(result);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
@@ -159,9 +161,12 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsOfImage())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResultWithProgress(items);
+                .doOnSubscribe(subscription -> {
+                    postProgress(true);
+                })
+                .subscribe(                        result -> {
+                    postProgress(false);
+                    postResult(result);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
@@ -175,7 +180,10 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         }
         updateDisposable = getRx()
                 .backToMain(updateItemInterval())
-                .subscribe(this::postResultWithProgress, this::postFailure);
+                .subscribe(                        result -> {
+                    postProgress(false);
+                    postResult(result);
+                }, this::postFailure);
         addSubscription(updateDisposable);
     }
 
@@ -239,9 +247,12 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsOfCamera())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResultWithProgress(items);
+                .doOnSubscribe(subscription -> {
+                    postProgress(true);
+                })
+                .subscribe(                        result -> {
+                    postProgress(false);
+                    postResult(result);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });

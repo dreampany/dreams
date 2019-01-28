@@ -36,16 +36,20 @@ class App : BaseApp() {
         return true
     }
 
+    override fun hasStetho(): Boolean {
+        return false
+    }
+
     override fun hasAppIndex(): Boolean {
         return true
     }
 
     override fun hasUpdate(): Boolean {
-        return true
+        return false
     }
 
     override fun hasRate(): Boolean {
-        return true
+        return false
     }
 
     override fun hasAd(): Boolean {

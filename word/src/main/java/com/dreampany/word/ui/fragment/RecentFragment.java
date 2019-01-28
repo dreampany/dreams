@@ -108,7 +108,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
     public void onResume() {
         super.onResume();
         lvm.loadSubtitle();
-        lvm.loads();
+        //lvm.loads();
         vm.loads(adapter.isEmpty());
     }
 

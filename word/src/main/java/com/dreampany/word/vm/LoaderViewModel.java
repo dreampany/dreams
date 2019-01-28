@@ -23,6 +23,7 @@ import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.LoadItem;
 import com.dreampany.word.ui.model.UiTask;
 
+import io.reactivex.functions.Consumer;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -75,9 +76,9 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         });
     }
 
-    @DebugLog
     public void loads() {
-        if (!pref.isCommonLoaded()) {
+        boolean commonLoaded = pref.isCommonLoaded();
+        if (!commonLoaded) {
             loadCommons();
             return;
         }
@@ -86,14 +87,17 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         }
     }
 
-    @DebugLog
     public void loadCommons() {
         if (!preLoads(false)) {
             return;
         }
+        Timber.v("loadCommons running...");
         Disposable disposable = getRx()
                 .backToMain(getCommonItemsRxV2())
-                .subscribe(this::postResult, error -> {
+                .subscribe(result -> {
+                    postResult(result);
+                    loadAlphas();
+                }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
@@ -105,11 +109,14 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             Timber.v("loadAlphas already running...");
             return;
         }
+        Timber.v("loadAlphas running...");
         Disposable disposable = getRx()
                 .backToMain(getAlphaItemsRxV2())
-                .subscribe(this::postResult, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
-                });
+                .subscribe(
+                        this::postResult,
+                        error -> {
+                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        });
         addMultipleSubscription(disposable);
     }
 
@@ -117,7 +124,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         preLoads(true);
     }
 
-    private Maybe<LoadItem> getCommonItemsRx() {
+/*    private Maybe<LoadItem> getCommonItemsRx() {
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();
             if (pref.isCommonLoaded()) {
@@ -166,8 +173,9 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             }
             return item;
         });
-    }
+    }*/
 
+    @DebugLog
     private Maybe<LoadItem> getCommonItemsRxV2() {
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();
@@ -216,7 +224,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         });
     }
 
-    private Maybe<LoadItem> getAlphaItemsRx() {
+/*    private Maybe<LoadItem> getAlphaItemsRx() {
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();
             if (pref.isAlphaLoaded()) {
@@ -266,7 +274,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             }
             return item;
         });
-    }
+    }*/
 
     private Maybe<LoadItem> getAlphaItemsRxV2() {
         return Maybe.fromCallable(() -> {

@@ -106,6 +106,10 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_recent_words);
 
+        refresh = binding.layoutRefresh;
+        expandable = binding.layoutTopStatus.layoutExpandable;
+        recycler = binding.layoutRecycler.recycler;
+
         vm = ViewModelProviders.of(this, factory).get(RecentViewModel.class);
     }
 

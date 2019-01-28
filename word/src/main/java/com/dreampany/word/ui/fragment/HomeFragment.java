@@ -1,23 +1,14 @@
 package com.dreampany.word.ui.fragment;
 
-import android.app.Activity;
-import android.app.SearchManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import android.content.Context;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
-import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.inputmethod.EditorInfo;
-
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseFragment;
@@ -29,16 +20,13 @@ import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.RecentViewModel;
-
-import net.cachapa.expandablelayout.ExpandableLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import net.cachapa.expandablelayout.ExpandableLayout;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/20/2018.
@@ -77,9 +65,15 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
     }
 
     @Override
+    public int getSearchMenuItemId() {
+        return R.id.item_search;
+    }
+
+    @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        vm.start();
     }
 
     @Override

@@ -1,40 +1,37 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-
 import com.annimon.stream.Stream;
+import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
+import com.dreampany.network.data.model.Network;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -43,15 +40,15 @@ import timber.log.Timber;
  */
 public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
-    private static final long initialDelay = Constants.Time.INSTANCE.getWordPeriod();
-    private static final long period = Constants.Time.INSTANCE.getWordPeriod();
-    private static final int retry = 3;
+    private static final boolean OPEN = true;
 
     private final NetworkManager network;
     private final WordRepository repo;
     private final StateMapper stateMapper;
+
+    private Disposable updateDisposable;
+
     private SmartAdapter.Callback<WordItem> uiCallback;
-    private Disposable updateDisposable, updateVisibleItemsDisposable;
 
     @Inject
     RecentViewModel(Application application,
@@ -65,32 +62,168 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         this.network = network;
         this.repo = repo;
         this.stateMapper = stateMapper;
-        //network.observe(this::onResult, true);
-
     }
 
     @Override
     public void clear() {
-        //network.deObserve(this::onResult, true);
+        network.deObserve(this::onResult, true);
         this.uiCallback = null;
         removeUpdateDisposable();
-        removeUpdateVisibleItemsDisposable();
         super.clear();
     }
 
-    public void removeUpdateDisposable() {
-        removeSubscription(updateDisposable);
-    }
+    void onResult(Network... networks) {
+        UiState state = UiState.OFFLINE;
+        for (Network network : networks) {
+            if (network.isConnected()) {
+                state = UiState.ONLINE;
 
-    public void removeUpdateVisibleItemsDisposable() {
-        removeSubscription(updateVisibleItemsDisposable);
+            }
+        }
     }
 
     public void setUiCallback(SmartAdapter.Callback<WordItem> callback) {
         this.uiCallback = callback;
     }
 
-    @DebugLog
+    public void start() {
+        network.observe(this::onResult, true);
+    }
+
+    public void removeUpdateDisposable() {
+        removeSubscription(updateDisposable);
+    }
+
+    public void refresh(boolean onlyUpdate, boolean withProgress) {
+        if (onlyUpdate) {
+            //update(withProgress);
+            return;
+        }
+        loads(true, withProgress);
+    }
+
+    public void loads(boolean fresh, boolean withProgress) {
+        if (!OPEN) {
+            return;
+        }
+        if (!preLoads(fresh)) {
+            return;
+        }
+        Disposable disposable = getRx()
+                .backToMain(getRecentItemsRx())
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(
+                        result -> {
+                            postProgress(false);
+                            postResult(result);
+                        },
+                        error -> postFailureMultiple(new MultiException(error, new ExtraException()))
+                );
+        addMultipleSubscription(disposable);
+    }
+
+    public void update(boolean withProgress) {
+        if (!OPEN) {
+            return;
+        }
+        Timber.v("update fired");
+        if (hasDisposable(updateDisposable)) {
+            return;
+        }
+        updateDisposable = getRx()
+                .backToMain(getVisibleItemsIfRx())
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(
+                        result -> {
+                            if (!DataUtil.isEmpty(result)) {
+                                postProgress(false);
+                                postResult(result);
+                            } else {
+                                postProgress(false);
+                            }
+                        }, this::postFailure);
+        addSubscription(updateDisposable);
+    }
+
+    /**
+     * private api
+     */
+    private Maybe<List<WordItem>> getRecentItemsRx() {
+        return repo.getRecentItemsRx(Constants.Limit.WORD_RECENT)
+                .onErrorResumeNext(Maybe.empty())
+                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words));
+    }
+
+    private Maybe<List<WordItem>> getVisibleItemsIfRx() {
+        return Maybe.fromCallable(() -> {
+            List<WordItem> result = getVisibleItemsIf();
+            if (DataUtil.isEmpty(result)) {
+                throw new EmptyException();
+            }
+            return result;
+        }).onErrorResumeNext(Maybe.empty());
+    }
+
+    private Maybe<List<WordItem>> getItemsRx(List<Word> items) {
+        return Flowable.fromIterable(items)
+                .map(this::getItem)
+                .toList()
+                .toMaybe();
+    }
+
+    private List<WordItem> getVisibleItemsIf() {
+        if (uiCallback == null) {
+            return null;
+        }
+        List<WordItem> items = uiCallback.getVisibleItems();
+        if (!DataUtil.isEmpty(items)) {
+            List<Word> words = new ArrayList<>();
+            for (WordItem item : items) {
+                words.add(item.getItem());
+            }
+            items = null;
+            if (!DataUtil.isEmpty(words)) {
+                List<Word> result = repo.getItems();
+                if (!DataUtil.isEmpty(result)) {
+                    items = getItemsRx(result).blockingGet();
+                }
+            }
+        }
+        return items;
+    }
+
+    private WordItem getItem(Word word) {
+        SmartMap<Long, WordItem> map = getUiMap();
+        WordItem item = map.get(word.getId());
+        if (item == null) {
+            item = WordItem.getSimpleItem(word);
+            map.put(word.getId(), item);
+        }
+        item.setItem(word);
+        adjustState(item);
+        adjustFlag(item);
+        return item;
+    }
+
+    private void adjustState(WordItem item) {
+        List<State> states = repo.getStates(item.getItem());
+        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+    }
+
+    private void adjustFlag(WordItem item) {
+        boolean flagged = repo.isFlagged(item.getItem());
+        item.setFlagged(flagged);
+    }
+
+    /*@DebugLog
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             updateVisibleItems();
@@ -250,5 +383,5 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     private void adjustFlag(WordItem item) {
         boolean flagged = repo.isFlagged(item.getItem());
         item.setFlagged(flagged);
-    }
+    }*/
 }

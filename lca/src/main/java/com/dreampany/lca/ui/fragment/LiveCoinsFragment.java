@@ -59,14 +59,15 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentCoinsBinding binding;
-    private LiveViewModel vm;
-    private CoinAdapter adapter;
+
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
     private ExpandableLayout expandable;
     private RecyclerView recycler;
     private View empty, filter;
 
+    private LiveViewModel vm;
+    private CoinAdapter adapter;
 
     @Inject
     public LiveCoinsFragment() {

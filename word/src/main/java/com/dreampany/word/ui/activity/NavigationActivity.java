@@ -18,8 +18,8 @@ import com.dreampany.word.ui.fragment.OcrFragment;
 import com.dreampany.word.ui.fragment.RecentFragment;
 import com.dreampany.word.ui.fragment.SearchFragment;
 import com.dreampany.word.vm.LoaderViewModel;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import com.lapism.searchview.widget.SearchView;
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
@@ -130,10 +130,9 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     }
 
     @Override
-    public MaterialSearchView getSearchView() {
+    public SearchView getSearchView() {
         return binding.searchView;
     }
-
 
     private void initView() {
         setTitle(null);

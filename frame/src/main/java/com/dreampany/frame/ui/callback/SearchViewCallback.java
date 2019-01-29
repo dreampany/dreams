@@ -1,6 +1,6 @@
 package com.dreampany.frame.ui.callback;
 
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
+import com.lapism.searchview.widget.SearchView;
 
 /**
  * Created by Hawladar Roman on 9/7/2018.
@@ -8,5 +8,5 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
  * hawladar.roman@bjitgroup.com
  */
 public interface SearchViewCallback {
-    MaterialSearchView getSearchView();
+    SearchView getSearchView();
 }

@@ -8,7 +8,6 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
@@ -16,6 +15,8 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
+import com.dreampany.word.data.enums.ItemState;
+import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
@@ -30,8 +31,8 @@ import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -41,6 +42,10 @@ import java.util.List;
 public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private static final boolean OPEN = true;
+
+    private static final long INITIAL_DELAY = Constants.Time.INSTANCE.getWordPeriod();
+    private static final long PERIOD = Constants.Time.INSTANCE.getWordPeriod();
+    private static final int RETRY = 2;
 
     private final NetworkManager network;
     private final WordRepository repo;
@@ -96,7 +101,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     public void refresh(boolean onlyUpdate, boolean withProgress) {
         if (onlyUpdate) {
-            //update(withProgress);
+            update(withProgress);
             return;
         }
         loads(true, withProgress);
@@ -120,6 +125,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                         result -> {
                             postProgress(false);
                             postResult(result);
+                            update(false);
                         },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
@@ -135,7 +141,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             return;
         }
         updateDisposable = getRx()
-                .backToMain(getVisibleItemsIfRx())
+                .backToMain(getVisibleItemIfRx())
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
@@ -143,12 +149,8 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 })
                 .subscribe(
                         result -> {
-                            if (!DataUtil.isEmpty(result)) {
-                                postProgress(false);
-                                postResult(result);
-                            } else {
-                                postProgress(false);
-                            }
+                            postProgress(false);
+                            postResult(result);
                         }, this::postFailure);
         addSubscription(updateDisposable);
     }
@@ -159,10 +161,10 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     private Maybe<List<WordItem>> getRecentItemsRx() {
         return repo.getRecentItemsRx(Constants.Limit.WORD_RECENT)
                 .onErrorResumeNext(Maybe.empty())
-                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words));
+                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);
     }
 
-    private Maybe<List<WordItem>> getVisibleItemsIfRx() {
+/*    private Maybe<List<WordItem>> getVisibleItemsIfRx() {
         return Maybe.fromCallable(() -> {
             List<WordItem> result = getVisibleItemsIf();
             if (DataUtil.isEmpty(result)) {
@@ -170,6 +172,28 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             }
             return result;
         }).onErrorResumeNext(Maybe.empty());
+    }*/
+
+    private Flowable<WordItem> getVisibleItemIfRx() {
+        return Flowable
+                .interval(INITIAL_DELAY, PERIOD, TimeUnit.MILLISECONDS, getRx().io())
+                .map(tick -> getVisibleItemIf());
+    }
+
+    private WordItem getVisibleItemIf() {
+        if (uiCallback == null) {
+            return null;
+        }
+        List<WordItem> items = uiCallback.getVisibleItems();
+        if (DataUtil.isEmpty(items)) {
+            return null;
+        }
+        for (WordItem item : items) {
+            if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
+                return repo.getItemRx(item.getItem().getWord()).map(this::getItem).blockingGet();
+            }
+        }
+        return null;
     }
 
     private Maybe<List<WordItem>> getItemsRx(List<Word> items) {
@@ -179,7 +203,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .toMaybe();
     }
 
-    private List<WordItem> getVisibleItemsIf() {
+/*    private List<WordItem> getVisibleItemsIf() {
         if (uiCallback == null) {
             return null;
         }
@@ -198,7 +222,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             }
         }
         return items;
-    }
+    }*/
 
     private WordItem getItem(Word word) {
         SmartMap<Long, WordItem> map = getUiMap();

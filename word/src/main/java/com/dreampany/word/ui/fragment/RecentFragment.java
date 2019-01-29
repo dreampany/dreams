@@ -109,7 +109,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         super.onResume();
         lvm.loadSubtitle();
         //lvm.loads();
-        vm.loads(adapter.isEmpty());
+        //vm.loads(adapter.isEmpty());
     }
 
     @Override
@@ -117,13 +117,13 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         vm.removeMultipleSubscription();
         vm.removeSingleSubscription();
         vm.removeUpdateDisposable();
-        vm.removeUpdateVisibleItemsDisposable();
+       // vm.removeUpdateVisibleItemsDisposable();
         super.onPause();
     }
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        //vm.loads(true);
     }
 
     @Override
@@ -153,7 +153,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
                 vm.speak(text);
                 break;
             case R.id.button_like:
-                vm.toggle((Word) v.getTag());
+                //vm.toggle((Word) v.getTag());
                 break;
             case R.id.fab:
                 openOcrUi();
@@ -216,7 +216,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         scroller = new OnVerticalScrollListener() {
             @Override
             public void onScrolling() {
-                vm.updateVisibleItemIf();
+               // vm.updateVisibleItemIf();
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());

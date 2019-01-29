@@ -3,6 +3,7 @@ package com.dreampany.vision.ui.fragment;
 import android.Manifest;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -68,7 +69,7 @@ public class LiveTextOcrFragment extends BaseMenuFragment {
     }
 
     @Override
-    public void onMenuCreated(@NotNull Menu menu) {
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         MenuItem checkItem = menu.findItem(R.id.item_auto_collection);
         check = (CheckBox) checkItem.getActionView();
         check.setOnCheckedChangeListener((buttonView, isChecked) -> {

@@ -1,9 +1,10 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.model.State;
+import com.dreampany.frame.data.source.repository.StateRepository;
+import com.dreampany.frame.data.source.repository.StoreRepository;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -12,24 +13,21 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
-import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -40,6 +38,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     private final NetworkManager network;
     private final WordRepository repo;
+    private final StoreRepository store;
     private final StateMapper stateMapper;
 
     @Inject
@@ -49,12 +48,13 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     ResponseMapper rm,
                     NetworkManager network,
                     WordRepository repo,
+                    StoreRepository store,
                     StateMapper stateMapper) {
         super(application, rx, ex, rm);
         this.network = network;
         this.repo = repo;
+        this.store = store;
         this.stateMapper = stateMapper;
-        //network.observe(this::onResult, true);
     }
 
     @DebugLog
@@ -67,7 +67,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .doOnSubscribe(subscription -> {
                     postProgress(true);
                 })
-                .subscribe(                        result -> {
+                .subscribe(result -> {
                     postProgress(false);
                     postResult(result);
                 }, error -> {

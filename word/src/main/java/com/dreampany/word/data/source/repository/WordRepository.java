@@ -1,20 +1,12 @@
 package com.dreampany.word.data.source.repository;
 
 import android.graphics.Bitmap;
-
-import com.annimon.stream.Stream;
 import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.FlagRepository;
 import com.dreampany.frame.data.source.repository.Repository;
 import com.dreampany.frame.data.source.repository.StateRepository;
-import com.dreampany.frame.misc.Assets;
-import com.dreampany.frame.misc.Firestore;
-import com.dreampany.frame.misc.Remote;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.Room;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.Vision;
+import com.dreampany.frame.misc.*;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.data.enums.ItemState;
@@ -26,19 +18,16 @@ import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.data.source.pref.Pref;
 import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 2/9/18.

@@ -24,7 +24,6 @@ public class StoreRepository extends Repository<Long, Store> implements StoreDat
 
     private final StoreDataSource room;
 
-    @DebugLog
     @Inject
     StoreRepository(RxMapper rx,
                     ResponseMapper rm,
@@ -137,7 +136,6 @@ public class StoreRepository extends Repository<Long, Store> implements StoreDat
     public Maybe<List<Store>> getItemsRx(int limit) {
         return null;
     }
-
 
 
 }

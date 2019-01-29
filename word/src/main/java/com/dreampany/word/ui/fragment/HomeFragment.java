@@ -31,6 +31,7 @@ import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.RecentViewModel;
+import com.lapism.searchview.Search;
 import com.lapism.searchview.widget.SearchView;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
@@ -85,6 +86,12 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
         if (activity instanceof SearchViewCallback) {
             SearchViewCallback searchCallback = (SearchViewCallback) activity;
             searchView = searchCallback.getSearchView();
+/*            searchView.setOnMicClickListener(new Search.OnMicClickListener() {
+                @Override
+                public void onMicClick() {
+
+                }
+            });*/
             //searchView.setLogo();
             //searchView.setVisibility(View.VISIBLE);
 

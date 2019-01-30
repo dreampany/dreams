@@ -124,57 +124,6 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         preLoads(true);
     }
 
-/*    private Maybe<LoadItem> getCommonItemsRx() {
-        return Maybe.fromCallable(() -> {
-            LoadItem item = LoadItem.getSimpleItem();
-            if (pref.isCommonLoaded()) {
-                Load load = new Load(Constants.Count.WORD_COMMON, Constants.Count.WORD_COMMON);
-                item.setItem(load);
-                return item;
-            }
-
-            AppExecutors ex = getEx();
-            if (commonWords.size() != Constants.Count.WORD_COMMON) {
-                ex.postToUi(() -> postProgress(true));
-                List<Word> words = repo.getCommonWords();
-                commonWords.clear();
-                commonWords.addAll(words);
-            }
-            ex.postToUi(() -> postProgress(false));
-            Word last = pref.getLastWord();
-            int lastIndex = last != null ? commonWords.indexOf(last) : -1;
-
-            Load load = new Load(lastIndex + 1, commonWords.size());
-            item.setItem(load);
-            ex.postToUi(() -> postResult(item));
-            Word word;
-            if (lastIndex != 0) {
-                DataUtil.removeFirst(commonWords, lastIndex + 1);
-            }
-
-            while (!commonWords.isEmpty()) {
-                word = commonWords.remove(0);
-                long result = repo.putItem(word, ItemState.STATE, ItemSubstate.RAW);
-                if (result != -1) {
-                    if (hasRecent(word)) {
-                        repo.putState(word, ItemState.RECENT);
-                    }
-                    pref.setLastWord(word);
-                    int progress = load.forward();
-
-                    Timber.v("%d Next Common Word = %s", progress, word.toString());
-                    ex.postToUi(() -> postResult(item));
-                    AndroidUtil.sleep(2);
-                }
-            }
-            if (commonWords.isEmpty()) {
-                pref.commitCommonLoaded();
-                pref.clearLastWord();
-            }
-            return item;
-        });
-    }*/
-
     @DebugLog
     private Maybe<LoadItem> getCommonItemsRxV2() {
         return Maybe.fromCallable(() -> {
@@ -223,58 +172,6 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             return item;
         });
     }
-
-/*    private Maybe<LoadItem> getAlphaItemsRx() {
-        return Maybe.fromCallable(() -> {
-            LoadItem item = LoadItem.getSimpleItem();
-            if (pref.isAlphaLoaded()) {
-                Load load = new Load(Constants.Count.WORD_ALPHA, Constants.Count.WORD_ALPHA);
-                item.setItem(load);
-                return item;
-            }
-
-            AppExecutors ex = getEx();
-            if (alphaWords.size() != Constants.Count.WORD_ALPHA) {
-                ex.postToUi(() -> postProgress(true));
-                List<Word> words = repo.getAlphaWords();
-                alphaWords.clear();
-                alphaWords.addAll(words);
-            }
-            Timber.v("Cache Alpha Words (%d)", alphaWords.size());
-            ex.postToUi(() -> postProgress(false));
-            Word last = pref.getLastWord();
-            int lastIndex = last != null ? alphaWords.indexOf(last) : 0;
-
-            Load load = new Load(lastIndex + 1, alphaWords.size());
-            item.setItem(load);
-            ex.postToUi(() -> postResult(item));
-            Word word;
-            if (lastIndex != 0) {
-                Timber.v("Removing first %d elements", (lastIndex + 1));
-                DataUtil.removeFirst(alphaWords, lastIndex + 1);
-            }
-            Timber.v("Next final Alpha Words (%d)", alphaWords.size());
-            while (!alphaWords.isEmpty()) {
-                word = alphaWords.remove(0);
-                long result = repo.putItem(word, ItemState.STATE, ItemSubstate.RAW);
-                if (result != -1) {
-                    pref.setLastWord(word);
-                    load.forward();
-                    Timber.v("Next Alpha Word = %s", word.toString());
-                    if (load.getCurrent() % 10 == 0) {
-                        ex.postToUi(() -> postResult(item));
-                        AndroidUtil.sleep(100);
-                    }
-                }
-
-            }
-            if (alphaWords.isEmpty()) {
-                pref.commitAlphaLoaded();
-                pref.clearLastWord();
-            }
-            return item;
-        });
-    }*/
 
     private Maybe<LoadItem> getAlphaItemsRxV2() {
         return Maybe.fromCallable(() -> {

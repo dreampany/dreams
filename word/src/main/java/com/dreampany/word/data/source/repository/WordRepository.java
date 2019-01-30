@@ -3,9 +3,7 @@ package com.dreampany.word.data.source.repository;
 import android.graphics.Bitmap;
 import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.repository.FlagRepository;
 import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.*;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
@@ -44,8 +42,6 @@ public class WordRepository extends Repository<String, Word> implements WordData
     private final WordDataSource firestore;
     private final WordDataSource remote;
     private final WordDataSource vision;
-    private final FlagRepository flagRepo;
-    private final StateRepository stateRepo;
     private final Map<Word, Boolean> flags;
 
     @Inject
@@ -57,9 +53,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
                    @Room WordDataSource room,
                    @Firestore WordDataSource firestore,
                    @Remote WordDataSource remote,
-                   @Vision WordDataSource vision,
-                   FlagRepository flagRepo,
-                   StateRepository stateRepo) {
+                   @Vision WordDataSource vision) {
         super(rx, rm);
         this.mapper = mapper;
         this.pref = pref;
@@ -68,100 +62,70 @@ public class WordRepository extends Repository<String, Word> implements WordData
         this.firestore = firestore;
         this.remote = remote;
         this.vision = vision;
-        this.flagRepo = flagRepo;
-        this.stateRepo = stateRepo;
         flags = Maps.newConcurrentMap();
     }
 
-    @Override
-    public boolean hasState(Word word, ItemState state) {
+/*    public boolean hasState(Word word, ItemState state) {
         boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name()) > 0;
         return stated;
-    }
+    }*/
 
-    @Override
-    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
+/*    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
         boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name()) > 0;
         return stated;
-    }
+    }*/
 
-    @Override
-    public int getStateCount(ItemState state, ItemSubstate substate) {
+/*    public int getStateCount(ItemState state, ItemSubstate substate) {
         return stateRepo.getCount(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name());
-    }
+    }*/
 
-    @Override
-    public List<State> getStates(Word word) {
+/*    public List<State> getStates(Word word) {
         return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-    }
+    }*/
 
-    @Override
-    public List<State> getStates(Word word, ItemState state) {
-        return null;
-    }
 
-    @Override
-    public long putItem(Word word, ItemState state) {
+/*    public long putItem(Word word, ItemState state) {
         long result = room.putItem(word);
         if (result != -1) {
             result = putState(word, state);
         }
         return result;
-    }
+    }*/
 
-    @Override
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
+/*    public long putItem(Word word, ItemState state, ItemSubstate substate) {
         long result = room.putItem(word);
         if (result != -1) {
             result = putState(word, state, substate);
         }
         return result;
-    }
+    }*/
 
-    @Override
-    public long putItem(Word word, ItemState state, boolean replaceable) {
+/*    public long putItem(Word word, ItemState state, boolean replaceable) {
         //todo use replaceable wisely
         long result = isExists(word) ? 1 : room.putItem(word);
         if (result != -1) {
             result = putState(word, state);
         }
         return result;
-    }
+    }*/
 
-    @Override
-    public long putState(Word word, ItemState state) {
+/*    public long putState(Word word, ItemState state) {
         State s = new State(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name());
         s.setTime(TimeUtil.currentTime());
-        // int count = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-        //Timber.v("Before State (%s) Count %d", word.getWord(), count);
         long result = stateRepo.putItem(s);
-        //count = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-        //Timber.v("After State (%s) Count %d", word.getWord(), count);
         return result;
-    }
+    }*/
 
-    @Override
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
+/*    public long putState(Word word, ItemState state, ItemSubstate substate) {
         State s = new State(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name());
         s.setTime(TimeUtil.currentTime());
         long result = stateRepo.putItem(s);
         return result;
-    }
+    }*/
 
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
+/*    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
         return Maybe.fromCallable(() -> putItem(word, state, substate));
-    }
-
-    @Override
-    public Maybe<Long> putStateRx(Word word, ItemState state) {
-        return null;
-    }
+    }*/
 
     @Override
     public Word getTodayItem() {
@@ -176,9 +140,9 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return single
                 .filter(item -> item != null)
                 .map(word -> {
-                    if (!hasState(word, ItemState.TODAY, ItemSubstate.FULL)) {
+/*                    if (!hasState(word, ItemState.TODAY, ItemSubstate.FULL)) {
                         return getItemRx(word.getWord()).blockingGet();
-                    }
+                    }*/
                     return word;
                 });
     }

@@ -1,10 +1,7 @@
 package com.dreampany.word.data.source.api;
 
 import android.graphics.Bitmap;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.api.DataSource;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.model.Word;
 import io.reactivex.Maybe;
 
@@ -17,31 +14,31 @@ import java.util.List;
  */
 public interface WordDataSource extends DataSource<Word> {
 
-    boolean hasState(Word word, ItemState state);
+    //boolean hasState(Word word, ItemState state);
 
-    boolean hasState(Word word, ItemState state, ItemSubstate substate);
+    //boolean hasState(Word word, ItemState state, ItemSubstate substate);
 
-    int getStateCount(ItemState state, ItemSubstate substate);
+    //int getStateCount(ItemState state, ItemSubstate substate);
 
-    List<State> getStates(Word word);
+    //List<State> getStates(Word word);
 
-    List<State> getStates(Word word, ItemState state);
+    //List<State> getStates(Word word, ItemState state);
 
-    long putItem(Word word,  ItemState state);
+    //long putItem(Word word, ItemState state);
 
-    long putItem(Word word,  ItemState state, ItemSubstate substate);
+    //long putItem(Word word, ItemState state, ItemSubstate substate);
 
-    long putItem(Word word, ItemState state, boolean replaceable);
+    //long putItem(Word word, ItemState state, boolean replaceable);
 
-    Maybe<Long> putItemRx(Word word, ItemState state);
+    //Maybe<Long> putItemRx(Word word, ItemState state);
 
-    Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate);
+    //Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate);
 
-    long putState(Word word, ItemState state);
+    //long putState(Word word, ItemState state);
 
-    long putState(Word word, ItemState state, ItemSubstate substate);
+    //long putState(Word word, ItemState state, ItemSubstate substate);
 
-    Maybe<Long> putStateRx(Word word, ItemState state);
+    //Maybe<Long> putStateRx(Word word, ItemState state);
 
     Word getTodayItem();
 

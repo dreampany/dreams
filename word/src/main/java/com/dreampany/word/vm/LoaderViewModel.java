@@ -238,8 +238,15 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     }
 
     private int getMaxStateCount() {
-        int rawCount = repo.getStateCount(ItemState.STATE, ItemSubstate.RAW);
+/*        int rawCount = repo.getStateCount(ItemState.STATE, ItemSubstate.RAW);
         int fullCount = repo.getStateCount(ItemState.STATE, ItemSubstate.FULL);
-        return rawCount > fullCount ? rawCount : fullCount;
+        return rawCount > fullCount ? rawCount : fullCount;*/
+return getStateCount();
     }
+
+    private int getStateCount() {
+return 0;
+    }
+
+    private boolean
 }

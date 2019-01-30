@@ -2,26 +2,22 @@ package com.dreampany.word.data.source.assets;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.FileUtil;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
+import io.reactivex.Maybe;
+import timber.log.Timber;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.inject.Singleton;
-
-import io.reactivex.Maybe;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 9/5/2018.
@@ -45,71 +41,6 @@ public class WordAssetsDataSource implements WordDataSource {
         this.context = context;
         this.mapper = mapper;
         this.alphaWords = new ArrayList<>();
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state) {
-        return false;
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
-        return false;
-    }
-
-    @Override
-    public int getStateCount(ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public List<State> getStates(Word word) {
-        return null;
-    }
-
-    @Override
-    public List<State> getStates(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, boolean replaceable) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putStateRx(Word word, ItemState state) {
-        return null;
     }
 
     @Override

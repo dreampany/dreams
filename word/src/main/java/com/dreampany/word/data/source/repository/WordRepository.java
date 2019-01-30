@@ -15,7 +15,6 @@ import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.data.source.pref.Pref;
-import com.google.common.collect.Maps;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -25,7 +24,6 @@ import timber.log.Timber;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -42,7 +40,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
     private final WordDataSource firestore;
     private final WordDataSource remote;
     private final WordDataSource vision;
-    private final Map<Word, Boolean> flags;
+    //private final Map<Word, Boolean> flags;
 
     @Inject
     WordRepository(RxMapper rx,
@@ -62,13 +60,10 @@ public class WordRepository extends Repository<String, Word> implements WordData
         this.firestore = firestore;
         this.remote = remote;
         this.vision = vision;
-        flags = Maps.newConcurrentMap();
+        //flags = Maps.newConcurrentMap();
     }
 
-/*    public boolean hasState(Word word, ItemState state) {
-        boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name()) > 0;
-        return stated;
-    }*/
+/*    */
 
 /*    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
         boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name()) > 0;

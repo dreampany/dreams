@@ -1,10 +1,7 @@
 package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
@@ -32,6 +29,9 @@ import com.dreampany.word.ui.adapter.WordAdapter;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.RecentViewModel;
 import com.lapism.searchview.Search;
+import com.lapism.searchview.database.SearchHistoryTable;
+import com.lapism.searchview.widget.SearchAdapter;
+import com.lapism.searchview.widget.SearchItem;
 import com.lapism.searchview.widget.SearchView;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
@@ -42,6 +42,7 @@ import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,7 +51,10 @@ import java.util.List;
  * hawladar.roman@bjitgroup.com
  */
 @ActivityScope
-public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callback<WordItem> {
+public class HomeFragment extends BaseMenuFragment
+        implements SmartAdapter.Callback<WordItem>,
+        SearchAdapter.OnSearchItemClickListener,
+        Search.OnQueryTextListener {
 
     private final String EMPTY = "empty";
 
@@ -63,6 +67,8 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
     private ExpandableLayout expandable;
     private RecyclerView recycler;
     private SearchView searchView;
+    private SearchAdapter searchAdapter;
+    private SearchHistoryTable table;
 
     RecentViewModel vm;
     WordAdapter adapter;
@@ -86,16 +92,7 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
         if (activity instanceof SearchViewCallback) {
             SearchViewCallback searchCallback = (SearchViewCallback) activity;
             searchView = searchCallback.getSearchView();
-/*            searchView.setOnMicClickListener(new Search.OnMicClickListener() {
-                @Override
-                public void onMicClick() {
-
-                }
-            });*/
-            //searchView.setLogo();
-            //searchView.setVisibility(View.VISIBLE);
-
-            MenuItem item = menu.findItem(R.id.item_search);
+            initSearchView();
         }
     }
 
@@ -166,6 +163,24 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
         return null;
     }
 
+    @Override
+    public void onSearchItemClick(int position, CharSequence title, CharSequence subtitle) {
+        searchView.setQuery(title, true);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(CharSequence query) {
+        SearchItem item = new SearchItem(getContext());
+        item.setTitle(query);
+        table.addItem(item);
+        return true;
+    }
+
+    @Override
+    public void onQueryTextChange(CharSequence newText) {
+
+    }
+
     private void initView() {
         setTitle(R.string.home);
 
@@ -182,6 +197,9 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
+
+        searchAdapter = new SearchAdapter(getContext());
+        table = new SearchHistoryTable(getContext());
     }
 
     private void initRecycler() {
@@ -206,6 +224,22 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
                 scroller,
                 null
         );
+    }
+
+    private void initSearchView() {
+        searchView.setAdapter(searchAdapter);
+        searchView.setOnQueryTextListener(new Search.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(CharSequence query) {
+
+                return true;
+            }
+
+            @Override
+            public void onQueryTextChange(CharSequence newText) {
+
+            }
+        });
     }
 
     private void processUiState(UiState state) {
@@ -302,4 +336,6 @@ public class HomeFragment extends BaseMenuFragment implements SmartAdapter.Callb
     private void processSingleSuccess(WordItem item) {
         adapter.updateSilently(item);
     }
+
+
 }

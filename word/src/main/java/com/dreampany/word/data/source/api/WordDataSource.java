@@ -14,32 +14,6 @@ import java.util.List;
  */
 public interface WordDataSource extends DataSource<Word> {
 
-    //boolean hasState(Word word, ItemState state);
-
-    //boolean hasState(Word word, ItemState state, ItemSubstate substate);
-
-    //int getStateCount(ItemState state, ItemSubstate substate);
-
-    //List<State> getStates(Word word);
-
-    //List<State> getStates(Word word, ItemState state);
-
-    //long putItem(Word word, ItemState state);
-
-    //long putItem(Word word, ItemState state, ItemSubstate substate);
-
-    //long putItem(Word word, ItemState state, boolean replaceable);
-
-    //Maybe<Long> putItemRx(Word word, ItemState state);
-
-    //Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate);
-
-    //long putState(Word word, ItemState state);
-
-    //long putState(Word word, ItemState state, ItemSubstate substate);
-
-    //Maybe<Long> putStateRx(Word word, ItemState state);
-
     Word getTodayItem();
 
     Maybe<Word> getTodayItemRx();
@@ -47,10 +21,6 @@ public interface WordDataSource extends DataSource<Word> {
     Word getItem(String word);
 
     Maybe<Word> getItemRx(String word);
-
-/*    Maybe<List<Word>> getSearchItemsRx(String query);
-
-    Maybe<List<Word>> getSearchItemsRx(String query, int limit);*/
 
     List<Word> getCommonItems();
 

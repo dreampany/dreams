@@ -236,16 +236,6 @@ public class WordRepository extends Repository<String, Word> implements WordData
     }
 
     @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query) {
-        return room.getSearchItemsRx(query);
-    }
-
-    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
-        return room.getSearchItemsRx(query, limit);
-    }
-
-    @Override
     public List<Word> getCommonItems() {
         return assets.getCommonItems();
     }

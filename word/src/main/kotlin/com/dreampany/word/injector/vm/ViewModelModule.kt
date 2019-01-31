@@ -31,6 +31,11 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    abstract fun bindSearchViewModel(vm: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(RecentViewModel::class)
     abstract fun bindRecentViewModel(vm: RecentViewModel): ViewModel
 
@@ -48,11 +53,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FlagViewModel::class)
     abstract fun bindFlagViewModel(vm: FlagViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SearchViewModel::class)
-    abstract fun bindSearchViewModel(vm: SearchViewModel): ViewModel
 
     @Binds
     @IntoMap

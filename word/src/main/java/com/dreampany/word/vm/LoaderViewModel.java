@@ -1,7 +1,6 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -14,28 +13,23 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.word.R;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.model.Load;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.LoadPref;
-import com.dreampany.word.data.source.repository.WordRepository;
+import com.dreampany.word.data.source.repository.ApiRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.LoadItem;
 import com.dreampany.word.ui.model.UiTask;
-
-import io.reactivex.functions.Consumer;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
+import org.jetbrains.annotations.NotNull;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -45,7 +39,7 @@ import timber.log.Timber;
 public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>> {
 
     private final LoadPref pref;
-    private final WordRepository repo;
+    private final ApiRepository repo;
     private final List<Word> commonWords;
     private final List<Word> alphaWords;
     private final int totalResId;
@@ -56,7 +50,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     AppExecutors ex,
                     ResponseMapper rm,
                     LoadPref pref,
-                    WordRepository repo) {
+                    ApiRepository repo) {
         super(application, rx, ex, rm);
         this.pref = pref;
         this.repo = repo;
@@ -238,15 +232,8 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     }
 
     private int getMaxStateCount() {
-/*        int rawCount = repo.getStateCount(ItemState.STATE, ItemSubstate.RAW);
+        int rawCount = repo.getStateCount(ItemState.STATE, ItemSubstate.RAW);
         int fullCount = repo.getStateCount(ItemState.STATE, ItemSubstate.FULL);
-        return rawCount > fullCount ? rawCount : fullCount;*/
-return getStateCount();
+        return rawCount > fullCount ? rawCount : fullCount;
     }
-
-    private int getStateCount() {
-return 0;
-    }
-
-    private boolean
 }

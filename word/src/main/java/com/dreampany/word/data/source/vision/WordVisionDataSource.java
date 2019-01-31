@@ -137,16 +137,6 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
-        return null;
-    }
-
-    @Override
     public List<Word> getCommonItems() {
         return null;
     }

@@ -151,16 +151,6 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
-        return null;
-    }
-
-    @Override
     public List<Word> getCommonItems() {
         List<String> items = getCommonWords();
         List<Word> result = new ArrayList<>(items.size());

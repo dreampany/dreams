@@ -151,7 +151,7 @@ public class WordRoomDataSource implements WordDataSource {
         return dao.getItemRx(word);
     }
 
-    @Override
+/*    @Override
     public Maybe<List<Word>> getSearchItemsRx(String query) {
         return dao.getSearchItemsRx(query);
     }
@@ -159,7 +159,7 @@ public class WordRoomDataSource implements WordDataSource {
     @Override
     public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
         return dao.getSearchItemsRx(query, limit);
-    }
+    }*/
 
     @Override
     public List<Word> getCommonItems() {

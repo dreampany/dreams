@@ -159,9 +159,10 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
      * private api
      */
     private Maybe<List<WordItem>> getRecentItemsRx() {
-        return repo.getRecentItemsRx(Constants.Limit.WORD_RECENT)
+        return Maybe.empty();
+/*        return repo.getRecentItemsRx(Constants.Limit.WORD_RECENT)
                 .onErrorResumeNext(Maybe.empty())
-                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);
+                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);*/
     }
 
 /*    private Maybe<List<WordItem>> getVisibleItemsIfRx() {
@@ -189,9 +190,9 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             return null;
         }
         for (WordItem item : items) {
-            if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
+/*            if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
                 return repo.getItemRx(item.getItem().getWord()).map(this::getItem).blockingGet();
-            }
+            }*/
         }
         return null;
     }
@@ -238,13 +239,13 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        //List<State> states = repo.getStates(item.getItem());
+        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItem());
-        item.setFlagged(flagged);
+        //boolean flagged = repo.isFlagged(item.getItem());
+        //item.setFlagged(flagged);
     }
 
     /*@DebugLog

@@ -146,7 +146,7 @@ public class WordRemoteDataSource implements WordDataSource {
         return Maybe.fromCallable(() -> getItem(word));
     }
 
-    @Override
+/*    @Override
     public Maybe<List<Word>> getSearchItemsRx(String query) {
         return null;
     }
@@ -161,7 +161,7 @@ public class WordRemoteDataSource implements WordDataSource {
             }
             return result;
         });
-    }
+    }*/
 
     @Override
     public List<Word> getCommonItems() {

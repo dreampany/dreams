@@ -134,9 +134,10 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private Maybe<List<WordItem>> getRecentItemsRx() {
-        return repo.getRecentItemsRx()
+        return Maybe.empty();
+        /*        return repo.getRecentItemsRx()
                 .onErrorResumeNext(Maybe.empty())
-                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);
+                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);*/
     }
 
     private Maybe<WordItem> getItemRx(String word) {
@@ -203,8 +204,8 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        //List<State> states = repo.getStates(item.getItem());
+        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {

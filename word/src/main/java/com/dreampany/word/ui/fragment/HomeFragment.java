@@ -1,7 +1,10 @@
 package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
@@ -42,7 +45,6 @@ import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

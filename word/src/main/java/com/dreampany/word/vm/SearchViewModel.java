@@ -1,9 +1,6 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.repository.StoreRepository;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -12,9 +9,8 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
-import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
-import com.dreampany.word.data.source.repository.WordRepository;
+import com.dreampany.word.data.source.repository.ApiRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
@@ -35,9 +31,7 @@ import java.util.List;
 public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private final NetworkManager network;
-    private final WordRepository repo;
-    private final StoreRepository store;
-    private final StateMapper stateMapper;
+    private final ApiRepository repo;;
 
     @Inject
     SearchViewModel(Application application,
@@ -45,14 +39,10 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     AppExecutors ex,
                     ResponseMapper rm,
                     NetworkManager network,
-                    WordRepository repo,
-                    StoreRepository store,
-                    StateMapper stateMapper) {
+                    ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
-        this.repo = repo;
-        this.store = store;
-        this.stateMapper = stateMapper;
+        this.repo = repo;;
     }
 
     public void suggests(String query) {
@@ -104,7 +94,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     /** private api */
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
-            repo.toggleFlag(word);
+            //repo.toggleFlag(word);
             return getItem(word, true);
         });
     }
@@ -144,16 +134,16 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+       // List<State> states = repo.getStates(item.getItem());
+      //  Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItem());
-        item.setFlagged(flagged);
+/*        boolean flagged = repo.isFlagged(item.getItem());
+        item.setFlagged(flagged);*/
     }
 
     private Maybe<List<Word>> getSuggestionsRx(String query, int limit) {
-        return store.getItemsOfRx(ItemS)
+        return Maybe.empty();
     }
 }

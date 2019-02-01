@@ -17,13 +17,9 @@ public interface StateDataSource extends DataSource<State> {
 
     int getCount(String type, String subtype, String state);
 
-    int getCount(String type, String subtype, String state, String substate);
-
     Maybe<Integer> getCountRx(String type, String subtype, String state);
 
     int getCount(long id, String type, String subtype, String state);
-
-    int getCount(long id, String type, String subtype, String state, String substate);
 
     Maybe<Integer> getCountRx(long id, String type, String subtype, String state);
 

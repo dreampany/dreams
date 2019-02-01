@@ -33,17 +33,11 @@ interface StateDao : BaseDao<State> {
     @Query("select count(*) from state where type = :type and subtype = :subtype and state = :state")
     fun getCount(type: String, subtype: String, state: String): Int
 
-    @Query("select count(*) from state where type = :type and subtype = :subtype and state = :state and substate = :substate")
-    fun getCount(type: String, subtype: String, state: String, substate: String): Int
-
     @Query("select count(*) from state where type = :type and subtype = :subtype and state = :state")
     fun getCountRx(type: String, subtype: String, state: String): Maybe<Int>
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype and state = :state")
     fun getCount(id: Long, type: String, subtype: String, state: String): Int
-
-    @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype and state = :state and substate = :substate")
-    fun getCount(id: Long, type: String, subtype: String, state: String, substate: String): Int
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype and state = :state")
     fun getCountRx(id: Long, type: String, subtype: String, state: String): Maybe<Int>

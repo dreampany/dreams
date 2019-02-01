@@ -7,7 +7,6 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.enums.ItemType;
 import com.dreampany.word.data.misc.WordMapper;
@@ -66,27 +65,32 @@ public class ApiRepository {
         return null;
     }
 
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
+    public long putItem(Word word, ItemSubtype subtype, ItemState state) {
         long result = wordRepo.putItem(word);
         if (result != -1) {
-            result = putState(word, state, substate);
+            result = putState(word, subtype, state);
         }
         return result;
     }
 
-    public boolean hasState(Word word, ItemState state) {
-        boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name()) > 0;
+    public boolean hasState(Word word, ItemSubtype subtype) {
+        boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), subtype.name()) > 0;
         return stated;
     }
 
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
-        State s = new State(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name());
+    public boolean hasState(Word word, ItemSubtype subtype, ItemState state) {
+        boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), subtype.name(), state.name()) > 0;
+        return stated;
+    }
+
+    public long putState(Word word, ItemSubtype subtype, ItemState state) {
+        State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
         s.setTime(TimeUtil.currentTime());
         long result = stateRepo.putItem(s);
         return result;
     }
 
-    public int getStateCount(ItemState state, ItemSubstate substate) {
-        return stateRepo.getCount(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name());
+    public int getStateCount(ItemType type, ItemSubtype subtype, ItemState state) {
+        return stateRepo.getCount(type.name(), subtype.name(), state.name());
     }
 }

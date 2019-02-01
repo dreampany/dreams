@@ -1,9 +1,7 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -15,8 +13,6 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
@@ -25,9 +21,7 @@ import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Inject;
@@ -249,7 +243,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     /*@DebugLog
-    public void loads(boolean fresh) {
+    public void search(boolean fresh) {
         if (!preLoads(fresh)) {
             updateVisibleItems();
             return;

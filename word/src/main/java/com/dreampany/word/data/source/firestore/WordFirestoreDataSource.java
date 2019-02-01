@@ -1,21 +1,15 @@
 package com.dreampany.word.data.source.firestore;
 
 import android.graphics.Bitmap;
-
 import com.dreampany.firebase.RxFirestore;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.network.NetworkManager;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
-
-import java.util.List;
+import io.reactivex.Maybe;
 
 import javax.inject.Singleton;
-
-import io.reactivex.Maybe;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 9/3/2018.

@@ -130,7 +130,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private long putWordOfOcr(Word word, long timeOfOcr) {
-        Store store = new Store(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), ItemState.OCR.name());
+        Store store = new Store(word.getId(), ItemType.WORD.name(), ItemSubtype.OCR.name());
         store.setTime(timeOfOcr);
         store.setData(word.getWord());
         return storeRepo.putItem(store);

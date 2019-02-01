@@ -1,28 +1,18 @@
 package com.dreampany.word.data.source.remote;
 
 import android.graphics.Bitmap;
-
-import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.util.DataUtil;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.word.api.wordnik.WordnikManager;
 import com.dreampany.word.api.wordnik.WordnikWord;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Singleton;
-
 import io.reactivex.Maybe;
 import timber.log.Timber;
+
+import javax.inject.Singleton;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.

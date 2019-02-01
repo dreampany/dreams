@@ -12,7 +12,8 @@ import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.word.R;
 import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
+import com.dreampany.word.data.enums.ItemSubtype;
+import com.dreampany.word.data.enums.ItemType;
 import com.dreampany.word.data.model.Load;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.LoadPref;
@@ -64,7 +65,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     @Override
     protected Maybe<String> getSubtitle() {
         return Maybe.fromCallable(() -> {
-            int total = getMaxStateCount();
+            int total = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             String title = TextUtil.getString(getApplication(), totalResId, total);
             return title;
         });
@@ -123,7 +124,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();
             if (pref.isCommonLoaded()) {
-                int current = getMaxStateCount();
+                int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                 Load load = new Load(current, current);
                 item.setItem(load);
                 return item;
@@ -137,7 +138,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             }
             Word last = pref.getLastWord();
             int lastIndex = last != null ? commonWords.indexOf(last) : -1;
-            int current = getMaxStateCount();
+            int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
             ex.postToUi(() -> postResult(item));
@@ -148,10 +149,10 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
 
             while (!commonWords.isEmpty()) {
                 word = commonWords.remove(0);
-                long result = repo.putItem(word, ItemState.STATE, ItemSubstate.RAW);
+                long result = repo.putItem(word, ItemSubtype.DEFAULT, ItemState.RAW);
                 if (result != -1) {
                     pref.setLastWord(word);
-                    current = getMaxStateCount();
+                    current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                     load.setCurrent(current);
                     load.setTotal(current);
                     Timber.v("%d Next Common Word = %s", current, word.toString());
@@ -171,7 +172,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();
             if (pref.isAlphaLoaded()) {
-                int current = getMaxStateCount();
+                int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                 Load load = new Load(current, current);
                 item.setItem(load);
                 return item;
@@ -186,7 +187,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             Timber.v("Cache Alpha Words (%d)", alphaWords.size());
             Word last = pref.getLastWord();
             int lastIndex = last != null ? alphaWords.indexOf(last) : 0;
-            int current = getMaxStateCount();
+            int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
             ex.postToUi(() -> postResult(item));
@@ -198,10 +199,10 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             Timber.v("Next final Alpha Words (%d)", alphaWords.size());
             while (!alphaWords.isEmpty()) {
                 word = alphaWords.remove(0);
-                long result = repo.putItem(word, ItemState.STATE, ItemSubstate.RAW);
+                long result = repo.putItem(word, ItemSubtype.DEFAULT, ItemState.RAW);
                 if (result != -1) {
                     pref.setLastWord(word);
-                    current = getMaxStateCount();
+                    current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                     load.setCurrent(current);
                     load.setTotal(current);
                     Timber.v("Next Alpha Word = %s", word.toString());
@@ -225,15 +226,9 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
 /*        if (repo.getStateCount(ItemState.FREQUENT) >= Constants.Count.WORD_RECENT) {
             return false;
         }*/
-        if (repo.hasState(word, ItemState.RECENT)) {
+        if (repo.hasState(word, ItemSubtype.RECENT)) {
             return false;
         }
         return true;
-    }
-
-    private int getMaxStateCount() {
-        int rawCount = repo.getStateCount(ItemState.STATE, ItemSubstate.RAW);
-        int fullCount = repo.getStateCount(ItemState.STATE, ItemSubstate.FULL);
-        return rawCount > fullCount ? rawCount : fullCount;
     }
 }

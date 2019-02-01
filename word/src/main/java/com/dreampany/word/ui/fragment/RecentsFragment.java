@@ -99,7 +99,7 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
 
     @Override
     protected void onStopUi() {
-        //vm.clear();
+        //recentVm.clear();
 /*        if (searchView != null) {
             if (searchView.isSearchOpen()) {
                 searchView.closeSearch();

@@ -63,7 +63,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
-    public void loads(String query) {
+    public void search(String query) {
         if (!preLoads(true)) {
             return;
         }

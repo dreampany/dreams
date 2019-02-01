@@ -152,9 +152,9 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
                 String text = ViewUtil.getText(v);
                 vm.speak(text);
                 break;
-            case R.id.button_like:
+/*            case R.id.button_like:
                 //recentVm.toggle((Word) v.getTag());
-                break;
+                break;*/
             case R.id.fab:
                 openOcrUi();
                 break;

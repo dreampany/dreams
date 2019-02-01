@@ -8,6 +8,7 @@ import com.dreampany.frame.util.FileUtil;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
+import com.dreampany.word.misc.Constants;
 import io.reactivex.Maybe;
 import timber.log.Timber;
 
@@ -23,9 +24,6 @@ import java.util.Objects;
  */
 @Singleton
 public class WordAssetsDataSource implements WordDataSource {
-
-    private static final String WORDS_COMMON = "words_common.txt";
-    private static final String WORDS_ALPHA = "words_alpha.txt";
 
     private final Context context;
     private final WordMapper mapper;
@@ -148,6 +146,11 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     @Override
+    public List<Word> getSearchItems(String query, int limit) {
+        return null;
+    }
+
+    @Override
     public List<Word> getCommonItems() {
         List<String> items = getCommonWords();
         List<Word> result = new ArrayList<>(items.size());
@@ -175,7 +178,7 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     synchronized private List<String> getCommonWords() {
-        List<String> items = FileUtil.readAssetsAsStrings(context, WORDS_COMMON);
+        List<String> items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_COMMON);
         if (items == null) {
             Timber.v("Assets common words empty");
         }
@@ -184,7 +187,7 @@ public class WordAssetsDataSource implements WordDataSource {
 
     synchronized private List<String> getAlphaWords() {
         if (DataUtil.isEmpty(alphaWords)) {
-            List<String> items = FileUtil.readAssetsAsStrings(context, WORDS_ALPHA);
+            List<String> items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_ALPHA);
             alphaWords.addAll(items);
         }
         return alphaWords;

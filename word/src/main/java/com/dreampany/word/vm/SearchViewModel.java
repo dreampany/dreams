@@ -7,6 +7,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.word.data.model.Word;
@@ -21,7 +22,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -31,7 +34,8 @@ import java.util.List;
 public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private final NetworkManager network;
-    private final ApiRepository repo;;
+    private final ApiRepository repo;
+    ;
 
     @Inject
     SearchViewModel(Application application,
@@ -42,7 +46,8 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
-        this.repo = repo;;
+        this.repo = repo;
+        ;
     }
 
     public void suggests(String query) {
@@ -91,7 +96,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addSingleSubscription(disposable);
     }
 
-    /** private api */
+    /**
+     * private api
+     */
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
             //repo.toggleFlag(word);
@@ -106,7 +113,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private Maybe<List<WordItem>> getItemsRx(String query) {
-        return repo.getSearchItemsRx(query, Constants.Limit.WORD_SEARCH)
+        return getSearchItemsRx(query)
                 .onErrorResumeNext(Maybe.empty())
                 .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words, true));
     }
@@ -134,13 +141,29 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustState(WordItem item) {
-       // List<State> states = repo.getStates(item.getItem());
-      //  Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        // List<State> states = repo.getStates(item.getItem());
+        //  Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
 /*        boolean flagged = repo.isFlagged(item.getItem());
         item.setFlagged(flagged);*/
+    }
+
+    private Maybe<List<Word>> getSearchItemsRx(String query) {
+        return Maybe.fromCallable(() -> {
+            Word word = repo.getItem(query);
+            List<Word> result = new ArrayList<>();
+            if (word != null) {
+                result.add(word);
+            } else {
+                List<Word> items = repo.getSearchItems(query, Constants.Limit.WORD_SEARCH);
+                if (!DataUtil.isEmpty(items)) {
+                    result.addAll(items);
+                }
+            }
+            return result;
+        });
     }
 
     private Maybe<List<Word>> getSuggestionsRx(String query, int limit) {

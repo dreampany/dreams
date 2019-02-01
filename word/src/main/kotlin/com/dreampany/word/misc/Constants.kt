@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit
  */
 object Constants {
 
+    object Assets {
+        const val WORDS_COMMON = "words_common.txt"
+        const val WORDS_ALPHA = "words_alpha.txt"
+    }
+
     object Count {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099

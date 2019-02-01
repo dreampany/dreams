@@ -1,5 +1,6 @@
 package com.dreampany.word.data.source.repository;
 
+import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.FlagRepository;
 import com.dreampany.frame.data.source.repository.StateRepository;
@@ -12,11 +13,12 @@ import com.dreampany.word.data.enums.ItemType;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
-import io.reactivex.Maybe;
+import com.google.common.collect.Maps;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Roman on 1/30/2019
@@ -35,6 +37,7 @@ public class ApiRepository {
     private final WordRepository wordRepo;
     private final StateRepository stateRepo;
     private final FlagRepository flagRepo;
+    private final Map<Word, Boolean> flags;
 
     @Inject
     ApiRepository(RxMapper rx,
@@ -51,6 +54,7 @@ public class ApiRepository {
         this.wordRepo = wordRepo;
         this.stateRepo = stateRepo;
         this.flagRepo = flagRepo;
+        flags = Maps.newConcurrentMap();
     }
 
     public List<Word> getCommonWords() {
@@ -61,8 +65,12 @@ public class ApiRepository {
         return wordRepo.getAlphaItems();
     }
 
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
-        return null;
+    public Word getItem(String word) {
+         return wordRepo.getItem(word);
+    }
+
+    public List<Word> getSearchItems(String query, int limit) {
+        return wordRepo.getSearchItems(query, limit);
     }
 
     public long putItem(Word word, ItemSubtype subtype, ItemState state) {
@@ -71,6 +79,11 @@ public class ApiRepository {
             result = putState(word, subtype, state);
         }
         return result;
+    }
+
+    public boolean hasState(long id, ItemType type, ItemSubtype subtype, ItemState state) {
+        boolean stated = stateRepo.getCount(id, type.name(), subtype.name(), state.name()) > 0;
+        return stated;
     }
 
     public boolean hasState(Word word, ItemSubtype subtype) {
@@ -92,5 +105,13 @@ public class ApiRepository {
 
     public int getStateCount(ItemType type, ItemSubtype subtype, ItemState state) {
         return stateRepo.getCount(type.name(), subtype.name(), state.name());
+    }
+
+    public boolean isFlagged(Word word) {
+        if (flags.containsKey(word)) {
+            return flags.get(word);
+        }
+        Flag flag = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
+        return flagRepo.isExists(flag);
     }
 }

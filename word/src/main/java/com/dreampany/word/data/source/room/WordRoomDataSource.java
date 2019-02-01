@@ -144,6 +144,11 @@ public class WordRoomDataSource implements WordDataSource {
         return dao.getItemRx(word);
     }
 
+    @Override
+    public List<Word> getSearchItems(String query, int limit) {
+        return dao.getSearchItems(query, limit);
+    }
+
 /*    @Override
     public Maybe<List<Word>> getSearchItemsRx(String query) {
         return dao.getSearchItemsRx(query);

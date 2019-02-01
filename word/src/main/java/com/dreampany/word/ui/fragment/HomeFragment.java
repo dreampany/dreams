@@ -73,7 +73,7 @@ public class HomeFragment extends BaseMenuFragment
     private SearchAdapter searchAdapter;
     private SearchHistoryTable table;
 
-    RecentViewModel recentVm;
+    //RecentViewModel recentVm;
     SearchViewModel searchVm;
     WordAdapter adapter;
 
@@ -198,12 +198,12 @@ public class HomeFragment extends BaseMenuFragment
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
 
-        recentVm = ViewModelProviders.of(this, factory).get(RecentViewModel.class);
+        //recentVm = ViewModelProviders.of(this, factory).get(RecentViewModel.class);
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
-        recentVm.setUiCallback(this);
-        recentVm.observeUiState(this, this::processUiState);
-        recentVm.observeOutputs(this, this::processResponse);
-        recentVm.observeOutput(this, this::processSingleResponse);
+        //recentVm.setUiCallback(this);
+        //recentVm.observeUiState(this, this::processUiState);
+        //recentVm.observeOutputs(this, this::processResponse);
+        //recentVm.observeOutput(this, this::processSingleResponse);
 
         searchAdapter = new SearchAdapter(getContext());
         table = new SearchHistoryTable(getContext());
@@ -216,7 +216,7 @@ public class HomeFragment extends BaseMenuFragment
         scroller = new OnVerticalScrollListener() {
             @Override
             public void onScrollingAtEnd() {
-                recentVm.update(false);
+                //recentVm.update(false);
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
@@ -225,7 +225,7 @@ public class HomeFragment extends BaseMenuFragment
                 recycler,
                 new SmoothScrollLinearLayoutManager(getContext()),
                 new FlexibleItemDecoration(getContext())
-                        .addItemViewType(R.layout.item_word, recentVm.getItemOffset())
+                        .addItemViewType(R.layout.item_word, searchVm.getItemOffset())
                         .withEdge(true),
                 null,
                 scroller,
@@ -311,19 +311,19 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processProgress(boolean loading) {
         if (loading) {
-            recentVm.updateUiState(UiState.SHOW_PROGRESS);
+            //recentVm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
-            recentVm.updateUiState(UiState.HIDE_PROGRESS);
+            //recentVm.updateUiState(UiState.HIDE_PROGRESS);
         }
     }
 
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
-            recentVm.updateUiState(UiState.OFFLINE);
+            //recentVm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            recentVm.updateUiState(UiState.EMPTY);
+            //recentVm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
-            recentVm.updateUiState(UiState.EXTRA);
+            //recentVm.updateUiState(UiState.EXTRA);
         } else if (error instanceof MultiException) {
             for (Throwable e : ((MultiException) error).getErrors()) {
                 processFailure(e);

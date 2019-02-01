@@ -1,6 +1,8 @@
 package com.dreampany.word.data.source.remote;
 
 import android.graphics.Bitmap;
+import com.annimon.stream.Stream;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.word.api.wordnik.WordnikManager;
 import com.dreampany.word.api.wordnik.WordnikWord;
@@ -12,6 +14,7 @@ import io.reactivex.Maybe;
 import timber.log.Timber;
 
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -134,6 +137,16 @@ public class WordRemoteDataSource implements WordDataSource {
     @Override
     public Maybe<Word> getItemRx(String word) {
         return Maybe.fromCallable(() -> getItem(word));
+    }
+
+    @Override
+    public List<Word> getSearchItems(String query, int limit) {
+        List<WordnikWord> items = wordnik.search(query, limit);
+        List<Word> result = new ArrayList<>();
+        if (!DataUtil.isEmpty(items)) {
+            Stream.of(items).forEach(word -> result.add(mapper.toItem(word, false)));
+        }
+        return result;
     }
 
 /*    @Override

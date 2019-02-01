@@ -130,6 +130,11 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
+    public List<Word> getSearchItems(String query, int limit) {
+        return null;
+    }
+
+    @Override
     public List<Word> getCommonItems() {
         return null;
     }

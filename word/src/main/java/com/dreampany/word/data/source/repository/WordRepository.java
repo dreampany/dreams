@@ -236,6 +236,11 @@ public class WordRepository extends Repository<String, Word> implements WordData
     }
 
     @Override
+    public List<Word> getSearchItems(String query, int limit) {
+        return room.getSearchItems(query, limit);
+    }
+
+    @Override
     public List<Word> getCommonItems() {
         return assets.getCommonItems();
     }
@@ -250,10 +255,14 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return null;
     }
 
+    public Word getItemOfMapper(String word) {
+        return mapper.toItem(word);
+    }
+
     public Word getItemOf(String word) {
         Word result = room.getItem(word);
         if (result == null) {
-            result = mapper.toItem(word);
+            result = getItemOfMapper(word);
         }
         return result;
     }

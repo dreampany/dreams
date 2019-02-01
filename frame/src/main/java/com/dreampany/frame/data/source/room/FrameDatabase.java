@@ -1,15 +1,12 @@
 package com.dreampany.frame.data.source.room;
 
+import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import android.content.Context;
-
 import com.dreampany.frame.BuildConfig;
-import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.model.Store;
-import com.dreampany.frame.data.source.local.FlagDao;
 import com.dreampany.frame.data.source.local.StateDao;
 import com.dreampany.frame.data.source.local.StoreDao;
 import com.google.common.base.Splitter;
@@ -22,7 +19,6 @@ import com.google.common.collect.Iterables;
  */
 @Database(
         entities = {
-                Flag.class,
                 State.class,
                 Store.class
         },
@@ -52,8 +48,6 @@ public abstract class FrameDatabase extends RoomDatabase {
                 .fallbackToDestructiveMigration()
                 .build();
     }
-
-    public abstract FlagDao flagDao();
 
     public abstract StateDao stateDao();
 

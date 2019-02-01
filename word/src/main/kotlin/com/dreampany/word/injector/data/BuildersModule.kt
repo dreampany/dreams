@@ -2,8 +2,6 @@ package com.dreampany.word.injector.data
 
 import android.content.Context
 import com.dreampany.firebase.RxFirestore
-import com.dreampany.frame.data.source.repository.FlagRepository
-import com.dreampany.frame.data.source.repository.StateRepository
 import com.dreampany.frame.injector.data.FrameModule
 import com.dreampany.frame.misc.*
 import com.dreampany.network.NetworkManager
@@ -48,9 +46,7 @@ class BuildersModule {
     fun provideWordRoomDataSource(mapper: WordMapper,
                                    dao: WordDao,
                                    synonymDao: SynonymDao,
-                                   antonymDao: AntonymDao,
-                                   flagRepo: FlagRepository,
-                                   stateRepo: StateRepository): WordDataSource {
+                                   antonymDao: AntonymDao): WordDataSource {
         return WordRoomDataSource(mapper, dao, synonymDao, antonymDao)
     }
 

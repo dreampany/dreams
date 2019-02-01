@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.repository;
 
 import com.dreampany.frame.data.model.Flag;
@@ -14,11 +15,13 @@ import javax.inject.Singleton;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/18/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 public class FlagRepository extends Repository<Long, Flag> implements FlagDataSource {
 
@@ -153,3 +156,4 @@ public class FlagRepository extends Repository<Long, Flag> implements FlagDataSo
         return room.getItemsRx(limit);
     }
 }
+*/

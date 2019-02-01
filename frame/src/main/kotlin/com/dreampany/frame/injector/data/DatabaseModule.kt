@@ -1,10 +1,9 @@
 package com.dreampany.frame.injector.data
 
 import android.app.Application
-import com.dreampany.frame.data.source.local.FlagDao
-import com.dreampany.frame.data.source.room.FrameDatabase
 import com.dreampany.frame.data.source.local.StateDao
 import com.dreampany.frame.data.source.local.StoreDao
+import com.dreampany.frame.data.source.room.FrameDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -24,11 +23,11 @@ class DatabaseModule {
         return FrameDatabase.onInstance(application.applicationContext)
     }
 
-    @Singleton
+/*    @Singleton
     @Provides
     fun provideFlagDao(database: FrameDatabase): FlagDao {
         return database.flagDao()
-    }
+    }*/
 
     @Singleton
     @Provides

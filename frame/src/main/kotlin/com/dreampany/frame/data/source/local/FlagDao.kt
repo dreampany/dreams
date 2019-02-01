@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.local
 
 import androidx.room.Dao
@@ -6,11 +7,13 @@ import com.dreampany.frame.data.source.dao.BaseDao
 import com.dreampany.frame.data.model.Flag
 import io.reactivex.Maybe
 
+*/
 /**
  * Created by Hawladar Roman on 3/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 
 @Dao
 interface FlagDao : BaseDao<Flag> {
@@ -62,4 +65,4 @@ interface FlagDao : BaseDao<Flag> {
 
     @Query("select * from flag where type = :type and subtype = :subtype limit :limit")
     fun getItemsRx(type: String, subtype: String, limit: Int): Maybe<List<Flag>>
-}
+}*/

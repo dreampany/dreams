@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.room;
 
 import com.dreampany.frame.data.misc.FlagMapper;
@@ -11,11 +12,13 @@ import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/18/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 public class FlagRoomDataSource implements FlagDataSource {
 
@@ -178,3 +181,4 @@ public class FlagRoomDataSource implements FlagDataSource {
         return dao.getItemsRx(limit);
     }
 }
+*/

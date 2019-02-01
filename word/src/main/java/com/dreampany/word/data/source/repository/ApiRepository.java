@@ -1,8 +1,6 @@
 package com.dreampany.word.data.source.repository;
 
-import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.repository.FlagRepository;
 import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -36,7 +34,6 @@ public class ApiRepository {
     private final WordMapper mapper;
     private final WordRepository wordRepo;
     private final StateRepository stateRepo;
-    private final FlagRepository flagRepo;
     private final Map<Word, Boolean> flags;
 
     @Inject
@@ -45,15 +42,13 @@ public class ApiRepository {
                   Pref pref,
                   WordMapper mapper,
                   WordRepository wordRepo,
-                  StateRepository stateRepo,
-                  FlagRepository flagRepo) {
+                  StateRepository stateRepo) {
         this.rx = rx;
         this.rm = rm;
         this.pref = pref;
         this.mapper = mapper;
         this.wordRepo = wordRepo;
         this.stateRepo = stateRepo;
-        this.flagRepo = flagRepo;
         flags = Maps.newConcurrentMap();
     }
 
@@ -103,15 +98,33 @@ public class ApiRepository {
         return result;
     }
 
+    public long removeState(Word word, ItemSubtype subtype, ItemState state) {
+        State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
+        s.setTime(TimeUtil.currentTime());
+        long result = -1;
+        return result;
+    }
+
     public int getStateCount(ItemType type, ItemSubtype subtype, ItemState state) {
         return stateRepo.getCount(type.name(), subtype.name(), state.name());
     }
 
     public boolean isFlagged(Word word) {
-        if (flags.containsKey(word)) {
-            return flags.get(word);
+        if (!flags.containsKey(word)) {
+            boolean flag = hasState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
+            flags.put(word, flag);
         }
-        Flag flag = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-        return flagRepo.isExists(flag);
+        return flags.get(word);
+    }
+
+    public boolean toggleFlag(Word word) {
+        if (isFlagged(word)) {
+            removeState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
+            flags.put(word, false);
+        } else {
+            putState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
+            flags.put(word, true);
+        }
+        return flags.get(word);
     }
 }

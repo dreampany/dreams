@@ -1,7 +1,6 @@
 package com.dreampany.word.data.misc;
 
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
@@ -12,14 +11,12 @@ import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.WordAnnote;
-
-import java.util.ArrayList;
-import java.util.List;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import timber.log.Timber;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 9/3/2018.
@@ -130,14 +127,14 @@ public class WordMapper {
         return out;
     }
 
-    public Word toItem(Flag in, WordDataSource source) {
+/*    public Word toItem(Flag in, WordDataSource source) {
         Word out = map.get(in.getId());
         if (out == null) {
             out = source.getItem(in.getId());
             map.put(in.getId(), out);
         }
         return out;
-    }
+    }*/
 
     public Word toItem(State in, WordDataSource source) {
         Word out = map.get(in.getId());

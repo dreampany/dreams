@@ -1,7 +1,6 @@
 package com.dreampany.word.data.source.repository;
 
 import android.graphics.Bitmap;
-import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.Repository;
 import com.dreampany.frame.misc.*;
@@ -317,12 +316,12 @@ public class WordRepository extends Repository<String, Word> implements WordData
         });
     }
 
-    private Maybe<List<Word>> getFlagItemsRx(List<Flag> items) {
+/*    private Maybe<List<Word>> getFlagItemsRx(List<Flag> items) {
         return Flowable.fromIterable(items)
                 .map(item -> mapper.toItem(item, room))
                 .toList()
                 .toMaybe();
-    }
+    }*/
 
     private Maybe<List<Word>> getItemsRx(List<State> items) {
         return Flowable.fromIterable(items)

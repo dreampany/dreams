@@ -1,9 +1,9 @@
-<LinearLayout android:orientation="vertical"
-    android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center" >
 
     <ImageView
         android:id="@+id/image_icon"
@@ -25,4 +25,4 @@
         android:textSize="16sp"
         auto:smart_font="@string/fontRobotoSlabBody" />
 
-</LinearLayout>
+</LinearLayout >

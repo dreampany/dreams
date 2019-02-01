@@ -40,6 +40,7 @@ import com.lapism.searchview.widget.SearchView;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import hugo.weaving.DebugLog;
 import net.cachapa.expandablelayout.ExpandableLayout;
 import org.jetbrains.annotations.NotNull;
 import timber.log.Timber;
@@ -59,6 +60,7 @@ public class HomeFragment extends BaseMenuFragment
         SearchAdapter.OnSearchItemClickListener,
         Search.OnQueryTextListener {
 
+    private final String SEARCH = "search";
     private final String EMPTY = "empty";
 
     @Inject
@@ -114,7 +116,6 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        //
     }
 
     @Override
@@ -167,11 +168,13 @@ public class HomeFragment extends BaseMenuFragment
         return null;
     }
 
+    @DebugLog
     @Override
     public void onSearchItemClick(int position, CharSequence title, CharSequence subtitle) {
         searchView.setQuery(title, true);
     }
 
+    @DebugLog
     @Override
     public boolean onQueryTextSubmit(CharSequence query) {
         SearchItem item = new SearchItem(getContext());
@@ -182,6 +185,7 @@ public class HomeFragment extends BaseMenuFragment
         return true;
     }
 
+    @DebugLog
     @Override
     public void onQueryTextChange(CharSequence newText) {
 
@@ -189,10 +193,11 @@ public class HomeFragment extends BaseMenuFragment
 
     private void initView() {
         setTitle(R.string.home);
-
         binding = (FragmentHomeBinding) super.binding;
+        binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
-        ViewUtil.setText(this, R.id.text_empty, R.string.empty_recent_words);
+        processUiState(UiState.SEARCH);
+        ViewUtil.setText(this, R.id.text_empty, R.string.empty_search_words);
 
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;
@@ -201,8 +206,8 @@ public class HomeFragment extends BaseMenuFragment
         //recentVm = ViewModelProviders.of(this, factory).get(RecentViewModel.class);
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         //recentVm.setUiCallback(this);
-        //recentVm.observeUiState(this, this::processUiState);
-        //recentVm.observeOutputs(this, this::processResponse);
+        searchVm.observeUiState(this, this::processUiState);
+        searchVm.observeOutputs(this, this::processResponse);
         //recentVm.observeOutput(this, this::processSingleResponse);
 
         searchAdapter = new SearchAdapter(getContext());
@@ -234,19 +239,9 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void initSearchView() {
+        searchAdapter.setOnSearchItemClickListener(this);
         searchView.setAdapter(searchAdapter);
-        searchView.setOnQueryTextListener(new Search.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(CharSequence query) {
-
-                return true;
-            }
-
-            @Override
-            public void onQueryTextChange(CharSequence newText) {
-
-            }
-        });
+        searchView.setOnQueryTextListener(this);
     }
 
     private void processUiState(UiState state) {
@@ -272,6 +267,9 @@ public class HomeFragment extends BaseMenuFragment
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);
                 break;
+            case SEARCH:
+                binding.stateful.setState(SEARCH);
+                break;
             case EMPTY:
                 binding.stateful.setState(EMPTY);
                 break;
@@ -280,6 +278,7 @@ public class HomeFragment extends BaseMenuFragment
             case CONTENT:
                 binding.stateful.setState(StatefulLayout.State.CONTENT);
                 break;
+
         }
     }
 
@@ -336,6 +335,7 @@ public class HomeFragment extends BaseMenuFragment
             return;
         }
         Timber.v("Recent result %s", items.size());
+        adapter.clear();
         adapter.addItems(items);
         AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }

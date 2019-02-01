@@ -119,13 +119,13 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         TextView partOfSpeech;
         @BindView(R.id.text_pronunciation)
         TextView pronunciation;
-        @BindView(R.id.button_like)
-        LikeButton like;
+/*        @BindView(R.id.button_like)
+        LikeButton like;*/
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
             super(view, adapter);
             word.setOnClickListener(super.adapter.getClickListener());
-            like.setOnClickListener(super.adapter.getClickListener());
+            //like.setOnClickListener(super.adapter.getClickListener());
         }
 
         @Override
@@ -137,8 +137,8 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
             int color = item.hasState(ItemState.FULL) ? R.color.black : R.color.material_grey500;
             this.word.setTextColor(ColorUtil.getColor(getContext(), color));
-            like.setTag(word);
-            like.setLiked(item.isFlagged());
+            //like.setTag(word);
+            //like.setLiked(item.isFlagged());
         }
     }
 }

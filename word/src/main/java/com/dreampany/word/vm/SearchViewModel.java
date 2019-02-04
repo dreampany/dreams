@@ -1,16 +1,25 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
+import com.annimon.stream.Stream;
+import com.dreampany.frame.data.enums.UiState;
+import com.dreampany.frame.data.model.Response;
+import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
+import com.dreampany.network.data.model.Network;
+import com.dreampany.word.data.enums.ItemState;
+import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
+import com.dreampany.word.data.source.pref.Pref;
 import com.dreampany.word.data.source.repository.ApiRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
@@ -20,11 +29,12 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -33,9 +43,15 @@ import java.util.concurrent.Callable;
  */
 public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
+    private static final long initialDelay = Constants.Time.INSTANCE.getWordPeriod();
+    private static final long period = Constants.Time.INSTANCE.getWordPeriod();
+
     private final NetworkManager network;
+    private final Pref pref;
+    private final StateMapper stateMapper;
     private final ApiRepository repo;
-    ;
+    private Disposable updateDisposable;
+    private SmartAdapter.Callback<WordItem> uiCallback;
 
     @Inject
     SearchViewModel(Application application,
@@ -43,11 +59,50 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     AppExecutors ex,
                     ResponseMapper rm,
                     NetworkManager network,
+                    Pref pref,
+                    StateMapper stateMapper,
                     ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
+        this.pref = pref;
+        this.stateMapper = stateMapper;
         this.repo = repo;
-        ;
+    }
+
+    @Override
+    public void clear() {
+        network.deObserve(this::onResult, true);
+        this.uiCallback = null;
+        removeUpdateDisposable();
+        super.clear();
+    }
+
+    void onResult(Network... networks) {
+        UiState state = UiState.OFFLINE;
+        for (Network network : networks) {
+            if (network.isConnected()) {
+                state = UiState.ONLINE;
+                Response<List<WordItem>> result = getOutputs().getValue();
+                if (result instanceof Response.Failure) {
+                    //getEx().postToUi(() -> loads(false, false), 250L);
+                }
+                //getEx().postToUi(this::updateItem, 2000L);
+            }
+        }
+        UiState finalState = state;
+        getEx().postToUiSmartly(() -> updateUiState(finalState));
+    }
+
+    public void setUiCallback(SmartAdapter.Callback<WordItem> callback) {
+        this.uiCallback = callback;
+    }
+
+    public void start() {
+        network.observe(this::onResult, true);
+    }
+
+    public void removeUpdateDisposable() {
+        removeSubscription(updateDisposable);
     }
 
     public void suggests(String query) {
@@ -80,13 +135,14 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .subscribe(result -> {
                     postProgress(false);
                     postResult(result);
+                    update(false);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
 
-    public void toggle(Word word) {
+/*    public void toggle(Word word) {
         if (hasSingleDisposable()) {
             return;
         }
@@ -94,11 +150,72 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .backToMain(toggleImpl(word))
                 .subscribe(this::postFlag, this::postFailure);
         addSingleSubscription(disposable);
+    }*/
+
+    public void update(boolean withProgress) {
+        Timber.v("update fired");
+        if (hasDisposable(updateDisposable)) {
+            return;
+        }
+        updateDisposable = getRx()
+                .backToMain(getVisibleItemIfRxPeriodically())
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(
+                        result -> {
+                            if (result != null) {
+                                postProgress(false);
+                                postResult(result);
+                            } else {
+                                postProgress(false);
+                            }
+                        }, this::postFailure);
+        addSubscription(updateDisposable);
     }
 
     /**
      * private api
      */
+    private Flowable<WordItem> getVisibleItemIfRxPeriodically() {
+        return Flowable
+                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
+                .map(tick -> {
+                    Timber.d("getVisibleItemIfRxPeriodically");
+                    WordItem next = getVisibleItemIf();
+                    if (next != null) {
+                        Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getWord());
+                    }
+                    return next;
+                });
+    }
+
+    private WordItem getVisibleItemIf() {
+        if (uiCallback == null) {
+            return null;
+        }
+        WordItem next = null;
+        List<WordItem> items = uiCallback.getVisibleItems();
+        if (!DataUtil.isEmpty(items)) {
+            for (WordItem item : items) {
+                if (!item.hasState(ItemState.FULL)) {
+                    Timber.d("Next Item to getVisibleItemIf %s", item.getItem().getWord());
+                    Word result = repo.getItemIf(item.getItem());
+                    if (result != null) {
+                        next = getItem(result, true);
+                        Timber.d("Success Result at getVisibleItemIf %s", result.toString());
+                        break;
+                    } else {
+                        Timber.d("Result remains null at getVisibleItemIf");
+                    }
+                }
+            }
+        }
+        return next;
+    }
+
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
             //repo.toggleFlag(word);
@@ -141,8 +258,8 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustState(WordItem item) {
-        // List<State> states = repo.getStates(item.getItem());
-        //  Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        List<State> states = repo.getStates(item.getItem());
+        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState())));
     }
 
     private void adjustFlag(WordItem item) {

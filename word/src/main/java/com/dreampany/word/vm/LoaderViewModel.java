@@ -205,7 +205,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                     load.setCurrent(current);
                     load.setTotal(current);
-                    Timber.v("Next Alpha Word = %s", word.toString());
+                    //Timber.v("Next Alpha Word = %s", word.toString());
                     ex.postToUi(() -> postResult(item));
                     AndroidUtil.sleep(3);
                 }

@@ -168,13 +168,12 @@ public class HomeFragment extends BaseMenuFragment
         return null;
     }
 
-    @DebugLog
     @Override
     public void onSearchItemClick(int position, CharSequence title, CharSequence subtitle) {
         searchView.setQuery(title, true);
+        //searchView.close();
     }
 
-    @DebugLog
     @Override
     public boolean onQueryTextSubmit(CharSequence query) {
         SearchItem item = new SearchItem(getContext());
@@ -185,7 +184,6 @@ public class HomeFragment extends BaseMenuFragment
         return true;
     }
 
-    @DebugLog
     @Override
     public void onQueryTextChange(CharSequence newText) {
 
@@ -203,9 +201,11 @@ public class HomeFragment extends BaseMenuFragment
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
 
+        ViewUtil.setSwipe(refresh, this);
+
         //recentVm = ViewModelProviders.of(this, factory).get(RecentViewModel.class);
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
-        //recentVm.setUiCallback(this);
+        searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
         searchVm.observeOutputs(this, this::processResponse);
         //recentVm.observeOutput(this, this::processSingleResponse);

@@ -211,8 +211,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 throw new EmptyException();
             }
             return result;
-        })/*.onErrorReturn(throwable -> new ArrayList<>())*/
-                .onErrorResumeNext(Maybe.empty());
+        }).onErrorResumeNext(Maybe.empty());
     }
 
     @DebugLog

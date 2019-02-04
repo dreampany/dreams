@@ -8,10 +8,12 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.enums.ItemType;
+import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
 import com.google.common.collect.Maps;
+import io.reactivex.Maybe;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,6 +34,7 @@ public class ApiRepository {
     private final ResponseMapper rm;
     private final Pref pref;
     private final WordMapper mapper;
+    private final StateMapper stateMapper;
     private final WordRepository wordRepo;
     private final StateRepository stateRepo;
     private final Map<Word, Boolean> flags;
@@ -41,12 +44,14 @@ public class ApiRepository {
                   ResponseMapper rm,
                   Pref pref,
                   WordMapper mapper,
+                  StateMapper stateMapper,
                   WordRepository wordRepo,
                   StateRepository stateRepo) {
         this.rx = rx;
         this.rm = rm;
         this.pref = pref;
         this.mapper = mapper;
+        this.stateMapper = stateMapper;
         this.wordRepo = wordRepo;
         this.stateRepo = stateRepo;
         flags = Maps.newConcurrentMap();
@@ -61,7 +66,18 @@ public class ApiRepository {
     }
 
     public Word getItem(String word) {
-         return wordRepo.getItem(word);
+        return wordRepo.getItem(word);
+    }
+
+    public Word getItemIf(Word word) {
+        Word result = getRoomItemIf(word);
+        if (result == null) {
+            result = getFirestoreItemIf(word);
+        }
+        if (result == null) {
+            result = getRemoteItemIf(word);
+        }
+        return result;
     }
 
     public List<Word> getSearchItems(String query, int limit) {
@@ -109,6 +125,10 @@ public class ApiRepository {
         return stateRepo.getCount(type.name(), subtype.name(), state.name());
     }
 
+    public List<State> getStates(Word word) {
+        return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
+    }
+
     public boolean isFlagged(Word word) {
         if (!flags.containsKey(word)) {
             boolean flag = hasState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
@@ -126,5 +146,29 @@ public class ApiRepository {
             flags.put(word, true);
         }
         return flags.get(word);
+    }
+
+    private Word getRoomItemIf(Word word) {
+        if (!hasState(word, ItemSubtype.DEFAULT, ItemState.FULL)) {
+            return null;
+        }
+        return wordRepo.getRoomItem(word.getWord());
+    }
+
+    private Word getFirestoreItemIf(Word word) {
+        Word result = wordRepo.getFirestoreItem(word.getWord());
+        if (result != null) {
+            this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
+        }
+        return result;
+    }
+
+    private Word getRemoteItemIf(Word word) {
+        Word result = wordRepo.getRemoteItem(word.getWord());
+        if (result != null) {
+            this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
+            wordRepo.putFirestoreItem(result);
+        }
+        return result;
     }
 }

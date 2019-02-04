@@ -54,7 +54,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
         //flags = Maps.newConcurrentMap();
     }
 
-/*    */
+    /*    */
 
 /*    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
         boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name()) > 0;
@@ -65,9 +65,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return stateRepo.getCount(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name());
     }*/
 
-/*    public List<State> getStates(Word word) {
-        return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-    }*/
+/*    */
 
 
 /*    public long putItem(Word word, ItemState state) {
@@ -229,8 +227,8 @@ public class WordRepository extends Repository<String, Word> implements WordData
     public Maybe<Word> getItemRx(String word) {
 /*        Maybe<Word> room = fullRoom(word);
         Maybe<Word> firestore = saveRoom(this.firestore.getItemRx(word));
-        Maybe<Word> remote = saveRoomFirestore(this.remote.getItemRx(word));*/
-        //return concatSingleFirstRx(room, firestore, remote);
+        Maybe<Word> remote = saveRoomFirestore(this.remote.getItemRx(word));
+        return concatSingleFirstRx(room, firestore, remote);*/
         return Maybe.empty();
     }
 
@@ -252,6 +250,30 @@ public class WordRepository extends Repository<String, Word> implements WordData
     @Override
     public Maybe<List<Word>> getItemsRx(Bitmap bitmap) {
         return null;
+    }
+
+    public Word getRoomItem(String word) {
+        return room.getItem(word);
+    }
+
+    public Word getFirestoreItem(String word) {
+        return firestore.getItem(word);
+    }
+
+    public Word getRemoteItem(String word) {
+        return remote.getItem(word);
+    }
+
+    public long putRoomItem(Word word) {
+       return room.putItem(word);
+    }
+
+    public long putFirestoreItem(Word word) {
+        return firestore.putItem(word);
+    }
+
+    public long putRemoteItem(Word word) {
+        return remote.putItem(word);
     }
 
     public Word getItemOfMapper(String word) {
@@ -306,6 +328,9 @@ public class WordRepository extends Repository<String, Word> implements WordData
                 .flatMap((Function<List<State>, MaybeSource<List<Word>>>) this::getItemsRx);
     }*/
 
+    /**
+     * private api
+     */
     private Maybe<List<Word>> getAssetsItemsIfRx() {
         return Maybe.fromCallable(() -> {
             if (getCount() == 0) {
@@ -340,9 +365,20 @@ public class WordRepository extends Repository<String, Word> implements WordData
                 });
     }*/
 
-/*    private Maybe<Word> fullRoom(String word) {
-        return room.getItemRx(word).map(item -> hasState(item, ItemState.STATE, ItemSubstate.FULL) ? item : null);
+/*    private Maybe<Word> getRoomItemIfRx(String word) {
+        return Maybe.fromCallable(() -> {
+            if (!isEmpty()) {
+                return room.getItem(source, symbol, currency);
+            }
+            return null;
+        });
     }*/
+
+/*
+    private Maybe<Word> fullRoom(String word) {
+        return room.getItemRx(word).map(item -> hasState(item, ItemState.STATE, ItemSubstate.FULL) ? item : null);
+    }
+*/
 
 /*    private Maybe<Word> saveRoom(Maybe<Word> source) {
         return source

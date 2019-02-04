@@ -122,7 +122,7 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public Word getItem(String word) {
-        return null;
+        return getItemRx(word).blockingGet();
     }
 
     @Override

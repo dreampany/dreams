@@ -1,17 +1,15 @@
 package com.dreampany.word.data.model;
 
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.Index;
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
-
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.frame.util.DataUtil;
 import com.google.common.base.Objects;
 import com.google.firebase.firestore.Exclude;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -56,7 +54,19 @@ public class Word extends Base {
         word = in.readString();
         partOfSpeech = in.readString();
         pronunciation = in.readString();
-        //definitions = in.readPa
+        if (in.readByte() == 0x01) {
+            definitions = new ArrayList<>();
+            in.readList(definitions, Definition.class.getClassLoader());
+        } else {
+            definitions = null;
+        }
+        examples = in.createStringArrayList();
+        synonyms = in.createStringArrayList();
+        antonyms = in.createStringArrayList();
+        categories = in.createStringArrayList();
+        tags = in.createStringArrayList();
+        notes = in.createStringArrayList();
+        popularity = in.readInt();
     }
 
     @Override
@@ -65,6 +75,19 @@ public class Word extends Base {
         dest.writeString(word);
         dest.writeString(partOfSpeech);
         dest.writeString(pronunciation);
+        if (definitions == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(definitions);
+        }
+        dest.writeStringList(examples);
+        dest.writeStringList(synonyms);
+        dest.writeStringList(antonyms);
+        dest.writeStringList(categories);
+        dest.writeStringList(tags);
+        dest.writeStringList(notes);
+        dest.writeInt(popularity);
     }
 
     public static final Creator<Word> CREATOR = new Parcelable.Creator<Word>() {
@@ -79,7 +102,7 @@ public class Word extends Base {
         }
     };
 
-/*    @Override
+    @Override
     public boolean equals(Object in) {
         if (this == in) return true;
         if (in == null || getClass() != in.getClass()) return false;
@@ -91,7 +114,7 @@ public class Word extends Base {
     @Override
     public int hashCode() {
         return Objects.hashCode(word);
-    }*/
+    }
 
     public void setWord(@NonNull String word) {
         this.word = word;
@@ -330,7 +353,7 @@ public class Word extends Base {
 
     @Override
     public String toString() {
-        return "Word (" +word+") == " + id;
+        return "Word (" + word + ") == " + id;
     }
 
     public void copyWord(Word from) {

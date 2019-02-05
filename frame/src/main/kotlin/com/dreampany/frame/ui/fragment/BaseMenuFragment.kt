@@ -29,7 +29,7 @@ abstract class BaseMenuFragment : BaseFragment() {
         return 0
     }
 
-    open fun onMenuCreated(menu: Menu) {
+    open fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
 
     }
 
@@ -46,12 +46,13 @@ abstract class BaseMenuFragment : BaseFragment() {
         val menuId = getMenuId()
 
         if (menuId == 0) {
+            onMenuCreated(menu, inflater)
             return
         }
-        menu!!.clear()
-        inflater!!.inflate(menuId, menu)
+        menu.clear()
+        inflater.inflate(menuId, menu)
         binding.root.post {
-            onMenuCreated(menu)
+            onMenuCreated(menu, inflater)
             initSearch()
         }
     }

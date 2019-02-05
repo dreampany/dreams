@@ -54,18 +54,8 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public int getCount(String type, String subtype, String state, String substate) {
-        return room.getCount(type, subtype, state, substate);
-    }
-
-    @Override
     public int getCount(long id, String type, String subtype, String state) {
         return room.getCount(id, type, subtype, state);
-    }
-
-    @Override
-    public int getCount(long id, String type, String subtype, String state, String substate) {
-        return room.getCount(id, type, subtype, state, substate);
     }
 
     @Override

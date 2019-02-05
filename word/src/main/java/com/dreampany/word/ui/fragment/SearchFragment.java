@@ -1,22 +1,13 @@
 package com.dreampany.word.ui.fragment;
 
-import android.app.Activity;
-import android.app.SearchManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import android.content.Context;
 import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
-import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 
 import com.blankj.utilcode.util.KeyboardUtils;
 import com.dreampany.frame.data.enums.UiState;
@@ -123,9 +114,9 @@ public class SearchFragment extends BaseMenuFragment {
                 String text = ViewUtil.getText(v);
                 vm.speak(text);
                 break;
-            case R.id.button_like:
+/*            case R.id.button_like:
                 vm.toggle((Word) v.getTag());
-                break;
+                break;*/
         }
     }
 
@@ -274,7 +265,7 @@ public class SearchFragment extends BaseMenuFragment {
         @Override
         public void run() {
             if (query.length() > 0) {
-                vm.loads(query.toString());
+                vm.search(query.toString());
             } else {
                 vm.updateUiState(UiState.EMPTY);
             }

@@ -1,44 +1,20 @@
 package com.dreampany.word.data.source.repository;
 
 import android.graphics.Bitmap;
-
-import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.Flag;
 import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.repository.FlagRepository;
 import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.data.source.repository.StateRepository;
-import com.dreampany.frame.misc.Assets;
-import com.dreampany.frame.misc.Firestore;
-import com.dreampany.frame.misc.Remote;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.Room;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.Vision;
+import com.dreampany.frame.misc.*;
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
-import com.dreampany.word.data.enums.ItemType;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.data.source.pref.Pref;
-import com.google.common.collect.Maps;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeSource;
-import io.reactivex.functions.Function;
-import timber.log.Timber;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -55,9 +31,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
     private final WordDataSource firestore;
     private final WordDataSource remote;
     private final WordDataSource vision;
-    private final FlagRepository flagRepo;
-    private final StateRepository stateRepo;
-    private final Map<Word, Boolean> flags;
+    //private final Map<Word, Boolean> flags;
 
     @Inject
     WordRepository(RxMapper rx,
@@ -68,9 +42,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
                    @Room WordDataSource room,
                    @Firestore WordDataSource firestore,
                    @Remote WordDataSource remote,
-                   @Vision WordDataSource vision,
-                   FlagRepository flagRepo,
-                   StateRepository stateRepo) {
+                   @Vision WordDataSource vision) {
         super(rx, rm);
         this.mapper = mapper;
         this.pref = pref;
@@ -79,100 +51,65 @@ public class WordRepository extends Repository<String, Word> implements WordData
         this.firestore = firestore;
         this.remote = remote;
         this.vision = vision;
-        this.flagRepo = flagRepo;
-        this.stateRepo = stateRepo;
-        flags = Maps.newConcurrentMap();
+        //flags = Maps.newConcurrentMap();
     }
 
-    @Override
-    public boolean hasState(Word word, ItemState state) {
-        boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name()) > 0;
-        return stated;
-    }
+    /*    */
 
-    @Override
-    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
+/*    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
         boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name()) > 0;
         return stated;
-    }
+    }*/
 
-    @Override
-    public int getStateCount(ItemState state, ItemSubstate substate) {
+/*    public int getStateCount(ItemState state, ItemSubstate substate) {
         return stateRepo.getCount(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name());
-    }
+    }*/
 
-    @Override
-    public List<State> getStates(Word word) {
-        return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-    }
+/*    */
 
-    @Override
-    public List<State> getStates(Word word, ItemState state) {
-        return null;
-    }
 
-    @Override
-    public long putItem(Word word, ItemState state) {
+/*    public long putItem(Word word, ItemState state) {
         long result = room.putItem(word);
         if (result != -1) {
             result = putState(word, state);
         }
         return result;
-    }
+    }*/
 
-    @Override
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
+/*    public long putItem(Word word, ItemState state, ItemSubstate substate) {
         long result = room.putItem(word);
         if (result != -1) {
             result = putState(word, state, substate);
         }
         return result;
-    }
+    }*/
 
-    @Override
-    public long putItem(Word word, ItemState state, boolean replaceable) {
+/*    public long putItem(Word word, ItemState state, boolean replaceable) {
         //todo use replaceable wisely
         long result = isExists(word) ? 1 : room.putItem(word);
         if (result != -1) {
             result = putState(word, state);
         }
         return result;
-    }
+    }*/
 
-    @Override
-    public long putState(Word word, ItemState state) {
+/*    public long putState(Word word, ItemState state) {
         State s = new State(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name());
         s.setTime(TimeUtil.currentTime());
-        // int count = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-        //Timber.v("Before State (%s) Count %d", word.getWord(), count);
         long result = stateRepo.putItem(s);
-        //count = stateRepo.getCount(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-        //Timber.v("After State (%s) Count %d", word.getWord(), count);
         return result;
-    }
+    }*/
 
-    @Override
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
+/*    public long putState(Word word, ItemState state, ItemSubstate substate) {
         State s = new State(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), state.name(), substate.name());
         s.setTime(TimeUtil.currentTime());
         long result = stateRepo.putItem(s);
         return result;
-    }
+    }*/
 
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
+/*    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
         return Maybe.fromCallable(() -> putItem(word, state, substate));
-    }
-
-    @Override
-    public Maybe<Long> putStateRx(Word word, ItemState state) {
-        return null;
-    }
+    }*/
 
     @Override
     public Word getTodayItem() {
@@ -181,17 +118,18 @@ public class WordRepository extends Repository<String, Word> implements WordData
 
     @Override
     public Maybe<Word> getTodayItemRx() {
-        Maybe<Word> room = getTodayFromRoom();
+/*        Maybe<Word> room = getTodayFromRoom();
         Maybe<Word> generated = saveState(this.generateToday(), ItemState.TODAY);
         Maybe<Word> single = concatSingleFirstRx(room, generated);
         return single
                 .filter(item -> item != null)
                 .map(word -> {
-                    if (!hasState(word, ItemState.TODAY, ItemSubstate.FULL)) {
+*//*                    if (!hasState(word, ItemState.TODAY, ItemSubstate.FULL)) {
                         return getItemRx(word.getWord()).blockingGet();
-                    }
+                    }*//*
                     return word;
-                });
+                });*/
+        return Maybe.empty();
     }
 
     @Override
@@ -266,8 +204,8 @@ public class WordRepository extends Repository<String, Word> implements WordData
     @Override
     public Maybe<List<Word>> getItemsRx() {
         Maybe<List<Word>> assets = getAssetsItemsIfRx();
-        Maybe<List<Word>> local = this.room.getItemsRx();
-        return concatLastRx(assets, local);
+        Maybe<List<Word>> room = this.room.getItemsRx();
+        return concatLastRx(assets, room);
     }
 
     @Override
@@ -281,36 +219,32 @@ public class WordRepository extends Repository<String, Word> implements WordData
     }
 
     @Override
-    public Word getItem(String word) {
-        return room.getItem(word);
+    public Word getItem(String word, boolean full) {
+        return room.getItem(word, full);
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
-        Maybe<Word> room = fullRoom(word);
+    public Maybe<Word> getItemRx(String word, boolean full) {
+/*        Maybe<Word> room = fullRoom(word);
         Maybe<Word> firestore = saveRoom(this.firestore.getItemRx(word));
         Maybe<Word> remote = saveRoomFirestore(this.remote.getItemRx(word));
-        return concatSingleFirstRx(room, firestore, remote);
+        return concatSingleFirstRx(room, firestore, remote);*/
+        return Maybe.empty();
     }
 
     @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query) {
-        return room.getSearchItemsRx(query);
-    }
-
-    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
-        return room.getSearchItemsRx(query, limit);
+    public List<Word> getSearchItems(String query, int limit) {
+        return room.getSearchItems(query, limit);
     }
 
     @Override
     public List<Word> getCommonItems() {
-        return null;
+        return assets.getCommonItems();
     }
 
     @Override
     public List<Word> getAlphaItems() {
-        return null;
+        return assets.getAlphaItems();
     }
 
     @Override
@@ -318,15 +252,43 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return null;
     }
 
-    public Word getItemOf(String word) {
-        Word result = room.getItem(word);
+    public Word getRoomItem(String word, boolean full) {
+        return room.getItem(word, full);
+    }
+
+    public Word getFirestoreItem(String word, boolean full) {
+        return firestore.getItem(word, full);
+    }
+
+    public Word getRemoteItem(String word, boolean full) {
+        return remote.getItem(word, full);
+    }
+
+    public long putRoomItem(Word word) {
+       return room.putItem(word);
+    }
+
+    public long putFirestoreItem(Word word) {
+        return firestore.putItem(word);
+    }
+
+    public long putRemoteItem(Word word) {
+        return remote.putItem(word);
+    }
+
+    public Word getItemOfMapper(String word) {
+        return mapper.toItem(word);
+    }
+
+    public Word getItemOf(String word, boolean full) {
+        Word result = room.getItem(word, full);
         if (result == null) {
-            result = mapper.toItem(word);
+            result = getItemOfMapper(word);
         }
         return result;
     }
 
-    public boolean isFlagged(Word word) {
+/*    public boolean isFlagged(Word word) {
         if (flags.containsKey(word)) {
             return flags.get(word);
         }
@@ -355,24 +317,20 @@ public class WordRepository extends Repository<String, Word> implements WordData
                 .flatMap((Function<List<Flag>, MaybeSource<List<Word>>>) this::getFlagItemsRx);
     }
 
-    public List<Word> getCommonWords() {
-        return assets.getCommonItems();
-    }
-
-    public List<Word> getAlphaWords() {
-        return assets.getAlphaItems();
-    }
 
     public Maybe<List<Word>> getRecentItemsRx() {
         return stateRepo.getItemsOrderByRx(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), ItemState.RECENT.name())
                 .flatMap((Function<List<State>, MaybeSource<List<Word>>>) this::getItemsRx);
-    }
+    }*/
 
-    public Maybe<List<Word>> getRecentItemsRx(int limit) {
+/*    public Maybe<List<Word>> getRecentItemsRx(int limit) {
         return stateRepo.getItemsOrderByRx(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), ItemState.RECENT.name(), limit)
                 .flatMap((Function<List<State>, MaybeSource<List<Word>>>) this::getItemsRx);
-    }
+    }*/
 
+    /**
+     * private api
+     */
     private Maybe<List<Word>> getAssetsItemsIfRx() {
         return Maybe.fromCallable(() -> {
             if (getCount() == 0) {
@@ -383,12 +341,12 @@ public class WordRepository extends Repository<String, Word> implements WordData
         });
     }
 
-    private Maybe<List<Word>> getFlagItemsRx(List<Flag> items) {
+/*    private Maybe<List<Word>> getFlagItemsRx(List<Flag> items) {
         return Flowable.fromIterable(items)
                 .map(item -> mapper.toItem(item, room))
                 .toList()
                 .toMaybe();
-    }
+    }*/
 
     private Maybe<List<Word>> getItemsRx(List<State> items) {
         return Flowable.fromIterable(items)
@@ -397,7 +355,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
                 .toMaybe();
     }
 
-    private Maybe<Word> saveRoomFirestore(Maybe<Word> source) {
+/*    private Maybe<Word> saveRoomFirestore(Maybe<Word> source) {
         return source
                 .filter(item -> item != null)
                 .doOnSuccess(item -> {
@@ -405,29 +363,40 @@ public class WordRepository extends Repository<String, Word> implements WordData
                     rx.compute(putItemRx(item, ItemState.STATE, ItemSubstate.FULL)).subscribe();
                     rx.compute(firestore.putItemRx(item)).subscribe();
                 });
-    }
+    }*/
 
+/*    private Maybe<Word> getRoomItemIfRx(String word) {
+        return Maybe.fromCallable(() -> {
+            if (!isEmpty()) {
+                return room.getItem(source, symbol, currency);
+            }
+            return null;
+        });
+    }*/
+
+/*
     private Maybe<Word> fullRoom(String word) {
         return room.getItemRx(word).map(item -> hasState(item, ItemState.STATE, ItemSubstate.FULL) ? item : null);
     }
+*/
 
-    private Maybe<Word> saveRoom(Maybe<Word> source) {
+/*    private Maybe<Word> saveRoom(Maybe<Word> source) {
         return source
                 .filter(item -> item != null)
                 .doOnSuccess(item -> {
                     Timber.v("Firstore result %s ", item.toString());
                     rx.compute(putItemRx(item, ItemState.STATE, ItemSubstate.FULL)).subscribe();
                 });
-    }
+    }*/
 
-    private Maybe<Word> saveState(Maybe<Word> source, ItemState state) {
+/*    private Maybe<Word> saveState(Maybe<Word> source, ItemState state) {
         return source
                 .filter(item -> item != null)
                 .doOnSuccess(item -> {
                     Timber.v("State result %s ", item.toString());
                     rx.compute(putStateRx(item, state)).subscribe();
                 });
-    }
+    }*/
 
     private Maybe<List<Word>> saveRoomOfItems(Maybe<List<Word>> source) {
         return source
@@ -437,7 +406,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
                 });
     }
 
-    private Maybe<Word> getTodayFromRoom() {
+/*    private Maybe<Word> getTodayFromRoom() {
         String type = ItemType.WORD.name();
         String subtype = ItemSubtype.DEFAULT.name();
         String state = ItemState.TODAY.name();
@@ -450,9 +419,9 @@ public class WordRepository extends Repository<String, Word> implements WordData
                     }
                     return null;
                 });
-    }
+    }*/
 
-    private Maybe<Word> generateToday() {
+/*    private Maybe<Word> generateToday() {
         String type = ItemType.WORD.name();
         String subtype = ItemSubtype.DEFAULT.name();
         String state = ItemState.TODAY.name();
@@ -463,5 +432,5 @@ public class WordRepository extends Repository<String, Word> implements WordData
                     }
                     return null;
                 });
-    }
+    }*/
 }

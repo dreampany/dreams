@@ -114,9 +114,9 @@ public class CameraOcrFragment extends BaseMenuFragment {
                 String text = ViewUtil.getText(v);
                 vm.speak(text);
                 break;
-            case R.id.button_like:
+/*            case R.id.button_like:
                 vm.toggle((Word) v.getTag());
-                break;
+                break;*/
             case R.id.fab:
                 break;
         }

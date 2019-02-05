@@ -4,9 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.frame.data.source.dao.BaseDao
 import com.dreampany.word.data.model.Antonym
-import com.dreampany.word.data.model.Synonym
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.Maybe
 
 
 /**
@@ -20,17 +18,17 @@ interface AntonymDao : BaseDao<Antonym> {
     val count: Int
 
     @get:Query("select count(*) from antonym")
-    val countRx: Single<Int>
+    val countRx: Maybe<Int>
 
     @get:Query("select * from antonym")
-    val items: List<Synonym>
+    val items: List<Antonym>
 
     @get:Query("select * from antonym")
-    val itemsRx: Flowable<List<Synonym>>
+    val itemsRx: Maybe<List<Antonym>>
 
     @Query("select * from antonym where lefter = :word or righter = :word")
-    fun getItems(word: String): List<Synonym>
+    fun getItems(word: String): List<Antonym>
 
     @Query("select * from antonym where lefter = :word or righter = :word")
-    fun getItemsRx(word: String): Single<List<Synonym>>
+    fun getItemsRx(word: String): Maybe<List<Antonym>>
 }

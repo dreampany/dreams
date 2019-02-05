@@ -7,5 +7,5 @@ package com.dreampany.word.data.enums
  * dreampanymail@gmail.com
  */
 enum class ItemSubtype {
-    DEFAULT
+    DEFAULT, TODAY, RECENT, OCR, HISTORY
 }

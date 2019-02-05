@@ -23,27 +23,17 @@ public class State extends Base {
     private String subtype;
     @NonNull
     private String state;
-    private String substate;
 
     @Ignore
     public State() {
 
     }
 
-    @Ignore
     public State(long id, @NonNull String type, @NonNull String subtype, @NonNull String state) {
         this.id = id;
         this.type = type;
         this.subtype = subtype;
         this.state = state;
-    }
-
-    public State(long id, @NonNull String type, @NonNull String subtype, @NonNull String state, String substate) {
-        this.id = id;
-        this.type = type;
-        this.subtype = subtype;
-        this.state = state;
-        this.substate = substate;
     }
 
     @Ignore
@@ -52,7 +42,6 @@ public class State extends Base {
         type = in.readString();
         subtype = in.readString();
         state = in.readString();
-        substate = in.readString();
     }
 
     @Override
@@ -61,7 +50,6 @@ public class State extends Base {
         dest.writeString(type);
         dest.writeString(subtype);
         dest.writeString(state);
-        dest.writeString(substate);
     }
 
     public static final Creator<State> CREATOR = new Creator<State>() {
@@ -85,13 +73,12 @@ public class State extends Base {
         return Objects.equal(id, item.id)
                 && Objects.equal(type, item.type)
                 && Objects.equal(subtype, item.subtype)
-                && Objects.equal(state, item.state)
-                && Objects.equal(substate, item.substate);
+                && Objects.equal(state, item.state);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, type, subtype, state, substate);
+        return Objects.hashCode(id, type, subtype, state);
     }
 
     public void setType(@NonNull String type) {
@@ -104,10 +91,6 @@ public class State extends Base {
 
     public void setState(@NonNull String state) {
         this.state = state;
-    }
-
-    public void setSubstate(String substate) {
-        this.substate = substate;
     }
 
     @NonNull
@@ -123,10 +106,6 @@ public class State extends Base {
     @NonNull
     public String getState() {
         return state;
-    }
-
-    public String getSubstate() {
-        return substate;
     }
 
     public boolean hasProperty(String type, String subtype, String state) {

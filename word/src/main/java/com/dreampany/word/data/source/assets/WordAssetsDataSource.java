@@ -2,26 +2,20 @@ package com.dreampany.word.data.source.assets;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.FileUtil;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
+import com.dreampany.word.misc.Constants;
+import io.reactivex.Maybe;
+import timber.log.Timber;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.inject.Singleton;
-
-import io.reactivex.Maybe;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 9/5/2018.
@@ -30,9 +24,6 @@ import timber.log.Timber;
  */
 @Singleton
 public class WordAssetsDataSource implements WordDataSource {
-
-    private static final String WORDS_COMMON = "words_common.txt";
-    private static final String WORDS_ALPHA = "words_alpha.txt";
 
     private final Context context;
     private final WordMapper mapper;
@@ -45,71 +36,6 @@ public class WordAssetsDataSource implements WordDataSource {
         this.context = context;
         this.mapper = mapper;
         this.alphaWords = new ArrayList<>();
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state) {
-        return false;
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
-        return false;
-    }
-
-    @Override
-    public int getStateCount(ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public List<State> getStates(Word word) {
-        return null;
-    }
-
-    @Override
-    public List<State> getStates(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, boolean replaceable) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putStateRx(Word word, ItemState state) {
-        return null;
     }
 
     @Override
@@ -210,22 +136,17 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
+    public Word getItem(String word, boolean full) {
         return null;
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
+    public Maybe<Word> getItemRx(String word, boolean full) {
         return null;
     }
 
     @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
+    public List<Word> getSearchItems(String query, int limit) {
         return null;
     }
 
@@ -257,7 +178,7 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     synchronized private List<String> getCommonWords() {
-        List<String> items = FileUtil.readAssetsAsStrings(context, WORDS_COMMON);
+        List<String> items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_COMMON);
         if (items == null) {
             Timber.v("Assets common words empty");
         }
@@ -266,7 +187,7 @@ public class WordAssetsDataSource implements WordDataSource {
 
     synchronized private List<String> getAlphaWords() {
         if (DataUtil.isEmpty(alphaWords)) {
-            List<String> items = FileUtil.readAssetsAsStrings(context, WORDS_ALPHA);
+            List<String> items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_ALPHA);
             alphaWords.addAll(items);
         }
         return alphaWords;

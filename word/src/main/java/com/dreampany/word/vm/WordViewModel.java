@@ -89,7 +89,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     private Maybe<WordItem> getItemRx(String word) {
-        return repo.getItemRx(word).map(this::getItem);
+        return repo.getItemRx(word, true).map(this::getItem);
     }
 
     private WordItem getItem(Word word) {
@@ -104,23 +104,23 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         adjustState(item);
         adjustFlag(item);
         //put as Recent
-        repo.putState(word, ItemState.RECENT);
+        //repo.putState(word, ItemState.RECENT);
         return item;
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        //List<State> states = repo.getStates(item.getItem());
+        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItem());
-        item.setFlagged(flagged);
+        //boolean flagged = repo.isFlagged(item.getItem());
+        //item.setFlagged(flagged);
     }
 
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
-            repo.toggleFlag(word);
+            //repo.toggleFlag(word);
             return getItem(word);
         });
     }

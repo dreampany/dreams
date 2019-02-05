@@ -216,6 +216,9 @@ public final class TextUtil {
     }
 
     public static String getString(@NonNull Context context, @StringRes int resourceId, Object... formatArgs) {
+        if (context == null) {
+            return null;
+        }
         return context.getString(resourceId, formatArgs);
     }
 

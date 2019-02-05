@@ -18,8 +18,8 @@ import com.dreampany.word.ui.fragment.OcrFragment;
 import com.dreampany.word.ui.fragment.RecentFragment;
 import com.dreampany.word.ui.fragment.SearchFragment;
 import com.dreampany.word.vm.LoaderViewModel;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import com.lapism.searchview.widget.SearchView;
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
@@ -79,7 +79,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
 
     @Override
     public boolean hasRatePermitted() {
-        return true;
+        return false;
     }
 
     @Override
@@ -130,17 +130,16 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     }
 
     @Override
-    public MaterialSearchView getSearchView() {
+    public SearchView getSearchView() {
         return binding.searchView;
     }
-
 
     private void initView() {
         setTitle(null);
         binding = (ActivityNavigationBinding) super.binding;
         vm = ViewModelProviders.of(this, factory).get(LoaderViewModel.class);
         ad.loadBanner(findViewById(R.id.adview));
-        ad.loadInterstitial(R.string.debug_banner_ad_unit_id);
+        //ad.loadInterstitial(R.string.debug_banner_ad_unit_id);
         vm.loads();
     }
 }

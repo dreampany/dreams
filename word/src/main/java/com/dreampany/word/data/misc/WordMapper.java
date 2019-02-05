@@ -1,25 +1,25 @@
 package com.dreampany.word.data.misc;
 
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.Flag;
+import com.annimon.stream.function.Consumer;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.api.wordnik.WordnikWord;
+import com.dreampany.word.data.model.Antonym;
 import com.dreampany.word.data.model.Definition;
+import com.dreampany.word.data.model.Synonym;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.WordAnnote;
-
-import java.util.ArrayList;
-import java.util.List;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import timber.log.Timber;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 9/3/2018.
@@ -130,14 +130,14 @@ public class WordMapper {
         return out;
     }
 
-    public Word toItem(Flag in, WordDataSource source) {
+/*    public Word toItem(Flag in, WordDataSource source) {
         Word out = map.get(in.getId());
         if (out == null) {
             out = source.getItem(in.getId());
             map.put(in.getId(), out);
         }
         return out;
-    }
+    }*/
 
     public Word toItem(State in, WordDataSource source) {
         Word out = map.get(in.getId());
@@ -146,6 +146,54 @@ public class WordMapper {
             map.put(in.getId(), out);
         }
         return out;
+    }
+
+    public List<Synonym> getSynonyms(Word in) {
+        if (in.hasSynonyms()) {
+            List<Synonym> result = new ArrayList<>();
+            Stream.of(in.getSynonyms()).forEach(item -> result.add(new Synonym(in.getWord(), item)));
+            return result;
+        }
+        return null;
+    }
+
+    public List<String> getSynonyms(Word word, List<Synonym> in) {
+        if (!DataUtil.isEmpty(in)) {
+            List<String> result = new ArrayList<>();
+            Stream.of(in).forEach(item -> {
+                if (word.getWord().equals(item.getLeft())) {
+                    result.add(item.getRight());
+                } else {
+                    result.add(item.getLeft());
+                }
+            });
+            return result;
+        }
+        return null;
+    }
+
+    public List<Antonym> getAntonyms(Word in) {
+        if (in.hasAntonyms()) {
+            List<Antonym> result = new ArrayList<>();
+            Stream.of(in.getAntonyms()).forEach(item -> result.add(new Antonym(in.getWord(), item)));
+            return result;
+        }
+        return null;
+    }
+
+    public List<String> getAntonyms(Word word, List<Antonym> in) {
+        if (!DataUtil.isEmpty(in)) {
+            List<String> result = new ArrayList<>();
+            Stream.of(in).forEach(item -> {
+                if (word.getWord().equals(item.getLeft())) {
+                    result.add(item.getRight());
+                } else {
+                    result.add(item.getLeft());
+                }
+            });
+            return result;
+        }
+        return null;
     }
 
     private List<Definition> getDefinitions(WordnikWord in) {
@@ -188,5 +236,4 @@ public class WordMapper {
         }
         return null;
     }
-
 }

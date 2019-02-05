@@ -59,11 +59,6 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public int getCount(String type, String subtype, String state, String substate) {
-        return dao.getCount(type, subtype, state, substate);
-    }
-
-    @Override
     public Maybe<Integer> getCountRx(String type, String subtype, String state) {
         return dao.getCountRx(type, subtype, state);
     }
@@ -71,11 +66,6 @@ public class StateRoomDataSource implements StateDataSource {
     @Override
     public int getCount(long id, String type, String subtype, String state) {
         return dao.getCount(id, type, subtype, state);
-    }
-
-    @Override
-    public int getCount(long id, String type, String subtype, String state, String substate) {
-        return dao.getCount(id, type, subtype, state, substate);
     }
 
     @Override

@@ -1,33 +1,24 @@
 package com.dreampany.word.ui.model;
 
-import androidx.annotation.LayoutRes;
-import android.util.Pair;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.annotation.LayoutRes;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.google.common.base.Objects;
 import com.like.LikeButton;
-
+import eu.davidea.flexibleadapter.FlexibleAdapter;
+import eu.davidea.flexibleadapter.items.IFlexible;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import eu.davidea.flexibleadapter.FlexibleAdapter;
-import eu.davidea.flexibleadapter.items.IFlexible;
+import java.util.*;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -36,7 +27,7 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  */
 public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
-    private Set<Pair<ItemState, ItemSubstate>> states;
+    private Set<ItemState> states;
     private boolean recent;
     private Map<String, String> translates;
     private boolean flagged;
@@ -52,12 +43,12 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         return new WordItem(item, R.layout.item_word);
     }
 
-    public void addState(ItemState state, ItemSubstate substate) {
-        states.add(Pair.create(state, substate));
+    public void addState(ItemState state) {
+        states.add(state);
     }
 
-    public boolean hasState(ItemState state, ItemSubstate substate) {
-        return states.contains(Pair.create(state, substate));
+    public boolean hasState(ItemState state) {
+        return states.contains(state);
     }
 
     public void setRecent(boolean recent) {
@@ -128,13 +119,13 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         TextView partOfSpeech;
         @BindView(R.id.text_pronunciation)
         TextView pronunciation;
-        @BindView(R.id.button_like)
-        LikeButton like;
+/*        @BindView(R.id.button_like)
+        LikeButton like;*/
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
             super(view, adapter);
             word.setOnClickListener(super.adapter.getClickListener());
-            like.setOnClickListener(super.adapter.getClickListener());
+            //like.setOnClickListener(super.adapter.getClickListener());
         }
 
         @Override
@@ -144,10 +135,10 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
             this.partOfSpeech.setText(word.getPartOfSpeech());
             this.pronunciation.setText(word.getPronunciation());
 
-            int color = item.hasState(ItemState.STATE, ItemSubstate.FULL) ? R.color.black : R.color.material_grey500;
+            int color = item.hasState(ItemState.FULL) ? R.color.black : R.color.material_grey500;
             this.word.setTextColor(ColorUtil.getColor(getContext(), color));
-            like.setTag(word);
-            like.setLiked(item.isFlagged());
+            //like.setTag(word);
+            //like.setLiked(item.isFlagged());
         }
     }
 }

@@ -113,10 +113,10 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
 
 /*    @Override
     public void onPause() {
-        vm.removeMultipleSubscription();
-        vm.removeSingleSubscription();
-        vm.removeUpdateDisposable();
-        vm.removeUpdateVisibleItemsDisposable();
+        recentVm.removeMultipleSubscription();
+        recentVm.removeSingleSubscription();
+        recentVm.removeUpdateDisposable();
+        recentVm.removeUpdateVisibleItemsDisposable();
         tvm.clearInputs();
         super.onPause();
     }*/
@@ -377,7 +377,7 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
     }
 
     private void openTextOcr() {
-        //vm.clearInputs();
+        //recentVm.clearInputs();
         UiTask<Word> task = new UiTask<>();
         task.setUiType(UiType.OCR);
         task.setSubtype(UiSubtype.TEXT);

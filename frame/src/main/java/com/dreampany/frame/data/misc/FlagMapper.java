@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.misc;
 
 import com.dreampany.frame.data.model.Flag;
@@ -7,11 +8,13 @@ import com.dreampany.frame.misc.SmartMap;
 
 import javax.inject.Inject;
 
+*/
 /**
  * Created by Hawladar Roman on 8/9/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class FlagMapper {
 
     //keeps only LRU
@@ -52,3 +55,4 @@ public class FlagMapper {
         return null;
     }
 }
+*/

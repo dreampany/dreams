@@ -59,14 +59,15 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentCoinsBinding binding;
-    private LiveViewModel vm;
-    private CoinAdapter adapter;
+
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
     private ExpandableLayout expandable;
     private RecyclerView recycler;
     private View empty, filter;
 
+    private LiveViewModel vm;
+    private CoinAdapter adapter;
 
     @Inject
     public LiveCoinsFragment() {
@@ -275,7 +276,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
                     if (!refresh.isRefreshing()) {
                         refresh.setRefreshing(true);
                     }
-                    //binding.stateful.setState(LOADING);
                 }
                 break;
             case HIDE_PROGRESS:
@@ -303,7 +303,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
-    @DebugLog
     public void processResponse(Response<List<CoinItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
@@ -325,7 +324,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
-    @DebugLog
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
             vm.updateUiState(UiState.OFFLINE);
@@ -340,7 +338,6 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
         }
     }
 
-    @DebugLog
     private void processSuccess(List<CoinItem> items) {
         if (scroller.isScrolling()) {
             return;

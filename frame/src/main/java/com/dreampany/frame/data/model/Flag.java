@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.model;
 
 import androidx.room.Entity;
@@ -8,11 +9,13 @@ import androidx.annotation.NonNull;
 
 import com.google.common.base.Objects;
 
+*/
 /**
  * Created by Hawladar Roman on 3/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {"id", "type", "subtype"}, unique = true)},
         primaryKeys = {"id", "type", "subtype"})
 public class Flag extends Base {
@@ -107,3 +110,4 @@ public class Flag extends Base {
         return Objects.equal(type, this.type) && Objects.equal(subtype, this.subtype);
     }
 }
+*/

@@ -87,7 +87,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
             //save as OCR text
             long ocrTime = TimeUtil.currentTime();
             Stream.of(items).forEach(item -> {
-                Word word = repo.getItemOf(item.toLowerCase());
+                Word word = repo.getItemOf(item.toLowerCase(), true);
                 if (repo.isExists(word)) {
                     result.add(word);
                     long resultId = putWordOfOcr(word, ocrTime);
@@ -120,17 +120,17 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        //List<State> states = repo.getStates(item.getItem());
+        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItem());
-        item.setFlagged(flagged);
+        //boolean flagged = repo.isFlagged(item.getItem());
+        //item.setFlagged(flagged);
     }
 
     private long putWordOfOcr(Word word, long timeOfOcr) {
-        Store store = new Store(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), ItemState.OCR.name());
+        Store store = new Store(word.getId(), ItemType.WORD.name(), ItemSubtype.OCR.name());
         store.setTime(timeOfOcr);
         store.setData(word.getWord());
         return storeRepo.putItem(store);

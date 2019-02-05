@@ -36,7 +36,7 @@ class HomeAdapter(listener: Any) : SmartAdapter<BaseItem<Any, *>>(listener) {
         // if not found then insert freshly
         if (!contains(item)) {
             types.put(item, triple);
-            if (state == ItemState.TODAY) {
+            if (subtype == ItemSubtype.TODAY) {
                 addItem(0, item);
             } else {
                 addItem(getItemCount(), item);

@@ -1,21 +1,15 @@
 package com.dreampany.word.data.source.firestore;
 
 import android.graphics.Bitmap;
-
 import com.dreampany.firebase.RxFirestore;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.network.NetworkManager;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
-
-import java.util.List;
+import io.reactivex.Maybe;
 
 import javax.inject.Singleton;
-
-import io.reactivex.Maybe;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 9/3/2018.
@@ -34,72 +28,6 @@ public class WordFirestoreDataSource implements WordDataSource {
                                    RxFirestore firestore) {
         this.network = network;
         this.firestore = firestore;
-    }
-
-
-    @Override
-    public boolean hasState(Word word, ItemState state) {
-        return false;
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
-        return false;
-    }
-
-    @Override
-    public int getStateCount(ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public List<State> getStates(Word word) {
-        return null;
-    }
-
-    @Override
-    public List<State> getStates(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, boolean replaceable) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
-        return null;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Long> putStateRx(Word word, ItemState state) {
-        return null;
     }
 
     @Override
@@ -144,7 +72,7 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public long putItem(Word word) {
-        return 0;
+        return putItemRx(word).blockingGet();
     }
 
     @Override
@@ -193,22 +121,18 @@ public class WordFirestoreDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
-        return null;
+    public Word getItem(String word, boolean full) {
+        Word result = getItemRx(word, full).blockingGet();
+        return result;
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
+    public Maybe<Word> getItemRx(String word, boolean full) {
         return firestore.getDocument(WORDS, word, Word.class);
     }
 
     @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
+    public List<Word> getSearchItems(String query, int limit) {
         return null;
     }
 

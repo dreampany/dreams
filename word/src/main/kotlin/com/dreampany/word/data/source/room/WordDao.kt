@@ -45,8 +45,8 @@ interface WordDao: BaseDao<Word> {
     fun getItemRx(word: String): Maybe<Word>
 
     @Query("select * from word where word like :query || '%' order by word asc")
-    fun getSearchItemsRx(query: String): Maybe<List<Word>>
+    fun getSearchItems(query: String): List<Word>
 
     @Query("select * from word where word like :query || '%' order by word asc limit :limit")
-    fun getSearchItemsRx(query: String, limit: Int): Maybe<List<Word>>
+    fun getSearchItems(query: String, limit: Int): List<Word>
 }

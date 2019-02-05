@@ -1,21 +1,17 @@
 package com.dreampany.word.data.source.room;
 
 import android.graphics.Bitmap;
-
-import com.dreampany.frame.data.model.State;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.word.data.misc.WordMapper;
+import com.dreampany.word.data.model.Antonym;
+import com.dreampany.word.data.model.Synonym;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
-
-import java.util.List;
-
-import javax.inject.Singleton;
-
 import io.reactivex.Maybe;
 import timber.log.Timber;
+
+import javax.inject.Singleton;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -27,6 +23,7 @@ public class WordRoomDataSource implements WordDataSource {
 
     private final String LIKE = "%";
 
+    private final WordMapper mapper;
     private final WordDao dao;
     private final SynonymDao synonymDao;
     private final AntonymDao antonymDao;
@@ -35,74 +32,10 @@ public class WordRoomDataSource implements WordDataSource {
                               WordDao dao,
                               SynonymDao synonymDao,
                               AntonymDao antonymDao) {
+        this.mapper = mapper;
         this.dao = dao;
         this.synonymDao = synonymDao;
         this.antonymDao = antonymDao;
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state) {
-        return false;
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
-        return false;
-    }
-
-    @Override
-    public int getStateCount(ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public List<State> getStates(Word word) {
-        return null;
-    }
-
-    @Override
-    public List<State> getStates(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, boolean replaceable) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putStateRx(Word word, ItemState state) {
-        return null;
     }
 
     @Override
@@ -147,7 +80,18 @@ public class WordRoomDataSource implements WordDataSource {
 
     @Override
     public long putItem(Word word) {
-        return dao.insertOrReplace(word);
+        long result = dao.insertOrReplace(word);
+        if (result != -1) {
+            List<Synonym> synonyms = mapper.getSynonyms(word);
+            List<Antonym> antonyms = mapper.getAntonyms(word);
+            if (!DataUtil.isEmpty(synonyms)) {
+                synonymDao.insertOrReplace(synonyms);
+            }
+            if (!DataUtil.isEmpty(antonyms)) {
+                antonymDao.insertOrReplace(antonyms);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -207,16 +151,28 @@ public class WordRoomDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
-        return dao.getItem(word);
+    public Word getItem(String word, boolean full) {
+        Word result = dao.getItem(word);
+        if (result != null && full) {
+            List<Synonym> synonyms = synonymDao.getItems(result.getWord());
+            List<Antonym> antonyms = antonymDao.getItems(result.getWord());
+            result.setSynonyms(mapper.getSynonyms(result, synonyms));
+            result.setAntonyms(mapper.getAntonyms(result, antonyms));
+        }
+        return result;
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
+    public Maybe<Word> getItemRx(String word, boolean full) {
         return dao.getItemRx(word);
     }
 
     @Override
+    public List<Word> getSearchItems(String query, int limit) {
+        return dao.getSearchItems(query, limit);
+    }
+
+/*    @Override
     public Maybe<List<Word>> getSearchItemsRx(String query) {
         return dao.getSearchItemsRx(query);
     }
@@ -224,7 +180,7 @@ public class WordRoomDataSource implements WordDataSource {
     @Override
     public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
         return dao.getSearchItemsRx(query, limit);
-    }
+    }*/
 
     @Override
     public List<Word> getCommonItems() {

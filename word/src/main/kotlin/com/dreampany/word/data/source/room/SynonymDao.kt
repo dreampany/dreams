@@ -4,8 +4,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.frame.data.source.dao.BaseDao
 import com.dreampany.word.data.model.Synonym
-import io.reactivex.Flowable
-import io.reactivex.Single
+import io.reactivex.Maybe
 
 
 /**
@@ -19,17 +18,17 @@ interface SynonymDao : BaseDao<Synonym> {
     val count: Int
 
     @get:Query("select count(*) from synonym")
-    val countRx: Single<Int>
+    val countRx: Maybe<Int>
 
     @get:Query("select * from synonym")
     val items: List<Synonym>
 
     @get:Query("select * from synonym")
-    val itemsRx: Flowable<List<Synonym>>
+    val itemsRx: Maybe<List<Synonym>>
 
     @Query("select * from synonym where lefter = :word or righter = :word")
     fun getItems(word: String): List<Synonym>
 
     @Query("select * from synonym where lefter = :word or righter = :word")
-    fun getItemsRx(word: String): Single<List<Synonym>>
+    fun getItemsRx(word: String): Maybe<List<Synonym>>
 }

@@ -91,7 +91,6 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
         return R.id.item_search;
     }
 
-    @DebugLog
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
@@ -100,7 +99,7 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
 
     @Override
     protected void onStopUi() {
-        //vm.clear();
+        //recentVm.clear();
 /*        if (searchView != null) {
             if (searchView.isSearchOpen()) {
                 searchView.closeSearch();
@@ -196,7 +195,7 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
         BaseActivity activity = getParent();
         if (activity instanceof SearchViewCallback) {
             SearchViewCallback searchCallback = (SearchViewCallback) activity;
-            searchView = searchCallback.getSearchView();
+            //searchView = searchCallback.getSearchView();
         }
 
         ViewUtil.setSwipe(refresh, this);

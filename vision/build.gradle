@@ -87,7 +87,7 @@ dependencies {
 
     /** android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha01'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha03'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha04'
 
     /** dagger */
     kapt 'com.google.dagger:dagger-compiler:2.20'

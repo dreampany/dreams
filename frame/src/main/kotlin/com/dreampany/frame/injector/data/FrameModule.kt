@@ -1,16 +1,12 @@
 package com.dreampany.frame.injector.data
 
-import com.dreampany.frame.data.misc.FlagMapper
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.source.api.FlagDataSource
 import com.dreampany.frame.data.source.api.StateDataSource
 import com.dreampany.frame.data.source.api.StoreDataSource
-import com.dreampany.frame.data.source.local.FlagDao
-import com.dreampany.frame.data.source.room.FlagRoomDataSource
-import com.dreampany.frame.data.source.room.StateRoomDataSource
 import com.dreampany.frame.data.source.local.StateDao
 import com.dreampany.frame.data.source.local.StoreDao
+import com.dreampany.frame.data.source.room.StateRoomDataSource
 import com.dreampany.frame.data.source.room.StoreRoomDataSource
 import com.dreampany.frame.misc.Room
 import dagger.Module
@@ -32,13 +28,13 @@ class FrameModule {
         return application as BaseApp
     }*/
 
-    @Singleton
+/*    @Singleton
     @Provides
     @Room
     fun provideFlagRoomDataSource(mapper: FlagMapper,
                                    dao: FlagDao): FlagDataSource {
         return FlagRoomDataSource(mapper, dao)
-    }
+    }*/
 
     @Singleton
     @Provides

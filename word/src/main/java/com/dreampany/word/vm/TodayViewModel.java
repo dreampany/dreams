@@ -86,12 +86,12 @@ public class TodayViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> 
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        //List<State> states = repo.getStates(item.getItem());
+        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItem());
-        item.setFlagged(flagged);
+        //boolean flagged = repo.isFlagged(item.getItem());
+        //item.setFlagged(flagged);
     }
 }

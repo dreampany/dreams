@@ -50,10 +50,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private final NetworkManager network;
     private final Pref pref;
-    private final LoadPref loadPref;
     private final CoinRepository repo;
-    private SmartAdapter.Callback<CoinItem> uiCallback;
+
     private Disposable updateDisposable;
+
+    private SmartAdapter.Callback<CoinItem> uiCallback;
 
     @Inject
     LiveViewModel(Application application,
@@ -62,14 +63,11 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                   ResponseMapper rm,
                   NetworkManager network,
                   Pref pref,
-                  LoadPref loadPref,
                   CoinRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
-        this.loadPref = loadPref;
         this.repo = repo;
-
     }
 
     @Override
@@ -78,10 +76,6 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
-    }
-
-    public void start() {
-        network.observe(this::onResult, true);
     }
 
     void onResult(Network... networks) {
@@ -104,6 +98,10 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         this.uiCallback = callback;
     }
 
+    public void start() {
+        network.observe(this::onResult, true);
+    }
+
     public void removeUpdateDisposable() {
         removeSubscription(updateDisposable);
     }
@@ -116,12 +114,10 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         loads(true, withProgress);
     }
 
-    @DebugLog
     public void loads(boolean fresh, boolean withProgress) {
         loads(Constants.Limit.COIN_DEFAULT_INDEX, fresh, withProgress);
     }
 
-    @DebugLog
     public void loads(int index, boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
@@ -148,7 +144,6 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
     public void update(boolean withProgress) {
         if (!OPEN) {
             return;
@@ -183,11 +178,10 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
         return repo
                 .getItemsRx(CoinSource.CMC, index, limit, currency)
-                .onErrorReturn(throwable -> new ArrayList<>())
+                .onErrorResumeNext(Maybe.empty())
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 
-    @DebugLog
     private List<CoinItem> getVisibleItemsIf(Currency currency) {
         if (uiCallback == null) {
             return null;
@@ -217,7 +211,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 throw new EmptyException();
             }
             return result;
-        }).onErrorReturn(throwable -> new ArrayList<>());
+        }).onErrorResumeNext(Maybe.empty());
     }
 
     @DebugLog
@@ -225,7 +219,6 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         return Maybe.fromCallable(() -> getItems(result));
     }
 
-    @DebugLog
     private List<CoinItem> getItems(List<Coin> result) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();

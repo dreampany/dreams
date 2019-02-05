@@ -3,9 +3,6 @@ package com.dreampany.word.vm;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
-
-import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.StoreRepository;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -17,7 +14,6 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.enums.ItemType;
 import com.dreampany.word.data.misc.StateMapper;
@@ -33,12 +29,6 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -47,6 +37,10 @@ import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 9/27/2018.
@@ -213,12 +207,12 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                         List<WordItem> items = uiCallback.getVisibleItems();
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
-                                if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
+                                /*if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
                                     Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
                                     getEx().postToUi(() -> postProgress(true));
                                     next = updateItemRx(item.getItem()).blockingGet();
                                     break;
-                                }
+                                }*/
                             }
                         }
                     }
@@ -232,7 +226,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
             List<WordItem> items = uiCallback.getVisibleItems();
             if (!DataUtil.isEmpty(items)) {
                 for (WordItem item : items) {
-                    item.setItem(repo.getItem(item.getItem().getWord()));
+                    item.setItem(repo.getItem(item.getItem().getWord(), false));
                     adjustState(item);
                     adjustFlag(item);
                 }
@@ -261,7 +255,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
-            repo.toggleFlag(word);
+            //repo.toggleFlag(word);
             return getItem(word);
         });
     }
@@ -285,7 +279,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord()).map(this::getItem);
+        return repo.getItemRx(item.getWord(), false).map(this::getItem);
     }
 
     @DebugLog
@@ -299,7 +293,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     @DebugLog
     private List<Word> getItemsOf(List<String> items) {
         return Flowable.fromIterable(items)
-                .map(repo::getItemOf)
+                .map(s -> repo.getItemOf(s, false))
                 .toList()
                 .blockingGet();
     }
@@ -318,17 +312,17 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        //List<State> states = repo.getStates(item.getItem());
+        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItem());
-        item.setFlagged(flagged);
+       // boolean flagged = repo.isFlagged(item.getItem());
+        //item.setFlagged(flagged);
     }
 
     private Maybe<List<Word>> getWordsOfOcr() {
-        return storeRepo.getItemsOfRx(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), ItemState.OCR.name(), Constants.Limit.WORD_OCR)
+        return storeRepo.getItemsOfRx(ItemType.WORD.name(), ItemSubtype.OCR.name(), ItemState.RAW.name(), Constants.Limit.WORD_OCR)
                 .map(this::getItemsOf);
     }
 

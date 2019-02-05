@@ -1,28 +1,21 @@
 package com.dreampany.word.data.source.remote;
 
 import android.graphics.Bitmap;
-
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.word.api.wordnik.WordnikManager;
 import com.dreampany.word.api.wordnik.WordnikWord;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Singleton;
-
 import io.reactivex.Maybe;
 import timber.log.Timber;
+
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -42,71 +35,6 @@ public class WordRemoteDataSource implements WordDataSource {
         this.network = network;
         this.mapper = mapper;
         this.wordnik = wordnik;
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state) {
-        return false;
-    }
-
-    @Override
-    public boolean hasState(Word word, ItemState state, ItemSubstate substate) {
-        return false;
-    }
-
-    @Override
-    public int getStateCount(ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public List<State> getStates(Word word) {
-        return null;
-    }
-
-    @Override
-    public List<State> getStates(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public long putItem(Word word, ItemState state, boolean replaceable) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state) {
-        return 0;
-    }
-
-    @Override
-    public long putState(Word word, ItemState state, ItemSubstate substate) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Word word, ItemState state, ItemSubstate substate) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Long> putStateRx(Word word, ItemState state) {
-        return null;
     }
 
     @Override
@@ -200,18 +128,28 @@ public class WordRemoteDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
+    public Word getItem(String word, boolean full) {
         WordnikWord item = wordnik.getWord(word, Constants.Limit.WORD_RESOLVE);
         Timber.v("Wordnik Result %s", item.getWord());
         return mapper.toItem(word, item, true);
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
-        return Maybe.fromCallable(() -> getItem(word));
+    public Maybe<Word> getItemRx(String word, boolean full) {
+        return Maybe.fromCallable(() -> getItem(word, full));
     }
 
     @Override
+    public List<Word> getSearchItems(String query, int limit) {
+        List<WordnikWord> items = wordnik.search(query, limit);
+        List<Word> result = new ArrayList<>();
+        if (!DataUtil.isEmpty(items)) {
+            Stream.of(items).forEach(word -> result.add(mapper.toItem(word, false)));
+        }
+        return result;
+    }
+
+/*    @Override
     public Maybe<List<Word>> getSearchItemsRx(String query) {
         return null;
     }
@@ -226,7 +164,7 @@ public class WordRemoteDataSource implements WordDataSource {
             }
             return result;
         });
-    }
+    }*/
 
     @Override
     public List<Word> getCommonItems() {

@@ -1,9 +1,7 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -14,28 +12,22 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
-import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubstate;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -134,13 +126,14 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private Maybe<List<WordItem>> getRecentItemsRx() {
-        return repo.getRecentItemsRx()
+        return Maybe.empty();
+        /*        return repo.getRecentItemsRx()
                 .onErrorResumeNext(Maybe.empty())
-                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);
+                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);*/
     }
 
     private Maybe<WordItem> getItemRx(String word) {
-        return repo.getItemRx(word).map(this::getItem);
+        return repo.getItemRx(word, true).map(this::getItem);
     }
 
     private Maybe<List<WordItem>> getItemsRx(List<Word> words) {
@@ -172,11 +165,11 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                         List<WordItem> items = uiCallback.getVisibleItems();
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
-                                if (!item.hasState(ItemState.STATE, ItemSubstate.FULL)) {
+        /*                        if (!item.hasState(ItemState.STATE, ItemSubstate.FULL)) {
                                     Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
                                     next = updateItemRx(item.getItem()).blockingGet();
                                     break;
-                                }
+                                }*/
                             }
                         }
                     }
@@ -186,7 +179,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord()).map(this::getItem);
+        return repo.getItemRx(item.getWord(), true).map(this::getItem);
     }
 
     private WordItem getItem(Word word) {
@@ -203,8 +196,8 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
-        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        //List<State> states = repo.getStates(item.getItem());
+        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {

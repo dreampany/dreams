@@ -72,7 +72,7 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public long putItem(Word word) {
-        return 0;
+        return putItemRx(word).blockingGet();
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
 import com.google.common.collect.Maps;
 import io.reactivex.Maybe;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -158,6 +159,7 @@ public class ApiRepository {
     private Word getFirestoreItemIf(Word word) {
         Word result = wordRepo.getFirestoreItem(word.getWord());
         if (result != null) {
+            Timber.v("Firestore result success");
             this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
         }
         return result;

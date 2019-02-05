@@ -208,7 +208,7 @@ public class HomeFragment extends BaseMenuFragment
         searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
         searchVm.observeOutputs(this, this::processResponse);
-        //recentVm.observeOutput(this, this::processSingleResponse);
+        searchVm.observeOutput(this, this::processSingleResponse);
 
         searchAdapter = new SearchAdapter(getContext());
         table = new SearchHistoryTable(getContext());
@@ -310,19 +310,19 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processProgress(boolean loading) {
         if (loading) {
-            //recentVm.updateUiState(UiState.SHOW_PROGRESS);
+            searchVm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
-            //recentVm.updateUiState(UiState.HIDE_PROGRESS);
+            searchVm.updateUiState(UiState.HIDE_PROGRESS);
         }
     }
 
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
-            //recentVm.updateUiState(UiState.OFFLINE);
+            searchVm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            //recentVm.updateUiState(UiState.EMPTY);
+            searchVm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
-            //recentVm.updateUiState(UiState.EXTRA);
+            searchVm.updateUiState(UiState.EXTRA);
         } else if (error instanceof MultiException) {
             for (Throwable e : ((MultiException) error).getErrors()) {
                 processFailure(e);
@@ -343,6 +343,4 @@ public class HomeFragment extends BaseMenuFragment
     private void processSingleSuccess(WordItem item) {
         adapter.updateSilently(item);
     }
-
-
 }

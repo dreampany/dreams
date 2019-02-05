@@ -29,12 +29,14 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -43,8 +45,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
-    private static final long initialDelay = Constants.Time.INSTANCE.getWordPeriod();
-    private static final long period = Constants.Time.INSTANCE.getWordPeriod();
+    private static final long INITIAL_DELAY = Constants.Time.INSTANCE.getWordPeriod();
+    private static final long PERIOD = Constants.Time.INSTANCE.getWordPeriod();
+    private static final AtomicBoolean periodically = new AtomicBoolean(false);
 
     private final NetworkManager network;
     private final Pref pref;
@@ -157,6 +160,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         if (hasDisposable(updateDisposable)) {
             return;
         }
+        periodically.set(true);
         updateDisposable = getRx()
                 .backToMain(getVisibleItemIfRxPeriodically())
                 .doOnSubscribe(subscription -> {
@@ -181,13 +185,16 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
      */
     private Flowable<WordItem> getVisibleItemIfRxPeriodically() {
         return Flowable
-                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
+                .interval(INITIAL_DELAY, PERIOD, TimeUnit.MILLISECONDS, getRx().io())
+                .takeWhile(item -> periodically.get())
                 .map(tick -> {
-                    Timber.d("getVisibleItemIfRxPeriodically");
+                    Timber.d("Ticking getVisibleItemIfRxPeriodically");
                     WordItem next = getVisibleItemIf();
-                    if (next != null) {
-                        Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getWord());
+                    if (next == null) {
+                        periodically.set(false);
+                        return next;
                     }
+                    Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getWord());
                     return next;
                 });
     }

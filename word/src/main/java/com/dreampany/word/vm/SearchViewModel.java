@@ -160,7 +160,6 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         if (hasDisposable(updateDisposable)) {
             return;
         }
-        periodically.set(true);
         removeUpdateDisposable();
         updateDisposable = getRx()
                 .backToMain(getVisibleItemIfRx())
@@ -196,6 +195,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             return next;
         });
     }
+
 /*    private Flowable<WordItem> getVisibleItemIfRxPeriodically() {
         return Flowable
                 .interval(INITIAL_DELAY, PERIOD, TimeUnit.MILLISECONDS, getRx().io())

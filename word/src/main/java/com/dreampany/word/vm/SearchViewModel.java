@@ -17,6 +17,7 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.word.data.enums.ItemState;
+import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
@@ -29,13 +30,12 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -161,8 +161,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             return;
         }
         periodically.set(true);
+        removeUpdateDisposable();
         updateDisposable = getRx()
-                .backToMain(getVisibleItemIfRxPeriodically())
+                .backToMain(getVisibleItemIfRx())
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
@@ -173,6 +174,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                             if (result != null) {
                                 postProgress(false);
                                 postResult(result);
+                                update(withProgress);
                             } else {
                                 postProgress(false);
                             }
@@ -183,7 +185,18 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     /**
      * private api
      */
-    private Flowable<WordItem> getVisibleItemIfRxPeriodically() {
+    private Maybe<WordItem> getVisibleItemIfRx() {
+        return Maybe.fromCallable(() -> {
+            Timber.d("Ticking getVisibleItemIfRxPeriodically");
+            WordItem next = getVisibleItemIf();
+            if (next == null) {
+                return next;
+            }
+            Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getWord());
+            return next;
+        });
+    }
+/*    private Flowable<WordItem> getVisibleItemIfRxPeriodically() {
         return Flowable
                 .interval(INITIAL_DELAY, PERIOD, TimeUnit.MILLISECONDS, getRx().io())
                 .takeWhile(item -> periodically.get())
@@ -197,7 +210,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getWord());
                     return next;
                 });
-    }
+    }*/
 
     private WordItem getVisibleItemIf() {
         if (uiCallback == null) {

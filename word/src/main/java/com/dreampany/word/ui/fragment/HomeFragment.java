@@ -295,6 +295,7 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
+    @DebugLog
     public void processSingleResponse(Response<WordItem> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;

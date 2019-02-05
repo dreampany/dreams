@@ -276,7 +276,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     private Maybe<List<Word>> getSearchItemsRx(String query) {
         return Maybe.fromCallable(() -> {
-            Word word = repo.getItem(query);
+            Word word = repo.getItem(query, false);
             List<Word> result = new ArrayList<>();
             if (word != null) {
                 result.add(word);

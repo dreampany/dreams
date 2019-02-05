@@ -226,7 +226,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
             List<WordItem> items = uiCallback.getVisibleItems();
             if (!DataUtil.isEmpty(items)) {
                 for (WordItem item : items) {
-                    item.setItem(repo.getItem(item.getItem().getWord()));
+                    item.setItem(repo.getItem(item.getItem().getWord(), false));
                     adjustState(item);
                     adjustFlag(item);
                 }
@@ -279,7 +279,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord()).map(this::getItem);
+        return repo.getItemRx(item.getWord(), false).map(this::getItem);
     }
 
     @DebugLog
@@ -293,7 +293,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     @DebugLog
     private List<Word> getItemsOf(List<String> items) {
         return Flowable.fromIterable(items)
-                .map(repo::getItemOf)
+                .map(s -> repo.getItemOf(s, false))
                 .toList()
                 .blockingGet();
     }

@@ -219,12 +219,12 @@ public class WordRepository extends Repository<String, Word> implements WordData
     }
 
     @Override
-    public Word getItem(String word) {
-        return room.getItem(word);
+    public Word getItem(String word, boolean full) {
+        return room.getItem(word, full);
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
+    public Maybe<Word> getItemRx(String word, boolean full) {
 /*        Maybe<Word> room = fullRoom(word);
         Maybe<Word> firestore = saveRoom(this.firestore.getItemRx(word));
         Maybe<Word> remote = saveRoomFirestore(this.remote.getItemRx(word));
@@ -252,16 +252,16 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return null;
     }
 
-    public Word getRoomItem(String word) {
-        return room.getItem(word);
+    public Word getRoomItem(String word, boolean full) {
+        return room.getItem(word, full);
     }
 
-    public Word getFirestoreItem(String word) {
-        return firestore.getItem(word);
+    public Word getFirestoreItem(String word, boolean full) {
+        return firestore.getItem(word, full);
     }
 
-    public Word getRemoteItem(String word) {
-        return remote.getItem(word);
+    public Word getRemoteItem(String word, boolean full) {
+        return remote.getItem(word, full);
     }
 
     public long putRoomItem(Word word) {
@@ -280,8 +280,8 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return mapper.toItem(word);
     }
 
-    public Word getItemOf(String word) {
-        Word result = room.getItem(word);
+    public Word getItemOf(String word, boolean full) {
+        Word result = room.getItem(word, full);
         if (result == null) {
             result = getItemOfMapper(word);
         }

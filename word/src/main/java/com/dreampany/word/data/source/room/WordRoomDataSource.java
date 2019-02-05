@@ -151,12 +151,19 @@ public class WordRoomDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
-        return dao.getItem(word);
+    public Word getItem(String word, boolean full) {
+        Word result = dao.getItem(word);
+        if (result != null && full) {
+            List<Synonym> synonyms = synonymDao.getItems(result.getWord());
+            List<Antonym> antonyms = antonymDao.getItems(result.getWord());
+            result.setSynonyms(mapper.getSynonyms(result, synonyms));
+            result.setAntonyms(mapper.getAntonyms(result, antonyms));
+        }
+        return result;
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
+    public Maybe<Word> getItemRx(String word, boolean full) {
         return dao.getItemRx(word);
     }
 

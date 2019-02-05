@@ -121,13 +121,13 @@ public class WordFirestoreDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
-        Word result = getItemRx(word).blockingGet();
+    public Word getItem(String word, boolean full) {
+        Word result = getItemRx(word, full).blockingGet();
         return result;
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
+    public Maybe<Word> getItemRx(String word, boolean full) {
         return firestore.getDocument(WORDS, word, Word.class);
     }
 

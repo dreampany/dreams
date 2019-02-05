@@ -133,7 +133,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private Maybe<WordItem> getItemRx(String word) {
-        return repo.getItemRx(word).map(this::getItem);
+        return repo.getItemRx(word, true).map(this::getItem);
     }
 
     private Maybe<List<WordItem>> getItemsRx(List<Word> words) {
@@ -179,7 +179,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord()).map(this::getItem);
+        return repo.getItemRx(item.getWord(), true).map(this::getItem);
     }
 
     private WordItem getItem(Word word) {

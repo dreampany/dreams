@@ -120,12 +120,12 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
+    public Word getItem(String word, boolean full) {
         return null;
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
+    public Maybe<Word> getItemRx(String word, boolean full) {
         return null;
     }
 

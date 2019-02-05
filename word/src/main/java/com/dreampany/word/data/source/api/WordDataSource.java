@@ -18,9 +18,9 @@ public interface WordDataSource extends DataSource<Word> {
 
     Maybe<Word> getTodayItemRx();
 
-    Word getItem(String word);
+    Word getItem(String word, boolean full);
 
-    Maybe<Word> getItemRx(String word);
+    Maybe<Word> getItemRx(String word, boolean full);
 
     List<Word> getSearchItems(String query, int limit);
 

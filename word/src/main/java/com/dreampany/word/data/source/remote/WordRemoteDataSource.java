@@ -128,15 +128,15 @@ public class WordRemoteDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(String word) {
+    public Word getItem(String word, boolean full) {
         WordnikWord item = wordnik.getWord(word, Constants.Limit.WORD_RESOLVE);
         Timber.v("Wordnik Result %s", item.getWord());
         return mapper.toItem(word, item, true);
     }
 
     @Override
-    public Maybe<Word> getItemRx(String word) {
-        return Maybe.fromCallable(() -> getItem(word));
+    public Maybe<Word> getItemRx(String word, boolean full) {
+        return Maybe.fromCallable(() -> getItem(word, full));
     }
 
     @Override

@@ -87,7 +87,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
             //save as OCR text
             long ocrTime = TimeUtil.currentTime();
             Stream.of(items).forEach(item -> {
-                Word word = repo.getItemOf(item.toLowerCase());
+                Word word = repo.getItemOf(item.toLowerCase(), true);
                 if (repo.isExists(word)) {
                     result.add(word);
                     long resultId = putWordOfOcr(word, ocrTime);

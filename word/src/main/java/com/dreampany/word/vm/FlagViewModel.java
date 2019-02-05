@@ -140,7 +140,7 @@ public class FlagViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
             List<WordItem> items = uiCallback.getVisibleItems();
             if (!DataUtil.isEmpty(items)) {
                 for (WordItem item : items) {
-                    item.setItem(repo.getItem(item.getItem().getWord()));
+                    item.setItem(repo.getItem(item.getItem().getWord(), true));
                     adjustState(item);
                     adjustFlag(item);
                 }
@@ -195,7 +195,7 @@ public class FlagViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord()).map(this::getItem);
+        return repo.getItemRx(item.getWord(), true).map(this::getItem);
     }
 
     private WordItem getItem(Word word) {

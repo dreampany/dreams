@@ -66,8 +66,8 @@ public class ApiRepository {
         return wordRepo.getAlphaItems();
     }
 
-    public Word getItem(String word) {
-        return wordRepo.getItem(word);
+    public Word getItem(String word, boolean full) {
+        return wordRepo.getItem(word, full);
     }
 
     public Word getItemIf(Word word) {
@@ -153,11 +153,11 @@ public class ApiRepository {
         if (!hasState(word, ItemSubtype.DEFAULT, ItemState.FULL)) {
             return null;
         }
-        return wordRepo.getRoomItem(word.getWord());
+        return wordRepo.getRoomItem(word.getWord(), true);
     }
 
     private Word getFirestoreItemIf(Word word) {
-        Word result = wordRepo.getFirestoreItem(word.getWord());
+        Word result = wordRepo.getFirestoreItem(word.getWord(), true);
         if (result != null) {
             Timber.v("Firestore result success");
             this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
@@ -166,7 +166,7 @@ public class ApiRepository {
     }
 
     private Word getRemoteItemIf(Word word) {
-        Word result = wordRepo.getRemoteItem(word.getWord());
+        Word result = wordRepo.getRemoteItem(word.getWord(), true);
         if (result != null) {
             this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
             wordRepo.putFirestoreItem(result);

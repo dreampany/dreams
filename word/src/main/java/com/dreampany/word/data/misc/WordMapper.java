@@ -157,10 +157,40 @@ public class WordMapper {
         return null;
     }
 
+    public List<String> getSynonyms(Word word, List<Synonym> in) {
+        if (!DataUtil.isEmpty(in)) {
+            List<String> result = new ArrayList<>();
+            Stream.of(in).forEach(item -> {
+                if (word.getWord().equals(item.getLeft())) {
+                    result.add(item.getRight());
+                } else {
+                    result.add(item.getLeft());
+                }
+            });
+            return result;
+        }
+        return null;
+    }
+
     public List<Antonym> getAntonyms(Word in) {
         if (in.hasAntonyms()) {
             List<Antonym> result = new ArrayList<>();
             Stream.of(in.getAntonyms()).forEach(item -> result.add(new Antonym(in.getWord(), item)));
+            return result;
+        }
+        return null;
+    }
+
+    public List<String> getAntonyms(Word word, List<Antonym> in) {
+        if (!DataUtil.isEmpty(in)) {
+            List<String> result = new ArrayList<>();
+            Stream.of(in).forEach(item -> {
+                if (word.getWord().equals(item.getLeft())) {
+                    result.add(item.getRight());
+                } else {
+                    result.add(item.getLeft());
+                }
+            });
             return result;
         }
         return null;

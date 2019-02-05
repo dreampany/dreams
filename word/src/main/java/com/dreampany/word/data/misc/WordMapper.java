@@ -1,13 +1,16 @@
 package com.dreampany.word.data.misc;
 
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Consumer;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.api.wordnik.WordnikWord;
+import com.dreampany.word.data.model.Antonym;
 import com.dreampany.word.data.model.Definition;
+import com.dreampany.word.data.model.Synonym;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.WordAnnote;
@@ -145,6 +148,24 @@ public class WordMapper {
         return out;
     }
 
+    public List<Synonym> getSynonyms(Word in) {
+        if (in.hasSynonyms()) {
+            List<Synonym> result = new ArrayList<>();
+            Stream.of(in.getSynonyms()).forEach(item -> result.add(new Synonym(in.getWord(), item)));
+            return result;
+        }
+        return null;
+    }
+
+    public List<Antonym> getAntonyms(Word in) {
+        if (in.hasAntonyms()) {
+            List<Antonym> result = new ArrayList<>();
+            Stream.of(in.getAntonyms()).forEach(item -> result.add(new Antonym(in.getWord(), item)));
+            return result;
+        }
+        return null;
+    }
+
     private List<Definition> getDefinitions(WordnikWord in) {
         if (in.hasDefinition()) {
             List<Definition> result = new ArrayList<>();
@@ -185,5 +206,4 @@ public class WordMapper {
         }
         return null;
     }
-
 }

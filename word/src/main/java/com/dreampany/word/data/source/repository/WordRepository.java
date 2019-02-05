@@ -204,8 +204,8 @@ public class WordRepository extends Repository<String, Word> implements WordData
     @Override
     public Maybe<List<Word>> getItemsRx() {
         Maybe<List<Word>> assets = getAssetsItemsIfRx();
-        Maybe<List<Word>> local = this.room.getItemsRx();
-        return concatLastRx(assets, local);
+        Maybe<List<Word>> room = this.room.getItemsRx();
+        return concatLastRx(assets, room);
     }
 
     @Override

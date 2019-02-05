@@ -122,7 +122,8 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public Word getItem(String word) {
-        return getItemRx(word).blockingGet();
+        Word result = getItemRx(word).blockingGet();
+        return result;
     }
 
     @Override

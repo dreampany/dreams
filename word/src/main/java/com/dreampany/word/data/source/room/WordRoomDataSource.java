@@ -1,7 +1,10 @@
 package com.dreampany.word.data.source.room;
 
 import android.graphics.Bitmap;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.word.data.misc.WordMapper;
+import com.dreampany.word.data.model.Antonym;
+import com.dreampany.word.data.model.Synonym;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import io.reactivex.Maybe;
@@ -20,6 +23,7 @@ public class WordRoomDataSource implements WordDataSource {
 
     private final String LIKE = "%";
 
+    private final WordMapper mapper;
     private final WordDao dao;
     private final SynonymDao synonymDao;
     private final AntonymDao antonymDao;
@@ -28,6 +32,7 @@ public class WordRoomDataSource implements WordDataSource {
                               WordDao dao,
                               SynonymDao synonymDao,
                               AntonymDao antonymDao) {
+        this.mapper = mapper;
         this.dao = dao;
         this.synonymDao = synonymDao;
         this.antonymDao = antonymDao;
@@ -75,7 +80,18 @@ public class WordRoomDataSource implements WordDataSource {
 
     @Override
     public long putItem(Word word) {
-        return dao.insertOrReplace(word);
+        long result = dao.insertOrReplace(word);
+        if (result != -1) {
+            List<Synonym> synonyms = mapper.getSynonyms(word);
+            List<Antonym> antonyms = mapper.getAntonyms(word);
+            if (!DataUtil.isEmpty(synonyms)) {
+                synonymDao.insertOrReplace(synonyms);
+            }
+            if (!DataUtil.isEmpty(antonyms)) {
+                antonymDao.insertOrReplace(antonyms);
+            }
+        }
+        return result;
     }
 
     @Override

@@ -1,10 +1,7 @@
 package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
+import android.view.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
@@ -27,8 +24,13 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
+import com.dreampany.word.data.model.Word;
 import com.dreampany.word.databinding.FragmentHomeBinding;
+import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.WordAdapter;
+import com.dreampany.word.ui.enums.UiSubtype;
+import com.dreampany.word.ui.enums.UiType;
+import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.RecentViewModel;
 import com.dreampany.word.vm.SearchViewModel;
@@ -151,6 +153,16 @@ public class HomeFragment extends BaseMenuFragment
     public boolean onQueryTextChange(@NonNull String newText) {
         BaseFragment fragment = getCurrentFragment();
         return fragment != null && fragment.onQueryTextChange(newText);
+    }
+
+    @Override
+    public boolean onItemClick(View view, int position) {
+        if (position != RecyclerView.NO_POSITION) {
+            WordItem item = adapter.getItem(position);
+            openUi(item.getItem());
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -343,5 +355,13 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processSingleSuccess(WordItem item) {
         adapter.updateSilently(item);
+    }
+
+    private void openUi(Word item) {
+        UiTask<Word> task = new UiTask<>(false);
+        task.setInput(item);
+        task.setUiType(UiType.WORD);
+        task.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, task);
     }
 }

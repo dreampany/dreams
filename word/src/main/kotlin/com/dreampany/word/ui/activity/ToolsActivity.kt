@@ -74,11 +74,11 @@ class ToolsActivity : BaseActivity() {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         commitFragment(WordFragment::class.java, wordProvider, R.id.layout, uiTask)
-                        ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
+                        //ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
                     }
                     UiSubtype.RECENTS -> {
                         commitFragment(RecentsFragment::class.java, recentsProvider, R.id.layout, uiTask)
-                        ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
+                        //ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
                     }
                     else -> {
                     }

@@ -138,7 +138,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .subscribe(result -> {
                     postProgress(false);
                     postResult(result);
-                    update(false);
+                    getEx().postToUi(() -> update(false), 3000L);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
@@ -173,7 +173,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                             if (result != null) {
                                 postProgress(false);
                                 postResult(result);
-                                update(withProgress);
+                                getEx().postToUi(() -> update(withProgress), 3000L);
                             } else {
                                 postProgress(false);
                             }

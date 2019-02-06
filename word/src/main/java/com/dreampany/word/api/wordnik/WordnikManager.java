@@ -67,24 +67,25 @@ public class WordnikManager {
             wordApi.addHeader(WORDNIK_API_KEY, key);
             wordApis.add(wordApi);
         }
-
-
     }
 
     public WordnikWord getWordOfTheDay(String date, int limit) {
-        for (WordsApi api : wordsApis) {
+        for (int index = 0; index < KEYS.length; index++) {
+            WordsApi api = getWordsApi();
             try {
                 WordOfTheDay wordOfTheDay = api.getWordOfTheDay(date);
                 return getWord(wordOfTheDay, limit);
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
         return null;
     }
 
     public WordnikWord getWord(String word, int limit) {
-        for (WordApi api : wordApis) {
+        for (int index = 0; index < KEYS.length; index++) {
+            WordApi api = getWordApi();
             try {
                 String useCanonical = "true";
                 String includeSuggestions = "false";
@@ -92,6 +93,7 @@ public class WordnikManager {
                 return getWord(wordObject, limit);
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
 
@@ -111,7 +113,8 @@ public class WordnikManager {
         int maxLength = -1;
         int skip = 0;
 
-        for (WordsApi api : wordsApis) {
+        for (int index = 0; index < KEYS.length; index++) {
+            WordsApi api = getWordsApi();
             try {
                 WordSearchResults results = api.searchWords(query,
                         includePartOfSpeech,
@@ -139,9 +142,22 @@ public class WordnikManager {
 
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
         return null;
+    }
+
+    private void iterateQueue() {
+        queue.add(queue.peek());
+    }
+
+    private WordApi getWordApi() {
+        return wordApis.get(queue.peek());
+    }
+
+    private WordsApi getWordsApi() {
+        return wordsApis.get(queue.peek());
     }
 
     private WordnikWord getWord(WordOfTheDay from, int limit) {
@@ -270,7 +286,8 @@ public class WordnikManager {
 
 
     private String getPronunciation(String word) {
-        for (WordApi api : wordApis) {
+        for (int index = 0; index < KEYS.length; index++) {
+            WordApi api = getWordApi();
             try {
                 String sourceDictionary = null;
                 String typeFormat = null;
@@ -279,9 +296,9 @@ public class WordnikManager {
                 List<TextPron> pronunciations = api.getTextPronunciations(word, sourceDictionary, typeFormat, useCanonical, 3);
                 if (!DataUtil.isEmpty(pronunciations)) {
                     String pronunciation = pronunciations.get(0).getRaw();
-                    for (int index = 1; index < pronunciations.size(); index++) {
-                        if (pronunciation.length() > pronunciations.get(index).getRaw().length()) {
-                            pronunciation = pronunciations.get(index).getRaw();
+                    for (int indexX = 1; indexX < pronunciations.size(); indexX++) {
+                        if (pronunciation.length() > pronunciations.get(indexX).getRaw().length()) {
+                            pronunciation = pronunciations.get(indexX).getRaw();
                         }
                     }
                     pronunciation = pronunciation.replaceAll("(?s)<i>.*?</i>", "");
@@ -289,13 +306,15 @@ public class WordnikManager {
                 }
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
         return null;
     }
 
     private List<Definition> getDefinitions(String word, int limit) {
-        for (WordApi api : wordApis) {
+        for (int index = 0; index < KEYS.length; index++) {
+            WordApi api = getWordApi();
             try {
                 String partOfSpeech = null;
                 String sourceDictionaries = null;
@@ -305,13 +324,15 @@ public class WordnikManager {
                 return definitions;
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
         return null;
     }
 
     public List<Example> getExamples(String word, int limit) {
-        for (WordApi api : wordApis) {
+        for (int index = 0; index < KEYS.length; index++) {
+            WordApi api = getWordApi();
             try {
                 String includeDuplicates = "true";
                 String useCanonical = "true";
@@ -322,23 +343,27 @@ public class WordnikManager {
                 }
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
         return null;
     }
 
     public List<WordnikWord> query(String query, int limit) {
-        for (WordsApi api : wordsApis) {
-            String includePartOfSpeech = null;
-            String excludePartOfSpeech = null;
-            String caseSensitive = "false";
-            int minCorpusCount = 5;
-            int maxCorpusCount = -1;
-            int minDictionaryCount = 1;
-            int maxDictionaryCount = -1;
-            int minLength = 1;
-            int maxLength = -1;
-            int skip = 0;
+
+        String includePartOfSpeech = null;
+        String excludePartOfSpeech = null;
+        String caseSensitive = "false";
+        int minCorpusCount = 5;
+        int maxCorpusCount = -1;
+        int minDictionaryCount = 1;
+        int maxDictionaryCount = -1;
+        int minLength = 1;
+        int maxLength = -1;
+        int skip = 0;
+
+        for (int index = 0; index < KEYS.length; index++) {
+            WordsApi api = getWordsApi();
 
             try {
                 WordSearchResults results = api.searchWords(query, includePartOfSpeech, excludePartOfSpeech,
@@ -357,13 +382,15 @@ public class WordnikManager {
                 }
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
         return null;
     }
 
     private List<Related> getRelateds(String word, String relationshipTypes, int limit) {
-        for (WordApi api : wordApis) {
+        for (int index = 0; index < KEYS.length; index++) {
+            WordApi api = getWordApi();
             try {
                 String useCanonical = "true";
 
@@ -372,6 +399,7 @@ public class WordnikManager {
 
             } catch (Exception e) {
                 Timber.e(e);
+                iterateQueue();
             }
         }
         return null;

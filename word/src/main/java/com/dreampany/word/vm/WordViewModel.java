@@ -2,9 +2,8 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 import androidx.fragment.app.Fragment;
-
-import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
+import com.dreampany.frame.data.enums.UiState;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -14,20 +13,20 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
-import com.dreampany.word.data.enums.ItemState;
+import com.dreampany.network.data.model.Network;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
+import com.dreampany.word.data.source.pref.Pref;
+import com.dreampany.word.data.source.repository.ApiRepository;
 import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.util.Util;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -37,8 +36,10 @@ import io.reactivex.disposables.Disposable;
 public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private final NetworkManager network;
-    private final WordRepository repo;
+    private final Pref pref;
     private final StateMapper stateMapper;
+    private final ApiRepository repo;
+    private Disposable updateDisposable;
 
     @Inject
     WordViewModel(Application application,
@@ -46,35 +47,74 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                   AppExecutors ex,
                   ResponseMapper rm,
                   NetworkManager network,
-                  WordRepository repo,
-                  StateMapper stateMapper) {
+                  Pref pref,
+                  StateMapper stateMapper,
+                  ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
-        this.repo = repo;
+        this.pref = pref;
         this.stateMapper = stateMapper;
-        //network.observe(this::onResult, true);
+        this.repo = repo;
     }
 
     @Override
     public void clear() {
-        //network.deObserve(this::onResult, true);
+        network.deObserve(this::onResult, true);
+        removeUpdateDisposable();
         super.clear();
     }
 
-    public void load(String word) {
+    void onResult(Network... networks) {
+        UiState state = UiState.OFFLINE;
+        for (Network network : networks) {
+            if (network.isConnected()) {
+                state = UiState.ONLINE;
+                Response<List<WordItem>> result = getOutputs().getValue();
+                if (result instanceof Response.Failure) {
+                    //getEx().postToUi(() -> loads(false, false), 250L);
+                }
+                //getEx().postToUi(this::updateItem, 2000L);
+            }
+        }
+        UiState finalState = state;
+        getEx().postToUiSmartly(() -> updateUiState(finalState));
+    }
+
+    public void start() {
+        network.observe(this::onResult, true);
+    }
+
+    public void removeUpdateDisposable() {
+        removeSubscription(updateDisposable);
+    }
+
+    public void refresh(Word word, boolean onlyUpdate, boolean withProgress) {
+        if (onlyUpdate) {
+            //update(withProgress);
+            return;
+        }
+        load(word, true, withProgress);
+    }
+
+    public void load(Word word, boolean fresh, boolean withProgress) {
         if (!preLoad(true)) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemRx(word))
-                .doOnSubscribe(subscription -> postProgress(true))
-                .subscribe(
-                        result -> {
-                            postProgress(false);
-                            postResult(result);
-                        },
-                        error -> postFailureMultiple(new MultiException(error, new ExtraException()))
-                );
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(result -> {
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postResult(result);
+                }, error -> {
+                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                });
         addSingleSubscription(disposable);
     }
 
@@ -88,7 +128,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         addSingleSubscription(disposable);
     }
 
-    private Maybe<WordItem> getItemRx(String word) {
+    private Maybe<WordItem> getItemRx(Word word) {
         return repo.getItemRx(word, true).map(this::getItem);
     }
 

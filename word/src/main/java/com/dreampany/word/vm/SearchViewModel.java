@@ -17,7 +17,6 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.word.data.enums.ItemState;
-import com.dreampany.word.data.enums.ItemSubtype;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
@@ -35,7 +34,6 @@ import timber.log.Timber;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -145,16 +143,6 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
-/*    public void toggle(Word word) {
-        if (hasSingleDisposable()) {
-            return;
-        }
-        Disposable disposable = getRx()
-                .backToMain(toggleImpl(word))
-                .subscribe(this::postFlag, this::postFailure);
-        addSingleSubscription(disposable);
-    }*/
-
     public void update(boolean withProgress) {
         Timber.v("update fired");
         if (hasDisposable(updateDisposable)) {
@@ -171,11 +159,15 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .subscribe(
                         result -> {
                             if (result != null) {
-                                postProgress(false);
+                                if (withProgress) {
+                                    postProgress(false);
+                                }
                                 postResult(result);
                                 getEx().postToUi(() -> update(withProgress), 3000L);
                             } else {
-                                postProgress(false);
+                                if (withProgress) {
+                                    postProgress(false);
+                                }
                             }
                         }, this::postFailure);
         addSubscription(updateDisposable);
@@ -272,7 +264,6 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         item.setItem(word);
         if (fully) {
             adjustState(item);
-            adjustFlag(item);
         }
         return item;
     }
@@ -280,11 +271,6 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     private void adjustState(WordItem item) {
         List<State> states = repo.getStates(item.getItem());
         Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState())));
-    }
-
-    private void adjustFlag(WordItem item) {
-/*        boolean flagged = repo.isFlagged(item.getItem());
-        item.setFlagged(flagged);*/
     }
 
     private Maybe<List<Word>> getSearchItemsRx(String query) {

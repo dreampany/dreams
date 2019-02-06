@@ -1,13 +1,11 @@
 package com.dreampany.word.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Color;
 import com.dreampany.frame.data.model.Response;
@@ -16,7 +14,6 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
@@ -28,19 +25,13 @@ import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.WordViewModel;
 import com.ethanhua.skeleton.SkeletonScreen;
-import com.klinker.android.link_builder.Link;
-import com.klinker.android.link_builder.LinkBuilder;
-
+import hugo.weaving.DebugLog;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 9/17/2018.
@@ -119,7 +110,10 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void initView() {
-        setTitle(R.string.details);
+        UiTask<Word> uiTask = getCurrentTask(true);
+        parent = uiTask.getInput().getWord();
+
+        setTitle(parent);
         binding = (FragmentWordBinding) super.binding;
 
         ViewUtil.setClickListener(binding.textWord, this);
@@ -133,8 +127,6 @@ public class WordFragment extends BaseMenuFragment {
         Color color = getColor();
         ViewUtil.setBackground(binding.layoutBottom.layoutExpandable, color.getPrimaryId());
 
-        UiTask<Word> uiTask = getCurrentTask(true);
-        parent = uiTask.getInput().getWord();
         binding = (FragmentWordBinding) super.binding;
         vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
         vm.setTask(uiTask);

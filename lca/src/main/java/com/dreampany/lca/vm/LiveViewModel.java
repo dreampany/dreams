@@ -136,7 +136,9 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 })
                 .subscribe(
                         result -> {
-                            postProgress(false);
+                            if (withProgress) {
+                                postProgress(false);
+                            }
                             postResult(result);
                         },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))

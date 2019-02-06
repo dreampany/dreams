@@ -22,6 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 import timber.log.Timber;
 
 /**
@@ -33,9 +34,10 @@ import timber.log.Timber;
 public class WordnikManager {
 
     private final String WORDNIK_API_KEY = "api_key";
+    private final String WORDNIK_API_KEY_VALUE_ROMANBJIT = "5c9a53f4c0e012d4cf5a66115420c073d7da523b9081dff1f";
     private final String WORDNIK_API_KEY_VALUE_DREAMPANY = "464b0c5a35f469103f3610840dc061f1c768aa1c223ffa447";
     private final String WORDNIK_API_KEY_VALUE_IFTENET = "a6714f04f26b9f14e29a920702e0f03dde4b84e98f94fe6fe";
-    private final String[] KEYS = {WORDNIK_API_KEY_VALUE_IFTENET, WORDNIK_API_KEY_VALUE_DREAMPANY};
+    private final String[] KEYS = {WORDNIK_API_KEY_VALUE_ROMANBJIT, WORDNIK_API_KEY_VALUE_DREAMPANY, WORDNIK_API_KEY_VALUE_IFTENET};
 
     private final String RELATED_SYNONYM = "synonym";
     private final String RELATED_ANTONYM = "antonym";
@@ -45,11 +47,18 @@ public class WordnikManager {
     private final List<WordsApi> wordsApis;
     private final List<WordApi> wordApis;
 
+    private final CircularFifoQueue<Integer> queue;
+
     @Inject
     WordnikManager() {
         wordsApis = Collections.synchronizedList(new ArrayList<>());
         wordApis = Collections.synchronizedList(new ArrayList<>());
-        for (String key : KEYS) {
+        queue = new CircularFifoQueue<>(KEYS.length);
+
+        for (int index = 0; index < KEYS.length; index++) {
+            String key = KEYS[index];
+            queue.add(index);
+
             WordsApi wordsApi = new WordsApi();
             wordsApi.addHeader(WORDNIK_API_KEY, key);
             wordsApis.add(wordsApi);
@@ -58,6 +67,8 @@ public class WordnikManager {
             wordApi.addHeader(WORDNIK_API_KEY, key);
             wordApis.add(wordApi);
         }
+
+
     }
 
     public WordnikWord getWordOfTheDay(String date, int limit) {

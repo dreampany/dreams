@@ -23,7 +23,7 @@ object Constants {
     }
 
     object Limit {
-        const val WORD_RESOLVE = 5
+        const val WORD_RESOLVE = 10
         const val WORD_RECENT = 100
         const val WORD_SEARCH = 1000
         const val WORD_SUGGESTION = 2

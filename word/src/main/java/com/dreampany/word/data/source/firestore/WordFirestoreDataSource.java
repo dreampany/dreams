@@ -7,6 +7,7 @@ import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
 import io.reactivex.Maybe;
+import timber.log.Timber;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -72,7 +73,18 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public long putItem(Word word) {
-        return putItemRx(word).blockingGet();
+/*        Maybe<Long> maybe = putItemRx(word);
+        try {
+           return maybe.blockingGet();
+        } catch (Exception error) {
+            Timber.e(error);
+            return -1;
+        }*/
+       Throwable error = firestore.setDocument(WORDS, word.getWord(), word).blockingGet();
+       if (error == null) {
+           return 0;
+       }
+       return -1;
     }
 
     @Override

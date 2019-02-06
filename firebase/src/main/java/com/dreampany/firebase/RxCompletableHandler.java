@@ -51,6 +51,6 @@ public class RxCompletableHandler<T> implements OnSuccessListener<T>, OnFailureL
     @Override
     public void onSuccess(Object result) {
         emitter.onComplete();
-        Timber.e("Completed successfully");
+        Timber.v("Completed successfully");
     }
 }

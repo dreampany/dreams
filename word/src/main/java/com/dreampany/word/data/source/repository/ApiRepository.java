@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Roman on 1/30/2019
@@ -79,6 +80,10 @@ public class ApiRepository {
             result = getRemoteItemIf(word);
         }
         return result;
+    }
+
+    public Maybe<Word> getItemIfRx(Word word) {
+        return Maybe.fromCallable(() -> getItemIf(word));
     }
 
     public List<Word> getSearchItems(String query, int limit) {

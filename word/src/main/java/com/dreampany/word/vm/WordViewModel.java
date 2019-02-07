@@ -129,7 +129,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     private Maybe<WordItem> getItemRx(Word word) {
-        return repo.getItemRx(word, true).map(this::getItem);
+        return repo.getItemIfRx(word).map(this::getItem);
     }
 
     private WordItem getItem(Word word) {

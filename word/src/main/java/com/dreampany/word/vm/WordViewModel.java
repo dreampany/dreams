@@ -15,6 +15,7 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.word.data.misc.StateMapper;
+import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
 import com.dreampany.word.data.source.repository.ApiRepository;
@@ -37,6 +38,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private final NetworkManager network;
     private final Pref pref;
+    private final WordMapper mapper;
     private final StateMapper stateMapper;
     private final ApiRepository repo;
     private Disposable updateDisposable;
@@ -48,11 +50,13 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                   ResponseMapper rm,
                   NetworkManager network,
                   Pref pref,
+                  WordMapper mapper,
                   StateMapper stateMapper,
                   ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
+        this.mapper = mapper;
         this.stateMapper = stateMapper;
         this.repo = repo;
     }
@@ -118,6 +122,10 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         addSingleSubscription(disposable);
     }
 
+    public void load(String word, boolean fresh, boolean withProgress) {
+
+    }
+
     public void toggle() {
         if (hasSingleDisposable()) {
             return;
@@ -126,6 +134,10 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 .backToMain(toggleImpl(getTask().getInput()))
                 .subscribe(this::postFlag, this::postFailure);
         addSingleSubscription(disposable);
+    }
+
+    public Word toWord(String word) {
+        return mapper.toItem(word.toLowerCase());
     }
 
     private Maybe<WordItem> getItemRx(Word word) {

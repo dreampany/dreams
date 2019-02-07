@@ -46,7 +46,7 @@ public class WordFragment extends BaseMenuFragment {
     FragmentWordBinding binding;
     SkeletonScreen skeletonScreen;
     WordViewModel vm;
-    String parent;
+    Word parent;
 
     @Inject
     public WordFragment() {
@@ -91,7 +91,7 @@ public class WordFragment extends BaseMenuFragment {
         switch (v.getId()) {
             case R.id.text_word:
             case R.id.fab:
-                vm.speak(parent);
+                vm.speak(parent.getWord());
                 break;
             case R.id.text_simple_word:
                 String text = ViewUtil.getText(v);
@@ -111,9 +111,9 @@ public class WordFragment extends BaseMenuFragment {
 
     private void initView() {
         UiTask<Word> uiTask = getCurrentTask(true);
-        parent = uiTask.getInput().getWord();
+        parent = uiTask.getInput();
 
-        setTitle(parent);
+        setTitle(parent.getWord());
         binding = (FragmentWordBinding) super.binding;
 
         ViewUtil.setClickListener(binding.textWord, this);
@@ -135,7 +135,7 @@ public class WordFragment extends BaseMenuFragment {
         vm.observeFlag(this, this::onFlag);
         vm.observeOutput(this, this::processResponse);
 
-        vm.load(parent);
+        vm.load(parent, true, true);
     }
 
     private void processUiState(UiState state) {
@@ -205,7 +205,7 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processSuccess(WordItem item) {
-        if (!parent.equalsIgnoreCase(item.getItem().getWord())) {
+        if (!parent.equals(item.getItem())) {
             processSimple(item);
             return;
         }
@@ -359,13 +359,13 @@ public class WordFragment extends BaseMenuFragment {
 
     private void showSimple(String word) {
         vm.updateUiState(UiState.SHOW_PROGRESS);
-        vm.load(word);
+        vm.load(word, true, true);
     }
 
     private void showDetails(String word) {
         vm.updateUiState(UiState.SHOW_PROGRESS);
-        parent = word;
-        vm.load(word);
+        parent = vm.toWord(word);
+        vm.load(parent, true, true);
     }
 
     private void showBottom() {

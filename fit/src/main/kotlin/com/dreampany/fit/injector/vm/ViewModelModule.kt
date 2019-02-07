@@ -1,7 +1,7 @@
 package com.dreampany.fit.injector.vm
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.dreampany.fit.vm.DemoViewModel
 import com.dreampany.fit.vm.MoreViewModel
 import com.dreampany.frame.vm.ViewModelKey

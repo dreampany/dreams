@@ -3,30 +3,17 @@ package com.dreampany.fit.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import com.dreampany.fit.R;
 import com.dreampany.fit.ui.fragment.HomeFragment;
 import com.dreampany.fit.ui.fragment.MoreFragment;
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptionsExtension;
-import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.request.DataReadRequest;
-import com.google.android.gms.fitness.request.OnDataPointListener;
-import com.google.android.gms.fitness.request.SensorRequest;
-import com.google.android.gms.fitness.result.DataReadResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import dagger.Lazy;
-import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.util.Calendar;
@@ -120,7 +107,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
 
 
     private void initFit() {
-        FitnessOptions fitnessOptions = FitnessOptions.builder()
+/*        FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .build();
 
@@ -133,7 +120,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
         } else {
             //accessGoogleFit();
             accessSensor();
-        }
+        }*/
     }
 
     private void accessSensor() {
@@ -143,7 +130,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
                         .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                         .build();
 
-        GoogleSignInAccount gsa = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
+/*        GoogleSignInAccount gsa = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
 
         Task<Void> response = Fitness.getSensorsClient(this, gsa)
                 .add(new SensorRequest.Builder()
@@ -156,7 +143,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
                                 Timber.v("DataPoint %s", dataPoint.getDataType().getName());
                                 Timber.v("DataPoint %s", dataPoint.getDataSource().getStreamName());
                             }
-                        });
+                        });*/
     }
 
     private void accessGoogleFit() {
@@ -173,7 +160,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
                 .build();
 
 
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+/*        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .readData(readRequest)
                 .addOnSuccessListener(new OnSuccessListener<DataReadResponse>() {
                     @Override
@@ -192,6 +179,6 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
                     public void onComplete(@NonNull Task<DataReadResponse> task) {
                         Timber.d("onComplete()");
                     }
-                });
+                });*/
     }
 }

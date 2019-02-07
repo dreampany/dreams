@@ -51,7 +51,7 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         }
         Disposable disposable = getRx()
                 .backToMain(getItems())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
+                .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(this::postResult, this::postFailureMultiple);
         addMultipleSubscription(disposable);
     }

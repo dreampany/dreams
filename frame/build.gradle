@@ -259,4 +259,5 @@ dependencies {
     api 'com.lapism:searchview:27.1.1.0.0'
     api 'com.miguelcatalan:materialsearchview:1.4.0'
     api 'com.github.chivorns:smartsearchview:1.0.1'
+    api 'com.github.bmarrdev:android-DecoView-charting:v1.2'
 }

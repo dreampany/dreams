@@ -3,7 +3,7 @@ package com.dreampany.fit.ui.fragment;
 import android.os.Bundle;
 
 import com.dreampany.fit.R;
-import com.dreampany.fit.data.source.room.Pref;
+import com.dreampany.fit.data.source.pref.Pref;
 import com.dreampany.fit.service.NotifyService;
 import com.dreampany.frame.api.service.ServiceManager;
 import com.dreampany.frame.misc.ActivityScope;

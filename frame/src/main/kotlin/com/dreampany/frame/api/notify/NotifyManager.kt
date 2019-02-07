@@ -1,14 +1,15 @@
 package com.dreampany.frame.api.notify
 
 import android.app.Notification
+import android.app.NotificationManager
+import android.app.Service
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
+import androidx.core.app.NotificationManagerCompat
 import br.com.goncalves.pugnotification.interfaces.ImageLoader
 import br.com.goncalves.pugnotification.notification.PugNotification
 import com.dreampany.frame.R
-import javax.inject.Inject
-import javax.inject.Singleton
 
 
 /**
@@ -17,10 +18,34 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  */
 class NotifyManager constructor() {
-    private val NOTIFY_DEFAULT = 101
-    private val NOTIFY_IDENTIFIER = "101"
+    private val NOTIFY_FOREGROUND_DEFAULT = 101
+    private val NOTIFY_DEFAULT = 102
+    private val NOTIFY_IDENTIFIER = "102"
 
     private val icon: Bitmap? = null
+
+    private var manager: NotificationManagerCompat? = null
+
+    fun showForegroundNotification(context: Context, notifyId: Int, contentText: String) {
+        if (manager == null) {
+            manager = NotificationManagerCompat.from(context)
+        }
+       // manager.notify()
+
+
+
+/*        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val notification = Notification.Builder(context)
+            .setContentTitle(context.getString(R.string.app_name))
+            .setContentText(contentText)
+            .setSmallIcon(R.drawable.ic_launcher)
+            .setWhen(System.currentTimeMillis())
+            .setContentIntent(contentIntent)
+            .build()
+
+        (context as Service).startForeground(notifyId, notification)*/
+    }
 
     fun showNotification(context: Context, title: String, message: String, target: Class<*>) {
         showNotification(context, title, message, target, null)
@@ -29,36 +54,46 @@ class NotifyManager constructor() {
     fun showNotification(context: Context, title: String, message: String, target: Class<*>, data: Bundle?) {
         PugNotification.with(context).cancel(NOTIFY_DEFAULT)
         PugNotification.with(context)
-                .load()
-                .identifier(NOTIFY_DEFAULT)
-                .title(title)
-                .message(message)
-                .smallIcon(R.drawable.ic_launcher)
-                .largeIcon(R.drawable.ic_launcher)
-                .flags(Notification.DEFAULT_ALL)
-                .autoCancel(true)
-                .click(target, data)
-                .simple()
-                .build()
+            .load()
+            .identifier(NOTIFY_DEFAULT)
+            .title(title)
+            .message(message)
+            .smallIcon(R.drawable.ic_launcher)
+            .largeIcon(R.drawable.ic_launcher)
+            .flags(Notification.DEFAULT_ALL)
+            .autoCancel(true)
+            .click(target, data)
+            .simple()
+            .build()
     }
 
-    fun showNotification(context: Context, icon: Int, iconUri: String, title: String, message: String, bigText: String, target: Class<*>, data: Bundle, loader: ImageLoader) {
+    fun showNotification(
+        context: Context,
+        icon: Int,
+        iconUri: String,
+        title: String,
+        message: String,
+        bigText: String,
+        target: Class<*>,
+        data: Bundle,
+        loader: ImageLoader
+    ) {
         PugNotification.with(context)
-                .load()
-                .identifier(NOTIFY_DEFAULT)
-                .title(title)
-                .message(message)
-                .bigTextStyle(bigText)
-                .smallIcon(icon)
-                .largeIcon(icon)
-                .flags(Notification.DEFAULT_ALL)
-                .autoCancel(true)
-                .click(target, data)
-                .custom()
-                .setPlaceholder(icon)
-                .setImageLoader(loader)
-                .background(iconUri)
-                .build()
+            .load()
+            .identifier(NOTIFY_DEFAULT)
+            .title(title)
+            .message(message)
+            .bigTextStyle(bigText)
+            .smallIcon(icon)
+            .largeIcon(icon)
+            .flags(Notification.DEFAULT_ALL)
+            .autoCancel(true)
+            .click(target, data)
+            .custom()
+            .setPlaceholder(icon)
+            .setImageLoader(loader)
+            .background(iconUri)
+            .build()
     }
 
 /*    fun postAlert(id: String, title: String) {

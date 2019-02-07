@@ -2,6 +2,7 @@ package com.dreampany.frame.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -17,6 +18,7 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.view.Surface;
 import android.view.View;
@@ -67,6 +69,10 @@ public final class AndroidUtil {
 
     public static boolean hasMarshmallow() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean hasOreo() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
     }
 
     public static boolean hasNougat() {
@@ -291,7 +297,7 @@ public final class AndroidUtil {
             return false;
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return !( activity.isFinishing() || activity.isDestroyed());
+            return !(activity.isFinishing() || activity.isDestroyed());
         }
         return !activity.isFinishing();
     }
@@ -408,7 +414,7 @@ public final class AndroidUtil {
                 Bundle params = new Bundle();
                 params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1f);
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
-            } else  {
+            } else {
                 HashMap<String, String> params = new HashMap<>();
                 params.put(TextToSpeech.Engine.KEY_PARAM_VOLUME, "1");
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
@@ -476,5 +482,23 @@ public final class AndroidUtil {
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, text);
         activity.startActivity(Intent.createChooser(shareIntent, "Share via"));
+    }
+
+    public static boolean isServiceRunning(Context context, Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void startService(Context context, Class<?> serviceClass) {
+        AndroidUtil.startService(context, new Intent(context, serviceClass));
+    }
+
+    public static void startService(Context context, Intent serviceIntent) {
+        ContextCompat.startForegroundService(context, serviceIntent);
     }
 }

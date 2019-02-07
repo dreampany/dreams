@@ -1,4 +1,4 @@
-package com.dreampany.fit.data.source.room;
+package com.dreampany.fit.data.source.pref;
 
 import android.content.Context;
 

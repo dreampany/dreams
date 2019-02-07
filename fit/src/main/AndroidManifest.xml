@@ -97,5 +97,9 @@
             </intent-filter >
         </service >
 
+        <service
+            android:name="com.dreampany.fit.service.AppService"
+            android:exported="false" >
+        </service >
     </application >
 </manifest >

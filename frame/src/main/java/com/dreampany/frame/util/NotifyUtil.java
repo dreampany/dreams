@@ -57,7 +57,7 @@ public final class NotifyUtil {
                 .length(Toast.LENGTH_SHORT)
                 .show();
     }
-    public static void showProgess(Context context, String error) {
+    public static void showProgress(Context context, String error) {
         new StyleableToast
                 .Builder(context)
                 .text(error)
@@ -67,4 +67,12 @@ public final class NotifyUtil {
                 .show();
     }
 
+
+    public static String createNotificationChannel(Context context) {
+        if (!AndroidUtil.hasOreo()) {
+            return null;
+        }
+
+        return null;
+    }
 }

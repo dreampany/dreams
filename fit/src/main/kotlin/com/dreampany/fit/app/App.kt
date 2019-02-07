@@ -5,7 +5,7 @@ import com.crashlytics.android.Crashlytics
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.fit.BuildConfig
 import com.dreampany.fit.R
-import com.dreampany.fit.data.source.room.Pref
+import com.dreampany.fit.data.source.pref.Pref
 import com.dreampany.fit.injector.app.DaggerAppComponent
 import com.dreampany.fit.misc.Constants
 import com.dreampany.fit.service.NotifyService

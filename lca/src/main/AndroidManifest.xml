@@ -62,7 +62,7 @@
 
         <activity
             android:name=".ui.activity.LaunchActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:launchMode="singleTask"
             android:noHistory="true"
             android:theme="@style/AppTheme.Launch">
@@ -75,7 +75,7 @@
 
         <activity
             android:name=".ui.activity.NavigationActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <meta-data
@@ -89,7 +89,7 @@
 
         <activity
             android:name=".ui.activity.ToolsActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.searchable"
@@ -99,15 +99,9 @@
             </intent-filter>
         </activity>
 
-        <!--        <activity
-                        android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
-                        android:configChanges="keyboardHidden|orientation|screenSize"
-                        android:screenOrientation="sensor"
-                        android:theme="@style/FinestWebViewTheme.Light"/>-->
-
         <activity
             android:name=".ui.activity.WebActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:screenOrientation="sensor" />
 
         <service

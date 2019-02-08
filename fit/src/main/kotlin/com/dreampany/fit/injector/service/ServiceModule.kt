@@ -13,6 +13,7 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 abstract class ServiceModule {
+
     @ContributesAndroidInjector
     abstract fun notifyService(): NotifyService
 

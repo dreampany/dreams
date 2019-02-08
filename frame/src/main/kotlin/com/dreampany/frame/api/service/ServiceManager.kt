@@ -1,13 +1,12 @@
 package com.dreampany.frame.api.service
 
 import android.content.Context
+import android.content.Intent
+import com.dreampany.frame.util.AndroidUtil
 import com.firebase.jobdispatcher.*
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
-import android.content.Intent
-import com.dreampany.frame.util.AndroidUtil
 
 
 /**

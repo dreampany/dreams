@@ -9,8 +9,6 @@ import com.dreampany.fit.ui.activity.NavigationActivity;
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.api.service.BaseService;
 
-import javax.inject.Inject;
-
 /**
  * Created by Roman-372 on 2/7/2019
  * Copyright (c) 2019 bjit. All rights reserved.
@@ -23,14 +21,14 @@ public class AppService extends BaseService {
    private NotifyManager notify;
 
     private int notifyId = Constants.Id.NotifyForeground;
-    private String notifyTitle = getString(R.string.app_name);
-    private String contentText = getString(R.string.app_name);
+    private String notifyTitle;
+    private String contentText;
     private int smallIcon = R.mipmap.ic_launcher;
     private Class<?> targetClass = NavigationActivity.class;
 
     private String channelId = Constants.Id.NotifyForegroundChannelId;
-    private String channelName = getString(R.string.app_name);
-    private String channelDescription = getString(R.string.app_name);
+    private String channelName;
+    private String channelDescription;
 
     @Nullable
     @Override
@@ -41,6 +39,12 @@ public class AppService extends BaseService {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        notifyTitle = getString(R.string.app_name);
+        contentText = getString(R.string.app_name);
+        channelName = getString(R.string.app_name);
+        channelDescription = getString(R.string.app_name);
+
         if (notify == null) {
             notify = new NotifyManager();
         }

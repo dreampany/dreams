@@ -130,7 +130,7 @@ public final class NotifyUtil {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         return builder.setContentTitle(notifyTitle)
-                .setContentText(contentText)
+                //.setContentText(contentText)
                 .setSmallIcon(smallIcon)
                 .setWhen(System.currentTimeMillis())
                 .setContentIntent(contentIntent)

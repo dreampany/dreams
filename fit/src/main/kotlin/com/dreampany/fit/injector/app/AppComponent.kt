@@ -3,6 +3,7 @@ package com.dreampany.fit.injector.app
 import android.app.Application
 import com.dreampany.fit.app.App
 import com.dreampany.fit.injector.data.BuildersModule
+import com.dreampany.fit.injector.receiver.ReceiverModule
 import com.dreampany.fit.injector.service.ServiceModule
 import com.dreampany.fit.injector.ui.ActivityModule
 import com.dreampany.frame.injector.app.AppModule
@@ -24,6 +25,7 @@ import javax.inject.Singleton
     AppModule::class,
     ActivityModule::class,
     ServiceModule::class,
+    ReceiverModule::class,
     BuildersModule::class
 ])
 interface AppComponent : AndroidInjector<App> {

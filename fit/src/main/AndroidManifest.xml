@@ -101,5 +101,13 @@
             android:name="com.dreampany.fit.service.AppService"
             android:exported="false" >
         </service >
+
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:exported="false" >
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter >
+        </receiver >
     </application >
 </manifest >

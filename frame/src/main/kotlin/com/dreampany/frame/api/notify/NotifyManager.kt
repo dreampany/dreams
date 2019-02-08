@@ -1,15 +1,17 @@
 package com.dreampany.frame.api.notify
 
 import android.app.Notification
-import android.app.NotificationManager
-import android.app.Service
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import br.com.goncalves.pugnotification.interfaces.ImageLoader
 import br.com.goncalves.pugnotification.notification.PugNotification
 import com.dreampany.frame.R
+import android.app.PendingIntent
+import android.app.Service
+import com.dreampany.frame.util.NotifyUtil
 
 
 /**
@@ -26,25 +28,37 @@ class NotifyManager constructor() {
 
     private var manager: NotificationManagerCompat? = null
 
-    fun showForegroundNotification(context: Context, notifyId: Int, contentText: String) {
+    fun showForegroundNotification(
+        context: Context,
+        notifyId: Int,
+        notifyTitle : String,
+        contentText: String,
+        targetClass: Class<*>,
+        channelId: String,
+        channelName: String,
+        channelDescription: String
+    ) {
+        val appContext = context.applicationContext
+
         if (manager == null) {
-            manager = NotificationManagerCompat.from(context)
+            manager = NotificationManagerCompat.from(appContext)
         }
-       // manager.notify()
 
+        val channel = NotifyUtil.createNotificationChannel(
+            channelId,
+            channelName,
+            channelDescription,
+            NotificationManagerCompat.IMPORTANCE_DEFAULT)
 
+        val notification = NotifyUtil.createNotification(
+            context,
+            notifyTitle,
+            contentText,
+            R.mipmap.ic_launcher,
+            targetClass,
+            channel);
 
-/*        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val notification = Notification.Builder(context)
-            .setContentTitle(context.getString(R.string.app_name))
-            .setContentText(contentText)
-            .setSmallIcon(R.drawable.ic_launcher)
-            .setWhen(System.currentTimeMillis())
-            .setContentIntent(contentIntent)
-            .build()
-
-        (context as Service).startForeground(notifyId, notification)*/
+        (context as Service).startForeground(notifyId, notification)
     }
 
     fun showNotification(context: Context, title: String, message: String, target: Class<*>) {
@@ -58,8 +72,8 @@ class NotifyManager constructor() {
             .identifier(NOTIFY_DEFAULT)
             .title(title)
             .message(message)
-            .smallIcon(R.drawable.ic_launcher)
-            .largeIcon(R.drawable.ic_launcher)
+            .smallIcon(R.mipmap.ic_launcher)
+            .largeIcon(R.mipmap.ic_launcher)
             .flags(Notification.DEFAULT_ALL)
             .autoCancel(true)
             .click(target, data)

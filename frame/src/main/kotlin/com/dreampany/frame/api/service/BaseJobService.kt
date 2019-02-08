@@ -26,7 +26,7 @@ abstract class BaseJobService : JobService(), HasServiceInjector {
     protected abstract fun done(job: JobParameters): Boolean
 
     override fun onCreate() {
-        AndroidInjection.inject(this);
+        AndroidInjection.inject(this)
         super.onCreate()
     }
 

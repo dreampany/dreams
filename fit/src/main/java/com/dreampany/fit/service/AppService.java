@@ -1,9 +1,9 @@
 package com.dreampany.fit.service;
 
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import androidx.annotation.Nullable;
+import com.dreampany.frame.api.service.BaseService;
 
 /**
  * Created by Roman-372 on 2/7/2019
@@ -11,11 +11,19 @@ import androidx.annotation.Nullable;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-public class AppService extends Service {
+public class AppService extends BaseService {
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null) {
+
+        }
+        return super.onStartCommand(intent, flags, startId);
     }
 }

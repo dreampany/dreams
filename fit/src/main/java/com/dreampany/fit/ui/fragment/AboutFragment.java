@@ -40,7 +40,7 @@ public class AboutFragment extends BaseFragment {
         Context context = inflater.getContext();
         AboutPage page = new AboutPage(context)
                 .isRTL(false)
-                .setImage(R.drawable.ic_launcher)
+                .setImage(R.mipmap.ic_launcher)
                 .setDescription(TextUtil.getString(context, R.string.app_name))
                 .addItem(getVersion(context))
                 .addItem(getPrivacyPolicy(context))

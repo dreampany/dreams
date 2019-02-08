@@ -5,6 +5,10 @@ import com.firebase.jobdispatcher.*
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
+import android.content.Intent
+
+
 
 
 /**
@@ -20,6 +24,11 @@ class ServiceManager @Inject constructor(val context: Context) {
         dispatcher = FirebaseJobDispatcher(GooglePlayDriver(context))
     }
 
+    fun <T : BaseService> openService(classOfT: Class<T>) {
+        val intent = Intent(context, classOfT)
+        //intent.setAction(MyForeGroundService.ACTION_START_FOREGROUND_SERVICE)
+        context.startService(intent)
+    }
 
     fun <T : BaseJobService> scheduleService(classOfT: Class<T>, period: Int) {
         val tag = classOfT.simpleName
@@ -64,4 +73,6 @@ class ServiceManager @Inject constructor(val context: Context) {
         val tag = classOfT.simpleName
         dispatcher.cancel(tag)
     }
+
+
 }

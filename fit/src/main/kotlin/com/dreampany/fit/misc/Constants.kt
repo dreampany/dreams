@@ -13,4 +13,10 @@ object Constants {
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
     }
+
+    object Id {
+        const val NotifyForeground = 101
+        const val NotifyGeneral = 102
+        const val NotifyForegroundChannelId = "channel_101"
+    }
 }

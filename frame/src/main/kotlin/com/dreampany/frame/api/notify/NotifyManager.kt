@@ -1,17 +1,18 @@
 package com.dreampany.frame.api.notify
 
 import android.app.Notification
+import android.app.Service
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import br.com.goncalves.pugnotification.interfaces.ImageLoader
 import br.com.goncalves.pugnotification.notification.PugNotification
 import com.dreampany.frame.R
-import android.app.PendingIntent
-import android.app.Service
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.NotifyUtil
+import javax.inject.Inject
+import javax.inject.Singleton
 
 
 /**
@@ -19,7 +20,8 @@ import com.dreampany.frame.util.NotifyUtil
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class NotifyManager constructor() {
+@Singleton
+class NotifyManager @Inject constructor() {
     private val NOTIFY_FOREGROUND_DEFAULT = 101
     private val NOTIFY_DEFAULT = 102
     private val NOTIFY_IDENTIFIER = "102"
@@ -31,8 +33,9 @@ class NotifyManager constructor() {
     fun showForegroundNotification(
         context: Context,
         notifyId: Int,
-        notifyTitle : String,
+        notifyTitle: String,
         contentText: String,
+        smallIcon : Int,
         targetClass: Class<*>,
         channelId: String,
         channelName: String,
@@ -48,17 +51,23 @@ class NotifyManager constructor() {
             channelId,
             channelName,
             channelDescription,
-            NotificationManagerCompat.IMPORTANCE_DEFAULT)
+            NotificationManagerCompat.IMPORTANCE_DEFAULT
+        )
 
         val notification = NotifyUtil.createNotification(
             context,
             notifyTitle,
             contentText,
-            R.mipmap.ic_launcher,
+            smallIcon,
             targetClass,
-            channel);
+            channel
+        )
 
-        (context as Service).startForeground(notifyId, notification)
+        if (AndroidUtil.hasOreo()) {
+            (context as Service).startForeground(notifyId, notification)
+        } else {
+            manager?.notify(notifyId, notification);
+        }
     }
 
     fun showNotification(context: Context, title: String, message: String, target: Class<*>) {

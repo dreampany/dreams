@@ -8,6 +8,7 @@ import com.dreampany.fit.R
 import com.dreampany.fit.data.source.pref.Pref
 import com.dreampany.fit.injector.app.DaggerAppComponent
 import com.dreampany.fit.misc.Constants
+import com.dreampany.fit.service.AppService
 import com.dreampany.fit.service.NotifyService
 import com.dreampany.frame.misc.SmartAd
 import dagger.android.AndroidInjector
@@ -69,6 +70,7 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
+        service.openService(AppService::class.java)
         if (pref.hasNotification()) {
             service.schedulePowerService(NotifyService::class.java, Constants.Time.NotifyPeriod.toInt())
         } else {

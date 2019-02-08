@@ -7,8 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import androidx.core.view.accessibility.AccessibilityEventCompat.setAction
 import android.content.Intent
-
-
+import com.dreampany.frame.util.AndroidUtil
 
 
 /**
@@ -18,7 +17,7 @@ import android.content.Intent
  */
 @Singleton
 class ServiceManager @Inject constructor(val context: Context) {
-    val dispatcher : FirebaseJobDispatcher
+    val dispatcher: FirebaseJobDispatcher
 
     init {
         dispatcher = FirebaseJobDispatcher(GooglePlayDriver(context))
@@ -27,21 +26,25 @@ class ServiceManager @Inject constructor(val context: Context) {
     fun <T : BaseService> openService(classOfT: Class<T>) {
         val intent = Intent(context, classOfT)
         //intent.setAction(MyForeGroundService.ACTION_START_FOREGROUND_SERVICE)
-        context.startService(intent)
+        if (AndroidUtil.hasOreo()) {
+            context.startForegroundService(intent)
+        } else {
+            context.startService(intent)
+        }
     }
 
     fun <T : BaseJobService> scheduleService(classOfT: Class<T>, period: Int) {
         val tag = classOfT.simpleName
         //dispatcher.cancel(tag)
         val job = dispatcher.newJobBuilder()
-                .setService(classOfT)
-                .setTag(tag)
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(period - 1, period))
-                .setReplaceCurrent(true)
-                .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
-                .setConstraints(Constraint.ON_ANY_NETWORK, Constraint.DEVICE_IDLE)
-                .build()
+            .setService(classOfT)
+            .setTag(tag)
+            .setLifetime(Lifetime.FOREVER)
+            .setTrigger(Trigger.executionWindow(period - 1, period))
+            .setReplaceCurrent(true)
+            .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
+            .setConstraints(Constraint.ON_ANY_NETWORK, Constraint.DEVICE_IDLE)
+            .build()
         try {
             dispatcher.mustSchedule(job)
         } catch (error: FirebaseJobDispatcher.ScheduleFailedException) {
@@ -54,14 +57,14 @@ class ServiceManager @Inject constructor(val context: Context) {
         val tag = classOfT.simpleName
         //dispatcher.cancel(tag)
         val job = dispatcher.newJobBuilder()
-                .setService(classOfT)
-                .setTag(tag)
-                .setLifetime(Lifetime.FOREVER)
-                .setTrigger(Trigger.executionWindow(period - 1, period))
-                .setReplaceCurrent(true)
-                .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
-                .setConstraints(Constraint.ON_ANY_NETWORK)
-                .build()
+            .setService(classOfT)
+            .setTag(tag)
+            .setLifetime(Lifetime.FOREVER)
+            .setTrigger(Trigger.executionWindow(period - 1, period))
+            .setReplaceCurrent(true)
+            .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
+            .setConstraints(Constraint.ON_ANY_NETWORK)
+            .build()
         try {
             dispatcher.mustSchedule(job)
         } catch (error: FirebaseJobDispatcher.ScheduleFailedException) {

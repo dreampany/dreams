@@ -5,10 +5,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import com.dreampany.fit.R;
+import com.dreampany.fit.misc.Constants;
+import com.dreampany.fit.util.Util;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import hugo.weaving.DebugLog;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
 
 import javax.inject.Inject;
 
@@ -52,20 +56,29 @@ public class HomeFragment extends BaseMenuFragment {
 
     }
 
-    @DebugLog
-    @NonNull
-    @Override
-    public ViewModelProvider.Factory get() {
-        return factory;
-    }
-
     @Override
     public boolean onQueryTextChange(@NonNull String newText) {
         BaseFragment fragment = getCurrentFragment();
         return fragment != null && fragment.onQueryTextChange(newText);
     }
 
+    @Override
+    public void onPermissionGranted(@Nullable PermissionGrantedResponse response) {
+        //TODO action to start listening sensors events using AppService
+        Util.listenStepCounter();
+    }
+
+    @Override
+    public void onPermissionDenied(@Nullable PermissionDeniedResponse response) {
+        //TODO show a perfect message to user
+    }
+
     private void initView() {
         setTitle(R.string.home);
+
+        Dexter.withActivity(getParent())
+                .withPermission(Constants.Permission.Location)
+                .withListener(this)
+                .check();
     }
 }

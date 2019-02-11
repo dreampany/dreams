@@ -2,24 +2,23 @@ package com.dreampany.frame.ui.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import android.content.Context
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.IdRes
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import androidx.preference.PreferenceFragmentCompat
-import androidx.appcompat.widget.SearchView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.SearchView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.preference.PreferenceFragmentCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.data.model.Task
@@ -32,10 +31,9 @@ import com.dreampany.frame.util.TextUtil
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.DexterError
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.PermissionRequestErrorListener
+import com.karumi.dexter.listener.*
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.karumi.dexter.listener.single.PermissionListener
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -57,7 +55,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     ViewTreeObserver.OnWindowFocusChangeListener,
     UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
     View.OnClickListener,
-    androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener,
+    SwipeRefreshLayout.OnRefreshListener,
+    PermissionListener,
     MultiplePermissionsListener,
     PermissionRequestErrorListener,
     SearchView.OnQueryTextListener,
@@ -267,22 +266,28 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     }
 
     override fun noMoreLoad(newItemsSize: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onLoadMore(lastPosition: Int, currentPage: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onUpdateEmptyDataView(size: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onUpdateEmptyFilterView(size: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onRefresh() {
+    }
+
+    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+    }
+
+    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+    }
+
+    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+
     }
 
     override fun onPermissionsChecked(report: MultiplePermissionsReport) {

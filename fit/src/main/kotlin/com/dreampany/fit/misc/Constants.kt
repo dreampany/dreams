@@ -1,5 +1,6 @@
 package com.dreampany.fit.misc
 
+import android.Manifest
 import java.util.concurrent.TimeUnit
 
 
@@ -18,5 +19,10 @@ object Constants {
         const val NotifyForeground = 101
         const val NotifyGeneral = 102
         const val NotifyForegroundChannelId = "channel_101"
+    }
+
+    object Permission {
+        const val Location = Manifest.permission.ACCESS_FINE_LOCATION
+        const val BodySensor = Manifest.permission.BODY_SENSORS
     }
 }

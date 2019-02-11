@@ -1,22 +1,16 @@
 package com.dreampany.fit.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.dreampany.frame.data.model.Task;
+import androidx.lifecycle.ViewModelProvider;
+import com.dreampany.fit.R;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.frame.ui.fragment.BaseStateFragment;
-import com.dreampany.fit.R;
-import com.dreampany.fit.ui.model.UiTask;
-
-import org.jetbrains.annotations.NotNull;
+import com.dreampany.frame.ui.fragment.BaseMenuFragment;
+import hugo.weaving.DebugLog;
 
 import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
 
 /**
  * Created by Hawladar Roman on 6/20/2018.
@@ -24,7 +18,7 @@ import hugo.weaving.DebugLog;
  * hawladar.roman@bjitgroup.com
  */
 @ActivityScope
-public class HomeFragment extends BaseStateFragment<BaseFragment> {
+public class HomeFragment extends BaseMenuFragment {
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -35,7 +29,7 @@ public class HomeFragment extends BaseStateFragment<BaseFragment> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_tabpager_fixed;
+        return R.layout.fragment_home;
     }
 
     @Override
@@ -43,39 +37,10 @@ public class HomeFragment extends BaseStateFragment<BaseFragment> {
         return R.menu.menu_home;
     }
 
-    @Override
+/*    @Override
     public int getSearchMenuItemId() {
         return R.id.item_search;
-    }
-
-    @NonNull
-    @Override
-    protected String[] pageTitles() {
-        return new String[]{"","", ""};
-    }
-
-    @NonNull
-    @Override
-    protected Class<BaseFragment>[] pageClasses() {
-        return new Class[]{FirstFragment.class, SecondFragment.class, ThirdFragment.class};
-    }
-
-    @NotNull
-    @Override
-    protected Task<?>[] pageTasks() {
-        UiTask<?> task = getCurrentTask(false);
-        return new Task[]{task, task, task};
-    }
-
-    @Override
-    public boolean hasAllPages() {
-        return true;
-    }
-
-    @Override
-    public boolean hasTabColor() {
-        return true;
-    }
+    }*/
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {

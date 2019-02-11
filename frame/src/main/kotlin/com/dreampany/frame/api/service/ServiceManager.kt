@@ -24,7 +24,10 @@ class ServiceManager @Inject constructor(val context: Context) {
 
     fun <T : BaseService> openService(classOfT: Class<T>) {
         val intent = Intent(context, classOfT)
-        //intent.setAction(MyForeGroundService.ACTION_START_FOREGROUND_SERVICE)
+        openService(intent)
+    }
+
+    fun openService(intent: Intent) {
         if (AndroidUtil.hasOreo()) {
             context.startForegroundService(intent)
         } else {

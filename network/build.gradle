@@ -107,5 +107,5 @@ dependencies {
      /** misc */
     implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.1'
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
 }

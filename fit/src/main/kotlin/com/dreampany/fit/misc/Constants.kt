@@ -25,4 +25,13 @@ object Constants {
         const val Location = Manifest.permission.ACCESS_FINE_LOCATION
         const val BodySensor = Manifest.permission.BODY_SENSORS
     }
+
+    object Action {
+        const val StartFit = "StartFit"
+        const val StopFit = "StopFit"
+    }
+
+    object Code {
+        const val GoogleFit = 101
+    }
 }

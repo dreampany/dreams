@@ -92,16 +92,10 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.20'
 
     /** firebase */
-    api ('com.google.firebase:firebase-auth:16.1.0') {
-        //exclude group: 'com.google.android.gms', module: 'play-services-basement'
-    }
-    implementation ('com.google.firebase:firebase-database:16.0.5') {
-        //exclude group: 'com.google.android.gms', module: 'play-services-basement'
-    }
+    api 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.google.firebase:firebase-database:16.0.6'
     implementation 'com.google.firebase:firebase-storage:16.0.5'
-    api ('com.google.firebase:firebase-firestore:17.1.5') {
-        //exclude group: 'com.google.android.gms', module: 'play-services-basement'
-    }
+    api 'com.google.firebase:firebase-firestore:18.0.0'
 
     /** rx */
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'

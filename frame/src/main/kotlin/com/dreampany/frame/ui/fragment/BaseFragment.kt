@@ -314,6 +314,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         return getParent()?.getApp()
     }
 
+    fun getAppContext() : Context? {
+        return context?.applicationContext
+    }
+
     open fun getUiColor(): Color? {
         return color
     }

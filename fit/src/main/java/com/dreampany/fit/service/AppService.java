@@ -105,7 +105,6 @@ public class AppService extends BaseService {
             Value val = dataPoint.getValue(field);
             Timber.v("Detected DataPoint field: %s", field.getName());
             Timber.v("Detected DataPoint value: %d", val.asInt());
-
         }
     };
 

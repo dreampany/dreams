@@ -41,7 +41,7 @@ class App : BaseApp() {
     }
 
     override fun hasUpdate(): Boolean {
-        return true
+        return false
     }
 
     override fun hasRate(): Boolean {

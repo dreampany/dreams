@@ -18,7 +18,6 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
-import com.dreampany.lca.data.source.pref.LoadPref;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.misc.Constants;

@@ -1,17 +1,21 @@
 package com.dreampany.lca.data.source.repository;
 
 import android.annotation.SuppressLint;
+import com.dreampany.frame.data.misc.StateMapper;
 import com.dreampany.frame.data.source.repository.Repository;
+import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.*;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.NetworkManager;
+import com.google.common.collect.Maps;
 import io.reactivex.Maybe;
 
 import javax.inject.Inject;
@@ -19,6 +23,7 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -32,25 +37,34 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     private final NetworkManager network;
     private final Pref pref;
+    private final CoinMapper mapper;
+    private final StateMapper stateMapper;
     private final CoinDataSource room;
     private final CoinDataSource remote;
-    private CoinSource coinSource;
+    private final StateRepository stateRepo;
+    private final Map<Coin, Boolean> flags;
+
     private volatile SyncThread syncThread;
 
-    @SuppressLint("CheckResult")
     @Inject
     CoinRepository(RxMapper rx,
                    ResponseMapper rm,
                    NetworkManager network,
                    Pref pref,
+                   CoinMapper mapper,
+                   StateMapper stateMapper,
                    @Room CoinDataSource room,
-                   @Remote CoinDataSource remote) {
+                   @Remote CoinDataSource remote,
+                   StateRepository stateRepo) {
         super(rx, rm);
         this.network = network;
         this.pref = pref;
+        this.mapper = mapper;
+        this.stateMapper = stateMapper;
         this.room = room;
         this.remote = remote;
-        coinSource = CoinSource.CMC;
+        this.stateRepo = stateRepo;
+        flags = Maps.newConcurrentMap();
     }
 
     @Override
@@ -225,66 +239,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<List<Coin>> room = getRoomItemsIfRx(source, symbols, currency);
         Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, symbols, currency);
         return concatLastRx(remote, room);
-    }
-
-    @Override
-    public boolean isFlagged(Coin coin) {
-        return room.isFlagged(coin);
-    }
-
-    @Override
-    public Maybe<Boolean> isFlaggedRx(Coin coin) {
-        return room.isExistsRx(coin);
-    }
-
-    @Override
-    public long putFlag(Coin coin) {
-        return room.putFlag(coin);
-    }
-
-    @Override
-    public Maybe<Long> putFlagRx(Coin coin) {
-        return room.putFlagRx(coin);
-    }
-
-    @Override
-    public List<Long> putFlags(List<Coin> coins) {
-        return room.putFlags(coins);
-    }
-
-    @Override
-    public Maybe<List<Long>> putFlagsRx(List<Coin> coins) {
-        return room.putFlagsRx(coins);
-    }
-
-    @Override
-    public boolean toggleFlag(Coin coin) {
-        return room.toggleFlag(coin);
-    }
-
-    @Override
-    public Maybe<Boolean> toggleFlagRx(Coin coin) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getFlags() {
-        return room.getFlags();
-    }
-
-    @Override
-    public Maybe<List<Coin>> getFlagsRx() {
-        return room.getFlagsRx();
-    }
-
-    @Override
-    public List<Coin> getFlags(int limit) {
-        return room.getFlags(limit);
-    }
-
-    @Override
-    public Maybe<List<Coin>> getFlagsRx(int limit) {
-        return room.getFlagsRx(limit);
     }
 
     /**

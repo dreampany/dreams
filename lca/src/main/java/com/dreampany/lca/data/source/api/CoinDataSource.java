@@ -29,7 +29,7 @@ public interface CoinDataSource extends DataSource<Coin> {
 
     Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency);
 
-    boolean isFlagged(Coin coin);
+/*    boolean isFlagged(Coin coin);
 
     Maybe<Boolean> isFlaggedRx(Coin coin);
 
@@ -51,5 +51,5 @@ public interface CoinDataSource extends DataSource<Coin> {
 
     List<Coin> getFlags(int limit);
 
-    Maybe<List<Coin>> getFlagsRx(int limit);
+    Maybe<List<Coin>> getFlagsRx(int limit);*/
 }

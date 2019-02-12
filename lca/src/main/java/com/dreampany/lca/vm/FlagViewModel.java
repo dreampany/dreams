@@ -163,7 +163,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private Maybe<List<CoinItem>> getFlagItemsRx(Currency currency) {
         return Maybe.fromCallable(() -> {
             List<CoinItem> result = new ArrayList<>();
-            List<Coin> real = repo.getFlags();
+            List<Coin> real = null;//repo.getFlags();
             if (real == null) {
                 real = new ArrayList<>();
             }
@@ -253,7 +253,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = repo.isFlagged(coin);
+        boolean flagged = false;//repo.isFlagged(coin);
         item.setFlagged(flagged);
     }
 }

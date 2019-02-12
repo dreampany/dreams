@@ -1,7 +1,6 @@
 package com.dreampany.lca.injector.data
 
 import android.content.Context
-import com.dreampany.frame.data.source.repository.FlagRepository
 import com.dreampany.frame.injector.data.FrameModule
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
@@ -37,9 +36,8 @@ class BuildersModule {
     @Room
     fun provideRoomCoinDataSource(mapper: CoinMapper,
                                   dao: CoinDao,
-                                  quoteDao: QuoteDao,
-                                  flagRepo: FlagRepository): CoinDataSource {
-        return CoinRoomDataSource(mapper, dao, quoteDao, flagRepo)
+                                  quoteDao: QuoteDao): CoinDataSource {
+        return CoinRoomDataSource(mapper, dao, quoteDao)
     }
 
     @Singleton

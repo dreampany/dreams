@@ -162,7 +162,7 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private CoinItem getDetailsCoinItem(Coin coin) {
         CoinItem item = CoinItem.getDetailsItem(coin);
-        boolean flagged = repo.isFlagged(coin);
+        boolean flagged = false;//repo.isFlagged(coin);
         item.setFlagged(flagged);
         return item;
     }
@@ -175,7 +175,7 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private Maybe<CoinItem> toggleImpl(Coin coin) {
         return Maybe.fromCallable(() -> {
-            repo.toggleFlag(coin);
+            //repo.toggleFlag(coin);
             return getItemRx(coin);
         });
     }
@@ -193,7 +193,7 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = repo.isFlagged(coin);
+        boolean flagged = false;//repo.isFlagged(coin);
         item.setFlagged(flagged);
     }
 }

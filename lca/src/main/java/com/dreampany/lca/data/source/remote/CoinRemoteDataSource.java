@@ -201,66 +201,6 @@ public class CoinRemoteDataSource implements CoinDataSource {
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
     }
 
-    @Override
-    public boolean isFlagged(Coin coin) {
-        return false;
-    }
-
-    @Override
-    public Maybe<Boolean> isFlaggedRx(Coin coin) {
-        return null;
-    }
-
-    @Override
-    public long putFlag(Coin coin) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Long> putFlagRx(Coin coin) {
-        return null;
-    }
-
-    @Override
-    public List<Long> putFlags(List<Coin> coins) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> putFlagsRx(List<Coin> coins) {
-        return null;
-    }
-
-    @Override
-    public boolean toggleFlag(Coin coin) {
-        return false;
-    }
-
-    @Override
-    public Maybe<Boolean> toggleFlagRx(Coin coin) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getFlags() {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getFlagsRx() {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getFlags(int limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getFlagsRx(int limit) {
-        return null;
-    }
-
     private Coin getItem(CmcCoinResponse response) {
         Coin result = null;
 /*        if (!response.hasError()) {

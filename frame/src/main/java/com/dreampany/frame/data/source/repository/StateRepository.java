@@ -135,7 +135,7 @@ public class StateRepository extends Repository<Long, State> implements StateDat
 
     @Override
     public List<State> getItems(String type, String subtype, String state) {
-        return null;
+        return room.getItems(type, subtype, state);
     }
 
     @Override

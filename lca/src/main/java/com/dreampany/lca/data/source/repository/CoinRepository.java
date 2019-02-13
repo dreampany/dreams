@@ -205,6 +205,11 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
+    public Coin getItem(CoinSource source, long id, Currency currency) {
+        return room.getItem(source, id, currency);
+    }
+
+    @Override
     public Coin getItem(CoinSource source, String symbol, Currency currency) {
         return null;
     }
@@ -225,7 +230,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
         Maybe<List<Coin>> room = getRoomItemsIfRx(source, index, limit, currency);
         Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, index, limit, currency);
-        if (isCoinListingExpired() && network.hasInternet()) {
+        if (isCoinListingExpired() && network.isObserving() && network.hasInternet()) {
             return concatFirstRx(remote, room);
         }
         return concatFirstRx(room, remote);
@@ -299,7 +304,8 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
             if (isCoinListingExpired()) {
                 int listIndex = Constants.Limit.COIN_DEFAULT_INDEX;
                 int listLimit = Constants.Limit.COIN_PAGE_MAX;
-                List<Coin> remotes = remote.getItemsRx(source, listIndex, listLimit, currency).blockingGet();
+
+                List<Coin> remotes = remote.getItems(source, listIndex, listLimit, currency);
 
                 if (!DataUtil.isEmpty(remotes)) {
                     room.putItems(remotes);

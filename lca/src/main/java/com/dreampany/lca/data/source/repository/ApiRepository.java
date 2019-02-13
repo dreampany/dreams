@@ -82,7 +82,7 @@ public class ApiRepository {
     }
 
     public long putFlag(Coin coin) {
-       long result = putState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+        long result = putState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
         return result;
     }
 
@@ -101,7 +101,7 @@ public class ApiRepository {
 
     public boolean toggleFlag(Coin coin) {
         boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
-        if (flagged){
+        if (flagged) {
             removeFlag(coin);
             flags.put(coin, false);
         } else {
@@ -123,17 +123,17 @@ public class ApiRepository {
         return coinRepo.getItemsRx(source, index, limit, currency);
     }
 
-    public List<Coin> getFlags() {
+    public List<Coin> getFlags(CoinSource source, Currency currency) {
         List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FLAG.name());
-        return getItemsIf(states);
+        return getItemsIf(states, source, currency);
     }
 
-    private List<Coin> getItemsIf(List<State> states) {
+    private List<Coin> getItemsIf(List<State> states, CoinSource source, Currency currency) {
         if (DataUtil.isEmpty(states)) {
             return null;
         }
         List<Coin> result = new ArrayList<>(states.size());
-        Stream.of(states).forEach(state -> result.add(coinMapper.toItem(state, coinRepo)));
+        Stream.of(states).forEach(state -> result.add(coinMapper.toItem(state, source, currency, coinRepo)));
         return result;
     }
 }

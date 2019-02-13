@@ -48,7 +48,7 @@ class App : BaseApp() {
     }
 
     override fun hasRate(): Boolean {
-        return false
+        return true
     }
 
     override fun hasAd(): Boolean {

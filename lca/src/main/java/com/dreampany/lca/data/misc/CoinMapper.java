@@ -8,6 +8,7 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcQuote;
+import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;
@@ -66,7 +67,12 @@ public class CoinMapper {
     }
 
     public void add(Coin coin) {
-        coins.put(coin.getSymbol(), coin);
+        //coins.put(coin.getSymbol(), coin);
+        this.add(coin.getSymbol(), coin);
+    }
+
+    public void add(String key, Coin coin) {
+        coins.put(key, coin);
     }
 
     public void add(List<Coin> coins) {
@@ -106,7 +112,7 @@ public class CoinMapper {
             return null;
         }
 
-        long id = DataUtil.getSha512(in.getSymbol(), in.getSlug());
+        long id = DataUtil.getSha512(in.getSymbol());
         Coin out = map.get(id);
         if (out == null) {
             out = new Coin();
@@ -180,10 +186,10 @@ public class CoinMapper {
         return coin;
     }*/
 
-    public Coin toItem(State state, CoinDataSource source) {
+    public Coin toItem(State state, CoinSource source, Currency currency, CoinDataSource api) {
         Coin coin = map.get(state.getId());
         if (coin == null) {
-            coin = source.getItem(state.getId());
+            coin = api.getItem(source, state.getId(), currency);
             map.put(coin.getId(), coin);
         }
         return coin;

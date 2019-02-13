@@ -197,6 +197,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, long id, Currency currency) {
+        return null;
+    }
+
+    @Override
     public Coin getItem(CoinSource source, String symbol, Currency currency) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
@@ -235,7 +240,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     @Override
     public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
         if (network.isObserving() && !network.hasInternet()) {
-            return null;
+            //return null;
         }
         int start = index + 1;
         for (int loop = 0; loop < keys.size(); loop++) {
@@ -269,7 +274,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     @Override
     public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
         if (network.isObserving() && !network.hasInternet()) {
-            return null;
+            //return null;
         }
         String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
         for (int loop = 0; loop < keys.size(); loop++) {

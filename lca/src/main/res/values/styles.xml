@@ -8,7 +8,7 @@
     </style>
 
     <style name="AppTheme.Launch" parent="AppTheme.App">
-        <item name="android:windowBackground">@drawable/launch</item>
+        <!--<item name="android:windowBackground">@drawable/launch</item>-->
     </style>
 
 

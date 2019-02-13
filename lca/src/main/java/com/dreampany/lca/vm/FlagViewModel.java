@@ -113,9 +113,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         if (!preLoads(fresh)) {
             return;
         }
+        CoinSource source = CoinSource.CMC;
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
-                .backToMain(getFlagItemsRx(currency))
+                .backToMain(getFlagItemsRx(source, currency))
                 .doOnSubscribe(subscription ->{
                     if (withProgress) {
                         postProgress(true);
@@ -159,10 +160,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     /** private api */
-    private Maybe<List<CoinItem>> getFlagItemsRx(Currency currency) {
+    private Maybe<List<CoinItem>> getFlagItemsRx(CoinSource source, Currency currency) {
         return Maybe.fromCallable(() -> {
             List<CoinItem> result = new ArrayList<>();
-            List<Coin> real = repo.getFlags();
+            List<Coin> real = repo.getFlags(source, currency);
             if (real == null) {
                 real = new ArrayList<>();
             }

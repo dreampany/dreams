@@ -10,14 +10,12 @@ import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
-import com.google.common.collect.Maps;
 import io.reactivex.Maybe;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -62,6 +60,20 @@ public class CoinRoomDataSource implements CoinDataSource {
     @Override
     public void clear() {
 
+    }
+
+    @Override
+    public Coin getItem(CoinSource source, long id, Currency currency) {
+        if (!mapper.hasCoin(String.valueOf(id))) {
+            Coin room = dao.getItem(id);
+            mapper.add(room);
+        }
+        Coin cache = mapper.getCoin(String.valueOf(id));
+        if (cache == null) {
+            return null;
+        }
+        bindQuote(cache, currency);
+        return cache;
     }
 
     @Override
@@ -143,7 +155,16 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Coin getItem(long id) {
-        return dao.getItem(id);
+        if (!mapper.hasCoin(String.valueOf(id))) {
+            Coin room = dao.getItem(id);
+            mapper.add(room);
+        }
+        Coin cache = mapper.getCoin(String.valueOf(id));
+        if (cache == null) {
+            return null;
+        }
+        //bindQuote(cache, currency);
+        return cache;
     }
 
     @Override

@@ -96,7 +96,7 @@ public class Coin extends Base {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(symbol, slug);
+        return Objects.hashCode(symbol);
     }
 
     @NonNull

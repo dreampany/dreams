@@ -17,6 +17,8 @@ public interface CoinDataSource extends DataSource<Coin> {
 
     void clear();
 
+    Coin getItem(CoinSource source, long id, Currency currency);
+
     Coin getItem(CoinSource source, String symbol, Currency currency);
 
     Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency);

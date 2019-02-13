@@ -1,10 +1,12 @@
 package com.dreampany.lca.data.source.repository;
 
+import com.annimon.stream.Stream;
 import com.dreampany.frame.data.misc.StateMapper;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.ItemState;
@@ -19,6 +21,7 @@ import io.reactivex.Maybe;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -108,11 +111,29 @@ public class ApiRepository {
         return flags.get(coin);
     }
 
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
+    public List<Coin> getItemsIf(CoinSource source, String[] symbols, Currency currency) {
+        return coinRepo.getItems(source, symbols, currency);
+    }
+
+    public Coin getItemIf(CoinSource source, String symbol, Currency currency) {
+        return coinRepo.getItemRx(source, symbol, currency).blockingGet();
+    }
+
+    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, int index, int limit, Currency currency) {
         return coinRepo.getItemsRx(source, index, limit, currency);
     }
 
-    public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
-        return coinRepo.getItems(source, symbols, currency);
+    public List<Coin> getFlags() {
+        List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FLAG.name());
+        return getItemsIf(states);
+    }
+
+    private List<Coin> getItemsIf(List<State> states) {
+        if (DataUtil.isEmpty(states)) {
+            return null;
+        }
+        List<Coin> result = new ArrayList<>(states.size());
+        Stream.of(states).forEach(state -> result.add(coinMapper.toItem(state, coinRepo)));
+        return result;
     }
 }

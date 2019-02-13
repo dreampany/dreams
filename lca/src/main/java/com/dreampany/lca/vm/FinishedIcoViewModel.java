@@ -104,7 +104,7 @@ public class FinishedIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
 /*    private Flowable<List<IcoItem>> getItemsInterval() {
         return Flowable
                 .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .map(tick -> getItems().blockingGet());
+                .map(tick -> getItemsIf().blockingGet());
     }*/
 
     private Maybe<List<IcoItem>> getItemsRx() {

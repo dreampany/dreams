@@ -18,7 +18,7 @@ import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
-import com.dreampany.lca.data.source.repository.CoinRepository;
+import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
@@ -44,7 +44,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private final NetworkManager network;
     private final Pref pref;
-    private final CoinRepository repo;
+    private final ApiRepository repo;
     private SmartAdapter.Callback<CoinItem> uiCallback;
     private Disposable updateDisposable;
 
@@ -55,12 +55,11 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                   ResponseMapper rm,
                   NetworkManager network,
                   Pref pref,
-                  CoinRepository repo) {
+                  ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
         this.repo = repo;
-        //network.observe(this::onResult, true);
     }
 
     @Override
@@ -163,7 +162,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private Maybe<List<CoinItem>> getFlagItemsRx(Currency currency) {
         return Maybe.fromCallable(() -> {
             List<CoinItem> result = new ArrayList<>();
-            List<Coin> real = null;//repo.getFlags();
+            List<Coin> real = repo.getFlags();
             if (real == null) {
                 real = new ArrayList<>();
             }
@@ -211,7 +210,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             items = null;
             if (!DataUtil.isEmpty(symbols)) {
                 String[] result = DataUtil.toStringArray(symbols);
-                List<Coin> coins = repo.getItems(CoinSource.CMC, result, currency);
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
                 if (!DataUtil.isEmpty(coins)) {
                     items = getItems(coins);
                 }
@@ -253,7 +252,7 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = false;//repo.isFlagged(coin);
+        boolean flagged = repo.isFlagged(coin);
         item.setFlagged(flagged);
     }
 }

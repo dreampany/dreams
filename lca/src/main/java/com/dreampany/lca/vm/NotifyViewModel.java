@@ -1,7 +1,6 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
-
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -15,20 +14,13 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.data.model.Quote;
-import com.dreampany.lca.data.source.repository.CoinRepository;
+import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.NavigationActivity;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.network.NetworkManager;
 import com.google.common.collect.Maps;
-
-import java.util.List;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -36,6 +28,11 @@ import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 7/22/2018.
@@ -47,7 +44,7 @@ public class NotifyViewModel {
 
     private final Application application;
     private final RxMapper rx;
-    private final CoinRepository repo;
+    private final ApiRepository repo;
     private final PriceRepository priceRepo;
     private final NotifyManager notify;
     private Disposable disposable;
@@ -60,7 +57,7 @@ public class NotifyViewModel {
                     AppExecutors ex,
                     ResponseMapper rm,
                     NetworkManager network,
-                    CoinRepository repo,
+                    ApiRepository repo,
                     PriceRepository priceRepo) {
         this.application = application;
         this.rx = rx;
@@ -91,7 +88,7 @@ public class NotifyViewModel {
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
         int listStart = Constants.Limit.COIN_DEFAULT_INDEX;
         int listLimit = Constants.Limit.COIN_PAGE;
-        return repo.getItemsRx(CoinSource.CMC, listStart, listLimit, currency)
+        return repo.getItemsIfRx(CoinSource.CMC, listStart, listLimit, currency)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getProfitableItemsRx);
     }
 

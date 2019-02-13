@@ -20,14 +20,12 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
-import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
-import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
@@ -179,7 +177,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
      */
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
         return repo
-                .getItemsRx(CoinSource.CMC, index, limit, currency)
+                .getItemsIfRx(CoinSource.CMC, index, limit, currency)
                 .onErrorResumeNext(Maybe.empty())
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
@@ -197,7 +195,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
             items = null;
             if (!DataUtil.isEmpty(symbols)) {
                 String[] result = DataUtil.toStringArray(symbols);
-                List<Coin> coins = repo.getItems(CoinSource.CMC, result, currency);
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
                 if (!DataUtil.isEmpty(coins)) {
                     items = getItems(coins);
                 }

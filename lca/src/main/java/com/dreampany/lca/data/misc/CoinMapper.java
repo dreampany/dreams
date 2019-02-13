@@ -1,5 +1,6 @@
 package com.dreampany.lca.data.misc;
 
+import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
@@ -178,6 +179,15 @@ public class CoinMapper {
         }
         return coin;
     }*/
+
+    public Coin toItem(State state, CoinDataSource source) {
+        Coin coin = map.get(state.getId());
+        if (coin == null) {
+            coin = source.getItem(state.getId());
+            map.put(coin.getId(), coin);
+        }
+        return coin;
+    }
 
     public String joinString(String[] values, String separator) {
         return StringUtil.join(values, separator);

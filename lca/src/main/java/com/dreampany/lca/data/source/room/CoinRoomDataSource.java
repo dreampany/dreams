@@ -210,7 +210,7 @@ public class CoinRoomDataSource implements CoinDataSource {
 
 /*    @Override
     public List<Coin> getFlags() {
-        return getItems(flagRepo.getItems());
+        return getItemsIf(flagRepo.getItemsIf());
     }
 
     @Override
@@ -329,7 +329,7 @@ public class CoinRoomDataSource implements CoinDataSource {
         }
     }
 
-/*    private List<Coin> getItems(List<Flag> items) {
+/*    private List<Coin> getItemsIf(List<Flag> items) {
         if (!DataUtil.isEmpty(items)) {
             List<Coin> result = new ArrayList<>(items.size());
             Stream.of(items).forEach(flag -> result.add(mapper.toItem(flag, CoinRoomDataSource.this)));

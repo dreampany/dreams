@@ -157,7 +157,7 @@ public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
             if (real == null) {
                 real = new ArrayList<>();
             }
-            List<CoinItem> ui = uiCallback.getItems();
+            List<CoinItem> ui = uiCallback.getItemsIf();
             for (Coin coin : real) {
                 CoinItem item = getItem(coin);
                 item.setFlagged(true);
@@ -195,9 +195,9 @@ public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
             items = null;
             if (!DataUtil.isEmpty(symbols)) {
                 String[] result = DataUtil.toStringArray(symbols);
-                List<Coin> coins = repo.getItems(CoinSource.CMC, result, currency);
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
                 if (!DataUtil.isEmpty(coins)) {
-                    items = getItems(coins);
+                    items = getItemsIf(coins);
                 }
             }
         }
@@ -216,7 +216,7 @@ public class FlagViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
         return item;
     }
 
-    private List<CoinItem> getItems(List<Coin> result) {
+    private List<CoinItem> getItemsIf(List<Coin> result) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
         for (Coin coin : coins) {

@@ -121,7 +121,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Coin getItem(long id) {
-        return null;
+        return room.getItem(id);
     }
 
     @Override

@@ -13,7 +13,7 @@ import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
-import com.dreampany.lca.data.source.repository.CoinRepository;
+import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
@@ -37,7 +37,7 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private static final boolean OPEN = true;
 
     private final NetworkManager network;
-    private final CoinRepository repo;
+    private final ApiRepository repo;
     private Disposable updateDisposable;
 
     @Inject
@@ -46,11 +46,10 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                   AppExecutors ex,
                   ResponseMapper rm,
                   NetworkManager network,
-                  CoinRepository repo) {
+                  ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.repo = repo;
-        //network.observe(this::onResult, true);
     }
 
     @Override
@@ -141,7 +140,7 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
         return Maybe.fromCallable(() -> {
             Coin coin = Objects.requireNonNull(getTask()).getInput();
-            Coin result = repo.getItemRx(CoinSource.CMC, coin.getSymbol(), currency).blockingGet();
+            Coin result = repo.getItemIf(CoinSource.CMC, coin.getSymbol(), currency);
             if (result != null) {
                 getTask().setInput(result);
                 coin = result;
@@ -175,7 +174,7 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private Maybe<CoinItem> toggleImpl(Coin coin) {
         return Maybe.fromCallable(() -> {
-            //repo.toggleFlag(coin);
+            repo.toggleFlag(coin);
             return getItemRx(coin);
         });
     }

@@ -214,7 +214,7 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
 
     private Maybe<List<CoinItem>> getUiItemsRx() {
         return Maybe.fromCallable(() -> {
-            List<CoinItem> items = uiCallback.getItems();
+            List<CoinItem> items = uiCallback.getItemsIf();
             if (!DataUtil.isEmpty(items)) {
                 for (CoinItem item : items) {
                     adjustFlag(item.getItem(), item);
@@ -247,7 +247,7 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
             if (!DataUtil.isEmpty(symbols)) {
                 String[] result = DataUtil.toStringArray(symbols);
                 List<Coin> coins = repo.getItemsRx(CoinSource.CMC, result, currencies).blockingGet();
-                items = getItems(coins);
+                items = getItemsIf(coins);
             }
         }
         return items;
@@ -299,11 +299,11 @@ public class LiveViewModelOld extends BaseViewModel<Coin, CoinItem, UiTask<Coin>
 
     @DebugLog
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
-        return Maybe.fromCallable(() -> getItems(result));
+        return Maybe.fromCallable(() -> getItemsIf(result));
     }
 
     @DebugLog
-    private List<CoinItem> getItems(List<Coin> result) {
+    private List<CoinItem> getItemsIf(List<Coin> result) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
         for (Coin coin : coins) {

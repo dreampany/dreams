@@ -76,6 +76,10 @@ public final class NetworkManager {
         stopInternetIfPossible();
     }
 
+    public boolean isObserving() {
+        return !callbacks.isEmpty();
+    }
+
     public List<Network> getNetworks() {
         List<Network> networks = new ArrayList<>();
         networks.add(wifi.getNetwork(internet));

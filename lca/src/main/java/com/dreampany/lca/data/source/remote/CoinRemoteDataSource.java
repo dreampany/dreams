@@ -1,7 +1,6 @@
 package com.dreampany.lca.data.source.remote;
 
 import androidx.annotation.NonNull;
-import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.lca.api.cmc.model.*;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
@@ -25,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -198,14 +198,31 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     @Override
     public Coin getItem(CoinSource source, String symbol, Currency currency) {
+        if (network.isObserving() && !network.hasInternet()) {
+            return null;
+        }
+        for (int loop = 0; loop < keys.size(); loop++) {
+            String apiKey = getApiKey();
+            try {
+                Response<CmcQuotesResponse> response = service.getQuotes(apiKey, symbol, currency.name()).execute();
+                if (response.isSuccessful()) {
+                    CmcQuotesResponse result = response.body();
+                    return getItemRx(result).blockingGet();
+                }
+            } catch (IOException | RuntimeException e) {
+                Timber.e(e);
+                iterateQueue();
+            }
+        }
         return null;
     }
 
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
-        return service
+/*        return service
                 .getQuotesRx(Constants.Key.CMC_PRO_ROMAN_BJIT, symbol, currency.name())
-                .flatMap((Function<CmcQuotesResponse, MaybeSource<Coin>>) this::getItemRx);
+                .flatMap((Function<CmcQuotesResponse, MaybeSource<Coin>>) this::getItemRx);*/
+        return Maybe.fromCallable(() -> getItem(source, symbol, currency));
     }
 
     /**
@@ -217,7 +234,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
      */
     @Override
     public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
-        if (!network.hasInternet()) {
+        if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
         int start = index + 1;
@@ -239,26 +256,45 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
-        if (!network.hasInternet()) {
+/*        if (!network.hasInternet()) {
             return Maybe.error(new EmptyException());
         }
         int start = index + 1;
         return service
                 .getListingRx(Constants.Key.CMC_PRO_ROMAN_BJIT, start, limit, currency.name())
-                .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
+                .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);*/
+        return Maybe.fromCallable(() -> getItems(source, index, limit, currency));
     }
 
     @Override
     public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
+        if (network.isObserving() && !network.hasInternet()) {
+            return null;
+        }
+        String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
+        for (int loop = 0; loop < keys.size(); loop++) {
+            String apiKey = getApiKey();
+            try {
+                Response<CmcQuotesResponse> response = service.getQuotes(apiKey, symbol, currency.name()).execute();
+                if (response.isSuccessful()) {
+                    CmcQuotesResponse result = response.body();
+                    return getItemsRx(result).blockingGet();
+                }
+            } catch (IOException | RuntimeException e) {
+                Timber.e(e);
+                iterateQueue();
+            }
+        }
         return null;
     }
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
-        String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
+/*        String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
         return service
                 .getQuotesRx(Constants.Key.CMC_PRO_ROMAN_BJIT, symbol, currency.name())
-                .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);
+                .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);*/
+        return Maybe.fromCallable(() -> getItems(source, symbols, currency));
     }
 
     /**
@@ -320,8 +356,8 @@ public class CoinRemoteDataSource implements CoinDataSource {
         return Maybe.just(item).map(in -> mapper.toItem(in, true));
     }
 
-    private Maybe<List<Coin>> getItemsRx(@NonNull CmcListingResponse response) {
-        if (response == null || response.hasError()) {
+    private Maybe<List<Coin>> getItemsRx(CmcListingResponse response) {
+        if (response == null || response.hasError() || !response.hasData()) {
             return null;
         }
         Collection<CmcCoin> items = response.getData();
@@ -332,7 +368,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     private Maybe<List<Coin>> getItemsRx(CmcQuotesResponse response) {
-        if (response.hasError() || !response.hasData()) {
+        if (response == null || response.hasError() || !response.hasData()) {
             return null;
         }
         Collection<CmcCoin> items = response.getData().values();

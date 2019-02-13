@@ -18,6 +18,10 @@ public class CmcListingResponse extends CmcResponse<List<CmcCoin>> {
         super(status, data);
     }
 
+    public boolean hasData() {
+        return count() > 0;
+    }
+
     public long count() {
         return data.size();
     }

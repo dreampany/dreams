@@ -89,6 +89,26 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
+    public int delete(Coin coin) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Coin coin) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Coin> coins) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
+        return null;
+    }
+
+    @Override
     public Coin getItem(long id) {
 /*        try {
             Response<CMCCoinResponse> response = service.getCoin(id, Constants.Structure.ARRAY).execute();

@@ -28,28 +28,4 @@ public interface CoinDataSource extends DataSource<Coin> {
     List<Coin> getItems(CoinSource source, String[] symbols, Currency currency);
 
     Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency);
-
-/*    boolean isFlagged(Coin coin);
-
-    Maybe<Boolean> isFlaggedRx(Coin coin);
-
-    long putFlag(Coin coin);
-
-    Maybe<Long> putFlagRx(Coin coin);
-
-    List<Long> putFlags(List<Coin> coins);
-
-    Maybe<List<Long>> putFlagsRx(List<Coin> coins);
-
-    boolean toggleFlag(Coin coin);
-
-    Maybe<Boolean> toggleFlagRx(Coin coin);
-
-    List<Coin> getFlags();
-
-    Maybe<List<Coin>> getFlagsRx();
-
-    List<Coin> getFlags(int limit);
-
-    Maybe<List<Coin>> getFlagsRx(int limit);*/
 }

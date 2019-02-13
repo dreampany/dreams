@@ -6,14 +6,12 @@ import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -95,6 +93,11 @@ public class Coin extends Base {
             return new Coin[size];
         }
     };
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(symbol, slug);
+    }
 
     @NonNull
     @Override

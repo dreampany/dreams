@@ -79,6 +79,26 @@ public class GraphRoomDataSource implements GraphDataSource {
     }
 
     @Override
+    public int delete(Graph graph) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Graph graph) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Graph> graphs) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Graph> graphs) {
+        return null;
+    }
+
+    @Override
     public Graph getItem(long id) {
         return null;
     }

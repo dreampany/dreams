@@ -30,7 +30,6 @@ public class CoinRoomDataSource implements CoinDataSource {
     private final CoinMapper mapper;
     private final CoinDao dao;
     private final QuoteDao quoteDao;
-    private final Map<Coin, Boolean> flags;
 
     public CoinRoomDataSource(CoinMapper mapper,
                               CoinDao dao,
@@ -38,7 +37,6 @@ public class CoinRoomDataSource implements CoinDataSource {
         this.mapper = mapper;
         this.dao = dao;
         this.quoteDao = quoteDao;
-        flags = Maps.newConcurrentMap();
     }
 
     @Override
@@ -278,6 +276,26 @@ public class CoinRoomDataSource implements CoinDataSource {
                 return result;
             }
         });*/
+    }
+
+    @Override
+    public int delete(Coin coin) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Coin coin) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Coin> coins) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
+        return null;
     }
 
     @Override

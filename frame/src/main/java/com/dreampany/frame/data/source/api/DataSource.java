@@ -31,6 +31,14 @@ public interface DataSource<T> {
 
     Maybe<List<Long>> putItemsRx(List<T> ts);
 
+    int delete(T t);
+
+    Maybe<Integer> deleteRx(T t);
+
+    List<Long> delete(List<T> ts);
+
+    Maybe<List<Long>> deleteRx(List<T> ts);
+
     T getItem(long id);
 
     Maybe<T> getItemRx(long id);

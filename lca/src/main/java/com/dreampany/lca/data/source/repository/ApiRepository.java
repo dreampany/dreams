@@ -1,16 +1,25 @@
 package com.dreampany.lca.data.source.repository;
 
 import com.dreampany.frame.data.misc.StateMapper;
+import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.enums.ItemState;
+import com.dreampany.lca.data.enums.ItemSubtype;
+import com.dreampany.lca.data.enums.ItemType;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.google.common.collect.Maps;
+import io.reactivex.Maybe;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,5 +57,62 @@ public class ApiRepository {
         this.coinRepo = coinRepo;
         this.stateRepo = stateRepo;
         flags = Maps.newConcurrentMap();
+    }
+
+    public boolean hasState(Coin coin, ItemSubtype subtype, ItemState state) {
+        boolean stated = stateRepo.getCount(coin.getId(), ItemType.COIN.name(), subtype.name(), state.name()) > 0;
+        return stated;
+    }
+
+    public long putState(Coin coin, ItemSubtype subtype, ItemState state) {
+        State s = new State(coin.getId(), ItemType.COIN.name(), subtype.name(), state.name());
+        s.setTime(TimeUtil.currentTime());
+        long result = stateRepo.putItem(s);
+        return result;
+    }
+
+    public int removeState(Coin coin, ItemSubtype subtype, ItemState state) {
+        State s = new State(coin.getId(), ItemType.COIN.name(), subtype.name(), state.name());
+        s.setTime(TimeUtil.currentTime());
+        int result = stateRepo.delete(s);
+        return result;
+    }
+
+    public long putFlag(Coin coin) {
+       long result = putState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+        return result;
+    }
+
+    public int removeFlag(Coin coin) {
+        int result = removeState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+        return result;
+    }
+
+    public boolean isFlagged(Coin coin) {
+        if (!flags.containsKey(coin)) {
+            boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+            flags.put(coin, flagged);
+        }
+        return flags.get(coin);
+    }
+
+    public boolean toggleFlag(Coin coin) {
+        boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+        if (flagged){
+            removeFlag(coin);
+            flags.put(coin, false);
+        } else {
+            putFlag(coin);
+            flags.put(coin, true);
+        }
+        return flags.get(coin);
+    }
+
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
+        return coinRepo.getItemsRx(source, index, limit, currency);
+    }
+
+    public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
+        return coinRepo.getItems(source, symbols, currency);
     }
 }

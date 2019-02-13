@@ -224,6 +224,26 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
+    public int delete(State state) {
+        return room.delete(state);
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(State state) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<State> states) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<State> states) {
+        return null;
+    }
+
+    @Override
     public State getItem(long id) {
         return room.getItem(id);
     }

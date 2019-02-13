@@ -120,10 +120,10 @@ public class ApiRepository {
         return result;
     }
 
-    public long removeState(Word word, ItemSubtype subtype, ItemState state) {
+    public int removeState(Word word, ItemSubtype subtype, ItemState state) {
         State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
         s.setTime(TimeUtil.currentTime());
-        long result = -1;
+        int result = stateRepo.delete(s);
         return result;
     }
 

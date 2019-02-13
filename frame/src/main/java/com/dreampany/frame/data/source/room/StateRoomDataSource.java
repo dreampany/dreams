@@ -231,6 +231,26 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
+    public int delete(State state) {
+        return dao.delete(state);
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(State state) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<State> states) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<State> states) {
+        return null;
+    }
+
+    @Override
     public State getItem(long id) {
         return dao.getItem(id);
     }

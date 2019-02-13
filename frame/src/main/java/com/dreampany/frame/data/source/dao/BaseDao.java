@@ -32,8 +32,8 @@ public interface BaseDao<T> {
     List<Long> insertOrIgnore(List<T> ts);
 
     @Update
-    int update(T item);
+    int update(T t);
 
     @Delete
-    int delete(T item);
+    int delete(T t);
 }

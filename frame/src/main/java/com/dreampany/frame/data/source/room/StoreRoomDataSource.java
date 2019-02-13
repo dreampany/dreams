@@ -104,6 +104,26 @@ public class StoreRoomDataSource implements StoreDataSource {
     }
 
     @Override
+    public int delete(Store store) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Store store) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Store> stores) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Store> stores) {
+        return null;
+    }
+
+    @Override
     public Store getItem(long id) {
         return null;
     }

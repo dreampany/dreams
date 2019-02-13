@@ -80,6 +80,26 @@ public class NewsRoomDataSource implements NewsDataSource {
     }
 
     @Override
+    public int delete(News news) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(News news) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<News> news) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<News> news) {
+        return null;
+    }
+
+    @Override
     public News getItem(long id) {
         return null;
     }

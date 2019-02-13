@@ -81,6 +81,26 @@ public class IcoRoomDataSource implements IcoDataSource {
     }
 
     @Override
+    public int delete(Ico ico) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Ico ico) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Ico> icos) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Ico> icos) {
+        return null;
+    }
+
+    @Override
     public Ico getItem(long id) {
         return null;
     }

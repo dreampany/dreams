@@ -79,6 +79,26 @@ public class PriceRoomDataSource implements PriceDataSource {
     }
 
     @Override
+    public int delete(Price price) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Price price) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Price> prices) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Price> prices) {
+        return null;
+    }
+
+    @Override
     public Price getItem(long id) {
         return null;
     }

@@ -19,6 +19,7 @@ import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
+import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinItem;
@@ -49,7 +50,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     private final NetworkManager network;
     private final Pref pref;
-    private final CoinRepository repo;
+    private final ApiRepository repo;
 
     private Disposable updateDisposable;
 
@@ -62,7 +63,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                   ResponseMapper rm,
                   NetworkManager network,
                   Pref pref,
-                  CoinRepository repo) {
+                  ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
@@ -249,8 +250,8 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     //todo need to improve for flowable and completable working
-    private Flowable<CoinItem> toggleImpl(Coin coin) {
-        return Flowable.fromCallable(() -> {
+    private Maybe<CoinItem> toggleImpl(Coin coin) {
+        return Maybe.fromCallable(() -> {
             repo.toggleFlag(coin);
             return getItem(coin);
         });

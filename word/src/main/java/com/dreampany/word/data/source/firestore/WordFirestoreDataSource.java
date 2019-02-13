@@ -103,6 +103,26 @@ public class WordFirestoreDataSource implements WordDataSource {
     }
 
     @Override
+    public int delete(Word word) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Word word) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Word> words) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Word> words) {
+        return null;
+    }
+
+    @Override
     public Word getItem(long id) {
         return null;
     }

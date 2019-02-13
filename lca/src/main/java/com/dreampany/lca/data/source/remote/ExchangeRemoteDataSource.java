@@ -86,6 +86,26 @@ public class ExchangeRemoteDataSource implements ExchangeDataSource {
     }
 
     @Override
+    public int delete(Exchange exchange) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Exchange exchange) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Exchange> exchanges) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Exchange> exchanges) {
+        return null;
+    }
+
+    @Override
     public Exchange getItem(long id) {
         return null;
     }

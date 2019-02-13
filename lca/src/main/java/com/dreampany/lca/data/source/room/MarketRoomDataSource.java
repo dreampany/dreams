@@ -79,6 +79,26 @@ public class MarketRoomDataSource implements MarketDataSource {
     }
 
     @Override
+    public int delete(Market market) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Market market) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Market> markets) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Market> markets) {
+        return null;
+    }
+
+    @Override
     public Market getItem(long id) {
         return null;
     }

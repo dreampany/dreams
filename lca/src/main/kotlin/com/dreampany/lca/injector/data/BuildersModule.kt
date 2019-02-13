@@ -7,8 +7,8 @@ import com.dreampany.frame.misc.Room
 import com.dreampany.lca.data.misc.*
 import com.dreampany.lca.data.source.api.*
 import com.dreampany.lca.data.source.dao.*
-import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.data.source.remote.*
+import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.injector.vm.ViewModelModule
 import com.dreampany.lca.misc.*
 import com.dreampany.network.NetworkManager
@@ -34,7 +34,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomCoinDataSource(mapper: CoinMapper,
+    fun provideCoinRoomDataSource(mapper: CoinMapper,
                                   dao: CoinDao,
                                   quoteDao: QuoteDao): CoinDataSource {
         return CoinRoomDataSource(mapper, dao, quoteDao)
@@ -43,7 +43,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomPriceDataSource(mapper: PriceMapper,
+    fun providePriceRoomDataSource(mapper: PriceMapper,
                                    dao: PriceDao): PriceDataSource {
         return PriceRoomDataSource(mapper, dao)
     }
@@ -51,7 +51,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomExchangeDataSource(mapper: ExchangeMapper,
+    fun provideExchangeRoomDataSource(mapper: ExchangeMapper,
                                       dao: ExchangeDao): ExchangeDataSource {
         return ExchangeRoomDataSource(mapper, dao)
     }
@@ -59,16 +59,15 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomMarketDataSource(mapper: MarketMapper,
-                                    dao: MarketDao
-    ): MarketDataSource {
+    fun provideMarketRoomDataSource(mapper: MarketMapper,
+                                    dao: MarketDao): MarketDataSource {
         return MarketRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideRoomGraphDataSource(mapper: GraphMapper,
+    fun provideGraphRoomDataSource(mapper: GraphMapper,
                                    dao: GraphDao): GraphDataSource {
         return GraphRoomDataSource(mapper, dao)
     }
@@ -76,7 +75,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomNewsDataSource(mapper: NewsMapper,
+    fun provideNewsRoomDataSource(mapper: NewsMapper,
                                   dao: NewsDao): NewsDataSource {
         return NewsRoomDataSource(mapper, dao)
     }
@@ -84,16 +83,15 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomIcoDataSource(mapper: IcoMapper,
+    fun provideIcoRoomDataSource(mapper: IcoMapper,
                                  dao: IcoDao): IcoDataSource {
         return IcoRoomDataSource(mapper, dao)
     }
 
-
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteCoinDataSource(network: NetworkManager,
+    fun provideCoinRemoteDataSource(network: NetworkManager,
                                     mapper: CoinMapper,
                                     service: CmcService): CoinDataSource {
         return CoinRemoteDataSource(network, mapper, service)
@@ -102,7 +100,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteExchangeDataSource(network: NetworkManager,
+    fun provideExchangeRemoteDataSource(network: NetworkManager,
                                         mapper: ExchangeMapper,
                                         service: CryptoCompareExchangeService): ExchangeDataSource {
         return ExchangeRemoteDataSource(network, mapper, service)
@@ -111,7 +109,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteMarketDataSource(network: NetworkManager,
+    fun provideMarketRemoteDataSource(network: NetworkManager,
                                       mapper: MarketMapper,
                                       service: CryptoCompareMarketService): MarketDataSource {
         return MarketRemoteDataSource(network, mapper, service)
@@ -120,7 +118,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteGraphDataSource(network: NetworkManager,
+    fun provideGraphRemoteDataSource(network: NetworkManager,
                                      mapper: GraphMapper,
                                      service: CoinMarketCapGraphService): GraphDataSource {
         return GraphRemoteDataSource(network, mapper, service)
@@ -129,7 +127,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteNewsDataSource(network: NetworkManager,
+    fun provideNewsRemoteDataSource(network: NetworkManager,
                                     mapper: NewsMapper,
                                     service: CryptoCompareNewsService): NewsDataSource {
         return NewsRemoteDataSource(network, mapper, service)
@@ -138,7 +136,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteIcoDataSource(network: NetworkManager,
+    fun provideIcoRemoteDataSource(network: NetworkManager,
                                    mapper: IcoMapper,
                                    service: IcoService): IcoDataSource {
         return IcoRemoteDataSource(network, mapper, service)

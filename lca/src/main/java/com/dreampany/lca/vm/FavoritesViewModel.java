@@ -26,6 +26,7 @@ import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import javax.inject.Inject;
@@ -119,7 +120,7 @@ public class FavoritesViewModel
         CoinSource source = CoinSource.CMC;
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
-                .backToMain(getFlagItemsRx(source, currency))
+                .backToMain(getFavoriteItemsRx(source, currency))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
@@ -133,6 +134,8 @@ public class FavoritesViewModel
                             }
                             if (!DataUtil.isEmpty(result)) {
                                 postResult(result);
+                            } else {
+                                postFailure(new EmptyException());
                             }
                         },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
@@ -163,15 +166,23 @@ public class FavoritesViewModel
                             }
                             if (!DataUtil.isEmpty(result)) {
                                 postResult(result);
+                            } else {
+                                postFailure(new EmptyException());
                             }
-                        }, this::postFailure);
+                        }, new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                Timber.v("Favorite Error %s", throwable.toString());
+                                postFailure(throwable);
+                            }
+                        });
         addSubscription(updateDisposable);
     }
 
     /**
      * private api
      */
-    private Maybe<List<CoinItem>> getFlagItemsRx(CoinSource source, Currency currency) {
+    private Maybe<List<CoinItem>> getFavoriteItemsRx(CoinSource source, Currency currency) {
         return Maybe.fromCallable(() -> {
             List<CoinItem> result = new ArrayList<>();
             List<Coin> real = repo.getFavorites(source, currency);
@@ -194,7 +205,7 @@ public class FavoritesViewModel
                 }
             }
 
-            Timber.v("Flag Result in VM %d", result.size());
+            Timber.v("Favorite Result in VM %d", result.size());
             return result;
         });
     }

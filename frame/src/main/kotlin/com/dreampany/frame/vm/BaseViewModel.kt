@@ -41,7 +41,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     var uiMap: SmartMap<Long, X>
     var uiCache: SmartCache<Long, X>
-    var uiFlags: Set<T>
+    var uiFavorites: Set<T>
     var uiSelects: Set<T>
 
     var titleOwner: LifecycleOwner? = null
@@ -49,7 +49,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     var uiModeOwner: LifecycleOwner? = null
     var uiStateOwner: LifecycleOwner? = null
     var eventOwner: LifecycleOwner? = null
-    var flagOwner: LifecycleOwner? = null
+    var favoriteOwner: LifecycleOwner? = null
     var singleOwner: LifecycleOwner? = null
     var multipleOwner: LifecycleOwner? = null
     var singleOwners: MutableList<LifecycleOwner> = mutableListOf()
@@ -63,7 +63,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     val uiMode: SingleLiveEvent<UiMode>
     val uiState: SingleLiveEvent<UiState>
     val event: SingleLiveEvent<Event>
-    val flag: MutableLiveData<X>
+    val favorite: MutableLiveData<X>
     val input: PublishSubject<Response<X>>
     val inputs: PublishSubject<Response<List<X>>>
     val output: MutableLiveData<Response<X>>
@@ -77,7 +77,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     init {
         lifecycleRegistry = LifecycleRegistry(this)
-        lifecycleRegistry.markState(Lifecycle.State.INITIALIZED);
+        lifecycleRegistry.setCurrentState(Lifecycle.State.INITIALIZED);
         //register(this)
 
         disposables = CompositeDisposable()
@@ -87,14 +87,14 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         event = SingleLiveEvent()
         liveTitle = SingleLiveEvent()
         liveSubtitle = SingleLiveEvent()
-        flag = MutableLiveData()
+        favorite = MutableLiveData()
         input = PublishSubject.create()
         inputs = PublishSubject.create()
         output = rx.toLiveData(input, ioDisposables)
         outputs = rx.toLiveData(inputs, ioDisposables)
         uiMap = SmartMap.newMap()
         uiCache = SmartCache.newCache()
-        uiFlags = Collections.synchronizedSet<T>(HashSet<T>())
+        uiFavorites = Collections.synchronizedSet<T>(HashSet<T>())
         uiSelects = Collections.synchronizedSet<T>(HashSet<T>())
 
         networkEvent = NetworkState.NONE
@@ -152,7 +152,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         uiModeOwner?.let { uiMode.removeObservers(it) }
         uiStateOwner?.let { uiState.removeObservers(it) }
         eventOwner?.let { event.removeObservers(it) }
-        flagOwner?.let { flag.removeObservers(it) }
+        favoriteOwner?.let { favorite.removeObservers(it) }
         singleOwner?.let { output.removeObservers(it) }
         multipleOwner?.let { outputs.removeObservers(it) }
         for (owner in singleOwners) {
@@ -168,6 +168,8 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         uiMap.clear()
         uiCache.clear()
         clearUiState()
+        postEmpty(null as X?)
+        postEmpty(null as List<X>?)
     }
 
     open fun clearUiState() {
@@ -193,7 +195,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun onFlag(t: X?) {
-        flag.value = t
+        favorite.value = t
     }
 
 /*    override fun onChanged(t: X?) {
@@ -248,8 +250,8 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun observeFlag(owner: LifecycleOwner, observer: Observer<X>) {
-        flagOwner = owner
-        flag.reObserve(owner, observer)
+        favoriteOwner = owner
+        favorite.reObserve(owner, observer)
     }
 
     fun hasDisposable(disposable: Disposable?): Boolean {
@@ -451,8 +453,32 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }
 
-    fun postFlag(data: X) {
-        flag.value = data
+    fun postEmpty(data: X?) {
+        rm.responseEmpty(input, data)
+    }
+
+    fun postEmpty(data: X?, withProgress: Boolean) {
+        if (withProgress) {
+            rm.responseEmptyWithProgress(input, data)
+        } else {
+            rm.responseEmpty(input, data)
+        }
+    }
+
+    fun postEmpty(data: List<X>?) {
+        rm.responseEmpty(inputs, data)
+    }
+
+    fun postEmpty(data: List<X>?, withProgress: Boolean) {
+        if (withProgress) {
+            rm.responseEmptyWithProgress(inputs, data)
+        } else {
+            rm.responseEmpty(inputs, data)
+        }
+    }
+
+    fun postFavorite(data: X) {
+        favorite.value = data
     }
 
     fun speak(text: String) {

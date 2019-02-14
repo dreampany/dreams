@@ -132,11 +132,12 @@ public class FavoritesViewModel
                             if (withProgress) {
                                 postProgress(false);
                             }
-                            if (!DataUtil.isEmpty(result)) {
+                            postResult(result);
+                            /*if (!DataUtil.isEmpty(result)) {
                                 postResult(result);
                             } else {
                                 postFailure(new EmptyException());
-                            }
+                            }*/
                         },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
@@ -164,11 +165,12 @@ public class FavoritesViewModel
                             if (withProgress) {
                                 postProgress(false);
                             }
-                            if (!DataUtil.isEmpty(result)) {
+                            postResult(result);
+/*                            if (!DataUtil.isEmpty(result)) {
                                 postResult(result);
                             } else {
                                 postFailure(new EmptyException());
-                            }
+                            }*/
                         }, new Consumer<Throwable>() {
                             @Override
                             public void accept(Throwable throwable) throws Exception {

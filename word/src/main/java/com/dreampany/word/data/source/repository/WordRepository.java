@@ -312,8 +312,8 @@ public class WordRepository extends Repository<String, Word> implements WordData
         if (flags.containsKey(word)) {
             return flags.get(word);
         }
-        Flag flag = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-        return flagRepo.isExists(flag);
+        Flag favorite = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
+        return flagRepo.isExists(favorite);
     }
 
     public Maybe<Boolean> isFlaggedRx(Word word) {
@@ -325,8 +325,8 @@ public class WordRepository extends Repository<String, Word> implements WordData
     }
 
     public boolean toggleFlag(Word word) {
-        Flag flag = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
-        boolean flagged = flagRepo.toggle(flag);
+        Flag favorite = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
+        boolean flagged = flagRepo.toggle(favorite);
         flags.put(word, flagged);
         return flagged;
     }

@@ -176,8 +176,8 @@ public class CoinRoomDataSource implements CoinDataSource {
         if (flags.containsKey(coin)) {
             return flags.get(coin);
         }
-        Flag flag = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return flagRepo.isExists(flag);
+        Flag favorite = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
+        return flagRepo.isExists(favorite);
     }
 
     @Override
@@ -191,8 +191,8 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public long putFavorite(Coin coin) {
-        Flag flag = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return flagRepo.putItem(flag);
+        Flag favorite = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
+        return flagRepo.putItem(favorite);
     }
 
     @Override
@@ -212,8 +212,8 @@ public class CoinRoomDataSource implements CoinDataSource {
 
 /*    @Override
     public boolean toggleFavorite(Coin coin) {
-        Flag flag = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        boolean flagged = flagRepo.toggleFavorite(flag);
+        Flag favorite = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
+        boolean flagged = flagRepo.toggleFavorite(favorite);
         flags.put(coin, flagged);
         return flagged;
     }*/
@@ -221,8 +221,8 @@ public class CoinRoomDataSource implements CoinDataSource {
 /*    @Override
     public Maybe<Boolean> toggleFlagRx(Coin coin) {
         Maybe<Flag> maybe = flagRepo.getItemRx(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return maybe.map(flag -> {
-            boolean flagged = flagRepo.toggleFavorite(flag);
+        return maybe.map(favorite -> {
+            boolean flagged = flagRepo.toggleFavorite(favorite);
             flags.put(coin, flagged);
             return flagged;
         });
@@ -352,7 +352,7 @@ public class CoinRoomDataSource implements CoinDataSource {
 /*    private List<Coin> getItemsIf(List<Flag> items) {
         if (!DataUtil.isEmpty(items)) {
             List<Coin> result = new ArrayList<>(items.size());
-            Stream.of(items).forEach(flag -> result.add(mapper.toItem(flag, CoinRoomDataSource.this)));
+            Stream.of(items).forEach(favorite -> result.add(mapper.toItem(favorite, CoinRoomDataSource.this)));
             return result;
         }
         return null;
@@ -360,7 +360,7 @@ public class CoinRoomDataSource implements CoinDataSource {
 
 /*    private Maybe<List<Coin>> getItemsRx(List<Flag> items) {
         return Flowable.fromIterable(items)
-                .map(flag -> mapper.toItem(flag, CoinRoomDataSource.this))
+                .map(favorite -> mapper.toItem(favorite, CoinRoomDataSource.this))
                 .toList()
                 .toMaybe();
     }*/

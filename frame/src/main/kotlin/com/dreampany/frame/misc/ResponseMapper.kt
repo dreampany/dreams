@@ -32,4 +32,13 @@ class ResponseMapper @Inject constructor() {
         response(subject, false)
         subject.onNext(Response.Result(data))
     }
+
+    fun <T> responseEmpty(subject: PublishSubject<Response<T>>, data: T?) {
+        subject.onNext(Response.Empty(data))
+    }
+
+    fun <T> responseEmptyWithProgress(subject: PublishSubject<Response<T>>, data: T?) {
+        response(subject, false)
+        subject.onNext(Response.Empty(data))
+    }
 }

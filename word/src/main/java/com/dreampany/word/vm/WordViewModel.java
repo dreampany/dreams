@@ -19,7 +19,6 @@ import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
 import com.dreampany.word.data.source.repository.ApiRepository;
-import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.util.Util;
@@ -132,7 +131,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         }
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(getTask().getInput()))
-                .subscribe(this::postFlag, this::postFailure);
+                .subscribe(this::postFavorite, this::postFailure);
         addSingleSubscription(disposable);
     }
 

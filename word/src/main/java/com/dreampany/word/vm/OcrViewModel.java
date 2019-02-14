@@ -188,7 +188,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         }
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(word))
-                .subscribe(this::postFlag, this::postFailure);
+                .subscribe(this::postFavorite, this::postFailure);
         addSingleSubscription(disposable);
     }
 

@@ -52,39 +52,39 @@ public class FlagRoomDataSource implements FlagDataSource {
     }
 
     @Override
-    public boolean toggle(Flag flag) {
-        if (isExists(flag)) {
-            dao.delete(flag);
+    public boolean toggle(Flag favorite) {
+        if (isExists(favorite)) {
+            dao.delete(favorite);
             return false;
         } else {
-            dao.insertOrReplace(flag);
+            dao.insertOrReplace(favorite);
             return true;
         }
     }
 
     @Override
-    public Maybe<Boolean> toggleRx(Flag flag) {
-        return isExistsRx(flag).doOnSuccess(
+    public Maybe<Boolean> toggleRx(Flag favorite) {
+        return isExistsRx(favorite).doOnSuccess(
                 flagged -> {
                     if (flagged) {
-                        dao.delete(flag);
+                        dao.delete(favorite);
                     } else {
-                        dao.insertOrReplace(flag);
+                        dao.insertOrReplace(favorite);
                     }
                 });
     }
 
     @Override
     public Flag getItem(long id, String type, String subtype) {
-        Flag flag = mapper.getItem(id, type, subtype);
-        if (flag == null) {
-            flag = dao.getItem(id, type, subtype);
+        Flag favorite = mapper.getItem(id, type, subtype);
+        if (favorite == null) {
+            favorite = dao.getItem(id, type, subtype);
         }
-        if (flag == null) {
-            flag = new Flag(id, type, subtype);
+        if (favorite == null) {
+            favorite = new Flag(id, type, subtype);
         }
-        mapper.putItem(flag);
-        return flag;
+        mapper.putItem(favorite);
+        return favorite;
     }
 
     @Override
@@ -117,23 +117,23 @@ public class FlagRoomDataSource implements FlagDataSource {
     }
 
     @Override
-    public boolean isExists(Flag flag) {
-        return dao.getCount(flag.getId(), flag.getType(), flag.getSubtype()) > 0;
+    public boolean isExists(Flag favorite) {
+        return dao.getCount(favorite.getId(), favorite.getType(), favorite.getSubtype()) > 0;
     }
 
     @Override
-    public Maybe<Boolean> isExistsRx(Flag flag) {
-        return Maybe.fromCallable(() -> isExists(flag));
+    public Maybe<Boolean> isExistsRx(Flag favorite) {
+        return Maybe.fromCallable(() -> isExists(favorite));
     }
 
     @Override
-    public long putItem(Flag flag) {
-        return dao.insertOrReplace(flag);
+    public long putItem(Flag favorite) {
+        return dao.insertOrReplace(favorite);
     }
 
     @Override
-    public Maybe<Long> putItemRx(Flag flag) {
-        return Maybe.fromCallable(() -> putItem(flag));
+    public Maybe<Long> putItemRx(Flag favorite) {
+        return Maybe.fromCallable(() -> putItem(favorite));
     }
 
     @Override
@@ -151,9 +151,9 @@ public class FlagRoomDataSource implements FlagDataSource {
         if (mapper.isExists(id)) {
             return mapper.getItem(id);
         }
-        Flag flag = dao.getItem(id);
-        mapper.putItem(flag);
-        return flag;
+        Flag favorite = dao.getItem(id);
+        mapper.putItem(favorite);
+        return favorite;
     }
 
     @Override

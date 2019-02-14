@@ -16,9 +16,9 @@ import io.reactivex.Maybe;
 
 public interface FlagDataSource extends DataSource<Flag> {
 
-    boolean toggle(Flag flag);
+    boolean toggle(Flag favorite);
 
-    Maybe<Boolean> toggleRx(Flag flag);
+    Maybe<Boolean> toggleRx(Flag favorite);
 
     Flag getItem(long id, String type, String subtype);
 

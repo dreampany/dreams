@@ -57,13 +57,13 @@ public class FlagRepository extends Repository<Long, Flag> implements FlagDataSo
     }
 
     @Override
-    public boolean toggle(Flag flag) {
-        return room.toggle(flag);
+    public boolean toggle(Flag favorite) {
+        return room.toggle(favorite);
     }
 
     @Override
-    public Maybe<Boolean> toggleRx(Flag flag) {
-        return room.toggleRx(flag);
+    public Maybe<Boolean> toggleRx(Flag favorite) {
+        return room.toggleRx(favorite);
     }
 
     @Override
@@ -97,23 +97,23 @@ public class FlagRepository extends Repository<Long, Flag> implements FlagDataSo
     }
 
     @Override
-    public boolean isExists(Flag flag) {
-        return room.isExists(flag);
+    public boolean isExists(Flag favorite) {
+        return room.isExists(favorite);
     }
 
     @Override
-    public Maybe<Boolean> isExistsRx(Flag flag) {
-        return room.isExistsRx(flag);
+    public Maybe<Boolean> isExistsRx(Flag favorite) {
+        return room.isExistsRx(favorite);
     }
 
     @Override
-    public long putItem(Flag flag) {
-        return room.putItem(flag);
+    public long putItem(Flag favorite) {
+        return room.putItem(favorite);
     }
 
     @Override
-    public Maybe<Long> putItemRx(Flag flag) {
-        return room.putItemRx(flag);
+    public Maybe<Long> putItemRx(Flag favorite) {
+        return room.putItemRx(favorite);
     }
 
     @Override

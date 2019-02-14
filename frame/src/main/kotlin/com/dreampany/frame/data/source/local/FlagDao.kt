@@ -18,51 +18,51 @@ import io.reactivex.Maybe
 @Dao
 interface FlagDao : BaseDao<Flag> {
 
-    @get:Query("select count(*) from flag")
+    @get:Query("select count(*) from favorite")
     val count: Int
 
-    @get:Query("select count(*) from flag")
+    @get:Query("select count(*) from favorite")
     val countRx: Maybe<Int>
 
-    @get:Query("select * from flag")
+    @get:Query("select * from favorite")
     val items: List<Flag>
 
-    @get:Query("select * from flag")
+    @get:Query("select * from favorite")
     val itemsRx: Maybe<List<Flag>>
 
-    @Query("select count(*) from flag where id = :id and type = :type and subtype = :subtype")
+    @Query("select count(*) from favorite where id = :id and type = :type and subtype = :subtype")
     fun getCount(id: Long, type: String, subtype: String): Int
 
-    @Query("select count(*) from flag where id = :id and type = :type and subtype = :subtype")
+    @Query("select count(*) from favorite where id = :id and type = :type and subtype = :subtype")
     fun getCountRx(id: Long, type: String, subtype: String): Maybe<Int>
 
-    @Query("select * from flag where id = :id limit 1")
+    @Query("select * from favorite where id = :id limit 1")
     fun getItem(id: Long): Flag
 
-    @Query("select * from flag where id = :id limit 1")
+    @Query("select * from favorite where id = :id limit 1")
     fun getItemRx(id: Long): Maybe<Flag>
 
-    @Query("select * from flag where id = :id and type = :type and subtype = :subtype limit 1")
+    @Query("select * from favorite where id = :id and type = :type and subtype = :subtype limit 1")
     fun getItem(id: Long, type : String, subtype: String): Flag
 
-    @Query("select * from flag where id = :id and type = :type and subtype = :subtype limit 1")
+    @Query("select * from favorite where id = :id and type = :type and subtype = :subtype limit 1")
     fun getItemRx(id: Long, type : String, subtype: String): Maybe<Flag>
 
-    @Query("select * from flag limit :limit")
+    @Query("select * from favorite limit :limit")
     fun getItems(limit: Int): List<Flag>
 
-    @Query("select * from flag limit :limit")
+    @Query("select * from favorite limit :limit")
     fun getItemsRx(limit: Int): Maybe<List<Flag>>
 
-    @Query("select * from flag where type = :type and subtype = :subtype")
+    @Query("select * from favorite where type = :type and subtype = :subtype")
     fun getItems(type: String, subtype: String): List<Flag>
 
-    @Query("select * from flag where type = :type and subtype = :subtype")
+    @Query("select * from favorite where type = :type and subtype = :subtype")
     fun getItemsRx(type: String, subtype: String): Maybe<List<Flag>>
 
-    @Query("select * from flag where type = :type and subtype = :subtype limit :limit")
+    @Query("select * from favorite where type = :type and subtype = :subtype limit :limit")
     fun getItems(type: String, subtype: String, limit: Int): List<Flag>
 
-    @Query("select * from flag where type = :type and subtype = :subtype limit :limit")
+    @Query("select * from favorite where type = :type and subtype = :subtype limit :limit")
     fun getItemsRx(type: String, subtype: String, limit: Int): Maybe<List<Flag>>
 }*/

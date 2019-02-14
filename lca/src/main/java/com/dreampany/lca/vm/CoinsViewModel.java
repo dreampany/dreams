@@ -76,6 +76,7 @@ public class CoinsViewModel
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
+        postEmpty((CoinItem) null);
     }
 
     @Override

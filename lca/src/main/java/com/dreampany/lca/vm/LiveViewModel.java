@@ -134,6 +134,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 })
                 .subscribe(
                         result -> {
+                            Timber.v("Posting Result");
                             if (withProgress) {
                                 postProgress(false);
                             }

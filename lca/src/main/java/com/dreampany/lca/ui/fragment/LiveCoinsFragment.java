@@ -23,6 +23,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
@@ -256,7 +257,9 @@ public class LiveCoinsFragment extends BaseMenuFragment implements SmartAdapter.
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
+        //adapter.setEndlessScrollThreshold(Constants.Limit.COIN_THRESHOLD);
         //adapter.setEndlessPageSize(Constants.Limit.COIN_PAGE);
+        //adapter.setEndlessTargetCount(Constants.Limit.COIN_PAGE_MAX);
         ViewUtil.setRecycler(
                 adapter,
                 recycler,

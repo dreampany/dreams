@@ -43,7 +43,7 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
             }
             DataUtil.removeAll(items, updates)
             addItems(updates)
-            super.onLoadMoreComplete(items, 1000)
+            super.onLoadMoreComplete(items, 5000)
         }
     }
 

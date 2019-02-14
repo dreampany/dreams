@@ -130,7 +130,7 @@ public class CoinViewModel
         addSubscription(updateDisposable);
     }
 
-    public void toggle(Coin coin) {
+    public void toggleFavorite(Coin coin) {
         if (hasSingleDisposable()) {
             return;
         }
@@ -167,19 +167,19 @@ public class CoinViewModel
 
     private CoinItem getDetailsCoinItem(Coin coin) {
         CoinItem item = CoinItem.getDetailsItem(coin);
-        adjustFlag(coin, item);
+        adjustFavorite(coin, item);
         return item;
     }
 
     private CoinItem getQuoteCoinItem(Coin coin, Currency currency) {
         CoinItem item = CoinItem.getQuoteItem(coin, currency);
-        adjustFlag(coin, item);
+        adjustFavorite(coin, item);
         return item;
     }
 
     private Maybe<CoinItem> toggleImpl(Coin coin) {
         return Maybe.fromCallable(() -> {
-            repo.toggleFlag(coin);
+            repo.toggleFavorite(coin);
             return getItemRx(coin);
         });
     }
@@ -192,12 +192,12 @@ public class CoinViewModel
             map.put(coin.getId(), item);
         }
         item.setItem(coin);
-        adjustFlag(coin, item);
+        adjustFavorite(coin, item);
         return item;
     }
 
-    private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = repo.isFlagged(coin);
+    private void adjustFavorite(Coin coin, CoinItem item) {
+        boolean flagged = repo.isFavorite(coin);
         item.setFlagged(flagged);
     }
 }

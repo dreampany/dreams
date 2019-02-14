@@ -116,7 +116,7 @@ public class DetailsFragment extends BaseFragment {
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_like:
-                vm.toggle((Coin) v.getTag());
+                vm.toggleFavorite((Coin) v.getTag());
                 break;
             case R.id.button_empty:
                 //vm.loads(true);

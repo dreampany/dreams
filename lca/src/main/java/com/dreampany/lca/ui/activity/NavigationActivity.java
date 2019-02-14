@@ -7,11 +7,8 @@ import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.lca.R;
 import com.dreampany.lca.databinding.ActivityNavigationBinding;
-import com.dreampany.lca.ui.fragment.FlagCoinsFragment;
-import com.dreampany.lca.ui.fragment.IcoFragment;
-import com.dreampany.lca.ui.fragment.LiveCoinsFragment;
-import com.dreampany.lca.ui.fragment.MoreFragment;
-import com.dreampany.lca.ui.fragment.NewsFragment;
+import com.dreampany.lca.ui.fragment.*;
+import com.dreampany.lca.ui.fragment.CoinsFragment;
 
 import javax.inject.Inject;
 
@@ -25,9 +22,9 @@ import dagger.Lazy;
 public class NavigationActivity extends BaseBottomNavigationActivity {
 
     @Inject
-    Lazy<LiveCoinsFragment> liveFragment;
+    Lazy<CoinsFragment> coinsFragment;
     @Inject
-    Lazy<FlagCoinsFragment> favoriteFragment;
+    Lazy<FavoritesFragment> favoritesFragment;
     @Inject
     Lazy<IcoFragment> icoFragment;
     @Inject
@@ -88,10 +85,10 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     protected void onNavigationItem(int navigationItemId) {
         switch (navigationItemId) {
             case R.id.item_live:
-                commitFragment(LiveCoinsFragment.class, liveFragment, R.id.layout);
+                commitFragment(CoinsFragment.class, coinsFragment, R.id.layout);
                 break;
             case R.id.item_favorite:
-                commitFragment(FlagCoinsFragment.class, favoriteFragment, R.id.layout);
+                commitFragment(FavoritesFragment.class, favoritesFragment, R.id.layout);
                 break;
             case R.id.item_ico:
                 commitFragment(IcoFragment.class, icoFragment, R.id.layout);

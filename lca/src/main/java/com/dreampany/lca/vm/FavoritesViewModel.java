@@ -2,7 +2,6 @@ package com.dreampany.lca.vm;
 
 
 import android.app.Application;
-import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -20,16 +19,13 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
-import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Inject;
@@ -42,7 +38,7 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class LiveViewModel
+public class FavoritesViewModel
         extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
         implements NetworkManager.Callback {
 
@@ -51,19 +47,17 @@ public class LiveViewModel
     private final NetworkManager network;
     private final Pref pref;
     private final ApiRepository repo;
-
+    private SmartAdapter.Callback<CoinItem> uiCallback;
     private Disposable updateDisposable;
 
-    private SmartAdapter.Callback<CoinItem> uiCallback;
-
     @Inject
-    LiveViewModel(Application application,
-                  RxMapper rx,
-                  AppExecutors ex,
-                  ResponseMapper rm,
-                  NetworkManager network,
-                  Pref pref,
-                  ApiRepository repo) {
+    FavoritesViewModel(Application application,
+                       RxMapper rx,
+                       AppExecutors ex,
+                       ResponseMapper rm,
+                       NetworkManager network,
+                       Pref pref,
+                       ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
@@ -88,7 +82,6 @@ public class LiveViewModel
                 if (result instanceof Response.Failure) {
                     getEx().postToUi(() -> loads(false, false), 250L);
                 }
-                //getEx().postToUi(this::updateItem, 2000L);
             }
         }
         UiState finalState = state;
@@ -115,21 +108,18 @@ public class LiveViewModel
         loads(true, withProgress);
     }
 
+    @DebugLog
     public void loads(boolean fresh, boolean withProgress) {
-        loads(Constants.Limit.COIN_DEFAULT_INDEX, fresh, withProgress);
-    }
-
-    public void loads(int index, boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
         }
         if (!preLoads(fresh)) {
             return;
         }
-        int limit = Constants.Limit.COIN_PAGE;
+        CoinSource source = CoinSource.CMC;
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
-                .backToMain(getListingRx(index, limit, currency))
+                .backToMain(getFlagItemsRx(source, currency))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
@@ -141,7 +131,9 @@ public class LiveViewModel
                             if (withProgress) {
                                 postProgress(false);
                             }
-                            postResult(result);
+                            if (!DataUtil.isEmpty(result)) {
+                                postResult(result);
+                            }
                         },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
@@ -152,7 +144,6 @@ public class LiveViewModel
         if (!OPEN) {
             return;
         }
-        Timber.v("update fired");
         if (hasDisposable(updateDisposable)) {
             return;
         }
@@ -166,11 +157,12 @@ public class LiveViewModel
                 })
                 .subscribe(
                         result -> {
+                            Timber.v("Posting Result");
+                            if (withProgress) {
+                                postProgress(false);
+                            }
                             if (!DataUtil.isEmpty(result)) {
-                                postProgress(false);
                                 postResult(result);
-                            } else {
-                                postProgress(false);
                             }
                         }, this::postFailure);
         addSubscription(updateDisposable);
@@ -179,11 +171,42 @@ public class LiveViewModel
     /**
      * private api
      */
-    private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
-        return repo
-                .getItemsIfRx(CoinSource.CMC, index, limit, currency)
-                .onErrorResumeNext(Maybe.empty())
-                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
+    private Maybe<List<CoinItem>> getFlagItemsRx(CoinSource source, Currency currency) {
+        return Maybe.fromCallable(() -> {
+            List<CoinItem> result = new ArrayList<>();
+            List<Coin> real = repo.getFavorites(source, currency);
+            if (real == null) {
+                real = new ArrayList<>();
+            }
+            List<CoinItem> ui = uiCallback.getItems();
+            for (Coin coin : real) {
+                CoinItem item = getItem(coin);
+                item.setFlagged(true);
+                result.add(item);
+            }
+
+            if (!DataUtil.isEmpty(ui)) {
+                for (CoinItem item : ui) {
+                    if (!real.contains(item.getItem())) {
+                        item.setFlagged(false);
+                        result.add(item);
+                    }
+                }
+            }
+
+            Timber.v("Flag Result in VM %d", result.size());
+            return result;
+        });
+    }
+
+    private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency currency) {
+        return Maybe.fromCallable(() -> {
+            List<CoinItem> result = getVisibleItemsIf(currency);
+            if (DataUtil.isEmpty(result)) {
+                throw new EmptyException();
+            }
+            return result;
+        }).onErrorReturn(throwable -> new ArrayList<>());
     }
 
     private List<CoinItem> getVisibleItemsIf(Currency currency) {
@@ -208,57 +231,6 @@ public class LiveViewModel
         return items;
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency currency) {
-        return Maybe.fromCallable(() -> {
-            List<CoinItem> result = getVisibleItemsIf(currency);
-            if (DataUtil.isEmpty(result)) {
-                throw new EmptyException();
-            }
-            return result;
-        }).onErrorResumeNext(Maybe.empty());
-    }
-
-    @DebugLog
-    private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
-        return Maybe.fromCallable(() -> getItems(result));
-    }
-
-    private List<CoinItem> getItems(List<Coin> result) {
-        List<Coin> coins = new ArrayList<>(result);
-        List<Coin> ranked = new ArrayList<>();
-        for (Coin coin : coins) {
-            if (coin.getRank() > 0) {
-                ranked.add(coin);
-            }
-        }
-
-        Collections.sort(ranked, (left, right) -> left.getRank() - right.getRank());
-        coins.removeAll(ranked);
-        coins.addAll(0, ranked);
-
-        putFlags(coins, Constants.Limit.COIN_FLAG);
-        List<CoinItem> items = new ArrayList<>(coins.size());
-        for (Coin coin : coins) {
-            CoinItem item = getItem(coin);
-            items.add(item);
-        }
-        Timber.v("Live Update Result in VM %d", items.size());
-        return items;
-    }
-
-    private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = repo.isFlagged(coin);
-        item.setFlagged(flagged);
-    }
-
-    //todo need to improve for flowable and completable working
-    private Maybe<CoinItem> toggleImpl(Coin coin) {
-        return Maybe.fromCallable(() -> {
-            repo.toggleFlag(coin);
-            return getItem(coin);
-        });
-    }
-
     private CoinItem getItem(Coin coin) {
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
@@ -271,14 +243,28 @@ public class LiveViewModel
         return item;
     }
 
-    private void putFlags(List<Coin> coins, int flagCount) {
-        if (!pref.isDefaultFlagCommitted()) {
-            List<Coin> flagItems = DataUtil.sub(coins, flagCount);
-            if (!DataUtil.isEmpty(flagItems)) {
-                Stream.of(flagItems).forEach(repo::putFlag);
-                pref.commitDefaultFlag();
+    private List<CoinItem> getItems(List<Coin> result) {
+        List<Coin> coins = new ArrayList<>(result);
+        List<Coin> ranked = new ArrayList<>();
+        for (Coin coin : coins) {
+            if (coin.getRank() > 0) {
+                ranked.add(coin);
             }
         }
+        Collections.sort(ranked, (left, right) -> left.getRank() - right.getRank());
+        coins.removeAll(ranked);
+        coins.addAll(0, ranked);
+
+        List<CoinItem> items = new ArrayList<>(coins.size());
+        for (Coin coin : coins) {
+            CoinItem item = getItem(coin);
+            items.add(item);
+        }
+        return items;
     }
 
+    private void adjustFlag(Coin coin, CoinItem item) {
+        boolean flagged = repo.isFavorite(coin);
+        item.setFlagged(flagged);
+    }
 }

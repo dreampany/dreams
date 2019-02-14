@@ -46,7 +46,7 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
     @NonNull
     @Override
     protected String[] pageTitles() {
-        return TextUtil.getStrings(getContext(), R.string.live_crypto, R.string.upcoming, R.string.finished);
+        return TextUtil.getStrings(getContext(), R.string.live, R.string.upcoming, R.string.finished);
     }
 
     @NonNull

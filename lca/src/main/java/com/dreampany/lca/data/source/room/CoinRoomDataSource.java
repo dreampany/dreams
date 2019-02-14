@@ -172,7 +172,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
 /*    @Override
-    public boolean isFlagged(Coin coin) {
+    public boolean isFavorite(Coin coin) {
         if (flags.containsKey(coin)) {
             return flags.get(coin);
         }
@@ -190,7 +190,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public long putFlag(Coin coin) {
+    public long putFavorite(Coin coin) {
         Flag flag = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
         return flagRepo.putItem(flag);
     }
@@ -205,15 +205,15 @@ public class CoinRoomDataSource implements CoinDataSource {
     public List<Long> putFlags(List<Coin> coins) {
         List<Long> result = new ArrayList<>(coins.size());
         for (Coin coin : coins) {
-            result.add(putFlag(coin));
+            result.add(putFavorite(coin));
         }
         return result;
     }*/
 
 /*    @Override
-    public boolean toggleFlag(Coin coin) {
+    public boolean toggleFavorite(Coin coin) {
         Flag flag = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        boolean flagged = flagRepo.toggle(flag);
+        boolean flagged = flagRepo.toggleFavorite(flag);
         flags.put(coin, flagged);
         return flagged;
     }*/
@@ -222,14 +222,14 @@ public class CoinRoomDataSource implements CoinDataSource {
     public Maybe<Boolean> toggleFlagRx(Coin coin) {
         Maybe<Flag> maybe = flagRepo.getItemRx(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
         return maybe.map(flag -> {
-            boolean flagged = flagRepo.toggle(flag);
+            boolean flagged = flagRepo.toggleFavorite(flag);
             flags.put(coin, flagged);
             return flagged;
         });
     }*/
 
 /*    @Override
-    public List<Coin> getFlags() {
+    public List<Coin> getFavorites() {
         return getItemsIf(flagRepo.getItemsIf());
     }
 

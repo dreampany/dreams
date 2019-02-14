@@ -31,13 +31,13 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(LiveViewModel::class)
-    abstract fun bindLiveViewModel(vm: LiveViewModel): ViewModel
+    @ViewModelKey(CoinsViewModel::class)
+    abstract fun bindLiveViewModel(vm: CoinsViewModel): ViewModel
 
     @Binds
     @IntoMap
-    @ViewModelKey(FlagViewModel::class)
-    abstract fun bindFlagViewModel(vm: FlagViewModel): ViewModel
+    @ViewModelKey(FavoritesViewModel::class)
+    abstract fun bindFlagViewModel(vm: FavoritesViewModel): ViewModel
 
     @Binds
     @IntoMap

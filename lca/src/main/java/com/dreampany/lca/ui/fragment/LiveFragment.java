@@ -30,7 +30,7 @@ import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinViewModel;
-import com.dreampany.lca.vm.LiveViewModel;
+import com.dreampany.lca.vm.CoinsViewModel;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
@@ -64,7 +64,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
     ViewModelProvider.Factory factory;
     private FragmentCoinsBinding binding;
     private CoinViewModel cvm;
-    private LiveViewModel vm;
+    private CoinsViewModel vm;
     private CoinAdapter adapter;
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
@@ -154,7 +154,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
 /*            case R.id.button_like:
-                vm.toggle((Coin) v.getTag());
+                vm.toggleFavorite((Coin) v.getTag());
                 break;*/
             case R.id.button_empty:
                 //vm.loads(true);
@@ -196,7 +196,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
 
         UiTask<Coin> uiTask = getCurrentTask(true);
         cvm = (CoinViewModel) getFragmentCallback().getX();
-        vm = ViewModelProviders.of(this, factory).get(LiveViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(CoinsViewModel.class);
         vm.setUiCallback(this);
         vm.setTask(uiTask);
         vm.observeFlag(this, cvm::onFlag);

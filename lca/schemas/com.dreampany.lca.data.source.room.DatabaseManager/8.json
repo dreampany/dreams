@@ -1,0 +1,686 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 8,
+    "identityHash": "366a810236a86bf75bd3fb34149edcde",
+    "entities": [
+      {
+        "tableName": "Coin",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `coinId` INTEGER NOT NULL, `name` TEXT, `symbol` TEXT, `slug` TEXT, `rank` INTEGER NOT NULL, `marketPairs` INTEGER NOT NULL, `circulatingSupply` REAL NOT NULL, `totalSupply` REAL NOT NULL, `maxSupply` REAL NOT NULL, `lastUpdated` INTEGER NOT NULL, `dateAdded` INTEGER NOT NULL, `tags` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coinId",
+            "columnName": "coinId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "symbol",
+            "columnName": "symbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marketPairs",
+            "columnName": "marketPairs",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "circulatingSupply",
+            "columnName": "circulatingSupply",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalSupply",
+            "columnName": "totalSupply",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxSupply",
+            "columnName": "maxSupply",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateAdded",
+            "columnName": "dateAdded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Coin_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Coin_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Quote",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `coinId` INTEGER NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` TEXT, PRIMARY KEY(`coinId`, `currency`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coinId",
+            "columnName": "coinId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "currency",
+            "columnName": "currency",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayVolume",
+            "columnName": "dayVolume",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "marketCap",
+            "columnName": "marketCap",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "hourChange",
+            "columnName": "hourChange",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayChange",
+            "columnName": "dayChange",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "weekChange",
+            "columnName": "weekChange",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "coinId",
+            "currency"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Quote_coinId_currency",
+            "unique": true,
+            "columnNames": [
+              "coinId",
+              "currency"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Quote_coinId_currency` ON `${TABLE_NAME}` (`coinId`, `currency`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Price",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `price` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Price_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Price_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Exchange",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `exchange` TEXT, `fromSymbol` TEXT, `toSymbol` TEXT, `volume24h` REAL NOT NULL, `volume24hTo` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exchange",
+            "columnName": "exchange",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fromSymbol",
+            "columnName": "fromSymbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "toSymbol",
+            "columnName": "toSymbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "volume24h",
+            "columnName": "volume24h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "volume24hTo",
+            "columnName": "volume24hTo",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Exchange_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Exchange_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Market",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `market` TEXT, `fromSymbol` TEXT, `toSymbol` TEXT, `price` REAL NOT NULL, `volume24h` REAL NOT NULL, `changePct24h` REAL NOT NULL, `change24h` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "market",
+            "columnName": "market",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "fromSymbol",
+            "columnName": "fromSymbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "toSymbol",
+            "columnName": "toSymbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "volume24h",
+            "columnName": "volume24h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "changePct24h",
+            "columnName": "changePct24h",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "change24h",
+            "columnName": "change24h",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Market_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Market_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Graph",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `websiteSlug` TEXT, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `priceBTC` TEXT, `priceUSD` TEXT, `volumeUSD` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "websiteSlug",
+            "columnName": "websiteSlug",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "endTime",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "priceBTC",
+            "columnName": "priceBTC",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "priceUSD",
+            "columnName": "priceUSD",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "volumeUSD",
+            "columnName": "volumeUSD",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Graph_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Graph_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Ico",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `name` TEXT, `imageUrl` TEXT, `description` TEXT, `websiteLink` TEXT, `icoWatchListUrl` TEXT, `startTime` TEXT, `endTime` TEXT, `timezone` TEXT, `coinSymbol` TEXT, `priceUSD` TEXT, `allTimeRoi` TEXT, `status` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "websiteLink",
+            "columnName": "websiteLink",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "icoWatchListUrl",
+            "columnName": "icoWatchListUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "startTime",
+            "columnName": "startTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "endTime",
+            "columnName": "endTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timezone",
+            "columnName": "timezone",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "coinSymbol",
+            "columnName": "coinSymbol",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "priceUSD",
+            "columnName": "priceUSD",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "allTimeRoi",
+            "columnName": "allTimeRoi",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Ico_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Ico_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "News",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `newsId` INTEGER NOT NULL, `guid` TEXT, `publishedOn` INTEGER NOT NULL, `imageUrl` TEXT, `title` TEXT, `url` TEXT, `source` TEXT, `body` TEXT, `tags` TEXT, `categories` TEXT, `upVotes` INTEGER NOT NULL, `downVotes` INTEGER NOT NULL, `language` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "newsId",
+            "columnName": "newsId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "guid",
+            "columnName": "guid",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "publishedOn",
+            "columnName": "publishedOn",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "imageUrl",
+            "columnName": "imageUrl",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "body",
+            "columnName": "body",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "categories",
+            "columnName": "categories",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "upVotes",
+            "columnName": "upVotes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "downVotes",
+            "columnName": "downVotes",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "language",
+            "columnName": "language",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_News_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_News_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"366a810236a86bf75bd3fb34149edcde\")"
+    ]
+  }
+}

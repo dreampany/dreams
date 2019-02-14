@@ -18,7 +18,6 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.google.common.collect.Maps;
 import io.reactivex.Maybe;
-import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -43,7 +42,7 @@ public class ApiRepository {
     private final StateMapper stateMapper;
     private final CoinRepository coinRepo;
     private final StateRepository stateRepo;
-    private final Map<Coin, Boolean> flags;
+    private final Map<Coin, Boolean> favorites;
 
     @Inject
     ApiRepository(RxMapper rx,
@@ -60,7 +59,7 @@ public class ApiRepository {
         this.stateMapper = stateMapper;
         this.coinRepo = coinRepo;
         this.stateRepo = stateRepo;
-        flags = Maps.newConcurrentMap();
+        favorites = Maps.newConcurrentMap();
     }
 
     public boolean hasState(Coin coin, ItemSubtype subtype, ItemState state) {
@@ -82,34 +81,34 @@ public class ApiRepository {
         return result;
     }
 
-    public long putFlag(Coin coin) {
-        long result = putState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+    public long putFavorite(Coin coin) {
+        long result = putState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
         return result;
     }
 
-    public int removeFlag(Coin coin) {
-        int result = removeState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+    public int removeFavorite(Coin coin) {
+        int result = removeState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
         return result;
     }
 
-    public boolean isFlagged(Coin coin) {
-        if (!flags.containsKey(coin)) {
-            boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
-            flags.put(coin, flagged);
+    public boolean isFavorite(Coin coin) {
+        if (!favorites.containsKey(coin)) {
+            boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+            favorites.put(coin, flagged);
         }
-        return flags.get(coin);
+        return favorites.get(coin);
     }
 
-    public boolean toggleFlag(Coin coin) {
-        boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FLAG);
+    public boolean toggleFavorite(Coin coin) {
+        boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
         if (flagged) {
-            removeFlag(coin);
-            flags.put(coin, false);
+            removeFavorite(coin);
+            favorites.put(coin, false);
         } else {
-            putFlag(coin);
-            flags.put(coin, true);
+            putFavorite(coin);
+            favorites.put(coin, true);
         }
-        return flags.get(coin);
+        return favorites.get(coin);
     }
 
     public List<Coin> getItemsIf(CoinSource source, String[] symbols, Currency currency) {
@@ -124,9 +123,8 @@ public class ApiRepository {
         return coinRepo.getItemsRx(source, index, limit, currency);
     }
 
-    public List<Coin> getFlags(CoinSource source, Currency currency) {
-        List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FLAG.name());
-        Timber.v("Flag States %d", states.size());
+    public List<Coin> getFavorites(CoinSource source, Currency currency) {
+        List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());
         return getItemsIf(states, source, currency);
     }
 

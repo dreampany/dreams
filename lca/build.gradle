@@ -147,7 +147,7 @@ dependencies {
     /** library */
     implementation project(':frame')
     implementation project(':network')
-    implementation project(':toggle')
+    implementation project(':toggleFavorite')
 
     /** android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha02'

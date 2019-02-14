@@ -6,11 +6,11 @@
     <string name="ico">ICO</string>
     <string name="news">News</string>
     <string name="share">Share</string>
-    <string name="live_crypto">Live Coins</string>
-    <string name="flag_crypto">Favorite Coins</string>
+    <string name="favorites">Favorites</string>
     <string name="details">Details</string>
     <string name="market">Market</string>
     <string name="graph">Graph</string>
+    <string name="live">Live</string>
     <string name="upcoming">Upcoming</string>
     <string name="finished">Finished</string>
 

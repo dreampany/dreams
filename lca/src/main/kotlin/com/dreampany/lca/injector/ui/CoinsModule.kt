@@ -5,16 +5,14 @@ import com.dreampany.lca.ui.fragment.CoinsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-
 /**
- * Created by Hawladar Roman on 5/25/2018.
+ * Created by Hawladar Roman on 5/29/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-
 @Module
 abstract class CoinsModule {
     @FragmentScope
-    @ContributesAndroidInjector(modules = [LiveModule::class, FlagModule::class])
-    abstract fun coinsFragment(): CoinsFragment
+    @ContributesAndroidInjector
+    abstract fun coinsFragment(): CoinsFragment;
 }

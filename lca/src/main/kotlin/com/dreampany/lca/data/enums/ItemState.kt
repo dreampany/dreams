@@ -7,5 +7,5 @@ package com.dreampany.lca.data.enums
  * Last modified $file.lastModified
  */
 enum class ItemState {
-    FLAG
+    FAVORITE
 }

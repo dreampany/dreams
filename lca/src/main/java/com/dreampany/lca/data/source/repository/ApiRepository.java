@@ -18,6 +18,7 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.google.common.collect.Maps;
 import io.reactivex.Maybe;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -125,6 +126,7 @@ public class ApiRepository {
 
     public List<Coin> getFlags(CoinSource source, Currency currency) {
         List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FLAG.name());
+        Timber.v("Flag States %d", states.size());
         return getItemsIf(states, source, currency);
     }
 

@@ -33,7 +33,9 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
+public class NewsViewModel
+        extends BaseViewModel<News, NewsItem, UiTask<News>>
+        implements NetworkManager.Callback {
 
     private static final int LIMIT = Constants.Limit.NEWS;
 
@@ -50,21 +52,17 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
         super(application, rx, ex, rm);
         this.network = network;
         this.repo = repo;
-        //network.observe(this::onResult, true);
     }
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         repo.clear();
         super.clear();
     }
 
-    public void start() {
-        network.observe(this::onResult, true);
-    }
-
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -79,7 +77,10 @@ public class NewsViewModel extends BaseViewModel<News, NewsItem, UiTask<News>> {
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
-    @DebugLog
+    public void start() {
+        network.observe(this, true);
+    }
+
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             return;

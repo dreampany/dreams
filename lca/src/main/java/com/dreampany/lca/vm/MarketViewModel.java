@@ -40,7 +40,9 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Coin>> {
+public class MarketViewModel
+        extends BaseViewModel<Market, MarketItem, UiTask<Coin>>
+        implements NetworkManager.Callback {
 
     private static final int LIMIT = Constants.Limit.COIN_MARKET;
 
@@ -61,17 +63,16 @@ public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Co
         this.network = network;
         this.repo = repo;
         this.formatter = formatter;
-        //network.observe(this::onResult, true);
     }
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         super.clear();
     }
 
-    @DebugLog
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.hasInternet()) {
@@ -82,8 +83,10 @@ public class MarketViewModel extends BaseViewModel<Market, MarketItem, UiTask<Co
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
+    public void start() {
+        network.observe(this, true);
+    }
 
-    @DebugLog
     public void loads(String toSymbol, boolean fresh) {
         this.toSymbol = toSymbol;
         if (fresh) {

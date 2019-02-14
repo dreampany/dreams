@@ -48,7 +48,9 @@ import java.util.Objects;
  */
 
 @ActivityScope
-public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.Callback<CoinItem> {
+public class FlagCoinsFragment
+        extends BaseMenuFragment
+        implements SmartAdapter.Callback<CoinItem> {
 
     private static final String EMPTY = "empty";
 
@@ -99,7 +101,7 @@ public class FlagCoinsFragment extends BaseMenuFragment implements SmartAdapter.
     @Override
     public void onResume() {
         super.onResume();
-        vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
+        vm.refresh(false, adapter.isEmpty());
     }
 
 /*    @Override

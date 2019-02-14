@@ -32,7 +32,9 @@ import java.util.Objects;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
+public class CoinViewModel
+        extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
+        implements NetworkManager.Callback {
 
     private static final boolean OPEN = true;
 
@@ -54,13 +56,13 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         removeUpdateDisposable();
         super.clear();
     }
 
-    @DebugLog
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -74,6 +76,10 @@ public class CoinViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         }
         UiState finalState = state;
         //getEx().postToUiSmartly(() -> updateUiState(finalState));
+    }
+
+    public void start() {
+        network.observe(this, true);
     }
 
     public void removeUpdateDisposable() {

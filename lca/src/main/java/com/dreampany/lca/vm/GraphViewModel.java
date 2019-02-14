@@ -45,7 +45,9 @@ import java.util.Objects;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>> {
+public class GraphViewModel
+        extends BaseViewModel<Graph, GraphItem, UiTask<Coin>>
+        implements NetworkManager.Callback {
 
     private final NetworkManager network;
     private final GraphRepository repo;
@@ -70,12 +72,12 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         super.clear();
     }
 
-    @DebugLog
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -84,6 +86,10 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         }
         UiState finalState = state;
         getEx().postToUiSmartly(() -> updateUiState(finalState));
+    }
+
+    public void start() {
+        network.observe(this, true);
     }
 
 /*    @Subscribe(threadMode = ThreadMode.POSTING)
@@ -96,7 +102,6 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
         }
     }*/
 
-    @DebugLog
     public void load(CmcCurrency cmcCurrency, TimeType timeType, boolean fresh) {
         this.cmcCurrency = cmcCurrency;
         this.timeType = timeType;
@@ -145,7 +150,7 @@ public class GraphViewModel extends BaseViewModel<Graph, GraphItem, UiTask<Coin>
             item.setChangeInPercentColor(changeInPercentColor);
             item.setXAxisValueFormatter(formatter);
         } else {
-           item.setSuccess(false);
+            item.setSuccess(false);
         }
         return item;
     }

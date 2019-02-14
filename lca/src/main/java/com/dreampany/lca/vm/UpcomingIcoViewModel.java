@@ -33,7 +33,9 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class UpcomingIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>> {
+public class UpcomingIcoViewModel
+        extends BaseViewModel<Ico, IcoItem, UiTask<Ico>>
+        implements NetworkManager.Callback {
 
     private static final int LIMIT = Constants.Limit.ICO;
 
@@ -50,22 +52,17 @@ public class UpcomingIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
         super(application, rx, ex, rm);
         this.network = network;
         this.repo = repo;
-        //network.observe(this::onResult, true);
     }
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         repo.clear(IcoStatus.UPCOMING);
         super.clear();
     }
 
-    public void start() {
-        network.observe(this::onResult, true);
-    }
-
-    @DebugLog
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -80,7 +77,10 @@ public class UpcomingIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
-    @DebugLog
+    public void start() {
+        network.observe(this, true);
+    }
+
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             return;

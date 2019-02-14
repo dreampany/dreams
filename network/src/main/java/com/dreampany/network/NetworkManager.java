@@ -16,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import hugo.weaving.DebugLog;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 8/18/2018.
@@ -66,6 +67,8 @@ public final class NetworkManager {
         callbacks.add(callback);
         checkInternets.put(callback, checkInternet);
         startInternetIfPossible();
+
+        Timber.v("Internet Callbacks %d", callbacks.size());
     }
 
     public void deObserve(Callback callback, boolean stopInternetCheck) {

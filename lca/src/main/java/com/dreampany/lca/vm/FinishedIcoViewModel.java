@@ -1,7 +1,6 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -19,25 +18,23 @@ import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
+import javax.inject.Inject;
+import java.util.List;
+
 /**
  * Created by Hawladar Roman on 6/22/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class FinishedIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico>>  {
+public class FinishedIcoViewModel
+        extends BaseViewModel<Ico, IcoItem, UiTask<Ico>>
+        implements NetworkManager.Callback {
 
     private static final int LIMIT = Constants.Limit.ICO;
     private static final long initialDelay = 0L;
@@ -57,22 +54,17 @@ public class FinishedIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
         super(application, rx, ex, rm);
         this.network = network;
         this.repo = repo;
-        //network.observe(this::onResult, true);
     }
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         repo.clear(IcoStatus.FINISHED);
         super.clear();
     }
 
-    public void start() {
-        network.observe(this::onResult, true);
-    }
-
-    @DebugLog
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -87,7 +79,11 @@ public class FinishedIcoViewModel extends BaseViewModel<Ico, IcoItem, UiTask<Ico
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
-    @DebugLog
+
+    public void start() {
+        network.observe(this, true);
+    }
+
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             return;

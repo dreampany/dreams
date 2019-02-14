@@ -81,6 +81,7 @@ public class MarketFragment extends BaseFragment implements BootstrapDropDown.On
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        evm.start();
     }
 
     @Override

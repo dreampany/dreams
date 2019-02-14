@@ -66,13 +66,12 @@ public class CoinRoomDataSource implements CoinDataSource {
     public Coin getItem(CoinSource source, long id, Currency currency) {
         if (!mapper.hasCoin(String.valueOf(id))) {
             Coin room = dao.getItem(id);
-            mapper.add(room);
+            mapper.add(String.valueOf(id), room);
         }
         Coin cache = mapper.getCoin(String.valueOf(id));
-        if (cache == null) {
-            return null;
+        if (cache != null) {
+            bindQuote(cache, currency);
         }
-        bindQuote(cache, currency);
         return cache;
     }
 

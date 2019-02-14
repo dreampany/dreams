@@ -39,7 +39,9 @@ import io.reactivex.functions.Function;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class ExchangeViewModel extends BaseViewModel<Exchange, ExchangeItem, UiTask<Coin>> {
+public class ExchangeViewModel
+        extends BaseViewModel<Exchange, ExchangeItem, UiTask<Coin>>
+        implements NetworkManager.Callback {
 
     private static final int LIMIT = Constants.Limit.COIN_EXCHANGE;
     private static final long INITIAL_DELAY_IN_SECOND = 0L;
@@ -64,17 +66,16 @@ public class ExchangeViewModel extends BaseViewModel<Exchange, ExchangeItem, UiT
         this.network = network;
         this.repo = repo;
         this.formatter = formatter;
-        //network.observe(this::onResult, true);
     }
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         super.clear();
     }
 
-    @DebugLog
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -85,7 +86,10 @@ public class ExchangeViewModel extends BaseViewModel<Exchange, ExchangeItem, UiT
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
-    @DebugLog
+    public void start() {
+        network.observe(this, true);
+    }
+
     public void loads(boolean fresh) {
         if (fresh) {
             removeMultipleSubscription();

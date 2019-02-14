@@ -38,7 +38,9 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
+public class FlagViewModel
+        extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
+        implements NetworkManager.Callback {
 
     private static final boolean OPEN = true;
 
@@ -64,17 +66,14 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
     }
 
-    public void start() {
-        network.observe(this::onResult, true);
-    }
-
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -91,6 +90,10 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
         this.uiCallback = callback;
+    }
+
+    public void start() {
+        network.observe(this, true);
     }
 
     public void removeUpdateDisposable() {
@@ -117,15 +120,20 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
                 .backToMain(getFlagItemsRx(source, currency))
-                .doOnSubscribe(subscription ->{
+                .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(
                         result -> {
-                            postProgress(false);
-                            postResult(result);
+                            Timber.v("Posting Result");
+                            if (withProgress) {
+                                postProgress(false);
+                            }
+                            if (!DataUtil.isEmpty(result)) {
+                                postResult(result);
+                            }
                         },
                         error -> postFailureMultiple(new MultiException(error, new ExtraException()))
                 );
@@ -149,17 +157,20 @@ public class FlagViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
                 })
                 .subscribe(
                         result -> {
+                            Timber.v("Posting Result");
+                            if (withProgress) {
+                                postProgress(false);
+                            }
                             if (!DataUtil.isEmpty(result)) {
-                                postProgress(false);
                                 postResult(result);
-                            } else {
-                                postProgress(false);
                             }
                         }, this::postFailure);
         addSubscription(updateDisposable);
     }
 
-    /** private api */
+    /**
+     * private api
+     */
     private Maybe<List<CoinItem>> getFlagItemsRx(CoinSource source, Currency currency) {
         return Maybe.fromCallable(() -> {
             List<CoinItem> result = new ArrayList<>();

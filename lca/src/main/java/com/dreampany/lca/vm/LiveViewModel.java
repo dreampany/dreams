@@ -42,7 +42,9 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
+public class LiveViewModel
+        extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
+        implements NetworkManager.Callback {
 
     private static final boolean OPEN = true;
 
@@ -70,13 +72,14 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this, true);
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
     }
 
-    void onResult(Network... networks) {
+    @Override
+    public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.isConnected()) {
@@ -97,7 +100,7 @@ public class LiveViewModel extends BaseViewModel<Coin, CoinItem, UiTask<Coin>> {
     }
 
     public void start() {
-        network.observe(this::onResult, true);
+        network.observe(this, true);
     }
 
     public void removeUpdateDisposable() {

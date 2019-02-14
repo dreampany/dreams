@@ -92,6 +92,7 @@ public class GraphFragment extends BaseFragment
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
+        vm.start();
     }
 
     @Override

@@ -177,19 +177,12 @@ public class CoinMapper {
         return out;
     }
 
-/*    public Coin toItem(Flag flag, CoinDataSource source) {
-        Coin coin = map.get(flag.getId());
-        if (coin == null) {
-            coin = source.getItem(flag.getId());
-            map.put(coin.getId(), coin);
-        }
-        return coin;
-    }*/
-
     public Coin toItem(State state, CoinSource source, Currency currency, CoinDataSource api) {
         Coin coin = map.get(state.getId());
         if (coin == null) {
             coin = api.getItem(source, state.getId(), currency);
+        }
+        if (coin != null) {
             map.put(coin.getId(), coin);
         }
         return coin;

@@ -210,6 +210,9 @@ dependencies {
     api 'com.facebook.stetho:stetho-okhttp3:1.5.0'
     api 'com.facebook.fresco:fresco:1.11.0'
 
+    /** android-iconics */
+    api 'com.mikepenz:iconics-core:4.+'
+
     /** misc */
     //implementation 'com.github.pwittchen:prefser-rx2:2.2.1'
     implementation 'com.afollestad:aesthetic:0.6.1'

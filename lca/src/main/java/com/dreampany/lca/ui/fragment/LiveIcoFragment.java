@@ -1,14 +1,14 @@
 package com.dreampany.lca.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.dreampany.frame.data.enums.Event;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -16,6 +16,7 @@ import com.dreampany.frame.misc.FragmentScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
@@ -24,6 +25,7 @@ import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.databinding.FragmentIcoBinding;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.IcoAdapter;
+import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.LiveIcoViewModel;
@@ -47,7 +49,9 @@ import java.util.Objects;
  * hawladar.roman@bjitgroup.com
  */
 @FragmentScope
-public class LiveIcoFragment extends BaseFragment {
+public class LiveIcoFragment
+        extends BaseFragment
+        implements SmartAdapter.Callback<IcoItem> {
 
     private static final String EMPTY = "empty";
 
@@ -87,7 +91,7 @@ public class LiveIcoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -111,7 +115,7 @@ public class LiveIcoFragment extends BaseFragment {
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        vm.loads(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -127,7 +131,7 @@ public class LiveIcoFragment extends BaseFragment {
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_empty:
-                vm.loads(true);
+                vm.loads(true, adapter.isEmpty());
                 break;
         }
     }
@@ -140,6 +144,29 @@ public class LiveIcoFragment extends BaseFragment {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public List<IcoItem> getItems() {
+        return adapter.getCurrentItems();
+    }
+
+    @Nullable
+    @Override
+    public List<IcoItem> getVisibleItems() {
+        return adapter.getVisibleItems();
+    }
+
+    @Nullable
+    @Override
+    public IcoItem getVisibleItem() {
+        return adapter.getVisibleItem();
     }
 
     private void initView() {
@@ -155,6 +182,7 @@ public class LiveIcoFragment extends BaseFragment {
 
         UiTask<Ico> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(LiveIcoViewModel.class);
+        vm.setUiCallback(this);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeEvent(this, this::processEvent);

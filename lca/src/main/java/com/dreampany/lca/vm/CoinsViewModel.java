@@ -27,8 +27,10 @@ import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
 
@@ -76,7 +78,6 @@ public class CoinsViewModel
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
-        postEmpty((CoinItem) null);
     }
 
     @Override
@@ -87,9 +88,9 @@ public class CoinsViewModel
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    getEx().postToUi(() -> loads(false, false), 250L);
+                    boolean empty = uiCallback == null || uiCallback.getEmpty();
+                    getEx().postToUi(() -> loads(false, empty), 250L);
                 }
-                //getEx().postToUi(this::updateItem, 2000L);
             }
         }
         UiState finalState = state;
@@ -138,13 +139,14 @@ public class CoinsViewModel
                 })
                 .subscribe(
                         result -> {
-                            Timber.v("Posting Result");
                             if (withProgress) {
                                 postProgress(false);
                             }
                             postResult(result);
                         },
-                        error -> postFailureMultiple(new MultiException(error, new ExtraException()))
+                        error -> {
+                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        }
                 );
         addMultipleSubscription(disposable);
     }
@@ -183,7 +185,6 @@ public class CoinsViewModel
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
         return repo
                 .getItemsIfRx(CoinSource.CMC, index, limit, currency)
-                .onErrorResumeNext(Maybe.empty())
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
     }
 

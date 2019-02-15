@@ -9,11 +9,13 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.repository.IcoRepository;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
@@ -42,6 +44,8 @@ public class LiveIcoViewModel
     private final NetworkManager network;
     private final IcoRepository repo;
 
+    private SmartAdapter.Callback<IcoItem> uiCallback;
+
     @Inject
     LiveIcoViewModel(Application application,
                      RxMapper rx,
@@ -69,7 +73,8 @@ public class LiveIcoViewModel
                 state = UiState.ONLINE;
                 Response<List<IcoItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    getEx().postToUi(() -> loads(false), 250L);
+                    boolean empty = uiCallback == null || uiCallback.getEmpty();
+                    getEx().postToUi(() -> loads(false, empty), 250L);
                 }
             }
         }
@@ -77,20 +82,35 @@ public class LiveIcoViewModel
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
+    public void setUiCallback(SmartAdapter.Callback<IcoItem> callback) {
+        this.uiCallback = callback;
+    }
+
     public void start() {
         network.observe(this, true);
     }
 
-    public void loads(boolean fresh) {
+    public void loads(boolean fresh, boolean withProgress) {
         if (!preLoads(fresh)) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
-                .doOnSubscribe(subscription -> postProgress(true))
-                .subscribe(result -> postResult(result, true), error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
-                });
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(
+                        result -> {
+                            if (withProgress) {
+                                postProgress(false);
+                            }
+                            postResult(result);
+                        },
+                        error -> {
+                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        });
         addMultipleSubscription(disposable);
     }
 

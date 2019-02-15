@@ -161,6 +161,11 @@ public class FavoritesFragment
         return false;
     }
 
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
+    }
+
     @Nullable
     @Override
     public List<CoinItem> getItems() {

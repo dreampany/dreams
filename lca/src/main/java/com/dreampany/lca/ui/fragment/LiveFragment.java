@@ -172,6 +172,11 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
         return false;
     }
 
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
+    }
+
     @Nullable
     @Override
     public List<CoinItem> getVisibleItems() {

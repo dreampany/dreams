@@ -51,7 +51,9 @@ import java.util.Objects;
  */
 
 @ActivityScope
-public class CoinsFragment extends BaseMenuFragment implements SmartAdapter.Callback<CoinItem> {
+public class CoinsFragment
+        extends BaseMenuFragment
+        implements SmartAdapter.Callback<CoinItem> {
 
     private static final String LOADING = "loading";
     private static final String EMPTY = "empty";
@@ -200,6 +202,11 @@ public class CoinsFragment extends BaseMenuFragment implements SmartAdapter.Call
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
     }
 
     @Nullable

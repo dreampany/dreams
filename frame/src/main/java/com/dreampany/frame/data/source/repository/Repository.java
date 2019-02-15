@@ -7,6 +7,8 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 
@@ -71,7 +73,36 @@ public abstract class Repository<K, V> {
 
     @SafeVarargs
     protected final Maybe<List<V>> concatFirstRx(Maybe<List<V>>... sources) {
-        return Maybe.fromCallable(() -> {
+        return Maybe.create(emitter -> {
+            Exception error = null;
+            List<V> items = null;
+
+            for (Maybe<List<V>> source : sources) {
+                try {
+                    items = source.blockingGet();
+                } catch (Exception ignored) {
+                    error = new IOException();
+                }
+                if (!DataUtil.isEmpty(items)) {
+                    break;
+                }
+            }
+            if (DataUtil.isEmpty(items)) {
+                if (error == null) {
+                    error = new EmptyException();
+                }
+            }
+            if (!emitter.isDisposed()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onSuccess(items);
+                }
+            }
+        });
+
+
+/*        return Maybe.fromCallable(() -> {
             Exception error = null;
             List<V> items = null;
 
@@ -98,7 +129,7 @@ public abstract class Repository<K, V> {
                 throw error;
             }
             return items;
-        });
+        });*/
     }
 
     @SafeVarargs
@@ -141,7 +172,7 @@ public abstract class Repository<K, V> {
                     error = new IOException();
                 }
                 if (!DataUtil.isEmpty(items)) {
-                   result = items;
+                    result = items;
                 }
             }
             if (DataUtil.isEmpty(result)) {

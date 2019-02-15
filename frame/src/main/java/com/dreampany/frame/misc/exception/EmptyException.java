@@ -8,6 +8,6 @@ package com.dreampany.frame.misc.exception;
 public class EmptyException extends Exception {
 
     public EmptyException() {
-
+        super();
     }
 }

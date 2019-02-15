@@ -30,6 +30,7 @@ open class SmartAdapter<T : BaseItem<*, *>>(listener: Any) : BindingFlexibleAdap
     }
 
     interface Callback<T> {
+        val empty: Boolean
         val items: List<T>?
         val visibleItems: List<T>?
         val visibleItem: T?

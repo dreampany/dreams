@@ -168,8 +168,8 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         uiMap.clear()
         uiCache.clear()
         clearUiState()
-        postEmpty(null as X?)
-        postEmpty(null as List<X>?)
+        //postEmpty(null as X?)
+        //postEmpty(null as List<X>?)
     }
 
     open fun clearUiState() {
@@ -417,14 +417,14 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     fun postFailure(error: Throwable) {
         if (!hasSingleDisposable()) {
-            return
+            //return
         }
         rm.responseWithProgress(input, error)
     }
 
     fun postFailureMultiple(error: Throwable) {
         if (!hasMultipleDisposable()) {
-            return
+            //return
         }
         rm.responseWithProgress(inputs, error)
     }

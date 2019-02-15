@@ -16,6 +16,7 @@ import com.dreampany.frame.misc.FragmentScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
@@ -47,7 +48,9 @@ import java.util.Objects;
  * hawladar.roman@bjitgroup.com
  */
 @FragmentScope
-public class UpcomingIcoFragment extends BaseFragment {
+public class UpcomingIcoFragment
+        extends BaseFragment
+        implements SmartAdapter.Callback<IcoItem> {
 
     private static final String EMPTY = "empty";
 
@@ -87,7 +90,7 @@ public class UpcomingIcoFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -111,7 +114,7 @@ public class UpcomingIcoFragment extends BaseFragment {
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        vm.loads(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -127,7 +130,7 @@ public class UpcomingIcoFragment extends BaseFragment {
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_empty:
-                vm.loads(true);
+                vm.loads(true, adapter.isEmpty());
                 break;
         }
     }
@@ -140,6 +143,29 @@ public class UpcomingIcoFragment extends BaseFragment {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public List<IcoItem> getItems() {
+        return adapter.getCurrentItems();
+    }
+
+    @Nullable
+    @Override
+    public List<IcoItem> getVisibleItems() {
+        return adapter.getVisibleItems();
+    }
+
+    @Nullable
+    @Override
+    public IcoItem getVisibleItem() {
+        return adapter.getVisibleItem();
     }
 
     private void initView() {
@@ -155,6 +181,7 @@ public class UpcomingIcoFragment extends BaseFragment {
 
         UiTask<Ico> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(UpcomingIcoViewModel.class);
+        vm.setUiCallback(this);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeEvent(this, this::processEvent);

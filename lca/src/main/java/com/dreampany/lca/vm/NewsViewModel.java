@@ -10,15 +10,16 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.repository.NewsRepository;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.NewsItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
@@ -41,6 +42,8 @@ public class NewsViewModel
 
     private final NetworkManager network;
     private final NewsRepository repo;
+
+    private SmartAdapter.Callback<NewsItem> uiCallback;
 
     @Inject
     NewsViewModel(Application application,
@@ -69,7 +72,8 @@ public class NewsViewModel
                 state = UiState.ONLINE;
                 Response<List<NewsItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    getEx().postToUi(() -> loads(false), 250L);
+                    boolean empty = uiCallback == null || uiCallback.getEmpty();
+                    getEx().postToUi(() -> loads(false, empty), 250L);
                 }
             }
         }
@@ -77,17 +81,25 @@ public class NewsViewModel
         getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
+    public void setUiCallback(SmartAdapter.Callback<NewsItem> callback) {
+        this.uiCallback = callback;
+    }
+
     public void start() {
         network.observe(this, true);
     }
 
-    public void loads(boolean fresh) {
+    public void loads(boolean fresh, boolean withProgress) {
         if (!preLoads(fresh)) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
-                .doOnSubscribe(subscription -> postProgress(true))
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
                 .subscribe(result -> postResult(result, true), error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });

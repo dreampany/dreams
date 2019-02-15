@@ -27,10 +27,8 @@ import com.dreampany.network.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeObserver;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
 
@@ -53,10 +51,10 @@ public class CoinsViewModel
     private final NetworkManager network;
     private final Pref pref;
     private final ApiRepository repo;
-
     private Disposable updateDisposable;
-
     private SmartAdapter.Callback<CoinItem> uiCallback;
+
+    private int currentIndex;
 
     @Inject
     CoinsViewModel(Application application,
@@ -70,6 +68,7 @@ public class CoinsViewModel
         this.network = network;
         this.pref = pref;
         this.repo = repo;
+        currentIndex = Constants.Limit.COIN_DEFAULT_INDEX;
     }
 
     @Override
@@ -77,6 +76,7 @@ public class CoinsViewModel
         network.deObserve(this, true);
         this.uiCallback = null;
         removeUpdateDisposable();
+        currentIndex = Constants.Limit.COIN_DEFAULT_INDEX;
         super.clear();
     }
 
@@ -89,7 +89,7 @@ public class CoinsViewModel
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
                     boolean empty = uiCallback == null || uiCallback.getEmpty();
-                    getEx().postToUi(() -> loads(false, empty), 250L);
+                    getEx().postToUi(() -> loads(currentIndex,false, empty), 250L);
                 }
             }
         }
@@ -118,7 +118,7 @@ public class CoinsViewModel
     }
 
     public void loads(boolean fresh, boolean withProgress) {
-        loads(Constants.Limit.COIN_DEFAULT_INDEX, fresh, withProgress);
+        loads(currentIndex, fresh, withProgress);
     }
 
     public void loads(int index, boolean fresh, boolean withProgress) {
@@ -128,6 +128,7 @@ public class CoinsViewModel
         if (!preLoads(fresh)) {
             return;
         }
+        currentIndex = index;
         int limit = Constants.Limit.COIN_PAGE;
         Currency currency = Currency.USD;
         Disposable disposable = getRx()

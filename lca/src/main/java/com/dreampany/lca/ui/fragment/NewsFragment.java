@@ -1,14 +1,14 @@
 package com.dreampany.lca.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.dreampany.frame.data.enums.Event;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -17,6 +17,7 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
@@ -47,7 +48,9 @@ import java.util.Objects;
  * hawladar.roman@bjitgroup.com
  */
 @ActivityScope
-public class NewsFragment extends BaseMenuFragment {
+public class NewsFragment
+        extends BaseMenuFragment
+        implements SmartAdapter.Callback<NewsItem> {
 
     private static final String EMPTY = "empty";
 
@@ -100,7 +103,7 @@ public class NewsFragment extends BaseMenuFragment {
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(false);
+        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -111,7 +114,7 @@ public class NewsFragment extends BaseMenuFragment {
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        vm.loads(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -127,7 +130,7 @@ public class NewsFragment extends BaseMenuFragment {
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_empty:
-                vm.loads(true);
+                vm.loads(true, true);
                 break;
         }
     }
@@ -141,6 +144,29 @@ public class NewsFragment extends BaseMenuFragment {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public List<NewsItem> getItems() {
+        return adapter.getCurrentItems();
+    }
+
+    @Nullable
+    @Override
+    public List<NewsItem> getVisibleItems() {
+        return adapter.getVisibleItems();
+    }
+
+    @Nullable
+    @Override
+    public NewsItem getVisibleItem() {
+        return adapter.getVisibleItem();
     }
 
     private void initView() {
@@ -157,6 +183,7 @@ public class NewsFragment extends BaseMenuFragment {
 
         vm = ViewModelProviders.of(this, factory).get(NewsViewModel.class);
         UiTask<News> uiTask = getCurrentTask(true);
+        vm.setUiCallback(this);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeEvent(this, this::processEvent);

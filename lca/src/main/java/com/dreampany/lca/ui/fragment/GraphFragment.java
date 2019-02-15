@@ -60,7 +60,8 @@ import hugo.weaving.DebugLog;
  */
 
 @FragmentScope
-public class GraphFragment extends BaseFragment
+public class GraphFragment
+        extends BaseFragment
         implements BootstrapDropDown.OnDropDownItemClickListener,
         SingleSelectToggleGroup.OnCheckedChangeListener,
         OnChartValueSelectedListener {
@@ -112,7 +113,7 @@ public class GraphFragment extends BaseFragment
         vm.removeSingleSubscription();
     }
 
-    @Override
+/*    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isResumed()) {
@@ -123,7 +124,7 @@ public class GraphFragment extends BaseFragment
         } else {
             vm.removeSingleSubscription();
         }
-    }
+    }*/
 
     @Override
     public void onRefresh() {

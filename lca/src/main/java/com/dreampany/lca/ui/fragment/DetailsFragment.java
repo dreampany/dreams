@@ -14,6 +14,7 @@ import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.FragmentScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
@@ -46,7 +47,9 @@ import hugo.weaving.DebugLog;
  */
 
 @FragmentScope
-public class DetailsFragment extends BaseFragment {
+public class DetailsFragment
+        extends BaseFragment
+        implements SmartAdapter.Callback<CoinItem> {
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -124,6 +127,29 @@ public class DetailsFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public List<CoinItem> getItems() {
+        return adapter.getCurrentItems();
+    }
+
+    @Nullable
+    @Override
+    public List<CoinItem> getVisibleItems() {
+        return adapter.getVisibleItems();
+    }
+
+    @Nullable
+    @Override
+    public CoinItem getVisibleItem() {
+        return adapter.getVisibleItem();
+    }
+
     private void initView() {
         binding = (FragmentDetailsBinding) super.binding;
         refresh = binding.layoutRefresh;
@@ -135,6 +161,7 @@ public class DetailsFragment extends BaseFragment {
 
         UiTask<Coin> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(CoinViewModel.class);
+        vm.setUiCallback(this);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);

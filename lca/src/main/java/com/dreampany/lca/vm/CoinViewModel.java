@@ -9,6 +9,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -41,6 +42,7 @@ public class CoinViewModel
     private final NetworkManager network;
     private final ApiRepository repo;
     private Disposable updateDisposable;
+    private SmartAdapter.Callback<CoinItem> uiCallback;
 
     @Inject
     CoinViewModel(Application application,
@@ -69,13 +71,18 @@ public class CoinViewModel
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
-                    //getEx().postToUi(() -> loads(false), 250L);
+                    boolean empty = uiCallback == null || uiCallback.getEmpty();
+                    getEx().postToUi(() -> loads(false, empty), 250L);
                 }
                 //getEx().postToUi(this::update, 2000L);
             }
         }
         UiState finalState = state;
         //getEx().postToUiSmartly(() -> updateUiState(finalState));
+    }
+
+    public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {
+        this.uiCallback = callback;
     }
 
     public void start() {

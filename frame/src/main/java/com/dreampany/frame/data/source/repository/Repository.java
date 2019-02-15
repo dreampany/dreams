@@ -5,10 +5,7 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
+import io.reactivex.*;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 
@@ -46,7 +43,7 @@ public abstract class Repository<K, V> {
 
     @SafeVarargs
     protected final Maybe<V> concatSingleFirstRx(Maybe<V>... sources) {
-        return Maybe.fromCallable(() -> {
+        return Maybe.create(emitter -> {
             Exception error = null;
             V item = null;
 
@@ -64,9 +61,14 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
             }
-            return item;
+            if (!emitter.isDisposed()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onSuccess(item);
+                }
+            }
         });
     }
 
@@ -100,41 +102,11 @@ public abstract class Repository<K, V> {
                 }
             }
         });
-
-
-/*        return Maybe.fromCallable(() -> {
-            Exception error = null;
-            List<V> items = null;
-
-            if (true) {
-                //throw new EmptyException();
-            }
-
-            for (Maybe<List<V>> source : sources) {
-                try {
-                    items = source.blockingGet();
-                } catch (Exception ignored) {
-                    error = new IOException();
-                    //Timber.e(error);
-                }
-                if (!DataUtil.isEmpty(items)) {
-                    break;
-                }
-            }
-            if (DataUtil.isEmpty(items)) {
-                if (error == null) {
-                    error = new EmptyException();
-                    //Timber.e(error);
-                }
-                throw error;
-            }
-            return items;
-        });*/
     }
 
     @SafeVarargs
     protected final Flowable<List<V>> concatFirstRx(Flowable<List<V>>... sources) {
-        return Flowable.fromCallable(() -> {
+        return Flowable.create(emitter -> {
             Exception error = null;
             List<V> items = null;
 
@@ -152,15 +124,22 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
             }
-            return items;
-        });
+            if (!emitter.isCancelled()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onNext(items);
+                }
+            }
+
+        }, BackpressureStrategy.BUFFER);
+
     }
 
     @SafeVarargs
     protected final Flowable<List<V>> concatLastRx(Flowable<List<V>>... sources) {
-        return Flowable.fromCallable(() -> {
+        return Flowable.create(emitter -> {
             Exception error = null;
             List<V> result = null;
 
@@ -179,15 +158,21 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
             }
-            return result;
-        });
+            if (!emitter.isCancelled()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onNext(result);
+                }
+            }
+
+        }, BackpressureStrategy.BUFFER);
     }
 
     @SafeVarargs
     protected final Maybe<V> concatSingleLastRx(Maybe<V>... sources) {
-        return Maybe.fromCallable(() -> {
+        return Maybe.create(emitter -> {
             Exception error = null;
             V result = null;
 
@@ -206,15 +191,20 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
             }
-            return result;
+            if (!emitter.isDisposed()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onSuccess(result);
+                }
+            }
         });
     }
 
     @SafeVarargs
     protected final Maybe<List<V>> concatLastRx(Maybe<List<V>>... sources) {
-        return Maybe.fromCallable(() -> {
+        return Maybe.create(emitter -> {
             Exception error = null;
             List<V> result = null;
 
@@ -233,9 +223,14 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
-                throw error;
             }
-            return result;
+            if (!emitter.isDisposed()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onSuccess(result);
+                }
+            }
         });
     }
 

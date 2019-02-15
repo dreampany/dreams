@@ -52,7 +52,9 @@ import hugo.weaving.DebugLog;
  */
 
 @FragmentScope
-public class MarketFragment extends BaseFragment implements BootstrapDropDown.OnDropDownItemClickListener {
+public class MarketFragment
+        extends BaseFragment
+        implements BootstrapDropDown.OnDropDownItemClickListener {
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -102,7 +104,7 @@ public class MarketFragment extends BaseFragment implements BootstrapDropDown.On
         evm.removeMultipleSubscription();
     }
 
-    @Override
+/*    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (!isResumed()) {
@@ -113,7 +115,7 @@ public class MarketFragment extends BaseFragment implements BootstrapDropDown.On
         } else {
             evm.removeMultipleSubscription();
         }
-    }
+    }*/
 
     @Override
     public void onRefresh() {

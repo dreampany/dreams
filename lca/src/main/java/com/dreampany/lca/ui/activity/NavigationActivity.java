@@ -19,7 +19,8 @@ import dagger.Lazy;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class NavigationActivity extends BaseBottomNavigationActivity {
+public class NavigationActivity
+        extends BaseBottomNavigationActivity {
 
     @Inject
     Lazy<CoinsFragment> coinsFragment;

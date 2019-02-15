@@ -1,19 +1,17 @@
 package com.dreampany.lca.data.source.repository;
 
 import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.Remote;
 import com.dreampany.frame.misc.ResponseMapper;
+import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.api.GraphDataSource;
-
-import java.util.List;
+import io.reactivex.Maybe;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import io.reactivex.Maybe;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/26/2018.
@@ -143,11 +141,9 @@ public class GraphRepository extends Repository<Long, Graph> implements GraphDat
 
     @Override
     public Maybe<Graph> getItemRx(String slug, long startTime, long endTime) {
-        return getWithSave(remote.getItemRx(slug, startTime, endTime));
-    }
-
-    private Maybe<Graph> getWithSave(Maybe<Graph> maybe) {
-        return maybe
-                .doOnSuccess(graph -> rx.compute(putItemRx(graph)).subscribe());
+        return contactSingleSuccess(
+                remote.getItemRx(slug, startTime, endTime),
+                graph -> rx.compute(putItemRx(graph)).subscribe()
+        );
     }
 }

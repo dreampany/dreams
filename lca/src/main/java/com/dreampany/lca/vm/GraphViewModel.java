@@ -7,6 +7,7 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.StringRes;
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -22,6 +23,7 @@ import com.dreampany.lca.data.source.repository.GraphRepository;
 import com.dreampany.lca.misc.*;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.enums.TimeType;
+import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.GraphItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.NetworkManager;
@@ -30,7 +32,6 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
-import hugo.weaving.DebugLog;
 import im.delight.android.webview.AdvancedWebView;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
@@ -54,6 +55,7 @@ public class GraphViewModel
     private CurrencyFormatter formatter;
     private CmcCurrency cmcCurrency;
     private TimeType timeType;
+    private GraphItem lastResult;
 
     @Inject
     GraphViewModel(Application application,
@@ -67,7 +69,6 @@ public class GraphViewModel
         this.network = network;
         this.repo = repo;
         this.formatter = formatter;
-        //network.observe(this::onResult, true);
     }
 
     @Override
@@ -82,6 +83,11 @@ public class GraphViewModel
         for (Network network : networks) {
             if (network.isConnected()) {
                 state = UiState.ONLINE;
+                Response<GraphItem> result = getOutput().getValue();
+                if (result instanceof Response.Failure) {
+                    boolean empty = lastResult == null || !lastResult.isSuccess();
+                    getEx().postToUi(() -> load(cmcCurrency, timeType, false, empty), 250L);
+                }
             }
         }
         UiState finalState = state;
@@ -103,6 +109,11 @@ public class GraphViewModel
     }*/
 
     public void load(CmcCurrency cmcCurrency, TimeType timeType, boolean fresh) {
+        boolean empty = lastResult == null || !lastResult.isSuccess();
+        load(cmcCurrency, timeType, fresh, empty);
+    }
+
+    public void load(CmcCurrency cmcCurrency, TimeType timeType, boolean fresh, boolean withProgress) {
         this.cmcCurrency = cmcCurrency;
         this.timeType = timeType;
         if (fresh) {
@@ -114,10 +125,21 @@ public class GraphViewModel
         }
         Disposable disposable = getRx()
                 .backToMain(getItemRx())
-                .doOnSubscribe(subscription -> postProgress(true))
-                .subscribe(result -> postResult(result, true), error -> {
-                    postFailure(new MultiException(error, new ExtraException()));
-                });
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(
+                        result -> {
+                            if (withProgress) {
+                                postProgress(false);
+                            }
+                            postResult(result);
+                        },
+                        error -> {
+                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        });
         addSingleSubscription(disposable);
     }
 

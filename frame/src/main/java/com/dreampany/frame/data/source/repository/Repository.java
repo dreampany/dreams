@@ -234,10 +234,19 @@ public abstract class Repository<K, V> {
         });
     }
 
+    protected final Maybe<V> contactSingleSuccess(Maybe<V> source, Consumer<V> onSuccess) {
+        Maybe<V> maybe = source
+                //.onErrorReturnItem(new ArrayList<>())
+                .filter(item -> item != null);
+        if (onSuccess != null) {
+            maybe = maybe.doOnSuccess(onSuccess);
+        }
+        return maybe;
+    }
 
     protected final Maybe<List<V>> contactSuccess(Maybe<List<V>> source, Consumer<List<V>> onSuccess) {
         Maybe<List<V>> maybe = source
-                .onErrorReturnItem(new ArrayList<>())
+                //.onErrorReturnItem(new ArrayList<>())
                 .filter(items -> !(DataUtil.isEmpty(items)));
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess);

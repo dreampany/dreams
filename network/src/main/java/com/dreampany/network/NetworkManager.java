@@ -40,6 +40,8 @@ public final class NetworkManager {
     private final Set<Callback> callbacks;
     private final Map<Callback, Boolean> checkInternets;
 
+    private boolean resultFired;
+
     @Inject
     NetworkManager(Context context,
                    RxMapper rx,
@@ -55,10 +57,13 @@ public final class NetworkManager {
         this.it = it;
         callbacks = Sets.newConcurrentHashSet();
         checkInternets = Maps.newConcurrentMap();
+
+        resultFired = false;
     }
 
     @DebugLog
     void onResult(boolean internet) {
+        resultFired = true;
         this.internet = internet;
         postActiveNetworks();
     }
@@ -80,7 +85,7 @@ public final class NetworkManager {
     }
 
     public boolean isObserving() {
-        return !callbacks.isEmpty();
+        return resultFired && !callbacks.isEmpty();
     }
 
     public List<Network> getNetworks() {

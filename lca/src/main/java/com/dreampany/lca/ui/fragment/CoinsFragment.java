@@ -278,6 +278,7 @@ public class CoinsFragment
         // adapter.setFastScroller(fs);
     }
 
+    @DebugLog
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:

@@ -26,9 +26,10 @@ import com.google.common.collect.Iterables;
                 Market.class,
                 Graph.class,
                 Ico.class,
-                News.class
+                News.class,
+                CoinAlarm.class
         },
-        version = 8
+        version = 9
 )
 @TypeConverters(Converters.class)
 public abstract class DatabaseManager extends RoomDatabase {
@@ -69,5 +70,7 @@ public abstract class DatabaseManager extends RoomDatabase {
     public abstract IcoDao icoDao();
 
     public abstract NewsDao newsDao();
+
+    public abstract CoinAlarm coinAlarmDao();
 
 }

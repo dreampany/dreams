@@ -50,4 +50,8 @@ public class SmartCache<K, V> {
     public void clear() {
         cache.cleanUp();
     }
+
+    public boolean isEmpty() {
+        return cache.size() == 0;
+    }
 }

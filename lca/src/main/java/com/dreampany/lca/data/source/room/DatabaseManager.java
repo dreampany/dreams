@@ -1,11 +1,10 @@
 package com.dreampany.lca.data.source.room;
 
+import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import android.content.Context;
-
 import com.dreampany.lca.BuildConfig;
 import com.dreampany.lca.data.model.*;
 import com.dreampany.lca.data.source.dao.*;
@@ -71,6 +70,6 @@ public abstract class DatabaseManager extends RoomDatabase {
 
     public abstract NewsDao newsDao();
 
-    public abstract CoinAlarm coinAlarmDao();
+    public abstract CoinAlarmDao coinAlarmDao();
 
 }

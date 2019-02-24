@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.preference.PreferenceCategory android:title="@string/category_general">
+    <androidx.preference.PreferenceCategory android:title="@string/category_general">
 
-        <android.support.v7.preference.CheckBoxPreference
+        <androidx.preference.CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/key_notification"
             android:summary="@string/summary_notification"
@@ -43,7 +43,7 @@
                     android:enabled="true"
                     android:selectable="true" />-->
 
-    </android.support.v7.preference.PreferenceCategory>
+    </androidx.preference.PreferenceCategory>
 
 <!--    <android.support.v7.preference.PreferenceCategory android:title="@string/category_theme">
 
@@ -77,4 +77,4 @@
         android:key="@string/key_about"
         android:title="@string/title_about" />-->
 
-</android.support.v7.preference.PreferenceScreen>
+</androidx.preference.PreferenceScreen>

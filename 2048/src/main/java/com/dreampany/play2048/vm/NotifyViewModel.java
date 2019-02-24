@@ -50,8 +50,10 @@ public class NotifyViewModel {
         }
     }
 
-    @DebugLog
     public void notifyIf() {
+        if (true) {
+            return;
+        }
         if (hasDisposable()) {
             //return;
         }

@@ -1,7 +1,7 @@
 package com.dreampany.play2048.injector.vm
 
-import android.arch.lifecycle.ViewModel
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.dreampany.play2048.vm.DemoViewModel
 import com.dreampany.play2048.vm.MoreViewModel
 import com.dreampany.frame.vm.ViewModelKey

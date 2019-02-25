@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
-import com.dreampany.frame.data.model.Alarm;
+import com.dreampany.frame.data.model.Alert;
 import com.google.common.base.Objects;
 
 /**
@@ -16,17 +16,17 @@ import com.google.common.base.Objects;
  */
 @Entity(indices = {@Index(value = {"id"}, unique = true)},
         primaryKeys = {"id"})
-public class CoinAlarm extends Alarm {
+public class CoinAlert extends Alert {
 
     private String symbol;
     private double dayChange;
     private long periodicTime;
 
-    public CoinAlarm() {
+    public CoinAlert() {
     }
 
     @Ignore
-    private CoinAlarm(Parcel in) {
+    private CoinAlert(Parcel in) {
         super(in);
         symbol = in.readString();
         dayChange = in.readDouble();
@@ -41,15 +41,15 @@ public class CoinAlarm extends Alarm {
         dest.writeLong(periodicTime);
     }
 
-    public static final Creator<CoinAlarm> CREATOR = new Creator<CoinAlarm>() {
+    public static final Creator<CoinAlert> CREATOR = new Creator<CoinAlert>() {
         @Override
-        public CoinAlarm createFromParcel(Parcel in) {
-            return new CoinAlarm(in);
+        public CoinAlert createFromParcel(Parcel in) {
+            return new CoinAlert(in);
         }
 
         @Override
-        public CoinAlarm[] newArray(int size) {
-            return new CoinAlarm[size];
+        public CoinAlert[] newArray(int size) {
+            return new CoinAlert[size];
         }
     };
 
@@ -58,7 +58,7 @@ public class CoinAlarm extends Alarm {
         if (this == in) return true;
         if (in == null || getClass() != in.getClass()) return false;
 
-        CoinAlarm item = (CoinAlarm) in;
+        CoinAlert item = (CoinAlert) in;
         return Objects.equal(symbol, item.symbol);
     }
 

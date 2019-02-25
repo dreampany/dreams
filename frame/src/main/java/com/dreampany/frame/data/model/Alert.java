@@ -9,16 +9,16 @@ import androidx.annotation.NonNull;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-public abstract class Alarm extends Base {
+public abstract class Alert extends Base {
 
     protected String title;
     protected String description;
 
-    protected Alarm() {
+    protected Alert() {
         super();
     }
 
-    protected Alarm(Parcel in) {
+    protected Alert(Parcel in) {
         super(in);
         title = in.readString();
         description = in.readString();
@@ -29,5 +29,21 @@ public abstract class Alarm extends Base {
         super.writeToParcel(dest, flags);
         dest.writeString(title);
         dest.writeString(description);
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

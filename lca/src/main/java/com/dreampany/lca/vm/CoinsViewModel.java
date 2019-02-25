@@ -239,7 +239,7 @@ public class CoinsViewModel
         coins.removeAll(ranked);
         coins.addAll(0, ranked);
 
-        putFlags(coins, Constants.Limit.COIN_FLAG);
+        //putFlags(coins, Constants.Limit.COIN_FLAG);
         List<CoinItem> items = new ArrayList<>(coins.size());
         for (Coin coin : coins) {
             CoinItem item = getItem(coin);

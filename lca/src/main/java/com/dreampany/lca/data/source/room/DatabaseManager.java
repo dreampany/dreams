@@ -26,7 +26,7 @@ import com.google.common.collect.Iterables;
                 Graph.class,
                 Ico.class,
                 News.class,
-                CoinAlarm.class
+                CoinAlert.class
         },
         version = 9
 )
@@ -70,6 +70,6 @@ public abstract class DatabaseManager extends RoomDatabase {
 
     public abstract NewsDao newsDao();
 
-    public abstract CoinAlarmDao coinAlarmDao();
+    public abstract CoinAlertDao coinAlertDao();
 
 }

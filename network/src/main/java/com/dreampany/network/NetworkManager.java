@@ -139,6 +139,7 @@ public final class NetworkManager {
     private void postActiveNetworks() {
         List<Network> result = getActiveNetworks();
         Network[] networks = result.toArray(new Network[0]);
+        Timber.v("NetworkCallbacks %d", callbacks.size());
         for (Callback callback : callbacks) {
             callback.onResult(networks);
         }

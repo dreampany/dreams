@@ -92,7 +92,7 @@ class BuildersModule {
     @Provides
     @Room
     fun provideCoinAlarmRoomDataSource(mapper: CoinAlarmMapper,
-                                 dao: CoinAlarmDao): CoinAlarmDataSource {
+                                 dao: CoinAlertDao): CoinAlarmDataSource {
         return CoinAlarmRoomDataSource(mapper, dao)
     }
 

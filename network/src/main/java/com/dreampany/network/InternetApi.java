@@ -1,23 +1,19 @@
 package com.dreampany.network;
 
 import android.content.Context;
-
 import com.dreampany.network.misc.RxMapper;
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.common.collect.Sets;
-
-import java.util.Set;
-import java.util.concurrent.Callable;
-
-import javax.inject.Inject;
-
 import hugo.weaving.DebugLog;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
+
+import javax.inject.Inject;
+import java.util.Set;
 
 /**
  * Created by Hawladar Roman on 8/18/2018.
@@ -32,7 +28,7 @@ public class InternetApi {
 
     private final Context context;
     private final RxMapper rx;
-    private volatile boolean started;
+    //private volatile boolean started;
     private Disposable disposable;
     private final Set<Callback> callbacks;
     private volatile boolean connected;
@@ -48,10 +44,11 @@ public class InternetApi {
 
     public void start(Callback callback) {
         callbacks.add(callback);
-        if (started) {
+        if (isStarted()) {
             postResult(connected);
             return;
         }
+        Timber.v("Network Observer created for new");
         disposable = ReactiveNetwork.observeNetworkConnectivity(context)
                 .flatMapSingle((Function<Connectivity, SingleSource<Boolean>>) connectivity -> {
                     if (connectivity.available()) {
@@ -66,7 +63,7 @@ public class InternetApi {
 
     public void stop(Callback callback) {
         callbacks.remove(callback);
-        if (!started) {
+        if (!isStarted()) {
             return;
         }
         if (!callbacks.isEmpty()) {
@@ -94,5 +91,9 @@ public class InternetApi {
             lastState = ReactiveNetwork.checkInternetConnectivity();
         }
         return lastState;
+    }
+
+    private boolean isStarted() {
+        return !(disposable == null || disposable.isDisposed());
     }
 }

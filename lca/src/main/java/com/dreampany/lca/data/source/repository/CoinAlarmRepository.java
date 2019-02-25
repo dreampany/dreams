@@ -4,7 +4,7 @@ import com.dreampany.frame.data.source.repository.Repository;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.lca.data.model.CoinAlarm;
+import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.source.api.CoinAlarmDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.network.NetworkManager;
@@ -21,7 +21,7 @@ import java.util.List;
  * Last modified $file.lastModified
  */
 @Singleton
-public class CoinAlarmRepository extends Repository<Long, CoinAlarm> implements CoinAlarmDataSource {
+public class CoinAlarmRepository extends Repository<Long, CoinAlert> implements CoinAlarmDataSource {
 
     private final CoinAlarmDataSource room;
 
@@ -61,82 +61,82 @@ public class CoinAlarmRepository extends Repository<Long, CoinAlarm> implements 
     }
 
     @Override
-    public boolean isExists(CoinAlarm coinAlarm) {
+    public boolean isExists(CoinAlert coinAlarm) {
         return false;
     }
 
     @Override
-    public Maybe<Boolean> isExistsRx(CoinAlarm coinAlarm) {
+    public Maybe<Boolean> isExistsRx(CoinAlert coinAlarm) {
         return null;
     }
 
     @Override
-    public long putItem(CoinAlarm coinAlarm) {
+    public long putItem(CoinAlert coinAlarm) {
         return 0;
     }
 
     @Override
-    public Maybe<Long> putItemRx(CoinAlarm coinAlarm) {
+    public Maybe<Long> putItemRx(CoinAlert coinAlarm) {
         return null;
     }
 
     @Override
-    public List<Long> putItems(List<CoinAlarm> coinAlarms) {
+    public List<Long> putItems(List<CoinAlert> coinAlarms) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<CoinAlarm> coinAlarms) {
+    public Maybe<List<Long>> putItemsRx(List<CoinAlert> coinAlarms) {
         return null;
     }
 
     @Override
-    public int delete(CoinAlarm coinAlarm) {
+    public int delete(CoinAlert coinAlarm) {
         return 0;
     }
 
     @Override
-    public Maybe<Integer> deleteRx(CoinAlarm coinAlarm) {
+    public Maybe<Integer> deleteRx(CoinAlert coinAlarm) {
         return null;
     }
 
     @Override
-    public List<Long> delete(List<CoinAlarm> coinAlarms) {
+    public List<Long> delete(List<CoinAlert> coinAlarms) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<CoinAlarm> coinAlarms) {
+    public Maybe<List<Long>> deleteRx(List<CoinAlert> coinAlarms) {
         return null;
     }
 
     @Override
-    public CoinAlarm getItem(long id) {
+    public CoinAlert getItem(long id) {
         return null;
     }
 
     @Override
-    public Maybe<CoinAlarm> getItemRx(long id) {
+    public Maybe<CoinAlert> getItemRx(long id) {
         return null;
     }
 
     @Override
-    public List<CoinAlarm> getItems() {
+    public List<CoinAlert> getItems() {
         return null;
     }
 
     @Override
-    public Maybe<List<CoinAlarm>> getItemsRx() {
+    public Maybe<List<CoinAlert>> getItemsRx() {
         return null;
     }
 
     @Override
-    public List<CoinAlarm> getItems(int limit) {
+    public List<CoinAlert> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<CoinAlarm>> getItemsRx(int limit) {
+    public Maybe<List<CoinAlert>> getItemsRx(int limit) {
         return null;
     }
 }

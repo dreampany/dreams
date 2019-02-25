@@ -3,7 +3,7 @@ package com.dreampany.lca.data.misc;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.lca.data.model.CoinAlarm;
+import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.misc.CoinAlarmAnnote;
 
 import javax.inject.Inject;
@@ -16,12 +16,12 @@ import java.util.List;
  */
 public class CoinAlarmMapper {
 
-    private final SmartMap<Long, CoinAlarm> map;
-    private final SmartCache<Long, CoinAlarm> cache;
+    private final SmartMap<Long, CoinAlert> map;
+    private final SmartCache<Long, CoinAlert> cache;
 
     @Inject
-    CoinAlarmMapper(@CoinAlarmAnnote SmartMap<Long, CoinAlarm> map,
-                    @CoinAlarmAnnote SmartCache<Long, CoinAlarm> cache) {
+    CoinAlarmMapper(@CoinAlarmAnnote SmartMap<Long, CoinAlert> map,
+                    @CoinAlarmAnnote SmartCache<Long, CoinAlert> cache) {
         this.map = map;
         this.cache = cache;
     }
@@ -35,18 +35,18 @@ public class CoinAlarmMapper {
         return map.contains(id);
     }
 
-    public void add(CoinAlarm coinAlarm) {
+    public void add(CoinAlert coinAlarm) {
         long id = DataUtil.getSha512(coinAlarm.getSymbol(), String.valueOf(coinAlarm.getDayChange()));
         this.add(id, coinAlarm);
     }
 
-    public void add(long id, CoinAlarm coinAlarm) {
+    public void add(long id, CoinAlert coinAlarm) {
         map.put(id, coinAlarm);
     }
 
-    public void add(List<CoinAlarm> alarms) {
+    public void add(List<CoinAlert> alarms) {
         if (!DataUtil.isEmpty(alarms)) {
-            for (CoinAlarm coin : alarms) {
+            for (CoinAlert coin : alarms) {
                 add(coin);
             }
         }

@@ -91,9 +91,9 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideCoinAlarmRoomDataSource(mapper: CoinAlarmMapper,
-                                 dao: CoinAlertDao): CoinAlarmDataSource {
-        return CoinAlarmRoomDataSource(mapper, dao)
+    fun provideCoinAlertRoomDataSource(mapper: CoinAlertMapper,
+                                       dao: CoinAlertDao): CoinAlertDataSource {
+        return CoinAlertRoomDataSource(mapper, dao)
     }
 
     @Singleton

@@ -35,7 +35,7 @@ public final class NetworkManager {
     private final WifiApi wifi;
     private final WifiApApi ap;
     private final BluetoothApi bt;
-    private final InternetApi it;
+    private final InternetApi internetApi;
     private volatile boolean internet;
     private final Set<Callback> callbacks;
     private final Map<Callback, Boolean> checkInternets;
@@ -48,13 +48,13 @@ public final class NetworkManager {
                    WifiApi wifi,
                    WifiApApi ap,
                    BluetoothApi bt,
-                   InternetApi it) {
+                   InternetApi internetApi) {
         this.context = context.getApplicationContext();
         this.rx = rx;
         this.wifi = wifi;
         this.ap = ap;
         this.bt = bt;
-        this.it = it;
+        this.internetApi = internetApi;
         callbacks = Sets.newConcurrentHashSet();
         checkInternets = Maps.newConcurrentMap();
 
@@ -117,7 +117,7 @@ public final class NetworkManager {
     private void startInternetIfPossible() {
         for (Map.Entry<Callback, Boolean> entry : checkInternets.entrySet()) {
             if (entry.getValue()) {
-                it.start(this::onResult);
+                internetApi.start(this::onResult);
                 break;
             }
         }
@@ -132,7 +132,7 @@ public final class NetworkManager {
             }
         }
         if (!checkInternet) {
-            it.stop(this::onResult);
+            internetApi.stop(this::onResult);
         }
     }
 

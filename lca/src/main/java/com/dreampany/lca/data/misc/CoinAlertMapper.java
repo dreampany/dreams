@@ -14,13 +14,13 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class CoinAlarmMapper {
+public class CoinAlertMapper {
 
     private final SmartMap<Long, CoinAlert> map;
     private final SmartCache<Long, CoinAlert> cache;
 
     @Inject
-    CoinAlarmMapper(@CoinAlarmAnnote SmartMap<Long, CoinAlert> map,
+    CoinAlertMapper(@CoinAlarmAnnote SmartMap<Long, CoinAlert> map,
                     @CoinAlarmAnnote SmartCache<Long, CoinAlert> cache) {
         this.map = map;
         this.cache = cache;

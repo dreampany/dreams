@@ -12,6 +12,7 @@ import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.NetworkManager;
 import io.reactivex.Maybe;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -306,7 +307,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 int listLimit = Constants.Limit.COIN_PAGE_MAX;
 
                 List<Coin> remotes = remote.getItems(source, listIndex, listLimit, currency);
-
+                Timber.v("Coin Remotes %d", remotes.size());
                 if (!DataUtil.isEmpty(remotes)) {
                     room.putItems(remotes);
                     pref.commitCoinListingTime();

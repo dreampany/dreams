@@ -8,7 +8,7 @@ import com.dreampany.lca.data.model.CoinAlert;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public interface CoinAlarmDataSource extends DataSource<CoinAlert> {
+public interface CoinAlertDataSource extends DataSource<CoinAlert> {
 
     void clear();
 }

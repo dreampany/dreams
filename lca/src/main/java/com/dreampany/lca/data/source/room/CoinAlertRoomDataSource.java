@@ -1,8 +1,8 @@
 package com.dreampany.lca.data.source.room;
 
-import com.dreampany.lca.data.misc.CoinAlarmMapper;
+import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.model.CoinAlert;
-import com.dreampany.lca.data.source.api.CoinAlarmDataSource;
+import com.dreampany.lca.data.source.api.CoinAlertDataSource;
 import com.dreampany.lca.data.source.dao.CoinAlertDao;
 import io.reactivex.Maybe;
 
@@ -16,12 +16,12 @@ import java.util.List;
  * Last modified $file.lastModified
  */
 @Singleton
-public class CoinAlarmRoomDataSource implements CoinAlarmDataSource {
+public class CoinAlertRoomDataSource implements CoinAlertDataSource {
 
-    private final CoinAlarmMapper mapper;
+    private final CoinAlertMapper mapper;
     private final CoinAlertDao dao;
 
-    public CoinAlarmRoomDataSource(CoinAlarmMapper mapper,
+    public CoinAlertRoomDataSource(CoinAlertMapper mapper,
                                    CoinAlertDao dao) {
         this.mapper = mapper;
         this.dao = dao;

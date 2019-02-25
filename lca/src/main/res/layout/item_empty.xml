@@ -21,7 +21,7 @@
         android:paddingEnd="15dp"
         android:paddingStart="15dp"
         android:text="@string/empty"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/material_grey800"
         android:textSize="18sp"
         auto:smart_font="@string/fontRobotoSlabBody" />
 

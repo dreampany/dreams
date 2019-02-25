@@ -5,7 +5,7 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.lca.data.model.CoinAlert;
-import com.dreampany.lca.data.source.api.CoinAlarmDataSource;
+import com.dreampany.lca.data.source.api.CoinAlertDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.network.NetworkManager;
 import io.reactivex.Maybe;
@@ -21,16 +21,16 @@ import java.util.List;
  * Last modified $file.lastModified
  */
 @Singleton
-public class CoinAlarmRepository extends Repository<Long, CoinAlert> implements CoinAlarmDataSource {
+public class CoinAlertRepository extends Repository<Long, CoinAlert> implements CoinAlertDataSource {
 
-    private final CoinAlarmDataSource room;
+    private final CoinAlertDataSource room;
 
     @Inject
-    CoinAlarmRepository(RxMapper rx,
-                   ResponseMapper rm,
-                   NetworkManager network,
-                   Pref pref,
-                   @Room CoinAlarmDataSource room) {
+    CoinAlertRepository(RxMapper rx,
+                        ResponseMapper rm,
+                        NetworkManager network,
+                        Pref pref,
+                        @Room CoinAlertDataSource room) {
         super(rx, rm);
         this.room = room;
     }

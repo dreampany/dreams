@@ -36,6 +36,10 @@ public class Pref extends FramePref {
         return getPrivately(DEFAULT_FLAG_COMMITTED, false);
     }
 
+    synchronized public void clearCoinListingTime() {
+        setPrivately(COIN_LISTING_TIME, 0);
+    }
+
     synchronized public void commitCoinListingTime() {
         setPrivately(COIN_LISTING_TIME, TimeUtil.currentTime());
     }

@@ -1,15 +1,18 @@
 package com.dreampany.lca.app
 
 import android.app.Activity
+import android.os.Bundle
 import com.crashlytics.android.Crashlytics
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.lca.BuildConfig
 import com.dreampany.lca.R
 import com.dreampany.lca.data.source.pref.Pref
 import com.dreampany.lca.injector.app.DaggerAppComponent
 import com.dreampany.lca.misc.Constants
 import com.dreampany.lca.service.NotifyService
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -78,6 +81,8 @@ class App : BaseApp() {
         } else {
             job.cancel(NotifyService::class.java)
         }
+        clean()
+        throwAppAnalytics()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -94,19 +99,51 @@ class App : BaseApp() {
 
     private fun configFabric() {
         val fabric = Fabric.Builder(this)
-                .kits(Crashlytics())
-                .debuggable(isDebug())
-                .build()
+            .kits(Crashlytics())
+            .debuggable(isDebug())
+            .build()
         Fabric.with(fabric)
     }
 
     private fun configAd() {
         //ad.initPoints(Util.AD_POINTS)
         val config = SmartAd.Config.Builder()
-                .bannerExpireDelay(TimeUnit.MINUTES.toMillis(1))
-                .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(10))
-                .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
-                .enabled(!isDebug())
+            .bannerExpireDelay(TimeUnit.MINUTES.toMillis(1))
+            .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(10))
+            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
+            .enabled(!isDebug())
         ad.setConfig(config.build())
+    }
+
+    private fun throwAppAnalytics() {
+        val current = AndroidUtil.getVersionCode(this)
+        val bundle = Bundle()
+        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, current);
+        getAnalytics().logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
+    }
+
+    private fun clean() {
+        if (isVersionUpgraded()) {
+            val exists = pref.versionCode
+            val current = AndroidUtil.getVersionCode(this)
+
+            when(current) {
+                58 -> {
+                    if (exists < current) {
+                        pref.clearCoinListingTime()
+                    }
+                }
+            }
+            pref.versionCode = current
+        }
+    }
+
+    private fun isVersionUpgraded(): Boolean {
+        val exists = pref.versionCode
+        val current = AndroidUtil.getVersionCode(this)
+        if (current != exists) {
+            return true
+        }
+        return false
     }
 }

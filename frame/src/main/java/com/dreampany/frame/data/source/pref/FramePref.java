@@ -19,6 +19,7 @@ public class FramePref extends BasePref {
     private static final long NOTIFY_EXPIRE_TIME = TimeUnit.HOURS.toMillis(24);
     private static final int DEFAULT_POINTS = 100;
 
+    private static final String VERSION_CODE = "version_code";
     private static final String TOUR = "tour";
     private static final String COUNTRY = "country";
     private static final String NOTIFY_TIME = "notify_time";
@@ -46,6 +47,14 @@ public class FramePref extends BasePref {
         SPEAK = context.getString(R.string.key_speak);
         TRANSLATION = context.getString(R.string.key_translation);
         FONT_SIZE = context.getString(R.string.key_font_size);
+    }
+
+    public void setVersionCode(int versionCode) {
+        publicPref.put(VERSION_CODE, versionCode);
+    }
+
+    public int getVersionCode() {
+        return publicPref.get(VERSION_CODE, Integer.class, 0);
     }
 
     public void commitTour() {

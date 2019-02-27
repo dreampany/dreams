@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.widget.Toast;
 import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import com.dreampany.frame.R;
 import com.dreampany.frame.misc.AppExecutors;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -111,7 +112,7 @@ public final class NotifyUtil {
         Context appContext = context.getApplicationContext();
         NotificationCompat.Builder builder;
         if (AndroidUtil.hasOreo()) {
-            NotificationManager manager = appContext.getSystemService(NotificationManager.class);
+            NotificationManagerCompat manager = NotificationManagerCompat.from(appContext);
             manager.createNotificationChannel(channel);
             builder = new NotificationCompat.Builder(context, channel.getId());
         } else {

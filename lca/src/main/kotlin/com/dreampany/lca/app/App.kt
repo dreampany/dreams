@@ -128,8 +128,13 @@ class App : BaseApp() {
             val current = AndroidUtil.getVersionCode(this)
 
             when(current) {
+                59 -> {
+                    if (exists < 58) {
+                        pref.clearCoinListingTime()
+                    }
+                }
                 58 -> {
-                    if (exists < current) {
+                    if (exists < 58) {
                         pref.clearCoinListingTime()
                     }
                 }

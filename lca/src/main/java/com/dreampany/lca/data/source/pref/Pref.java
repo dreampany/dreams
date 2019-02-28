@@ -37,7 +37,7 @@ public class Pref extends FramePref {
     }
 
     synchronized public void clearCoinListingTime() {
-        setPrivately(COIN_LISTING_TIME, 0);
+        setPrivately(COIN_LISTING_TIME, 0l);
     }
 
     synchronized public void commitCoinListingTime() {

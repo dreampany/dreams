@@ -1,4 +1,4 @@
-package com.dreampany.network;
+package com.dreampany.network.api;
 
 import android.content.Context;
 import com.dreampany.network.misc.RxMapper;
@@ -26,6 +26,8 @@ public class InternetApi {
         void onResult(boolean internet);
     }
 
+    private static final String INTERNET = "internet";
+
     private final Context context;
     private final RxMapper rx;
     //private volatile boolean started;
@@ -51,9 +53,16 @@ public class InternetApi {
         Timber.v("Network Observer created for new");
         disposable = ReactiveNetwork.observeNetworkConnectivity(context)
                 .flatMapSingle((Function<Connectivity, SingleSource<Boolean>>) connectivity -> {
+                    Timber.v("Connectivity %s %s", connectivity.available(), connectivity.toString());
                     if (connectivity.available()) {
-                        return ReactiveNetwork.checkInternetConnectivity();
+                        Single<Boolean> single = ReactiveNetwork.checkInternetConnectivity();
+                        boolean result = single.blockingGet();
+                        Timber.v("Connectivity Result %s", result);
+                        return Single.just(result);
+                        //Timber.v("Connectivity Result %s", result.blockingGet());
+                        //return result;
                     }
+
                     return Single.just(false);
                 })
                 .subscribeOn(rx.io())

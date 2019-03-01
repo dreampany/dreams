@@ -19,7 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 

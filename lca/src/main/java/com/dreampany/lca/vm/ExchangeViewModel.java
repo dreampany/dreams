@@ -18,7 +18,7 @@ import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.enums.TimeType;
 import com.dreampany.lca.ui.model.ExchangeItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;

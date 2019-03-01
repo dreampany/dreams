@@ -7,7 +7,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.source.api.CoinAlertDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
 
 import javax.inject.Inject;

@@ -11,7 +11,7 @@ import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.api.NewsDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 

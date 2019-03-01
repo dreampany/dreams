@@ -17,7 +17,7 @@ import com.dreampany.lca.data.source.repository.IcoRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;

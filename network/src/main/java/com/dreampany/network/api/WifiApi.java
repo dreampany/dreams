@@ -1,4 +1,4 @@
-package com.dreampany.network;
+package com.dreampany.network.api;
 
 import android.content.Context;
 import android.net.wifi.WifiInfo;

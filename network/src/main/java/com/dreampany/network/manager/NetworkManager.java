@@ -1,7 +1,8 @@
-package com.dreampany.network;
+package com.dreampany.network.manager;
 
 import android.content.Context;
 
+import com.dreampany.network.api.*;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.network.misc.RxMapper;
 import com.google.common.collect.Maps;
@@ -34,6 +35,7 @@ public final class NetworkManager {
     private final RxMapper rx;
     private final WifiApi wifi;
     private final WifiApApi ap;
+    private final MobileApi mobile;
     private final BluetoothApi bt;
     private final InternetApi internetApi;
     private volatile boolean internet;
@@ -47,12 +49,14 @@ public final class NetworkManager {
                    RxMapper rx,
                    WifiApi wifi,
                    WifiApApi ap,
+                   MobileApi mobile,
                    BluetoothApi bt,
                    InternetApi internetApi) {
         this.context = context.getApplicationContext();
         this.rx = rx;
         this.wifi = wifi;
         this.ap = ap;
+        this.mobile = mobile;
         this.bt = bt;
         this.internetApi = internetApi;
         callbacks = Sets.newConcurrentHashSet();
@@ -103,6 +107,9 @@ public final class NetworkManager {
         }
         if (ap.isEnabled()) {
             networks.add(ap.getNetwork(internet));
+        }
+        if (mobile.isEnabled()) {
+            networks.add(mobile.getNetwork(internet));
         }
 /*        if (bt.isEnabled()) {
             networks.add(bt.getNetwork(internet));

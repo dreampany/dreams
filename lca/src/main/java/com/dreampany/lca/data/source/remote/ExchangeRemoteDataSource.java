@@ -4,7 +4,7 @@ import com.dreampany.lca.api.cc.model.CcExchangeResponse;
 import com.dreampany.lca.data.misc.ExchangeMapper;
 import com.dreampany.lca.data.model.Exchange;
 import com.dreampany.lca.data.source.api.ExchangeDataSource;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
 

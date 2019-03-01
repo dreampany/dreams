@@ -4,7 +4,7 @@ import com.dreampany.lca.data.misc.GraphMapper;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.api.GraphDataSource;
 import com.dreampany.lca.misc.CoinMarketCapGraph;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
 

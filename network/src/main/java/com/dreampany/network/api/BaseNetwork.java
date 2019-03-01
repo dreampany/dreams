@@ -1,4 +1,4 @@
-package com.dreampany.network;
+package com.dreampany.network.api;
 
 import com.dreampany.network.data.model.Network;
 
@@ -8,5 +8,5 @@ import com.dreampany.network.data.model.Network;
  * dreampanymail@gmail.com
  */
 public interface BaseNetwork {
-    Network getNetwork(boolean hasInternet);
+    Network getNetwork(boolean internet);
 }

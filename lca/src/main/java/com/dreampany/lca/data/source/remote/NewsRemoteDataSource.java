@@ -5,7 +5,7 @@ import com.dreampany.lca.data.misc.NewsMapper;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.api.NewsDataSource;
 import com.dreampany.lca.misc.CryptoCompare;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
 

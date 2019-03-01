@@ -17,7 +17,7 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;

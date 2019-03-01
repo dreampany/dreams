@@ -23,7 +23,7 @@ import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
@@ -84,7 +84,7 @@ public class CoinsViewModel
     public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.isConnected()) {
+            if (network.hasInternet()) {
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {

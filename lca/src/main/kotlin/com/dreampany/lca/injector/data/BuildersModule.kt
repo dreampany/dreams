@@ -11,7 +11,7 @@ import com.dreampany.lca.data.source.remote.*
 import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.injector.vm.ViewModelModule
 import com.dreampany.lca.misc.*
-import com.dreampany.network.NetworkManager
+import com.dreampany.network.manager.NetworkManager
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

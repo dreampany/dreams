@@ -10,7 +10,7 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
 import timber.log.Timber;
 

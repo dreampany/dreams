@@ -19,7 +19,7 @@ import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.NavigationActivity;
 import com.dreampany.lca.ui.model.CoinItem;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;

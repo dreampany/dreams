@@ -9,7 +9,7 @@ import com.dreampany.lca.data.misc.IcoMapper;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.api.IcoDataSource;
 import com.dreampany.lca.misc.IcoWatchList;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
 

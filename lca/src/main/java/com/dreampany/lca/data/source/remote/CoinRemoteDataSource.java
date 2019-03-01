@@ -1,6 +1,5 @@
 package com.dreampany.lca.data.source.remote;
 
-import androidx.annotation.NonNull;
 import com.dreampany.lca.api.cmc.model.*;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
@@ -9,11 +8,9 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinMarketCap;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeSource;
-import io.reactivex.functions.Function;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import retrofit2.Response;
 import timber.log.Timber;
@@ -24,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 /**
  * Created by Hawladar Roman on 29/5/18.

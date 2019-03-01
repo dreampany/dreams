@@ -4,11 +4,9 @@ import com.dreampany.lca.api.cc.model.CcMarketResponse;
 import com.dreampany.lca.data.misc.MarketMapper;
 import com.dreampany.lca.data.model.Market;
 import com.dreampany.lca.data.source.api.MarketDataSource;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Singleton;
 
@@ -16,7 +14,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
-import retrofit2.Response;
 
 /**
  * Created by Hawladar Roman on 30/5/18.

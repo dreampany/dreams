@@ -12,7 +12,7 @@ import com.dreampany.lca.data.model.More;
 import com.dreampany.lca.ui.enums.MoreType;
 import com.dreampany.lca.ui.model.MoreItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;

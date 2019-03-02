@@ -67,7 +67,7 @@ public class NewsViewModel
     public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.isConnected()) {
+            if (network.hasInternet()) {
                 state = UiState.ONLINE;
                 Response<List<NewsItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {

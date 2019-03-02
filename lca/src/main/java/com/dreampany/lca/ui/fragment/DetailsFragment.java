@@ -156,6 +156,8 @@ public class DetailsFragment
         expandable = binding.layoutTop.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
 
+        binding.fab.setOnClickListener(this);
+
         ViewUtil.setSwipe(refresh, this);
         ViewUtil.setClickListener(this, R.id.button_empty);
 

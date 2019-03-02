@@ -80,7 +80,7 @@ public class GraphViewModel
     public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.isConnected()) {
+            if (network.hasInternet()) {
                 state = UiState.ONLINE;
                 Response<GraphItem> result = getOutput().getValue();
                 if (result instanceof Response.Failure) {

@@ -32,8 +32,8 @@
 
                 <com.like.LikeButton
                     android:id="@+id/button_like"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="23dp"
+                    android:layout_height="23dp"
                     auto:icon_size="25dp"
                     auto:icon_type="heart" />
 
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/material_grey500" />
+                android:background="@color/material_grey400" />
 
             <LinearLayout
                 android:layout_width="match_parent"

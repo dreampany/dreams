@@ -19,6 +19,8 @@ import com.google.common.base.Objects;
 public class CoinAlert extends Alert {
 
     private String symbol;
+    private double priceUp;
+    private double priceDown;
     private double dayChange;
     private long periodicTime;
 
@@ -29,6 +31,8 @@ public class CoinAlert extends Alert {
     private CoinAlert(Parcel in) {
         super(in);
         symbol = in.readString();
+        priceUp = in.readDouble();
+        priceDown = in.readDouble();
         dayChange = in.readDouble();
         periodicTime = in.readLong();
     }
@@ -37,6 +41,8 @@ public class CoinAlert extends Alert {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(symbol);
+        dest.writeDouble(priceUp);
+        dest.writeDouble(priceDown);
         dest.writeDouble(dayChange);
         dest.writeLong(periodicTime);
     }
@@ -71,6 +77,14 @@ public class CoinAlert extends Alert {
         this.symbol = symbol;
     }
 
+    public void setPriceUp(double priceUp) {
+        this.priceUp = priceUp;
+    }
+
+    public void setPriceDown(double priceDown) {
+        this.priceDown = priceDown;
+    }
+
     public void setDayChange(double dayChange) {
         this.dayChange = dayChange;
     }
@@ -81,6 +95,14 @@ public class CoinAlert extends Alert {
 
     public String getSymbol() {
         return symbol;
+    }
+
+    public double getPriceUp() {
+        return priceUp;
+    }
+
+    public double getPriceDown() {
+        return priceDown;
     }
 
     public double getDayChange() {

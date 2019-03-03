@@ -121,6 +121,9 @@ public class DetailsFragment
             case R.id.button_like:
                 vm.toggleFavorite((Coin) v.getTag());
                 break;
+            case R.id.fab:
+
+                break;
             case R.id.button_empty:
                 //vm.loads(true);
                 break;

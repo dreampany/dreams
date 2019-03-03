@@ -4,7 +4,7 @@ import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.data.model.CoinAlert;
-import com.dreampany.lca.misc.CoinAlarmAnnote;
+import com.dreampany.lca.misc.CoinAlertAnnote;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -20,8 +20,8 @@ public class CoinAlertMapper {
     private final SmartCache<Long, CoinAlert> cache;
 
     @Inject
-    CoinAlertMapper(@CoinAlarmAnnote SmartMap<Long, CoinAlert> map,
-                    @CoinAlarmAnnote SmartCache<Long, CoinAlert> cache) {
+    CoinAlertMapper(@CoinAlertAnnote SmartMap<Long, CoinAlert> map,
+                    @CoinAlertAnnote SmartCache<Long, CoinAlert> cache) {
         this.map = map;
         this.cache = cache;
     }

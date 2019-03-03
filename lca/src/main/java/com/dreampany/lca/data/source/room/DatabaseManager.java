@@ -28,7 +28,7 @@ import com.google.common.collect.Iterables;
                 News.class,
                 CoinAlert.class
         },
-        version = 9
+        version = 10
 )
 @TypeConverters(Converters.class)
 public abstract class DatabaseManager extends RoomDatabase {

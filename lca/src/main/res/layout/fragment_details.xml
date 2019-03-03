@@ -55,6 +55,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_margin="@dimen/fab_margin"
                     auto:elevation="6dp"
+                    android:tint="@android:color/white"
                     auto:rippleColor="@color/white"
                     auto:srcCompat="@drawable/ic_add_alert_black_24dp" />
         </RelativeLayout>

@@ -13,5 +13,5 @@ import java.lang.annotation.RetentionPolicy;
 @Qualifier
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CoinAlarmAnnote {
+public @interface CoinAlertAnnote {
 }

@@ -6,10 +6,7 @@ import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.lca.R
 import com.dreampany.lca.ui.enums.UiSubtype
 import com.dreampany.lca.ui.enums.UiType
-import com.dreampany.lca.ui.fragment.AboutFragment
-import com.dreampany.lca.ui.fragment.CoinFragment
-import com.dreampany.lca.ui.fragment.LicenseFragment
-import com.dreampany.lca.ui.fragment.SettingsFragment
+import com.dreampany.lca.ui.fragment.*
 import com.dreampany.lca.ui.model.UiTask
 import dagger.Lazy
 import timber.log.Timber
@@ -24,6 +21,8 @@ class ToolsActivity : BaseActivity() {
 
     @Inject
     lateinit var coinProvider: Lazy<CoinFragment>
+    @Inject
+    lateinit var coinAlertProvider: Lazy<CoinAlertFragment>
     @Inject
     lateinit var settingsProvider: Lazy<SettingsFragment>
     @Inject
@@ -76,6 +75,9 @@ class ToolsActivity : BaseActivity() {
                     UiSubtype.VIEW -> {
                         commitFragment(CoinFragment::class.java, coinProvider, R.id.layout, uiTask)
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
+                    }
+                    UiSubtype.ALERT -> {
+                        commitFragment(CoinAlertFragment::class.java, coinAlertProvider, R.id.layout, uiTask)
                     }
                     else -> {
                     }

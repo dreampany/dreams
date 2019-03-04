@@ -204,8 +204,8 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
         vm = ViewModelProviders.of(this, factory).get(CoinsViewModel.class);
         vm.setUiCallback(this);
         vm.setTask(uiTask);
-        vm.observeFlag(this, cvm::onFlag);
-        cvm.observeFlag(this, this::onFlag);
+        vm.observeFavorite(this, cvm::onFavorite);
+        cvm.observeFavorite(this, this::onFlag);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);

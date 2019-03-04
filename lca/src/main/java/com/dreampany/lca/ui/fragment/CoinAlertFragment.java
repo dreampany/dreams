@@ -1,8 +1,9 @@
 package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
-import com.dreampany.frame.misc.FragmentScope;
+import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.lca.R;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
@@ -13,11 +14,17 @@ import javax.inject.Inject;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@FragmentScope
-public class AlertFragment extends BaseFragment {
+
+@ActivityScope
+public class CoinAlertFragment extends BaseFragment {
 
     @Inject
-    public AlertFragment() {
+    public CoinAlertFragment() {
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.fragment_coin_alert;
     }
 
     @Override

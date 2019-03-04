@@ -25,7 +25,7 @@ abstract class ActivityModule {
     abstract fun navigationActivity(): NavigationActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [CoinModule::class, SettingsModule::class, LicenseModule::class, AboutModule::class])
+    @ContributesAndroidInjector(modules = [CoinModule::class, CoinAlertModule::class, SettingsModule::class, LicenseModule::class, AboutModule::class])
     abstract fun toolsActivity(): ToolsActivity
 
     @ActivityScope

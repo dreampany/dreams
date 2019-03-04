@@ -21,7 +21,10 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentDetailsBinding;
+import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinViewModel;
@@ -195,10 +198,14 @@ public class DetailsFragment
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                binding.layoutRefresh.setRefreshing(true);
+                if (!refresh.isRefreshing()) {
+                    refresh.setRefreshing(true);
+                }
                 break;
             case HIDE_PROGRESS:
-                binding.layoutRefresh.setRefreshing(false);
+                if (refresh.isRefreshing()) {
+                    refresh.setRefreshing(false);
+                }
                 break;
             case OFFLINE:
                 expandable.expand();
@@ -247,7 +254,6 @@ public class DetailsFragment
         }
     }
 
-    @DebugLog
     private void processFailure(Throwable error) {
         if (error instanceof IOException) {
             vm.updateUiState(UiState.OFFLINE);
@@ -262,13 +268,20 @@ public class DetailsFragment
         if (scroller.isScrolling()) {
             return;
         }
-        recycler.setNestedScrollingEnabled(false);
+        //recycler.setNestedScrollingEnabled(false);
         adapter.addItems(items);
-        recycler.setNestedScrollingEnabled(true);
+        //recycler.setNestedScrollingEnabled(true);
         processUiState(UiState.EXTRA);
     }
 
     private void processSingleSuccess(CoinItem item) {
         adapter.updateSilently(item);
+    }
+
+    private void openCoinUi() {
+        UiTask<Coin> task = getCurrentTask();
+        task.setUiType(UiType.COIN);
+        task.setSubtype(UiSubtype.ALERT);
+        openActivity(ToolsActivity.class, task);
     }
 }

@@ -337,7 +337,11 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     protected fun <T : Task<*>> getCurrentTask(intent: Intent): T? {
         val task = getIntentValue<T>(Task::class.java.simpleName, intent.extras)
-        return task as T?
+        return task
+    }
+
+    protected fun <T : Task<*>> getCurrentTask(): T? {
+        return getCurrentTask(false)
     }
 
     protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {

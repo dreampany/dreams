@@ -194,7 +194,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return focus
     }
 
-    fun onFlag(t: X?) {
+    fun onFavorite(t: X?) {
         favorite.value = t
     }
 
@@ -249,7 +249,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         outputs.reObserve(owner, observer)
     }
 
-    fun observeFlag(owner: LifecycleOwner, observer: Observer<X>) {
+    fun observeFavorite(owner: LifecycleOwner, observer: Observer<X>) {
         favoriteOwner = owner
         favorite.reObserve(owner, observer)
     }

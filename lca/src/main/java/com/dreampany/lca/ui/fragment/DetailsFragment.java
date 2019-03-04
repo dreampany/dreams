@@ -125,7 +125,7 @@ public class DetailsFragment
                 vm.toggleFavorite((Coin) v.getTag());
                 break;
             case R.id.fab:
-
+                openCoinAlertUi();
                 break;
             case R.id.button_empty:
                 //vm.loads(true);
@@ -278,7 +278,7 @@ public class DetailsFragment
         adapter.updateSilently(item);
     }
 
-    private void openCoinUi() {
+    private void openCoinAlertUi() {
         UiTask<Coin> task = getCurrentTask();
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.ALERT);

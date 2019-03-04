@@ -29,11 +29,15 @@ public class CoinAlertFragment extends BaseFragment {
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {
-
+        initView();
     }
 
     @Override
     protected void onStopUi() {
 
+    }
+
+    private void initView() {
+        setTitle(R.string.alert);
     }
 }

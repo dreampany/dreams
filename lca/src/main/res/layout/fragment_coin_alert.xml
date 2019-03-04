@@ -4,14 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="match_parent">
 
-    <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image_icon"
+            android:layout_marginTop="20dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:adjustViewBounds="true"
+            android:cropToPadding="true"
+            auto:actualImageScaleType="centerCrop"
+            auto:failureImage="@drawable/ic_error_primary_dark_24dp"
+            auto:failureImageScaleType="centerInside"
+            auto:layout_constraintTop_toTopOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:placeholderImage="@drawable/ic_coin"
+            auto:placeholderImageScaleType="centerCrop"
+            auto:roundAsCircle="true" />
+
+        <fr.arnaudguyon.smartfontslib.FontTextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            auto:cardCornerRadius="4dp"
-            auto:cardPreventCornerOverlap="false"
-            auto:elevation="3dp">
+            android:layout_marginTop="10dp"
+            android:text="@string/symbol"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@color/material_grey800"
+            android:textSize="14sp"
+            auto:layout_constraintTop_toBottomOf="@id/image_icon"
+            auto:smart_font="@string/fontRobotoSlabTitle" />
 
-    </androidx.cardview.widget.CardView>
+        <fr.arnaudguyon.smartfontslib.FontTextView
+            android:id="@+id/text_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="@string/usd"
+            android:textColor="@color/material_grey700"
+            android:textSize="15sp"
+            auto:layout_constraintTop_toBottomOf="@id/text_name"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:smart_font="@string/fontRobotoSlabTitle" />
+
+        <View
+            android:id="@+id/view_divider"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            auto:layout_constraintTop_toBottomOf="@id/text_price"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/material_grey400" />
+
+        <fr.arnaudguyon.smartfontslib.FontEditText
+            android:id="@+id/edit_price_up"
+            android:layout_width="match_parent"
+            auto:layout_constraintTop_toBottomOf="@id/view_divider"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            auto:smart_font="@string/fontRobotoSlabTitle"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+
+        <fr.arnaudguyon.smartfontslib.FontEditText
+            android:id="@+id/edit_price_down"
+            android:layout_width="match_parent"
+            auto:layout_constraintTop_toBottomOf="@id/edit_price_up"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            auto:smart_font="@string/fontRobotoSlabTitle"
+            android:ems="10"
+            android:inputType="numberDecimal" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

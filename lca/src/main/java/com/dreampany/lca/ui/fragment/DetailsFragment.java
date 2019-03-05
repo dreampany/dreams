@@ -56,13 +56,13 @@ public class DetailsFragment
 
     @Inject
     ViewModelProvider.Factory factory;
-    private FragmentDetailsBinding binding;
-    private CoinViewModel vm;
-    private CoinAdapter adapter;
-    private OnVerticalScrollListener scroller;
-    private SwipeRefreshLayout refresh;
-    private ExpandableLayout expandable;
-    private RecyclerView recycler;
+    FragmentDetailsBinding binding;
+    CoinViewModel vm;
+    CoinAdapter adapter;
+    OnVerticalScrollListener scroller;
+    SwipeRefreshLayout refresh;
+    ExpandableLayout expandable;
+    RecyclerView recycler;
 
     @Inject
     public DetailsFragment() {

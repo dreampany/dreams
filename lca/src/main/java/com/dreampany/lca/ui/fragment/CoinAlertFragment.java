@@ -1,9 +1,12 @@
 package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
+import androidx.lifecycle.ViewModelProvider;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.lca.R;
+import com.dreampany.lca.databinding.FragmentCoinAlertBinding;
+import com.dreampany.lca.databinding.FragmentDetailsBinding;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
@@ -17,6 +20,10 @@ import javax.inject.Inject;
 
 @ActivityScope
 public class CoinAlertFragment extends BaseFragment {
+
+    @Inject
+    ViewModelProvider.Factory factory;
+    FragmentCoinAlertBinding binding;
 
     @Inject
     public CoinAlertFragment() {
@@ -39,5 +46,6 @@ public class CoinAlertFragment extends BaseFragment {
 
     private void initView() {
         setTitle(R.string.alert);
+        binding = (FragmentCoinAlertBinding) super.binding;
     }
 }

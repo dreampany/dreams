@@ -4,6 +4,7 @@ import android.view.View;
 import androidx.annotation.LayoutRes;
 import butterknife.ButterKnife;
 import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.google.common.base.Objects;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
@@ -21,12 +22,15 @@ import java.util.List;
  */
 public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder> {
 
-    private CoinAlertItem(CoinAlert alert, @LayoutRes int layoutId) {
+    Coin coin;
+
+    private CoinAlertItem(Coin coin, CoinAlert alert, @LayoutRes int layoutId) {
         super(alert, layoutId);
+        this.coin = coin;
     }
 
-    public static CoinAlertItem getItem(CoinAlert alert) {
-        return new CoinAlertItem(alert, 0);
+    public static CoinAlertItem getItem(Coin coin, CoinAlert alert) {
+        return new CoinAlertItem(coin, alert, 0);
     }
 
     @Override

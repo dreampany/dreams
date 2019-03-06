@@ -5,9 +5,12 @@ import androidx.lifecycle.ViewModelProvider;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.lca.R;
+import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentCoinAlertBinding;
 import com.dreampany.lca.databinding.FragmentDetailsBinding;
+import com.dreampany.lca.ui.model.UiTask;
 import org.jetbrains.annotations.Nullable;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 
@@ -47,5 +50,8 @@ public class CoinAlertFragment extends BaseFragment {
     private void initView() {
         setTitle(R.string.alert);
         binding = (FragmentCoinAlertBinding) super.binding;
+        UiTask<Coin> uiTask = getCurrentTask(true);
+        Coin coin = uiTask.getInput();
+        Timber.v("");
     }
 }

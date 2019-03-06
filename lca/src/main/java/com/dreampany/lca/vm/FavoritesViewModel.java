@@ -194,14 +194,14 @@ public class FavoritesViewModel
             List<CoinItem> ui = uiCallback.getItems();
             for (Coin coin : real) {
                 CoinItem item = getItem(coin);
-                item.setFlagged(true);
+                item.setFavorite(true);
                 result.add(item);
             }
 
             if (!DataUtil.isEmpty(ui)) {
                 for (CoinItem item : ui) {
                     if (!real.contains(item.getItem())) {
-                        item.setFlagged(false);
+                        item.setFavorite(false);
                         result.add(item);
                     }
                 }
@@ -278,6 +278,6 @@ public class FavoritesViewModel
 
     private void adjustFlag(Coin coin, CoinItem item) {
         boolean flagged = repo.isFavorite(coin);
-        item.setFlagged(flagged);
+        item.setFavorite(flagged);
     }
 }

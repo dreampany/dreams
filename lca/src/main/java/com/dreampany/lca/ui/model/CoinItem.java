@@ -44,7 +44,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     private CoinItemType type;
     private Currency currency;
-    private boolean flagged;
+    private boolean favorite;
 
     private CoinItem(Coin coin, CoinItemType type, @LayoutRes int layoutId) {
         super(coin, layoutId);
@@ -74,19 +74,19 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         return new CoinItem(coin, currency, CoinItemType.QUOTE, R.layout.item_coin_quote);
     }
 
-    public void setFlagged(boolean flagged) {
-        this.flagged = flagged;
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
-    public boolean isFlagged() {
-        return flagged;
+    public boolean isFavorite() {
+        return favorite;
     }
 
     @Override
-    public boolean equals(Object inObject) {
-        if (this == inObject) return true;
-        if (inObject == null || getClass() != inObject.getClass()) return false;
-        CoinItem item = (CoinItem) inObject;
+    public boolean equals(Object in) {
+        if (this == in) return true;
+        if (in == null || getClass() != in.getClass()) return false;
+        CoinItem item = (CoinItem) in;
         return Objects.equal(item.getItem(), getItem())
                 && item.type == type
                 && (item.type != CoinItemType.QUOTE || item.currency == currency);
@@ -328,7 +328,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             }
 
             like.setTag(coin);
-            like.setLiked(item.isFlagged());
+            like.setLiked(item.isFavorite());
         }
     }
 

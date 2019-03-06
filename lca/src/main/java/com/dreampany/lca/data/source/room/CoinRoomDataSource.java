@@ -11,6 +11,8 @@ import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -264,9 +266,11 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
-        return Maybe.fromCallable(() -> {
+        return Maybe.create(emitter -> {
             long result = putItem(coin);
-            return result;
+            if (!emitter.isDisposed()) {
+                emitter.onSuccess(result);
+            }
         });
     }
 

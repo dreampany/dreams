@@ -55,7 +55,7 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
     }
 
     fun addFlagItem(item: CoinItem) {
-        if (item.isFlagged) {
+        if (item.isFavorite) {
             addItem(item, rankComparator)
         } else {
             removeItem(item)

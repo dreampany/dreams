@@ -19,7 +19,6 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
@@ -101,7 +100,6 @@ public class CoinViewModel
         loads(true, withProgress);
     }
 
-    @DebugLog
     public void loads(boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
@@ -112,9 +110,16 @@ public class CoinViewModel
         Currency currency = Currency.USD;
         Disposable disposable = getRx()
                 .backToMain(getItemsRx(currency))
-                .doOnSubscribe(subscription -> postProgress(true))
+                .doOnSubscribe(subscription -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                })
                 .subscribe(result -> {
-                    postResult(result, withProgress);
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postResult(result);
                 }, error -> {
                     postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
@@ -147,9 +152,7 @@ public class CoinViewModel
         addSingleSubscription(disposable);
     }
 
-    /**
-     * private api
-     */
+    /* private api */
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
         return Maybe.fromCallable(() -> {
             Coin coin = Objects.requireNonNull(getTask()).getInput();
@@ -187,11 +190,11 @@ public class CoinViewModel
     private Maybe<CoinItem> toggleImpl(Coin coin) {
         return Maybe.fromCallable(() -> {
             repo.toggleFavorite(coin);
-            return getItemRx(coin);
+            return getItem(coin);
         });
     }
 
-    private CoinItem getItemRx(Coin coin) {
+    private CoinItem getItem(Coin coin) {
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
@@ -205,6 +208,6 @@ public class CoinViewModel
 
     private void adjustFavorite(Coin coin, CoinItem item) {
         boolean flagged = repo.isFavorite(coin);
-        item.setFlagged(flagged);
+        item.setFavorite(flagged);
     }
 }

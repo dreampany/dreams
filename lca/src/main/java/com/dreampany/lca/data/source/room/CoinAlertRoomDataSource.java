@@ -33,6 +33,11 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
+    public CoinAlert getItem(String symbol) {
+        return dao.getItem(symbol);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }
@@ -53,52 +58,52 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
-    public boolean isExists(CoinAlert coinAlarm) {
+    public boolean isExists(CoinAlert coinAlert) {
         return false;
     }
 
     @Override
-    public Maybe<Boolean> isExistsRx(CoinAlert coinAlarm) {
+    public Maybe<Boolean> isExistsRx(CoinAlert coinAlert) {
         return null;
     }
 
     @Override
-    public long putItem(CoinAlert coinAlarm) {
+    public long putItem(CoinAlert coinAlert) {
+        return dao.insertOrReplace(coinAlert);
+    }
+
+    @Override
+    public Maybe<Long> putItemRx(CoinAlert coinAlert) {
+        return null;
+    }
+
+    @Override
+    public List<Long> putItems(List<CoinAlert> coinAlerts) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> putItemsRx(List<CoinAlert> coinAlerts) {
+        return null;
+    }
+
+    @Override
+    public int delete(CoinAlert coinAlert) {
         return 0;
     }
 
     @Override
-    public Maybe<Long> putItemRx(CoinAlert coinAlarm) {
+    public Maybe<Integer> deleteRx(CoinAlert coinAlert) {
         return null;
     }
 
     @Override
-    public List<Long> putItems(List<CoinAlert> coinAlarms) {
+    public List<Long> delete(List<CoinAlert> coinAlerts) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<CoinAlert> coinAlarms) {
-        return null;
-    }
-
-    @Override
-    public int delete(CoinAlert coinAlarm) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Integer> deleteRx(CoinAlert coinAlarm) {
-        return null;
-    }
-
-    @Override
-    public List<Long> delete(List<CoinAlert> coinAlarms) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> deleteRx(List<CoinAlert> coinAlarms) {
+    public Maybe<List<Long>> deleteRx(List<CoinAlert> coinAlerts) {
         return null;
     }
 

@@ -251,7 +251,7 @@ public class CoinsViewModel
 
     private void adjustFlag(Coin coin, CoinItem item) {
         boolean flagged = repo.isFavorite(coin);
-        item.setFlagged(flagged);
+        item.setFavorite(flagged);
     }
 
     //todo need to improve for flowable and completable working

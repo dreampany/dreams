@@ -11,4 +11,6 @@ import com.dreampany.lca.data.model.CoinAlert;
 public interface CoinAlertDataSource extends DataSource<CoinAlert> {
 
     void clear();
+
+    CoinAlert getItem(String symbol);
 }

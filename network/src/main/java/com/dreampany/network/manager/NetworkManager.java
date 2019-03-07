@@ -77,7 +77,7 @@ public final class NetworkManager {
         checkInternets.put(callback, checkInternet);
         startInternetIfPossible();
 
-        Timber.v("Internet Callbacks %d", callbacks.size());
+        //Timber.v("Internet Callbacks %d", callbacks.size());
     }
 
     public void deObserve(Callback callback, boolean stopInternetCheck) {
@@ -146,7 +146,7 @@ public final class NetworkManager {
     private void postActiveNetworks() {
         List<Network> result = getActiveNetworks();
         Network[] networks = result.toArray(new Network[0]);
-        Timber.v("NetworkCallbacks %d", callbacks.size());
+        //Timber.v("NetworkCallbacks %d", callbacks.size());
         for (Callback callback : callbacks) {
             callback.onResult(networks);
         }

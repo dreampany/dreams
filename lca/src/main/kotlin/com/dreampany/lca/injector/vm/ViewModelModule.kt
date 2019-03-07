@@ -36,6 +36,11 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(CoinAlertViewModel::class)
+    abstract fun bindCoinAlertViewModel(vm: CoinAlertViewModel): ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(FavoritesViewModel::class)
     abstract fun bindFlagViewModel(vm: FavoritesViewModel): ViewModel
 

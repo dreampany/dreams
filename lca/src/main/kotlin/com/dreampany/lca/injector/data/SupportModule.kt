@@ -26,6 +26,13 @@ class SupportModule {
 
     @Singleton
     @Provides
+    @CoinAlertAnnote
+    fun provideCoinAlertSmartMap(): SmartMap<Long, CoinAlert> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
     @QuoteAnnote
     fun provideQuoteSmartMap(): SmartMap<Long, Quote> {
         return SmartMap.newMap()
@@ -82,6 +89,13 @@ class SupportModule {
 
     @Singleton
     @Provides
+    @CoinAlertAnnote
+    fun provideCoinAlertSmartCache(): SmartCache<Long, CoinAlert> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
     @QuoteAnnote
     fun provideQuoteSmartCache(): SmartCache<Long, Quote> {
         return SmartCache.newCache()
@@ -118,7 +132,7 @@ class SupportModule {
     @Singleton
     @Provides
     @IcoAnnote
-    fun provideICOSmartCache(): SmartCache<Long, Ico> {
+    fun provideIcoSmartCache(): SmartCache<Long, Ico> {
         return SmartCache.newCache()
     }
 

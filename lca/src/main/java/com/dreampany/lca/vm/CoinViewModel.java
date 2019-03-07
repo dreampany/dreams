@@ -10,6 +10,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -20,10 +21,13 @@ import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.disposables.Disposable;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -154,17 +158,28 @@ public class CoinViewModel
 
     /* private api */
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
-        return Maybe.fromCallable(() -> {
-            Coin coin = Objects.requireNonNull(getTask()).getInput();
-            Coin result = repo.getItemIf(CoinSource.CMC, coin.getSymbol(), currency);
-            if (result != null) {
-                getTask().setInput(result);
-                coin = result;
+        return Maybe.create(new MaybeOnSubscribe<List<CoinItem>>() {
+            @Override
+            public void subscribe(MaybeEmitter<List<CoinItem>> emitter) throws Exception {
+                Coin coin = Objects.requireNonNull(getTask()).getInput();
+                Coin result = repo.getItemIf(CoinSource.CMC, coin.getSymbol(), currency);
+                List<CoinItem> items = null;
+                if (result != null) {
+                    getTask().setInput(result);
+                    items = new ArrayList<>();
+                    items.add(getDetailsCoinItem(result));
+                    items.add(getQuoteCoinItem(result, currency));
+                }
+
+                if (emitter.isDisposed()) {
+                    return;
+                }
+                if (DataUtil.isEmpty(items)) {
+                    emitter.onError(new NullPointerException());
+                } else {
+                    emitter.onSuccess(items);
+                }
             }
-            List<CoinItem> items = new ArrayList<>();
-            items.add(getDetailsCoinItem(coin));
-            items.add(getQuoteCoinItem(coin, currency));
-            return items;
         });
     }
 

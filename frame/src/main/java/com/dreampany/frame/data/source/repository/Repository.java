@@ -61,7 +61,10 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
+            } else {
+                error = null;
             }
+
             if (!emitter.isDisposed()) {
                 if (error != null) {
                     emitter.onError(error);
@@ -93,7 +96,10 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
+            } else {
+                error = null;
             }
+
             if (!emitter.isDisposed()) {
                 if (error != null) {
                     emitter.onError(error);
@@ -124,7 +130,10 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
+            } else {
+                error = null;
             }
+
             if (!emitter.isCancelled()) {
                 if (error != null) {
                     emitter.onError(error);
@@ -158,7 +167,10 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
+            } else {
+                error = null;
             }
+
             if (!emitter.isCancelled()) {
                 if (error != null) {
                     emitter.onError(error);
@@ -191,6 +203,8 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
+            } else {
+                error = null;
             }
             if (!emitter.isDisposed()) {
                 if (error != null) {
@@ -223,7 +237,10 @@ public abstract class Repository<K, V> {
                 if (error == null) {
                     error = new EmptyException();
                 }
+            } else {
+                error = null;
             }
+
             if (!emitter.isDisposed()) {
                 if (error != null) {
                     emitter.onError(error);

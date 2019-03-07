@@ -73,7 +73,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideCoinAlarmDao(database: DatabaseManager): CoinAlertDao {
+    fun provideCoinAlertDao(database: DatabaseManager): CoinAlertDao {
         return database.coinAlertDao()
     }
 }

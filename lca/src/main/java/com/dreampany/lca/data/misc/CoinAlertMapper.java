@@ -26,27 +26,27 @@ public class CoinAlertMapper {
         this.cache = cache;
     }
 
-    public boolean hasCoinAlarms() {
+    public boolean hasCoinAlerts() {
         return !map.isEmpty();
     }
 
-    public boolean hasCoinAlarm(String symbol, double dayChange) {
+    public boolean hasCoinAlert(String symbol, double dayChange) {
         long id = DataUtil.getSha512(symbol, String.valueOf(dayChange));
         return map.contains(id);
     }
 
-    public void add(CoinAlert coinAlarm) {
-        long id = DataUtil.getSha512(coinAlarm.getSymbol(), String.valueOf(coinAlarm.getDayChange()));
-        this.add(id, coinAlarm);
+    public void add(CoinAlert alert) {
+        long id = DataUtil.getSha512(alert.getSymbol(), String.valueOf(alert.getDayChange()));
+        this.add(id, alert);
     }
 
-    public void add(long id, CoinAlert coinAlarm) {
-        map.put(id, coinAlarm);
+    public void add(long id, CoinAlert alert) {
+        map.put(id, alert);
     }
 
-    public void add(List<CoinAlert> alarms) {
-        if (!DataUtil.isEmpty(alarms)) {
-            for (CoinAlert coin : alarms) {
+    public void add(List<CoinAlert> alerts) {
+        if (!DataUtil.isEmpty(alerts)) {
+            for (CoinAlert coin : alerts) {
                 add(coin);
             }
         }

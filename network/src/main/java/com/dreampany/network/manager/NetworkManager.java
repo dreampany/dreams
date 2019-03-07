@@ -65,7 +65,6 @@ public final class NetworkManager {
         resultFired = false;
     }
 
-    @DebugLog
     void onResult(boolean internet) {
         resultFired = true;
         this.internet = internet;

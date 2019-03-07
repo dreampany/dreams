@@ -5,6 +5,7 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
@@ -100,7 +101,7 @@ public class CoinAlertViewModel
                 return;
             }
             if (item == null) {
-                emitter.onError(new NullPointerException());
+                emitter.onError(new EmptyException());
             } else {
                 emitter.onSuccess(item);
             }

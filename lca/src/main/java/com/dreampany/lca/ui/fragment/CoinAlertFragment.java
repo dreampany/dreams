@@ -9,10 +9,12 @@ import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentCoinAlertBinding;
 import com.dreampany.lca.databinding.FragmentDetailsBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
@@ -24,6 +26,7 @@ import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.Locale;
 
 /**
  * Created by roman on 3/3/19
@@ -62,16 +65,16 @@ public class CoinAlertFragment extends BaseFragment {
 
     }
 
-     void initView() {
+    void initView() {
         setTitle(R.string.alert);
         binding = (FragmentCoinAlertBinding) super.binding;
 
-         vm = ViewModelProviders.of(this, factory).get(CoinAlertViewModel.class);
-         //vm.observeUiState(this, this::processUiState);
-         vm.observeOutput(this, this::processResponse);
+        vm = ViewModelProviders.of(this, factory).get(CoinAlertViewModel.class);
+        //vm.observeUiState(this, this::processUiState);
+        vm.observeOutput(this, this::processResponse);
     }
 
-    public void processResponse(Response<CoinAlertItem> response) {
+    void processResponse(Response<CoinAlertItem> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
             processProgress(result.getLoading());
@@ -96,14 +99,20 @@ public class CoinAlertFragment extends BaseFragment {
         if (error instanceof IOException) {
             vm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            vm.updateUiState(UiState.EMPTY);
+            processSuccess(null);
         } else if (error instanceof ExtraException) {
             vm.updateUiState(UiState.EXTRA);
         }
     }
 
-    @DebugLog
     private void processSuccess(CoinAlertItem item) {
+
+        if (item == null) {
+            UiTask<Coin> task = getCurrentTask();
+            Coin coin = task.getInput();
+            String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
+            FrescoUtil.loadImage(binding.imageIcon, imageUrl, true);
+        }
 
     }
 }

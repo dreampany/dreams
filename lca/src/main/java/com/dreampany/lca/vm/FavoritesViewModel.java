@@ -126,21 +126,23 @@ public class FavoritesViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(
-                        result -> {
-                            Timber.v("Posting Result");
-                            if (withProgress) {
-                                postProgress(false);
-                            }
-                            postResult(result);
+                .subscribe(result -> {
+                    Timber.v("Posting Result");
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postResult(result);
                             /*if (!DataUtil.isEmpty(result)) {
                                 postResult(result);
                             } else {
                                 postFailure(new EmptyException());
                             }*/
-                        },
-                        error -> postFailureMultiple(new MultiException(error, new ExtraException()))
-                );
+                }, error -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
         addMultipleSubscription(disposable);
     }
 

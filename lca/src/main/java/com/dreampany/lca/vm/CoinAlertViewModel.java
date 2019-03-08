@@ -5,7 +5,6 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
@@ -28,7 +27,7 @@ import javax.inject.Inject;
 public class CoinAlertViewModel
         extends BaseViewModel<CoinAlert, CoinAlertItem, UiTask<CoinAlert>> {
 
-    CoinAlertRepository repo;
+    private CoinAlertRepository repo;
 
     @Inject
     CoinAlertViewModel(Application application,
@@ -62,6 +61,9 @@ public class CoinAlertViewModel
                     }
                     postResult(result);
                 }, error -> {
+                    if (withProgress) {
+                        postProgress(false);
+                    }
                     postFailure(error);
                 });
         addSingleSubscription(disposable);
@@ -84,31 +86,30 @@ public class CoinAlertViewModel
                     }
                     postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    postFailures(new MultiException(error, new ExtraException()));
                 });
         addSubscription(disposable);
     }
 
     /* internal api */
-    Maybe<CoinAlertItem> getItemRx(Coin coin) {
+    private Maybe<CoinAlertItem> getItemRx(Coin coin) {
         return Maybe.create(emitter -> {
             CoinAlert alert = repo.getItem(coin.getSymbol());
-            CoinAlertItem item = null;
+            CoinAlertItem item;
             if (alert != null) {
                 item = getItem(coin, alert);
+            } else {
+                item = CoinAlertItem.getItem(coin, alert);
+                item.setEmpty(true);
             }
             if (emitter.isDisposed()) {
                 return;
             }
-            if (item == null) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(item);
-            }
+            emitter.onSuccess(item);
         });
     }
 
-    Maybe<CoinAlertItem> saveRx(Coin coin, CoinAlert alert) {
+    private Maybe<CoinAlertItem> saveRx(Coin coin, CoinAlert alert) {
         return Maybe.create(emitter -> {
             long result = repo.putItem(alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);
@@ -120,7 +121,7 @@ public class CoinAlertViewModel
         });
     }
 
-    CoinAlertItem getItem(Coin coin, CoinAlert alert) {
+    private CoinAlertItem getItem(Coin coin, CoinAlert alert) {
         SmartMap<Long, CoinAlertItem> map = getUiMap();
         CoinAlertItem item = map.get(alert.getId());
         if (item == null) {

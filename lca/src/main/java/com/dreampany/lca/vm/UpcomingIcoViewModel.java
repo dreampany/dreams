@@ -99,16 +99,17 @@ public class UpcomingIcoViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(
-                        result -> {
-                            if (withProgress) {
-                                postProgress(false);
-                            }
-                            postResult(result);
-                        },
-                        error -> {
-                            postFailureMultiple(new MultiException(error, new ExtraException()));
-                        });
+                .subscribe(result -> {
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postResult(result);
+                }, error -> {
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
         addMultipleSubscription(disposable);
     }
 

@@ -339,7 +339,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
                 items.repeatWhen({ completed -> completed.delay(10, TimeUnit.SECONDS) })
             }
             items.doOnSubscribe({ subscription -> postProgressMultiple(true) })
-            val disposable = items.subscribe({ this.postResultWithProgress(it) }, { this.postFailureMultiple(it) })
+            val disposable = items.subscribe({ this.postResultWithProgress(it) }, { this.postFailures(it) })
             addSubscription(disposable)
         }
         return null
@@ -419,14 +419,36 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         if (!hasSingleDisposable()) {
             //return
         }
-        rm.responseWithProgress(input, error)
+        rm.response(input, error)
     }
 
-    fun postFailureMultiple(error: Throwable) {
+    fun postFailure(error: Throwable, withProgress: Boolean) {
+        if (!hasSingleDisposable()) {
+            //return
+        }
+        if (withProgress) {
+            rm.responseWithProgress(input, error)
+        } else {
+            rm.response(input, error)
+        }
+    }
+
+    fun postFailures(error: Throwable) {
         if (!hasMultipleDisposable()) {
             //return
         }
-        rm.responseWithProgress(inputs, error)
+        rm.response(inputs, error)
+    }
+
+    fun postFailures(error: Throwable, withProgress: Boolean) {
+        if (!hasMultipleDisposable()) {
+            //return
+        }
+        if (withProgress) {
+            rm.responseWithProgress(inputs, error)
+        } else {
+            rm.response(inputs, error)
+        }
     }
 
     fun postResult(data: X) {

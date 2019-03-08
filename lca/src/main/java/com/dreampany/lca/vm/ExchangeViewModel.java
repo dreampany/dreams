@@ -98,7 +98,7 @@ public class ExchangeViewModel
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(result -> postResult(result, true), error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }

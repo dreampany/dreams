@@ -99,15 +99,16 @@ public class LiveIcoViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(
-                        result -> {
+                .subscribe(result -> {
                             if (withProgress) {
                                 postProgress(false);
                             }
                             postResult(result);
-                        },
-                        error -> {
-                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                        }, error -> {
+                            if (withProgress) {
+                                postProgress(true);
+                            }
+                            postFailures(new MultiException(error, new ExtraException()));
                         });
         addMultipleSubscription(disposable);
     }

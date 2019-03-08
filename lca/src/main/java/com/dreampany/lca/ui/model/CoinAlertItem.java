@@ -22,7 +22,8 @@ import java.util.List;
  */
 public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder> {
 
-    Coin coin;
+    private Coin coin;
+    private boolean empty;
 
     private CoinAlertItem(Coin coin, CoinAlert alert, @LayoutRes int layoutId) {
         super(alert, layoutId);
@@ -54,6 +55,22 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
     @Override
     public boolean filter(Serializable constraint) {
         return false;
+    }
+
+    public void setCoin(Coin coin) {
+        this.coin = coin;
+    }
+
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+
+    public Coin getCoin() {
+        return coin;
+    }
+
+    public boolean isEmpty() {
+        return empty;
     }
 
     static abstract class ViewHolder extends BaseItem.ViewHolder {

@@ -99,9 +99,13 @@ public class NewsViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(result -> postResult(result, true), error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
-                });
+                .subscribe(result -> postResult(result, true),
+                        error -> {
+                            if (withProgress) {
+                                postProgress(false);
+                            }
+                            postFailures(new MultiException(error, new ExtraException()));
+                        });
         addMultipleSubscription(disposable);
     }
 

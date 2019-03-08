@@ -89,7 +89,7 @@ public class CoinsViewModel
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
                     boolean empty = uiCallback == null || uiCallback.getEmpty();
-                    getEx().postToUi(() -> loads(currentIndex,false, empty), 250L);
+                    getEx().postToUi(() -> loads(currentIndex, false, empty), 250L);
                 }
             }
         }
@@ -138,17 +138,17 @@ public class CoinsViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(
-                        result -> {
-                            if (withProgress) {
-                                postProgress(false);
-                            }
-                            postResult(result);
-                        },
-                        error -> {
-                            postFailureMultiple(new MultiException(error, new ExtraException()));
-                        }
-                );
+                .subscribe(result -> {
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postResult(result);
+                }, error -> {
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
         addMultipleSubscription(disposable);
     }
 

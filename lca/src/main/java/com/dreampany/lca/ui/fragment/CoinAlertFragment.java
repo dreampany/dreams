@@ -12,17 +12,13 @@ import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.databinding.FragmentCoinAlertBinding;
-import com.dreampany.lca.databinding.FragmentDetailsBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinAlertItem;
-import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinAlertViewModel;
-import com.dreampany.lca.vm.CoinViewModel;
-import hugo.weaving.DebugLog;
 import org.jetbrains.annotations.Nullable;
-import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -99,19 +95,25 @@ public class CoinAlertFragment extends BaseFragment {
         if (error instanceof IOException) {
             vm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            processSuccess(null);
+            vm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
             vm.updateUiState(UiState.EXTRA);
         }
     }
 
     private void processSuccess(CoinAlertItem item) {
+        Coin coin = item.getCoin();
+        String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
+        FrescoUtil.loadImage(binding.imageIcon, imageUrl, true);
 
-        if (item == null) {
-            UiTask<Coin> task = getCurrentTask();
-            Coin coin = task.getInput();
-            String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
-            FrescoUtil.loadImage(binding.imageIcon, imageUrl, true);
+        String nameText = String.format(Locale.ENGLISH, getString(R.string.full_name), coin.getSymbol(), coin.getName());
+        binding.textName.setText(nameText);
+
+
+        Quote quote = coin.getUsdQuote();
+        if (quote != null) {
+            double price = quote.getPrice();
+            binding.textPrice.setText(String.format(getString(R.string.usd_format), price));
         }
 
     }

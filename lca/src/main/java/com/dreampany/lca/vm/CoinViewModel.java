@@ -27,7 +27,6 @@ import io.reactivex.disposables.Disposable;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -125,7 +124,10 @@ public class CoinViewModel
                     }
                     postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    if (withProgress) {
+                        postProgress(true);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }

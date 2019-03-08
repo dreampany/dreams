@@ -13,6 +13,7 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.util.FrescoUtil;
+import com.dreampany.frame.util.NotifyUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
@@ -128,30 +129,55 @@ public class CoinAlertFragment extends BaseMenuFragment {
         String nameText = String.format(Locale.ENGLISH, getString(R.string.full_name), coin.getSymbol(), coin.getName());
         binding.textName.setText(nameText);
 
-
         Quote quote = coin.getUsdQuote();
         if (quote != null) {
-            double price = quote.getPrice();
-            binding.textPrice.setText(String.format(getString(R.string.usd_format), price));
+            binding.textPrice.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
+        }
+
+        if (!item.isEmpty()) {
+            CoinAlert alert = item.getItem();
+            if (alert.hasPriceUp()) {
+                binding.editPriceUp.setText(String.format(getString(R.string.usd_format), alert.getPriceUp()));
+                binding.checkUp.setChecked(true);
+            } else {
+                binding.editPriceUp.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
+            }
+            if (alert.hasPriceDown()) {
+                binding.editPriceDown.setText(String.format(getString(R.string.usd_format), alert.getPriceDown()));
+                binding.checkDown.setChecked(true);
+            } else {
+                binding.editPriceDown.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
+            }
+        } else {
+            binding.editPriceUp.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
+            binding.editPriceDown.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
         }
 
     }
 
     private void saveAlert() {
         if (!binding.checkUp.isChecked() && !binding.checkDown.isChecked()) {
-
+            NotifyUtil.showInfo(getContext(), R.string.message_select_alert);
             return;
         }
 
-        double upPrice = Double.parseDouble(binding.editPriceUp.getText().toString());
-        double downPrice = Double.parseDouble(binding.editPriceDown.getText().toString());
-
-
-
         UiTask<Coin> task = getCurrentTask();
         Coin coin = task.getInput();
+        //double price = coin.getUsdQuote().getPrice();
+
         CoinAlert alert = new CoinAlert();
         alert.setSymbol(coin.getSymbol());
+
+        if (binding.checkUp.isChecked()) {
+            double priceUp = Double.parseDouble(binding.editPriceUp.getText().toString());
+            alert.setPriceUp(priceUp);
+        }
+
+        if (binding.checkDown.isChecked()) {
+            double priceDown = Double.parseDouble(binding.editPriceDown.getText().toString());
+            alert.setPriceDown(priceDown);
+        }
+
         vm.save(coin, alert, true);
     }
 }

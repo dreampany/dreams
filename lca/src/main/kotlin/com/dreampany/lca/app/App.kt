@@ -77,7 +77,7 @@ class App : BaseApp() {
         }
         configAd()
         if (pref.hasNotification()) {
-            job.create(NotifyService::class.java, Constants.Period.Notify.toInt(), Constants.Delay.Notify.toInt())
+            job.create(NotifyService::class.java, Constants.Delay.Notify.toInt(), Constants.Delay.Notify.toInt())
         } else {
             job.cancel(NotifyService::class.java)
         }

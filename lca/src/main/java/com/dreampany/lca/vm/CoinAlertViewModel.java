@@ -86,7 +86,10 @@ public class CoinAlertViewModel
                     }
                     postResult(result);
                 }, error -> {
-                    postFailures(new MultiException(error, new ExtraException()));
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postFailure(error);
                 });
         addSubscription(disposable);
     }

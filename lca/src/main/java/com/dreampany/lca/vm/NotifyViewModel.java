@@ -10,14 +10,13 @@ import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
-import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
-import com.dreampany.lca.data.model.Price;
-import com.dreampany.lca.data.model.Quote;
+import com.dreampany.lca.data.model.*;
 import com.dreampany.lca.data.source.repository.ApiRepository;
+import com.dreampany.lca.data.source.repository.CoinAlertRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.NavigationActivity;
+import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
@@ -25,7 +24,6 @@ import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
 
@@ -46,8 +44,9 @@ public class NotifyViewModel {
     private final RxMapper rx;
     private final ApiRepository repo;
     private final PriceRepository priceRepo;
+    private final CoinAlertRepository alertRepo;
     private final NotifyManager notify;
-    private Disposable disposable;
+    //private CompositeDisposable disposables;
 
     private final Map<Coin, Price> prices;
 
@@ -58,31 +57,33 @@ public class NotifyViewModel {
                     ResponseMapper rm,
                     NetworkManager network,
                     ApiRepository repo,
-                    PriceRepository priceRepo) {
+                    PriceRepository priceRepo,
+                    CoinAlertRepository alertRepo) {
         this.application = application;
         this.rx = rx;
         this.repo = repo;
         this.priceRepo = priceRepo;
+        this.alertRepo = alertRepo;
         this.notify = new NotifyManager();
         prices = Maps.newConcurrentMap();
+        //disposables = new CompositeDisposable();
     }
 
     public void clear() {
-        if (hasDisposable()) {
-            disposable.dispose();
-        }
+        //disposables.dispose();
     }
 
     @DebugLog
     public void notifyIf() {
-        if (hasDisposable()) {
+/*        if (hasDisposable()) {
             //return;
-        }
+        }*/
         Timber.v("Processing");
         int limit = Constants.Limit.COIN_PAGE;
         Currency currency = Currency.USD;
-        this.disposable = rx.backToMain(getProfitableItemsRx(currency))
-                .subscribe(this::postResult, this::postFailed);
+        rx.backToMain(getProfitableItemsRx(currency))
+                .subscribe(this::postResultCoins, this::postFailed);
+
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
@@ -92,19 +93,29 @@ public class NotifyViewModel {
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getProfitableItemsRx);
     }
 
-    @DebugLog
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx() {
+        return alertRepo.getItemsRx()
+                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) this::getProfitableItemsRx);
+    }
+
     private Maybe<List<CoinItem>> getProfitableItemsRx(List<Coin> result) {
         return Flowable.fromIterable(result)
                 .filter(this::isProfitable)
                 .map(CoinItem::getSimpleItem).toList().toMaybe();
     }
 
-    private boolean hasDisposable() {
-        return disposable != null && !disposable.isDisposed();
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx(List<CoinAlert> result) {
+        return Flowable.fromIterable(result)
+                .filter(this::isProfitable)
+                .map(CoinItem::getSimpleItem).toList().toMaybe();
     }
 
+/*    private boolean hasDisposable() {
+        return disposable != null && !disposable.isDisposed();
+    }*/
+
     @DebugLog
-    private void postResult(List<CoinItem> items) {
+    private void postResultCoins(List<CoinItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
             //return;
@@ -128,15 +139,17 @@ public class NotifyViewModel {
         notify.showNotification(application, title, message, NavigationActivity.class);
     }
 
-    @DebugLog
     private void postFailed(Throwable error) {
 
     }
 
-    @DebugLog
     private boolean isProfitable(Coin coin) {
         Quote quote = coin.getUsdQuote();
         return quote.getDayChange() >= 0;
+    }
+
+    private boolean isAlertable(CoinAlert alert) {
+
     }
 
 /*    @DebugLog

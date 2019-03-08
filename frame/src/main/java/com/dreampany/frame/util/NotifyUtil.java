@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.Toast;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import com.dreampany.frame.R;
@@ -45,7 +47,11 @@ public final class NotifyUtil {
         }
     }
 
-    public static void showInfo(Context context, String info) {
+    public static void showInfo(@NonNull Context context, @StringRes int resId) {
+        showInfo(context, context.getString(resId));
+    }
+
+    public static void showInfo(@NonNull Context context, String info) {
         new StyleableToast
                 .Builder(context)
                 .text(info)

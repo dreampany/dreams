@@ -112,4 +112,13 @@ public class CoinAlert extends Alert {
     public long getPeriodicTime() {
         return periodicTime;
     }
+
+    public boolean hasPriceUp() {
+        return priceUp != 0.0f;
+    }
+
+    public boolean hasPriceDown() {
+        return priceDown != 0.0f;
+    }
+
 }

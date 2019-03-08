@@ -1,6 +1,8 @@
 package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import com.dreampany.frame.data.enums.UiState;
@@ -9,9 +11,11 @@ import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.databinding.FragmentCoinAlertBinding;
 import com.dreampany.lca.misc.Constants;
@@ -32,7 +36,7 @@ import java.util.Locale;
  */
 
 @ActivityScope
-public class CoinAlertFragment extends BaseFragment {
+public class CoinAlertFragment extends BaseMenuFragment {
 
     @Inject
     ViewModelProvider.Factory factory;
@@ -49,6 +53,11 @@ public class CoinAlertFragment extends BaseFragment {
     }
 
     @Override
+    public int getMenuId() {
+        return R.menu.menu_coin_alert;
+    }
+
+    @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         //loadView();
@@ -59,6 +68,16 @@ public class CoinAlertFragment extends BaseFragment {
     @Override
     protected void onStopUi() {
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_done:
+                saveAlert();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     void initView() {
@@ -116,5 +135,23 @@ public class CoinAlertFragment extends BaseFragment {
             binding.textPrice.setText(String.format(getString(R.string.usd_format), price));
         }
 
+    }
+
+    private void saveAlert() {
+        if (!binding.checkUp.isChecked() && !binding.checkDown.isChecked()) {
+
+            return;
+        }
+
+        double upPrice = Double.parseDouble(binding.editPriceUp.getText().toString());
+        double downPrice = Double.parseDouble(binding.editPriceDown.getText().toString());
+
+
+
+        UiTask<Coin> task = getCurrentTask();
+        Coin coin = task.getInput();
+        CoinAlert alert = new CoinAlert();
+        alert.setSymbol(coin.getSymbol());
+        vm.save(coin, alert, true);
     }
 }

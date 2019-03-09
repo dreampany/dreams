@@ -44,8 +44,8 @@ object Constants {
     object Limit {
         const val COIN_DEFAULT_INDEX = 0
         const val COIN_THRESHOLD = 5
-        const val COIN_PAGE = 20
-        const val COIN_PAGE_MAX = 20
+        const val COIN_PAGE = 2000
+        const val COIN_PAGE_MAX = 2000
         const val COIN_MARKET = 100
         const val COIN_EXCHANGE = 50
         const val ICO = 500
@@ -55,7 +55,7 @@ object Constants {
 
     object Time {
         val Listing = TimeUnit.DAYS.toMillis(7) //get listing per 7 days
-        val Coin = TimeUnit.SECONDS.toMillis(90) //as per coinmarketcap limit 30 per minute
+        val Coin = TimeUnit.MINUTES.toMillis(3) //as per coinmarketcap limit 30 per minute
         val IcoPeriod = TimeUnit.MINUTES.toMillis(10)
         val NewsPeriod = TimeUnit.MINUTES.toMillis(10)
     }

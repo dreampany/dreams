@@ -119,6 +119,7 @@ public class CoinAlertViewModel
             if (item == null) {
                 emitter.onError(new NullPointerException());
             } else {
+                item.setSaveOperation(true);
                 emitter.onSuccess(item);
             }
         });

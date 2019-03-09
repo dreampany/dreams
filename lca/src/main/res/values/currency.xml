@@ -2,7 +2,7 @@
 <resources>
 
     <string name="crypto_formatter">#,###.########</string>
-
+    <string name="currency_format">%.3f</string>
     <!--AIC, USDT, NZD, CAD, CLP, COP, HKD, MXN, TTD, XCD, ARS-->
     <string name="usd_format">&#36; %1$,.3f</string>
     <string name="usd_format_2f">&#36; %1$,.2f</string>

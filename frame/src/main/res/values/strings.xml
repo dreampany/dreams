@@ -27,5 +27,7 @@
     <string name="description">Description</string>
     <string name="alert">Alert</string>
 
+    <string name="save_success">Saved successfully.</string>
+
     <string name="all_rights_reserved">Copyright © 2019 Dreampany. All Rights Reserved.</string>
 </resources>

@@ -24,6 +24,7 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     private Coin coin;
     private boolean empty;
+    private boolean saveOperation;
 
     private CoinAlertItem(Coin coin, CoinAlert alert, @LayoutRes int layoutId) {
         super(alert, layoutId);
@@ -65,12 +66,20 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
         this.empty = empty;
     }
 
+    public void setSaveOperation(boolean saveOperation) {
+        this.saveOperation = saveOperation;
+    }
+
     public Coin getCoin() {
         return coin;
     }
 
     public boolean isEmpty() {
         return empty;
+    }
+
+    public boolean isSaveOperation() {
+        return saveOperation;
     }
 
     static abstract class ViewHolder extends BaseItem.ViewHolder {

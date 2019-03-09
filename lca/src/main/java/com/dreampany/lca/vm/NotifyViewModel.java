@@ -145,7 +145,7 @@ public class NotifyViewModel {
                 }
             }
             Coin coin = profitable.getItem();
-            message = TextUtil.getString(app, R.string.profitable_coin, coin.getSymbol(), coin.getName(), coin.getUsdQuote().getDayChange());
+            message = TextUtil.getString(app, R.string.profitable_coin, coin.getSymbol(), coin.getName(), coin.getUsdQuote().getPrice());
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }

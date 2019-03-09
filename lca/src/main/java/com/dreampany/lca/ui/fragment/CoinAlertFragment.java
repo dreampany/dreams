@@ -122,6 +122,12 @@ public class CoinAlertFragment extends BaseMenuFragment {
     }
 
     private void processSuccess(CoinAlertItem item) {
+        if (item.isSaveOperation()) {
+            NotifyUtil.showInfo(getContext(), R.string.save_success);
+            return;
+        }
+
+
         Coin coin = item.getCoin();
         String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
         FrescoUtil.loadImage(binding.imageIcon, imageUrl, true);
@@ -137,20 +143,20 @@ public class CoinAlertFragment extends BaseMenuFragment {
         if (!item.isEmpty()) {
             CoinAlert alert = item.getItem();
             if (alert.hasPriceUp()) {
-                binding.editPriceUp.setText(String.format(getString(R.string.usd_format), alert.getPriceUp()));
+                binding.editPriceUp.setText(String.format(getString(R.string.currency_format), alert.getPriceUp()));
                 binding.checkUp.setChecked(true);
             } else {
-                binding.editPriceUp.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
+                binding.editPriceUp.setText(String.format(getString(R.string.currency_format), quote.getPrice()));
             }
             if (alert.hasPriceDown()) {
-                binding.editPriceDown.setText(String.format(getString(R.string.usd_format), alert.getPriceDown()));
+                binding.editPriceDown.setText(String.format(getString(R.string.currency_format), alert.getPriceDown()));
                 binding.checkDown.setChecked(true);
             } else {
-                binding.editPriceDown.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
+                binding.editPriceDown.setText(String.format(getString(R.string.currency_format), quote.getPrice()));
             }
         } else {
-            binding.editPriceUp.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
-            binding.editPriceDown.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
+            binding.editPriceUp.setText(String.format(getString(R.string.currency_format), quote.getPrice()));
+            binding.editPriceDown.setText(String.format(getString(R.string.currency_format), quote.getPrice()));
         }
 
     }

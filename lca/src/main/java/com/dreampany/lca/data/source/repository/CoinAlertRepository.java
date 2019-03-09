@@ -132,7 +132,7 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
 
     @Override
     public Maybe<List<CoinAlert>> getItemsRx() {
-        return null;
+        return room.getItemsRx();
     }
 
     @Override

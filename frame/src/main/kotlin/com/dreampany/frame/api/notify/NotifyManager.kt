@@ -71,14 +71,18 @@ class NotifyManager @Inject constructor() {
     }
 
     fun showNotification(context: Context, title: String, message: String, target: Class<*>) {
-        showNotification(context, title, message, target, null)
+        showNotification(context, NOTIFY_DEFAULT, title, message, target, null)
     }
 
-    fun showNotification(context: Context, title: String, message: String, target: Class<*>, data: Bundle?) {
-        PugNotification.with(context).cancel(NOTIFY_DEFAULT)
+/*    fun showNotification(context: Context,  title: String, message: String, target: Class<*>) {
+        showNotification(context, title, message, target, null)
+    }*/
+
+    fun showNotification(context: Context, notifyId: Int, title: String, message: String, target: Class<*>, data: Bundle?) {
+        PugNotification.with(context).cancel(notifyId)
         PugNotification.with(context)
             .load()
-            .identifier(NOTIFY_DEFAULT)
+            .identifier(notifyId)
             .title(title)
             .message(message)
             .smallIcon(R.mipmap.ic_launcher)

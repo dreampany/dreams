@@ -2,6 +2,7 @@ package com.dreampany.lca.vm;
 
 import android.app.Application;
 import com.dreampany.frame.data.enums.UiState;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -16,6 +17,7 @@ import com.dreampany.lca.data.source.repository.ExchangeRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.enums.TimeType;
+import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.ExchangeItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
@@ -76,6 +78,10 @@ public class ExchangeViewModel
         for (Network network : networks) {
             if (network.hasInternet()) {
                 state = UiState.ONLINE;
+                Response<List<ExchangeItem>> result = getOutputs().getValue();
+                if (result == null || result instanceof Response.Failure) {
+                    getEx().postToUi(() -> loads(false), 250L);
+                }
             }
         }
         UiState finalState = state;
@@ -97,10 +103,14 @@ public class ExchangeViewModel
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgress(true))
-                .subscribe(result -> postResult(result, true), error -> {
+                .subscribe(result -> {
+                    postResult(result, true);
+                }, error -> {
                     postFailures(new MultiException(error, new ExtraException()));
                 });
+
         addMultipleSubscription(disposable);
+
     }
 
     private Flowable<List<ExchangeItem>> getItemsInterval() {

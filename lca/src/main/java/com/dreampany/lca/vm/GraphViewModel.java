@@ -83,7 +83,7 @@ public class GraphViewModel
             if (network.hasInternet()) {
                 state = UiState.ONLINE;
                 Response<GraphItem> result = getOutput().getValue();
-                if (result instanceof Response.Failure) {
+                if (result == null || result instanceof Response.Failure) {
                     boolean empty = lastResult == null || !lastResult.isSuccess();
                     getEx().postToUi(() -> load(cmcCurrency, timeType, false, empty), 250L);
                 }
@@ -113,6 +113,9 @@ public class GraphViewModel
     }
 
     public void load(CmcCurrency cmcCurrency, TimeType timeType, boolean fresh, boolean withProgress) {
+        if (cmcCurrency == null || timeType == null) {
+            return;
+        }
         this.cmcCurrency = cmcCurrency;
         this.timeType = timeType;
         if (fresh) {

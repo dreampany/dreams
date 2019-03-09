@@ -50,6 +50,8 @@ public class NotifyViewModel {
 
     private final Map<Coin, Price> prices;
 
+    private boolean switching;
+
     @Inject
     NotifyViewModel(Application application,
                     RxMapper rx,
@@ -78,11 +80,16 @@ public class NotifyViewModel {
 /*        if (hasDisposable()) {
             //return;
         }*/
-        Timber.v("Processing");
-        int limit = Constants.Limit.COIN_PAGE;
+        Timber.v("notifyIf Processing");
         Currency currency = Currency.USD;
-        rx.backToMain(getProfitableItemsRx(currency))
-                .subscribe(this::postResultCoins, this::postFailed);
+        if (switching) {
+            rx.backToMain(getProfitableItemsRx(currency))
+                    .subscribe(this::postResultCoins, this::postFailed);
+        } else {
+            rx.backToMain(getAlertItemsRx())
+                    .subscribe(this::postResultAlerts, this::postFailed);
+        }
+        switching = !switching;
 
     }
 
@@ -95,19 +102,25 @@ public class NotifyViewModel {
 
     private Maybe<List<CoinAlertItem>> getAlertItemsRx() {
         return alertRepo.getItemsRx()
-                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) this::getProfitableItemsRx);
+                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) this::getAlertItemsRx);
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(List<Coin> result) {
         return Flowable.fromIterable(result)
                 .filter(this::isProfitable)
-                .map(CoinItem::getSimpleItem).toList().toMaybe();
+                .map(CoinItem::getSimpleItem)
+                .toList()
+                .toMaybe();
     }
 
     private Maybe<List<CoinAlertItem>> getAlertItemsRx(List<CoinAlert> result) {
         return Flowable.fromIterable(result)
-                .filter(this::isProfitable)
-                .map(CoinItem::getSimpleItem).toList().toMaybe();
+                .filter(this::isAlertable)
+                .map(alert -> {
+                    Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), Currency.USD);
+                    return CoinAlertItem.getItem(coin, alert);
+                }).toList()
+                .toMaybe();
     }
 
 /*    private boolean hasDisposable() {
@@ -139,6 +152,22 @@ public class NotifyViewModel {
         notify.showNotification(application, title, message, NavigationActivity.class);
     }
 
+    @DebugLog
+    private void postResultAlerts(List<CoinAlertItem> items) {
+        if (DataUtil.isEmpty(items)) {
+            return;
+        }
+        String title = TextUtil.getString(application, R.string.app_name);
+        StringBuilder message = new StringBuilder();
+        for (CoinAlertItem item : items) {
+            if (message.length() > 0) {
+                message.append(", ");
+            }
+            message.append(item.getCoin().getSymbol());
+        }
+        notify.showNotification(application, title, message.toString(), NavigationActivity.class);
+    }
+
     private void postFailed(Throwable error) {
 
     }
@@ -149,7 +178,18 @@ public class NotifyViewModel {
     }
 
     private boolean isAlertable(CoinAlert alert) {
-
+        Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), Currency.USD);
+        if (coin == null) {
+            return false;
+        }
+        Quote quote = coin.getUsdQuote();
+        if (alert.hasPriceUp() && quote.getPrice() > alert.getPriceUp()) {
+            return true;
+        }
+        if (alert.hasPriceDown() && quote.getPrice() > alert.getPriceDown()) {
+            return true;
+        }
+        return false;
     }
 
 /*    @DebugLog

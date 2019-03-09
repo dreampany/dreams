@@ -124,7 +124,7 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
 
     @Override
     public Maybe<List<CoinAlert>> getItemsRx() {
-        return null;
+        return dao.getItemsRx();
     }
 
     @Override

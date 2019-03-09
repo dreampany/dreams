@@ -72,7 +72,7 @@ public class CoinViewModel
             if (network.hasInternet()) {
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
-                if (result instanceof Response.Failure) {
+                if (result == null || result instanceof Response.Failure) {
                     boolean empty = uiCallback == null || uiCallback.getEmpty();
                     getEx().postToUi(() -> loads(false, empty), 250L);
                 }

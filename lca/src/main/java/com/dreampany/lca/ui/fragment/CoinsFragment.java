@@ -1,5 +1,6 @@
 package com.dreampany.lca.ui.fragment;
 
+import android.view.MenuItem;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.databinding.ObservableArrayList;
@@ -137,6 +138,16 @@ public class CoinsFragment
             vm.removeUpdateVisibleItemsDisposable();
         }
     }*/
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_favorites:
+                openFavoritesUi();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onRefresh() {
@@ -365,6 +376,13 @@ public class CoinsFragment
         task.setInput(coin);
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, task);
+    }
+
+    private void openFavoritesUi() {
+        UiTask<Coin> task = new UiTask<>(false);
+        task.setUiType(UiType.COIN);
+        task.setSubtype(UiSubtype.FAVORITES);
         openActivity(ToolsActivity.class, task);
     }
 }

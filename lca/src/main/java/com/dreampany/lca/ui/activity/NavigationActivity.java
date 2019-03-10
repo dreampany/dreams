@@ -25,7 +25,7 @@ public class NavigationActivity
     @Inject
     Lazy<CoinsFragment> coinsFragment;
     @Inject
-    Lazy<FavoritesFragment> favoritesFragment;
+    Lazy<CoinAlertsFragment> coinAlertsFragment;
     @Inject
     Lazy<IcoFragment> icoFragment;
     @Inject
@@ -53,7 +53,7 @@ public class NavigationActivity
 
     @Override
     public int getDefaultSelectedNavigationItemId() {
-        return R.id.item_live;
+        return R.id.item_coins;
     }
 
     @Override
@@ -85,11 +85,11 @@ public class NavigationActivity
     @Override
     protected void onNavigationItem(int navigationItemId) {
         switch (navigationItemId) {
-            case R.id.item_live:
+            case R.id.item_coins:
                 commitFragment(CoinsFragment.class, coinsFragment, R.id.layout);
                 break;
-            case R.id.item_favorite:
-                commitFragment(FavoritesFragment.class, favoritesFragment, R.id.layout);
+            case R.id.item_alerts:
+                commitFragment(CoinAlertsFragment.class, coinAlertsFragment, R.id.layout);
                 break;
             case R.id.item_ico:
                 commitFragment(IcoFragment.class, icoFragment, R.id.layout);

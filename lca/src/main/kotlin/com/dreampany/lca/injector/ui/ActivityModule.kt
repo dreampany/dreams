@@ -21,11 +21,11 @@ abstract class ActivityModule {
     abstract fun launchActivity(): LaunchActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [CoinsModule::class, FavoritesModule::class, IcoModule::class, NewsModule::class, MoreModule::class])
+    @ContributesAndroidInjector(modules = [CoinsModule::class, CoinAlertsModule::class, IcoModule::class, NewsModule::class, MoreModule::class])
     abstract fun navigationActivity(): NavigationActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [CoinModule::class, CoinAlertModule::class, SettingsModule::class, LicenseModule::class, AboutModule::class])
+    @ContributesAndroidInjector(modules = [CoinModule::class, FavoritesModule::class, CoinAlertModule::class, SettingsModule::class, LicenseModule::class, AboutModule::class])
     abstract fun toolsActivity(): ToolsActivity
 
     @ActivityScope

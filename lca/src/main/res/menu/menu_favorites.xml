@@ -10,10 +10,4 @@
             auto:actionViewClass="androidx.appcompat.widget.SearchView"
             auto:showAsAction="collapseActionView|always"/>
 
-    <item
-            android:id="@+id/item_favorites"
-            android:icon="@drawable/ic_favorite_white_24dp"
-            android:title="@string/favorites"
-            auto:showAsAction="ifRoom"/>
-
 </menu>

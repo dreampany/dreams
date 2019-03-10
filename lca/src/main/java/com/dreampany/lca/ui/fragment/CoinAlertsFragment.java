@@ -1,14 +1,14 @@
 package com.dreampany.lca.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -21,13 +21,17 @@ import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
+import com.dreampany.lca.ui.adapter.CoinAlertAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
 import com.dreampany.lca.ui.enums.UiType;
+import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
+import com.dreampany.lca.vm.CoinAlertViewModel;
 import com.dreampany.lca.vm.FavoritesViewModel;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
@@ -48,24 +52,23 @@ import java.util.Objects;
  */
 
 @ActivityScope
-public class FavoritesFragment
-        extends BaseMenuFragment
-        implements SmartAdapter.Callback<CoinItem> {
+public class CoinAlertsFragment
+        extends BaseMenuFragment {
 
     private static final String EMPTY = "empty";
 
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentCoinsBinding binding;
-    private FavoritesViewModel vm;
-    private CoinAdapter adapter;
+    private CoinAlertViewModel vm;
+    private CoinAlertAdapter adapter;
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
     private ExpandableLayout expandable;
     private RecyclerView recycler;
 
     @Inject
-    public FavoritesFragment() {
+    public CoinAlertsFragment() {
     }
 
     @Override
@@ -88,7 +91,6 @@ public class FavoritesFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        vm.start();
     }
 
     @DebugLog
@@ -101,7 +103,7 @@ public class FavoritesFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.refresh(false, adapter.isEmpty());
+        //vm.refresh(false, adapter.isEmpty());
     }
 
 /*    @Override
@@ -130,7 +132,7 @@ public class FavoritesFragment
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty(), true);
+        //vm.refresh(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -146,7 +148,7 @@ public class FavoritesFragment
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_empty:
-                vm.loads(true, true);
+                //vm.loads(true, true);
                 break;
         }
     }
@@ -154,35 +156,11 @@ public class FavoritesFragment
     @Override
     public boolean onItemClick(View view, int position) {
         if (position != RecyclerView.NO_POSITION) {
-            CoinItem item = adapter.getItem(position);
-            openCoinUi(Objects.requireNonNull(item).getItem());
+            CoinAlertItem item = adapter.getItem(position);
+            //openCoinUi(Objects.requireNonNull(item).getItem());
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean getEmpty() {
-        return adapter == null || adapter.isEmpty();
-    }
-
-    @Nullable
-    @Override
-    public List<CoinItem> getItems() {
-        return adapter.getCurrentItems();
-    }
-
-
-    @Nullable
-    @Override
-    public List<CoinItem> getVisibleItems() {
-        return adapter.getVisibleItems();
-    }
-
-    @Nullable
-    @Override
-    public CoinItem getVisibleItem() {
-        return adapter.getVisibleItem();
     }
 
     private void initView() {
@@ -196,9 +174,8 @@ public class FavoritesFragment
         recycler = binding.layoutRecycler.recycler;
 
         ViewUtil.setSwipe(refresh, this);
-        UiTask<Coin> uiTask = getCurrentTask(true);
-        vm = ViewModelProviders.of(this, factory).get(FavoritesViewModel.class);
-        vm.setUiCallback(this);
+        UiTask<CoinAlert> uiTask = getCurrentTask(true);
+        vm = ViewModelProviders.of(this, factory).get(CoinAlertViewModel.class);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
@@ -206,7 +183,7 @@ public class FavoritesFragment
 
     private void initRecycler() {
         binding.setItems(new ObservableArrayList<>());
-        adapter = new CoinAdapter(this);
+        adapter = new CoinAlertAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener();
         ViewUtil.setRecycler(
@@ -256,7 +233,7 @@ public class FavoritesFragment
         }
     }
 
-    private void processResponse(Response<List<CoinItem>> response) {
+    private void processResponse(Response<List<CoinAlertItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;
             processProgress(progress.getLoading());
@@ -264,7 +241,7 @@ public class FavoritesFragment
             Response.Failure failure = (Response.Failure) response;
             processFailure(failure.getError());
         } else if (response instanceof Response.Result) {
-            Response.Result<List<CoinItem>> result = (Response.Result<List<CoinItem>>) response;
+            Response.Result<List<CoinAlertItem>> result = (Response.Result<List<CoinAlertItem>>) response;
             processSuccess(result.getData());
         }
     }
@@ -285,22 +262,21 @@ public class FavoritesFragment
         }
     }
 
-    private void processSuccess(List<CoinItem> items) {
+    private void processSuccess(List<CoinAlertItem> items) {
         if (scroller.isScrolling()) {
             return;
         }
         //recycler.setNestedScrollingEnabled(false);
         Timber.v("Flag Result %s", items.size());
-        adapter.addFlagItems(items);
+        adapter.addItems(items);
         //recycler.setNestedScrollingEnabled(true);
         AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }
 
-    private void openCoinUi(Coin coin) {
-        UiTask<Coin> task = new UiTask<>(false);
-        task.setInput(coin);
+    private void openCoinAlertUi() {
+        UiTask<Coin> task = getCurrentTask();
         task.setUiType(UiType.COIN);
-        task.setSubtype(UiSubtype.VIEW);
+        task.setSubtype(UiSubtype.ALERT);
         openActivity(ToolsActivity.class, task);
     }
 }

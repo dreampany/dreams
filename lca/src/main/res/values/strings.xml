@@ -22,6 +22,7 @@
     <string name="empty_upcoming_ico">No Upcoming ICO! right now.</string>
     <string name="empty_finished_ico">No Finished ICO! right now.</string>
     <string name="refresh">Retry Syncing</string>
+    <string name="favorite_coins">Favorite Coins</string>
 
     <string name="full_name">%s (%s)</string>
     <string name="time">Time</string>

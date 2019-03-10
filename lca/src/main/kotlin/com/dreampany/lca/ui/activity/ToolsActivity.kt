@@ -22,6 +22,8 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var coinProvider: Lazy<CoinFragment>
     @Inject
+    lateinit var favoritesProvider: Lazy<FavoritesFragment>
+    @Inject
     lateinit var coinAlertProvider: Lazy<CoinAlertFragment>
     @Inject
     lateinit var settingsProvider: Lazy<SettingsFragment>
@@ -75,6 +77,9 @@ class ToolsActivity : BaseActivity() {
                     UiSubtype.VIEW -> {
                         commitFragment(CoinFragment::class.java, coinProvider, R.id.layout, uiTask)
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
+                    }
+                    UiSubtype.FAVORITES -> {
+                        commitFragment(FavoritesFragment::class.java, favoritesProvider, R.id.layout, uiTask)
                     }
                     UiSubtype.ALERT -> {
                         commitFragment(CoinAlertFragment::class.java, coinAlertProvider, R.id.layout, uiTask)

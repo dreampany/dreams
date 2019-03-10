@@ -26,6 +26,7 @@
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="alert">Alert</string>
+    <string name="alerts">Alerts</string>
 
     <string name="save_success">Saved successfully.</string>
 

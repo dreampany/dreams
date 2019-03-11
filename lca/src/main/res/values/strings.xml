@@ -14,7 +14,8 @@
     <string name="upcoming">Upcoming</string>
     <string name="finished">Finished</string>
 
-    <string name="empty_flags">Sorry! There are no favourite coins.</string>
+    <string name="empty_favorites">Sorry! There are no favourite coins.</string>
+    <string name="empty_alerts">Sorry! There are no alerts.</string>
     <string name="loading_coins">Loading coins…</string>
     <string name="empty_coins">Sorry! There are no coins.</string>
     <string name="empty_news">No News! to see.</string>
@@ -108,6 +109,6 @@
 
 
     <string name="message_select_alert">Please set at least one alert condition.</string>
-    //<string name="message_alert_same_price">Please set at least one alert condition.</string>
+    <string name="message_alert_same_price">Please set at least one alert condition.</string>
 
 </resources>

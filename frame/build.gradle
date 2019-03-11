@@ -218,8 +218,8 @@ dependencies {
     implementation 'com.afollestad:aesthetic:0.6.1'
     implementation 'com.webianks.library:easy-feedback:1.0.2'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
-    implementation 'com.github.halysongoncalves:pugnotification:1.8.1'
     implementation 'com.jaredrummler:android-device-names:1.1.7'
+    implementation "io.karn:notify:1.2.0"
     api 'com.github.silvestrpredko:dot-progress-bar:1.1'
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'org.greenrobot:eventbus:3.1.1'

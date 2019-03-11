@@ -66,7 +66,7 @@ public class NotifyViewModel {
         this.repo = repo;
         this.priceRepo = priceRepo;
         this.alertRepo = alertRepo;
-        this.notify = new NotifyManager();
+        this.notify = new NotifyManager(application);
         prices = Maps.newConcurrentMap();
         //disposables = new CompositeDisposable();
     }
@@ -153,7 +153,7 @@ public class NotifyViewModel {
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
-        notify.showNotification(application, title, message, NavigationActivity.class);
+        notify.showNotification(message, NavigationActivity.class);
     }
 
     @DebugLog
@@ -169,7 +169,7 @@ public class NotifyViewModel {
             }
             message.append(item.getCoin().getSymbol());
         }
-        notify.showNotification(application, title, message.toString(), NavigationActivity.class);
+        notify.showNotification(message.toString(), NavigationActivity.class);
     }
 
     private void postFailed(Throwable error) {

@@ -83,10 +83,10 @@ public final class NotifyUtil {
 
 
     public static NotificationChannel createNotificationChannel(//Context context,
-                                                   String channelId,
-                                                   String channelName,
-                                                   String channelDescription,
-                                                   int channelImportance) {
+                                                                String channelId,
+                                                                String channelName,
+                                                                String channelDescription,
+                                                                int channelImportance) {
         if (!AndroidUtil.hasOreo()) {
             return null;
         }
@@ -114,7 +114,8 @@ public final class NotifyUtil {
                                                   String contentText,
                                                   @DrawableRes int smallIcon,
                                                   Class<?> targetClass,
-                                                  NotificationChannel channel) {
+                                                  NotificationChannel channel,
+                                                  boolean autoCancel) {
         Context appContext = context.getApplicationContext();
         NotificationCompat.Builder builder;
         if (AndroidUtil.hasOreo()) {
@@ -128,7 +129,7 @@ public final class NotifyUtil {
         Intent showTaskIntent = new Intent(appContext, targetClass);
         showTaskIntent.setAction(Intent.ACTION_MAIN);
         showTaskIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-        showTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        showTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent contentIntent = PendingIntent.getActivity(
                 appContext,
@@ -137,10 +138,11 @@ public final class NotifyUtil {
                 PendingIntent.FLAG_UPDATE_CURRENT);
 
         return builder.setContentTitle(notifyTitle)
-                //.setContentText(contentText)
+                .setContentText(contentText)
                 .setSmallIcon(smallIcon)
                 .setWhen(System.currentTimeMillis())
                 .setContentIntent(contentIntent)
+                .setAutoCancel(autoCancel)
                 .build();
     }
 }

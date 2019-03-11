@@ -189,7 +189,7 @@ public class FavoritesFragment
         setTitle(R.string.favorite_coins);
         binding = (FragmentCoinsBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
-        ViewUtil.setText(this, R.id.text_empty, R.string.empty_flags);
+        ViewUtil.setText(this, R.id.text_empty, R.string.empty_favorites);
 
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;

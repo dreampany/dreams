@@ -1,16 +1,14 @@
 package com.dreampany.frame.api.notify
 
-import android.app.Notification
 import android.app.Service
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
-import br.com.goncalves.pugnotification.interfaces.ImageLoader
-import br.com.goncalves.pugnotification.notification.PugNotification
 import com.dreampany.frame.R
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.NotifyUtil
+import io.karn.notify.Notify
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -21,21 +19,48 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  */
 @Singleton
-class NotifyManager @Inject constructor() {
+class NotifyManager @Inject constructor(val context: Context) {
     private val NOTIFY_FOREGROUND_DEFAULT = 101
     private val NOTIFY_DEFAULT = 102
+    private val NOTIFY_CHANNEL_DEFAULT = "103"
     private val NOTIFY_IDENTIFIER = "102"
 
     private val icon: Bitmap? = null
 
     private var manager: NotificationManagerCompat? = null
 
-    fun showForegroundNotification(
-        context: Context,
+/*    init {
+        Notify.defaultConfig {
+            header {
+                color = AndroidUtil.getColorPrimaryDark(context)
+            }
+            alerting(Notify.CHANNEL_DEFAULT_KEY) {
+                lightColor = Color.RED
+            }
+        }
+    }*/
+
+    fun showNotification(
+        contentText: String,
+        targetClass: Class<*>
+    ) {
+        showNotification(
+            NOTIFY_DEFAULT,
+            context.getString(R.string.app_name),
+            contentText,
+            R.mipmap.ic_launcher,
+            targetClass,
+            NOTIFY_CHANNEL_DEFAULT,
+            context.getString(R.string.app_name),
+            context.getString(R.string.description)
+        )
+    }
+
+    fun showNotification(
         notifyId: Int,
         notifyTitle: String,
         contentText: String,
-        smallIcon : Int,
+        smallIcon: Int,
         targetClass: Class<*>,
         channelId: String,
         channelName: String,
@@ -60,26 +85,90 @@ class NotifyManager @Inject constructor() {
             contentText,
             smallIcon,
             targetClass,
-            channel
+            channel,
+            true
+        )
+
+        manager?.notify(notifyId, notification)
+    }
+
+    fun showForegroundNotification(
+        context: Context,
+        notifyId: Int,
+        notifyTitle: String,
+        contentText: String,
+        smallIcon: Int,
+        targetClass: Class<*>,
+        channelId: String,
+        channelName: String,
+        channelDescription: String
+    ) {
+        val appContext = context.applicationContext
+
+        if (manager == null) {
+            manager = NotificationManagerCompat.from(appContext)
+        }
+
+        val channel = NotifyUtil.createNotificationChannel(
+            channelId,
+            channelName,
+            channelDescription,
+            NotificationManagerCompat.IMPORTANCE_DEFAULT
+        )
+
+        val notification = NotifyUtil.createNotification(
+            context,
+            notifyTitle,
+            contentText,
+            smallIcon,
+            targetClass,
+            channel,
+            true
         )
 
         if (AndroidUtil.hasOreo()) {
             (context as Service).startForeground(notifyId, notification)
         } else {
-            manager?.notify(notifyId, notification);
+            manager?.notify(notifyId, notification)
         }
     }
 
-    fun showNotification(context: Context, title: String, message: String, target: Class<*>) {
+/*    fun showNotification(context: Context, title: String, message: String, target: Class<*>) {
         showNotification(context, NOTIFY_DEFAULT, title, message, target, null)
-    }
+    }*/
 
 /*    fun showNotification(context: Context,  title: String, message: String, target: Class<*>) {
         showNotification(context, title, message, target, null)
     }*/
 
-    fun showNotification(context: Context, notifyId: Int, title: String, message: String, target: Class<*>, data: Bundle?) {
-        PugNotification.with(context).cancel(notifyId)
+    fun showNotification(
+        context: Context,
+        notifyId: Int,
+        title: String,
+        message: String,
+        target: Class<*>,
+        data: Bundle?
+    ) {
+
+        Notify.cancelNotification(notifyId)
+        Notify.with(context).content { }.show()
+
+
+/*        Notify.with(context)
+            .content {
+                title = "New dessert menu"
+                text = "The Cheesecake Factory has a new dessert for you to try!"
+            }
+            .stackable {
+                key = "test_key"
+                summaryContent = "test summary content"
+                summaryTitle = { count -> "Summary title" }
+                summaryDescription = { count -> count.toString() + " new notifications." }
+            }
+            .show()*/
+
+
+/*        PugNotification.with(context).cancel(notifyId)
         PugNotification.with(context)
             .load()
             .identifier(notifyId)
@@ -91,10 +180,10 @@ class NotifyManager @Inject constructor() {
             .autoCancel(true)
             .click(target, data)
             .simple()
-            .build()
+            .build()*/
     }
 
-    fun showNotification(
+/*    fun showNotification(
         context: Context,
         icon: Int,
         iconUri: String,
@@ -121,7 +210,7 @@ class NotifyManager @Inject constructor() {
             .setImageLoader(loader)
             .background(iconUri)
             .build()
-    }
+    }*/
 
 /*    fun postAlert(id: String, title: String) {
         postAlert(id, title, null, null)

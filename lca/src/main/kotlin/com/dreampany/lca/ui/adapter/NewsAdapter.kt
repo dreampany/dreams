@@ -19,7 +19,7 @@ class NewsAdapter(listener: Any) : SmartAdapter<NewsItem>(listener) {
     }
 
     override fun addItems(items: List<NewsItem>): Boolean {
-        for (item in items!!) {
+        for (item in items) {
             addItem(item, publishedOnComparator)
         }
         return true

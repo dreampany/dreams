@@ -212,7 +212,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Coin getItem(CoinSource source, String symbol, Currency currency) {
-        return null;
+        return room.getItem(source, symbol, currency);
     }
 
     @Override

@@ -109,7 +109,6 @@ public class FavoritesViewModel
         loads(true, withProgress);
     }
 
-    @DebugLog
     public void loads(boolean fresh, boolean withProgress) {
         if (!OPEN) {
             return;
@@ -127,7 +126,6 @@ public class FavoritesViewModel
                     }
                 })
                 .subscribe(result -> {
-                    Timber.v("Posting Result");
                     if (withProgress) {
                         postProgress(false);
                     }
@@ -163,29 +161,15 @@ public class FavoritesViewModel
                 })
                 .subscribe(
                         result -> {
-                            Timber.v("Posting Result");
                             if (withProgress) {
                                 postProgress(false);
                             }
                             postResult(result);
-/*                            if (!DataUtil.isEmpty(result)) {
-                                postResult(result);
-                            } else {
-                                postFailure(new EmptyException());
-                            }*/
-                        }, new Consumer<Throwable>() {
-                            @Override
-                            public void accept(Throwable throwable) throws Exception {
-                                Timber.v("Favorite Error %s", throwable.toString());
-                                postFailure(throwable);
-                            }
-                        });
+                        }, this::postFailure);
         addSubscription(updateDisposable);
     }
 
-    /**
-     * private api
-     */
+    /* private api */
     private Maybe<List<CoinItem>> getFavoriteItemsRx(CoinSource source, Currency currency) {
         return Maybe.fromCallable(() -> {
             List<CoinItem> result = new ArrayList<>();

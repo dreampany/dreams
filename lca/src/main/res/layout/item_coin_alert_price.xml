@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="end">
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:id="@+id/layout_price_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                auto:srcCompat="@drawable/ic_chevron_right_black_24dp"
+                android:layout_height="wrap_content" />
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:layout_width="wrap_content"
+                android:id="@+id/text_price_up"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/usd"
+                android:textColor="@color/material_grey700"
+                android:textSize="12sp"
+                auto:smart_font="@string/fontRobotoSlabBody" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:id="@+id/layout_price_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="wrap_content"
+                auto:srcCompat="@drawable/ic_chevron_left_black_24dp"
+                android:layout_height="wrap_content" />
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:id="@+id/text_price_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/usd"
+                android:textColor="@color/material_grey700"
+                android:textSize="12sp"
+                auto:smart_font="@string/fontRobotoSlabBody" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

@@ -127,7 +127,6 @@ public class CoinAlertFragment extends BaseMenuFragment {
             return;
         }
 
-
         Coin coin = item.getCoin();
         String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
         FrescoUtil.loadImage(binding.imageIcon, imageUrl, true);

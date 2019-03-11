@@ -58,6 +58,10 @@ public final class ViewUtil {
 
     public static void hide(Fragment parent, @IdRes int viewId) {
         View view = getViewById(parent, viewId);
+        ViewUtil.hide(view);
+    }
+
+    public static void hide(@NonNull  View view) {
         if (view != null) {
             view.setVisibility(View.GONE);
         }

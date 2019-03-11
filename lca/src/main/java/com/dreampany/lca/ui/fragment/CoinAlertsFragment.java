@@ -32,6 +32,7 @@ import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinAlertViewModel;
+import com.dreampany.lca.vm.CoinAlertsViewModel;
 import com.dreampany.lca.vm.FavoritesViewModel;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
@@ -60,7 +61,7 @@ public class CoinAlertsFragment
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentCoinsBinding binding;
-    private CoinAlertViewModel vm;
+    private CoinAlertsViewModel vm;
     private CoinAlertAdapter adapter;
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
@@ -103,7 +104,7 @@ public class CoinAlertsFragment
     @Override
     public void onResume() {
         super.onResume();
-        //vm.refresh(false, adapter.isEmpty());
+        vm.loads(false, adapter.isEmpty());
     }
 
 /*    @Override
@@ -132,7 +133,7 @@ public class CoinAlertsFragment
 
     @Override
     public void onRefresh() {
-        //vm.refresh(!adapter.isEmpty(), true);
+        vm.loads(!adapter.isEmpty(), true);
     }
 
     @Override
@@ -164,7 +165,7 @@ public class CoinAlertsFragment
     }
 
     private void initView() {
-        setTitle(R.string.favorite_coins);
+        setTitle(R.string.alerts);
         binding = (FragmentCoinsBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_flags);
@@ -175,7 +176,7 @@ public class CoinAlertsFragment
 
         ViewUtil.setSwipe(refresh, this);
         UiTask<CoinAlert> uiTask = getCurrentTask(true);
-        vm = ViewModelProviders.of(this, factory).get(CoinAlertViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(CoinAlertsViewModel.class);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
@@ -191,7 +192,7 @@ public class CoinAlertsFragment
                 recycler,
                 new SmoothScrollLinearLayoutManager(Objects.requireNonNull(getContext())),
                 new FlexibleItemDecoration(getContext())
-                        .addItemViewType(R.layout.item_coin, vm.getItemOffset())
+                        .addItemViewType(R.layout.item_coin_alert, vm.getItemOffset())
                         .withEdge(true),
                 null,
                 scroller,

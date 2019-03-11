@@ -42,6 +42,7 @@ class JobManager @Inject constructor(val context: Context) {
     fun fire(job: Job): Boolean {
         try {
             dispatcher.mustSchedule(job)
+            Timber.v("Job mustSchedule")
             return true
         } catch (error: FirebaseJobDispatcher.ScheduleFailedException) {
             Timber.e(error, "Error in Job Schedule")

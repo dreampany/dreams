@@ -1,11 +1,22 @@
 package com.dreampany.lca.ui.model;
 
 import android.view.View;
+import android.widget.TextView;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.StringRes;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.frame.util.FrescoUtil;
+import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
+import com.dreampany.lca.data.model.Quote;
+import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.ui.adapter.CoinAdapter;
+import com.dreampany.lca.ui.adapter.CoinAlertAdapter;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.common.base.Objects;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
@@ -13,6 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Roman-372 on 3/6/2019
@@ -32,7 +44,7 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
     }
 
     public static CoinAlertItem getItem(Coin coin, CoinAlert alert) {
-        return new CoinAlertItem(coin, alert, 0);
+        return new CoinAlertItem(coin, alert, R.layout.item_coin_alert);
     }
 
     @Override
@@ -55,7 +67,8 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     @Override
     public boolean filter(Serializable constraint) {
-        return false;
+        String keyword = coin.getName() + coin.getSymbol() + coin.getSlug();
+        return keyword.toLowerCase().contains(((String) constraint).toLowerCase());
     }
 
     public void setCoin(Coin coin) {
@@ -84,15 +97,41 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     static abstract class ViewHolder extends BaseItem.ViewHolder {
 
+        final CoinAlertAdapter adapter;
+        final String usdFormat;
+
         ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
             ButterKnife.bind(this, view);
+            this.adapter = (CoinAlertAdapter) adapter;
+            usdFormat = getText(R.string.usd_format);
         }
 
         abstract void bind(int position, CoinAlertItem item);
+
+        String getText(@StringRes int resId) {
+            return getContext().getString(resId);
+        }
     }
 
     static final class ItemViewHolder extends CoinAlertItem.ViewHolder {
+
+        @BindView(R.id.image_icon)
+        SimpleDraweeView icon;
+        @BindView(R.id.text_name)
+        TextView name;
+        @BindView(R.id.text_price)
+        TextView price;
+
+        @BindView(R.id.layout_price_up)
+        View layoutPriceUp;
+        @BindView(R.id.layout_price_down)
+        View layoutPriceDown;
+
+        @BindView(R.id.text_price_up)
+        TextView textPriceUp;
+        @BindView(R.id.text_price_down)
+        TextView textPriceDown;
 
         ItemViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
@@ -100,7 +139,30 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
         @Override
         void bind(int position, CoinAlertItem item) {
+            Coin coin = item.getCoin();
+            String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
+            FrescoUtil.loadImage(icon, imageUrl, true);
+            String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
+            name.setText(nameText);
 
+            Quote quote = coin.getUsdQuote();
+            double price = 0f;
+            if (quote != null) {
+                price = quote.getPrice();
+            }
+            this.price.setText(String.format(usdFormat, price));
+
+            CoinAlert alert = item.getItem();
+            if (alert.hasPriceUp()) {
+                textPriceUp.setText(String.format(getText(R.string.currency_format), alert.getPriceUp()));
+            } else {
+                ViewUtil.hide(layoutPriceUp);
+            }
+            if (alert.hasPriceDown()) {
+                textPriceDown.setText(String.format(getText(R.string.currency_format), alert.getPriceDown()));
+            } else {
+                ViewUtil.hide(layoutPriceDown);
+            }
         }
     }
 }

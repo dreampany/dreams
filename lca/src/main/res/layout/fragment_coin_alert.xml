@@ -83,9 +83,9 @@
 
             <fr.arnaudguyon.smartfontslib.FontEditText
                 android:id="@+id/edit_price_up"
-                android:layout_width="180dp"
+                android:minWidth="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:inputType="numberDecimal"
                 auto:smart_font="@string/fontRobotoSlabTitle" />
 
@@ -119,9 +119,9 @@
 
             <fr.arnaudguyon.smartfontslib.FontEditText
                 android:id="@+id/edit_price_down"
-                android:layout_width="180dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ems="10"
+                android:minWidth="120dp"
                 android:inputType="numberDecimal"
                 auto:smart_font="@string/fontRobotoSlabTitle" />
 

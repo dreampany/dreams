@@ -221,7 +221,6 @@ public class CoinsViewModel
         }).onErrorResumeNext(Maybe.empty());
     }
 
-    @DebugLog
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
         return Maybe.fromCallable(() -> getItems(result));
     }

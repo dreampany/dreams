@@ -5,8 +5,6 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
@@ -27,16 +25,16 @@ import javax.inject.Inject;
 public class CoinAlertViewModel
         extends BaseViewModel<CoinAlert, CoinAlertItem, UiTask<CoinAlert>> {
 
-    private CoinAlertRepository repo;
+    private CoinAlertRepository alertRepo;
 
     @Inject
     CoinAlertViewModel(Application application,
                        RxMapper rx,
                        AppExecutors ex,
                        ResponseMapper rm,
-                       CoinAlertRepository repo) {
+                       CoinAlertRepository alertRepo) {
         super(application, rx, ex, rm);
-        this.repo = repo;
+        this.alertRepo = alertRepo;
     }
 
     @Override
@@ -94,10 +92,10 @@ public class CoinAlertViewModel
         addSubscription(disposable);
     }
 
-    /* internal api */
+    /* private api */
     private Maybe<CoinAlertItem> getItemRx(Coin coin) {
         return Maybe.create(emitter -> {
-            CoinAlert alert = repo.getItem(coin.getSymbol());
+            CoinAlert alert = alertRepo.getItem(coin.getSymbol());
             CoinAlertItem item;
             if (alert != null) {
                 item = getItem(coin, alert);
@@ -114,7 +112,7 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> saveRx(Coin coin, CoinAlert alert) {
         return Maybe.create(emitter -> {
-            long result = repo.putItem(alert);
+            long result = alertRepo.putItem(alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);
             if (item == null) {
                 emitter.onError(new NullPointerException());

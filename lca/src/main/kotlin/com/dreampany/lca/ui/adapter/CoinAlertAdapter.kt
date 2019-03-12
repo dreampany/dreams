@@ -13,6 +13,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 class CoinAlertAdapter(listener: Any) : SmartAdapter<CoinAlertItem>(listener) {
 
     private val recentComparator: Comparator<IFlexible<*>> //it can be multiple comparator to support multiple sorting
+    private var deleting : Boolean = false
 
     init {
         recentComparator = RecentComparator()
@@ -26,6 +27,14 @@ class CoinAlertAdapter(listener: Any) : SmartAdapter<CoinAlertItem>(listener) {
             addItem(item, recentComparator)
         }
         return true
+    }
+
+    fun toggleDelete() {
+        deleting = !deleting
+        for (item in currentItems) {
+            item.deleting = deleting
+        }
+        notifyDataSetChanged()
     }
 
     class RecentComparator : Comparator<IFlexible<*>> {

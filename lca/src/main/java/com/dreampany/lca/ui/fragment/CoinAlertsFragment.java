@@ -2,6 +2,7 @@ package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
@@ -132,6 +133,16 @@ public class CoinAlertsFragment
     }*/
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_delete:
+                adapter.toggleDelete();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onRefresh() {
         vm.loads(!adapter.isEmpty(), true);
     }
@@ -196,6 +207,8 @@ public class CoinAlertsFragment
                         .withEdge(true),
                 null,
                 scroller,
+                null,
+                null,
                 null
         );
     }

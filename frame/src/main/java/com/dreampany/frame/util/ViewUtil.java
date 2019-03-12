@@ -6,11 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import androidx.annotation.ColorInt;
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+import androidx.annotation.*;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
@@ -51,6 +47,12 @@ public final class ViewUtil {
 
     public static void visible(Fragment parent, @IdRes int viewId) {
         View view = getViewById(parent, viewId);
+        if (view != null) {
+            ViewUtil.visible(view);
+        }
+    }
+
+    public static void visible(@NonNull View view) {
         if (view != null) {
             view.setVisibility(View.VISIBLE);
         }
@@ -202,7 +204,20 @@ public final class ViewUtil {
                                    @Nullable View empty,
                                    @Nullable View filter,
                                    @Nullable EmptyViewHelper.OnEmptyViewListener emptyListener) {
+        ViewUtil.setRecycler(adapter, recycler, layout, decoration, animator, scroller, empty, null, null, false, false);
+    }
 
+    public static void setRecycler(@NonNull SmartAdapter adapter,
+                                   @NonNull RecyclerView recycler,
+                                   @NonNull RecyclerView.LayoutManager layout,
+                                   @Nullable RecyclerView.ItemDecoration decoration,
+                                   @Nullable RecyclerView.ItemAnimator animator,
+                                   @Nullable RecyclerView.OnScrollListener scroller,
+                                   @Nullable View empty,
+                                   @Nullable View filter,
+                                   @Nullable EmptyViewHelper.OnEmptyViewListener emptyListener,
+                                   boolean dragEnabled,
+                                   boolean swipeEnabled) {
         layout.setItemPrefetchEnabled(false);
         recycler.setHasFixedSize(true);
         recycler.setAdapter(adapter);
@@ -229,6 +244,8 @@ public final class ViewUtil {
         } else if (empty != null) {
             EmptyViewHelper.create(adapter, empty);
         }
+        adapter.setLongPressDragEnabled(dragEnabled);
+        adapter.setSwipeEnabled(swipeEnabled);
     }
 
     @NonNull

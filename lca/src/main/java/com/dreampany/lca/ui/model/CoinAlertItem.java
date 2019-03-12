@@ -37,6 +37,7 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
     private Coin coin;
     private boolean empty;
     private boolean saveOperation;
+    private boolean deleting;
 
     private CoinAlertItem(Coin coin, CoinAlert alert, @LayoutRes int layoutId) {
         super(alert, layoutId);
@@ -83,6 +84,10 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
         this.saveOperation = saveOperation;
     }
 
+    public void setDeleting(boolean deleting) {
+        this.deleting = deleting;
+    }
+
     public Coin getCoin() {
         return coin;
     }
@@ -93,6 +98,10 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     public boolean isSaveOperation() {
         return saveOperation;
+    }
+
+    public boolean getDeleting() {
+        return deleting;
     }
 
     static abstract class ViewHolder extends BaseItem.ViewHolder {
@@ -116,6 +125,13 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     static final class ItemViewHolder extends CoinAlertItem.ViewHolder {
 
+/*        @BindView(R.id.layout_left_view)
+        View leftView;
+        @BindView(R.id.layout_right_view)
+        View rightView;
+        @BindView(R.id.layout_front_view)
+        View frontView;*/
+
         @BindView(R.id.image_icon)
         SimpleDraweeView icon;
         @BindView(R.id.text_name)
@@ -133,9 +149,27 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
         @BindView(R.id.text_price_down)
         TextView textPriceDown;
 
+        @BindView(R.id.image_delete)
+        View imageDelete;
+
         ItemViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
         }
+
+/*        @Override
+        public View getFrontView() {
+            return frontView;
+        }
+
+        @Override
+        public View getRearLeftView() {
+            return leftView;
+        }
+
+        @Override
+        public View getRearRightView() {
+            return rightView;
+        }*/
 
         @Override
         void bind(int position, CoinAlertItem item) {
@@ -162,6 +196,12 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
                 textPriceDown.setText(String.format(getText(R.string.currency_format), alert.getPriceDown()));
             } else {
                 ViewUtil.hide(layoutPriceDown);
+            }
+
+            if (item.getDeleting()) {
+                ViewUtil.visible(imageDelete);
+            } else {
+                ViewUtil.hide(imageDelete);
             }
         }
     }

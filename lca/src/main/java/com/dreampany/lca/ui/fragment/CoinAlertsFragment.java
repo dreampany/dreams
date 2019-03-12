@@ -80,7 +80,7 @@ public class CoinAlertsFragment
 
     @Override
     public int getMenuId() {
-        return R.menu.menu_favorites;
+        return R.menu.menu_alerts;
     }
 
     @Override
@@ -161,6 +161,11 @@ public class CoinAlertsFragment
         switch (v.getId()) {
             case R.id.button_empty:
                 //vm.loads(true, true);
+                break;
+            case R.id.image_delete:
+                CoinAlertItem item = (CoinAlertItem) v.getTag();
+                Timber.v("Delete fired");
+                adapter.removeItem(item);
                 break;
         }
     }

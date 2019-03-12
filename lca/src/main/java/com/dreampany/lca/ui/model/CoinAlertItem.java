@@ -154,6 +154,7 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
         ItemViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
+            imageDelete.setOnClickListener(super.adapter.getClickListener());
         }
 
 /*        @Override
@@ -203,6 +204,7 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
             } else {
                 ViewUtil.hide(imageDelete);
             }
+            imageDelete.setTag(item);
         }
     }
 }

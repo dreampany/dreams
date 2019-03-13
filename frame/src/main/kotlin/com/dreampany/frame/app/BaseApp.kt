@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.StrictMode
 import androidx.multidex.MultiDex
 import com.beardedhen.androidbootstrap.TypefaceProvider
-import com.codemybrainsout.ratingdialog.RatingDialog
 import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.R
 import com.dreampany.frame.api.service.JobManager
@@ -23,7 +22,6 @@ import com.facebook.common.internal.Supplier
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.facebook.stetho.Stetho
-import com.github.javiersantos.appupdater.AppUpdater
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -34,7 +32,6 @@ import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.support.DaggerApplication
-import io.reactivex.functions.Consumer
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
 import java.io.File
@@ -53,7 +50,6 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     protected var refs: WeakReference<Activity>? = null
     var action: Action? = null
     var indexable: Indexable? = null
-    var updater: AppUpdater? = null
 
     private lateinit var color: Color
 
@@ -360,13 +356,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     private fun startUpdate() {
-        if (updater == null) {
-            updater = AppUpdater(getCurrentUi())
-        }
-        updater?.start()
+
     }
 
     private fun stopUpdate() {
-        updater?.stop()
+
     }
 }

@@ -23,10 +23,11 @@ import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import hugo.weaving.DebugLog;
+import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -45,8 +46,6 @@ import java.util.List;
 public class CoinsViewModel
         extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
         implements NetworkManager.Callback {
-
-    private static final boolean OPEN = true;
 
     private final NetworkManager network;
     private final Pref pref;
@@ -122,9 +121,6 @@ public class CoinsViewModel
     }
 
     public void loads(int index, boolean fresh, boolean withProgress) {
-        if (!OPEN) {
-            return;
-        }
         if (!preLoads(fresh)) {
             return;
         }
@@ -142,10 +138,10 @@ public class CoinsViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(Response.Type.ADD, result);
+                    postResult(Response.Type.GET, result);
                 }, error -> {
                     if (withProgress) {
-                        postProgress(true);
+                        postProgress(false);
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
@@ -153,9 +149,6 @@ public class CoinsViewModel
     }
 
     public void update(boolean withProgress) {
-        if (!OPEN) {
-            return;
-        }
         if (hasDisposable(updateDisposable)) {
             return;
         }
@@ -167,21 +160,21 @@ public class CoinsViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(
-                        result -> {
-                            if (!DataUtil.isEmpty(result)) {
-                                postProgress(false);
-                                postResult(Response.Type.ADD, result);
-                            } else {
-                                postProgress(false);
-                            }
-                        }, this::postFailure);
+                .subscribe(result -> {
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.UPDATE, result);
+                }, error -> {
+                    if (withProgress) {
+                        postProgress(false);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
         addSubscription(updateDisposable);
     }
 
-    /**
-     * private api
-     */
+    /* private api */
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
         return repo
                 .getItemsIfRx(CoinSource.CMC, index, limit, currency)
@@ -211,13 +204,17 @@ public class CoinsViewModel
     }
 
     private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency currency) {
-        return Maybe.fromCallable(() -> {
+        return Maybe.create(emitter -> {
             List<CoinItem> result = getVisibleItemsIf(currency);
-            if (DataUtil.isEmpty(result)) {
-                throw new EmptyException();
+            if (emitter.isDisposed()) {
+                return;
             }
-            return result;
-        }).onErrorResumeNext(Maybe.empty());
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
@@ -243,21 +240,12 @@ public class CoinsViewModel
             CoinItem item = getItem(coin);
             items.add(item);
         }
-        Timber.v("Live Update Result in VM %d", items.size());
         return items;
     }
 
     private void adjustFlag(Coin coin, CoinItem item) {
         boolean flagged = repo.isFavorite(coin);
         item.setFavorite(flagged);
-    }
-
-    //todo need to improve for flowable and completable working
-    private Maybe<CoinItem> toggleImpl(Coin coin) {
-        return Maybe.fromCallable(() -> {
-            repo.toggleFavorite(coin);
-            return getItem(coin);
-        });
     }
 
     private CoinItem getItem(Coin coin) {
@@ -272,7 +260,14 @@ public class CoinsViewModel
         return item;
     }
 
-    private void putFlags(List<Coin> coins, int flagCount) {
+      /*    private Maybe<CoinItem> toggleImpl(Coin coin) {
+        return Maybe.fromCallable(() -> {
+            repo.toggleFavorite(coin);
+            return getItem(coin);
+        });
+    }*/
+
+/*    private void putFlags(List<Coin> coins, int flagCount) {
         if (!pref.isDefaultFlagCommitted()) {
             List<Coin> flagItems = DataUtil.sub(coins, flagCount);
             if (!DataUtil.isEmpty(flagItems)) {
@@ -280,6 +275,6 @@ public class CoinsViewModel
                 pref.commitDefaultFlag();
             }
         }
-    }
+    }*/
 
 }

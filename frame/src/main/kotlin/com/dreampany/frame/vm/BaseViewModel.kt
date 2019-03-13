@@ -145,7 +145,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }*/
 
     open fun clear() {
-        lifecycleRegistry.markState(Lifecycle.State.DESTROYED)
+        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED)
         //unregister(this)
         titleOwner?.let { liveTitle.removeObservers(it) }
         subtitleOwner?.let { liveSubtitle.removeObservers(it) }

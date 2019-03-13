@@ -77,7 +77,7 @@ public class CoinAlertViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(Response.Type.ADD, result);
+                    postResult(Response.Type.GET, result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(false);
@@ -105,7 +105,7 @@ public class CoinAlertViewModel
                     postResult(Response.Type.GET, result);
                 }, error -> {
                     if (withProgress) {
-                        postProgress(true);
+                        postProgress(false);
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
@@ -199,6 +199,9 @@ public class CoinAlertViewModel
         return Maybe.create(emitter -> {
             long result = alertRepo.putItem(alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);
+            if (emitter.isDisposed()) {
+                return;
+            }
             if (item == null) {
                 emitter.onError(new NullPointerException());
             } else {
@@ -210,6 +213,9 @@ public class CoinAlertViewModel
     private Maybe<CoinAlertItem> deleteRx(CoinAlertItem item) {
         return Maybe.create(emitter -> {
             int result = alertRepo.delete(item.getItem());
+            if (emitter.isDisposed()) {
+                return;
+            }
             if (result == -1) {
                 emitter.onError(new IllegalStateException());
             } else {

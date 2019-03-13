@@ -214,8 +214,8 @@ dependencies {
     api 'com.mikepenz:iconics-core:4.+'
 
     /** misc */
-    //implementation 'com.github.pwittchen:prefser-rx2:2.2.1'
-    implementation 'com.afollestad:aesthetic:0.6.1'
+    implementation 'com.github.pwittchen:prefser-rx2:2.2.2'
+    implementation 'com.afollestad:aesthetic:1.0.0-beta05'
     implementation 'com.webianks.library:easy-feedback:1.0.2'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
     implementation 'com.jaredrummler:android-device-names:1.1.7'

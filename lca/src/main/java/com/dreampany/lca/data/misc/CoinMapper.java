@@ -1,5 +1,6 @@
 package com.dreampany.lca.data.misc;
 
+import android.text.TextUtils;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
@@ -16,7 +17,6 @@ import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinAnnote;
 import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Maps;
-import org.jsoup.helper.StringUtil;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -189,7 +189,7 @@ public class CoinMapper {
     }
 
     public String joinString(String[] values, String separator) {
-        return StringUtil.join(values, separator);
+        return TextUtils.join(separator, values);
     }
 
     public String join(Currency[] currencies, String separator) {

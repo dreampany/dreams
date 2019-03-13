@@ -122,7 +122,7 @@ public class CoinViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(result);
+                    postResult(Response.Type.ADD,result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(true);
@@ -143,7 +143,7 @@ public class CoinViewModel
         updateDisposable = getRx()
                 .backToMain(getItemsRx(currency))
                 .subscribe(result -> {
-                    postResult(result, withProgress);
+                    postResult(Response.Type.ADD,result, withProgress);
                 }, this::postFailure);
         addSubscription(updateDisposable);
     }
@@ -154,7 +154,7 @@ public class CoinViewModel
         }
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(coin))
-                .subscribe(result -> postResult(result, false), this::postFailure);
+                .subscribe(result -> postResult(Response.Type.ADD,result, false), this::postFailure);
         addSingleSubscription(disposable);
     }
 

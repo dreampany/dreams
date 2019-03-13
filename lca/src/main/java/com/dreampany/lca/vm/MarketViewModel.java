@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.ColorRes;
 import androidx.annotation.StringRes;
 import com.dreampany.frame.data.enums.UiState;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -98,7 +99,7 @@ public class MarketViewModel
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgress(true))
-                .subscribe(result -> postResult(result, true), error -> {
+                .subscribe(result -> postResult(Response.Type.ADD,result, true), error -> {
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);

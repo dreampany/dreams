@@ -97,7 +97,7 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
 
     @Override
     public int delete(CoinAlert coinAlert) {
-        return 0;
+        return room.delete(coinAlert);
     }
 
     @Override

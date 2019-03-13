@@ -91,6 +91,12 @@ open class SmartAdapter<T : BaseItem<*, *>>(listener: Any) : BindingFlexibleAdap
         super.removeItem(getPosition(item))
     }
 
+    fun removeItem(items: List<T>) {
+        for (item in items) {
+            removeItem(item)
+        }
+    }
+
     override fun toggleSelection(position: Int) {
         super.toggleSelection(position)
         notifyItemChanged(position)

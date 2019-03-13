@@ -14,7 +14,6 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.adapter.CoinAlertAdapter;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.common.base.Objects;
@@ -36,7 +35,6 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     private Coin coin;
     private boolean empty;
-    private boolean saveOperation;
     private boolean deleting;
 
     private CoinAlertItem(Coin coin, CoinAlert alert, @LayoutRes int layoutId) {
@@ -80,10 +78,6 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
         this.empty = empty;
     }
 
-    public void setSaveOperation(boolean saveOperation) {
-        this.saveOperation = saveOperation;
-    }
-
     public void setDeleting(boolean deleting) {
         this.deleting = deleting;
     }
@@ -94,10 +88,6 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     public boolean isEmpty() {
         return empty;
-    }
-
-    public boolean isSaveOperation() {
-        return saveOperation;
     }
 
     public boolean getDeleting() {
@@ -189,12 +179,12 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
             CoinAlert alert = item.getItem();
             if (alert.hasPriceUp()) {
-                textPriceUp.setText(String.format(getText(R.string.currency_format), alert.getPriceUp()));
+                textPriceUp.setText(String.format(usdFormat, alert.getPriceUp()));
             } else {
                 ViewUtil.hide(layoutPriceUp);
             }
             if (alert.hasPriceDown()) {
-                textPriceDown.setText(String.format(getText(R.string.currency_format), alert.getPriceDown()));
+                textPriceDown.setText(String.format(usdFormat, alert.getPriceDown()));
             } else {
                 ViewUtil.hide(layoutPriceDown);
             }

@@ -103,7 +103,7 @@ public class UpcomingIcoViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(result);
+                    postResult(Response.Type.ADD,result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(false);

@@ -142,7 +142,7 @@ public class CoinsViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(result);
+                    postResult(Response.Type.ADD, result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(true);
@@ -156,7 +156,6 @@ public class CoinsViewModel
         if (!OPEN) {
             return;
         }
-        Timber.v("update fired");
         if (hasDisposable(updateDisposable)) {
             return;
         }
@@ -172,7 +171,7 @@ public class CoinsViewModel
                         result -> {
                             if (!DataUtil.isEmpty(result)) {
                                 postProgress(false);
-                                postResult(result);
+                                postResult(Response.Type.ADD, result);
                             } else {
                                 postProgress(false);
                             }

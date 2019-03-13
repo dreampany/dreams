@@ -15,7 +15,6 @@ import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.AndroidUtil;
@@ -25,16 +24,12 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
 import com.dreampany.lca.ui.activity.ToolsActivity;
-import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.adapter.CoinAlertAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
 import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinAlertItem;
-import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinAlertViewModel;
-import com.dreampany.lca.vm.CoinAlertsViewModel;
-import com.dreampany.lca.vm.FavoritesViewModel;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
@@ -62,7 +57,7 @@ public class CoinAlertsFragment
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentCoinsBinding binding;
-    private CoinAlertsViewModel vm;
+    private CoinAlertViewModel vm;
     private CoinAlertAdapter adapter;
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
@@ -165,7 +160,8 @@ public class CoinAlertsFragment
             case R.id.image_delete:
                 CoinAlertItem item = (CoinAlertItem) v.getTag();
                 Timber.v("Delete fired");
-                adapter.removeItem(item);
+                vm.delete(item, true);
+                //adapter.removeItem(item);
                 break;
         }
     }
@@ -192,10 +188,11 @@ public class CoinAlertsFragment
 
         ViewUtil.setSwipe(refresh, this);
         UiTask<CoinAlert> uiTask = getCurrentTask(true);
-        vm = ViewModelProviders.of(this, factory).get(CoinAlertsViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(CoinAlertViewModel.class);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
-        vm.observeOutputs(this, this::processResponse);
+        vm.observeOutput(this, this::processResponse);
+        vm.observeOutputs(this, this::processResponses);
     }
 
     private void initRecycler() {
@@ -252,7 +249,20 @@ public class CoinAlertsFragment
         }
     }
 
-    private void processResponse(Response<List<CoinAlertItem>> response) {
+    private void processResponse(Response<CoinAlertItem> response) {
+        if (response instanceof Response.Progress) {
+            Response.Progress progress = (Response.Progress) response;
+            processProgress(progress.getLoading());
+        } else if (response instanceof Response.Failure) {
+            Response.Failure failure = (Response.Failure) response;
+            processFailure(failure.getError());
+        } else if (response instanceof Response.Result) {
+            Response.Result<CoinAlertItem> result = (Response.Result<CoinAlertItem>) response;
+            processResult(result.getType(), result.getData());
+        }
+    }
+
+    private void processResponses(Response<List<CoinAlertItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;
             processProgress(progress.getLoading());
@@ -261,7 +271,7 @@ public class CoinAlertsFragment
             processFailure(failure.getError());
         } else if (response instanceof Response.Result) {
             Response.Result<List<CoinAlertItem>> result = (Response.Result<List<CoinAlertItem>>) response;
-            processSuccess(result.getData());
+            processResult(result.getType(), result.getData());
         }
     }
 
@@ -281,14 +291,27 @@ public class CoinAlertsFragment
         }
     }
 
-    private void processSuccess(List<CoinAlertItem> items) {
+    private void processResult(Response.Type type, CoinAlertItem result) {
         if (scroller.isScrolling()) {
             return;
         }
-        //recycler.setNestedScrollingEnabled(false);
-        Timber.v("Flag Result %s", items.size());
-        adapter.addItems(items);
-        //recycler.setNestedScrollingEnabled(true);
+        if (type == Response.Type.DELETE) {
+            adapter.removeItem(result);
+        } else {
+            adapter.addItem(result);
+        }
+        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+    }
+
+    private void processResult(Response.Type type, List<CoinAlertItem> items) {
+        if (scroller.isScrolling()) {
+            return;
+        }
+        if (type == Response.Type.DELETE) {
+            adapter.removeItem(items);
+        } else {
+            adapter.addItems(items);
+        }
         AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }
 

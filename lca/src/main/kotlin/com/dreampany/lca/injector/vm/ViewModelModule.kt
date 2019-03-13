@@ -39,10 +39,10 @@ abstract class ViewModelModule {
     @ViewModelKey(CoinAlertViewModel::class)
     abstract fun bindCoinAlertViewModel(vm: CoinAlertViewModel): ViewModel
 
-    @Binds
+/*    @Binds
     @IntoMap
     @ViewModelKey(CoinAlertsViewModel::class)
-    abstract fun bindCoinAlertsViewModel(vm: CoinAlertsViewModel): ViewModel
+    abstract fun bindCoinAlertsViewModel(vm: CoinAlertsViewModel): ViewModel*/
 
     @Binds
     @IntoMap

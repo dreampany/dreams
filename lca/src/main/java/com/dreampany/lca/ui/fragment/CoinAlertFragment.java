@@ -10,7 +10,6 @@ import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.frame.util.NotifyUtil;
@@ -99,7 +98,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
             processFailure(result.getError());
         } else if (response instanceof Response.Result) {
             Response.Result<CoinAlertItem> result = (Response.Result<CoinAlertItem>) response;
-            processSuccess(result.getData());
+            processResult(result.getType(), result.getData());
         }
     }
 
@@ -121,8 +120,8 @@ public class CoinAlertFragment extends BaseMenuFragment {
         }
     }
 
-    private void processSuccess(CoinAlertItem item) {
-        if (item.isSaveOperation()) {
+    private void processResult(Response.Type type, CoinAlertItem item) {
+        if (type == Response.Type.ADD) {
             NotifyUtil.showInfo(getContext(), R.string.save_success);
             return;
         }

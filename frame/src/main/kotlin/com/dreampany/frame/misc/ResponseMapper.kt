@@ -19,8 +19,8 @@ class ResponseMapper @Inject constructor() {
         subject.onNext(Response.Failure(error))
     }
 
-    fun <T> response(subject: PublishSubject<Response<T>>, data: T) {
-        subject.onNext(Response.Result(data))
+    fun <T> response(subject: PublishSubject<Response<T>>, type: Response.Type, data: T) {
+        subject.onNext(Response.Result(type, data))
     }
 
     fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, error: Throwable) {
@@ -28,9 +28,9 @@ class ResponseMapper @Inject constructor() {
         subject.onNext(Response.Failure(error))
     }
 
-    fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, data: T) {
+    fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, type: Response.Type, data: T) {
         response(subject, false)
-        subject.onNext(Response.Result(data))
+        subject.onNext(Response.Result(type, data))
     }
 
     fun <T> responseEmpty(subject: PublishSubject<Response<T>>, data: T?) {

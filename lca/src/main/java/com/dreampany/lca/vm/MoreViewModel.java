@@ -3,6 +3,7 @@ package com.dreampany.lca.vm;
 import android.app.Activity;
 import android.app.Application;
 
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -52,7 +53,7 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         Disposable disposable = getRx()
                 .backToMain(getItems())
                 .doOnSubscribe(subscription -> postProgress(true))
-                .subscribe(result -> postResult(result, true), this::postFailures);
+                .subscribe(result -> postResult(Response.Type.ADD, result, true), this::postFailures);
         addMultipleSubscription(disposable);
     }
 

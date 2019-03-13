@@ -99,7 +99,7 @@ public class NewsViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(result -> postResult(result, true),
+                .subscribe(result -> postResult(Response.Type.ADD,result, true),
                         error -> {
                             if (withProgress) {
                                 postProgress(false);

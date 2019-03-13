@@ -129,12 +129,7 @@ public class FavoritesViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(result);
-                            /*if (!DataUtil.isEmpty(result)) {
-                                postResult(result);
-                            } else {
-                                postFailure(new EmptyException());
-                            }*/
+                    postResult(Response.Type.ADD,result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(true);
@@ -164,7 +159,7 @@ public class FavoritesViewModel
                             if (withProgress) {
                                 postProgress(false);
                             }
-                            postResult(result);
+                            postResult(Response.Type.ADD,result);
                         }, this::postFailure);
         addSubscription(updateDisposable);
     }

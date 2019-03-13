@@ -89,7 +89,7 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
 
     @Override
     public int delete(CoinAlert coinAlert) {
-        return 0;
+        return dao.delete(coinAlert);
     }
 
     @Override

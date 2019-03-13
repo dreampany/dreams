@@ -1,6 +1,8 @@
+/*
 package com.dreampany.lca.vm;
 
 import android.app.Application;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -26,12 +28,14 @@ import io.reactivex.functions.Function;
 import javax.inject.Inject;
 import java.util.List;
 
+*/
 /**
  * Created by Roman-372 on 3/6/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 public class CoinAlertsViewModel
         extends BaseViewModel<CoinAlert, CoinAlertItem, UiTask<CoinAlert>> {
 
@@ -76,7 +80,7 @@ public class CoinAlertsViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(result);
+                    postResult(Response.Type.ADD,result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(true);
@@ -86,7 +90,9 @@ public class CoinAlertsViewModel
         addMultipleSubscription(disposable);
     }
 
-    /* internal api */
+    */
+/* internal api *//*
+
     private Maybe<List<CoinAlertItem>> getAlertsRx() {
         return alertRepo.getItemsRx()
                 .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) this::getItemsRx);
@@ -113,3 +119,4 @@ public class CoinAlertsViewModel
         return item;
     }
 }
+*/

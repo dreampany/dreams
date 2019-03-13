@@ -378,7 +378,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     fun updateUiState(state: UiState?) {
         state?.let {
             //if (it != UiState.NONE) {
-                uiState.value = it
+            uiState.value = it
             //}
         }
     }
@@ -451,27 +451,27 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }
 
-    fun postResult(data: X) {
-        rm.response(input, data)
+    fun postResult(type: Response.Type, data: X) {
+        rm.response(input, type, data)
     }
 
-    fun postResult(data: X, withProgress: Boolean) {
+    fun postResult(type: Response.Type, data: X, withProgress: Boolean) {
         if (withProgress) {
-            rm.responseWithProgress(input, data)
+            rm.responseWithProgress(input, type, data)
         } else {
-            rm.response(input, data)
+            rm.response(input, type, data)
         }
     }
 
-    fun postResult(data: List<X>) {
-        rm.response(inputs, data)
+    fun postResult(type: Response.Type,data: List<X>) {
+        rm.response(inputs, type,data)
     }
 
-    fun postResult(data: List<X>, withProgress: Boolean) {
+    fun postResult(type: Response.Type,data: List<X>, withProgress: Boolean) {
         if (withProgress) {
-            rm.responseWithProgress(inputs, data)
+            rm.responseWithProgress(inputs,type, data)
         } else {
-            rm.response(inputs, data)
+            rm.response(inputs, type,data)
         }
     }
 

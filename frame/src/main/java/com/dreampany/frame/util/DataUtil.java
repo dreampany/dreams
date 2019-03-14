@@ -108,6 +108,10 @@ public final class DataUtil {
         return arrayList;
     }
 
+    public static boolean isEmpty(Object data) {
+        return data == null;
+    }
+
     public static boolean isEmpty(String item) {
         return Strings.isNullOrEmpty(item);
     }

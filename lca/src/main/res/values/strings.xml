@@ -13,7 +13,7 @@
     <string name="live">Live</string>
     <string name="upcoming">Upcoming</string>
     <string name="finished">Finished</string>
-    <string name="coins_default_count">0</string>
+    <string name="coins_total">Total: %d</string>
 
     <string name="empty_favorites">Sorry! There are no favourite coins.</string>
     <string name="empty_alerts">Sorry! There are no alerts.</string>

@@ -22,6 +22,7 @@ public class Pref extends FramePref {
     private static final String ICO_TIME = "ico_time";
     private static final String NEWS_TIME = "news_time";
     private static final String COIN_UPDATE_TIME = "coin_update_time";
+    private static final String COIN_INDEX_TIME = "coin_index_time";
 
     @Inject
     Pref(Context context) {
@@ -71,4 +72,13 @@ public class Pref extends FramePref {
     synchronized public void commitCoinUpdateTime(String coinSymbol) {
         setPrivately(COIN_UPDATE_TIME + coinSymbol, TimeUtil.currentTime());
     }
+
+    synchronized public void commitCoinIndexTime(int coinIndex) {
+        setPrivately(COIN_INDEX_TIME + coinIndex, TimeUtil.currentTime());
+    }
+
+    synchronized public long getCoinIndexTime(int index) {
+        return getPrivately(COIN_INDEX_TIME + index, 0L);
+    }
+
 }

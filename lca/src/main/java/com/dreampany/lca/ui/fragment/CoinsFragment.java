@@ -20,6 +20,7 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.AndroidUtil;
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
@@ -240,7 +241,7 @@ public class CoinsFragment
 
     private void initView() {
         setTitle(R.string.coins);
-        setSubtitle(R.string.coins_default_count);
+        setSubtitle(TextUtil.getString(getContext(), R.string.coins_total, 0));
         binding = (FragmentCoinsBinding) super.binding;
         binding.stateful.setStateView(LOADING, LayoutInflater.from(getContext()).inflate(R.layout.item_loading, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
@@ -270,8 +271,8 @@ public class CoinsFragment
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener(true) {
             @Override
-            public void onScrollingAtEnd() {
-                //vm.update();
+            public void onScrolledToBottom() {
+                vm.loadMore(!adapter.isEmpty(), true);
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
@@ -294,10 +295,8 @@ public class CoinsFragment
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                if (adapter.isEmpty()) {
-                    if (!refresh.isRefreshing()) {
-                        refresh.setRefreshing(true);
-                    }
+                if (!refresh.isRefreshing()) {
+                    refresh.setRefreshing(true);
                 }
                 break;
             case HIDE_PROGRESS:
@@ -313,7 +312,7 @@ public class CoinsFragment
                 break;
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);
-                setSubtitle(String.valueOf(adapter.getItemCount()));
+                setSubtitle(TextUtil.getString(getContext(), R.string.coins_total, adapter.getItemCount()));
                 break;
             case EMPTY:
                 binding.stateful.setState(EMPTY);

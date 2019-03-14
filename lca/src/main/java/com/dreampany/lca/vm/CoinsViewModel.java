@@ -116,6 +116,10 @@ public class CoinsViewModel
         loads(currentIndex, fresh, withProgress);
     }
 
+    public void loadMore(boolean fresh, boolean withProgress) {
+        loads(currentIndex + Constants.Limit.COIN_PAGE, fresh, withProgress);
+    }
+
     public void loads(int index, boolean fresh, boolean withProgress) {
         if (!preLoads(fresh)) {
             return;

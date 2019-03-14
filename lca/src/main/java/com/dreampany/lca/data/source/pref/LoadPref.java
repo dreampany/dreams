@@ -32,11 +32,4 @@ public class LoadPref extends BasePref {
         return getPrivately(DEFAULT_FAVORITE_COMMITTED, false);
     }
 
-    synchronized public void setCoinIndexTime(int coinIndex) {
-        setPrivately(COIN_INDEX_TIME + coinIndex, TimeUtil.currentTime());
     }
-
-    synchronized public long getCoinIndexTime(int coinIndex) {
-        return getPrivately(COIN_INDEX_TIME + coinIndex, 0L);
-    }
-}

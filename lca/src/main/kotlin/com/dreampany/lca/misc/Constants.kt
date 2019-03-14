@@ -42,15 +42,12 @@ object Constants {
     }
 
     object Limit {
-        const val COIN_DEFAULT_INDEX = 0
-        const val COIN_THRESHOLD = 5
-        const val COIN_PAGE = 20
-        const val COIN_PAGE_MAX = 20
+        const val COIN_START_INDEX = 0
+        const val COIN_PAGE = 200
         const val COIN_MARKET = 100
         const val COIN_EXCHANGE = 50
         const val ICO = 500
         const val NEWS = 500
-        const val COIN_FLAG = 5
     }
 
     object Time {

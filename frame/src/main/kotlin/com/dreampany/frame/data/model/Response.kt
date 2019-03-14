@@ -9,7 +9,7 @@ package com.dreampany.frame.data.model
 sealed class Response<T> {
 
     enum class Type {
-        ADD, UPDATE, DELETE, GET
+        ADD, UPDATE, DELETE, GET, SYNC
     }
 
     data class Progress<T>(val loading: Boolean) : Response<T>()

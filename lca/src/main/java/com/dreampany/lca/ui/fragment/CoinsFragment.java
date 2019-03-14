@@ -161,7 +161,7 @@ public class CoinsFragment
             adapter.onLoadMoreComplete(null);
             return;
         }
-        vm.loads(lastPosition, true, false);
+        //vm.loads(lastPosition, true, false);
     }
 
     @Override
@@ -240,6 +240,7 @@ public class CoinsFragment
 
     private void initView() {
         setTitle(R.string.coins);
+        setSubtitle(R.string.coins_default_count);
         binding = (FragmentCoinsBinding) super.binding;
         binding.stateful.setStateView(LOADING, LayoutInflater.from(getContext()).inflate(R.layout.item_loading, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
@@ -312,6 +313,7 @@ public class CoinsFragment
                 break;
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);
+                setSubtitle(String.valueOf(adapter.getItemCount()));
                 break;
             case EMPTY:
                 binding.stateful.setState(EMPTY);
@@ -333,7 +335,7 @@ public class CoinsFragment
             processFailure(result.getError());
         } else if (response instanceof Response.Result) {
             Response.Result<List<CoinItem>> result = (Response.Result<List<CoinItem>>) response;
-            processSuccess(result.getData());
+            processResult(result.getData());
         }
     }
 
@@ -359,16 +361,16 @@ public class CoinsFragment
         }
     }
 
-    private void processSuccess(List<CoinItem> items) {
+    private void processResult(List<CoinItem> items) {
         if (scroller.isScrolling()) {
             return;
         }
         //recycler.setNestedScrollingEnabled(false);
-        Timber.v("Live Result %s", items.size());
+        Timber.v("Coins %s", items.size());
         adapter.addItems(items);
         //adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 500);
     }
 
     private void openCoinUi(Coin coin) {

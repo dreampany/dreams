@@ -94,7 +94,7 @@ public class NotifyViewModel {
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
-        int listStart = Constants.Limit.COIN_DEFAULT_INDEX;
+        int listStart = Constants.Limit.COIN_START_INDEX;
         int listLimit = Constants.Limit.COIN_PAGE;
         return repo.getItemsIfRx(CoinSource.CMC, listStart, listLimit, currency)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getProfitableItemsRx);

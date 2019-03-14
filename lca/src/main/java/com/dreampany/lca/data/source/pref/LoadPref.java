@@ -3,6 +3,7 @@ package com.dreampany.lca.data.source.pref;
 import android.content.Context;
 
 import com.dreampany.frame.data.source.pref.BasePref;
+import com.dreampany.frame.util.TimeUtil;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -15,18 +16,27 @@ import javax.inject.Singleton;
 @Singleton
 public class LoadPref extends BasePref {
 
-    private static final String DEFAULT_FLAG_COMMITTED = "default_flag_committed";
+    private static final String DEFAULT_FAVORITE_COMMITTED = "default_favorite_committed";
+    private static final String COIN_INDEX_TIME = "coin_index_time";
 
     @Inject
     LoadPref(Context context) {
         super(context);
     }
 
-    synchronized public void commitDefaultFlag() {
-        setPrivately(DEFAULT_FLAG_COMMITTED, true);
+    synchronized public void commitDefaultFavorite() {
+        setPrivately(DEFAULT_FAVORITE_COMMITTED, true);
     }
 
-    synchronized public boolean isDefaultFlagCommitted() {
-        return getPrivately(DEFAULT_FLAG_COMMITTED, false);
+    synchronized public boolean isDefaultFavoriteCommitted() {
+        return getPrivately(DEFAULT_FAVORITE_COMMITTED, false);
+    }
+
+    synchronized public void setCoinIndexTime(int coinIndex) {
+        setPrivately(COIN_INDEX_TIME + coinIndex, TimeUtil.currentTime());
+    }
+
+    synchronized public long getCoinIndexTime(int coinIndex) {
+        return getPrivately(COIN_INDEX_TIME + coinIndex, 0L);
     }
 }

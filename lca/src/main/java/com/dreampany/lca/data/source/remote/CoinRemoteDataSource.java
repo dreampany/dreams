@@ -171,13 +171,13 @@ public class CoinRemoteDataSource implements CoinDataSource {
         return Maybe.fromCallable(new Callable<List<Coin>>() {
             @Override
             public List<Coin> call() throws Exception {
-                Response<CmcListingResponseV1> response = service.getListing(Constants.Key.CMC_PRO, Constants.Limit.COIN_DEFAULT_INDEX, Constants.Limit.COIN).execute();
+                Response<CmcListingResponseV1> response = service.getListing(Constants.Key.CMC_PRO, Constants.Limit.COIN_START_INDEX, Constants.Limit.COIN).execute();
 
                 CmcListingResponseV1 result = response.body();
                 return new ArrayList<>();
             }
         });
-        return getListingRx(source, Constants.Limit.COIN_DEFAULT_INDEX, Constants.Limit.COIN_PAGE);
+        return getListingRx(source, Constants.Limit.COIN_START_INDEX, Constants.Limit.COIN_PAGE);
     }*/
 
 /*    @Override

@@ -2,7 +2,6 @@ package com.dreampany.lca.vm;
 
 
 import android.app.Application;
-import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -26,12 +25,9 @@ import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -67,7 +63,7 @@ public class CoinsViewModel
         this.network = network;
         this.pref = pref;
         this.repo = repo;
-        currentIndex = Constants.Limit.COIN_DEFAULT_INDEX;
+        currentIndex = Constants.Limit.COIN_START_INDEX;
     }
 
     @Override
@@ -75,7 +71,7 @@ public class CoinsViewModel
         network.deObserve(this, true);
         this.uiCallback = null;
         removeUpdateDisposable();
-        currentIndex = Constants.Limit.COIN_DEFAULT_INDEX;
+        currentIndex = Constants.Limit.COIN_START_INDEX;
         super.clear();
     }
 
@@ -207,7 +203,7 @@ public class CoinsViewModel
         return Maybe.create(emitter -> {
             List<CoinItem> result = getVisibleItemsIf(currency);
             if (emitter.isDisposed()) {
-                return;
+                throw new IllegalStateException();
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
@@ -217,8 +213,18 @@ public class CoinsViewModel
         });
     }
 
-    private Maybe<List<CoinItem>> getItemsRx(List<Coin> result) {
-        return Maybe.fromCallable(() -> getItems(result));
+    private Maybe<List<CoinItem>> getItemsRx(List<Coin> items) {
+        return Maybe.create(emitter -> {
+           List<CoinItem> result = getItems(items);
+           if (emitter.isDisposed()) {
+               throw new IllegalStateException();
+           }
+           if (DataUtil.isEmpty(result)) {
+               emitter.onError(new EmptyException());
+           } else {
+               emitter.onSuccess(result);
+           }
+        });
     }
 
     private List<CoinItem> getItems(List<Coin> result) {
@@ -268,11 +274,11 @@ public class CoinsViewModel
     }*/
 
 /*    private void putFlags(List<Coin> coins, int flagCount) {
-        if (!pref.isDefaultFlagCommitted()) {
+        if (!pref.isDefaultFavoriteCommitted()) {
             List<Coin> flagItems = DataUtil.sub(coins, flagCount);
             if (!DataUtil.isEmpty(flagItems)) {
                 Stream.of(flagItems).forEach(repo::putFavorite);
-                pref.commitDefaultFlag();
+                pref.commitDefaultFavorite();
             }
         }
     }*/

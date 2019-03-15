@@ -110,7 +110,7 @@ public class GraphFragment
     @Override
     public void onPause() {
         super.onPause();
-        vm.removeSingleSubscription();
+//        vm.removeSingleSubscription();
     }
 
 /*    @Override

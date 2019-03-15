@@ -137,7 +137,7 @@ public class MarketFragment
         if (!this.currency.equalsIgnoreCase(currency)) {
             this.currency = currency;
             binding.dropDownCurrency.setText(currency);
-            mvm.removeSingleSubscription();
+//            mvm.removeSingleSubscription();
             mvm.loads(currency, true);
         }
     }
@@ -305,7 +305,7 @@ public class MarketFragment
                 binding.dropDownCurrency.setText(currency);
             }
             binding.dropDownCurrency.setDropdownData(currencies);
-            mvm.removeSingleSubscription();
+//            mvm.removeSingleSubscription();
             mvm.loads(currency, true);
         }
     }

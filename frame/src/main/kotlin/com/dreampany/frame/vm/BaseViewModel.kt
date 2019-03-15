@@ -57,7 +57,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     val disposables: CompositeDisposable
     val ioDisposables: CompositeDisposable
-    var singleDisposable: Disposable? = null
+    //var singleDisposable: Disposable? = null
     var multipleDisposable: Disposable? = null
 
     val uiMode: SingleLiveEvent<UiMode>
@@ -163,7 +163,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
         singleOwners.clear()
         multipleOwners.clear()
-        removeSingleSubscription()
+        //removeSingleSubscription()
         removeMultipleSubscription()
         uiMap.clear()
         uiCache.clear()
@@ -258,18 +258,18 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return disposable != null && !disposable.isDisposed
     }
 
-    fun hasSingleDisposable(): Boolean {
+/*    fun hasSingleDisposable(): Boolean {
         return hasDisposable(singleDisposable)
-    }
+    }*/
 
     fun hasMultipleDisposable(): Boolean {
         return hasDisposable(multipleDisposable)
     }
 
-    fun addSingleSubscription(disposable: Disposable) {
+/*    fun addSingleSubscription(disposable: Disposable) {
         singleDisposable = disposable
         addSubscription(disposable)
-    }
+    }*/
 
     fun addMultipleSubscription(disposable: Disposable) {
         multipleDisposable = disposable
@@ -284,9 +284,9 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         this.disposables.addAll(*disposables)
     }
 
-    fun removeSingleSubscription() {
+/*    fun removeSingleSubscription() {
         removeSubscription(singleDisposable)
-    }
+    }*/
 
     fun removeMultipleSubscription() {
         removeSubscription(multipleDisposable)
@@ -346,13 +346,13 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }*/
 
     fun preLoad(fresh: Boolean): Boolean {
-        if (fresh) {
+/*        if (fresh) {
             removeSingleSubscription()
         }
         if (hasSingleDisposable()) {
             notifyUiState()
             return false
-        }
+        }*/
         return true
     }
 
@@ -416,16 +416,16 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun postFailure(error: Throwable) {
-        if (!hasSingleDisposable()) {
+/*        if (!hasSingleDisposable()) {
             //return
-        }
+        }*/
         rm.response(input, error)
     }
 
     fun postFailure(error: Throwable, withProgress: Boolean) {
-        if (!hasSingleDisposable()) {
+/*        if (!hasSingleDisposable()) {
             //return
-        }
+        }*/
         if (withProgress) {
             rm.responseWithProgress(input, error)
         } else {

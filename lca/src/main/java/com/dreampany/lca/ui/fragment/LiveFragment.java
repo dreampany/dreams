@@ -103,7 +103,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
     @Override
     public void onPause() {
         vm.removeMultipleSubscription();
-        vm.removeSingleSubscription();
+//        vm.removeSingleSubscription();
         //vm.removeUpdateDisposable();
         //vm.removeUpdateItemDisposable();
         //vm.removeUpdateVisibleItemsDisposable();
@@ -120,7 +120,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
             //vm.loads(false);
         } else {
             vm.removeMultipleSubscription();
-            vm.removeSingleSubscription();
+            //vm.removeSingleSubscription();
             //vm.removeUpdateDisposable();
             //vm.removeUpdateItemDisposable();
             //vm.removeUpdateVisibleItemsDisposable();

@@ -149,13 +149,13 @@ public class CoinViewModel
     }
 
     public void toggleFavorite(Coin coin) {
-        if (hasSingleDisposable()) {
+/*        if (hasSingleDisposable()) {
             return;
-        }
+        }*/
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(coin))
                 .subscribe(result -> postResult(Response.Type.ADD,result, false), this::postFailure);
-        addSingleSubscription(disposable);
+        //addSingleSubscription(disposable);
     }
 
     /* private api */

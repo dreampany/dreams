@@ -84,7 +84,7 @@ public class CoinAlertViewModel
                     }
                     postFailure(error);
                 });
-        addSingleSubscription(disposable);
+        //addSingleSubscription(disposable);
     }
 
     public void loads(boolean fresh, boolean withProgress) {

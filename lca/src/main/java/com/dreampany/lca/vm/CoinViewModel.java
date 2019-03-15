@@ -129,7 +129,7 @@ public class CoinViewModel
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-        addMultipleSubscription(disposable);
+        //addMultipleSubscription(disposable);
     }
 
     public void update(boolean withProgress) {

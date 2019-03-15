@@ -89,20 +89,20 @@ public class MarketViewModel
 
     public void loads(String toSymbol, boolean fresh) {
         this.toSymbol = toSymbol;
-        if (fresh) {
+/*        if (fresh) {
             removeMultipleSubscription();
         }
         if (hasMultipleDisposable()) {
             notifyUiState();
             return;
-        }
+        }*/
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(result -> postResult(Response.Type.ADD,result, true), error -> {
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-        addMultipleSubscription(disposable);
+        //addMultipleSubscription(disposable);
     }
 
     private Maybe<List<MarketItem>> getItemsRx() {

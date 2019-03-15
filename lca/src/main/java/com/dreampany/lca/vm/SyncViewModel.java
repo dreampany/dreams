@@ -101,7 +101,7 @@ public class SyncViewModel
                 }, error -> {
                     postFailures(error);
                 });
-        addMultipleSubscription(disposable);
+        //addMultipleSubscription(disposable);
     }
 
     /* private api */

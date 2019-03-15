@@ -93,13 +93,13 @@ public class ExchangeViewModel
     }
 
     public void loads(boolean fresh) {
-        if (fresh) {
+/*        if (fresh) {
             removeMultipleSubscription();
         }
         if (hasMultipleDisposable()) {
             notifyUiState();
             return;
-        }
+        }*/
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgress(true))
@@ -109,7 +109,7 @@ public class ExchangeViewModel
                     postFailures(new MultiException(error, new ExtraException()));
                 });
 
-        addMultipleSubscription(disposable);
+//        addMultipleSubscription(disposable);
 
     }
 

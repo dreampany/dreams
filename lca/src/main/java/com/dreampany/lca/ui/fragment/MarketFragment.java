@@ -101,7 +101,7 @@ public class MarketFragment
     @Override
     public void onPause() {
         super.onPause();
-        evm.removeMultipleSubscription();
+       // evm.removeMultipleSubscription();
     }
 
 /*    @Override

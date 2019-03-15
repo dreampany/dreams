@@ -109,7 +109,7 @@ public class CoinAlertViewModel
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-        addMultipleSubscription(disposable);
+//        addMultipleSubscription(disposable);
     }
 
     public void save(Coin coin, CoinAlert alert, boolean withProgress) {

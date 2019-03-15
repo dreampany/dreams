@@ -112,7 +112,7 @@ public class ApiRepository {
     }
 
     public List<Coin> getItemsIf(CoinSource source, String[] symbols, Currency currency) {
-        return coinRepo.getItems(source, symbols, currency);
+        return coinRepo.getItemsRx(source, symbols, currency).blockingGet();
     }
 
     public Coin getItemIf(CoinSource source, String symbol, Currency currency) {

@@ -52,7 +52,7 @@ object Constants {
 
     object Time {
         val Listing = TimeUnit.DAYS.toMillis(7) //get listing per 7 days
-        val Coin = TimeUnit.MINUTES.toMillis(3) //as per coinmarketcap limit 30 per minute
+        val Coin = TimeUnit.SECONDS.toMillis(90) //as per coinmarketcap limit 30 per minute
         val IcoPeriod = TimeUnit.MINUTES.toMillis(10)
         val NewsPeriod = TimeUnit.MINUTES.toMillis(10)
     }

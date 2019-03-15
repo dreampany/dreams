@@ -171,6 +171,7 @@ public class NewsFragment
 
     private void initView() {
         setTitle(R.string.news);
+        setSubtitle(null);
         binding = (FragmentNewsBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_news);

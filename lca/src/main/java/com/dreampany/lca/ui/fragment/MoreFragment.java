@@ -92,6 +92,7 @@ public class MoreFragment extends BaseMenuFragment {
 
     private void initView() {
         setTitle(R.string.more);
+        setSubtitle(null);
         binding = (FragmentRecyclerBinding) super.binding;
 
         vm = ViewModelProviders.of(this, factory).get(MoreViewModel.class);

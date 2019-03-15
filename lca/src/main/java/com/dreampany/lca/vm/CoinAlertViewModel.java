@@ -153,6 +153,7 @@ public class CoinAlertViewModel
                         postProgress(false);
                     }
                     postResult(Response.Type.DELETE, result);
+                    getEx().postToUi(() -> loads(true, false), 2000L);
                 }, error -> {
                     if (withProgress) {
                         postProgress(false);

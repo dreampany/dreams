@@ -49,7 +49,7 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
 
     @Override
     public int getCount() {
-        return 0;
+        return dao.getCount();
     }
 
     @Override

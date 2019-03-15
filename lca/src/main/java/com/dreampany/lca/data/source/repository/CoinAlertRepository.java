@@ -57,7 +57,7 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
 
     @Override
     public int getCount() {
-        return 0;
+        return room.getCount();
     }
 
     @Override

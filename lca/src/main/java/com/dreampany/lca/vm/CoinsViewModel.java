@@ -139,6 +139,7 @@ public class CoinsViewModel
                         postProgress(false);
                     }
                     postResult(Response.Type.GET, result);
+                    //getEx().postToUi(() -> update(false), 2000L);
                 }, error -> {
                     if (withProgress) {
                         postProgress(false);

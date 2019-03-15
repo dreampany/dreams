@@ -75,7 +75,6 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
-        setTitle(R.string.ico);
     }
 
     @Override
@@ -90,6 +89,7 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
     }
 
     private void initView() {
-
+        setTitle(R.string.ico);
+        setSubtitle(null);
     }
 }

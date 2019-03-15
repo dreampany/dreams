@@ -160,27 +160,24 @@ public class CoinViewModel
 
     /* private api */
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
-        return Maybe.create(new MaybeOnSubscribe<List<CoinItem>>() {
-            @Override
-            public void subscribe(MaybeEmitter<List<CoinItem>> emitter) throws Exception {
-                Coin coin = Objects.requireNonNull(getTask()).getInput();
-                Coin result = repo.getItemIf(CoinSource.CMC, coin.getSymbol(), currency);
-                List<CoinItem> items = null;
-                if (result != null) {
-                    getTask().setInput(result);
-                    items = new ArrayList<>();
-                    items.add(getDetailsCoinItem(result));
-                    items.add(getQuoteCoinItem(result, currency));
-                }
+        return Maybe.create(emitter -> {
+            Coin coin = Objects.requireNonNull(getTask()).getInput();
+            Coin result = repo.getItemIf(CoinSource.CMC, coin.getSymbol(), currency);
+            List<CoinItem> items = null;
+            if (result != null) {
+                getTask().setInput(result);
+                items = new ArrayList<>();
+                items.add(getDetailsCoinItem(result));
+                items.add(getQuoteCoinItem(result, currency));
+            }
 
-                if (emitter.isDisposed()) {
-                    return;
-                }
-                if (DataUtil.isEmpty(items)) {
-                    emitter.onError(new NullPointerException());
-                } else {
-                    emitter.onSuccess(items);
-                }
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(items)) {
+                emitter.onError(new NullPointerException());
+            } else {
+                emitter.onSuccess(items);
             }
         });
     }

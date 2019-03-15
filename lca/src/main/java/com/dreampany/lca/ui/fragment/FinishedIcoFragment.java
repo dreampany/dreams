@@ -96,7 +96,7 @@ public class FinishedIcoFragment
     @Override
     public void onPause() {
         super.onPause();
-        //vm.removeMultipleSubscription();
+        vm.removeMultipleSubscription();
     }
 
 /*    @Override

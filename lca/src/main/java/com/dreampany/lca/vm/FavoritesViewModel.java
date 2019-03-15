@@ -43,8 +43,6 @@ public class FavoritesViewModel
         extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
         implements NetworkManager.Callback {
 
-    private static final boolean OPEN = true;
-
     private final NetworkManager network;
     private final Pref pref;
     private final ApiRepository repo;
@@ -110,9 +108,6 @@ public class FavoritesViewModel
     }
 
     public void loads(boolean fresh, boolean withProgress) {
-        if (!OPEN) {
-            return;
-        }
         if (!preLoads(fresh)) {
             return;
         }
@@ -136,13 +131,10 @@ public class FavoritesViewModel
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-//        addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);
     }
 
     public void update(boolean withProgress) {
-        if (!OPEN) {
-            return;
-        }
         if (hasDisposable(updateDisposable)) {
             return;
         }

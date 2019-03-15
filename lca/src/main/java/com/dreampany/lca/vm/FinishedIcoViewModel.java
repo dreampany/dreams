@@ -113,7 +113,7 @@ public class FinishedIcoViewModel
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-//        addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);
     }
 
 /*    private Flowable<List<IcoItem>> getItemsInterval() {

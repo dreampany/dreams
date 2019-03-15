@@ -94,7 +94,7 @@ public class DetailsFragment
 
     @Override
     public void onPause() {
-        //vm.removeMultipleSubscription();
+        vm.removeMultipleSubscription();
         vm.removeUpdateDisposable();
         super.onPause();
     }

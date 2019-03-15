@@ -61,7 +61,7 @@ public class AppExecutors {
     }
 
     public void postToUi(Runnable run, long delay) {
-        uiExecutor.execute(run, delay);
+        uiExecutor.executeUniquely(run, delay);
     }
 
     public void postToUiSmartly(Runnable runnable) {
@@ -90,7 +90,22 @@ public class AppExecutors {
             handler.post(command);
         }
 
+        public void executeUniquely(@NonNull Runnable command) {
+/*            if (AndroidUtil.isOnUiThread()) {
+                command.run();
+            } else {
+                handler.post(command);
+            }*/
+            handler.removeCallbacks(command);
+            handler.post(command);
+        }
+
         public void execute(@NonNull Runnable command, long delay) {
+            handler.postDelayed(command, delay);
+        }
+
+        public void executeUniquely(@NonNull Runnable command, long delay) {
+            handler.removeCallbacks(command);
             handler.postDelayed(command, delay);
         }
     }

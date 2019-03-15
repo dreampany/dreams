@@ -43,18 +43,14 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
 
     @DebugLog
     public void loads(boolean fresh) {
-/*        if (fresh) {
-            removeMultipleSubscription();
-        }
-        if (hasMultipleDisposable()) {
-            notifyUiState();
+        if (!preLoads(fresh)) {
             return;
-        }*/
+        }
         Disposable disposable = getRx()
                 .backToMain(getItems())
                 .doOnSubscribe(subscription -> postProgress(true))
                 .subscribe(result -> postResult(Response.Type.ADD, result, true), this::postFailures);
-        //addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);
     }
 
     private Flowable<List<MoreItem>> getItems() {

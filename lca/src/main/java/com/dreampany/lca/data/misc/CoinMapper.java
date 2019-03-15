@@ -30,23 +30,24 @@ import java.util.Map;
  */
 public class CoinMapper {
 
-    private final Map<String, Coin> coins;
+
     private final SmartMap<Long, Coin> map;
     private final SmartCache<Long, Coin> cache;
 
     private final SmartMap<Long, Quote> quoteMap;
     private final SmartCache<Long, Quote> quoteCache;
 
+    private final Map<String, Coin> coins;
     @Inject
     CoinMapper(@CoinAnnote SmartMap<Long, Coin> map,
                @CoinAnnote SmartCache<Long, Coin> cache,
                @QuoteAnnote SmartMap<Long, Quote> quoteMap,
                @QuoteAnnote SmartCache<Long, Quote> quoteCache) {
-        this.coins = Maps.newConcurrentMap();
         this.map = map;
         this.cache = cache;
         this.quoteMap = quoteMap;
         this.quoteCache = quoteCache;
+        this.coins = Maps.newConcurrentMap();
     }
 
     public boolean hasCoins() {

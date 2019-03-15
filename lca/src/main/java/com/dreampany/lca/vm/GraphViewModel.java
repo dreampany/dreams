@@ -118,13 +118,9 @@ public class GraphViewModel
         }
         this.cmcCurrency = cmcCurrency;
         this.timeType = timeType;
-/*        if (fresh) {
-            removeSingleSubscription();
-        }
-        if (hasSingleDisposable()) {
-            notifyUiState();
+        if (!preLoad(fresh)) {
             return;
-        }*/
+        }
         Disposable disposable = getRx()
                 .backToMain(getItemRx())
                 .doOnSubscribe(subscription -> {
@@ -143,7 +139,7 @@ public class GraphViewModel
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-        //addSingleSubscription(disposable);
+        addSingleSubscription(disposable);
     }
 
     private Maybe<GraphItem> getItemRx() {

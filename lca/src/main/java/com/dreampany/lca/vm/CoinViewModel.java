@@ -39,8 +39,6 @@ public class CoinViewModel
         extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
         implements NetworkManager.Callback {
 
-    private static final boolean OPEN = true;
-
     private final NetworkManager network;
     private final ApiRepository repo;
     private Disposable updateDisposable;
@@ -104,9 +102,6 @@ public class CoinViewModel
     }
 
     public void loads(boolean fresh, boolean withProgress) {
-        if (!OPEN) {
-            return;
-        }
         if (!preLoads(fresh)) {
             return;
         }
@@ -129,13 +124,10 @@ public class CoinViewModel
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-        //addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);
     }
 
     public void update(boolean withProgress) {
-        if (!OPEN) {
-            return;
-        }
         if (hasDisposable(updateDisposable)) {
             return;
         }
@@ -149,13 +141,9 @@ public class CoinViewModel
     }
 
     public void toggleFavorite(Coin coin) {
-/*        if (hasSingleDisposable()) {
-            return;
-        }*/
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(coin))
                 .subscribe(result -> postResult(Response.Type.ADD,result, false), this::postFailure);
-        //addSingleSubscription(disposable);
     }
 
     /* private api */

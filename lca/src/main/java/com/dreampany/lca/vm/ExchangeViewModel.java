@@ -93,13 +93,9 @@ public class ExchangeViewModel
     }
 
     public void loads(boolean fresh) {
-/*        if (fresh) {
-            removeMultipleSubscription();
-        }
-        if (hasMultipleDisposable()) {
-            notifyUiState();
+        if (!preLoads(fresh)) {
             return;
-        }*/
+        }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
                 .doOnSubscribe(subscription -> postProgress(true))
@@ -109,8 +105,7 @@ public class ExchangeViewModel
                     postFailures(new MultiException(error, new ExtraException()));
                 });
 
-//        addMultipleSubscription(disposable);
-
+        addMultipleSubscription(disposable);
     }
 
     private Flowable<List<ExchangeItem>> getItemsInterval() {

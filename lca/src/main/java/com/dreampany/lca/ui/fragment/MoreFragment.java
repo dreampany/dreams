@@ -77,7 +77,7 @@ public class MoreFragment extends BaseMenuFragment {
     @Override
     public void onPause() {
         super.onPause();
-//        vm.removeMultipleSubscription();
+        vm.removeMultipleSubscription();
     }
 
     @Override

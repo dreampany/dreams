@@ -101,17 +101,14 @@ public class SyncViewModel
                 }, error -> {
                     postFailures(error);
                 });
-        //addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);
     }
 
     /* private api */
     private Flowable<List<CoinItem>> getListingRepeatRx() {
         return Flowable
-                .create(new FlowableOnSubscribe<List<CoinItem>>() {
-                    @Override
-                    public void subscribe(FlowableEmitter<List<CoinItem>> emitter) throws Exception {
-                        //getListingRx(coinPage - 1, Constants.Limit.COIN_PAGE, Currency.USD).blockingGet();
-                    }
+                .create((FlowableOnSubscribe<List<CoinItem>>) emitter -> {
+                    //getListingRx(coinPage - 1, Constants.Limit.COIN_PAGE, Currency.USD).blockingGet();
                 }, BackpressureStrategy.BUFFER)
                 .repeatWhen(handler -> handler.delay(5, TimeUnit.SECONDS))
                 .takeWhile(new Predicate<List<CoinItem>>() {

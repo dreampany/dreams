@@ -106,7 +106,7 @@ public class NewsViewModel
                             }
                             postFailures(new MultiException(error, new ExtraException()));
                         });
-        //addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);
     }
 
 /*    private Flowable<List<NewsItem>> getItemsInterval() {

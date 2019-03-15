@@ -52,13 +52,13 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     var favoriteOwner: LifecycleOwner? = null
     var singleOwner: LifecycleOwner? = null
     var multipleOwner: LifecycleOwner? = null
-    var outputOwners: MutableList<LifecycleOwner> = mutableListOf()
-    var outputsOwners: MutableList<LifecycleOwner> = mutableListOf()
+    var singleOwners: MutableList<LifecycleOwner> = mutableListOf()
+    var multipleOwners: MutableList<LifecycleOwner> = mutableListOf()
 
     val disposables: CompositeDisposable
     val ioDisposables: CompositeDisposable
-    //var singleDisposable: Disposable? = null
-    //var multipleDisposable: Disposable? = null
+    var singleDisposable: Disposable? = null
+    var multipleDisposable: Disposable? = null
 
     val uiMode: SingleLiveEvent<UiMode>
     val uiState: SingleLiveEvent<UiState>
@@ -155,16 +155,16 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         favoriteOwner?.let { favorite.removeObservers(it) }
         singleOwner?.let { output.removeObservers(it) }
         multipleOwner?.let { outputs.removeObservers(it) }
-        for (owner in outputOwners) {
+        for (owner in singleOwners) {
             owner.let { output.removeObservers(it) }
         }
-        for (owner in outputsOwners) {
+        for (owner in multipleOwners) {
             owner.let { outputs.removeObservers(it) }
         }
-        outputOwners.clear()
-        outputsOwners.clear()
-        //removeSingleSubscription()
-        //removeMultipleSubscription()
+        singleOwners.clear()
+        multipleOwners.clear()
+        removeSingleSubscription()
+        removeMultipleSubscription()
         uiMap.clear()
         uiCache.clear()
         clearUiState()
@@ -240,14 +240,14 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun observeOutput(owner: LifecycleOwner, observer: Observer<Response<X>>) {
-        outputOwners.add(owner)
-        postEmpty(null as X?)
+        postEmpty(null as X)
+        singleOwners.add(owner)
         output.reObserve(owner, observer)
     }
 
     fun observeOutputs(owner: LifecycleOwner, observer: Observer<Response<List<X>>>) {
-        outputsOwners.add(owner)
         postEmpty(null as List<X>?)
+        multipleOwners.add(owner)
         outputs.reObserve(owner, observer)
     }
 
@@ -260,23 +260,23 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return disposable != null && !disposable.isDisposed
     }
 
-/*    fun hasSingleDisposable(): Boolean {
+    fun hasSingleDisposable(): Boolean {
         return hasDisposable(singleDisposable)
-    }*/
+    }
 
-/*    fun hasMultipleDisposable(): Boolean {
+    fun hasMultipleDisposable(): Boolean {
         return hasDisposable(multipleDisposable)
-    }*/
+    }
 
-/*    fun addSingleSubscription(disposable: Disposable) {
+    fun addSingleSubscription(disposable: Disposable) {
         singleDisposable = disposable
         addSubscription(disposable)
-    }*/
+    }
 
-/*    fun addMultipleSubscription(disposable: Disposable) {
-        //multipleDisposable = disposable
+    fun addMultipleSubscription(disposable: Disposable) {
+        multipleDisposable = disposable
         addSubscription(disposable)
-    }*/
+    }
 
     fun addSubscription(disposable: Disposable) {
         disposables.add(disposable)
@@ -286,13 +286,13 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         this.disposables.addAll(*disposables)
     }
 
-/*    fun removeSingleSubscription() {
+    fun removeSingleSubscription() {
         removeSubscription(singleDisposable)
-    }*/
+    }
 
-/*    fun removeMultipleSubscription() {
+    fun removeMultipleSubscription() {
         removeSubscription(multipleDisposable)
-    }*/
+    }
 
     fun removeSubscription(disposable: Disposable?): Boolean {
         disposable?.let {
@@ -348,24 +348,24 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }*/
 
     fun preLoad(fresh: Boolean): Boolean {
-/*        if (fresh) {
+        if (fresh) {
             removeSingleSubscription()
         }
         if (hasSingleDisposable()) {
             notifyUiState()
             return false
-        }*/
+        }
         return true
     }
 
     fun preLoads(fresh: Boolean): Boolean {
-/*        if (fresh) {
+        if (fresh) {
             removeMultipleSubscription()
         }
         if (hasMultipleDisposable()) {
             notifyUiState()
             return false
-        }*/
+        }
         return true
     }
 
@@ -418,16 +418,16 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun postFailure(error: Throwable) {
-/*        if (!hasSingleDisposable()) {
+        if (!hasSingleDisposable()) {
             //return
-        }*/
+        }
         rm.response(input, error)
     }
 
     fun postFailure(error: Throwable, withProgress: Boolean) {
-/*        if (!hasSingleDisposable()) {
+        if (!hasSingleDisposable()) {
             //return
-        }*/
+        }
         if (withProgress) {
             rm.responseWithProgress(input, error)
         } else {
@@ -436,16 +436,16 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun postFailures(error: Throwable) {
-/*        if (!hasMultipleDisposable()) {
+        if (!hasMultipleDisposable()) {
             //return
-        }*/
+        }
         rm.response(inputs, error)
     }
 
     fun postFailures(error: Throwable, withProgress: Boolean) {
-/*        if (!hasMultipleDisposable()) {
+        if (!hasMultipleDisposable()) {
             //return
-        }*/
+        }
         if (withProgress) {
             rm.responseWithProgress(inputs, error)
         } else {

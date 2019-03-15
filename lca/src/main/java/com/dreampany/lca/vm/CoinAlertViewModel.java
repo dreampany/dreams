@@ -11,6 +11,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Currency;
@@ -36,8 +37,9 @@ import java.util.List;
 public class CoinAlertViewModel
         extends BaseViewModel<CoinAlert, CoinAlertItem, UiTask<CoinAlert>> {
 
-    private CoinRepository coinRepo;
-    private CoinAlertRepository alertRepo;
+    private final CoinAlertMapper mapper;
+    private final CoinRepository coinRepo;
+    private final CoinAlertRepository alertRepo;
     private SmartAdapter.Callback<CoinAlertItem> uiCallback;
 
     @Inject
@@ -45,9 +47,11 @@ public class CoinAlertViewModel
                        RxMapper rx,
                        AppExecutors ex,
                        ResponseMapper rm,
+                       CoinAlertMapper mapper,
                        CoinRepository coinRepo,
                        CoinAlertRepository alertRepo) {
         super(application, rx, ex, rm);
+        this.mapper = mapper;
         this.coinRepo = coinRepo;
         this.alertRepo = alertRepo;
     }
@@ -109,15 +113,12 @@ public class CoinAlertViewModel
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-//        addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);
     }
 
-    public void save(Coin coin, CoinAlert alert, boolean withProgress) {
-        if (!preLoad(true)) {
-            return;
-        }
-        Disposable disposable = getRx()
-                .backToMain(saveRx(coin, alert))
+    public void save(Coin coin, double priceUp, double priceDown, boolean withProgress) {
+        Disposable disposable =   getRx()
+                .backToMain(saveRx(coin, priceUp, priceDown))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
@@ -134,14 +135,10 @@ public class CoinAlertViewModel
                     }
                     postFailure(error);
                 });
-        addSubscription(disposable);
     }
 
     public void delete(CoinAlertItem item, boolean withProgress) {
-        if (!preLoad(true)) {
-            return;
-        }
-        Disposable disposable = getRx()
+        Disposable disposable =  getRx()
                 .backToMain(deleteRx(item))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
@@ -153,17 +150,18 @@ public class CoinAlertViewModel
                         postProgress(false);
                     }
                     postResult(Response.Type.DELETE, result);
-                    getEx().postToUi(() -> loads(true, false), 2000L);
+                    getEx().postToUi(loadRunner, 2000L);
                 }, error -> {
                     if (withProgress) {
                         postProgress(false);
                     }
                     postFailure(error);
                 });
-        addSubscription(disposable);
     }
 
     /* private api */
+    private final Runnable loadRunner = () -> loads(true, false);
+
     private Maybe<CoinAlertItem> getItemRx(Coin coin) {
         return Maybe.create(emitter -> {
             CoinAlert alert = alertRepo.getItem(coin.getSymbol());
@@ -196,8 +194,9 @@ public class CoinAlertViewModel
                 .toMaybe();
     }
 
-    private Maybe<CoinAlertItem> saveRx(Coin coin, CoinAlert alert) {
+    private Maybe<CoinAlertItem> saveRx(Coin coin, double priceUp, double priceDown) {
         return Maybe.create(emitter -> {
+            CoinAlert alert = mapper.toItem(coin.getSymbol(), priceUp, priceDown, true);
             long result = alertRepo.putItem(alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);
             if (emitter.isDisposed()) {

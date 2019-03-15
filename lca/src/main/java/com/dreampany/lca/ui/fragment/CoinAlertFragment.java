@@ -167,21 +167,16 @@ public class CoinAlertFragment extends BaseMenuFragment {
 
         UiTask<Coin> task = getCurrentTask();
         Coin coin = task.getInput();
-        //double price = coin.getUsdQuote().getPrice();
 
-        CoinAlert alert = new CoinAlert();
-        alert.setSymbol(coin.getSymbol());
-
+        double priceUp = 0, priceDown = 0;
         if (binding.checkUp.isChecked()) {
-            double priceUp = Double.parseDouble(binding.editPriceUp.getText().toString());
-            alert.setPriceUp(priceUp);
+            priceUp = Double.parseDouble(binding.editPriceUp.getText().toString());
         }
 
         if (binding.checkDown.isChecked()) {
-            double priceDown = Double.parseDouble(binding.editPriceDown.getText().toString());
-            alert.setPriceDown(priceDown);
+            priceDown = Double.parseDouble(binding.editPriceDown.getText().toString());
         }
 
-        vm.save(coin, alert, true);
+        vm.save(coin, priceUp, priceDown, true);
     }
 }

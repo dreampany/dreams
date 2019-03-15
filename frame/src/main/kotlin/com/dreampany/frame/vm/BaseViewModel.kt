@@ -241,11 +241,13 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     fun observeOutput(owner: LifecycleOwner, observer: Observer<Response<X>>) {
         outputOwners.add(owner)
+        postEmpty(null as X?)
         output.reObserve(owner, observer)
     }
 
     fun observeOutputs(owner: LifecycleOwner, observer: Observer<Response<List<X>>>) {
         outputsOwners.add(owner)
+        postEmpty(null as List<X>?)
         outputs.reObserve(owner, observer)
     }
 

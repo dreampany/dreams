@@ -5,6 +5,7 @@ import android.content.Context;
 import com.dreampany.frame.data.source.pref.FramePref;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.IcoStatus;
+import com.dreampany.lca.data.model.Currency;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,6 +24,7 @@ public class Pref extends FramePref {
     private static final String NEWS_TIME = "news_time";
     private static final String COIN_UPDATE_TIME = "coin_update_time";
     private static final String COIN_INDEX_TIME = "coin_index_time";
+    private static final String CURRENCY = "currency";
 
     @Inject
     Pref(Context context) {
@@ -79,6 +81,14 @@ public class Pref extends FramePref {
 
     synchronized public long getCoinIndexTime(int index) {
         return getPrivately(COIN_INDEX_TIME + index, 0L);
+    }
+
+    synchronized public void setCurrency(Currency currency) {
+        setPrivately(CURRENCY, currency);
+    }
+
+    synchronized public Currency getCurrency(Currency currency) {
+        return getPrivately(CURRENCY, Currency.class, currency);
     }
 
 }

@@ -72,6 +72,10 @@ public abstract class BasePref {
         privatePref.put(key, value);
     }
 
+    public  void setPrivately(String key, String value) {
+        privatePref.put(key, value);
+    }
+
     public void removePrivately(String key) {
         privatePref.remove(key);
     }

@@ -1,14 +1,6 @@
 package com.dreampany.frame.util;
 
-import androidx.annotation.NonNull;
-
-import com.firebase.jobdispatcher.Constraint;
-import com.firebase.jobdispatcher.FirebaseJobDispatcher;
-import com.firebase.jobdispatcher.Job;
-import com.firebase.jobdispatcher.JobService;
-import com.firebase.jobdispatcher.Lifetime;
-import com.firebase.jobdispatcher.RetryStrategy;
-import com.firebase.jobdispatcher.Trigger;
+import com.firebase.jobdispatcher.*;
 
 /**
  * Created by Hawladar Roman on 10/8/2018.
@@ -21,17 +13,17 @@ public final class JobUtil {
     public static <T extends JobService> Job create(FirebaseJobDispatcher dispatcher,
                                                     String tag,
                                                     Class<T> classOfJob,
-                                                    int startTimeInSecond,
-                                                    int delayInSecond) {
+                                                    int delayInSecond,
+                                                    int periodInSecond) {
         Job job = dispatcher.newJobBuilder()
                 .setService(classOfJob)
                 .setTag(tag)
                 .setLifetime(Lifetime.FOREVER)
                 .setReplaceCurrent(true)
                 .setRecurring(true)
-                .setTrigger(Trigger.executionWindow(startTimeInSecond, startTimeInSecond + delayInSecond))
+                .setTrigger(Trigger.executionWindow(delayInSecond, delayInSecond + periodInSecond))
                 .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
-                .setConstraints(Constraint.ON_ANY_NETWORK)
+                //.setConstraints(Constraint.ON_ANY_NETWORK)
                 .build();
         return job;
     }

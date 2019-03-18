@@ -92,15 +92,15 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.20'
 
     /** firebase */
-    api 'com.google.firebase:firebase-auth:16.1.0'
-    implementation 'com.google.firebase:firebase-database:16.0.6'
-    implementation 'com.google.firebase:firebase-storage:16.0.5'
-    api 'com.google.firebase:firebase-firestore:18.0.0'
+    api 'com.google.firebase:firebase-auth:16.2.0'
+    implementation 'com.google.firebase:firebase-database:16.1.0'
+    implementation 'com.google.firebase:firebase-storage:16.1.0'
+    api 'com.google.firebase:firebase-firestore:18.1.0'
 
     /** rx */
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     /** misc */
     implementation 'com.jakewharton.timber:timber:4.7.1'

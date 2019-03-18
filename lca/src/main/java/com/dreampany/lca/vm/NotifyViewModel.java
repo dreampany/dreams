@@ -75,7 +75,6 @@ public class NotifyViewModel {
         //disposables.dispose();
     }
 
-    @DebugLog
     public void notifyIf() {
 /*        if (hasDisposable()) {
             //return;
@@ -83,11 +82,23 @@ public class NotifyViewModel {
         Timber.v("notifyIf Processing");
         Currency currency = Currency.USD;
         if (switching) {
-            rx.backToMain(getProfitableItemsRx(currency))
-                    .subscribe(this::postResultCoins, this::postFailed);
+            Maybe<List<CoinItem>> maybe = getProfitableItemsRx(currency);
+            if (maybe != null) {
+                rx
+                        .backToMain(maybe)
+                        .subscribe(this::postResultCoins, this::postFailed);
+            } else {
+                Timber.e("getProfitableItemsRx is Null");
+            }
         } else {
-            rx.backToMain(getAlertItemsRx())
-                    .subscribe(this::postResultAlerts, this::postFailed);
+            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx();
+            if (maybe != null) {
+                rx
+                        .backToMain(maybe)
+                        .subscribe(this::postResultAlerts, this::postFailed);
+            } else {
+                Timber.e("getAlertItemsRx is Null");
+            }
         }
         switching = !switching;
 
@@ -172,6 +183,7 @@ public class NotifyViewModel {
         notify.showNotification(message.toString(), NavigationActivity.class);
     }
 
+    @DebugLog
     private void postFailed(Throwable error) {
 
     }

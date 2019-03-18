@@ -83,11 +83,11 @@ dependencies {
     implementation 'com.google.guava:guava:26.0-android'
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    kapt 'com.google.dagger:dagger-compiler:2.16'
-    implementation 'com.google.dagger:dagger:2.16'
-    kapt 'com.google.dagger:dagger-android-processor:2.16'
-    implementation 'com.google.dagger:dagger-android-support:2.16'
-    implementation 'com.google.dagger:dagger-android:2.16'
+    kapt 'com.google.dagger:dagger-compiler:2.20'
+    implementation 'com.google.dagger:dagger:2.20'
+    kapt 'com.google.dagger:dagger-android-processor:2.20'
+    implementation 'com.google.dagger:dagger-android-support:2.20'
+    implementation 'com.google.dagger:dagger-android:2.20'
 
     api 'com.google.android.gms:play-services-location:16.0.0'
     api 'com.google.android.gms:play-services-nearby:16.0.0'
@@ -101,13 +101,13 @@ dependencies {
     implementation 'android.arch.persistence.room:rxjava2:1.1.1'
 
     //reactivex
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     //timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //apache
-    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
 }

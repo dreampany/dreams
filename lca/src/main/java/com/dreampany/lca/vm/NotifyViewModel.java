@@ -145,7 +145,6 @@ public class NotifyViewModel {
             //return;
         }
 
-        String title = TextUtil.getString(application, R.string.app_name);
         String message;
         if (!DataUtil.isEmpty(items)) {
             CoinItem profitable = items.get(0);
@@ -160,7 +159,8 @@ public class NotifyViewModel {
                     R.string.profitable_coin,
                     coin.getSymbol(),
                     coin.getName(),
-                    coin.getUsdQuote().getPrice());
+                    coin.getUsdQuote().getPrice(),
+                    coin.getUsdQuote().getDayChange());
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
@@ -172,7 +172,6 @@ public class NotifyViewModel {
         if (DataUtil.isEmpty(items)) {
             return;
         }
-        String title = TextUtil.getString(application, R.string.app_name);
         StringBuilder message = new StringBuilder();
         for (CoinAlertItem item : items) {
             if (message.length() > 0) {

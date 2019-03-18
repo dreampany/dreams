@@ -105,7 +105,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="profitable_coins">Top %d profitable coins in market.</string>
-    <string name="profitable_coin">%s (%s) = %.3f most profitable cryptocurrency.</string>
+    <string name="profitable_coin">Hot Coin: %s (%s) Price(%.3f) Change(%2.2f%%).</string>
     <string name="profitable_coins_motto">Dear Sir, track market prices of your favourite coins.</string>
 
 

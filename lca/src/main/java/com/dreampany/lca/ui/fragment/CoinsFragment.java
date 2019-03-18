@@ -312,7 +312,9 @@ public class CoinsFragment
                 break;
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);
-                setSubtitle(TextUtil.getString(getContext(), R.string.coins_total, adapter.getItemCount()));
+                if (isVisible()) {
+                    setSubtitle(TextUtil.getString(getContext(), R.string.coins_total, adapter.getItemCount()));
+                }
                 break;
             case EMPTY:
                 binding.stateful.setState(EMPTY);

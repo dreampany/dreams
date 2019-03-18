@@ -143,7 +143,7 @@ public final class NotifyUtil {
         return builder.setContentTitle(notifyTitle)
                 .setContentText(contentText)
                 .setSmallIcon(smallIcon)
-                .setSound( RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setWhen(System.currentTimeMillis())
                 .setContentIntent(contentIntent)
                 .setAutoCancel(autoCancel)

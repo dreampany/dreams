@@ -164,7 +164,7 @@ public class NotifyViewModel {
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
-        notify.showNotification(message, NavigationActivity.class);
+        notify.showNotification(message, R.drawable.ic_notification, NavigationActivity.class);
     }
 
     @DebugLog
@@ -179,7 +179,7 @@ public class NotifyViewModel {
             }
             message.append(item.getCoin().getSymbol());
         }
-        notify.showNotification(message.toString(), NavigationActivity.class);
+        notify.showNotification(message.toString(), R.drawable.ic_notification, NavigationActivity.class);
     }
 
     @DebugLog

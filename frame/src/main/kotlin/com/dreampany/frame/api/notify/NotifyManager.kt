@@ -42,13 +42,14 @@ class NotifyManager @Inject constructor(val context: Context) {
 
     fun showNotification(
         contentText: String,
+        icon: Int,
         targetClass: Class<*>
     ) {
         showNotification(
             NOTIFY_DEFAULT,
             context.getString(R.string.app_name),
             contentText,
-            R.mipmap.ic_launcher,
+            icon,
             targetClass,
             NOTIFY_CHANNEL_DEFAULT,
             context.getString(R.string.app_name),

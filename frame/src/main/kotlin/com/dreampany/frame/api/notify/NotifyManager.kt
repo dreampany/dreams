@@ -58,6 +58,43 @@ class NotifyManager @Inject constructor(val context: Context) {
     }
 
     fun showNotification(
+        contentText: String,
+        icon: Int,
+        channelId: String,
+        targetClass: Class<*>
+    ) {
+        showNotification(
+            NOTIFY_DEFAULT,
+            context.getString(R.string.app_name),
+            contentText,
+            icon,
+            targetClass,
+            channelId,
+            context.getString(R.string.app_name),
+            context.getString(R.string.description)
+        )
+    }
+
+    fun showNotification(
+        contentText: String,
+        icon: Int,
+        notifyId: Int,
+        channelId: String,
+        targetClass: Class<*>
+    ) {
+        showNotification(
+            notifyId,
+            context.getString(R.string.app_name),
+            contentText,
+            icon,
+            targetClass,
+            channelId,
+            context.getString(R.string.app_name),
+            context.getString(R.string.description)
+        )
+    }
+
+    fun showNotification(
         notifyId: Int,
         notifyTitle: String,
         contentText: String,

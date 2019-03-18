@@ -10,8 +10,17 @@ import java.util.concurrent.TimeUnit
  */
 object Constants {
 
+    object Notify {
+        const val ALERT_ID = 201
+        const val ALERT_CHANNEL_ID = "alert_channel_id"
+    }
+
     object Sep {
-        const val SEP_COMMA = ","
+        const val SPACE = " "
+        const val COMMA = ","
+        const val COMMA_SPACE = ", "
+        const val UP = ">"
+        const val DOWN = "<"
     }
 
     object Key {
@@ -46,8 +55,8 @@ object Constants {
         const val COIN_PAGE = 20
         const val COIN_MARKET = 100
         const val COIN_EXCHANGE = 50
-        const val ICO = 500
-        const val NEWS = 500
+        const val ICO = 100
+        const val NEWS = 100
     }
 
     object Time {

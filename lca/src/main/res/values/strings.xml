@@ -108,6 +108,9 @@
     <string name="profitable_coin">Hot Coin: %s (%s) Price(&#36; %1$,.3f) Change(%2.2f%%).</string>
     <string name="profitable_coins_motto">Dear Sir, track market prices of your favourite coins.</string>
 
+    <string name="alert_coin">%s (%s) Price(&#36; %1$,.3f)</string>
+<!--    <string name="alert_price_up"> > %.3f</string>
+    <string name="alert_price_down"> %< %.3f</string>-->
 
     <string name="message_select_alert">Please set at least one alert condition.</string>
     <string name="message_alert_same_price">Please set at least one alert condition.</string>

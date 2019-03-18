@@ -175,11 +175,30 @@ public class NotifyViewModel {
         StringBuilder message = new StringBuilder();
         for (CoinAlertItem item : items) {
             if (message.length() > 0) {
-                message.append(", ");
+                message.append(Constants.Sep.COMMA_SPACE);
             }
+            Coin coin = item.getCoin();
+            CoinAlert alert = item.getItem();
             message.append(item.getCoin().getSymbol());
+            if (alert.hasPriceUp()) {
+                message
+                        .append(Constants.Sep.SPACE)
+                        .append(Constants.Sep.UP)
+                        .append(alert.getPriceUp());
+            }
+            if (alert.hasPriceDown()) {
+                message
+                        .append(Constants.Sep.SPACE)
+                        .append(Constants.Sep.DOWN)
+                        .append(alert.getPriceDown());
+            }
         }
-        notify.showNotification(message.toString(), R.drawable.ic_notification, NavigationActivity.class);
+        notify.showNotification(
+                message.toString(),
+                R.drawable.ic_notification,
+                Constants.Notify.ALERT_ID,
+                Constants.Notify.ALERT_CHANNEL_ID,
+                NavigationActivity.class);
     }
 
     @DebugLog

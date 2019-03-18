@@ -272,7 +272,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
-        String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
+        String symbol = mapper.joinString(symbols, Constants.Sep.COMMA);
         for (int loop = 0; loop < keys.size(); loop++) {
             String apiKey = getApiKey();
             try {
@@ -291,7 +291,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
-/*        String symbol = mapper.joinString(symbols, Constants.Sep.SEP_COMMA);
+/*        String symbol = mapper.joinString(symbols, Constants.Sep.COMMA);
         return service
                 .getQuotesRx(Constants.Key.CMC_PRO_ROMAN_BJIT, symbol, currency.name())
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);*/

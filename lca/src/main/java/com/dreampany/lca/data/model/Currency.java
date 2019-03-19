@@ -14,6 +14,7 @@ import java.io.Serializable;
 public enum Currency implements Type, Serializable {
 
     AUD(),
+    BDT(),
     BRL(),
     CAD(),
     CHF(),
@@ -121,76 +122,78 @@ public enum Currency implements Type, Serializable {
             case 0:
                 return AUD;
             case 1:
-                return BRL;
+                return BDT;
             case 2:
-                return CAD;
+                return BRL;
             case 3:
-                return CHF;
+                return CAD;
             case 4:
-                return CLP;
+                return CHF;
             case 5:
-                return CNY;
+                return CLP;
             case 6:
-                return CZK;
+                return CNY;
             case 7:
-                return DKK;
+                return CZK;
             case 8:
-                return EUR;
+                return DKK;
             case 9:
-                return GBP;
+                return EUR;
             case 10:
-                return HKD;
+                return GBP;
             case 11:
-                return HUF;
+                return HKD;
             case 12:
-                return IDR;
+                return HUF;
             case 13:
-                return ILS;
+                return IDR;
             case 14:
-                return INR;
+                return ILS;
             case 15:
-                return JPY;
+                return INR;
             case 16:
-                return KRW;
+                return JPY;
             case 17:
-                return MXN;
+                return KRW;
             case 18:
-                return MYR;
+                return MXN;
             case 19:
-                return NOK;
+                return MYR;
             case 20:
-                return NZD;
+                return NOK;
             case 21:
-                return PHP;
+                return NZD;
             case 22:
-                return PKR;
+                return PHP;
             case 23:
-                return PLN;
+                return PKR;
             case 24:
-                return RUB;
+                return PLN;
             case 25:
-                return SEK;
+                return RUB;
             case 26:
-                return SGD;
+                return SEK;
             case 27:
-                return THB;
+                return SGD;
             case 28:
-                return TRY;
+                return THB;
             case 29:
-                return TWD;
+                return TRY;
             case 30:
-                return ZAR;
+                return TWD;
             case 31:
-                return USD;
+                return ZAR;
             case 32:
-                return BTC;
+                return USD;
             case 33:
-                return ETH;
+                return BTC;
             case 34:
-                return XRP;
+                return ETH;
             case 35:
-                return LTC;
+                return XRP;
             case 36:
+                return LTC;
+            case 37:
             default:
                 return BCH;
         }

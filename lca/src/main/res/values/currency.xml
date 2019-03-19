@@ -106,5 +106,10 @@
         <item>INR</item>
         <item>ILS</item>
         <item>JPY</item>
+        <item>TRY</item>
+        <item>CHF</item>
+        <item>SEK</item>
+        <item>KRW</item>
+        <item>ZAR</item>
     </array>
 </resources>

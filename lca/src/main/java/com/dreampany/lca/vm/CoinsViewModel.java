@@ -13,7 +13,9 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
@@ -24,6 +26,7 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
+import com.mynameismidori.currencypicker.ExtendedCurrency;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
@@ -31,6 +34,7 @@ import io.reactivex.functions.Function;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,6 +55,8 @@ public class CoinsViewModel
 
     private int currentIndex;
 
+    private final List<String> currencies;
+
     @Inject
     CoinsViewModel(Application application,
                    RxMapper rx,
@@ -64,6 +70,12 @@ public class CoinsViewModel
         this.pref = pref;
         this.repo = repo;
         currentIndex = Constants.Limit.COIN_START_INDEX;
+        currencies = Collections.synchronizedList(new ArrayList<>());
+
+        String[] cur = TextUtil.getStringArray(application, R.array.crypto_currencies);
+        if (!DataUtil.isEmpty(cur)) {
+            currencies.addAll(Arrays.asList(cur));
+        }
     }
 
     @Override
@@ -181,6 +193,16 @@ public class CoinsViewModel
 
     public void setCurrentCurrency(String currency) {
         pref.setCurrency(Currency.valueOf(currency));
+    }
+
+    public List<ExtendedCurrency> getCurrencies() {
+        List<ExtendedCurrency> result = new ArrayList<>();
+        for (ExtendedCurrency currency : ExtendedCurrency.CURRENCIES) {
+            if (currencies.contains(currency.getCode())) {
+                result.add(currency);
+            }
+        }
+        return result;
     }
 
     /* private api */

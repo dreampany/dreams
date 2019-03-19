@@ -417,10 +417,10 @@ public class CoinsFragment
     }
 
     private void openCurrencyPicker() {
-/*        ExtendedCurrency[] currencies = ExtendedCurrency.CURRENCIES;
-        List<ExtendedCurrency> result = new ArrayList<>();*/
+        List<ExtendedCurrency> currencies = vm.getCurrencies();
 
         CurrencyPicker picker = CurrencyPicker.newInstance(getString(R.string.select_currency));
+        picker.setCurrenciesList(currencies);
         picker.setListener((name, code, symbol, flagDrawableResId) -> {
             vm.setCurrentCurrency(code);
             initCurrencyMenuItem();

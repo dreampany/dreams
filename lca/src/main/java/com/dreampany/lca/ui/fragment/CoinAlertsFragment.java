@@ -23,6 +23,7 @@ import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAlertAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
@@ -35,6 +36,7 @@ import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import hugo.weaving.DebugLog;
 import net.cachapa.expandablelayout.ExpandableLayout;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import timber.log.Timber;
 
@@ -81,6 +83,12 @@ public class CoinAlertsFragment
     @Override
     public int getSearchMenuItemId() {
         return R.id.item_search;
+    }
+
+    @NotNull
+    @Override
+    public String getAnalyticTag() {
+        return Constants.Tag.COIN_ALERTS;
     }
 
     @DebugLog

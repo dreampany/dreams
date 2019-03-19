@@ -10,6 +10,15 @@ import java.util.concurrent.TimeUnit
  */
 object Constants {
 
+    object Tag {
+        const val COINS = "LCA: Coins"
+        const val FAVORITE_COINS = "LCA: Favorite Coins"
+        const val COIN_ALERTS = "LCA: Coin Alerts"
+        const val ICO = "LCA: Ico"
+        const val NEWS = "LCA: News"
+        const val MORE = "LCA: More"
+    }
+
     object Notify {
         const val ALERT_ID = 201
         const val ALERT_CHANNEL_ID = "alert_channel_id"

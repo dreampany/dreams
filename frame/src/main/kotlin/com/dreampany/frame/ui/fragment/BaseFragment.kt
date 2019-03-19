@@ -108,6 +108,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         return this
     }
 
+    open fun getAnalyticTag() : String {
+        return javaClass.simpleName
+    }
+
     @DebugLog
     protected abstract fun onStartUi(state: Bundle?)
 
@@ -177,7 +181,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
             ex.postToNetwork({
-                getApp()?.getAnalytics()?.logEvent(javaClass.simpleName, savedInstanceState)
+                getApp()?.getAnalytics()?.logEvent(getAnalyticTag(), savedInstanceState)
             })
         }
     }

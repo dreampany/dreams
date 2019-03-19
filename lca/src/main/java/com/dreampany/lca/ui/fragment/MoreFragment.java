@@ -14,6 +14,7 @@ import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.MoreAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
@@ -31,6 +32,7 @@ import eu.davidea.flexibleadapter.common.FlexibleItemAnimator;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import hugo.weaving.DebugLog;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Hawladar Roman on 5/24/2018.
@@ -56,6 +58,11 @@ public class MoreFragment extends BaseMenuFragment {
         return R.layout.fragment_recycler;
     }
 
+    @NotNull
+    @Override
+    public String getAnalyticTag() {
+        return Constants.Tag.MORE;
+    }
 
     @Override
     protected void onStartUi(Bundle state) {

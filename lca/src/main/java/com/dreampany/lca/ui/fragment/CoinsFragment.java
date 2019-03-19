@@ -104,6 +104,7 @@ public class CoinsFragment
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
+        initMenuItem();
         initRecycler();
         vm.start();
     }
@@ -151,6 +152,8 @@ public class CoinsFragment
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.item_currency:
+                return true;
             case R.id.item_favorites:
                 openFavoritesUi();
                 return true;
@@ -270,6 +273,14 @@ public class CoinsFragment
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
+    }
+
+    private void initMenuItem() {
+        String currency = vm.getCurrentCurrency();
+        MenuItem currencyItem = getMenuItem(R.id.item_currency);
+        if (currencyItem != null) {
+            currencyItem.setTitle("Hello");
+        }
     }
 
     private void initRecycler() {

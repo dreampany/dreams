@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:auto="http://schemas.android.com/apk/res-auto">
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/item_search"
-            android:animateLayoutChanges="true"
-            android:icon="@drawable/ic_search_white_24dp"
-            android:title="@string/action_search"
-            auto:actionViewClass="androidx.appcompat.widget.SearchView"
-            auto:showAsAction="collapseActionView|always"/>
+        android:id="@+id/item_currency"
+        android:title="@string/usd"
+        auto:showAsAction="always" />
 
     <item
-            android:id="@+id/item_favorites"
-            android:icon="@drawable/ic_favorite_white_24dp"
-            android:title="@string/favorites"
-            auto:showAsAction="ifRoom"/>
+        android:id="@+id/item_search"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:title="@string/action_search"
+        auto:actionViewClass="androidx.appcompat.widget.SearchView"
+        auto:showAsAction="collapseActionView|always" />
+
+    <item
+        android:id="@+id/item_favorites"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        android:title="@string/favorites"
+        auto:showAsAction="ifRoom" />
 
 </menu>

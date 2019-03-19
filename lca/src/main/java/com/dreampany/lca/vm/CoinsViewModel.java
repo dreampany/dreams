@@ -175,6 +175,14 @@ public class CoinsViewModel
         addSubscription(updateDisposable);
     }
 
+    public String getCurrentCurrency() {
+        return pref.getCurrency(Currency.USD).name();
+    }
+
+    public void setCurrentCurrency(String currency) {
+        pref.setCurrency(Currency.valueOf(currency));
+    }
+
     /* private api */
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
         return repo

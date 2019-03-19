@@ -32,8 +32,6 @@
     <string name="price">Price</string>
     <string name="usd">USD</string>
     <string name="btc">BTC</string>
-    <string name="price_usd">Price (USD)</string>
-    <string name="price_btc">Price (BTC)</string>
     <string name="volume_24h">Volume</string>
     <string name="market_cap">Market Cap</string>
     <string name="volume_24h_min">Vol</string>

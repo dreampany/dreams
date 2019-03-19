@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SearchView
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import com.dreampany.frame.R
 
@@ -57,12 +58,20 @@ abstract class BaseMenuFragment : BaseFragment() {
         }
     }
 
-    internal fun getSearchView() : SearchView? {
-        val menuId = getSearchMenuItemId()
-        if (menu == null || menuId == 0) {
+    fun getMenuItem(menuItemId: Int) : MenuItem? {
+        if (menu == null || menuItemId == 0) {
             return null
         }
-        val item = menu?.findItem(menuId)
+        val item = menu?.findItem(menuItemId)
+        if (item == null) {
+            return null
+        }
+        return item
+    }
+
+    internal fun getSearchView() : SearchView? {
+        val menuItemId = getSearchMenuItemId()
+        val item = getMenuItem(menuItemId)
         if (item == null) {
             return null
         }

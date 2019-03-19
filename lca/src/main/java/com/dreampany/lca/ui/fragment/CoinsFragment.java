@@ -1,15 +1,13 @@
 package com.dreampany.lca.ui.fragment;
 
-import android.view.MenuItem;
+import android.os.Bundle;
+import android.view.*;
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
-import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -33,6 +31,9 @@ import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinsViewModel;
+import com.mynameismidori.currencypicker.CurrencyPicker;
+import com.mynameismidori.currencypicker.CurrencyPickerListener;
+import com.mynameismidori.currencypicker.ExtendedCurrency;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.fastscroller.FastScroller;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
@@ -45,6 +46,7 @@ import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,7 +106,7 @@ public class CoinsFragment
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
-        initMenuItem();
+        //initCurrencyMenuItem();
         initRecycler();
         vm.start();
     }
@@ -150,9 +152,15 @@ public class CoinsFragment
     }*/
 
     @Override
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        initCurrencyMenuItem();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_currency:
+                openCurrencyPicker();
                 return true;
             case R.id.item_favorites:
                 openFavoritesUi();
@@ -275,14 +283,6 @@ public class CoinsFragment
         vm.observeOutputs(this, this::processResponse);
     }
 
-    private void initMenuItem() {
-        String currency = vm.getCurrentCurrency();
-        MenuItem currencyItem = getMenuItem(R.id.item_currency);
-        if (currencyItem != null) {
-            currencyItem.setTitle("Hello");
-        }
-    }
-
     private void initRecycler() {
         binding.setItems(new ObservableArrayList<>());
         FastScroller fs = ViewUtil.getViewById(this, R.id.fast_scroller);
@@ -308,6 +308,14 @@ public class CoinsFragment
                 null,
                 scroller);
         // adapter.setFastScroller(fs);
+    }
+
+    private void initCurrencyMenuItem() {
+        String currency = vm.getCurrentCurrency();
+        MenuItem currencyItem = getMenuItem(R.id.item_currency);
+        if (currencyItem != null) {
+            currencyItem.setTitle(currency);
+        }
     }
 
     @DebugLog
@@ -406,5 +414,18 @@ public class CoinsFragment
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.FAVORITES);
         openActivity(ToolsActivity.class, task);
+    }
+
+    private void openCurrencyPicker() {
+/*        ExtendedCurrency[] currencies = ExtendedCurrency.CURRENCIES;
+        List<ExtendedCurrency> result = new ArrayList<>();*/
+
+        CurrencyPicker picker = CurrencyPicker.newInstance(getString(R.string.select_currency));
+        picker.setListener((name, code, symbol, flagDrawableResId) -> {
+            vm.setCurrentCurrency(code);
+            initCurrencyMenuItem();
+            picker.dismissAllowingStateLoss();
+        });
+        picker.show(getFragmentManager(), Constants.Tag.CURRENCY_PICKER);
     }
 }

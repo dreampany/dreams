@@ -52,13 +52,21 @@ public enum Currency implements Type, Serializable {
     BCH(CurrencyType.CRYPTO);
 
     private final CurrencyType type;
+    private final String symbol;
+    private final String name;
 
     Currency() {
         this(CurrencyType.FIAT);
     }
 
     Currency(CurrencyType type) {
+        this(type, "", "");
+    }
+
+    Currency(CurrencyType type, String symbol, String name) {
         this.type = type;
+        this.symbol = symbol;
+        this.name = name;
     }
 
     @Override
@@ -110,26 +118,46 @@ public enum Currency implements Type, Serializable {
 
     public static Currency valueOf(int ordinal) {
         switch (ordinal) {
-            case 0: return AUD;
-            case 1: return BRL;
-            case 2: return CAD;
-            case 3: return CHF;
-            case 4: return CLP;
-            case 5: return CNY;
-            case 6: return CZK;
-            case 7: return DKK;
-            case 8: return EUR;
-            case 9: return GBP;
-            case 10: return HKD;
-            case 11: return HUF;
-            case 12: return IDR;
-            case 13: return ILS;
-            case 14: return INR;
-            case 15: return JPY;
-            case 16: return KRW;
-            case 17: return MXN;
-            case 18: return MYR;
-            case 19: return NOK;
+            case 0:
+                return AUD;
+            case 1:
+                return BRL;
+            case 2:
+                return CAD;
+            case 3:
+                return CHF;
+            case 4:
+                return CLP;
+            case 5:
+                return CNY;
+            case 6:
+                return CZK;
+            case 7:
+                return DKK;
+            case 8:
+                return EUR;
+            case 9:
+                return GBP;
+            case 10:
+                return HKD;
+            case 11:
+                return HUF;
+            case 12:
+                return IDR;
+            case 13:
+                return ILS;
+            case 14:
+                return INR;
+            case 15:
+                return JPY;
+            case 16:
+                return KRW;
+            case 17:
+                return MXN;
+            case 18:
+                return MYR;
+            case 19:
+                return NOK;
             case 20:
                 return NZD;
             case 21:
@@ -165,7 +193,7 @@ public enum Currency implements Type, Serializable {
             case 36:
             default:
                 return BCH;
-            }
+        }
     }
 
     enum CurrencyType {

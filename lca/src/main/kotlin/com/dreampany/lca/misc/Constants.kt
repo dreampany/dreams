@@ -17,6 +17,7 @@ object Constants {
         const val ICO = "LCA: Ico"
         const val NEWS = "LCA: News"
         const val MORE = "LCA: More"
+        const val CURRENCY_PICKER = "currency_picker"
     }
 
     object Notify {

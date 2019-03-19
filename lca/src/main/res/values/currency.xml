@@ -95,4 +95,16 @@
     <string name="eth_format">\u039e %1$s</string>
     <string name="ltc_format">\u0141 %1$s</string>
 
+    <array name="crypto_currencies">
+        <item>USD</item>
+        <item>EUR</item>
+        <item>BDT</item>
+        <item>BRL</item>
+        <item>CAD</item>
+        <item>CNY</item>
+        <item>HKD</item>
+        <item>INR</item>
+        <item>ILS</item>
+        <item>JPY</item>
+    </array>
 </resources>

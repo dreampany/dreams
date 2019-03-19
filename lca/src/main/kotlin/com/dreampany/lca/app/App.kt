@@ -130,17 +130,17 @@ class App : BaseApp() {
             when(current) {
                 63 -> {
                     if (exists < 63) {
-                        pref.clearCoinListingTime()
+                        //pref.clearCoinListingTime()
                     }
                 }
                 59 -> {
                     if (exists < 58) {
-                        pref.clearCoinListingTime()
+                       // pref.clearCoinListingTime()
                     }
                 }
                 58 -> {
                     if (exists < 58) {
-                        pref.clearCoinListingTime()
+                        //pref.clearCoinListingTime()
                     }
                 }
             }

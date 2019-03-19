@@ -46,11 +46,9 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     private Currency currency;
     private boolean favorite;
 
-    private CoinItem(Coin coin, CoinItemType type, @LayoutRes int layoutId) {
-        super(coin, layoutId);
-        this.type = type;
-        currency = Currency.USD;
-    }
+/*    private CoinItem(Coin coin, CoinItemType type, @LayoutRes int layoutId) {
+        this(coin, Currency.USD, type, layoutId);
+    }*/
 
     private CoinItem(Coin coin, Currency currency, CoinItemType type, @LayoutRes int layoutId) {
         super(coin, layoutId);
@@ -59,15 +57,15 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     }
 
     public static CoinItem getProgressItem() {
-        return new CoinItem(null, CoinItemType.PROGRESS, R.layout.item_progress);
+        return new CoinItem(null, null, CoinItemType.PROGRESS, R.layout.item_progress);
     }
 
-    public static CoinItem getSimpleItem(@NonNull Coin coin) {
-        return new CoinItem(coin, CoinItemType.SIMPLE, R.layout.item_coin);
+    public static CoinItem getSimpleItem(@NonNull Coin coin, Currency currency) {
+        return new CoinItem(coin, currency, CoinItemType.SIMPLE, R.layout.item_coin);
     }
 
-    public static CoinItem getDetailsItem(@NonNull Coin coin) {
-        return new CoinItem(coin, CoinItemType.DETAILS, R.layout.item_coin_details);
+    public static CoinItem getDetailsItem(@NonNull Coin coin, Currency currency) {
+        return new CoinItem(coin, currency, CoinItemType.DETAILS, R.layout.item_coin_details);
     }
 
     public static CoinItem getQuoteItem(@NonNull Coin coin, @NonNull Currency currency) {
@@ -122,7 +120,6 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
         final CoinAdapter adapter;
         final String usdFormat;
-        final String usdFormat2f;
         final String btcFormat;
         final int positiveChange;
         final int negativeChange;
@@ -133,7 +130,6 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             ButterKnife.bind(this, view);
             this.adapter = (CoinAdapter) adapter;
             usdFormat = getText(R.string.usd_format);
-            usdFormat2f = getText(R.string.usd_format_2f);
             btcFormat = getText(R.string.btc_format);
             positiveChange = R.string.positive_pct_format;
             negativeChange = R.string.negative_pct_format;

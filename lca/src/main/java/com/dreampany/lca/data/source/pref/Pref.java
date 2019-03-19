@@ -18,12 +18,11 @@ import javax.inject.Singleton;
 @Singleton
 public class Pref extends FramePref {
 
-    private static final String DEFAULT_FLAG_COMMITTED = "default_flag_committed";
+    private static final String DEFAULT_FAVORITE_COMMITTED = "default_favorite_committed";
     private static final String COIN_LISTING_TIME = "coin_listing_time";
     private static final String ICO_TIME = "ico_time";
     private static final String NEWS_TIME = "news_time";
     private static final String COIN_UPDATE_TIME = "coin_update_time";
-    private static final String COIN_INDEX_TIME = "coin_index_time";
     private static final String CURRENCY = "currency";
 
     @Inject
@@ -31,25 +30,14 @@ public class Pref extends FramePref {
         super(context);
     }
 
-    synchronized public void commitDefaultFlag() {
-        setPrivately(DEFAULT_FLAG_COMMITTED, true);
+    synchronized public void commitDefaultFavorite() {
+        setPrivately(DEFAULT_FAVORITE_COMMITTED, true);
     }
 
-    synchronized public boolean isDefaultFlagCommitted() {
-        return getPrivately(DEFAULT_FLAG_COMMITTED, false);
+    synchronized public boolean isDefaultFavoriteCommitted() {
+        return getPrivately(DEFAULT_FAVORITE_COMMITTED, false);
     }
 
-    synchronized public void clearCoinListingTime() {
-        setPrivately(COIN_LISTING_TIME, 0l);
-    }
-
-    synchronized public void commitCoinListingTime() {
-        setPrivately(COIN_LISTING_TIME, TimeUtil.currentTime());
-    }
-
-    synchronized public long getCoinListingTime() {
-        return getPrivately(COIN_LISTING_TIME, 0L);
-    }
 
     synchronized public void commitNewsTime() {
         setPrivately(NEWS_TIME, TimeUtil.currentTime());
@@ -71,16 +59,16 @@ public class Pref extends FramePref {
         return getPrivately(COIN_UPDATE_TIME + coinSymbol + currency, 0L);
     }
 
-    synchronized public void commitCoinUpdateTime(String coinSymbol) {
-        setPrivately(COIN_UPDATE_TIME + coinSymbol, TimeUtil.currentTime());
+    synchronized public void commitCoinUpdateTime(String coinSymbol, String currency) {
+        setPrivately(COIN_UPDATE_TIME + coinSymbol + currency, TimeUtil.currentTime());
     }
 
-    synchronized public void commitCoinIndexTime(int coinIndex) {
-        setPrivately(COIN_INDEX_TIME + coinIndex, TimeUtil.currentTime());
+    synchronized public void commitCoinListingTime(int coinIndex, String currency) {
+        setPrivately(COIN_LISTING_TIME + coinIndex + currency, TimeUtil.currentTime());
     }
 
-    synchronized public long getCoinIndexTime(int index) {
-        return getPrivately(COIN_INDEX_TIME + index, 0L);
+    synchronized public long getCoinListingTime(int coinIndex, String currency) {
+        return getPrivately(COIN_LISTING_TIME + coinIndex + currency, 0L);
     }
 
     synchronized public void setCurrency(Currency currency) {

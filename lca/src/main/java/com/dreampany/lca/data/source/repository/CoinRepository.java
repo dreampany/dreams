@@ -13,8 +13,6 @@ import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -232,7 +230,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
         Maybe<List<Coin>> room = getRoomItemsIfRx(source, index, limit, currency);
         Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, index, limit, currency);
-        if (isCoinIndexExpired(index) && network.isObserving() && network.hasInternet()) {
+        if (isCoinListingExpired(index, currency) && network.isObserving() && network.hasInternet()) {
             return concatFirstRx(remote, room);
         }
         return concatFirstRx(room, remote);
@@ -295,7 +293,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .filter(DataUtil::isEmpty)
                 .doOnSuccess(coin -> {
                     rx.compute(putItemRx(coin)).subscribe();
-                    pref.commitCoinUpdateTime(coin.getSymbol());
+                    updateCoinUpdate(coin.getSymbol(), currency);
                 });
     }
 
@@ -351,7 +349,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return maybe.filter(coins -> !DataUtil.isEmpty(coins))
                 .doOnSuccess(coins -> {
                     rx.compute(putItemsRx(coins)).subscribe();
-                    pref.commitCoinIndexTime(index);
+                    updateCoinListing(index, currency);
                 });
     }
 
@@ -382,7 +380,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .doOnSuccess(coins -> {
                     rx.compute(putItemsRx(coins)).subscribe();
                     for (Coin coin : coins) {
-                        pref.commitCoinUpdateTime(coin.getSymbol());
+                        updateCoinUpdate(coin.getSymbol(), currency);
                     }
                 });
     }
@@ -411,14 +409,22 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 });
     }
 
-    private boolean isCoinIndexExpired(int index) {
-        long time = pref.getCoinIndexTime(index);
+    private boolean isCoinListingExpired(int index, Currency currency) {
+        long time = pref.getCoinListingTime(index, currency.name());
         return TimeUtil.isExpired(time, Constants.Time.INSTANCE.getListing());
+    }
+
+    private void updateCoinListing(int index, Currency currency) {
+        pref.commitCoinListingTime(index, currency.name());
     }
 
     private boolean needToUpdate(String symbol, Currency currency) {
         long lastTime = pref.getCoinUpdateTime(symbol, currency.name());
         return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
+    }
+
+    private void updateCoinUpdate(String symbol, Currency currency) {
+        pref.commitCoinUpdateTime(symbol, currency.name());
     }
 
     //syncing process
@@ -453,13 +459,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
             //1. download listing if expired or not performed
             //2. Take one by one coins from server
 
-            long lastTime = pref.getCoinListingTime();
+/*            long lastTime = pref.getCoinListingTime();
             if (TimeUtil.isExpired(lastTime, delay)) {
-/*                List<Coin> result = getListing(CoinSource.CMC);
+                List<Coin> result = getListing(CoinSource.CMC);
                 if (!DataUtil.isEmpty(result)) {
                     pref.commitCoinListingTime();
-                }*/
-            }
+                }
+            }*/
 
 
             return true;

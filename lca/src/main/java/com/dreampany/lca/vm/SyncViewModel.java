@@ -184,7 +184,7 @@ public class SyncViewModel
 /*    private int getNextCoinIndex() {
 
         while (true) {
-            long time = pref.getCoinIndexTime(coinIndex);
+            long time = pref.getCoinListingTime(coinIndex);
             if (TimeUtil.isExpired(time, Constants.Time.INSTANCE.getListing())) {
                 return coinIndex;
             }

@@ -54,6 +54,7 @@ public class CoinsViewModel
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private int currentIndex;
+    private Currency currentCurrency;
 
     private final List<String> currencies;
 
@@ -138,7 +139,7 @@ public class CoinsViewModel
         }
         currentIndex = index;
         int limit = Constants.Limit.COIN_PAGE;
-        Currency currency = Currency.USD;
+        Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
                 .backToMain(getListingRx(index, limit, currency))
                 .doOnSubscribe(subscription -> {
@@ -209,7 +210,7 @@ public class CoinsViewModel
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
         return repo
                 .getItemsIfRx(CoinSource.CMC, index, limit, currency)
-                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
+                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(coins, currency));
     }
 
     private List<CoinItem> getVisibleItemsIf(Currency currency) {
@@ -227,7 +228,7 @@ public class CoinsViewModel
                 String[] result = DataUtil.toStringArray(symbols);
                 List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
                 if (!DataUtil.isEmpty(coins)) {
-                    items = getItems(coins);
+                    items = getItems(coins, currency);
                 }
             }
         }
@@ -248,21 +249,22 @@ public class CoinsViewModel
         });
     }
 
-    private Maybe<List<CoinItem>> getItemsRx(List<Coin> items) {
-        return Maybe.create(emitter -> {
-           List<CoinItem> result = getItems(items);
-           if (emitter.isDisposed()) {
-               throw new IllegalStateException();
-           }
-           if (DataUtil.isEmpty(result)) {
-               emitter.onError(new EmptyException());
-           } else {
-               emitter.onSuccess(result);
-           }
-        });
+    private Maybe<List<CoinItem>> getItemsRx(List<Coin> items, Currency currency) {
+        return Maybe
+                .create(emitter -> {
+                    List<CoinItem> result = getItems(items, currency);
+                    if (emitter.isDisposed()) {
+                        throw new IllegalStateException();
+                    }
+                    if (DataUtil.isEmpty(result)) {
+                        emitter.onError(new EmptyException());
+                    } else {
+                        emitter.onSuccess(result);
+                    }
+                });
     }
 
-    private List<CoinItem> getItems(List<Coin> result) {
+    private List<CoinItem> getItems(List<Coin> result, Currency currency) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
         for (Coin coin : coins) {
@@ -278,27 +280,27 @@ public class CoinsViewModel
         //putFlags(coins, Constants.Limit.COIN_FLAG);
         List<CoinItem> items = new ArrayList<>(coins.size());
         for (Coin coin : coins) {
-            CoinItem item = getItem(coin);
+            CoinItem item = getItem(coin, currency);
             items.add(item);
         }
         return items;
     }
 
-    private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = repo.isFavorite(coin);
-        item.setFavorite(flagged);
-    }
-
-    private CoinItem getItem(Coin coin) {
+    private CoinItem getItem(Coin coin, Currency currency) {
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
-            item = CoinItem.getSimpleItem(coin);
+            item = CoinItem.getSimpleItem(coin, currency);
             map.put(coin.getId(), item);
         }
         item.setItem(coin);
-        adjustFlag(coin, item);
+        //adjustFlag(coin, item);
         return item;
+    }
+
+    private void adjustFlag(Coin coin, CoinItem item) {
+        boolean flagged = repo.isFavorite(coin);
+        item.setFavorite(flagged);
     }
 
       /*    private Maybe<CoinItem> toggleImpl(Coin coin) {

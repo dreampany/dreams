@@ -52,7 +52,7 @@ object Constants {
 
     object Limit {
         const val COIN_START_INDEX = 0
-        const val COIN_PAGE = 20
+        const val COIN_PAGE = 200
         const val COIN_MARKET = 100
         const val COIN_EXCHANGE = 50
         const val ICO = 100

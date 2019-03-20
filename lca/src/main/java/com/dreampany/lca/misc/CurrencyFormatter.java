@@ -33,7 +33,7 @@ public class CurrencyFormatter {
     @NonNull
     private final Context context;
     @NonNull
-    private final Map<CmcCurrency, String> formats;
+    private final Map<String, String> formats;
     @NonNull
     private Set<CmcCurrency> cryptos;
     @NonNull
@@ -42,6 +42,7 @@ public class CurrencyFormatter {
     private static final BigInteger THOUSAND = BigInteger.valueOf(1000);
     private static final String NAMES[] = new String[]{"T", "M", "B", "T"};
     private static final NavigableMap<BigInteger, String> MAP;
+   // private final Map<Currency, String> formats
 
     static {
         MAP = new TreeMap<>();
@@ -61,20 +62,20 @@ public class CurrencyFormatter {
     }
 
     private void loadFormats() {
-        formats.put(CmcCurrency.BTC, context.getString(R.string.btc_format));
-        formats.put(CmcCurrency.ETH, context.getString(R.string.eth_format));
-        formats.put(CmcCurrency.LTC, context.getString(R.string.ltc_format));
+        formats.put(Currency.BTC.name(), context.getString(R.string.btc_format));
+        formats.put(Currency.ETH.name(), context.getString(R.string.eth_format));
+        formats.put(Currency.LTC.name(), context.getString(R.string.ltc_format));
 
-        formats.put(CmcCurrency.AUD, getString(R.string.aud_format));
-        formats.put(CmcCurrency.BRL, getString(R.string.brl_format));
-        formats.put(CmcCurrency.CAD, getString(R.string.usd_format));
-        formats.put(CmcCurrency.CHF, getString(R.string.chf_format));
-        formats.put(CmcCurrency.CLP, getString(R.string.usd_format));
-        formats.put(CmcCurrency.CNY, getString(R.string.cny_format));
-        formats.put(CmcCurrency.CZK, getString(R.string.czk_format));
-        formats.put(CmcCurrency.DKK, getString(R.string.dkk_format));
-        formats.put(CmcCurrency.GBP, getString(R.string.gbp_format));
-        formats.put(CmcCurrency.USD, getString(R.string.usd_format));
+        formats.put(Currency.AUD.name(), getString(R.string.aud_format));
+        formats.put(Currency.BRL.name(), getString(R.string.brl_format));
+        formats.put(Currency.CAD.name(), getString(R.string.usd_format));
+        formats.put(Currency.CHF.name(), getString(R.string.chf_format));
+        formats.put(Currency.CLP.name(), getString(R.string.usd_format));
+        formats.put(Currency.CNY.name(), getString(R.string.cny_format));
+        formats.put(Currency.CZK.name(), getString(R.string.czk_format));
+        formats.put(Currency.DKK.name(), getString(R.string.dkk_format));
+        formats.put(Currency.GBP.name(), getString(R.string.gbp_format));
+        formats.put(Currency.USD.name(), getString(R.string.usd_format));
     }
 
     @NonNull
@@ -140,4 +141,6 @@ public class CurrencyFormatter {
     public String formatPrice(double price, Currency currency) {
         return "";
     }
+
+
 }

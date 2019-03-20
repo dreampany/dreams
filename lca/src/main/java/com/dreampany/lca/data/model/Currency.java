@@ -44,8 +44,8 @@ public enum Currency implements Type, Serializable {
     THB(),
     TRY(),
     TWD(),
-    ZAR(),
     USD(),
+    ZAR(),
     BTC(CurrencyType.CRYPTO),
     ETH(CurrencyType.CRYPTO),
     XRP(CurrencyType.CRYPTO),
@@ -182,9 +182,9 @@ public enum Currency implements Type, Serializable {
             case 30:
                 return TWD;
             case 31:
-                return ZAR;
-            case 32:
                 return USD;
+            case 32:
+                return ZAR;
             case 33:
                 return BTC;
             case 34:

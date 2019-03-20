@@ -6,6 +6,7 @@ import androidx.annotation.StringRes;
 
 import com.dreampany.lca.R;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
+import com.dreampany.lca.data.model.Currency;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -134,5 +135,9 @@ public class CurrencyFormatter {
 
     public String formatPriceAsDollar(double price) {
         return "$" + formatPrice(price);
+    }
+
+    public String formatPrice(double price, Currency currency) {
+        return "";
     }
 }

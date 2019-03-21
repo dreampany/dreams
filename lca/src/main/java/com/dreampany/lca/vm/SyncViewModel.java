@@ -173,7 +173,7 @@ public class SyncViewModel
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
-            item = CoinItem.getSimpleItem(coin);
+            //item = CoinItem.getSimpleItem(coin);
             map.put(coin.getId(), item);
         }
         item.setItem(coin);

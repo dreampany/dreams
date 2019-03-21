@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--AIC, USDT, NZD, CAD, CLP, COP, HKD, MXN, TTD, XCD, ARS-->
+    <string name="usd_symbol">&#36;</string>
+    <!--Australian Dollar-->
+    <string name="aud_symbol">\u0041\u0024</string>
+    <!--brazilian real-->
+    <string name="brl_symbol">\u0052\u0024</string>
+    <!--Bahamian Dollar-->
+    <string name="bsd_symbol">\u0042\u0024</string>
+    <!--swiss franc-->
+    <string name="chf_symbol">\u0043\u0048\u0046</string>
+    <!--Chinese Yuan Renminbi-->
+    <string name="cny_symbol">\u00a5</string>
+    <!--Czech Koruna-->
+    <string name="czk_symbol">\u004b\u010d</string>
+    <!--Danish Krone-->
+    <string name="dkk_symbol">\u006b\u0072</string>
+    <!--Euro-->
+    <string name="euro_symbol">\u20AC</string>
+    <!--Fiji Dollar-->
+    <string name="fjd_symbol">\u0046\u004a\u0024</string>
+    <!--british pound-->
+    <string name="gbp_symbol">\u00a3 %1$,.3f</string>
+    <!--Ghanaian New Cedi-->
+    <string name="ghs_symbol">\u0047\u0048\u20b5</string>
+    <!--Guatemalan Quetzal-->
+    <string name="gtq_symbol">\u0051</string>
+    <!--Honduran Lempira-->
+    <string name="hnl_symbol">\u004c</string>
+    <!--Croatian Kuna-->
+    <string name="hrk_symbol">\u006b\u006e</string>
+    <!--Hungarian Forint-->
+    <string name="huf_symbol">\u0046\u0074</string>
+    <!--Indonesian Rupiah-->
+    <string name="idr_symbol">\u0052\u0070</string>
+    <!--Israeli New Shekel-->
+    <string name="ils_symbol">\u20aa</string>
+    <!--Indian Rupee-->
+    <string name="inr_symbol">\u20b9</string>
+    <!--Iceland Krona, NOK, SEK-->
+    <string name="isk_symbol">\u006b\u0072</string>
+    <!--Jamaican Dollar-->
+    <string name="jmd_symbol">\u004a\u0024</string>
+    <!--Japanese Yen-->
+    <string name="jpy_symbol">\u00A5</string>
+    <!--South-Korean Won-->
+    <string name="krw_symbol">\u20A9</string>
+    <!--Sri Lanka Rupee, PKR-->
+    <string name="lkr_symbol">\u20a8</string>
+    <!--Myanmar Kyat-->
+    <string name="mmk_symbol">\u004b</string>
+    <!--Malaysian Ringgit-->
+    <string name="myr_symbol">\u0052\u004d</string>
+    <!--Panamanian Balboa-->
+    <string name="pab_symbol">\u0042\u002f\u002e</string>
+    <!--Peruvian Nuevo Sol-->
+    <string name="pen_symbol">\u0053\u002f\u002e</string>
+    <!--Philippine Peso-->
+    <string name="php_symbol">\u20b1</string>
+    <!--Polish Zloty-->
+    <string name="pln_symbol">\u007a\u0142</string>
+    <!--Romanian New Lei-->
+    <string name="ron_symbol">\u006c\u0065\u0069</string>
+    <!--Serbian Dinar-->
+    <string name="rsd_symbol">\u0052\u0053\u0044</string>
+    <!--Russian Rouble-->
+    <string name="rub_symbol">\u0440\u0443\u0431</string>
+    <!--Singapore Dollar-->
+    <string name="sgd_symbol">\u0053\u0024</string>
+    <!--Thai Baht-->
+    <string name="thb_symbol">\u0e3f</string>
+    <!--Turkish Lira-->
+    <string name="try_symbol">\u0054\u004c</string>
+    <!--Taiwan Dollar-->
+    <string name="twd_symbol">\u004e\u0054\u0024</string>
+    <!--Venezuelan Bolivar Fuerte-->
+    <string name="vef_symbol">\u0042\u0073</string>
+    <!--vietnamese DONG-->
+    <string name="vnd_symbol">\u20AB</string>
+    <!--CFA Franc BEAC-->
+    <string name="xaf_symbol">\u0046\u0043\u0046\u0041</string>
+    <!--CFP Franc-->
+    <string name="xpf_symbol">\u0046</string>
+    <!--South African Rand-->
+    <string name="zar_symbol">\u0052</string>
+    <!--Nigerian Naira-->
+    <string name="ngn_symbol">\u0052</string>
+
+    <string name="btc_symbol">\u0E3F</string>
+    <string name="eth_symbol">\u039e</string>
+    <string name="ltc_symbol">\u0141</string>
+</resources>

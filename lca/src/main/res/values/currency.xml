@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="crypto_formatter">#,###.########</string>
     <string name="currency_format">%.3f</string>
     <!--AIC, USDT, NZD, CAD, CLP, COP, HKD, MXN, TTD, XCD, ARS-->

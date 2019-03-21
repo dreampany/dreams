@@ -76,6 +76,10 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         this.favorite = favorite;
     }
 
+    public Currency getCurrency() {
+        return currency;
+    }
+
     public boolean isFavorite() {
         return favorite;
     }
@@ -119,7 +123,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     static abstract class ViewHolder extends BaseItem.ViewHolder {
 
         final CoinAdapter adapter;
-        final String usdFormat;
+        //final String usdFormat;
         final String btcFormat;
         final int positiveChange;
         final int negativeChange;
@@ -129,7 +133,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             super(view, adapter);
             ButterKnife.bind(this, view);
             this.adapter = (CoinAdapter) adapter;
-            usdFormat = getText(R.string.usd_format);
+            //usdFormat = getText(R.string.usd_format);
             btcFormat = getText(R.string.btc_format);
             positiveChange = R.string.positive_pct_format;
             negativeChange = R.string.negative_pct_format;
@@ -193,7 +197,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
             name.setText(nameText);
 
-            Quote quote = coin.getUsdQuote();
+            Currency currency = item.getCurrency();
+            Quote quote = coin.getQuote(currency);
 
             double price = 0f;
             double hourChange = 0f;
@@ -210,9 +215,9 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
                 dayVolume = quote.getDayVolume();
             }
 
-            this.price.setText(String.format(usdFormat, price));
-            this.marketCap.setText(formatter.formatPriceAsDollar(marketCap));
-            this.dayVolume.setText(formatter.formatPriceAsDollar(dayVolume));
+            this.price.setText(formatter.formatPrice(price, item.getCurrency()));
+            this.marketCap.setText(formatter.roundPrice(marketCap, item.getCurrency()));
+            this.dayVolume.setText(formatter.roundPrice(dayVolume, item.getCurrency()));
 
             int hourFormat = hourChange >= 0.0f ? positiveChange : negativeChange;
             int dayFormat = dayChange >= 0.0f ? positiveChange : negativeChange;
@@ -297,8 +302,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
                 int dayFormat = dayChange >= 0.0f ? positiveChange : negativeChange;
                 int weekFormat = weekChange >= 0.0f ? positiveChange : negativeChange;
 
-
-                this.price.setText(String.format(usdFormat, price));
+                this.price.setText(formatter.formatPrice(price, item.getCurrency()));
 
                 marketCapTitle.setText(R.string.market_cap);
                 volumeTitle.setText(R.string.volume_24h);
@@ -307,8 +311,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
                 String oneDayValue = String.format(getText(dayFormat), dayChange);
                 String weekValue = String.format(getText(weekFormat), weekChange);
 
-                marketCapValue.setText(formatter.formatPriceAsDollar(quote.getMarketCap()));
-                volumeValue.setText(formatter.formatPriceAsDollar(quote.getDayVolume()));
+                marketCapValue.setText(formatter.roundPrice(quote.getMarketCap(), item.getCurrency()));
+                volumeValue.setText(formatter.roundPrice(quote.getDayVolume(), item.getCurrency()));
 
                 this.hourChange.setText(getItemText(R.string.coin_format, getText(R.string.one_hour), oneHourValue));
                 this.dayChange.setText(getItemText(R.string.coin_format, getText(R.string.one_day), oneDayValue));
@@ -365,9 +369,9 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             Coin coin = item.getItem();
             String symbol = coin.getSymbol();
 
-            String circulating = formatter.formatPrice(coin.getCirculatingSupply()).concat(" ").concat(symbol);
-            String total = formatter.formatPrice(coin.getTotalSupply()).concat(" ").concat(symbol);
-            String max = formatter.formatPrice(coin.getMaxSupply()).concat(" ").concat(symbol);
+            String circulating = formatter.roundPrice(coin.getCirculatingSupply()).concat(" ").concat(symbol);
+            String total = formatter.roundPrice(coin.getTotalSupply()).concat(" ").concat(symbol);
+            String max = formatter.roundPrice(coin.getMaxSupply()).concat(" ").concat(symbol);
 
             circulatingTitle.setText(R.string.circulating_supply);
             totalTitle.setText(R.string.total_supply);

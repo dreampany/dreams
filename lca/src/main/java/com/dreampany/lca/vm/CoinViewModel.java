@@ -117,7 +117,7 @@ public class CoinViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(Response.Type.ADD,result);
+                    postResult(Response.Type.ADD, result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(true);
@@ -135,15 +135,15 @@ public class CoinViewModel
         updateDisposable = getRx()
                 .backToMain(getItemsRx(currency))
                 .subscribe(result -> {
-                    postResult(Response.Type.ADD,result, withProgress);
+                    postResult(Response.Type.ADD, result, withProgress);
                 }, this::postFailure);
         addSubscription(updateDisposable);
     }
 
-    public void toggleFavorite(Coin coin) {
+    public void toggleFavorite(Coin coin, Currency currency) {
         Disposable disposable = getRx()
-                .backToMain(toggleImpl(coin))
-                .subscribe(result -> postResult(Response.Type.ADD,result, false), this::postFailure);
+                .backToMain(toggleImpl(coin, currency))
+                .subscribe(result -> postResult(Response.Type.ADD, result, false), this::postFailure);
     }
 
     /* private api */
@@ -155,7 +155,7 @@ public class CoinViewModel
             if (result != null) {
                 getTask().setInput(result);
                 items = new ArrayList<>();
-                items.add(getDetailsCoinItem(result));
+                items.add(getDetailsCoinItem(result, currency));
                 items.add(getQuoteCoinItem(result, currency));
             }
 
@@ -177,8 +177,8 @@ public class CoinViewModel
                 (left, right) -> Arrays.asList(left, right));
     }*/
 
-    private CoinItem getDetailsCoinItem(Coin coin) {
-        CoinItem item = CoinItem.getDetailsItem(coin);
+    private CoinItem getDetailsCoinItem(Coin coin, Currency currency) {
+        CoinItem item = CoinItem.getDetailsItem(coin, currency);
         adjustFavorite(coin, item);
         return item;
     }
@@ -189,18 +189,18 @@ public class CoinViewModel
         return item;
     }
 
-    private Maybe<CoinItem> toggleImpl(Coin coin) {
+    private Maybe<CoinItem> toggleImpl(Coin coin, Currency currency) {
         return Maybe.fromCallable(() -> {
             repo.toggleFavorite(coin);
-            return getItem(coin);
+            return getItem(coin, currency);
         });
     }
 
-    private CoinItem getItem(Coin coin) {
+    private CoinItem getItem(Coin coin, Currency currency) {
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
-            item = CoinItem.getDetailsItem(coin);
+            item = CoinItem.getDetailsItem(coin, currency);
             map.put(coin.getId(), item);
         }
         item.setItem(coin);

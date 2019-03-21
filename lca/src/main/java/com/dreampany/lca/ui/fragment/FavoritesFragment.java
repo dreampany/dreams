@@ -299,7 +299,7 @@ public class FavoritesFragment
         }
         //recycler.setNestedScrollingEnabled(false);
         Timber.v("Flag Result %s", items.size());
-        adapter.addFlagItems(items);
+        adapter.addFavoriteItems(items);
         //recycler.setNestedScrollingEnabled(true);
         AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }

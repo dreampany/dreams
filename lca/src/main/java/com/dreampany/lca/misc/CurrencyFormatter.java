@@ -1,9 +1,11 @@
 package com.dreampany.lca.misc;
 
 import android.content.Context;
+import android.view.TextureView;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Currency;
@@ -14,10 +16,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.Set;
-import java.util.TreeMap;
+import java.util.*;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -42,7 +41,7 @@ public class CurrencyFormatter {
     private static final BigInteger THOUSAND = BigInteger.valueOf(1000);
     private static final String NAMES[] = new String[]{"T", "M", "B", "T"};
     private static final NavigableMap<BigInteger, String> MAP;
-   // private final Map<Currency, String> formats
+    private final Map<Currency, String> symbols;
 
     static {
         MAP = new TreeMap<>();
@@ -54,10 +53,10 @@ public class CurrencyFormatter {
     @Inject
     public CurrencyFormatter(Context context) {
         this.context = context;
-        formats = Maps.newHashMap();
+        formats = Maps.newConcurrentMap();
         cryptos = Sets.newHashSet(CmcCurrency.getCryptoCurrencies());
         cryptoFormatter = new DecimalFormat(context.getString(R.string.crypto_formatter));
-
+        symbols = Maps.newConcurrentMap();
         loadFormats();
     }
 
@@ -116,7 +115,7 @@ public class CurrencyFormatter {
         return null;
     }
 
-    public String formatPrice(double price) {
+    public String roundPrice(double price) {
         BigInteger number = BigDecimal.valueOf(price).toBigInteger();
         //BigInteger number = new BigInteger(String.valueOf(price));
         Map.Entry<BigInteger, String> entry = MAP.floorEntry(number);
@@ -134,13 +133,81 @@ public class CurrencyFormatter {
         return rounded + " " + entry.getValue();
     }
 
-    public String formatPriceAsDollar(double price) {
-        return "$" + formatPrice(price);
+    public String getSymbol(Currency currency) {
+        if (!symbols.containsKey(currency)) {
+            String symbol = null;
+            if (currency.isCrypto()) {
+                switch (currency) {
+                    case BTC:
+                        symbol = context.getString(R.string.btc_symbol);
+                        break;
+                    case ETH:
+                        symbol = context.getString(R.string.eth_symbol);
+                        break;
+                    case LTC:
+                        symbol = context.getString(R.string.ltc_symbol);
+                        break;
+                }
+            } else {
+                symbol = java.util.Currency.getInstance(currency.name()).getSymbol();
+            }
+            symbols.put(currency, symbol);
+        }
+        return symbols.get(currency);
+    }
+
+    public String roundPrice(double price, Currency currency) {
+        String symbol = getSymbol(currency);
+        String amount = roundPrice(price);
+        return symbol + Constants.Sep.SPACE + amount;
     }
 
     public String formatPrice(double price, Currency currency) {
-        return "";
+        int priceResId = getPriceResId(currency);
+        return TextUtil.getString(context, priceResId, price);
     }
 
+    public int getPriceResId(Currency currency) {
+        int resId = 0;
+        switch (currency) {
+            case BRL:
+                resId = R.string.brl_format;
+                break;
+            case CAD:
+            case HKD:
+            case SEK:
+            case USD:
+                resId = R.string.usd_format;
+                break;
+            case CHF:
+                resId = R.string.chf_format;
+                break;
+            case CNY:
+                resId = R.string.cny_format;
+                break;
+            case EUR:
+                resId = R.string.euro_format;
+                break;
+            case INR:
+                resId = R.string.inr_format;
+                break;
+            case ILS:
+                resId = R.string.ils_format;
+                break;
+            case JPY:
+                resId = R.string.jpy_format;
+                break;
+            case KRW:
+                resId = R.string.krw_format;
+                break;
+            case TRY:
+                resId = R.string.try_format;
+                break;
+            case ZAR:
+                resId = R.string.zar_format;
+                break;
+        }
+        return resId;
+    }
 
 }

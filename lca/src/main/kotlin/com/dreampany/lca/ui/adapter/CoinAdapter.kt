@@ -47,14 +47,14 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
         }
     }
 
-    fun addFlagItems(items: List<CoinItem>): Boolean {
+    fun addFavoriteItems(items: List<CoinItem>): Boolean {
         for (item in items) {
-            addFlagItem(item)
+            addFavoriteItem(item)
         }
         return true
     }
 
-    fun addFlagItem(item: CoinItem) {
+    fun addFavoriteItem(item: CoinItem) {
         if (item.isFavorite) {
             addItem(item, rankComparator)
         } else {
@@ -62,8 +62,8 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
         }
     }
 
-    fun load(coin: Coin) {
-        addItem(CoinItem.getDetailsItem(coin))
+    fun load(coin: Coin, currency: Currency) {
+        addItem(CoinItem.getDetailsItem(coin, currency))
         addItem(CoinItem.getQuoteItem(coin, Currency.USD))
         addItem(CoinItem.getQuoteItem(coin, Currency.EUR))
     }

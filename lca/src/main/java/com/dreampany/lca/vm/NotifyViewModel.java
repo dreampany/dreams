@@ -119,7 +119,7 @@ public class NotifyViewModel {
     private Maybe<List<CoinItem>> getProfitableItemsRx(List<Coin> result) {
         return Flowable.fromIterable(result)
                 .filter(this::isProfitable)
-                .map(CoinItem::getSimpleItem)
+                .map(coin -> CoinItem.getSimpleItem(coin, Currency.USD))
                 .toList()
                 .toMaybe();
     }

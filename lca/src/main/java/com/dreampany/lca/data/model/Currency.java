@@ -117,6 +117,10 @@ public enum Currency implements Type, Serializable {
         }
     };
 
+    public boolean isCrypto() {
+        return type == CurrencyType.CRYPTO;
+    }
+
     public static Currency valueOf(int ordinal) {
         switch (ordinal) {
             case 0:

@@ -20,6 +20,7 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.databinding.FragmentDetailsBinding;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
@@ -122,7 +123,7 @@ public class DetailsFragment
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_like:
-                vm.toggleFavorite((Coin) v.getTag());
+                vm.toggleFavorite((Coin) v.getTag(), Currency.USD);
                 break;
             case R.id.fab:
                 openCoinAlertUi();

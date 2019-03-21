@@ -166,7 +166,7 @@ public class FavoritesViewModel
             }
             List<CoinItem> ui = uiCallback.getItems();
             for (Coin coin : real) {
-                CoinItem item = getItem(coin);
+                CoinItem item = getItem(coin, currency);
                 item.setFavorite(true);
                 result.add(item);
             }
@@ -210,18 +210,18 @@ public class FavoritesViewModel
                 String[] result = DataUtil.toStringArray(symbols);
                 List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
                 if (!DataUtil.isEmpty(coins)) {
-                    items = getItems(coins);
+                    items = getItems(coins, currency);
                 }
             }
         }
         return items;
     }
 
-    private CoinItem getItem(Coin coin) {
+    private CoinItem getItem(Coin coin, Currency currency) {
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
-            item = CoinItem.getSimpleItem(coin);
+            item = CoinItem.getSimpleItem(coin, currency);
             map.put(coin.getId(), item);
         }
         item.setItem(coin);
@@ -229,7 +229,7 @@ public class FavoritesViewModel
         return item;
     }
 
-    private List<CoinItem> getItems(List<Coin> result) {
+    private List<CoinItem> getItems(List<Coin> result, Currency currency) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
         for (Coin coin : coins) {
@@ -243,7 +243,7 @@ public class FavoritesViewModel
 
         List<CoinItem> items = new ArrayList<>(coins.size());
         for (Coin coin : coins) {
-            CoinItem item = getItem(coin);
+            CoinItem item = getItem(coin, currency);
             items.add(item);
         }
         return items;

@@ -105,7 +105,6 @@ public class CoinsFragment
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
-        //initCurrencyMenuItem();
         initRecycler();
         vm.start();
     }
@@ -120,6 +119,7 @@ public class CoinsFragment
     @Override
     public void onResume() {
         super.onResume();
+        initCurrencyMenuItem();
         vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
     }
 

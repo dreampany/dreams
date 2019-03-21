@@ -90,8 +90,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         if (in == null || getClass() != in.getClass()) return false;
         CoinItem item = (CoinItem) in;
         return Objects.equal(item.getItem(), getItem())
-                && item.type == type
-                && (item.type != CoinItemType.QUOTE || item.currency == currency);
+                && item.type == type/*
+                && (item.type != CoinItemType.QUOTE|| item.currency == currency)*/;
     }
 
     @Override

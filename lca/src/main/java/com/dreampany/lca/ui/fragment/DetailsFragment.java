@@ -1,5 +1,8 @@
 package com.dreampany.lca.ui.fragment;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.databinding.ObservableArrayList;
@@ -16,12 +19,14 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.databinding.FragmentDetailsBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
@@ -30,8 +35,11 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinViewModel;
 
+import com.mynameismidori.currencypicker.CurrencyPicker;
+import com.mynameismidori.currencypicker.ExtendedCurrency;
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -52,7 +60,7 @@ import hugo.weaving.DebugLog;
 
 @FragmentScope
 public class DetailsFragment
-        extends BaseFragment
+        extends BaseMenuFragment
         implements SmartAdapter.Callback<CoinItem> {
 
     @Inject
@@ -73,6 +81,11 @@ public class DetailsFragment
     @Override
     public int getLayoutId() {
         return R.layout.fragment_details;
+    }
+
+    @Override
+    public int getMenuId() {
+        return R.menu.menu_coin_details;
     }
 
     @Override
@@ -115,6 +128,21 @@ public class DetailsFragment
     }*/
 
     @Override
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        initCurrencyMenuItem();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_currency:
+                openCurrencyPicker();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onRefresh() {
         vm.refresh(!adapter.isEmpty(), true);
     }
@@ -123,7 +151,7 @@ public class DetailsFragment
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
             case R.id.button_like:
-                vm.toggleFavorite((Coin) v.getTag(), Currency.USD);
+                vm.toggleFavorite((Coin) v.getTag());
                 break;
             case R.id.fab:
                 openCoinAlertUi();
@@ -194,6 +222,14 @@ public class DetailsFragment
                 scroller,
                 null
         );
+    }
+
+    private void initCurrencyMenuItem() {
+        String currency = vm.getCurrentCurrencyCode();
+        MenuItem currencyItem = getMenuItem(R.id.item_currency);
+        if (currencyItem != null) {
+            currencyItem.setTitle(currency);
+        }
     }
 
     private void processUiState(UiState state) {
@@ -284,5 +320,20 @@ public class DetailsFragment
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.ALERT);
         openActivity(ToolsActivity.class, task);
+    }
+
+    private void openCurrencyPicker() {
+        List<ExtendedCurrency> currencies = vm.getCurrencies();
+
+        CurrencyPicker picker = CurrencyPicker.newInstance(getString(R.string.select_currency));
+        picker.setCurrenciesList(currencies);
+        picker.setListener((name, code, symbol, flagDrawableResId) -> {
+            vm.setCurrentCurrencyCode(code);
+            initCurrencyMenuItem();
+            //updateCurrency(vm.getCurrentCurrency());
+            onRefresh();
+            picker.dismissAllowingStateLoss();
+        });
+        picker.show(getFragmentManager(), Constants.Tag.CURRENCY_PICKER);
     }
 }

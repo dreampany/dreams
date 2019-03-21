@@ -169,7 +169,7 @@ public class CoinsViewModel
         }
         Currency currency = pref.getCurrency(Currency.USD);
         updateDisposable = getRx()
-                .backToMain(getVisibleItemsIfRx(currency))
+                .backToMain(getUpdateItemsIfRx(currency))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
@@ -219,11 +219,11 @@ public class CoinsViewModel
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(coins, currency));
     }
 
-    private List<CoinItem> getVisibleItemsIf(Currency currency) {
+    private List<CoinItem> getUpdateItemsIf(Currency currency) {
         if (uiCallback == null) {
             return null;
         }
-        List<CoinItem> items = uiCallback.getVisibleItems();
+        List<CoinItem> items = currency.equals(currentCurrency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
         if (!DataUtil.isEmpty(items)) {
             List<String> symbols = new ArrayList<>();
             for (CoinItem item : items) {
@@ -241,9 +241,9 @@ public class CoinsViewModel
         return items;
     }
 
-    private Maybe<List<CoinItem>> getVisibleItemsIfRx(Currency currency) {
+    private Maybe<List<CoinItem>> getUpdateItemsIfRx(Currency currency) {
         return Maybe.create(emitter -> {
-            List<CoinItem> result = getVisibleItemsIf(currency);
+            List<CoinItem> result = getUpdateItemsIf(currency);
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();
             }
@@ -301,13 +301,12 @@ public class CoinsViewModel
         }
         item.setItem(coin);
         item.setCurrency(currency);
-        //adjustFlag(coin, item);
+        //adjustFavorite(coin, item);
         return item;
     }
 
-    private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = repo.isFavorite(coin);
-        item.setFavorite(flagged);
+    private void adjustFavorite(Coin coin, CoinItem item) {
+        item.setFavorite(repo.isFavorite(coin));
     }
 
       /*    private Maybe<CoinItem> toggleImpl(Coin coin) {

@@ -32,7 +32,7 @@ abstract class BaseBottomNavigationActivity : BaseMenuActivity(), BottomNavigati
         navigationView?.setOnNavigationItemSelectedListener(this)
         setSelectedItem(getDefaultSelectedNavigationItemId())
         onStartUi(savedInstanceState)
-        getApp().getAnalytics().logEvent(javaClass.simpleName, savedInstanceState)
+        getApp().getAnalytics().logEvent(getAnalyticTag(), savedInstanceState)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

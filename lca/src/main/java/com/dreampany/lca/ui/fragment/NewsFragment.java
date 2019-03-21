@@ -90,7 +90,7 @@ public class NewsFragment
     @NotNull
     @Override
     public String getAnalyticTag() {
-        return Constants.Tag.NEWS;
+        return Constants.Tag.UI_NEWS;
     }
 
     @DebugLog

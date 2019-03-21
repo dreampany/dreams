@@ -11,12 +11,21 @@ import java.util.concurrent.TimeUnit
 object Constants {
 
     object Tag {
-        const val COINS = "LCA: Coins"
-        const val FAVORITE_COINS = "LCA: Favorite Coins"
-        const val COIN_ALERTS = "LCA: Coin Alerts"
-        const val ICO = "LCA: Ico"
-        const val NEWS = "LCA: News"
-        const val MORE = "LCA: More"
+        const val UI_COINS = "LCA: Coins"
+        const val UI_COIN = "LCA: Coin"
+        const val UI_FAVORITE_COINS = "LCA: Favorite Coins"
+        const val UI_COIN_ALERTS = "LCA: Coin Alerts"
+        const val UI_COIN_ALERT = "LCA: Coin Alert"
+        const val UI_ICO = "LCA: Ico"
+        const val UI_ICO_LIVE = "LCA: Ico Live"
+        const val UI_ICO_UPCOMING = "LCA: Ico Upcoming"
+        const val UI_ICO_FINISHED = "LCA: Ico Finished"
+        const val UI_NEWS = "LCA: News"
+        const val UI_MORE = "LCA: More"
+        const val UI_ABOUT = "LCA: About"
+        const val UI_SETTINGS = "LCA: Settings"
+
+
         const val CURRENCY_PICKER = "currency_picker"
     }
 

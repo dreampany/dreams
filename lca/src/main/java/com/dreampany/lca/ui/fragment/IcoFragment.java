@@ -76,7 +76,7 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
     @NotNull
     @Override
     public String getAnalyticTag() {
-        return Constants.Tag.ICO;
+        return Constants.Tag.UI_ICO;
     }
 
     @Override

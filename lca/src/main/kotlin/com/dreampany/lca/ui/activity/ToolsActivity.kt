@@ -101,7 +101,7 @@ class ToolsActivity : BaseActivity() {
             super.onDestroy()
         } catch (e: Exception) {
             Timber.e(e)
-            getApp().getAnalytics().logEvent(e.toString(), getBundle())
+            //getApp().getAnalytics().logEvent(e.toString(), getBundle())
         }
     }
 

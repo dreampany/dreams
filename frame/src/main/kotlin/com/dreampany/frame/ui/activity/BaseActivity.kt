@@ -112,6 +112,10 @@ abstract class BaseActivity :
         return false;
     }
 
+    open fun getAnalyticTag() : String {
+        return javaClass.simpleName
+    }
+
     protected abstract fun onStartUi(state: Bundle?)
 
     protected abstract fun onStopUi()
@@ -142,7 +146,7 @@ abstract class BaseActivity :
         }
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
-            getApp().getAnalytics().logEvent(javaClass.simpleName, savedInstanceState)
+            getApp().getAnalytics().logEvent(getAnalyticTag(), savedInstanceState)
         }
 
         if (app.hasRate() && hasRatePermitted()) {

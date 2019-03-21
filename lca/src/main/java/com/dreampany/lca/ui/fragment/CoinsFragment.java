@@ -98,7 +98,7 @@ public class CoinsFragment
     @NotNull
     @Override
     public String getAnalyticTag() {
-        return Constants.Tag.COINS;
+        return Constants.Tag.UI_COINS;
     }
 
     @DebugLog

@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
@@ -61,7 +60,7 @@ public class MoreFragment extends BaseMenuFragment {
     @NotNull
     @Override
     public String getAnalyticTag() {
-        return Constants.Tag.MORE;
+        return Constants.Tag.UI_MORE;
     }
 
     @Override

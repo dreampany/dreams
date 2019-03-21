@@ -23,6 +23,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.databinding.FragmentIcoBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.IcoAdapter;
 import com.dreampany.lca.ui.model.IcoItem;
@@ -34,6 +35,7 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import hugo.weaving.DebugLog;
 import im.delight.android.webview.AdvancedWebView;
 import net.cachapa.expandablelayout.ExpandableLayout;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
@@ -72,6 +74,12 @@ public class FinishedIcoFragment
     @Override
     public int getLayoutId() {
         return R.layout.fragment_ico;
+    }
+
+    @NotNull
+    @Override
+    public String getAnalyticTag() {
+        return Constants.Tag.UI_ICO_FINISHED;
     }
 
     @Override

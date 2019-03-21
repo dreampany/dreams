@@ -22,6 +22,7 @@ import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinAlertViewModel;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
@@ -55,6 +56,12 @@ public class CoinAlertFragment extends BaseMenuFragment {
     @Override
     public int getMenuId() {
         return R.menu.menu_coin_alert;
+    }
+
+    @NotNull
+    @Override
+    public String getAnalyticTag() {
+        return Constants.Tag.UI_COIN_ALERT;
     }
 
     @Override

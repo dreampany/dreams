@@ -50,7 +50,7 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
         super.onActivityCreated(savedInstanceState)
         initPager()
         onStartUi(savedInstanceState)
-        getApp()?.getAnalytics()?.logEvent(javaClass.simpleName, savedInstanceState)
+        getApp()?.getAnalytics()?.logEvent(getAnalyticTag(), savedInstanceState)
     }
 
     override fun getCurrentFragment(): BaseFragment? {

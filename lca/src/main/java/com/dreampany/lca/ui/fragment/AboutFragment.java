@@ -15,6 +15,8 @@ import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 
+import com.dreampany.lca.misc.Constants;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
@@ -52,6 +54,12 @@ public class AboutFragment extends BaseFragment {
                 /*.addItem(getYandexTranslation(context))*/;
 
         return page.create();
+    }
+
+    @NotNull
+    @Override
+    public String getAnalyticTag() {
+        return Constants.Tag.UI_ABOUT;
     }
 
     @Override

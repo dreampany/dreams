@@ -88,7 +88,7 @@ public class FavoritesFragment
     @NotNull
     @Override
     public String getAnalyticTag() {
-        return Constants.Tag.FAVORITE_COINS;
+        return Constants.Tag.UI_FAVORITE_COINS;
     }
 
     @DebugLog

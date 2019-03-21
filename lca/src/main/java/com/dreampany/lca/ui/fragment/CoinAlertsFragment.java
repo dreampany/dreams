@@ -88,7 +88,7 @@ public class CoinAlertsFragment
     @NotNull
     @Override
     public String getAnalyticTag() {
-        return Constants.Tag.COIN_ALERTS;
+        return Constants.Tag.UI_COIN_ALERTS;
     }
 
     @DebugLog

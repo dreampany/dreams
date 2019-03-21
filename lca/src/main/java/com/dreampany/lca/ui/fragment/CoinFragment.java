@@ -12,6 +12,7 @@ import com.dreampany.frame.ui.fragment.BaseStateFragment;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.UiTask;
 
 import org.jetbrains.annotations.NotNull;
@@ -66,6 +67,13 @@ public class CoinFragment extends BaseStateFragment<BaseFragment> implements Sea
     public boolean hasTabColor() {
         return true;
     }
+
+    @NotNull
+    @Override
+    public String getAnalyticTag() {
+        return Constants.Tag.UI_COIN;
+    }
+
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {

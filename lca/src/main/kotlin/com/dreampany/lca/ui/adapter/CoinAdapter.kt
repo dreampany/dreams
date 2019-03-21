@@ -16,6 +16,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
 
     private val rankComparator: Comparator<IFlexible<*>> //it can be multiple comparator to support multiple sorting
+    private var currency : Currency ? = null
 
     init {
         rankComparator = RankComparator()
@@ -29,6 +30,14 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
             addItem(item, rankComparator)
         }
         return true
+    }
+
+    fun updateCurrency(currency: Currency) {
+        val items = currentItems
+        for (item in items) {
+            item.currency = currency
+        }
+        updateSilently(items)
     }
 
      fun loadMoreComplete(items: List<CoinItem>?) {
@@ -69,9 +78,9 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
     }
 
     class RankComparator : Comparator<IFlexible<*>> {
-        override fun compare(p0: IFlexible<*>?, p1: IFlexible<*>?): Int {
-            val left = p0 as CoinItem
-            val right = p1 as CoinItem
+        override fun compare(leftChild: IFlexible<*>?, rightChild: IFlexible<*>?): Int {
+            val left = leftChild as CoinItem
+            val right = rightChild as CoinItem
             val leftItem = left.item
             val rightItem = right.item
             return leftItem.rank - rightItem.rank

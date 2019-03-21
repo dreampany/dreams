@@ -46,10 +46,6 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     private Currency currency;
     private boolean favorite;
 
-/*    private CoinItem(Coin coin, CoinItemType type, @LayoutRes int layoutId) {
-        this(coin, Currency.USD, type, layoutId);
-    }*/
-
     private CoinItem(Coin coin, Currency currency, CoinItemType type, @LayoutRes int layoutId) {
         super(coin, layoutId);
         this.currency = currency;
@@ -70,6 +66,10 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     public static CoinItem getQuoteItem(@NonNull Coin coin, @NonNull Currency currency) {
         return new CoinItem(coin, currency, CoinItemType.QUOTE, R.layout.item_coin_quote);
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 
     public void setFavorite(boolean favorite) {

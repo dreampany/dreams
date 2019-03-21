@@ -22,6 +22,7 @@ import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
@@ -32,7 +33,6 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinsViewModel;
 import com.mynameismidori.currencypicker.CurrencyPicker;
-import com.mynameismidori.currencypicker.CurrencyPickerListener;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.fastscroller.FastScroller;
@@ -46,7 +46,6 @@ import timber.log.Timber;
 
 import javax.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -311,7 +310,7 @@ public class CoinsFragment
     }
 
     private void initCurrencyMenuItem() {
-        String currency = vm.getCurrentCurrency();
+        String currency = vm.getCurrentCurrencyCode();
         MenuItem currencyItem = getMenuItem(R.id.item_currency);
         if (currencyItem != null) {
             currencyItem.setTitle(currency);
@@ -390,15 +389,19 @@ public class CoinsFragment
     }
 
     private void processResult(List<CoinItem> items) {
-        if (scroller.isScrolling()) {
+/*        if (scroller.isScrolling()) {
             return;
-        }
+        }*/
         //recycler.setNestedScrollingEnabled(false);
         Timber.v("Coins %s", items.size());
         adapter.addItems(items);
         //adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
         AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 500);
+    }
+
+    private void updateCurrency(Currency currency) {
+        adapter.updateCurrency(currency);
     }
 
     private void openCoinUi(Coin coin) {
@@ -422,8 +425,10 @@ public class CoinsFragment
         CurrencyPicker picker = CurrencyPicker.newInstance(getString(R.string.select_currency));
         picker.setCurrenciesList(currencies);
         picker.setListener((name, code, symbol, flagDrawableResId) -> {
-            vm.setCurrentCurrency(code);
+            vm.setCurrentCurrencyCode(code);
             initCurrencyMenuItem();
+            updateCurrency(vm.getCurrentCurrency());
+            onRefresh();
             picker.dismissAllowingStateLoss();
         });
         picker.show(getFragmentManager(), Constants.Tag.CURRENCY_PICKER);

@@ -151,6 +151,7 @@ public class CoinsViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
+                    this.currentCurrency = currency;
                     postResult(Response.Type.GET, result);
                     //getEx().postToUi(() -> update(false), 2000L);
                 }, error -> {
@@ -166,7 +167,7 @@ public class CoinsViewModel
         if (hasDisposable(updateDisposable)) {
             return;
         }
-        Currency currency = Currency.USD;
+        Currency currency = pref.getCurrency(Currency.USD);
         updateDisposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currency))
                 .doOnSubscribe(subscription -> {
@@ -178,6 +179,7 @@ public class CoinsViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
+                    this.currentCurrency = currency;
                     postResult(Response.Type.UPDATE, result);
                 }, error -> {
                     if (withProgress) {
@@ -188,11 +190,15 @@ public class CoinsViewModel
         addSubscription(updateDisposable);
     }
 
-    public String getCurrentCurrency() {
+    public String getCurrentCurrencyCode() {
         return pref.getCurrency(Currency.USD).name();
     }
 
-    public void setCurrentCurrency(String currency) {
+    public Currency getCurrentCurrency() {
+        return pref.getCurrency(Currency.USD);
+    }
+
+    public void setCurrentCurrencyCode(String currency) {
         pref.setCurrency(Currency.valueOf(currency));
     }
 
@@ -294,6 +300,7 @@ public class CoinsViewModel
             map.put(coin.getId(), item);
         }
         item.setItem(coin);
+        item.setCurrency(currency);
         //adjustFlag(coin, item);
         return item;
     }

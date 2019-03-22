@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_description">
-    Live Crypto Alert - Live prices of trending and hot cryptocurrencies on the market.
-    It gives you the detailed price and market value for individual currencies, market caps, coin details, exchange rates, charts, instant alerts and crypto news on the go.
+Live Crypto Alert - Prices, Alerts, ICO and news of trending cryptocurrencies on the market.
+It gives you the detailed price and market value for individual currencies, market caps, coin details, exchange rates, charts, instant alerts and crypto news on the go.
 Live crypto prices.
+Price alerts for your favorite crypto currency.
+Multiple fiat currency conversion.
 Live market price and exchange rates to different currencies.
 Daily and historical price graph to show hikes and falls of each cmcCurrency.
 Shows hourly, daily and weekly price changes.

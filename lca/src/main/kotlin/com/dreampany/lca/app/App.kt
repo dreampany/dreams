@@ -111,7 +111,7 @@ class App : BaseApp() {
             .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
             .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(10))
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
-            .enabled(isDebug())
+            .enabled(!isDebug())
         ad.setConfig(config.build())
     }
 

@@ -62,8 +62,7 @@ class ToolsActivity : BaseActivity() {
             R.string.debug_interstitial_ad_unit_id,
             R.string.debug_rewarded_ad_unit_id
         )
-        ad.loadBanner(javaClass.simpleName)
-        //ad.resumeBanner(findViewById(R.id.adview))
+        ad.loadAd(javaClass.simpleName)
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
@@ -102,17 +101,16 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStopUi() {
-        //ad.destroy(this)
-
+        ad.destroyBanner(javaClass.simpleName)
     }
 
     override fun onResume() {
         super.onResume()
-        //ad.resume(this)
+        ad.resumeBanner(javaClass.simpleName)
     }
 
     override fun onPause() {
-        //ad.pause(this)
+        ad.pauseBanner(javaClass.simpleName)
         super.onPause()
     }
 

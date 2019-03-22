@@ -127,17 +127,25 @@ public class SmartAd {
         }
     }
 
+    public void loadAd(@NonNull String screenId) {
+        boolean loaded = loadInterstitial(screenId);
+        if (!loaded) {
+            loadBanner(screenId);
+        }
+    }
+
     @DebugLog
     @SuppressLint("MissingPermission")
-    public void loadBanner(@NonNull String screenId) {
+    public boolean loadBanner(@NonNull String screenId) {
         if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
-            return;
+            return false;
         }
         if (!banners.containsKey(screenId)) {
-            return;
+            return false;
         }
         AdView banner = banners.get(screenId).left;
         banner.loadAd(new AdRequest.Builder().build());
+        return true;
     }
 
     @DebugLog
@@ -150,6 +158,10 @@ public class SmartAd {
             return;
         }
         AdView banner = banners.get(screenId).left;
+        State state = banners.get(screenId).right;
+        if (state != State.LOADED) {
+            return;
+        }
         banner.resume();
         View view = (View) banner.getParent();
         view.setVisibility(View.VISIBLE);
@@ -162,6 +174,10 @@ public class SmartAd {
             return;
         }
         if (!banners.containsKey(screenId)) {
+            return;
+        }
+        State state = banners.get(screenId).right;
+        if (state != State.LOADED) {
             return;
         }
         AdView banner = banners.get(screenId).left;
@@ -232,15 +248,16 @@ public class SmartAd {
 
     @DebugLog
     @SuppressLint("MissingPermission")
-    public void loadInterstitial(@NonNull String screenId) {
+    public boolean loadInterstitial(@NonNull String screenId) {
         if (!pref.isInterstitialTimeExpired(config.interstitialExpireDelay)) {
-            return;
+            return false;
         }
         if (!interstitials.containsKey(screenId)) {
-            return;
+            return false;
         }
         InterstitialAd interstitial = interstitials.get(screenId).left;
         interstitial.loadAd(new AdRequest.Builder().build());
+        return true;
     }
 
     @DebugLog

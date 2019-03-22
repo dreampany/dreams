@@ -75,23 +75,23 @@ public class NavigationActivity
                 findViewById(R.id.adview),
                 R.string.debug_interstitial_ad_unit_id,
                 R.string.debug_rewarded_ad_unit_id);
-        ad.loadBanner(getClass().getSimpleName());
+        ad.loadRewarded(getClass().getSimpleName());
     }
 
     @Override
     protected void onStopUi() {
-        ad.destroyBanner(getClass().getSimpleName());
+        //ad.destroyBanner(getClass().getSimpleName());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ad.resumeBanner(getClass().getSimpleName());
+        //ad.resumeBanner(getClass().getSimpleName());
     }
 
     @Override
     protected void onPause() {
-        ad.pauseBanner(getClass().getSimpleName());
+        //ad.pauseBanner(getClass().getSimpleName());
         super.onPause();
     }
 

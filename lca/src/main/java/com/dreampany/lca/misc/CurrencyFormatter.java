@@ -34,7 +34,7 @@ public class CurrencyFormatter {
     @NonNull
     private final Map<String, String> formats;
     @NonNull
-    private Set<CmcCurrency> cryptos;
+    private Set<Currency> cryptos;
     @NonNull
     private DecimalFormat cryptoFormatter;
 
@@ -54,7 +54,7 @@ public class CurrencyFormatter {
     public CurrencyFormatter(Context context) {
         this.context = context;
         formats = Maps.newConcurrentMap();
-        cryptos = Sets.newHashSet(CmcCurrency.getCryptoCurrencies());
+        cryptos = Sets.newHashSet(Currency.getCryptoCurrencies());
         cryptoFormatter = new DecimalFormat(context.getString(R.string.crypto_formatter));
         symbols = Maps.newConcurrentMap();
         loadFormats();
@@ -86,18 +86,18 @@ public class CurrencyFormatter {
         return cryptoFormatter.format(price);
     }
 
-    public String format(CmcCurrency cmcCurrency, double price) {
-        if (cryptos.contains(cmcCurrency)) {
+    public String format(Currency currency, double price) {
+        if (cryptos.contains(currency)) {
             String priceValue = getCryptoString(price);
-            return String.format(formats.get(cmcCurrency), priceValue);
+            return String.format(formats.get(currency), priceValue);
         }
-        String format = formats.get(cmcCurrency);
+        String format = formats.get(currency);
         if (format != null) {
             return String.format(format, price);
         }
         NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
         nf.setMaximumFractionDigits(10);
-        return cmcCurrency.name() + " " + nf.format(price);
+        return currency.name() + " " + nf.format(price);
     }
 
     public String format(String currencyValue, double price) {

@@ -1,14 +1,13 @@
 package com.dreampany.lca.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.beardedhen.androidbootstrap.BootstrapDropDown;
 import com.dreampany.frame.data.enums.Event;
 import com.dreampany.frame.data.enums.UiState;
@@ -19,14 +18,10 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.widget.SmartNestedScrollView;
-import com.dreampany.frame.util.ColorUtil;
-import com.dreampany.frame.util.DisplayUtil;
-import com.dreampany.frame.util.TextUtil;
-import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.frame.util.*;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.databinding.FragmentGraphBinding;
 import com.dreampany.lca.ui.enums.TimeType;
 import com.dreampany.lca.ui.model.GraphItem;
@@ -41,17 +36,13 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-
+import hugo.weaving.DebugLog;
 import net.cachapa.expandablelayout.ExpandableLayout;
-
 import org.jetbrains.annotations.Nullable;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Objects;
-
-import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -77,7 +68,6 @@ public class GraphFragment
 
     private LineChart chart;
     private int displayWidth;
-    private CmcCurrency cmcCurrency;
     private TimeType timeType;
 
     @Inject
@@ -98,13 +88,14 @@ public class GraphFragment
 
     @Override
     protected void onStopUi() {
+        processUiState(UiState.HIDE_PROGRESS);
         vm.clear();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        vm.load(cmcCurrency, timeType, false);
+        vm.load(timeType, false);
     }
 
     @Override
@@ -120,7 +111,7 @@ public class GraphFragment
             return;
         }
         if (isVisibleToUser) {
-            vm.load(cmcCurrency, timeType, false);
+            vm.load(currency, timeType, false);
         } else {
             vm.removeSingleSubscription();
         }
@@ -128,7 +119,7 @@ public class GraphFragment
 
     @Override
     public void onRefresh() {
-        vm.load(cmcCurrency, timeType, true);
+        vm.load(timeType, true);
     }
 
     @Override
@@ -142,12 +133,12 @@ public class GraphFragment
 
     @Override
     public void onItemClick(ViewGroup parent, View v, int id) {
-        String currencyValue = binding.dropDownCurrency.getDropdownData()[id];
-        CmcCurrency cmcCurrency = CmcCurrency.valueOf(currencyValue);
-        if (this.cmcCurrency != cmcCurrency) {
-            this.cmcCurrency = cmcCurrency;
+        String currencyValue = currencyDropDown.getDropdownData()[id];
+        Currency currency = Currency.valueOf(currencyValue);
+        if (currency != vm.getCurrentCurrency()) {
+            vm.setCurrentCurrencyCode(currencyValue);
             binding.dropDownCurrency.setText(currencyValue);
-            vm.load(cmcCurrency, timeType, true);
+            vm.load(timeType, true);
         }
     }
 
@@ -180,13 +171,13 @@ public class GraphFragment
         }
         if (this.timeType != timeType) {
             this.timeType = timeType;
-            vm.load(cmcCurrency, timeType, true);
+            vm.load(timeType, true);
         }
     }
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        updatePrice(e.getY());
+        updatePrice(e.getY(), vm.getCurrentCurrency());
         updateDate((long) e.getX());
     }
 
@@ -213,13 +204,13 @@ public class GraphFragment
         displayWidth = DisplayUtil.getScreenWidthInPx(Objects.requireNonNull(getContext()));
         scroller = binding.smartScroller;
         chart = binding.lineChart;
-        cmcCurrency = CmcCurrency.USD;
         timeType = TimeType.DAY;
 
         binding.buttonSource.setOnClickListener(this);
         currencyDropDown.setOnDropDownItemClickListener(this);
         binding.layoutToggleDate.toggleDate.setOnCheckedChangeListener(this);
         binding.buttonSource.setText(TextUtil.toUnderscore(getContext(), R.string.source));
+        currencyDropDown.setText(vm.getCurrentCurrency().name());
         initLineChart();
     }
 
@@ -289,10 +280,14 @@ public class GraphFragment
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                refresh.setRefreshing(true);
+                if (!refresh.isRefreshing()) {
+                    refresh.setRefreshing(true);
+                }
                 break;
             case HIDE_PROGRESS:
-                refresh.setRefreshing(false);
+                if (refresh.isRefreshing()) {
+                    refresh.setRefreshing(false);
+                }
                 break;
             case OFFLINE:
                 expandable.expand();
@@ -323,7 +318,7 @@ public class GraphFragment
             processFailure(failure.getError());
         } else if (response instanceof Response.Result) {
             Response.Result<GraphItem> result = (Response.Result<GraphItem>) response;
-            processSuccess(Objects.requireNonNull(result.getData()));
+            processResult(Objects.requireNonNull(result.getData()));
         }
     }
 
@@ -349,12 +344,13 @@ public class GraphFragment
         }
     }
 
-    private void processSuccess(GraphItem item) {
+    @DebugLog
+    private void processResult(GraphItem item) {
         if (!item.isSuccess()) {
             vm.updateUiState(UiState.EMPTY);
             return;
         }
-        updatePrice(item.getCurrentPrice());
+        updatePrice(item.getCurrentPrice(), item.getCurrency());
         updateDate(item.getCurrentTime());
         updateChange(item.getDifferencePrice(), item.getChangeInPercent(), item.getChangeInPercentFormat(), item.getChangeInPercentColor());
         binding.lineChart.getXAxis().setValueFormatter(item.getXAxisValueFormatter());
@@ -362,8 +358,8 @@ public class GraphFragment
         binding.lineChart.animateX(800);
     }
 
-    private void updatePrice(float price) {
-        String priceData = vm.getFormattedPrice(cmcCurrency, price);
+    private void updatePrice(float price, Currency currency) {
+        String priceData = vm.getFormattedPrice(currency, price);
         binding.textPrice.setText(priceData);
     }
 

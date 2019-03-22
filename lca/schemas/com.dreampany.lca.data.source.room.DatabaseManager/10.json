@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 10,
-    "identityHash": "926c044b8f2ef336eff1854048d3f52c",
+    "identityHash": "5af2d1d8dacb8d9d7c39e62a740a923a",
     "entities": [
       {
         "tableName": "Coin",
@@ -387,7 +387,7 @@
       },
       {
         "tableName": "Graph",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `websiteSlug` TEXT, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `priceBTC` TEXT, `priceUSD` TEXT, `volumeUSD` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `websiteSlug` TEXT, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `priceBtc` TEXT, `priceUsd` TEXT, `volumeUsd` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -420,20 +420,20 @@
             "notNull": true
           },
           {
-            "fieldPath": "priceBTC",
-            "columnName": "priceBTC",
+            "fieldPath": "priceBtc",
+            "columnName": "priceBtc",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "priceUSD",
-            "columnName": "priceUSD",
+            "fieldPath": "priceUsd",
+            "columnName": "priceUsd",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "volumeUSD",
-            "columnName": "volumeUSD",
+            "fieldPath": "volumeUsd",
+            "columnName": "volumeUsd",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -757,7 +757,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"926c044b8f2ef336eff1854048d3f52c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5af2d1d8dacb8d9d7c39e62a740a923a\")"
     ]
   }
 }

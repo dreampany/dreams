@@ -16,17 +16,18 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.util.*;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Graph;
+import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.GraphRepository;
 import com.dreampany.lca.misc.*;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.enums.TimeType;
 import com.dreampany.lca.ui.model.GraphItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
+import com.dreampany.network.manager.NetworkManager;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -50,9 +51,9 @@ public class GraphViewModel
         implements NetworkManager.Callback {
 
     private final NetworkManager network;
+    private final Pref pref;
     private final GraphRepository repo;
     private CurrencyFormatter formatter;
-    private CmcCurrency cmcCurrency;
     private TimeType timeType;
     private GraphItem lastResult;
 
@@ -62,10 +63,12 @@ public class GraphViewModel
                    AppExecutors ex,
                    ResponseMapper rm,
                    NetworkManager network,
+                   Pref pref,
                    CurrencyFormatter formatter,
                    GraphRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
+        this.pref = pref;
         this.repo = repo;
         this.formatter = formatter;
     }
@@ -85,7 +88,7 @@ public class GraphViewModel
                 Response<GraphItem> result = getOutput().getValue();
                 if (result == null || result instanceof Response.Failure) {
                     boolean empty = lastResult == null || !lastResult.isSuccess();
-                    getEx().postToUi(() -> load(cmcCurrency, timeType, false, empty), 250L);
+                    getEx().postToUi(() -> load(timeType, false, empty), 250L);
                 }
             }
         }
@@ -107,22 +110,22 @@ public class GraphViewModel
         }
     }*/
 
-    public void load(CmcCurrency cmcCurrency, TimeType timeType, boolean fresh) {
+    public void load(TimeType timeType, boolean fresh) {
         boolean empty = lastResult == null || !lastResult.isSuccess();
-        load(cmcCurrency, timeType, fresh, empty);
+        load(timeType, fresh, empty);
     }
 
-    public void load(CmcCurrency cmcCurrency, TimeType timeType, boolean fresh, boolean withProgress) {
-        if (cmcCurrency == null || timeType == null) {
+    public void load(TimeType timeType, boolean fresh, boolean withProgress) {
+        if (timeType == null) {
             return;
         }
-        this.cmcCurrency = cmcCurrency;
+        Currency currency = getCurrentCurrency();
         this.timeType = timeType;
         if (!preLoad(fresh)) {
             return;
         }
         Disposable disposable = getRx()
-                .backToMain(getItemRx())
+                .backToMain(getItemRx(currency))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
                         postProgress(true);
@@ -132,7 +135,7 @@ public class GraphViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(Response.Type.ADD,result);
+                    postResult(Response.Type.GET, result);
                 }, error -> {
                     if (withProgress) {
                         postProgress(true);
@@ -142,16 +145,24 @@ public class GraphViewModel
         addSingleSubscription(disposable);
     }
 
-    private Maybe<GraphItem> getItemRx() {
+    public Currency getCurrentCurrency() {
+        return pref.getGraphCurrency(Currency.USD);
+    }
+
+    public void setCurrentCurrencyCode(String currency) {
+        pref.setGraphCurrency(Currency.valueOf(currency));
+    }
+
+    private Maybe<GraphItem> getItemRx(Currency currency) {
         Coin coin = Objects.requireNonNull(getTask()).getInput();
         long startTime = getStartTime(timeType);
         long endTime = TimeUtil.currentTime();
-        return repo.getItemRx(coin.getSlug(), startTime, endTime).map(this::getItem);
+        return repo.getItemRx(coin.getSlug(), startTime, endTime).map(graph -> getItem(graph, currency));
     }
 
-    private GraphItem getItem(Graph graph) {
-        GraphItem item = GraphItem.getItem(graph, cmcCurrency);
-        List<Entry> prices = buildPrices(graph, cmcCurrency);
+    private GraphItem getItem(Graph graph, Currency currency) {
+        GraphItem item = GraphItem.getItem(graph, currency);
+        List<Entry> prices = buildPrices(graph, currency);
         if (!DataUtil.isEmpty(prices)) {
             float currentPrice = getCurrentPrice(prices);
             long currentTime = getCurrentTime(prices);
@@ -212,22 +223,22 @@ public class GraphViewModel
         }
     }
 
-    private List<Entry> buildPrices(Graph coinChart, CmcCurrency cmcCurrency) {
+    private List<Entry> buildPrices(Graph graph, Currency currency) {
         List<Entry> result = new ArrayList<>();
-        List<List<Float>> prices = getPrices(coinChart, cmcCurrency);
+        List<List<Float>> prices = getPrices(graph, currency);
         for (List<Float> price : prices) {
             result.add(new Entry(price.get(0), price.get(1)));
         }
         return result;
     }
 
-    private List<List<Float>> getPrices(Graph coinChart, CmcCurrency cmcCurrency) {
-        switch (cmcCurrency) {
+    private List<List<Float>> getPrices(Graph coinChart, Currency currency) {
+        switch (currency) {
             case BTC:
-                return coinChart.getPriceBTC();
+                return coinChart.getPriceBtc();
             case USD:
             default:
-                return coinChart.getPriceUSD();
+                return coinChart.getPriceUsd();
         }
     }
 
@@ -327,8 +338,8 @@ public class GraphViewModel
         return TextUtil.getString(getApplication(), resId);
     }
 
-    public String getFormattedPrice(CmcCurrency cmcCurrency, float price) {
-        return formatter.format(cmcCurrency, price);
+    public String getFormattedPrice(Currency currency, float price) {
+        return formatter.format(currency, price);
     }
 
     public void openSourceSite(Activity activity) {

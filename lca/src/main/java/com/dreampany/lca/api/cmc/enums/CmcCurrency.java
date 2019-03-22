@@ -1,8 +1,6 @@
 package com.dreampany.lca.api.cmc.enums;
 
 
-import com.annimon.stream.Stream;
-
 import java.io.Serializable;
 
 /**
@@ -49,8 +47,6 @@ public enum CmcCurrency implements Serializable {
     LTC(CurrencyType.CRYPTO),
     BCH(CurrencyType.CRYPTO);
 
-    private static CmcCurrency[] fiatCurrencies;
-    private static CmcCurrency[] cryptoCurrencies;
     private final CurrencyType type;
 
     CmcCurrency() {
@@ -63,28 +59,6 @@ public enum CmcCurrency implements Serializable {
 
     public CurrencyType getType() {
         return type;
-    }
-
-    public boolean isFiat() {
-        return CurrencyType.FIAT == this.type;
-    }
-
-    public boolean isCrypto() {
-        return CurrencyType.CRYPTO == this.type;
-    }
-
-    public static CmcCurrency[] getFiatCurrencies() {
-        if (fiatCurrencies == null) {
-            fiatCurrencies = Stream.of(values()).filter(CmcCurrency::isFiat).toArray(CmcCurrency[]::new);
-        }
-        return fiatCurrencies;
-    }
-
-    public static CmcCurrency[] getCryptoCurrencies() {
-        if (cryptoCurrencies == null) {
-            cryptoCurrencies = Stream.of(values()).filter(CmcCurrency::isCrypto).toArray(CmcCurrency[]::new);
-        }
-        return cryptoCurrencies;
     }
 
     enum CurrencyType {

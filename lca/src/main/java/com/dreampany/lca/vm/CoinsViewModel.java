@@ -54,7 +54,7 @@ public class CoinsViewModel
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private int currentIndex;
-    private Currency currentCurrency;
+    //private Currency currentCurrency;
 
     private final List<String> currencies;
 
@@ -151,7 +151,7 @@ public class CoinsViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    this.currentCurrency = currency;
+                    //this.currentCurrency = currency;
                     postResult(Response.Type.GET, result);
                     //getEx().postToUi(() -> update(false), 2000L);
                 }, error -> {
@@ -179,7 +179,7 @@ public class CoinsViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    this.currentCurrency = currency;
+                    //this.currentCurrency = currency;
                     postResult(Response.Type.UPDATE, result);
                 }, error -> {
                     if (withProgress) {
@@ -223,7 +223,7 @@ public class CoinsViewModel
         if (uiCallback == null) {
             return null;
         }
-        List<CoinItem> items = currency.equals(currentCurrency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
+        List<CoinItem> items = currency.equals(currency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
         if (!DataUtil.isEmpty(items)) {
             List<String> symbols = new ArrayList<>();
             for (CoinItem item : items) {

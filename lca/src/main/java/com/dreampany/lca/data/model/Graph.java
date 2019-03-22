@@ -23,9 +23,9 @@ public class Graph extends Base {
     private String websiteSlug;
     private long startTime;
     private long endTime;
-    private List<List<Float>> priceBTC;
-    private List<List<Float>> priceUSD;
-    private List<List<Float>> volumeUSD;
+    private List<List<Float>> priceBtc;
+    private List<List<Float>> priceUsd;
+    private List<List<Float>> volumeUsd;
 
     @Ignore
     public Graph() {
@@ -35,21 +35,15 @@ public class Graph extends Base {
         this.id = id;
     }
 
-/*    public Graph(List<List<Float>> priceBTC, List<List<Float>> priceUSD, List<List<Float>> volumeUSD) {
-        this.priceBTC = priceBTC;
-        this.priceUSD = priceUSD;
-        this.volumeUSD = volumeUSD;
-    }*/
-
     @Ignore
     private Graph(Parcel in) {
         super(in);
         websiteSlug = in.readString();
         startTime = in.readLong();
         endTime = in.readLong();
-        priceBTC = (List<List<Float>>) in.readSerializable();
-        priceUSD = (List<List<Float>>) in.readSerializable();
-        volumeUSD = (List<List<Float>>) in.readSerializable();
+        priceBtc = (List<List<Float>>) in.readSerializable();
+        priceUsd = (List<List<Float>>) in.readSerializable();
+        volumeUsd = (List<List<Float>>) in.readSerializable();
     }
 
     @Override
@@ -58,9 +52,9 @@ public class Graph extends Base {
         dest.writeString(websiteSlug);
         dest.writeLong(startTime);
         dest.writeLong(endTime);
-        dest.writeSerializable((Serializable) priceBTC);
-        dest.writeSerializable((Serializable) priceUSD);
-        dest.writeSerializable((Serializable) volumeUSD);
+        dest.writeSerializable((Serializable) priceBtc);
+        dest.writeSerializable((Serializable) priceUsd);
+        dest.writeSerializable((Serializable) volumeUsd);
     }
 
     public static final Creator<Graph> CREATOR = new Creator<Graph>() {
@@ -87,16 +81,16 @@ public class Graph extends Base {
         this.endTime = endTime;
     }
 
-    public void setPriceBTC(List<List<Float>> priceBTC) {
-        this.priceBTC = priceBTC;
+    public void setPriceBtc(List<List<Float>> priceBtc) {
+        this.priceBtc = priceBtc;
     }
 
-    public void setPriceUSD(List<List<Float>> priceUSD) {
-        this.priceUSD = priceUSD;
+    public void setPriceUsd(List<List<Float>> priceUsd) {
+        this.priceUsd = priceUsd;
     }
 
-    public void setVolumeUSD(List<List<Float>> volumeUSD) {
-        this.volumeUSD = volumeUSD;
+    public void setVolumeUsd(List<List<Float>> volumeUsd) {
+        this.volumeUsd = volumeUsd;
     }
 
     public String getWebsiteSlug() {
@@ -111,15 +105,15 @@ public class Graph extends Base {
         return endTime;
     }
 
-    public List<List<Float>> getPriceBTC() {
-        return priceBTC;
+    public List<List<Float>> getPriceBtc() {
+        return priceBtc;
     }
 
-    public List<List<Float>> getPriceUSD() {
-        return priceUSD;
+    public List<List<Float>> getPriceUsd() {
+        return priceUsd;
     }
 
-    public List<List<Float>> getVolumeUSD() {
-        return volumeUSD;
+    public List<List<Float>> getVolumeUsd() {
+        return volumeUsd;
     }
 }

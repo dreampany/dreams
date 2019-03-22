@@ -9,6 +9,7 @@ import android.view.View;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.lca.R;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Graph;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
@@ -28,7 +29,7 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  */
 public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
 
-    private CmcCurrency cmcCurrency;
+    private Currency currency;
     private LineData lineData;
     private float currentPrice;
     private long currentTime;
@@ -41,14 +42,14 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
     private IAxisValueFormatter xAxisValueFormatter;
 
     private GraphItem(Graph chart,
-                      CmcCurrency cmcCurrency,
+                      Currency currency,
                       @LayoutRes int layoutId) {
         super(chart, layoutId);
-        this.cmcCurrency = cmcCurrency;
+        this.currency = currency;
     }
 
-    public static GraphItem getItem(@NonNull Graph graph, @NonNull CmcCurrency cmcCurrency) {
-        return new GraphItem(graph, cmcCurrency, 0);
+    public static GraphItem getItem(@NonNull Graph graph, @NonNull Currency currency) {
+        return new GraphItem(graph, currency, 0);
     }
 
     @Override
@@ -98,8 +99,8 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
         this.xAxisValueFormatter = xAxisValueFormatter;
     }
 
-    public CmcCurrency getCmcCurrency() {
-        return cmcCurrency;
+    public Currency getCurrency() {
+        return currency;
     }
 
     public LineData getLineData() {

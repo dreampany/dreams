@@ -1,7 +1,9 @@
 package com.dreampany.lca.data.model;
 
 import android.os.Parcel;
+import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.Type;
+import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 
 import java.io.Serializable;
 
@@ -55,6 +57,9 @@ public enum Currency implements Type, Serializable {
     private final CurrencyType type;
     private final String symbol;
     private final String name;
+
+    private static Currency[] fiatCurrencies;
+    private static Currency[] cryptoCurrencies;
 
     Currency() {
         this(CurrencyType.FIAT);
@@ -117,8 +122,26 @@ public enum Currency implements Type, Serializable {
         }
     };
 
+    public boolean isFiat() {
+        return type == CurrencyType.FIAT;
+    }
+
     public boolean isCrypto() {
         return type == CurrencyType.CRYPTO;
+    }
+
+    public static Currency[] getFiatCurrencies() {
+        if (fiatCurrencies == null) {
+            fiatCurrencies = Stream.of(values()).filter(Currency::isFiat).toArray(Currency[]::new);
+        }
+        return fiatCurrencies;
+    }
+
+    public static Currency[] getCryptoCurrencies() {
+        if (cryptoCurrencies == null) {
+            cryptoCurrencies = Stream.of(values()).filter(Currency::isCrypto).toArray(Currency[]::new);
+        }
+        return cryptoCurrencies;
     }
 
     public static Currency valueOf(int ordinal) {

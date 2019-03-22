@@ -43,9 +43,9 @@ public class GraphMapper {
         out.setWebsiteSlug(in.getWebsiteSlug());
         out.setStartTime(in.getStartTime());
         out.setEndTime(in.getEndTime());
-        out.setPriceBTC(in.getPriceBtc());
-        out.setPriceUSD(in.getPriceUsd());
-        out.setVolumeUSD(in.getVolumeUsd());
+        out.setPriceBtc(in.getPriceBtc());
+        out.setPriceUsd(in.getPriceUsd());
+        out.setVolumeUsd(in.getVolumeUsd());
         return out;
     }
 }

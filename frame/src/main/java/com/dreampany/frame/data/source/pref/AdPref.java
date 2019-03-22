@@ -15,6 +15,7 @@ import javax.inject.Singleton;
 @Singleton
 public class AdPref extends BasePref {
 
+    private static final String BANNER_TIME = "banner_time";
     private static final String INTERSTITIAL_TIME = "interstitial_time";
     private static final String REWARDED_TIME = "rewarded_time";
 
@@ -23,12 +24,27 @@ public class AdPref extends BasePref {
         super(context);
     }
 
+    @Override
+    protected String getPrivatePrefName(Context context) {
+        return getClass().getSimpleName();
+    }
+
+    public void setBannerTime(long time) {
+        setPrivately(BANNER_TIME, time);
+    }
+
     public void setInterstitialTime(long time) {
         setPrivately(INTERSTITIAL_TIME, time);
     }
 
     public void setRewardedTime(long time) {
         setPrivately(REWARDED_TIME, time);
+    }
+
+    public boolean isBannerTimeExpired(long expireTime) {
+        updateIfMissing(BANNER_TIME, TimeUtil.currentTime());
+        long time = getPrivately(BANNER_TIME, 0L);
+        return TimeUtil.isExpired(time, expireTime);
     }
 
     public boolean isInterstitialTimeExpired(long expireTime) {

@@ -2,6 +2,7 @@ package com.dreampany.frame.misc;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import android.view.View;
 
@@ -17,12 +18,15 @@ import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import com.google.common.collect.Maps;
 import hugo.weaving.DebugLog;
+import org.apache.commons.lang3.tuple.MutablePair;
 
 /**
  * Created by Hawladar Roman on 2/7/18.
@@ -32,16 +36,15 @@ import hugo.weaving.DebugLog;
 @Singleton
 public class SmartAd {
 
-    private enum State {NONE, LOADED, STARTED, CLOSED, FAILED, LEFT, OPENED}
+    private enum State {NONE, FAILED, LOADED, OPENED, STARTED, RESUMED, PAUSED, CLICKED, LEFT, CLOSED}
 
-    private static final long defaultAdDelay = TimeUnit.SECONDS.toMillis(0);
+    private static final long defaultAdDelay = TimeUnit.SECONDS.toMillis(3);
 
     private Context context;
-    private AdView bannerAdView;
+    private final Map<String, MutablePair<AdView, State>> banners;
     private InterstitialAd interstitialAd;
     private RewardedVideoAd rewardedVideoAd;
 
-    private State bannerState = State.NONE;
     private State interstitialState = State.NONE;
     private State rewardedState = State.NONE;
 
@@ -57,6 +60,7 @@ public class SmartAd {
     public SmartAd(Context context, AdPref pref) {
         this.context = context;
         this.pref = pref;
+        banners = Maps.newConcurrentMap();
     }
 
     public void setConfig(Config config) {
@@ -72,7 +76,8 @@ public class SmartAd {
     }
 
     public boolean isBannerLoaded() {
-        return bannerState == State.LOADED;
+        //return bannerState == State.LOADED;
+        return false;
     }
 
     public boolean isInterstitialLoaded() {
@@ -83,102 +88,177 @@ public class SmartAd {
         return rewardedState == State.LOADED;
     }
 
+
     @DebugLog
-    public void loadBanner(AdView adView) {
+    public void initAd(@NonNull Context context,
+                       @NonNull String screenId,
+                       @NonNull AdView banner,
+                       @StringRes int interstitial,
+                       @StringRes int rewarded) {
         if (!config.enabled) {
             return;
         }
-
-        if (adView == null) {
-            return;
-        }
-
-        bannerAdView = adView;
-        load(adView);
+        initBanner(screenId, banner);
     }
 
-    public void loadInterstitial(@StringRes int adUnitId) {
-        if (!config.enabled) {
+    @DebugLog
+    public void initBanner(@NonNull String screenId,
+                           @NonNull AdView banner) {
+        banners.put(screenId, MutablePair.of(banner, State.NONE));
+        if (banner.getAdListener() == null) {
+            banner.setAdListener(new BannerListener(screenId) {
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    super.onAdFailedToLoad(errorCode);
+                    banners.get(screenId).setRight(State.FAILED);
+                }
+
+                @Override
+                public void onAdLoaded() {
+                    super.onAdLoaded();
+                    banners.get(screenId).setRight(State.LOADED);
+                    View view = (View) banners.get(screenId).getLeft().getParent();
+                    view.setVisibility(View.VISIBLE);
+                    pref.setBannerTime(TimeUtil.currentTime());
+                }
+
+                @Override
+                public void onAdOpened() {
+                    super.onAdOpened();
+                    banners.get(screenId).setRight(State.OPENED);
+                }
+
+                @Override
+                public void onAdClicked() {
+                    super.onAdClicked();
+                    banners.get(screenId).setRight(State.CLICKED);
+                }
+
+                @Override
+                public void onAdLeftApplication() {
+                    super.onAdLeftApplication();
+                    banners.get(screenId).setRight(State.LEFT);
+                }
+            });
+        }
+    }
+
+    @DebugLog
+    @SuppressLint("MissingPermission")
+    public void loadBanner(@NonNull String screenId) {
+        if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
             return;
+        }
+        if (!banners.containsKey(screenId)) {
+            return;
+        }
+        AdView banner = banners.get(screenId).left;
+        banner.loadAd(new AdRequest.Builder().build());
+    }
+
+    @DebugLog
+    @SuppressLint("MissingPermission")
+    public void resumeBanner(@NonNull String screenId) {
+        if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
+            return;
+        }
+        if (!banners.containsKey(screenId)) {
+            return;
+        }
+        AdView banner = banners.get(screenId).left;
+        banner.resume();
+        View view = (View) banner.getParent();
+        view.setVisibility(View.VISIBLE);
+    }
+
+    @DebugLog
+    @SuppressLint("MissingPermission")
+    public void pauseBanner(@NonNull String screenId) {
+        if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
+            return;
+        }
+        if (!banners.containsKey(screenId)) {
+            return;
+        }
+        AdView banner = banners.get(screenId).left;
+        View view = (View) banner.getParent();
+        view.setVisibility(View.GONE);
+        banner.pause();
+    }
+
+    @SuppressLint("MissingPermission")
+    public void destroyBanner(@NonNull String screenId) {
+        if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
+            return;
+        }
+        if (!banners.containsKey(screenId)) {
+            return;
+        }
+        AdView banner = banners.get(screenId).left;
+        View view = (View) banner.getParent();
+        view.setVisibility(View.GONE);
+        banner.destroy();
+    }
+
+    @DebugLog
+    public boolean loadInterstitial(@NonNull Context context, @StringRes int adUnitId) {
+        if (!config.enabled) {
+            return false;
         }
 
         if (!pref.isInterstitialTimeExpired(config.interstitialExpireDelay)) {
-            return;
+            return false;
         }
 
-        if (interstitialAd == null) {
-            interstitialAd = new InterstitialAd(context);
-            interstitialAd.setAdUnitId(context.getString(adUnitId));
-        }
+        //if (interstitialAd == null) {
+        interstitialAd = new InterstitialAd(context);
+        interstitialAd.setAdUnitId(context.getString(adUnitId));
+        //}
 
-        load(interstitialAd);
+        return initAd(interstitialAd);
     }
 
-    public void loadRewarded(Context context, @StringRes int adUnitId) {
+    @DebugLog
+    public boolean loadRewarded(@NonNull Context context, @StringRes int adUnitId) {
         if (!config.enabled) {
-            return;
+            return false;
         }
 
         if (!pref.isRewardedTimeExpired(config.interstitialExpireDelay)) {
-            return;
+            return false;
         }
 
-        if (rewardedVideoAd == null) {
-            rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
-            rewardedVideoAd.setRewardedVideoAdListener(new RewardedListener());
-        }
-        load(rewardedVideoAd, context.getString(adUnitId));
+        //if (rewardedVideoAd == null) {
+        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
+        rewardedVideoAd.setRewardedVideoAdListener(new RewardedListener());
+        //}
+        return initAd(rewardedVideoAd, context.getString(adUnitId));
     }
 
-    public void resumeRewarded(Context context) {
-        if (rewardedVideoAd != null) {
-            rewardedVideoAd.resume(context);
-        }
-    }
-
-    public void pauseRewarded(Context context) {
-        if (rewardedVideoAd != null) {
-            rewardedVideoAd.pause(context);
-        }
-    }
-
-    public void destroyRewarded(Context context) {
-        if (rewardedVideoAd != null) {
-            rewardedVideoAd.destroy(context);
-        }
-    }
-
+    @DebugLog
     @SuppressLint("MissingPermission")
-    private void load(final AdView adView) {
-        if (adView.getAdListener() == null) {
-            adView.setAdListener(bannerListener);
-        }
-        adView.postDelayed(() -> {
-            adView.loadAd(new AdRequest.Builder().build());
-        }, defaultAdDelay);
+    private boolean initAd(final AdView adView) {
+
+        return true;
     }
 
+    @DebugLog
     @SuppressLint("MissingPermission")
-    private void load(final InterstitialAd interstitialAd) {
+    private boolean initAd(InterstitialAd interstitialAd) {
         if (interstitialAd.getAdListener() == null) {
             interstitialAd.setAdListener(interstitialListener);
         }
         AndroidUtil.getUiHandler().postDelayed(() -> interstitialAd.loadAd(new AdRequest.Builder().build()), defaultAdDelay);
+        return true;
     }
 
-    private void load(final RewardedVideoAd rewardedVideoAd, String unitId) {
+    @DebugLog
+    private boolean initAd(RewardedVideoAd rewardedVideoAd, String unitId) {
         if (rewardedVideoAd.getRewardedVideoAdListener() == null) {
             rewardedVideoAd.setRewardedVideoAdListener(new RewardedListener());
         }
         AndroidUtil.getUiHandler().postDelayed(() -> rewardedVideoAd.loadAd(unitId, new AdRequest.Builder().build()), defaultAdDelay);
-    }
-
-    public void closeBanner() {
-        if (bannerAdView != null && bannerAdView.isShown()) {
-            View view = (View) bannerAdView.getParent();
-            view.setVisibility(View.GONE);
-            bannerAdView.destroy();
-        }
+        return true;
     }
 
     public void loadBannerTest(AdView adView) {
@@ -186,14 +266,59 @@ public class SmartAd {
             return;
         }
 
-        bannerAdView = adView;
+        //bannerAdView = adView;
         loadTest(adView);
+    }
+
+    public void resume(@NonNull Context context) {
+        //resumeRewarded(context);
+    }
+
+    public void pause(@NonNull Context context) {
+        //pauseRewarded(context);
+    }
+
+    public void destroy(@NonNull Context context) {
+        destroyBanner();
+        //destroyRewarded(context);
+    }
+
+    private void resumeBanner() {
+
+    }
+
+    private void resumeRewarded(Context context) {
+        if (rewardedVideoAd != null && rewardedVideoAd.isLoaded()) {
+            rewardedVideoAd.resume(context);
+        }
+    }
+
+    private void pauseRewarded(Context context) {
+        if (rewardedVideoAd != null && rewardedVideoAd.isLoaded()) {
+            rewardedVideoAd.pause(context);
+        }
+    }
+
+    public void destroyBanner() {
+/*        if (bannerAdView != null && bannerAdView.isShown()) {
+            View view = (View) bannerAdView.getParent();
+            view.setVisibility(View.GONE);
+            bannerAdView.destroy();
+        }
+        bannerAdView = null;*/
+    }
+
+    private void destroyRewarded(Context context) {
+        if (rewardedVideoAd != null && rewardedVideoAd.isLoaded()) {
+            rewardedVideoAd.destroy(context);
+        }
+        rewardedVideoAd = null;
     }
 
     @SuppressLint("MissingPermission")
     private void loadTest(final AdView adView) {
         if (adView.getAdListener() == null) {
-            adView.setAdListener(bannerListener);
+            //adView.setAdListener(bannerListener);
         }
         //if (NetworkManager.onInstance(context).hasInternet()) {
         adView.postDelayed(() -> {
@@ -218,7 +343,7 @@ public class SmartAd {
     }
 */
 
-    private final AdListener bannerListener = new AdListener() {
+    /*private final AdListener bannerListener = new AdListener() {
 
         @Override
         public void onAdClosed() {
@@ -237,13 +362,13 @@ public class SmartAd {
             super.onAdLeftApplication();
             bannerState = State.LEFT;
 
-/*            earnPoints(
+*//*            earnPoints(
                     String.valueOf(DataUtil.getSha256()),
                     AdType.BANNER,
                     PointSubtype.ADD,
                     points * BANNER_MULTIPLIER,
                     "Banner points"
-            );*/
+            );*//*
         }
 
         @Override
@@ -258,8 +383,9 @@ public class SmartAd {
             bannerState = State.LOADED;
             View view = (View) bannerAdView.getParent();
             view.setVisibility(View.VISIBLE);
+            pref.setBannerTime(TimeUtil.currentTime());
         }
-    };
+    };*/
 
     private final AdListener interstitialListener = new AdListener() {
         @Override
@@ -406,6 +532,17 @@ public class SmartAd {
                 Config config = new Config(bannerExpireDelay, interstitialExpireDelay, rewardedExpireDelay, enabled);
                 return config;
             }
+        }
+    }
+
+    /* listeners */
+    private static class BannerListener extends AdListener {
+
+        @NonNull
+        String screenId;
+
+        BannerListener(@NonNull String screenId) {
+            this.screenId = screenId;
         }
     }
 }

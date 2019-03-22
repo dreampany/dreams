@@ -8,8 +8,8 @@ import com.dreampany.lca.ui.enums.UiSubtype
 import com.dreampany.lca.ui.enums.UiType
 import com.dreampany.lca.ui.fragment.*
 import com.dreampany.lca.ui.model.UiTask
+import com.google.android.gms.ads.AdView
 import dagger.Lazy
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -55,7 +55,15 @@ class ToolsActivity : BaseActivity() {
         if (type == null || subtype == null) {
             return
         }
-        ad.loadBanner(findViewById(R.id.adview))
+        ad.initAd(
+            this,
+            javaClass.simpleName,
+            findViewById<AdView>(R.id.adview),
+            R.string.debug_interstitial_ad_unit_id,
+            R.string.debug_rewarded_ad_unit_id
+        )
+        ad.loadBanner(javaClass.simpleName)
+        //ad.resumeBanner(findViewById(R.id.adview))
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
@@ -94,16 +102,28 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStopUi() {
+        //ad.destroy(this)
+
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        //ad.resume(this)
+    }
+
+    override fun onPause() {
+        //ad.pause(this)
+        super.onPause()
+    }
+
+/*    override fun onDestroy() {
         try {
             super.onDestroy()
         } catch (e: Exception) {
             Timber.e(e)
             //getApp().getAnalytics().logEvent(e.toString(), getBundle())
         }
-    }
+    }*/
 
     override fun onBackPressed() {
         val fragment = currentFragment

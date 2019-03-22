@@ -3,6 +3,7 @@ package com.dreampany.frame.data.source.pref;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
 import com.dreampany.frame.util.AndroidUtil;
 import com.facebook.common.logging.FLog;
 import com.github.pwittchen.prefser.library.rx2.Prefser;
@@ -24,23 +25,23 @@ public abstract class BasePref {
     protected Prefser publicPref;
     protected Prefser privatePref;
 
-    protected BasePref(Context context) {
-        if (context == null) {
-            throw new NullPointerException();
-        }
-
-        publicPref = new Prefser(context.getApplicationContext());
-        String prefName = AndroidUtil.getApplicationId(context.getApplicationContext());
-        SharedPreferences pref = context.getApplicationContext().getSharedPreferences(prefName, Context.MODE_PRIVATE);
+    protected BasePref(@NonNull Context context) {
+        publicPref = new Prefser(context);
+        String prefName = getPrivatePrefName(context);
+        SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         privatePref = new Prefser(pref);
     }
 
+    protected String getPrivatePrefName(Context context) {
+        return AndroidUtil.getApplicationId(context);
+    }
+
     public boolean isPubliclyAvailable(String key) {
-        return privatePref.contains(key);
+        return publicPref.contains(key);
     }
 
     public boolean isPrivateAvailable(String key) {
-        return publicPref.contains(key);
+        return privatePref.contains(key);
     }
 
     public <T> void setListItem(String key, T item) {
@@ -72,7 +73,7 @@ public abstract class BasePref {
         privatePref.put(key, value);
     }
 
-    public  void setPrivately(String key, String value) {
+    public void setPrivately(String key, String value) {
         privatePref.put(key, value);
     }
 
@@ -101,7 +102,7 @@ public abstract class BasePref {
     }
 
     public <T> T getPrivately(String key, Class<T> classOfT, T defaultValue) {
-        return privatePref.get(key,classOfT, defaultValue);
+        return privatePref.get(key, classOfT, defaultValue);
     }
 
     public String getPublicly(String key, String defaultValue) {

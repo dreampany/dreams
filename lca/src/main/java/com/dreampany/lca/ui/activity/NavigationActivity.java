@@ -13,6 +13,7 @@ import com.dreampany.lca.ui.fragment.CoinsFragment;
 import javax.inject.Inject;
 
 import dagger.Lazy;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Hawladar Roman on 5/24/2018.
@@ -69,8 +70,29 @@ public class NavigationActivity
     @Override
     protected void onStartUi(Bundle state) {
         binding = (ActivityNavigationBinding) super.binding;
-        ad.loadBanner(findViewById(R.id.adview));
-        //ad.loadInterstitial(R.string.interstitial_ad_unit_id);
+        ad.initAd(this,
+                getClass().getSimpleName(),
+                findViewById(R.id.adview),
+                R.string.debug_interstitial_ad_unit_id,
+                R.string.debug_rewarded_ad_unit_id);
+        ad.loadBanner(getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onStopUi() {
+        ad.destroyBanner(getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ad.resumeBanner(getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onPause() {
+        ad.pauseBanner(getClass().getSimpleName());
+        super.onPause();
     }
 
     @Override
@@ -101,10 +123,5 @@ public class NavigationActivity
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);
                 break;
         }
-    }
-
-    @Override
-    protected void onStopUi() {
-
     }
 }

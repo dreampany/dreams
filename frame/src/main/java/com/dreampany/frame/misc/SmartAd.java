@@ -82,6 +82,7 @@ public class SmartAd {
         }
         initBanner(screenId, banner);
         initInterstitial(context, screenId, interstitialId);
+        initRewarded(context, screenId, rewardedId);
     }
 
     @DebugLog
@@ -291,7 +292,7 @@ public class SmartAd {
     @SuppressLint("MissingPermission")
     public void loadRewarded(@NonNull String screenId) {
         if (!pref.isRewardedTimeExpired(config.rewardedExpireDelay)) {
-            return;
+            //return;
         }
         if (!rewardeds.containsKey(screenId)) {
             return;

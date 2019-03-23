@@ -3,6 +3,7 @@ package com.dreampany.lca.ui.model;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -181,6 +182,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         TextView marketCap;
         @BindView(R.id.text_volume_24h)
         TextView dayVolume;
+        @BindView(R.id.text_last_updated)
+        TextView lastUpdated;
 /*        @BindView(R.id.button_like)
         LikeButton like;*/
 
@@ -228,7 +231,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             this.weekChange.setText(String.format(getText(weekFormat), weekChange));
 
             int startColor = R.color.material_grey700;
-            int endColor = dayChange >= 0 ? R.color.material_green700 : R.color.material_red700;
+            int endColor = (hourChange >= 0 || dayChange >= 0 || weekChange >= 0) ? R.color.material_green700 : R.color.material_red700;
+
             ViewUtil.blink(this.price, startColor, endColor);
 
             int hourChangeColor = hourChange >= 0 ? R.color.material_green700 : R.color.material_red700;
@@ -239,6 +243,12 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
             int weekChangeColor = weekChange >= 0 ? R.color.material_green700 : R.color.material_red700;
             this.weekChange.setTextColor(ColorUtil.getColor(getContext(), weekChangeColor));
+
+            String lastUpdatedTime = (String) DateUtils.getRelativeTimeSpanString(
+                    coin.getLastUpdated(),
+                    TimeUtil.currentTime(),
+                    DateUtils.MINUTE_IN_MILLIS);
+            lastUpdated.setText(lastUpdatedTime);
         }
     }
 

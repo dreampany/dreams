@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 74
-        versionName "0.7.4"
+        versionCode 75
+        versionName "0.7.5"
 
         multiDexEnabled true
 
@@ -99,9 +99,9 @@ android {
         // javaMaxHeapSize "2048m"
     }
 
-    aaptOptions {
+/*    aaptOptions {
         cruncherEnabled false
-    }
+    }*/
 
    lintOptions {
         checkReleaseBuilds false

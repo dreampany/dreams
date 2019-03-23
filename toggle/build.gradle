@@ -30,7 +30,7 @@ android {
         release {
             minifyEnabled true
             useProguard false
-            crunchPngs false
+            //crunchPngs false
         }
     }
 

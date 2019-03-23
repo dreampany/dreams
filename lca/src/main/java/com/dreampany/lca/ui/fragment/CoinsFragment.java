@@ -289,6 +289,11 @@ public class CoinsFragment
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener(true) {
             @Override
+            public void onIdle() {
+                vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
+            }
+
+            @Override
             public void onScrolledToBottom() {
                 vm.loadMore(!adapter.isEmpty(), true);
             }

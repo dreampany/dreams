@@ -51,7 +51,7 @@ android {
             minifyEnabled true
             //shrinkResources true
             useProguard false
-            crunchPngs false
+            //crunchPngs false
         }
     }
 

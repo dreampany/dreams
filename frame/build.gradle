@@ -52,7 +52,7 @@ android {
             minifyEnabled true
             //shrinkResources true
             useProguard false
-            crunchPngs false
+            //crunchPngs false
 
 /*            consumerProguardFiles 'proguard-rules-webview.pro'
             consumerProguardFiles 'proguard-rules-data-model.pro'
@@ -157,11 +157,11 @@ dependencies {
 
     /** firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
-    api 'com.google.firebase:firebase-core:16.0.7'
+    api 'com.google.firebase:firebase-core:16.0.8'
     api 'com.google.firebase:firebase-appindexing:17.1.0'
     api 'com.google.firebase:firebase-ads:17.2.0'
-    api 'com.google.firebase:firebase-messaging:17.4.0'
-    api 'com.google.firebase:firebase-invites:16.1.0'
+    api 'com.google.firebase:firebase-messaging:17.5.0'
+    api 'com.google.firebase:firebase-invites:16.1.1'
 
     /** crashlytics */
     api 'com.crashlytics.sdk.android:crashlytics:2.9.9'

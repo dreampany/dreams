@@ -49,7 +49,7 @@ android {
             minifyEnabled true
             useProguard true
             shrinkResources false
-            crunchPngs false
+            //crunchPngs false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'

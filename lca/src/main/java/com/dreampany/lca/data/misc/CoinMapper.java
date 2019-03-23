@@ -68,7 +68,7 @@ public class CoinMapper {
     }
 
     public void add(Coin coin) {
-        //coins.put(coin.getSymbol(), coin);
+        //coins.put(coin.getSlug(), coin);
         this.add(coin.getSymbol(), coin);
     }
 

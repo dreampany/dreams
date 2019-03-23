@@ -20,7 +20,7 @@ import java.util.List;
         primaryKeys = {"id"})
 public class Graph extends Base {
 
-    private String websiteSlug;
+    private String slug;
     private long startTime;
     private long endTime;
     private List<List<Float>> priceBtc;
@@ -38,7 +38,7 @@ public class Graph extends Base {
     @Ignore
     private Graph(Parcel in) {
         super(in);
-        websiteSlug = in.readString();
+        slug = in.readString();
         startTime = in.readLong();
         endTime = in.readLong();
         priceBtc = (List<List<Float>>) in.readSerializable();
@@ -49,7 +49,7 @@ public class Graph extends Base {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(websiteSlug);
+        dest.writeString(slug);
         dest.writeLong(startTime);
         dest.writeLong(endTime);
         dest.writeSerializable((Serializable) priceBtc);
@@ -69,8 +69,8 @@ public class Graph extends Base {
         }
     };
 
-    public void setWebsiteSlug( String websiteSlug) {
-        this.websiteSlug = websiteSlug;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public void setStartTime(long startTime) {
@@ -93,8 +93,8 @@ public class Graph extends Base {
         this.volumeUsd = volumeUsd;
     }
 
-    public String getWebsiteSlug() {
-        return websiteSlug;
+    public String getSlug() {
+        return slug;
     }
 
     public long getStartTime() {

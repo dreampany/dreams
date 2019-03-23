@@ -177,7 +177,7 @@ public class GraphFragment
 
     @Override
     public void onValueSelected(Entry e, Highlight h) {
-        updatePrice(e.getY(), vm.getCurrentCurrency());
+        updatePrice(e.getY());
         updateDate((long) e.getX());
     }
 
@@ -350,7 +350,7 @@ public class GraphFragment
             vm.updateUiState(UiState.EMPTY);
             return;
         }
-        updatePrice(item.getCurrentPrice(), item.getCurrency());
+        updatePrice(item.getCurrentPrice());
         updateDate(item.getCurrentTime());
         updateChange(item.getDifferencePrice(), item.getChangeInPercent(), item.getChangeInPercentFormat(), item.getChangeInPercentColor());
         binding.lineChart.getXAxis().setValueFormatter(item.getXAxisValueFormatter());
@@ -358,8 +358,8 @@ public class GraphFragment
         binding.lineChart.animateX(800);
     }
 
-    private void updatePrice(float price, Currency currency) {
-        String priceData = vm.getFormattedPrice(currency, price);
+    private void updatePrice(float price) {
+        String priceData = vm.getFormattedPrice(Currency.USD, price);
         binding.textPrice.setText(priceData);
     }
 

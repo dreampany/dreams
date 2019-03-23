@@ -39,9 +39,9 @@ interface GraphDao : BaseDao<Graph> {
     @Query("select * from graph where id = :id limit 1")
     fun getItemRx(id: Long): Maybe<Graph>
 
-    @Query("select * from graph where websiteSlug = :websiteSlug and startTime = :startTime and endTime = :endTime limit 1")
-    fun getItem(websiteSlug: String, startTime: Long, endTime: Long): Graph
+    @Query("select * from graph where slug = :slug and startTime = :startTime and endTime = :endTime limit 1")
+    fun getItem(slug: String, startTime: Long, endTime: Long): Graph
 
-    @Query("select * from graph where websiteSlug = :websiteSlug and startTime = :startTime and endTime = :endTime limit 1")
-    fun getItemRx(websiteSlug: String, startTime: Long, endTime: Long): Maybe<Graph>
+    @Query("select * from graph where slug = :slug and startTime = :startTime and endTime = :endTime limit 1")
+    fun getItemRx(slug: String, startTime: Long, endTime: Long): Maybe<Graph>
 }

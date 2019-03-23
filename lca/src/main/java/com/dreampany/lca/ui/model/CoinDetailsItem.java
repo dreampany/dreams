@@ -124,7 +124,7 @@ public class CoinDetailItem extends BaseItem<Coin, CoinDetailItem.ViewHolder> {
         void bindItem(Coin coin, CoinDetailType type) {
             switch (type) {
                 case SYMBOL:
-                    String value = getItemText(R.string.symbol, coin.getSymbol());
+                    String value = getItemText(R.string.symbol, coin.getSlug());
                     name.setText(value);
                     break;
                 case PRICE_USD:

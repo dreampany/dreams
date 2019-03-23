@@ -25,6 +25,7 @@ public class Pref extends FramePref {
     private static final String COIN_UPDATE_TIME = "coin_update_time";
     private static final String CURRENCY = "currency";
     private static final String CURRENCY_GRAPH = "currency_graph";
+    private static final String GRAPH_SYMBOL = "graph_symbol";
 
     @Inject
     Pref(Context context) {
@@ -88,4 +89,11 @@ public class Pref extends FramePref {
         return getPrivately(CURRENCY_GRAPH, Currency.class, currency);
     }
 
+    synchronized public void commitGraphTime(String symbol, String currency) {
+        setPrivately(GRAPH_SYMBOL + symbol + currency, TimeUtil.currentTime());
+    }
+
+    synchronized public long getGraphTime(String symbol, String currency) {
+        return getPrivately(GRAPH_SYMBOL + symbol + currency, 0L);
+    }
 }

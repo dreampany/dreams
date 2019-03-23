@@ -5,8 +5,13 @@ import com.dreampany.frame.misc.Remote;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.api.GraphDataSource;
+import com.dreampany.lca.data.source.pref.Pref;
+import com.dreampany.lca.misc.Constants;
+import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
 
 import javax.inject.Inject;
@@ -21,16 +26,22 @@ import java.util.List;
 @Singleton
 public class GraphRepository extends Repository<Long, Graph> implements GraphDataSource {
 
-    private final GraphDataSource local;
+    private final NetworkManager network;
+    private final Pref pref;
+    private final GraphDataSource room;
     private final GraphDataSource remote;
 
     @Inject
     GraphRepository(RxMapper rx,
                     ResponseMapper rm,
-                    @Room GraphDataSource local,
+                    NetworkManager network,
+                    Pref pref,
+                    @Room GraphDataSource room,
                     @Remote GraphDataSource remote) {
         super(rx, rm);
-        this.local = local;
+        this.network = network;
+        this.pref = pref;
+        this.room = room;
         this.remote = remote;
     }
 
@@ -46,7 +57,7 @@ public class GraphRepository extends Repository<Long, Graph> implements GraphDat
 
     @Override
     public int getCount() {
-        return local.getCount();
+        return room.getCount();
     }
 
     @Override
@@ -56,7 +67,7 @@ public class GraphRepository extends Repository<Long, Graph> implements GraphDat
 
     @Override
     public boolean isExists(Graph graph) {
-        return local.isExists(graph);
+        return room.isExists(graph);
     }
 
     @Override
@@ -66,12 +77,12 @@ public class GraphRepository extends Repository<Long, Graph> implements GraphDat
 
     @Override
     public long putItem(Graph graph) {
-        return local.putItem(graph);
+        return room.putItem(graph);
     }
 
     @Override
     public Maybe<Long> putItemRx(Graph graph) {
-        return local.putItemRx(graph);
+        return room.putItemRx(graph);
     }
 
     @Override
@@ -81,7 +92,7 @@ public class GraphRepository extends Repository<Long, Graph> implements GraphDat
 
     @Override
     public Maybe<List<Long>> putItemsRx(List<Graph> graphs) {
-        return local.putItemsRx(graphs);
+        return room.putItemsRx(graphs);
     }
 
     @Override
@@ -145,5 +156,10 @@ public class GraphRepository extends Repository<Long, Graph> implements GraphDat
                 remote.getItemRx(slug, startTime, endTime),
                 graph -> rx.compute(putItemRx(graph)).subscribe()
         );
+    }
+
+    private boolean isGraphExpired(String symbol, Currency currency) {
+        long time = pref.getGraphTime(symbol, currency.name());
+        return TimeUtil.isExpired(time, Constants.Time.INSTANCE.getGraph());
     }
 }

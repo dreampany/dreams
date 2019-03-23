@@ -32,7 +32,7 @@ public class GraphMapper {
             return null;
         }
 
-        long id  = DataUtil.getSha512(in.getWebsiteSlug());
+        long id  = DataUtil.getSha512(in.getSlug());
         Graph out = map.get(id);
         if (out == null) {
             out = new Graph();
@@ -40,7 +40,7 @@ public class GraphMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setWebsiteSlug(in.getWebsiteSlug());
+        out.setSlug(in.getSlug());
         out.setStartTime(in.getStartTime());
         out.setEndTime(in.getEndTime());
         out.setPriceBtc(in.getPriceBtc());
@@ -48,4 +48,14 @@ public class GraphMapper {
         out.setVolumeUsd(in.getVolumeUsd());
         return out;
     }
+
+    public boolean hasGraph(String slug) {
+        return map.contains(DataUtil.getSha512(slug));
+    }
+
+    public Graph getGraph(String slug) {
+        long id  = DataUtil.getSha512(slug);
+        return map.get(id);
+    }
+
 }

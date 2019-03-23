@@ -3,7 +3,6 @@ package com.dreampany.lca.api.cmc.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CmcGraph {
 
-    private String websiteSlug;
+    private String slug;
     private long startTime;
     private long endTime;
     private final List<List<Float>> priceBtc;
@@ -32,13 +31,8 @@ public class CmcGraph {
         this.volumeUsd = volumeUsd;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(websiteSlug);
-    }
-
-    public void setWebsiteSlug(String websiteSlug) {
-        this.websiteSlug = websiteSlug;
+    public void setSlug(String slug) {
+        this.slug = slug;
     }
 
     public void setStartTime(long startTime) {
@@ -49,8 +43,8 @@ public class CmcGraph {
         this.endTime = endTime;
     }
 
-    public String getWebsiteSlug() {
-        return websiteSlug;
+    public String getSlug() {
+        return slug;
     }
 
     public long getStartTime() {

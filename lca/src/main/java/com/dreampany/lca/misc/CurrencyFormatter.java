@@ -1,25 +1,24 @@
 package com.dreampany.lca.misc;
 
 import android.content.Context;
-import android.view.TextureView;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
-
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Currency;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -104,15 +103,6 @@ public class CurrencyFormatter {
         NumberFormat nf = NumberFormat.getInstance(context.getResources().getConfiguration().locale);
         nf.setMaximumFractionDigits(10);
         return currencyValue + " " + nf.format(price);
-    }
-
-    public CmcCurrency getCurrency(String currencyValue) {
-        for (CmcCurrency cmcCurrency : CmcCurrency.values()) {
-            if (cmcCurrency.name().equalsIgnoreCase(currencyValue)) {
-                return cmcCurrency;
-            }
-        }
-        return null;
     }
 
     public String roundPrice(double price) {

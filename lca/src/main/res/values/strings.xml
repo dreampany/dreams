@@ -110,7 +110,10 @@
 <!--    <string name="alert_price_up"> > %.3f</string>
     <string name="alert_price_down"> %< %.3f</string>-->
 
+    <string name="message_alert_saved">Saved price alert successfully.</string>
     <string name="message_select_alert">Please set at least one alert condition.</string>
     <string name="message_alert_same_price">Please set at least one alert condition.</string>
+    <string name="error_price_up_input">Wrong price!</string>
+    <string name="error_price_down_input">Wrong price!</string>
 
 </resources>

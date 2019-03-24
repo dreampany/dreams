@@ -129,7 +129,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
 
     private void processResult(Response.Type type, CoinAlertItem item) {
         if (type == Response.Type.ADD) {
-            NotifyUtil.showInfo(getContext(), R.string.save_success);
+            NotifyUtil.showInfo(getContext(), R.string.message_alert_saved);
             return;
         }
 
@@ -177,11 +177,21 @@ public class CoinAlertFragment extends BaseMenuFragment {
 
         double priceUp = 0, priceDown = 0;
         if (binding.checkUp.isChecked()) {
-            priceUp = Double.parseDouble(binding.editPriceUp.getText().toString());
+            try {
+                priceUp = Double.parseDouble(binding.editPriceUp.getText().toString());
+            } catch (NumberFormatException e) {
+                binding.editPriceUp.setError(getString(R.string.error_price_up_input));
+                return;
+            }
         }
 
         if (binding.checkDown.isChecked()) {
-            priceDown = Double.parseDouble(binding.editPriceDown.getText().toString());
+            try {
+                priceDown = Double.parseDouble(binding.editPriceDown.getText().toString());
+            } catch (NumberFormatException e) {
+                binding.editPriceDown.setError(getString(R.string.error_price_down_input));
+                return;
+            }
         }
 
         vm.save(coin, priceUp, priceDown, true);

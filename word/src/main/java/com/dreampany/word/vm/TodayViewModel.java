@@ -11,7 +11,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
@@ -61,9 +61,11 @@ public class TodayViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> 
                 .subscribe(
                         result -> {
                             postProgress(false);
-                            postResult(result);
+                            //postResult(result);
                         },
-                        error -> postFailureMultiple(new MultiException(error, new ExtraException()))
+                        error ->
+                        {//postFailureMultiple(new MultiException(error, new ExtraException()));
+                        }
                 );
         addSingleSubscription(disposable);
     }

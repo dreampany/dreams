@@ -2,7 +2,7 @@ package com.dreampany.word.data.source.firestore;
 
 import android.graphics.Bitmap;
 import com.dreampany.firebase.RxFirestore;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;

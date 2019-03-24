@@ -72,9 +72,9 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                 })
                 .subscribe(                        result -> {
                     postProgress(false);
-                    postResult(result);
+                   // postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+//                    postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }

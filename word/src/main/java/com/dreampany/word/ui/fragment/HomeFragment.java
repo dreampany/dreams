@@ -91,10 +91,20 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     @Override
+    public int getMenuId() {
+        return R.menu.menu_home;
+    }
+
+    @Override
+    public int getSearchMenuItemId() {
+        return R.id.item_search;
+    }
+
+    @Override
     public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onMenuCreated(menu, inflater);
 
-        inflater.inflate(R.menu.menu_home, menu);
+        //inflater.inflate(R.menu.menu_home, menu);
         BaseActivity activity = getParent();
 
         if (activity instanceof SearchViewCallback) {
@@ -259,10 +269,8 @@ public class HomeFragment extends BaseMenuFragment
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                if (adapter.isEmpty()) {
-                    if (!refresh.isRefreshing()) {
-                        refresh.setRefreshing(true);
-                    }
+                if (!refresh.isRefreshing()) {
+                    refresh.setRefreshing(true);
                 }
                 break;
             case HIDE_PROGRESS:
@@ -363,5 +371,10 @@ public class HomeFragment extends BaseMenuFragment
         task.setUiType(UiType.WORD);
         task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return false;
     }
 }

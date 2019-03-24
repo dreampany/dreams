@@ -4,7 +4,7 @@ import android.content.Context
 import com.dreampany.firebase.RxFirestore
 import com.dreampany.frame.injector.data.FrameModule
 import com.dreampany.frame.misc.*
-import com.dreampany.network.NetworkManager
+import com.dreampany.network.manager.NetworkManager
 import com.dreampany.vision.VisionApi
 import com.dreampany.word.api.wordnik.WordnikManager
 import com.dreampany.word.data.misc.WordMapper

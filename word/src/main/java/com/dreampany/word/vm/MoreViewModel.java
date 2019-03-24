@@ -3,6 +3,7 @@ package com.dreampany.word.vm;
 import android.app.Activity;
 import android.app.Application;
 
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.word.data.model.More;
 import com.dreampany.word.ui.enums.MoreType;
 import com.dreampany.word.ui.model.MoreItem;
@@ -12,7 +13,7 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.SettingsUtil;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,22 +43,13 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
 
     @DebugLog
     public void loads(boolean fresh) {
-        if (fresh) {
-            removeMultipleSubscription();
-        }
-        if (hasMultipleDisposable()) {
-            notifyUiState();
+        if (!preLoads(fresh)) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItems())
-                .doOnSubscribe(subscription -> {
-                    postProgress(true);
-                })
-                .subscribe(                        result -> {
-                    postProgress(false);
-                    postResult(result);
-                }, this::postFailureMultiple);
+                .doOnSubscribe(subscription -> postProgress(true))
+                .subscribe(result -> postResult(Response.Type.ADD, result, true), this::postFailures);
         addMultipleSubscription(disposable);
     }
 

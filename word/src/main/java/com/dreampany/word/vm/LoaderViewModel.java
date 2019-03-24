@@ -90,10 +90,10 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         Disposable disposable = getRx()
                 .backToMain(getCommonItemsRxV2())
                 .subscribe(result -> {
-                    postResult(result);
+                    //postResult(result);
                     loadAlphas();
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
@@ -105,14 +105,14 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             return;
         }
         Timber.v("loadAlphas running...");
-        Disposable disposable = getRx()
+/*        Disposable disposable = getRx()
                 .backToMain(getAlphaItemsRxV2())
                 .subscribe(
                         this::postResult,
                         error -> {
-                            postFailureMultiple(new MultiException(error, new ExtraException()));
+                            //postFailureMultiple(new MultiException(error, new ExtraException()));
                         });
-        addMultipleSubscription(disposable);
+        addMultipleSubscription(disposable);*/
     }
 
     public void pause() {
@@ -141,7 +141,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
-            ex.postToUi(() -> postResult(item));
+            //ex.postToUi(() -> postResult(item));
             Word word;
             if (lastIndex != 0) {
                 DataUtil.removeFirst(commonWords, lastIndex + 1);
@@ -156,7 +156,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     load.setCurrent(current);
                     load.setTotal(current);
                     Timber.v("%d Next Common Word = %s", current, word.toString());
-                    ex.postToUi(() -> postResult(item));
+                    //ex.postToUi(() -> postResult(item));
                     AndroidUtil.sleep(3);
                 }
             }
@@ -190,7 +190,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
-            ex.postToUi(() -> postResult(item));
+           // ex.postToUi(() -> postResult(item));
             Word word;
             if (lastIndex != 0) {
                 Timber.v("Removing first %d elements", (lastIndex + 1));
@@ -206,7 +206,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     load.setCurrent(current);
                     load.setTotal(current);
                     //Timber.v("Next Alpha Word = %s", word.toString());
-                    ex.postToUi(() -> postResult(item));
+//                    ex.postToUi(() -> postResult(item));
                     AndroidUtil.sleep(3);
                 }
 

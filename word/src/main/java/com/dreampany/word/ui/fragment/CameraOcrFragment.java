@@ -146,7 +146,7 @@ public class CameraOcrFragment extends BaseMenuFragment {
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
-        vm.observeFlag(this, this::onFlag);
+//        vm.observeFlag(this, this::onFlag);
     }
 
     private void initRecycler() {

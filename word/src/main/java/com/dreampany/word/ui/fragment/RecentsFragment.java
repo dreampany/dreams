@@ -370,4 +370,9 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
     public List<WordItem> getItems() {
         return null;
     }
+
+    @Override
+    public boolean getEmpty() {
+        return false;
+    }
 }

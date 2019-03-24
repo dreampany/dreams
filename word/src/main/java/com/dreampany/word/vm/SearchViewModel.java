@@ -14,7 +14,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.misc.StateMapper;
@@ -117,9 +117,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 })
                 .subscribe(result -> {
                     postProgress(false);
-                    postResult(result);
+                    //postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
@@ -135,10 +135,10 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 })
                 .subscribe(result -> {
                     postProgress(false);
-                    postResult(result);
-                    getEx().postToUi(() -> update(false), 3000L);
+                    //postResult(result);
+                    //getEx().postToUi(() -> update(false), 3000L);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
@@ -162,7 +162,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                                 if (withProgress) {
                                     postProgress(false);
                                 }
-                                postResult(result);
+                                //postResult(result);
                                 getEx().postToUi(() -> update(withProgress), 3000L);
                             } else {
                                 if (withProgress) {

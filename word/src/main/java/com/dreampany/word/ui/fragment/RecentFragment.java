@@ -204,7 +204,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
-        vm.observeFlag(this, this::onFlag);
+//        vm.observeFlag(this, this::onFlag);
         lvm.observeOutput(this, this::processLoadResponse);
         lvm.observeSubtitle(this, this::processSubtitle);
     }
@@ -382,6 +382,11 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
     @Override
     public List<WordItem> getItems() {
         return null;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return false;
     }
 
 /*    private void openSheet() {

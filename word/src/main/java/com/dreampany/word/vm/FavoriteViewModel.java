@@ -10,7 +10,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class FlagViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
+public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private static final long initialDelay = Constants.Time.INSTANCE.getWordPeriod();
     private static final long period = Constants.Time.INSTANCE.getWordPeriod();
@@ -44,13 +44,13 @@ public class FlagViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     private Disposable updateDisposable, updateVisibleItemsDisposable;
 
     @Inject
-    FlagViewModel(Application application,
-                  RxMapper rx,
-                  AppExecutors ex,
-                  ResponseMapper rm,
-                  NetworkManager network,
-                  WordRepository repo,
-                  StateMapper stateMapper) {
+    FavoriteViewModel(Application application,
+                      RxMapper rx,
+                      AppExecutors ex,
+                      ResponseMapper rm,
+                      NetworkManager network,
+                      WordRepository repo,
+                      StateMapper stateMapper) {
         super(application, rx, ex, rm);
         this.network = network;
         this.repo = repo;
@@ -91,9 +91,9 @@ public class FlagViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 })
                 .subscribe(result -> {
                     postProgress(false);
-                    postResult(result);
+                    //postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
         updateVisibleItems();
@@ -108,7 +108,7 @@ public class FlagViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 .backToMain(updateItemInterval())
                 .subscribe(result -> {
                     postProgress(false);
-                    postResult(result);
+                    //postResult(result);
                 }, this::postFailure);
         addSubscription(updateDisposable);
     }
@@ -117,12 +117,12 @@ public class FlagViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         if (hasDisposable(updateVisibleItemsDisposable)) {
             return;
         }
-        updateVisibleItemsDisposable = getRx()
+ /*       updateVisibleItemsDisposable = getRx()
                 .backToMain(getVisibleItemsRx())
                 .subscribe(this::postResult, error -> {
 
                 });
-        addSubscription(updateVisibleItemsDisposable);
+        addSubscription(updateVisibleItemsDisposable);*/
     }
 
     public void toggle(Word word) {

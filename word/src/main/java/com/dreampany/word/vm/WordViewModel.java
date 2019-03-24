@@ -12,7 +12,7 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.misc.WordMapper;
@@ -114,9 +114,9 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                     if (withProgress) {
                         postProgress(false);
                     }
-                    postResult(result);
+                   // postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);
     }

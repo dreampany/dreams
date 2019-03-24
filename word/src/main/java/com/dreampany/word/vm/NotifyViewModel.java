@@ -7,7 +7,7 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.TextUtil;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.R;
 import com.dreampany.word.app.App;
 import com.dreampany.word.ui.activity.NavigationActivity;
@@ -31,7 +31,7 @@ public class NotifyViewModel {
 
     private final Application application;
     private final RxMapper rx;
-    private final NotifyManager notify;
+    @Inject NotifyManager notify;
     private Disposable disposable;
 
     @Inject
@@ -42,7 +42,6 @@ public class NotifyViewModel {
                     NetworkManager network) {
         this.application = application;
         this.rx = rx;
-        this.notify = new NotifyManager();
     }
 
     public void clear() {
@@ -84,7 +83,7 @@ public class NotifyViewModel {
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }*/
-        notify.showNotification(application, title, message, NavigationActivity.class);
+        //notify.showNotification(application, title, message, NavigationActivity.class);
     }
 
     @DebugLog

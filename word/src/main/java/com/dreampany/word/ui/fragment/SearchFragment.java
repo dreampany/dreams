@@ -142,7 +142,7 @@ public class SearchFragment extends BaseMenuFragment {
         vm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
-        vm.observeFlag(this, this::onFlag);
+//        vm.observeFlag(this, this::onFlag);
         binding.stateful.setState(SEARCH);
     }
 

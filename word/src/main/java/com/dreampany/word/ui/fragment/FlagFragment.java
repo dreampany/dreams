@@ -1,22 +1,14 @@
 package com.dreampany.word.ui.fragment;
 
-import android.app.Activity;
-import android.app.SearchManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import android.content.Context;
 import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
-import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -37,13 +29,11 @@ import com.dreampany.word.ui.enums.UiSubtype;
 import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.FlagViewModel;
+import com.dreampany.word.vm.FavoriteViewModel;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,7 +56,7 @@ public class FlagFragment extends BaseMenuFragment implements SmartAdapter.Callb
     @Inject
     ViewModelProvider.Factory factory;
     FragmentFlagBinding binding;
-    FlagViewModel vm;
+    FavoriteViewModel vm;
     WordAdapter adapter;
     OnVerticalScrollListener scroller;
     SwipeRefreshLayout refresh;
@@ -177,13 +167,13 @@ public class FlagFragment extends BaseMenuFragment implements SmartAdapter.Callb
 
         ViewUtil.setSwipe(refresh, this);
         UiTask<Word> uiTask = getCurrentTask(true);
-        vm = ViewModelProviders.of(this, factory).get(FlagViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(FavoriteViewModel.class);
         vm.setTask(uiTask);
         vm.setUiCallback(this);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
-        vm.observeFlag(this, this::onFlag);
+//        vm.observeFlag(this, this::onFlag);
     }
 
     private void initRecycler() {
@@ -318,5 +308,10 @@ public class FlagFragment extends BaseMenuFragment implements SmartAdapter.Callb
     @Override
     public List<WordItem> getItems() {
         return null;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return false;
     }
 }

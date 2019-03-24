@@ -107,9 +107,9 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 })
                 .subscribe(                        result -> {
                     postProgress(false);
-                    postResult(result);
+                    //postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
         updateVisibleItems();
@@ -119,12 +119,12 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         if (hasDisposable(updateVisibleItemsDisposable)) {
             return;
         }
-        updateVisibleItemsDisposable = getRx()
+ /*       updateVisibleItemsDisposable = getRx()
                 .backToMain(getVisibleItemsRx())
                 .subscribe(this::postResult, error -> {
 
                 });
-        addSubscription(updateVisibleItemsDisposable);
+        addSubscription(updateVisibleItemsDisposable);*/
     }
 
     @DebugLog
@@ -160,9 +160,9 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 })
                 .subscribe(                        result -> {
                     postProgress(false);
-                    postResult(result);
+                    //postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
@@ -176,7 +176,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 .backToMain(updateItemInterval())
                 .subscribe(                        result -> {
                     postProgress(false);
-                    postResult(result);
+                    //postResult(result);
                 }, this::postFailure);
         addSubscription(updateDisposable);
     }
@@ -246,9 +246,9 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 })
                 .subscribe(                        result -> {
                     postProgress(false);
-                    postResult(result);
+//                    postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                //    postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }

@@ -51,8 +51,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(FlagViewModel::class)
-    abstract fun bindFlagViewModel(vm: FlagViewModel): ViewModel
+    @ViewModelKey(FavoriteViewModel::class)
+    abstract fun bindFlagViewModel(vm: FavoriteViewModel): ViewModel
 
     @Binds
     @IntoMap

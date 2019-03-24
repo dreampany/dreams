@@ -11,7 +11,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.NetworkManager;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
@@ -85,9 +85,9 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                 })
                 .subscribe(                        result -> {
                     postProgress(false);
-                    postResult(result);
+                    //postResult(result);
                 }, error -> {
-                    postFailureMultiple(new MultiException(error, new ExtraException()));
+                    //postFailureMultiple(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
         //updateVisibleItems();
@@ -98,10 +98,10 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
             Timber.v("Updater Running...");
             return;
         }
-        updateDisposable = getRx()
+/*        updateDisposable = getRx()
                 .backToMain(updateItemInterval())
                 .subscribe(this::postResult, this::postFailure);
-        addSubscription(updateDisposable);
+        addSubscription(updateDisposable);*/
     }
 
     public void load(String word) {
@@ -114,9 +114,11 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                 .subscribe(
                         result -> {
                             postProgress(false);
-                            postResult(result);
+                            //postResult(result);
                         },
-                        error -> postFailureMultiple(new MultiException(error, new ExtraException()))
+                        error ->
+                        {//postFailureMultiple(new MultiException(error, new ExtraException()));
+                        }
                 );
         addSingleSubscription(disposable);
     }

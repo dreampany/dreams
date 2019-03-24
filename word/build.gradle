@@ -49,7 +49,7 @@ android {
             minifyEnabled true
             useProguard true
             shrinkResources false
-            crunchPngs false
+            //crunchPngs false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
@@ -99,9 +99,9 @@ android {
         // javaMaxHeapSize "2048m"
     }
 
-    aaptOptions {
+/*    aaptOptions {
         cruncherEnabled false
-    }
+    }*/
 
     lintOptions {
         checkReleaseBuilds false
@@ -153,16 +153,16 @@ dependencies {
     implementation project(':vision')
 
     /** android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha02'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha04'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha05'
 
     /** dagger */
     kapt 'com.google.dagger:dagger-compiler:2.20'
     kapt 'com.google.dagger:dagger-android-processor:2.20'
 
     /** butterknife */
-    implementation 'com.jakewharton:butterknife:10.0.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.0.0'
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
     /** crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'

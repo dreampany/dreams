@@ -203,7 +203,7 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
-        vm.observeFlag(this, this::onFlag);
+//        vm.observeFlag(this, this::onFlag);
         tvm.observeOutputs(this, this::processOcrResponse);
     }
 
@@ -388,5 +388,10 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
     @Override
     public List<WordItem> getItems() {
         return null;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return false;
     }
 }

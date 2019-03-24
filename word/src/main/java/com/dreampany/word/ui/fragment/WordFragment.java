@@ -132,7 +132,7 @@ public class WordFragment extends BaseMenuFragment {
         vm.setTask(uiTask);
 
         vm.observeUiState(this, this::processUiState);
-        vm.observeFlag(this, this::onFlag);
+//        vm.observeFlag(this, this::onFlag);
         vm.observeOutput(this, this::processResponse);
 
         vm.load(parent, true, true);

@@ -26,7 +26,6 @@ import com.dreampany.lca.databinding.FragmentIcoBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.IcoAdapter;
-import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.LiveIcoViewModel;
@@ -79,8 +78,8 @@ public class LiveIcoFragment
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_ICO_LIVE;
+    public String getScreen() {
+        return Constants.Screen.icoLive(getAppContext());
     }
 
     @Override

@@ -1,20 +1,19 @@
 package com.dreampany.frame.ui.activity
 
 import android.app.ProgressDialog
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.ColorRes
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import android.widget.ProgressBar
+import androidx.annotation.ColorRes
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.afollestad.aesthetic.Aesthetic
 import com.afollestad.aesthetic.NavigationViewMode
 import com.afollestad.aesthetic.TabLayoutBgMode
@@ -24,6 +23,8 @@ import com.dreampany.frame.R
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.data.model.Task
+import com.dreampany.frame.misc.AppExecutors
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.ui.callback.UiCallback
 import com.dreampany.frame.ui.fragment.BaseFragment
 import com.dreampany.frame.util.AndroidUtil
@@ -40,7 +41,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tapadoo.alerter.Alerter
 import dagger.Lazy
 import dagger.android.support.DaggerAppCompatActivity
-import timber.log.Timber
+import javax.inject.Inject
 
 
 /**
@@ -55,6 +56,8 @@ abstract class BaseActivity :
         MultiplePermissionsListener,
         PermissionRequestErrorListener {
 
+    @Inject
+    internal lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
     protected var task: Task<*>? = null
     protected var childTask: Task<*>? = null
@@ -112,7 +115,7 @@ abstract class BaseActivity :
         return false;
     }
 
-    open fun getAnalyticTag() : String {
+    open fun getScreen() : String {
         return javaClass.simpleName
     }
 
@@ -146,7 +149,9 @@ abstract class BaseActivity :
         }
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
-            getApp().getAnalytics().logEvent(getAnalyticTag(), savedInstanceState)
+            ex.postToNetwork({
+                getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
+            })
         }
 
         if (app.hasRate() && hasRatePermitted()) {

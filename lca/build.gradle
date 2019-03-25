@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 76
-        versionName "0.7.6"
+        versionCode 77
+        versionName "0.7.7"
 
         multiDexEnabled true
 
@@ -40,6 +40,7 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
+            crunchPngs false
             ext.enableCrashlytics = true
             ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

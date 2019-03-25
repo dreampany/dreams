@@ -12,6 +12,8 @@ import com.dreampany.frame.R
 import com.dreampany.frame.api.service.JobManager
 import com.dreampany.frame.api.service.ServiceManager
 import com.dreampany.frame.data.model.Color
+import com.dreampany.frame.misc.AppExecutors
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.ColorUtil
@@ -46,6 +48,8 @@ import javax.inject.Inject
 abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
 
     //protected var context: CondomContext? = null
+    @Inject
+    internal lateinit var ex: AppExecutors
     protected var refs: WeakReference<Activity>? = null
     var action: Action? = null
     var indexable: Indexable? = null
@@ -215,7 +219,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
         registerActivityLifecycleCallbacks(this)
         TypefaceProvider.registerDefaultIconSets()
-        onOpen();
+        onOpen()
+        ex.postToNetwork({
+            throwAppAnalytics()
+        })
     }
 
     override fun onLowMemory() {
@@ -276,6 +283,29 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     open fun getColor(): Color {
         return color;
+    }
+
+    open fun throwAppAnalytics() {
+        val packageName = AndroidUtil.getPackageName(applicationContext)
+        val versionCode = AndroidUtil.getVersionCode(applicationContext)
+        val versionName = AndroidUtil.getVersionName(applicationContext)
+        val bundle = Bundle()
+        bundle.putString(Constants.Param.PACKAGE_NAME, packageName)
+        bundle.putInt(Constants.Param.VERSION_CODE, versionCode)
+        bundle.putString(Constants.Param.VERSION_NAME, versionName)
+        getAnalytics().logEvent(Constants.Event.APPLICATION, bundle)
+    }
+
+    open fun throwAnalytics(eventName : String, screen : String) {
+        val packageName = AndroidUtil.getPackageName(applicationContext)
+        val versionCode = AndroidUtil.getVersionCode(applicationContext)
+        val versionName = AndroidUtil.getVersionName(applicationContext)
+        val bundle = Bundle()
+        bundle.putString(Constants.Param.PACKAGE_NAME, packageName)
+        bundle.putInt(Constants.Param.VERSION_CODE, versionCode)
+        bundle.putString(Constants.Param.VERSION_NAME, versionName)
+        bundle.putString(Constants.Param.SCREEN, screen)
+        getAnalytics().logEvent(eventName, bundle)
     }
 
     private fun goToRemoteUi() {

@@ -23,6 +23,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.databinding.FragmentMarketBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.adapter.MarketAdapter;
 import com.dreampany.lca.ui.model.ExchangeItem;
 import com.dreampany.lca.ui.model.MarketItem;
@@ -32,6 +33,7 @@ import com.dreampany.lca.vm.MarketViewModel;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -77,6 +79,12 @@ public class MarketFragment
     @Override
     public int getLayoutId() {
         return R.layout.fragment_market;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.coinMarket(getAppContext());
     }
 
     @Override

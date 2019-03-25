@@ -82,7 +82,6 @@ class App : BaseApp() {
             job.cancel(NotifyService::class.java)
         }
         clean()
-        throwAppAnalytics()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -113,13 +112,6 @@ class App : BaseApp() {
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
             .enabled(!isDebug())
         ad.setConfig(config.build())
-    }
-
-    private fun throwAppAnalytics() {
-        val current = AndroidUtil.getVersionCode(this)
-        val bundle = Bundle()
-        bundle.putInt(FirebaseAnalytics.Param.ITEM_ID, current);
-        getAnalytics().logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
     }
 
     private fun clean() {

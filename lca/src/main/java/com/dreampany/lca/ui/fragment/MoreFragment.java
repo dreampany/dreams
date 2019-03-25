@@ -13,7 +13,7 @@ import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.misc.Constants;
+import com.dreampany.frame.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.MoreAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
@@ -59,8 +59,8 @@ public class MoreFragment extends BaseMenuFragment {
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_MORE;
+    public String getScreen() {
+        return Constants.Screen.more(getAppContext());
     }
 
     @Override

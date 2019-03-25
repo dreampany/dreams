@@ -78,8 +78,8 @@ public class UpcomingIcoFragment
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_ICO_UPCOMING;
+    public String getScreen() {
+        return Constants.Screen.icoUpcoming(getAppContext());
     }
 
     @Override

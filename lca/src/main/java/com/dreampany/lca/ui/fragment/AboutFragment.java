@@ -15,7 +15,7 @@ import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 
-import com.dreampany.lca.misc.Constants;
+import com.dreampany.frame.misc.Constants;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -49,7 +49,7 @@ public class AboutFragment extends BaseFragment {
                 .addGroup("Connect with us")
                 .addEmail(TextUtil.getString(context, R.string.email))
                 .addWebsite(TextUtil.getString(context, R.string.website))
-                .addPlayStore(AndroidUtil.getApplicationId(context))
+                .addPlayStore(AndroidUtil.getPackageName(context))
                 .addGitHub(TextUtil.getString(context, R.string.id_github))
                 /*.addItem(getYandexTranslation(context))*/;
 
@@ -58,8 +58,8 @@ public class AboutFragment extends BaseFragment {
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_ABOUT;
+    public String getScreen() {
+        return Constants.Screen.about(getAppContext());
     }
 
     @Override

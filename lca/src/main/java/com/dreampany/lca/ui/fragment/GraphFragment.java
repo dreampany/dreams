@@ -23,6 +23,7 @@ import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.databinding.FragmentGraphBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.enums.TimeType;
 import com.dreampany.lca.ui.model.GraphItem;
 import com.dreampany.lca.ui.model.UiTask;
@@ -38,6 +39,7 @@ import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import hugo.weaving.DebugLog;
 import net.cachapa.expandablelayout.ExpandableLayout;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
@@ -78,6 +80,12 @@ public class GraphFragment
     @Override
     public int getLayoutId() {
         return R.layout.fragment_graph;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.coinGraph(getAppContext());
     }
 
     @Override

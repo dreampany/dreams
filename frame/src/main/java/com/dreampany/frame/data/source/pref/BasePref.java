@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import com.dreampany.frame.util.AndroidUtil;
-import com.facebook.common.logging.FLog;
 import com.github.pwittchen.prefser.library.rx2.Prefser;
 import com.github.pwittchen.prefser.library.rx2.TypeToken;
 
@@ -33,7 +32,7 @@ public abstract class BasePref {
     }
 
     protected String getPrivatePrefName(Context context) {
-        return AndroidUtil.getApplicationId(context);
+        return AndroidUtil.getPackageName(context);
     }
 
     public boolean isPubliclyAvailable(String key) {

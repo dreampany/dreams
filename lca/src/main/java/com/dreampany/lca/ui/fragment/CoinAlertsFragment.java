@@ -87,8 +87,8 @@ public class CoinAlertsFragment
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_COIN_ALERTS;
+    public String getScreen() {
+        return Constants.Screen.coinAlerts(getAppContext());
     }
 
     @DebugLog

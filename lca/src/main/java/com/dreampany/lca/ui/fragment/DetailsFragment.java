@@ -18,13 +18,11 @@ import com.dreampany.frame.misc.FragmentScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
-import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.databinding.FragmentDetailsBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
@@ -86,6 +84,12 @@ public class DetailsFragment
     @Override
     public int getMenuId() {
         return R.menu.menu_coin_details;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.coinDetails(getAppContext());
     }
 
     @Override

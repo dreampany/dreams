@@ -18,6 +18,7 @@ import android.os.Looper;
 import android.os.Parcelable;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import android.view.Surface;
@@ -26,6 +27,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.dreampany.frame.R;
 import com.dreampany.frame.data.model.Task;
+import com.dreampany.frame.misc.Constants;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.jaredrummler.android.device.DeviceName;
 
 import java.io.File;
@@ -93,28 +97,38 @@ public final class AndroidUtil {
         return Thread.currentThread() == Looper.getMainLooper().getThread();
     }
 
-    public static String getApplicationId(Context context) {
+    @Nullable
+    public static String getPackageName(Context context) {
         PackageInfo packageInfo = getPackageInfo(context);
-        if (packageInfo != null) {
-            return packageInfo.packageName;
+        if (packageInfo == null) {
+            return null;
         }
-        return null;
+        return packageInfo.packageName;
+    }
+
+    public static String getLastApplicationId(Context context) {
+        String applicationId = getPackageName(context.getApplicationContext());
+        if (DataUtil.isEmpty(applicationId)) {
+            return null;
+        }
+        return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId));
     }
 
     public static int getVersionCode(Context context) {
         PackageInfo packageInfo = getPackageInfo(context);
-        if (packageInfo != null) {
-            return packageInfo.versionCode;
+        if (packageInfo == null) {
+            return 0;
         }
-        return 0;
+        return packageInfo.versionCode;
     }
 
+    @Nullable
     public static String getVersionName(Context context) {
         PackageInfo packageInfo = getPackageInfo(context);
-        if (packageInfo != null) {
-            return packageInfo.versionName;
+        if (packageInfo == null) {
+            return null;
         }
-        return null;
+        return packageInfo.versionName;
     }
 
     public static PackageInfo getPackageInfo(Context context) {
@@ -123,14 +137,15 @@ public final class AndroidUtil {
 
     public static PackageInfo getPackageInfo(Context context, int flags) {
         try {
-            return context.getPackageManager().getPackageInfo(context.getPackageName(), flags);
+            Context appContext = context.getApplicationContext();
+            return appContext.getPackageManager().getPackageInfo(appContext.getPackageName(), flags);
         } catch (PackageManager.NameNotFoundException nameException) {
             return null;
         }
     }
 
     public static List<ApplicationInfo> getInstalledApps(Context context) {
-        PackageManager pm = context.getPackageManager();
+        PackageManager pm = context.getApplicationContext().getPackageManager();
         return pm.getInstalledApplications(PackageManager.GET_META_DATA);
     }
 

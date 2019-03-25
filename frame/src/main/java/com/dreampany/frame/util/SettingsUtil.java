@@ -47,7 +47,7 @@ public final class SettingsUtil {
 
     public static void rateUs(Activity activity, FirebaseAnalytics analytics) {
         try {
-            String id = AndroidUtil.getApplicationId(activity);
+            String id = AndroidUtil.getPackageName(activity);
             Uri uri = Uri.parse("market://details?id=" + id);
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             activity.startActivity(goToMarket);

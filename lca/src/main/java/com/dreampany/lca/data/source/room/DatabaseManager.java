@@ -5,6 +5,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import com.dreampany.frame.misc.Constants;
 import com.dreampany.lca.BuildConfig;
 import com.dreampany.lca.data.model.*;
 import com.dreampany.lca.data.source.dao.*;
@@ -32,7 +33,7 @@ import com.google.common.collect.Iterables;
 )
 @TypeConverters(Converters.class)
 public abstract class DatabaseManager extends RoomDatabase {
-    private static final String DATABASE = Iterables.getLast(Splitter.on(".").trimResults().split(BuildConfig.APPLICATION_ID)).concat("-db");
+    private static final String DATABASE = Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(BuildConfig.APPLICATION_ID)).concat("-db");
     private static volatile DatabaseManager instance;
 
     public static DatabaseManager onInstance(Context context) {

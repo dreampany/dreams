@@ -9,7 +9,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.source.pref.Pref;
-import com.dreampany.lca.misc.Constants;
+import com.dreampany.frame.misc.Constants;
 import com.dreampany.lca.service.NotifyService;
 
 import org.jetbrains.annotations.NotNull;
@@ -51,8 +51,8 @@ public class SettingsFragment extends BaseMenuFragment {
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_SETTINGS;
+    public String getScreen() {
+        return Constants.Screen.settings(getAppContext());
     }
 
     @Override

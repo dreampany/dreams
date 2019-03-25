@@ -9,6 +9,8 @@ import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.util.FragmentUtil;
 import com.dreampany.lca.R;
 
+import com.dreampany.frame.misc.Constants;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -31,6 +33,12 @@ public class LicenseFragment extends BaseFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_license;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.license(getAppContext());
     }
 
     @Override

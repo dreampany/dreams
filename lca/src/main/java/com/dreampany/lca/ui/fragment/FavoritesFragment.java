@@ -87,8 +87,8 @@ public class FavoritesFragment
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_FAVORITE_COINS;
+    public String getScreen() {
+        return Constants.Screen.favoriteCoins(getAppContext());
     }
 
     @DebugLog

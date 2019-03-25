@@ -75,8 +75,8 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_ICO;
+    public String getScreen() {
+        return Constants.Screen.ico(getAppContext());
     }
 
     @Override

@@ -9,6 +9,7 @@ import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.model.Store;
 import com.dreampany.frame.data.source.local.StateDao;
 import com.dreampany.frame.data.source.local.StoreDao;
+import com.dreampany.frame.misc.Constants;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
@@ -25,7 +26,7 @@ import com.google.common.collect.Iterables;
         version = 7
 )
 public abstract class FrameDatabase extends RoomDatabase {
-    private static final String DATABASE = Iterables.getLast(Splitter.on(".").trimResults().split(BuildConfig.APPLICATION_ID)).concat("-db");
+    private static final String DATABASE = Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(BuildConfig.APPLICATION_ID)).concat("-db");
     private static volatile FrameDatabase instance;
 
     synchronized public static FrameDatabase onInstance(Context context) {

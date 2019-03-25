@@ -47,7 +47,7 @@ public class AboutFragment extends BaseFragment {
                 .addGroup("Connect with us")
                 .addEmail(TextUtil.getString(context, R.string.email))
                 .addWebsite(TextUtil.getString(context, R.string.website))
-                .addPlayStore(AndroidUtil.getApplicationId(context))
+                .addPlayStore(AndroidUtil.getPackageName(context))
                 .addGitHub(TextUtil.getString(context, R.string.id_github))
                 /*.addItem(getYandexTranslation(context))*/;
 

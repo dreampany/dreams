@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import android.view.Menu
 import android.view.MenuItem
+import com.dreampany.frame.misc.Constants
 
 
 /**
@@ -32,7 +33,9 @@ abstract class BaseBottomNavigationActivity : BaseMenuActivity(), BottomNavigati
         navigationView?.setOnNavigationItemSelectedListener(this)
         setSelectedItem(getDefaultSelectedNavigationItemId())
         onStartUi(savedInstanceState)
-        getApp().getAnalytics().logEvent(getAnalyticTag(), savedInstanceState)
+        ex.postToNetwork({
+            getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

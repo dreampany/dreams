@@ -1,5 +1,7 @@
 package com.dreampany.lca.misc
 
+import android.content.Context
+import com.dreampany.frame.util.AndroidUtil
 import java.util.concurrent.TimeUnit
 
 
@@ -8,24 +10,28 @@ import java.util.concurrent.TimeUnit
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-object Constants {
+class Constants {
+
+
+    companion object Screen {
+        fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
+
+        fun coins(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coins"
+        fun coin(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin"
+        fun coinDetails(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_details"
+        fun coinMarket(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_market"
+        fun coinGraph(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_graph"
+        fun favoriteCoins(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "favorite_coins"
+        fun coinAlerts(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_alerts"
+        fun coinAlert(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_alert"
+        fun ico(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico"
+        fun icoLive(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico_live"
+        fun icoUpcoming(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico_upcoming"
+        fun icoFinished(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico_finished"
+        fun news(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "news"
+    }
 
     object Tag {
-        const val UI_COINS = "LCA: Coins"
-        const val UI_COIN = "LCA: Coin"
-        const val UI_FAVORITE_COINS = "LCA: Favorite Coins"
-        const val UI_COIN_ALERTS = "LCA: Coin Alerts"
-        const val UI_COIN_ALERT = "LCA: Coin Alert"
-        const val UI_ICO = "LCA: Ico"
-        const val UI_ICO_LIVE = "LCA: Ico Live"
-        const val UI_ICO_UPCOMING = "LCA: Ico Upcoming"
-        const val UI_ICO_FINISHED = "LCA: Ico Finished"
-        const val UI_NEWS = "LCA: News"
-        const val UI_MORE = "LCA: More"
-        const val UI_ABOUT = "LCA: About"
-        const val UI_SETTINGS = "LCA: Settings"
-
-
         const val CURRENCY_PICKER = "currency_picker"
     }
 
@@ -36,6 +42,7 @@ object Constants {
 
     object Sep {
         const val SPACE = " "
+        const val HYPHEN = "-"
         const val COMMA = ","
         const val COMMA_SPACE = ", "
         const val UP = ">"
@@ -72,7 +79,7 @@ object Constants {
     object Limit {
         const val COIN_START_INDEX = 0
         const val COIN_PAGE = 100
-        const val COIN_MARKET = 100
+        const val COIN_MARKET = 50
         const val COIN_EXCHANGE = 50
         const val ICO = 100
         const val NEWS = 100

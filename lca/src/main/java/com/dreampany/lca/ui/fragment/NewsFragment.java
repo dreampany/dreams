@@ -89,8 +89,8 @@ public class NewsFragment
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_NEWS;
+    public String getScreen() {
+        return Constants.Screen.news(getAppContext());
     }
 
     @DebugLog

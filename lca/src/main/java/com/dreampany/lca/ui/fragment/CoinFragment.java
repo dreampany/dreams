@@ -70,10 +70,9 @@ public class CoinFragment extends BaseStateFragment<BaseFragment> implements Sea
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_COIN;
+    public String getScreen() {
+        return Constants.Screen.coin(getAppContext());
     }
-
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {

@@ -97,8 +97,8 @@ public class CoinsFragment
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_COINS;
+    public String getScreen() {
+        return Constants.Screen.coins(getAppContext());
     }
 
     @DebugLog

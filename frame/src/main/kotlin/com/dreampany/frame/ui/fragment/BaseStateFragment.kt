@@ -2,9 +2,9 @@ package com.dreampany.frame.ui.fragment
 
 import android.os.Bundle
 import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
 import com.dreampany.frame.R
 import com.dreampany.frame.data.model.Task
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.ui.adapter.SmartPagerAdapter
 import com.dreampany.frame.util.ColorUtil
 import timber.log.Timber
@@ -50,7 +50,9 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
         super.onActivityCreated(savedInstanceState)
         initPager()
         onStartUi(savedInstanceState)
-        getApp()?.getAnalytics()?.logEvent(getAnalyticTag(), savedInstanceState)
+        ex.postToNetwork({
+            getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
+        })
     }
 
     override fun getCurrentFragment(): BaseFragment? {

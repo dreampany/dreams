@@ -78,8 +78,8 @@ public class FinishedIcoFragment
 
     @NotNull
     @Override
-    public String getAnalyticTag() {
-        return Constants.Tag.UI_ICO_FINISHED;
+    public String getScreen() {
+        return Constants.Screen.icoFinished(getAppContext());
     }
 
     @Override

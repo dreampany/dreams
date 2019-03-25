@@ -23,6 +23,7 @@ import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.AppExecutors
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.misc.Events
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.frame.ui.callback.UiCallback
@@ -108,7 +109,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         return this
     }
 
-    open fun getAnalyticTag() : String {
+    open fun getScreen() : String {
         return javaClass.simpleName
     }
 
@@ -181,7 +182,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
             ex.postToNetwork({
-                getApp()?.getAnalytics()?.logEvent(getAnalyticTag(), savedInstanceState)
+                getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
             })
         }
     }

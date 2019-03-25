@@ -59,8 +59,8 @@ class ToolsActivity : BaseActivity() {
             this,
             javaClass.simpleName,
             findViewById<AdView>(R.id.adview),
-            R.string.debug_interstitial_ad_unit_id,
-            R.string.debug_rewarded_ad_unit_id
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
         )
         ad.loadAd(javaClass.simpleName)
         when (type) {

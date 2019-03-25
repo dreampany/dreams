@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 77
-        versionName "0.7.7"
+        versionCode 78
+        versionName "0.7.8"
 
         multiDexEnabled true
 
@@ -152,7 +152,7 @@ dependencies {
 
     /** android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha05'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
 
     /** dagger */
     kapt 'com.google.dagger:dagger-compiler:2.20'

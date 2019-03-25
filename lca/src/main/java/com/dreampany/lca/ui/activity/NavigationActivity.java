@@ -73,8 +73,8 @@ public class NavigationActivity
         ad.initAd(this,
                 getClass().getSimpleName(),
                 findViewById(R.id.adview),
-                R.string.debug_interstitial_ad_unit_id,
-                R.string.debug_rewarded_ad_unit_id);
+                R.string.interstitial_ad_unit_id,
+                R.string.rewarded_ad_unit_id);
         ad.loadBanner(getClass().getSimpleName());
     }
 

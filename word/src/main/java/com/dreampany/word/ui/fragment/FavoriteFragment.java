@@ -49,7 +49,7 @@ import hugo.weaving.DebugLog;
  * hawladar.roman@bjitgroup.com
  */
 @ActivityScope
-public class FlagFragment extends BaseMenuFragment implements SmartAdapter.Callback<WordItem> {
+public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.Callback<WordItem> {
 
     private static final String EMPTY = "empty";
 
@@ -63,7 +63,7 @@ public class FlagFragment extends BaseMenuFragment implements SmartAdapter.Callb
     RecyclerView recycler;
 
     @Inject
-    public FlagFragment() {
+    public FavoriteFragment() {
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.dreampany.word.injector.ui
 
 import com.dreampany.frame.misc.FragmentScope
-import com.dreampany.word.ui.fragment.FlagFragment
+import com.dreampany.word.ui.fragment.FavoriteFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -15,5 +15,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class FlagModule {
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun flagFragment(): FlagFragment
+    abstract fun flagFragment(): FavoriteFragment
 }

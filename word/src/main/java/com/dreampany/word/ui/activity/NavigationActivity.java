@@ -11,7 +11,7 @@ import com.dreampany.frame.ui.callback.SearchViewCallback;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.word.R;
 import com.dreampany.word.databinding.ActivityNavigationBinding;
-import com.dreampany.word.ui.fragment.FlagFragment;
+import com.dreampany.word.ui.fragment.FavoriteFragment;
 import com.dreampany.word.ui.fragment.HomeFragment;
 import com.dreampany.word.ui.fragment.MoreFragment;
 import com.dreampany.word.ui.fragment.OcrFragment;
@@ -44,7 +44,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @Inject
     Lazy<HomeFragment> homeFragment;
     @Inject
-    Lazy<FlagFragment> flagFragment;
+    Lazy<FavoriteFragment> favoriteFragment;
     @Inject
     Lazy<SearchFragment> searchFragment;
     @Inject
@@ -79,7 +79,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
 
     @Override
     public boolean hasRatePermitted() {
-        return false;
+        return true;
     }
 
     @Override
@@ -109,7 +109,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
                 commitFragment(HomeFragment.class, homeFragment, R.id.layout);
                 break;
             case R.id.item_favourite:
-                commitFragment(FlagFragment.class, flagFragment, R.id.layout);
+                commitFragment(FavoriteFragment.class, favoriteFragment, R.id.layout);
                 break;
             case R.id.item_search:
                 commitFragment(SearchFragment.class, searchFragment, R.id.layout);

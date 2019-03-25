@@ -40,6 +40,7 @@ android {
             minifyEnabled false
             useProguard false
             shrinkResources false
+            crunchPngs false
             ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

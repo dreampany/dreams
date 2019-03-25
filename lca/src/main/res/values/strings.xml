@@ -86,7 +86,7 @@
     <string name="Favorite">Favorite</string>
     <string name="Refresh">Refresh</string>
     <string name="AllTime">All Time</string>
-    <string name="action_search">Search</string>
+    <!--<string name="action_search">Search</string>-->
     <string name="noChartDataString">No Chart Data :(</string>
     <string name="notAvailableStringResource">N/A</string>
     <string name="nameAndSymbol">%1$s (%2$s)</string>

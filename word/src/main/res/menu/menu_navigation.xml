@@ -11,10 +11,10 @@
         android:icon="@drawable/ic_library_books_black_24dp"
         android:title="@string/recent" />-->
 
-    <item
+<!--    <item
         android:id="@+id/item_favourite"
         android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="@string/favorite" />
+        android:title="@string/favorite" />-->
 
     <item
         android:id="@+id/item_search"

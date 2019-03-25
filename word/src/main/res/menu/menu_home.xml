@@ -4,9 +4,11 @@
 
     <item
         android:id="@+id/item_search"
+        android:animateLayoutChanges="true"
         android:icon="@drawable/ic_search_white_24dp"
         android:title="@string/search"
-        auto:showAsAction="always" />
+        auto:actionViewClass="androidx.appcompat.widget.SearchView"
+        auto:showAsAction="collapseActionView|always" />
 
     <item
         android:id="@+id/item_favorites"

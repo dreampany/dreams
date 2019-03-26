@@ -1,11 +1,11 @@
-package com.dreampany.toggle;
+package com.dreampany.frame.ui.widget.toggle;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
 
-import com.dreampany.toggle.button.MarkerButton;
+import com.dreampany.frame.ui.widget.toggle.button.MarkerButton;
 
 public class SingleSelectToggleGroup extends ToggleButtonGroup {
     private static final String LOG_TAG = SingleSelectToggleGroup.class.getSimpleName();

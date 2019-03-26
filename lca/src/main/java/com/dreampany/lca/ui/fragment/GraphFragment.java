@@ -28,7 +28,7 @@ import com.dreampany.lca.ui.enums.TimeType;
 import com.dreampany.lca.ui.model.GraphItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.GraphViewModel;
-import com.dreampany.toggle.SingleSelectToggleGroup;
+import com.dreampany.frame.ui.widget.toggle.SingleSelectToggleGroup;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;

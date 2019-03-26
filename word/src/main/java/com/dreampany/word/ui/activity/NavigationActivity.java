@@ -108,9 +108,9 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
             case R.id.item_home:
                 commitFragment(HomeFragment.class, homeFragment, R.id.layout);
                 break;
-            case R.id.item_favourite:
+/*            case R.id.item_favourite:
                 commitFragment(FavoriteFragment.class, favoriteFragment, R.id.layout);
-                break;
+                break;*/
             case R.id.item_search:
                 commitFragment(SearchFragment.class, searchFragment, R.id.layout);
                 break;

@@ -149,13 +149,12 @@ dependencies {
     /** library */
     implementation project(':frame')
     implementation project(':network')
-    implementation project(':toggle')
     implementation project(':firebase')
     implementation project(':vision')
 
     /** android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha05'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
 
     /** dagger */
     kapt 'com.google.dagger:dagger-compiler:2.20'

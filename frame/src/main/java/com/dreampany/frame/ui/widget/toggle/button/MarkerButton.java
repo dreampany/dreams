@@ -1,4 +1,4 @@
-package com.dreampany.toggle.button;
+package com.dreampany.frame.ui.widget.toggle.button;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -10,8 +10,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.dreampany.frame.R;
 
-import com.dreampany.toggle.R;
 
 public abstract class MarkerButton extends CompoundToggleButton {
     private static final String LOG_TAG = MarkerButton.class.getSimpleName();

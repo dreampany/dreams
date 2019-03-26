@@ -1,4 +1,4 @@
-package com.dreampany.toggle.button;
+package com.dreampany.frame.ui.widget.toggle.button;
 
 import android.view.View;
 import android.widget.Checkable;

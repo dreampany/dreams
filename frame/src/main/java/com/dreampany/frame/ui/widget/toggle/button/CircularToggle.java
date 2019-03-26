@@ -1,4 +1,4 @@
-package com.dreampany.toggle.button;
+package com.dreampany.frame.ui.widget.toggle.button;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 
-import com.dreampany.toggle.R;
+import com.dreampany.frame.R;
 
 public class CircularToggle extends MarkerButton {
     private static final String LOG_TAG = CircularToggle.class.getSimpleName();

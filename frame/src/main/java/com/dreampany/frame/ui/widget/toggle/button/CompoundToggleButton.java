@@ -1,4 +1,4 @@
-package com.dreampany.toggle.button;
+package com.dreampany.frame.ui.widget.toggle.button;
 
 import android.content.Context;
 import androidx.annotation.CallSuper;

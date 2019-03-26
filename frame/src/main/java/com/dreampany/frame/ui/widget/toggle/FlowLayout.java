@@ -1,4 +1,4 @@
-package com.dreampany.toggle;
+package com.dreampany.frame.ui.widget.toggle;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import com.dreampany.frame.R;
 
 import java.util.ArrayList;
 import java.util.List;

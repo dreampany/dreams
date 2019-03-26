@@ -1,4 +1,4 @@
-package com.dreampany.toggle;
+package com.dreampany.frame.ui.widget.toggle;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -6,7 +6,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Checkable;
 
-import com.dreampany.toggle.button.ToggleButton;
+import com.dreampany.frame.R;
+import com.dreampany.frame.ui.widget.toggle.button.ToggleButton;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

@@ -1,6 +1,5 @@
 include ':frame'
 include ':network'
-include ':toggle'
 include ':vision'
 //include ':nearby'
 include ':firebase'

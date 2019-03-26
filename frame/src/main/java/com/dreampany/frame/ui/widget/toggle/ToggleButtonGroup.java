@@ -1,16 +1,16 @@
-package com.dreampany.toggle;
+package com.dreampany.frame.ui.widget.toggle;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 
-import com.dreampany.toggle.button.OnCheckedChangeListener;
-import com.dreampany.toggle.button.ToggleButton;
+import com.dreampany.frame.R;
+import com.dreampany.frame.ui.widget.toggle.button.OnCheckedChangeListener;
+import com.dreampany.frame.ui.widget.toggle.button.ToggleButton;
 
 public abstract class ToggleButtonGroup extends FlowLayout {
     private static final String LOG_TAG = ToggleButtonGroup.class.getSimpleName();

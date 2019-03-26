@@ -4,10 +4,12 @@ import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.source.api.CoinAlertDataSource;
 import com.dreampany.lca.data.source.dao.CoinAlertDao;
-import io.reactivex.Maybe;
+
+import java.util.List;
 
 import javax.inject.Singleton;
-import java.util.List;
+
+import io.reactivex.Maybe;
 
 /**
  * Created by Roman-372 on 2/20/2019
@@ -38,6 +40,11 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
+    public boolean isExists(String symbol) {
+        return dao.getCount(symbol) > 0;
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }
@@ -59,12 +66,12 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
 
     @Override
     public boolean isExists(CoinAlert coinAlert) {
-        return false;
+        return  dao.getCount(coinAlert.getId()) > 0;
     }
 
     @Override
     public Maybe<Boolean> isExistsRx(CoinAlert coinAlert) {
-        return null;
+        return Maybe.fromCallable(() -> isExists(coinAlert));
     }
 
     @Override

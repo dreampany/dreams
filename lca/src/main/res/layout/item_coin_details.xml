@@ -31,7 +31,7 @@
                     android:layout_weight="1" />
 
                 <com.like.LikeButton
-                    android:id="@+id/button_like"
+                    android:id="@+id/button_favorite"
                     android:layout_width="23dp"
                     android:layout_height="23dp"
                     auto:icon_size="25dp"

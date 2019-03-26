@@ -15,6 +15,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class CoinModule {
     @FragmentScope
-    @ContributesAndroidInjector(modules = [DetailsModule::class, MarketModule::class, GraphModule::class])
+    @ContributesAndroidInjector(modules = [CoinDetailsModule::class, MarketModule::class, GraphModule::class])
     abstract fun coinFragment(): CoinFragment;
 }

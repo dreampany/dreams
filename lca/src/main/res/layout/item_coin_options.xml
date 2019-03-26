@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <com.like.LikeButton
+            android:id="@+id/button_favorite"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="5dp"
+            auto:icon_size="25dp"
+            auto:icon_type="heart"
+            auto:like_drawable="@drawable/ic_favorite_red_24dp"
+            auto:unlike_drawable="@drawable/ic_favorite_border_black_24dp" />
+
+        <com.like.LikeButton
+            android:id="@+id/button_alert"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            auto:icon_size="25dp"
+            auto:icon_type="heart"
+            auto:like_drawable="@drawable/ic_add_alert_red_24dp"
+            auto:unlike_drawable="@drawable/ic_add_alert_black_24dp" />
+
+    </LinearLayout>
+</layout>

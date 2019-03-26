@@ -12,5 +12,7 @@ public interface CoinAlertDataSource extends DataSource<CoinAlert> {
 
     void clear();
 
+    boolean isExists(String symbol);
+
     CoinAlert getItem(String symbol);
 }

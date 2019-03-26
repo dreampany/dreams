@@ -190,6 +190,13 @@ public class CoinsViewModel
         addSubscription(updateDisposable);
     }
 
+    public void toggleFavorite(Coin coin) {
+        Currency currency = pref.getCurrency(Currency.USD);
+        Disposable disposable = getRx()
+                .backToMain(toggleImpl(coin, currency))
+                .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
+    }
+
     public String getCurrentCurrencyCode() {
         return pref.getCurrency(Currency.USD).name();
     }
@@ -270,6 +277,13 @@ public class CoinsViewModel
                 });
     }
 
+    private Maybe<CoinItem> toggleImpl(Coin coin, Currency currency) {
+        return Maybe.fromCallable(() -> {
+            repo.toggleFavorite(coin);
+            return getItem(coin, currency);
+        });
+    }
+
     private List<CoinItem> getItems(List<Coin> result, Currency currency) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
@@ -301,12 +315,17 @@ public class CoinsViewModel
         }
         item.setItem(coin);
         item.setCurrency(currency);
-        //adjustFavorite(coin, item);
+        adjustFavorite(coin, item);
+        adjustAlert(coin, item);
         return item;
     }
 
     private void adjustFavorite(Coin coin, CoinItem item) {
         item.setFavorite(repo.isFavorite(coin));
+    }
+
+    private void adjustAlert(Coin coin, CoinItem item) {
+        item.setAlert(repo.hasAlert(coin));
     }
 
       /*    private Maybe<CoinItem> toggleImpl(Coin coin) {

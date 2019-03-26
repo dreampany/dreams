@@ -1,6 +1,7 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
+
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -15,18 +16,19 @@ import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Currency;
-import com.dreampany.lca.data.source.repository.CoinAlertRepository;
-import com.dreampany.lca.data.source.repository.CoinRepository;
+import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.UiTask;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-
-import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Created by Roman-372 on 3/6/2019
@@ -38,8 +40,7 @@ public class CoinAlertViewModel
         extends BaseViewModel<CoinAlert, CoinAlertItem, UiTask<CoinAlert>> {
 
     private final CoinAlertMapper mapper;
-    private final CoinRepository coinRepo;
-    private final CoinAlertRepository alertRepo;
+    private final ApiRepository repo;
     private SmartAdapter.Callback<CoinAlertItem> uiCallback;
 
     @Inject
@@ -48,12 +49,10 @@ public class CoinAlertViewModel
                        AppExecutors ex,
                        ResponseMapper rm,
                        CoinAlertMapper mapper,
-                       CoinRepository coinRepo,
-                       CoinAlertRepository alertRepo) {
+                       ApiRepository repo) {
         super(application, rx, ex, rm);
         this.mapper = mapper;
-        this.coinRepo = coinRepo;
-        this.alertRepo = alertRepo;
+        this.repo = repo;
     }
 
     @Override
@@ -88,7 +87,7 @@ public class CoinAlertViewModel
                     }
                     postFailure(error);
                 });
-        //addSingleSubscription(disposable);
+
     }
 
     public void loads(boolean fresh, boolean withProgress) {
@@ -164,7 +163,7 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> getItemRx(Coin coin) {
         return Maybe.create(emitter -> {
-            CoinAlert alert = alertRepo.getItem(coin.getSymbol());
+            CoinAlert alert = repo.getCoinAlert(coin.getSymbol());
             CoinAlertItem item;
             if (alert != null) {
                 item = getItem(coin, alert);
@@ -180,14 +179,14 @@ public class CoinAlertViewModel
     }
 
     private Maybe<List<CoinAlertItem>> getAlertsRx() {
-        return alertRepo.getItemsRx()
+        return repo.getCoinAlertsRx()
                 .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) this::getItemsRx);
     }
 
     private Maybe<List<CoinAlertItem>> getItemsRx(List<CoinAlert> result) {
         return Flowable.fromIterable(result)
                 .map(alert -> {
-                    Coin coin = coinRepo.getItem(CoinSource.CMC, alert.getSymbol(), Currency.USD);
+                    Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), Currency.USD);
                     return getItem(coin, alert);
                 })
                 .toList()
@@ -197,7 +196,7 @@ public class CoinAlertViewModel
     private Maybe<CoinAlertItem> saveRx(Coin coin, double priceUp, double priceDown) {
         return Maybe.create(emitter -> {
             CoinAlert alert = mapper.toItem(coin.getSymbol(), priceUp, priceDown, true);
-            long result = alertRepo.putItem(alert);
+            long result = repo.putItem(coin, alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);
             if (emitter.isDisposed()) {
                 return;
@@ -212,7 +211,7 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> deleteRx(CoinAlertItem item) {
         return Maybe.create(emitter -> {
-            int result = alertRepo.delete(item.getItem());
+            int result = repo.delete(item.getCoin(), item.getItem());
             if (emitter.isDisposed()) {
                 return;
             }

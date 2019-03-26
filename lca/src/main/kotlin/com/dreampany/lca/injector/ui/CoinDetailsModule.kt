@@ -1,6 +1,6 @@
 package com.dreampany.lca.injector.ui
 
-import com.dreampany.lca.ui.fragment.DetailsFragment
+import com.dreampany.lca.ui.fragment.CoinDetailsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -10,7 +10,7 @@ import dagger.android.ContributesAndroidInjector
  * hawladar.roman@bjitgroup.com
  */
 @Module
-abstract class DetailsModule {
+abstract class CoinDetailsModule {
     @ContributesAndroidInjector
-    abstract fun coinDetailsFragment(): DetailsFragment;
+    abstract fun coinDetailsFragment(): CoinDetailsFragment;
 }

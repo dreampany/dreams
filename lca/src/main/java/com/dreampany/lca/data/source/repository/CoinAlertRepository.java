@@ -46,6 +46,11 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
     }
 
     @Override
+    public boolean isExists(String symbol) {
+        return room.isExists(symbol);
+    }
+
+    @Override
     public boolean isEmpty() {
         return false;
     }
@@ -67,7 +72,7 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
 
     @Override
     public boolean isExists(CoinAlert coinAlert) {
-        return false;
+        return room.isExists(coinAlert);
     }
 
     @Override

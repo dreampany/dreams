@@ -32,6 +32,9 @@ interface CoinAlertDao : BaseDao<CoinAlert> {
     @Query("select count(*) from coinalert where id = :id limit 1")
     fun getCountRx(id: Long): Maybe<Int>
 
+    @Query("select count(*) from coinalert where symbol = :symbol limit 1")
+    fun getCount(symbol: String): Int
+
     @Query("select * from coinalert where id = :id limit 1")
     fun getItem(id: Long): CoinAlert
 

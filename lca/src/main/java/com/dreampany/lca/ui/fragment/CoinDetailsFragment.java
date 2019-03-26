@@ -57,7 +57,7 @@ import hugo.weaving.DebugLog;
  */
 
 @FragmentScope
-public class DetailsFragment
+public class CoinDetailsFragment
         extends BaseMenuFragment
         implements SmartAdapter.Callback<CoinItem> {
 
@@ -72,7 +72,7 @@ public class DetailsFragment
     RecyclerView recycler;
 
     @Inject
-    public DetailsFragment() {
+    public CoinDetailsFragment() {
 
     }
 
@@ -154,7 +154,7 @@ public class DetailsFragment
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
-            case R.id.button_like:
+            case R.id.button_favorite:
                 vm.toggleFavorite((Coin) v.getTag());
                 break;
             case R.id.fab:

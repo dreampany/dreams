@@ -48,7 +48,7 @@ public class CoinFragment extends BaseStateFragment<BaseFragment> implements Sea
     @NonNull
     @Override
     protected Class<BaseFragment>[] pageClasses() {
-        return new Class[]{DetailsFragment.class, MarketFragment.class, GraphFragment.class};
+        return new Class[]{CoinDetailsFragment.class, MarketFragment.class, GraphFragment.class};
     }
 
     @NotNull

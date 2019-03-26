@@ -221,6 +221,12 @@ public class CoinsFragment
             case R.id.button_empty:
                 vm.loads(true, true);
                 break;
+            case R.id.button_favorite:
+                vm.toggleFavorite((Coin) v.getTag());
+                break;
+            case R.id.button_alert:
+                openCoinAlertUi((Coin) v.getTag());
+                break;
         }
     }
 
@@ -280,6 +286,7 @@ public class CoinsFragment
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
+        vm.observeOutput(this, this::processSingleResponse);
     }
 
     private void initRecycler() {
@@ -371,6 +378,19 @@ public class CoinsFragment
         }
     }
 
+    public void processSingleResponse(Response<CoinItem> response) {
+        if (response instanceof Response.Progress) {
+            Response.Progress result = (Response.Progress) response;
+            processProgress(result.getLoading());
+        } else if (response instanceof Response.Failure) {
+            Response.Failure result = (Response.Failure) response;
+            processFailure(result.getError());
+        } else if (response instanceof Response.Result) {
+            Response.Result<CoinItem> result = (Response.Result<CoinItem>) response;
+            processSingleSuccess(result.getData());
+        }
+    }
+
     private void processProgress(boolean loading) {
         if (loading) {
             vm.updateUiState(UiState.SHOW_PROGRESS);
@@ -405,6 +425,10 @@ public class CoinsFragment
         AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 500);
     }
 
+    private void processSingleSuccess(CoinItem item) {
+        adapter.updateSilently(item);
+    }
+
     private void updateCurrency(Currency currency) {
         adapter.updateCurrency(currency);
     }
@@ -421,6 +445,14 @@ public class CoinsFragment
         UiTask<Coin> task = new UiTask<>(false);
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.FAVORITES);
+        openActivity(ToolsActivity.class, task);
+    }
+
+    private void openCoinAlertUi(Coin coin) {
+        UiTask<Coin> task = new UiTask<>(false);
+        task.setInput(coin);
+        task.setUiType(UiType.COIN);
+        task.setSubtype(UiSubtype.ALERT);
         openActivity(ToolsActivity.class, task);
     }
 

@@ -12,8 +12,10 @@ import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.ItemState;
 import com.dreampany.lca.data.enums.ItemSubtype;
 import com.dreampany.lca.data.enums.ItemType;
+import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.google.common.collect.Maps;
@@ -40,9 +42,12 @@ public class ApiRepository {
     private final Pref pref;
     private final CoinMapper coinMapper;
     private final StateMapper stateMapper;
+    private final CoinAlertMapper alertMapper;
     private final CoinRepository coinRepo;
     private final StateRepository stateRepo;
+    private final CoinAlertRepository alertRepo;
     private final Map<Coin, Boolean> favorites;
+    private final Map<Coin, Boolean> alerts;
 
     @Inject
     ApiRepository(RxMapper rx,
@@ -50,16 +55,21 @@ public class ApiRepository {
                   Pref pref,
                   CoinMapper coinMapper,
                   StateMapper stateMapper,
+                  CoinAlertMapper alertMapper,
                   CoinRepository coinRepo,
-                  StateRepository stateRepo) {
+                  StateRepository stateRepo,
+                  CoinAlertRepository alertRepo) {
         this.rx = rx;
         this.rm = rm;
         this.pref = pref;
         this.coinMapper = coinMapper;
         this.stateMapper = stateMapper;
+        this.alertMapper = alertMapper;
         this.coinRepo = coinRepo;
         this.stateRepo = stateRepo;
+        this.alertRepo = alertRepo;
         favorites = Maps.newConcurrentMap();
+        alerts = Maps.newConcurrentMap();
     }
 
     public boolean hasState(Coin coin, ItemSubtype subtype, ItemState state) {
@@ -91,12 +101,21 @@ public class ApiRepository {
         return result;
     }
 
+
     public boolean isFavorite(Coin coin) {
         if (!favorites.containsKey(coin)) {
             boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
             favorites.put(coin, flagged);
         }
         return favorites.get(coin);
+    }
+
+    public boolean hasAlert(Coin coin) {
+        if (!alerts.containsKey(coin)) {
+            boolean alert = alertRepo.isExists(coin.getSymbol());
+            alerts.put(coin, alert);
+        }
+        return alerts.get(coin);
     }
 
     public boolean toggleFavorite(Coin coin) {
@@ -126,6 +145,30 @@ public class ApiRepository {
     public List<Coin> getFavorites(CoinSource source, Currency currency) {
         List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());
         return getItemsIf(states, source, currency);
+    }
+
+    public CoinAlert getCoinAlert(String symbol) {
+        return alertRepo.getItem(symbol);
+    }
+
+    public Maybe<List<CoinAlert>> getCoinAlertsRx() {
+        return alertRepo.getItemsRx();
+    }
+
+    public long putItem(Coin coin, CoinAlert coinAlert) {
+        long result = alertRepo.putItem(coinAlert);
+        if (result != -1) {
+            alerts.put(coin, true);
+        }
+        return result;
+    }
+
+    public int delete(Coin coin, CoinAlert coinAlert) {
+        int result =  alertRepo.delete(coinAlert);
+        if (result != -1) {
+            alerts.put(coin, false);
+        }
+        return result;
     }
 
     private List<Coin> getItemsIf(List<State> states, CoinSource source, Currency currency) {

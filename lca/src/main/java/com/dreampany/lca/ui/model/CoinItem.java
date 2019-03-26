@@ -31,6 +31,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.appcompat.widget.AppCompatImageButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
@@ -46,6 +47,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     private CoinItemType type;
     private Currency currency;
     private boolean favorite;
+    private boolean alert;
 
     private CoinItem(Coin coin, Currency currency, CoinItemType type, @LayoutRes int layoutId) {
         super(coin, layoutId);
@@ -77,12 +79,20 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         this.favorite = favorite;
     }
 
+    public void setAlert(boolean alert) {
+        this.alert = alert;
+    }
+
     public Currency getCurrency() {
         return currency;
     }
 
     public boolean isFavorite() {
         return favorite;
+    }
+
+    public boolean hasAlert() {
+        return alert;
     }
 
     @Override
@@ -184,12 +194,16 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         TextView dayVolume;
         @BindView(R.id.text_last_updated)
         TextView lastUpdated;
-/*        @BindView(R.id.button_like)
-        LikeButton like;*/
+
+        @BindView(R.id.button_favorite)
+        LikeButton buttonFavorite;
+        @BindView(R.id.button_alert)
+        LikeButton buttonAlert;
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
             super(view, adapter);
-            //like.setOnClickListener(super.adapter.getClickListener());
+            buttonFavorite.setOnClickListener(super.adapter.getClickListener());
+            buttonAlert.setOnClickListener(super.adapter.getClickListener());
         }
 
         @Override
@@ -249,6 +263,12 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
                     TimeUtil.currentTime(),
                     DateUtils.MINUTE_IN_MILLIS);
             lastUpdated.setText(lastUpdatedTime);
+
+            buttonFavorite.setLiked(item.favorite);
+            buttonFavorite.setTag(coin);
+
+            buttonAlert.setLiked(item.alert);
+            buttonAlert.setTag(coin);
         }
     }
 
@@ -261,7 +281,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         TextView name;
         @BindView(R.id.text_price)
         TextView price;
-        @BindView(R.id.button_like)
+        @BindView(R.id.button_favorite)
         LikeButton like;
 
         @BindView(R.id.layout_market_cap)

@@ -41,13 +41,14 @@ class NotifyManager @Inject constructor(val context: Context) {
     }*/
 
     fun showNotification(
+        title: String,
         contentText: String,
         icon: Int,
         targetClass: Class<*>
     ) {
         showNotification(
             NOTIFY_DEFAULT,
-            context.getString(R.string.app_name),
+            title,
             contentText,
             icon,
             targetClass,
@@ -76,6 +77,7 @@ class NotifyManager @Inject constructor(val context: Context) {
     }
 
     fun showNotification(
+        title : String,
         contentText: String,
         icon: Int,
         notifyId: Int,
@@ -84,7 +86,7 @@ class NotifyManager @Inject constructor(val context: Context) {
     ) {
         showNotification(
             notifyId,
-            context.getString(R.string.app_name),
+            title,
             contentText,
             icon,
             targetClass,

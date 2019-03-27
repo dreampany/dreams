@@ -1,6 +1,7 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
+import android.view.TextureView;
 
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
@@ -195,11 +196,16 @@ public class NotifyViewModel {
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
-        notify.showNotification(message, R.drawable.ic_notification, NavigationActivity.class);
+        String title = TextUtil.getString(app, R.string.notify_title_profit);
+        notify.showNotification(title, message, R.drawable.ic_notification, NavigationActivity.class);
     }
 
     @DebugLog
     private void postResultAlerts(List<CoinAlertItem> items) {
+        App app = (App) application;
+        if (app.isVisible()) {
+            //return;
+        }
         if (DataUtil.isEmpty(items)) {
             return;
         }
@@ -224,7 +230,9 @@ public class NotifyViewModel {
                         .append(alert.getPriceDown());
             }
         }
+        String title = TextUtil.getString(app, R.string.notify_title_price_alert);
         notify.showNotification(
+                title,
                 message.toString(),
                 R.drawable.ic_notification,
                 Constants.Notify.ALERT_ID,

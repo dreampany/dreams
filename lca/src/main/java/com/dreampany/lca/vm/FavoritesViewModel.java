@@ -24,10 +24,9 @@ import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import timber.log.Timber;
 
 import javax.inject.Inject;
@@ -160,6 +159,13 @@ public class FavoritesViewModel
         addSubscription(updateDisposable);
     }
 
+    public void toggleFavorite(Coin coin) {
+        Currency currency = pref.getCurrency(Currency.USD);
+        Disposable disposable = getRx()
+                .backToMain(toggleImpl(coin, currency))
+                .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
+    }
+
     /* private api */
     private Maybe<List<CoinItem>> getFavoriteItemsRx(CoinSource source, Currency currency) {
         return Maybe.fromCallable(() -> {
@@ -199,6 +205,13 @@ public class FavoritesViewModel
         }).onErrorReturn(throwable -> new ArrayList<>());
     }
 
+    private Maybe<CoinItem> toggleImpl(Coin coin, Currency currency) {
+        return Maybe.fromCallable(() -> {
+            repo.toggleFavorite(coin);
+            return getItem(coin, currency);
+        });
+    }
+
     private List<CoinItem> getVisibleItemsIf(Currency currency) {
         if (uiCallback == null) {
             return null;
@@ -230,7 +243,8 @@ public class FavoritesViewModel
             map.put(coin.getId(), item);
         }
         item.setItem(coin);
-        adjustFlag(coin, item);
+        adjustFavorite(coin, item);
+        adjustAlert(coin, item);
         return item;
     }
 
@@ -254,8 +268,11 @@ public class FavoritesViewModel
         return items;
     }
 
-    private void adjustFlag(Coin coin, CoinItem item) {
-        boolean flagged = repo.isFavorite(coin);
-        item.setFavorite(flagged);
+    private void adjustFavorite(Coin coin, CoinItem item) {
+        item.setFavorite(repo.isFavorite(coin));
+    }
+
+    private void adjustAlert(Coin coin, CoinItem item) {
+        item.setAlert(repo.hasAlert(coin));
     }
 }

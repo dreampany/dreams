@@ -1,8 +1,11 @@
 package com.dreampany.lca.misc;
 
 import android.content.Context;
+import android.view.TextureView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Currency;
@@ -11,6 +14,7 @@ import com.google.common.collect.Sets;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
@@ -157,8 +161,14 @@ public class CurrencyFormatter {
         return TextUtil.getString(context, priceResId, price);
     }
 
-    public String formatPrice(String symbol, String name, double price, double dayChange) {
-        return null;
+    public String formatPrice(String symbol, String name, double price, double dayChange, Currency currency) {
+        String coin = TextUtil.getString(context, R.string.full_name, symbol, name);
+        String priceValue = getText(R.string.with_price, formatPrice(price, currency));
+        String change = getText(R.string.with_change, getText(R.string.positive_pct_format, dayChange));
+        StringBuilder format = new StringBuilder(coin);
+        format.append(Constants.Sep.SPACE_HYPHEN_SPACE).append(priceValue);
+        format.append(Constants.Sep.COMMA_SPACE).append(change);
+        return format.toString();
     }
 
     public int getPriceResId(Currency currency) {
@@ -204,4 +214,11 @@ public class CurrencyFormatter {
         return resId;
     }
 
+    private String getText(@StringRes int resId) {
+        return TextUtil.getString(context, resId);
+    }
+
+    private String getText(@StringRes int resId, Object... args) {
+        return TextUtil.getString(context, resId, args);
+    }
 }

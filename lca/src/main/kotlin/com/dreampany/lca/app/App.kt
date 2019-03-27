@@ -12,6 +12,7 @@ import com.dreampany.lca.data.source.pref.Pref
 import com.dreampany.lca.injector.app.DaggerAppComponent
 import com.dreampany.lca.misc.Constants
 import com.dreampany.lca.service.NotifyService
+import com.dreampany.lca.vm.NotifyViewModel
 import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -29,6 +30,9 @@ class App : BaseApp() {
 
     @Inject
     lateinit var pref: Pref
+
+    @Inject
+    lateinit var notify: NotifyViewModel
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG;
@@ -82,6 +86,7 @@ class App : BaseApp() {
             job.cancel(NotifyService::class.java)
         }
         clean()
+        //notify.notifyIf()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

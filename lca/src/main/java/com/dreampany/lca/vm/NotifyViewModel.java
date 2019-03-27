@@ -189,12 +189,9 @@ public class NotifyViewModel {
                 }
             }
             Coin coin = profitable.getItem();
-            message = TextUtil.getString(app,
-                    R.string.profitable_coin,
-                    coin.getSymbol(),
-                    coin.getName(),
-                    coin.getUsdQuote().getPrice(),
-                    coin.getUsdQuote().getDayChange());
+            double price = coin.getQuote(currency).getPrice();
+            double dayChange = coin.getQuote(currency).getDayChange();
+            message = formatter.formatPrice(coin.getSymbol(), coin.getName(), price, dayChange, currency);
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }

@@ -211,15 +211,15 @@ public final class TextUtil {
     }
 
     @NonNull
-    public static String getString(@NonNull Context context, @StringRes int resourceId) {
-        return context.getString(resourceId);
+    public static String getString(@NonNull Context context, @StringRes int resId) {
+        return context.getString(resId);
     }
 
-    public static String getString(@NonNull Context context, @StringRes int resourceId, Object... formatArgs) {
+    public static String getString(@NonNull Context context, @StringRes int resId, Object... args) {
         if (context == null) {
             return null;
         }
-        return context.getString(resourceId, formatArgs);
+        return context.getString(resId, args);
     }
 
     public static String[] getStringArray(@NonNull Context context, @ArrayRes int arrayId) {

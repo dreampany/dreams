@@ -137,7 +137,6 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     static abstract class ViewHolder extends BaseItem.ViewHolder {
 
         final CoinAdapter adapter;
-        //final String usdFormat;
         final String btcFormat;
         final int positiveChange;
         final int negativeChange;
@@ -147,7 +146,6 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             super(view, adapter);
             ButterKnife.bind(this, view);
             this.adapter = (CoinAdapter) adapter;
-            //usdFormat = getText(R.string.usd_format);
             btcFormat = getText(R.string.btc_format);
             positiveChange = R.string.positive_pct_format;
             negativeChange = R.string.negative_pct_format;

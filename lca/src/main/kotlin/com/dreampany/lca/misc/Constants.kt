@@ -43,6 +43,8 @@ class Constants {
     object Sep {
         const val SPACE = " "
         const val HYPHEN = "-"
+        const val HYPHEN_SPACE = "- "
+        const val SPACE_HYPHEN_SPACE = " - "
         const val COMMA = ","
         const val COMMA_SPACE = ", "
         const val UP = ">"

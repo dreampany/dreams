@@ -1,9 +1,5 @@
 package com.dreampany.lca.ui.model;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
-
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -31,7 +27,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
@@ -44,6 +42,7 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  */
 public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
+    private CurrencyFormatter formatter;
     private CoinItemType type;
     private Currency currency;
     private boolean favorite;
@@ -69,6 +68,10 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     public static CoinItem getQuoteItem(@NonNull Coin coin, @NonNull Currency currency) {
         return new CoinItem(coin, currency, CoinItemType.QUOTE, R.layout.item_coin_quote);
+    }
+
+    public void setFormatter(CurrencyFormatter formatter) {
+        this.formatter = formatter;
     }
 
     public void setCurrency(Currency currency) {
@@ -109,14 +112,14 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     public ViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
         switch (type) {
             case PROGRESS:
-                return new ProgressViewHolder(view, adapter);
+                return new ProgressViewHolder(view, adapter, formatter);
             case SIMPLE:
-                return new SimpleViewHolder(view, adapter);
+                return new SimpleViewHolder(view, adapter, formatter);
             case DETAILS:
-                return new DetailsViewHolder(view, adapter);
+                return new DetailsViewHolder(view, adapter, formatter);
             case QUOTE:
             default:
-                return new QuoteViewHolder(view, adapter);
+                return new QuoteViewHolder(view, adapter, formatter);
         }
     }
 
@@ -140,7 +143,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         final int negativeChange;
         final CurrencyFormatter formatter;
 
-        ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
+        ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter, CurrencyFormatter formatter) {
             super(view, adapter);
             ButterKnife.bind(this, view);
             this.adapter = (CoinAdapter) adapter;
@@ -148,7 +151,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             btcFormat = getText(R.string.btc_format);
             positiveChange = R.string.positive_pct_format;
             negativeChange = R.string.negative_pct_format;
-            formatter = new CurrencyFormatter(getContext());
+            this.formatter = formatter;
         }
 
         abstract void bind(int position, CoinItem item);
@@ -164,8 +167,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     static final class ProgressViewHolder extends ViewHolder {
 
-        ProgressViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-            super(view, adapter);
+        ProgressViewHolder(@NotNull View view, @NotNull FlexibleAdapter<IFlexible> adapter, CurrencyFormatter formatter) {
+            super(view, adapter, formatter);
         }
 
         @Override
@@ -200,8 +203,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         @BindView(R.id.button_alert)
         LikeButton buttonAlert;
 
-        SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-            super(view, adapter);
+        SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter, CurrencyFormatter formatter) {
+            super(view, adapter, formatter);
             buttonFavorite.setOnClickListener(super.adapter.getClickListener());
             buttonAlert.setOnClickListener(super.adapter.getClickListener());
         }
@@ -302,8 +305,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         TextView weekChange;
 
 
-        DetailsViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-            super(view, adapter);
+        DetailsViewHolder(@NotNull View view, @NotNull FlexibleAdapter<IFlexible> adapter, CurrencyFormatter formatter) {
+            super(view, adapter, formatter);
             marketCapTitle = marketCap.findViewById(R.id.text_title);
             marketCapValue = marketCap.findViewById(R.id.text_value);
             volumeTitle = volume.findViewById(R.id.text_title);
@@ -381,8 +384,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         @BindView(R.id.text_last_updated)
         TextView lastUpdated;
 
-        QuoteViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-            super(view, adapter);
+        QuoteViewHolder(@NotNull View view, @NotNull FlexibleAdapter<IFlexible> adapter, CurrencyFormatter formatter) {
+            super(view, adapter, formatter);
 
             circulatingTitle = circulatingSupply.findViewById(R.id.text_title);
             circulatingValue = circulatingSupply.findViewById(R.id.text_value);

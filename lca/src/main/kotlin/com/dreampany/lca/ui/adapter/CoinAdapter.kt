@@ -71,11 +71,11 @@ class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
         }
     }
 
-    fun load(coin: Coin, currency: Currency) {
+/*    fun load(coin: Coin, currency: Currency) {
         addItem(CoinItem.getDetailsItem(coin, currency))
         addItem(CoinItem.getQuoteItem(coin, Currency.USD))
         addItem(CoinItem.getQuoteItem(coin, Currency.EUR))
-    }
+    }*/
 
     class RankComparator : Comparator<IFlexible<*>> {
         override fun compare(leftChild: IFlexible<*>?, rightChild: IFlexible<*>?): Int {

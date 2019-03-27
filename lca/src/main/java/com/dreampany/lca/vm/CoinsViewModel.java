@@ -22,6 +22,7 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.data.model.Network;
@@ -50,6 +51,7 @@ public class CoinsViewModel
     private final NetworkManager network;
     private final Pref pref;
     private final ApiRepository repo;
+    private final CurrencyFormatter formatter;
     private Disposable updateDisposable;
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
@@ -65,11 +67,13 @@ public class CoinsViewModel
                    ResponseMapper rm,
                    NetworkManager network,
                    Pref pref,
-                   ApiRepository repo) {
+                   ApiRepository repo,
+                   CurrencyFormatter formatter) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
         this.repo = repo;
+        this.formatter = formatter;
         currentIndex = Constants.Limit.COIN_START_INDEX;
         currencies = Collections.synchronizedList(new ArrayList<>());
 
@@ -311,6 +315,7 @@ public class CoinsViewModel
         CoinItem item = map.get(coin.getId());
         if (item == null) {
             item = CoinItem.getSimpleItem(coin, currency);
+            item.setFormatter(formatter);
             map.put(coin.getId(), item);
         }
         item.setItem(coin);

@@ -171,6 +171,10 @@ public class ApiRepository {
         return result;
     }
 
+    public int getCoinCount() {
+        return coinRepo.getCount();
+    }
+
     private List<Coin> getItemsIf(List<State> states, CoinSource source, Currency currency) {
         if (DataUtil.isEmpty(states)) {
             return null;

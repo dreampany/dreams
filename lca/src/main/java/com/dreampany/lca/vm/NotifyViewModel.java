@@ -1,36 +1,47 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
+
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
-import com.dreampany.lca.data.model.*;
+import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.CoinAlert;
+import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.model.Price;
+import com.dreampany.lca.data.model.Quote;
+import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.data.source.repository.CoinAlertRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.activity.NavigationActivity;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 7/22/2018.
@@ -42,15 +53,16 @@ public class NotifyViewModel {
 
     private final Application application;
     private final RxMapper rx;
+    private final Pref pref;
     private final ApiRepository repo;
     private final PriceRepository priceRepo;
     private final CoinAlertRepository alertRepo;
+    private final CurrencyFormatter formatter;
     private final NotifyManager notify;
-    //private CompositeDisposable disposables;
 
     private final Map<Coin, Price> prices;
 
-    private boolean switching;
+    private boolean switching = true;
 
     @Inject
     NotifyViewModel(Application application,
@@ -58,14 +70,18 @@ public class NotifyViewModel {
                     AppExecutors ex,
                     ResponseMapper rm,
                     NetworkManager network,
+                    Pref pref,
                     ApiRepository repo,
                     PriceRepository priceRepo,
-                    CoinAlertRepository alertRepo) {
+                    CoinAlertRepository alertRepo,
+                    CurrencyFormatter formatter) {
         this.application = application;
         this.rx = rx;
+        this.pref = pref;
         this.repo = repo;
         this.priceRepo = priceRepo;
         this.alertRepo = alertRepo;
+        this.formatter = formatter;
         this.notify = new NotifyManager(application);
         prices = Maps.newConcurrentMap();
         //disposables = new CompositeDisposable();
@@ -80,18 +96,18 @@ public class NotifyViewModel {
             //return;
         }*/
         Timber.v("notifyIf Processing");
-        Currency currency = Currency.USD;
+        Currency currency = pref.getCurrency(Currency.USD);
         if (switching) {
             Maybe<List<CoinItem>> maybe = getProfitableItemsRx(currency);
             if (maybe != null) {
                 rx
                         .backToMain(maybe)
-                        .subscribe(this::postResultCoins, this::postFailed);
+                        .subscribe(result -> postResultCoins(currency, result), this::postFailed);
             } else {
                 Timber.e("getProfitableItemsRx is Null");
             }
         } else {
-            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx();
+            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx(currency);
             if (maybe != null) {
                 rx
                         .backToMain(maybe)
@@ -105,41 +121,58 @@ public class NotifyViewModel {
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
-        int listStart = Constants.Limit.COIN_START_INDEX;
-        int listLimit = Constants.Limit.COIN_PAGE;
-        return repo.getItemsIfRx(CoinSource.CMC, listStart, listLimit, currency)
-                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getProfitableItemsRx);
+        return Maybe.create(emitter -> {
+            int coinCount = repo.getCoinCount();
+            int resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
+
+            int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
+            int listLimit = Constants.Limit.COIN_PAGE;
+            List<CoinItem> result = repo
+                    .getItemsIfRx(CoinSource.CMC, listStart, listLimit, currency)
+                    .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
+                    .blockingGet();
+
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
-    private Maybe<List<CoinAlertItem>> getAlertItemsRx() {
-        return alertRepo.getItemsRx()
-                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) this::getAlertItemsRx);
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency) {
+        return alertRepo
+                .getItemsRx()
+                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) alerts -> getAlertItemsRx(currency, alerts));
     }
 
-    private Maybe<List<CoinItem>> getProfitableItemsRx(List<Coin> result) {
+    private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency, List<Coin> result) {
         return Flowable.fromIterable(result)
                 .filter(this::isProfitable)
-                .map(coin -> CoinItem.getSimpleItem(coin, Currency.USD))
+                .map(coin -> {
+                    CoinItem item = CoinItem.getSimpleItem(coin, currency);
+                    item.setFormatter(formatter);
+                    return item;
+                })
                 .toList()
                 .toMaybe();
     }
 
-    private Maybe<List<CoinAlertItem>> getAlertItemsRx(List<CoinAlert> result) {
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency, List<CoinAlert> result) {
         return Flowable.fromIterable(result)
                 .filter(this::isAlertable)
                 .map(alert -> {
-                    Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), Currency.USD);
+                    Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), currency);
                     return CoinAlertItem.getItem(coin, alert);
                 }).toList()
                 .toMaybe();
     }
 
-/*    private boolean hasDisposable() {
-        return disposable != null && !disposable.isDisposed();
-    }*/
-
     @DebugLog
-    private void postResultCoins(List<CoinItem> items) {
+    private void postResultCoins(Currency currency, List<CoinItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
             //return;
@@ -149,8 +182,9 @@ public class NotifyViewModel {
         if (!DataUtil.isEmpty(items)) {
             CoinItem profitable = items.get(0);
             for (int index = 1; index < items.size(); index++) {
-                if (items.get(index).getItem().getUsdQuote().getDayChange() >
-                        profitable.getItem().getUsdQuote().getDayChange()) {
+                Quote profitableQuote = profitable.getItem().getQuote(currency);
+                Quote nextQuote = items.get(index).getItem().getQuote(currency);
+                if (nextQuote.getDayChange() > profitableQuote.getDayChange()) {
                     profitable = items.get(index);
                 }
             }
@@ -225,17 +259,4 @@ public class NotifyViewModel {
         }
         return false;
     }
-
-/*    @DebugLog
-    private boolean isProfitable(Coin coin) {
-        CmcQuote priceQuote = coin.getUsdPriceQuote();
-        if (!prices.containsKey(coin)) {
-            Price price = new Price(coin.getId(), priceQuote.getPrice());
-            prices.put(coin, price);
-        }
-        Price exists = prices.get(coin);
-        boolean profitable = priceQuote.getPrice() >= exists.getPrice();
-        exists.setPrice(priceQuote.getPrice());
-        return profitable;
-    }*/
 }

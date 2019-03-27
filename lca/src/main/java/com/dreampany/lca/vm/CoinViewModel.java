@@ -19,6 +19,7 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
+import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
@@ -44,6 +45,7 @@ public class CoinViewModel
     private final NetworkManager network;
     private final Pref pref;
     private final ApiRepository repo;
+    private final CurrencyFormatter formatter;
     private Disposable updateDisposable;
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
@@ -57,11 +59,13 @@ public class CoinViewModel
                   ResponseMapper rm,
                   NetworkManager network,
                   Pref pref,
-                  ApiRepository repo) {
+                  ApiRepository repo,
+                  CurrencyFormatter formatter) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
         this.repo = repo;
+        this.formatter = formatter;
 
         currencies = Collections.synchronizedList(new ArrayList<>());
 
@@ -219,14 +223,9 @@ public class CoinViewModel
                 (left, right) -> Arrays.asList(left, right));
     }*/
 
-    private CoinItem getDetailsCoinItem(Coin coin, Currency currency) {
-        CoinItem item = CoinItem.getDetailsItem(coin, currency);
-        adjustFavorite(coin, item);
-        return item;
-    }
-
     private CoinItem getQuoteCoinItem(Coin coin, Currency currency) {
         CoinItem item = CoinItem.getQuoteItem(coin, currency);
+        item.setFormatter(formatter);
         adjustFavorite(coin, item);
         return item;
     }
@@ -243,6 +242,7 @@ public class CoinViewModel
         CoinItem item = map.get(coin.getId());
         if (item == null) {
             item = CoinItem.getDetailsItem(coin, currency);
+            item.setFormatter(formatter);
             map.put(coin.getId(), item);
         }
         item.setItem(coin);

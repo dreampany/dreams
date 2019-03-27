@@ -157,6 +157,10 @@ public class CurrencyFormatter {
         return TextUtil.getString(context, priceResId, price);
     }
 
+    public String formatPrice(String symbol, String name, double price, double dayChange) {
+        return null;
+    }
+
     public int getPriceResId(Currency currency) {
         int resId = 0;
         switch (currency) {

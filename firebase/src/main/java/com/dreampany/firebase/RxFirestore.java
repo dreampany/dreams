@@ -28,8 +28,19 @@ public final class RxFirestore {
         firestore.setFirestoreSettings(settings);
     }
 
-    public <T> Completable setDocument(String collectionPath, String documentPath, T item) {
-        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
+/*    public <T> Maybe setDocument(String collection, String document, T item) {
+        DocumentReference ref = firestore.collection(collection).document(document);
+        return setDocument(ref, item);
+    }
+
+    public <T> Completable setDocument(DocumentReference ref, T item) {
+        return Completable.create(emitter ->
+                RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
+        );
+    }*/
+
+    public <T> Completable setDocument(String collection, String document, T item) {
+        DocumentReference ref = firestore.collection(collection).document(document);
         return setDocument(ref, item);
     }
 

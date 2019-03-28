@@ -15,6 +15,7 @@ import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
+import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -92,7 +93,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
         return room.putItemRx(coin)
-                .filter(result -> result != -1)
+                .filter(new Predicate<Long>() {
+                    @Override
+                    public boolean test(Long result) throws Exception {
+                        Timber.v("Room Insertion Result %s", String.valueOf(result));
+                        return result != -1;
+                    }
+                })
                 .doOnSuccess(result -> rx.compute(firestore.putItemRx(coin)).subscribe());
     }
 
@@ -225,6 +232,9 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
         Maybe<Coin> room = getRoomItemIfRx(source, symbol, currency);
         Maybe<Coin> remote = getRemoteItemIfRx(source, symbol, currency);
+        if (needToUpdate(symbol, currency) && network.isObserving() && network.hasInternet()) {
+            return concatSingleFirstRx(remote, room);
+        }
         return concatSingleLastRx(remote, room);
     }
 
@@ -277,12 +287,30 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
+/*    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, Currency currency) {
+        Maybe<Coin> maybe = Maybe.create(emitter -> {
+            Coin coin = remote.getItemRx(source, symbol, currency).blockingGet();
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (coin == null) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(coin);
+            }
+        });
+
+        return maybe
+                .filter(coin -> !DataUtil.isEmpty(coin))
+                .doOnSuccess(coin -> {
+                    rx.compute(putItemRx(coin)).subscribe();
+                    updateCoinUpdate(coin.getSymbol(), currency);
+                });
+    }*/
+
     private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, Currency currency) {
         Maybe<Coin> maybe = Maybe.create(emitter -> {
-            Coin coin = null;
-            if (needToUpdate(symbol, currency)) {
-                coin = remote.getItemRx(source, symbol, currency).blockingGet();
-            }
+            Coin coin = remote.getItemRx(source, symbol, currency).blockingGet();
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();
             }

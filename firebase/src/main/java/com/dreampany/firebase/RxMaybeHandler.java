@@ -6,7 +6,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import androidx.annotation.NonNull;
-import io.reactivex.CompletableEmitter;
 import io.reactivex.MaybeEmitter;
 import timber.log.Timber;
 
@@ -37,16 +36,28 @@ public class RxMaybeHandler<T> implements OnFailureListener, OnSuccessListener<T
 
     @Override
     public void onFailure(@NonNull Exception error) {
-
+        if (emitter.isDisposed()) {
+            return;
+        }
+        emitter.onError(error);
+        Timber.e("Error %s", error.getMessage());
     }
 
     @Override
     public void onSuccess(T t) {
-
+        if (emitter.isDisposed()) {
+            return;
+        }
+        emitter.onSuccess(t);
+        Timber.v("Completed successfully");
     }
 
     @Override
     public void onComplete(@NonNull Task<T> task) {
-
+        if (emitter.isDisposed()) {
+            return;
+        }
+        emitter.onComplete();
+        Timber.v("Completed");
     }
 }

@@ -9,9 +9,11 @@ import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Singleton;
 
+import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 
 /**
@@ -105,6 +107,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         return null;
     }
 
+    @DebugLog
     @Override
     public long putItem(Coin coin) {
         Throwable error = firestore.setDocument(COINS, coin.getSymbol(), coin).blockingGet();
@@ -116,7 +119,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
-        return null;
+        return Maybe.fromCallable(() -> putItem(coin));
     }
 
     @Override

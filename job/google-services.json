@@ -1,0 +1,135 @@
+{
+  "project_info": {
+    "project_number": "693454222521",
+    "firebase_url": "https://dreamsbjit.firebaseio.com",
+    "project_id": "dreamsbjit",
+    "storage_bucket": "dreamsbjit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693454222521:android:3d930afe2d80d2b7",
+        "android_client_info": {
+          "package_name": "com.dreampany.crime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693454222521-hlaeftm6e1cnchl9rbp601nm4ok0f2e0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP-teTqoaVCJOMJYkimC07WYjTaBNYkIo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693454222521:android:113ca3060cb9b8d9",
+        "android_client_info": {
+          "package_name": "com.dreampany.demo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693454222521-hlaeftm6e1cnchl9rbp601nm4ok0f2e0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP-teTqoaVCJOMJYkimC07WYjTaBNYkIo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693454222521:android:beab02d1da65e58f",
+        "android_client_info": {
+          "package_name": "com.dreampany.scan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693454222521-hlaeftm6e1cnchl9rbp601nm4ok0f2e0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP-teTqoaVCJOMJYkimC07WYjTaBNYkIo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693454222521:android:845c417c5e3a3fe9",
+        "android_client_info": {
+          "package_name": "com.dreampany.tensor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693454222521-hlaeftm6e1cnchl9rbp601nm4ok0f2e0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP-teTqoaVCJOMJYkimC07WYjTaBNYkIo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-include ':frame'
+include ':frame', ':job'
 include ':network'
 include ':vision'
 //include ':nearby'

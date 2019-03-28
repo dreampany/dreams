@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
@@ -20,6 +23,7 @@ import java.util.*;
  */
 @Entity(indices = {@Index(value = {"id"}, unique = true)},
         primaryKeys = {"id"})
+@IgnoreExtraProperties
 public class Coin extends Base {
 
     private long coinId;
@@ -35,6 +39,7 @@ public class Coin extends Base {
     private long dateAdded;
     private List<String> tags;
     @Ignore
+    @Exclude
     private Map<Currency, Quote> quotes;
 
     @Ignore

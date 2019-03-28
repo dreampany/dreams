@@ -36,20 +36,27 @@ public class RxCompletableHandler<T> implements OnSuccessListener<T>, OnFailureL
 
     @Override
     public void onComplete(@NonNull Task task) {
+        if (emitter.isDisposed()) {
+            return;
+        }
         emitter.onComplete();
         Timber.v("Completed");
     }
 
     @Override
-    public void onFailure(@NonNull Exception e) {
-        if (!emitter.isDisposed()) {
-            emitter.onError(e);
-            Timber.e("Error %s", e.getMessage());
+    public void onFailure(@NonNull Exception error) {
+        if (emitter.isDisposed()) {
+            return;
         }
+        emitter.onError(error);
+        Timber.e("Error %s", error.getMessage());
     }
 
     @Override
     public void onSuccess(Object result) {
+        if (emitter.isDisposed()) {
+            return;
+        }
         emitter.onComplete();
         Timber.v("Completed successfully");
     }

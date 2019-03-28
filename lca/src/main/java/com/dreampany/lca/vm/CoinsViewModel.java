@@ -56,8 +56,6 @@ public class CoinsViewModel
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private int currentIndex;
-    //private Currency currentCurrency;
-
     private final List<String> currencies;
 
     @Inject

@@ -78,9 +78,13 @@ class Constants {
         const val CoinMarketCapImageUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/%d.png" //id reference
     }
 
+    object FirestoreKey {
+        const val COINS = "coins"
+    }
+
     object Limit {
         const val COIN_START_INDEX = 0
-        const val COIN_PAGE = 100
+        const val COIN_PAGE = 10
         const val COIN_MARKET = 50
         const val COIN_EXCHANGE = 50
         const val ICO = 100
@@ -89,7 +93,7 @@ class Constants {
 
     object Time {
         val Listing = TimeUnit.DAYS.toMillis(7) //get listing per 7 days
-        val Coin = TimeUnit.SECONDS.toMillis(90) //as per coinmarketcap limit 30 per minute
+        val Coin = TimeUnit.MINUTES.toMillis(3) //as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
         val IcoPeriod = TimeUnit.MINUTES.toMillis(10)
         val NewsPeriod = TimeUnit.MINUTES.toMillis(10)

@@ -1,12 +1,15 @@
 package com.dreampany.lca.injector.data
 
 import android.content.Context
+import com.dreampany.firebase.RxFirestore
 import com.dreampany.frame.injector.data.FrameModule
+import com.dreampany.frame.misc.Firestore
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
 import com.dreampany.lca.data.misc.*
 import com.dreampany.lca.data.source.api.*
 import com.dreampany.lca.data.source.dao.*
+import com.dreampany.lca.data.source.firestore.CoinFirestoreDataSource
 import com.dreampany.lca.data.source.remote.*
 import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.injector.vm.ViewModelModule
@@ -38,6 +41,24 @@ class BuildersModule {
                                   dao: CoinDao,
                                   quoteDao: QuoteDao): CoinDataSource {
         return CoinRoomDataSource(mapper, dao, quoteDao)
+    }
+
+
+    @Singleton
+    @Provides
+    @Firestore
+    fun provideCoinFirestoreDataSource(network: NetworkManager,
+                                       firestore: RxFirestore): CoinDataSource {
+        return CoinFirestoreDataSource(network, firestore)
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideCoinRemoteDataSource(network: NetworkManager,
+                                    mapper: CoinMapper,
+                                    service: CmcService): CoinDataSource {
+        return CoinRemoteDataSource(network, mapper, service)
     }
 
     @Singleton
@@ -94,15 +115,6 @@ class BuildersModule {
     fun provideCoinAlertRoomDataSource(mapper: CoinAlertMapper,
                                        dao: CoinAlertDao): CoinAlertDataSource {
         return CoinAlertRoomDataSource(mapper, dao)
-    }
-
-    @Singleton
-    @Provides
-    @Remote
-    fun provideCoinRemoteDataSource(network: NetworkManager,
-                                    mapper: CoinMapper,
-                                    service: CmcService): CoinDataSource {
-        return CoinRemoteDataSource(network, mapper, service)
     }
 
     @Singleton

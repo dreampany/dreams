@@ -50,7 +50,6 @@ public class CoinViewModel
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private final List<String> currencies;
-    private Currency currentCurrency;
 
     @Inject
     CoinViewModel(Application application,
@@ -157,7 +156,6 @@ public class CoinViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    this.currentCurrency = currency;
                     postResult(Response.Type.UPDATE, result);
                 }, this::postFailure);
         addSubscription(updateDisposable);

@@ -13,6 +13,8 @@ import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
 import io.reactivex.Maybe;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -32,6 +34,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     private final NetworkManager network;
     private final Pref pref;
     private final CoinDataSource room;
+    private final CoinDataSource firestore;
     private final CoinDataSource remote;
     private volatile SyncThread syncThread;
 
@@ -41,11 +44,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                    NetworkManager network,
                    Pref pref,
                    @Room CoinDataSource room,
+                   @Firestore CoinDataSource firestore,
                    @Remote CoinDataSource remote) {
         super(rx, rm);
         this.network = network;
         this.pref = pref;
         this.room = room;
+        this.firestore = firestore;
         this.remote = remote;
     }
 
@@ -86,7 +91,9 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
-        return room.putItemRx(coin);
+        return room.putItemRx(coin)
+                .filter(result -> result != -1)
+                .doOnSuccess(result -> rx.compute(firestore.putItemRx(coin)).subscribe());
     }
 
     @Override
@@ -272,25 +279,22 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, Currency currency) {
         Maybe<Coin> maybe = Maybe.create(emitter -> {
-            Coin result = null;
+            Coin coin = null;
             if (needToUpdate(symbol, currency)) {
-                result = remote.getItemRx(source, symbol, currency).blockingGet();
-            }
-            if (result != null) {
-                room.putItem(result);
+                coin = remote.getItemRx(source, symbol, currency).blockingGet();
             }
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();
             }
-            if (result == null) {
+            if (coin == null) {
                 emitter.onError(new EmptyException());
             } else {
-                emitter.onSuccess(result);
+                emitter.onSuccess(coin);
             }
         });
 
         return maybe
-                .filter(DataUtil::isEmpty)
+                .filter(coin -> !DataUtil.isEmpty(coin))
                 .doOnSuccess(coin -> {
                     rx.compute(putItemRx(coin)).subscribe();
                     updateCoinUpdate(coin.getSymbol(), currency);

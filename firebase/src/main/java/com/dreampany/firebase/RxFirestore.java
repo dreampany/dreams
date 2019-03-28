@@ -24,9 +24,7 @@ public final class RxFirestore {
     @Inject
     RxFirestore() {
         firestore = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().build();
         firestore.setFirestoreSettings(settings);
     }
 

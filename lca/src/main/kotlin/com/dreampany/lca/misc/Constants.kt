@@ -2,6 +2,7 @@ package com.dreampany.lca.misc
 
 import android.content.Context
 import com.dreampany.frame.util.AndroidUtil
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.concurrent.TimeUnit
 
 
@@ -80,6 +81,22 @@ class Constants {
 
     object FirestoreKey {
         const val COINS = "coins"
+    }
+
+    object CmcCoinKey {
+        const val ID = "id"
+        const val NAME = "name"
+        const val SYMBOL = "symbol"
+        const val SLUG = "slug"
+        const val RANK = "cmc_rank"
+        const val MARKET_PAIRS = "num_market_pairs"
+        const val CIRCULATING_SUPPLY = "circulating_supply"
+        const val TOTAL_SUPPLY = "total_supply"
+        const val MAX_SUPPLY = "max_supply"
+        const val LAST_UPDATED = "last_updated"
+        const val DATE_ADDED = "date_added"
+        const val TAGS = "tags"
+        const val QUOTE = "quote"
     }
 
     object Limit {

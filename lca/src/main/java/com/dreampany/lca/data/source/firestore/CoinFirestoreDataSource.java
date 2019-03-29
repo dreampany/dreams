@@ -7,9 +7,9 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import javax.inject.Singleton;
 
@@ -53,8 +53,19 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return null;
+    }
+
+    @Override
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
         return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+
+        return firestore.getDocument(COINS, symbol, Coin.class);
     }
 
     @Override
@@ -181,4 +192,9 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
     }
+
+/*    public   Maybe<Coin> getFirestoreIf(String symbol, long Class<T> clazz) {
+        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
+        return getDocument(ref, clazz);
+    } */
 }

@@ -219,11 +219,21 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return null;
+    }
+
+    @Override
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
 /*        return service
                 .getQuotesRx(Constants.Key.CMC_PRO_ROMAN_BJIT, symbol, currency.name())
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<Coin>>) this::getItemRx);*/
         return Maybe.fromCallable(() -> getItem(source, symbol, currency));
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return null;
     }
 
     /**

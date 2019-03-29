@@ -4,6 +4,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Update;
+import io.reactivex.Maybe;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ import java.util.List;
 public interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertOrReplace(T t);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Maybe<Long> insertOrReplaceRx(T t);
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     long insertOrAbort(T t);

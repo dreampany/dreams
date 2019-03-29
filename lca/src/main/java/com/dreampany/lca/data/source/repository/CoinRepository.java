@@ -12,6 +12,7 @@ import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
+
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
@@ -19,6 +20,7 @@ import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,15 +94,12 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
-        return room.putItemRx(coin)
-                .filter(new Predicate<Long>() {
-                    @Override
-                    public boolean test(Long result) throws Exception {
-                        Timber.v("Room Insertion Result %s", String.valueOf(result));
-                        return result != -1;
-                    }
+        return room.putItemRx(coin);
+                /*.filter(result -> {
+                    Timber.v("Room Insertion Result %s", String.valueOf(result));
+                    return result != -1;
                 })
-                .doOnSuccess(result -> rx.compute(firestore.putItemRx(coin)).subscribe());
+                .doOnSuccess(result -> rx.compute(firestore.putItemRx(coin)).subscribe());*/
     }
 
     @Override
@@ -229,13 +228,27 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
+    public Coin getItem(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return room.getItem(source, symbol, lastUpdated, currency);
+    }
+
+    @Override
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
         Maybe<Coin> room = getRoomItemIfRx(source, symbol, currency);
         Maybe<Coin> remote = getRemoteItemIfRx(source, symbol, currency);
-        if (needToUpdate(symbol, currency) && network.isObserving() && network.hasInternet()) {
+        if (needToUpdate(symbol, currency)) {
             return concatSingleFirstRx(remote, room);
         }
         return concatSingleLastRx(remote, room);
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        Maybe<Coin> roomIf = room.getItemRx(source, symbol, lastUpdated, currency);
+        Maybe<Coin> firestoreIf = getFirestoreItemIfRx(source, symbol, lastUpdated, currency);
+        Maybe<Coin> remoteIf = getRemoteItemIfRx(source, symbol, lastUpdated, currency);
+        Maybe<Coin> roomAny = room.getItemRx(source, symbol, currency);
+        return concatSingleFirstRx(roomIf, firestoreIf, remoteIf, roomAny);
     }
 
     @Override
@@ -287,27 +300,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-/*    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, Currency currency) {
-        Maybe<Coin> maybe = Maybe.create(emitter -> {
-            Coin coin = remote.getItemRx(source, symbol, currency).blockingGet();
-            if (emitter.isDisposed()) {
-                throw new IllegalStateException();
-            }
-            if (coin == null) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(coin);
-            }
-        });
-
-        return maybe
-                .filter(coin -> !DataUtil.isEmpty(coin))
-                .doOnSuccess(coin -> {
-                    rx.compute(putItemRx(coin)).subscribe();
-                    updateCoinUpdate(coin.getSymbol(), currency);
-                });
-    }*/
-
     private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, Currency currency) {
         Maybe<Coin> maybe = Maybe.create(emitter -> {
             Coin coin = remote.getItemRx(source, symbol, currency).blockingGet();
@@ -327,6 +319,21 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                     rx.compute(putItemRx(coin)).subscribe();
                     updateCoinUpdate(coin.getSymbol(), currency);
                 });
+    }
+
+    private Maybe<Coin> getFirestoreItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        Maybe<Coin> maybe = firestore.getItemRx(source, symbol, lastUpdated, currency);
+        return contactSingleSuccess(maybe, coin -> {
+            rx.compute(putItemRx(coin)).subscribe();
+        });
+    }
+
+    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        Maybe<Coin> maybe = remote.getItemRx(source, symbol, lastUpdated, currency);
+        return contactSingleSuccess(maybe, coin -> {
+            rx.compute(putItemRx(coin)).subscribe();
+            rx.compute(firestore.putItemRx(coin)).subscribe();
+        });
     }
 
 

@@ -138,6 +138,10 @@ public class ApiRepository {
         return coinRepo.getItemRx(source, symbol, currency).blockingGet();
     }
 
+    public Maybe<Coin> getItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return coinRepo.getItemRx(source, symbol, lastUpdated, currency);
+    }
+
     public Maybe<List<Coin>> getItemsIfRx(CoinSource source, int index, int limit, Currency currency) {
         return coinRepo.getItemsRx(source, index, limit, currency);
     }

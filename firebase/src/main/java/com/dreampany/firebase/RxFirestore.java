@@ -55,6 +55,11 @@ public final class RxFirestore {
         return getDocument(ref, clazz);
     }
 
+    public <T> Maybe<T> getDocument(String collectionPath, String documentPath, long time, Class<T> clazz) {
+        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
+        return getDocument(ref, clazz);
+    }
+
     public <T> Maybe<T> getDocument(DocumentReference ref, Class<T> clazz) {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {

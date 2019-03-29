@@ -213,6 +213,7 @@ public class Coin extends Base {
         return dateAdded;
     }
 
+    @Exclude
     public Date getLastUpdatedDate() {
         return new Date(getLastUpdated());
     }
@@ -221,10 +222,12 @@ public class Coin extends Base {
         return tags;
     }
 
+    @Exclude
     public Map<Currency, Quote> getQuotes() {
         return quotes;
     }
 
+    @Exclude
     public List<Quote> getQuotesAsList() {
         if (quotes == null) {
             return null;
@@ -282,10 +285,12 @@ public class Coin extends Base {
         return null;
     }
 
+    @Exclude
     public Quote getUsdQuote() {
         return getQuote(Currency.USD);
     }
 
+    @Exclude
     public Quote getBtcQuote() {
         return getQuote(Currency.BTC);
     }

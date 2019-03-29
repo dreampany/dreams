@@ -4,6 +4,7 @@ import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
+
 import io.reactivex.Maybe;
 
 import java.util.List;
@@ -21,7 +22,11 @@ public interface CoinDataSource extends DataSource<Coin> {
 
     Coin getItem(CoinSource source, String symbol, Currency currency);
 
+    Coin getItem(CoinSource source, String symbol, long lastUpdated, Currency currency);
+
     Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency);
+
+    Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency);
 
     List<Coin> getItems(CoinSource source, int index, int limit, Currency currency);
 

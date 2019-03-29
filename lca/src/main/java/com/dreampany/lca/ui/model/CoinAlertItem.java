@@ -12,6 +12,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.adapter.CoinAlertAdapter;
@@ -170,7 +171,7 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
             String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
             name.setText(nameText);
 
-            Quote quote = coin.getUsdQuote();
+            Quote quote = coin.getQuote(Currency.USD);
             double price = 0f;
             if (quote != null) {
                 price = quote.getPrice();

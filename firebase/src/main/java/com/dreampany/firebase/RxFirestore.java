@@ -3,11 +3,17 @@ package com.dreampany.firebase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
+
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 
@@ -50,17 +56,31 @@ public final class RxFirestore {
         );
     }
 
-    public <T> Maybe<T> getDocument(String collectionPath, String documentPath, Class<T> clazz) {
+    public <T> Maybe<T> getItem(String collectionPath, String documentPath, Class<T> clazz) {
         DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
-        return getDocument(ref, clazz);
+        return getItem(ref, clazz);
     }
 
-    public <T> Maybe<T> getDocument(String collectionPath, String documentPath, long time, Class<T> clazz) {
-        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
-        return getDocument(ref, clazz);
+    public <T> Maybe<T> getItem(@NonNull String collectionPath,
+                                      @Nullable Map<String, Object> equalTo,
+                                      @Nullable Map<String, Object> lessThanOrEqualTo,
+                                      @NonNull Class<T> clazz) {
+
+        Query ref = firestore.collection(collectionPath);
+        if (equalTo != null) {
+            for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
+                ref.whereEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        if (lessThanOrEqualTo != null) {
+            for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
+                ref.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        return getItem(ref, clazz);
     }
 
-    public <T> Maybe<T> getDocument(DocumentReference ref, Class<T> clazz) {
+    public <T> Maybe<T> getItem(DocumentReference ref, Class<T> clazz) {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {
                     if (snapshot.exists()) {
@@ -72,6 +92,26 @@ public final class RxFirestore {
                     if (!emitter.isDisposed()) {
                         emitter.onError(e);
                     }
+                })
+        );
+    }
+
+    public <T> Maybe<T> getItem(Query ref, Class<T> clazz) {
+        return Maybe.create(emitter ->
+                ref.get().addOnSuccessListener(snapshot -> {
+                    if (emitter.isDisposed()) {
+                        throw new IllegalStateException();
+                    }
+                    if (snapshot.isEmpty()) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onSuccess(snapshot.getDocuments().get(0).toObject(clazz));
+                    }
+                }).addOnFailureListener(error -> {
+                    if (emitter.isDisposed()) {
+                        throw new IllegalStateException();
+                    }
+                    emitter.onError(error);
                 })
         );
     }

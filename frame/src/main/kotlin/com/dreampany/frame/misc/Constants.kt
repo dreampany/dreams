@@ -41,4 +41,9 @@ class Constants {
         const val SPACE = " "
         const val HYPHEN = "-"
     }
+
+    object Key {
+        const val ID = "id"
+        const val TIME = "time"
+    }
 }

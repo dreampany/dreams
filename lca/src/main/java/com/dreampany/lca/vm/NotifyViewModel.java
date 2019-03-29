@@ -246,7 +246,7 @@ public class NotifyViewModel {
     }
 
     private boolean isProfitable(Coin coin) {
-        Quote quote = coin.getUsdQuote();
+        Quote quote = coin.getQuote(Currency.USD);
         return quote.getDayChange() >= 0;
     }
 
@@ -255,7 +255,7 @@ public class NotifyViewModel {
         if (coin == null) {
             return false;
         }
-        Quote quote = coin.getUsdQuote();
+        Quote quote = coin.getQuote(Currency.USD);
         if (alert.hasPriceUp() && quote.getPrice() > alert.getPriceUp()) {
             return true;
         }

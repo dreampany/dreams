@@ -329,7 +329,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
 /*    private List<Coin> getCoins(CmcCoinListingResponse response) {
         if (response != null && !response.hasError()) {
-            Collection<CmcCoin> items = response.getData();
+            Collection<CmcCoin> items = response.getItem();
             if (!DataUtil.isEmpty(items)) {
                 List<Coin> result = new ArrayList<>(items.size());
                 Stream.of(items).forEach(item -> result.add(mapper.toItem(item, false)));
@@ -341,7 +341,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     private List<Coin> getItems(CmcCoinsResponse response) {
 /*        if (!response.hasError()) {
-            List<CmcCoin> items = response.getData();
+            List<CmcCoin> items = response.getItem();
             if (!DataUtil.isEmpty(items)) {
                 List<Coin> result = new ArrayList<>(items.size());
                 Stream.of(items).forEach(item -> result.add(mapper.toItem(item, true)));
@@ -391,7 +391,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     private Maybe<List<Coin>> getItemsRx(CmcCoinsResponse response) {
 /*        if (!response.hasError()) {
-            Collection<CmcCoin> items = response.getData();
+            Collection<CmcCoin> items = response.getItem();
             return Flowable.fromIterable(items)
                     .map(in -> mapper.toItem(in, true))
                     .toList()

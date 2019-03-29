@@ -16,6 +16,7 @@ import com.dreampany.frame.util.NotifyUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.databinding.FragmentCoinAlertBinding;
 import com.dreampany.lca.misc.Constants;
@@ -140,7 +141,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
         String nameText = String.format(Locale.ENGLISH, getString(R.string.full_name), coin.getSymbol(), coin.getName());
         binding.textName.setText(nameText);
 
-        Quote quote = coin.getUsdQuote();
+        Quote quote = coin.getQuote(Currency.USD);
         if (quote != null) {
             binding.textPrice.setText(String.format(getString(R.string.usd_format), quote.getPrice()));
         }

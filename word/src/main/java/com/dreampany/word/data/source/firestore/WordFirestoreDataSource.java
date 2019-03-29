@@ -7,7 +7,6 @@ import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
 import io.reactivex.Maybe;
-import timber.log.Timber;
 
 import javax.inject.Singleton;
 import java.util.List;
@@ -160,7 +159,7 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public Maybe<Word> getItemRx(String word, boolean full) {
-        return firestore.getDocument(WORDS, word, Word.class);
+        return firestore.getItem(WORDS, word, Word.class);
     }
 
     @Override

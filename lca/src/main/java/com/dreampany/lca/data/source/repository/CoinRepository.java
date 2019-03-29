@@ -329,7 +329,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
-        Maybe<Coin> maybe = remote.getItemRx(source, symbol, lastUpdated, currency);
+        Maybe<Coin> maybe = remote.getItemRx(source, symbol, currency);
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe();
             rx.compute(firestore.putItemRx(coin)).subscribe();

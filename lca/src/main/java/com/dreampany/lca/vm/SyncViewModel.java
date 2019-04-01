@@ -89,7 +89,7 @@ public class SyncViewModel
     }
 
     public void loads() {
-        if (!preLoads(false)) {
+        if (!takeAction(false, getMultipleDisposable())) {
             return;
         }
         int limit = Constants.Limit.COIN_PAGE;

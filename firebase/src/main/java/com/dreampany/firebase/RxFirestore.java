@@ -6,7 +6,6 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -14,6 +13,7 @@ import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import hugo.weaving.DebugLog;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 
@@ -56,31 +56,38 @@ public final class RxFirestore {
         );
     }
 
-    public <T> Maybe<T> getItem(String collectionPath, String documentPath, Class<T> clazz) {
+    public <T> Maybe<T> getItemRx(String collectionPath, String documentPath, Class<T> clazz) {
         DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
-        return getItem(ref, clazz);
+        return getItemRx(ref, clazz);
     }
 
-    public <T> Maybe<T> getItem(@NonNull String collectionPath,
-                                      @Nullable Map<String, Object> equalTo,
-                                      @Nullable Map<String, Object> lessThanOrEqualTo,
-                                      @NonNull Class<T> clazz) {
+    @DebugLog
+    public <T> Maybe<T> getItemRx(@NonNull String collectionPath,
+                                  @Nullable Map<String, Object> equalTo,
+                                  @Nullable Map<String, Object> lessThanOrEqualTo,
+                                  @Nullable Map<String, Object> greaterThanOrEqualTo,
+                                  @NonNull Class<T> clazz) {
 
         Query ref = firestore.collection(collectionPath);
         if (equalTo != null) {
             for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
-                ref.whereEqualTo(entry.getKey(), entry.getValue());
+                ref = ref.whereEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (lessThanOrEqualTo != null) {
             for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
-                ref.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
+                ref =  ref.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }
-        return getItem(ref, clazz);
+        if (greaterThanOrEqualTo != null) {
+            for (Map.Entry<String, Object> entry : greaterThanOrEqualTo.entrySet()) {
+                ref = ref.whereGreaterThanOrEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        return getItemRx(ref, clazz);
     }
 
-    public <T> Maybe<T> getItem(DocumentReference ref, Class<T> clazz) {
+    public <T> Maybe<T> getItemRx(DocumentReference ref, Class<T> clazz) {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {
                     if (snapshot.exists()) {
@@ -96,7 +103,7 @@ public final class RxFirestore {
         );
     }
 
-    public <T> Maybe<T> getItem(Query ref, Class<T> clazz) {
+    public <T> Maybe<T> getItemRx(Query ref, Class<T> clazz) {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {
                     if (emitter.isDisposed()) {

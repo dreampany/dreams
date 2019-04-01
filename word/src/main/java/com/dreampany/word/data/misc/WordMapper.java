@@ -133,7 +133,7 @@ public class WordMapper {
 /*    public Word toItem(Flag in, WordDataSource source) {
         Word out = map.get(in.getId());
         if (out == null) {
-            out = source.getItem(in.getId());
+            out = source.getItemRx(in.getId());
             map.put(in.getId(), out);
         }
         return out;

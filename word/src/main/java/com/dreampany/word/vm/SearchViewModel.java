@@ -199,7 +199,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                         periodically.set(false);
                         return next;
                     }
-                    Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getWord());
+                    Timber.d("Success at next to getVisibleItemIf %s", next.getItemRx().getWord());
                     return next;
                 });
     }*/

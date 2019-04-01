@@ -16,6 +16,8 @@ import javax.inject.Singleton;
 
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
+import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 /**
  * Created by Roman-372 on 3/28/2019
@@ -36,7 +38,6 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         this.network = network;
         this.firestore = firestore;
     }
-
 
     @Override
     public void clear() {
@@ -63,14 +64,25 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         return null;
     }
 
+    @DebugLog
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
         Map<String, Object> equalTo = Maps.newHashMap();
         equalTo.put(Constants.CoinKey.SYMBOL, symbol);
 
-        Map<String, Object> lessThanOrEqualTo = Maps.newHashMap();
-        lessThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
-        return firestore.getItem(COINS, equalTo, lessThanOrEqualTo, Coin.class);
+        Map<String, Object> greaterThanOrEqualTo = Maps.newHashMap();
+        greaterThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
+        Maybe<Coin> result = firestore.getItemRx(COINS, equalTo, null, greaterThanOrEqualTo, Coin.class);
+
+        result = result.doOnSuccess(new Consumer<Coin>() {
+            @DebugLog
+            @Override
+            public void accept(Coin coin) throws Exception {
+
+            }
+        });
+
+        return result;
     }
 
     @Override
@@ -198,8 +210,4 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         return null;
     }
 
-/*    public   Maybe<Coin> getFirestoreIf(String symbol, long Class<T> clazz) {
-        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
-        return getItem(ref, clazz);
-    } */
 }

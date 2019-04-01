@@ -38,10 +38,12 @@ import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.fastscroller.FastScroller;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 import net.cachapa.expandablelayout.ExpandableLayout;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
 import javax.inject.Inject;
@@ -101,7 +103,7 @@ public class CoinsFragment
         return Constants.Screen.coins(getAppContext());
     }
 
-    @DebugLog
+
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
@@ -109,7 +111,6 @@ public class CoinsFragment
         vm.start();
     }
 
-    @DebugLog
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
@@ -120,7 +121,7 @@ public class CoinsFragment
     public void onResume() {
         super.onResume();
         initCurrencyMenuItem();
-        vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
 /*    @Override
@@ -170,7 +171,7 @@ public class CoinsFragment
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty(), true);
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
     @Override
@@ -297,7 +298,7 @@ public class CoinsFragment
         scroller = new OnVerticalScrollListener(true) {
             @Override
             public void onIdle() {
-                vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
+                vm.refresh(true, false, false);
             }
 
             @Override
@@ -365,6 +366,7 @@ public class CoinsFragment
         }
     }
 
+    @DebugLog
     public void processResponse(Response<List<CoinItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
@@ -422,7 +424,7 @@ public class CoinsFragment
         adapter.addItems(items);
         //adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 500);
+       AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void processSingleSuccess(CoinItem item) {

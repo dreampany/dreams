@@ -317,7 +317,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .filter(coin -> !DataUtil.isEmpty(coin))
                 .doOnSuccess(coin -> {
                     rx.compute(putItemRx(coin)).subscribe();
-                    updateCoinUpdate(coin.getSymbol(), currency);
+                    updateCoinUpdate(coin.getSymbol(), currency, coin.getLastUpdated());
                 });
     }
 
@@ -325,6 +325,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> maybe = firestore.getItemRx(source, symbol, lastUpdated, currency);
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe();
+            updateCoinUpdate(coin.getSymbol(), currency, coin.getLastUpdated());
         });
     }
 
@@ -333,9 +334,9 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe();
             rx.compute(firestore.putItemRx(coin)).subscribe();
+            updateCoinUpdate(coin.getSymbol(), currency, coin.getLastUpdated());
         });
     }
-
 
     private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, int index, int limit, Currency currency) {
         return Maybe.create(emitter -> {
@@ -419,7 +420,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .doOnSuccess(coins -> {
                     rx.compute(putItemsRx(coins)).subscribe();
                     for (Coin coin : coins) {
-                        updateCoinUpdate(coin.getSymbol(), currency);
+                        updateCoinUpdate(coin.getSymbol(), currency, coin.getLastUpdated());
                     }
                 });
     }
@@ -462,8 +463,8 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 
-    private void updateCoinUpdate(String symbol, Currency currency) {
-        pref.commitCoinUpdateTime(symbol, currency.name());
+    private void updateCoinUpdate(String symbol, Currency currency, long time) {
+        pref.commitCoinUpdateTime(symbol, currency.name(), time);
     }
 
     //syncing process

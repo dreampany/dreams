@@ -65,49 +65,49 @@ public class CoinAlertViewModel
         this.uiCallback = callback;
     }
 
-    public void load(Coin coin, boolean withProgress) {
-        if (!preLoad(true)) {
+    public void load(Coin coin, boolean progress) {
+        if (!takeAction(true, getSingleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemRx(coin))
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postResult(Response.Type.GET, result);
                 }, error -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postFailure(error);
                 });
-
+        addSingleSubscription(disposable);
     }
 
-    public void loads(boolean fresh, boolean withProgress) {
-        if (!preLoads(fresh)) {
+    public void loads(boolean important, boolean progress) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getAlertsRx())
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postResult(Response.Type.GET, result);
                 }, error -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postFailures(new MultiException(error, new ExtraException()));

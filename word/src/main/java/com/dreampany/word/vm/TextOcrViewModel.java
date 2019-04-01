@@ -120,12 +120,12 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private void adjustState(WordItem item) {
-        //List<State> states = repo.getStates(item.getItem());
+        //List<State> states = repo.getStates(item.getItemRx());
         //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        //boolean flagged = repo.isFlagged(item.getItem());
+        //boolean flagged = repo.isFlagged(item.getItemRx());
         //item.setFlagged(flagged);
     }
 

@@ -92,8 +92,8 @@ public class ExchangeViewModel
         network.observe(this, true);
     }
 
-    public void loads(boolean fresh) {
-        if (!preLoads(fresh)) {
+    public void loads(boolean important) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

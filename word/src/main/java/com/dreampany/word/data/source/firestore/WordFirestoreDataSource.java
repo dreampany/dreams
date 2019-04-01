@@ -159,7 +159,7 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public Maybe<Word> getItemRx(String word, boolean full) {
-        return firestore.getItem(WORDS, word, Word.class);
+        return firestore.getItemRx(WORDS, word, Word.class);
     }
 
     @Override

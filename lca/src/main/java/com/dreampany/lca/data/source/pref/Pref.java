@@ -61,8 +61,8 @@ public class Pref extends FramePref {
         return getPrivately(COIN_UPDATE_TIME + coinSymbol + currency, 0L);
     }
 
-    synchronized public void commitCoinUpdateTime(String coinSymbol, String currency) {
-        setPrivately(COIN_UPDATE_TIME + coinSymbol + currency, TimeUtil.currentTime());
+    synchronized public void commitCoinUpdateTime(String coinSymbol, String currency, long time) {
+        setPrivately(COIN_UPDATE_TIME + coinSymbol + currency, time);
     }
 
     synchronized public void commitCoinListingTime(int coinIndex, String currency) {

@@ -180,10 +180,10 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
                         List<WordItem> items = uiCallback.getVisibleItems();
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
-  /*                              if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
-                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
+  /*                              if (!repo.hasState(item.getItemRx(), ItemState.STATE, ItemSubstate.FULL)) {
+                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItemRx().getWord());
                                     getEx().postToUi(() -> postProgress(true));
-                                    next = updateItemRx(item.getItem()).blockingGet();
+                                    next = updateItemRx(item.getItemRx()).blockingGet();
                                     break;
                                 }*/
                             }
@@ -212,12 +212,12 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
     }
 
     private void adjustState(WordItem item) {
-        //List<State> states = repo.getStates(item.getItem(), ItemState.STATE);
+        //List<State> states = repo.getStates(item.getItemRx(), ItemState.STATE);
        // Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        //boolean flagged = repo.isFlagged(item.getItem());
+        //boolean flagged = repo.isFlagged(item.getItemRx());
         //item.setFlagged(flagged);
     }
 }

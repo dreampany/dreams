@@ -312,7 +312,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
         if (flags.containsKey(word)) {
             return flags.get(word);
         }
-        Flag favorite = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
+        Flag favorite = flagRepo.getItemRx(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
         return flagRepo.isExists(favorite);
     }
 
@@ -325,7 +325,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
     }
 
     public boolean toggleFlag(Word word) {
-        Flag favorite = flagRepo.getItem(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
+        Flag favorite = flagRepo.getItemRx(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
         boolean flagged = flagRepo.toggle(favorite);
         flags.put(word, flagged);
         return flagged;
@@ -388,7 +388,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
 /*    private Maybe<Word> getRoomItemIfRx(String word) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
-                return room.getItem(source, symbol, currency);
+                return room.getItemRx(source, symbol, currency);
             }
             return null;
         });

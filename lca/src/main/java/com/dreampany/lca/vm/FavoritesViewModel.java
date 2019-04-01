@@ -110,8 +110,8 @@ public class FavoritesViewModel
         loads(true, withProgress);
     }
 
-    public void loads(boolean fresh, boolean withProgress) {
-        if (!preLoads(fresh)) {
+    public void loads(boolean important, boolean progress) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         CoinSource source = CoinSource.CMC;
@@ -119,17 +119,17 @@ public class FavoritesViewModel
         Disposable disposable = getRx()
                 .backToMain(getFavoriteItemsRx(source, currency))
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postResult(Response.Type.ADD,result);
                 }, error -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                     postFailures(new MultiException(error, new ExtraException()));

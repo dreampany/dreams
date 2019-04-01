@@ -168,8 +168,8 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
         /*                        if (!item.hasState(ItemState.STATE, ItemSubstate.FULL)) {
-                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
-                                    next = updateItemRx(item.getItem()).blockingGet();
+                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItemRx().getWord());
+                                    next = updateItemRx(item.getItemRx()).blockingGet();
                                     break;
                                 }*/
                             }
@@ -198,7 +198,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private void adjustState(WordItem item) {
-        //List<State> states = repo.getStates(item.getItem());
+        //List<State> states = repo.getStates(item.getItemRx());
         //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 

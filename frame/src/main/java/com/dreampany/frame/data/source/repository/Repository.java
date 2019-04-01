@@ -7,6 +7,7 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import io.reactivex.*;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Predicate;
 import io.reactivex.subjects.PublishSubject;
 
 import java.io.IOException;
@@ -254,7 +255,7 @@ public abstract class Repository<K, V> {
     protected final Maybe<V> contactSingleSuccess(Maybe<V> source, Consumer<V> onSuccess) {
         Maybe<V> maybe = source
                 //.onErrorReturnItem(new ArrayList<>())
-                .filter(item -> item != null);
+                .filter(v -> !DataUtil.isEmpty(v));
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess);
         }
@@ -264,10 +265,12 @@ public abstract class Repository<K, V> {
     protected final Maybe<List<V>> contactSuccess(Maybe<List<V>> source, Consumer<List<V>> onSuccess) {
         Maybe<List<V>> maybe = source
                 //.onErrorReturnItem(new ArrayList<>())
-                .filter(items -> !(DataUtil.isEmpty(items)));
+                .filter(vs -> !DataUtil.isEmpty(vs));
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess);
         }
         return maybe;
     }
+
+
 }

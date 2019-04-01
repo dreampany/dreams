@@ -1,6 +1,8 @@
 package com.dreampany.lca.vm;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -12,6 +14,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.CoinSource;
@@ -19,18 +22,22 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
+
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 import javax.inject.Inject;
+
 import java.util.*;
 
 /**
@@ -50,7 +57,6 @@ public class CoinViewModel
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private final List<String> currencies;
-    private Currency currentCurrency;
 
     @Inject
     CoinViewModel(Application application,
@@ -120,25 +126,25 @@ public class CoinViewModel
         loads(true, withProgress);
     }
 
-    public void loads(boolean fresh, boolean withProgress) {
-        if (!preLoads(fresh)) {
+    public void loads(boolean important, boolean progress) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
                 .backToMain(getItemsRx(currency))
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postResult(Response.Type.ADD, result);
                 }, error -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                     postFailures(new MultiException(error, new ExtraException()));
@@ -157,7 +163,6 @@ public class CoinViewModel
                     if (withProgress) {
                         postProgress(false);
                     }
-                    this.currentCurrency = currency;
                     postResult(Response.Type.UPDATE, result);
                 }, this::postFailure);
         addSubscription(updateDisposable);
@@ -194,14 +199,29 @@ public class CoinViewModel
 
     /* private api */
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
-        return Maybe.create(emitter -> {
+        Coin coin = Objects.requireNonNull(getTask()).getInput();
+        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+
+       return repo
+                .getItemIfRx(CoinSource.CMC, coin.getSymbol(), lastUpdated, currency)
+                .map(result -> {
+                    if (result != null) {
+                        getTask().setInput(result);
+                    }
+                    List<CoinItem> items = new ArrayList<>();
+                    items.add(getItem(result, currency));
+                    items.add(getQuoteCoinItem(result, currency));
+                    return items;
+                });
+/*        return Maybe.create(emitter -> {
             Coin coin = Objects.requireNonNull(getTask()).getInput();
+            long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
             Coin result = repo.getItemIf(CoinSource.CMC, coin.getSymbol(), currency);
             List<CoinItem> items = null;
             if (result != null) {
                 getTask().setInput(result);
                 items = new ArrayList<>();
-                items.add(getItem(result, currency));
+                items.add(getItemRx(result, currency));
                 items.add(getQuoteCoinItem(result, currency));
             }
 
@@ -213,7 +233,7 @@ public class CoinViewModel
             } else {
                 emitter.onSuccess(items);
             }
-        });
+        });*/
     }
 
 /*    private Maybe<List<CoinItem>> getItemsRx(Coin coin, Currency currency) {

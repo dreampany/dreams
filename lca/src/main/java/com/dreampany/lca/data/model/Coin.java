@@ -6,8 +6,13 @@ import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.lca.misc.Constants;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+import com.google.firebase.firestore.PropertyName;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
@@ -18,23 +23,32 @@ import java.util.*;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.CoinKey.ID}, unique = true)},
+        primaryKeys = {Constants.CoinKey.ID})
+@IgnoreExtraProperties
 public class Coin extends Base {
 
+    @PropertyName(Constants.CoinKey.COIN_ID)
     private long coinId;
     private String name;
     private String symbol;
     private String slug;
     private int rank;
+    @PropertyName(Constants.CoinKey.MARKET_PAIRS)
     private int marketPairs;
+    @PropertyName(Constants.CoinKey.CIRCULATING_SUPPLY)
     private double circulatingSupply;
+    @PropertyName(Constants.CoinKey.TOTAL_SUPPLY)
     private double totalSupply;
+    @PropertyName(Constants.CoinKey.MAX_SUPPLY)
     private double maxSupply;
+    @PropertyName(Constants.CoinKey.LAST_UPDATED)
     private long lastUpdated;
+    @PropertyName(Constants.CoinKey.DATE_ADDED)
     private long dateAdded;
     private List<String> tags;
     @Ignore
+    @Exclude
     private Map<Currency, Quote> quotes;
 
     @Ignore
@@ -105,52 +119,119 @@ public class Coin extends Base {
         return ReflectionToStringBuilder.toString(this);
     }
 
+    @PropertyName(Constants.CoinKey.COIN_ID)
     public void setCoinId(long coinId) {
         this.coinId = coinId;
+    }
+
+    @PropertyName(Constants.CoinKey.COIN_ID)
+    public long getCoinId() {
+        return coinId;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 
     public void setSlug(String slug) {
         this.slug = slug;
     }
 
+    public String getSlug() {
+        return slug;
+    }
+
     public void setRank(int rank) {
         this.rank = rank;
     }
 
+    public int getRank() {
+        return rank;
+    }
+
+    @PropertyName(Constants.CoinKey.MARKET_PAIRS)
     public void setMarketPairs(int marketPairs) {
         this.marketPairs = marketPairs;
     }
 
+    @PropertyName(Constants.CoinKey.MARKET_PAIRS)
+    public int getMarketPairs() {
+        return marketPairs;
+    }
+
+    @PropertyName(Constants.CoinKey.CIRCULATING_SUPPLY)
     public void setCirculatingSupply(double circulatingSupply) {
         this.circulatingSupply = circulatingSupply;
     }
 
+    @PropertyName(Constants.CoinKey.CIRCULATING_SUPPLY)
+    public double getCirculatingSupply() {
+        return circulatingSupply;
+    }
+
+    @PropertyName(Constants.CoinKey.TOTAL_SUPPLY)
     public void setTotalSupply(double totalSupply) {
         this.totalSupply = totalSupply;
     }
 
+    @PropertyName(Constants.CoinKey.TOTAL_SUPPLY)
+    public double getTotalSupply() {
+        return totalSupply;
+    }
+
+    @PropertyName(Constants.CoinKey.MAX_SUPPLY)
     public void setMaxSupply(double maxSupply) {
         this.maxSupply = maxSupply;
     }
 
+    @PropertyName(Constants.CoinKey.MAX_SUPPLY)
+    public double getMaxSupply() {
+        return maxSupply;
+    }
+
+    @PropertyName(Constants.CoinKey.LAST_UPDATED)
     public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
+    @PropertyName(Constants.CoinKey.LAST_UPDATED)
+    public long getLastUpdated() {
+        return lastUpdated;
+    }
+
+    @Exclude
+    public Date getLastUpdatedDate() {
+        return new Date(getLastUpdated());
+    }
+
+    @PropertyName(Constants.CoinKey.DATE_ADDED)
     public void setDateAdded(long dateAdded) {
         this.dateAdded = dateAdded;
     }
 
+    @PropertyName(Constants.CoinKey.DATE_ADDED)
+    public long getDateAdded() {
+        return dateAdded;
+    }
+
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     public void setQuotes(Map<Currency, Quote> quotes) {
@@ -164,62 +245,12 @@ public class Coin extends Base {
         quotes.put(quote.getCurrency(), quote);
     }
 
-    public long getCoinId() {
-        return coinId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public int getMarketPairs() {
-        return marketPairs;
-    }
-
-    public double getCirculatingSupply() {
-        return circulatingSupply;
-    }
-
-    public double getTotalSupply() {
-        return totalSupply;
-    }
-
-    public double getMaxSupply() {
-        return maxSupply;
-    }
-
-    public long getLastUpdated() {
-        return lastUpdated;
-    }
-
-    public long getDateAdded() {
-        return dateAdded;
-    }
-
-    public Date getLastUpdatedDate() {
-        return new Date(getLastUpdated());
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
+    @Exclude
     public Map<Currency, Quote> getQuotes() {
         return quotes;
     }
 
+    @Exclude
     public List<Quote> getQuotesAsList() {
         if (quotes == null) {
             return null;
@@ -275,13 +306,5 @@ public class Coin extends Base {
             return quotes.get(currency);
         }
         return null;
-    }
-
-    public Quote getUsdQuote() {
-        return getQuote(Currency.USD);
-    }
-
-    public Quote getBtcQuote() {
-        return getQuote(Currency.BTC);
     }
 }

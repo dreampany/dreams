@@ -347,7 +347,18 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return null
     }*/
 
-    fun preLoad(fresh: Boolean): Boolean {
+    fun takeAction(important: Boolean, disposable: Disposable?) : Boolean {
+        if (important) {
+            removeSubscription(disposable)
+        }
+        if (hasDisposable(disposable)) {
+            notifyUiState()
+            return false
+        }
+        return true
+    }
+
+/*    fun preLoad(fresh: Boolean): Boolean {
         if (fresh) {
             removeSingleSubscription()
         }
@@ -367,7 +378,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
             return false
         }
         return true
-    }
+    }*/
 
     fun updateUiMode(mode: UiMode?) {
         mode?.let {

@@ -172,7 +172,6 @@ public class NotifyViewModel {
                 .toMaybe();
     }
 
-    @DebugLog
     private void postResultCoins(Currency currency, List<CoinItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
@@ -200,7 +199,6 @@ public class NotifyViewModel {
         notify.showNotification(title, message, R.drawable.ic_notification, NavigationActivity.class);
     }
 
-    @DebugLog
     private void postResultAlerts(List<CoinAlertItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
@@ -246,7 +244,7 @@ public class NotifyViewModel {
     }
 
     private boolean isProfitable(Coin coin) {
-        Quote quote = coin.getUsdQuote();
+        Quote quote = coin.getQuote(Currency.USD);
         return quote.getDayChange() >= 0;
     }
 
@@ -255,7 +253,7 @@ public class NotifyViewModel {
         if (coin == null) {
             return false;
         }
-        Quote quote = coin.getUsdQuote();
+        Quote quote = coin.getQuote(Currency.USD);
         if (alert.hasPriceUp() && quote.getPrice() > alert.getPriceUp()) {
             return true;
         }

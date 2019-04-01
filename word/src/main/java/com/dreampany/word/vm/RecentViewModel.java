@@ -186,8 +186,8 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             return null;
         }
         for (WordItem item : items) {
-/*            if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
-                return repo.getItemRx(item.getItem().getWord()).map(this::getItem).blockingGet();
+/*            if (!repo.hasState(item.getItemRx(), ItemState.STATE, ItemSubstate.FULL)) {
+                return repo.getItemRx(item.getItemRx().getWord()).map(this::getItemRx).blockingGet();
             }*/
         }
         return null;
@@ -208,7 +208,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         if (!DataUtil.isEmpty(items)) {
             List<Word> words = new ArrayList<>();
             for (WordItem item : items) {
-                words.add(item.getItem());
+                words.add(item.getItemRx());
             }
             items = null;
             if (!DataUtil.isEmpty(words)) {
@@ -235,12 +235,12 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustState(WordItem item) {
-        //List<State> states = repo.getStates(item.getItem());
+        //List<State> states = repo.getStates(item.getItemRx());
         //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        //boolean flagged = repo.isFlagged(item.getItem());
+        //boolean flagged = repo.isFlagged(item.getItemRx());
         //item.setFlagged(flagged);
     }
 
@@ -323,7 +323,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             List<WordItem> items = uiCallback.getVisibleItems();
             if (!DataUtil.isEmpty(items)) {
                 for (WordItem item : items) {
-                    item.setItem(repo.getItem(item.getItem().getWord()));
+                    item.setItem(repo.getItemRx(item.getItemRx().getWord()));
                     adjustState(item);
                     adjustFlag(item);
                 }
@@ -341,17 +341,17 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
             repo.toggleFlag(word);
-            return getItem(word);
+            return getItemRx(word);
         });
     }
 
     private Maybe<WordItem> getItemRx(String word) {
-        return repo.getItemRx(word).map(this::getItem);
+        return repo.getItemRx(word).map(this::getItemRx);
     }
 
     private Maybe<List<WordItem>> getItemsRx(List<Word> items, boolean fresh) {
         return Flowable.fromIterable(items)
-                .map(this::getItem)
+                .map(this::getItemRx)
                 .toList()
                 .toMaybe();
     }
@@ -365,10 +365,10 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                         List<WordItem> items = uiCallback.getVisibleItems();
                         if (!DataUtil.isEmpty(items)) {
                             for (WordItem item : items) {
-                                if (!repo.hasState(item.getItem(), ItemState.STATE, ItemSubstate.FULL)) {
-                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItem().getWord());
+                                if (!repo.hasState(item.getItemRx(), ItemState.STATE, ItemSubstate.FULL)) {
+                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItemRx().getWord());
                                     getEx().postToUi(() -> postProgress(true));
-                                    next = updateItemRx(item.getItem()).blockingGet();
+                                    next = updateItemRx(item.getItemRx()).blockingGet();
                                     break;
                                 }
                             }
@@ -380,10 +380,10 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord()).map(this::getItem);
+        return repo.getItemRx(item.getWord()).map(this::getItemRx);
     }
 
-    private WordItem getItem(Word word) {
+    private WordItem getItemRx(Word word) {
         SmartMap<Long, WordItem> map = getUiMap();
         WordItem item = map.get(word.getId());
         if (item == null) {
@@ -397,12 +397,12 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustState(WordItem item) {
-        List<State> states = repo.getStates(item.getItem());
+        List<State> states = repo.getStates(item.getItemRx());
         Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItem());
+        boolean flagged = repo.isFlagged(item.getItemRx());
         item.setFlagged(flagged);
     }*/
 }

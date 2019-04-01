@@ -1,6 +1,7 @@
 package com.dreampany.lca.data.source.room;
 
 import com.annimon.stream.Stream;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
@@ -13,6 +14,7 @@ import com.dreampany.lca.data.source.dao.QuoteDao;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeEmitter;
 import io.reactivex.MaybeOnSubscribe;
+import timber.log.Timber;
 
 import javax.inject.Singleton;
 import java.util.ArrayList;
@@ -92,14 +94,41 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
-        return Maybe.fromCallable(() -> {
-            Coin coin = mapper.getCoin(symbol);
-            if (coin == null) {
-                coin = dao.getItem(symbol);
-            }
-            bindQuote(coin, currency);
+    public Coin getItem(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        Coin coin = getItem(source, symbol, currency);
+        if (lastUpdated <= coin.getLastUpdated()) {
             return coin;
+        }
+        return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
+        return Maybe.create(emitter -> {
+            Coin result = getItem(source, symbol, currency);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (result == null) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return Maybe.create(emitter -> {
+            Coin result = getItem(source, symbol, lastUpdated, currency);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (result == null) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
         });
     }
 
@@ -173,74 +202,6 @@ public class CoinRoomDataSource implements CoinDataSource {
         return dao.getItemRx(id);
     }
 
-/*    @Override
-    public boolean isFavorite(Coin coin) {
-        if (flags.containsKey(coin)) {
-            return flags.get(coin);
-        }
-        Flag favorite = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return flagRepo.isExists(favorite);
-    }
-
-    @Override
-    public Maybe<Boolean> isFlaggedRx(Coin coin) {
-        if (flags.containsKey(coin)) {
-            return Maybe.fromCallable(() -> flags.get(coin));
-        }
-        Maybe<Flag> single = flagRepo.getItemRx(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return single.map(flagRepo::isExists);
-    }
-
-    @Override
-    public long putFavorite(Coin coin) {
-        Flag favorite = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return flagRepo.putItem(favorite);
-    }
-
-    @Override
-    public Maybe<Long> putFlagRx(Coin coin) {
-        Maybe<Flag> single = flagRepo.getItemRx(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return single.map(flagRepo::putItem);
-    }
-
-    @Override
-    public List<Long> putFlags(List<Coin> coins) {
-        List<Long> result = new ArrayList<>(coins.size());
-        for (Coin coin : coins) {
-            result.add(putFavorite(coin));
-        }
-        return result;
-    }*/
-
-/*    @Override
-    public boolean toggleFavorite(Coin coin) {
-        Flag favorite = flagRepo.getItem(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        boolean flagged = flagRepo.toggleFavorite(favorite);
-        flags.put(coin, flagged);
-        return flagged;
-    }*/
-
-/*    @Override
-    public Maybe<Boolean> toggleFlagRx(Coin coin) {
-        Maybe<Flag> maybe = flagRepo.getItemRx(coin.getId(), ItemType.COIN.name(), ItemSubtype.DEFAULT.name());
-        return maybe.map(favorite -> {
-            boolean flagged = flagRepo.toggleFavorite(favorite);
-            flags.put(coin, flagged);
-            return flagged;
-        });
-    }*/
-
-/*    @Override
-    public List<Coin> getFavorites() {
-        return getItemsIf(flagRepo.getItemsIf());
-    }
-
-    @Override
-    public Maybe<List<Coin>> getFlagsRx() {
-        return flagRepo.getItemsRx()
-                .flatMap((Function<List<Flag>, MaybeSource<List<Coin>>>) this::getItemsRx);
-    }*/
-
     @Override
     public boolean isExists(Coin coin) {
         //todo bug for exists in ram not in database
@@ -266,9 +227,16 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
+        //return dao.insertOrReplaceRx(coin);
         return Maybe.create(emitter -> {
             long result = putItem(coin);
-            if (!emitter.isDisposed()) {
+            Timber.v("Room Insert Result %d", result);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (result == -1) {
+                emitter.onError(new EmptyException());
+            } else {
                 emitter.onSuccess(result);
             }
         });
@@ -342,9 +310,7 @@ public class CoinRoomDataSource implements CoinDataSource {
         return null;
     }
 
-    /**
-     * private api
-     */
+    /* private api */
     private void bindQuote(Coin coin, Currency currency) {
         if (coin != null && !coin.hasQuote(currency)) {
             Quote quote = quoteDao.getItems(coin.getId(), currency.name());

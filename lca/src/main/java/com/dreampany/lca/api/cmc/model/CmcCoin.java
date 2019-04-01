@@ -2,6 +2,7 @@ package com.dreampany.lca.api.cmc.model;
 
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
+import com.dreampany.lca.misc.Constants;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,19 +35,19 @@ public class CmcCoin {
     private final Map<CmcCurrency, CmcQuote> priceQuote;
 
     @JsonCreator
-    public CmcCoin(@JsonProperty("id") long id,
-                   @JsonProperty("name") String name,
-                   @JsonProperty("symbol") String symbol,
-                   @JsonProperty("slug") String slug,
-                   @JsonProperty("cmc_rank") int rank,
-                   @JsonProperty("num_market_pairs") int marketPairs,
-                   @JsonProperty("circulating_supply") double circulatingSupply,
-                   @JsonProperty("total_supply") double totalSupply,
-                   @JsonProperty("max_supply") double maxSupply,
-                   @JsonProperty("last_updated") String lastUpdated,
-                   @JsonProperty("date_added") String dateAdded,
-                   @JsonProperty("tags") List<String> tags,
-                   @JsonProperty("quote") Map<CmcCurrency, CmcQuote> priceQuote) {
+    public CmcCoin(@JsonProperty(Constants.CmcCoinKey.ID) long id,
+                   @JsonProperty(Constants.CmcCoinKey.NAME) String name,
+                   @JsonProperty(Constants.CmcCoinKey.SYMBOL) String symbol,
+                   @JsonProperty(Constants.CmcCoinKey.SLUG) String slug,
+                   @JsonProperty(Constants.CmcCoinKey.RANK) int rank,
+                   @JsonProperty(Constants.CmcCoinKey.MARKET_PAIRS) int marketPairs,
+                   @JsonProperty(Constants.CmcCoinKey.CIRCULATING_SUPPLY) double circulatingSupply,
+                   @JsonProperty(Constants.CmcCoinKey.TOTAL_SUPPLY) double totalSupply,
+                   @JsonProperty(Constants.CmcCoinKey.MAX_SUPPLY) double maxSupply,
+                   @JsonProperty(Constants.CmcCoinKey.LAST_UPDATED) String lastUpdated,
+                   @JsonProperty(Constants.CmcCoinKey.DATE_ADDED) String dateAdded,
+                   @JsonProperty(Constants.CmcCoinKey.TAGS) List<String> tags,
+                   @JsonProperty(Constants.CmcCoinKey.QUOTE) Map<CmcCurrency, CmcQuote> priceQuote) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;

@@ -87,9 +87,9 @@ public class MarketViewModel
         network.observe(this, true);
     }
 
-    public void loads(String toSymbol, boolean fresh) {
+    public void loads(String toSymbol, boolean important) {
         this.toSymbol = toSymbol;
-        if (!preLoads(fresh)) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

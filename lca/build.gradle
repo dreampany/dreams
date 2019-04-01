@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 84
-        versionName "0.8.4"
+        versionCode 85
+        versionName "0.8.5"
 
         multiDexEnabled true
 
@@ -148,6 +148,7 @@ dependencies {
     /** library */
     implementation project(':frame')
     implementation project(':network')
+    implementation project(':firebase')
 
     /** android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha03'

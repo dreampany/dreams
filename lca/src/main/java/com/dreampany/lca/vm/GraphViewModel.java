@@ -115,29 +115,29 @@ public class GraphViewModel
         load(timeType, fresh, empty);
     }
 
-    public void load(TimeType timeType, boolean fresh, boolean withProgress) {
+    public void load(TimeType timeType, boolean important, boolean progress) {
         if (timeType == null) {
             return;
         }
         Currency currency = getCurrentCurrency();
         this.timeType = timeType;
-        if (!preLoad(fresh)) {
+        if (!takeAction(important, getSingleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemRx(currency))
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postResult(Response.Type.GET, result);
                 }, error -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                     postFailures(new MultiException(error, new ExtraException()));

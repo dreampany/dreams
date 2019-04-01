@@ -219,11 +219,21 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return null;
+    }
+
+    @Override
     public Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency) {
 /*        return service
                 .getQuotesRx(Constants.Key.CMC_PRO_ROMAN_BJIT, symbol, currency.name())
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<Coin>>) this::getItemRx);*/
         return Maybe.fromCallable(() -> getItem(source, symbol, currency));
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+        return null;
     }
 
     /**
@@ -319,7 +329,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
 /*    private List<Coin> getCoins(CmcCoinListingResponse response) {
         if (response != null && !response.hasError()) {
-            Collection<CmcCoin> items = response.getData();
+            Collection<CmcCoin> items = response.getItemRx();
             if (!DataUtil.isEmpty(items)) {
                 List<Coin> result = new ArrayList<>(items.size());
                 Stream.of(items).forEach(item -> result.add(mapper.toItem(item, false)));
@@ -331,7 +341,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     private List<Coin> getItems(CmcCoinsResponse response) {
 /*        if (!response.hasError()) {
-            List<CmcCoin> items = response.getData();
+            List<CmcCoin> items = response.getItemRx();
             if (!DataUtil.isEmpty(items)) {
                 List<Coin> result = new ArrayList<>(items.size());
                 Stream.of(items).forEach(item -> result.add(mapper.toItem(item, true)));
@@ -381,7 +391,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     private Maybe<List<Coin>> getItemsRx(CmcCoinsResponse response) {
 /*        if (!response.hasError()) {
-            Collection<CmcCoin> items = response.getData();
+            Collection<CmcCoin> items = response.getItemRx();
             return Flowable.fromIterable(items)
                     .map(in -> mapper.toItem(in, true))
                     .toList()

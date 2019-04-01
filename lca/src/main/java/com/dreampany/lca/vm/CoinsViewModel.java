@@ -28,6 +28,8 @@ import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
+
+import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
@@ -52,12 +54,9 @@ public class CoinsViewModel
     private final Pref pref;
     private final ApiRepository repo;
     private final CurrencyFormatter formatter;
-    private Disposable updateDisposable;
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private int currentIndex;
-    //private Currency currentCurrency;
-
     private final List<String> currencies;
 
     @Inject
@@ -87,7 +86,6 @@ public class CoinsViewModel
     public void clear() {
         network.deObserve(this, true);
         this.uiCallback = null;
-        removeUpdateDisposable();
         currentIndex = Constants.Limit.COIN_START_INDEX;
         super.clear();
     }
@@ -117,49 +115,43 @@ public class CoinsViewModel
         network.observe(this, true);
     }
 
-    public void removeUpdateDisposable() {
-        removeSubscription(updateDisposable);
-    }
-
-    public void refresh(boolean onlyUpdate, boolean withProgress) {
-        if (onlyUpdate) {
-            update(withProgress);
+    @DebugLog
+    public void refresh(boolean update, boolean important, boolean progress) {
+        if (update) {
+            update(important, progress);
             return;
         }
-        loads(true, withProgress);
+        loads(important, important);
     }
 
-    public void loads(boolean fresh, boolean withProgress) {
-        loads(currentIndex, fresh, withProgress);
+    public void loads(boolean important, boolean progress) {
+        loads(currentIndex, important, progress);
     }
 
-    public void loadMore(boolean fresh, boolean withProgress) {
-        loads(currentIndex + Constants.Limit.COIN_PAGE, fresh, withProgress);
+    public void loadMore(boolean important, boolean progress) {
+        loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);
     }
 
-    public void loads(int index, boolean fresh, boolean withProgress) {
-        if (!preLoads(fresh)) {
+    public void loads(int index, boolean important, boolean progress) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         currentIndex = index;
-        int limit = Constants.Limit.COIN_PAGE;
-        Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
-                .backToMain(getListingRx(index, limit, currency))
+                .backToMain(getListingRx(index))
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
-                    //this.currentCurrency = currency;
                     postResult(Response.Type.GET, result);
                     //getEx().postToUi(() -> update(false), 2000L);
                 }, error -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postFailures(new MultiException(error, new ExtraException()));
@@ -167,31 +159,31 @@ public class CoinsViewModel
         addMultipleSubscription(disposable);
     }
 
-    public void update(boolean withProgress) {
-        if (hasDisposable(updateDisposable)) {
+    @DebugLog
+    public void update(boolean important, boolean progress) {
+        if (!takeAction(important, getSingleDisposable())) {
             return;
         }
-        Currency currency = pref.getCurrency(Currency.USD);
-        updateDisposable = getRx()
-                .backToMain(getUpdateItemsIfRx(currency))
+        Disposable disposable  = getRx()
+                .backToMain(getUpdateItemsIfRx())
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     //this.currentCurrency = currency;
                     postResult(Response.Type.UPDATE, result);
                 }, error -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-        addSubscription(updateDisposable);
+        addMultipleSubscription(disposable);
     }
 
     public void toggleFavorite(Coin coin) {
@@ -224,7 +216,9 @@ public class CoinsViewModel
     }
 
     /* private api */
-    private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
+    private Maybe<List<CoinItem>> getListingRx(int index) {
+        int limit = Constants.Limit.COIN_PAGE;
+        Currency currency = pref.getCurrency(Currency.USD);
         return repo
                 .getItemsIfRx(CoinSource.CMC, index, limit, currency)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(coins, currency));
@@ -252,8 +246,9 @@ public class CoinsViewModel
         return items;
     }
 
-    private Maybe<List<CoinItem>> getUpdateItemsIfRx(Currency currency) {
+    private Maybe<List<CoinItem>> getUpdateItemsIfRx() {
         return Maybe.create(emitter -> {
+            Currency currency = pref.getCurrency(Currency.USD);
             List<CoinItem> result = getUpdateItemsIf(currency);
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();
@@ -336,7 +331,7 @@ public class CoinsViewModel
       /*    private Maybe<CoinItem> toggleImpl(Coin coin) {
         return Maybe.fromCallable(() -> {
             repo.toggleFavorite(coin);
-            return getItem(coin);
+            return getItemRx(coin);
         });
     }*/
 

@@ -3,11 +3,17 @@ package com.dreampany.firebase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
+
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import hugo.weaving.DebugLog;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 
@@ -24,14 +30,23 @@ public final class RxFirestore {
     @Inject
     RxFirestore() {
         firestore = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().build();
         firestore.setFirestoreSettings(settings);
     }
 
-    public <T> Completable setDocument(String collectionPath, String documentPath, T item) {
-        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
+/*    public <T> Maybe setDocument(String collection, String document, T item) {
+        DocumentReference ref = firestore.collection(collection).document(document);
+        return setDocument(ref, item);
+    }
+
+    public <T> Completable setDocument(DocumentReference ref, T item) {
+        return Completable.create(emitter ->
+                RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
+        );
+    }*/
+
+    public <T> Completable setDocument(String collection, String document, T item) {
+        DocumentReference ref = firestore.collection(collection).document(document);
         return setDocument(ref, item);
     }
 
@@ -41,12 +56,38 @@ public final class RxFirestore {
         );
     }
 
-    public <T> Maybe<T> getDocument(String collectionPath, String documentPath, Class<T> clazz) {
+    public <T> Maybe<T> getItemRx(String collectionPath, String documentPath, Class<T> clazz) {
         DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
-        return getDocument(ref, clazz);
+        return getItemRx(ref, clazz);
     }
 
-    public <T> Maybe<T> getDocument(DocumentReference ref, Class<T> clazz) {
+    @DebugLog
+    public <T> Maybe<T> getItemRx(@NonNull String collectionPath,
+                                  @Nullable Map<String, Object> equalTo,
+                                  @Nullable Map<String, Object> lessThanOrEqualTo,
+                                  @Nullable Map<String, Object> greaterThanOrEqualTo,
+                                  @NonNull Class<T> clazz) {
+
+        Query ref = firestore.collection(collectionPath);
+        if (equalTo != null) {
+            for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
+                ref = ref.whereEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        if (lessThanOrEqualTo != null) {
+            for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
+                ref =  ref.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        if (greaterThanOrEqualTo != null) {
+            for (Map.Entry<String, Object> entry : greaterThanOrEqualTo.entrySet()) {
+                ref = ref.whereGreaterThanOrEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        return getItemRx(ref, clazz);
+    }
+
+    public <T> Maybe<T> getItemRx(DocumentReference ref, Class<T> clazz) {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {
                     if (snapshot.exists()) {
@@ -58,6 +99,26 @@ public final class RxFirestore {
                     if (!emitter.isDisposed()) {
                         emitter.onError(e);
                     }
+                })
+        );
+    }
+
+    public <T> Maybe<T> getItemRx(Query ref, Class<T> clazz) {
+        return Maybe.create(emitter ->
+                ref.get().addOnSuccessListener(snapshot -> {
+                    if (emitter.isDisposed()) {
+                        throw new IllegalStateException();
+                    }
+                    if (snapshot.isEmpty()) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onSuccess(snapshot.getDocuments().get(0).toObject(clazz));
+                    }
+                }).addOnFailureListener(error -> {
+                    if (emitter.isDisposed()) {
+                        throw new IllegalStateException();
+                    }
+                    emitter.onError(error);
                 })
         );
     }

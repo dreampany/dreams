@@ -1,5 +1,6 @@
 package com.dreampany.lca.data.source.remote;
 
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.api.cmc.model.*;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
@@ -9,9 +10,13 @@ import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinMarketCap;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
+import com.google.common.collect.Maps;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import org.apache.commons.collections4.queue.CircularFifoQueue;
+import org.apache.commons.lang3.tuple.MutablePair;
+
 import retrofit2.Response;
 import timber.log.Timber;
 
@@ -21,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -35,7 +41,8 @@ public class CoinRemoteDataSource implements CoinDataSource {
     private final CmcService service;
 
     private final List<String> keys;
-    private final CircularFifoQueue<Integer> queue;
+    private final CircularFifoQueue<Integer> indexQueue;
+    private final Map<Integer, MutablePair<Long, Integer>> indexStatus;
 
     public CoinRemoteDataSource(NetworkManager network,
                                 CoinMapper mapper,
@@ -48,9 +55,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
         keys.add(Constants.Key.CMC_PRO_IFTE_NET);
         keys.add(Constants.Key.CMC_PRO_DREAMPANY);
 
-        queue = new CircularFifoQueue<>(keys.size());
+        indexQueue = new CircularFifoQueue<>(keys.size());
+        indexStatus = Maps.newConcurrentMap();
         for (int index = 0; index < keys.size(); index++) {
-            queue.add(index);
+            indexQueue.add(index);
+            indexStatus.put(index, MutablePair.of(TimeUtil.currentTime(), 0));
         }
     }
 
@@ -312,11 +321,21 @@ public class CoinRemoteDataSource implements CoinDataSource {
      * private api
      */
     private String getApiKey() {
-        return keys.get(queue.peek());
+        adjustIndexStatus();
+
+        return keys.get(indexQueue.peek());
     }
 
     private void iterateQueue() {
-        queue.add(queue.peek());
+        indexQueue.add(indexQueue.peek());
+    }
+
+    private void adjustIndexStatus() {
+        int index = indexQueue.peek();
+        if (TimeUtil.isExpired(indexStatus.get(index).left, Constants.Delay.INSTANCE.getCmcKey())) {
+            indexStatus.get(index).setLeft(TimeUtil.currentTime());
+            indexStatus.get(index).setRight(0);
+        }
     }
 
     private Coin getItem(CmcCoinResponse response) {

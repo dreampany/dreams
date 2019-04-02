@@ -105,7 +105,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         if (!OPEN) {
             return;
         }
-        if (!preLoads(fresh)) {
+        if (!takeAction(fresh, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

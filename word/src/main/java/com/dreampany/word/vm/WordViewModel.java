@@ -100,7 +100,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     public void load(Word word, boolean fresh, boolean withProgress) {
-        if (!preLoad(true)) {
+        if (!takeAction(fresh, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

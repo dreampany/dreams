@@ -11,15 +11,14 @@ import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
-import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
-import timber.log.Timber;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Singleton;
+
+import io.reactivex.Maybe;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -48,7 +47,13 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Boolean> isEmptyRx() {
-        return Maybe.fromCallable(this::isEmpty);
+        return Maybe.create(emitter -> {
+            boolean result = isEmpty();
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            emitter.onSuccess(result);
+        });
     }
 
     @Override
@@ -133,7 +138,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
+    public List<Coin> getItems(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
         if (!mapper.hasCoins()) {
             List<Coin> room = dao.getItems();
             mapper.add(room);
@@ -154,8 +159,18 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
-        return Maybe.fromCallable(() -> getItems(source, index, limit, currency));
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, index, limit, lastUpdated, currency);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
@@ -180,6 +195,11 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int[] ids, long lastUpdated, Currency currency) {
         return null;
     }
 
@@ -227,10 +247,8 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
-        //return dao.insertOrReplaceRx(coin);
         return Maybe.create(emitter -> {
             long result = putItem(coin);
-            Timber.v("Room Insert Result %d", result);
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();
             }
@@ -248,26 +266,22 @@ public class CoinRoomDataSource implements CoinDataSource {
         Stream.of(coins).forEach(coin -> {
             result.add(putItem(coin));
         });
-        //int count = getCount();
-        //Timber.v("Input Coins %d Inserted Coins %d total %d", coins.size(), result.size(), count);
         return result;
     }
 
     @Override
     public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
-        return Maybe.fromCallable(() -> putItems(coins));
-/*        return Single.fromCallable(new Callable<List<Long>>() {
-            @Override
-            public List<Long> call() throws Exception {
-                List<Long> result = new ArrayList<>();
-                for (Coin coin : coins) {
-                    long res = putItem(coin);
-                    result.add(res);
-                    Timber.v("Result %d", res);
-                }
-                return result;
+        return Maybe.create(emitter -> {
+            List<Long> result = putItems(coins);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
             }
-        });*/
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override

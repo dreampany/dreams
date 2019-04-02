@@ -107,7 +107,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     public void suggests(String query) {
-        if (!preLoads(true)) {
+        if (!takeAction(true, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
@@ -125,7 +125,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     public void search(String query) {
-        if (!preLoads(true)) {
+        if (!takeAction(true, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

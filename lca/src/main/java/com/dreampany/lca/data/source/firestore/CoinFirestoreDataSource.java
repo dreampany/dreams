@@ -86,12 +86,28 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
+    public List<Coin> getItems(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, long lastUpdated,  Currency currency) {
+ /*       Map<String, Object> equalTo = Maps.newHashMap();
+        equalTo.put(Constants.CoinKey.SYMBOL, symbol);
+
+        Map<String, Object> greaterThanOrEqualTo = Maps.newHashMap();
+        greaterThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
+        Maybe<Coin> result = firestore.getItemRx(COINS, equalTo, null, greaterThanOrEqualTo, Coin.class);
+
+        result = result.doOnSuccess(new Consumer<Coin>() {
+            @DebugLog
+            @Override
+            public void accept(Coin coin) throws Exception {
+
+            }
+        });
+
+        return result;*/
         return null;
     }
 
@@ -102,6 +118,11 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int[] ids, long lastUpdated, Currency currency) {
         return null;
     }
 

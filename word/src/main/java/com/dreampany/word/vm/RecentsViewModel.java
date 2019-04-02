@@ -75,7 +75,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
 
     @DebugLog
     public void loads(boolean fresh) {
-        if (!preLoads(fresh)) {
+        if (!takeAction(fresh, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
@@ -105,7 +105,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     public void load(String word) {
-        if (!preLoad(true)) {
+        if (!takeAction(true, getSingleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

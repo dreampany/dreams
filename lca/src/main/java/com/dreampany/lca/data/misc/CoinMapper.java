@@ -1,6 +1,7 @@
 package com.dreampany.lca.data.misc;
 
 import android.text.TextUtils;
+
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
@@ -19,6 +20,7 @@ import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Maps;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,7 @@ public class CoinMapper {
     private final SmartCache<Long, Quote> quoteCache;
 
     private final Map<String, Coin> coins;
+
     @Inject
     CoinMapper(@CoinAnnote SmartMap<Long, Coin> map,
                @CoinAnnote SmartCache<Long, Coin> cache,
@@ -208,5 +211,12 @@ public class CoinMapper {
             currency[index] = currencies[index].name();
         }
         return currency;
+    }
+
+    public List<Coin> filter(List<Coin> source, long lastUpdated) {
+        if (DataUtil.isEmpty(source)) {
+            return null;
+        }
+        return null;
     }
 }

@@ -2,6 +2,7 @@ package com.dreampany.lca.vm;
 
 
 import android.app.Application;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -14,6 +15,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.CoinSource;
@@ -36,6 +38,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,6 +61,7 @@ public class CoinsViewModel
 
     private int currentIndex;
     private final List<String> currencies;
+    private Currency currentCurrency;
 
     @Inject
     CoinsViewModel(Application application,
@@ -137,8 +141,9 @@ public class CoinsViewModel
             return;
         }
         currentIndex = index;
+        Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
-                .backToMain(getListingRx(index))
+                .backToMain(getListingRx(index, currency))
                 .doOnSubscribe(subscription -> {
                     if (progress) {
                         postProgress(true);
@@ -148,6 +153,7 @@ public class CoinsViewModel
                     if (progress) {
                         postProgress(false);
                     }
+                    currentCurrency = currency;
                     postResult(Response.Type.GET, result);
                     //getEx().postToUi(() -> update(false), 2000L);
                 }, error -> {
@@ -164,8 +170,9 @@ public class CoinsViewModel
         if (!takeAction(important, getSingleDisposable())) {
             return;
         }
-        Disposable disposable  = getRx()
-                .backToMain(getUpdateItemsIfRx())
+        Currency currency = pref.getCurrency(Currency.USD);
+        Disposable disposable = getRx()
+                .backToMain(getUpdateItemsIfRx(currency))
                 .doOnSubscribe(subscription -> {
                     if (progress) {
                         postProgress(true);
@@ -175,7 +182,7 @@ public class CoinsViewModel
                     if (progress) {
                         postProgress(false);
                     }
-                    //this.currentCurrency = currency;
+                    currentCurrency = currency;
                     postResult(Response.Type.UPDATE, result);
                 }, error -> {
                     if (progress) {
@@ -216,15 +223,37 @@ public class CoinsViewModel
     }
 
     /* private api */
-    private Maybe<List<CoinItem>> getListingRx(int index) {
+    private Maybe<List<CoinItem>> getListingRx(int index, Currency currency) {
         int limit = Constants.Limit.COIN_PAGE;
-        Currency currency = pref.getCurrency(Currency.USD);
+        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
         return repo
-                .getItemsIfRx(CoinSource.CMC, index, limit, currency)
+                .getItemsIfRx(CoinSource.CMC, index, limit, lastUpdated, currency)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(coins, currency));
     }
 
     private List<CoinItem> getUpdateItemsIf(Currency currency) {
+        if (uiCallback == null) {
+            return null;
+        }
+        List<CoinItem> items = currency.equals(currentCurrency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
+        if (!DataUtil.isEmpty(items)) {
+            List<String> symbols = new ArrayList<>();
+            for (CoinItem item : items) {
+                symbols.add(item.getItem().getSymbol());
+            }
+            items = null;
+            if (!DataUtil.isEmpty(symbols)) {
+                String[] result = DataUtil.toStringArray(symbols);
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
+                if (!DataUtil.isEmpty(coins)) {
+                    items = getItems(coins, currency);
+                }
+            }
+        }
+        return items;
+    }
+
+/*    private List<CoinItem> getUpdateItemsIf(Currency currency) {
         if (uiCallback == null) {
             return null;
         }
@@ -244,11 +273,10 @@ public class CoinsViewModel
             }
         }
         return items;
-    }
+    }*/
 
-    private Maybe<List<CoinItem>> getUpdateItemsIfRx() {
+    private Maybe<List<CoinItem>> getUpdateItemsIfRx(Currency currency) {
         return Maybe.create(emitter -> {
-            Currency currency = pref.getCurrency(Currency.USD);
             List<CoinItem> result = getUpdateItemsIf(currency);
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();

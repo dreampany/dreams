@@ -43,7 +43,7 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
 
     @DebugLog
     public void loads(boolean fresh) {
-        if (!preLoads(fresh)) {
+        if (!takeAction(fresh, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

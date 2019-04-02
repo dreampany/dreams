@@ -123,9 +123,10 @@ public class SyncViewModel
     }
 
     private Maybe<List<CoinItem>> getListingRx(int index, int limit, Currency currency) {
-        return repo
+        return null;
+/*        return repo
                 .getItemsIfRx(CoinSource.CMC, index, limit, currency)
-                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);
+                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) this::getItemsRx);*/
     }
 
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> items) {

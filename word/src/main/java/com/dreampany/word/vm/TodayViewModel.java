@@ -52,7 +52,7 @@ public class TodayViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> 
     }
 
     public void loadToday() {
-        if (!preLoad(true)) {
+        if (!takeAction(true, getSingleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

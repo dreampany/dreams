@@ -142,8 +142,8 @@ public class ApiRepository {
         return coinRepo.getItemRx(source, symbol, lastUpdated, currency);
     }
 
-    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, int index, int limit, Currency currency) {
-        return coinRepo.getItemsRx(source, index, limit, currency);
+    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
+        return coinRepo.getItemsRx(source, index, limit, lastUpdated, currency);
     }
 
     public List<Coin> getFavorites(CoinSource source, Currency currency) {

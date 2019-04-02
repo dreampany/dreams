@@ -96,7 +96,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     @DebugLog
     public void loads(boolean fresh) {
-        if (!preLoads(fresh)) {
+        if (!takeAction(fresh, getMultipleDisposable())) {
             updateVisibleItems();
             return;
         }
@@ -150,7 +150,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     @DebugLog
     public void loadOcrOfImage(boolean fresh) {
-        if (!preLoads(fresh)) {
+        if (!takeAction(fresh, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
@@ -236,7 +236,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     private void loadOcrOfCameraImpl(boolean fresh) {
-        if (!preLoads(fresh)) {
+        if (!takeAction(fresh, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

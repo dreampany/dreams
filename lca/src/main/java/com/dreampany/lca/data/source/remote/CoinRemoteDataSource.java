@@ -253,7 +253,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
      * @return
      */
     @Override
-    public List<Coin> getItems(CoinSource source, int index, int limit, Currency currency) {
+    public List<Coin> getItems(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
@@ -275,7 +275,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, Currency currency) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
 /*        if (!network.hasInternet()) {
             return Maybe.error(new EmptyException());
         }
@@ -283,7 +283,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
         return service
                 .getListingRx(Constants.Key.CMC_PRO_ROMAN_BJIT, start, limit, currency.name())
                 .flatMap((Function<CmcListingResponse, MaybeSource<List<Coin>>>) this::getItemsRx);*/
-        return Maybe.fromCallable(() -> getItems(source, index, limit, currency));
+        return Maybe.fromCallable(() -> getItems(source, index, limit, lastUpdated, currency));
     }
 
     @Override
@@ -315,6 +315,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
                 .getQuotesRx(Constants.Key.CMC_PRO_ROMAN_BJIT, symbol, currency.name())
                 .flatMap((Function<CmcQuotesResponse, MaybeSource<List<Coin>>>) this::getItemsRx);*/
         return Maybe.fromCallable(() -> getItems(source, symbols, currency));
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, int[] ids, long lastUpdated, Currency currency) {
+        return null;
     }
 
     /**

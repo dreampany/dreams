@@ -62,7 +62,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
 
     @DebugLog
     public void loadOcr(String text) {
-        if (!preLoads(true)) {
+        if (!takeAction(true, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()

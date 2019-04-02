@@ -117,7 +117,7 @@ class Constants {
 
     object Limit {
         const val COIN_START_INDEX = 0
-        const val COIN_PAGE = 100
+        const val COIN_PAGE = 10
         const val COIN_MARKET = 50
         const val COIN_EXCHANGE = 50
         const val ICO = 100
@@ -125,7 +125,7 @@ class Constants {
     }
 
     object Time {
-        val Listing = TimeUnit.DAYS.toMillis(7) //get listing per 7 days
+        val Listing = TimeUnit.MINUTES.toMillis(2) //get listing per 7 days
         val Coin = TimeUnit.MINUTES.toMillis(1) // Every ~1 minute; as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
         val IcoPeriod = TimeUnit.MINUTES.toMillis(10)

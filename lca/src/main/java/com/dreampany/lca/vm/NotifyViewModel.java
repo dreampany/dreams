@@ -11,6 +11,7 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TextUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
@@ -128,8 +129,9 @@ public class NotifyViewModel {
 
             int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
             int listLimit = Constants.Limit.COIN_PAGE;
+            long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
             List<CoinItem> result = repo
-                    .getItemsIfRx(CoinSource.CMC, listStart, listLimit, currency)
+                    .getItemsIfRx(CoinSource.CMC, listStart, listLimit, lastUpdated, currency)
                     .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
                     .blockingGet();
 

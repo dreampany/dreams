@@ -83,7 +83,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     }
 
     public void loadCommons() {
-        if (!preLoads(false)) {
+        if (!takeAction(false, getMultipleDisposable())) {
             return;
         }
         Timber.v("loadCommons running...");
@@ -100,7 +100,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
 
     @DebugLog
     public void loadAlphas() {
-        if (!preLoads(false)) {
+        if (!takeAction(false, getMultipleDisposable())) {
             Timber.v("loadAlphas already running...");
             return;
         }
@@ -116,7 +116,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     }
 
     public void pause() {
-        preLoads(true);
+        takeAction(true, getMultipleDisposable());
     }
 
     @DebugLog

@@ -1,15 +1,16 @@
 package com.dreampany.lca.data.enums;
 
 import android.os.Parcel;
+
 import com.dreampany.frame.data.enums.Type;
 
-public enum IcoStatus implements Type {
-    LIVE, UPCOMING, FINISHED;
+public enum CoinSource implements Type {
+    CMC, CC;
 
     @Override
     public boolean equals(Type type) {
-        if (IcoStatus.class.isInstance(type)) {
-            IcoStatus item = (IcoStatus) type;
+        if (CoinSource.class.isInstance(type)) {
+            CoinSource item = (CoinSource) type;
             return compareTo(item) == 0;
         }
         return false;
@@ -40,29 +41,27 @@ public enum IcoStatus implements Type {
         return 0;
     }
 
-    public static final Creator<IcoStatus> CREATOR = new Creator<IcoStatus>() {
+    public static final Creator<CoinSource> CREATOR = new Creator<CoinSource>() {
 
         @Override
-        public IcoStatus createFromParcel(Parcel in) {
-            return IcoStatus.valueOf(in.readInt());
+        public CoinSource createFromParcel(Parcel in) {
+            return CoinSource.valueOf(in.readInt());
         }
 
         @Override
-        public IcoStatus[] newArray(int size) {
-            return new IcoStatus[size];
+        public CoinSource[] newArray(int size) {
+            return new CoinSource[size];
         }
 
     };
 
-    public static IcoStatus valueOf(int ordinal) {
+    public static CoinSource valueOf(int ordinal) {
         switch (ordinal) {
             case 0:
-                return LIVE;
+                return CMC;
             case 1:
-                return UPCOMING;
-            case 2:
             default:
-                return FINISHED;
+                return CC;
         }
     }
 }

@@ -6,6 +6,7 @@ import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.misc.Constants;
 import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
@@ -28,6 +29,7 @@ import java.util.*;
 @IgnoreExtraProperties
 public class Coin extends Base {
 
+    private CoinSource source;
     @PropertyName(Constants.CoinKey.COIN_ID)
     private long coinId;
     private String name;
@@ -63,6 +65,7 @@ public class Coin extends Base {
     @Ignore
     private Coin(Parcel in) {
         super(in);
+        source = in.readParcelable(CoinSource.class.getClassLoader());
         coinId = in.readLong();
         name = in.readString();
         symbol = in.readString();
@@ -81,6 +84,7 @@ public class Coin extends Base {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
+        dest.writeParcelable(source, flags);
         dest.writeLong(coinId);
         dest.writeString(name);
         dest.writeString(symbol);
@@ -117,6 +121,14 @@ public class Coin extends Base {
     @Override
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
+    }
+
+    public void setSource(CoinSource source) {
+        this.source = source;
+    }
+
+    public CoinSource getSource() {
+        return source;
     }
 
     @PropertyName(Constants.CoinKey.COIN_ID)

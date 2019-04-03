@@ -59,9 +59,9 @@ public class CoinsViewModel
     private final CurrencyFormatter formatter;
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
-    private int currentIndex;
     private final List<String> currencies;
     private Currency currentCurrency;
+    private long currentIndex;
 
     @Inject
     CoinsViewModel(Application application,
@@ -77,8 +77,8 @@ public class CoinsViewModel
         this.pref = pref;
         this.repo = repo;
         this.formatter = formatter;
-        currentIndex = Constants.Limit.COIN_START_INDEX;
         currencies = Collections.synchronizedList(new ArrayList<>());
+        currentIndex = Constants.Limit.COIN_START_INDEX;
 
         String[] cur = TextUtil.getStringArray(application, R.array.crypto_currencies);
         if (!DataUtil.isEmpty(cur)) {
@@ -136,7 +136,7 @@ public class CoinsViewModel
         loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);
     }
 
-    public void loads(int index, boolean important, boolean progress) {
+    public void loads(long index, boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
@@ -223,11 +223,11 @@ public class CoinsViewModel
     }
 
     /* private api */
-    private Maybe<List<CoinItem>> getListingRx(int index, Currency currency) {
-        int limit = Constants.Limit.COIN_PAGE;
+    private Maybe<List<CoinItem>> getListingRx(long index, Currency currency) {
+        long limit = Constants.Limit.COIN_PAGE;
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
         return repo
-                .getItemsIfRx(CoinSource.CMC, index, limit, lastUpdated, currency)
+                .getItemsIfRx(CoinSource.CMC, currency, index, limit, lastUpdated)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(coins, currency));
     }
 
@@ -237,14 +237,14 @@ public class CoinsViewModel
         }
         List<CoinItem> items = currency.equals(currentCurrency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
         if (!DataUtil.isEmpty(items)) {
-            List<String> symbols = new ArrayList<>();
+            List<Long> coinIds = new ArrayList<>();
             for (CoinItem item : items) {
-                symbols.add(item.getItem().getSymbol());
+                coinIds.add(item.getItem().getCoinId());
             }
             items = null;
-            if (!DataUtil.isEmpty(symbols)) {
-                String[] result = DataUtil.toStringArray(symbols);
-                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
+            if (!DataUtil.isEmpty(coinIds)) {
+                long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds, lastUpdated);
                 if (!DataUtil.isEmpty(coins)) {
                     items = getItems(coins, currency);
                 }

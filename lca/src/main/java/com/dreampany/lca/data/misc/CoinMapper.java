@@ -19,6 +19,8 @@ import com.dreampany.lca.misc.CoinAnnote;
 import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+
 import javax.inject.Inject;
 
 import java.util.ArrayList;
@@ -32,14 +34,13 @@ import java.util.Map;
  */
 public class CoinMapper {
 
-
     private final SmartMap<Long, Coin> map;
     private final SmartCache<Long, Coin> cache;
 
     private final SmartMap<Long, Quote> quoteMap;
     private final SmartCache<Long, Quote> quoteCache;
 
-    private final Map<String, Coin> coins;
+    private final Map<Long, Coin> coins;
 
     @Inject
     CoinMapper(@CoinAnnote SmartMap<Long, Coin> map,
@@ -57,13 +58,13 @@ public class CoinMapper {
         return !coins.isEmpty();
     }
 
-    public boolean hasCoin(String symbol) {
-        return coins.containsKey(symbol);
+    public boolean hasCoin(long coinId) {
+        return coins.containsKey(coinId);
     }
 
-    public boolean hasCoins(String[] symbols) {
-        for (String symbol : symbols) {
-            if (!hasCoin(symbol)) {
+    public boolean hasCoins(List<Long> coinIds) {
+        for (long coinId : coinIds) {
+            if (!hasCoin(coinId)) {
                 return false;
             }
         }
@@ -72,10 +73,10 @@ public class CoinMapper {
 
     public void add(Coin coin) {
         //coins.put(coin.getSlug(), coin);
-        this.add(coin.getSymbol(), coin);
+        this.add(coin.getCoinId(), coin);
     }
 
-    public void add(String key, Coin coin) {
+    public void add(long key, Coin coin) {
         coins.put(key, coin);
     }
 
@@ -95,7 +96,8 @@ public class CoinMapper {
         return new ArrayList<>(coins.values());
     }
 
-    public List<Coin> getCoins(String[] symbols) {
+
+    public List<Coin> getCoins(List<String> symbols) {
         List<Coin> result = new ArrayList<>();
         for (String symbol : symbols) {
             result.add(getCoin(symbol));
@@ -111,7 +113,7 @@ public class CoinMapper {
         return quoteMap.contains(in.getId());
     }
 
-    public Coin toItem(CmcCoin in, boolean full) {
+    public Coin toItem(CoinSource source, CmcCoin in, boolean full) {
         if (in == null) {
             return null;
         }
@@ -127,6 +129,7 @@ public class CoinMapper {
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
         out.setCoinId(in.getId());
+        out.setSource(source);
         out.setName(in.getName());
         out.setSymbol(in.getSymbol());
         out.setSlug(in.getSlug());
@@ -181,10 +184,10 @@ public class CoinMapper {
         return out;
     }
 
-    public Coin toItem(State state, CoinSource source, Currency currency, CoinDataSource api) {
+    public Coin toItem(CoinSource source, Currency currency, State state, CoinDataSource api) {
         Coin coin = map.get(state.getId());
         if (coin == null) {
-            coin = api.getItem(source, state.getId(), currency);
+            coin = api.getItem(source, currency, state.getId());
         }
         if (coin != null) {
             map.put(coin.getId(), coin);
@@ -193,6 +196,10 @@ public class CoinMapper {
     }
 
     public String joinString(String[] values, String separator) {
+        return TextUtils.join(separator, values);
+    }
+
+    public String joinString(List<String> values, String separator) {
         return TextUtils.join(separator, values);
     }
 

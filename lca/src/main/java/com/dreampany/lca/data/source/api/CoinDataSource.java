@@ -16,25 +16,13 @@ import java.util.List;
  */
 public interface CoinDataSource extends DataSource<Coin> {
 
-    void clear();
+    Coin getItem(CoinSource source, Currency currency, long coinId);
 
-    Coin getItem(CoinSource source, long id, Currency currency);
+    List<Coin> getItems(CoinSource source, Currency currency, long index, long limit, long lastUpdated);
 
-    Coin getItem(CoinSource source, String symbol, Currency currency);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated);
 
-    Coin getItem(CoinSource source, String symbol, long lastUpdated, Currency currency);
+    List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated);
 
-    Maybe<Coin> getItemRx(CoinSource source, String symbol, Currency currency);
-
-    Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency);
-
-    List<Coin> getItems(CoinSource source, int index, int limit, long lastUpdated, Currency currency);
-
-    Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency);
-
-    List<Coin> getItems(CoinSource source, String[] symbols, Currency currency);
-
-    Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency);
-
-    Maybe<List<Coin>> getItemsRx(CoinSource source, int[] ids, long lastUpdated, Currency currency);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated);
 }

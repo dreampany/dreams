@@ -116,12 +116,12 @@ class Constants {
     }
 
     object Limit {
-        const val COIN_START_INDEX = 0
-        const val COIN_PAGE = 10
-        const val COIN_MARKET = 50
-        const val COIN_EXCHANGE = 50
-        const val ICO = 100
-        const val NEWS = 100
+        const val COIN_START_INDEX = 0L
+        const val COIN_PAGE = 10L
+        const val COIN_MARKET = 50L
+        const val COIN_EXCHANGE = 50L
+        const val ICO = 100L
+        const val NEWS = 100L
     }
 
     object Time {

@@ -41,6 +41,210 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId) {
+        return null;
+    }
+
+    @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+        if (!mapper.hasCoins()) {
+            List<Coin> room = dao.getItems();
+            mapper.add(room);
+        }
+        List<Coin> cache = mapper.getCoins();
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+        List<Coin> result = DataUtil.sub(cache, (int) index, (int) limit);
+        if (DataUtil.isEmpty(result)) {
+            return null;
+        }
+        for (Coin coin : result) {
+            bindQuote(currency, coin);
+        }
+        return result;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, index, limit, lastUpdated);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
+        if (!mapper.hasCoins(coinIds)) {
+            List<Coin> room = dao.getItems(coinIds, lastUpdated);
+            mapper.add(room);
+        }
+        List<Coin> cache = mapper.getCoins();
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+        List<Coin> result = cache;
+        if (DataUtil.isEmpty(result)) {
+            return null;
+        }
+        for (Coin coin : result) {
+            bindQuote(currency, coin);
+        }
+        return result;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
+        return null;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public Maybe<Boolean> isEmptyRx() {
+        return null;
+    }
+
+    @Override
+    public int getCount() {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> getCountRx() {
+        return null;
+    }
+
+    @Override
+    public boolean isExists(Coin coin) {
+        return false;
+    }
+
+    @Override
+    public Maybe<Boolean> isExistsRx(Coin coin) {
+        return null;
+    }
+
+    @Override
+    public long putItem(Coin coin) {
+        mapper.add(coin); //adding mapper to reuse
+        if (coin.hasQuote()) {
+            quoteDao.insertOrReplace(coin.getQuotesAsList());
+        }
+        return dao.insertOrReplace(coin);
+    }
+
+    @Override
+    public Maybe<Long> putItemRx(Coin coin) {
+        return Maybe.create(emitter -> {
+            long result = putItem(coin);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (result == -1) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public List<Long> putItems(List<Coin> coins) {
+        List<Long> result = new ArrayList<>();
+        Stream.of(coins).forEach(coin -> {
+            result.add(putItem(coin));
+        });
+        return result;
+    }
+
+    @Override
+    public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
+        return Maybe.create(emitter -> {
+            List<Long> result = putItems(coins);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public int delete(Coin coin) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Coin coin) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Coin> coins) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
+        return null;
+    }
+
+    @Override
+    public Coin getItem(long id) {
+        return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(long id) {
+        return null;
+    }
+
+    @Override
+    public List<Coin> getItems() {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx() {
+        return null;
+    }
+
+    @Override
+    public List<Coin> getItems(long limit) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(long limit) {
+        return null;
+    }
+
+    /* private */
+    private void bindQuote(Currency currency, Coin coin) {
+        if (coin != null && !coin.hasQuote(currency)) {
+            Quote quote = quoteDao.getItems(coin.getId(), currency.name());
+            //coin.clearQuote();
+            coin.addQuote(quote);
+        }
+    }
+
+   /* @Override
     public boolean isEmpty() {
         return getCount() == 0;
     }
@@ -138,43 +342,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
-        if (!mapper.hasCoins()) {
-            List<Coin> room = dao.getItems();
-            mapper.add(room);
-        }
-        List<Coin> cache = mapper.getCoins();
-        if (DataUtil.isEmpty(cache)) {
-            return null;
-        }
-        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
-        List<Coin> result = DataUtil.sub(cache, index, limit);
-        if (DataUtil.isEmpty(result)) {
-            return null;
-        }
-        for (Coin coin : result) {
-            bindQuote(coin, currency);
-        }
-        return result;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
-        return Maybe.create(emitter -> {
-            List<Coin> result = getItems(source, index, limit, lastUpdated, currency);
-            if (emitter.isDisposed()) {
-                throw new IllegalStateException();
-            }
-            if (DataUtil.isEmpty(result)) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(result);
-            }
-        });
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, String[] symbols, Currency currency) {
+    public List<Coin> getItems(CoinSource source, List<String> symbols, Currency currency) {
         if (!mapper.hasCoins(symbols)) {
             List<Coin> room = dao.getItems(symbols);
             mapper.add(room);
@@ -194,13 +362,33 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, String[] symbols, Currency currency) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, List<String> symbols, Currency currency) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int[] ids, long lastUpdated, Currency currency) {
-        return null;
+    public List<Coin> getItems(CoinSource source,List<Long> coinIds, long lastUpdated, Currency currency) {
+        if (!mapper.hasCoins(symbols)) {
+            List<Coin> room = dao.getItems(symbols);
+            mapper.add(room);
+        }
+        List<Coin> cache = mapper.getCoins(symbols);
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        for (Coin coin : cache) {
+            bindQuote(coin, currency);
+        }
+        return cache;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, List<Long> coinIds, long lastUpdated, Currency currency) {
+        return dao.getItemsRx(coinIds, lastUpdated);
     }
 
     @Override
@@ -225,9 +413,9 @@ public class CoinRoomDataSource implements CoinDataSource {
     @Override
     public boolean isExists(Coin coin) {
         //todo bug for exists in ram not in database
-/*        if (mapper.isExists(coin)) {
+        if (mapper.isExists(coin)) {
             return true;
-        }*/
+        }
         return dao.getCount(coin.getId()) > 0;
     }
 
@@ -236,73 +424,8 @@ public class CoinRoomDataSource implements CoinDataSource {
         return Maybe.fromCallable(() -> isExists(coin));
     }
 
-    @Override
-    public long putItem(Coin coin) {
-        mapper.add(coin); //adding mapper to reuse
-        if (coin.hasQuote()) {
-            quoteDao.insertOrReplace(coin.getQuotesAsList());
-        }
-        return dao.insertOrReplace(coin);
-    }
 
-    @Override
-    public Maybe<Long> putItemRx(Coin coin) {
-        return Maybe.create(emitter -> {
-            long result = putItem(coin);
-            if (emitter.isDisposed()) {
-                throw new IllegalStateException();
-            }
-            if (result == -1) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(result);
-            }
-        });
-    }
 
-    @Override
-    public List<Long> putItems(List<Coin> coins) {
-        List<Long> result = new ArrayList<>();
-        Stream.of(coins).forEach(coin -> {
-            result.add(putItem(coin));
-        });
-        return result;
-    }
-
-    @Override
-    public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
-        return Maybe.create(emitter -> {
-            List<Long> result = putItems(coins);
-            if (emitter.isDisposed()) {
-                throw new IllegalStateException();
-            }
-            if (DataUtil.isEmpty(result)) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(result);
-            }
-        });
-    }
-
-    @Override
-    public int delete(Coin coin) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Integer> deleteRx(Coin coin) {
-        return null;
-    }
-
-    @Override
-    public List<Long> delete(List<Coin> coins) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
-        return null;
-    }
 
     @Override
     public List<Coin> getItems() {
@@ -324,25 +447,19 @@ public class CoinRoomDataSource implements CoinDataSource {
         return null;
     }
 
-    /* private api */
-    private void bindQuote(Coin coin, Currency currency) {
-        if (coin != null && !coin.hasQuote(currency)) {
-            Quote quote = quoteDao.getItems(coin.getId(), currency.name());
-            //coin.clearQuote();
-            coin.addQuote(quote);
-        }
-    }
+     private api
 
-/*    private List<Coin> getItemsIf(List<Flag> items) {
+
+    private List<Coin> getItemsIf(List<Flag> items) {
         if (!DataUtil.isEmpty(items)) {
             List<Coin> result = new ArrayList<>(items.size());
             Stream.of(items).forEach(favorite -> result.add(mapper.toItem(favorite, CoinRoomDataSource.this)));
             return result;
         }
         return null;
-    }*/
+    }
 
-/*    private Maybe<List<Coin>> getItemsRx(List<Flag> items) {
+    private Maybe<List<Coin>> getItemsRx(List<Flag> items) {
         return Flowable.fromIterable(items)
                 .map(favorite -> mapper.toItem(favorite, CoinRoomDataSource.this))
                 .toList()

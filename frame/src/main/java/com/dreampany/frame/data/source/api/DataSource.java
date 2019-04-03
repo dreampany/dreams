@@ -47,7 +47,7 @@ public interface DataSource<T> {
 
     Maybe<List<T>> getItemsRx();
 
-    List<T> getItems(int limit);
+    List<T> getItems(long limit);
 
-    Maybe<List<T>> getItemsRx(int limit);
+    Maybe<List<T>> getItemsRx(long limit);
 }

@@ -278,6 +278,10 @@ public final class DataUtil {
         }
     }
 
+    public static Integer[] toIntArrayOf(List<Integer> list) {
+        return list.toArray(new Integer[0]);
+    }
+
     public static String[] toStringArray(List<String> list) {
         return list.toArray(new String[0]);
     }

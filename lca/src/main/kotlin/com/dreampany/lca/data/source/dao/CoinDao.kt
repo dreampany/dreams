@@ -65,7 +65,13 @@ interface CoinDao : BaseDao<Coin> {
     fun getItems(start: Int, end: Int, limit: Int): List<Coin>
 
     @Query("select * from coin where symbol in (:symbols) order by rank asc")
-    fun getItems(symbols: Array<String>): List<Coin>
+    fun getItems(symbols: List<String>): List<Coin>
+
+    @Query("select * from coin where coinId in (:coinIds) and lastUpdated >= :lastUpdated order by rank asc")
+    fun getItems(coinIds: List<Long>, lastUpdated: Long): List<Coin>
+
+    @Query("select * from coin where coinId in (:coinIds) and lastUpdated <= :lastUpdated order by rank asc")
+    fun getItemsRx(coinIds: List<Long>, lastUpdated: Long): Maybe<List<Coin>>
 
     @Query("select * from coin where rank >= :start order by rank asc limit :limit")
     fun getItemsRx(start: Int, limit: Int): Maybe<List<Coin>>

@@ -19,10 +19,12 @@ import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.google.common.collect.Maps;
+
 import io.reactivex.Maybe;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -130,21 +132,27 @@ public class ApiRepository {
         return favorites.get(coin);
     }
 
-    public List<Coin> getItemsIf(CoinSource source, String[] symbols, Currency currency) {
-        return coinRepo.getItemsRx(source, symbols, currency).blockingGet();
+    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+        return coinRepo.getItemsRx(source, currency, index, limit, lastUpdated);
     }
 
-    public Coin getItemIf(CoinSource source, String symbol, Currency currency) {
+    public List<Coin> getItemsIf(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
+        return coinRepo.getItemsRx(source, currency, coinIds, lastUpdated).blockingGet();
+    }
+
+/*    public List<Coin> getItemsIf(CoinSource source, List<Long> coinIds, long lastUpdated, Currency currency) {
+        return coinRepo.getItemsRx(source, coinIds, lastUpdated, currency).blockingGet();
+    }*/
+
+    /*public Coin getItemIf(CoinSource source, String symbol, Currency currency) {
         return coinRepo.getItemRx(source, symbol, currency).blockingGet();
-    }
+    }*/
 
-    public Maybe<Coin> getItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
+/*    public Maybe<Coin> getItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
         return coinRepo.getItemRx(source, symbol, lastUpdated, currency);
-    }
+    }*/
 
-    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
-        return coinRepo.getItemsRx(source, index, limit, lastUpdated, currency);
-    }
+    /*   */
 
     public List<Coin> getFavorites(CoinSource source, Currency currency) {
         List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());
@@ -168,7 +176,7 @@ public class ApiRepository {
     }
 
     public int delete(Coin coin, CoinAlert coinAlert) {
-        int result =  alertRepo.delete(coinAlert);
+        int result = alertRepo.delete(coinAlert);
         if (result != -1) {
             alerts.put(coin, false);
         }
@@ -184,7 +192,7 @@ public class ApiRepository {
             return null;
         }
         List<Coin> result = new ArrayList<>(states.size());
-        Stream.of(states).forEach(state -> result.add(coinMapper.toItem(state, source, currency, coinRepo)));
+        Stream.of(states).forEach(state -> result.add(coinMapper.toItem(source, currency, state, coinRepo)));
         return result;
     }
 }

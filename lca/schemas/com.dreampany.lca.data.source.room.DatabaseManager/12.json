@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 12,
-    "identityHash": "a47db5b3799d101843c389be9cb608cc",
+    "identityHash": "9754833fa29aec9048326073fcc5c716",
     "entities": [
       {
         "tableName": "Coin",
@@ -684,7 +684,7 @@
       },
       {
         "tableName": "CoinAlert",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `coinId` INTEGER NOT NULL, `priceUp` REAL NOT NULL, `priceDown` REAL NOT NULL, `dayChange` REAL NOT NULL, `periodicTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `priceUp` REAL NOT NULL, `priceDown` REAL NOT NULL, `dayChange` REAL NOT NULL, `periodicTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -709,12 +709,6 @@
             "columnName": "description",
             "affinity": "TEXT",
             "notNull": false
-          },
-          {
-            "fieldPath": "coinId",
-            "columnName": "coinId",
-            "affinity": "INTEGER",
-            "notNull": true
           },
           {
             "fieldPath": "priceUp",
@@ -763,7 +757,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"a47db5b3799d101843c389be9cb608cc\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"9754833fa29aec9048326073fcc5c716\")"
     ]
   }
 }

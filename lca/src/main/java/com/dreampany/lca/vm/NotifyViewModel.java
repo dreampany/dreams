@@ -126,11 +126,11 @@ public class NotifyViewModel {
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
         return Maybe.create(emitter -> {
-            long coinCount = repo.getCoinCount();
-            long resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
+            int coinCount = repo.getCoinCount();
+            int resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
 
-            long listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
-            long listLimit = Constants.Limit.COIN_PAGE;
+            int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
+            int listLimit = Constants.Limit.COIN_PAGE;
             long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
             List<CoinItem> result = repo
                     .getItemsIfRx(CoinSource.CMC, currency, listStart, listLimit, lastUpdated)
@@ -170,7 +170,7 @@ public class NotifyViewModel {
         return Flowable.fromIterable(result)
                 .filter(alert -> isAlertable(currency, lastUpdated, alert))
                 .map(alert -> {
-                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getCoinId(), lastUpdated);
+                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId(), lastUpdated);
                     return CoinAlertItem.getItem(coin, alert);
                 }).toList()
                 .toMaybe();
@@ -253,7 +253,7 @@ public class NotifyViewModel {
     }
 
     private boolean isAlertable(Currency currency, long lastUpdated, CoinAlert alert) {
-        Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getCoinId(), lastUpdated);
+        Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId(), lastUpdated);
         if (coin == null) {
             return false;
         }

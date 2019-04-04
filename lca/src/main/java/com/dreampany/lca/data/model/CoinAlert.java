@@ -1,12 +1,13 @@
 package com.dreampany.lca.data.model;
 
 import android.os.Parcel;
+
+import com.dreampany.frame.data.model.Alert;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
-import com.dreampany.frame.data.model.Alert;
-import com.google.common.base.Objects;
 
 /**
  * Created by Roman-372 on 2/19/2019
@@ -18,7 +19,6 @@ import com.google.common.base.Objects;
         primaryKeys = {"id"})
 public class CoinAlert extends Alert {
 
-    private long coinId;
     private double priceUp;
     private double priceDown;
     private double dayChange;
@@ -30,7 +30,6 @@ public class CoinAlert extends Alert {
     @Ignore
     private CoinAlert(Parcel in) {
         super(in);
-        coinId = in.readLong();
         priceUp = in.readDouble();
         priceDown = in.readDouble();
         dayChange = in.readDouble();
@@ -40,7 +39,6 @@ public class CoinAlert extends Alert {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeLong(coinId);
         dest.writeDouble(priceUp);
         dest.writeDouble(priceDown);
         dest.writeDouble(dayChange);
@@ -59,23 +57,19 @@ public class CoinAlert extends Alert {
         }
     };
 
-    @Override
+/*    @Override
     public boolean equals(Object in) {
         if (this == in) return true;
         if (in == null || getClass() != in.getClass()) return false;
 
         CoinAlert item = (CoinAlert) in;
-        return coinId == item.coinId;
+        return id == item.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(coinId);
-    }
-
-    public void setCoinId(long coinId) {
-        this.coinId = coinId;
-    }
+        return Objects.hashCode(id);
+    }*/
 
     public void setPriceUp(double priceUp) {
         this.priceUp = priceUp;
@@ -91,10 +85,6 @@ public class CoinAlert extends Alert {
 
     public void setPeriodicTime(long periodicTime) {
         this.periodicTime = periodicTime;
-    }
-
-    public long getCoinId() {
-        return coinId;
     }
 
     public double getPriceUp() {

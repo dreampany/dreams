@@ -59,23 +59,23 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId) {
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         return null;
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         Maybe<List<Coin>> roomIf = isListingExpired(index, currency)
                 ? Maybe.empty()
                 : room.getItemsRx(source, currency, index, limit, lastUpdated);
         Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, currency, index, limit, lastUpdated);
         Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, index, limit, lastUpdated);
         return concatFirstRx(roomIf, remote, roomAny);
+    }
+
+    @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId) {
+        return room.getItem(source, currency, coinId);
     }
 
     @Override
@@ -113,9 +113,10 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public long getCount() {
-        return 0;
+    public int getCount() {
+        return room.getCount();
     }
+
 
     @Override
     public Maybe<Integer> getCountRx() {
@@ -193,12 +194,12 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public List<Coin> getItems(long limit) {
+    public List<Coin> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(long limit) {
+    public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
     }
 
@@ -222,7 +223,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
 
-    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         Maybe<List<Coin>> maybe = remote.getItemsRx(source, currency, index, limit, lastUpdated);
         return maybe.filter(coins -> !DataUtil.isEmpty(coins))
                 .doOnSuccess(coins -> {

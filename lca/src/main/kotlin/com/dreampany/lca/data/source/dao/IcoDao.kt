@@ -39,8 +39,8 @@ interface IcoDao : BaseDao<Ico> {
     fun getItemRx(id: Long): Maybe<Ico>
 
     @Query("select * from ico where status = :status limit :limit")
-    fun getItems(status: String, limit: Long): List<Ico>
+    fun getItems(status: String, limit: Int): List<Ico>
 
     @Query("select * from ico where status = :status limit :limit")
-    fun getItemsRx(status: String, limit: Long): Maybe<List<Ico>>
+    fun getItemsRx(status: String, limit: Int): Maybe<List<Ico>>
 }

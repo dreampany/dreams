@@ -126,12 +126,12 @@ public class MarketRemoteDataSource implements MarketDataSource {
     }
 
     @Override
-    public List<Market> getItems(long limit) {
+    public List<Market> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Market>> getItemsRx(long limit) {
+    public Maybe<List<Market>> getItemsRx(int limit) {
         return null;
     }
 

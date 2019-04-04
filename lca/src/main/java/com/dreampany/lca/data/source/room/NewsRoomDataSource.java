@@ -120,12 +120,12 @@ public class NewsRoomDataSource implements NewsDataSource {
     }
 
     @Override
-    public List<News> getItems(long limit) {
+    public List<News> getItems(int limit) {
         return dao.getItems(limit);
     }
 
     @Override
-    public Maybe<List<News>> getItemsRx(long limit) {
+    public Maybe<List<News>> getItemsRx(int limit) {
         return dao.getItemsRx(limit);
     }
 

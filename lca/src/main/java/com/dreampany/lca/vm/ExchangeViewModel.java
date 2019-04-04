@@ -41,7 +41,7 @@ public class ExchangeViewModel
         extends BaseViewModel<Exchange, ExchangeItem, UiTask<Coin>>
         implements NetworkManager.Callback {
 
-    private static final long LIMIT = Constants.Limit.COIN_EXCHANGE;
+    private static final int LIMIT = Constants.Limit.COIN_EXCHANGE;
     private static final long INITIAL_DELAY_IN_SECOND = 0L;
     private static final long PERIOD_IN_SECOND = 10L;
     private static final int RETRY_COUNT = 3;

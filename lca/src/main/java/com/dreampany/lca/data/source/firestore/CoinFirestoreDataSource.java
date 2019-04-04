@@ -7,12 +7,16 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
+import com.google.common.collect.Maps;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Singleton;
 
+import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by Roman-372 on 3/28/2019
@@ -35,17 +39,17 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
+        return null;
+    }
+
+    @Override
     public Coin getItem(CoinSource source, Currency currency, long coinId) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
         return null;
     }
 
@@ -56,7 +60,22 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        return null;
+        Map<String, Object> equalTo = Maps.newHashMap();
+        equalTo.put(Constants.CoinKey.COIN_ID, coinId);
+
+        Map<String, Object> greaterThanOrEqualTo = Maps.newHashMap();
+        greaterThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
+        Maybe<Coin> result = firestore.getItemRx(COINS, equalTo, null, greaterThanOrEqualTo, Coin.class);
+
+        result = result.doOnSuccess(new Consumer<Coin>() {
+            @DebugLog
+            @Override
+            public void accept(Coin coin) throws Exception {
+
+            }
+        });
+
+        return result;
     }
 
     @Override
@@ -80,12 +99,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public long getCount() {
+    public int getCount() {
         return 0;
     }
 
     @Override
-    public Maybe<Long> getCountRx() {
+    public Maybe<Integer> getCountRx() {
         return null;
     }
 
@@ -101,7 +120,11 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public long putItem(Coin coin) {
-        return 0;
+        Throwable error = firestore.setPutRx(COINS, String.valueOf(coin.getCoinId()), coin).blockingGet();
+        if (error == null) {
+            return 0;
+        }
+        return -1;
     }
 
     @Override
@@ -160,36 +183,17 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(long limit) {
+    public List<Coin> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(long limit) {
+    public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
     }
 
-/*    Map<String, Object> equalTo = Maps.newHashMap();
-        equalTo.put(Constants.CoinKey.SYMBOL, symbol);
-
-    Map<String, Object> greaterThanOrEqualTo = Maps.newHashMap();
-        greaterThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
-    Maybe<Coin> result = firestore.getItemRx(COINS, equalTo, null, greaterThanOrEqualTo, Coin.class);
-
-    result = result.doOnSuccess(new Consumer<Coin>() {
-        @DebugLog
-        @Override
-        public void accept(Coin coin) throws Exception {
-
-        }
-    });
-
-        return result;
-    Throwable error = firestore.setDocument(COINS, coin.getSymbol(), coin).blockingGet();
-        if (error == null) {
-        return 0;
-    }
-        return -1;*/
+/*
+*/
 
 
 }

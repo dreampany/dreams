@@ -41,12 +41,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         if (!mapper.hasCoins()) {
             List<Coin> room = dao.getItems();
             mapper.add(room);
@@ -67,7 +62,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, index, limit, lastUpdated);
             if (emitter.isDisposed()) {
@@ -82,13 +77,27 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId) {
+        if (!mapper.hasCoin(coinId)) {
+            Coin room = dao.getItemByCoinId(coinId);
+            mapper.add(room);
+        }
+        Coin cache = mapper.getCoin(coinId);
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        bindQuote(currency, cache);
+        return cache;
+    }
+
+    @Override
     public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
         if (!mapper.hasCoin(coinId)) {
             Coin room = dao.getItem(coinId, lastUpdated);
             mapper.add(room);
         }
         Coin cache = mapper.getCoin(coinId);
-        if (DataUtil.isEmpty(cache)) {
+        if (DataUtil.isEmpty(cache) || cache.getLastUpdated() < lastUpdated) {
             return null;
         }
         bindQuote(currency, cache);
@@ -154,7 +163,7 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public int getCount() {
-        return 0;
+        return dao.getCount();
     }
 
     @Override
@@ -261,12 +270,12 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(long limit) {
+    public List<Coin> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(long limit) {
+    public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
     }
 

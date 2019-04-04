@@ -35,18 +35,16 @@ public class CoinAlertMapper {
         return !map.isEmpty();
     }
 
-    public boolean hasCoinAlert(String symbol) {
-        return alerts.containsKey(symbol);
+    public boolean hasCoinAlert(long id) {
+        return alerts.containsKey(id);
     }
 
-    public boolean hasCoinAlert(String symbol, double dayChange) {
-        long id = DataUtil.getSha512(symbol);
+    public boolean hasCoinAlert(long id, double dayChange) {
         return map.contains(id);
     }
 
     public void add(CoinAlert alert) {
-        long id = DataUtil.getSha512(alert.getSymbol());
-        this.add(id, alert);
+        this.add(alert.getId(), alert);
     }
 
     public void add(long id, CoinAlert alert) {
@@ -79,7 +77,6 @@ public class CoinAlertMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setCoinId(symbol);
         out.setPriceUp(priceUp);
         out.setPriceDown(priceDown);
         return out;

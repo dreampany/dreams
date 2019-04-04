@@ -114,7 +114,7 @@ public class ApiRepository {
 
     public boolean hasAlert(Coin coin) {
         if (!alerts.containsKey(coin)) {
-            boolean alert = alertRepo.isExists(coin.getSymbol());
+            boolean alert = alertRepo.isExists(coin.getCoinId());
             alerts.put(coin, alert);
         }
         return alerts.get(coin);
@@ -132,7 +132,7 @@ public class ApiRepository {
         return favorites.get(coin);
     }
 
-    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         return coinRepo.getItemsRx(source, currency, index, limit, lastUpdated);
     }
 
@@ -165,8 +165,8 @@ public class ApiRepository {
         return getItemsIf(states, source, currency);
     }
 
-    public CoinAlert getCoinAlert(String symbol) {
-        return alertRepo.getItem(symbol);
+    public CoinAlert getCoinAlert(long coinId) {
+        return alertRepo.getItem(coinId);
     }
 
     public Maybe<List<CoinAlert>> getCoinAlertsRx() {
@@ -189,7 +189,7 @@ public class ApiRepository {
         return result;
     }
 
-    public long getCoinCount() {
+    public int getCoinCount() {
         return coinRepo.getCount();
     }
 

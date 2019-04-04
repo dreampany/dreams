@@ -121,12 +121,12 @@ public class IcoRoomDataSource implements IcoDataSource {
     }
 
     @Override
-    public List<Ico> getItems(long limit) {
+    public List<Ico> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getItemsRx(long limit) {
+    public Maybe<List<Ico>> getItemsRx(int limit) {
         return null;
     }
 
@@ -135,58 +135,19 @@ public class IcoRoomDataSource implements IcoDataSource {
         mapper.clear(status);
     }
 
-    @Override
-    public List<Ico> getLiveItems(long limit) {
-        return null;
-    }
 
     @Override
-    public Maybe<List<Ico>> getLiveItemsRx(long limit) {
+    public Maybe<List<Ico>> getLiveItemsRx(int limit) {
         return dao.getItemsRx(IcoStatus.LIVE.name(), limit);
     }
 
     @Override
-    public List<Ico> getUpcomingItems(long limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Ico>> getUpcomingItemsRx(long limit) {
+    public Maybe<List<Ico>> getUpcomingItemsRx(int limit) {
         return dao.getItemsRx(IcoStatus.UPCOMING.name(), limit);
     }
 
     @Override
-    public List<Ico> getFinishedItems(long limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Ico>> getFinishedItemsRx(long limit) {
+    public Maybe<List<Ico>> getFinishedItemsRx(int limit) {
         return dao.getItemsRx(IcoStatus.FINISHED.name(), limit);
     }
-
-/*    @Override
-    public Completable putItem(Ico item) {
-        return Completable.fromAction(() -> dao.insertOrReplace(item));
-    }
-
-    @Override
-    public Completable putItems(List<Ico> items) {
-         return Completable.fromAction(() -> dao.insertOrReplace(items));
-    }
-
-    @Override
-    public Maybe<List<Ico>> getLiveItems(int limit) {
-      return dao.getItemsRx(IcoStatus.LIVE.name(), limit);
-    }
-
-    @Override
-    public Maybe<List<Ico>> getUpcomingItems(int limit) {
-       return dao.getItemsRx(IcoStatus.UPCOMING.name(), limit);
-    }
-
-    @Override
-    public Maybe<List<Ico>> getFinishedItems(int limit) {
-        return dao.getItemsRx(IcoStatus.FINISHED.name(), limit);
-    }*/
 }

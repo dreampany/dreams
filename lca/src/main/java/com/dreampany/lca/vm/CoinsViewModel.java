@@ -61,7 +61,7 @@ public class CoinsViewModel
 
     private final List<String> currencies;
     private Currency currentCurrency;
-    private long currentIndex;
+    private int currentIndex;
 
     @Inject
     CoinsViewModel(Application application,
@@ -136,7 +136,7 @@ public class CoinsViewModel
         loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);
     }
 
-    public void loads(long index, boolean important, boolean progress) {
+    public void loads(int index, boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
@@ -223,8 +223,8 @@ public class CoinsViewModel
     }
 
     /* private api */
-    private Maybe<List<CoinItem>> getListingRx(long index, Currency currency) {
-        long limit = Constants.Limit.COIN_PAGE;
+    private Maybe<List<CoinItem>> getListingRx(int index, Currency currency) {
+        int limit = Constants.Limit.COIN_PAGE;
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
         return repo
                 .getItemsIfRx(CoinSource.CMC, currency, index, limit, lastUpdated)

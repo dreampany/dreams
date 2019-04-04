@@ -174,7 +174,7 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> getItemRx(Coin coin) {
         return Maybe.create(emitter -> {
-            CoinAlert alert = repo.getCoinAlert(coin.getSymbol());
+            CoinAlert alert = repo.getCoinAlert(coin.getCoinId());
             CoinAlertItem item;
             if (alert != null) {
                 item = getItem(coin, alert);
@@ -198,7 +198,7 @@ public class CoinAlertViewModel
         return Flowable.fromIterable(result)
                 .map(alert -> {
                     long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
-                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getCoinId(), lastUpdated);
+                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId(), lastUpdated);
                     return getItem(coin, alert);
                 })
                 .toList()

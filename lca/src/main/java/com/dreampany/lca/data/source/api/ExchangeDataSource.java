@@ -14,7 +14,7 @@ import io.reactivex.Maybe;
  */
 public interface ExchangeDataSource extends DataSource<Exchange> {
 
-    List<Exchange> getItems(String symbol, long limit);
+    List<Exchange> getItems(String symbol, int limit);
 
-    Maybe<List<Exchange>> getItemsRx(String symbol, long limit);
+    Maybe<List<Exchange>> getItemsRx(String symbol, int limit);
 }

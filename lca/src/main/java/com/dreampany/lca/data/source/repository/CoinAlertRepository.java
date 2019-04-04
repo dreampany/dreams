@@ -36,18 +36,8 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
     }
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public CoinAlert getItem(String symbol) {
-        return room.getItem(symbol);
-    }
-
-    @Override
-    public boolean isExists(String symbol) {
-        return room.isExists(symbol);
+    public boolean isExists(long id) {
+        return room.isExists(id);
     }
 
     @Override
@@ -122,7 +112,7 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
 
     @Override
     public CoinAlert getItem(long id) {
-        return null;
+        return room.getItem(id);
     }
 
     @Override

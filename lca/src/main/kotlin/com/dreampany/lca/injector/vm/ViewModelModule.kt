@@ -62,17 +62,17 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(LiveIcoViewModel::class)
-    abstract fun bindLiveICOViewModel(vm: LiveIcoViewModel): ViewModel
+    abstract fun bindLiveIcoViewModel(vm: LiveIcoViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(UpcomingIcoViewModel::class)
-    abstract fun bindUpcomingICOViewModel(vm: UpcomingIcoViewModel): ViewModel
+    abstract fun bindUpcomingIcoViewModel(vm: UpcomingIcoViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(FinishedIcoViewModel::class)
-    abstract fun bindFinishedICOViewModel(vm: FinishedIcoViewModel): ViewModel
+    abstract fun bindFinishedIcoViewModel(vm: FinishedIcoViewModel): ViewModel
 
     @Binds
     @IntoMap

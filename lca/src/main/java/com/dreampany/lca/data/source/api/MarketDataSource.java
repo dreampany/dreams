@@ -14,7 +14,7 @@ import io.reactivex.Maybe;
  */
 public interface MarketDataSource extends DataSource<Market> {
 
-    List<Market> getItems(String fromSymbol, String toSymbol, long limit);
+    List<Market> getItems(String fromSymbol, String toSymbol, int limit);
 
-    Maybe<List<Market>> getItemsRx(String fromSymbol, String toSymbol, long limit);
+    Maybe<List<Market>> getItemsRx(String fromSymbol, String toSymbol, int limit);
 }

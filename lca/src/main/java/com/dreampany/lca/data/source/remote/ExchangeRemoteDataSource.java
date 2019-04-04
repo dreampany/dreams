@@ -46,12 +46,12 @@ public class ExchangeRemoteDataSource implements ExchangeDataSource {
     }
 
     @Override
-    public long getCount() {
+    public int getCount() {
         return 0;
     }
 
     @Override
-    public Maybe<Long> getCountRx() {
+    public Maybe<Integer> getCountRx() {
         return null;
     }
 
@@ -126,12 +126,12 @@ public class ExchangeRemoteDataSource implements ExchangeDataSource {
     }
 
     @Override
-    public List<Exchange> getItems(long limit) {
+    public List<Exchange> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Exchange>> getItemsRx(long limit) {
+    public Maybe<List<Exchange>> getItemsRx(int limit) {
         return null;
     }
 

@@ -17,15 +17,9 @@ public interface IcoDataSource extends DataSource<Ico> {
 
     void clear(IcoStatus status);
 
-    List<Ico> getLiveItems(long limit);
+    Maybe<List<Ico>> getLiveItemsRx(int limit);
 
-    Maybe<List<Ico>> getLiveItemsRx(long limit);
+    Maybe<List<Ico>> getUpcomingItemsRx(int limit);
 
-    List<Ico> getUpcomingItems(long limit);
-
-    Maybe<List<Ico>> getUpcomingItemsRx(long limit);
-
-    List<Ico> getFinishedItems(long limit);
-
-    Maybe<List<Ico>> getFinishedItemsRx(long limit);
+    Maybe<List<Ico>> getFinishedItemsRx(int limit);
 }

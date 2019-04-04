@@ -37,7 +37,7 @@ public class NewsViewModel
         extends BaseViewModel<News, NewsItem, UiTask<News>>
         implements NetworkManager.Callback {
 
-    private static final long LIMIT = Constants.Limit.NEWS;
+    private static final int LIMIT = Constants.Limit.NEWS;
 
     private final NetworkManager network;
     private final NewsRepository repo;

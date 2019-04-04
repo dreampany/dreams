@@ -123,12 +123,12 @@ public class GraphRemoteDataSource implements GraphDataSource {
     }
 
     @Override
-    public List<Graph> getItems(long limit) {
+    public List<Graph> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Graph>> getItemsRx(long limit) {
+    public Maybe<List<Graph>> getItemsRx(int limit) {
         return null;
     }
 

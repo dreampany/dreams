@@ -69,16 +69,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
-        long start = index + 1;
+        int start = index + 1;
         for (int loop = 0; loop < keys.size(); loop++) {
             String apiKey = getApiKey();
             try {
@@ -96,7 +91,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, index, limit, lastUpdated);
             if (emitter.isDisposed()) {
@@ -108,6 +103,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
                 emitter.onSuccess(result);
             }
         });
+    }
+
+    @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId) {
+        return null;
     }
 
     @Override
@@ -158,14 +158,15 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public long getCount() {
+    public int getCount() {
         return 0;
     }
 
     @Override
-    public Maybe<Long> getCountRx() {
+    public Maybe<Integer> getCountRx() {
         return null;
     }
+
 
     @Override
     public boolean isExists(Coin coin) {
@@ -238,12 +239,12 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(long limit) {
+    public List<Coin> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(long limit) {
+    public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
     }
 

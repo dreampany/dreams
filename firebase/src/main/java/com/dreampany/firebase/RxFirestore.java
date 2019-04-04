@@ -6,13 +6,16 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 import hugo.weaving.DebugLog;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
@@ -34,23 +37,23 @@ public final class RxFirestore {
         firestore.setFirestoreSettings(settings);
     }
 
-/*    public <T> Maybe setDocument(String collection, String document, T item) {
+/*    public <T> Maybe setPutRx(String collection, String document, T item) {
         DocumentReference ref = firestore.collection(collection).document(document);
-        return setDocument(ref, item);
+        return setPutRx(ref, item);
     }
 
-    public <T> Completable setDocument(DocumentReference ref, T item) {
+    public <T> Completable setPutRx(DocumentReference ref, T item) {
         return Completable.create(emitter ->
                 RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
         );
     }*/
 
-    public <T> Completable setDocument(String collection, String document, T item) {
+    public <T> Completable setPutRx(String collection, String document, T item) {
         DocumentReference ref = firestore.collection(collection).document(document);
-        return setDocument(ref, item);
+        return setPutRx(ref, item);
     }
 
-    public <T> Completable setDocument(DocumentReference ref, T item) {
+    public <T> Completable setPutRx(DocumentReference ref, T item) {
         return Completable.create(emitter ->
                 RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
         );

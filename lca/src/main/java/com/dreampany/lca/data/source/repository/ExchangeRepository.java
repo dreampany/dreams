@@ -60,12 +60,12 @@ public class ExchangeRepository extends Repository<Long, Exchange> implements Ex
     }
 
     @Override
-    public List<Exchange> getItems(String symbol, long limit) {
+    public List<Exchange> getItems(String symbol, int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Exchange>> getItemsRx(String symbol, long limit) {
+    public Maybe<List<Exchange>> getItemsRx(String symbol, int limit) {
         return getWithSave(remote.getItemsRx(symbol, limit));
     }
 
@@ -140,12 +140,12 @@ public class ExchangeRepository extends Repository<Long, Exchange> implements Ex
     }
 
     @Override
-    public List<Exchange> getItems(long limit) {
+    public List<Exchange> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Exchange>> getItemsRx(long limit) {
+    public Maybe<List<Exchange>> getItemsRx(int limit) {
         return null;
     }
 

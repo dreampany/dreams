@@ -16,11 +16,11 @@ import java.util.List;
  */
 public interface CoinDataSource extends DataSource<Coin> {
 
+    List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated);
+
+    Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated);
+
     Coin getItem(CoinSource source, Currency currency, long coinId);
-
-    List<Coin> getItems(CoinSource source, Currency currency, long index, long limit, long lastUpdated);
-
-    Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, long index, long limit, long lastUpdated);
 
     Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated);
 

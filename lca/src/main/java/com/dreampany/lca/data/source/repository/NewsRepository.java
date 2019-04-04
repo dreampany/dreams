@@ -138,12 +138,12 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
     }
 
     @Override
-    public List<News> getItems(long limit) {
+    public List<News> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<News>> getItemsRx(long limit) {
+    public Maybe<List<News>> getItemsRx(int limit) {
         Maybe<List<News>> room = getRoomItemsIfRx(limit);
         Maybe<List<News>> remote = getRemoteItemsIfRx(limit);
         if (isNewsExpired() && network.hasInternet()) {
@@ -158,7 +158,7 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
         remote.clear();
     }
 
-    private Maybe<List<News>> getRoomItemsIfRx(long limit) {
+    private Maybe<List<News>> getRoomItemsIfRx(int limit) {
         return Maybe.fromCallable(() -> {
             if (!isEmpty()) {
                 return room.getItems(limit);
@@ -167,7 +167,7 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
         });
     }
 
-    private Maybe<List<News>> getRemoteItemsIfRx(long limit) {
+    private Maybe<List<News>> getRemoteItemsIfRx(int limit) {
         if (isNewsExpired()) {
             return this.remote.getItemsRx(limit)
                     .filter(items -> !(DataUtil.isEmpty(items)))

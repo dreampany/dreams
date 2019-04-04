@@ -30,18 +30,8 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
-    public void clear() {
-
-    }
-
-    @Override
-    public CoinAlert getItem(String symbol) {
-        return dao.getItem(symbol);
-    }
-
-    @Override
-    public boolean isExists(String symbol) {
-        return dao.getCount(symbol) > 0;
+    public boolean isExists(long id) {
+        return dao.getCount(id) > 0;
     }
 
     @Override
@@ -116,7 +106,7 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
 
     @Override
     public CoinAlert getItem(long id) {
-        return null;
+        return dao.getItem(id);
     }
 
     @Override
@@ -135,12 +125,12 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
-    public List<CoinAlert> getItems(long limit) {
+    public List<CoinAlert> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<CoinAlert>> getItemsRx(long limit) {
+    public Maybe<List<CoinAlert>> getItemsRx(int limit) {
         return null;
     }
 }

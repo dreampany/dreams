@@ -119,12 +119,12 @@ public class ExchangeRoomDataSource implements ExchangeDataSource {
     }
 
     @Override
-    public List<Exchange> getItems(long limit) {
+    public List<Exchange> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Exchange>> getItemsRx(long limit) {
+    public Maybe<List<Exchange>> getItemsRx(int limit) {
         return null;
     }
 

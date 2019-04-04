@@ -36,13 +36,13 @@ public interface CmcService {
      */
     @GET("cryptocurrency/listings/latest")
     Maybe<CmcListingResponse> getListingRx(@Query("CMC_PRO_API_KEY") String apiKey,
-                                           @Query("start") long start,
-                                           @Query("limit") long limit);
+                                           @Query("start") int start,
+                                           @Query("limit") int limit);
 
     @GET("cryptocurrency/listings/latest")
     Call<CmcListingResponse> getListing(@Query("CMC_PRO_API_KEY") String apiKey,
-                                           @Query("start") long start,
-                                           @Query("limit") long limit,
+                                           @Query("start") int start,
+                                           @Query("limit") int limit,
                                            @Query("convert") String currencies);
 
     /**
@@ -59,8 +59,8 @@ public interface CmcService {
      */
     @GET("cryptocurrency/listings/latest")
     Maybe<CmcListingResponse> getListingRx(@Query("CMC_PRO_API_KEY") String apiKey,
-                                           @Query("start") long start,
-                                           @Query("limit") long limit,
+                                           @Query("start") int start,
+                                           @Query("limit") int limit,
                                            @Query("convert") String currencies);
 
     @GET("cryptocurrency/quotes/latest")

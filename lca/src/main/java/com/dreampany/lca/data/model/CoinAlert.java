@@ -18,7 +18,7 @@ import com.google.common.base.Objects;
         primaryKeys = {"id"})
 public class CoinAlert extends Alert {
 
-    private String symbol;
+    private long coinId;
     private double priceUp;
     private double priceDown;
     private double dayChange;
@@ -30,7 +30,7 @@ public class CoinAlert extends Alert {
     @Ignore
     private CoinAlert(Parcel in) {
         super(in);
-        symbol = in.readString();
+        coinId = in.readLong();
         priceUp = in.readDouble();
         priceDown = in.readDouble();
         dayChange = in.readDouble();
@@ -40,7 +40,7 @@ public class CoinAlert extends Alert {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(symbol);
+        dest.writeLong(coinId);
         dest.writeDouble(priceUp);
         dest.writeDouble(priceDown);
         dest.writeDouble(dayChange);
@@ -65,16 +65,16 @@ public class CoinAlert extends Alert {
         if (in == null || getClass() != in.getClass()) return false;
 
         CoinAlert item = (CoinAlert) in;
-        return Objects.equal(symbol, item.symbol);
+        return coinId == item.coinId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(symbol);
+        return Objects.hashCode(coinId);
     }
 
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setCoinId(long coinId) {
+        this.coinId = coinId;
     }
 
     public void setPriceUp(double priceUp) {
@@ -93,8 +93,8 @@ public class CoinAlert extends Alert {
         this.periodicTime = periodicTime;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public long getCoinId() {
+        return coinId;
     }
 
     public double getPriceUp() {

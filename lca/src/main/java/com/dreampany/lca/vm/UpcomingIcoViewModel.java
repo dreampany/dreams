@@ -37,7 +37,7 @@ public class UpcomingIcoViewModel
         extends BaseViewModel<Ico, IcoItem, UiTask<Ico>>
         implements NetworkManager.Callback {
 
-    private static final int LIMIT = Constants.Limit.ICO;
+    private static final long LIMIT = Constants.Limit.ICO;
 
     private final NetworkManager network;
     private final IcoRepository repo;

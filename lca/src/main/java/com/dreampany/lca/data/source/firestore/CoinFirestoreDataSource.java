@@ -50,6 +50,16 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return null;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
         return null;
     }

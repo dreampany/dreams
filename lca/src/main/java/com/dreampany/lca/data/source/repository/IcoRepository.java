@@ -142,12 +142,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     }
 
     @Override
-    public List<Ico> getItems(int limit) {
+    public List<Ico> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getItemsRx(int limit) {
+    public Maybe<List<Ico>> getItemsRx(long limit) {
         return null;
     }
 
@@ -158,12 +158,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     }
 
     @Override
-    public List<Ico> getLiveItems(int limit) {
+    public List<Ico> getLiveItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getLiveItemsRx(int limit) {
+    public Maybe<List<Ico>> getLiveItemsRx(long limit) {
         Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getLiveItemsRx(limit));
         Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getLiveItemsRx(limit), IcoStatus.LIVE);
         if (isIcoExpired(IcoStatus.LIVE) && network.hasInternet()) {
@@ -173,12 +173,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     }
 
     @Override
-    public List<Ico> getUpcomingItems(int limit) {
+    public List<Ico> getUpcomingItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getUpcomingItemsRx(int limit) {
+    public Maybe<List<Ico>> getUpcomingItemsRx(long limit) {
         Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getUpcomingItemsRx(limit));
         Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getUpcomingItemsRx(limit), IcoStatus.UPCOMING);
         if (isIcoExpired(IcoStatus.UPCOMING) && network.hasInternet()) {
@@ -188,12 +188,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     }
 
     @Override
-    public List<Ico> getFinishedItems(int limit) {
+    public List<Ico> getFinishedItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getFinishedItemsRx(int limit) {
+    public Maybe<List<Ico>> getFinishedItemsRx(long limit) {
         Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getFinishedItemsRx(limit));
         Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getFinishedItemsRx(limit), IcoStatus.FINISHED);
         if (isIcoExpired(IcoStatus.FINISHED) && network.hasInternet()) {

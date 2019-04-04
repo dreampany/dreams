@@ -68,12 +68,12 @@ public class StoreRepository extends Repository<Long, Store> implements StoreDat
     }
 
     @Override
-    public int getCount() {
+    public long getCount() {
         return room.getCount();
     }
 
     @Override
-    public Maybe<Integer> getCountRx() {
+    public Maybe<Long> getCountRx() {
         return room.getCountRx();
     }
 
@@ -148,12 +148,12 @@ public class StoreRepository extends Repository<Long, Store> implements StoreDat
     }
 
     @Override
-    public List<Store> getItems(int limit) {
+    public List<Store> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Store>> getItemsRx(int limit) {
+    public Maybe<List<Store>> getItemsRx(long limit) {
         return null;
     }
 

@@ -40,7 +40,18 @@ public final class DataUtil {
         return getSha512(uuid);
     }
 
-    public static long getSha512(long first, String... data) {
+    public static <T> long getSha512(T... data) {
+        if (DataUtil.isEmpty(data)) {
+            return 0L;
+        }
+        StringBuilder builder = new StringBuilder();
+        for (T item : data) {
+            builder.append(item);
+        }
+        return getSha512(builder.toString());
+    }
+
+/*    public static long getSha512(long first, String... data) {
         if (DataUtil.isEmpty(data)) {
             return 0L;
         }
@@ -49,7 +60,7 @@ public final class DataUtil {
             builder.append(item);
         }
         return getSha512(builder.toString());
-    }
+    }*/
 
     public static long getSha512(String... data) {
         if (DataUtil.isEmpty(data)) {
@@ -69,12 +80,12 @@ public final class DataUtil {
         return getSha512(data.getBytes());
     }
 
-    public static long getSha512CollisionFree(String data) {
+/*    public static long getSha512CollisionFree(String data) {
         if (DataUtil.isEmpty(data)) {
             return 0L;
         }
         return getSha512(data, COLLISION_TAG);
-    }
+    }*/
 
     public static long getSha512(byte[] data) {
         if (DataUtil.isEmpty(data)) {

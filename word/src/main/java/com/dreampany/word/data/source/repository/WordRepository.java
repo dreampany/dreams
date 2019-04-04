@@ -229,12 +229,12 @@ public class WordRepository extends Repository<String, Word> implements WordData
     }
 
     @Override
-    public List<Word> getItems(int limit) {
+    public List<Word> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Word>> getItemsRx(int limit) {
+    public Maybe<List<Word>> getItemsRx(long limit) {
         return null;
     }
 

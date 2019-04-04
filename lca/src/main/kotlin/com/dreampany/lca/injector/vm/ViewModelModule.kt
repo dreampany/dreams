@@ -26,11 +26,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(SyncViewModel::class)
-    abstract fun bindSyncViewModel(vm: SyncViewModel): ViewModel
-
-    @Binds
-    @IntoMap
     @ViewModelKey(CoinViewModel::class)
     abstract fun bindCoinViewModel(vm: CoinViewModel): ViewModel
 

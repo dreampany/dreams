@@ -15,9 +15,9 @@ public interface DataSource<T> {
 
     Maybe<Boolean> isEmptyRx();
 
-    int getCount();
+    long getCount();
 
-    Maybe<Integer> getCountRx();
+    Maybe<Long> getCountRx();
 
     boolean isExists(T t);
 

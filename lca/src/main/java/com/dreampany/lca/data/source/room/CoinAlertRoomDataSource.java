@@ -135,12 +135,12 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
-    public List<CoinAlert> getItems(int limit) {
+    public List<CoinAlert> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<CoinAlert>> getItemsRx(int limit) {
+    public Maybe<List<CoinAlert>> getItemsRx(long limit) {
         return null;
     }
 }

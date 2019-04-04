@@ -122,6 +122,7 @@ class Constants {
         const val COIN_EXCHANGE = 50L
         const val ICO = 100L
         const val NEWS = 100L
+        const val CMC_KEY = 25L
     }
 
     object Time {

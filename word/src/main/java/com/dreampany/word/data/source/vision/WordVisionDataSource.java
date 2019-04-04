@@ -120,12 +120,12 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getItems(int limit) {
+    public List<Word> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Word>> getItemsRx(int limit) {
+    public Maybe<List<Word>> getItemsRx(long limit) {
         return null;
     }
 

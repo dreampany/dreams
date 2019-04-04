@@ -43,6 +43,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import timber.log.Timber;
 
 /**
@@ -109,7 +110,8 @@ public class NotifyViewModel {
                 Timber.e("getProfitableItemsRx is Null");
             }
         } else {
-            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx(currency);
+            long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx(currency, lastUpdated);
             if (maybe != null) {
                 rx
                         .backToMain(maybe)
@@ -124,14 +126,14 @@ public class NotifyViewModel {
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
         return Maybe.create(emitter -> {
-            int coinCount = repo.getCoinCount();
-            int resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
+            long coinCount = repo.getCoinCount();
+            long resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
 
-            int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
-            int listLimit = Constants.Limit.COIN_PAGE;
+            long listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
+            long listLimit = Constants.Limit.COIN_PAGE;
             long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
             List<CoinItem> result = repo
-                    .getItemsIfRx(CoinSource.CMC, listStart, listLimit, lastUpdated, currency)
+                    .getItemsIfRx(CoinSource.CMC, currency, listStart, listLimit, lastUpdated)
                     .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
                     .blockingGet();
 
@@ -146,10 +148,10 @@ public class NotifyViewModel {
         });
     }
 
-    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency) {
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency, long lastUpdated) {
         return alertRepo
                 .getItemsRx()
-                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) alerts -> getAlertItemsRx(currency, alerts));
+                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) alerts -> getAlertItemsRx(currency, lastUpdated, alerts));
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency, List<Coin> result) {
@@ -164,11 +166,11 @@ public class NotifyViewModel {
                 .toMaybe();
     }
 
-    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency, List<CoinAlert> result) {
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency, long lastUpdated, List<CoinAlert> result) {
         return Flowable.fromIterable(result)
-                .filter(this::isAlertable)
+                .filter(alert -> isAlertable(currency, lastUpdated, alert))
                 .map(alert -> {
-                    Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), currency);
+                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getCoinId(), lastUpdated);
                     return CoinAlertItem.getItem(coin, alert);
                 }).toList()
                 .toMaybe();
@@ -250,8 +252,8 @@ public class NotifyViewModel {
         return quote.getDayChange() >= 0;
     }
 
-    private boolean isAlertable(CoinAlert alert) {
-        Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), Currency.USD);
+    private boolean isAlertable(Currency currency, long lastUpdated, CoinAlert alert) {
+        Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getCoinId(), lastUpdated);
         if (coin == null) {
             return false;
         }

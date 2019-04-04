@@ -82,29 +82,64 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        if (!mapper.hasCoin(coinId)) {
+            Coin room = dao.getItem(coinId, lastUpdated);
+            mapper.add(room);
+        }
+        Coin cache = mapper.getCoin(coinId);
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        bindQuote(currency, cache);
+        return cache;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return Maybe.create(emitter -> {
+            Coin result = getItem(source, currency, coinId, lastUpdated);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
         if (!mapper.hasCoins(coinIds)) {
             List<Coin> room = dao.getItems(coinIds, lastUpdated);
             mapper.add(room);
         }
-        List<Coin> cache = mapper.getCoins();
+        List<Coin> cache = mapper.getCoins(coinIds);
         if (DataUtil.isEmpty(cache)) {
             return null;
         }
         Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
-        List<Coin> result = cache;
-        if (DataUtil.isEmpty(result)) {
-            return null;
-        }
-        for (Coin coin : result) {
+        for (Coin coin : cache) {
             bindQuote(currency, coin);
         }
-        return result;
+        return cache;
     }
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-        return null;
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, coinIds, lastUpdated);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override

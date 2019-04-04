@@ -79,6 +79,18 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        Maybe<Coin> roomIf = room.getItemRx(source, currency, coinId, lastUpdated);
+        Maybe<Coin> remote = getRemoteItemIfRx(source, currency, coinId, lastUpdated);
+        return concatSingleLastRx(remote, roomIf);
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
         return null;
     }
@@ -101,7 +113,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public int getCount() {
+    public long getCount() {
         return 0;
     }
 
@@ -200,13 +212,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         pref.commitCoinListingTime(index, currency.name());
     }
 
-    private boolean isCoinExpired(long coinId, Currency currency) {
-        long lastTime = pref.getCoinUpdateTime(coinId, currency.name());
+    private boolean isCoinExpired(Currency currency, long coinId) {
+        long lastTime = pref.getCoinUpdateTime(currency.name(), coinId);
         return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 
-    private void updateCoin(long coinId, Currency currency, long time) {
-        pref.commitCoinUpdateTime(coinId, currency.name(), time);
+    private void updateCoin(Currency currency, long coinId, long time) {
+        pref.commitCoinUpdateTime(currency.name(), coinId, time);
     }
 
 
@@ -219,11 +231,35 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 });
     }
 
+    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        Maybe<Coin> maybe = Maybe.create(emitter -> {
+            Coin result = null;
+            if (isCoinExpired(currency, coinId)) {
+                result = remote.getItemRx(source, currency, coinId, lastUpdated).blockingGet();
+            }
+
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+
+        return maybe.filter(coin -> !DataUtil.isEmpty(coin))
+                .doOnSuccess(coin -> {
+                    rx.compute(putItemRx(coin)).subscribe();
+                    updateCoin(currency, coin.getCoinId(), coin.getLastUpdated());
+                });
+    }
+
     private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
         Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
             List<Long> ids = new ArrayList<>();
             for (long id : coinIds) {
-                if (isCoinExpired(id, currency)) {
+                if (isCoinExpired(currency, id)) {
                     ids.add(id);
                 }
             }
@@ -245,7 +281,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .doOnSuccess(coins -> {
                     rx.compute(putItemsRx(coins)).subscribe();
                     for (Coin coin : coins) {
-                        updateCoin(coin.getCoinId(), currency, coin.getLastUpdated());
+                        updateCoin(currency, coin.getCoinId(), coin.getLastUpdated());
                     }
                 });
     }

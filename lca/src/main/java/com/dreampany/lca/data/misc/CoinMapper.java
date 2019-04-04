@@ -88,19 +88,21 @@ public class CoinMapper {
         }
     }
 
-    public Coin getCoin(String symbol) {
-        return coins.get(symbol);
+    public Coin getCoin(long coinId) {
+        if (!hasCoin(coinId)) {
+            return null;
+        }
+        return coins.get(coinId);
     }
 
     public List<Coin> getCoins() {
         return new ArrayList<>(coins.values());
     }
 
-
-    public List<Coin> getCoins(List<String> symbols) {
+    public List<Coin> getCoins(List<Long> coinIds) {
         List<Coin> result = new ArrayList<>();
-        for (String symbol : symbols) {
-            result.add(getCoin(symbol));
+        for (long coinId : coinIds) {
+            result.add(getCoin(coinId));
         }
         return result;
     }
@@ -118,7 +120,7 @@ public class CoinMapper {
             return null;
         }
 
-        long id = DataUtil.getSha512(in.getSymbol());
+        long id = DataUtil.getSha512(source.value(), in.getId());
         Coin out = map.get(id);
         if (out == null) {
             out = new Coin();
@@ -164,7 +166,7 @@ public class CoinMapper {
         if (in == null) {
             return null;
         }
-        long id = DataUtil.getSha512(coin.getId(), currency.name());
+        long id = DataUtil.getSha512(currency.name(), coin.getId());
         Quote out = quoteMap.get(id);
         if (out == null) {
             out = new Quote();
@@ -200,6 +202,10 @@ public class CoinMapper {
     }
 
     public String joinString(List<String> values, String separator) {
+        return TextUtils.join(separator, values);
+    }
+
+    public String joinLongToString(List<Long> values, String separator) {
         return TextUtils.join(separator, values);
     }
 

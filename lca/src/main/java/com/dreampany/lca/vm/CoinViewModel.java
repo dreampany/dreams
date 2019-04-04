@@ -1,6 +1,5 @@
 package com.dreampany.lca.vm;
 
-import android.annotation.SuppressLint;
 import android.app.Application;
 
 import com.dreampany.frame.data.enums.UiState;
@@ -26,19 +25,20 @@ import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
+import com.dreampany.network.manager.NetworkManager;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
 
-import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
-import java.util.*;
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -203,7 +203,7 @@ public class CoinViewModel
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
 
        return repo
-                .getItemIfRx(CoinSource.CMC, coin.getSymbol(), lastUpdated, currency)
+                .getItemIfRx(CoinSource.CMC, currency, coin.getCoinId(), lastUpdated)
                 .map(result -> {
                     if (result != null) {
                         getTask().setInput(result);

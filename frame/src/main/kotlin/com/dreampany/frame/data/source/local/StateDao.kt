@@ -16,10 +16,10 @@ import io.reactivex.Maybe
 interface StateDao : BaseDao<State> {
 
     @get:Query("select count(*) from state")
-    val count: Int
+    val count: Long
 
     @get:Query("select count(*) from state")
-    val countRx: Maybe<Int>
+    val countRx: Maybe<Long>
 
     @get:Query("select * from state")
     val items: List<State>
@@ -28,19 +28,19 @@ interface StateDao : BaseDao<State> {
     val itemsRx: Maybe<List<State>>
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype")
-    fun getCount(id: Long, type: String, subtype: String): Int
+    fun getCount(id: Long, type: String, subtype: String): Long
 
     @Query("select count(*) from state where type = :type and subtype = :subtype and state = :state")
-    fun getCount(type: String, subtype: String, state: String): Int
+    fun getCount(type: String, subtype: String, state: String): Long
 
     @Query("select count(*) from state where type = :type and subtype = :subtype and state = :state")
-    fun getCountRx(type: String, subtype: String, state: String): Maybe<Int>
+    fun getCountRx(type: String, subtype: String, state: String): Maybe<Long>
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype and state = :state")
-    fun getCount(id: Long, type: String, subtype: String, state: String): Int
+    fun getCount(id: Long, type: String, subtype: String, state: String): Long
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype and state = :state")
-    fun getCountRx(id: Long, type: String, subtype: String, state: String): Maybe<Int>
+    fun getCountRx(id: Long, type: String, subtype: String, state: String): Maybe<Long>
 
     @Query("select * from state where id = :id limit 1")
     fun getItem(id: Long): State
@@ -55,10 +55,10 @@ interface StateDao : BaseDao<State> {
     fun getItemOrderByRx(type: String, subtype: String, state: String, from: Long, to: Long): Maybe<State>
 
     @Query("select * from state limit :limit")
-    fun getItems(limit: Int): List<State>
+    fun getItems(limit: Long): List<State>
 
     @Query("select * from state limit :limit")
-    fun getItemsRx(limit: Int): Maybe<List<State>>
+    fun getItemsRx(limit: Long): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state")
     fun getItems(type: String, subtype: String, state: String): List<State>

@@ -4,7 +4,6 @@ import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.misc.CoinAlertAnnote;
 import com.google.common.collect.Maps;
@@ -80,7 +79,7 @@ public class CoinAlertMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setSymbol(symbol);
+        out.setCoinId(symbol);
         out.setPriceUp(priceUp);
         out.setPriceDown(priceDown);
         return out;

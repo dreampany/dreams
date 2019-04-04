@@ -119,12 +119,12 @@ public class MarketRoomDataSource implements MarketDataSource {
     }
 
     @Override
-    public List<Market> getItems(int limit) {
+    public List<Market> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Market>> getItemsRx(int limit) {
+    public Maybe<List<Market>> getItemsRx(long limit) {
         return null;
     }
 

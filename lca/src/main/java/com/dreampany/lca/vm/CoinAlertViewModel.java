@@ -10,15 +10,19 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.UiTask;
+import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
 
@@ -39,6 +43,8 @@ import io.reactivex.functions.Function;
 public class CoinAlertViewModel
         extends BaseViewModel<CoinAlert, CoinAlertItem, UiTask<CoinAlert>> {
 
+    private final NetworkManager network;
+    private final Pref pref;
     private final CoinAlertMapper mapper;
     private final ApiRepository repo;
     private SmartAdapter.Callback<CoinAlertItem> uiCallback;
@@ -48,9 +54,13 @@ public class CoinAlertViewModel
                        RxMapper rx,
                        AppExecutors ex,
                        ResponseMapper rm,
+                       NetworkManager network,
+                       Pref pref,
                        CoinAlertMapper mapper,
                        ApiRepository repo) {
         super(application, rx, ex, rm);
+        this.network = network;
+        this.pref = pref;
         this.mapper = mapper;
         this.repo = repo;
     }
@@ -94,8 +104,9 @@ public class CoinAlertViewModel
         if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
+        Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
-                .backToMain(getAlertsRx())
+                .backToMain(getAlertsRx(currency))
                 .doOnSubscribe(subscription -> {
                     if (progress) {
                         postProgress(true);
@@ -178,15 +189,16 @@ public class CoinAlertViewModel
         });
     }
 
-    private Maybe<List<CoinAlertItem>> getAlertsRx() {
+    private Maybe<List<CoinAlertItem>> getAlertsRx(Currency currency) {
         return repo.getCoinAlertsRx()
-                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) this::getItemsRx);
+                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) alerts -> getItemsRx(currency, alerts));
     }
 
-    private Maybe<List<CoinAlertItem>> getItemsRx(List<CoinAlert> result) {
+    private Maybe<List<CoinAlertItem>> getItemsRx(Currency currency, List<CoinAlert> result) {
         return Flowable.fromIterable(result)
                 .map(alert -> {
-                    Coin coin = repo.getItemIf(CoinSource.CMC, alert.getSymbol(), Currency.USD);
+                    long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
+                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getCoinId(), lastUpdated);
                     return getItem(coin, alert);
                 })
                 .toList()

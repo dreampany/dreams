@@ -131,12 +131,12 @@ public class IcoRemoteDataSource implements IcoDataSource {
     }
 
     @Override
-    public List<Ico> getItems(int limit) {
+    public List<Ico> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getItemsRx(int limit) {
+    public Maybe<List<Ico>> getItemsRx(long limit) {
         return null;
     }
 
@@ -146,32 +146,32 @@ public class IcoRemoteDataSource implements IcoDataSource {
     }
 
     @Override
-    public List<Ico> getLiveItems(int limit) {
+    public List<Ico> getLiveItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getLiveItemsRx(int limit) {
+    public Maybe<List<Ico>> getLiveItemsRx(long limit) {
         return convert(service.getLiveItemsRx().map(LiveIcoResponse::getIcos), IcoStatus.LIVE);
     }
 
     @Override
-    public List<Ico> getUpcomingItems(int limit) {
+    public List<Ico> getUpcomingItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getUpcomingItemsRx(int limit) {
+    public Maybe<List<Ico>> getUpcomingItemsRx(long limit) {
         return convert(service.getUpcomingItemsRx().map(UpcomingIcoResponse::getIcos), IcoStatus.UPCOMING);
     }
 
     @Override
-    public List<Ico> getFinishedItems(int limit) {
+    public List<Ico> getFinishedItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Ico>> getFinishedItemsRx(int limit) {
+    public Maybe<List<Ico>> getFinishedItemsRx(long limit) {
         return convert(service.getFinishedItemsRx().map(FinishedIcoResponse::getIcos), IcoStatus.FINISHED);
     }
 

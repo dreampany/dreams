@@ -130,22 +130,22 @@ public class MarketRepository extends Repository<Long, Market> implements Market
     }
 
     @Override
-    public List<Market> getItems(int limit) {
+    public List<Market> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Market>> getItemsRx(int limit) {
+    public Maybe<List<Market>> getItemsRx(long limit) {
         return null;
     }
 
     @Override
-    public List<Market> getItems(String fromSymbol, String toSymbol, int limit) {
+    public List<Market> getItems(String fromSymbol, String toSymbol, long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Market>> getItemsRx(String fromSymbol, String toSymbol, int limit) {
+    public Maybe<List<Market>> getItemsRx(String fromSymbol, String toSymbol, long limit) {
         return getWithSave(remote.getItemsRx(fromSymbol, toSymbol, limit));
     }
 

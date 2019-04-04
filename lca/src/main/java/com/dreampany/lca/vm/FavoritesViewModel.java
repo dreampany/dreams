@@ -13,12 +13,14 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.UiTask;
@@ -218,14 +220,14 @@ public class FavoritesViewModel
         }
         List<CoinItem> items = uiCallback.getVisibleItems();
         if (!DataUtil.isEmpty(items)) {
-            List<String> symbols = new ArrayList<>();
+            List<Long> coinIds = new ArrayList<>();
             for (CoinItem item : items) {
-                symbols.add(item.getItem().getSymbol());
+                coinIds.add(item.getItem().getCoinId());
             }
             items = null;
-            if (!DataUtil.isEmpty(symbols)) {
-                String[] result = DataUtil.toStringArray(symbols);
-                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
+            if (!DataUtil.isEmpty(coinIds)) {
+                long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds, lastUpdated);
                 if (!DataUtil.isEmpty(coins)) {
                     items = getItems(coins, currency);
                 }

@@ -111,7 +111,34 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return null;
+    }
+
+    @Override
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return null;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
+        if (network.isObserving() && !network.hasInternet()) {
+            return null;
+        }
+        String ids = mapper.joinLongToString(coinIds, Constants.Sep.COMMA);
+        for (int loop = 0; loop < keys.size(); loop++) {
+            String apiKey = getApiKey();
+            try {
+                Response<CmcQuotesResponse> response = service.getQuotesByIds(apiKey, ids, currency.name()).execute();
+                if (response.isSuccessful()) {
+                    CmcQuotesResponse result = response.body();
+                    return getItemsRx(source, result).blockingGet();
+                }
+            } catch (IOException | RuntimeException e) {
+                Timber.e(e);
+                iterateQueue();
+            }
+        }
         return null;
     }
 
@@ -224,7 +251,6 @@ public class CoinRemoteDataSource implements CoinDataSource {
     /* private api */
     private String getApiKey() {
         adjustIndexStatus();
-
         return keys.get(indexQueue.peek());
     }
 
@@ -238,6 +264,9 @@ public class CoinRemoteDataSource implements CoinDataSource {
             indexStatus.get(index).setLeft(TimeUtil.currentTime());
             indexStatus.get(index).setRight(0);
         }
+        if (indexStatus.get(index).right > Constants.Limit.CMC_KEY) {
+            iterateQueue();
+        }
     }
 
     /* private api*/
@@ -248,8 +277,19 @@ public class CoinRemoteDataSource implements CoinDataSource {
         Collection<CmcCoin> items = response.getData();
         return Flowable.fromIterable(items)
                 .map(in -> mapper.toItem(source, in, true))
-                .toList()
-                //.toSortedList((left, right) -> left.getRank() - right.getRank())
+                //.toList()
+                .toSortedList((left, right) -> left.getRank() - right.getRank())
+                .toMaybe();
+    }
+
+    private Maybe<List<Coin>> getItemsRx(CoinSource source, CmcQuotesResponse response) {
+        if (response == null || response.hasError() || !response.hasData()) {
+            return null;
+        }
+        Collection<CmcCoin> items = response.getData().values();
+        return Flowable.fromIterable(items)
+                .map(in -> mapper.toItem(source, in, true))
+                .toSortedList((left, right) -> left.getRank() - right.getRank())
                 .toMaybe();
     }
 

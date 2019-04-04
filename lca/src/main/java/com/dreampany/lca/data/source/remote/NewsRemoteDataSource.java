@@ -129,12 +129,12 @@ public class NewsRemoteDataSource implements NewsDataSource {
     }
 
     @Override
-    public List<News> getItems(int limit) {
+    public List<News> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<News>> getItemsRx(int limit) {
+    public Maybe<List<News>> getItemsRx(long limit) {
         return service.getNewsRx()
                 .flatMap((Function<List<CcNews>, MaybeSource<List<News>>>) this::getItemsRx);
     }

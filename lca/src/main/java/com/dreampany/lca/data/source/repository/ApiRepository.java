@@ -140,13 +140,19 @@ public class ApiRepository {
         return coinRepo.getItemsRx(source, currency, coinIds, lastUpdated).blockingGet();
     }
 
+    public Coin getItemIf(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return getItemIfRx(source, currency, coinId, lastUpdated).blockingGet();
+    }
+
+    public Maybe<Coin> getItemIfRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+        return coinRepo.getItemRx(source, currency, coinId, lastUpdated);
+    }
+
 /*    public List<Coin> getItemsIf(CoinSource source, List<Long> coinIds, long lastUpdated, Currency currency) {
         return coinRepo.getItemsRx(source, coinIds, lastUpdated, currency).blockingGet();
     }*/
 
-    /*public Coin getItemIf(CoinSource source, String symbol, Currency currency) {
-        return coinRepo.getItemRx(source, symbol, currency).blockingGet();
-    }*/
+    /**/
 
 /*    public Maybe<Coin> getItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
         return coinRepo.getItemRx(source, symbol, lastUpdated, currency);
@@ -183,7 +189,7 @@ public class ApiRepository {
         return result;
     }
 
-    public int getCoinCount() {
+    public long getCoinCount() {
         return coinRepo.getCount();
     }
 

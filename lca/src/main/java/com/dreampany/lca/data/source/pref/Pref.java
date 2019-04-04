@@ -57,12 +57,12 @@ public class Pref extends FramePref {
         return getPrivately(ICO_TIME + status.name(), 0L);
     }
 
-    synchronized public long getCoinUpdateTime(long coinId, String currency) {
-        return getPrivately(COIN_UPDATE_TIME + coinId + currency, 0L);
+    synchronized public long getCoinUpdateTime(String currency, long coinId) {
+        return getPrivately(COIN_UPDATE_TIME + currency + coinId, 0L);
     }
 
-    synchronized public void commitCoinUpdateTime(long coinId, String currency, long time) {
-        setPrivately(COIN_UPDATE_TIME + coinId + currency, time);
+    synchronized public void commitCoinUpdateTime(String currency, long coinId, long time) {
+        setPrivately(COIN_UPDATE_TIME + currency + coinId, time);
     }
 
     synchronized public void commitCoinListingTime(long coinIndex, String currency) {

@@ -119,12 +119,12 @@ public class PriceRoomDataSource implements PriceDataSource {
     }
 
     @Override
-    public List<Price> getItems(int limit) {
+    public List<Price> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Price>> getItemsRx(int limit) {
+    public Maybe<List<Price>> getItemsRx(long limit) {
         return null;
     }
 

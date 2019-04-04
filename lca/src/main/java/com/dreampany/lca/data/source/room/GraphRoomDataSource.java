@@ -119,12 +119,12 @@ public class GraphRoomDataSource implements GraphDataSource {
     }
 
     @Override
-    public List<Graph> getItems(int limit) {
+    public List<Graph> getItems(long limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Graph>> getItemsRx(int limit) {
+    public Maybe<List<Graph>> getItemsRx(long limit) {
         return null;
     }
 

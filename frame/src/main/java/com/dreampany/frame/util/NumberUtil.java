@@ -74,6 +74,11 @@ public final class NumberUtil {
         return random.nextInt(upper);
     }
 
+    public static long nextRand(long upper) {
+        if (upper <= 0) return -1;
+        return random.nextInt((int)upper);
+    }
+
     public static int nextRand(int min, int max) {
         return random.nextInt(max - min + 1) + min;
     }

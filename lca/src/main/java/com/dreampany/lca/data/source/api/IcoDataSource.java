@@ -17,15 +17,15 @@ public interface IcoDataSource extends DataSource<Ico> {
 
     void clear(IcoStatus status);
 
-    List<Ico> getLiveItems(int limit);
+    List<Ico> getLiveItems(long limit);
 
-    Maybe<List<Ico>> getLiveItemsRx(int limit);
+    Maybe<List<Ico>> getLiveItemsRx(long limit);
 
-    List<Ico> getUpcomingItems(int limit);
+    List<Ico> getUpcomingItems(long limit);
 
-    Maybe<List<Ico>> getUpcomingItemsRx(int limit);
+    Maybe<List<Ico>> getUpcomingItemsRx(long limit);
 
-    List<Ico> getFinishedItems(int limit);
+    List<Ico> getFinishedItems(long limit);
 
-    Maybe<List<Ico>> getFinishedItemsRx(int limit);
+    Maybe<List<Ico>> getFinishedItemsRx(long limit);
 }

@@ -44,7 +44,7 @@ public class MarketViewModel
         extends BaseViewModel<Market, MarketItem, UiTask<Coin>>
         implements NetworkManager.Callback {
 
-    private static final int LIMIT = Constants.Limit.COIN_MARKET;
+    private static final long LIMIT = Constants.Limit.COIN_MARKET;
 
     private final NetworkManager network;
     private final MarketRepository repo;

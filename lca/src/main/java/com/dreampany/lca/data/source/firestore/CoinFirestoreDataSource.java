@@ -80,12 +80,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public int getCount() {
+    public long getCount() {
         return 0;
     }
 
     @Override
-    public Maybe<Integer> getCountRx() {
+    public Maybe<Long> getCountRx() {
         return null;
     }
 

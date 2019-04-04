@@ -45,5 +45,8 @@ class Constants {
     object Key {
         const val ID = "id"
         const val TIME = "time"
+        const val TYPE = "type"
+        const val SUBTYPE = "subtype"
+        const val STATE = "state"
     }
 }

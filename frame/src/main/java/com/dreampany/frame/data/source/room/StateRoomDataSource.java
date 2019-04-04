@@ -29,7 +29,7 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public long getCount(long id, String type, String subtype) {
+    public int getCount(long id, String type, String subtype) {
         return dao.getCount(id, type, subtype);
     }
 
@@ -44,32 +44,32 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public long getCount() {
+    public int getCount() {
         return dao.getCount();
     }
 
     @Override
-    public Maybe<Long> getCountRx() {
+    public Maybe<Integer> getCountRx() {
         return dao.getCountRx();
     }
 
     @Override
-    public long getCount(String type, String subtype, String state) {
+    public int getCount(String type, String subtype, String state) {
         return dao.getCount(type, subtype, state);
     }
 
     @Override
-    public Maybe<Long> getCountRx(String type, String subtype, String state) {
+    public Maybe<Integer> getCountRx(String type, String subtype, String state) {
         return dao.getCountRx(type, subtype, state);
     }
 
     @Override
-    public long getCount(long id, String type, String subtype, String state) {
+    public int getCount(long id, String type, String subtype, String state) {
         return dao.getCount(id, type, subtype, state);
     }
 
     @Override
-    public Maybe<Long> getCountRx(long id, String type, String subtype, String state) {
+    public Maybe<Integer> getCountRx(long id, String type, String subtype, String state) {
         return dao.getCountRx(id, type, subtype, state);
     }
 
@@ -271,12 +271,12 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public List<State> getItems(long limit) {
+    public List<State> getItems(int limit) {
         return dao.getItems(limit);
     }
 
     @Override
-    public Maybe<List<State>> getItemsRx(long limit) {
+    public Maybe<List<State>> getItemsRx(int limit) {
         return dao.getItemsRx(limit);
     }
 }

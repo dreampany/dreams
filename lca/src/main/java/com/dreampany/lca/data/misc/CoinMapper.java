@@ -19,13 +19,11 @@ import com.dreampany.lca.misc.CoinAnnote;
 import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Maps;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-
-import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.

@@ -15,9 +15,9 @@ public interface DataSource<T> {
 
     Maybe<Boolean> isEmptyRx();
 
-    long getCount();
+    int getCount();
 
-    Maybe<Long> getCountRx();
+    Maybe<Integer> getCountRx();
 
     boolean isExists(T t);
 
@@ -47,7 +47,7 @@ public interface DataSource<T> {
 
     Maybe<List<T>> getItemsRx();
 
-    List<T> getItems(long limit);
+    List<T> getItems(int limit);
 
-    Maybe<List<T>> getItemsRx(long limit);
+    Maybe<List<T>> getItemsRx(int limit);
 }

@@ -5,14 +5,15 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
-import io.reactivex.*;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Predicate;
-import io.reactivex.subjects.PublishSubject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import io.reactivex.functions.Consumer;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Created by Hawladar Roman on 5/30/2018.
@@ -254,7 +255,6 @@ public abstract class Repository<K, V> {
 
     protected final Maybe<V> contactSingleSuccess(Maybe<V> source, Consumer<V> onSuccess) {
         Maybe<V> maybe = source
-                //.onErrorReturnItem(new ArrayList<>())
                 .filter(v -> !DataUtil.isEmpty(v));
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess);
@@ -264,7 +264,6 @@ public abstract class Repository<K, V> {
 
     protected final Maybe<List<V>> contactSuccess(Maybe<List<V>> source, Consumer<List<V>> onSuccess) {
         Maybe<List<V>> maybe = source
-                //.onErrorReturnItem(new ArrayList<>())
                 .filter(vs -> !DataUtil.isEmpty(vs));
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess);

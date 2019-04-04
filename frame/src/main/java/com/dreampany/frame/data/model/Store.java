@@ -6,6 +6,7 @@ import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 
+import com.dreampany.frame.misc.Constants;
 import com.google.common.base.Objects;
 
 /**
@@ -13,8 +14,8 @@ import com.google.common.base.Objects;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-@Entity(indices = {@Index(value = {"id", "type", "subtype", "state"}, unique = true)},
-        primaryKeys = {"id", "type", "subtype", "state"})
+@Entity(indices = {@Index(value = {Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE}, unique = true)},
+        primaryKeys = {Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE})
 public class Store extends Base {
 
     @NonNull

@@ -34,7 +34,7 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public long getCount(long id, String type, String subtype) {
+    public int getCount(long id, String type, String subtype) {
         return room.getCount(id, type, subtype);
     }
 
@@ -49,22 +49,22 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public long getCount(String type, String subtype, String state) {
+    public int getCount(String type, String subtype, String state) {
         return room.getCount(type, subtype, state);
     }
 
     @Override
-    public long getCount(long id, String type, String subtype, String state) {
+    public int getCount(long id, String type, String subtype, String state) {
         return room.getCount(id, type, subtype, state);
     }
 
     @Override
-    public Maybe<Long> getCountRx(String type, String subtype, String state) {
+    public Maybe<Integer> getCountRx(String type, String subtype, String state) {
         return room.getCountRx(type, subtype, state);
     }
 
     @Override
-    public Maybe<Long> getCountRx(long id, String type, String subtype, String state) {
+    public Maybe<Integer> getCountRx(long id, String type, String subtype, String state) {
         return room.getCountRx(id, type, subtype, state);
     }
 
@@ -84,12 +84,12 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public long getCount() {
+    public int getCount() {
         return room.getCount();
     }
 
     @Override
-    public Maybe<Long> getCountRx() {
+    public Maybe<Integer> getCountRx() {
         return room.getCountRx();
     }
 
@@ -264,12 +264,12 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public List<State> getItems(long limit) {
+    public List<State> getItems(int limit) {
         return room.getItems(limit);
     }
 
     @Override
-    public Maybe<List<State>> getItemsRx(long limit) {
+    public Maybe<List<State>> getItemsRx(int limit) {
         return room.getItemsRx(limit);
     }
 }

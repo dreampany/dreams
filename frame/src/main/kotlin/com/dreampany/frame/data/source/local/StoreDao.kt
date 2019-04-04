@@ -16,10 +16,10 @@ import io.reactivex.Maybe
 interface StoreDao : BaseDao<Store> {
 
     @get:Query("select count(*) from store")
-    val count: Long
+    val count: Int
 
     @get:Query("select count(*) from store")
-    val countRx: Maybe<Long>
+    val countRx: Maybe<Int>
 
     @get:Query("select * from store")
     val items: List<Store>
@@ -28,10 +28,10 @@ interface StoreDao : BaseDao<Store> {
     val itemsRx: Maybe<List<Store>>
 
     @Query("select count(*) from store where id = :id and type = :type and subtype = :subtype")
-    fun getCount(id: Long, type: String, subtype: String): Long
+    fun getCount(id: Long, type: String, subtype: String): Int
 
     @Query("select count(*) from store where id = :id and type = :type and subtype = :subtype")
-    fun getCountRx(id: Long, type: String, subtype: String): Maybe<Long>
+    fun getCountRx(id: Long, type: String, subtype: String): Maybe<Int>
 
     @Query("select * from store where id = :id limit 1")
     fun getItem(id: Long): Store

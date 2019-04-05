@@ -20,7 +20,6 @@ import javax.inject.Singleton;
 
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -78,40 +77,6 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
-        updateCache();
-        List<Coin> cache = mapper.getCoins();
-        if (DataUtil.isEmpty(cache)) {
-            return null;
-        }
-        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
-        List<Coin> result = DataUtil.sub(cache, index, limit);
-        if (DataUtil.isEmpty(result)) {
-            return null;
-        }
-        for (Coin coin : result) {
-            bindQuote(currency, coin);
-        }
-        return result;
-    }
-
-    @DebugLog
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
-        return Maybe.create(emitter -> {
-            List<Coin> result = getItems(source, currency, index, limit, lastUpdated);
-            if (emitter.isDisposed()) {
-                throw new IllegalStateException();
-            }
-            if (DataUtil.isEmpty(result)) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(result);
-            }
-        });
-    }
-
-    @Override
     public Coin getItem(CoinSource source, Currency currency, long coinId) {
         if (!mapper.hasCoin(coinId)) {
             Coin room = dao.getItemByCoinId(coinId);
@@ -126,6 +91,11 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
+        return null;
+    }
+
+/*    @Override
     public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
         if (!mapper.hasCoin(coinId)) {
             Coin room = dao.getItem(coinId, lastUpdated);
@@ -152,14 +122,39 @@ public class CoinRoomDataSource implements CoinDataSource {
                 emitter.onSuccess(result);
             }
         });
+    }*/
+
+    @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
+        updateCache();
+        List<Coin> cache = mapper.getCoins(coinIds);
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+        for (Coin coin : cache) {
+            bindQuote(currency, coin);
+        }
+        return cache;
     }
 
     @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, coinIds);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+/*    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-/*        if (!mapper.hasCoins(coinIds)) {
-            List<Coin> room = dao.getItems(coinIds, lastUpdated);
-            mapper.add(room);
-        }*/
         updateCache();
         List<Coin> cache = mapper.getCoins(coinIds);
         if (DataUtil.isEmpty(cache)) {
@@ -174,18 +169,8 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-        return Maybe.create(emitter -> {
-            List<Coin> result = getItems(source, currency, coinIds, lastUpdated);
-            if (emitter.isDisposed()) {
-                throw new IllegalStateException();
-            }
-            if (DataUtil.isEmpty(result)) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(result);
-            }
-        });
-    }
+        return null;
+    }*/
 
     @Override
     public boolean isEmpty() {

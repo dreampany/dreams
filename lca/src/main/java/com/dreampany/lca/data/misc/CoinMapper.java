@@ -16,6 +16,7 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinAnnote;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Maps;
 
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -111,6 +114,15 @@ public class CoinMapper {
 
     public boolean isExists(Quote in) {
         return quoteMap.contains(in.getId());
+    }
+
+    public boolean isExpired(long coinId) {
+        if (!hasCoin(coinId)) {
+            return true;
+        }
+        Coin coin = getCoin(coinId);
+        long coinExpiredTime = Constants.Time.INSTANCE.getCoin();
+        return TimeUtil.isExpired(coin.getLastUpdated(), coinExpiredTime);
     }
 
     public Coin toItem(CoinSource source, CmcCoin in, boolean full) {

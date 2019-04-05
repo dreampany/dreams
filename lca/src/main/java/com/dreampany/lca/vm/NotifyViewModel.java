@@ -1,7 +1,6 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
-import android.view.TextureView;
 
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
@@ -11,7 +10,6 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TextUtil;
-import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
@@ -43,7 +41,6 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import timber.log.Timber;
 
 /**
@@ -110,8 +107,7 @@ public class NotifyViewModel {
                 Timber.e("getProfitableItemsRx is Null");
             }
         } else {
-            long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
-            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx(currency, lastUpdated);
+            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx(currency);
             if (maybe != null) {
                 rx
                         .backToMain(maybe)
@@ -131,9 +127,8 @@ public class NotifyViewModel {
 
             int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
             int listLimit = Constants.Limit.COIN_PAGE;
-            long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
             List<CoinItem> result = repo
-                    .getItemsIfRx(CoinSource.CMC, currency, listStart, listLimit, lastUpdated)
+                    .getItemsIfRx(CoinSource.CMC, currency, listStart, listLimit)
                     .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
                     .blockingGet();
 
@@ -148,10 +143,10 @@ public class NotifyViewModel {
         });
     }
 
-    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency, long lastUpdated) {
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency) {
         return alertRepo
                 .getItemsRx()
-                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) alerts -> getAlertItemsRx(currency, lastUpdated, alerts));
+                .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) alerts -> getAlertItemsRx(currency, alerts));
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency, List<Coin> result) {
@@ -166,11 +161,11 @@ public class NotifyViewModel {
                 .toMaybe();
     }
 
-    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency, long lastUpdated, List<CoinAlert> result) {
+    private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency, List<CoinAlert> result) {
         return Flowable.fromIterable(result)
-                .filter(alert -> isAlertable(currency, lastUpdated, alert))
+                .filter(alert -> isAlertable(currency, alert))
                 .map(alert -> {
-                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId(), lastUpdated);
+                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId());
                     return CoinAlertItem.getItem(coin, alert);
                 }).toList()
                 .toMaybe();
@@ -252,8 +247,8 @@ public class NotifyViewModel {
         return quote.getDayChange() >= 0;
     }
 
-    private boolean isAlertable(Currency currency, long lastUpdated, CoinAlert alert) {
-        Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId(), lastUpdated);
+    private boolean isAlertable(Currency currency, CoinAlert alert) {
+        Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId());
         if (coin == null) {
             return false;
         }

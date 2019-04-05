@@ -120,6 +120,7 @@ public class CoinsViewModel
         network.observe(this, true);
     }
 
+    @DebugLog
     public void refresh(boolean update, boolean important, boolean progress) {
         if (true) {
             //return;
@@ -128,7 +129,7 @@ public class CoinsViewModel
             update(important, progress);
             return;
         }
-        loads(important, important);
+        loads(important, progress);
     }
 
     public void loads(boolean important, boolean progress) {

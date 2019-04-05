@@ -226,8 +226,7 @@ public class FavoritesViewModel
             }
             items = null;
             if (!DataUtil.isEmpty(coinIds)) {
-                long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
-                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds, lastUpdated);
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds);
                 if (!DataUtil.isEmpty(coins)) {
                     items = getItems(coins, currency);
                 }

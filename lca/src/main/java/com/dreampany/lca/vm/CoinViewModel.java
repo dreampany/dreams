@@ -53,7 +53,6 @@ public class CoinViewModel
     private final Pref pref;
     private final ApiRepository repo;
     private final CurrencyFormatter formatter;
-    private Disposable updateDisposable;
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private final List<String> currencies;
@@ -84,7 +83,6 @@ public class CoinViewModel
     @Override
     public void clear() {
         network.deObserve(this, true);
-        removeUpdateDisposable();
         super.clear();
     }
 
@@ -114,16 +112,12 @@ public class CoinViewModel
         network.observe(this, true);
     }
 
-    public void removeUpdateDisposable() {
-        removeSubscription(updateDisposable);
-    }
-
-    public void refresh(boolean onlyUpdate, boolean withProgress) {
-        if (onlyUpdate) {
-            update(withProgress);
+    public void refresh(boolean update, boolean important, boolean progress) {
+        if (update) {
+            update(important, progress);
             return;
         }
-        loads(true, withProgress);
+        loads(important, progress);
     }
 
     public void loads(boolean important, boolean progress) {
@@ -152,20 +146,20 @@ public class CoinViewModel
         addMultipleSubscription(disposable);
     }
 
-    public void update(boolean withProgress) {
-        if (hasDisposable(updateDisposable)) {
+    public void update(boolean important, boolean progress) {
+        if (!takeAction(important, getSingleDisposable())) {
             return;
         }
         Currency currency = pref.getCurrency(Currency.USD);
-        updateDisposable = getRx()
+        Disposable disposable = getRx()
                 .backToMain(getItemsRx(currency))
                 .subscribe(result -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(false);
                     }
                     postResult(Response.Type.UPDATE, result);
                 }, this::postFailure);
-        addSubscription(updateDisposable);
+        addSingleSubscription(disposable);
     }
 
     public void toggleFavorite(Coin coin) {
@@ -200,10 +194,8 @@ public class CoinViewModel
     /* private api */
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
         Coin coin = Objects.requireNonNull(getTask()).getInput();
-        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
-
        return repo
-                .getItemIfRx(CoinSource.CMC, currency, coin.getCoinId(), lastUpdated)
+                .getItemIfRx(CoinSource.CMC, currency, coin.getCoinId())
                 .map(result -> {
                     if (result != null) {
                         getTask().setInput(result);

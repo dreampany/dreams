@@ -2,12 +2,14 @@ package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
 import android.view.*;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -34,12 +36,14 @@ import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinsViewModel;
 import com.mynameismidori.currencypicker.CurrencyPicker;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
+
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.fastscroller.FastScroller;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,6 +51,7 @@ import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
 import javax.inject.Inject;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -169,6 +174,7 @@ public class CoinsFragment
         return super.onOptionsItemSelected(item);
     }
 
+    @DebugLog
     @Override
     public void onRefresh() {
         vm.refresh(!adapter.isEmpty(), true, true);
@@ -296,11 +302,13 @@ public class CoinsFragment
         adapter = new CoinAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener(true) {
+            @DebugLog
             @Override
-            public void onIdle() {
+            public void onScrollingAtEnd() {
                 vm.refresh(true, false, false);
             }
 
+            @DebugLog
             @Override
             public void onScrolledToBottom() {
                 vm.loadMore(!adapter.isEmpty(), true);
@@ -423,7 +431,7 @@ public class CoinsFragment
         adapter.addItems(items);
         //adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
-       AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void processSingleSuccess(CoinItem item) {

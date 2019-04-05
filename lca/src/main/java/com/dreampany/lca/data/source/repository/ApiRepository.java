@@ -132,20 +132,20 @@ public class ApiRepository {
         return favorites.get(coin);
     }
 
-    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
-        return coinRepo.getItemsRx(source, currency, index, limit, lastUpdated);
+    public Maybe<List<Coin>> getItemsIfRx(CoinSource source, Currency currency, int index, int limit) {
+        return coinRepo.getItemsRx(source, currency, index, limit);
     }
 
-    public List<Coin> getItemsIf(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-        return coinRepo.getItemsRx(source, currency, coinIds, lastUpdated).blockingGet();
+    public List<Coin> getItemsIf(CoinSource source, Currency currency, List<Long> coinIds) {
+        return coinRepo.getItemsRx(source, currency, coinIds).blockingGet();
     }
 
-    public Coin getItemIf(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        return getItemIfRx(source, currency, coinId, lastUpdated).blockingGet();
+    public Coin getItemIf(CoinSource source, Currency currency, long coinId) {
+        return getItemIfRx(source, currency, coinId).blockingGet();
     }
 
-    public Maybe<Coin> getItemIfRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        return coinRepo.getItemRx(source, currency, coinId, lastUpdated);
+    public Maybe<Coin> getItemIfRx(CoinSource source, Currency currency, long coinId) {
+        return coinRepo.getItemRx(source, currency, coinId);
     }
 
 /*    public List<Coin> getItemsIf(CoinSource source, List<Long> coinIds, long lastUpdated, Currency currency) {

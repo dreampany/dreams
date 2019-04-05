@@ -3,7 +3,9 @@ package com.dreampany.lca.data.source.remote;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.lca.api.cmc.model.*;
+import com.dreampany.lca.api.cmc.model.CmcCoin;
+import com.dreampany.lca.api.cmc.model.CmcListingResponse;
+import com.dreampany.lca.api.cmc.model.CmcQuotesResponse;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
@@ -11,20 +13,11 @@ import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.CoinMarketCap;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 
-import io.reactivex.Flowable;
-import io.reactivex.Maybe;
-
 import org.apache.commons.collections4.queue.CircularFifoQueue;
 import org.apache.commons.lang3.tuple.MutablePair;
-
-import retrofit2.Response;
-import timber.log.Timber;
-
-import javax.inject.Singleton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,6 +25,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import javax.inject.Singleton;
+
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
+import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
@@ -70,16 +70,6 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
@@ -101,9 +91,9 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit) {
         return Maybe.create(emitter -> {
-            List<Coin> result = getItems(source, currency, index, limit, lastUpdated);
+            List<Coin> result = getItems(source, currency, index, limit);
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();
             }
@@ -117,21 +107,43 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     @Override
     public Coin getItem(CoinSource source, Currency currency, long coinId) {
+        if (network.isObserving() && !network.hasInternet()) {
+            return null;
+        }
+        String ids = String.valueOf(coinId);
+        for (int loop = 0; loop < keys.size(); loop++) {
+            String apiKey = getApiKey();
+            try {
+                Response<CmcQuotesResponse> response = service.getQuotesByIds(apiKey, currency.name(), ids).execute();
+                if (response.isSuccessful()) {
+                    CmcQuotesResponse result = response.body();
+                    return getItemRx(source, result).blockingGet();
+                }
+            } catch (IOException | RuntimeException e) {
+                Timber.e(e);
+                iterateQueue();
+            }
+        }
         return null;
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        return null;
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
+        return Maybe.create(emitter -> {
+            Coin result = getItem(source, currency, coinId);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
@@ -153,8 +165,18 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-        return null;
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, coinIds);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
@@ -302,6 +324,14 @@ public class CoinRemoteDataSource implements CoinDataSource {
                 .map(in -> mapper.toItem(source, in, true))
                 .toSortedList((left, right) -> left.getRank() - right.getRank())
                 .toMaybe();
+    }
+
+    private Maybe<Coin> getItemRx(CoinSource source, CmcQuotesResponse response) {
+        if (response.hasError() || !response.hasData()) {
+            return null;
+        }
+        CmcCoin item = response.getFirst();
+        return Maybe.just(item).map(in -> mapper.toItem(source, in, true));
     }
 
 /*    @Override

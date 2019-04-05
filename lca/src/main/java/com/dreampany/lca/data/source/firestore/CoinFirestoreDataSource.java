@@ -1,6 +1,7 @@
 package com.dreampany.lca.data.source.firestore;
 
 import com.dreampany.firebase.RxFirestore;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
@@ -48,28 +49,16 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         return null;
     }
 
-    @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
-        return null;
-    }
 
     @Override
     public Coin getItem(CoinSource source, Currency currency, long coinId) {
         return null;
     }
 
-    @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        return null;
-    }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
+        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
         Map<String, Object> equalTo = Maps.newHashMap();
         equalTo.put(Constants.CoinKey.COIN_ID, coinId);
 
@@ -89,12 +78,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
         return null;
     }
 

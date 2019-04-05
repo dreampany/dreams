@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
 
-
     companion object Screen {
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
 

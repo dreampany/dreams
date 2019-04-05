@@ -107,13 +107,12 @@ public class CoinDetailsFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.refresh(!adapter.isEmpty(), adapter.isEmpty());
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
     @Override
     public void onPause() {
         vm.removeMultipleSubscription();
-        vm.removeUpdateDisposable();
         super.onPause();
     }
 
@@ -148,7 +147,7 @@ public class CoinDetailsFragment
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty(), true);
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
     @Override

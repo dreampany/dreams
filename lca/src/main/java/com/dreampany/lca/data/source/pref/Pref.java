@@ -22,7 +22,6 @@ public class Pref extends FramePref {
     private static final String COIN_LISTING_TIME = "coin_listing_time";
     private static final String ICO_TIME = "ico_time";
     private static final String NEWS_TIME = "news_time";
-    private static final String COIN_UPDATE_TIME = "coin_update_time";
     private static final String CURRENCY = "currency";
     private static final String CURRENCY_GRAPH = "currency_graph";
     private static final String GRAPH_SYMBOL = "graph_symbol";
@@ -55,14 +54,6 @@ public class Pref extends FramePref {
 
     synchronized public long getIcoTime(IcoStatus status) {
         return getPrivately(ICO_TIME + status.name(), 0L);
-    }
-
-    synchronized public long getCoinUpdateTime(String currency, long coinId) {
-        return getPrivately(COIN_UPDATE_TIME + currency + coinId, 0L);
-    }
-
-    synchronized public void commitCoinUpdateTime(String currency, long coinId, long time) {
-        setPrivately(COIN_UPDATE_TIME + currency + coinId, time);
     }
 
     synchronized public void commitCoinListingTime(String currency, int coinIndex) {

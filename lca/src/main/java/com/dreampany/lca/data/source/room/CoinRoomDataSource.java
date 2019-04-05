@@ -18,7 +18,9 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
+import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -31,6 +33,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     private final CoinMapper mapper;
     private final CoinDao dao;
     private final QuoteDao quoteDao;
+    private volatile boolean cacheLoaded;
 
     public CoinRoomDataSource(CoinMapper mapper,
                               CoinDao dao,
@@ -38,20 +41,18 @@ public class CoinRoomDataSource implements CoinDataSource {
         this.mapper = mapper;
         this.dao = dao;
         this.quoteDao = quoteDao;
+        cacheLoaded = false;
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
-        if (!mapper.hasCoins()) {
-            List<Coin> room = dao.getItems();
-            mapper.add(room);
-        }
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
+        updateCache();
         List<Coin> cache = mapper.getCoins();
         if (DataUtil.isEmpty(cache)) {
             return null;
         }
         Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
-        List<Coin> result = DataUtil.sub(cache, (int) index, (int) limit);
+        List<Coin> result = DataUtil.sub(cache, index, limit);
         if (DataUtil.isEmpty(result)) {
             return null;
         }
@@ -61,6 +62,40 @@ public class CoinRoomDataSource implements CoinDataSource {
         return result;
     }
 
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit) {
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, index, limit);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
+        updateCache();
+        List<Coin> cache = mapper.getCoins();
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
+        List<Coin> result = DataUtil.sub(cache, index, limit);
+        if (DataUtil.isEmpty(result)) {
+            return null;
+        }
+        for (Coin coin : result) {
+            bindQuote(currency, coin);
+        }
+        return result;
+    }
+
+    @DebugLog
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         return Maybe.create(emitter -> {
@@ -121,10 +156,11 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-        if (!mapper.hasCoins(coinIds)) {
+/*        if (!mapper.hasCoins(coinIds)) {
             List<Coin> room = dao.getItems(coinIds, lastUpdated);
             mapper.add(room);
-        }
+        }*/
+        updateCache();
         List<Coin> cache = mapper.getCoins(coinIds);
         if (DataUtil.isEmpty(cache)) {
             return null;
@@ -280,6 +316,14 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     /* private */
+    private void updateCache() {
+        if (!cacheLoaded || !mapper.hasCoins()) {
+            List<Coin> room = dao.getItems();
+            mapper.add(room);
+            cacheLoaded = true;
+        }
+    }
+
     private void bindQuote(Currency currency, Coin coin) {
         if (coin != null && !coin.hasQuote(currency)) {
             Quote quote = quoteDao.getItems(coin.getId(), currency.name());

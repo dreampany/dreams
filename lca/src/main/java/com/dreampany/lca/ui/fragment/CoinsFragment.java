@@ -330,7 +330,6 @@ public class CoinsFragment
         }
     }
 
-    @DebugLog
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:

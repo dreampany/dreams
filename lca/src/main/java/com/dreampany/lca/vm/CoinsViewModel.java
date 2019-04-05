@@ -36,6 +36,7 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import retrofit2.http.DELETE;
 
 import javax.inject.Inject;
 
@@ -119,8 +120,10 @@ public class CoinsViewModel
         network.observe(this, true);
     }
 
-    @DebugLog
     public void refresh(boolean update, boolean important, boolean progress) {
+        if (true) {
+            //return;
+        }
         if (update) {
             update(important, progress);
             return;
@@ -165,7 +168,6 @@ public class CoinsViewModel
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
     public void update(boolean important, boolean progress) {
         if (!takeAction(important, getSingleDisposable())) {
             return;
@@ -223,6 +225,7 @@ public class CoinsViewModel
     }
 
     /* private api */
+    @DebugLog
     private Maybe<List<CoinItem>> getListingRx(int index, Currency currency) {
         int limit = Constants.Limit.COIN_PAGE;
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();

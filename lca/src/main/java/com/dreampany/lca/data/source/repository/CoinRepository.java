@@ -23,6 +23,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 
 /**
@@ -59,18 +60,28 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
         return null;
     }
 
     @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit) {
+        return null;
+    }
+
+    @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
+        return null;
+    }
+
+    @DebugLog
+    @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
-        Maybe<List<Coin>> roomIf = isListingExpired(index, currency)
-                ? Maybe.empty()
-                : room.getItemsRx(source, currency, index, limit, lastUpdated);
-        Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, currency, index, limit, lastUpdated);
-        Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, index, limit, lastUpdated);
-        return concatFirstRx(roomIf, remote, roomAny);
+        Maybe<List<Coin>> remote = !isListingExpired(currency, index)
+                ? Maybe.empty() :
+                getRemoteItemsIfRx(source, currency, index, limit, lastUpdated);
+        Maybe<List<Coin>> roomIf = room.getItemsRx(source, currency, index, limit);
+        return concatLastRx(remote, roomIf);
     }
 
     @Override
@@ -145,12 +156,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public List<Long> putItems(List<Coin> coins) {
-        return null;
+        return room.putItems(coins);
     }
 
+    @DebugLog
     @Override
     public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
-        return null;
+        return room.putItemsRx(coins);
     }
 
     @Override
@@ -204,13 +216,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     /* private api */
-    private boolean isListingExpired(long index, Currency currency) {
-        long time = pref.getCoinListingTime(index, currency.name());
+    private boolean isListingExpired(Currency currency, int index) {
+        long time = pref.getCoinListingTime(currency.name(), index);
         return TimeUtil.isExpired(time, Constants.Time.INSTANCE.getListing());
     }
 
-    private void updateListing(long index, Currency currency) {
-        pref.commitCoinListingTime(index, currency.name());
+    private void updateListing( Currency currency, int index) {
+        pref.commitCoinListingTime(currency.name(), index);
     }
 
     private boolean isCoinExpired(Currency currency, long coinId) {
@@ -222,13 +234,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         pref.commitCoinUpdateTime(currency.name(), coinId, time);
     }
 
-
+    @DebugLog
     private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         Maybe<List<Coin>> maybe = remote.getItemsRx(source, currency, index, limit, lastUpdated);
         return maybe.filter(coins -> !DataUtil.isEmpty(coins))
                 .doOnSuccess(coins -> {
                     rx.compute(putItemsRx(coins)).subscribe();
-                    updateListing(index, currency);
+                    updateListing(currency, index);
                 });
     }
 

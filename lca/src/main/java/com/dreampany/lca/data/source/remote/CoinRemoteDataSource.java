@@ -69,6 +69,16 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit) {
+        return null;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit, long lastUpdated) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;

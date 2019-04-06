@@ -15,7 +15,6 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
-import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.CoinSource;
@@ -31,19 +30,18 @@ import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-import retrofit2.http.DELETE;
-
-import javax.inject.Inject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -228,10 +226,8 @@ public class CoinsViewModel
     /* private api */
     @DebugLog
     private Maybe<List<CoinItem>> getListingRx(int index, Currency currency) {
-        int limit = Constants.Limit.COIN_PAGE;
-        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
         return repo
-                .getItemsIfRx(CoinSource.CMC, currency, index, limit, lastUpdated)
+                .getItemsIfRx(CoinSource.CMC, currency, index, Constants.Limit.COIN_PAGE)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(coins, currency));
     }
 
@@ -247,8 +243,7 @@ public class CoinsViewModel
             }
             items = null;
             if (!DataUtil.isEmpty(coinIds)) {
-                long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
-                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds, lastUpdated);
+                List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds);
                 if (!DataUtil.isEmpty(coins)) {
                     items = getItems(coins, currency);
                 }

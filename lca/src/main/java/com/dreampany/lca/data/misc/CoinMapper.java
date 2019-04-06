@@ -15,6 +15,7 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
+import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.CoinAnnote;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.QuoteAnnote;
@@ -35,6 +36,8 @@ import hugo.weaving.DebugLog;
  */
 public class CoinMapper {
 
+    private final Pref pref;
+
     private final SmartMap<Long, Coin> map;
     private final SmartCache<Long, Coin> cache;
 
@@ -44,10 +47,13 @@ public class CoinMapper {
     private final Map<Long, Coin> coins;
 
     @Inject
-    CoinMapper(@CoinAnnote SmartMap<Long, Coin> map,
-               @CoinAnnote SmartCache<Long, Coin> cache,
-               @QuoteAnnote SmartMap<Long, Quote> quoteMap,
-               @QuoteAnnote SmartCache<Long, Quote> quoteCache) {
+    CoinMapper(
+            Pref pref,
+            @CoinAnnote SmartMap<Long, Coin> map,
+            @CoinAnnote SmartCache<Long, Coin> cache,
+            @QuoteAnnote SmartMap<Long, Quote> quoteMap,
+            @QuoteAnnote SmartCache<Long, Quote> quoteCache) {
+        this.pref = pref;
         this.map = map;
         this.cache = cache;
         this.quoteMap = quoteMap;
@@ -116,13 +122,22 @@ public class CoinMapper {
         return quoteMap.contains(in.getId());
     }
 
-    public boolean isExpired(long coinId) {
-        if (!hasCoin(coinId)) {
-            return true;
-        }
-        Coin coin = getCoin(coinId);
-        long coinExpiredTime = Constants.Time.INSTANCE.getCoin();
-        return TimeUtil.isExpired(coin.getLastUpdated(), coinExpiredTime);
+    public boolean isCoinExpired(CoinSource source, Currency currency, long coinId) {
+        long lastTime = pref.getCoinTime(source.name(), currency.name(), coinId);
+        return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
+    }
+
+    public void updateCoinTime(CoinSource source, Currency currency, int index) {
+        pref.commitCoinTime(source.name(), currency.name(), index);
+    }
+
+    public boolean isCoinIndexExpired(CoinSource source, Currency currency, int index) {
+        long time = pref.getCoinIndexTime(source.name(), currency.name(), index);
+        return TimeUtil.isExpired(time, Constants.Time.INSTANCE.getListing());
+    }
+
+    public void updateCoinIndexTime(CoinSource source, Currency currency, int index) {
+        pref.commitCoinIndexTime(source.name(), currency.name(), index);
     }
 
     public Coin toItem(CoinSource source, CmcCoin in, boolean full) {

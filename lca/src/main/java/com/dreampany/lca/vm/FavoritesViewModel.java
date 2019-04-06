@@ -2,6 +2,7 @@ package com.dreampany.lca.vm;
 
 
 import android.app.Application;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -32,6 +33,7 @@ import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,7 +52,6 @@ public class FavoritesViewModel
     private final ApiRepository repo;
     private final CurrencyFormatter formatter;
     private SmartAdapter.Callback<CoinItem> uiCallback;
-    private Disposable updateDisposable;
 
     @Inject
     FavoritesViewModel(Application application,
@@ -72,7 +73,6 @@ public class FavoritesViewModel
     public void clear() {
         network.deObserve(this, true);
         this.uiCallback = null;
-        removeUpdateDisposable();
         super.clear();
     }
 
@@ -100,16 +100,13 @@ public class FavoritesViewModel
         network.observe(this, true);
     }
 
-    public void removeUpdateDisposable() {
-        removeSubscription(updateDisposable);
-    }
 
-    public void refresh(boolean onlyUpdate, boolean withProgress) {
-        if (onlyUpdate) {
-            update(withProgress);
+    public void refresh(boolean update, boolean important, boolean progress) {
+        if (update) {
+            update(important, progress);
             return;
         }
-        loads(true, withProgress);
+        loads(important, progress);
     }
 
     public void loads(boolean important, boolean progress) {
@@ -129,7 +126,7 @@ public class FavoritesViewModel
                     if (progress) {
                         postProgress(false);
                     }
-                    postResult(Response.Type.ADD,result);
+                    postResult(Response.Type.ADD, result);
                 }, error -> {
                     if (progress) {
                         postProgress(true);
@@ -139,61 +136,71 @@ public class FavoritesViewModel
         addMultipleSubscription(disposable);
     }
 
-    public void update(boolean withProgress) {
-        if (hasDisposable(updateDisposable)) {
+    public void update(boolean important, boolean progress) {
+        if (!takeAction(important, getSingleDisposable())) {
             return;
         }
-        Currency currency = Currency.USD;
-        updateDisposable = getRx()
+        Currency currency = pref.getCurrency(Currency.USD);
+        Disposable disposable = getRx()
                 .backToMain(getVisibleItemsIfRx(currency))
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(
                         result -> {
-                            if (withProgress) {
+                            if (progress) {
                                 postProgress(false);
                             }
-                            postResult(Response.Type.ADD,result);
+                            postResult(Response.Type.ADD, result);
                         }, this::postFailure);
-        addSubscription(updateDisposable);
+        addMultipleSubscription(disposable);
     }
 
     public void toggleFavorite(Coin coin) {
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
-                .backToMain(toggleImpl(coin, currency))
+                .backToMain(toggleImpl(currency, coin))
                 .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
     }
 
     /* private api */
-    private Maybe<List<CoinItem>> getFavoriteItemsRx(CoinSource source, Currency currency) {
-        return Maybe.fromCallable(() -> {
-            List<CoinItem> result = new ArrayList<>();
-            List<Coin> real = repo.getFavorites(source, currency);
-            if (real == null) {
-                real = new ArrayList<>();
-            }
-            List<CoinItem> ui = uiCallback.getItems();
-            for (Coin coin : real) {
-                CoinItem item = getItem(coin, currency);
-                item.setFavorite(true);
-                result.add(item);
-            }
+    private List<CoinItem> getFavoriteItems(CoinSource source, Currency currency) {
+        List<CoinItem> result = new ArrayList<>();
+        List<Coin> real = repo.getFavorites(source, currency);
+        if (real == null) {
+            real = new ArrayList<>();
+        }
+        List<CoinItem> ui = uiCallback.getItems();
+        for (Coin coin : real) {
+            CoinItem item = getItem(currency, coin);
+            item.setFavorite(true);
+            result.add(item);
+        }
 
-            if (!DataUtil.isEmpty(ui)) {
-                for (CoinItem item : ui) {
-                    if (!real.contains(item.getItem())) {
-                        item.setFavorite(false);
-                        result.add(item);
-                    }
+        if (!DataUtil.isEmpty(ui)) {
+            for (CoinItem item : ui) {
+                if (!real.contains(item.getItem())) {
+                    item.setFavorite(false);
+                    result.add(item);
                 }
             }
+        }
+        return result;
+    }
 
-            Timber.v("Favorite Result in VM %d", result.size());
-            return result;
+    private Maybe<List<CoinItem>> getFavoriteItemsRx(CoinSource source, Currency currency) {
+        return Maybe.create(emitter -> {
+            List<CoinItem> result = getFavoriteItems(source, currency);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
         });
     }
 
@@ -207,10 +214,10 @@ public class FavoritesViewModel
         }).onErrorReturn(throwable -> new ArrayList<>());
     }
 
-    private Maybe<CoinItem> toggleImpl(Coin coin, Currency currency) {
+    private Maybe<CoinItem> toggleImpl(Currency currency, Coin coin) {
         return Maybe.fromCallable(() -> {
             repo.toggleFavorite(coin);
-            return getItem(coin, currency);
+            return getItem(currency, coin);
         });
     }
 
@@ -235,7 +242,7 @@ public class FavoritesViewModel
         return items;
     }
 
-    private CoinItem getItem(Coin coin, Currency currency) {
+    private CoinItem getItem(Currency currency, Coin coin) {
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
@@ -263,7 +270,7 @@ public class FavoritesViewModel
 
         List<CoinItem> items = new ArrayList<>(coins.size());
         for (Coin coin : coins) {
-            CoinItem item = getItem(coin, currency);
+            CoinItem item = getItem(currency, coin);
             items.add(item);
         }
         return items;

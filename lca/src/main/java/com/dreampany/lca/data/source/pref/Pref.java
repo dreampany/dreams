@@ -19,7 +19,8 @@ import javax.inject.Singleton;
 public class Pref extends FramePref {
 
     private static final String DEFAULT_FAVORITE_COMMITTED = "default_favorite_committed";
-    private static final String COIN_LISTING_TIME = "coin_listing_time";
+    private static final String COIN_INDEX_TIME = "coin_index_time";
+    private static final String COIN_TIME = "coin_time";
     private static final String ICO_TIME = "ico_time";
     private static final String NEWS_TIME = "news_time";
     private static final String CURRENCY = "currency";
@@ -40,6 +41,23 @@ public class Pref extends FramePref {
     }
 
 
+    synchronized public void commitCoinIndexTime(String source, String currency, int coinIndex) {
+        setPrivately(COIN_INDEX_TIME + source + currency + coinIndex, TimeUtil.currentTime());
+    }
+
+    synchronized public long getCoinIndexTime(String source, String currency, int coinIndex) {
+        return getPrivately(COIN_INDEX_TIME + source + currency + coinIndex, 0L);
+    }
+
+    synchronized public void commitCoinTime(String source, String currency, long coinId) {
+        setPrivately(COIN_TIME + source + currency + coinId, TimeUtil.currentTime());
+    }
+
+    synchronized public long getCoinTime(String source, String currency, long coinId) {
+        return getPrivately(COIN_TIME + source + currency + coinId, 0L);
+    }
+
+
     synchronized public void commitNewsTime() {
         setPrivately(NEWS_TIME, TimeUtil.currentTime());
     }
@@ -56,13 +74,6 @@ public class Pref extends FramePref {
         return getPrivately(ICO_TIME + status.name(), 0L);
     }
 
-    synchronized public void commitCoinListingTime(String currency, int coinIndex) {
-        setPrivately(COIN_LISTING_TIME + currency + coinIndex, TimeUtil.currentTime());
-    }
-
-    synchronized public long getCoinListingTime(String currency, int coinIndex) {
-        return getPrivately(COIN_LISTING_TIME + currency + coinIndex, 0L);
-    }
 
     synchronized public void setCurrency(Currency currency) {
         setPrivately(CURRENCY, currency);

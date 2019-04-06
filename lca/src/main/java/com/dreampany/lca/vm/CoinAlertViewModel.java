@@ -197,8 +197,7 @@ public class CoinAlertViewModel
     private Maybe<List<CoinAlertItem>> getItemsRx(Currency currency, List<CoinAlert> result) {
         return Flowable.fromIterable(result)
                 .map(alert -> {
-                    long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getListing();
-                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId(), lastUpdated);
+                    Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId());
                     return getItem(coin, alert);
                 })
                 .toList()

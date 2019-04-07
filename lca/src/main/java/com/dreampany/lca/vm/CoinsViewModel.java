@@ -197,7 +197,7 @@ public class CoinsViewModel
     public void toggleFavorite(Coin coin) {
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
-                .backToMain(toggleImpl(coin, currency))
+                .backToMain(toggleImpl(currency, coin))
                 .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
     }
 
@@ -245,7 +245,7 @@ public class CoinsViewModel
             if (!DataUtil.isEmpty(coinIds)) {
                 List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds);
                 if (!DataUtil.isEmpty(coins)) {
-                    items = getItems(coins, currency);
+                    items = getItems(currency, coins);
                 }
             }
         }
@@ -291,7 +291,7 @@ public class CoinsViewModel
     private Maybe<List<CoinItem>> getItemsRx(List<Coin> items, Currency currency) {
         return Maybe
                 .create(emitter -> {
-                    List<CoinItem> result = getItems(items, currency);
+                    List<CoinItem> result = getItems(currency, items);
                     if (emitter.isDisposed()) {
                         throw new IllegalStateException();
                     }
@@ -303,14 +303,14 @@ public class CoinsViewModel
                 });
     }
 
-    private Maybe<CoinItem> toggleImpl(Coin coin, Currency currency) {
+    private Maybe<CoinItem> toggleImpl(Currency currency, Coin coin) {
         return Maybe.fromCallable(() -> {
             repo.toggleFavorite(coin);
-            return getItem(coin, currency);
+            return getItem(currency, coin);
         });
     }
 
-    private List<CoinItem> getItems(List<Coin> result, Currency currency) {
+    private List<CoinItem> getItems(Currency currency, List<Coin> result) {
         List<Coin> coins = new ArrayList<>(result);
         List<Coin> ranked = new ArrayList<>();
         for (Coin coin : coins) {
@@ -326,13 +326,13 @@ public class CoinsViewModel
         //putFlags(coins, Constants.Limit.COIN_FLAG);
         List<CoinItem> items = new ArrayList<>(coins.size());
         for (Coin coin : coins) {
-            CoinItem item = getItem(coin, currency);
+            CoinItem item = getItem(currency, coin);
             items.add(item);
         }
         return items;
     }
 
-    private CoinItem getItem(Coin coin, Currency currency) {
+    private CoinItem getItem(Currency currency, Coin coin) {
         SmartMap<Long, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {

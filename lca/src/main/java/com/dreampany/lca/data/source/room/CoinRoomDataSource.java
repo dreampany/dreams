@@ -272,7 +272,7 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Coin getItem(long id) {
-        return null;
+        return dao.getItem(id);
     }
 
     @Override

@@ -114,7 +114,7 @@ public class FavoritesViewModel
             return;
         }
         CoinSource source = CoinSource.CMC;
-        Currency currency = Currency.USD;
+        Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
                 .backToMain(getFavoriteItemsRx(source, currency))
                 .doOnSubscribe(subscription -> {

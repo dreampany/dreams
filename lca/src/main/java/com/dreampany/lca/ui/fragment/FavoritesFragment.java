@@ -109,7 +109,7 @@ public class FavoritesFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.refresh(false, adapter.isEmpty());
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
 /*    @Override
@@ -138,7 +138,7 @@ public class FavoritesFragment
 
     @Override
     public void onRefresh() {
-        vm.refresh(!adapter.isEmpty(), true);
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
     @Override
@@ -240,10 +240,8 @@ public class FavoritesFragment
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                if (adapter.isEmpty()) {
-                    if (!refresh.isRefreshing()) {
-                        refresh.setRefreshing(true);
-                    }
+                if (!refresh.isRefreshing()) {
+                    refresh.setRefreshing(true);
                 }
                 break;
             case HIDE_PROGRESS:

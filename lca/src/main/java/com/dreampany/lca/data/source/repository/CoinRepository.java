@@ -213,7 +213,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Coin getItem(long id) {
-        return null;
+        return room.getItem(id);
     }
 
     @Override
@@ -242,16 +242,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     /* private api */
-
-/*    private boolean isCoinExpired(Currency currency, long coinId) {
-        long lastTime = pref.getCoinUpdateTime(currency.name(), coinId);
-        return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
-    }
-
-    private void updateCoin(Currency currency, long coinId, long time) {
-        pref.commitCoinUpdateTime(currency.name(), coinId, time);
-    }*/
-
     @DebugLog
     private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, int index, int limit) {
         Maybe<List<Coin>> maybe = mapper.isCoinIndexExpired(source, currency, index)
@@ -327,170 +317,8 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return contactSuccess(remote.getItemsRx(source, currency, coinIds), coins -> rx.compute(putItemsRx(coins)).subscribe());
     }*/
 
-    /*@Override
-    public boolean isEmpty() {
-        return getCount() == 0;
-    }
+    /*
 
-    @Override
-    public Maybe<Boolean> isEmptyRx() {
-        return Maybe.fromCallable(this::isEmpty);
-    }
-
-    @Override
-    public int getCount() {
-        return room.getCount();
-    }
-
-    @Override
-    public Maybe<Integer> getCountRx() {
-        return room.getCountRx();
-    }
-
-    @Override
-    public boolean isExists(Coin coin) {
-        return room.isExists(coin);
-    }
-
-    @Override
-    public Maybe<Boolean> isExistsRx(Coin coin) {
-        return room.isExistsRx(coin);
-    }
-
-    @Override
-    public long putItem(Coin coin) {
-        return room.putItem(coin);
-    }
-
-    @Override
-    public Maybe<Long> putItemRx(Coin coin) {
-        return room.putItemRx(coin);
-                .filter(result -> {
-                    Timber.v("Room Insertion Result %s", String.valueOf(result));
-                    return result != -1;
-                })
-                .doOnSuccess(result -> rx.compute(firestore.putItemRx(coin)).subscribe());
-    }
-
-    @Override
-    public List<Long> putItems(List<Coin> coins) {
-        return room.putItems(coins);
-    }
-
-    @Override
-    public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
-        return room.putItemsRx(coins);
-    }
-
-    @Override
-    public int delete(Coin coin) {
-        return 0;
-    }
-
-    @Override
-    public Maybe<Integer> deleteRx(Coin coin) {
-        return null;
-    }
-
-    @Override
-    public List<Long> delete(List<Coin> coins) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
-        return null;
-    }
-
-    @Override
-    public Coin getItem(long id) {
-        return room.getItem(id);
-    }
-
-    @Override
-    public Maybe<Coin> getItemRx(long id) {
-        return getItemRx(id, false);
-    }
-
-    @Override
-    public List<Coin> getItems() {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx() {
-        return getItemsRx(false);
-    }
-
-    @Override
-    public List<Coin> getItems(int limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(int limit) {
-        return null;
-    }
-
-    @Override
-    public List<Coin> getListing(CoinSource source) {
-        List<Coin> items = remote.getListing(source);
-        if (!DataUtil.isEmpty(items)) {
-            putItems(items);
-            Stream.of(items).forEach(new Consumer<Coin>() {
-                @Override
-                public void accept(Coin coin) {
-                    putItem(coin);
-                }
-            });
-        }
-        return items;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source) {
-        Maybe<List<Coin>> room = fullRoom(this.room.getItemsRx(source));
-        Maybe<List<Coin>> remote = saveRoom(this.remote.getItemsRx(source),
-                items -> {
-                    rx.compute(putItemsRx(items)).subscribe();
-                    pref.commitCoinListingTime();
-                });
-
-        long lastTime = pref.getCoinListingTime();
-        long period = Constants.Delay.INSTANCE.getCoinListing();
-        if (TimeUtil.isExpired(lastTime, period)) {
-            return concatFirstRx(remote, room);
-        }
-        return concatFirstRx(room, remote);
-    }
-
-    @Override
-    public Maybe<List<Coin>> getListingRx(CoinSource source, int start, int limit) {
-        Maybe<List<Coin>> room = fullRoom(this.room.getListingRx(source, start, limit));
-        Maybe<List<Coin>> remote = saveRoom(this.remote.getListingRx(source, start, limit),
-                items -> {
-                    rx.compute(putItemsRx(items)).subscribe();
-                    pref.commitCoinListingTime();
-                });
-
-        long lastTime = pref.getCoinListingTime();
-        long period = Constants.Delay.INSTANCE.getCoinListing();
-        if (TimeUtil.isExpired(lastTime, period)) {
-            return concatFirstRx(remote, room);
-        }
-        return concatFirstRx(room, remote);
-    }
-
-    @Override
-    public void clear() {
-        room.clear();
-        remote.clear();
-    }
-
-    @Override
-    public Coin getItem(CoinSource source, long id, Currency currency) {
-        return room.getItem(source, id, currency);
-    }
 
     @Override
     public Coin getItem(CoinSource source, String symbol, Currency currency) {

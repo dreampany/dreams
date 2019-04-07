@@ -162,7 +162,7 @@ public class ApiRepository {
 
     public List<Coin> getFavorites(CoinSource source, Currency currency) {
         List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());
-        return getItemsIf(states, source, currency);
+        return getItemsOfStatesIf(source, currency, states);
     }
 
     public CoinAlert getCoinAlert(long coinId) {
@@ -193,12 +193,17 @@ public class ApiRepository {
         return coinRepo.getCount();
     }
 
-    private List<Coin> getItemsIf(List<State> states, CoinSource source, Currency currency) {
+    private List<Coin> getItemsOfStatesIf(CoinSource source, Currency currency, List<State> states) {
         if (DataUtil.isEmpty(states)) {
             return null;
         }
         List<Coin> result = new ArrayList<>(states.size());
-        Stream.of(states).forEach(state -> result.add(coinMapper.toItem(source, currency, state, coinRepo)));
+        Stream.of(states).forEach(state -> {
+            Coin item = coinMapper.toItem(source, currency, state, coinRepo);
+            if (item != null) {
+                result.add(item);
+            }
+        });
         return result;
     }
 }

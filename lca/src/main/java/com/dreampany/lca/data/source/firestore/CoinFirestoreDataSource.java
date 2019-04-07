@@ -1,6 +1,8 @@
 package com.dreampany.lca.data.source.firestore;
 
 import com.dreampany.firebase.RxFirestore;
+import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -10,6 +12,7 @@ import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -27,8 +30,6 @@ import io.reactivex.functions.Consumer;
  */
 @Singleton
 public class CoinFirestoreDataSource implements CoinDataSource {
-
-    private static final String COINS = Constants.FirestoreKey.COINS;
 
     private final NetworkManager network;
     private final RxFirestore firestore;
@@ -64,7 +65,13 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
         Map<String, Object> greaterThanOrEqualTo = Maps.newHashMap();
         greaterThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
-        Maybe<Coin> result = firestore.getItemRx(COINS, equalTo, null, greaterThanOrEqualTo, Coin.class);
+        Maybe<Coin> result = firestore.getItemRx(Constants.FirestoreKey.CRYPTO,
+                source.name(),
+                Constants.FirestoreKey.COINS,
+                equalTo,
+                null,
+                greaterThanOrEqualTo,
+                Coin.class);
 
         result = result.doOnSuccess(new Consumer<Coin>() {
             @DebugLog
@@ -119,7 +126,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public long putItem(Coin coin) {
-        Throwable error = firestore.setPutRx(COINS, String.valueOf(coin.getCoinId()), coin).blockingGet();
+        Throwable error = firestore.setPutRx(Constants.FirestoreKey.CRYPTO,
+                coin.getSource().name(),
+                Constants.FirestoreKey.COINS,
+                String.valueOf(coin.getCoinId()), coin).blockingGet();
         if (error == null) {
             return 0;
         }
@@ -128,7 +138,17 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
-        return null;
+        return Maybe.create(emitter -> {
+            long result = putItem(coin);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (result == -1) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
@@ -190,9 +210,4 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
     }
-
-/*
-*/
-
-
 }

@@ -259,6 +259,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? remote.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe();
+            rx.compute(firestore.putItemRx(coin)).subscribe();
         });
     }
 

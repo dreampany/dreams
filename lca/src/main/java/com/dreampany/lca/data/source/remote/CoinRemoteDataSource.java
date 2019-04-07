@@ -151,7 +151,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
         for (int loop = 0; loop < keys.size(); loop++) {
             String apiKey = getApiKey();
             try {
-                Response<CmcQuotesResponse> response = service.getQuotesByIds(apiKey, ids, currency.name()).execute();
+                Response<CmcQuotesResponse> response = service.getQuotesByIds(apiKey, currency.name(), ids).execute();
                 if (response.isSuccessful()) {
                     CmcQuotesResponse result = response.body();
                     return getItemsRx(source, result).blockingGet();

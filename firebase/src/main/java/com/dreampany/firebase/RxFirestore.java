@@ -53,6 +53,15 @@ public final class RxFirestore {
         return setPutRx(ref, item);
     }
 
+    public <T> Completable setPutRx(@NonNull String collection,
+                                    @NonNull String subDocument,
+                                    @NonNull String subCollection,
+                                    @NonNull String document,
+                                    T item) {
+        DocumentReference ref = firestore.collection(collection).document(subDocument).collection(subCollection).document(document);
+        return setPutRx(ref, item);
+    }
+
     public <T> Completable setPutRx(DocumentReference ref, T item) {
         return Completable.create(emitter ->
                 RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
@@ -65,13 +74,16 @@ public final class RxFirestore {
     }
 
     @DebugLog
-    public <T> Maybe<T> getItemRx(@NonNull String collectionPath,
+    public <T> Maybe<T> getItemRx(@NonNull String collection,
+                                  @NonNull String subDocument,
+                                  @NonNull String subCollection,
                                   @Nullable Map<String, Object> equalTo,
                                   @Nullable Map<String, Object> lessThanOrEqualTo,
                                   @Nullable Map<String, Object> greaterThanOrEqualTo,
                                   @NonNull Class<T> clazz) {
 
-        Query ref = firestore.collection(collectionPath);
+        Query ref = firestore.collection(collection).document(subDocument).collection(subCollection);
+
         if (equalTo != null) {
             for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
                 ref = ref.whereEqualTo(entry.getKey(), entry.getValue());
@@ -79,7 +91,7 @@ public final class RxFirestore {
         }
         if (lessThanOrEqualTo != null) {
             for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
-                ref =  ref.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
+                ref = ref.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (greaterThanOrEqualTo != null) {

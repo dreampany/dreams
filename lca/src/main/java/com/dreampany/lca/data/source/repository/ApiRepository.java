@@ -148,17 +148,6 @@ public class ApiRepository {
         return coinRepo.getItemRx(source, currency, coinId);
     }
 
-/*    public List<Coin> getItemsIf(CoinSource source, List<Long> coinIds, long lastUpdated, Currency currency) {
-        return coinRepo.getItemsRx(source, coinIds, lastUpdated, currency).blockingGet();
-    }*/
-
-    /**/
-
-/*    public Maybe<Coin> getItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
-        return coinRepo.getItemRx(source, symbol, lastUpdated, currency);
-    }*/
-
-    /*   */
 
     public List<Coin> getFavorites(CoinSource source, Currency currency) {
         List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());

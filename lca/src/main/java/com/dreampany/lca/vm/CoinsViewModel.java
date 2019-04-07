@@ -15,6 +15,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.CoinSource;
@@ -42,6 +43,7 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.
@@ -246,6 +248,9 @@ public class CoinsViewModel
                 List<Coin> coins = repo.getItemsIf(CoinSource.CMC, currency, coinIds);
                 if (!DataUtil.isEmpty(coins)) {
                     items = getItems(currency, coins);
+                    for (Coin item : coins) {
+                        Timber.v("%s = %s", item.getName(), TimeUtil.getFullTime(item.getLastUpdated()));
+                    }
                 }
             }
         }

@@ -11,6 +11,8 @@ import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -59,19 +61,18 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
+        String collection = Constants.FirestoreKey.CRYPTO;
+        TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
+        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
+
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+
         Map<String, Object> equalTo = Maps.newHashMap();
         equalTo.put(Constants.CoinKey.COIN_ID, coinId);
 
         Map<String, Object> greaterThanOrEqualTo = Maps.newHashMap();
         greaterThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
-        Maybe<Coin> result = firestore.getItemRx(Constants.FirestoreKey.CRYPTO,
-                source.name(),
-                Constants.FirestoreKey.COINS,
-                equalTo,
-                null,
-                greaterThanOrEqualTo,
-                Coin.class);
+        Maybe<Coin> result = firestore.getItemRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
 
         result = result.doOnSuccess(new Consumer<Coin>() {
             @DebugLog
@@ -129,10 +130,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     public long putItem(Coin coin) {
         String collection = Constants.FirestoreKey.CRYPTO;
         String document = String.valueOf(coin.getCoinId());
-        TreeSet<Pair<String, String>> paths = new TreeSet<>();
-        paths.add(Pair.create(coin.getSource().name(), Constants.FirestoreKey.COINS));
+        TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
+        paths.add(MutablePair.of(coin.getSource().name(), Constants.FirestoreKey.COINS));
 
-        Throwable error = firestore.putItemRx(collection, paths, document, coin).blockingGet();
+        Throwable error = firestore.setItemRx(collection, paths, document, coin).blockingGet();
         if (error == null) {
             return 0;
         }

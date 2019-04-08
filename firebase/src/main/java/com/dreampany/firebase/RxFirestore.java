@@ -7,6 +7,9 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+
+import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -39,15 +42,85 @@ public final class RxFirestore {
 
     /**
      * @param collection
-     * @param internalPaths collection of internal paths containing Pair<Document, Collection>
+     * @param internalPaths collection of internal paths containing MutablePair<Document, Collection>
      * @param document
      * @param item
      * @param <T>
      * @return
      */
-    public <T> Completable putItemRx(@NonNull String collection,
-                                     @Nullable TreeSet<Pair<String, String>> internalPaths,
+    public <T> Completable setItemRx(@NonNull String collection,
+                                     @Nullable TreeSet<MutablePair<String, String>> internalPaths,
                                      @NonNull String document, T item) {
+
+        CollectionReference ref = firestore.collection(collection);
+        if (internalPaths != null && !internalPaths.isEmpty()) {
+            for (MutablePair<String, String> path : internalPaths) {
+                if (path.left != null && path.right != null) {
+                    ref = ref.document(path.left).collection(path.right);
+                }
+            }
+        }
+        DocumentReference doc = ref.document(document);
+        return setItemRx(doc, item);
+    }
+
+    public <T> Completable setItemRx(@NonNull DocumentReference ref,
+                                     @NonNull T item) {
+        return Completable.create(emitter ->
+                RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
+        );
+    }
+
+    public <T> Maybe<T> getItemRx(@NonNull String collectionPath,
+                                  @NonNull String documentPath,
+                                  @NonNull Class<T> clazz) {
+        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
+        return getItemRx(ref, clazz);
+    }
+
+    @DebugLog
+    public <T> Maybe<T> getItemRx(@NonNull String collection,
+                                  @Nullable TreeSet<MutablePair<String, String>> internalPaths,
+                                  @Nullable Map<String, Object> equalTo,
+                                  @Nullable Map<String, Object> lessThanOrEqualTo,
+                                  @Nullable Map<String, Object> greaterThanOrEqualTo,
+                                  @NonNull Class<T> clazz) {
+
+        CollectionReference ref = firestore.collection(collection);
+        if (internalPaths != null && !internalPaths.isEmpty()) {
+            for (MutablePair<String, String> path : internalPaths) {
+                if (path.left != null && path.right != null) {
+                    ref = ref.document(path.left).collection(path.right);
+                }
+            }
+        }
+
+        Query query = ref;
+        if (equalTo != null) {
+            for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
+                query = query.whereEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        if (lessThanOrEqualTo != null) {
+            for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
+                query = query.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        if (greaterThanOrEqualTo != null) {
+            for (Map.Entry<String, Object> entry : greaterThanOrEqualTo.entrySet()) {
+                query = query.whereGreaterThanOrEqualTo(entry.getKey(), entry.getValue());
+            }
+        }
+        return getItemRx(ref, clazz);
+    }
+
+    @DebugLog
+    public <T> Maybe<List<T>> getItemsRx(@NonNull String collection,
+                                  @Nullable TreeSet<Pair<String, String>> internalPaths,
+                                  @Nullable Map<String, Object> equalTo,
+                                  @Nullable Map<String, Object> lessThanOrEqualTo,
+                                  @Nullable Map<String, Object> greaterThanOrEqualTo,
+                                  @NonNull Class<T> clazz) {
 
         CollectionReference ref = firestore.collection(collection);
         if (internalPaths != null && !internalPaths.isEmpty()) {
@@ -57,62 +130,24 @@ public final class RxFirestore {
                 }
             }
         }
-        DocumentReference doc = ref.document(document);
-        return putItemRx(doc, item);
-    }
 
-/*    public <T> Completable putItemRx(String collection, String document, T item) {
-        DocumentReference ref = firestore.collection(collection).document(document);
-        return putItemRx(ref, item);
-    }*/
-
-/*    public <T> Completable putItemRx(@NonNull String collection,
-                                     @NonNull String subDocument,
-                                     @NonNull String subCollection,
-                                     @NonNull String document,
-                                     T item) {
-        DocumentReference ref = firestore.collection(collection).document(subDocument).collection(subCollection).document(document);
-        return putItemRx(ref, item);
-    }*/
-
-    public <T> Completable putItemRx(DocumentReference ref, T item) {
-        return Completable.create(emitter ->
-                RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
-        );
-    }
-
-    public <T> Maybe<T> getItemRx(String collectionPath, String documentPath, Class<T> clazz) {
-        DocumentReference ref = firestore.collection(collectionPath).document(documentPath);
-        return getItemRx(ref, clazz);
-    }
-
-    @DebugLog
-    public <T> Maybe<T> getItemRx(@NonNull String collection,
-                                  @NonNull String subDocument,
-                                  @NonNull String subCollection,
-                                  @Nullable Map<String, Object> equalTo,
-                                  @Nullable Map<String, Object> lessThanOrEqualTo,
-                                  @Nullable Map<String, Object> greaterThanOrEqualTo,
-                                  @NonNull Class<T> clazz) {
-
-        Query ref = firestore.collection(collection).document(subDocument).collection(subCollection);
-
+        Query query = ref;
         if (equalTo != null) {
             for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
-                ref = ref.whereEqualTo(entry.getKey(), entry.getValue());
+                query = query.whereEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (lessThanOrEqualTo != null) {
             for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
-                ref = ref.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
+                query = query.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (greaterThanOrEqualTo != null) {
             for (Map.Entry<String, Object> entry : greaterThanOrEqualTo.entrySet()) {
-                ref = ref.whereGreaterThanOrEqualTo(entry.getKey(), entry.getValue());
+                query = query.whereGreaterThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }
-        return getItemRx(ref, clazz);
+        return getItemsRx(ref, clazz);
     }
 
     public <T> Maybe<T> getItemRx(DocumentReference ref, Class<T> clazz) {
@@ -131,7 +166,7 @@ public final class RxFirestore {
         );
     }
 
-    public <T> Maybe<T> getItemRx(Query ref, Class<T> clazz) {
+    public <T> Maybe<T> getItemRx(@NonNull Query ref, @NonNull Class<T> clazz) {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {
                     if (emitter.isDisposed()) {
@@ -141,6 +176,26 @@ public final class RxFirestore {
                         emitter.onComplete();
                     } else {
                         emitter.onSuccess(snapshot.getDocuments().get(0).toObject(clazz));
+                    }
+                }).addOnFailureListener(error -> {
+                    if (emitter.isDisposed()) {
+                        throw new IllegalStateException();
+                    }
+                    emitter.onError(error);
+                })
+        );
+    }
+
+    public <T> Maybe<List<T>> getItemsRx(@NonNull Query ref, @NonNull Class<T> clazz) {
+        return Maybe.create(emitter ->
+                ref.get().addOnSuccessListener(snapshot -> {
+                    if (emitter.isDisposed()) {
+                        throw new IllegalStateException();
+                    }
+                    if (snapshot.isEmpty()) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onSuccess(snapshot.toObjects(clazz));
                     }
                 }).addOnFailureListener(error -> {
                     if (emitter.isDisposed()) {

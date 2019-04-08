@@ -370,7 +370,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Long> putItemRx(Coin coin) {
+    public Maybe<Long> setItemRx(Coin coin) {
         return null;
     }
 

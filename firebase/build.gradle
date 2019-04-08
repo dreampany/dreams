@@ -92,7 +92,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.20'
 
     /** firebase */
-    api 'com.google.firebase:firebase-auth:16.2.0'
+    api 'com.google.firebase:firebase-auth:16.2.1'
     implementation 'com.google.firebase:firebase-database:16.1.0'
     implementation 'com.google.firebase:firebase-storage:16.1.0'
     api 'com.google.firebase:firebase-firestore:18.2.0'
@@ -104,4 +104,5 @@ dependencies {
 
     /** misc */
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'org.apache.commons:commons-lang3:3.8.1'
 }

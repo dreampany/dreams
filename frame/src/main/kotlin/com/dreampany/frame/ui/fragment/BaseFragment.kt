@@ -181,9 +181,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
-            ex.postToNetwork({
-                getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
-            })
+            getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
         }
     }
 

@@ -126,7 +126,7 @@ public class CoinsViewModel
             //return;
         }
         if (update) {
-            update(important, progress);
+            //update(important, progress);
             return;
         }
         loads(important, progress);
@@ -140,6 +140,7 @@ public class CoinsViewModel
         loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);
     }
 
+    @DebugLog
     public void loads(int index, boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;
@@ -147,7 +148,7 @@ public class CoinsViewModel
         currentIndex = index;
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
-                .backToMain(getListingRx(index, currency))
+                .backToMain(getListingRx(currency, index))
                 .doOnSubscribe(subscription -> {
                     if (progress) {
                         postProgress(true);
@@ -158,6 +159,7 @@ public class CoinsViewModel
                         postProgress(false);
                     }
                     currentCurrency = currency;
+                    Timber.v("Result posting %d", result.size());
                     postResult(Response.Type.GET, result);
                     //getEx().postToUi(() -> update(false), 2000L);
                 }, error -> {
@@ -227,10 +229,10 @@ public class CoinsViewModel
 
     /* private api */
     @DebugLog
-    private Maybe<List<CoinItem>> getListingRx(int index, Currency currency) {
+    private Maybe<List<CoinItem>> getListingRx(Currency currency, int index) {
         return repo
                 .getItemsIfRx(CoinSource.CMC, currency, index, Constants.Limit.COIN_PAGE)
-                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(coins, currency));
+                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(currency, coins));
     }
 
     private List<CoinItem> getUpdateItemsIf(Currency currency) {
@@ -293,9 +295,10 @@ public class CoinsViewModel
         });
     }
 
-    private Maybe<List<CoinItem>> getItemsRx(List<Coin> items, Currency currency) {
+    private Maybe<List<CoinItem>> getItemsRx(Currency currency, List<Coin> items) {
         return Maybe
                 .create(emitter -> {
+                    Timber.v("Input Coins %d", items.size());
                     List<CoinItem> result = getItems(currency, items);
                     if (emitter.isDisposed()) {
                         throw new IllegalStateException();
@@ -323,11 +326,12 @@ public class CoinsViewModel
                 ranked.add(coin);
             }
         }
-
+        Timber.v("Coins Result %d = Clone %d", coins.size(), ranked.size());
+        Timber.v("Coins Preparing ranked %d", ranked.size());
         Collections.sort(ranked, (left, right) -> left.getRank() - right.getRank());
         coins.removeAll(ranked);
         coins.addAll(0, ranked);
-
+        Timber.v("Coins Preparing sorted %d", ranked.size());
         //putFlags(coins, Constants.Limit.COIN_FLAG);
         List<CoinItem> items = new ArrayList<>(coins.size());
         for (Coin coin : coins) {

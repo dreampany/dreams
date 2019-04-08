@@ -162,7 +162,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
-        return null;
+        return Maybe.empty();
     }
 
     @Override

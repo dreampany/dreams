@@ -14,6 +14,7 @@ import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 5/30/2018.
@@ -87,6 +88,7 @@ public abstract class Repository<K, V> {
             for (Maybe<List<V>> source : sources) {
                 try {
                     items = source.blockingGet();
+                    Timber.v("Concat %d", items.size());
                 } catch (Exception ignored) {
                     error = new IOException();
                 }

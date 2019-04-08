@@ -112,10 +112,10 @@ public class Coin extends Base {
         }
     };
 
-    @Override
+/*    @Override
     public int hashCode() {
         return Objects.hashCode(symbol);
-    }
+    }*/
 
     @NonNull
     @Override

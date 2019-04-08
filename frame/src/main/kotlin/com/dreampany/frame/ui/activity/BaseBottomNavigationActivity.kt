@@ -33,9 +33,7 @@ abstract class BaseBottomNavigationActivity : BaseMenuActivity(), BottomNavigati
         navigationView?.setOnNavigationItemSelectedListener(this)
         setSelectedItem(getDefaultSelectedNavigationItemId())
         onStartUi(savedInstanceState)
-        ex.postToNetwork({
-            getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
-        })
+        getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

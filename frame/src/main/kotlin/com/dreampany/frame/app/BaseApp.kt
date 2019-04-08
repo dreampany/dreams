@@ -297,15 +297,20 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     open fun throwAnalytics(eventName : String, screen : String) {
-        val packageName = AndroidUtil.getPackageName(applicationContext)
-        val versionCode = AndroidUtil.getVersionCode(applicationContext)
-        val versionName = AndroidUtil.getVersionName(applicationContext)
-        val bundle = Bundle()
-        bundle.putString(Constants.Param.PACKAGE_NAME, packageName)
-        bundle.putInt(Constants.Param.VERSION_CODE, versionCode)
-        bundle.putString(Constants.Param.VERSION_NAME, versionName)
-        bundle.putString(Constants.Param.SCREEN, screen)
-        getAnalytics().logEvent(eventName, bundle)
+        if (AndroidUtil.isDebug(applicationContext)) {
+            return
+        }
+        ex.postToNetwork({
+            val packageName = AndroidUtil.getPackageName(applicationContext)
+            val versionCode = AndroidUtil.getVersionCode(applicationContext)
+            val versionName = AndroidUtil.getVersionName(applicationContext)
+            val bundle = Bundle()
+            bundle.putString(Constants.Param.PACKAGE_NAME, packageName)
+            bundle.putInt(Constants.Param.VERSION_CODE, versionCode)
+            bundle.putString(Constants.Param.VERSION_NAME, versionName)
+            bundle.putString(Constants.Param.SCREEN, screen)
+            getAnalytics().logEvent(eventName, bundle)
+        })
     }
 
     private fun goToRemoteUi() {

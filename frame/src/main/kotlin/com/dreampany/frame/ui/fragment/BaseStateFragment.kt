@@ -50,9 +50,7 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
         super.onActivityCreated(savedInstanceState)
         initPager()
         onStartUi(savedInstanceState)
-        ex.postToNetwork({
-            getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
-        })
+        getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
     }
 
     override fun getCurrentFragment(): BaseFragment? {

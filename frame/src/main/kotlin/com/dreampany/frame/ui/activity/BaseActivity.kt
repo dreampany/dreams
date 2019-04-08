@@ -149,9 +149,7 @@ abstract class BaseActivity :
         }
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
-            ex.postToNetwork({
-                getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
-            })
+            getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
         }
 
         if (app.hasRate() && hasRatePermitted()) {

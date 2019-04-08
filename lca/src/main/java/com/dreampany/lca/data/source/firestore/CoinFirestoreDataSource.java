@@ -2,7 +2,6 @@ package com.dreampany.lca.data.source.firestore;
 
 import com.dreampany.firebase.RxFirestore;
 import com.dreampany.frame.misc.exception.EmptyException;
-import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -12,12 +11,13 @@ import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.inject.Singleton;
 
+import androidx.core.util.Pair;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
@@ -124,12 +124,15 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         return null;
     }
 
+    @DebugLog
     @Override
     public long putItem(Coin coin) {
-        Throwable error = firestore.setPutRx(Constants.FirestoreKey.CRYPTO,
-                coin.getSource().name(),
-                Constants.FirestoreKey.COINS,
-                String.valueOf(coin.getCoinId()), coin).blockingGet();
+        String collection = Constants.FirestoreKey.CRYPTO;
+        String document = String.valueOf(coin.getCoinId());
+        TreeSet<Pair<String, String>> paths = new TreeSet<>();
+        paths.add(Pair.create(coin.getSource().name(), Constants.FirestoreKey.COINS));
+
+        Throwable error = firestore.putItemRx(collection, paths, document, coin).blockingGet();
         if (error == null) {
             return 0;
         }

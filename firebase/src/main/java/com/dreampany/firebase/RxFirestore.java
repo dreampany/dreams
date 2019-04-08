@@ -1,12 +1,12 @@
 package com.dreampany.firebase;
 
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -37,32 +37,45 @@ public final class RxFirestore {
         firestore.setFirestoreSettings(settings);
     }
 
-/*    public <T> Maybe setPutRx(String collection, String document, T item) {
-        DocumentReference ref = firestore.collection(collection).document(document);
-        return setPutRx(ref, item);
+    /**
+     * @param collection
+     * @param internalPaths collection of internal paths containing Pair<Document, Collection>
+     * @param document
+     * @param item
+     * @param <T>
+     * @return
+     */
+    public <T> Completable putItemRx(@NonNull String collection,
+                                     @Nullable TreeSet<Pair<String, String>> internalPaths,
+                                     @NonNull String document, T item) {
+
+        CollectionReference ref = firestore.collection(collection);
+        if (internalPaths != null && !internalPaths.isEmpty()) {
+            for (Pair<String, String> path : internalPaths) {
+                if (path.first != null && path.second != null) {
+                    ref = ref.document(path.first).collection(path.second);
+                }
+            }
+        }
+        DocumentReference doc = ref.document(document);
+        return putItemRx(doc, item);
     }
 
-    public <T> Completable setPutRx(DocumentReference ref, T item) {
-        return Completable.create(emitter ->
-                RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
-        );
+/*    public <T> Completable putItemRx(String collection, String document, T item) {
+        DocumentReference ref = firestore.collection(collection).document(document);
+        return putItemRx(ref, item);
     }*/
 
-    public <T> Completable setPutRx(String collection, String document, T item) {
-        DocumentReference ref = firestore.collection(collection).document(document);
-        return setPutRx(ref, item);
-    }
-
-    public <T> Completable setPutRx(@NonNull String collection,
-                                    @NonNull String subDocument,
-                                    @NonNull String subCollection,
-                                    @NonNull String document,
-                                    T item) {
+/*    public <T> Completable putItemRx(@NonNull String collection,
+                                     @NonNull String subDocument,
+                                     @NonNull String subCollection,
+                                     @NonNull String document,
+                                     T item) {
         DocumentReference ref = firestore.collection(collection).document(subDocument).collection(subCollection).document(document);
-        return setPutRx(ref, item);
-    }
+        return putItemRx(ref, item);
+    }*/
 
-    public <T> Completable setPutRx(DocumentReference ref, T item) {
+    public <T> Completable putItemRx(DocumentReference ref, T item) {
         return Completable.create(emitter ->
                 RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
         );

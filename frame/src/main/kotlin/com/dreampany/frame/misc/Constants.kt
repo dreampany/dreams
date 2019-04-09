@@ -19,6 +19,7 @@ class Constants {
     }
 
     object Event {
+        const val ERROR = "error"
         const val APPLICATION = "application"
         const val ACTIVITY = "activity"
         const val FRAGMENT = "fragment"
@@ -28,7 +29,9 @@ class Constants {
         const val PACKAGE_NAME = "package_name"
         const val VERSION_CODE = "version_code"
         const val VERSION_NAME = "version_name"
-        const val SCREEN = "SCREEN"
+        const val SCREEN = "screen"
+        const val ERROR_MESSAGE = "error_message"
+        const val ERROR_DETAILS = "error_details"
     }
 
     object Tag {

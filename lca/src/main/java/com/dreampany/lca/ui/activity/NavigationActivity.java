@@ -7,6 +7,7 @@ import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.lca.R;
 import com.dreampany.lca.databinding.ActivityNavigationBinding;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.fragment.*;
 import com.dreampany.lca.ui.fragment.CoinsFragment;
 
@@ -65,6 +66,12 @@ public class NavigationActivity
     @Override
     public boolean hasRatePermitted() {
         return true;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.navigation(getApplicationContext());
     }
 
     @Override

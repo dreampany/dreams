@@ -2,6 +2,8 @@ package com.dreampany.lca.misc
 
 import android.content.Context
 import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.frame.util.TextUtil
+import com.dreampany.lca.R
 import java.util.concurrent.TimeUnit
 
 
@@ -15,6 +17,9 @@ class Constants {
     companion object Screen {
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
 
+        fun app(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+        fun navigation(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "navigation"
+        fun tools(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "tools"
         fun coins(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coins"
         fun coin(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin"
         fun coinDetails(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_details"
@@ -116,7 +121,7 @@ class Constants {
 
     object Limit {
         const val COIN_START_INDEX = 0
-        const val COIN_PAGE = 10
+        const val COIN_PAGE = 100
         const val COIN_MARKET = 50
         const val COIN_EXCHANGE = 50
         const val ICO = 100

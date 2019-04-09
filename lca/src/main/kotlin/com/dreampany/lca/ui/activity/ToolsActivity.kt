@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.lca.R
+import com.dreampany.lca.misc.Constants
 import com.dreampany.lca.ui.enums.UiSubtype
 import com.dreampany.lca.ui.enums.UiType
 import com.dreampany.lca.ui.fragment.*
@@ -45,6 +46,10 @@ class ToolsActivity : BaseActivity() {
 
     override fun hasRatePermitted(): Boolean {
         return false
+    }
+
+    override fun getScreen(): String {
+        return Constants.tools(applicationContext)
     }
 
     override fun onStartUi(state: Bundle?) {

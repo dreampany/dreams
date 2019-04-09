@@ -16,6 +16,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.MutableTriple;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -70,11 +71,14 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
 
-        Map<String, Object> equalTo = Maps.newHashMap();
-        equalTo.put(Constants.CoinKey.COIN_ID, coinId);
+        List<MutablePair<String, Object>> equalTo = new ArrayList<>();
+        List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        Map<String, Object> greaterThanOrEqualTo = Maps.newHashMap();
-        greaterThanOrEqualTo.put(Constants.CoinKey.LAST_UPDATED, lastUpdated);
+        equalTo.add(MutablePair.of(Constants.CoinKey.COIN_ID, coinId));
+
+
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.CoinKey.LAST_UPDATED, lastUpdated));
+
         Maybe<Coin> result = firestore.getItemRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
 
         result = result.doOnSuccess(new Consumer<Coin>() {
@@ -95,7 +99,32 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
-        return null;
+        String collection = Constants.FirestoreKey.CRYPTO;
+        TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
+        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
+
+        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+
+        List<MutablePair<String, Object>> equalTo = new ArrayList<>();
+        List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
+
+        for (long coinId : coinIds) {
+            equalTo.add(MutablePair.of(Constants.CoinKey.COIN_ID, coinId));
+        }
+
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.CoinKey.LAST_UPDATED, lastUpdated));
+
+        Maybe<List<Coin>> result = firestore.getItemsRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
+
+        result = result.doOnSuccess(new Consumer<List<Coin>>() {
+            @DebugLog
+            @Override
+            public void accept(List<Coin> coins) throws Exception {
+
+            }
+        });
+
+        return result;
     }
 
     @Override
@@ -179,7 +208,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
             if (emitter.isDisposed()) {
                 throw new IllegalStateException();
             }
-            if (DataUtil.isEmpty(result)) {
+            if (!DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
             } else {
                 emitter.onSuccess(result);

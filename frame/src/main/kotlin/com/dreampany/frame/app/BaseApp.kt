@@ -34,6 +34,7 @@ import com.google.firebase.appindexing.builders.Indexables
 import com.squareup.leakcanary.LeakCanary
 import dagger.android.support.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins
+import org.apache.commons.lang3.exception.ExceptionUtils
 import timber.log.Timber
 import java.io.File
 import java.lang.ref.WeakReference
@@ -79,7 +80,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         return false
     }
 
-    open fun hasStetho() : Boolean {
+    open fun hasStetho(): Boolean {
         return false
     }
 
@@ -125,6 +126,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     open fun getAdmobAppId(): Int {
         return 0
+    }
+
+    open fun getScreen(): String {
+        return javaClass.simpleName
     }
 
     open fun onOpen() {}
@@ -214,15 +219,17 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
             }
         }
         if (hasColor()) {
-            color = ColorUtil.createColor(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
+            color = ColorUtil.createColor(
+                R.color.colorPrimary,
+                R.color.colorPrimaryDark,
+                R.color.colorAccent
+            )
         }
 
         registerActivityLifecycleCallbacks(this)
         TypefaceProvider.registerDefaultIconSets()
         onOpen()
-        ex.postToNetwork({
-            throwAppAnalytics()
-        })
+        throwAnalytics(Constants.Event.APPLICATION, getScreen())
     }
 
     override fun onLowMemory() {
@@ -285,18 +292,11 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         return color;
     }
 
-    open fun throwAppAnalytics() {
-        val packageName = AndroidUtil.getPackageName(applicationContext)
-        val versionCode = AndroidUtil.getVersionCode(applicationContext)
-        val versionName = AndroidUtil.getVersionName(applicationContext)
-        val bundle = Bundle()
-        bundle.putString(Constants.Param.PACKAGE_NAME, packageName)
-        bundle.putInt(Constants.Param.VERSION_CODE, versionCode)
-        bundle.putString(Constants.Param.VERSION_NAME, versionName)
-        getAnalytics().logEvent(Constants.Event.APPLICATION, bundle)
+    open fun throwAnalytics(event: String, screen: String) {
+        throwAnalytics(event, screen, null)
     }
 
-    open fun throwAnalytics(eventName : String, screen : String) {
+    open fun throwAnalytics(event: String, screen: String, error: Throwable?) {
         if (AndroidUtil.isDebug(applicationContext)) {
             return
         }
@@ -309,7 +309,11 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
             bundle.putInt(Constants.Param.VERSION_CODE, versionCode)
             bundle.putString(Constants.Param.VERSION_NAME, versionName)
             bundle.putString(Constants.Param.SCREEN, screen)
-            getAnalytics().logEvent(eventName, bundle)
+            error?.let {
+                bundle.putString(Constants.Param.ERROR_MESSAGE, ExceptionUtils.getMessage(it))
+                bundle.putString(Constants.Param.ERROR_DETAILS, ExceptionUtils.getStackTrace(it))
+            }
+            getAnalytics().logEvent(event, bundle)
         })
     }
 
@@ -322,19 +326,23 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     private fun setStrictMode() {
-        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
+        StrictMode.setThreadPolicy(
+            StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()
                 .detectDiskWrites()
                 .detectNetwork()   // or .detectAll() for all detectable problems
                 .penaltyLog()
-                .build())
+                .build()
+        )
 
-        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
+        StrictMode.setVmPolicy(
+            StrictMode.VmPolicy.Builder()
                 .detectLeakedSqlLiteObjects()
                 .detectLeakedClosableObjects()
                 .penaltyLog()
                 .detectActivityLeaks()
-                .build())
+                .build()
+        )
     }
 
     private fun initLeakCanary(): Boolean {
@@ -350,6 +358,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     private fun configRx() {
         RxJavaPlugins.setErrorHandler {
             Timber.e(it, "Rx Global Error Handler.")
+            throwAnalytics(Constants.Event.ERROR, getScreen(), it)
         }
     }
 
@@ -357,13 +366,13 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         val diskSupplier = Supplier<File> { applicationContext.cacheDir }
 
         val diskCacheConfig = DiskCacheConfig.newBuilder(applicationContext)
-                .setBaseDirectoryName("image.cache")
-                .setBaseDirectoryPathSupplier(diskSupplier)
-                .build()
+            .setBaseDirectoryName("image.cache")
+            .setBaseDirectoryPathSupplier(diskSupplier)
+            .build()
 
         val frescoConfig = ImagePipelineConfig.newBuilder(this)
-                .setMainDiskCacheConfig(diskCacheConfig)
-                .build()
+            .setMainDiskCacheConfig(diskCacheConfig)
+            .build()
 
         Fresco.initialize(this, frescoConfig)
     }
@@ -385,8 +394,8 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     private fun getAction(description: String, uri: String): Action {
         return Action.Builder(Action.Builder.VIEW_ACTION)
-                .setObject(description, uri)
-                .build()
+            .setObject(description, uri)
+            .build()
     }
 
     private fun startUpdate() {

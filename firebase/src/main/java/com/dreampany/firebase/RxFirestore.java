@@ -105,9 +105,9 @@ public final class RxFirestore {
     @DebugLog
     public <T> Maybe<T> getItemRx(@NonNull String collection,
                                   @Nullable TreeSet<MutablePair<String, String>> internalPaths,
-                                  @Nullable Map<String, Object> equalTo,
-                                  @Nullable Map<String, Object> lessThanOrEqualTo,
-                                  @Nullable Map<String, Object> greaterThanOrEqualTo,
+                                  @Nullable List<MutablePair<String, Object>> equalTo,
+                                  @Nullable List<MutablePair<String, Object>> lessThanOrEqualTo,
+                                  @Nullable List<MutablePair<String, Object>> greaterThanOrEqualTo,
                                   @NonNull Class<T> clazz) {
 
         CollectionReference ref = firestore.collection(collection);
@@ -121,17 +121,17 @@ public final class RxFirestore {
 
         Query query = ref;
         if (equalTo != null) {
-            for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
+            for (MutablePair<String, Object> entry : equalTo) {
                 query = query.whereEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (lessThanOrEqualTo != null) {
-            for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
+            for (MutablePair<String, Object> entry : lessThanOrEqualTo) {
                 query = query.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (greaterThanOrEqualTo != null) {
-            for (Map.Entry<String, Object> entry : greaterThanOrEqualTo.entrySet()) {
+            for (MutablePair<String, Object> entry : greaterThanOrEqualTo) {
                 query = query.whereGreaterThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }
@@ -140,34 +140,34 @@ public final class RxFirestore {
 
     @DebugLog
     public <T> Maybe<List<T>> getItemsRx(@NonNull String collection,
-                                         @Nullable TreeSet<Pair<String, String>> internalPaths,
-                                         @Nullable Map<String, Object> equalTo,
-                                         @Nullable Map<String, Object> lessThanOrEqualTo,
-                                         @Nullable Map<String, Object> greaterThanOrEqualTo,
+                                         @Nullable TreeSet<MutablePair<String, String>> internalPaths,
+                                         @Nullable List<MutablePair<String, Object>> equalTo,
+                                         @Nullable List<MutablePair<String, Object>> lessThanOrEqualTo,
+                                         @Nullable List<MutablePair<String, Object>> greaterThanOrEqualTo,
                                          @NonNull Class<T> clazz) {
 
         CollectionReference ref = firestore.collection(collection);
         if (internalPaths != null && !internalPaths.isEmpty()) {
-            for (Pair<String, String> path : internalPaths) {
-                if (path.first != null && path.second != null) {
-                    ref = ref.document(path.first).collection(path.second);
+            for (MutablePair<String, String> path : internalPaths) {
+                if (path.left != null && path.right != null) {
+                    ref = ref.document(path.left).collection(path.right);
                 }
             }
         }
 
         Query query = ref;
         if (equalTo != null) {
-            for (Map.Entry<String, Object> entry : equalTo.entrySet()) {
+            for (MutablePair<String, Object> entry : equalTo) {
                 query = query.whereEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (lessThanOrEqualTo != null) {
-            for (Map.Entry<String, Object> entry : lessThanOrEqualTo.entrySet()) {
+            for (MutablePair<String, Object> entry : lessThanOrEqualTo) {
                 query = query.whereLessThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }
         if (greaterThanOrEqualTo != null) {
-            for (Map.Entry<String, Object> entry : greaterThanOrEqualTo.entrySet()) {
+            for (MutablePair<String, Object> entry : greaterThanOrEqualTo) {
                 query = query.whereGreaterThanOrEqualTo(entry.getKey(), entry.getValue());
             }
         }

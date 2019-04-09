@@ -126,7 +126,7 @@ public class CoinsViewModel
             //return;
         }
         if (update) {
-            //update(important, progress);
+            update(important, progress);
             return;
         }
         loads(important, progress);

@@ -74,6 +74,10 @@ class App : BaseApp() {
         return R.string.admob_app_id
     }
 
+    override fun getScreen(): String {
+        return Constants.app(applicationContext)
+    }
+
     override fun onCreate() {
         super.onCreate()
         if (!isDebug() && hasCrashlytics()) {

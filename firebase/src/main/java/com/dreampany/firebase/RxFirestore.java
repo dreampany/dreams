@@ -6,8 +6,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.firestore.WriteBatch;
 
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.MutableTriple;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +23,8 @@ import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import hugo.weaving.DebugLog;
 import io.reactivex.Completable;
+import io.reactivex.CompletableEmitter;
+import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Maybe;
 
 /**
@@ -64,11 +68,31 @@ public final class RxFirestore {
         return setItemRx(doc, item);
     }
 
+    public <T> Completable setItemsRx(@NonNull String collection,
+                                      @NonNull Map<String, MutableTriple<String, String, T>> items) {
+
+        CollectionReference ref = firestore.collection(collection);
+
+        WriteBatch batch = firestore.batch();
+        for (Map.Entry<String, MutableTriple<String, String, T>> entry : items.entrySet()) {
+            String document = entry.getKey();
+            MutableTriple<String, String, T> item = entry.getValue();
+            CollectionReference childCollection = ref.document(item.left).collection(item.middle);
+            DocumentReference doc = childCollection.document(document);
+            batch.set(doc, item.right, SetOptions.merge());
+        }
+        return atomicOperation(batch);
+    }
+
     public <T> Completable setItemRx(@NonNull DocumentReference ref,
                                      @NonNull T item) {
         return Completable.create(emitter ->
                 RxCompletableHandler.assignOnTask(emitter, ref.set(item, SetOptions.merge()))
         );
+    }
+
+    public <T> Completable atomicOperation(@NonNull WriteBatch batch) {
+        return Completable.create(emitter -> RxCompletableHandler.assignOnTask(emitter, batch.commit()));
     }
 
     public <T> Maybe<T> getItemRx(@NonNull String collectionPath,
@@ -116,11 +140,11 @@ public final class RxFirestore {
 
     @DebugLog
     public <T> Maybe<List<T>> getItemsRx(@NonNull String collection,
-                                  @Nullable TreeSet<Pair<String, String>> internalPaths,
-                                  @Nullable Map<String, Object> equalTo,
-                                  @Nullable Map<String, Object> lessThanOrEqualTo,
-                                  @Nullable Map<String, Object> greaterThanOrEqualTo,
-                                  @NonNull Class<T> clazz) {
+                                         @Nullable TreeSet<Pair<String, String>> internalPaths,
+                                         @Nullable Map<String, Object> equalTo,
+                                         @Nullable Map<String, Object> lessThanOrEqualTo,
+                                         @Nullable Map<String, Object> greaterThanOrEqualTo,
+                                         @NonNull Class<T> clazz) {
 
         CollectionReference ref = firestore.collection(collection);
         if (internalPaths != null && !internalPaths.isEmpty()) {

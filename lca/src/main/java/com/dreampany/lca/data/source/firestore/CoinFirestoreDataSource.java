@@ -2,6 +2,7 @@ package com.dreampany.lca.data.source.firestore;
 
 import com.dreampany.firebase.RxFirestore;
 import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
@@ -12,7 +13,9 @@ import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.MutableTriple;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
@@ -157,12 +160,31 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public List<Long> putItems(List<Coin> coins) {
+        String collection = Constants.FirestoreKey.CRYPTO;
+        Map<String, MutableTriple<String, String, Coin>> items = Maps.newHashMap();
+        for (Coin coin : coins) {
+            items.put(String.valueOf(coin.getCoinId()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.COINS, coin));
+        }
+        Throwable error = firestore.setItemsRx(collection, items).blockingGet();
+        if (error == null) {
+            return new ArrayList<>();
+        }
         return null;
     }
 
     @Override
     public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
-        return Maybe.empty();
+        return Maybe.create(emitter -> {
+            List<Long> result = putItems(coins);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override

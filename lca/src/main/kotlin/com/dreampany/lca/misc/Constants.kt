@@ -2,7 +2,6 @@ package com.dreampany.lca.misc
 
 import android.content.Context
 import com.dreampany.frame.util.AndroidUtil
-import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.concurrent.TimeUnit
 
 
@@ -117,7 +116,7 @@ class Constants {
 
     object Limit {
         const val COIN_START_INDEX = 0
-        const val COIN_PAGE = 100
+        const val COIN_PAGE = 10
         const val COIN_MARKET = 50
         const val COIN_EXCHANGE = 50
         const val ICO = 100

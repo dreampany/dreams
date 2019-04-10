@@ -133,7 +133,7 @@ public class NotifyViewModel {
                     .blockingGet();
 
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());

@@ -194,7 +194,7 @@ public class FavoritesViewModel
         return Maybe.create(emitter -> {
             List<CoinItem> result = getFavoriteItems(source, currency);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());

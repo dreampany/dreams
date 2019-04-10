@@ -285,7 +285,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 result = firestore.getItemsRx(source, currency, ids).blockingGet();
             }
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
@@ -312,7 +312,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 result = remote.getItems(source, currency, ids);
             }
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());

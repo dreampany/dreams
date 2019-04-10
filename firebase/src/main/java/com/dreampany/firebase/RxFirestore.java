@@ -194,7 +194,7 @@ public final class RxFirestore {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {
                     if (emitter.isDisposed()) {
-                        throw new IllegalStateException();
+                        return;
                     }
                     if (snapshot.isEmpty()) {
                         emitter.onComplete();
@@ -203,7 +203,7 @@ public final class RxFirestore {
                     }
                 }).addOnFailureListener(error -> {
                     if (emitter.isDisposed()) {
-                        throw new IllegalStateException();
+                        return;
                     }
                     emitter.onError(error);
                 })
@@ -214,7 +214,7 @@ public final class RxFirestore {
         return Maybe.create(emitter ->
                 ref.get().addOnSuccessListener(snapshot -> {
                     if (emitter.isDisposed()) {
-                        throw new IllegalStateException();
+                        return;
                     }
                     if (snapshot.isEmpty()) {
                         emitter.onComplete();
@@ -223,7 +223,7 @@ public final class RxFirestore {
                     }
                 }).addOnFailureListener(error -> {
                     if (emitter.isDisposed()) {
-                        throw new IllegalStateException();
+                        return;
                     }
                     emitter.onError(error);
                 })

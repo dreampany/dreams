@@ -285,7 +285,7 @@ public class CoinsViewModel
         return Maybe.create(emitter -> {
             List<CoinItem> result = getUpdateItemsIf(currency);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
@@ -301,7 +301,7 @@ public class CoinsViewModel
                     Timber.v("Input Coins %d", items.size());
                     List<CoinItem> result = getItems(currency, items);
                     if (emitter.isDisposed()) {
-                        throw new IllegalStateException();
+                        return;
                     }
                     if (DataUtil.isEmpty(result)) {
                         emitter.onError(new EmptyException());

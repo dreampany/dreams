@@ -101,7 +101,7 @@ public class CoinViewModel
             }
         }
         UiState finalState = state;
-        //getEx().postToUiSmartly(() -> updateUiState(finalState));
+        getEx().postToUiSmartly(() -> updateUiState(finalState));
     }
 
     public void setUiCallback(SmartAdapter.Callback<CoinItem> callback) {

@@ -62,12 +62,16 @@ class App : BaseApp() {
         return true
     }
 
-    override fun hasColor(): Boolean {
+    override fun hasTheme(): Boolean {
         return true
     }
 
+    override fun hasColor(): Boolean {
+        return false
+    }
+
     override fun applyColor(): Boolean {
-        return true
+        return false
     }
 
     override fun getAdmobAppId(): Int {

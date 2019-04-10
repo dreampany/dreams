@@ -14,10 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.afollestad.aesthetic.Aesthetic
-import com.afollestad.aesthetic.NavigationViewMode
-import com.afollestad.aesthetic.TabLayoutBgMode
-import com.afollestad.aesthetic.TabLayoutIndicatorMode
+import com.afollestad.aesthetic.*
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.dreampany.frame.R
 import com.dreampany.frame.app.BaseApp
@@ -294,18 +291,22 @@ abstract class BaseActivity :
     private fun initTheme() {
         if (Aesthetic.isFirstTime) {
             Aesthetic.config {
-                colorPrimaryRes(R.color.colorPrimary)
-                colorPrimaryDarkRes(R.color.colorPrimaryDark)
-                colorAccentRes(R.color.colorAccent)
-                colorWindowBackgroundRes(R.color.material_grey200)
-                textColorPrimaryRes(R.color.black)
+                colorPrimary(R.color.colorPrimary)
+                colorPrimaryDark(R.color.colorPrimaryDark)
+                colorAccent(R.color.colorAccent)
+                colorWindowBackground(R.color.material_grey200)
+                textColorPrimary(R.color.black)
                 //textColorPrimaryInverseRes(android.R.color.white)
-                textColorSecondaryRes(R.color.material_grey100)
+                textColorSecondary(R.color.material_grey100)
                 //textColorSecondaryInverseRes(R.color.material_grey800)
                 colorStatusBarAuto()
                 colorNavigationBarAuto()
-                tabLayoutBackgroundMode(TabLayoutBgMode.PRIMARY)
-                tabLayoutIndicatorMode(TabLayoutIndicatorMode.ACCENT)
+
+                lightStatusBarMode(AutoSwitchMode.AUTO)
+                lightNavigationBarMode(AutoSwitchMode.AUTO)
+
+                tabLayoutBackgroundMode(ColorMode.PRIMARY)
+                tabLayoutIndicatorMode(ColorMode.ACCENT)
                 navigationViewMode(NavigationViewMode.SELECTED_ACCENT)
                 //bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
                 //bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
@@ -314,23 +315,6 @@ abstract class BaseActivity :
                         R.color.material_red700,
                         R.color.material_yellow700)
             }
-
-
-/*            Aesthetic.get()
-                    .colorPrimaryRes(R.color.colorPrimary)
-                    .colorPrimaryDarkRes(R.color.colorPrimaryDark)
-                    .colorAccentRes(R.color.colorAccent)
-                    .colorStatusBarAuto()
-                    .colorNavigationBarAuto()
-                    .textColorPrimaryRes(android.R.color.black)
-                    .textColorPrimaryInverseRes(android.R.color.white)
-                    .textColorSecondaryRes(R.color.material_grey50)
-                    .textColorSecondaryInverseRes(R.color.material_grey100)
-                    .tabLayoutBackgroundMode(TabLayoutBgMode.ACCENT)
-                    .tabLayoutIndicatorMode(TabLayoutIndicatorMode.PRIMARY)
-                    .bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
-                    .bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
-                    .apply()*/
         }
     }
 

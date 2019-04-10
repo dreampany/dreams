@@ -291,23 +291,23 @@ abstract class BaseActivity :
     private fun initTheme() {
         if (Aesthetic.isFirstTime) {
             Aesthetic.config {
-                colorPrimary(R.color.colorPrimary)
-                colorPrimaryDark(R.color.colorPrimaryDark)
-                colorAccent(R.color.colorAccent)
-                colorWindowBackground(R.color.material_grey200)
-                textColorPrimary(R.color.black)
+                //colorPrimary(R.color.colorPrimary)
+                //colorPrimaryDark(R.color.colorPrimaryDark)
+                //colorAccent(R.color.colorAccent)
+                //colorWindowBackground(R.color.material_grey200)
+                //textColorPrimary(R.color.black)
                 //textColorPrimaryInverseRes(android.R.color.white)
-                textColorSecondary(R.color.material_grey100)
+                //textColorSecondary(R.color.material_grey100)
                 //textColorSecondaryInverseRes(R.color.material_grey800)
-                colorStatusBarAuto()
-                colorNavigationBarAuto()
+                //colorStatusBarAuto()
+                //colorNavigationBarAuto()
 
-                lightStatusBarMode(AutoSwitchMode.AUTO)
-                lightNavigationBarMode(AutoSwitchMode.AUTO)
+                //lightStatusBarMode(AutoSwitchMode.AUTO)
+                //lightNavigationBarMode(AutoSwitchMode.AUTO)
 
-                tabLayoutBackgroundMode(ColorMode.PRIMARY)
-                tabLayoutIndicatorMode(ColorMode.ACCENT)
-                navigationViewMode(NavigationViewMode.SELECTED_ACCENT)
+                //tabLayoutBackgroundMode(ColorMode.PRIMARY)
+                //tabLayoutIndicatorMode(ColorMode.ACCENT)
+                //navigationViewMode(NavigationViewMode.SELECTED_ACCENT)
                 //bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
                 //bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
                 swipeRefreshLayoutColorsRes(

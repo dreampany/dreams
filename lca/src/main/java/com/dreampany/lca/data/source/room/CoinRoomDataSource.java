@@ -11,15 +11,12 @@ import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
+import io.reactivex.Maybe;
 
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.inject.Singleton;
-
-import hugo.weaving.DebugLog;
-import io.reactivex.Maybe;
 
 /**
  * Created by Hawladar Roman on 30/5/18.
@@ -66,7 +63,7 @@ public class CoinRoomDataSource implements CoinDataSource {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, index, limit);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
@@ -92,7 +89,17 @@ public class CoinRoomDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
-        return null;
+        return Maybe.create(emitter -> {
+            Coin result = getItem(source, currency, coinId);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
 /*    @Override
@@ -143,7 +150,7 @@ public class CoinRoomDataSource implements CoinDataSource {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, coinIds);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
@@ -216,7 +223,7 @@ public class CoinRoomDataSource implements CoinDataSource {
         return Maybe.create(emitter -> {
             long result = putItem(coin);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (result == -1) {
                 emitter.onError(new EmptyException());
@@ -240,7 +247,7 @@ public class CoinRoomDataSource implements CoinDataSource {
         return Maybe.create(emitter -> {
             List<Long> result = putItems(coins);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());

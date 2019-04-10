@@ -245,7 +245,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             this.dayChange.setText(String.format(getText(dayFormat), dayChange));
             this.weekChange.setText(String.format(getText(weekFormat), weekChange));
 
-            int startColor = R.color.material_grey700;
+            int startColor = R.color.material_grey400;
             int endColor = (hourChange >= 0 || dayChange >= 0 || weekChange >= 0) ? R.color.material_green700 : R.color.material_red700;
 
             ViewUtil.blink(this.price, startColor, endColor);
@@ -282,6 +282,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         TextView name;
         @BindView(R.id.text_price)
         TextView price;
+        @BindView(R.id.text_last_updated)
+        TextView lastUpdated;
         @BindView(R.id.button_favorite)
         LikeButton like;
 
@@ -321,6 +323,12 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             FrescoUtil.loadImage(icon, imageUrl, true);
             String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
             name.setText(nameText);
+
+            String lastUpdatedTime = (String) DateUtils.getRelativeTimeSpanString(
+                    coin.getLastUpdated(),
+                    TimeUtil.currentTime(),
+                    DateUtils.MINUTE_IN_MILLIS);
+            lastUpdated.setText(lastUpdatedTime);
 
             Quote quote = coin.getQuote(item.currency);
             if (quote != null) {

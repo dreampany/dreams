@@ -289,13 +289,13 @@ abstract class BaseActivity :
     }
 
     private fun initTheme() {
-        if (Aesthetic.isFirstTime) {
+        if (Aesthetic.isFirstTime || true) {
             Aesthetic.config {
-                //colorPrimary(R.color.colorPrimary)
-                //colorPrimaryDark(R.color.colorPrimaryDark)
-                //colorAccent(R.color.colorAccent)
-                //colorWindowBackground(R.color.material_grey200)
-                //textColorPrimary(R.color.black)
+                colorPrimaryRes(R.color.colorPrimary)
+                colorPrimaryDarkRes(R.color.colorPrimaryDark)
+                colorAccentRes(R.color.colorAccent)
+                //colorWindowBackgroundRes(R.color.material_grey200)
+                //textColorPrimaryRes(R.color.white)
                 //textColorPrimaryInverseRes(android.R.color.white)
                 //textColorSecondary(R.color.material_grey100)
                 //textColorSecondaryInverseRes(R.color.material_grey800)

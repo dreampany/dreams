@@ -291,17 +291,21 @@ abstract class BaseActivity :
     private fun initTheme() {
         if (Aesthetic.isFirstTime || true) {
             Aesthetic.config {
-                //colorPrimaryRes(R.color.colorPrimary)
-                //colorPrimaryDarkRes(R.color.colorPrimaryDark)
-                //colorAccentRes(R.color.colorAccent)
-                //colorWindowBackgroundRes(R.color.material_grey200)
+                colorPrimaryRes(R.color.colorPrimary)
+                colorPrimaryDarkRes(R.color.colorPrimaryDark)
+                colorAccentRes(R.color.colorAccent)
+                colorWindowBackgroundRes(R.color.grey_300)
                 //textColorPrimaryRes(R.color.white)
-                //textColorPrimaryInverseRes(android.R.color.white)
-                //textColorSecondary(R.color.material_grey100)
-                //textColorSecondaryInverseRes(R.color.material_grey800)
+                //textColorSecondary(R.color.material_grey700)
+
+                //textColorPrimaryInverseRes(R.color.white)
+                //textColorSecondaryInverseRes(R.color.grey_300)
+
+                //toolbarIconColorRes(R.color.white)
                 //colorStatusBarAuto()
                 //colorNavigationBarAuto()
-
+                colorNavigationBarRes(R.color.material_grey300)
+                bottomNavigationBackgroundMode(BottomNavBgMode.BLACK_WHITE_AUTO)
                 //lightStatusBarMode(AutoSwitchMode.AUTO)
                 //lightNavigationBarMode(AutoSwitchMode.AUTO)
 

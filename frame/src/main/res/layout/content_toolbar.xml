@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    auto:popupTheme="@style/AppTheme.PopupOverlay" />
+    auto:popupTheme="@style/AppTheme.PopupOverlay"
+    auto:theme="@style/AppTheme.ActionBar" />
 
     <!--auto:layouct_scrollFlags="scroll|enterAlways"-->

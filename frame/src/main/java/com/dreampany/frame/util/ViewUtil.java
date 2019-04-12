@@ -6,13 +6,19 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
+
 import androidx.annotation.*;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,7 +69,7 @@ public final class ViewUtil {
         ViewUtil.hide(view);
     }
 
-    public static void hide(@NonNull  View view) {
+    public static void hide(@NonNull View view) {
         if (view != null) {
             view.setVisibility(View.GONE);
         }
@@ -305,12 +311,20 @@ public final class ViewUtil {
         return null;
     }
 
-    public static void setIcon(Menu menu, int menuItemId, int iconRes) {
+    public static void setIcon(Menu menu, int menuItemId, @ColorRes int iconRes) {
         if (menu != null) {
             MenuItem item = menu.findItem(menuItemId);
             if (item != null) {
                 item.setIcon(iconRes);
             }
+        }
+    }
+
+    public static void setIconColor(@NonNull Context context, @NonNull MenuItem menuItem, @ColorRes int colorRes) {
+        Drawable drawable = menuItem.getIcon();
+        if (drawable != null) {
+            drawable.mutate();
+            drawable.setColorFilter(ColorUtil.getColor(context, colorRes), PorterDuff.Mode.SRC_ATOP);
         }
     }
 

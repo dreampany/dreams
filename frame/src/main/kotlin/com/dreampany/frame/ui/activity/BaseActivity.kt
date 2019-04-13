@@ -295,25 +295,25 @@ abstract class BaseActivity :
                 colorPrimaryDarkRes(R.color.colorPrimaryDark)
                 colorAccentRes(R.color.colorAccent)
                 colorWindowBackgroundRes(R.color.grey_300)
-                //textColorPrimaryRes(R.color.white)
-                //textColorSecondary(R.color.material_grey700)
+                textColorPrimaryRes(R.color.white)
+                textColorSecondary(R.color.material_grey700)
 
-                //textColorPrimaryInverseRes(R.color.white)
-                //textColorSecondaryInverseRes(R.color.grey_300)
+                textColorPrimaryInverseRes(R.color.black)
+                textColorSecondaryInverseRes(R.color.grey_300)
 
                 //toolbarIconColorRes(R.color.white)
                 //colorStatusBarAuto()
                 //colorNavigationBarAuto()
                 colorNavigationBarRes(R.color.material_grey300)
-                bottomNavigationBackgroundMode(BottomNavBgMode.BLACK_WHITE_AUTO)
+                //bottomNavigationBackgroundMode(BottomNavBgMode.BLACK_WHITE_AUTO)
                 //lightStatusBarMode(AutoSwitchMode.AUTO)
                 //lightNavigationBarMode(AutoSwitchMode.AUTO)
 
                 //tabLayoutBackgroundMode(ColorMode.PRIMARY)
                 //tabLayoutIndicatorMode(ColorMode.ACCENT)
                 //navigationViewMode(NavigationViewMode.SELECTED_ACCENT)
-                //bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
-                //bottomNavigationIconTextMode(BottomNavIconTextMode.SELECTED_ACCENT)
+                bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
+                bottomNavigationIconTextMode(BottomNavIconTextMode.BLACK_WHITE_AUTO)
                 swipeRefreshLayoutColorsRes(
                         R.color.material_green700,
                         R.color.material_red700,

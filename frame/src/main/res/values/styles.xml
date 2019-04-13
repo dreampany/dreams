@@ -13,14 +13,14 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
         <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowBackground">@color/grey_300</item>
+        <!--<item name="android:windowBackground">@color/grey_300</item>-->
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.DarkActionBar">
 <!--        <item name="actionMenuTextColor">@color/material_white</item>
         <item name="android:actionMenuTextColor">@color/material_white</item>-->
     </style>

@@ -117,6 +117,8 @@ android {
         exclude 'META-INF/license.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/library_release.kotlin_module'
+        exclude 'META-INF/metadata.jvm.kotlin_module'
+        exclude 'META-INF/metadata.kotlin_module'
     }
 
 /*    packagingOptions {

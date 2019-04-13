@@ -128,7 +128,7 @@ public class SmartAd {
     }
 
     public void loadAd(@NonNull String screenId) {
-        boolean loaded = loadInterstitial(screenId);
+        boolean loaded = false;//loadInterstitial(screenId);
         if (!loaded) {
             loadBanner(screenId);
         }

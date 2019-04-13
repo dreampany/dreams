@@ -1,9 +1,6 @@
 package com.dreampany.lca.data.source.remote;
 
-import com.dreampany.lca.api.iwl.model.FinishedIcoResponse;
-import com.dreampany.lca.api.iwl.model.LiveIcoResponse;
-import com.dreampany.lca.api.iwl.model.UpcomingIcoResponse;
-
+import com.dreampany.lca.api.iwl.model.IcoResponse;
 import io.reactivex.Maybe;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -14,21 +11,13 @@ import retrofit2.http.GET;
  * hawladar.roman@bjitgroup.com
  */
 public interface IcoService {
-    @GET("live/")
-    Call<LiveIcoResponse> getLiveItems();
 
     @GET("live/")
-    Maybe<LiveIcoResponse> getLiveItemsRx();
+    Call<IcoResponse> getLiveItemsRx();
 
     @GET("upcoming/")
-    Call<UpcomingIcoResponse> getUpcomingItems();
-
-    @GET("upcoming/")
-    Maybe<UpcomingIcoResponse> getUpcomingItemsRx();
+    Call<IcoResponse> getUpcomingItemsRx();
 
     @GET("finished/")
-    Call<FinishedIcoResponse> getFinishedItems();
-
-    @GET("finished/")
-    Maybe<FinishedIcoResponse> getFinishedItemsRx();
+    Call<IcoResponse> getFinishedItemsRx();
 }

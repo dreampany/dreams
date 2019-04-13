@@ -291,6 +291,7 @@ abstract class BaseActivity :
     private fun initTheme() {
         if (Aesthetic.isFirstTime || true) {
             Aesthetic.config {
+                isDark(true)
                 colorPrimaryRes(R.color.colorPrimary)
                 colorPrimaryDarkRes(R.color.colorPrimaryDark)
                 colorAccentRes(R.color.colorAccent)
@@ -310,7 +311,7 @@ abstract class BaseActivity :
                 //lightNavigationBarMode(AutoSwitchMode.AUTO)
 
                 //tabLayoutBackgroundMode(ColorMode.PRIMARY)
-                //tabLayoutIndicatorMode(ColorMode.ACCENT)
+                tabLayoutIndicatorMode(ColorMode.ACCENT)
                 //navigationViewMode(NavigationViewMode.SELECTED_ACCENT)
                 bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
                 bottomNavigationIconTextMode(BottomNavIconTextMode.BLACK_WHITE_AUTO)

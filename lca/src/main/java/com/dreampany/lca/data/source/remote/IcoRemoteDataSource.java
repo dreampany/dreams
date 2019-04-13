@@ -1,24 +1,26 @@
 package com.dreampany.lca.data.source.remote;
 
+import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.api.iwl.model.ApiIco;
-import com.dreampany.lca.api.iwl.model.FinishedIcoResponse;
-import com.dreampany.lca.api.iwl.model.LiveIcoResponse;
-import com.dreampany.lca.api.iwl.model.UpcomingIcoResponse;
+import com.dreampany.lca.api.iwl.model.IcoResponse;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.misc.IcoMapper;
+import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.api.IcoDataSource;
 import com.dreampany.lca.misc.IcoWatchList;
 import com.dreampany.network.manager.NetworkManager;
-
-import java.util.List;
-
-import javax.inject.Singleton;
-
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeSource;
-import io.reactivex.functions.Function;
+import retrofit2.Response;
+import timber.log.Timber;
+
+import javax.inject.Singleton;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -140,57 +142,115 @@ public class IcoRemoteDataSource implements IcoDataSource {
         return null;
     }
 
-    @Override
-    public void clear(IcoStatus status) {
 
+    @Override
+    public List<Ico> getLiveItems(int limit) {
+        try {
+            Response<IcoResponse> response = service.getLiveItemsRx().execute();
+            if (response.isSuccessful()) {
+                IcoResponse result = response.body();
+                return getItemsRx(IcoStatus.LIVE, result).blockingGet();
+            }
+        } catch (IOException | RuntimeException e) {
+            Timber.e(e);
+        }
+        return null;
     }
 
     @Override
     public Maybe<List<Ico>> getLiveItemsRx(int limit) {
-        return convert(service.getLiveItemsRx().map(LiveIcoResponse::getIcos), IcoStatus.LIVE);
+        return Maybe.create(emitter -> {
+            List<Ico> result = getLiveItems(limit);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public List<Ico> getUpcomingItems(int limit) {
+        try {
+            Response<IcoResponse> response = service.getUpcomingItemsRx().execute();
+            if (response.isSuccessful()) {
+                IcoResponse result = response.body();
+                return getItemsRx(IcoStatus.UPCOMING, result).blockingGet();
+            }
+        } catch (IOException | RuntimeException e) {
+            Timber.e(e);
+        }
+        return null;
     }
 
     @Override
     public Maybe<List<Ico>> getUpcomingItemsRx(int limit) {
-        return convert(service.getUpcomingItemsRx().map(UpcomingIcoResponse::getIcos), IcoStatus.UPCOMING);
+        return Maybe.create(emitter -> {
+            List<Ico> result = getUpcomingItems(limit);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public List<Ico> getFinishedItems(int limit) {
+        try {
+            Response<IcoResponse> response = service.getFinishedItemsRx().execute();
+            if (response.isSuccessful()) {
+                IcoResponse result = response.body();
+                return getItemsRx(IcoStatus.FINISHED, result).blockingGet();
+            }
+        } catch (IOException | RuntimeException e) {
+            Timber.e(e);
+        }
+        return null;
     }
 
     @Override
     public Maybe<List<Ico>> getFinishedItemsRx(int limit) {
-        return convert(service.getFinishedItemsRx().map(FinishedIcoResponse::getIcos), IcoStatus.FINISHED);
+        return Maybe.create(emitter -> {
+            List<Ico> result = getFinishedItems(limit);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
-    private Maybe<List<Ico>> convert(Maybe<List<ApiIco>> maybe, IcoStatus status) {
-        return maybe.flatMap((Function<List<ApiIco>, MaybeSource<List<Ico>>>) apiIcos -> Flowable
-                .fromIterable(apiIcos)
-                .map(apiICO -> mapper.toIco(apiICO, status)).toList().toMaybe());
+    /* private api */
+    private Maybe<List<Ico>> getItemsRx(IcoStatus status, IcoResponse response) {
+        if (response == null || response.isEmpty()) {
+            return null;
+        }
+        Collection<ApiIco> items = null;
+        switch (status) {
+            case LIVE:
+                items = response.getLiveIcos();
+                break;
+            case UPCOMING:
+                items = response.getUpcomingIcos();
+                break;
+            case FINISHED:
+                items = response.getFinishedIcos();
+                break;
+        }
+
+        return Flowable.fromIterable(items)
+                .map(in -> mapper.toIco(in, status))
+                .toList()
+                .toMaybe();
     }
-
-/*    @Override
-    public Completable putItem(Ico item) {
-        return null;
-    }
-
-    @Override
-    public Completable putItems(List<Ico> items) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Ico>> getLiveItems(int limit) {
-        return convert(service.getLiveItems().map(LiveIcoResponse::getIcos), IcoStatus.LIVE);
-    }
-
-    @Override
-    public Maybe<List<Ico>> getUpcomingItems(int limit) {
-        return convert(service.getUpcomingItems().map(UpcomingIcoResponse::getIcos), IcoStatus.UPCOMING);
-    }
-
-    @Override
-    public Maybe<List<Ico>> getFinishedItems(int limit) {
-        return convert(service.getFinishedItems().map(FinishedIcoResponse::getIcos), IcoStatus.FINISHED);
-
-    }
-
-    */
 }

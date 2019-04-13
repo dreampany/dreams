@@ -69,7 +69,7 @@ class Constants {
     object Api {
         const val CoinMarketCapSiteUrl = "https://coinmarketcap.com/currencies/%s";
         const val CoinMarketCapApiUrl = "https://api.coinmarketcap.com/v2/"
-        const val CMCApiUrlV1 = "https://pro-api.coinmarketcap.com/v1/"
+        const val CmcApiUrlV1 = "https://pro-api.coinmarketcap.com/v1/"
         const val CoinMarketCapGraphApiUrl = "https://graphs2.coinmarketcap.com/"
 
         const val CryptoCompareApiUrl = "https://min-api.cryptocompare.com/data/"

@@ -213,7 +213,7 @@ class BuildersModule {
     fun provideCoinMarketCapRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
                 .client(client)
-                .baseUrl(Constants.Api.CMCApiUrlV1)
+                .baseUrl(Constants.Api.CmcApiUrlV1)
                 //.addConverterFactory(GsonConverterFactory.create())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

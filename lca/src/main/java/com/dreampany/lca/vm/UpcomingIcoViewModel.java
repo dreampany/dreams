@@ -19,6 +19,7 @@ import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
+import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -59,7 +60,7 @@ public class UpcomingIcoViewModel
     @Override
     public void clear() {
         network.deObserve(this, true);
-        repo.clear(IcoStatus.UPCOMING);
+        //repo.clear(IcoStatus.UPCOMING);
         super.clear();
     }
 
@@ -113,19 +114,13 @@ public class UpcomingIcoViewModel
         addMultipleSubscription(disposable);
     }
 
-/*    private Flowable<List<IcoItem>> getItemsInterval() {
-        return Flowable
-                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .onErrorResumeNext(Flowable.empty())
-                .map(tick -> getItemsRx().blockingGet());
-    }*/
-
     private Maybe<List<IcoItem>> getItemsRx() {
         return repo
                 .getUpcomingItemsRx(LIMIT)
                 .flatMap((Function<List<Ico>, MaybeSource<List<IcoItem>>>) this::getItemsRx);
     }
 
+    @DebugLog
     private Maybe<List<IcoItem>> getItemsRx(List<Ico> icos) {
         return Flowable.fromIterable(icos)
                 .map(this::getItem)

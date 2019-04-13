@@ -19,6 +19,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Ico;
@@ -218,10 +219,14 @@ public class FinishedIcoFragment
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                refresh.setRefreshing(true);
+                if (!refresh.isRefreshing()) {
+                    refresh.setRefreshing(true);
+                }
                 break;
             case HIDE_PROGRESS:
-                refresh.setRefreshing(false);
+                if (refresh.isRefreshing()) {
+                    refresh.setRefreshing(false);
+                }
                 break;
             case OFFLINE:
                 expandable.expand();
@@ -286,14 +291,10 @@ public class FinishedIcoFragment
         }
     }
 
+    @DebugLog
     private void processSuccess(List<IcoItem> items) {
-        if (scroller.isScrolling()) {
-            return;
-        }
-        recycler.setNestedScrollingEnabled(false);
         adapter.addItems(items);
-        recycler.setNestedScrollingEnabled(true);
-        processUiState(UiState.EXTRA);
+        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void openCoinUi(Ico ico) {

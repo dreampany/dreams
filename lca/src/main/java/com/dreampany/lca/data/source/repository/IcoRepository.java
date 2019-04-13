@@ -7,7 +7,10 @@ import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.IcoStatus;
+import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.api.IcoDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
@@ -22,6 +25,8 @@ import javax.inject.Singleton;
 import com.dreampany.network.manager.NetworkManager;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
+import io.reactivex.internal.functions.Functions;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -151,40 +156,46 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
         return null;
     }
 
-    @Override
+/*    @Override
     public void clear(IcoStatus status) {
         room.clear(status);
         remote.clear(status);
+    }*/
+
+    @Override
+    public List<Ico> getLiveItems(int limit) {
+        return null;
     }
 
     @Override
     public Maybe<List<Ico>> getLiveItemsRx(int limit) {
-        Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getLiveItemsRx(limit));
-        Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getLiveItemsRx(limit), IcoStatus.LIVE);
-        if (isIcoExpired(IcoStatus.LIVE) && network.hasInternet()) {
-            return concatFirstRx(remote, room);
-        }
-        return concatFirstRx(room, remote);
+        Maybe<List<Ico>> remoteIf = getRemoteItemsIfRx(IcoStatus.LIVE, limit);
+        Maybe<List<Ico>> roomAny = getRoomItemsIfRx(this.room.getLiveItemsRx(limit));
+        return concatFirstRx(remoteIf, roomAny);
+    }
+
+    @Override
+    public List<Ico> getUpcomingItems(int limit) {
+        return null;
     }
 
     @Override
     public Maybe<List<Ico>> getUpcomingItemsRx(int limit) {
-        Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getUpcomingItemsRx(limit));
-        Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getUpcomingItemsRx(limit), IcoStatus.UPCOMING);
-        if (isIcoExpired(IcoStatus.UPCOMING) && network.hasInternet()) {
-            return concatFirstRx(remote, room);
-        }
-        return concatFirstRx(room, remote);
+        Maybe<List<Ico>> remoteIf = getRemoteItemsIfRx(IcoStatus.UPCOMING, limit);
+        Maybe<List<Ico>> roomAny = getRoomItemsIfRx(this.room.getUpcomingItemsRx(limit));
+        return concatFirstRx(remoteIf, roomAny);
+    }
+
+    @Override
+    public List<Ico> getFinishedItems(int limit) {
+        return null;
     }
 
     @Override
     public Maybe<List<Ico>> getFinishedItemsRx(int limit) {
-        Maybe<List<Ico>> room = getRoomItemsIfRx(this.room.getFinishedItemsRx(limit));
-        Maybe<List<Ico>> remote = getRemoteItemsIfRx(this.remote.getFinishedItemsRx(limit), IcoStatus.FINISHED);
-        if (isIcoExpired(IcoStatus.FINISHED) && network.hasInternet()) {
-            return concatFirstRx(remote, room);
-        }
-        return concatFirstRx(room, remote);
+        Maybe<List<Ico>> remoteIf = getRemoteItemsIfRx(IcoStatus.FINISHED, limit);
+        Maybe<List<Ico>> roomAny = getRoomItemsIfRx(this.room.getFinishedItemsRx(limit));
+        return concatFirstRx(remoteIf, roomAny);
     }
 
     private Maybe<List<Ico>> getRoomItemsIfRx(Maybe<List<Ico>> source) {
@@ -196,17 +207,27 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
         });
     }
 
-    private Maybe<List<Ico>> getRemoteItemsIfRx(Maybe<List<Ico>> source, IcoStatus status) {
-        if (isIcoExpired(status)) {
-            return source
-                    .onErrorReturnItem(new ArrayList<>())
-                    .filter(items -> !(DataUtil.isEmpty(items)))
-                    .doOnSuccess(items -> {
-                        rx.compute(putItemsRx(items)).subscribe();
-                        pref.commitIcoTime(status);
-                    });
+    private Maybe<List<Ico>> getRemoteItemsIfRx(IcoStatus status, int limit) {
+        Maybe<List<Ico>> remoteAny = null;
+        switch (status) {
+            case LIVE:
+                remoteAny = remote.getLiveItemsRx(limit);
+                break;
+            case UPCOMING:
+                remoteAny = remote.getUpcomingItemsRx(limit);
+                break;
+            case FINISHED:
+                remoteAny = remote.getFinishedItemsRx(limit);
+                break;
         }
-        return null;
+        Maybe<List<Ico>> maybe = isIcoExpired(status)
+                ? remoteAny
+                : Maybe.empty();
+        return maybe.filter(items -> !DataUtil.isEmpty(items))
+                .doOnSuccess(items -> {
+                    rx.compute(putItemsRx(items)).subscribe();
+                    pref.commitIcoTime(status);
+                });
     }
 
     private boolean isIcoExpired(IcoStatus status) {

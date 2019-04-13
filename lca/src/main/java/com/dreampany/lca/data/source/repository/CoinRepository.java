@@ -243,7 +243,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     /* private api */
-    @DebugLog
     private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, int index, int limit) {
         Maybe<List<Coin>> maybe = mapper.isCoinIndexExpired(source, currency, index)
                 ? remote.getItemsRx(source, currency, index, limit)

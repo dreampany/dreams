@@ -59,7 +59,7 @@ public class LiveIcoViewModel
     @Override
     public void clear() {
         network.deObserve(this, true);
-        repo.clear(IcoStatus.LIVE);
+        //repo.clear(IcoStatus.LIVE);
         super.clear();
     }
 

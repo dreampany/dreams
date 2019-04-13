@@ -53,8 +53,8 @@ public abstract class Repository<K, V> {
             for (Maybe<V> source : sources) {
                 try {
                     item = source.blockingGet();
-                } catch (Exception ignored) {
-                    error = new IOException();
+                } catch (Exception ex) {
+                    error = ex;
                 }
                 if (item != null) {
                     break;
@@ -82,15 +82,15 @@ public abstract class Repository<K, V> {
     @SafeVarargs
     protected final Maybe<List<V>> concatFirstRx(Maybe<List<V>>... sources) {
         return Maybe.create(emitter -> {
-            Exception error = null;
+            Throwable error = null;
             List<V> items = null;
 
             for (Maybe<List<V>> source : sources) {
                 try {
                     items = source.blockingGet();
                     Timber.v("Concat %d", items.size());
-                } catch (Exception ignored) {
-                    error = new IOException();
+                } catch (Throwable ex) {
+                    error = ex;
                 }
                 if (!DataUtil.isEmpty(items)) {
                     break;
@@ -117,14 +117,14 @@ public abstract class Repository<K, V> {
     @SafeVarargs
     protected final Flowable<List<V>> concatFirstRx(Flowable<List<V>>... sources) {
         return Flowable.create(emitter -> {
-            Exception error = null;
+            Throwable error = null;
             List<V> items = null;
 
             for (Flowable<List<V>> source : sources) {
                 try {
                     items = source.blockingFirst();
-                } catch (Exception ignored) {
-                    error = new IOException();
+                } catch (Exception ex) {
+                    error = ex;
                 }
                 if (!DataUtil.isEmpty(items)) {
                     break;
@@ -153,15 +153,15 @@ public abstract class Repository<K, V> {
     @SafeVarargs
     protected final Flowable<List<V>> concatLastRx(Flowable<List<V>>... sources) {
         return Flowable.create(emitter -> {
-            Exception error = null;
+            Throwable error = null;
             List<V> result = null;
 
             for (Flowable<List<V>> source : sources) {
                 List<V> items = null;
                 try {
                     items = source.blockingFirst();
-                } catch (Exception ignored) {
-                    error = new IOException();
+                } catch (Exception ex) {
+                    error = ex;
                 }
                 if (!DataUtil.isEmpty(items)) {
                     result = items;
@@ -189,15 +189,15 @@ public abstract class Repository<K, V> {
     @SafeVarargs
     protected final Maybe<V> concatSingleLastRx(Maybe<V>... sources) {
         return Maybe.create(emitter -> {
-            Exception error = null;
+            Throwable error = null;
             V result = null;
 
             for (Maybe<V> source : sources) {
                 V item = null;
                 try {
                     item = source.blockingGet();
-                } catch (Exception ignored) {
-                    error = new IOException();
+                } catch (Exception ex) {
+                    error = ex;
                 }
                 if (item != null) {
                     result = item;
@@ -223,15 +223,15 @@ public abstract class Repository<K, V> {
     @SafeVarargs
     protected final Maybe<List<V>> concatLastRx(Maybe<List<V>>... sources) {
         return Maybe.create(emitter -> {
-            Exception error = null;
+            Throwable error = null;
             List<V> result = null;
 
             for (Maybe<List<V>> source : sources) {
                 List<V> items = null;
                 try {
                     items = source.blockingGet();
-                } catch (Exception ignored) {
-                    error = new IOException();
+                } catch (Exception ex) {
+                    error = ex;
                 }
                 if (!DataUtil.isEmpty(items)) {
                     result = items;

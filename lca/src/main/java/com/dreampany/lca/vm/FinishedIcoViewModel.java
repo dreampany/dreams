@@ -62,7 +62,7 @@ public class FinishedIcoViewModel
     @Override
     public void clear() {
         network.deObserve(this, true);
-        repo.clear(IcoStatus.FINISHED);
+//        repo.clear(IcoStatus.FINISHED);
         super.clear();
     }
 

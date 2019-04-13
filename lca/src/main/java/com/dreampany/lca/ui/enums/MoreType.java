@@ -10,7 +10,7 @@ import com.dreampany.frame.data.enums.Type;
  * hawladar.roman@bjitgroup.com
  */
 public enum MoreType implements Type {
-    APPS, RATE_US, FEEDBACK, INVITE, SETTINGS, LICENSE, ABOUT;
+    SETTINGS, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT;
 
     @Override
     public boolean equals(Type type) {
@@ -61,15 +61,15 @@ public enum MoreType implements Type {
     public static MoreType valueOf(int ordinal) {
         switch (ordinal) {
             case 0:
-                return APPS;
-            case 1:
-                return RATE_US;
-            case 2:
-                return FEEDBACK;
-            case 3:
-                return INVITE;
-            case 4:
                 return SETTINGS;
+            case 1:
+                return APPS;
+            case 2:
+                return RATE_US;
+            case 3:
+                return FEEDBACK;
+            case 4:
+                return INVITE;
             case 5:
                 return LICENSE;
             case 6:

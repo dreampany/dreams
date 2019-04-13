@@ -130,11 +130,16 @@ public class IcoRoomDataSource implements IcoDataSource {
         return null;
     }
 
-    @Override
+/*    @Override
     public void clear(IcoStatus status) {
         mapper.clear(status);
-    }
+    }*/
 
+
+    @Override
+    public List<Ico> getLiveItems(int limit) {
+        return null;
+    }
 
     @Override
     public Maybe<List<Ico>> getLiveItemsRx(int limit) {
@@ -142,8 +147,18 @@ public class IcoRoomDataSource implements IcoDataSource {
     }
 
     @Override
+    public List<Ico> getUpcomingItems(int limit) {
+        return null;
+    }
+
+    @Override
     public Maybe<List<Ico>> getUpcomingItemsRx(int limit) {
         return dao.getItemsRx(IcoStatus.UPCOMING.name(), limit);
+    }
+
+    @Override
+    public List<Ico> getFinishedItems(int limit) {
+        return null;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.dreampany.lca.vm;
 
 import android.app.Activity;
 import android.app.Application;
-
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -14,16 +13,14 @@ import com.dreampany.lca.ui.enums.MoreType;
 import com.dreampany.lca.ui.model.MoreItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
+import hugo.weaving.DebugLog;
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
-import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Hawladar Roman on 7/24/2018.
@@ -53,14 +50,14 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         addMultipleSubscription(disposable);
     }
 
-    private Flowable<List<MoreItem>> getItems() {
-        return Flowable.fromCallable(() -> {
+    private Maybe<List<MoreItem>> getItems() {
+        return Maybe.fromCallable(() -> {
             List<MoreItem> items = new ArrayList<>();
+            items.add(MoreItem.getItem(new More(MoreType.SETTINGS)));
             items.add(MoreItem.getItem(new More(MoreType.APPS)));
             items.add(MoreItem.getItem(new More(MoreType.RATE_US)));
             items.add(MoreItem.getItem(new More(MoreType.FEEDBACK)));
             //items.add(MoreItem.getItemBySymbolRx(new More(MoreType.INVITE)));
-            items.add(MoreItem.getItem(new More(MoreType.SETTINGS)));
             items.add(MoreItem.getItem(new More(MoreType.LICENSE)));
             items.add(MoreItem.getItem(new More(MoreType.ABOUT)));
             return items;

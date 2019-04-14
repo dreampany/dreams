@@ -138,12 +138,12 @@ public class WordRemoteDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getItems(long limit) {
+    public List<Word> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Word>> getItemsRx(long limit) {
+    public Maybe<List<Word>> getItemsRx(int limit) {
         return null;
     }
 

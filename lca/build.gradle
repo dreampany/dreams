@@ -41,7 +41,7 @@ android {
             useProguard false
             shrinkResources false
             crunchPngs false
-            ext.enableCrashlytics = true
+            ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -78,12 +78,12 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    dataBinding {
+        enabled = true
     }
 
     compileOptions {

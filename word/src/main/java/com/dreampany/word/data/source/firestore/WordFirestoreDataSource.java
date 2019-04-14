@@ -79,7 +79,7 @@ public class WordFirestoreDataSource implements WordDataSource {
             Timber.e(error);
             return -1;
         }*/
-       Throwable error = firestore.setPutRx(WORDS, word.getWord(), word).blockingGet();
+       Throwable error = null;//firestore.setPutRx(WORDS, word.getWord(), word).blockingGet();
        if (error == null) {
            return 0;
        }
@@ -88,7 +88,8 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public Maybe<Long> putItemRx(Word word) {
-        return firestore.setPutRx(WORDS, word.getWord(), word).toMaybe();
+        //return firestore.setItemRx(WORDS, word.getWord(), word).toMaybe();
+        return null;
     }
 
     @Override
@@ -142,12 +143,12 @@ public class WordFirestoreDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getItems(long limit) {
+    public List<Word> getItems(int limit) {
         return null;
     }
 
     @Override
-    public Maybe<List<Word>> getItemsRx(long limit) {
+    public Maybe<List<Word>> getItemsRx(int limit) {
         return null;
     }
 

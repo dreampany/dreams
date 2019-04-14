@@ -110,7 +110,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                 .subscribe(
                         this::postResult,
                         error -> {
-                            //postFailureMultiple(new MultiException(error, new ExtraException()));
+                            //postFagilureMultiple(new MultiException(error, new ExtraException()));
                         });
         addMultipleSubscription(disposable);*/
     }

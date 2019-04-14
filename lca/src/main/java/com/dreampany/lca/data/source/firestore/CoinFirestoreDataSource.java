@@ -7,6 +7,7 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
@@ -264,5 +265,13 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     @Override
     public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
+    }
+
+    /* private api */
+    private void bindQuote(Currency currency, Coin coin) {
+        if (coin != null && !coin.hasQuote(currency)) {
+            //Quote quote = quoteDao.getItems(coin.getId(), currency.name());
+            //coin.addQuote(quote);
+        }
     }
 }

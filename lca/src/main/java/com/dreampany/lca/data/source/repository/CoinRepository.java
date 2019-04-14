@@ -85,7 +85,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> firestoreIf = getFirestoreItemIfRx(source, currency, coinId);
         Maybe<Coin> remoteIf = getRemoteItemIfRx(source, currency, coinId);
         Maybe<Coin> roomAny = room.getItemRx(source, currency, coinId);
-        return concatSingleLastRx(firestoreIf, remoteIf, roomAny);
+        return concatSingleLastRx(/*firestoreIf,*/ remoteIf, roomAny);
     }
 
 /*    @Override
@@ -108,7 +108,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
 
 
-
         return null;
     }
 
@@ -117,7 +116,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<List<Coin>> firestoreIf = getFirestoreItemsIfRx(source, currency, coinIds);
         Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, coinIds);
         Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, coinIds);
-        return concatLastRx(firestoreIf, remoteIf, roomAny);
+        return concatLastRx(/*firestoreIf,*/ remoteIf, roomAny);
     }
 
 /*    @Override
@@ -260,6 +259,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? firestore.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            mapper.updateCoinTime(source, currency, coinId);
         });
     }
 
@@ -268,6 +268,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             rx.compute(firestore.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            mapper.updateCoinTime(source, currency, coinId);
         });
     }
 
@@ -323,133 +324,14 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return contactSuccess(maybe, coins -> {
             rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            for (Coin coin : coins) {
+                mapper.updateCoinTime(source, currency, coin.getCoinId());
+            }
         });
     }
 
 
     /*
-
-    @Override
-    public Maybe<Coin> getItemRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
-        Maybe<Coin> roomIf = room.getItemRx(source, symbol, lastUpdated, currency);
-        Maybe<Coin> firestoreIf = getFirestoreItemIfRx(source, symbol, lastUpdated, currency);
-        Maybe<Coin> remoteIf = getRemoteItemIfRx(source, symbol, lastUpdated, currency);
-        Maybe<Coin> roomAny = room.getItemRx(source, symbol, currency);
-        return concatSingleFirstRx(roomIf, firestoreIf, remoteIf, roomAny);
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
-        Maybe<List<Coin>> roomIf = isCoinListingExpired(index, currency) ? Maybe.empty() : room.getItemsRx(source, index, limit, lastUpdated, currency);
-        Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, index, limit, lastUpdated, currency);
-        Maybe<List<Coin>> roomAny = room.getItemsRx(source, index, limit, lastUpdated, currency);
-        return concatFirstRx(roomIf, remote, roomAny);
-    }
-
-    private Maybe<Coin> getFirestoreItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
-        Maybe<Coin> maybe = firestore.getItemRx(source, symbol, lastUpdated, currency);
-        return contactSingleSuccess(maybe, coin -> {
-            rx.compute(setItemRx(coin)).subscribe();
-            updateCoin(coin.getSymbol(), currency, coin.getLastUpdated());
-        });
-    }
-
-    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, String symbol, long lastUpdated, Currency currency) {
-        Maybe<Coin> maybe = remote.getItemRx(source, symbol, currency);
-        return contactSingleSuccess(maybe, coin -> {
-            rx.compute(setItemRx(coin)).subscribe();
-            rx.compute(firestore.setItemRx(coin)).subscribe();
-            updateCoin(coin.getSymbol(), currency, coin.getLastUpdated());
-        });
-    }
-
-    private Maybe<List<Coin>> getFirestoreItemsIfRx(CoinSource source, int index, int limit, long lastUpdated, Currency currency) {
-        Maybe<List<Coin>> maybe = firestore.getItemsRx(source, index, limit, lastUpdated, currency);
-        return contactSuccess(maybe, coins -> {
-            rx.compute(putItemsRx(coins)).subscribe();
-            updateCoinListing(index, currency);
-        });
-    }
-
-
-
-    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, List<String> symbols, Currency currency) {
-        Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
-            List<String> possibleSymbols = new ArrayList<>();
-            for (String symbol : symbols) {
-                if (isCoinExpired(symbol, currency)) {
-                    possibleSymbols.add(symbol);
-                }
-            }
-            List<Coin> result = null;
-            if (!DataUtil.isEmpty(possibleSymbols)) {
-                result = remote.getItemsRx(source, possibleSymbols, currency).blockingGet();
-            }
-            if (emitter.isDisposed()) {
-                throw new IllegalStateException();
-            }
-            if (DataUtil.isEmpty(result)) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(result);
-            }
-        });
-
-        return maybe.filter(coins -> !DataUtil.isEmpty(coins))
-                .doOnSuccess(coins -> {
-                    rx.compute(putItemsRx(coins)).subscribe();
-                    for (Coin coin : coins) {
-                        updateCoin(coin.getSymbol(), currency, coin.getLastUpdated());
-                    }
-                });
-    }
-
-
-
-    private Maybe<Coin> getItemRx(long id, boolean fresh) {
-        Maybe<Coin> local = this.room.getItemRx(id);
-        Maybe<Coin> remote = this.remote.getItemRx(id);
-        return fresh ? concatSingleFirstRx(remote, local) : concatSingleFirstRx(local, remote);
-    }
-
-    private Maybe<List<Coin>> getItemsRx(boolean fresh) {
-        Maybe<List<Coin>> local = this.room.getItemsRx();
-        Maybe<List<Coin>> remote = contactSuccess(this.remote.getItemsRx(),
-                items -> {
-                    rx.compute(putItemsRx(items)).subscribe();
-                });
-        return fresh ? concatFirstRx(remote, local) : concatFirstRx(local, remote);
-    }
-
-    private Maybe<Coin> getWithSingleSave(Maybe<Coin> source) {
-        return source
-                .doOnSuccess(item -> {
-                    if (item != null) {
-                        rx.compute(setItemRx(item)).subscribe();
-                    }
-                });
-    }
-
-    private boolean isCoinListingExpired(int index, Currency currency) {
-        long time = pref.getCoinListingTime(index, currency.name());
-        return TimeUtil.isExpired(time, Constants.Time.INSTANCE.getListing());
-    }
-
-    private void updateCoinListing(int index, Currency currency) {
-        pref.commitCoinListingTime(index, currency.name());
-    }
-
-    private boolean isCoinExpired(String symbol, Currency currency) {
-        long lastTime = pref.getCoinUpdateTime(symbol, currency.name());
-        return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
-    }
-
-
-
-    private void updateCoin(long coinId, Currency currency, long time) {
-        pref.commitCoinUpdateTime(coinId, currency.name(), time);
-    }
-
     //syncing process
     private void startRequestThread() {
         synchronized (guard) {

@@ -127,8 +127,8 @@ public class CoinMapper {
         return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 
-    public void updateCoinTime(CoinSource source, Currency currency, int index) {
-        pref.commitCoinTime(source.name(), currency.name(), index);
+    public void updateCoinTime(CoinSource source, Currency currency, long coinId) {
+        pref.commitCoinTime(source.name(), currency.name(), coinId);
     }
 
     public boolean isCoinIndexExpired(CoinSource source, Currency currency, int index) {

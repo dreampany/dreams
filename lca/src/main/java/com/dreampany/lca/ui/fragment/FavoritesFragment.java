@@ -269,6 +269,7 @@ public class FavoritesFragment
         }
     }
 
+    @DebugLog
     private void processResponse(Response<List<CoinItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;

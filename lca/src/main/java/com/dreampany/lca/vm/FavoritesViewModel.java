@@ -129,7 +129,7 @@ public class FavoritesViewModel
                     postResult(Response.Type.ADD, result);
                 }, error -> {
                     if (progress) {
-                        postProgress(true);
+                        postProgress(false);
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
@@ -153,8 +153,13 @@ public class FavoritesViewModel
                             if (progress) {
                                 postProgress(false);
                             }
-                            postResult(Response.Type.ADD, result);
-                        }, this::postFailure);
+                            postResult(Response.Type.UPDATE, result);
+                        }, error -> {
+                            if (progress) {
+                                postProgress(false);
+                            }
+                            postFailures(new MultiException(error, new ExtraException()));
+                        });
         addMultipleSubscription(disposable);
     }
 

@@ -6,7 +6,7 @@
     <string name="extract">Extracting %d words</string>
     <string name="extract_completed">Extraction of %d words completed!</string>
     <string name="load">Loading %d/%d words</string>
-    <string name="load_completed">Loading %d/%d words completed!</string>
+    <string name="load_completed">Loading %d/%d words complettitle_notificationed!</string>
     <string name="favourite_words">Favourite Words</string>
     <string name="search_words">Search Words</string>
 

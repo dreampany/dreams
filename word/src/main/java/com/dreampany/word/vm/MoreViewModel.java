@@ -56,11 +56,11 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
     private Flowable<List<MoreItem>> getItems() {
         return Flowable.fromCallable(() -> {
             List<MoreItem> items = new ArrayList<>();
+            items.add(MoreItem.getItem(new More(MoreType.SETTINGS)));
             items.add(MoreItem.getItem(new More(MoreType.APPS)));
             items.add(MoreItem.getItem(new More(MoreType.RATE_US)));
             items.add(MoreItem.getItem(new More(MoreType.FEEDBACK)));
             //items.add(MoreItem.getItemBySymbolRx(new More(MoreType.INVITE)));
-            items.add(MoreItem.getItem(new More(MoreType.SETTINGS)));
             items.add(MoreItem.getItem(new More(MoreType.LICENSE)));
             items.add(MoreItem.getItem(new More(MoreType.ABOUT)));
             return items;

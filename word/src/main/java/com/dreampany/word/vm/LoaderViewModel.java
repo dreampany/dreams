@@ -1,11 +1,10 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
+
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
@@ -21,16 +20,19 @@ import com.dreampany.word.data.source.repository.ApiRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.LoadItem;
 import com.dreampany.word.ui.model.UiTask;
-import hugo.weaving.DebugLog;
-import io.reactivex.Maybe;
-import io.reactivex.disposables.Disposable;
-import org.jetbrains.annotations.NotNull;
-import timber.log.Timber;
 
-import javax.inject.Inject;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import hugo.weaving.DebugLog;
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 2/9/18.

@@ -162,7 +162,8 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public boolean onQueryTextChange(@NonNull String newText) {
         BaseFragment fragment = getCurrentFragment();
-        return fragment != null && fragment.onQueryTextChange(newText);
+        //return fragment != null && fragment.onQueryTextChange(newText);
+        return false;
     }
 
     @Override

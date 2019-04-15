@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:auto="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="com.dreampany.word.ui.activity.NavigationActivity" >
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.dreampany.word.ui.activity.NavigationActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="false" >
+        android:fitsSystemWindows="false">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay"
-            auto:elevation="0dp" >
+            auto:elevation="0dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <include layout="@layout/content_toolbar" />
 
@@ -29,13 +29,12 @@
 
                 <com.lapism.searchview.widget.SearchView
                     android:id="@+id/search_view"
-
-                    auto:search_hint="@string/search_hint"
-                    auto:search_version="menu_item"
-                    auto:search_logo="arrow"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    auto:layout_behavior="@string/search_behavior" />
+                    auto:layout_behavior="@string/search_behavior"
+                    auto:search_hint="@string/search_hint"
+                    auto:search_logo="arrow"
+                    auto:search_version="menu_item" />
 
                 <!--                <com.chivorn.hum.smartsearchview.SmartSearchView
                                     android:id="@+id/search_view"
@@ -53,14 +52,14 @@
                                     auto:smsv_showSearchKey="true"
                                     auto:smsv_suggestionsListAnimDuration="250" />-->
 
-            </FrameLayout >
+            </FrameLayout>
 
-        </com.google.android.material.appbar.AppBarLayout >
+        </com.google.android.material.appbar.AppBarLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            auto:layout_behavior="@string/appbar_scrolling_view_behavior" >
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/navigation_view"
@@ -77,7 +76,7 @@
                 android:layout_above="@id/navigation_view"
                 auto:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        </RelativeLayout >
+        </RelativeLayout>
 
         <!-- <FrameLayout
              android:id="@+id/layout"
@@ -86,6 +85,6 @@
              android:animateLayoutChanges="true"
              auto:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout >
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-</layout >
+</layout>

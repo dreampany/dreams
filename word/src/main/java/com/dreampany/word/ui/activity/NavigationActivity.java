@@ -126,7 +126,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
 
     @Override
     protected void onStopUi() {
-
+        vm.clear();
     }
 
     @Override

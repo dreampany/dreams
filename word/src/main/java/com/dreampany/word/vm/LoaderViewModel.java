@@ -2,9 +2,12 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.frame.misc.exception.ExtraException;
+import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
@@ -73,6 +76,10 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         });
     }
 
+    public void pause() {
+        takeAction(true, getMultipleDisposable());
+    }
+
     public void loads() {
         boolean commonLoaded = pref.isCommonLoaded();
         if (!commonLoaded) {
@@ -107,18 +114,14 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             return;
         }
         Timber.v("loadAlphas running...");
-/*        Disposable disposable = getRx()
+        Disposable disposable = getRx()
                 .backToMain(getAlphaItemsRxV2())
-                .subscribe(
-                        this::postResult,
-                        error -> {
-                            //postFagilureMultiple(new MultiException(error, new ExtraException()));
-                        });
-        addMultipleSubscription(disposable);*/
-    }
-
-    public void pause() {
-        takeAction(true, getMultipleDisposable());
+                .subscribe(result -> {
+                    postResult(Response.Type.GET, result);
+                }, error -> {
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
+        addMultipleSubscription(disposable);
     }
 
     @DebugLog
@@ -143,7 +146,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
-            //ex.postToUi(() -> postResult(item));
+            ex.postToUi(() -> postResult(Response.Type.GET, item));
             Word word;
             if (lastIndex != 0) {
                 DataUtil.removeFirst(commonWords, lastIndex + 1);
@@ -158,7 +161,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     load.setCurrent(current);
                     load.setTotal(current);
                     Timber.v("%d Next Common Word = %s", current, word.toString());
-                    //ex.postToUi(() -> postResult(item));
+                    ex.postToUi(() -> postResult(Response.Type.GET, item));
                     AndroidUtil.sleep(3);
                 }
             }
@@ -192,7 +195,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
-           // ex.postToUi(() -> postResult(item));
+            ex.postToUi(() -> postResult(Response.Type.GET, item));
             Word word;
             if (lastIndex != 0) {
                 Timber.v("Removing first %d elements", (lastIndex + 1));
@@ -207,11 +210,10 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                     load.setCurrent(current);
                     load.setTotal(current);
-                    //Timber.v("Next Alpha Word = %s", word.toString());
-//                    ex.postToUi(() -> postResult(item));
+                    Timber.v("Next Alpha Word = %s", word.toString());
+                    ex.postToUi(() -> postResult(Response.Type.GET, item));
                     AndroidUtil.sleep(3);
                 }
-
             }
             if (alphaWords.isEmpty()) {
                 pref.commitAlphaLoaded();

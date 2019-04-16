@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "0edf4ba19b87a7e0b0ae3f76d80fe37b",
+    "identityHash": "27ab54e05242acf47b275d34504164de",
     "entities": [
       {
         "tableName": "Word",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `word` TEXT NOT NULL, `partOfSpeech` TEXT, `pronunciation` TEXT, `definitions` TEXT, `examples` TEXT, `categories` TEXT, `tags` TEXT, `notes` TEXT, `popularity` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `word` TEXT NOT NULL, `partOfSpeech` TEXT, `pronunciation` TEXT, `definitions` TEXT, `examples` TEXT, `categories` TEXT, `tags` TEXT, `notes` TEXT, `popularity` INTEGER NOT NULL, PRIMARY KEY(`word`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -77,18 +77,18 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "word"
           ],
           "autoGenerate": false
         },
         "indices": [
           {
-            "name": "index_Word_id",
+            "name": "index_Word_word",
             "unique": true,
             "columnNames": [
-              "id"
+              "word"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_Word_id` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE UNIQUE INDEX `index_Word_word` ON `${TABLE_NAME}` (`word`)"
           }
         ],
         "foreignKeys": []
@@ -192,9 +192,10 @@
         "foreignKeys": []
       }
     ],
+    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0edf4ba19b87a7e0b0ae3f76d80fe37b\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"27ab54e05242acf47b275d34504164de\")"
     ]
   }
 }

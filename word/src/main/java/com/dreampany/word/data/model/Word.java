@@ -21,8 +21,8 @@ import java.util.List;
  * dreampanymail@gmail.com
  */
 
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {"word"}, unique = true)},
+        primaryKeys = {"word"})
 public class Word extends Base {
 
     @NonNull

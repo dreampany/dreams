@@ -12,12 +12,15 @@ import com.dreampany.lca.data.source.api.NewsDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
-import hugo.weaving.DebugLog;
-import io.reactivex.Maybe;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.List;
+
+import hugo.weaving.DebugLog;
+import io.reactivex.Maybe;
+import io.reactivex.internal.functions.Functions;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -40,7 +43,7 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
                    Pref pref,
                    @Room NewsDataSource room,
                    @Remote NewsDataSource remote) {
-        super( rx, rm);
+        super(rx, rm);
         this.network = network;
         this.pref = pref;
         this.room = room;
@@ -144,39 +147,20 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
 
     @Override
     public Maybe<List<News>> getItemsRx(int limit) {
-        Maybe<List<News>> room = getRoomItemsIfRx(limit);
         Maybe<List<News>> remote = getRemoteItemsIfRx(limit);
-        if (isNewsExpired() && network.hasInternet()) {
-            return concatFirstRx(remote, room);
-        }
-        return concatFirstRx(room, remote);
-    }
-
-    @Override
-    public void clear() {
-        room.clear();
-        remote.clear();
-    }
-
-    private Maybe<List<News>> getRoomItemsIfRx(int limit) {
-        return Maybe.fromCallable(() -> {
-            if (!isEmpty()) {
-                return room.getItems(limit);
-            }
-            return null;
-        });
+        Maybe<List<News>> roomAny = room.getItemsRx(limit);
+        return concatFirstRx(remote, roomAny);
     }
 
     private Maybe<List<News>> getRemoteItemsIfRx(int limit) {
-        if (isNewsExpired()) {
-            return this.remote.getItemsRx(limit)
-                    .filter(items -> !(DataUtil.isEmpty(items)))
-                    .doOnSuccess(items -> {
-                        rx.compute(putItemsRx(items)).subscribe();
-                        pref.commitNewsTime();
-                    });
-        }
-        return null;
+        Maybe<List<News>> maybe = isNewsExpired()
+                ? remote.getItemsRx(limit)
+                : Maybe.empty();
+        return maybe.filter(news -> !DataUtil.isEmpty(news))
+                .doOnSuccess(news -> {
+                    rx.compute(putItemsRx(news)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    pref.commitNewsTime();
+                });
     }
 
     private boolean isNewsExpired() {

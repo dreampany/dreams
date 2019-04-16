@@ -16,17 +16,20 @@ import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.data.source.repository.CoinAlertRepository;
+import com.dreampany.lca.data.source.repository.NewsRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.activity.NavigationActivity;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.CoinItem;
+import com.dreampany.lca.ui.model.NewsItem;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 
@@ -40,6 +43,7 @@ import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
 
@@ -57,12 +61,14 @@ public class NotifyViewModel {
     private final ApiRepository repo;
     private final PriceRepository priceRepo;
     private final CoinAlertRepository alertRepo;
+    private final NewsRepository newsRepo;
     private final CurrencyFormatter formatter;
     private final NotifyManager notify;
 
     private final Map<Coin, Price> prices;
 
-    private boolean switching = true;
+    private static final int MAX_NOTIFY_COUNT = 3;
+    private int currentNotifyIndex = 0;
 
     @Inject
     NotifyViewModel(Application application,
@@ -74,6 +80,7 @@ public class NotifyViewModel {
                     ApiRepository repo,
                     PriceRepository priceRepo,
                     CoinAlertRepository alertRepo,
+                    NewsRepository newsRepo,
                     CurrencyFormatter formatter) {
         this.application = application;
         this.rx = rx;
@@ -81,6 +88,7 @@ public class NotifyViewModel {
         this.repo = repo;
         this.priceRepo = priceRepo;
         this.alertRepo = alertRepo;
+        this.newsRepo = newsRepo;
         this.formatter = formatter;
         this.notify = new NotifyManager(application);
         prices = Maps.newConcurrentMap();
@@ -92,32 +100,44 @@ public class NotifyViewModel {
     }
 
     public void notifyIf() {
-/*        if (hasDisposable()) {
-            //return;
-        }*/
         Timber.v("notifyIf Processing");
         Currency currency = pref.getCurrency(Currency.USD);
-        if (switching) {
-            Maybe<List<CoinItem>> maybe = getProfitableItemsRx(currency);
-            if (maybe != null) {
-                rx
-                        .backToMain(maybe)
-                        .subscribe(result -> postResultCoins(currency, result), this::postFailed);
-            } else {
-                Timber.e("getProfitableItemsRx is Null");
+        currentNotifyIndex %= 3;
+        switch (currentNotifyIndex) {
+            case 0: {
+                Maybe<List<CoinItem>> profitMaybe = getProfitableItemsRx(currency);
+                if (profitMaybe != null) {
+                    Disposable disposable = rx
+                            .backToMain(profitMaybe)
+                            .subscribe(result -> postResultCoins(currency, result), this::postFailed);
+                } else {
+                    Timber.e("getProfitableItemsRx is Null");
+                }
             }
-        } else {
-            Maybe<List<CoinAlertItem>> maybe = getAlertItemsRx(currency);
-            if (maybe != null) {
-                rx
-                        .backToMain(maybe)
-                        .subscribe(this::postResultAlerts, this::postFailed);
-            } else {
-                Timber.e("getAlertItemsRx is Null");
+            break;
+            case 1: {
+                Maybe<List<CoinAlertItem>> alertMaybe = getAlertItemsRx(currency);
+                if (alertMaybe != null) {
+                    Disposable disposable = rx
+                            .backToMain(alertMaybe)
+                            .subscribe(this::postResultAlerts, this::postFailed);
+                } else {
+                    Timber.e("getAlertItemsRx is Null");
+                }
             }
+            break;
+            case 2: {
+                Maybe<List<NewsItem>> newsMaybe = getNewsItemsRx();
+                if (newsMaybe != null) {
+                    Disposable disposable = rx
+                            .backToMain(newsMaybe)
+                            .subscribe(this::postResultNews, this::postFailed);
+                } else {
+                    Timber.e("getNewsItemsRx is Null");
+                }
+            }
+            break;
         }
-        switching = !switching;
-
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
@@ -149,6 +169,12 @@ public class NotifyViewModel {
                 .flatMap((Function<List<CoinAlert>, MaybeSource<List<CoinAlertItem>>>) alerts -> getAlertItemsRx(currency, alerts));
     }
 
+    private Maybe<List<NewsItem>> getNewsItemsRx() {
+        return newsRepo
+                .getItemsRx(1)
+                .flatMap((Function<List<News>, MaybeSource<List<NewsItem>>>) this::getNewsItemsRx);
+    }
+
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency, List<Coin> result) {
         return Flowable.fromIterable(result)
                 .filter(this::isProfitable)
@@ -168,6 +194,13 @@ public class NotifyViewModel {
                     Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId());
                     return CoinAlertItem.getItem(coin, alert);
                 }).toList()
+                .toMaybe();
+    }
+
+    private Maybe<List<NewsItem>> getNewsItemsRx(List<News> result) {
+        return Flowable.fromIterable(result)
+                .map(NewsItem::getItem)
+                .toList()
                 .toMaybe();
     }
 
@@ -237,6 +270,27 @@ public class NotifyViewModel {
                 NavigationActivity.class);
     }
 
+    private void postResultNews(List<NewsItem> items) {
+        App app = (App) application;
+        if (app.isVisible()) {
+            //return;
+        }
+        if (DataUtil.isEmpty(items)) {
+            return;
+        }
+        StringBuilder message = new StringBuilder();
+
+
+        String title = TextUtil.getString(app, R.string.notify_title_price_alert);
+        notify.showNotification(
+                title,
+                message.toString(),
+                R.drawable.ic_notification,
+                Constants.Notify.ALERT_ID,
+                Constants.Notify.ALERT_CHANNEL_ID,
+                NavigationActivity.class);
+    }
+
     @DebugLog
     private void postFailed(Throwable error) {
 
@@ -244,7 +298,7 @@ public class NotifyViewModel {
 
     private boolean isProfitable(Coin coin) {
         Quote quote = coin.getQuote(Currency.USD);
-        return quote.getDayChange() >= 0;
+        return quote.getHourChange() > 0.0f || quote.getDayChange() > 0.0f || quote.getWeekChange() > 0.0f;
     }
 
     private boolean isAlertable(Currency currency, CoinAlert alert) {
@@ -252,7 +306,7 @@ public class NotifyViewModel {
         if (coin == null) {
             return false;
         }
-        Quote quote = coin.getQuote(Currency.USD);
+        Quote quote = coin.getQuote(currency);
         if (alert.hasPriceUp() && quote.getPrice() > alert.getPriceUp()) {
             return true;
         }

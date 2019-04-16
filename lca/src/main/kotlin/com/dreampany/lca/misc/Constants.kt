@@ -126,7 +126,7 @@ class Constants {
         const val COIN_EXCHANGE = 50
         const val ICO = 100
         const val NEWS = 100
-        const val CMC_KEY = 25
+        const val CMC_KEY = 5
     }
 
     object Time {
@@ -140,7 +140,7 @@ class Constants {
     object Period {
         val Coin = TimeUnit.SECONDS.toMillis(30)
         val CoinDetails = TimeUnit.SECONDS.toMillis(20)
-        val Notify = TimeUnit.MINUTES.toSeconds(5)
+        val Notify = TimeUnit.MINUTES.toSeconds(3)
     }
 
     object Delay {

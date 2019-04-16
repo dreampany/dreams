@@ -1,6 +1,7 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
+
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -17,16 +18,18 @@ import com.dreampany.lca.data.source.repository.NewsRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.NewsItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
+import com.dreampany.network.manager.NetworkManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -59,7 +62,6 @@ public class NewsViewModel
     @Override
     public void clear() {
         network.deObserve(this, true);
-        repo.clear();
         super.clear();
     }
 
@@ -99,27 +101,23 @@ public class NewsViewModel
                         postProgress(true);
                     }
                 })
-                .subscribe(result -> postResult(Response.Type.ADD,result, true),
-                        error -> {
-                            if (progress) {
-                                postProgress(false);
-                            }
-                            postFailures(new MultiException(error, new ExtraException()));
-                        });
+                .subscribe(result -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.GET, result, true);
+                }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
         addMultipleSubscription(disposable);
     }
-
-/*    private Flowable<List<NewsItem>> getItemsInterval() {
-        return Flowable
-                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .map(tick -> getItemsRx().blockingGet())
-                .retry(RETRY_COUNT);
-    }*/
 
     private Maybe<List<NewsItem>> getItemsRx() {
         return repo
                 .getItemsRx(LIMIT)
-                .onErrorReturn(throwable -> new ArrayList<>())
                 .flatMap((Function<List<News>, MaybeSource<List<NewsItem>>>) this::getItemsRx);
     }
 

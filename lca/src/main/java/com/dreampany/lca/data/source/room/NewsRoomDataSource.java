@@ -128,24 +128,4 @@ public class NewsRoomDataSource implements NewsDataSource {
     public Maybe<List<News>> getItemsRx(int limit) {
         return dao.getItemsRx(limit);
     }
-
-    @Override
-    public void clear() {
-        mapper.clear();
-    }
-
-/*    @Override
-    public Completable putItem(News item) {
-        return Completable.fromAction(() -> dao.insertOrReplace(item));
-    }
-
-    @Override
-    public Completable putItems(List<News> items) {
-        return Completable.fromAction(() -> dao.insertOrReplace(items));
-    }
-
-    @Override
-    public Maybe<List<News>> getCoins(int limit) {
-        return dao.getCoins(limit);
-    }*/
 }

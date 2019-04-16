@@ -218,12 +218,12 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             Currency currency = item.getCurrency();
             Quote quote = coin.getQuote(currency);
 
-            double price = 0f;
-            double hourChange = 0f;
-            double dayChange = 0f;
-            double weekChange = 0f;
-            double marketCap = 0f;
-            double dayVolume = 0f;
+            double price = 0.0f;
+            double hourChange = 0.0f;
+            double dayChange = 0.0f;
+            double weekChange = 0.0f;
+            double marketCap = 0.0f;
+            double dayVolume = 0.0f;
             if (quote != null) {
                 price = quote.getPrice();
                 hourChange = quote.getHourChange();
@@ -246,17 +246,17 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
             this.weekChange.setText(String.format(getText(weekFormat), weekChange));
 
             int startColor = R.color.material_grey400;
-            int endColor = (hourChange >= 0 || dayChange >= 0 || weekChange >= 0) ? R.color.material_green700 : R.color.material_red700;
+            int endColor = (hourChange >= 0.0f || dayChange >= 0.0f || weekChange >= 0.0f) ? R.color.material_green700 : R.color.material_red700;
 
             ViewUtil.blink(this.price, startColor, endColor);
 
-            int hourChangeColor = hourChange >= 0 ? R.color.material_green700 : R.color.material_red700;
+            int hourChangeColor = hourChange >= 0.0f ? R.color.material_green700 : R.color.material_red700;
             this.hourChange.setTextColor(ColorUtil.getColor(getContext(), hourChangeColor));
 
-            int dayChangeColor = dayChange >= 0 ? R.color.material_green700 : R.color.material_red700;
+            int dayChangeColor = dayChange >= 0.0f ? R.color.material_green700 : R.color.material_red700;
             this.dayChange.setTextColor(ColorUtil.getColor(getContext(), dayChangeColor));
 
-            int weekChangeColor = weekChange >= 0 ? R.color.material_green700 : R.color.material_red700;
+            int weekChangeColor = weekChange >= 0.0f ? R.color.material_green700 : R.color.material_red700;
             this.weekChange.setTextColor(ColorUtil.getColor(getContext(), weekChangeColor));
 
             String lastUpdatedTime = (String) DateUtils.getRelativeTimeSpanString(

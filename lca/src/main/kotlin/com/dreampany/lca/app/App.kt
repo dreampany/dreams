@@ -31,8 +31,8 @@ class App : BaseApp() {
     @Inject
     lateinit var pref: Pref
 
-    @Inject
-    lateinit var notify: NotifyViewModel
+/*    @Inject
+    lateinit var notify: NotifyViewModel*/
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG;
@@ -94,7 +94,6 @@ class App : BaseApp() {
             job.cancel(NotifyService::class.java)
         }
         clean()
-        //notify.notifyIf()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

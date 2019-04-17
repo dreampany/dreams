@@ -11,7 +11,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseWorker @Inject constructor(
+abstract class BaseWorker constructor(
     private val context: Context,
     private val params: WorkerParameters
 ) : Worker(context, params) {

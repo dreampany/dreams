@@ -38,9 +38,9 @@ interface NewsDao : BaseDao<News> {
     @Query("select * from news where id = :id limit 1")
     fun getItemRx(id: Long): Maybe<News>
 
-    @Query("select * from news order by publishedOn limit :limit")
+    @Query("select * from news order by publishedOn desc limit :limit")
     fun getItems(limit: Int): List<News>
 
-    @Query("select * from news order by publishedOn limit :limit")
+    @Query("select * from news order by publishedOn desc limit :limit")
     fun getItemsRx(limit: Int): Maybe<List<News>>
 }

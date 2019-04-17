@@ -17,69 +17,69 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  */
 @Module
-abstract class ViewModelModule {
+interface ViewModelModule {
 
     @Binds
     @IntoMap
     @ViewModelKey(MoreViewModel::class)
-    abstract fun bindMoreViewModel(vm: MoreViewModel): ViewModel
+    fun bindMoreViewModel(vm: MoreViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(CoinViewModel::class)
-    abstract fun bindCoinViewModel(vm: CoinViewModel): ViewModel
+    fun bindCoinViewModel(vm: CoinViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(CoinsViewModel::class)
-    abstract fun bindCoinsViewModel(vm: CoinsViewModel): ViewModel
+    fun bindCoinsViewModel(vm: CoinsViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(CoinAlertViewModel::class)
-    abstract fun bindCoinAlertViewModel(vm: CoinAlertViewModel): ViewModel
+    fun bindCoinAlertViewModel(vm: CoinAlertViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(FavoritesViewModel::class)
-    abstract fun bindFlagViewModel(vm: FavoritesViewModel): ViewModel
+    fun bindFlagViewModel(vm: FavoritesViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(ExchangeViewModel::class)
-    abstract fun bindExchangeViewModel(vm: ExchangeViewModel): ViewModel
+    fun bindExchangeViewModel(vm: ExchangeViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(MarketViewModel::class)
-    abstract fun bindMarketViewModel(vm: MarketViewModel): ViewModel
+    fun bindMarketViewModel(vm: MarketViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(GraphViewModel::class)
-    abstract fun bindGraphViewModel(vm: GraphViewModel): ViewModel
+    fun bindGraphViewModel(vm: GraphViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(LiveIcoViewModel::class)
-    abstract fun bindLiveIcoViewModel(vm: LiveIcoViewModel): ViewModel
+    fun bindLiveIcoViewModel(vm: LiveIcoViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(UpcomingIcoViewModel::class)
-    abstract fun bindUpcomingIcoViewModel(vm: UpcomingIcoViewModel): ViewModel
+    fun bindUpcomingIcoViewModel(vm: UpcomingIcoViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(FinishedIcoViewModel::class)
-    abstract fun bindFinishedIcoViewModel(vm: FinishedIcoViewModel): ViewModel
+    fun bindFinishedIcoViewModel(vm: FinishedIcoViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(NewsViewModel::class)
-    abstract fun bindNewsViewModel(vm: NewsViewModel): ViewModel
+    fun bindNewsViewModel(vm: NewsViewModel): ViewModel
 
     @Singleton
     @Binds
-    abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
+    fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory
 }

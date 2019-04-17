@@ -1,7 +1,6 @@
+package com.dreampany.frame.worker
 
-package com.dreampany.frame.vm
-
-import androidx.lifecycle.ViewModel
+import androidx.work.ListenableWorker
 import dagger.MapKey
 import kotlin.reflect.KClass
 
@@ -16,4 +15,4 @@ import kotlin.reflect.KClass
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ViewModelKey(val value: KClass<out ViewModel>)
+annotation class WorkerKey(val value: KClass<out ListenableWorker>)

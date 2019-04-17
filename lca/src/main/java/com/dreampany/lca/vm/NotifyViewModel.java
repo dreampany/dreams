@@ -138,6 +138,7 @@ public class NotifyViewModel {
             }
             break;
         }
+        currentNotifyIndex++;
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
@@ -278,16 +279,17 @@ public class NotifyViewModel {
         if (DataUtil.isEmpty(items)) {
             return;
         }
+        NewsItem news = items.get(0);
         StringBuilder message = new StringBuilder();
+        message.append(news.getItem().getBody());
 
-
-        String title = TextUtil.getString(app, R.string.notify_title_price_alert);
+        String title = TextUtil.getString(app, R.string.notify_title_news);
         notify.showNotification(
                 title,
                 message.toString(),
                 R.drawable.ic_notification,
-                Constants.Notify.ALERT_ID,
-                Constants.Notify.ALERT_CHANNEL_ID,
+                Constants.Notify.NEWS_ID,
+                Constants.Notify.NEWS_CHANNEL_ID,
                 NavigationActivity.class);
     }
 

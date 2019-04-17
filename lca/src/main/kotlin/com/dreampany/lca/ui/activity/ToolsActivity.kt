@@ -67,7 +67,7 @@ class ToolsActivity : BaseActivity() {
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
         )
-        ad.loadBanner(javaClass.simpleName)
+        ad.loadAd(javaClass.simpleName)
         when (type) {
             UiType.MORE -> {
                 when (subtype) {

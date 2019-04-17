@@ -103,6 +103,7 @@
 
     <string name="notify_title_profit">Hot Crypto Currency</string>
     <string name="notify_title_price_alert">Price Alert</string>
+    <string name="notify_title_news">Crypto News</string>
 
     <string name="profitable_coins">Top %d profitable coins in market.</string>
     <string name="profitable_coin">Hot Coin: %s (%s) Price(%1$,.3f) Change(%2.2f%%).</string>

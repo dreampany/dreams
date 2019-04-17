@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 96
-        versionName "0.9.6"
+        versionCode 97
+        versionName "0.9.7"
 
         multiDexEnabled true
 
@@ -142,32 +142,32 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    /** test */
+    /* test */
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    /** library */
+    /* library */
     implementation project(':frame')
     implementation project(':network')
     implementation project(':firebase')
 
-    /** android arch */
+    /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
     kapt 'androidx.room:room-compiler:2.1.0-alpha06'
 
-    /** dagger */
+    /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.20'
     kapt 'com.google.dagger:dagger-android-processor:2.20'
 
-    /** butterknife */
+    /* butterknife */
     implementation 'com.jakewharton:butterknife:10.1.0'
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
-    /** crashlytics */
+    /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
-    /** misc */
+    /* misc */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.libRG:customtextview:1.4'
     implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'

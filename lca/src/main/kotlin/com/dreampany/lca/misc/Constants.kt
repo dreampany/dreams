@@ -41,7 +41,9 @@ class Constants {
 
     object Notify {
         const val ALERT_ID = 201
+        const val NEWS_ID = 202
         const val ALERT_CHANNEL_ID = "alert_channel_id"
+        const val NEWS_CHANNEL_ID = "news_channel_id"
     }
 
     object Sep {

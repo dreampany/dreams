@@ -1,6 +1,9 @@
 package com.dreampany.lca.data.source.room;
 
+import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.data.misc.NewsMapper;
+import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.api.NewsDataSource;
 
@@ -66,7 +69,17 @@ public class NewsRoomDataSource implements NewsDataSource {
 
     @Override
     public Maybe<Long> putItemRx(News news) {
-        return Maybe.fromCallable(() -> putItem(news));
+        return Maybe.create(emitter -> {
+            long result = putItem(news);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (result == -1L) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override

@@ -40,8 +40,6 @@ public class NewsViewModel
         extends BaseViewModel<News, NewsItem, UiTask<News>>
         implements NetworkManager.Callback {
 
-    private static final int LIMIT = Constants.Limit.NEWS;
-
     private final NetworkManager network;
     private final NewsRepository repo;
 
@@ -115,9 +113,10 @@ public class NewsViewModel
         addMultipleSubscription(disposable);
     }
 
+    /* private api */
     private Maybe<List<NewsItem>> getItemsRx() {
         return repo
-                .getItemsRx(LIMIT)
+                .getItemsRx(Constants.Limit.NEWS)
                 .flatMap((Function<List<News>, MaybeSource<List<NewsItem>>>) this::getItemsRx);
     }
 

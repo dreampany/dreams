@@ -263,11 +263,6 @@ class BuildersModule {
         return retrofit;
     }
 
-/*    @Provides
-    fun provideCoinMarketCapService(@CoinMarketCap retrofit: Retrofit): CoinMarketCapService {
-        return retrofit.create(CoinMarketCapService::class.java);
-    }*/
-
     @Provides
     fun provideCoinMarketCapService(@CoinMarketCap retrofit: Retrofit): CmcService {
         return retrofit.create(CmcService::class.java);

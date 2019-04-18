@@ -123,11 +123,11 @@ class Constants {
 
     object Limit {
         const val COIN_START_INDEX = 0
-        const val COIN_PAGE = 100
+        const val COIN_PAGE = 10
         const val COIN_MARKET = 50
         const val COIN_EXCHANGE = 50
-        const val ICO = 100
-        const val NEWS = 100
+        const val ICO = 10
+        const val NEWS = 10
         const val CMC_KEY = 5
     }
 

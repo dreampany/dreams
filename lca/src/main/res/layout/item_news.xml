@@ -75,7 +75,7 @@
                 android:textSize="14sp"
                 auto:layout_constraintBottom_toBottomOf="parent"
                 auto:layout_constraintStart_toEndOf="@id/image_icon"
-                auto:layout_constraintTop_toBottomOf="@id/text_name"
+                auto:layout_constraintTop_toBottomOf="@id/text_title"
                 auto:smart_font="@string/fontRobotoSlabTitle" />
 
             <fr.arnaudguyon.smartfontslib.FontTextView

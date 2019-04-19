@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 98
-        versionName "0.9.8"
+        versionCode 99
+        versionName "0.9.9"
 
         multiDexEnabled true
 
@@ -48,10 +48,10 @@ android {
 
         release {
             minifyEnabled true
-            useProguard true
+            useProguard false
             shrinkResources true
             //crunchPngs false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+/*            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
             proguardFiles 'proguard-rules-data-model.pro'
@@ -75,7 +75,7 @@ android {
             proguardFiles 'proguard-rules-reactive-network.pro'
             proguardFiles 'proguard-rules-jackson.pro'
             proguardFiles 'proguard-rules-butterknife.pro'
-            proguardFiles 'proguard-rules-kotlin.pro'
+            proguardFiles 'proguard-rules-kotlin.pro'*/
         }
     }
 
@@ -106,10 +106,10 @@ android {
     }*/
 
    lintOptions {
-        checkReleaseBuilds false
+        checkReleaseBuilds true
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
-        abortOnError false
+        abortOnError true
         //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
     }
 

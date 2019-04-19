@@ -36,7 +36,7 @@ abstract class BaseJobService : JobService(), HasServiceInjector {
 
     override fun onStartJob(job: JobParameters): Boolean {
         ex.postToNetwork({ completeJob(job) })
-        return true; // need a good implementation to return true / false
+        return true // need a good implementation to return true / false
     }
 
     override fun onStopJob(job: JobParameters): Boolean {
@@ -44,7 +44,7 @@ abstract class BaseJobService : JobService(), HasServiceInjector {
     }
 
     private fun completeJob(job: JobParameters): Boolean {
-        var success: Boolean;
+        var success: Boolean
         try {
             success = doJob(job)
         } finally {

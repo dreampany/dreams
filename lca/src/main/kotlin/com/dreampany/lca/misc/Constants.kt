@@ -46,6 +46,10 @@ class Constants {
         const val NEWS_CHANNEL_ID = "news_channel_id"
     }
 
+    object Worker {
+        const val NOTIFY = "notify_worker"
+    }
+
     object Sep {
         const val SPACE = " "
         const val HYPHEN = "-"

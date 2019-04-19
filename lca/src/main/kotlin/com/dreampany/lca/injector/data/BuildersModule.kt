@@ -13,6 +13,7 @@ import com.dreampany.lca.data.source.firestore.CoinFirestoreDataSource
 import com.dreampany.lca.data.source.remote.*
 import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.injector.vm.ViewModelModule
+import com.dreampany.lca.injector.worker.WorkerModule
 import com.dreampany.lca.misc.*
 import com.dreampany.network.manager.NetworkManager
 import dagger.Module
@@ -31,7 +32,7 @@ import javax.inject.Singleton
  * dreampanymail@gmail.com
  */
 
-@Module(includes = [FrameModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
+@Module(includes = [FrameModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class, WorkerModule::class])
 class BuildersModule {
 
     @Singleton

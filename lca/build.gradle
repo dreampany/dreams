@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 99
-        versionName "0.9.9"
+        versionCode 101
+        versionName "1.0.1"
 
         multiDexEnabled true
 
@@ -35,23 +35,25 @@ android {
         }
     }
 
+    signingConfigs {
+        config {
+            storeFile file('../keystore/dreampany.keystore.jks')
+            keyAlias 'dreampany'
+            storePassword 'ROOT.net080208ROOT.net080208'
+            keyPassword 'ROOT.net080208ROOT.net080208'
+        }
+    }
+
     buildTypes {
         debug {
-            minifyEnabled false
-            useProguard false
-            shrinkResources false
-            crunchPngs false
-            ext.enableCrashlytics = false
-            ext.alwaysUpdateBuildId = false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
-        release {
             minifyEnabled true
-            useProguard false
+            useProguard true
             shrinkResources true
             //crunchPngs false
-/*            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
             proguardFiles 'proguard-rules-data-model.pro'
@@ -75,7 +77,40 @@ android {
             proguardFiles 'proguard-rules-reactive-network.pro'
             proguardFiles 'proguard-rules-jackson.pro'
             proguardFiles 'proguard-rules-butterknife.pro'
-            proguardFiles 'proguard-rules-kotlin.pro'*/
+            proguardFiles 'proguard-rules-kotlin.pro'
+        }
+
+        release {
+            minifyEnabled true
+            useProguard true
+            shrinkResources true
+            //crunchPngs false
+            signingConfig signingConfigs.config
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules-crashlytics.pro'
+            proguardFiles 'proguard-rules-webview.pro'
+            proguardFiles 'proguard-rules-data-model.pro'
+            proguardFiles 'proguard-rules-jni.pro'
+            proguardFiles 'proguard-rules-firebase.pro'
+            proguardFiles 'proguard-rules-play-service.pro'
+            proguardFiles 'proguard-rules-data-binding.pro'
+            proguardFiles 'proguard-rules-joda-time.pro'
+            proguardFiles 'proguard-rules-joda-time-android.pro'
+            proguardFiles 'proguard-rules-eventbus.pro'
+            proguardFiles 'proguard-rules-about.pro'
+            proguardFiles 'proguard-rules-support.pro'
+            proguardFiles 'proguard-rules-guava.pro'
+            proguardFiles 'proguard-rules-fresco.pro'
+            proguardFiles 'proguard-rules-flexible-adapter.pro'
+            proguardFiles 'proguard-rules-condom.pro'
+            proguardFiles 'proguard-rules-retrofit.pro'
+            proguardFiles 'proguard-rules-okhttp.pro'
+            proguardFiles 'proguard-rules-okio.pro'
+            proguardFiles 'proguard-rules-dagger.pro'
+            proguardFiles 'proguard-rules-reactive-network.pro'
+            proguardFiles 'proguard-rules-jackson.pro'
+            proguardFiles 'proguard-rules-butterknife.pro'
+            proguardFiles 'proguard-rules-kotlin.pro'
         }
     }
 
@@ -92,24 +127,24 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-/*    dexOptions {
+    dexOptions {
         //jumboMode = true
-        preDexLibraries true
-        maxProcessCount 8
+        //preDexLibraries true
+        //maxProcessCount 8
         // Instead of setting the heap size for the DEX process, increase Gradle's
         // heap size to enable dex-in-process. To learn more, read the next section.
         // javaMaxHeapSize "2048m"
-    }*/
+    }
 
 /*    aaptOptions {
         cruncherEnabled false
     }*/
 
-   lintOptions {
-        checkReleaseBuilds true
+    lintOptions {
+        //checkReleaseBuilds true
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
-        abortOnError true
+        //abortOnError true
         //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
     }
 
@@ -138,6 +173,13 @@ android {
         exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
     }*/
 
+    applicationVariants.all { variant ->
+        def appName = variant.applicationId
+        variant.outputs.all {
+            outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
+        }
+    }
+
 }
 
 dependencies {
@@ -158,8 +200,8 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.1.0-alpha06'
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.20'
-    kapt 'com.google.dagger:dagger-android-processor:2.20'
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 
     /* butterknife */
     implementation 'com.jakewharton:butterknife:10.1.0'

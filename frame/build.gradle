@@ -36,7 +36,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            useProguard false
+            //useProguard false
             shrinkResources false
             crunchPngs false
             ext.enableCrashlytics = false
@@ -87,8 +87,8 @@ android {
     }
 
     lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+        //checkReleaseBuilds true
+        //abortOnError true
         //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
         //disable 'MissingTranslation'
         //disable 'ExtraTranslation'
@@ -129,9 +129,9 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5"
 
     /* test */
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation 'junit:junit:4.13-beta-2'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
 
     /* android support */
     api 'com.google.android.material:material:1.1.0-alpha05'
@@ -148,8 +148,8 @@ dependencies {
     api 'androidx.core:core:1.1.0-alpha05'
     api 'androidx.vectordrawable:vectordrawable:1.1.0-alpha01'
     api 'androidx.vectordrawable:vectordrawable-animated:1.1.0-alpha01'
-    api 'androidx.dynamicanimation:dynamicanimation:1.0.0'
-    api 'androidx.constraintlayout:constraintlayout:1.1.3'
+    api 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha01'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
     api 'androidx.work:work-runtime:2.0.1'
     api 'androidx.work:work-runtime-ktx:2.0.1'
 
@@ -170,11 +170,11 @@ dependencies {
     api 'com.crashlytics.sdk.android:crashlytics:2.9.9'
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.20'
-    api 'com.google.dagger:dagger:2.20'
-    kapt 'com.google.dagger:dagger-android-processor:2.20'
-    api 'com.google.dagger:dagger-android-support:2.20'
-    api 'com.google.dagger:dagger-android:2.20'
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    api 'com.google.dagger:dagger:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
+    api 'com.google.dagger:dagger-android-support:2.22.1'
+    api 'com.google.dagger:dagger-android:2.22.1'
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
@@ -185,7 +185,7 @@ dependencies {
     api 'androidx.room:room-rxjava2:2.1.0-alpha06'
 
     /* reactivex */
-    api 'io.reactivex.rxjava2:rxjava:2.2.7'
+    api 'io.reactivex.rxjava2:rxjava:2.2.8'
     api 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
@@ -194,8 +194,8 @@ dependencies {
     releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
     /* okhttp */
-    api 'com.squareup.okhttp3:logging-interceptor:3.12.1'
-    api 'com.squareup.okhttp3:okhttp:3.12.1'
+    api 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+    api 'com.squareup.okhttp3:okhttp:3.14.1'
 
     /* retrofit */
     api 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -210,12 +210,12 @@ dependencies {
     api 'eu.davidea:flexible-adapter-databinding:1.0.0'
 
     /* facebook */
-    api 'com.facebook.stetho:stetho:1.5.0'
-    api 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    api 'com.facebook.stetho:stetho:1.5.1'
+    api 'com.facebook.stetho:stetho-okhttp3:1.5.1'
     api 'com.facebook.fresco:fresco:1.13.0'
 
     /* android-iconics */
-    api 'com.mikepenz:iconics-core:4.+'
+    api 'com.mikepenz:iconics-core:+'
 
     /* misc */
     implementation 'com.github.pwittchen:prefser-rx2:2.2.2'
@@ -224,7 +224,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:color:2.7.0'
     implementation 'com.webianks.library:easy-feedback:1.0.5'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
-    implementation 'com.jaredrummler:android-device-names:1.1.7'
+    implementation 'com.jaredrummler:android-device-names:1.1.8'
     implementation "io.karn:notify:1.2.0"
 
     api 'com.karumi:dexter:5.0.0'
@@ -234,8 +234,8 @@ dependencies {
     api 'com.github.silvestrpredko:dot-progress-bar:1.1'
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'org.greenrobot:eventbus:3.1.1'
-    api 'org.apache.commons:commons-lang3:3.8.1'
-    api 'org.apache.commons:commons-collections4:4.2'
+    api 'org.apache.commons:commons-lang3:3.9'
+    api 'org.apache.commons:commons-collections4:4.3'
     api 'com.blankj:utilcode:1.19.3'
     api 'com.github.smart-fun:SmartFonts:1.0.4'
     api 'io.supercharge:shimmerlayout:2.1.0'
@@ -253,7 +253,7 @@ dependencies {
     api 'com.wang.avi:library:2.1.3'
 
     api 'com.oasisfeng.condom:library:2.2.0'
-    api 'com.annimon:stream:1.2.0'
+    api 'com.annimon:stream:1.2.1'
     api 'me.angrybyte.sillyandroid:sillyandroid:1.2.0'
     api 'com.github.medyo:state-views:0.2'
     api 'com.github.medyo:android-about-page:1.2.4'
@@ -268,9 +268,9 @@ dependencies {
     api 'ca.abushawish.multistatetogglebutton:multistatetogglebutton:1.0'
 
     api 'com.muddzdev:styleabletoast:2.2.1'
-    api 'com.klinkerapps:link_builder:2.0.4'
+    api 'com.klinkerapps:link_builder:2.0.5'
     api 'com.github.whalemare:sheetmenu:1.3.6'
-    api 'com.robinhood.ticker:ticker:2.0.0'
+    api 'com.robinhood.ticker:ticker:2.0.1'
     api 'com.lapism:searchview:27.1.1.0.0'
     api 'com.miguelcatalan:materialsearchview:1.4.0'
     api 'com.github.chivorns:smartsearchview:1.0.1'

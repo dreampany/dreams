@@ -20,8 +20,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 101
-        versionName "1.0.1"
+        versionCode 102
+        versionName "1.0.2"
 
         multiDexEnabled true
 
@@ -46,38 +46,13 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
-            useProguard true
-            shrinkResources true
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
             //crunchPngs false
             ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
             signingConfig signingConfigs.config
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            proguardFiles 'proguard-rules-crashlytics.pro'
-            proguardFiles 'proguard-rules-webview.pro'
-            proguardFiles 'proguard-rules-data-model.pro'
-            proguardFiles 'proguard-rules-jni.pro'
-            proguardFiles 'proguard-rules-firebase.pro'
-            proguardFiles 'proguard-rules-play-service.pro'
-            proguardFiles 'proguard-rules-data-binding.pro'
-            proguardFiles 'proguard-rules-joda-time.pro'
-            proguardFiles 'proguard-rules-joda-time-android.pro'
-            proguardFiles 'proguard-rules-eventbus.pro'
-            proguardFiles 'proguard-rules-about.pro'
-            proguardFiles 'proguard-rules-support.pro'
-            proguardFiles 'proguard-rules-guava.pro'
-            proguardFiles 'proguard-rules-fresco.pro'
-            proguardFiles 'proguard-rules-flexible-adapter.pro'
-            proguardFiles 'proguard-rules-condom.pro'
-            proguardFiles 'proguard-rules-retrofit.pro'
-            proguardFiles 'proguard-rules-okhttp.pro'
-            proguardFiles 'proguard-rules-okio.pro'
-            proguardFiles 'proguard-rules-dagger.pro'
-            proguardFiles 'proguard-rules-reactive-network.pro'
-            proguardFiles 'proguard-rules-jackson.pro'
-            proguardFiles 'proguard-rules-butterknife.pro'
-            proguardFiles 'proguard-rules-kotlin.pro'
         }
 
         release {
@@ -86,7 +61,7 @@ android {
             shrinkResources true
             //crunchPngs false
             signingConfig signingConfigs.config
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
             proguardFiles 'proguard-rules-data-model.pro'

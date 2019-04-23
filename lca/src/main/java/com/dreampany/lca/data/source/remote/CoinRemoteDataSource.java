@@ -2,6 +2,7 @@ package com.dreampany.lca.data.source.remote;
 
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcListingResponse;
@@ -65,6 +66,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
         for (int index = 0; index < keys.size(); index++) {
             indexQueue.add(index);
             indexStatus.put(index, MutablePair.of(TimeUtil.currentTime(), 0));
+        }
+        int randIndex = NumberUtil.nextRand(keys.size());
+        while (randIndex > 0) {
+            iterateQueue();
+            randIndex--;
         }
     }
 
@@ -300,6 +306,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
         if (indexStatus.get(index).right > Constants.Limit.CMC_KEY) {
             iterateQueue();
         }
+        indexStatus.get(index).right++;
     }
 
     /* private api*/

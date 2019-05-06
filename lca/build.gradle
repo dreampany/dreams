@@ -162,8 +162,8 @@ dependencies {
 
     /* test */
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha05'
 
     /* library */
     implementation project(':frame')
@@ -172,7 +172,7 @@ dependencies {
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha07'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
@@ -183,7 +183,7 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
     /* crashlytics */
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     /* misc */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'

@@ -130,11 +130,11 @@ dependencies {
 
     /* test */
     testImplementation 'junit:junit:4.13-beta-2'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha05'
 
     /* android support */
-    api 'com.google.android.material:material:1.1.0-alpha05'
+    api 'com.google.android.material:material:1.1.0-alpha06'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'androidx.palette:palette:1.0.0'
     api 'androidx.appcompat:appcompat:1.1.0-alpha04'
@@ -149,7 +149,7 @@ dependencies {
     api 'androidx.vectordrawable:vectordrawable:1.1.0-alpha01'
     api 'androidx.vectordrawable:vectordrawable-animated:1.1.0-alpha01'
     api 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha01'
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
     api 'androidx.work:work-runtime:2.0.1'
     api 'androidx.work:work-runtime-ktx:2.0.1'
 
@@ -167,7 +167,7 @@ dependencies {
     api 'com.google.firebase:firebase-invites:16.1.1'
 
     /* crashlytics */
-    api 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
@@ -180,9 +180,9 @@ dependencies {
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
     api 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
     api 'androidx.lifecycle:lifecycle-runtime:2.1.0-alpha04'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
-    api 'androidx.room:room-runtime:2.1.0-alpha06'
-    api 'androidx.room:room-rxjava2:2.1.0-alpha06'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha07'
+    api 'androidx.room:room-runtime:2.1.0-alpha07'
+    api 'androidx.room:room-rxjava2:2.1.0-alpha07'
 
     /* reactivex */
     api 'io.reactivex.rxjava2:rxjava:2.2.8'

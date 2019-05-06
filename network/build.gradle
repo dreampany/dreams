@@ -77,8 +77,8 @@ dependencies {
 
     /* test */
     testImplementation 'junit:junit:4.13-beta-2'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha05'
 
     /* google */
     api 'com.google.code.findbugs:jsr305:3.0.2'
@@ -96,9 +96,9 @@ dependencies {
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
     api 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
     api 'androidx.lifecycle:lifecycle-runtime:2.1.0-alpha04'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
-    api 'androidx.room:room-runtime:2.1.0-alpha06'
-    api 'androidx.room:room-rxjava2:2.1.0-alpha06'
+    kapt 'androidx.room:room-compiler:2.1.0-alpha07'
+    api 'androidx.room:room-runtime:2.1.0-alpha07'
+    api 'androidx.room:room-rxjava2:2.1.0-alpha07'
 
      /* rx */
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'

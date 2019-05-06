@@ -17,11 +17,11 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId 'com.dreampany.lca'
+        applicationId 'com.dreampany.demo'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 103
-        versionName "1.0.3"
+        versionCode 1
+        versionName "0.0.1"
 
         multiDexEnabled true
 
@@ -60,8 +60,6 @@ android {
             minifyEnabled true
             useProguard true
             shrinkResources true
-            //crunchPngs false
-            signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
@@ -90,37 +88,37 @@ android {
         }
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
     dataBinding {
         enabled = true
     }
 
-    compileOptions {
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+	
+	compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dexOptions {
+/*    dexOptions {
         //jumboMode = true
-        //preDexLibraries true
-        //maxProcessCount 8
+        preDexLibraries true
+        maxProcessCount 8
         // Instead of setting the heap size for the DEX process, increase Gradle's
         // heap size to enable dex-in-process. To learn more, read the next section.
         // javaMaxHeapSize "2048m"
-    }
-
-/*    aaptOptions {
-        cruncherEnabled false
     }*/
 
-    lintOptions {
-        //checkReleaseBuilds true
+    aaptOptions {
+        cruncherEnabled false
+    }
+
+   lintOptions {
+        //checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
-        //abortOnError true
+        //abortOnError false
         //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
     }
 
@@ -149,13 +147,6 @@ android {
         exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
     }*/
 
-    applicationVariants.all { variant ->
-        def appName = variant.applicationId
-        variant.outputs.all {
-            outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
-        }
-    }
-
 }
 
 dependencies {
@@ -169,7 +160,6 @@ dependencies {
     /* library */
     implementation project(':frame')
     implementation project(':network')
-    implementation project(':firebase')
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
@@ -185,11 +175,6 @@ dependencies {
 
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
-
-    /* misc */
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    implementation 'com.libRG:customtextview:1.4'
-    implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

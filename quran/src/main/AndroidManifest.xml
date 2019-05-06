@@ -3,38 +3,38 @@
     package="com.dreampany.quran"
     android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <uses-permission
-            android:name="android.permission.READ_PHONE_STATE"
-            tools:node="remove"/>
+        android:name="android.permission.READ_PHONE_STATE"
+        tools:node="remove" />
     <uses-permission
-            android:name="android.permission.READ_EXTERNAL_STORAGE"
-            tools:node="remove"/>
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:node="remove" />
     <uses-permission
-            android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-            tools:node="remove"/>
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:node="remove" />
     <uses-permission
-            android:name="android.permission.BLUETOOTH"
-            tools:node="remove"/>
+        android:name="android.permission.BLUETOOTH"
+        tools:node="remove" />
     <uses-permission
-            android:name="android.permission.BLUETOOTH_ADMIN"
-            tools:node="remove"/>
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        tools:node="remove" />
     <uses-permission
-            android:name="android.permission.TETHER_PRIVILEGE"
-            tools:node="remove"/>
+        android:name="android.permission.TETHER_PRIVILEGE"
+        tools:node="remove" />
     <uses-permission
-            android:name="android.permission.ACCESS_COARSE_LOCATION"
-            tools:node="remove"/>
+        android:name="android.permission.ACCESS_COARSE_LOCATION"
+        tools:node="remove" />
     <uses-permission
-            android:name="android.permission.WRITE_SETTINGS"
-            tools:ignore="ProtectedPermissions"
-            tools:node="remove"/>
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions"
+        tools:node="remove" />
 
     <application
         android:name=".app.App"
@@ -44,14 +44,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme.App"
-        tools:replace="android:allowBackup, android:label"
-		tools:ignore="GoogleAppIndexingWarning">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup, android:label">
 
-<!--        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="44aff980a5246897e9776e2bb83ef822b80afbfa" />-->
+        <!--        <meta-data
+                    android:name="io.fabric.ApiKey"
+                    android:value="44aff980a5246897e9776e2bb83ef822b80afbfa" />-->
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
@@ -59,7 +59,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id"/>
+            android:value="@string/admob_app_id" />
 
         <activity
             android:name=".ui.activity.LaunchActivity"
@@ -90,8 +90,8 @@
             android:name=".ui.activity.ToolsActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:windowSoftInputMode="adjustResize" />
-			
-	    <service
+
+        <service
             android:name=".service.NotifyService"
             android:exported="false">
             <intent-filter>

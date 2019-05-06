@@ -1,12 +1,12 @@
-package com.dreampany.demo.vm;
+package com.dreampany.quran.vm;
 
 import android.app.Activity;
 import android.app.Application;
 
-import com.dreampany.demo.data.model.More;
-import com.dreampany.demo.ui.enums.MoreType;
-import com.dreampany.demo.ui.model.MoreItem;
-import com.dreampany.demo.ui.model.UiTask;
+import com.dreampany.quran.data.model.More;
+import com.dreampany.quran.ui.enums.MoreType;
+import com.dreampany.quran.ui.model.MoreItem;
+import com.dreampany.quran.ui.model.UiTask;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;

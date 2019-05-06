@@ -147,6 +147,12 @@ android {
         exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
     }*/
 
+    applicationVariants.all { variant ->
+        def appName = variant.applicationId
+        variant.outputs.all {
+            outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
+        }
+    }
 }
 
 dependencies {

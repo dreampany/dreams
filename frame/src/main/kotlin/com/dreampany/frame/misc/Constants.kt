@@ -12,10 +12,10 @@ class Constants {
 
     companion object Screen {
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
-        fun more(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "more"
-        fun about(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "about"
-        fun settings(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "settings"
-        fun license(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "license"
+        fun more(context: Context): String = lastAppId(context) + Sep.HYPHEN + "more"
+        fun about(context: Context): String = lastAppId(context) + Sep.HYPHEN + "about"
+        fun settings(context: Context): String = lastAppId(context) + Sep.HYPHEN + "settings"
+        fun license(context: Context): String = lastAppId(context) + Sep.HYPHEN + "license"
     }
 
     object Event {

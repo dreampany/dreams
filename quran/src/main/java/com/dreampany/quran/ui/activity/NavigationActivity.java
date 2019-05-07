@@ -2,6 +2,7 @@ package com.dreampany.quran.ui.activity;
 
 import android.os.Bundle;
 
+import com.dreampany.quran.databinding.ActivityNavigationBinding;
 import com.dreampany.quran.ui.fragment.HomeFragment;
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
@@ -26,7 +27,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     Lazy<MoreFragment> moreFragment;
     @Inject
     SmartAd ad;
-//    ActivityNavigationBinding binding;
+    ActivityNavigationBinding binding;
 
     @Override
     public int getLayoutId() {
@@ -55,7 +56,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
 
     @Override
     protected void onStartUi(Bundle state) {
-       // binding = (ActivityNavigationBinding) super.binding;
+        binding = (ActivityNavigationBinding) super.binding;
         //ad.loadBanner(findViewById(R.id.adview));
     }
 
@@ -72,7 +73,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     protected void onNavigationItem(int navigationItemId) {
         switch (navigationItemId) {
             case R.id.item_home:
-                //commitFragment(HomeFragment.class, homeFragment, R.id.layout);
+                commitFragment(HomeFragment.class, homeFragment, R.id.layout);
                 break;
             case R.id.item_more:
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);

@@ -1,14 +1,15 @@
 package com.dreampany.lca.data.model;
 
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
-import android.os.Parcel;
-import androidx.annotation.NonNull;
+
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.misc.Constants;
-import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
@@ -17,7 +18,10 @@ import com.google.firebase.firestore.PropertyName;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 29/5/18.

@@ -176,6 +176,7 @@ dependencies {
     /* library */
     implementation project(':frame')
     implementation project(':network')
+    implementation project(':firebase')
 
     /* google */
     errorprone 'com.google.errorprone:error_prone_core:2.3.2'

@@ -4,6 +4,7 @@ import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.view.View;
 
+import com.dreampany.frame.misc.Constants;
 import com.dreampany.quran.R;
 import com.dreampany.quran.ui.activity.ToolsActivity;
 import com.dreampany.quran.ui.adapter.MoreAdapter;
@@ -26,6 +27,9 @@ import javax.inject.Inject;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
+
 import eu.davidea.flexibleadapter.common.FlexibleItemAnimator;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
@@ -53,6 +57,12 @@ public class MoreFragment extends BaseMenuFragment {
     @Override
     public int getLayoutId() {
         return R.layout.fragment_recycler;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.more(getAppContext());
     }
 
     @Override
@@ -90,6 +100,7 @@ public class MoreFragment extends BaseMenuFragment {
 
     private void initView() {
         setTitle(R.string.more);
+        setSubtitle(null);
         binding = (FragmentRecyclerBinding) super.binding;
 
         vm = ViewModelProviders.of(this, factory).get(MoreViewModel.class);

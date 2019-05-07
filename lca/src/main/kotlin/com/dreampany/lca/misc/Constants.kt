@@ -17,22 +17,22 @@ class Constants {
     companion object Screen {
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
 
-        fun app(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
-        fun navigation(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "navigation"
-        fun tools(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "tools"
-        fun coins(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coins"
-        fun coin(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin"
-        fun coinDetails(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_details"
-        fun coinMarket(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_market"
-        fun coinGraph(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_graph"
-        fun favoriteCoins(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "favorite_coins"
-        fun coinAlerts(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_alerts"
-        fun coinAlert(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "coin_alert"
-        fun ico(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico"
-        fun icoLive(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico_live"
-        fun icoUpcoming(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico_upcoming"
-        fun icoFinished(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "ico_finished"
-        fun news(context: Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "news"
+        fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+        fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + "navigation"
+        fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + "tools"
+        fun coins(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coins"
+        fun coin(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin"
+        fun coinDetails(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_details"
+        fun coinMarket(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_market"
+        fun coinGraph(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_graph"
+        fun favoriteCoins(context: Context): String = lastAppId(context) + Sep.HYPHEN + "favorite_coins"
+        fun coinAlerts(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_alerts"
+        fun coinAlert(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_alert"
+        fun ico(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico"
+        fun icoLive(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico_live"
+        fun icoUpcoming(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico_upcoming"
+        fun icoFinished(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico_finished"
+        fun news(context: Context): String = lastAppId(context) + Sep.HYPHEN + "news"
     }
 
     object Tag {

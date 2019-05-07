@@ -75,7 +75,11 @@ abstract class BaseMenuFragment : BaseFragment() {
         if (item == null) {
             return null
         }
-        val searchView = item.getActionView() as SearchView
+        val view = item.actionView
+        if (view == null) {
+            return null
+        }
+        val searchView = item.actionView as SearchView
         return searchView
     }
 

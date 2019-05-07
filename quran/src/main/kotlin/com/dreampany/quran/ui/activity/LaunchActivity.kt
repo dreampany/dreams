@@ -8,7 +8,6 @@ import com.dreampany.quran.R
 import com.dynamitechetan.flowinggradient.FlowingGradientClass
 import io.supercharge.shimmerlayout.ShimmerLayout
 
-
 /**
  * Created by Hawladar Roman on 5/22/2018.
  * BJIT Group
@@ -29,9 +28,9 @@ class LaunchActivity : BaseActivity() {
         val shimmer = findViewById<ShimmerLayout>(R.id.shimmer)
         val grad = FlowingGradientClass()
         grad.setBackgroundResource(R.drawable.translate)
-                .onRelativeLayout(layout)
-                .setTransitionDuration(2000)
-                .start()
+            .onRelativeLayout(layout)
+            .setTransitionDuration(2000)
+            .start()
         shimmer.startShimmerAnimation()
         AndroidUtil.getUiHandler().postDelayed({
             shimmer.stopShimmerAnimation()

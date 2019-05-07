@@ -48,10 +48,12 @@ public enum UiType implements Type {
 
     public static final Creator<UiType> CREATOR = new Creator<UiType>() {
 
+        @Override
         public UiType createFromParcel(Parcel in) {
             return UiType.values()[in.readInt()];
         }
 
+        @Override
         public UiType[] newArray(int size) {
             return new UiType[size];
         }

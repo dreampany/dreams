@@ -47,11 +47,12 @@ public enum MoreType implements Type {
     }
 
     public static final Creator<MoreType> CREATOR = new Creator<MoreType>() {
-
+        @Override
         public MoreType createFromParcel(Parcel in) {
             return MoreType.valueOf(in.readInt());
         }
 
+        @Override
         public MoreType[] newArray(int size) {
             return new MoreType[size];
         }

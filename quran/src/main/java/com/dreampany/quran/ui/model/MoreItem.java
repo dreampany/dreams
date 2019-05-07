@@ -14,6 +14,7 @@ import java.util.List;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 

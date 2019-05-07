@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dreampany.frame">
 
+    <uses-sdk tools:overrideLibrary="timber.log" />
+
     <application>
         <activity
             android:name="com.google.android.gms.ads.AdActivity"

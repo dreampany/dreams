@@ -36,7 +36,14 @@ android {
     }
 
     signingConfigs {
-        config {
+        debug {
+            storeFile file('../keystore/debug.keystore.jks')
+            keyAlias 'debug.keystore'
+            storePassword 'debug.keystore'
+            keyPassword 'debug.keystore'
+        }
+
+        release {
             storeFile file('../keystore/dreampany.keystore.jks')
             keyAlias 'dreampany'
             storePassword 'ROOT.net080208ROOT.net080208'
@@ -50,18 +57,18 @@ android {
             useProguard false
             shrinkResources false
             crunchPngs false
-            ext.enableCrashlytics = true
+            ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
         }
 
         release {
             minifyEnabled true
             useProguard true
             shrinkResources true
-            //crunchPngs false
-            signingConfig signingConfigs.config
+            crunchPngs false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'

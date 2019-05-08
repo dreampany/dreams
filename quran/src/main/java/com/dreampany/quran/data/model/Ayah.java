@@ -36,6 +36,10 @@ public class Ayah extends Base {
     @TypeConverters(LanguageConverter.class)
     private Language language;
     private String text;
+    @PropertyName(Constants.Ayah.LOCAL_AUDIO_URL)
+    private String localAudioUrl;
+    @PropertyName(Constants.Ayah.REMOTE_AUDIO_URL)
+    private String remoteAudioUrl;
     private int juz;
     private int manzil;
     private int page;
@@ -60,8 +64,10 @@ public class Ayah extends Base {
         number = in.readInt();
         numberOfSurah = in.readInt();
         numberInSurah = in.readInt();
-        language = (Language) in.readSerializable();
+        language = in.readParcelable(Language.class.getClassLoader());
         text = in.readString();
+        localAudioUrl = in.readString();
+        remoteAudioUrl = in.readString();
         juz = in.readInt();
         manzil = in.readInt();
         page = in.readInt();
@@ -76,8 +82,10 @@ public class Ayah extends Base {
         dest.writeInt(number);
         dest.writeInt(numberOfSurah);
         dest.writeInt(numberInSurah);
-        dest.writeSerializable(language);
+        dest.writeParcelable(language, flags);
         dest.writeString(text);
+        dest.writeString(localAudioUrl);
+        dest.writeString(remoteAudioUrl);
         dest.writeInt(juz);
         dest.writeInt(manzil);
         dest.writeInt(page);
@@ -146,6 +154,26 @@ public class Ayah extends Base {
 
     public String getText() {
         return text;
+    }
+
+    @PropertyName(Constants.Ayah.LOCAL_AUDIO_URL)
+    public void setLocalAudioUrl(String localAudioUrl) {
+        this.localAudioUrl = localAudioUrl;
+    }
+
+    @PropertyName(Constants.Ayah.LOCAL_AUDIO_URL)
+    public String getLocalAudioUrl() {
+        return localAudioUrl;
+    }
+
+    @PropertyName(Constants.Ayah.REMOTE_AUDIO_URL)
+    public void setRemoteAudioUrl(String remoteAudioUrl) {
+        this.remoteAudioUrl = remoteAudioUrl;
+    }
+
+    @PropertyName(Constants.Ayah.REMOTE_AUDIO_URL)
+    public String getRemoteAudioUrl() {
+        return remoteAudioUrl;
     }
 
     public void setJuz(int juz) {

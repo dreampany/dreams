@@ -3,7 +3,7 @@ package com.dreampany.lca.data.source.room;
 import androidx.room.TypeConverter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.data.enums.CoinSource;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;

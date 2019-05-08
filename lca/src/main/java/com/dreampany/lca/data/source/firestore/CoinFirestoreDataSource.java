@@ -6,8 +6,7 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
-import com.dreampany.lca.data.model.Quote;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
@@ -17,14 +16,12 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.MutableTriple;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
 import javax.inject.Singleton;
 
-import androidx.core.util.Pair;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;

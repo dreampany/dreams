@@ -15,7 +15,7 @@ import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.data.model.Quote;

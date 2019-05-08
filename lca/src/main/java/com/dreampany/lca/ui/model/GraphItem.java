@@ -8,8 +8,7 @@ import android.view.View;
 
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.lca.R;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Graph;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;

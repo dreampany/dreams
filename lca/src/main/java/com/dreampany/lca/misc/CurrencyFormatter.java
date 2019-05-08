@@ -1,14 +1,13 @@
 package com.dreampany.lca.misc;
 
 import android.content.Context;
-import android.view.TextureView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 

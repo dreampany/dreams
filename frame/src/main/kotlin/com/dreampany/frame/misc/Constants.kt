@@ -52,4 +52,12 @@ class Constants {
         const val SUBTYPE = "subtype"
         const val STATE = "state"
     }
+
+    object LanguageCode {
+        const val ARABIC = "ar"
+    }
+
+    object LanguageCountry {
+        const val ARABIC = "Arabic"
+    }
 }

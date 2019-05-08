@@ -17,7 +17,7 @@ import com.dreampany.frame.util.*;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.GraphRepository;

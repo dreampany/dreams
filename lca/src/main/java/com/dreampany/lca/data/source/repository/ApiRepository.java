@@ -16,7 +16,7 @@ import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.google.common.collect.Maps;
 

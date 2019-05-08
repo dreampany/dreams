@@ -6,6 +6,8 @@ import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.lca.data.enums.Currency;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**

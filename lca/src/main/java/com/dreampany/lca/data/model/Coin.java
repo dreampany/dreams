@@ -9,6 +9,7 @@ import androidx.room.Index;
 
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.misc.Constants;
 import com.google.common.collect.Maps;
 import com.google.firebase.firestore.Exclude;

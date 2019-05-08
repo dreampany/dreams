@@ -2,8 +2,7 @@ package com.dreampany.lca.ui.adapter
 
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.util.DataUtil
-import com.dreampany.lca.data.model.Coin
-import com.dreampany.lca.data.model.Currency
+import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.ui.model.CoinItem
 import eu.davidea.flexibleadapter.items.IFlexible
 
@@ -16,7 +15,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
 class CoinAdapter(listener: Any) : SmartAdapter<CoinItem>(listener) {
 
     private val rankComparator: Comparator<IFlexible<*>> //it can be multiple comparator to support multiple sorting
-    private var currency : Currency ? = null
+    private var currency : Currency? = null
 
     init {
         rankComparator = RankComparator()

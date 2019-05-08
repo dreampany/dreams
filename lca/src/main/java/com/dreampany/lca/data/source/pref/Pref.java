@@ -5,7 +5,7 @@ import android.content.Context;
 import com.dreampany.frame.data.source.pref.FramePref;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.IcoStatus;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

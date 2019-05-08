@@ -3,7 +3,7 @@ package com.dreampany.lca.data.source.api;
 import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 
 import io.reactivex.Maybe;
 

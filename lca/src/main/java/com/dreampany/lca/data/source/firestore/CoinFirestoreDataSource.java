@@ -72,10 +72,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        equalTo.add(MutablePair.of(Constants.CoinKey.COIN_ID, coinId));
+        equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, coinId));
 
 
-        greaterThanOrEqualTo.add(MutablePair.of(Constants.CoinKey.LAST_UPDATED, lastUpdated));
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
 
         Maybe<Coin> result = firestore.getItemRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
 
@@ -107,10 +107,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
         for (long coinId : coinIds) {
-            equalTo.add(MutablePair.of(Constants.CoinKey.COIN_ID, coinId));
+            equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, coinId));
         }
 
-        greaterThanOrEqualTo.add(MutablePair.of(Constants.CoinKey.LAST_UPDATED, lastUpdated));
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
 
         Maybe<List<Coin>> result = firestore.getItemsRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
 

@@ -38,19 +38,10 @@ class Constants {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
     }
 
-    object AyahKey {
-        const val ID = "id"
-        const val COIN_ID = "coin_id"
-        const val NAME = "name"
-        const val SYMBOL = "symbol"
-        const val SLUG = "slug"
-        const val RANK = "rank"
-        const val MARKET_PAIRS = "market_pairs"
-        const val CIRCULATING_SUPPLY = "circulating_supply"
-        const val TOTAL_SUPPLY = "total_supply"
-        const val MAX_SUPPLY = "max_supply"
-        const val LAST_UPDATED = "last_updated"
-        const val DATE_ADDED = "date_added"
-        const val TAGS = "tags"
+    object Ayah {
+        const val NUMBER = "number"
+        const val NUMBER_OF_SURAH = "number_of_surah"
+        const val NUMBER_IN_SURAH = "number_in_surah"
+        const val HIZB_QUARTER = "hizb_quarter"
     }
 }

@@ -109,7 +109,7 @@ class Constants {
         const val QUOTE = "quote"
     }
 
-    object CoinKey {
+    object Coin {
         const val ID = "id"
         const val COIN_ID = "coin_id"
         const val NAME = "name"

@@ -60,4 +60,8 @@ class Constants {
     object Surah {
         const val NUMBER = "number"
     }
+
+    object Assets {
+        const val QURAN_TANZIL = "tanzil/quran-uthmani.xml"
+    }
 }

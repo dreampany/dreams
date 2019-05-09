@@ -1,9 +1,11 @@
 package com.dreampany.quran.injector.data
 
-import com.dreampany.quran.data.model.Demo
-import com.dreampany.quran.misc.DemoAnnote
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
+import com.dreampany.quran.data.model.Ayah
+import com.dreampany.quran.data.model.Surah
+import com.dreampany.quran.misc.AyahAnnote
+import com.dreampany.quran.misc.SurahAnnote
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,15 +21,29 @@ class SupportModule {
 
     @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartMap(): SmartMap<Long, Demo> {
+    @SurahAnnote
+    fun provideSurahSmartMap(): SmartMap<Long, Surah> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartCache(): SmartCache<Long, Demo> {
+    @SurahAnnote
+    fun provideSurahSmartCache(): SmartCache<Long, Surah> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @AyahAnnote
+    fun provideAyahSmartMap(): SmartMap<Long, Ayah> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @AyahAnnote
+    fun provideAyahSmartCache(): SmartCache<Long, Ayah> {
         return SmartCache.newCache()
     }
 }

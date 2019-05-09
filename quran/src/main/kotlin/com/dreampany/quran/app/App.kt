@@ -5,7 +5,7 @@ import com.crashlytics.android.Crashlytics
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.quran.BuildConfig
 import com.dreampany.quran.R
-import com.dreampany.quran.data.source.room.Pref
+import com.dreampany.quran.data.source.pref.Pref
 import com.dreampany.quran.injector.app.DaggerAppComponent
 import com.dreampany.quran.misc.Constants
 import com.dreampany.quran.service.NotifyService

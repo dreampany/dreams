@@ -28,6 +28,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 @IgnoreExtraProperties
 public class Ayah extends Base {
 
+    @PropertyName(Constants.Ayah.NUMBER)
     private int number;
     @PropertyName(Constants.Ayah.NUMBER_OF_SURAH)
     private int numberOfSurah;

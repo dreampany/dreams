@@ -10,10 +10,12 @@ import androidx.room.Index;
 import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.quran.misc.Constants;
+import com.google.common.collect.Maps;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.PropertyName;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.jqurantree.orthography.Verse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +27,15 @@ import java.util.List;
  * Last modified $file.lastModified
  */
 
-@Entity(indices = {@Index(value = {Constants.Ayah.NUMBER, Constants.Ayah.NUMBER_OF_SURAH}, unique = true)},
-        primaryKeys = {Constants.Ayah.NUMBER, Constants.Ayah.NUMBER_OF_SURAH})
+@Entity(indices = {@Index(value = {Constants.Surah.NUMBER}, unique = true)},
+        primaryKeys = {Constants.Surah.NUMBER})
 @IgnoreExtraProperties
 public class Surah extends Base {
 
     @PropertyName(Constants.Surah.NUMBER)
     private int number;
-    private String name;
     private Language language;
-    private String translatedName;
+    private String name;
     private List<Ayah> ayahs;
 
     @Ignore
@@ -50,9 +51,8 @@ public class Surah extends Base {
     private Surah(Parcel in) {
         super(in);
         number = in.readInt();
-        name = in.readString();
         language = in.readParcelable(Language.class.getClassLoader());
-        translatedName = in.readString();
+        name = in.readString();
         ayahs = in.createTypedArrayList(Ayah.CREATOR);
 /*        if (in.readByte() == 1) {
             ayahs = new ArrayList<>();
@@ -66,9 +66,8 @@ public class Surah extends Base {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(number);
-        dest.writeString(name);
         dest.writeParcelable(language, flags);
-        dest.writeString(translatedName);
+        dest.writeString(name);
         dest.writeTypedList(ayahs);
 /*        if (ayahs == null) {
             dest.writeByte((byte) 0);
@@ -106,14 +105,6 @@ public class Surah extends Base {
         return number;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setLanguage(Language language) {
         this.language = language;
     }
@@ -122,11 +113,27 @@ public class Surah extends Base {
         return language;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setAyahs(List<Ayah> ayahs) {
         this.ayahs = ayahs;
     }
 
     public List<Ayah> getAyahs() {
         return ayahs;
+    }
+
+    /*other api*/
+    public void addAyah(Ayah ayah) {
+        if (ayahs == null) {
+            ayahs = new ArrayList<>();
+        }
+        ayahs.add(ayah);
     }
 }

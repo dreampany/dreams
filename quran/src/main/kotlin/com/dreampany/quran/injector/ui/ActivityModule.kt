@@ -20,7 +20,7 @@ abstract class ActivityModule {
     abstract fun launchActivity(): LaunchActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
+    @ContributesAndroidInjector(modules = [SurahsModule::class, MoreModule::class])
     abstract fun navigationActivity(): NavigationActivity
 
     @ActivityScope

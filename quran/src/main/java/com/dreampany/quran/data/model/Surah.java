@@ -10,12 +10,10 @@ import androidx.room.Index;
 import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.quran.misc.Constants;
-import com.google.common.collect.Maps;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.PropertyName;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import org.jqurantree.orthography.Verse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +32,10 @@ public class Surah extends Base {
 
     @PropertyName(Constants.Surah.NUMBER)
     private int number;
+    @PropertyName(Constants.Surah.LANGUAGE)
     private Language language;
     private String name;
+    private String translatedName;
     private List<Ayah> ayahs;
 
     @Ignore

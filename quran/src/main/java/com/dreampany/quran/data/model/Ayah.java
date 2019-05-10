@@ -34,9 +34,10 @@ public class Ayah extends Base {
     private int numberOfSurah;
     @PropertyName(Constants.Ayah.NUMBER_IN_SURAH)
     private int numberInSurah;
+    private String text;
     @TypeConverters(LanguageConverter.class)
     private Language language;
-    private String text;
+    private String languageText;
     @PropertyName(Constants.Ayah.LOCAL_AUDIO_URL)
     private String localAudioUrl;
     @PropertyName(Constants.Ayah.REMOTE_AUDIO_URL)

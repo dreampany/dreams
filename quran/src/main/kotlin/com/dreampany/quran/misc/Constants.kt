@@ -59,6 +59,7 @@ class Constants {
 
     object Surah {
         const val NUMBER = "number"
+        const val LANGUAGE = "language"
     }
 
     object Assets {

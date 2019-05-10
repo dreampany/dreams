@@ -12,7 +12,7 @@ import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcQuote;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-
-import hugo.weaving.DebugLog;
 
 /**
  * Created by Hawladar Roman on 5/31/2018.

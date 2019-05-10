@@ -3,7 +3,7 @@ package com.dreampany.quran.ui.fragment;
 import android.os.Bundle;
 
 import com.dreampany.quran.R;
-import com.dreampany.quran.data.source.room.Pref;
+import com.dreampany.quran.data.source.pref.Pref;
 import com.dreampany.quran.service.NotifyService;
 import com.dreampany.frame.api.service.ServiceManager;
 import com.dreampany.frame.misc.ActivityScope;

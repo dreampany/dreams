@@ -1,9 +1,9 @@
-package com.dreampany.lca.data.model;
+package com.dreampany.lca.data.enums;
 
 import android.os.Parcel;
+
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.Type;
-import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 
 import java.io.Serializable;
 

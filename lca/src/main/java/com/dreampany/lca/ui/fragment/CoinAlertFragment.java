@@ -16,7 +16,7 @@ import com.dreampany.frame.util.NotifyUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.databinding.FragmentCoinAlertBinding;
 import com.dreampany.lca.misc.Constants;

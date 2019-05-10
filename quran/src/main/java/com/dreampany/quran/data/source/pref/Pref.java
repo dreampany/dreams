@@ -1,4 +1,4 @@
-package com.dreampany.quran.data.source.room;
+package com.dreampany.quran.data.source.pref;
 
 import android.content.Context;
 

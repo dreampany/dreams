@@ -6,7 +6,7 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.lca.data.model.Currency;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.api.GraphDataSource;
 import com.dreampany.lca.data.source.pref.Pref;

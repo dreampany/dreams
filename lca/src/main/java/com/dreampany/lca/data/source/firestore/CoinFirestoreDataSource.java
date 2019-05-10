@@ -6,8 +6,7 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
-import com.dreampany.lca.data.model.Quote;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
@@ -17,14 +16,12 @@ import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.MutableTriple;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
 import javax.inject.Singleton;
 
-import androidx.core.util.Pair;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
@@ -75,10 +72,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        equalTo.add(MutablePair.of(Constants.CoinKey.COIN_ID, coinId));
+        equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, coinId));
 
 
-        greaterThanOrEqualTo.add(MutablePair.of(Constants.CoinKey.LAST_UPDATED, lastUpdated));
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
 
         Maybe<Coin> result = firestore.getItemRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
 
@@ -110,10 +107,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
         for (long coinId : coinIds) {
-            equalTo.add(MutablePair.of(Constants.CoinKey.COIN_ID, coinId));
+            equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, coinId));
         }
 
-        greaterThanOrEqualTo.add(MutablePair.of(Constants.CoinKey.LAST_UPDATED, lastUpdated));
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
 
         Maybe<List<Coin>> result = firestore.getItemsRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
 

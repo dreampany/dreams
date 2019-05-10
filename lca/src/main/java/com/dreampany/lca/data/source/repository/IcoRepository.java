@@ -7,16 +7,12 @@ import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.IcoStatus;
-import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.model.Currency;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.api.IcoDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,8 +21,6 @@ import javax.inject.Singleton;
 import com.dreampany.network.manager.NetworkManager;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
-import io.reactivex.internal.functions.Functions;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.

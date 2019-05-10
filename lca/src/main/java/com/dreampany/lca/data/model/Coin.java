@@ -1,14 +1,16 @@
 package com.dreampany.lca.data.model;
 
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
-import android.os.Parcel;
-import androidx.annotation.NonNull;
+
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.misc.Constants;
-import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
@@ -17,36 +19,39 @@ import com.google.firebase.firestore.PropertyName;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hawladar Roman on 29/5/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-@Entity(indices = {@Index(value = {Constants.CoinKey.ID}, unique = true)},
-        primaryKeys = {Constants.CoinKey.ID})
+@Entity(indices = {@Index(value = {Constants.Coin.ID}, unique = true)},
+        primaryKeys = {Constants.Coin.ID})
 @IgnoreExtraProperties
 public class Coin extends Base {
 
     private CoinSource source;
-    @PropertyName(Constants.CoinKey.COIN_ID)
+    @PropertyName(Constants.Coin.COIN_ID)
     private long coinId;
     private String name;
     private String symbol;
     private String slug;
     private int rank;
-    @PropertyName(Constants.CoinKey.MARKET_PAIRS)
+    @PropertyName(Constants.Coin.MARKET_PAIRS)
     private int marketPairs;
-    @PropertyName(Constants.CoinKey.CIRCULATING_SUPPLY)
+    @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
     private double circulatingSupply;
-    @PropertyName(Constants.CoinKey.TOTAL_SUPPLY)
+    @PropertyName(Constants.Coin.TOTAL_SUPPLY)
     private double totalSupply;
-    @PropertyName(Constants.CoinKey.MAX_SUPPLY)
+    @PropertyName(Constants.Coin.MAX_SUPPLY)
     private double maxSupply;
-    @PropertyName(Constants.CoinKey.LAST_UPDATED)
+    @PropertyName(Constants.Coin.LAST_UPDATED)
     private long lastUpdated;
-    @PropertyName(Constants.CoinKey.DATE_ADDED)
+    @PropertyName(Constants.Coin.DATE_ADDED)
     private long dateAdded;
     private List<String> tags;
     @Ignore
@@ -112,11 +117,6 @@ public class Coin extends Base {
         }
     };
 
-/*    @Override
-    public int hashCode() {
-        return Objects.hashCode(symbol);
-    }*/
-
     @NonNull
     @Override
     public String toString() {
@@ -131,12 +131,12 @@ public class Coin extends Base {
         return source;
     }
 
-    @PropertyName(Constants.CoinKey.COIN_ID)
+    @PropertyName(Constants.Coin.COIN_ID)
     public void setCoinId(long coinId) {
         this.coinId = coinId;
     }
 
-    @PropertyName(Constants.CoinKey.COIN_ID)
+    @PropertyName(Constants.Coin.COIN_ID)
     public long getCoinId() {
         return coinId;
     }
@@ -173,52 +173,52 @@ public class Coin extends Base {
         return rank;
     }
 
-    @PropertyName(Constants.CoinKey.MARKET_PAIRS)
+    @PropertyName(Constants.Coin.MARKET_PAIRS)
     public void setMarketPairs(int marketPairs) {
         this.marketPairs = marketPairs;
     }
 
-    @PropertyName(Constants.CoinKey.MARKET_PAIRS)
+    @PropertyName(Constants.Coin.MARKET_PAIRS)
     public int getMarketPairs() {
         return marketPairs;
     }
 
-    @PropertyName(Constants.CoinKey.CIRCULATING_SUPPLY)
+    @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
     public void setCirculatingSupply(double circulatingSupply) {
         this.circulatingSupply = circulatingSupply;
     }
 
-    @PropertyName(Constants.CoinKey.CIRCULATING_SUPPLY)
+    @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
     public double getCirculatingSupply() {
         return circulatingSupply;
     }
 
-    @PropertyName(Constants.CoinKey.TOTAL_SUPPLY)
+    @PropertyName(Constants.Coin.TOTAL_SUPPLY)
     public void setTotalSupply(double totalSupply) {
         this.totalSupply = totalSupply;
     }
 
-    @PropertyName(Constants.CoinKey.TOTAL_SUPPLY)
+    @PropertyName(Constants.Coin.TOTAL_SUPPLY)
     public double getTotalSupply() {
         return totalSupply;
     }
 
-    @PropertyName(Constants.CoinKey.MAX_SUPPLY)
+    @PropertyName(Constants.Coin.MAX_SUPPLY)
     public void setMaxSupply(double maxSupply) {
         this.maxSupply = maxSupply;
     }
 
-    @PropertyName(Constants.CoinKey.MAX_SUPPLY)
+    @PropertyName(Constants.Coin.MAX_SUPPLY)
     public double getMaxSupply() {
         return maxSupply;
     }
 
-    @PropertyName(Constants.CoinKey.LAST_UPDATED)
+    @PropertyName(Constants.Coin.LAST_UPDATED)
     public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
-    @PropertyName(Constants.CoinKey.LAST_UPDATED)
+    @PropertyName(Constants.Coin.LAST_UPDATED)
     public long getLastUpdated() {
         return lastUpdated;
     }
@@ -228,12 +228,12 @@ public class Coin extends Base {
         return new Date(getLastUpdated());
     }
 
-    @PropertyName(Constants.CoinKey.DATE_ADDED)
+    @PropertyName(Constants.Coin.DATE_ADDED)
     public void setDateAdded(long dateAdded) {
         this.dateAdded = dateAdded;
     }
 
-    @PropertyName(Constants.CoinKey.DATE_ADDED)
+    @PropertyName(Constants.Coin.DATE_ADDED)
     public long getDateAdded() {
         return dateAdded;
     }

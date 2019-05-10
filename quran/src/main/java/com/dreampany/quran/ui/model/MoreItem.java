@@ -45,6 +45,10 @@ public class MoreItem extends BaseItem<More, MoreItem.ViewHolder> implements IFl
     @Override
     public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, ViewHolder holder, int position, List<Object> payloads) {
         switch (item.getType()) {
+            case SETTINGS:
+                holder.icon.setImageResource(R.drawable.ic_settings_black_24dp);
+                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.settings));
+                break;
             case APPS:
                 holder.icon.setImageResource(R.drawable.ic_apps_black_24dp);
                 holder.title.setText(TextUtil.getString(holder.getContext(), R.string.more_apps));
@@ -56,10 +60,6 @@ public class MoreItem extends BaseItem<More, MoreItem.ViewHolder> implements IFl
             case FEEDBACK:
                 holder.icon.setImageResource(R.drawable.ic_feedback_black_24dp);
                 holder.title.setText(TextUtil.getString(holder.getContext(), R.string.title_feedback));
-                break;
-            case SETTINGS:
-                holder.icon.setImageResource(R.drawable.ic_settings_black_24dp);
-                holder.title.setText(TextUtil.getString(holder.getContext(), R.string.settings));
                 break;
             case LICENSE:
                 holder.icon.setImageResource(R.drawable.ic_security_black_24dp);

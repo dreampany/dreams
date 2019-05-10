@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <fr.arnaudguyon.smartfontslib.FontTextView
+        android:id="@+id/tvItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:text="@string/license_fragment_library"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black"
+        auto:smart_font="@string/fontRobotoSlabTitle" />
+
+    <fr.arnaudguyon.smartfontslib.FontTextView
+        android:id="@+id/tvItemLicense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/grey_200"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="@string/license_fragment_library"
+        android:textColor="@color/grey_800"
+        auto:smart_font="@string/fontRobotoSlabBody" />
+
+</LinearLayout>

@@ -1,7 +1,9 @@
 package com.dreampany.lca.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
+import com.artitk.licensefragment.model.CustomUI;
 import com.artitk.licensefragment.model.LicenseID;
 import com.artitk.licensefragment.support.v4.RecyclerViewLicenseFragment;
 import com.dreampany.frame.misc.ActivityScope;
@@ -43,14 +45,23 @@ public class LicenseFragment extends BaseFragment {
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {
+        setTitle(R.string.license);
+        CustomUI customUI = new CustomUI()
+                .setTitleBackgroundColor(Color.parseColor("#7fff7f"))
+                .setTitleTextColor(getResources().getColor(android.R.color.holo_green_dark))
+                .setLicenseBackgroundColor(Color.rgb(127, 223, 127))
+                .setLicenseTextColor(Color.DKGRAY);
+
         ArrayList<Integer> licenseIds = new ArrayList<>();
         licenseIds.add(LicenseID.GSON);
         licenseIds.add(LicenseID.OKHTTP);
         licenseIds.add(LicenseID.RETROFIT);
 
-
         RecyclerViewLicenseFragment fragment = FragmentUtil.getFragment(this, R.id.fragment);
+        //fragment.setCustomUI(customUI);
         fragment.addLicense(licenseIds);
+
+
     }
 
     @Override

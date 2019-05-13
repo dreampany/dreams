@@ -1,7 +1,7 @@
-package com.dreampany.lca.injector.ui
+package com.dreampany.quran.injector.ui
 
 import com.dreampany.frame.misc.FragmentScope
-import com.dreampany.lca.ui.fragment.CoinsFragment
+import com.dreampany.quran.ui.fragment.SurahsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -11,8 +11,8 @@ import dagger.android.ContributesAndroidInjector
  * hawladar.roman@bjitgroup.com
  */
 @Module
-abstract class CoinsModule {
+abstract class SurahsModule {
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun coinsFragment(): CoinsFragment
+    abstract fun surahsFragment(): SurahsFragment
 }

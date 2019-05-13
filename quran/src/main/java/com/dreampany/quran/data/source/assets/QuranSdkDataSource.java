@@ -122,7 +122,8 @@ public class QuranSdkDataSource implements QuranDataSource {
         Iterable<Chapter> chapters = Document.getChapters();
         List<Surah> surahs = new ArrayList<>();
         Stream.of(chapters).forEach(chapter -> {
-
+            Surah surah = mapper.toItem(chapter, true);
+            surahs.add(surah);
         });
         return surahs;
     }

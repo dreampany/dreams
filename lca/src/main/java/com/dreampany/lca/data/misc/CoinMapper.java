@@ -173,7 +173,7 @@ public class CoinMapper {
         return out;
     }
 
-    public void bindQuote(Coin out, Map<CmcCurrency, CmcQuote> quotes) {
+    private void bindQuote(Coin out, Map<CmcCurrency, CmcQuote> quotes) {
         for (Map.Entry<CmcCurrency, CmcQuote> entry : quotes.entrySet()) {
             Currency currency = toCurrency(entry.getKey());
             Quote quote = toQuote(currency, out, entry.getValue());
@@ -181,11 +181,11 @@ public class CoinMapper {
         }
     }
 
-    public Currency toCurrency(CmcCurrency currency) {
+    private Currency toCurrency(CmcCurrency currency) {
         return Currency.valueOf(currency.name());
     }
 
-    public Quote toQuote(Currency currency, Coin coin, CmcQuote in) {
+    private Quote toQuote(Currency currency, Coin coin, CmcQuote in) {
         if (in == null) {
             return null;
         }

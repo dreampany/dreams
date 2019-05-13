@@ -6,9 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
+import androidx.room.TypeConverters;
 
 import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.frame.data.source.room.LanguageConverter;
 import com.dreampany.quran.misc.Constants;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.PropertyName;
@@ -25,16 +27,18 @@ import java.util.List;
  * Last modified $file.lastModified
  */
 
-@Entity(indices = {@Index(value = {Constants.Ayah.NUMBER, Constants.Ayah.NUMBER_OF_SURAH}, unique = true)},
-        primaryKeys = {Constants.Ayah.NUMBER, Constants.Ayah.NUMBER_OF_SURAH})
+@Entity(indices = {@Index(value = {Constants.Common.NUMBER, Constants.Common.LANGUAGE}, unique = true)},
+        primaryKeys = {Constants.Common.NUMBER, Constants.Common.LANGUAGE})
 @IgnoreExtraProperties
 public class Surah extends Base {
 
-    @PropertyName(Constants.Surah.NUMBER)
+    @PropertyName(Constants.Common.NUMBER)
     private int number;
-    private String name;
+    @TypeConverters(LanguageConverter.class)
+    @PropertyName(Constants.Common.LANGUAGE)
     private Language language;
-    private String translatedName;
+    private String name;
+    private String translation;
     private List<Ayah> ayahs;
 
     @Ignore
@@ -50,9 +54,9 @@ public class Surah extends Base {
     private Surah(Parcel in) {
         super(in);
         number = in.readInt();
-        name = in.readString();
         language = in.readParcelable(Language.class.getClassLoader());
-        translatedName = in.readString();
+        name = in.readString();
+        translation = in.readString();
         ayahs = in.createTypedArrayList(Ayah.CREATOR);
 /*        if (in.readByte() == 1) {
             ayahs = new ArrayList<>();
@@ -66,9 +70,9 @@ public class Surah extends Base {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(number);
-        dest.writeString(name);
         dest.writeParcelable(language, flags);
-        dest.writeString(translatedName);
+        dest.writeString(name);
+        dest.writeString(translation);
         dest.writeTypedList(ayahs);
 /*        if (ayahs == null) {
             dest.writeByte((byte) 0);
@@ -96,14 +100,24 @@ public class Surah extends Base {
         return ReflectionToStringBuilder.toString(this);
     }
 
-    @PropertyName(Constants.Surah.NUMBER)
+    @PropertyName(Constants.Common.NUMBER)
     public void setNumber(int number) {
         this.number = number;
     }
 
-    @PropertyName(Constants.Surah.NUMBER)
+    @PropertyName(Constants.Common.NUMBER)
     public int getNumber() {
         return number;
+    }
+
+    @PropertyName(Constants.Common.LANGUAGE)
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    @PropertyName(Constants.Common.LANGUAGE)
+    public Language getLanguage() {
+        return language;
     }
 
     public void setName(String name) {
@@ -114,12 +128,12 @@ public class Surah extends Base {
         return name;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
+    public void setTranslation(String translation) {
+        this.translation = translation;
     }
 
-    public Language getLanguage() {
-        return language;
+    public String getTranslation() {
+        return translation;
     }
 
     public void setAyahs(List<Ayah> ayahs) {
@@ -128,5 +142,13 @@ public class Surah extends Base {
 
     public List<Ayah> getAyahs() {
         return ayahs;
+    }
+
+    /*other api*/
+    public void addAyah(Ayah ayah) {
+        if (ayahs == null) {
+            ayahs = new ArrayList<>();
+        }
+        ayahs.add(ayah);
     }
 }

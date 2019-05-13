@@ -23,17 +23,19 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Entity(indices = {@Index(value = {Constants.Ayah.NUMBER, Constants.Ayah.NUMBER_OF_SURAH}, unique = true)},
-        primaryKeys = {Constants.Ayah.NUMBER, Constants.Ayah.NUMBER_OF_SURAH})
+@Entity(indices = {@Index(value = {Constants.Common.NUMBER, Constants.Ayah.NUMBER_OF_SURAH, Constants.Common.LANGUAGE}, unique = true)},
+        primaryKeys = {Constants.Common.NUMBER, Constants.Ayah.NUMBER_OF_SURAH, Constants.Common.LANGUAGE})
 @IgnoreExtraProperties
 public class Ayah extends Base {
 
+    @PropertyName(Constants.Common.NUMBER)
     private int number;
     @PropertyName(Constants.Ayah.NUMBER_OF_SURAH)
     private int numberOfSurah;
     @PropertyName(Constants.Ayah.NUMBER_IN_SURAH)
     private int numberInSurah;
     @TypeConverters(LanguageConverter.class)
+    @PropertyName(Constants.Common.LANGUAGE)
     private Language language;
     private String text;
     @PropertyName(Constants.Ayah.LOCAL_AUDIO_URL)
@@ -112,10 +114,12 @@ public class Ayah extends Base {
         return ReflectionToStringBuilder.toString(this);
     }
 
+    @PropertyName(Constants.Common.NUMBER)
     public void setNumber(int number) {
         this.number = number;
     }
 
+    @PropertyName(Constants.Common.NUMBER)
     public int getNumber() {
         return number;
     }
@@ -140,10 +144,12 @@ public class Ayah extends Base {
         return numberInSurah;
     }
 
+    @PropertyName(Constants.Common.LANGUAGE)
     public void setLanguage(Language language) {
         this.language = language;
     }
 
+    @PropertyName(Constants.Common.LANGUAGE)
     public Language getLanguage() {
         return language;
     }

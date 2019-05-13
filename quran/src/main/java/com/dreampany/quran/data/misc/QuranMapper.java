@@ -1,8 +1,12 @@
 package com.dreampany.quran.data.misc;
 
+import com.annimon.stream.Stream;
+import com.annimon.stream.function.Consumer;
+import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.quran.data.model.Ayah;
 import com.dreampany.quran.data.model.Surah;
 import com.dreampany.quran.data.source.pref.Pref;
@@ -10,6 +14,10 @@ import com.dreampany.quran.misc.AyahAnnote;
 import com.dreampany.quran.misc.SurahAnnote;
 
 import org.jqurantree.orthography.Chapter;
+import org.jqurantree.orthography.Verse;
+
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -47,7 +55,54 @@ public class QuranMapper {
         if (in == null) {
             return null;
         }
-        //long id = DataUtil.getSha512(source.value(), in.getId());
-        return null;
+        long id = DataUtil.getSha512(in.getChapterNumber());
+        Surah out = surahMap.get(id);
+        if (out == null) {
+            out = new Surah();
+            if (full) {
+                surahMap.put(id, out);
+            }
+        }
+        out.setId(id);
+        out.setTime(TimeUtil.currentTime());
+        out.setName(in.getName().toUnicode());
+        out.setLanguage(Language.ARABIC);
+        if (full) {
+            bindAyahs(out, in.iterator(), full);
+        }
+        return out;
     }
+
+    private void bindAyahs(Surah out, Iterator<Verse> verses, boolean full) {
+        for (int index = 1; verses.hasNext(); index++) {
+            Ayah ayah = toItem(verses.next(), index, full);
+            out.addAyah(ayah);
+        }
+    }
+
+    private Ayah toItem(Verse in, int numberInSurah, boolean full) {
+        if (in == null) {
+            return null;
+        }
+        long id = DataUtil.getSha512(in.getVerseNumber(), in.getChapterNumber());
+        Ayah out = ayahMap.get(id);
+        if (out == null) {
+            out = new Ayah();
+            if (full) {
+                ayahMap.put(id, out);
+            }
+        }
+        out.setId(id);
+        out.setTime(TimeUtil.currentTime());
+        out.setNumber(in.getVerseNumber());
+        out.setNumberOfSurah(in.getChapterNumber());
+        out.setNumberInSurah(numberInSurah);
+        out.setLanguage(Language.ARABIC);
+        out.setText(in.toUnicode());
+        if (full) {
+
+        }
+        return out;
+    }
+
 }

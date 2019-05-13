@@ -36,15 +36,17 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            useProguard false
+            //useProguard false
+            shrinkResources false
+            crunchPngs false
             ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
         }
 
         release {
             minifyEnabled true
-            useProguard false
-            crunchPngs false
+            //useProguard false
+            //crunchPngs false
         }
     }
 
@@ -57,7 +59,7 @@ android {
     }
 
     lintOptions {
-        abortOnError false
+        //abortOnError false
     }
 
     compileOptions {
@@ -69,19 +71,19 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
-    /** test */
+    /* test */
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    /** library */
+    /* library */
     implementation project(':frame')
 
-    /** android arch */
+    /* android arch */
     kapt 'android.arch.lifecycle:compiler:1.1.1'
     kapt 'android.arch.persistence.room:compiler:1.1.1'
 
-    /** dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.20'
-    kapt 'com.google.dagger:dagger-android-processor:2.20'
+    /* dagger */
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 }

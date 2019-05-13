@@ -131,26 +131,26 @@ dependencies {
 
     /* test */
     testImplementation 'junit:junit:4.13-beta-2'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha05'
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
 
     /* android support */
     api 'com.google.android.material:material:1.1.0-alpha06'
     api 'androidx.legacy:legacy-support-v4:1.0.0'
     api 'androidx.palette:palette:1.0.0'
-    api 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    api 'androidx.appcompat:appcompat:1.1.0-alpha05'
     api 'androidx.cardview:cardview:1.0.0'
-    api 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
-    api 'androidx.preference:preference:1.1.0-alpha04'
-    api 'androidx.mediarouter:mediarouter:1.1.0-alpha03'
+    api 'androidx.recyclerview:recyclerview:1.1.0-alpha05'
+    api 'androidx.preference:preference:1.1.0-alpha05'
+    api 'androidx.mediarouter:mediarouter:1.1.0-beta01'
     api 'androidx.legacy:legacy-support-v13:1.0.0'
-    api 'androidx.preference:preference:1.1.0-alpha04'
+    api 'androidx.preference:preference:1.1.0-alpha05'
     api 'androidx.legacy:legacy-preference-v14:1.0.0'
-    api 'androidx.core:core:1.1.0-alpha05'
-    api 'androidx.vectordrawable:vectordrawable:1.1.0-alpha01'
-    api 'androidx.vectordrawable:vectordrawable-animated:1.1.0-alpha01'
+    api 'androidx.core:core:1.2.0-alpha01'
+    api 'androidx.vectordrawable:vectordrawable:1.1.0-beta01'
+    api 'androidx.vectordrawable:vectordrawable-animated:1.1.0-beta01'
     api 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha01'
-    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha5'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     api 'androidx.work:work-runtime:2.0.1'
     api 'androidx.work:work-runtime-ktx:2.0.1'
 
@@ -162,11 +162,11 @@ dependencies {
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
-    api 'com.google.firebase:firebase-core:16.0.8'
-    api 'com.google.firebase:firebase-appindexing:17.1.0'
+    api 'com.google.firebase:firebase-core:16.0.9'
+    api 'com.google.firebase:firebase-appindexing:18.0.0'
     api 'com.google.firebase:firebase-ads:17.2.0'
-    api 'com.google.firebase:firebase-messaging:17.6.0'
-    api 'com.google.firebase:firebase-invites:16.1.1'
+    api 'com.google.firebase:firebase-messaging:18.0.0'
+    api 'com.google.firebase:firebase-invites:17.0.0'
 
     /* crashlytics */
     api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
@@ -179,12 +179,12 @@ dependencies {
     api 'com.google.dagger:dagger-android:2.22.1'
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
-    api 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
-    api 'androidx.lifecycle:lifecycle-runtime:2.1.0-alpha04'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha07'
-    api 'androidx.room:room-runtime:2.1.0-alpha07'
-    api 'androidx.room:room-rxjava2:2.1.0-alpha07'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
+    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-alpha01'
+    kapt 'androidx.room:room-compiler:2.1.0-beta01'
+    api 'androidx.room:room-runtime:2.1.0-beta01'
+    api 'androidx.room:room-rxjava2:2.1.0-beta01'
 
     /* reactivex */
     api 'io.reactivex.rxjava2:rxjava:2.2.8'

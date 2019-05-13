@@ -68,6 +68,11 @@ public class NavigationActivity
         return true;
     }
 
+    @Override
+    public boolean hasDoubleBackPressed() {
+        return true;
+    }
+
     @NotNull
     @Override
     public String getScreen() {
@@ -102,14 +107,14 @@ public class NavigationActivity
         super.onPause();
     }
 
-    @Override
+/*    @Override
     public void onBackPressed() {
         BaseFragment fragment = getCurrentFragment();
         if (fragment != null && fragment.hasBackPressed()) {
             return;
         }
         finish();
-    }
+    }*/
 
     @Override
     protected void onNavigationItem(int navigationItemId) {

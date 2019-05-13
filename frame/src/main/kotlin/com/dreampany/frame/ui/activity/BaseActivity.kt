@@ -14,7 +14,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.afollestad.aesthetic.*
+import com.afollestad.aesthetic.Aesthetic
+import com.afollestad.aesthetic.BottomNavBgMode
+import com.afollestad.aesthetic.BottomNavIconTextMode
+import com.afollestad.aesthetic.ColorMode
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.dreampany.frame.R
 import com.dreampany.frame.app.BaseApp
@@ -48,10 +51,10 @@ import javax.inject.Inject
  */
 @Suppress("UNCHECKED_CAST")
 abstract class BaseActivity :
-        DaggerAppCompatActivity(),
-        UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
-        MultiplePermissionsListener,
-        PermissionRequestErrorListener {
+    DaggerAppCompatActivity(),
+    UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
+    MultiplePermissionsListener,
+    PermissionRequestErrorListener {
 
     @Inject
     internal lateinit var ex: AppExecutors
@@ -63,6 +66,7 @@ abstract class BaseActivity :
     protected var fireOnStartUi: Boolean = true
     private var ratingDialog: RatingDialog? = null
     private var progress: ProgressDialog? = null
+    private var doubleBackToExitPressedOnce: Boolean = false
 
     open fun getLayoutId(): Int {
         return 0
@@ -108,11 +112,15 @@ abstract class BaseActivity :
         return false
     }
 
+    open fun hasDoubleBackPressed(): Boolean {
+        return false
+    }
+
     open fun hasRatePermitted(): Boolean {
         return false;
     }
 
-    open fun getScreen() : String {
+    open fun getScreen(): String {
         return javaClass.simpleName
     }
 
@@ -202,7 +210,18 @@ abstract class BaseActivity :
         if (manager.getBackStackEntryCount() > 0) {
             manager.popBackStack();
         }*/
-        super.onBackPressed()
+        if (hasDoubleBackPressed()) {
+            if (doubleBackToExitPressedOnce) {
+                //super.onBackPressed()
+                finish()
+                return;
+            }
+            doubleBackToExitPressedOnce = true
+            NotifyUtil.shortToast(this, R.string.back_pressed)
+            ex.postToUi({ doubleBackToExitPressedOnce = false }, 2000)
+        } else {
+            finish()
+        }
     }
 
 /*    @Nullable
@@ -235,7 +254,10 @@ abstract class BaseActivity :
 
     }
 
-    override fun onPermissionRationaleShouldBeShown(permissions: List<PermissionRequest>, token: PermissionToken) {
+    override fun onPermissionRationaleShouldBeShown(
+        permissions: List<PermissionRequest>,
+        token: PermissionToken
+    ) {
 
     }
 
@@ -316,9 +338,10 @@ abstract class BaseActivity :
                 bottomNavigationBackgroundMode(BottomNavBgMode.PRIMARY)
                 bottomNavigationIconTextMode(BottomNavIconTextMode.BLACK_WHITE_AUTO)
                 swipeRefreshLayoutColorsRes(
-                        R.color.material_green700,
-                        R.color.material_red700,
-                        R.color.material_yellow700)
+                    R.color.material_green700,
+                    R.color.material_red700,
+                    R.color.material_yellow700
+                )
             }
         }
     }
@@ -400,7 +423,11 @@ abstract class BaseActivity :
         return currentFragment;
     }*/
 
-    protected fun <T : BaseFragment> commitFragment(clazz: Class<T>, fragmentProvider: Lazy<T>, parentId: Int): T {
+    protected fun <T : BaseFragment> commitFragment(
+        clazz: Class<T>,
+        fragmentProvider: Lazy<T>,
+        parentId: Int
+    ): T {
 /*        val manager = getSupportFragmentManager()
         val transaction = manager?.beginTransaction();
         val current = manager?.primaryNavigationFragment
@@ -430,7 +457,12 @@ abstract class BaseActivity :
         return currentFragment
     }
 
-    protected fun <T : BaseFragment> commitFragment(clazz: Class<T>, fragmentProvider: Lazy<T>, parentId: Int, task: Task<*>): T {
+    protected fun <T : BaseFragment> commitFragment(
+        clazz: Class<T>,
+        fragmentProvider: Lazy<T>,
+        parentId: Int,
+        task: Task<*>
+    ): T {
         var fragment: T? = FragmentUtil.getFragmentByTag(this, clazz.simpleName)
         if (fragment == null) {
             fragment = fragmentProvider.get()
@@ -451,9 +483,9 @@ abstract class BaseActivity :
             return
         }
         Dexter.withActivity(this)
-                .withPermissions(*permissions)
-                .withListener(listener)
-                .check()
+            .withPermissions(*permissions)
+            .withListener(listener)
+            .check()
     }
 
     fun showInfo(info: String) {
@@ -474,19 +506,21 @@ abstract class BaseActivity :
         showAlert(title, text, backgroundColor, timeout, null)
     }
 
-    fun showAlert(title: String,
-                  text: String,
-                  @ColorRes backgroundColor: Int,
-                  timeout: Long,
-                  listener: View.OnClickListener?) {
+    fun showAlert(
+        title: String,
+        text: String,
+        @ColorRes backgroundColor: Int,
+        timeout: Long,
+        listener: View.OnClickListener?
+    ) {
         hideAlert()
-       val alerter = Alerter.create(this)
-                .setTitle(title)
-                .setText(text)
-                .setBackgroundColorRes(backgroundColor)
-                .setIcon(R.drawable.alerter_ic_face)
-                .setDuration(timeout)
-                .enableSwipeToDismiss();
+        val alerter = Alerter.create(this)
+            .setTitle(title)
+            .setText(text)
+            .setBackgroundColorRes(backgroundColor)
+            .setIcon(R.drawable.alerter_ic_face)
+            .setDuration(timeout)
+            .enableSwipeToDismiss();
         if (listener != null) {
             alerter.setOnClickListener(listener)
         }
@@ -525,11 +559,11 @@ abstract class BaseActivity :
     private fun startRate() {
         if (ratingDialog == null || !ratingDialog!!.isShowing) {
             ratingDialog = RatingDialog.Builder(this)
-                    .threshold(3f)
-                    .session(7)
-                    .onRatingBarFormSumbit({
+                .threshold(3f)
+                .session(7)
+                .onRatingBarFormSumbit({
 
-                    }).build()
+                }).build()
             ratingDialog?.show()
         }
 

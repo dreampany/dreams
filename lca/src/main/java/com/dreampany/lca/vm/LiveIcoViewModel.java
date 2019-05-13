@@ -1,6 +1,7 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -11,22 +12,23 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.repository.IcoRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
-import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
+import com.dreampany.network.manager.NetworkManager;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
-
-import javax.inject.Inject;
-import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -106,18 +108,12 @@ public class LiveIcoViewModel
                             postResult(Response.Type.ADD,result);
                         }, error -> {
                             if (progress) {
-                                postProgress(true);
+                                postProgress(false);
                             }
                             postFailures(new MultiException(error, new ExtraException()));
                         });
         addMultipleSubscription(disposable);
     }
-
-/*    private Flowable<List<IcoItem>> getItemsInterval() {
-        return Flowable
-                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .map(tick -> getItemsRx().blockingGet());
-    }*/
 
     private Maybe<List<IcoItem>> getItemsRx() {
         return repo

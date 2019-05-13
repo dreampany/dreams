@@ -11,11 +11,13 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.widget.Toast;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+
 import com.dreampany.frame.R;
 import com.dreampany.frame.misc.AppExecutors;
 import com.muddzdev.styleabletoast.StyleableToast;
@@ -31,6 +33,10 @@ public final class NotifyUtil {
 
     public static void longToast(Context context, String text) {
         Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+    }
+
+    public static void shortToast(@NonNull Context context, @StringRes int resId) {
+        Toast.makeText(context, TextUtil.getString(context, resId), Toast.LENGTH_SHORT).show();
     }
 
     public static void shortToast(Context context, String text) {

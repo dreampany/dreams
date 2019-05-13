@@ -14,6 +14,7 @@ import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
+import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
@@ -40,6 +41,8 @@ import org.jetbrains.annotations.Nullable;
 import timber.log.Timber;
 
 import javax.inject.Inject;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -305,10 +308,16 @@ public class FavoritesFragment
     }
 
     private void processFailure(Throwable error) {
-        if (error instanceof EmptyException) {
+        if (error instanceof IOException || error.getCause() instanceof IOException) {
+            vm.updateUiState(UiState.OFFLINE);
+        } else if (error instanceof EmptyException) {
             vm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
             vm.updateUiState(UiState.EXTRA);
+        } else if (error instanceof MultiException) {
+            for (Throwable e : ((MultiException) error).getErrors()) {
+                processFailure(e);
+            }
         }
     }
 

@@ -38,9 +38,6 @@ public class FinishedIcoViewModel
         implements NetworkManager.Callback {
 
     private static final int LIMIT = Constants.Limit.ICO;
-    private static final long initialDelay = 0L;
-    private static final long period = Constants.Time.INSTANCE.getIcoPeriod();
-    private static final int RETRY_COUNT = 3;
 
     private final NetworkManager network;
     private final IcoRepository repo;
@@ -109,18 +106,12 @@ public class FinishedIcoViewModel
                     postResult(Response.Type.ADD,result);
                 }, error -> {
                     if (progress) {
-                        postProgress(true);
+                        postProgress(false);
                     }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
-
-/*    private Flowable<List<IcoItem>> getItemsInterval() {
-        return Flowable
-                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .map(tick -> getItemsIf().blockingGet());
-    }*/
 
     private Maybe<List<IcoItem>> getItemsRx() {
         return repo

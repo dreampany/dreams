@@ -128,11 +128,11 @@ class ToolsActivity : BaseActivity() {
         }
     }*/
 
-    override fun onBackPressed() {
+/*    override fun onBackPressed() {
         val fragment = currentFragment
         if (fragment != null && fragment.hasBackPressed()) {
             return
         }
         finish()
-    }
+    }*/
 }

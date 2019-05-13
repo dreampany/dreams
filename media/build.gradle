@@ -1,8 +1,9 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'idea'
 
 idea {

@@ -53,6 +53,7 @@ public abstract class Media extends Base {
         dest.writeParcelable(mediaType, flags);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Media{" +

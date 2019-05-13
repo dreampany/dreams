@@ -3,7 +3,6 @@ package com.dreampany.media.data.source.repository;
 import com.dreampany.frame.data.source.repository.Repository;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.util.DataUtil;
 import com.dreampany.media.data.model.Media;
 import com.dreampany.media.data.source.api.MediaDataSource;
 
@@ -17,7 +16,7 @@ import io.reactivex.Maybe;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class MediaRepository<T extends Media> extends Repository<String, T> implements MediaDataSource<T> {
+public class MediaRepository<T extends Media> extends Repository<Long, T> implements MediaDataSource<T> {
 
     protected final MediaDataSource<T> memory;
     protected final MediaDataSource<T> room;
@@ -32,11 +31,6 @@ public class MediaRepository<T extends Media> extends Repository<String, T> impl
     }
 
     @Override
-    public MediaDataSource<T> getThis() {
-        return this;
-    }
-
-    @Override
     public boolean isEmpty() {
         return false;
     }
@@ -48,87 +42,91 @@ public class MediaRepository<T extends Media> extends Repository<String, T> impl
 
     @Override
     public int getCount() {
-        return room.getCount();
+        return 0;
     }
 
     @Override
     public Maybe<Integer> getCountRx() {
-        return room.getCountRx();
+        return null;
     }
 
     @Override
     public boolean isExists(T t) {
-        return room.isExists(t);
+        return false;
     }
 
     @Override
     public Maybe<Boolean> isExistsRx(T t) {
-        return room.isExistsRx(t);
+        return null;
     }
 
     @Override
     public long putItem(T t) {
-        return room.putItem(t);
+        return 0;
     }
 
     @Override
     public Maybe<Long> putItemRx(T t) {
-        return room.putItemRx(t);
+        return null;
     }
 
     @Override
     public List<Long> putItems(List<T> ts) {
-        return room.putItems(ts);
+        return null;
     }
 
     @Override
     public Maybe<List<Long>> putItemsRx(List<T> ts) {
-        return room.putItemsRx(ts);
+        return null;
+    }
+
+    @Override
+    public int delete(T t) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(T t) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<T> ts) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<T> ts) {
+        return null;
     }
 
     @Override
     public T getItem(long id) {
-        return room.getItem(id);
+        return null;
     }
 
     @Override
     public Maybe<T> getItemRx(long id) {
-        return room.getItemRx(id);
+        return null;
     }
 
     @Override
     public List<T> getItems() {
-        return room.getItems();
+        return null;
     }
 
     @Override
     public Maybe<List<T>> getItemsRx() {
-        return room.getItemsRx();
+        return null;
     }
 
     @Override
     public List<T> getItems(int limit) {
-        return room.getItems();
+        return null;
     }
 
     @Override
     public Maybe<List<T>> getItemsRx(int limit) {
-        return room.getItemsRx(limit);
-    }
-
-    //fresh api
-    public Maybe<List<T>> getItemsRx(boolean fresh) {
-        Maybe<List<T>> memory = saveRoomOfItems(this.memory.getItemsRx());
-        Maybe<List<T>> room = this.room.getItemsRx();
-        return fresh ? concatFirstRx(memory, room) : concatFirstRx(room, memory);
-    }
-
-    //private api
-    private Maybe<List<T>> saveRoomOfItems(Maybe<List<T>> source) {
-        return source
-                .filter(items -> !(DataUtil.isEmpty(items)))
-                .doOnSuccess(words -> {
-                    rx.compute(putItemsRx(words)).subscribe();
-                });
+        return null;
     }
 }

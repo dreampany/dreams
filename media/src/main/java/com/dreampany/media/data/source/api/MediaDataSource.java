@@ -1,6 +1,6 @@
 package com.dreampany.media.data.source.api;
 
-import com.dreampany.frame.data.source.DataSource;
+import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.media.data.model.Media;
 
 /**
@@ -10,6 +10,5 @@ import com.dreampany.media.data.model.Media;
  */
 public interface MediaDataSource<T extends Media> extends DataSource<T> {
 
-    @Override
-    MediaDataSource<T> getThis();
+
 }

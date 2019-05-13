@@ -6,9 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
+import androidx.room.TypeConverters;
 
 import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.frame.data.source.room.LanguageConverter;
 import com.dreampany.quran.misc.Constants;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.PropertyName;
@@ -25,17 +27,18 @@ import java.util.List;
  * Last modified $file.lastModified
  */
 
-@Entity(indices = {@Index(value = {Constants.Surah.NUMBER}, unique = true)},
-        primaryKeys = {Constants.Surah.NUMBER})
+@Entity(indices = {@Index(value = {Constants.Common.NUMBER, Constants.Common.LANGUAGE}, unique = true)},
+        primaryKeys = {Constants.Common.NUMBER, Constants.Common.LANGUAGE})
 @IgnoreExtraProperties
 public class Surah extends Base {
 
-    @PropertyName(Constants.Surah.NUMBER)
+    @PropertyName(Constants.Common.NUMBER)
     private int number;
-    @PropertyName(Constants.Surah.LANGUAGE)
+    @TypeConverters(LanguageConverter.class)
+    @PropertyName(Constants.Common.LANGUAGE)
     private Language language;
     private String name;
-    private String translatedName;
+    private String translation;
     private List<Ayah> ayahs;
 
     @Ignore
@@ -53,6 +56,7 @@ public class Surah extends Base {
         number = in.readInt();
         language = in.readParcelable(Language.class.getClassLoader());
         name = in.readString();
+        translation = in.readString();
         ayahs = in.createTypedArrayList(Ayah.CREATOR);
 /*        if (in.readByte() == 1) {
             ayahs = new ArrayList<>();
@@ -68,6 +72,7 @@ public class Surah extends Base {
         dest.writeInt(number);
         dest.writeParcelable(language, flags);
         dest.writeString(name);
+        dest.writeString(translation);
         dest.writeTypedList(ayahs);
 /*        if (ayahs == null) {
             dest.writeByte((byte) 0);
@@ -95,20 +100,22 @@ public class Surah extends Base {
         return ReflectionToStringBuilder.toString(this);
     }
 
-    @PropertyName(Constants.Surah.NUMBER)
+    @PropertyName(Constants.Common.NUMBER)
     public void setNumber(int number) {
         this.number = number;
     }
 
-    @PropertyName(Constants.Surah.NUMBER)
+    @PropertyName(Constants.Common.NUMBER)
     public int getNumber() {
         return number;
     }
 
+    @PropertyName(Constants.Common.LANGUAGE)
     public void setLanguage(Language language) {
         this.language = language;
     }
 
+    @PropertyName(Constants.Common.LANGUAGE)
     public Language getLanguage() {
         return language;
     }
@@ -119,6 +126,14 @@ public class Surah extends Base {
 
     public String getName() {
         return name;
+    }
+
+    public void setTranslation(String translation) {
+        this.translation = translation;
+    }
+
+    public String getTranslation() {
+        return translation;
     }
 
     public void setAyahs(List<Ayah> ayahs) {

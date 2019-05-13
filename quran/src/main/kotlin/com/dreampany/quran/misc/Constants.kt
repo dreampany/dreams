@@ -48,8 +48,12 @@ class Constants {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
     }
 
-    object Ayah {
+    object Common {
         const val NUMBER = "number"
+        const val LANGUAGE = "language"
+    }
+
+    object Ayah {
         const val NUMBER_OF_SURAH = "number_of_surah"
         const val NUMBER_IN_SURAH = "number_in_surah"
         const val LOCAL_AUDIO_URL = "local_audio_url"
@@ -58,8 +62,7 @@ class Constants {
     }
 
     object Surah {
-        const val NUMBER = "number"
-        const val LANGUAGE = "language"
+
     }
 
     object Assets {

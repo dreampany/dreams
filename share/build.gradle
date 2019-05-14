@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId "com.dreampany.share"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "0.0.1"
@@ -35,20 +35,40 @@ android {
         }
     }
 
+    signingConfigs {
+        debug {
+            storeFile file('../keystore/debug.keystore.jks')
+            keyAlias 'debug.keystore'
+            storePassword 'debug.keystore'
+            keyPassword 'debug.keystore'
+        }
+
+        release {
+            storeFile file('../keystore/dreampany.keystore.jks')
+            keyAlias 'dreampany'
+            storePassword 'ROOT.net080208ROOT.net080208'
+            keyPassword 'ROOT.net080208ROOT.net080208'
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
             useProguard false
             shrinkResources false
-            ext.enableCrashlytics = true
+            crunchPngs false
+            ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
         release {
             minifyEnabled true
             useProguard true
-            shrinkResources false
+            shrinkResources true
             crunchPngs false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
@@ -73,6 +93,7 @@ android {
             proguardFiles 'proguard-rules-reactive-network.pro'
             proguardFiles 'proguard-rules-jackson.pro'
             proguardFiles 'proguard-rules-butterknife.pro'
+            proguardFiles 'proguard-rules-kotlin.pro'
         }
     }
 
@@ -126,27 +147,27 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    //framework
+
+    /* library */
     implementation project(':frame')
-    //media
     implementation project(':media')
-    //network
     implementation project(':network')
-    //nearby
     implementation project(':nearby')
-    //android arch - lifecycle, room, databinding
-    kapt 'android.arch.lifecycle:compiler:1.1.1'
-    kapt 'android.arch.persistence.room:compiler:1.1.1'
-    //dagger - core, android
-    kapt 'com.google.dagger:dagger-compiler:2.16'
-    kapt 'com.google.dagger:dagger-android-processor:2.16'
-    //butter knife
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    kapt 'com.jakewharton:butterknife-compiler:8.8.1'
-    //fabric
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
-        transitive = true;
-    }
+
+    /* android arch */
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    kapt 'androidx.room:room-compiler:2.1.0-beta01'
+
+    /* dagger */
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
+
+    /* butterknife */
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    /* crashlytics */
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,5 +1,5 @@
--keepattributes *Annotation*                      // Keep Crashlytics annotations
--keepattributes SourceFile,LineNumberTable        // Keep file names/line numbers
+-keepattributes *Annotation*
+-keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
 
 -keep class com.crashlytics.** { *; }

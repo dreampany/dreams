@@ -30,11 +30,6 @@ public class ImageRoomDataSource implements MediaDataSource<Image> {
     }
 
     @Override
-    public MediaDataSource<Image> getThis() {
-        return this;
-    }
-
-    @Override
     public boolean isEmpty() {
         return false;
     }
@@ -82,6 +77,26 @@ public class ImageRoomDataSource implements MediaDataSource<Image> {
     @Override
     public Maybe<List<Long>> putItemsRx(List<Image> images) {
         return Maybe.fromCallable(() -> putItems(images));
+    }
+
+    @Override
+    public int delete(Image image) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Image image) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Image> images) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Image> images) {
+        return null;
     }
 
     @Override

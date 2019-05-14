@@ -30,11 +30,6 @@ public class ApkRoomDataSource implements MediaDataSource<Apk> {
     }
 
     @Override
-    public MediaDataSource<Apk> getThis() {
-        return this;
-    }
-
-    @Override
     public boolean isEmpty() {
         return false;
     }
@@ -85,6 +80,26 @@ public class ApkRoomDataSource implements MediaDataSource<Apk> {
     @Override
     public Maybe<List<Long>> putItemsRx(List<Apk> apks) {
         return Maybe.fromCallable(() -> putItems(apks));
+    }
+
+    @Override
+    public int delete(Apk apk) {
+        return 0;
+    }
+
+    @Override
+    public Maybe<Integer> deleteRx(Apk apk) {
+        return null;
+    }
+
+    @Override
+    public List<Long> delete(List<Apk> apks) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Long>> deleteRx(List<Apk> apks) {
+        return null;
     }
 
     @Override

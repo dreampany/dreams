@@ -1,7 +1,7 @@
 package com.dreampany.media.data.source.room
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Query
+import androidx.room.Dao
+import androidx.room.Query
 import com.dreampany.frame.data.source.dao.BaseDao
 import com.dreampany.media.data.model.Image
 import io.reactivex.Maybe

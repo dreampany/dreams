@@ -128,10 +128,10 @@ dependencies {
 
     /* kotlin */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    api "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5"
+    api 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5'
 
     /* test */
-    testImplementation 'junit:junit:4.13-beta-2'
+    testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
 
@@ -152,14 +152,14 @@ dependencies {
     api 'androidx.vectordrawable:vectordrawable-animated:1.1.0-beta01'
     api 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha01'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
-    api 'androidx.work:work-runtime:2.0.1'
-    api 'androidx.work:work-runtime-ktx:2.0.1'
+    api 'androidx.work:work-runtime:2.1.0-alpha01'
+    api 'androidx.work:work-runtime-ktx:2.1.0-alpha01'
 
     /* google */
     api 'com.google.code.findbugs:jsr305:3.0.2'
     api 'com.google.guava:guava:27.1-android'
     api 'com.google.code.gson:gson:2.8.5'
-    errorprone 'com.google.errorprone:error_prone_core:2.3.2'
+    errorprone 'com.google.errorprone:error_prone_core:2.3.3'
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
@@ -200,8 +200,8 @@ dependencies {
     releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
     /* okhttp */
-    api 'com.squareup.okhttp3:logging-interceptor:3.14.1'
-    api 'com.squareup.okhttp3:okhttp:3.14.1'
+    api 'com.squareup.okhttp3:logging-interceptor:4.0.0-alpha01'
+    api 'com.squareup.okhttp3:okhttp:4.0.0-alpha01'
 
     /* retrofit */
     api 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -234,7 +234,7 @@ dependencies {
     implementation "io.karn:notify:1.2.0"
 
     api 'com.karumi:dexter:5.0.0'
-    api 'joda-time:joda-time:2.10.1'
+    api 'joda-time:joda-time:2.10.2'
     api 'com.tapadoo.android:alerter:4.0.2'
 
     api 'com.github.silvestrpredko:dot-progress-bar:1.1'

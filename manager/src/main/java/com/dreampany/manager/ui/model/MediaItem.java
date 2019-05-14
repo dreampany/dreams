@@ -1,4 +1,4 @@
-package com.dreampany.media.ui.model;
+package com.dreampany.manager.ui.model;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -12,18 +12,15 @@ import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.DisplayUtil;
 import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.frame.util.NumberUtil;
-import com.dreampany.media.R;
-import com.dreampany.media.R2;
+import com.dreampany.manager.R;
 import com.dreampany.media.data.enums.MediaType;
 import com.dreampany.media.data.model.Apk;
 import com.dreampany.media.data.model.Image;
 import com.dreampany.media.data.model.Media;
-import com.dreampany.media.ui.adapter.MediaAdapter;
+import com.dreampany.manager.ui.adapter.MediaAdapter;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.common.base.Objects;
 import com.like.LikeButton;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
@@ -116,14 +113,14 @@ public class MediaItem extends BaseItem<Media, MediaItem.ViewHolder> {
 
     static abstract class ViewHolder extends BaseItem.ViewHolder {
         MediaAdapter adapter;
-        @BindView(R2.id.image_icon)
+        @BindView(R.id.image_icon)
         SimpleDraweeView icon;
-        @BindView(R2.id.text_size)
+        @BindView(R.id.text_size)
         TextView size;
-        @BindView(R2.id.button_like)
+        @BindView(R.id.button_like)
         LikeButton like;
 
-        ViewHolder(@NotNull View view, @NotNull MediaAdapter adapter) {
+        ViewHolder(@NonNull View view, @NonNull MediaAdapter adapter) {
             super(view, adapter);
             ButterKnife.bind(this, view);
             this.adapter = adapter;
@@ -141,10 +138,10 @@ public class MediaItem extends BaseItem<Media, MediaItem.ViewHolder> {
 
     static class ApkViewHolder extends ViewHolder {
 
-        @BindView(R2.id.text_display_name)
+        @BindView(R.id.text_display_name)
         TextView displayName;
 
-        ApkViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
+        ApkViewHolder(@NonNull View view, @NonNull FlexibleAdapter adapter) {
             super(view, (MediaAdapter) adapter);
         }
 
@@ -162,7 +159,7 @@ public class MediaItem extends BaseItem<Media, MediaItem.ViewHolder> {
 
         int size;
 
-        ImageViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
+        ImageViewHolder(@NonNull View view, @NonNull FlexibleAdapter adapter) {
             super(view, (MediaAdapter) adapter);
             size = DisplayUtil.getScreenWidthInPx(getContext()) / 4;
         }

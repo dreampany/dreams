@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'idea'
@@ -74,22 +73,18 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     /* test */
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    testImplementation 'junit:junit:4.13-beta-3'
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
 
     /* library */
     implementation project(':frame')
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    kapt 'androidx.room:room-compiler:2.1.0-beta01'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'
-
-    /* butterknife */
-    //implementation 'com.jakewharton:butterknife:10.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 }

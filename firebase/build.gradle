@@ -80,7 +80,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     /* test */
-    testImplementation 'junit:junit:4.13-beta-2'
+    testImplementation 'junit:junit:4.13-beta-3'
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha05'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha05'
 
@@ -92,10 +92,10 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.22.1'
 
     /* firebase */
-    api 'com.google.firebase:firebase-auth:16.2.1'
-    implementation 'com.google.firebase:firebase-database:16.1.0'
-    implementation 'com.google.firebase:firebase-storage:16.1.0'
-    api 'com.google.firebase:firebase-firestore:18.2.0'
+    api 'com.google.firebase:firebase-auth:17.0.0'
+    implementation 'com.google.firebase:firebase-database:17.0.0'
+    implementation 'com.google.firebase:firebase-storage:17.0.0'
+    api 'com.google.firebase:firebase-firestore:19.0.0'
 
     /* rx */
     implementation 'io.reactivex.rxjava2:rxjava:2.2.8'

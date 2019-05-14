@@ -11,7 +11,7 @@
             type="androidx.databinding.ObservableArrayList" />
     </data>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,14 +37,15 @@
                 auto:offlineLayout="@layout/state_offline"
                 auto:progressLayout="@layout/state_progress">
 
-                <include android:background="@color/material_grey300"
+                <include
                     android:id="@+id/layout_recycler"
                     layout="@layout/content_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/material_grey300"
                     auto:items="@{items}" />
 
             </cz.kinst.jakub.view.SimpleStatefulLayout>
         </RelativeLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

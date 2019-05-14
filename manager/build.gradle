@@ -187,7 +187,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 
     /* butterknife */
-    //implementation 'com.jakewharton:butterknife:10.1.0'
+    implementation 'com.jakewharton:butterknife:10.1.0'
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
     /* crashlytics */

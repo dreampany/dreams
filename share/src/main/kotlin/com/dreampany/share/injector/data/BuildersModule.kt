@@ -8,9 +8,9 @@ import com.dreampany.media.data.model.Image
 import com.dreampany.media.injector.data.MediaModule
 import com.dreampany.share.data.misc.ApkStateMapper
 import com.dreampany.share.data.misc.ImageStateMapper
-import com.dreampany.share.data.source.ShareDataSource
-import com.dreampany.share.data.source.local.share.ApkRoomShareDataSource
-import com.dreampany.share.data.source.local.share.ImageRoomShareDataSource
+import com.dreampany.share.data.source.api.ShareDataSource
+import com.dreampany.share.data.source.room.share.ApkRoomShareDataSource
+import com.dreampany.share.data.source.room.share.ImageRoomShareDataSource
 import com.dreampany.share.injector.vm.ViewModelModule
 import dagger.Module
 import dagger.Provides

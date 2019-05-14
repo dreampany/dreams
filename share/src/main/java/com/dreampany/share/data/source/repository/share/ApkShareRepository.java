@@ -4,7 +4,7 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.media.data.model.Apk;
-import com.dreampany.share.data.source.ShareDataSource;
+import com.dreampany.share.data.source.api.ShareDataSource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

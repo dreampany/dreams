@@ -5,11 +5,10 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.media.data.model.Media;
 import com.dreampany.media.data.source.api.MediaDataSource;
-import com.dreampany.share.data.source.ShareDataSource;
+import com.dreampany.share.data.source.api.ShareDataSource;
 
 import java.util.List;
 
-import io.reactivex.Maybe;
 import io.reactivex.Maybe;
 
 /**

@@ -2,9 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'net.ltgt.errorprone'
+//apply plugin: 'net.ltgt.errorprone'
 apply plugin: 'idea'
 
 idea {
@@ -159,7 +158,7 @@ dependencies {
     api 'com.google.code.findbugs:jsr305:3.0.2'
     api 'com.google.guava:guava:27.1-android'
     api 'com.google.code.gson:gson:2.8.5'
-    errorprone 'com.google.errorprone:error_prone_core:2.3.3'
+    //errorprone 'com.google.errorprone:error_prone_core:2.3.3'
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
@@ -186,9 +185,6 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.1.0-beta01'
     api 'androidx.room:room-runtime:2.1.0-beta01'
     api 'androidx.room:room-rxjava2:2.1.0-beta01'
-
-    /* butterknife */
-    api 'com.jakewharton:butterknife:10.1.0'
 
     /* reactivex */
     api 'io.reactivex.rxjava2:rxjava:2.2.8'

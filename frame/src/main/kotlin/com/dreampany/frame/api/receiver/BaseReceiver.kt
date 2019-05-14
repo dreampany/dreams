@@ -18,6 +18,7 @@ abstract class BaseReceiver : DaggerBroadcastReceiver(), HasBroadcastReceiverInj
 
     @Inject
     internal lateinit var receiverInjector: DispatchingAndroidInjector<BroadcastReceiver>
+
     @Inject
     protected lateinit var ex: AppExecutors
 

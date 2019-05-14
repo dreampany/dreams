@@ -1,7 +1,6 @@
 package com.dreampany.share.ui.fragment;
 
 import android.os.Bundle;
-import android.view.Menu;
 
 import com.dreampany.frame.api.service.ServiceManager;
 import com.dreampany.frame.misc.ActivityScope;
@@ -9,9 +8,8 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.share.R;
-import com.dreampany.share.data.source.local.Pref;
+import com.dreampany.share.data.source.pref.Pref;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;

@@ -5,7 +5,7 @@ import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.share.BuildConfig
 import com.dreampany.share.R
-import com.dreampany.share.data.source.local.Pref
+import com.dreampany.share.data.source.pref.Pref
 import com.dreampany.share.injector.app.DaggerAppComponent
 import com.dreampany.share.misc.Constants
 import com.dreampany.share.service.NotifyService

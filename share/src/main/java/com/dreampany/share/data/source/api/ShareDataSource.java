@@ -1,6 +1,6 @@
-package com.dreampany.share.data.source;
+package com.dreampany.share.data.source.api;
 
-import com.dreampany.frame.data.source.DataSource;
+import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.media.data.model.Media;
 import com.dreampany.media.data.source.api.MediaDataSource;
 
@@ -14,9 +14,6 @@ import io.reactivex.Maybe;
  * hawladar.roman@bjitgroup.com
  */
 public interface ShareDataSource<T extends Media> extends DataSource<T> {
-
-    @Override
-    ShareDataSource<T> getThis();
 
     boolean isShared(T t);
 

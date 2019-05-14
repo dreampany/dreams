@@ -23,9 +23,9 @@ public class ApkRepository extends MediaRepository<Apk> {
     @Inject
     ApkRepository(RxMapper rx,
                   ResponseMapper rm,
-                  @Room MediaDataSource<Apk> local,
-                  @Memory MediaDataSource<Apk> memory) {
-        super(rx, rm, local, memory);
+                  @Memory MediaDataSource<Apk> memory,
+                  @Room MediaDataSource<Apk> room) {
+        super(rx, rm, memory, room);
     }
 }
 

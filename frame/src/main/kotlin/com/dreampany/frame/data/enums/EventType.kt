@@ -6,6 +6,6 @@ package com.dreampany.frame.data.enums
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-enum class Event {
+enum class EventType {
     NEW
 }

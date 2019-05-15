@@ -1,10 +1,10 @@
-package com.dreampany.media.vm;
+package com.dreampany.frame.data.model
 
 /**
- * Created by roman on 2019-05-13
+ * Created by Roman-372 on 5/15/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-public class ApkViewModel {
+abstract class Event {
 }

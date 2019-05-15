@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import com.dreampany.frame.data.enums.Event;
+//import com.dreampany.frame.data.enums.EventType;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.FragmentScope;
@@ -193,7 +193,7 @@ public class LiveIcoFragment
         vm.setUiCallback(this);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
-        vm.observeEvent(this, this::processEvent);
+        //vm.observeEvent(this, this::processEvent);
         vm.observeOutputs(this, this::processResponse);
     }
 
@@ -247,12 +247,12 @@ public class LiveIcoFragment
         }
     }
 
-    private void processEvent(Event event) {
-        switch (event) {
+/*    private void processEvent(EventType eventType) {
+        switch (eventType) {
             case NEW:
                 break;
         }
-    }
+    }*/
 
     @DebugLog
     private void processResponse(Response<List<IcoItem>> response) {

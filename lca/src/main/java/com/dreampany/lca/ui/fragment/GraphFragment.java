@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.beardedhen.androidbootstrap.BootstrapDropDown;
-import com.dreampany.frame.data.enums.Event;
+//import com.dreampany.frame.data.enums.EventType;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.FragmentScope;
@@ -206,7 +206,7 @@ public class GraphFragment
         UiTask<Coin> uiTask = getCurrentTask(true);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
-        vm.observeEvent(this, this::processEvent);
+        //vm.observeEvent(this, this::processEvent);
         vm.observeOutput(this, this::processResponse);
 
         displayWidth = DisplayUtil.getScreenWidthInPx(Objects.requireNonNull(getContext()));
@@ -309,12 +309,12 @@ public class GraphFragment
         }
     }
 
-    private void processEvent(Event event) {
-        switch (event) {
+/*    private void processEvent(EventType eventType) {
+        switch (eventType) {
             case NEW:
                 break;
         }
-    }
+    }*/
 
     @DebugLog
     private void processResponse(Response<GraphItem> response) {

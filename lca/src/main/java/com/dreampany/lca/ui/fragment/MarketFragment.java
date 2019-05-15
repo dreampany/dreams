@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.beardedhen.androidbootstrap.BootstrapDropDown;
-import com.dreampany.frame.data.enums.Event;
+//import com.dreampany.frame.data.enums.EventType;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.FragmentScope;
@@ -179,8 +179,8 @@ public class MarketFragment
         mvm.setTask(uiTask);
 
         mvm.observeUiState(this, this::processUiState);
-        evm.observeEvent(this, this::processEvent);
-        mvm.observeEvent(this, this::processEvent);
+        //evm.observeEvent(this, this::processEvent);
+        //mvm.observeEvent(this, this::processEvent);
         evm.observeOutputs(this, this::processExchangeResponse);
         mvm.observeOutputs(this, this::processMarketResponse);
         currency = getString(R.string.usd);
@@ -229,12 +229,12 @@ public class MarketFragment
         }
     }
 
-    private void processEvent(Event event) {
-        switch (event) {
+/*    private void processEvent(EventType eventType) {
+        switch (eventType) {
             case NEW:
                 break;
         }
-    }
+    }*/
 
     @DebugLog
     private void processExchangeResponse(Response<List<ExchangeItem>> response) {

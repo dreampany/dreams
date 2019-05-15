@@ -101,8 +101,8 @@ public class GraphViewModel
     }
 
 /*    @Subscribe(threadMode = ThreadMode.POSTING)
-    public void onEvent(@NonNull NetworkState event) {
-        if (event == NetworkState.ONLINE) {
+    public void onEvent(@NonNull NetworkState eventType) {
+        if (eventType == NetworkState.ONLINE) {
             Response<GraphItem> result = getOutput().getValue();
             if (result instanceof Response.Failure) {
                 getEx().getUiExecutor().execute(() -> load(cmcCurrency, timeType, false));

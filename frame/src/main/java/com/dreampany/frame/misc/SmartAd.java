@@ -551,12 +551,12 @@ public class SmartAd {
     private void earnPoints(String id, AdType type, PointSubtype subtype, int points, String comment) {
         FrameManager.onInstance(context).trackPoints(id, type.value(), subtype.value(), points, comment);
 
-        AdEvent event = new AdEvent();
-        event.points = points;
-        event.setType(type);
-        event.setSubtype(subtype);
+        AdEvent eventType = new AdEvent();
+        eventType.points = points;
+        eventType.setType(type);
+        eventType.setSubtype(subtype);
 
-        EventManager.post(event);
+        EventManager.post(eventType);
     }
 */
 

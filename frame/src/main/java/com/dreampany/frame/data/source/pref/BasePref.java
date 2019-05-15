@@ -68,6 +68,10 @@ public abstract class BasePref {
         return privatePref.get(key, typeToken, inputs);
     }
 
+    public <T> void setPublicly(String key, T value) {
+        publicPref.put(key, value);
+    }
+
     public <T> void setPrivately(String key, T value) {
         privatePref.put(key, value);
     }
@@ -84,7 +88,11 @@ public abstract class BasePref {
         publicPref.remove(key);
     }
 
-    public void setPublicly(String key, long value) {
+    public void setPublicly(@NonNull String key, String value) {
+        publicPref.put(key, value);
+    }
+
+    public void setPublicly(@NonNull String key, long value) {
         publicPref.put(key, value);
     }
 
@@ -98,6 +106,10 @@ public abstract class BasePref {
 
     public void setPrivately(String key, long value) {
         privatePref.put(key, value);
+    }
+
+    public <T> T getPublicly(String key, Class<T> classOfT, T defaultValue) {
+        return publicPref.get(key, classOfT, defaultValue);
     }
 
     public <T> T getPrivately(String key, Class<T> classOfT, T defaultValue) {

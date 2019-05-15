@@ -31,6 +31,8 @@ import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,10 +67,10 @@ public class CoinsViewModel
     private int currentIndex;
 
     @Inject
-    CoinsViewModel(Application application,
-                   RxMapper rx,
-                   AppExecutors ex,
-                   ResponseMapper rm,
+    CoinsViewModel(@NotNull Application application,
+                   @NotNull RxMapper rx,
+                   @NotNull AppExecutors ex,
+                   @NotNull ResponseMapper rm,
                    NetworkManager network,
                    Pref pref,
                    ApiRepository repo,

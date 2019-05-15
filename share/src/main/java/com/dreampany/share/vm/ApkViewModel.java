@@ -1,15 +1,19 @@
 package com.dreampany.share.vm;
 
 import android.app.Application;
+
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.misc.exception.ExtraException;
+import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.media.data.enums.MediaType;
 import com.dreampany.media.data.model.Apk;
@@ -33,7 +37,9 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 7/18/2018.
@@ -46,9 +52,6 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
     private final ApkRepository repo;
     private final ApkShareRepository shareRepo;
     private final Comparators comparators;
-    private final MutableLiveData<SelectEvent> select;
-    private LifecycleOwner selectOwner;
-    private Disposable selectDisposable;
 
     @Inject
     ApkViewModel(Application application,
@@ -62,65 +65,91 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         this.repo = repo;
         this.shareRepo = shareRepo;
         this.comparators = comparators;
-        select = new MutableLiveData<>();
     }
 
     @Override
     public void clear() {
-        if (selectOwner != null) {
-            select.removeObservers(selectOwner);
-        }
-        removeSubscription(selectDisposable);
         super.clear();
     }
 
-    public void observeSelect(LifecycleOwner owner, Observer<SelectEvent> observer) {
-        selectOwner = owner;
-        observe(selectOwner, observer, select);
-    }
-
     @DebugLog
-    public void loads(boolean fresh) {
-        if (!preLoads(fresh)) {
+    public void loads(boolean important, boolean progress) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResult(items);
-                }, this::postFailureMultiple);
+                .doOnSubscribe(subscription -> {
+                    if (progress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(result -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.GET, result);
+                }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
         addMultipleSubscription(disposable);
     }
 
     @DebugLog
-    public void loadsWithShare(boolean fresh) {
+    public void loadsWithShare(boolean important, boolean progress) {
         getEx().postToUi(() -> {
-            if (!preLoads(fresh)) {
+            if (!takeAction(important, getMultipleDisposable())) {
                 return;
             }
             Disposable disposable = getRx()
                     .backToMain(getItemsWithShareRx())
-                    .doOnSubscribe(subscription -> postProgressMultiple(true))
-                    .subscribe(items -> {
-                        postResult(items);
+                    .doOnSubscribe(subscription -> {
+                        if (progress) {
+                            postProgress(true);
+                        }
+                    })
+                    .subscribe(result -> {
+                        if (progress) {
+                            postProgress(false);
+                        }
+                        postResult(Response.Type.GET, result);
                         notifySelect();
-                    }, this::postFailureMultiple);
+                    }, error -> {
+                        if (progress) {
+                            postProgress(false);
+                        }
+                        postFailures(new MultiException(error, new ExtraException()));
+                    });
             addMultipleSubscription(disposable);
         }, 500L);
     }
 
     @DebugLog
-    public void loadsShared(boolean fresh) {
-        if (!preLoads(fresh)) {
+    public void loadsShared(boolean important, boolean progress) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getSharedItemsRx())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    postResult(items);
-                }, this::postFailureMultiple);
+                .doOnSubscribe(subscription -> {
+                    if (progress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(result -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.GET, result);
+                }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
         addMultipleSubscription(disposable);
     }
 
@@ -131,7 +160,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         Disposable disposable = getRx()
                 .backToMain(toggleSelectImpl(apk))
                 .subscribe(item -> {
-                    postResult(item);
+                    postResult(Response.Type.UPDATE, item);
                     notifySelect();
                 }, this::postFailure);
         addSingleSubscription(disposable);
@@ -146,29 +175,34 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
     }
 
     public void selectToShare() {
-        if (!preLoads(false)) {
+        if (!takeAction(false, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(putSharedItemsRx())
-                .doOnSubscribe(subscription -> postProgressMultiple(true))
-                .subscribe(items -> {
-                    //postResult(items);
+                .doOnSubscribe(subscription -> {
+                    postProgress(true);
+                }).subscribe(items -> {
                     getUiSelects().clear();
                     notifySelect();
-                }, this::postFailureMultiple);
+                }, this::postFailure);
         addMultipleSubscription(disposable);
     }
 
     @DebugLog
     public void notifySelect() {
-        if (hasDisposable(selectDisposable)) {
+        if (!takeAction(false, getSingleDisposable())) {
             return;
         }
-        selectDisposable = getRx()
+        Disposable disposable = getRx()
                 .backToMain(getSelectEventRx())
-                .subscribe(select::setValue, this::postFailure);
-        addSubscription(selectDisposable);
+                .subscribe(new Consumer<SelectEvent>() {
+                    @Override
+                    public void accept(SelectEvent selectEvent) throws Exception {
+
+                    }
+                }, this::postFailure);
+        addSingleSubscription(disposable);
     }
 
     private Maybe<List<MediaItem>> getItemsRx() {
@@ -177,7 +211,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
     }
 
     private Maybe<List<MediaItem>> getItemsWithShareRx() {
-        return repo.getItemsRx(false)
+        return repo.getItemsRx()
                 .flatMap((Function<List<Apk>, MaybeSource<List<MediaItem>>>) this::getItemsWithShareRx);
     }
 

@@ -257,20 +257,20 @@ class NotifyManager @Inject constructor(val context: Context) {
     }
 
     fun postAlert(id: String, title: String, comment: String?, cause: NotifyCause?) {
-        val event = NotifyEvent(id)
-        event.setUi(Ui.ALERT)
-        event.setTitle(title)
-        event.setComment(comment)
-        event.setCause(cause)
-        post(event)
+        val eventType = NotifyEvent(id)
+        eventType.setUi(Ui.ALERT)
+        eventType.setTitle(title)
+        eventType.setComment(comment)
+        eventType.setCause(cause)
+        post(eventType)
     }
 
     fun postProgress(id: String, title: String, comment: String) {
-        val event = NotifyEvent(id)
-        event.setUi(Ui.PROGRESS)
-        event.setTitle(title)
-        event.setComment(comment)
-        post(event)
+        val eventType = NotifyEvent(id)
+        eventType.setUi(Ui.PROGRESS)
+        eventType.setTitle(title)
+        eventType.setComment(comment)
+        post(eventType)
     }
 
     fun postState(id: String, title: String, comment: String, cause: Type) {
@@ -278,13 +278,13 @@ class NotifyManager @Inject constructor(val context: Context) {
     }
 
     fun postState(id: String, title: String, comment: String, type: Type?, subtype: Type?, cause: Type) {
-        val event = NotifyEvent(id)
-        event.setTitle(title)
-        event.setComment(comment)
-        event.setType(type)
-        event.setSubtype(subtype)
-        event.setCause(cause)
-        event.setUi(Ui.STATE)
-        post(event)
+        val eventType = NotifyEvent(id)
+        eventType.setTitle(title)
+        eventType.setComment(comment)
+        eventType.setType(type)
+        eventType.setSubtype(subtype)
+        eventType.setCause(cause)
+        eventType.setUi(Ui.STATE)
+        post(eventType)
     }*/
 }

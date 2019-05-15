@@ -3,10 +3,11 @@ package com.dreampany.frame.vm
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.dreampany.frame.data.enums.Event
+import com.dreampany.frame.data.enums.EventType
 import com.dreampany.frame.data.enums.NetworkState
 import com.dreampany.frame.data.enums.UiMode
 import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.data.model.Event
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.EmptyException
@@ -29,6 +30,10 @@ import java.util.*
  * B2 - B1 = Added
  * B1 - B2 = Removed
  * B1 - Removed = Updated
+ *
+ * T = Model
+ * X = Ui Model Item
+ * Y = UiTask<T>
  */
 abstract class BaseViewModel<T, X, Y> protected constructor(
     application: Application,
@@ -50,6 +55,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     var uiStateOwner: LifecycleOwner? = null
     var eventOwner: LifecycleOwner? = null
     var favoriteOwner: LifecycleOwner? = null
+    var selectOwner: LifecycleOwner? = null
     var singleOwner: LifecycleOwner? = null
     var multipleOwner: LifecycleOwner? = null
     var singleOwners: MutableList<LifecycleOwner> = mutableListOf()
@@ -60,17 +66,18 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     var singleDisposable: Disposable? = null
     var multipleDisposable: Disposable? = null
 
+    val liveTitle: SingleLiveEvent<String>
+    val liveSubtitle: SingleLiveEvent<String>
     val uiMode: SingleLiveEvent<UiMode>
     val uiState: SingleLiveEvent<UiState>
     val event: SingleLiveEvent<Event>
     val favorite: MutableLiveData<X>
+    val select: MutableLiveData<X>
     val input: PublishSubject<Response<X>>
     val inputs: PublishSubject<Response<List<X>>>
     val output: MutableLiveData<Response<X>>
     val outputs: MutableLiveData<Response<List<X>>>
     var task: Y? = null
-    val liveTitle: SingleLiveEvent<String>
-    val liveSubtitle: SingleLiveEvent<String>
     var networkEvent: NetworkState
     val itemOffset: Int = 4
     var focus: Boolean = false
@@ -88,6 +95,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         liveTitle = SingleLiveEvent()
         liveSubtitle = SingleLiveEvent()
         favorite = MutableLiveData()
+        select = MutableLiveData()
         input = PublishSubject.create()
         inputs = PublishSubject.create()
         output = rx.toLiveData(input, ioDisposables)
@@ -120,7 +128,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return false
     }
 
-    protected open fun onNetworkEvent(event: NetworkState) {
+    protected open fun onNetworkEvent(eventType: NetworkState) {
     }*/
 
     override fun onCleared() {
@@ -136,11 +144,11 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
             this.networkEvent = networkEvent;
             onNetworkEvent(networkEvent)
             updateUiState(if (networkEvent == NetworkState.ONLINE) UiState.ONLINE else UiState.OFFLINE)
-            // this.event.postValue(event)
+            // this.eventType.postValue(eventType)
         }
     }*/
 
-/*    fun processEvent(event: Event?) {
+/*    fun processEvent(eventType: EventType?) {
 
     }*/
 
@@ -151,8 +159,9 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         subtitleOwner?.let { liveSubtitle.removeObservers(it) }
         uiModeOwner?.let { uiMode.removeObservers(it) }
         uiStateOwner?.let { uiState.removeObservers(it) }
-        eventOwner?.let { event.removeObservers(it) }
+        eventOwner?.let { eventType.removeObservers(it) }
         favoriteOwner?.let { favorite.removeObservers(it) }
+        selectOwner?.let { select.removeObservers(it) }
         singleOwner?.let { output.removeObservers(it) }
         multipleOwner?.let { outputs.removeObservers(it) }
         for (owner in singleOwners) {
@@ -198,6 +207,10 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         favorite.value = t
     }
 
+    fun onSelect(t: X?) {
+        select.value = t
+    }
+
 /*    override fun onChanged(t: X?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }*/
@@ -234,9 +247,9 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         observeEvent(this, Observer { processEvent(it)  })
     }*/
 
-    fun observeEvent(owner: LifecycleOwner, observer: Observer<Event>) {
+    fun observeEvent(owner: LifecycleOwner, observer: Observer<EventType>) {
         eventOwner = owner
-        event.reObserve(owner, observer)
+        eventType.reObserve(owner, observer)
     }
 
     fun observeOutput(owner: LifecycleOwner, observer: Observer<Response<X>>) {
@@ -254,6 +267,11 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     fun observeFavorite(owner: LifecycleOwner, observer: Observer<X>) {
         favoriteOwner = owner
         favorite.reObserve(owner, observer)
+    }
+
+    fun observeSelect(owner: LifecycleOwner, observer: Observer<X>) {
+        selectOwner = owner
+        select.reObserve(owner, observer)
     }
 
     fun hasDisposable(disposable: Disposable?): Boolean {
@@ -532,7 +550,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }*/
 
-/*    fun post(event: Any) {
-        EventBus.getDefault().post(event)
+/*    fun post(eventType: Any) {
+        EventBus.getDefault().post(eventType)
     }*/
 }

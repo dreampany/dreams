@@ -17,6 +17,7 @@ import javax.inject.Singleton;
 
 import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
@@ -60,8 +61,8 @@ public class NotifyViewModel {
                 .subscribe(this::postResult, this::postFailed);
     }
 
-    private Flowable<List<DemoItem>> getDemoItems() {
-        return null;
+    private Maybe<List<DemoItem>> getDemoItems() {
+        return Maybe.empty();
     }
 
 

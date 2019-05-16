@@ -35,7 +35,7 @@ class LaunchActivity : BaseActivity() {
         shimmer.startShimmerAnimation()
         AndroidUtil.getUiHandler().postDelayed({
             shimmer.stopShimmerAnimation()
-            openActivity(NavigationActivity::class.java)
+            openActivity(AydenPayment::class)
             finish()
         }, 2000L)
     }

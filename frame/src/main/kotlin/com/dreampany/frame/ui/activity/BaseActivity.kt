@@ -42,6 +42,7 @@ import com.tapadoo.alerter.Alerter
 import dagger.Lazy
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 
 /**
@@ -399,6 +400,10 @@ abstract class BaseActivity :
         if (actionBar != null) {
             actionBar.subtitle = subtitle
         }
+    }
+
+    fun <T : Any> openActivity(target: KClass<T>) {
+        openActivity(target.java)
     }
 
     fun openActivity(target: Class<*>) {

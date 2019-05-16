@@ -90,6 +90,11 @@
             android:name="com.dreampany.test.ui.activity.ToolsActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name="com.dreampany.test.ui.activity.AydenPayment"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:windowSoftInputMode="adjustResize" />
 			
 	    <service
             android:name="com.dreampany.test.service.NotifyService"

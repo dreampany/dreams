@@ -159,7 +159,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         subtitleOwner?.let { liveSubtitle.removeObservers(it) }
         uiModeOwner?.let { uiMode.removeObservers(it) }
         uiStateOwner?.let { uiState.removeObservers(it) }
-        eventOwner?.let { eventType.removeObservers(it) }
+        eventOwner?.let { event.removeObservers(it) }
         favoriteOwner?.let { favorite.removeObservers(it) }
         selectOwner?.let { select.removeObservers(it) }
         singleOwner?.let { output.removeObservers(it) }
@@ -247,9 +247,9 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         observeEvent(this, Observer { processEvent(it)  })
     }*/
 
-    fun observeEvent(owner: LifecycleOwner, observer: Observer<EventType>) {
+    fun observeEvent(owner: LifecycleOwner, observer: Observer<Event>) {
         eventOwner = owner
-        eventType.reObserve(owner, observer)
+        event.reObserve(owner, observer)
     }
 
     fun observeOutput(owner: LifecycleOwner, observer: Observer<Response<X>>) {

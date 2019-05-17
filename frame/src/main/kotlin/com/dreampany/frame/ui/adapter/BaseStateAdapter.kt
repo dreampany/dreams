@@ -15,7 +15,7 @@ import com.dreampany.frame.util.FragmentUtil
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal val manager: androidx.fragment.app.FragmentManager) : FragmentStatePagerAdapter(manager) {
+abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal val manager: FragmentManager) : FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     internal val fragments: SparseArray<T>
     internal val pageTitles: SparseArray<String>
     internal val pageClasses: SparseArray<Class<T>>
@@ -48,7 +48,7 @@ abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal 
         val position = fragments.indexOfValue(inFragment as T?)
         return if (position >= 0) {
             position
-        } else androidx.fragment.app.FragmentStatePagerAdapter.POSITION_NONE
+        } else POSITION_NONE
     }
 
     override fun saveState(): Parcelable? {

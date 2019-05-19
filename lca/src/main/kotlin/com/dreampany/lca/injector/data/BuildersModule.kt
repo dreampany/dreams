@@ -194,20 +194,6 @@ class BuildersModule {
         return httpClient
     }
 
-/*    @Singleton
-    @Provides
-    @CoinMarketCap
-    fun provideCoinMarketCapRetrofit(client: OkHttpClient): Retrofit {
-        val retrofit = Retrofit.Builder()
-                .client(client)
-                .baseUrl(Constants.Api.CoinMarketCapApiUrl)
-                //.addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-        return retrofit;
-    }*/
-
     @Singleton
     @Provides
     @CoinMarketCap
@@ -293,12 +279,6 @@ class BuildersModule {
     fun provideIcoService(@IcoWatchList retrofit: Retrofit): IcoService {
         return retrofit.create(IcoService::class.java);
     }
-
-/*    @Singleton
-    @Provides
-    fun provideExecutors(): AppExecutors {
-        return AppExecutors()
-    }*/
 
     @Singleton
     @Provides

@@ -153,8 +153,8 @@ public class CoinMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setCoinId(in.getId());
         out.setSource(source);
+        out.setCoinId(in.getId());
         out.setName(in.getName());
         out.setSymbol(in.getSymbol());
         out.setSlug(in.getSlug());

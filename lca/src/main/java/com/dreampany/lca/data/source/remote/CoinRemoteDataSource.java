@@ -117,6 +117,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
             return null;
         }
         String ids = String.valueOf(coinId);
+        Timber.v("Ids %s", ids);
         for (int loop = 0; loop < keys.size(); loop++) {
             String apiKey = getApiKey();
             try {
@@ -154,6 +155,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
             return null;
         }
         String ids = mapper.joinLongToString(coinIds, Constants.Sep.COMMA);
+        Timber.v("Ids %s", ids);
         for (int loop = 0; loop < keys.size(); loop++) {
             String apiKey = getApiKey();
             try {

@@ -3,9 +3,9 @@ package com.dreampany.lca.data.source.remote;
 import com.dreampany.lca.api.cmc.model.CmcListingResponse;
 import com.dreampany.lca.api.cmc.model.CmcQuotesResponse;
 
-import io.reactivex.Maybe;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 /**
@@ -38,6 +38,7 @@ public interface CmcService {
     Maybe<CmcListingResponse> getListingRx(@Query("CMC_PRO_API_KEY") String apiKey,
                                            @Query("start") int start,
                                            @Query("limit") int limit);*/
+    @Headers("Connection:close")
     @GET("cryptocurrency/listings/latest")
     Call<CmcListingResponse> getListing(@Query("CMC_PRO_API_KEY") String apiKey,
                                         @Query("convert") String currencies,
@@ -66,6 +67,7 @@ public interface CmcService {
                                       @Query("symbol") String symbols,
                                       @Query("convert") String currencies);*/
 
+    @Headers("Connection:close")
     @GET("cryptocurrency/quotes/latest")
     Call<CmcQuotesResponse> getQuotesByIds(@Query("CMC_PRO_API_KEY") String apiKey,
                                            @Query("convert") String currencies,

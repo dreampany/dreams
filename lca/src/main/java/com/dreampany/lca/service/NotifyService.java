@@ -1,10 +1,10 @@
 package com.dreampany.lca.service;
 
+import androidx.annotation.NonNull;
+
 import com.dreampany.frame.api.service.BaseJobService;
 import com.dreampany.lca.vm.NotifyViewModel;
 import com.firebase.jobdispatcher.JobParameters;
-
-import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -19,13 +19,13 @@ public class NotifyService extends BaseJobService {
     NotifyViewModel vm;
 
     @Override
-    protected boolean doJob(@NotNull JobParameters job) {
+    protected boolean doJob(@NonNull JobParameters job) {
         vm.notifyIf();
         return true;
     }
 
     @Override
-    protected boolean done(@NotNull JobParameters job) {
+    protected boolean done(@NonNull JobParameters job) {
         vm.clear();
         return true;
     }

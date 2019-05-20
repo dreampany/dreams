@@ -14,11 +14,13 @@ import android.widget.Toast;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.dreampany.frame.R;
+import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.AppExecutors;
 import com.muddzdev.styleabletoast.StyleableToast;
 
@@ -122,7 +124,8 @@ public final class NotifyUtil {
                                                   String notifyTitle,
                                                   String contentText,
                                                   @DrawableRes int smallIcon,
-                                                  Class<?> targetClass,
+                                                  @Nullable Class<?> targetClass,
+                                                  @Nullable Task<?> task,
                                                   NotificationChannel channel,
                                                   boolean autoCancel) {
         Context appContext = context.getApplicationContext();
@@ -135,7 +138,7 @@ public final class NotifyUtil {
             builder = new NotificationCompat.Builder(context);
         }
 
-        Intent showTaskIntent = new Intent(appContext, targetClass);
+        Intent showTaskIntent = AndroidUtil.createIntent(appContext, targetClass, task);
         showTaskIntent.setAction(Intent.ACTION_MAIN);
         showTaskIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         showTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -10,10 +10,12 @@ import com.dreampany.lca.databinding.ActivityNavigationBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.fragment.*;
 import com.dreampany.lca.ui.fragment.CoinsFragment;
+import com.dreampany.lca.ui.model.UiTask;
 
 import javax.inject.Inject;
 
 import dagger.Lazy;
+
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -81,6 +83,12 @@ public class NavigationActivity
 
     @Override
     protected void onStartUi(Bundle state) {
+        UiTask<?> uiTask = getCurrentTask(false);
+        if (uiTask != null && uiTask.getType() != null && uiTask.getSubtype() != null) {
+            openActivity(ToolsActivity.class, uiTask);
+            return;
+        }
+
         binding = (ActivityNavigationBinding) super.binding;
         ad.initAd(this,
                 getClass().getSimpleName(),

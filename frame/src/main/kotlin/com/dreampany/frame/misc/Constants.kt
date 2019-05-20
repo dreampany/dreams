@@ -23,6 +23,7 @@ class Constants {
         const val APPLICATION = "application"
         const val ACTIVITY = "activity"
         const val FRAGMENT = "fragment"
+        const val NOTIFICATION = "notification"
     }
 
     object Param {

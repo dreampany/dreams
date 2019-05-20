@@ -1,15 +1,16 @@
 package com.dreampany.lca.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-//import com.dreampany.frame.data.enums.EventType;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.FragmentScope;
@@ -30,19 +31,23 @@ import com.dreampany.lca.ui.adapter.IcoAdapter;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.FinishedIcoViewModel;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+
+import javax.inject.Inject;
+
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import hugo.weaving.DebugLog;
 import im.delight.android.webview.AdvancedWebView;
-import net.cachapa.expandablelayout.ExpandableLayout;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.inject.Inject;
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -93,7 +98,7 @@ public class FinishedIcoFragment
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
-        vm.clear();
+        //vm.clear();
     }
 
     @Override
@@ -105,7 +110,7 @@ public class FinishedIcoFragment
     @Override
     public void onPause() {
         super.onPause();
-        vm.removeMultipleSubscription();
+        //vm.removeMultipleSubscription();
     }
 
 /*    @Override

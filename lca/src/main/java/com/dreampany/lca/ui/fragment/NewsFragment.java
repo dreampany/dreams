@@ -25,8 +25,11 @@ import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.databinding.FragmentNewsBinding;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.NewsAdapter;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.NewsItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.NewsViewModel;
@@ -308,9 +311,12 @@ public class NewsFragment
         if (AdvancedWebView.Browsers.hasAlternative(getContext())) {
             AdvancedWebView.Browsers.openUrl(getParent(), news.getUrl());
         } else {
-            UiTask<?> task = new UiTask<>(true);
+            UiTask<News> task = new UiTask<>(true);
             task.setComment(news.getUrl());
-            openActivity(WebActivity.class, task);
+            task.setInput(news);
+            task.setUiType(UiType.NEWS);
+            task.setSubtype(UiSubtype.VIEW);
+            openActivity(ToolsActivity.class, task);
         }
     }
 }

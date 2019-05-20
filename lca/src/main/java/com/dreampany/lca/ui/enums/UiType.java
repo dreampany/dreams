@@ -10,7 +10,7 @@ import com.dreampany.frame.data.enums.Type;
  * dreampanymail@gmail.com
  */
 public enum UiType implements Type {
-    COIN, MORE;
+    MORE, COIN, NEWS;
 
     @Override
     public boolean equals(Type type) {
@@ -48,10 +48,12 @@ public enum UiType implements Type {
 
     public static final Creator<UiType> CREATOR = new Creator<UiType>() {
 
+        @Override
         public UiType createFromParcel(Parcel in) {
             return UiType.values()[in.readInt()];
         }
 
+        @Override
         public UiType[] newArray(int size) {
             return new UiType[size];
         }
@@ -61,11 +63,12 @@ public enum UiType implements Type {
     public static UiType valueOf(int ordinal) {
         switch (ordinal) {
             case 0:
-                return COIN;
-            case 1:
                 return MORE;
+            case 1:
+                return COIN;
+            case 2:
             default:
-                return null;
+                return NEWS;
         }
     }
 }

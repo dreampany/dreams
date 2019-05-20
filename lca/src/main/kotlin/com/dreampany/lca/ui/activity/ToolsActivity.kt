@@ -100,6 +100,15 @@ class ToolsActivity : BaseActivity() {
                     }
                 }
             }
+            UiType.NEWS -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        openActivity(WebActivity::class.java, uiTask, true)
+                    }
+                    else -> {
+                    }
+                }
+            }
             else -> {
             }
         }

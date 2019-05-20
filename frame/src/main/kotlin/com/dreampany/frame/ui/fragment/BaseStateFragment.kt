@@ -1,6 +1,7 @@
 package com.dreampany.frame.ui.fragment
 
 import android.os.Bundle
+import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.dreampany.frame.R
 import com.dreampany.frame.data.model.Task
@@ -54,7 +55,7 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
     }
 
     override fun getCurrentFragment(): BaseFragment? {
-        val viewPager = findViewById<androidx.viewpager.widget.ViewPager>(getViewPagerId())
+        val viewPager = findViewById<ViewPager>(getViewPagerId())
         if (viewPager != null && adapter != null) {
             val fragment = adapter?.getFragment(viewPager.getCurrentItem())
             if (fragment != null) {
@@ -74,7 +75,7 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
         val pageClasses = pageClasses()
         val pageTasks = pageTasks()
 
-        val viewPager = findViewById<androidx.viewpager.widget.ViewPager>(getViewPagerId())
+        val viewPager = findViewById<ViewPager>(getViewPagerId())
         val tabLayout = findViewById<TabLayout>(getTabLayoutId())
 
         if (pageTitles.isEmpty() || pageClasses.isEmpty() || viewPager == null || tabLayout == null) {
@@ -93,9 +94,9 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
             }
         }
 
-        if (adapter == null) {
+        //if (adapter == null) {
             adapter = SmartPagerAdapter<T>(childFragmentManager)
-        }
+        //}
 
         viewPager.setAdapter(adapter)
         tabLayout.setupWithViewPager(viewPager)

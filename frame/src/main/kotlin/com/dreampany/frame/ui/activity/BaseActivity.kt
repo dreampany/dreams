@@ -130,7 +130,6 @@ abstract class BaseActivity :
     protected abstract fun onStopUi()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val app = getApp();
         if (AndroidUtil.hasLollipop()) {
             requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         }
@@ -141,6 +140,7 @@ abstract class BaseActivity :
         if (isScreenOn()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
+        val app = getApp()
         if (hasColor()) {
             color = app.getColor()
         }
@@ -417,16 +417,6 @@ abstract class BaseActivity :
     fun openActivity(target: Class<*>, task: Task<*>) {
         AndroidUtil.openActivity(this, target, task)
     }
-
-/*    fun openActivitySerializable(target: Class<BaseActivity>, task: Task<*>) {
-        AndroidUtil.openActivitySerializable(this, target, task)
-    }*/
-
-/*    protected <T extends BaseFragment> T commitFragment(final Class<T> fragmentClass, final int parentId) {
-        T currentFragment = FragmentUtil.commitFragment(this, fragmentClass, parentId);
-        setCurrentFragment(currentFragment);
-        return currentFragment;
-    }*/
 
     protected fun <T : BaseFragment> commitFragment(
         clazz: Class<T>,

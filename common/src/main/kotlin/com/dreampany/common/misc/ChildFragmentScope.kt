@@ -8,8 +8,7 @@ import javax.inject.Scope
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-
 @Scope
-@MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ActivityScope
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FILE, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+annotation class ChildFragmentScope

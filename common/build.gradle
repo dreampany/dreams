@@ -1,0 +1,118 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jakewharton.hugo'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadJavadoc = true
+    }
+}
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName '0.0.1'
+
+        multiDexEnabled true
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            useProguard false
+            shrinkResources false
+            crunchPngs false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+        }
+
+        release {
+            minifyEnabled true
+            useProguard true
+            shrinkResources false
+            crunchPngs false
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    /* kotlin */
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    api 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.0.5'
+
+    /* test */
+    testImplementation 'junit:junit:4.13-beta-3'
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
+
+    /* android support */
+    api 'androidx.core:core:1.2.0-alpha01'
+    api 'androidx.cardview:cardview:1.0.0'
+    api 'androidx.appcompat:appcompat:1.1.0-alpha05'
+    api 'androidx.preference:preference:1.1.0-alpha05'
+    api 'androidx.recyclerview:recyclerview:1.1.0-alpha05'
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
+    api 'com.google.android.material:material:1.1.0-alpha06'
+
+    /* android arch */
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01'
+    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-alpha01'
+    kapt 'androidx.room:room-compiler:2.1.0-beta01'
+    api 'androidx.room:room-runtime:2.1.0-beta01'
+    api 'androidx.room:room-rxjava2:2.1.0-beta01'
+
+    /* google */
+    api 'com.google.code.findbugs:jsr305:3.0.2'
+    api 'com.google.guava:guava:27.1-android'
+    api 'com.google.code.gson:gson:2.8.5'
+
+    /* dagger */
+    api 'com.google.dagger:dagger:2.22.1'
+    api 'com.google.dagger:dagger-android:2.22.1'
+    api 'com.google.dagger:dagger-android-support:2.22.1'
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
+
+    /* reactivex */
+    api 'io.reactivex.rxjava2:rxjava:2.2.8'
+    api 'io.reactivex.rxjava2:rxkotlin:2.3.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    /* misc */
+    api 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.github.pwittchen:prefser-rx2:2.2.2'
+}

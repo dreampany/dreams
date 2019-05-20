@@ -15,6 +15,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceFragmentCompat
@@ -51,26 +52,19 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BaseFragment : PreferenceFragmentCompat(),
-    HasSupportFragmentInjector,
+abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInjector,
     ViewTreeObserver.OnWindowFocusChangeListener,
     UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
-    View.OnClickListener,
-    SwipeRefreshLayout.OnRefreshListener,
-    PermissionListener,
-    MultiplePermissionsListener,
-    PermissionRequestErrorListener,
-    SearchView.OnQueryTextListener,
-    FlexibleAdapter.OnItemClickListener,
-    FlexibleAdapter.OnItemLongClickListener,
-    FlexibleAdapter.EndlessScrollListener,
-    EmptyViewHelper.OnEmptyViewListener {
+    View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, PermissionListener,
+    MultiplePermissionsListener, PermissionRequestErrorListener, SearchView.OnQueryTextListener,
+    FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener,
+    FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener {
 
-    @Inject
-    internal lateinit var childFragmentInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
     @Inject
     internal lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
+    @Inject
+    internal lateinit var childInjector: DispatchingAndroidInjector<Fragment>
     protected var task: Task<*>? = null
     protected var childTask: Task<*>? = null
     protected var currentView: View? = null
@@ -78,6 +72,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     protected var fireOnStartUi: Boolean = true
     protected lateinit var activityCallback: UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
     protected lateinit var fragmentCallback: UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
+
+    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
+        return childInjector
+    }
 
     open fun getLayoutId(): Int {
         return 0
@@ -109,7 +107,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         return this
     }
 
-    open fun getScreen() : String {
+    open fun getScreen(): String {
         return javaClass.simpleName
     }
 
@@ -118,10 +116,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     @DebugLog
     protected abstract fun onStopUi()
-
-    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
-        return childFragmentInjector
-    }
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -140,7 +134,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         if (currentView != null) {
             if (currentView?.getParent() != null) {
                 (currentView?.getParent() as ViewGroup).removeView(currentView)
@@ -163,16 +159,22 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         super.onActivityCreated(savedInstanceState)
 
         val activity = activity
-        if (BaseActivity::class.java.isInstance(activity) && UiCallback::class.java.isInstance(activity)) {
+        if (BaseActivity::class.java.isInstance(activity) && UiCallback::class.java.isInstance(
+                activity
+            )
+        ) {
             activityCallback =
-                    activity as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
+                activity as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
         }
 
         // this will be worked when parent and child fragment relation
         val parentFragment = parentFragment
-        if (BaseFragment::class.java.isInstance(parentFragment) && UiCallback::class.java.isInstance(parentFragment)) {
+        if (BaseFragment::class.java.isInstance(parentFragment) && UiCallback::class.java.isInstance(
+                parentFragment
+            )
+        ) {
             fragmentCallback =
-                    parentFragment as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
+                parentFragment as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
         }
 
         if (hasColor()) {
@@ -289,7 +291,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     override fun onPermissionDenied(response: PermissionDeniedResponse?) {
     }
 
-    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+    override fun onPermissionRationaleShouldBeShown(
+        permission: PermissionRequest?, token: PermissionToken?
+    ) {
 
     }
 
@@ -297,7 +301,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     }
 
-    override fun onPermissionRationaleShouldBeShown(permissions: List<PermissionRequest>, token: PermissionToken) {
+    override fun onPermissionRationaleShouldBeShown(
+        permissions: List<PermissionRequest>, token: PermissionToken
+    ) {
 
     }
 
@@ -317,7 +323,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         return getParent()?.getApp()
     }
 
-    fun getAppContext() : Context? {
+    fun getAppContext(): Context? {
         return context?.applicationContext
     }
 
@@ -431,10 +437,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     fun checkPermissions(vararg permissions: String, listener: MultiplePermissionsListener) {
         val parent = getParent();
         parent?.let {
-            Dexter.withActivity(it)
-                .withPermissions(*permissions)
-                .withListener(listener)
-                .check()
+            Dexter.withActivity(it).withPermissions(*permissions).withListener(listener).check()
         }
 
     }
@@ -459,7 +462,13 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         showAlert(title, text, backgroundColor, timeout, null)
     }
 
-    fun showAlert(title: String, text: String, backgroundColor: Int, timeout: Long, listener: View.OnClickListener?) {
+    fun showAlert(
+        title: String,
+        text: String,
+        backgroundColor: Int,
+        timeout: Long,
+        listener: View.OnClickListener?
+    ) {
         if (!isParentAlive()) {
             return
         }

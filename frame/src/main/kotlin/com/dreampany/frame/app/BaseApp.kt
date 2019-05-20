@@ -69,7 +69,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     internal var visible: Boolean = false
 
     open fun isDebug(): Boolean {
-        return BuildConfig.DEBUG;
+        return BuildConfig.DEBUG
     }
 
     open fun hasStrict(): Boolean {
@@ -220,9 +220,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         }
         if (hasColor()) {
             color = ColorUtil.createColor(
-                R.color.colorPrimary,
-                R.color.colorPrimaryDark,
-                R.color.colorAccent
+                R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent
             )
         }
 
@@ -327,21 +325,12 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     private fun setStrictMode() {
         StrictMode.setThreadPolicy(
-            StrictMode.ThreadPolicy.Builder()
-                .detectDiskReads()
-                .detectDiskWrites()
-                .detectNetwork()   // or .detectAll() for all detectable problems
-                .penaltyLog()
-                .build()
+            StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork()   // or .detectAll() for all detectable problems
+                .penaltyLog().build()
         )
 
         StrictMode.setVmPolicy(
-            StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects()
-                .detectLeakedClosableObjects()
-                .penaltyLog()
-                .detectActivityLeaks()
-                .build()
+            StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().detectActivityLeaks().build()
         )
     }
 
@@ -365,14 +354,12 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     private fun configFresco() {
         val diskSupplier = Supplier<File> { applicationContext.cacheDir }
 
-        val diskCacheConfig = DiskCacheConfig.newBuilder(applicationContext)
-            .setBaseDirectoryName("image.cache")
-            .setBaseDirectoryPathSupplier(diskSupplier)
-            .build()
+        val diskCacheConfig =
+            DiskCacheConfig.newBuilder(applicationContext).setBaseDirectoryName("image.cache")
+                .setBaseDirectoryPathSupplier(diskSupplier).build()
 
-        val frescoConfig = ImagePipelineConfig.newBuilder(this)
-            .setMainDiskCacheConfig(diskCacheConfig)
-            .build()
+        val frescoConfig =
+            ImagePipelineConfig.newBuilder(this).setMainDiskCacheConfig(diskCacheConfig).build()
 
         Fresco.initialize(this, frescoConfig)
     }
@@ -393,9 +380,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     private fun getAction(description: String, uri: String): Action {
-        return Action.Builder(Action.Builder.VIEW_ACTION)
-            .setObject(description, uri)
-            .build()
+        return Action.Builder(Action.Builder.VIEW_ACTION).setObject(description, uri).build()
     }
 
     private fun startUpdate() {

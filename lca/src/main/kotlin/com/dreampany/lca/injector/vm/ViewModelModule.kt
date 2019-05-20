@@ -2,7 +2,7 @@ package com.dreampany.lca.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.frame.vm.ViewModelKey
+import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
 import com.dreampany.lca.vm.*
 import dagger.Binds

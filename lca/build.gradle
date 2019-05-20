@@ -21,7 +21,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 109
-        versionName "1.0.9"
+        versionName '1.0.9'
 
         multiDexEnabled true
 
@@ -67,7 +67,7 @@ android {
             minifyEnabled true
             useProguard true
             shrinkResources true
-            crunchPngs false
+            crunchPngs true
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'

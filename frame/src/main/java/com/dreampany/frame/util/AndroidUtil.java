@@ -324,7 +324,20 @@ public final class AndroidUtil {
         return false;
     }
 
-    //ui opening section
+
+    public static <T extends Context> Intent createIntent(T source, Class<?> target) {
+        return createIntent(source, target, null);
+    }
+
+    public static <T extends Context> Intent createIntent(T source, Class<?> target, @Nullable Task<?> task) {
+        Intent intent = new Intent(source, target);
+        if (task != null) {
+            intent.putExtra(Task.class.getSimpleName(), (Parcelable) task);
+        }
+        return intent;
+    }
+
+    /* ui opening section */
     public static <T extends Activity> void openActivity(T source, Class<?> target) {
         openActivity(source, target, false);
     }
@@ -368,6 +381,17 @@ public final class AndroidUtil {
             Intent intent = new Intent(source, target);
             intent.putExtra(Task.class.getSimpleName(), (Parcelable) task);
             source.startActivity(intent);
+        }
+    }
+
+    public static <T extends Activity, X extends Parcelable> void openActivity(T source, Class<?> target, Task<X> task, boolean finish) {
+        if (source != null) {
+            Intent intent = new Intent(source, target);
+            intent.putExtra(Task.class.getSimpleName(), (Parcelable) task);
+            source.startActivity(intent);
+        }
+        if (finish) {
+            source.finish();
         }
     }
 

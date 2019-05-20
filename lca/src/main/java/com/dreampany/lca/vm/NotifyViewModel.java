@@ -3,6 +3,7 @@ package com.dreampany.lca.vm;
 import android.app.Application;
 
 import com.dreampany.frame.api.notify.NotifyManager;
+import com.dreampany.frame.app.BaseApp;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -27,9 +28,12 @@ import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.activity.NavigationActivity;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.CoinItem;
 import com.dreampany.lca.ui.model.NewsItem;
+import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
 
@@ -95,6 +99,10 @@ public class NotifyViewModel {
         //disposables = new CompositeDisposable();
     }
 
+    public BaseApp getApp() {
+        return (BaseApp) application;
+    }
+
     public void clear() {
         //disposables.dispose();
     }
@@ -109,7 +117,7 @@ public class NotifyViewModel {
                 if (profitMaybe != null) {
                     Disposable disposable = rx
                             .backToMain(profitMaybe)
-                            .subscribe(result -> postResultCoins(currency, result), this::postFailed);
+                            .subscribe(result -> postProfitableCoins(currency, result), this::postFailed);
                 } else {
                     Timber.e("getProfitableItemsRx is Null");
                 }
@@ -205,13 +213,17 @@ public class NotifyViewModel {
                 .toMaybe();
     }
 
-    private void postResultCoins(Currency currency, List<CoinItem> items) {
+    private void postProfitableCoins(Currency currency, List<CoinItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
             //return;
         }
 
+        String title = TextUtil.getString(app, R.string.notify_title_profit);
         String message;
+        Class<?> targetClass = null;
+        UiTask<Coin> task = null;
+
         if (!DataUtil.isEmpty(items)) {
             CoinItem profitable = items.get(0);
             for (int index = 1; index < items.size(); index++) {
@@ -225,11 +237,17 @@ public class NotifyViewModel {
             double price = coin.getQuote(currency).getPrice();
             double dayChange = coin.getQuote(currency).getDayChange();
             message = formatter.formatPrice(coin.getSymbol(), coin.getName(), price, dayChange, currency);
+
+            targetClass = NavigationActivity.class;
+            task = new UiTask<>(false);
+            task.setInput(coin);
+            task.setUiType(UiType.COIN);
+            task.setSubtype(UiSubtype.VIEW);
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
-        String title = TextUtil.getString(app, R.string.notify_title_profit);
-        notify.showNotification(title, message, R.drawable.ic_notification, NavigationActivity.class);
+        notify.showNotification(title, message, R.drawable.ic_notification, targetClass, task);
+        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Screen.notifyProfitableCoin(application));
     }
 
     private void postResultAlerts(List<CoinAlertItem> items) {
@@ -240,7 +258,12 @@ public class NotifyViewModel {
         if (DataUtil.isEmpty(items)) {
             return;
         }
+
+        String title = TextUtil.getString(app, R.string.notify_title_price_alert);
         StringBuilder message = new StringBuilder();
+        Class<?> targetClass = null;
+        UiTask<Coin> task = null;
+
         for (CoinAlertItem item : items) {
             if (message.length() > 0) {
                 message.append(Constants.Sep.COMMA_SPACE);
@@ -260,15 +283,25 @@ public class NotifyViewModel {
                         .append(Constants.Sep.DOWN)
                         .append(alert.getPriceDown());
             }
+
+            targetClass = NavigationActivity.class;
+            task = new UiTask<>(false);
+            task.setInput(coin);
+            task.setUiType(UiType.COIN);
+            task.setSubtype(UiSubtype.VIEW);
         }
-        String title = TextUtil.getString(app, R.string.notify_title_price_alert);
+
         notify.showNotification(
                 title,
                 message.toString(),
                 R.drawable.ic_notification,
                 Constants.Notify.ALERT_ID,
                 Constants.Notify.ALERT_CHANNEL_ID,
-                NavigationActivity.class);
+                targetClass,
+                task
+        );
+
+        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Screen.notifyAlertCoin(application));
     }
 
     private void postResultNews(List<NewsItem> items) {
@@ -279,18 +312,28 @@ public class NotifyViewModel {
         if (DataUtil.isEmpty(items)) {
             return;
         }
+
         NewsItem news = items.get(0);
+        String title = TextUtil.getString(app, R.string.notify_title_news);
         StringBuilder message = new StringBuilder();
         message.append(news.getItem().getBody());
 
-        String title = TextUtil.getString(app, R.string.notify_title_news);
+        Class<?> targetClass = NavigationActivity.class;
+        UiTask<News> task = new UiTask<>(true);
+        task.setComment(news.getItem().getUrl());
+        task.setInput(news.getItem());
+        task.setUiType(UiType.NEWS);
+        task.setSubtype(UiSubtype.VIEW);
+
         notify.showNotification(
                 title,
                 message.toString(),
                 R.drawable.ic_notification,
                 Constants.Notify.NEWS_ID,
                 Constants.Notify.NEWS_CHANNEL_ID,
-                NavigationActivity.class);
+                targetClass,
+                task);
+        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Screen.notifyNews(application));
     }
 
     @DebugLog

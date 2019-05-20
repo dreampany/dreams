@@ -14,6 +14,14 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
 
+    object Event  {
+        const val ERROR = com.dreampany.frame.misc.Constants.Event.ERROR
+        const val APPLICATION = com.dreampany.frame.misc.Constants.Event.APPLICATION
+        const val ACTIVITY = com.dreampany.frame.misc.Constants.Event.ACTIVITY
+        const val FRAGMENT = com.dreampany.frame.misc.Constants.Event.FRAGMENT
+        const val NOTIFICATION = com.dreampany.frame.misc.Constants.Event.NOTIFICATION
+    }
+
     companion object Screen {
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
 
@@ -33,6 +41,10 @@ class Constants {
         fun icoUpcoming(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico_upcoming"
         fun icoFinished(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico_finished"
         fun news(context: Context): String = lastAppId(context) + Sep.HYPHEN + "news"
+
+        fun notifyProfitableCoin(context: Context): String = lastAppId(context) + Sep.HYPHEN + "profitable_coin"
+        fun notifyAlertCoin(context: Context): String = lastAppId(context) + Sep.HYPHEN + "alert_coin"
+        fun notifyNews(context: Context): String = lastAppId(context) + Sep.HYPHEN + "alert_news"
     }
 
     object Tag {

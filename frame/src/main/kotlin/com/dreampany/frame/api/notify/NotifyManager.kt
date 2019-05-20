@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import com.dreampany.frame.R
+import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.NotifyUtil
 import io.karn.notify.Notify
@@ -44,7 +45,8 @@ class NotifyManager @Inject constructor(val context: Context) {
         title: String,
         contentText: String,
         icon: Int,
-        targetClass: Class<*>
+        targetClass: Class<*>?,
+        task: Task<*>?
     ) {
         showNotification(
             NOTIFY_DEFAULT,
@@ -52,6 +54,7 @@ class NotifyManager @Inject constructor(val context: Context) {
             contentText,
             icon,
             targetClass,
+            task,
             NOTIFY_CHANNEL_DEFAULT,
             context.getString(R.string.app_name),
             context.getString(R.string.description)
@@ -62,7 +65,8 @@ class NotifyManager @Inject constructor(val context: Context) {
         contentText: String,
         icon: Int,
         channelId: String,
-        targetClass: Class<*>
+        targetClass: Class<*>?,
+        task: Task<*>?
     ) {
         showNotification(
             NOTIFY_DEFAULT,
@@ -70,6 +74,7 @@ class NotifyManager @Inject constructor(val context: Context) {
             contentText,
             icon,
             targetClass,
+            task,
             channelId,
             context.getString(R.string.app_name),
             context.getString(R.string.description)
@@ -82,7 +87,8 @@ class NotifyManager @Inject constructor(val context: Context) {
         icon: Int,
         notifyId: Int,
         channelId: String,
-        targetClass: Class<*>
+        targetClass: Class<*>?,
+        task: Task<*>?
     ) {
         showNotification(
             notifyId,
@@ -90,6 +96,7 @@ class NotifyManager @Inject constructor(val context: Context) {
             contentText,
             icon,
             targetClass,
+            task,
             channelId,
             context.getString(R.string.app_name),
             context.getString(R.string.description)
@@ -101,7 +108,8 @@ class NotifyManager @Inject constructor(val context: Context) {
         notifyTitle: String,
         contentText: String,
         smallIcon: Int,
-        targetClass: Class<*>,
+        targetClass: Class<*>?,
+        task: Task<*>?,
         channelId: String,
         channelName: String,
         channelDescription: String
@@ -125,6 +133,7 @@ class NotifyManager @Inject constructor(val context: Context) {
             contentText,
             smallIcon,
             targetClass,
+            task,
             channel,
             true
         )
@@ -139,6 +148,7 @@ class NotifyManager @Inject constructor(val context: Context) {
         contentText: String,
         smallIcon: Int,
         targetClass: Class<*>,
+        task: Task<*>?,
         channelId: String,
         channelName: String,
         channelDescription: String
@@ -162,6 +172,7 @@ class NotifyManager @Inject constructor(val context: Context) {
             contentText,
             smallIcon,
             targetClass,
+            task,
             channel,
             true
         )
@@ -172,14 +183,6 @@ class NotifyManager @Inject constructor(val context: Context) {
             manager?.notify(notifyId, notification)
         }
     }
-
-/*    fun showNotification(context: Context, title: String, message: String, target: Class<*>) {
-        showNotification(context, NOTIFY_DEFAULT, title, message, target, null)
-    }*/
-
-/*    fun showNotification(context: Context,  title: String, message: String, target: Class<*>) {
-        showNotification(context, title, message, target, null)
-    }*/
 
     fun showNotification(
         context: Context,
@@ -192,99 +195,5 @@ class NotifyManager @Inject constructor(val context: Context) {
 
         Notify.cancelNotification(notifyId)
         Notify.with(context).content { }.show()
-
-
-/*        Notify.with(context)
-            .content {
-                title = "New dessert menu"
-                text = "The Cheesecake Factory has a new dessert for you to try!"
-            }
-            .stackable {
-                key = "test_key"
-                summaryContent = "test summary content"
-                summaryTitle = { count -> "Summary title" }
-                summaryDescription = { count -> count.toString() + " new notifications." }
-            }
-            .show()*/
-
-
-/*        PugNotification.with(context).cancel(notifyId)
-        PugNotification.with(context)
-            .load()
-            .identifier(notifyId)
-            .title(title)
-            .message(message)
-            .smallIcon(R.mipmap.ic_launcher)
-            .largeIcon(R.mipmap.ic_launcher)
-            .flags(Notification.DEFAULT_ALL)
-            .autoCancel(true)
-            .click(target, data)
-            .simple()
-            .build()*/
     }
-
-/*    fun showNotification(
-        context: Context,
-        icon: Int,
-        iconUri: String,
-        title: String,
-        message: String,
-        bigText: String,
-        target: Class<*>,
-        data: Bundle,
-        loader: ImageLoader
-    ) {
-        PugNotification.with(context)
-            .load()
-            .identifier(NOTIFY_DEFAULT)
-            .title(title)
-            .message(message)
-            .bigTextStyle(bigText)
-            .smallIcon(icon)
-            .largeIcon(icon)
-            .flags(Notification.DEFAULT_ALL)
-            .autoCancel(true)
-            .click(target, data)
-            .custom()
-            .setPlaceholder(icon)
-            .setImageLoader(loader)
-            .background(iconUri)
-            .build()
-    }*/
-
-/*    fun postAlert(id: String, title: String) {
-        postAlert(id, title, null, null)
-    }
-
-    fun postAlert(id: String, title: String, comment: String?, cause: NotifyCause?) {
-        val eventType = NotifyEvent(id)
-        eventType.setUi(Ui.ALERT)
-        eventType.setTitle(title)
-        eventType.setComment(comment)
-        eventType.setCause(cause)
-        post(eventType)
-    }
-
-    fun postProgress(id: String, title: String, comment: String) {
-        val eventType = NotifyEvent(id)
-        eventType.setUi(Ui.PROGRESS)
-        eventType.setTitle(title)
-        eventType.setComment(comment)
-        post(eventType)
-    }
-
-    fun postState(id: String, title: String, comment: String, cause: Type) {
-        postState(id, title, comment, null, null, cause)
-    }
-
-    fun postState(id: String, title: String, comment: String, type: Type?, subtype: Type?, cause: Type) {
-        val eventType = NotifyEvent(id)
-        eventType.setTitle(title)
-        eventType.setComment(comment)
-        eventType.setType(type)
-        eventType.setSubtype(subtype)
-        eventType.setCause(cause)
-        eventType.setUi(Ui.STATE)
-        post(eventType)
-    }*/
 }

@@ -196,8 +196,8 @@ dependencies {
     releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
     /* okhttp */
-    api 'com.squareup.okhttp3:logging-interceptor:4.0.0-alpha01'
-    api 'com.squareup.okhttp3:okhttp:4.0.0-alpha01'
+    api 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+    api 'com.squareup.okhttp3:okhttp:3.14.1'
 
     /* retrofit */
     api 'com.squareup.retrofit2:retrofit:2.5.0'

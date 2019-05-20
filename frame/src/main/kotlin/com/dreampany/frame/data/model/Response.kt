@@ -22,6 +22,5 @@ sealed class Response<T> {
         fun <T> response(error: Throwable): Response<T> = Failure(error)
         fun <T> response(type: Type, data: T): Response<T> = Result(type, data)
         fun <T> responseEmpty(data: T?): Response<T> = Empty(data)
-        //fun <T> result(data: T, error: Throwable?): Response.Result<T> = Result(data, error)
     }
 }

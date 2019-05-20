@@ -1,4 +1,4 @@
-package com.dreampany.frame.misc
+package com.dreampany.common.misc
 
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers

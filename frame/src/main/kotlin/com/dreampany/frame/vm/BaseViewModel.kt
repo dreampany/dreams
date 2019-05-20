@@ -3,7 +3,6 @@ package com.dreampany.frame.vm
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.dreampany.frame.data.enums.EventType
 import com.dreampany.frame.data.enums.NetworkState
 import com.dreampany.frame.data.enums.UiMode
 import com.dreampany.frame.data.enums.UiState
@@ -84,7 +83,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     init {
         lifecycleRegistry = LifecycleRegistry(this)
-        lifecycleRegistry.setCurrentState(Lifecycle.State.INITIALIZED);
+        lifecycleRegistry.setCurrentState(Lifecycle.State.INITIALIZED)
         //register(this)
 
         disposables = CompositeDisposable()

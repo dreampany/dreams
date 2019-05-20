@@ -1,4 +1,4 @@
-package com.dreampany.frame.misc
+package com.dreampany.common.misc
 
 import javax.inject.Scope
 

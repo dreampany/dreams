@@ -1,4 +1,4 @@
-package com.dreampany.frame.misc
+package com.dreampany.common.misc
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData

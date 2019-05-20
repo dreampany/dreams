@@ -1,6 +1,5 @@
 package com.dreampany.common.misc
 
-import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import java.util.concurrent.Executor

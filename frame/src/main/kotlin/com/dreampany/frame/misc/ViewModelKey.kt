@@ -1,5 +1,4 @@
-
-package com.dreampany.frame.vm
+package com.dreampany.frame.misc
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

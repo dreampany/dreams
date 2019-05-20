@@ -41,6 +41,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.tapadoo.alerter.Alerter
 import dagger.Lazy
 import dagger.android.support.DaggerAppCompatActivity
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
@@ -161,6 +162,9 @@ abstract class BaseActivity :
         if (app.hasRate() && hasRatePermitted()) {
             startRate()
         }
+
+        var root = isTaskRoot
+        Timber.v("%s RootTask %s", getScreen(), root)
     }
 
     override fun onResume() {
@@ -416,6 +420,10 @@ abstract class BaseActivity :
 
     fun openActivity(target: Class<*>, task: Task<*>) {
         AndroidUtil.openActivity(this, target, task)
+    }
+
+    fun openActivity(target: Class<*>, task: Task<*>, finish: Boolean) {
+        AndroidUtil.openActivity(this, target, task, finish)
     }
 
 /*    fun openActivitySerializable(target: Class<BaseActivity>, task: Task<*>) {

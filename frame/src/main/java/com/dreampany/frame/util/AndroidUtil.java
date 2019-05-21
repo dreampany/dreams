@@ -377,11 +377,7 @@ public final class AndroidUtil {
     }
 
     public static <T extends Activity, X extends Parcelable> void openActivity(T source, Class<?> target, Task<X> task) {
-        if (source != null) {
-            Intent intent = new Intent(source, target);
-            intent.putExtra(Task.class.getSimpleName(), (Parcelable) task);
-            source.startActivity(intent);
-        }
+        openActivity(source, target, task, false);
     }
 
     public static <T extends Activity, X extends Parcelable> void openActivity(T source, Class<?> target, Task<X> task, boolean finish) {

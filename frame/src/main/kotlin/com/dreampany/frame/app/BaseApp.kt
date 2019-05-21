@@ -50,23 +50,23 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     //protected var context: CondomContext? = null
     @Inject
-    internal lateinit var ex: AppExecutors
+    protected lateinit var ex: AppExecutors
     protected var refs: WeakReference<Activity>? = null
-    var action: Action? = null
-    var indexable: Indexable? = null
+    protected var action: Action? = null
+    protected var indexable: Indexable? = null
 
     private lateinit var color: Color
 
     @Inject
-    lateinit var ad: SmartAd
+    protected lateinit var ad: SmartAd
     @Inject
-    lateinit var service: ServiceManager
+    protected lateinit var service: ServiceManager
     @Inject
-    lateinit var job: JobManager
+    protected lateinit var job: JobManager
 
 
     @Volatile
-    internal var visible: Boolean = false
+    protected var visible: Boolean = false
 
     open fun isDebug(): Boolean {
         return BuildConfig.DEBUG

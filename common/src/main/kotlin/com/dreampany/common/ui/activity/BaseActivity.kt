@@ -4,14 +4,21 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.dreampany.common.R
 import com.dreampany.common.app.BaseApp
 import com.dreampany.common.misc.AppExecutors
+import com.dreampany.common.ui.fragment.BaseFragment
 import com.dreampany.common.util.AndroidUtil
+import com.dreampany.common.util.FragmentUtil
+import com.dreampany.common.util.TextUtil
+import dagger.Lazy
+import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
+import kotlin.reflect.KClass
 
 /**
  * Created by Roman-372 on 5/20/2019
@@ -19,18 +26,20 @@ import com.dreampany.common.util.AndroidUtil
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseActivity: AppCompatActivity() {
+abstract class BaseActivity : DaggerAppCompatActivity() {
 
+    @Inject
     protected lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
     protected var fireOnStartUi: Boolean = true
+    protected var currentFragment: BaseFragment? = null
 
     open fun getLayoutId(): Int {
         return 0
     }
 
     open fun getToolbarId(): Int {
-        return 0
+        return R.id.toolbar
     }
 
     open fun isFullScreen(): Boolean {
@@ -109,5 +118,53 @@ abstract class BaseActivity: AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun setTitle(titleId: Int) {
+        if (titleId <= 0) {
+            return
+        }
+        setSubtitle(TextUtil.getString(this, titleId))
+    }
+
+    fun setSubtitle(subtitleId: Int) {
+        if (subtitleId <= 0) {
+            return
+        }
+        setSubtitle(TextUtil.getString(this, subtitleId))
+    }
+
+    fun setTitle(title: String?) {
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.title = title
+        }
+    }
+
+    fun setSubtitle(subtitle: String?) {
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.subtitle = subtitle
+        }
+    }
+
+    fun <T : Any> openActivity(target: KClass<T>) {
+        openActivity(target.java)
+    }
+
+    fun openActivity(target: Class<*>) {
+        AndroidUtil.openActivity(this, target)
+    }
+
+    protected fun <T : BaseFragment> commitFragment(
+        clazz: Class<T>, fragmentProvider: Lazy<T>, parentId: Int
+    ): T {
+        var fragment: T? = FragmentUtil.getFragmentByTag(this, clazz.simpleName)
+        if (fragment == null) {
+            fragment = fragmentProvider.get()
+        }
+        val currentFragment = FragmentUtil.commitFragment<T>(this, fragment!!, parentId, ex)
+        this.currentFragment = currentFragment
+        return currentFragment
     }
 }

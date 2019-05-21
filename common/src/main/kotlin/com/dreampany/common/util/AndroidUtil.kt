@@ -1,6 +1,7 @@
 package com.dreampany.common.util
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import androidx.fragment.app.Fragment
 
@@ -10,7 +11,7 @@ import androidx.fragment.app.Fragment
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AndroidUtil private constructor(){
+class AndroidUtil private constructor() {
 
     companion object {
         fun hasLollipop(): Boolean {
@@ -40,6 +41,19 @@ class AndroidUtil private constructor(){
 
         fun isAlive(fragment: Fragment?): Boolean {
             return fragment?.isVisible ?: false
+        }
+
+        fun <T : Activity> openActivity(source: T, target: Class<*>) {
+            openActivity(source, target, false)
+        }
+
+        fun <T : Activity> openActivity(source: T?, target: Class<*>, finish: Boolean) {
+            if (source != null) {
+                source.startActivity(Intent(source, target))
+                if (finish) {
+                    source.finish()
+                }
+            }
         }
     }
 }

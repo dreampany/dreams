@@ -1,5 +1,6 @@
 package com.dreampany.common.ui.fragment
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -15,6 +17,7 @@ import com.dreampany.common.app.BaseApp
 import com.dreampany.common.misc.AppExecutors
 import com.dreampany.common.ui.activity.BaseActivity
 import com.dreampany.common.util.AndroidUtil
+import com.dreampany.common.util.TextUtil
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -31,7 +34,7 @@ import javax.inject.Inject
 abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInjector {
 
     @Inject
-    internal lateinit var ex: AppExecutors
+    protected lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
     @Inject
     internal lateinit var childInjector: DispatchingAndroidInjector<Fragment>
@@ -134,6 +137,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
     }
 
+    fun getApp(): BaseApp? {
+        return getParent()?.getApp()
+    }
+
     protected fun forResult() {
         if (!isParentAlive()) {
             return
@@ -144,8 +151,34 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         parent?.finish()
     }
 
-    fun getApp(): BaseApp? {
-        return getParent()?.getApp()
+    @SuppressLint("ResourceType")
+    protected fun setTitle(@StringRes resId: Int) {
+        if (resId <= 0) {
+            return
+        }
+        setTitle(context?.let { TextUtil.getString(it, resId) })
+    }
+
+    @SuppressLint("ResourceType")
+    protected fun setSubtitle(@StringRes resId: Int) {
+        if (resId <= 0) {
+            return
+        }
+        setSubtitle(context?.let { TextUtil.getString(it, resId) })
+    }
+
+    protected fun setTitle(title: String?) {
+        val activity = activity
+        if (BaseActivity::class.java.isInstance(activity)) {
+            (activity as BaseActivity).setTitle(title)
+        }
+    }
+
+    protected fun setSubtitle(subtitle: String?) {
+        val activity = activity
+        if (BaseActivity::class.java.isInstance(activity)) {
+            (activity as BaseActivity).setSubtitle(subtitle)
+        }
     }
 
     protected fun getParent(): BaseActivity? {

@@ -20,11 +20,11 @@ import javax.inject.Inject
 abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
 
     @Inject
-    lateinit var ex: AppExecutors
-    var refs: WeakReference<Activity>? = null
+    protected lateinit var ex: AppExecutors
+    protected var refs: WeakReference<Activity>? = null
 
     @Volatile
-    var visible: Boolean = false
+    protected var visible: Boolean = false
 
     open fun isDebug(): Boolean {
         return BuildConfig.DEBUG

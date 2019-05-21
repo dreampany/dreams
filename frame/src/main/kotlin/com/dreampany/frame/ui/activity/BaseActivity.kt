@@ -422,6 +422,10 @@ abstract class BaseActivity :
         AndroidUtil.openActivity(this, target, task)
     }
 
+    fun openActivity(target: Class<*>, task: Task<*>, finish: Boolean) {
+        AndroidUtil.openActivity(this, target, task, finish)
+    }
+
     protected fun <T : BaseFragment> commitFragment(
         clazz: Class<T>,
         fragmentProvider: Lazy<T>,

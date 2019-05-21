@@ -1,4 +1,4 @@
-package com.dreampany.frame.worker
+package com.dreampany.frame.misc
 
 import androidx.work.ListenableWorker
 import dagger.MapKey

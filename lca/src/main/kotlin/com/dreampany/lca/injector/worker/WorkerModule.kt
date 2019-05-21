@@ -2,7 +2,7 @@ package com.dreampany.lca.injector.worker
 
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
-import com.dreampany.frame.worker.WorkerKey
+import com.dreampany.frame.misc.WorkerKey
 import com.dreampany.frame.worker.factory.IWorkerFactory
 import com.dreampany.frame.worker.factory.WorkerInjectorFactory
 import com.dreampany.lca.worker.NotifyWorker

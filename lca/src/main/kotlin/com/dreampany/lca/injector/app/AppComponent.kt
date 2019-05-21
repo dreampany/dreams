@@ -6,6 +6,7 @@ import com.dreampany.lca.app.App
 import com.dreampany.lca.injector.data.BuildersModule
 import com.dreampany.lca.injector.service.ServiceModule
 import com.dreampany.lca.injector.ui.ActivityModule
+import com.dreampany.lca.injector.worker.WorkerModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -24,6 +25,7 @@ import javax.inject.Singleton
     AppModule::class,
     ActivityModule::class,
     ServiceModule::class,
+    WorkerModule::class,
     BuildersModule::class
 ])
 interface AppComponent : AndroidInjector<App> {

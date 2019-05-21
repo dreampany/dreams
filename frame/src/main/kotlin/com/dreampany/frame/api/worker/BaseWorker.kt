@@ -3,7 +3,6 @@ package com.dreampany.frame.api.worker
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import javax.inject.Inject
 
 /**
  * Created by roman on 2019-04-19
@@ -12,7 +11,24 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 abstract class BaseWorker constructor(
-    private val context: Context,
-    private val params: WorkerParameters
+    context: Context, params: WorkerParameters
 ) : Worker(context, params) {
+
+    override fun doWork(): Result {
+        return onStart()
+        //return if (result) Result.retry() else Result.failure()
+    }
+
+    override fun onStopped() {
+        onStop()
+        super.onStopped()
+    }
+
+    open fun onStart(): Result {
+        return Result.success()
+    }
+
+    open fun onStop() {
+
+    }
 }

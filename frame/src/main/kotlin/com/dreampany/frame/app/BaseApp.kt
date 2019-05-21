@@ -6,11 +6,15 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import androidx.work.WorkerFactory
 import com.beardedhen.androidbootstrap.TypefaceProvider
 import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.R
 import com.dreampany.frame.api.service.JobManager
 import com.dreampany.frame.api.service.ServiceManager
+import com.dreampany.frame.api.worker.WorkerManager
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.Constants
@@ -55,18 +59,18 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     protected var action: Action? = null
     protected var indexable: Indexable? = null
 
-    private lateinit var color: Color
-
     @Inject
     protected lateinit var ad: SmartAd
     @Inject
     protected lateinit var service: ServiceManager
     @Inject
     protected lateinit var job: JobManager
-
-
+    @Inject
+    protected lateinit var worker: WorkerManager
     @Volatile
     protected var visible: Boolean = false
+
+    private lateinit var color: Color
 
     open fun isDebug(): Boolean {
         return BuildConfig.DEBUG
@@ -203,6 +207,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         }
         configRx()
         configFresco()
+        configWorker()
         FirebaseApp.initializeApp(this)
         if (hasAd() && getAdmobAppId() != 0) {
             MobileAds.initialize(this, TextUtil.getString(this, getAdmobAppId()))
@@ -362,6 +367,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
             ImagePipelineConfig.newBuilder(this).setMainDiskCacheConfig(diskCacheConfig).build()
 
         Fresco.initialize(this, frescoConfig)
+    }
+
+    private fun configWorker() {
+        worker.init()
     }
 
     private fun startAppIndex() {

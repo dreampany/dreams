@@ -153,6 +153,7 @@ dependencies {
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     api 'androidx.work:work-runtime:2.1.0-alpha02'
     api 'androidx.work:work-runtime-ktx:2.1.0-alpha02'
+    api 'androidx.work:work-rxjava2:2.1.0-alpha02'
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'

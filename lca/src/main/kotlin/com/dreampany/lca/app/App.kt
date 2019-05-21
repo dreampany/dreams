@@ -1,7 +1,9 @@
 package com.dreampany.lca.app
 
 import android.app.Activity
-import android.os.Bundle
+import androidx.work.Configuration
+import androidx.work.WorkManager
+import androidx.work.WorkerFactory
 import com.crashlytics.android.Crashlytics
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.misc.SmartAd
@@ -12,8 +14,7 @@ import com.dreampany.lca.data.source.pref.Pref
 import com.dreampany.lca.injector.app.DaggerAppComponent
 import com.dreampany.lca.misc.Constants
 import com.dreampany.lca.service.NotifyService
-import com.dreampany.lca.vm.NotifyViewModel
-import com.google.firebase.analytics.FirebaseAnalytics
+import com.dreampany.lca.worker.NotifyWorker
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -88,11 +89,8 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
-        if (pref.hasNotification()) {
-            job.create(NotifyService::class.java, Constants.Delay.Notify.toInt(), Constants.Period.Notify.toInt())
-        } else {
-            job.cancel(NotifyService::class.java)
-        }
+        //configJob()
+        configWork()
         clean()
     }
 
@@ -109,29 +107,45 @@ class App : BaseApp() {
     }
 
     private fun configFabric() {
-        val fabric = Fabric.Builder(this)
-            .kits(Crashlytics())
-            .debuggable(isDebug())
-            .build()
+        val fabric = Fabric.Builder(this).kits(Crashlytics()).debuggable(isDebug()).build()
         Fabric.with(fabric)
     }
 
     private fun configAd() {
         //ad.initPoints(Util.AD_POINTS)
-        val config = SmartAd.Config.Builder()
-            .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
+        val config = SmartAd.Config.Builder().bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
             .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(10))
-            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
-            .enabled(!isDebug())
+            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30)).enabled(!isDebug())
         ad.setConfig(config.build())
     }
+
+    private fun configJob() {
+        if (pref.hasNotification()) {
+            job.create(
+                NotifyService::class.java,
+                Constants.Delay.Notify.toInt(),
+                Constants.Period.Notify.toInt()
+            )
+        } else {
+            job.cancel(NotifyService::class.java)
+        }
+    }
+
+    private fun configWork() {
+        if (pref.hasNotification()) {
+            worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.SECONDS)
+        } else {
+            worker.cancel(NotifyWorker::class)
+        }
+    }
+
 
     private fun clean() {
         if (isVersionUpgraded()) {
             val exists = pref.versionCode
             val current = AndroidUtil.getVersionCode(this)
 
-            when(current) {
+            when (current) {
                 63 -> {
                     if (exists < 63) {
                         //pref.clearCoinListingTime()
@@ -139,7 +153,7 @@ class App : BaseApp() {
                 }
                 59 -> {
                     if (exists < 58) {
-                       // pref.clearCoinListingTime()
+                        // pref.clearCoinListingTime()
                     }
                 }
                 58 -> {

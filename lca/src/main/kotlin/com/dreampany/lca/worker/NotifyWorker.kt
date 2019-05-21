@@ -3,6 +3,7 @@ package com.dreampany.lca.worker
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.dreampany.frame.api.worker.BaseWorker
 import com.dreampany.frame.worker.factory.IWorkerFactory
 import com.dreampany.lca.vm.NotifyViewModel
 import javax.inject.Inject
@@ -17,9 +18,14 @@ import javax.inject.Provider
 class NotifyWorker(
     context: Context, workerParams: WorkerParameters,
     private val vm: NotifyViewModel
-) : Worker(context, workerParams) {
-    override fun doWork(): Result {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+) : BaseWorker(context, workerParams) {
+
+    override fun onStart(): Boolean {
+        return super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 
     class Factory

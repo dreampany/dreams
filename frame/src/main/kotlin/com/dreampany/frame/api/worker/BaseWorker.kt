@@ -15,8 +15,8 @@ abstract class BaseWorker constructor(
 ) : Worker(context, params) {
 
     override fun doWork(): Result {
-        val result = onStart()
-        return if (result) Result.success() else Result.failure()
+        return onStart()
+        //return if (result) Result.retry() else Result.failure()
     }
 
     override fun onStopped() {
@@ -24,8 +24,8 @@ abstract class BaseWorker constructor(
         super.onStopped()
     }
 
-    open fun onStart(): Boolean {
-        return false
+    open fun onStart(): Result {
+        return Result.success()
     }
 
     open fun onStop() {

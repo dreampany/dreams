@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.*
 import com.dreampany.frame.api.service.BaseJobService
 import com.dreampany.frame.util.WorkerUtil
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,7 +31,9 @@ class WorkerManager @Inject constructor(val context: Context) {
     fun <W : BaseWorker> createPeriodic(classOfWorker: KClass<W>, period: Long, unit: TimeUnit) {
         val workId = classOfWorker.java.canonicalName
         val work = WorkerUtil.createPeriodicWorkRequest(classOfWorker, Data.EMPTY, period, unit)
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(workId!!, ExistingPeriodicWorkPolicy.REPLACE, work)
+        val operation = WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(workId!!, ExistingPeriodicWorkPolicy.REPLACE, work)
+        Timber.v(operation.result.toString())
     }
 
     fun <W : BaseWorker> cancel(classOfWorker: KClass<W>) {

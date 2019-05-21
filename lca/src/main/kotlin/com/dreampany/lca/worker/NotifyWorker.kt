@@ -6,6 +6,7 @@ import androidx.work.WorkerParameters
 import com.dreampany.frame.api.worker.BaseWorker
 import com.dreampany.frame.worker.factory.IWorkerFactory
 import com.dreampany.lca.vm.NotifyViewModel
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -20,12 +21,15 @@ class NotifyWorker(
     private val vm: NotifyViewModel
 ) : BaseWorker(context, workerParams) {
 
-    override fun onStart(): Boolean {
-        return super.onStart()
+    override fun onStart(): Result {
+        Timber.v("NotifyWorker Started")
+        vm.notifyIf()
+        return Result.retry()
     }
 
     override fun onStop() {
-        super.onStop()
+        Timber.v("NotifyWorker Stopped")
+        vm.clear()
     }
 
     class Factory

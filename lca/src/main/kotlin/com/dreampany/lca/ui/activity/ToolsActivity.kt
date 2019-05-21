@@ -11,6 +11,7 @@ import com.dreampany.lca.ui.fragment.*
 import com.dreampany.lca.ui.model.UiTask
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
+import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
 
 /**
@@ -72,13 +73,28 @@ class ToolsActivity : BaseActivity() {
             UiType.MORE -> {
                 when (subtype) {
                     UiSubtype.SETTINGS -> {
-                        commitFragment(SettingsFragment::class.java, settingsProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            SettingsFragment::class.java,
+                            settingsProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     UiSubtype.LICENSE -> {
-                        commitFragment(LicenseFragment::class.java, licenseProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            LicenseFragment::class.java,
+                            licenseProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     UiSubtype.ABOUT -> {
-                        commitFragment(AboutFragment::class.java, aboutProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            AboutFragment::class.java,
+                            aboutProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     else -> {
                     }
@@ -91,10 +107,20 @@ class ToolsActivity : BaseActivity() {
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
                     }
                     UiSubtype.FAVORITES -> {
-                        commitFragment(FavoritesFragment::class.java, favoritesProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            FavoritesFragment::class.java,
+                            favoritesProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     UiSubtype.ALERT -> {
-                        commitFragment(CoinAlertFragment::class.java, coinAlertProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            CoinAlertFragment::class.java,
+                            coinAlertProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     else -> {
                     }
@@ -103,7 +129,12 @@ class ToolsActivity : BaseActivity() {
             UiType.NEWS -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
-                        openActivity(WebActivity::class.java, uiTask, true)
+                        if (AdvancedWebView.Browsers.hasAlternative(this))  {
+                            AdvancedWebView.Browsers.openUrl(this, uiTask.comment)
+                            finish()
+                        } else {
+                            openActivity(WebActivity::class.java, uiTask, true)
+                        }
                     }
                     else -> {
                     }

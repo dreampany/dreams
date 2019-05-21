@@ -89,8 +89,8 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
-        //configJob()
-        configWork()
+        configJob()
+        //configWork()
         clean()
     }
 
@@ -131,6 +131,11 @@ class App : BaseApp() {
         }
     }
 
+
+    /**
+    java.lang.IllegalArgumentException: could not find worker: androidx.work.impl.workers.ConstraintTrackingWorker
+    at com.dreampany.frame.worker.factory.WorkerInjectorFactory.createWorker(WorkerInjectorFactory.kt:26)
+     */
     private fun configWork() {
         if (pref.hasNotification()) {
             worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.SECONDS)

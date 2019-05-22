@@ -161,8 +161,8 @@ class Constants {
 
     object Delay {
         val CoinListing = TimeUnit.DAYS.toMillis(1)
-        val Ico = TimeUnit.HOURS.toMillis(1)
-        val News = TimeUnit.HOURS.toMillis(1)
+        val Ico = TimeUnit.MINUTES.toMillis(15)
+        val News = TimeUnit.MINUTES.toMillis(15)
         val Notify = TimeUnit.MINUTES.toSeconds(1)
         val CmcKey = TimeUnit.SECONDS.toSeconds(30)
     }

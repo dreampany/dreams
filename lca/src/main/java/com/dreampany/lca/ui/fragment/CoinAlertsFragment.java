@@ -22,6 +22,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
+import com.dreampany.lca.databinding.FragmentCoinAlertsBinding;
 import com.dreampany.lca.databinding.FragmentCoinsBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
@@ -58,7 +59,7 @@ public class CoinAlertsFragment
 
     @Inject
     ViewModelProvider.Factory factory;
-    private FragmentCoinsBinding binding;
+    private FragmentCoinAlertsBinding binding;
     private CoinAlertViewModel vm;
     private CoinAlertAdapter adapter;
     private OnVerticalScrollListener scroller;
@@ -72,7 +73,7 @@ public class CoinAlertsFragment
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_coins;
+        return R.layout.fragment_coin_alerts;
     }
 
     @Override

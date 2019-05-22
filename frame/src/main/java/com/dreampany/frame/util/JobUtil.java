@@ -23,7 +23,7 @@ public final class JobUtil {
                 .setRecurring(true)
                 .setTrigger(Trigger.executionWindow(delayInSecond, delayInSecond + periodInSecond))
                 .setRetryStrategy(RetryStrategy.DEFAULT_LINEAR)
-                //.setConstraints(Constraint.ON_ANY_NETWORK)
+                .setConstraints(Constraint.ON_ANY_NETWORK)
                 .build();
         return job;
     }

@@ -113,6 +113,9 @@ public class NotifyViewModel {
         currentNotifyIndex %= 3;
         switch (currentNotifyIndex) {
             case 0: {
+                if (pref.hasNotifyCoin()) {
+                    break;
+                }
                 Maybe<List<CoinItem>> profitMaybe = getProfitableItemsRx(currency);
                 if (profitMaybe != null) {
                     Disposable disposable = rx
@@ -124,6 +127,9 @@ public class NotifyViewModel {
             }
             break;
             case 1: {
+                if (pref.hasNotifyCoin()) {
+                    break;
+                }
                 Maybe<List<CoinAlertItem>> alertMaybe = getAlertItemsRx(currency);
                 if (alertMaybe != null) {
                     Disposable disposable = rx
@@ -135,6 +141,9 @@ public class NotifyViewModel {
             }
             break;
             case 2: {
+                if (pref.hasNotifyNews()) {
+                    break;
+                }
                 Maybe<List<NewsItem>> newsMaybe = getNewsItemsRx();
                 if (newsMaybe != null) {
                     Disposable disposable = rx

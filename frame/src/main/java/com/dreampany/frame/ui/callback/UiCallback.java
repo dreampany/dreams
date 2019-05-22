@@ -22,4 +22,6 @@ public interface UiCallback<A, F, T, R, X> {
 
     @NonNull
     X getX();
+
+    void execute(@NonNull  T t);
 }

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_notification">Notification</string>
-    <string name="summary_notification">Enable notification for price alerts and profitable hot coins in the crypto market.</string>
+    <string name="key_notify_coin">notify_coin</string>
+    <string name="title_notify_coin">Live Coin Alerts</string>
+    <string name="summary_notify_coin">Enable live notification for coin price and profitable hot coins in the crypto market.</string>
+
+    <string name="key_notify_news">notify_news</string>
+    <string name="title_notify_news">Live News Alerts</string>
+    <string name="summary_notify_news">Enable live notification for crypto news.</string>
 </resources>

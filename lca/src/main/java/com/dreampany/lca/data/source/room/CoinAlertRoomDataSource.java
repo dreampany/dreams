@@ -6,6 +6,7 @@ import com.dreampany.lca.data.source.api.CoinAlertDataSource;
 import com.dreampany.lca.data.source.dao.CoinAlertDao;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Singleton;
 
@@ -116,12 +117,18 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
 
     @Override
     public List<CoinAlert> getItems() {
-        return null;
+        List<CoinAlert> alerts = dao.getItems();
+        return alerts;
     }
 
     @Override
     public Maybe<List<CoinAlert>> getItemsRx() {
-        return dao.getItemsRx();
+        return Maybe.fromCallable(new Callable<List<CoinAlert>>() {
+            @Override
+            public List<CoinAlert> call() throws Exception {
+                return getItems();
+            }
+        });
     }
 
     @Override

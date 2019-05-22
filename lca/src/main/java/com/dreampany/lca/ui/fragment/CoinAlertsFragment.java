@@ -172,6 +172,9 @@ public class CoinAlertsFragment
                 vm.delete(item, true);
                 //adapter.removeItem(item);
                 break;
+            case R.id.fab:
+                openCoins();
+                break;
         }
     }
 
@@ -188,7 +191,7 @@ public class CoinAlertsFragment
     private void initView() {
         setTitle(R.string.alerts);
         setSubtitle(null);
-        binding = (FragmentCoinsBinding) super.binding;
+        binding = (FragmentCoinAlertsBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_alerts);
 
@@ -197,6 +200,7 @@ public class CoinAlertsFragment
         recycler = binding.layoutRecycler.recycler;
 
         ViewUtil.setSwipe(refresh, this);
+        binding.fab.setOnClickListener(this);
         UiTask<CoinAlert> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(CoinAlertViewModel.class);
         vm.setTask(uiTask);
@@ -302,15 +306,12 @@ public class CoinAlertsFragment
     }
 
     private void processResult(Response.Type type, CoinAlertItem result) {
-        if (scroller.isScrolling()) {
-            return;
-        }
         if (type == Response.Type.DELETE) {
             adapter.removeItem(result);
         } else {
             adapter.addItem(result);
         }
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void processResult(Response.Type type, List<CoinAlertItem> items) {
@@ -322,7 +323,7 @@ public class CoinAlertsFragment
         } else {
             adapter.addItems(items);
         }
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 1000L);
     }
 
     private void openCoinAlertUi() {
@@ -330,5 +331,10 @@ public class CoinAlertsFragment
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.ALERT);
         openActivity(ToolsActivity.class, task);
+    }
+
+    private void openCoins() {
+        UiTask<?> uiTask = new UiTask<>(false);
+        activityCallback.execute(uiTask);
     }
 }

@@ -3,7 +3,9 @@ package com.dreampany.lca.data.source.pref;
 import android.content.Context;
 
 import com.dreampany.frame.data.source.pref.FramePref;
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.enums.Currency;
 
@@ -18,18 +20,34 @@ import javax.inject.Singleton;
 @Singleton
 public class Pref extends FramePref {
 
-    private static final String DEFAULT_FAVORITE_COMMITTED = "default_favorite_committed";
-    private static final String COIN_INDEX_TIME = "coin_index_time";
-    private static final String COIN_TIME = "coin_time";
-    private static final String ICO_TIME = "ico_time";
-    private static final String NEWS_TIME = "news_time";
-    private static final String CURRENCY = "currency";
-    private static final String CURRENCY_GRAPH = "currency_graph";
-    private static final String GRAPH_SYMBOL = "graph_symbol";
+    private final String KEY_NOTIFY_COIN;
+    private final String KEY_NOTIFY_NEWS;
+    private final String DEFAULT_FAVORITE_COMMITTED = "default_favorite_committed";
+    private final String COIN_INDEX_TIME = "coin_index_time";
+    private final String COIN_TIME = "coin_time";
+    private final String ICO_TIME = "ico_time";
+    private final String NEWS_TIME = "news_time";
+    private final String CURRENCY = "currency";
+    private final String CURRENCY_GRAPH = "currency_graph";
+    private final String GRAPH_SYMBOL = "graph_symbol";
 
     @Inject
     Pref(Context context) {
         super(context);
+        KEY_NOTIFY_COIN = TextUtil.getString(context, R.string.key_notify_coin);
+        KEY_NOTIFY_NEWS = TextUtil.getString(context, R.string.key_notify_news);
+    }
+
+    public boolean hasNotification() {
+        return hasNotifyCoin() && hasNotifyNews();
+    }
+
+    public boolean hasNotifyCoin() {
+        return getPublicly(KEY_NOTIFY_COIN,  Boolean.class, true);
+    }
+
+    public boolean hasNotifyNews() {
+        return getPublicly(KEY_NOTIFY_NEWS, Boolean.class, false);
     }
 
     synchronized public void commitDefaultFavorite() {

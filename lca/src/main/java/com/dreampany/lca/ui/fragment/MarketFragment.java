@@ -132,11 +132,11 @@ public class MarketFragment
 
     @Override
     public void onClick(@NonNull View v) {
-        switch (v.getId()) {
+/*        switch (v.getId()) {
             case R.id.button_empty:
                 mvm.loads(currency, true);
                 break;
-        }
+        }*/
     }
 
     @Override
@@ -169,7 +169,7 @@ public class MarketFragment
         currencyDropDown = binding.dropDownCurrency;
 
         ViewUtil.setSwipe(refresh, this);
-        ViewUtil.setClickListener(this, R.id.button_empty);
+        //ViewUtil.setClickListener(this, R.id.button_empty);
         currencyDropDown.setOnDropDownItemClickListener(this);
 
         evm = ViewModelProviders.of(this, factory).get(ExchangeViewModel.class);

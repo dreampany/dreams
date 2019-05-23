@@ -31,6 +31,7 @@ import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+import timber.log.Timber;
 
 /**
  * Created by Roman-372 on 3/6/2019
@@ -125,7 +126,7 @@ public class CoinAlertViewModel
     }
 
     public void save(Coin coin, double priceUp, double priceDown, boolean withProgress) {
-        Disposable disposable =   getRx()
+        Disposable disposable = getRx()
                 .backToMain(saveRx(coin, priceUp, priceDown))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
@@ -146,7 +147,7 @@ public class CoinAlertViewModel
     }
 
     public void delete(CoinAlertItem item, boolean withProgress) {
-        Disposable disposable =  getRx()
+        Disposable disposable = getRx()
                 .backToMain(deleteRx(item))
                 .doOnSubscribe(subscription -> {
                     if (withProgress) {
@@ -195,8 +196,11 @@ public class CoinAlertViewModel
     private Maybe<List<CoinAlertItem>> getItemsRx(Currency currency, List<CoinAlert> result) {
         return Flowable.fromIterable(result)
                 .map(alert -> {
+                    Timber.v("CoinAlert %d", alert.getId());
                     Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId());
-                    return getItem(coin, alert);
+                    CoinAlertItem item = getItem(coin, alert);
+                    Timber.v("CoinAlert %s %d", item.getCoin().getName(), item.getCoin().getCoinId());
+                    return item;
                 })
                 .toList()
                 .toMaybe();
@@ -204,7 +208,8 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> saveRx(Coin coin, double priceUp, double priceDown) {
         return Maybe.create(emitter -> {
-            CoinAlert alert = mapper.toItem(coin.getSymbol(), priceUp, priceDown, true);
+            CoinAlert alert = mapper.toItem(coin.getCoinId(), priceUp, priceDown, true);
+            Timber.v("CoinAlertID %d", alert.getId());
             long result = repo.putItem(coin, alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);
             if (emitter.isDisposed()) {

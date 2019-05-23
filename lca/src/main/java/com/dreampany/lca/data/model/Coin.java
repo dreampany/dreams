@@ -131,6 +131,16 @@ public class Coin extends Base {
         return source;
     }
 
+    @Override
+    public void setId(long id) {
+        super.setId(id);
+    }
+
+    @Override
+    public long getId() {
+        return super.getId();
+    }
+
     @PropertyName(Constants.Coin.COIN_ID)
     public void setCoinId(long coinId) {
         this.coinId = coinId;

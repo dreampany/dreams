@@ -148,7 +148,6 @@ public class ApiRepository {
         return coinRepo.getItemRx(source, currency, coinId);
     }
 
-
     public List<Coin> getFavorites(CoinSource source, Currency currency) {
         List<State> states = stateRepo.getItems(ItemType.COIN.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());
         return getItemsOfStatesIf(source, currency, states);

@@ -6,17 +6,6 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
-
-import androidx.annotation.*;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.fragment.app.Fragment;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
@@ -25,9 +14,21 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.dreampany.frame.R;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
-import com.rilixtech.materialfancybutton.MaterialFancyButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Objects;
 
@@ -104,8 +105,8 @@ public final class ViewUtil {
     }
 
     public static void setFancyText(Fragment fragment, @IdRes int viewId, String text) {
-        MaterialFancyButton view = getViewById(fragment.getView(), viewId);
-        setFancyText(view, text);
+        //MaterialFancyButton view = getViewById(fragment.getView(), viewId);
+        //setFancyText(view, text);
     }
 
     public static void setText(TextView view, String text) {
@@ -120,11 +121,11 @@ public final class ViewUtil {
         }
     }
 
-    public static void setFancyText(MaterialFancyButton view, String text) {
+/*    public static void setFancyText(MaterialFancyButton view, String text) {
         if (view != null) {
             view.setText(text);
         }
-    }
+    }*/
 
     public static void setFabBackgroundTint(FloatingActionButton fab, int color) {
         ColorStateList fabColorStateList = new ColorStateList(

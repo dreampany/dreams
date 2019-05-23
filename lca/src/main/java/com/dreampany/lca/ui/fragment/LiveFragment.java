@@ -156,9 +156,7 @@ public class LiveFragment extends BaseFragment implements SmartAdapter.Callback<
 /*            case R.id.button_like:
                 vm.toggleFavorite((Coin) v.getTag());
                 break;*/
-            case R.id.button_empty:
-                //vm.loads(true);
-                break;
+
         }
     }
 

@@ -5,9 +5,16 @@
     <androidx.preference.SwitchPreferenceCompat
         android:defaultValue="true"
         auto:iconSpaceReserved="false"
-        android:key="@string/key_notification"
-        android:summary="@string/summary_notification"
-        android:title="@string/title_notification" />
+        android:key="@string/key_notify_coin"
+        android:summary="@string/summary_notify_coin"
+        android:title="@string/title_notify_coin" />
+
+    <androidx.preference.SwitchPreferenceCompat
+        android:defaultValue="false"
+        auto:iconSpaceReserved="false"
+        android:key="@string/key_notify_news"
+        android:summary="@string/summary_notify_news"
+        android:title="@string/title_notify_news" />
 
     <!--    <android.support.v7.preference.PreferenceCategory android:title="@string/category_general">
 

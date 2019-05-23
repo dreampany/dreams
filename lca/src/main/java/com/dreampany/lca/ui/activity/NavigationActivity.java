@@ -2,21 +2,24 @@ package com.dreampany.lca.ui.activity;
 
 import android.os.Bundle;
 
+import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.lca.R;
 import com.dreampany.lca.databinding.ActivityNavigationBinding;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.lca.ui.fragment.*;
+import com.dreampany.lca.ui.fragment.CoinAlertsFragment;
 import com.dreampany.lca.ui.fragment.CoinsFragment;
+import com.dreampany.lca.ui.fragment.IcoFragment;
+import com.dreampany.lca.ui.fragment.MoreFragment;
+import com.dreampany.lca.ui.fragment.NewsFragment;
 import com.dreampany.lca.ui.model.UiTask;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
 import dagger.Lazy;
-
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Hawladar Roman on 5/24/2018.
@@ -143,5 +146,10 @@ public class NavigationActivity
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);
                 break;
         }
+    }
+
+    @Override
+    public void execute(@NotNull Task<?> t) {
+        setSelectedItem(R.id.item_coins);
     }
 }

@@ -139,11 +139,6 @@ public class NewsFragment
 
     @Override
     public void onClick(@NonNull View v) {
-        switch (v.getId()) {
-            case R.id.button_empty:
-                vm.loads(true, true);
-                break;
-        }
     }
 
     @Override
@@ -308,15 +303,11 @@ public class NewsFragment
     }
 
     private void openNewsUi(News news) {
-        if (AdvancedWebView.Browsers.hasAlternative(getContext())) {
-            AdvancedWebView.Browsers.openUrl(getParent(), news.getUrl());
-        } else {
-            UiTask<News> task = new UiTask<>(true);
-            task.setComment(news.getUrl());
-            task.setInput(news);
-            task.setUiType(UiType.NEWS);
-            task.setSubtype(UiSubtype.VIEW);
-            openActivity(ToolsActivity.class, task);
-        }
+        UiTask<News> task = new UiTask<>(true);
+        task.setComment(news.getUrl());
+        task.setInput(news);
+        task.setUiType(UiType.NEWS);
+        task.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, task);
     }
 }

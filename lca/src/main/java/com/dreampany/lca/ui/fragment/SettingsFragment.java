@@ -2,14 +2,14 @@ package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
 
-import com.dreampany.frame.api.service.ServiceManager;
+import com.dreampany.frame.api.service.JobManager;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.source.pref.Pref;
-import com.dreampany.frame.misc.Constants;
+import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.service.NotifyService;
 
 import org.jetbrains.annotations.NotNull;
@@ -18,8 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 5/28/2018.
@@ -36,12 +36,12 @@ public class SettingsFragment extends BaseMenuFragment {
     @Inject
     AppExecutors ex;
     @Inject
-    ServiceManager service;
-    Disposable disposable;
+    JobManager job;
+    CompositeDisposable disposables;
 
     @Inject
     public SettingsFragment() {
-
+        disposables = new CompositeDisposable();
     }
 
     @Override
@@ -62,25 +62,43 @@ public class SettingsFragment extends BaseMenuFragment {
 
     @Override
     protected void onStopUi() {
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.isDisposed();
-        }
+        disposables.clear();
     }
 
     private void initView() {
         setTitle(R.string.settings);
-        String notifyKey = getString(R.string.key_notification);
-        Flowable<Boolean> flowable = pref.observePublic(notifyKey, Boolean.class, true);
-        Disposable disposable = rx
+        String notifyCoin = getString(R.string.key_notify_coin);
+        String notifyNews = getString(R.string.key_notify_news);
+        Flowable<Boolean> flowable = pref.observePublic(notifyCoin, Boolean.class, true);
+        disposables.add(rx
                 .backToMain(flowable)
                 .subscribe(enabled -> {
-                    Timber.v("Notification %s" , enabled);
-                    if (enabled) {
-                        service.schedulePowerService(NotifyService.class, 10);
-                    } else {
-                        service.cancel(NotifyService.class);
-                    }
-                });
-        this.disposable = disposable;
+                    adjustNotify();
+                }));
+        flowable = pref.observePublic(notifyNews, Boolean.class, false);
+        disposables.add(rx
+                .backToMain(flowable)
+                .subscribe(enabled -> {
+                    adjustNotify();
+                }));
+    }
+
+    private final Runnable runner = new Runnable() {
+        @Override
+        public void run() {
+            if (pref.hasNotification()) {
+                job.create(
+                        NotifyService.class,
+                        (int) Constants.Delay.INSTANCE.getNotify(),
+                        (int) Constants.Period.INSTANCE.getNotify()
+                );
+            } else {
+                job.cancel(NotifyService.class);
+            }
+        }
+    };
+
+    private void adjustNotify() {
+        ex.postToUi(runner, 2000);
     }
 }

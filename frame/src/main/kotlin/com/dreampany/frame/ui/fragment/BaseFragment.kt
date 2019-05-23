@@ -61,7 +61,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener {
 
     @Inject
-    internal lateinit var ex: AppExecutors
+    protected lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
     @Inject
     internal lateinit var childInjector: DispatchingAndroidInjector<Fragment>
@@ -257,6 +257,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     }
 
     override fun getX(): ViewModel {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun execute(t: Task<*>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

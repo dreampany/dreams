@@ -1,6 +1,7 @@
 package com.dreampany.lca.misc
 
 import android.content.Context
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.lca.R
@@ -15,15 +16,19 @@ import java.util.concurrent.TimeUnit
 class Constants {
 
     object Event  {
-        const val ERROR = com.dreampany.frame.misc.Constants.Event.ERROR
-        const val APPLICATION = com.dreampany.frame.misc.Constants.Event.APPLICATION
-        const val ACTIVITY = com.dreampany.frame.misc.Constants.Event.ACTIVITY
-        const val FRAGMENT = com.dreampany.frame.misc.Constants.Event.FRAGMENT
-        const val NOTIFICATION = com.dreampany.frame.misc.Constants.Event.NOTIFICATION
+        const val ERROR = Constants.Event.ERROR
+        const val APPLICATION = Constants.Event.APPLICATION
+        const val ACTIVITY = Constants.Event.ACTIVITY
+        const val FRAGMENT = Constants.Event.FRAGMENT
+        const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
     companion object Screen {
-        fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
+        fun lastAppId(context: Context): String = Constants.lastAppId(context)
+        fun more(context: Context): String = Constants.more(context)
+        fun about(context: Context): String = Constants.about(context)
+        fun settings(context: Context): String = Constants.settings(context)
+        fun license(context: Context): String = Constants.license(context)
 
         fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
         fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + "navigation"
@@ -149,20 +154,18 @@ class Constants {
 
     object Time {
         val Listing = TimeUnit.HOURS.toMillis(1) //get listing per 7 days
-        val Coin = TimeUnit.MINUTES.toMillis(2) // Every ~1 minute; as per coinmarketcap limit 30 per minute
+        val Coin = TimeUnit.MINUTES.toMillis(3) // Every ~1 minute; as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
-        val IcoPeriod = TimeUnit.MINUTES.toMillis(10)
     }
 
     object Period {
-        val Coin = TimeUnit.SECONDS.toMillis(30)
+        //val Coin = TimeUnit.MINUTES.toMillis(30)
         val Notify = TimeUnit.MINUTES.toSeconds(3)
     }
 
     object Delay {
-        val CoinListing = TimeUnit.DAYS.toMillis(1)
-        val Ico = TimeUnit.HOURS.toMillis(1)
-        val News = TimeUnit.HOURS.toMillis(1)
+        val Ico = TimeUnit.MINUTES.toMillis(15)
+        val News = TimeUnit.MINUTES.toMillis(15)
         val Notify = TimeUnit.MINUTES.toSeconds(1)
         val CmcKey = TimeUnit.SECONDS.toSeconds(30)
     }

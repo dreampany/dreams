@@ -339,6 +339,7 @@ public class CoinsViewModel
         for (Coin coin : coins) {
             CoinItem item = getItem(currency, coin);
             items.add(item);
+            Timber.v("Coin %s %d", item.getItem().getName(), item.getItem().getId());
         }
         return items;
     }

@@ -63,19 +63,19 @@ public class CoinAlertMapper {
         return alerts.get(symbol);
     }
 
-    public CoinAlert toItem(String symbol, double priceUp, double priceDown, boolean full) {
-        if (DataUtil.isEmpty(symbol)) {
+    public CoinAlert toItem(long coinId, double priceUp, double priceDown, boolean full) {
+/*        if (DataUtil.isEmpty(symbol)) {
             return null;
-        }
-        long id = DataUtil.getSha512(symbol);
-        CoinAlert out = map.get(id);
+        }*/
+        //long id = DataUtil.getSha512(symbol);
+        CoinAlert out = map.get(coinId);
         if (out == null) {
             out = new CoinAlert();
             if (full) {
-                map.put(id, out);
+                map.put(coinId, out);
             }
         }
-        out.setId(id);
+        out.setId(coinId);
         out.setTime(TimeUtil.currentTime());
         out.setPriceUp(priceUp);
         out.setPriceDown(priceDown);

@@ -225,9 +225,6 @@ public class CoinsFragment
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
-            case R.id.button_empty:
-                vm.loads(true, true);
-                break;
             case R.id.button_favorite:
                 vm.toggleFavorite((Coin) v.getTag());
                 break;

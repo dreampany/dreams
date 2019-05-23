@@ -139,11 +139,6 @@ public class NewsFragment
 
     @Override
     public void onClick(@NonNull View v) {
-        switch (v.getId()) {
-            case R.id.button_empty:
-                vm.loads(true, true);
-                break;
-        }
     }
 
     @Override

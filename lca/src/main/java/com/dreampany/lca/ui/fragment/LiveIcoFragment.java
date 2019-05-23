@@ -144,11 +144,11 @@ public class LiveIcoFragment
 
     @Override
     public void onClick(@NonNull View v) {
-        switch (v.getId()) {
+/*        switch (v.getId()) {
             case R.id.button_empty:
                 vm.loads(true, adapter.isEmpty());
                 break;
-        }
+        }*/
     }
 
     @Override

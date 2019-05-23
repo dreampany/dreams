@@ -159,9 +159,6 @@ public class CoinDetailsFragment
             case R.id.fab:
                 openCoinAlertUi();
                 break;
-            case R.id.button_empty:
-                //vm.loads(true);
-                break;
         }
     }
 
@@ -197,7 +194,7 @@ public class CoinDetailsFragment
         binding.fab.setOnClickListener(this);
 
         ViewUtil.setSwipe(refresh, this);
-        ViewUtil.setClickListener(this, R.id.button_empty);
+//        ViewUtil.setClickListener(this, R.id.button_empty);
 
         UiTask<Coin> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(CoinViewModel.class);

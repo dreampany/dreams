@@ -163,9 +163,6 @@ public class CoinAlertsFragment
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
-            case R.id.button_empty:
-                //vm.loads(true, true);
-                break;
             case R.id.image_delete:
                 CoinAlertItem item = (CoinAlertItem) v.getTag();
                 Timber.v("Delete fired");

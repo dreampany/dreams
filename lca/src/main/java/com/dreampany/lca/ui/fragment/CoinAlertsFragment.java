@@ -112,13 +112,6 @@ public class CoinAlertsFragment
         vm.loads(false, adapter.isEmpty());
     }
 
-/*    @Override
-    public void onPause() {
-        vm.removeMultipleSubscription();
-        vm.removeUpdateDisposable();
-        vm.clearInputs();
-        super.onPause();
-    }*/
  /*
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -179,7 +172,8 @@ public class CoinAlertsFragment
     public boolean onItemClick(View view, int position) {
         if (position != RecyclerView.NO_POSITION) {
             CoinAlertItem item = adapter.getItem(position);
-            //openCoinAlertUi(Objects.requireNonNull(item).getItem());
+            Coin coin = item.getCoin();
+            openCoinAlertUi(coin);
             return true;
         }
         return false;
@@ -323,8 +317,9 @@ public class CoinAlertsFragment
         ex.postToUi(() -> processUiState(UiState.EXTRA), 1000L);
     }
 
-    private void openCoinAlertUi() {
-        UiTask<Coin> task = getCurrentTask();
+    private void openCoinAlertUi(Coin coin) {
+        UiTask<Coin> task = new UiTask<>(false);
+        task.setInput(coin);
         task.setUiType(UiType.COIN);
         task.setSubtype(UiSubtype.ALERT);
         openActivity(ToolsActivity.class, task);

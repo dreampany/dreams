@@ -39,7 +39,7 @@ public class Pref extends FramePref {
     }
 
     public boolean hasNotification() {
-        return hasNotifyCoin() && hasNotifyNews();
+        return hasNotifyCoin() || hasNotifyNews();
     }
 
     public boolean hasNotifyCoin() {

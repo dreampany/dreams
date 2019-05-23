@@ -14,10 +14,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.afollestad.aesthetic.Aesthetic
-import com.afollestad.aesthetic.BottomNavBgMode
-import com.afollestad.aesthetic.BottomNavIconTextMode
-import com.afollestad.aesthetic.ColorMode
 import com.codemybrainsout.ratingdialog.RatingDialog
 import com.dreampany.frame.R
 import com.dreampany.frame.app.BaseApp
@@ -135,7 +131,7 @@ abstract class BaseActivity :
             requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         }
         if (hasTheme()) {
-            Aesthetic.attach(this)
+            //Aesthetic.attach(this)
         }
         super.onCreate(savedInstanceState)
         if (isScreenOn()) {
@@ -170,13 +166,13 @@ abstract class BaseActivity :
     override fun onResume() {
         super.onResume()
         if (hasTheme()) {
-            Aesthetic.resume(this)
+            //Aesthetic.resume(this)
         }
     }
 
     override fun onPause() {
         if (hasTheme()) {
-            Aesthetic.pause(this)
+            //Aesthetic.pause(this)
         }
         super.onPause()
     }
@@ -320,7 +316,7 @@ abstract class BaseActivity :
     }
 
     private fun initTheme() {
-        if (Aesthetic.isFirstTime || true) {
+/*        if (Aesthetic.isFirstTime || true) {
             Aesthetic.config {
                 isDark(true)
                 colorPrimaryRes(R.color.colorPrimary)
@@ -352,7 +348,7 @@ abstract class BaseActivity :
                     R.color.material_yellow700
                 )
             }
-        }
+        }*/
     }
 
     protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {

@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
+<!--    <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_centerInParent="true"
-        auto:type="chrome_floating_circles" />
+        auto:type="chrome_floating_circles" />-->
 
 </RelativeLayout>

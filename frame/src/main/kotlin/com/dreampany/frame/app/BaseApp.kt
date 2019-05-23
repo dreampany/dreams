@@ -6,9 +6,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
-import androidx.work.Configuration
-import androidx.work.WorkManager
-import androidx.work.WorkerFactory
 import com.beardedhen.androidbootstrap.TypefaceProvider
 import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.R
@@ -26,7 +23,6 @@ import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.common.internal.Supplier
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
-import com.facebook.stetho.Stetho
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -35,7 +31,6 @@ import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
 import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
-import com.squareup.leakcanary.LeakCanary
 import dagger.android.support.DaggerApplication
 import io.reactivex.plugins.RxJavaPlugins
 import org.apache.commons.lang3.exception.ExceptionUtils
@@ -178,7 +173,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     override fun onCreate() {
 
         if (isDebug() && hasStrict()) {
-            setStrictMode()
+            //setStrictMode()
         }
         super.onCreate()
 
@@ -192,7 +187,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         }
 
         if (isDebug() && hasStetho()) {
-            Stetho.initializeWithDefaults(this);
+            //Stetho.initializeWithDefaults(this);
         }
 
         if (isDebug()) {
@@ -340,12 +335,12 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     private fun initLeakCanary(): Boolean {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
+        //if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
             // You should not init your app in this process.
-            return false
-        }
-        LeakCanary.install(this)
+            //return false
+        //}
+        //LeakCanary.install(this)
         return true
     }
 

@@ -9,7 +9,6 @@ import com.dreampany.frame.R
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.NotifyUtil
-import io.karn.notify.Notify
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -193,7 +192,7 @@ class NotifyManager @Inject constructor(val context: Context) {
         data: Bundle?
     ) {
 
-        Notify.cancelNotification(notifyId)
-        Notify.with(context).content { }.show()
+        //Notify.cancelNotification(notifyId)
+        //Notify.with(context).content { }.show()
     }
 }

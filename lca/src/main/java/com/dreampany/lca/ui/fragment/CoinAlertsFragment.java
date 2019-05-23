@@ -182,7 +182,7 @@ public class CoinAlertsFragment
     public boolean onItemClick(View view, int position) {
         if (position != RecyclerView.NO_POSITION) {
             CoinAlertItem item = adapter.getItem(position);
-            //openCoinUi(Objects.requireNonNull(item).getItemRx());
+            //openCoinAlertUi(Objects.requireNonNull(item).getItem());
             return true;
         }
         return false;

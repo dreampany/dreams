@@ -154,18 +154,16 @@ class Constants {
 
     object Time {
         val Listing = TimeUnit.HOURS.toMillis(1) //get listing per 7 days
-        val Coin = TimeUnit.MINUTES.toMillis(2) // Every ~1 minute; as per coinmarketcap limit 30 per minute
+        val Coin = TimeUnit.MINUTES.toMillis(3) // Every ~1 minute; as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
-        val IcoPeriod = TimeUnit.MINUTES.toMillis(10)
     }
 
     object Period {
-        val Coin = TimeUnit.SECONDS.toMillis(30)
+        //val Coin = TimeUnit.MINUTES.toMillis(30)
         val Notify = TimeUnit.MINUTES.toSeconds(3)
     }
 
     object Delay {
-        val CoinListing = TimeUnit.DAYS.toMillis(1)
         val Ico = TimeUnit.MINUTES.toMillis(15)
         val News = TimeUnit.MINUTES.toMillis(15)
         val Notify = TimeUnit.MINUTES.toSeconds(1)

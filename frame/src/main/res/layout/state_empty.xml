@@ -24,7 +24,7 @@
         android:textSize="16sp"
         auto:smart_font="@string/fontRobotoSlabTitle" />
 
-    <com.rilixtech.materialfancybutton.MaterialFancyButton
+<!--    <com.rilixtech.materialfancybutton.MaterialFancyButton
         android:id="@+id/button_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,6 +36,6 @@
         auto:mfb_text="@string/try_again"
         auto:mfb_textColor="@color/material_white"
         auto:mfb_textFont="@string/fontRobotoSlabTitle"
-        auto:mfb_textSize="18sp" />
+        auto:mfb_textSize="18sp" />-->
 
 </LinearLayout>

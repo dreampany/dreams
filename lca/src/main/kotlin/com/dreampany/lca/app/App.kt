@@ -10,6 +10,8 @@ import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.lca.BuildConfig
 import com.dreampany.lca.R
+import com.dreampany.lca.data.enums.CoinSource
+import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.data.source.pref.Pref
 import com.dreampany.lca.injector.app.DaggerAppComponent
 import com.dreampany.lca.misc.Constants
@@ -151,6 +153,13 @@ class App : BaseApp() {
             val current = AndroidUtil.getVersionCode(this)
 
             when (current) {
+                117 -> {
+                    if (exists < 117) {
+                        val currency = pref.getCurrency(Currency.USD)
+                        for (coinIndex in 0..10)
+                            pref.clearCoinIndexTime(CoinSource.CMC.name, currency.name, coinIndex);
+                    }
+                }
                 63 -> {
                     if (exists < 63) {
                         //pref.clearCoinListingTime()

@@ -58,6 +58,9 @@ public class Pref extends FramePref {
         return getPrivately(DEFAULT_FAVORITE_COMMITTED, false);
     }
 
+    synchronized public void clearCoinIndexTime(String source, String currency, int coinIndex) {
+        removePrivately(COIN_INDEX_TIME + source + currency + coinIndex);
+    }
 
     synchronized public void commitCoinIndexTime(String source, String currency, int coinIndex) {
         setPrivately(COIN_INDEX_TIME + source + currency + coinIndex, TimeUtil.currentTime());

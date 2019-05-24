@@ -56,13 +56,13 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId) {
+    public Coin getItem(CoinSource source, Currency currency, long id) {
         return null;
     }
 
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
         String collection = Constants.FirestoreKey.CRYPTO;
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
         paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
@@ -72,7 +72,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, coinId));
+        equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, id));
 
 
         greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
@@ -91,12 +91,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
         String collection = Constants.FirestoreKey.CRYPTO;
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
         paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
@@ -106,7 +106,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        for (long coinId : coinIds) {
+        for (long coinId : ids) {
             equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, coinId));
         }
 
@@ -159,7 +159,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     @Override
     public long putItem(Coin coin) {
         String collection = Constants.FirestoreKey.CRYPTO;
-        String document = String.valueOf(coin.getCoinId());
+        String document = String.valueOf(coin.getId());
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
         paths.add(MutablePair.of(coin.getSource().name(), Constants.FirestoreKey.COINS));
 
@@ -190,7 +190,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         String collection = Constants.FirestoreKey.CRYPTO;
         Map<String, MutableTriple<String, String, Coin>> items = Maps.newHashMap();
         for (Coin coin : coins) {
-            items.put(String.valueOf(coin.getCoinId()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.COINS, coin));
+            items.put(String.valueOf(coin.getId()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.COINS, coin));
         }
         Throwable error = firestore.setItemsRx(collection, items).blockingGet();
         if (error == null) {

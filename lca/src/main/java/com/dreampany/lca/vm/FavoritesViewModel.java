@@ -231,7 +231,7 @@ public class FavoritesViewModel
         if (!DataUtil.isEmpty(items)) {
             List<Long> coinIds = new ArrayList<>();
             for (CoinItem item : items) {
-                coinIds.add(item.getItem().getCoinId());
+                coinIds.add(item.getItem().getId());
             }
             items = null;
             if (!DataUtil.isEmpty(coinIds)) {

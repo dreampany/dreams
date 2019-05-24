@@ -173,7 +173,7 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> getItemRx(Coin coin) {
         return Maybe.create(emitter -> {
-            CoinAlert alert = repo.getCoinAlert(coin.getCoinId());
+            CoinAlert alert = repo.getCoinAlert(coin.getId());
             CoinAlertItem item;
             if (alert != null) {
                 item = getItem(coin, alert);
@@ -199,7 +199,7 @@ public class CoinAlertViewModel
                     Timber.v("CoinAlert %d", alert.getId());
                     Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId());
                     CoinAlertItem item = getItem(coin, alert);
-                    Timber.v("CoinAlert %s %d", item.getCoin().getName(), item.getCoin().getCoinId());
+                    Timber.v("CoinAlert %s %d", item.getCoin().getName(), item.getCoin().getId());
                     return item;
                 })
                 .toList()
@@ -208,7 +208,7 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> saveRx(Coin coin, double priceUp, double priceDown) {
         return Maybe.create(emitter -> {
-            CoinAlert alert = mapper.toItem(coin.getCoinId(), priceUp, priceDown, true);
+            CoinAlert alert = mapper.toItem(coin.getId(), priceUp, priceDown, true);
             Timber.v("CoinAlertID %d", alert.getId());
             long result = repo.putItem(coin, alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);

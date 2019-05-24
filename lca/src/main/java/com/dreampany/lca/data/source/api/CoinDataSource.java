@@ -20,11 +20,11 @@ public interface CoinDataSource extends DataSource<Coin> {
 
     Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit);
 
-    Coin getItem(CoinSource source, Currency currency, long coinId);
+    Coin getItem(CoinSource source, Currency currency, long id);
 
-    Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId);
+    Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id);
 
-    List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds);
+    List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids);
 
-    Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds);
+    Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids);
 }

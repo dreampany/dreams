@@ -210,7 +210,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         @Override
         void bind(int position, CoinItem item) {
             Coin coin = item.getItem();
-            String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
+            String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getId());
             FrescoUtil.loadImage(icon, imageUrl, true);
             String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
             name.setText(nameText);
@@ -319,7 +319,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         void bind(int position, CoinItem item) {
             Coin coin = item.getItem();
 
-            String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
+            String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getId());
             FrescoUtil.loadImage(icon, imageUrl, true);
             String nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.getSymbol(), coin.getName());
             name.setText(nameText);

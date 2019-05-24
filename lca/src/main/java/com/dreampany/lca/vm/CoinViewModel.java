@@ -193,7 +193,7 @@ public class CoinViewModel
     private Maybe<List<CoinItem>> getItemsRx(Currency currency) {
         Coin coin = Objects.requireNonNull(getTask()).getInput();
        return repo
-                .getItemIfRx(CoinSource.CMC, currency, coin.getCoinId())
+                .getItemIfRx(CoinSource.CMC, currency, coin.getId())
                 .map(result -> {
                     if (result != null) {
                         getTask().setInput(result);

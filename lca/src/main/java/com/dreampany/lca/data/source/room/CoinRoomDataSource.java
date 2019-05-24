@@ -74,12 +74,12 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId) {
-        if (!mapper.hasCoin(coinId)) {
-            Coin room = dao.getItemByCoinId(coinId);
+    public Coin getItem(CoinSource source, Currency currency, long id) {
+        if (!mapper.hasCoin(id)) {
+            Coin room = dao.getItem(id);
             mapper.add(room);
         }
-        Coin cache = mapper.getCoin(coinId);
+        Coin cache = mapper.getCoin(id);
         if (DataUtil.isEmpty(cache)) {
             return null;
         }
@@ -88,9 +88,9 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
         return Maybe.create(emitter -> {
-            Coin result = getItem(source, currency, coinId);
+            Coin result = getItem(source, currency, id);
             if (emitter.isDisposed()) {
                 return;
             }
@@ -103,9 +103,9 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
         updateCache();
-        List<Coin> cache = mapper.getCoins(coinIds);
+        List<Coin> cache = mapper.getCoins(ids);
         if (DataUtil.isEmpty(cache)) {
             return null;
         }
@@ -117,9 +117,9 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
         return Maybe.create(emitter -> {
-            List<Coin> result = getItems(source, currency, coinIds);
+            List<Coin> result = getItems(source, currency, ids);
             if (emitter.isDisposed()) {
                 return;
             }

@@ -114,7 +114,7 @@ public class ApiRepository {
 
     public boolean hasAlert(Coin coin) {
         if (!alerts.containsKey(coin)) {
-            boolean alert = alertRepo.isExists(coin.getCoinId());
+            boolean alert = alertRepo.isExists(coin.getId());
             alerts.put(coin, alert);
         }
         return alerts.get(coin);

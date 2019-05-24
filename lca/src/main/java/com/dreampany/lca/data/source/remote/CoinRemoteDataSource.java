@@ -112,11 +112,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId) {
+    public Coin getItem(CoinSource source, Currency currency, long id) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
-        String ids = String.valueOf(coinId);
+        String ids = String.valueOf(id);
         Timber.v("Ids %s", ids);
         for (int loop = 0; loop < keys.size(); loop++) {
             String apiKey = getApiKey();
@@ -135,9 +135,9 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
         return Maybe.create(emitter -> {
-            Coin result = getItem(source, currency, coinId);
+            Coin result = getItem(source, currency, id);
             if (emitter.isDisposed()) {
                 return;
             }
@@ -173,9 +173,9 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
         return Maybe.create(emitter -> {
-            List<Coin> result = getItems(source, currency, coinIds);
+            List<Coin> result = getItems(source, currency, ids);
             if (emitter.isDisposed()) {
                 return;
             }

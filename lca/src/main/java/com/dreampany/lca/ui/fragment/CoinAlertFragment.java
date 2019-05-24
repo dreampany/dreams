@@ -135,7 +135,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
         }
 
         Coin coin = item.getCoin();
-        String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getCoinId());
+        String imageUrl = String.format(Locale.ENGLISH, Constants.ImageUrl.CoinMarketCapImageUrl, coin.getId());
         FrescoUtil.loadImage(binding.imageIcon, imageUrl, true);
 
         String nameText = String.format(Locale.ENGLISH, getString(R.string.full_name), coin.getSymbol(), coin.getName());

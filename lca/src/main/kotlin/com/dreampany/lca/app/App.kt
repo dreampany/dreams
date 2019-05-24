@@ -1,9 +1,6 @@
 package com.dreampany.lca.app
 
 import android.app.Activity
-import androidx.work.Configuration
-import androidx.work.WorkManager
-import androidx.work.WorkerFactory
 import com.crashlytics.android.Crashlytics
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.misc.SmartAd
@@ -153,6 +150,13 @@ class App : BaseApp() {
             val current = AndroidUtil.getVersionCode(this)
 
             when (current) {
+                120 -> {
+                    if (exists < 120) {
+                        val currency = pref.getCurrency(Currency.USD)
+                        for (coinIndex in 0..10)
+                            pref.clearCoinIndexTime(CoinSource.CMC.name, currency.name, coinIndex);
+                    }
+                }
                 117 -> {
                     if (exists < 117) {
                         val currency = pref.getCurrency(Currency.USD)

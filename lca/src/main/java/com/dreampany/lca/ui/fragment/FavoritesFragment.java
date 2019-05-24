@@ -156,9 +156,6 @@ public class FavoritesFragment
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
-/*            case R.id.button_empty:
-                vm.loads(true, true);
-                break;*/
             case R.id.button_favorite:
                 vm.toggleFavorite((Coin) v.getTag());
                 break;
@@ -322,14 +319,14 @@ public class FavoritesFragment
     }
 
     private void processSuccess(List<CoinItem> items) {
-        if (scroller.isScrolling()) {
+/*        if (scroller.isScrolling()) {
             return;
-        }
+        }*/
         //recycler.setNestedScrollingEnabled(false);
         Timber.v("Flag Result %s", items.size());
         adapter.addFavoriteItems(items);
         //recycler.setNestedScrollingEnabled(true);
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 500);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 500);
     }
 
     private void processSingleSuccess(CoinItem item) {

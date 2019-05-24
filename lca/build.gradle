@@ -18,10 +18,10 @@ android {
 
     defaultConfig {
         applicationId 'com.dreampany.lca'
-        minSdkVersion 21
+        minSdkVersion 18
         targetSdkVersion 28
-        versionCode 119
-        versionName '1.1.9'
+        versionCode 120
+        versionName '1.2.0'
 
         multiDexEnabled true
 

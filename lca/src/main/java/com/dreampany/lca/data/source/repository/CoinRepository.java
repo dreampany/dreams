@@ -76,15 +76,15 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId) {
-        return room.getItem(source, currency, coinId);
+    public Coin getItem(CoinSource source, Currency currency, long id) {
+        return room.getItem(source, currency, id);
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId) {
-        Maybe<Coin> firestoreIf = getFirestoreItemIfRx(source, currency, coinId);
-        Maybe<Coin> remoteIf = getRemoteItemIfRx(source, currency, coinId);
-        Maybe<Coin> roomAny = room.getItemRx(source, currency, coinId);
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
+        Maybe<Coin> firestoreIf = getFirestoreItemIfRx(source, currency, id);
+        Maybe<Coin> remoteIf = getRemoteItemIfRx(source, currency, id);
+        Maybe<Coin> roomAny = room.getItemRx(source, currency, id);
         return concatSingleLastRx(/*firestoreIf,*/ remoteIf, roomAny);
     }
 
@@ -105,17 +105,17 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }*/
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
 
 
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds) {
-        Maybe<List<Coin>> firestoreIf = getFirestoreItemsIfRx(source, currency, coinIds);
-        Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, coinIds);
-        Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, coinIds);
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
+        Maybe<List<Coin>> firestoreIf = getFirestoreItemsIfRx(source, currency, ids);
+        Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, ids);
+        Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, ids);
         return concatLastRx(/*firestoreIf,*/ remoteIf, roomAny);
     }
 
@@ -325,7 +325,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
             rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             for (Coin coin : coins) {
-                mapper.updateCoinTime(source, currency, coin.getCoinId());
+                mapper.updateCoinTime(source, currency, coin.getId());
             }
         });
     }

@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId 'com.dreampany.lca'
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 120
         versionName '1.2.0'

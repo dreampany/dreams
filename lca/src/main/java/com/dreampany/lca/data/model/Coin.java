@@ -35,8 +35,8 @@ import java.util.Map;
 public class Coin extends Base {
 
     private CoinSource source;
-    @PropertyName(Constants.Coin.COIN_ID)
-    private long coinId;
+/*    @PropertyName(Constants.Coin.COIN_ID)
+    private long coinId;*/
     private String name;
     private String symbol;
     private String slug;
@@ -71,7 +71,7 @@ public class Coin extends Base {
     private Coin(Parcel in) {
         super(in);
         source = in.readParcelable(CoinSource.class.getClassLoader());
-        coinId = in.readLong();
+        //coinId = in.readLong();
         name = in.readString();
         symbol = in.readString();
         slug = in.readString();
@@ -90,7 +90,7 @@ public class Coin extends Base {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeParcelable(source, flags);
-        dest.writeLong(coinId);
+        //dest.writeLong(coinId);
         dest.writeString(name);
         dest.writeString(symbol);
         dest.writeString(slug);
@@ -141,7 +141,7 @@ public class Coin extends Base {
         return super.getId();
     }
 
-    @PropertyName(Constants.Coin.COIN_ID)
+/*    @PropertyName(Constants.Coin.COIN_ID)
     public void setCoinId(long coinId) {
         this.coinId = coinId;
     }
@@ -149,7 +149,7 @@ public class Coin extends Base {
     @PropertyName(Constants.Coin.COIN_ID)
     public long getCoinId() {
         return coinId;
-    }
+    }*/
 
     public void setName(String name) {
         this.name = name;

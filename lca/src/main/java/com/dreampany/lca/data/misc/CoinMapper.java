@@ -77,8 +77,7 @@ public class CoinMapper {
     }
 
     public void add(Coin coin) {
-        //coins.put(coin.getSlug(), coin);
-        this.add(coin.getCoinId(), coin);
+        this.add(coin.getId(), coin);
     }
 
     public void add(long key, Coin coin) {
@@ -143,7 +142,7 @@ public class CoinMapper {
             return null;
         }
 
-        long id = DataUtil.getSha512(source.value(), in.getId());
+        long id = in.getId();
         Coin out = map.get(id);
         if (out == null) {
             out = new Coin();
@@ -154,7 +153,6 @@ public class CoinMapper {
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
         out.setSource(source);
-        out.setCoinId(in.getId());
         out.setName(in.getName());
         out.setSymbol(in.getSymbol());
         out.setSlug(in.getSlug());
@@ -197,7 +195,7 @@ public class CoinMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setCoinId(coin.getId());  //coin id to coinId of quote
+        out.setCoinId(coin.getId());  //coinId to coinId of quote
         out.setCurrency(currency);
         out.setPrice(in.getPrice());
         out.setDayVolume(in.getDayVolume());

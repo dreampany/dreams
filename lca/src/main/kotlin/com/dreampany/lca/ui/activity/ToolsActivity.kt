@@ -96,8 +96,6 @@ class ToolsActivity : BaseActivity() {
                             uiTask
                         )
                     }
-                    else -> {
-                    }
                 }
             }
             UiType.COIN -> {
@@ -122,25 +120,19 @@ class ToolsActivity : BaseActivity() {
                             uiTask
                         )
                     }
-                    else -> {
-                    }
                 }
             }
-            UiType.NEWS -> {
+            UiType.NEWS, UiType.GRAPH -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
-                        if (AdvancedWebView.Browsers.hasAlternative(this))  {
+                        if (AdvancedWebView.Browsers.hasAlternative(this)) {
                             AdvancedWebView.Browsers.openUrl(this, uiTask.comment)
                             finish()
                         } else {
                             openActivity(WebActivity::class.java, uiTask, true)
                         }
                     }
-                    else -> {
-                    }
                 }
-            }
-            else -> {
             }
         }
     }

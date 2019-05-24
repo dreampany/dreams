@@ -19,11 +19,15 @@ import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Graph;
+import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.GraphRepository;
 import com.dreampany.lca.misc.*;
+import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.enums.TimeType;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.GraphItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.data.model.Network;
@@ -342,17 +346,5 @@ public class GraphViewModel
         return formatter.format(currency, price);
     }
 
-    public void openSourceSite(Activity activity) {
-        Coin coin = getTask().getInput();
-        String webUrl = Constants.Api.CoinMarketCapSiteUrl;
-        String url = String.format(webUrl, coin.getSlug());
 
-        if (AdvancedWebView.Browsers.hasAlternative(activity)) {
-            AdvancedWebView.Browsers.openUrl(activity, url);
-        } else {
-            UiTask<?> task = new UiTask<>(true);
-            task.setComment(url);
-            AndroidUtil.openActivity(activity, WebActivity.class, task);
-        }
-    }
 }

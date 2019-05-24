@@ -10,7 +10,7 @@ import com.dreampany.frame.data.enums.Type;
  * dreampanymail@gmail.com
  */
 public enum UiType implements Type {
-    MORE, COIN, NEWS;
+    MORE, COIN, GRAPH, ICO, NEWS,;
 
     @Override
     public boolean equals(Type type) {
@@ -67,6 +67,9 @@ public enum UiType implements Type {
             case 1:
                 return COIN;
             case 2:
+                return GRAPH;
+            case 3:
+                return ICO;
             default:
                 return NEWS;
         }

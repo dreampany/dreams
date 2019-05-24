@@ -283,7 +283,7 @@ public class FinishedIcoFragment
     @DebugLog
     private void processSuccess(List<IcoItem> items) {
         adapter.addItems(items);
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void openCoinUi(Ico ico) {

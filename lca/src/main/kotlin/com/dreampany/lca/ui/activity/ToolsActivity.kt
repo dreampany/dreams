@@ -122,7 +122,7 @@ class ToolsActivity : BaseActivity() {
                     }
                 }
             }
-            UiType.NEWS, UiType.GRAPH -> {
+            UiType.GRAPH, UiType.ICO, UiType.NEWS -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         if (AdvancedWebView.Browsers.hasAlternative(this)) {

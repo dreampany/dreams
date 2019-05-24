@@ -26,8 +26,11 @@ import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.databinding.FragmentIcoBinding;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.IcoAdapter;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.LiveIcoViewModel;
@@ -300,16 +303,14 @@ public class LiveIcoFragment
     @DebugLog
     private void processSuccess(List<IcoItem> items) {
         adapter.addItems(items);
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void openCoinUi(Ico ico) {
-        if (AdvancedWebView.Browsers.hasAlternative(getContext())) {
-            AdvancedWebView.Browsers.openUrl(getParent(), ico.getIcoWatchListUrl());
-        } else {
-            UiTask<?> task = new UiTask<>(true);
-            task.setComment(ico.getIcoWatchListUrl());
-            openActivity(WebActivity.class, task);
-        }
+        UiTask<Ico> task = new UiTask<>(true);
+        task.setComment(ico.getIcoWatchListUrl());
+        task.setUiType(UiType.ICO);
+        task.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, task);
     }
 }

@@ -389,14 +389,6 @@ public class GraphFragment
         outTask.setComment(url);
         outTask.setUiType(UiType.GRAPH);
         outTask.setSubtype(UiSubtype.VIEW);
-        openActivity(ToolsActivity.class, task);
-
-/*        if (AdvancedWebView.Browsers.hasAlternative(activity)) {
-            AdvancedWebView.Browsers.openUrl(activity, url);
-        } else {
-            UiTask<?> task = new UiTask<>(true);
-            task.setComment(url);
-            AndroidUtil.openActivity(activity, WebActivity.class, task);
-        }*/
+        openActivity(ToolsActivity.class, outTask);
     }
 }

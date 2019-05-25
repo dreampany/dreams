@@ -119,26 +119,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return concatLastRx(/*firestoreIf,*/ remoteIf, roomAny);
     }
 
-/*    @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> coinIds, long lastUpdated) {
-        Maybe<List<Coin>> roomIf = room.getItemsRx(source, currency, coinIds, lastUpdated);
-        Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, coinIds);
-        Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, coinIds);
-        return Maybe.create(new MaybeOnSubscribe<List<Coin>>() {
-            @Override
-            public void subscribe(MaybeEmitter<List<Coin>> emitter) throws Exception {
-                List<Coin> result = new ArrayList<>();
-
-            }
-        });
-        //return concatFirstRx(roomIf, remoteIf, roomAny);
-    }*/
-
     @Override
     public boolean isEmpty() {
         return false;

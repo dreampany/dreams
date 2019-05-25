@@ -35,8 +35,6 @@ import java.util.Map;
 public class Coin extends Base {
 
     private CoinSource source;
-/*    @PropertyName(Constants.Coin.COIN_ID)
-    private long coinId;*/
     private String name;
     private String symbol;
     private String slug;
@@ -328,5 +326,17 @@ public class Coin extends Base {
             return quotes.get(currency);
         }
         return null;
+    }
+
+    public Quote getLatestQuote() {
+        Quote latest = null;
+        if (quotes != null) {
+            for (Map.Entry<Currency, Quote> entry : quotes.entrySet()) {
+                if (latest == null || latest.getTime() < entry.getValue().getTime()) {
+                    latest = entry.getValue();
+                }
+            }
+        }
+        return latest;
     }
 }

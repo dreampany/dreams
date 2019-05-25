@@ -7,6 +7,7 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.enums.Currency;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
@@ -165,7 +166,8 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
         Throwable error = firestore.setItemRx(collection, paths, document, coin).blockingGet();
         if (error == null) {
-            return 0;
+            putQuote(coin);
+            return 1;
         }
         return -1;
     }
@@ -194,6 +196,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         }
         Throwable error = firestore.setItemsRx(collection, items).blockingGet();
         if (error == null) {
+            putQuotes(coins);
             return new ArrayList<>();
         }
         return null;
@@ -265,10 +268,51 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     /* private api */
+    private long putQuote(Coin coin) {
+        Quote latest = coin.getLatestQuote();
+        if (latest != null) {
+            return putQuote(coin.getSource(), latest);
+        }
+        return 0;
+    }
+
+    private List<Long> putQuotes(List<Coin> coins) {
+        String collection = Constants.FirestoreKey.CRYPTO;
+        Map<String, MutableTriple<String, String, Quote>> items = Maps.newHashMap();
+        for (Coin coin : coins) {
+            Quote latest = coin.getLatestQuote();
+            if (latest != null) {
+                items.put(String.valueOf(latest.getCoinId()).concat(latest.getCurrency().name()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.QUOTES, latest));
+            }
+        }
+        if (!items.isEmpty()) {
+            Throwable error = firestore.setItemsRx(collection, items).blockingGet();
+            if (error == null) {
+                return new ArrayList<>();
+            }
+        }
+        return null;
+    }
+
+
+    private long putQuote(CoinSource source, Quote quote) {
+        String collection = Constants.FirestoreKey.CRYPTO;
+        String document = String.valueOf(quote.getCoinId()).concat(quote.getCurrency().name());
+        TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
+        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.QUOTES));
+
+        Throwable error = firestore.setItemRx(collection, paths, document, quote).blockingGet();
+        if (error == null) {
+            return 1;
+        }
+        return -1;
+    }
+
     private void bindQuote(Currency currency, Coin coin) {
         if (coin != null && !coin.hasQuote(currency)) {
             //Quote quote = quoteDao.getItems(coin.getId(), currency.name());
             //coin.addQuote(quote);
         }
     }
+
 }

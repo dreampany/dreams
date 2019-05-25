@@ -30,7 +30,6 @@ import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.Constants;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
-import com.jaredrummler.android.device.DeviceName;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -421,9 +420,9 @@ public final class AndroidUtil {
         return androidId;
     }
 
-    public static String getDeviceName() {
+/*    public static String getDeviceName() {
         return DeviceName.getDeviceName();
-    }
+    }*/
 
 
     private static TextToSpeech tts;

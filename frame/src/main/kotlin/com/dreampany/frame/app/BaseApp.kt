@@ -6,7 +6,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
-import com.beardedhen.androidbootstrap.TypefaceProvider
 import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.R
 import com.dreampany.frame.api.service.JobManager
@@ -225,7 +224,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         }
 
         registerActivityLifecycleCallbacks(this)
-        TypefaceProvider.registerDefaultIconSets()
+        //TypefaceProvider.registerDefaultIconSets()
         onOpen()
         throwAnalytics(Constants.Event.APPLICATION, getScreen())
     }

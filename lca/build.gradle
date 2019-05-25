@@ -4,13 +4,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'io.fabric'
-apply plugin: 'idea'
-
-idea {
-    module {
-        downloadJavadoc = true
-    }
-}
 
 android {
     compileSdkVersion 28
@@ -20,8 +13,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 18
         targetSdkVersion 28
-        versionCode 122
-        versionName '1.2.2'
+        versionCode 124
+        versionName '1.2.4'
 
         multiDexEnabled true
 
@@ -175,8 +168,8 @@ dependencies {
 
     /* library */
     implementation project(':frame')
-    implementation project(':network')
-    implementation project(':firebase')
+    //implementation project(':network')
+    //implementation project(':firebase')
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'

@@ -5,6 +5,7 @@ import com.dreampany.frame.util.JobUtil
 import com.firebase.jobdispatcher.FirebaseJobDispatcher
 import com.firebase.jobdispatcher.GooglePlayDriver
 import com.firebase.jobdispatcher.Job
+import hugo.weaving.DebugLog
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,6 +25,7 @@ class JobManager @Inject constructor(val context: Context) {
         dispatcher = FirebaseJobDispatcher(GooglePlayDriver(context))
     }
 
+    @DebugLog
     fun <T : BaseJobService> create(classOfService: Class<T>, startTime: Int, delay: Int): Boolean {
         val tag = classOfService.simpleName
         val job = JobUtil.create(dispatcher,

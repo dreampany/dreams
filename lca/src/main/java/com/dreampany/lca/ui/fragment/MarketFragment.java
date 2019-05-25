@@ -92,6 +92,7 @@ public class MarketFragment
         initView();
         initRecycler();
         evm.start();
+        evm.loads(false);
     }
 
     @Override
@@ -103,7 +104,7 @@ public class MarketFragment
     @Override
     public void onResume() {
         super.onResume();
-        evm.loads(false);
+
     }
 
     @Override
@@ -111,19 +112,6 @@ public class MarketFragment
         super.onPause();
        // evm.removeMultipleSubscription();
     }
-
-/*    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isResumed()) {
-            return;
-        }
-        if (isVisibleToUser) {
-            evm.loads(false);
-        } else {
-            evm.removeMultipleSubscription();
-        }
-    }*/
 
     @Override
     public void onRefresh() {

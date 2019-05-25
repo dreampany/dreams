@@ -160,7 +160,7 @@ class Constants {
 
     object Period {
         //val Coin = TimeUnit.MINUTES.toMillis(30)
-        val Notify = TimeUnit.MINUTES.toSeconds(3)
+        val Notify = TimeUnit.MINUTES.toSeconds(1)
     }
 
     object Delay {

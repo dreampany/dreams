@@ -23,11 +23,15 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
+import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.databinding.FragmentIcoBinding;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.IcoAdapter;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.FinishedIcoViewModel;
@@ -93,6 +97,7 @@ public class FinishedIcoFragment
         initView();
         initRecycler();
         vm.start();
+        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -104,7 +109,6 @@ public class FinishedIcoFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -112,19 +116,6 @@ public class FinishedIcoFragment
         super.onPause();
         //vm.removeMultipleSubscription();
     }
-
-/*    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isResumed()) {
-            return;
-        }
-        if (isVisibleToUser) {
-            vm.loads(false);
-        } else {
-            vm.removeMultipleSubscription();
-        }
-    }*/
 
     @Override
     public void onRefresh() {
@@ -253,13 +244,6 @@ public class FinishedIcoFragment
         }
     }
 
-/*    private void processEvent(EventType eventType) {
-        switch (eventType) {
-            case NEW:
-                break;
-        }
-    }*/
-
     @DebugLog
     private void processResponse(Response<List<IcoItem>> response) {
         if (response instanceof Response.Progress) {
@@ -299,16 +283,14 @@ public class FinishedIcoFragment
     @DebugLog
     private void processSuccess(List<IcoItem> items) {
         adapter.addItems(items);
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);
     }
 
     private void openCoinUi(Ico ico) {
-        if (AdvancedWebView.Browsers.hasAlternative(getContext())) {
-            AdvancedWebView.Browsers.openUrl(getParent(), ico.getIcoWatchListUrl());
-        } else {
-            UiTask<?> task = new UiTask<>(true);
-            task.setComment(ico.getIcoWatchListUrl());
-            openActivity(WebActivity.class, task);
-        }
+        UiTask<Ico> task = new UiTask<>(true);
+        task.setComment(ico.getIcoWatchListUrl());
+        task.setUiType(UiType.ICO);
+        task.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, task);
     }
 }

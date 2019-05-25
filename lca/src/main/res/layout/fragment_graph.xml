@@ -51,8 +51,8 @@
                         android:id="@+id/text_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@string/time"
                         android:textSize="12sp"
                         auto:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +64,8 @@
                         android:id="@+id/text_change"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:text="@string/change"
                         android:textSize="12sp"
                         auto:layout_constraintEnd_toEndOf="parent"
@@ -98,21 +98,23 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <fr.arnaudguyon.smartfontslib.FontButton
-                    android:id="@+id/button_source"
-                    android:layout_width="match_parent"
+                    android:id="@+id/button_more"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/ripple"
-                    android:text="@string/source"
+                    android:text="@string/more_graph"
                     android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
                     auto:smart_font="@string/fontRobotoSlabTitle" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_above="@id/button_source"
+                    android:layout_above="@id/button_more"
                     android:layout_below="@id/layout_header"
                     android:focusableInTouchMode="true" />
 

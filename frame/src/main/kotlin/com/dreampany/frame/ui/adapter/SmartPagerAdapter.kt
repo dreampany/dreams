@@ -10,8 +10,7 @@ import com.dreampany.frame.ui.fragment.BaseFragment
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class SmartPagerAdapter<T : BaseFragment>(fragmentManager: FragmentManager) :
-    BaseStateAdapter<T>(fragmentManager) {
+class SmartPagerAdapter<T : BaseFragment>(fragmentManager: FragmentManager) : BaseStateAdapter<T>(fragmentManager) {
 
     override fun getItem(position: Int): Fragment {
         val fragment = getFragment(position)

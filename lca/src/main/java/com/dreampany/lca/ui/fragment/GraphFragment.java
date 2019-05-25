@@ -1,15 +1,17 @@
 package com.dreampany.lca.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.beardedhen.androidbootstrap.BootstrapDropDown;
-//import com.dreampany.frame.data.enums.EventType;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.FragmentScope;
@@ -18,17 +20,25 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.widget.SmartNestedScrollView;
-import com.dreampany.frame.util.*;
+import com.dreampany.frame.ui.widget.toggle.SingleSelectToggleGroup;
+import com.dreampany.frame.util.ColorUtil;
+import com.dreampany.frame.util.DisplayUtil;
+import com.dreampany.frame.util.TextUtil;
+import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.enums.Currency;
+import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.databinding.FragmentGraphBinding;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.enums.TimeType;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.GraphItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.GraphViewModel;
-import com.dreampany.frame.ui.widget.toggle.SingleSelectToggleGroup;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -37,14 +47,18 @@ import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import hugo.weaving.DebugLog;
+
 import net.cachapa.expandablelayout.ExpandableLayout;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Objects;
+
+import javax.inject.Inject;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -92,6 +106,7 @@ public class GraphFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         vm.start();
+        vm.load(timeType, false);
     }
 
     @Override
@@ -103,27 +118,14 @@ public class GraphFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.load(timeType, false);
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        vm.removeSingleSubscription();
+        //vm.removeSingleSubscription();
     }
-
-/*    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isResumed()) {
-            return;
-        }
-        if (isVisibleToUser) {
-            vm.load(currency, timeType, false);
-        } else {
-            vm.removeSingleSubscription();
-        }
-    }*/
 
     @Override
     public void onRefresh() {
@@ -133,8 +135,8 @@ public class GraphFragment
     @Override
     public void onClick(@NonNull View v) {
         switch (v.getId()) {
-            case R.id.button_source:
-                vm.openSourceSite(getActivity());
+            case R.id.button_more:
+                openMoreGraphSite();
                 break;
         }
     }
@@ -214,10 +216,11 @@ public class GraphFragment
         chart = binding.lineChart;
         timeType = TimeType.DAY;
 
-        binding.buttonSource.setOnClickListener(this);
+        binding.buttonMore.setOnClickListener(this);
+        binding.buttonMore.setText(TextUtil.toUnderscore(getContext(), R.string.more_graph));
+
         currencyDropDown.setOnDropDownItemClickListener(this);
         binding.layoutToggleDate.toggleDate.setOnCheckedChangeListener(this);
-        binding.buttonSource.setText(TextUtil.toUnderscore(getContext(), R.string.source));
         currencyDropDown.setText(vm.getCurrentCurrency().name());
         initLineChart();
     }
@@ -309,13 +312,6 @@ public class GraphFragment
         }
     }
 
-/*    private void processEvent(EventType eventType) {
-        switch (eventType) {
-            case NEW:
-                break;
-        }
-    }*/
-
     @DebugLog
     private void processResponse(Response<GraphItem> response) {
         if (response instanceof Response.Progress) {
@@ -380,5 +376,19 @@ public class GraphFragment
         String change = String.format(TextUtil.getString(getContext(), format), timeTypeValue, changeInPercent, Math.abs(differencePrice));
         binding.textChange.setText(change);
         binding.textChange.setTextColor(ColorUtil.getColor(getContext(), color));
+    }
+
+    public void openMoreGraphSite() {
+
+        UiTask<Coin> task = getCurrentTask();
+        Coin coin = task.getInput();
+        String webUrl = Constants.Api.CoinMarketCapSiteUrl;
+        String url = String.format(webUrl, coin.getSlug());
+
+        UiTask<Graph> outTask = new UiTask<>(true);
+        outTask.setComment(url);
+        outTask.setUiType(UiType.GRAPH);
+        outTask.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, outTask);
     }
 }

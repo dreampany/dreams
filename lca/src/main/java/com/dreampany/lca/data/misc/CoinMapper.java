@@ -2,6 +2,8 @@ package com.dreampany.lca.data.misc;
 
 import android.text.TextUtils;
 
+import androidx.core.util.Pair;
+
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
@@ -39,8 +41,8 @@ public class CoinMapper {
     private final SmartMap<Long, Coin> map;
     private final SmartCache<Long, Coin> cache;
 
-    private final SmartMap<Long, Quote> quoteMap;
-    private final SmartCache<Long, Quote> quoteCache;
+    private final SmartMap<Pair<Long, Currency>, Quote> quoteMap;
+    private final SmartCache<Pair<Long, Currency>, Quote> quoteCache;
 
     private final Map<Long, Coin> coins;
 
@@ -49,8 +51,8 @@ public class CoinMapper {
             Pref pref,
             @CoinAnnote SmartMap<Long, Coin> map,
             @CoinAnnote SmartCache<Long, Coin> cache,
-            @QuoteAnnote SmartMap<Long, Quote> quoteMap,
-            @QuoteAnnote SmartCache<Long, Quote> quoteCache) {
+            @QuoteAnnote SmartMap<Pair<Long, Currency>, Quote> quoteMap,
+            @QuoteAnnote SmartCache<Pair<Long, Currency>, Quote> quoteCache) {
         this.pref = pref;
         this.map = map;
         this.cache = cache;
@@ -116,7 +118,7 @@ public class CoinMapper {
     }
 
     public boolean isExists(Quote in) {
-        return quoteMap.contains(in.getId());
+        return quoteMap.contains(Pair.create(in.getId(), in.getCurrency()));
     }
 
     public boolean isCoinExpired(CoinSource source, Currency currency, long coinId) {
@@ -187,15 +189,14 @@ public class CoinMapper {
         if (in == null) {
             return null;
         }
-        long id = DataUtil.getSha512(currency.name(), coin.getId());
-        Quote out = quoteMap.get(id);
+        Pair<Long, Currency> pair = Pair.create(coin.getId(), currency);
+        Quote out = quoteMap.get(pair);
         if (out == null) {
             out = new Quote();
-            quoteMap.put(id, out);
+            quoteMap.put(pair, out);
         }
-        out.setId(id);
+        out.setId(coin.getId());
         out.setTime(TimeUtil.currentTime());
-        out.setCoinId(coin.getId());  //coinId to coinId of quote
         out.setCurrency(currency);
         out.setPrice(in.getPrice());
         out.setDayVolume(in.getDayVolume());

@@ -73,7 +73,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, id));
+        equalTo.add(MutablePair.of(Constants.Coin.ID, id));
 
 
         greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
@@ -107,8 +107,8 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        for (long coinId : ids) {
-            equalTo.add(MutablePair.of(Constants.Coin.COIN_ID, coinId));
+        for (long id : ids) {
+            equalTo.add(MutablePair.of(Constants.Coin.ID, id));
         }
 
         greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
@@ -282,7 +282,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         for (Coin coin : coins) {
             Quote latest = coin.getLatestQuote();
             if (latest != null) {
-                items.put(String.valueOf(latest.getCoinId()).concat(latest.getCurrency().name()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.QUOTES, latest));
+                items.put(String.valueOf(latest.getId()).concat(latest.getCurrency().name()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.QUOTES, latest));
             }
         }
         if (!items.isEmpty()) {
@@ -297,7 +297,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     private long putQuote(CoinSource source, Quote quote) {
         String collection = Constants.FirestoreKey.CRYPTO;
-        String document = String.valueOf(quote.getCoinId()).concat(quote.getCurrency().name());
+        String document = String.valueOf(quote.getId()).concat(quote.getCurrency().name());
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
         paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.QUOTES));
 

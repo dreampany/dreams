@@ -27,9 +27,9 @@ interface QuoteDao : BaseDao<Quote> {
     @get:Query("select * from quote")
     val itemsRx: Maybe<List<Quote>>
 
-    @Query("select * from quote where coinId = :coinId and currency = :currency limit 1")
-    fun getItems(coinId: Long, currency: String): Quote
+    @Query("select * from quote where id = :id and currency = :currency limit 1")
+    fun getItems(id: Long, currency: String): Quote
 
-    @Query("select * from quote where coinId = :coinId and currency in (:currencies)")
-    fun getItems(coinId: Long, currencies: Array<String>): List<Quote>
+    @Query("select * from quote where id = :id and currency in (:currencies)")
+    fun getItems(id: Long, currencies: Array<String>): List<Quote>
 }

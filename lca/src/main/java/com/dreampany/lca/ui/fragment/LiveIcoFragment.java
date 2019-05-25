@@ -98,6 +98,7 @@ public class LiveIcoFragment
         initView();
         initRecycler();
         vm.start();
+        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -109,7 +110,7 @@ public class LiveIcoFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
+
     }
 
     @Override

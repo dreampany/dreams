@@ -98,6 +98,7 @@ public class UpcomingIcoFragment
         initView();
         initRecycler();
         vm.start();
+        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override
@@ -109,7 +110,6 @@ public class UpcomingIcoFragment
     @Override
     public void onResume() {
         super.onResume();
-        vm.loads(!adapter.isEmpty(), adapter.isEmpty());
     }
 
     @Override

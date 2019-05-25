@@ -176,7 +176,7 @@ dependencies {
     /* library */
     implementation project(':frame')
     implementation project(':media')
-    implementation project(':network')
+    //implementation project(':network')
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'

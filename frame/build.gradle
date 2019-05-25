@@ -4,13 +4,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.jakewharton.hugo'
 //apply plugin: 'net.ltgt.errorprone'
-apply plugin: 'idea'
-
-idea {
-    module {
-        downloadJavadoc = true
-    }
-}
 
 android {
     compileSdkVersion 28
@@ -144,8 +137,7 @@ dependencies {
     api 'androidx.preference:preference:1.1.0-alpha05'
     //api 'androidx.mediarouter:mediarouter:1.1.0-beta01'
     //api 'androidx.legacy:legacy-support-v13:1.0.0'
-    api 'androidx.preference:preference:1.1.0-alpha05'
-    api 'androidx.legacy:legacy-preference-v14:1.0.0'
+    //api 'androidx.legacy:legacy-preference-v14:1.0.0'
     api 'androidx.core:core:1.2.0-alpha01'
     //api 'androidx.vectordrawable:vectordrawable:1.1.0-beta01'
     //api 'androidx.vectordrawable:vectordrawable-animated:1.1.0-beta01'
@@ -174,11 +166,15 @@ dependencies {
     api 'com.google.firebase:firebase-core:16.0.9'
     api 'com.google.firebase:firebase-appindexing:18.0.0'
     api 'com.google.firebase:firebase-ads:17.2.0'
-    api 'com.google.firebase:firebase-messaging:18.0.0'
-    api 'com.google.firebase:firebase-invites:17.0.0'
+    //api 'com.google.firebase:firebase-messaging:18.0.0'
+    //api 'com.google.firebase:firebase-invites:17.0.0'
+    api 'com.google.firebase:firebase-auth:17.0.0'
+    api 'com.google.firebase:firebase-firestore:19.0.0'
+    implementation 'com.google.firebase:firebase-database:17.0.0'
+    //implementation 'com.google.firebase:firebase-storage:17.0.0'
 
     /* crashlytics */
-    api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    //api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     /* dagger */
     api 'com.google.dagger:dagger:2.22.1'
@@ -221,13 +217,14 @@ dependencies {
     api 'com.mikepenz:iconics-core:+'
 
     /* misc */
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.2'
     implementation 'com.github.pwittchen:prefser-rx2:2.2.2'
     //implementation 'com.afollestad:aesthetic:1.0.0-beta05'
     //implementation 'com.afollestad.material-dialogs:core:2.7.0'
     //implementation 'com.afollestad.material-dialogs:color:2.7.0'
     implementation 'com.webianks.library:easy-feedback:1.0.5'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
-    implementation 'com.jaredrummler:android-device-names:1.1.8'
+    //implementation 'com.jaredrummler:android-device-names:1.1.8'
     //implementation "io.karn:notify:1.2.0"
 
     api 'com.karumi:dexter:5.0.0'

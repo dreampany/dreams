@@ -93,12 +93,30 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
+
+        String collection = Constants.FirestoreKey.CRYPTO;
+
+        TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
+        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
+
+        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+
+        List<MutablePair<String, Object>> equalTo = new ArrayList<>();
+        List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
+
+        for (long id : ids) {
+            equalTo.add(MutablePair.of(Constants.Coin.ID, id));
+        }
+
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
+
         return null;
     }
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
         String collection = Constants.FirestoreKey.CRYPTO;
+
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
         paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
 
@@ -268,6 +286,11 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     /* private api */
+    private List<Quote> getQuotes(CoinSource source, Currency currency, List<Long> ids) {
+
+    }
+
+
     private long putQuote(Coin coin) {
         Quote latest = coin.getLatestQuote();
         if (latest != null) {

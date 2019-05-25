@@ -230,7 +230,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .doOnSuccess(coins -> {
                     Timber.v("Remote Result %d", coins.size());
                     rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-                    //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                     mapper.updateCoinIndexTime(source, currency, index);
                 });
     }
@@ -247,10 +247,57 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? remote.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            //rx.compute(firestore.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            rx.compute(firestore.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             mapper.updateCoinTime(source, currency, coinId);
         });
     }
+
+    private Maybe<List<Coin>> getFirestoreRemoteItemsIfRx(CoinSource source, Currency currency, List<Long> coinIds) {
+        Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
+            List<Long> ids = new ArrayList<>();
+            for (long id : coinIds) {
+                if (mapper.isCoinExpired(source, currency, id)) {
+                    ids.add(id);
+                }
+            }
+            List<Coin> result = new ArrayList<>();
+            if (!DataUtil.isEmpty(ids)) {
+                List<Coin> firestoreResult = firestore.getItemsRx(source, currency, ids).blockingGet();
+                if (!DataUtil.isEmpty(firestoreResult)) {
+                    result.addAll(firestoreResult);
+                    for (Coin coin : firestoreResult) {
+                        ids.remove(coin.getId());
+                    }
+                }
+            }
+
+            if (!DataUtil.isEmpty(ids)) {
+                List<Coin> remoteResult = remote.getItems(source, currency, ids);
+                if (!DataUtil.isEmpty(remoteResult)) {
+                    result.addAll(remoteResult);
+                    rx.compute(firestore.putItemsRx(remoteResult)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                }
+            }
+
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+
+        return contactSuccess(maybe, coins -> {
+            rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            for (Coin coin : coins) {
+                mapper.updateCoinTime(source, currency, coin.getId());
+            }
+        });
+    }
+
 
     private Maybe<List<Coin>> getFirestoreItemsIfRx(CoinSource source, Currency currency, List<Long> coinIds) {
         Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
@@ -303,7 +350,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
         return contactSuccess(maybe, coins -> {
             rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             for (Coin coin : coins) {
                 mapper.updateCoinTime(source, currency, coin.getId());
             }

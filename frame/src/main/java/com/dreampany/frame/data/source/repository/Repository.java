@@ -7,6 +7,7 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.BackpressureStrategy;
@@ -235,6 +236,47 @@ public abstract class Repository<K, V> {
                 }
                 if (!DataUtil.isEmpty(items)) {
                     result = items;
+                }
+            }
+            if (DataUtil.isEmpty(result)) {
+                if (error == null) {
+                    error = new EmptyException();
+                }
+            } else {
+                error = null;
+            }
+
+            if (!emitter.isDisposed()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onSuccess(result);
+                }
+            }
+        });
+    }
+
+    @SafeVarargs
+    protected final Maybe<List<V>> collectRx(int target, Maybe<List<V>>... sources) {
+        return Maybe.create(emitter -> {
+            Throwable error = null;
+            List<V> result = null;
+
+            for (Maybe<List<V>> source : sources) {
+                List<V> items = null;
+                try {
+                    items = source.blockingGet();
+                } catch (Exception ex) {
+                    error = ex;
+                }
+                if (!DataUtil.isEmpty(items)) {
+                    if (result == null) {
+                        result = new ArrayList<>();
+                    }
+                    result.addAll(items);
+                    if (result.size() >= target) {
+                        break;
+                    }
                 }
             }
             if (DataUtil.isEmpty(result)) {

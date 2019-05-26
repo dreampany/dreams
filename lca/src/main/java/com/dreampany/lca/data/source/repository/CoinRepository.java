@@ -88,22 +88,6 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return concatSingleLastRx(/*firestoreIf,*/ remoteIf, roomAny);
     }
 
-/*    @Override
-    public Coin getItem(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long coinId, long lastUpdated) {
-        Maybe<Coin> remote = getRemoteItemIfRx(source, currency, coinId);
-        Maybe<Coin> roomAny = room.getItemRx(source, currency, coinId);
-        return concatSingleLastRx(remote, roomAny);
-        Maybe<Coin> roomIf = room.getItemRx(source, currency, coinId, lastUpdated);
-        Maybe<Coin> remoteIf = getRemoteItemIfRx(source, currency, coinId);
-        Maybe<Coin> roomAny = room.getItemRx(source, currency, coinId);
-        return concatSingleFirstRx(roomIf, remoteIf, roomAny);
-    }*/
-
     @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
 
@@ -113,10 +97,11 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
+        Maybe<List<Coin>> firestoreRemote = getFirestoreRemoteItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> firestoreIf = getFirestoreItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, ids);
-        return concatLastRx(firestoreIf, remoteIf, roomAny);
+        return concatLastRx(firestoreRemote, roomAny);
     }
 
     @Override

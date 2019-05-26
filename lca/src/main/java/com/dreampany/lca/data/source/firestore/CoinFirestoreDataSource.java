@@ -26,6 +26,7 @@ import javax.inject.Singleton;
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
+import timber.log.Timber;
 
 /**
  * Created by Roman-372 on 3/28/2019
@@ -94,6 +95,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
 
+        List<Quote> quotes = getQuotes(source, currency, ids);
+
+        if (DataUtil.isEmpty(quotes)) {
+            return null;
+        }
+
         String collection = Constants.FirestoreKey.CRYPTO;
 
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
@@ -104,18 +111,34 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        for (long id : ids) {
-            equalTo.add(MutablePair.of(Constants.Coin.ID, id));
+        for (Quote quote : quotes) {
+            equalTo.add(MutablePair.of(Constants.Coin.ID, quote.getId()));
         }
 
         greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
 
-        return null;
+        List<Coin> result = firestore.getItemsRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class).blockingGet();
+        return result;
     }
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
-        String collection = Constants.FirestoreKey.CRYPTO;
+
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, ids);
+            if (emitter.isDisposed()) {
+                Timber.v("Firestore emitter disposed");
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                Timber.v("Firestore Result %d", result.size());
+                emitter.onSuccess(result);
+            }
+        });
+
+        /*String collection = Constants.FirestoreKey.CRYPTO;
 
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
         paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
@@ -141,7 +164,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
             }
         });
 
-        return result;
+        return result;*/
     }
 
     @Override
@@ -287,7 +310,25 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     /* private api */
     private List<Quote> getQuotes(CoinSource source, Currency currency, List<Long> ids) {
+        String collection = Constants.FirestoreKey.CRYPTO;
 
+        TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
+        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.QUOTES));
+
+        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+
+        List<MutablePair<String, Object>> equalTo = new ArrayList<>();
+        List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
+
+        for (long id : ids) {
+            equalTo.add(MutablePair.of(Constants.Quote.ID, id));
+            equalTo.add(MutablePair.of(Constants.Quote.CURRENCY, currency.name()));
+        }
+
+        greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
+
+        List<Quote> result = firestore.getItemsRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Quote.class).blockingGet();
+        return result;
     }
 
 

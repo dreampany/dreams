@@ -204,7 +204,7 @@ public class CoinMapper {
         out.setHourChange(in.getHourChange());
         out.setDayChange(in.getDayChange());
         out.setWeekChange(in.getWeekChange());
-        out.setLastUpdated(in.getLastUpdated());
+        out.setLastUpdated(in.getLastUpdatedTime());
         return out;
     }
 

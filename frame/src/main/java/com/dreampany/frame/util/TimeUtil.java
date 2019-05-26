@@ -41,8 +41,8 @@ public final class TimeUtil {
 
     public static long getUtcTime(String time) {
         DateTimeFormatter dtf = DateTimeFormat.forPattern(UTC_PATTERN);
-        DateTime jodatime = dtf.parseDateTime(time);
-        return jodatime.getMillis();
+        DateTime jodaTime = dtf.parseDateTime(time);
+        return jodaTime.getMillis();
     }
 
     public static String getFullTime(long time) {

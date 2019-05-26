@@ -39,7 +39,7 @@ public class Quote extends Base {
     @PropertyName(Constants.Quote.WEEK_CHANGE)
     private double weekChange;
     @PropertyName(Constants.Quote.LAST_UPDATED)
-    private String lastUpdated;
+    private long lastUpdated;
 
     @Ignore
     public Quote() {
@@ -60,7 +60,7 @@ public class Quote extends Base {
         hourChange = in.readDouble();
         dayChange = in.readDouble();
         weekChange = in.readDouble();
-        lastUpdated = in.readString();
+        lastUpdated = in.readLong();
     }
 
     @Override
@@ -73,7 +73,7 @@ public class Quote extends Base {
         dest.writeDouble(hourChange);
         dest.writeDouble(dayChange);
         dest.writeDouble(weekChange);
-        dest.writeString(lastUpdated);
+        dest.writeLong(lastUpdated);
     }
 
     public static final Creator<Quote> CREATOR = new Creator<Quote>() {
@@ -162,12 +162,12 @@ public class Quote extends Base {
     }
 
     @PropertyName(Constants.Quote.LAST_UPDATED)
-    public void setLastUpdated(String lastUpdated) {
+    public void setLastUpdated(long lastUpdated) {
         this.lastUpdated = lastUpdated;
     }
 
     @PropertyName(Constants.Quote.LAST_UPDATED)
-    public String getLastUpdated() {
+    public long getLastUpdated() {
         return lastUpdated;
     }
 }

@@ -1,7 +1,9 @@
 package com.dreampany.lca.api.cmc.model;
 
+import com.dreampany.frame.util.TimeUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Objects;
 
 import java.io.Serializable;
 
@@ -37,48 +39,6 @@ public class CmcQuote implements Serializable {
         this.lastUpdated = lastUpdated;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public double getDayVolume() {
-        return dayVolume;
-    }
-
-
-    public double getHourChange() {
-        return hourChange;
-    }
-
-    public double getDayChange() {
-        return dayChange;
-    }
-
-    public double getWeekChange() {
-        return weekChange;
-    }
-
-    public double getMarketCap() {
-        return marketCap;
-    }
-
-    public String getLastUpdated() {
-        return lastUpdated;
-    }
-
-    @Override
-    public String toString() {
-        return "CmcQuote{" +
-                "price=" + price +
-                ", dayVolume=" + dayVolume +
-                ", marketCap=" + marketCap +
-                ", hourChange=" + hourChange +
-                ", dayChange=" + dayChange +
-                ", weekChange=" + weekChange +
-                ", lastUpdated=" + lastUpdated +
-                '}';
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,5 +72,51 @@ public class CmcQuote implements Serializable {
         temp = Double.doubleToLongBits(marketCap);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "CmcQuote{" +
+                "price=" + price +
+                ", dayVolume=" + dayVolume +
+                ", marketCap=" + marketCap +
+                ", hourChange=" + hourChange +
+                ", dayChange=" + dayChange +
+                ", weekChange=" + weekChange +
+                ", lastUpdated=" + lastUpdated +
+                '}';
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getDayVolume() {
+        return dayVolume;
+    }
+
+
+    public double getHourChange() {
+        return hourChange;
+    }
+
+    public double getDayChange() {
+        return dayChange;
+    }
+
+    public double getWeekChange() {
+        return weekChange;
+    }
+
+    public double getMarketCap() {
+        return marketCap;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public long getLastUpdatedTime() {
+        return TimeUtil.getUtcTime(getLastUpdated());
     }
 }

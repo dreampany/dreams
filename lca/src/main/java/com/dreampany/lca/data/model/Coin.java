@@ -317,6 +317,7 @@ public class Coin extends Base {
         return null;
     }
 
+    @Exclude
     public Quote getLatestQuote() {
         Quote latest = null;
         if (quotes != null) {

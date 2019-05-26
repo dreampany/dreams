@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 14,
-    "identityHash": "82a10fbf512c085dc21fa68cafa67dc0",
+    "identityHash": "e1004863182d34b01660db53a2ad92a4",
     "entities": [
       {
         "tableName": "Coin",
@@ -113,7 +113,7 @@
       },
       {
         "tableName": "Quote",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` TEXT, PRIMARY KEY(`id`, `currency`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` INTEGER NOT NULL, PRIMARY KEY(`id`, `currency`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -172,8 +172,8 @@
           {
             "fieldPath": "lastUpdated",
             "columnName": "lastUpdated",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -745,7 +745,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"82a10fbf512c085dc21fa68cafa67dc0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e1004863182d34b01660db53a2ad92a4\")"
     ]
   }
 }

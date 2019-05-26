@@ -27,6 +27,7 @@ class JobManager @Inject constructor(val context: Context) {
 
     @DebugLog
     fun <T : BaseJobService> create(classOfService: Class<T>, startTime: Int, delay: Int): Boolean {
+        Timber.v("BaseJobService created")
         val tag = classOfService.simpleName
         val job = JobUtil.create(dispatcher,
                 tag,

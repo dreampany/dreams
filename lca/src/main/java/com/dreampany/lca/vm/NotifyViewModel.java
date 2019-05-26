@@ -107,13 +107,14 @@ public class NotifyViewModel {
         //disposables.dispose();
     }
 
+    @DebugLog
     public void notifyIf() {
-        Timber.v("notifyIf Processing");
+        Timber.v("Job Processing");
         Currency currency = pref.getCurrency(Currency.USD);
         currentNotifyIndex %= 3;
         switch (currentNotifyIndex) {
             case 0: {
-                if (pref.hasNotifyCoin()) {
+                if (!pref.hasNotifyCoin()) {
                     break;
                 }
                 Maybe<List<CoinItem>> profitMaybe = getProfitableItemsRx(currency);
@@ -127,7 +128,7 @@ public class NotifyViewModel {
             }
             break;
             case 1: {
-                if (pref.hasNotifyCoin()) {
+                if (!pref.hasNotifyCoin()) {
                     break;
                 }
                 Maybe<List<CoinAlertItem>> alertMaybe = getAlertItemsRx(currency);
@@ -141,7 +142,7 @@ public class NotifyViewModel {
             }
             break;
             case 2: {
-                if (pref.hasNotifyNews()) {
+                if (!pref.hasNotifyNews()) {
                     break;
                 }
                 Maybe<List<NewsItem>> newsMaybe = getNewsItemsRx();

@@ -1,7 +1,9 @@
 package com.dreampany.lca.injector.data
 
+import androidx.core.util.Pair
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
+import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.data.model.*
 import com.dreampany.lca.misc.*
 import dagger.Module
@@ -34,7 +36,7 @@ class SupportModule {
     @Singleton
     @Provides
     @QuoteAnnote
-    fun provideQuoteSmartMap(): SmartMap<Long, Quote> {
+    fun provideQuoteSmartMap(): SmartMap<Pair<Long, Currency>, Quote> {
         return SmartMap.newMap()
     }
 
@@ -97,7 +99,7 @@ class SupportModule {
     @Singleton
     @Provides
     @QuoteAnnote
-    fun provideQuoteSmartCache(): SmartCache<Long, Quote> {
+    fun provideQuoteSmartCache(): SmartCache<Pair<Long, Currency>, Quote> {
         return SmartCache.newCache()
     }
 

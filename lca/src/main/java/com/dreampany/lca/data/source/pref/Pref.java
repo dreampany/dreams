@@ -43,7 +43,7 @@ public class Pref extends FramePref {
     }
 
     public boolean hasNotifyCoin() {
-        return getPublicly(KEY_NOTIFY_COIN,  Boolean.class, true);
+        return getPublicly(KEY_NOTIFY_COIN, Boolean.class, true);
     }
 
     public boolean hasNotifyNews() {
@@ -71,7 +71,11 @@ public class Pref extends FramePref {
     }
 
     synchronized public void commitCoinTime(String source, String currency, long coinId) {
-        setPrivately(COIN_TIME + source + currency + coinId, TimeUtil.currentTime());
+        commitCoinTime(source, currency, coinId, TimeUtil.currentTime());
+    }
+
+    synchronized public void commitCoinTime(String source, String currency, long coinId, long time) {
+        setPrivately(COIN_TIME + source + currency + coinId, time);
     }
 
     synchronized public long getCoinTime(String source, String currency, long coinId) {

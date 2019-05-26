@@ -1,12 +1,16 @@
 package com.dreampany.lca.data.model;
 
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
-import android.os.Parcel;
-import androidx.annotation.NonNull;
+
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.data.enums.Currency;
+import com.dreampany.lca.misc.Constants;
+import com.google.firebase.firestore.PropertyName;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -17,20 +21,25 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * Last modified $file.lastModified
  */
 
-@Entity(indices = {@Index(value = {"coinId", "currency"}, unique = true)},
-        primaryKeys = {"coinId", "currency"})
+@Entity(indices = {@Index(value = {Constants.Quote.ID, Constants.Quote.CURRENCY}, unique = true)},
+        primaryKeys = {Constants.Quote.ID, Constants.Quote.CURRENCY})
 public class Quote extends Base {
 
-    private long coinId; // id of coin
     @NonNull
     private Currency currency;
     private double price;
+    @PropertyName(Constants.Quote.DAY_VOLUME)
     private double dayVolume;
+    @PropertyName(Constants.Quote.MARKET_CAP)
     private double marketCap;
+    @PropertyName(Constants.Quote.HOUR_CHANGE)
     private double hourChange;
+    @PropertyName(Constants.Quote.DAY_CHANGE)
     private double dayChange;
+    @PropertyName(Constants.Quote.WEEK_CHANGE)
     private double weekChange;
-    private String lastUpdated;
+    @PropertyName(Constants.Quote.LAST_UPDATED)
+    private long lastUpdated;
 
     @Ignore
     public Quote() {
@@ -44,7 +53,6 @@ public class Quote extends Base {
     @Ignore
     private Quote(Parcel in) {
         super(in);
-        coinId = in.readLong();
         currency = in.readParcelable(Currency.class.getClassLoader());
         price = in.readDouble();
         dayVolume = in.readDouble();
@@ -52,13 +60,12 @@ public class Quote extends Base {
         hourChange = in.readDouble();
         dayChange = in.readDouble();
         weekChange = in.readDouble();
-        lastUpdated = in.readString();
+        lastUpdated = in.readLong();
     }
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeLong(coinId);
         dest.writeParcelable(currency, flags);
         dest.writeDouble(price);
         dest.writeDouble(dayVolume);
@@ -66,7 +73,7 @@ public class Quote extends Base {
         dest.writeDouble(hourChange);
         dest.writeDouble(dayChange);
         dest.writeDouble(weekChange);
-        dest.writeString(lastUpdated);
+        dest.writeLong(lastUpdated);
     }
 
     public static final Creator<Quote> CREATOR = new Creator<Quote>() {
@@ -87,75 +94,80 @@ public class Quote extends Base {
         return ReflectionToStringBuilder.toString(this);
     }
 
-    public void setCoinId(long coinId) {
-        this.coinId = coinId;
+    public void setCurrency(@NonNull Currency currency) {
+        this.currency = currency;
     }
 
-    public void setCurrency(Currency currency) {
-        this.currency = currency;
+    @NonNull
+    public Currency getCurrency() {
+        return currency;
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public void setDayVolume(double dayVolume) {
-        this.dayVolume = dayVolume;
-    }
-
-    public void setMarketCap(double marketCap) {
-        this.marketCap = marketCap;
-    }
-
-    public void setHourChange(double hourChange) {
-        this.hourChange = hourChange;
-    }
-
-    public void setDayChange(double dayChange) {
-        this.dayChange = dayChange;
-    }
-
-    public void setWeekChange(double weekChange) {
-        this.weekChange = weekChange;
-    }
-
-    public void setLastUpdated(String lastUpdated) {
-        this.lastUpdated = lastUpdated;
-    }
-
-    public long getCoinId() {
-        return coinId;
-    }
-
-    public Currency getCurrency() {
-        return currency;
-    }
-
     public double getPrice() {
         return price;
     }
 
+    @PropertyName(Constants.Quote.DAY_VOLUME)
+    public void setDayVolume(double dayVolume) {
+        this.dayVolume = dayVolume;
+    }
+
+    @PropertyName(Constants.Quote.DAY_VOLUME)
     public double getDayVolume() {
         return dayVolume;
     }
 
+    @PropertyName(Constants.Quote.MARKET_CAP)
+    public void setMarketCap(double marketCap) {
+        this.marketCap = marketCap;
+    }
+
+    @PropertyName(Constants.Quote.MARKET_CAP)
     public double getMarketCap() {
         return marketCap;
     }
 
+    @PropertyName(Constants.Quote.HOUR_CHANGE)
+    public void setHourChange(double hourChange) {
+        this.hourChange = hourChange;
+    }
+
+    @PropertyName(Constants.Quote.HOUR_CHANGE)
     public double getHourChange() {
         return hourChange;
     }
 
+    @PropertyName(Constants.Quote.DAY_CHANGE)
+    public void setDayChange(double dayChange) {
+        this.dayChange = dayChange;
+    }
+
+    @PropertyName(Constants.Quote.DAY_CHANGE)
     public double getDayChange() {
         return dayChange;
     }
 
+    @PropertyName(Constants.Quote.WEEK_CHANGE)
+    public void setWeekChange(double weekChange) {
+        this.weekChange = weekChange;
+    }
+
+    @PropertyName(Constants.Quote.WEEK_CHANGE)
     public double getWeekChange() {
         return weekChange;
     }
 
-    public String getLastUpdated() {
+    @PropertyName(Constants.Quote.LAST_UPDATED)
+    public void setLastUpdated(long lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    @PropertyName(Constants.Quote.LAST_UPDATED)
+    public long getLastUpdated() {
         return lastUpdated;
     }
 }

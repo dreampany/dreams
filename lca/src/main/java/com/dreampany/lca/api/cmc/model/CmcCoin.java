@@ -63,6 +63,20 @@ public class CmcCoin {
         this.priceQuote = priceQuote;
     }
 
+    @Override
+    public boolean equals(Object in) {
+        if (this == in) return true;
+        if (in == null || getClass() != in.getClass()) return false;
+
+        CmcCoin item = (CmcCoin) in;
+        return Objects.equal(id, item.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
     public long getId() {
         return id;
     }
@@ -134,20 +148,6 @@ public class CmcCoin {
 
     public CmcQuote getBTCPriceQuote() {
         return getPriceQuote(CmcCurrency.BTC);
-    }
-
-    @Override
-    public boolean equals(Object in) {
-        if (this == in) return true;
-        if (in == null || getClass() != in.getClass()) return false;
-
-        CmcCoin item = (CmcCoin) in;
-        return Objects.equal(symbol, item.symbol) && Objects.equal(slug, item.slug);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(symbol, slug);
     }
 
     /*    @Override

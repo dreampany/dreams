@@ -35,8 +35,6 @@ import java.util.Map;
 public class Coin extends Base {
 
     private CoinSource source;
-/*    @PropertyName(Constants.Coin.COIN_ID)
-    private long coinId;*/
     private String name;
     private String symbol;
     private String slug;
@@ -71,7 +69,6 @@ public class Coin extends Base {
     private Coin(Parcel in) {
         super(in);
         source = in.readParcelable(CoinSource.class.getClassLoader());
-        //coinId = in.readLong();
         name = in.readString();
         symbol = in.readString();
         slug = in.readString();
@@ -90,7 +87,6 @@ public class Coin extends Base {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeParcelable(source, flags);
-        //dest.writeLong(coinId);
         dest.writeString(name);
         dest.writeString(symbol);
         dest.writeString(slug);
@@ -141,15 +137,6 @@ public class Coin extends Base {
         return super.getId();
     }
 
-/*    @PropertyName(Constants.Coin.COIN_ID)
-    public void setCoinId(long coinId) {
-        this.coinId = coinId;
-    }
-
-    @PropertyName(Constants.Coin.COIN_ID)
-    public long getCoinId() {
-        return coinId;
-    }*/
 
     public void setName(String name) {
         this.name = name;
@@ -328,5 +315,18 @@ public class Coin extends Base {
             return quotes.get(currency);
         }
         return null;
+    }
+
+    @Exclude
+    public Quote getLatestQuote() {
+        Quote latest = null;
+        if (quotes != null) {
+            for (Map.Entry<Currency, Quote> entry : quotes.entrySet()) {
+                if (latest == null || latest.getTime() < entry.getValue().getTime()) {
+                    latest = entry.getValue();
+                }
+            }
+        }
+        return latest;
     }
 }

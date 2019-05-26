@@ -108,6 +108,7 @@ class Constants {
     object FirestoreKey {
         const val CRYPTO = "crypto"
         const val COINS = "coins"
+        const val QUOTES = "quotes"
     }
 
     object CmcCoinKey {
@@ -128,18 +129,23 @@ class Constants {
 
     object Coin {
         const val ID = "id"
-        const val COIN_ID = "coin_id"
-        const val NAME = "name"
-        const val SYMBOL = "symbol"
-        const val SLUG = "slug"
-        const val RANK = "rank"
         const val MARKET_PAIRS = "market_pairs"
         const val CIRCULATING_SUPPLY = "circulating_supply"
         const val TOTAL_SUPPLY = "total_supply"
         const val MAX_SUPPLY = "max_supply"
         const val LAST_UPDATED = "last_updated"
         const val DATE_ADDED = "date_added"
-        const val TAGS = "tags"
+    }
+
+    object Quote {
+        const val ID = "id"
+        const val CURRENCY = "currency"
+        const val DAY_VOLUME = "day_volume"
+        const val MARKET_CAP = "market_cap"
+        const val HOUR_CHANGE = "hour_change"
+        const val DAY_CHANGE = "day_change"
+        const val WEEK_CHANGE = "week_change"
+        const val LAST_UPDATED = "last_updated"
     }
 
     object Limit {

@@ -150,6 +150,7 @@ class App : BaseApp() {
             val current = AndroidUtil.getVersionCode(this)
 
             when (current) {
+                126,
                 125 -> {
                     if (exists < 125) {
                         val currency = pref.getCurrency(Currency.USD)

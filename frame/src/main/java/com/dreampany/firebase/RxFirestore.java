@@ -54,7 +54,8 @@ public final class RxFirestore {
      */
     public <T> Completable setItemRx(@NonNull String collection,
                                      @Nullable TreeSet<MutablePair<String, String>> internalPaths,
-                                     @NonNull String document, T item) {
+                                     @NonNull String document,
+                                     @NonNull T item) {
 
         CollectionReference ref = firestore.collection(collection);
         if (internalPaths != null && !internalPaths.isEmpty()) {

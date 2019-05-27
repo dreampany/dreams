@@ -18,6 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
@@ -40,7 +43,14 @@ import io.reactivex.functions.Function;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class RxFirebaseDatabase {
+
+@Singleton
+public class RxDatabase {
+
+    @Inject
+    RxDatabase() {
+
+    }
 
     @NonNull
     public static Flowable<DataSnapshot> observeValueEvent(@NonNull final Query query,

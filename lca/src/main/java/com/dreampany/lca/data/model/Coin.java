@@ -12,9 +12,9 @@ import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.misc.Constants;
 import com.google.common.collect.Maps;
-import com.google.firebase.firestore.Exclude;
-import com.google.firebase.firestore.IgnoreExtraProperties;
-import com.google.firebase.firestore.PropertyName;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 

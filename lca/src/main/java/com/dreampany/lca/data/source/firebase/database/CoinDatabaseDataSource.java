@@ -1,16 +1,23 @@
 package com.dreampany.lca.data.source.firebase.database;
 
 import com.dreampany.firebase.RxFirebaseDatabase;
+import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
+import com.google.common.collect.Maps;
 
 import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.MutableTriple;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 import javax.inject.Singleton;
@@ -24,13 +31,13 @@ import io.reactivex.Maybe;
  * Last modified $file.lastModified
  */
 @Singleton
-public class CoinFirebaseDatabaseDataSource implements CoinDataSource {
+public class CoinDatabaseDataSource implements CoinDataSource {
 
     private final NetworkManager network;
     private final RxFirebaseDatabase database;
 
-    public CoinFirebaseDatabaseDataSource(NetworkManager network,
-                                          RxFirebaseDatabase database) {
+    public CoinDatabaseDataSource(NetworkManager network,
+                                  RxFirebaseDatabase database) {
         this.network = network;
         this.database = database;
     }
@@ -102,7 +109,7 @@ public class CoinFirebaseDatabaseDataSource implements CoinDataSource {
 
         Throwable error = database.setItemRx(path, child, coin).blockingGet();
         if (error == null) {
-            //putQuote(coin);
+            putQuote(coin);
             return 1;
         }
         return -1;
@@ -110,17 +117,50 @@ public class CoinFirebaseDatabaseDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Long> putItemRx(Coin coin) {
-        return null;
+        return Maybe.create(emitter -> {
+            long result = putItem(coin);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (result == -1) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
     public List<Long> putItems(List<Coin> coins) {
-        return null;
+        for (Coin coin : coins) {
+            putItem(coin);
+        }
+        return new ArrayList<>();
+/*        String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.COINS);
+        Map<String, Coin> items = Maps.newHashMap();
+        for (Coin coin : coins) {
+            items.put(Constants.Sep.HYPHEN.concat(String.valueOf(coin.getId())), coin);
+        }
+        Throwable error = database.setItemRx(path, items).blockingGet();
+        if (error == null) {
+            return new ArrayList<>();
+        }
+        return null;*/
     }
 
     @Override
     public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
-        return null;
+        return Maybe.create(emitter -> {
+            List<Long> result = putItems(coins);
+            if (emitter.isDisposed()) {
+                throw new IllegalStateException();
+            }
+            if (!DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
@@ -171,5 +211,24 @@ public class CoinFirebaseDatabaseDataSource implements CoinDataSource {
     @Override
     public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
+    }
+
+    private long putQuote(Coin coin) {
+        Quote latest = coin.getLatestQuote();
+        if (latest != null) {
+            return putQuote(latest);
+        }
+        return 0;
+    }
+
+    private long putQuote(Quote quote) {
+        String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.QUOTES);
+        String child = String.valueOf(quote.getId()).concat(quote.getCurrency().name());
+
+        Throwable error = database.setItemRx(path, child, quote).blockingGet();
+        if (error == null) {
+            return 1;
+        }
+        return -1;
     }
 }

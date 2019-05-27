@@ -170,7 +170,7 @@ dependencies {
     //api 'com.google.firebase:firebase-invites:17.0.0'
     api 'com.google.firebase:firebase-auth:17.0.0'
     api 'com.google.firebase:firebase-firestore:19.0.0'
-    implementation 'com.google.firebase:firebase-database:17.0.0'
+    api 'com.google.firebase:firebase-database:17.0.0'
     //implementation 'com.google.firebase:firebase-storage:17.0.0'
 
     /* crashlytics */

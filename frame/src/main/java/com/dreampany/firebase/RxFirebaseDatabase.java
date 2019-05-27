@@ -13,7 +13,6 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.SetOptions;
 
 import java.util.Map;
 
@@ -49,10 +48,22 @@ public class RxFirebaseDatabase {
         return setItemRx(reference, item);
     }
 
+    public <T> Completable setItemRx(@NonNull String path, @NonNull Map<String, T> items) {
+        DatabaseReference reference = database.getReference(path);
+        return setItemRx(reference, items);
+    }
+
     public <T> Completable setItemRx(@NonNull DatabaseReference ref,
                                      @NonNull T item) {
         return Completable.create(emitter ->
                 RxCompletableHandler.assignOnTask(emitter, ref.setValue(item))
+        );
+    }
+
+    public <T> Completable setItemRx(@NonNull DatabaseReference ref,
+                                     @NonNull Map<String, T> items) {
+        return Completable.create(emitter ->
+                RxCompletableHandler.assignOnTask(emitter, ref.setValue(items))
         );
     }
 

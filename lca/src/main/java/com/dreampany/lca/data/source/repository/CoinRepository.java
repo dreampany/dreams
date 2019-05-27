@@ -1,7 +1,8 @@
 package com.dreampany.lca.data.source.repository;
 
 import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.FirebaseFirestore;
+import com.dreampany.frame.misc.Database;
+import com.dreampany.frame.misc.Firestore;
 import com.dreampany.frame.misc.Remote;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
@@ -41,6 +42,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     private final Pref pref;
     private CoinMapper mapper;
     private final CoinDataSource room;
+    private final CoinDataSource database;
     private final CoinDataSource firestore;
     private final CoinDataSource remote;
     //private volatile SyncThread syncThread;
@@ -52,13 +54,15 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                    Pref pref,
                    CoinMapper mapper,
                    @Room CoinDataSource room,
-                   @FirebaseFirestore CoinDataSource firestore,
+                   @Database CoinDataSource database,
+                   @Firestore CoinDataSource firestore,
                    @Remote CoinDataSource remote) {
         super(rx, rm);
         this.network = network;
         this.pref = pref;
         this.mapper = mapper;
         this.room = room;
+        this.database = database;
         this.firestore = firestore;
         this.remote = remote;
     }
@@ -215,7 +219,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .doOnSuccess(coins -> {
                     Timber.v("Remote Result %d", coins.size());
                     rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-                    //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                     mapper.updateCoinIndexTime(source, currency, index);
                 });
     }
@@ -232,7 +236,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? remote.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            //rx.compute(firestore.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            rx.compute(database.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             mapper.updateCoinTime(source, currency, coinId);
         });
     }
@@ -260,7 +264,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 List<Coin> remoteResult = remote.getItems(source, currency, ids);
                 if (!DataUtil.isEmpty(remoteResult)) {
                     result.addAll(remoteResult);
-                    //rx.compute(firestore.putItemsRx(remoteResult)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    rx.compute(database.putItemsRx(remoteResult)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                 }
             }
 
@@ -276,7 +280,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
         return contactSuccess(maybe, coins -> {
             rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             for (Coin coin : coins) {
                 mapper.updateCoinTime(source, currency, coin.getId());
             }

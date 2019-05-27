@@ -35,13 +35,13 @@ import timber.log.Timber;
  * Last modified $file.lastModified
  */
 @Singleton
-public class CoinFirebaseFirestoreDataSource implements CoinDataSource {
+public class CoinFirestoreDataSource implements CoinDataSource {
 
     private final NetworkManager network;
     private final RxFirebaseFirestore firestore;
 
-    public CoinFirebaseFirestoreDataSource(NetworkManager network,
-                                           RxFirebaseFirestore firestore) {
+    public CoinFirestoreDataSource(NetworkManager network,
+                                   RxFirebaseFirestore firestore) {
         this.network = network;
         this.firestore = firestore;
     }
@@ -127,13 +127,13 @@ public class CoinFirebaseFirestoreDataSource implements CoinDataSource {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, ids);
             if (emitter.isDisposed()) {
-                Timber.v("FirebaseFirestore emitter disposed");
+                Timber.v("Firestore emitter disposed");
                 return;
             }
             if (DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
             } else {
-                Timber.v("FirebaseFirestore Result %d", result.size());
+                Timber.v("Firestore Result %d", result.size());
                 emitter.onSuccess(result);
             }
         });

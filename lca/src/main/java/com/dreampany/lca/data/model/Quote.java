@@ -10,7 +10,8 @@ import androidx.room.Index;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.misc.Constants;
-import com.google.firebase.firestore.PropertyName;
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.database.PropertyName;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -23,6 +24,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 @Entity(indices = {@Index(value = {Constants.Quote.ID, Constants.Quote.CURRENCY}, unique = true)},
         primaryKeys = {Constants.Quote.ID, Constants.Quote.CURRENCY})
+@IgnoreExtraProperties
 public class Quote extends Base {
 
     @NonNull

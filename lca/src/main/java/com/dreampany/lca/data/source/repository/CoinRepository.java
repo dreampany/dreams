@@ -101,7 +101,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<List<Coin>> firestoreIf = getFirestoreItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, ids);
-        return concatLastRx(firestoreRemote, roomAny);
+        return concatLastRx(remoteIf, roomAny);
     }
 
     @Override
@@ -215,7 +215,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .doOnSuccess(coins -> {
                     Timber.v("Remote Result %d", coins.size());
                     rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-                    rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                     mapper.updateCoinIndexTime(source, currency, index);
                 });
     }
@@ -232,7 +232,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? remote.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            rx.compute(firestore.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            //rx.compute(firestore.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             mapper.updateCoinTime(source, currency, coinId);
         });
     }
@@ -260,7 +260,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 List<Coin> remoteResult = remote.getItems(source, currency, ids);
                 if (!DataUtil.isEmpty(remoteResult)) {
                     result.addAll(remoteResult);
-                    rx.compute(firestore.putItemsRx(remoteResult)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    //rx.compute(firestore.putItemsRx(remoteResult)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                 }
             }
 
@@ -335,7 +335,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
         return contactSuccess(maybe, coins -> {
             rx.compute(putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             for (Coin coin : coins) {
                 mapper.updateCoinTime(source, currency, coin.getId());
             }

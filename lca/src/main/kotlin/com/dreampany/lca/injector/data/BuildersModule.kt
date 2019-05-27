@@ -1,15 +1,16 @@
 package com.dreampany.lca.injector.data
 
 import android.content.Context
-import com.dreampany.firebase.RxFirestore
+import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.frame.injector.data.FrameModule
-import com.dreampany.frame.misc.Firestore
+import com.dreampany.frame.misc.FirebaseDatabase
+import com.dreampany.frame.misc.FirebaseFirestore
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
 import com.dreampany.lca.data.misc.*
 import com.dreampany.lca.data.source.api.*
 import com.dreampany.lca.data.source.dao.*
-import com.dreampany.lca.data.source.firestore.CoinFirestoreDataSource
+import com.dreampany.lca.data.source.firebase.firestore.CoinFirebaseFirestoreDataSource
 import com.dreampany.lca.data.source.remote.*
 import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.injector.vm.ViewModelModule
@@ -47,11 +48,27 @@ class BuildersModule {
 
     @Singleton
     @Provides
-    @Firestore
+    @FirebaseFirestore
     fun provideCoinFirestoreDataSource(network: NetworkManager,
-                                       firestore: RxFirestore): CoinDataSource {
-        return CoinFirestoreDataSource(network, firestore)
+                                       firebaseFirestore: RxFirebaseFirestore
+    ): CoinDataSource {
+        return CoinFirebaseFirestoreDataSource(
+            network,
+            firebaseFirestore
+        )
     }
+
+/*    @Singleton
+    @Provides
+    @FirebaseDatabase
+    fun provideCoinFirestoreDataSource(network: NetworkManager,
+                                       firebaseFirestore: RxFirebaseFirestore
+    ): CoinDataSource {
+        return CoinFirebaseFirestoreDataSource(
+            network,
+            firebaseFirestore
+        )
+    }*/
 
     @Singleton
     @Provides

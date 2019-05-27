@@ -76,6 +76,7 @@ class Constants {
         const val COMMA_SPACE = ", "
         const val UP = ">"
         const val DOWN = "<"
+        const val SLASH = "/"
     }
 
     object Key {
@@ -105,7 +106,7 @@ class Constants {
         const val CoinMarketCapImageUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/%d.png" //id reference
     }
 
-    object FirestoreKey {
+    object FirebaseKey {
         const val CRYPTO = "crypto"
         const val COINS = "coins"
         const val QUOTES = "quotes"

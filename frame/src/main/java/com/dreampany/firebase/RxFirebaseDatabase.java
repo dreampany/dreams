@@ -4,18 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dreampany.firebase.exceptions.RxFirebaseDataException;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.SetOptions;
 
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -23,19 +22,10 @@ import javax.inject.Singleton;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Flowable;
-import io.reactivex.FlowableEmitter;
-import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.Maybe;
-import io.reactivex.MaybeEmitter;
-import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.MaybeSource;
 import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
-import io.reactivex.SingleOnSubscribe;
-import io.reactivex.functions.Cancellable;
 import io.reactivex.functions.Function;
 
 /**
@@ -45,11 +35,25 @@ import io.reactivex.functions.Function;
  */
 
 @Singleton
-public class RxDatabase {
+public class RxFirebaseDatabase {
+
+    private final FirebaseDatabase database;
 
     @Inject
-    RxDatabase() {
+    RxFirebaseDatabase() {
+        database = FirebaseDatabase.getInstance();
+    }
 
+    public <T> Completable setItemRx(@NonNull String path, @NonNull String child, @NonNull T item) {
+        DatabaseReference reference = database.getReference(path).child(child);
+        return setItemRx(reference, item);
+    }
+
+    public <T> Completable setItemRx(@NonNull DatabaseReference ref,
+                                     @NonNull T item) {
+        return Completable.create(emitter ->
+                RxCompletableHandler.assignOnTask(emitter, ref.setValue(item))
+        );
     }
 
     @NonNull

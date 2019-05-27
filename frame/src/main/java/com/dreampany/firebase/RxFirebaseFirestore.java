@@ -1,5 +1,8 @@
 package com.dreampany.firebase;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,13 +21,8 @@ import java.util.TreeSet;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
 import hugo.weaving.DebugLog;
 import io.reactivex.Completable;
-import io.reactivex.CompletableEmitter;
-import io.reactivex.CompletableOnSubscribe;
 import io.reactivex.Maybe;
 
 /**
@@ -33,12 +31,12 @@ import io.reactivex.Maybe;
  * hawladar.roman@bjitgroup.com
  */
 @Singleton
-public final class RxFirestore {
+public final class RxFirebaseFirestore {
 
     private final FirebaseFirestore firestore;
 
     @Inject
-    RxFirestore() {
+    RxFirebaseFirestore() {
         firestore = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder().build();
         firestore.setFirestoreSettings(settings);

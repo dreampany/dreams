@@ -1,7 +1,7 @@
 package com.dreampany.lca.data.source.repository;
 
 import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.Firestore;
+import com.dreampany.frame.misc.FirebaseFirestore;
 import com.dreampany.frame.misc.Remote;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
@@ -52,7 +52,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                    Pref pref,
                    CoinMapper mapper,
                    @Room CoinDataSource room,
-                   @Firestore CoinDataSource firestore,
+                   @FirebaseFirestore CoinDataSource firestore,
                    @Remote CoinDataSource remote) {
         super(rx, rm);
         this.network = network;

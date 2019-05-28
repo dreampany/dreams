@@ -165,13 +165,15 @@ dependencies {
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
     api 'com.google.firebase:firebase-core:16.0.9'
     api 'com.google.firebase:firebase-appindexing:18.0.0'
-    api 'com.google.firebase:firebase-ads:17.2.0'
+    api 'com.google.firebase:firebase-ads:17.2.1'
     //api 'com.google.firebase:firebase-messaging:18.0.0'
     //api 'com.google.firebase:firebase-invites:17.0.0'
     api 'com.google.firebase:firebase-auth:17.0.0'
     api 'com.google.firebase:firebase-firestore:19.0.0'
     api 'com.google.firebase:firebase-database:17.0.0'
     //implementation 'com.google.firebase:firebase-storage:17.0.0'
+    implementation 'com.google.firebase:firebase-ml-common:19.0.0'
+    implementation 'com.google.firebase:firebase-ml-vision:20.0.0'
 
     /* crashlytics */
     //api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
@@ -226,6 +228,7 @@ dependencies {
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
     //implementation 'com.jaredrummler:android-device-names:1.1.8'
     //implementation "io.karn:notify:1.2.0"
+    implementation 'com.otaliastudios:cameraview:1.6.0'
 
     api 'com.karumi:dexter:5.0.0'
     api 'joda-time:joda-time:2.10.2'
@@ -277,4 +280,5 @@ dependencies {
     //api 'com.github.mirrajabi:search-dialog:1.2.3'
     api 'com.github.midorikocak:currency-picker-android:1.1.9'
     //api 'com.github.bmarrdev:android-DecoView-charting:v1.2'
+
 }

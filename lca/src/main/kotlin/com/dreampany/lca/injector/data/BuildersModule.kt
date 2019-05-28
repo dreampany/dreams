@@ -1,15 +1,18 @@
 package com.dreampany.lca.injector.data
 
 import android.content.Context
-import com.dreampany.firebase.RxFirestore
+import com.dreampany.firebase.RxFirebaseDatabase
+import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.frame.injector.data.FrameModule
+import com.dreampany.frame.misc.Database
 import com.dreampany.frame.misc.Firestore
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
 import com.dreampany.lca.data.misc.*
 import com.dreampany.lca.data.source.api.*
 import com.dreampany.lca.data.source.dao.*
-import com.dreampany.lca.data.source.firestore.CoinFirestoreDataSource
+import com.dreampany.lca.data.source.firebase.database.CoinDatabaseDataSource
+import com.dreampany.lca.data.source.firebase.firestore.CoinFirestoreDataSource
 import com.dreampany.lca.data.source.remote.*
 import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.injector.vm.ViewModelModule
@@ -38,128 +41,173 @@ class BuildersModule {
     @Singleton
     @Provides
     @Room
-    fun provideCoinRoomDataSource(mapper: CoinMapper,
-                                  dao: CoinDao,
-                                  quoteDao: QuoteDao): CoinDataSource {
+    fun provideCoinRoomDataSource(
+        mapper: CoinMapper,
+        dao: CoinDao,
+        quoteDao: QuoteDao
+    ): CoinDataSource {
         return CoinRoomDataSource(mapper, dao, quoteDao)
     }
 
+    @Singleton
+    @Provides
+    @Database
+    fun provideCoinDatabaseDataSource(
+        network: NetworkManager,
+        database: RxFirebaseDatabase
+    ): CoinDataSource {
+        return CoinDatabaseDataSource(
+            network,
+            database
+        )
+    }
 
     @Singleton
     @Provides
     @Firestore
-    fun provideCoinFirestoreDataSource(network: NetworkManager,
-                                       firestore: RxFirestore): CoinDataSource {
-        return CoinFirestoreDataSource(network, firestore)
+    fun provideCoinFirestoreDataSource(
+        network: NetworkManager,
+        firestore: RxFirebaseFirestore
+    ): CoinDataSource {
+        return CoinFirestoreDataSource(
+            network,
+            firestore
+        )
     }
 
     @Singleton
     @Provides
     @Remote
-    fun provideCoinRemoteDataSource(network: NetworkManager,
-                                    mapper: CoinMapper,
-                                    service: CmcService): CoinDataSource {
+    fun provideCoinRemoteDataSource(
+        network: NetworkManager,
+        mapper: CoinMapper,
+        service: CmcService
+    ): CoinDataSource {
         return CoinRemoteDataSource(network, mapper, service)
     }
 
     @Singleton
     @Provides
     @Room
-    fun providePriceRoomDataSource(mapper: PriceMapper,
-                                   dao: PriceDao): PriceDataSource {
+    fun providePriceRoomDataSource(
+        mapper: PriceMapper,
+        dao: PriceDao
+    ): PriceDataSource {
         return PriceRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideExchangeRoomDataSource(mapper: ExchangeMapper,
-                                      dao: ExchangeDao): ExchangeDataSource {
+    fun provideExchangeRoomDataSource(
+        mapper: ExchangeMapper,
+        dao: ExchangeDao
+    ): ExchangeDataSource {
         return ExchangeRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideMarketRoomDataSource(mapper: MarketMapper,
-                                    dao: MarketDao): MarketDataSource {
+    fun provideMarketRoomDataSource(
+        mapper: MarketMapper,
+        dao: MarketDao
+    ): MarketDataSource {
         return MarketRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideGraphRoomDataSource(mapper: GraphMapper,
-                                   dao: GraphDao): GraphDataSource {
+    fun provideGraphRoomDataSource(
+        mapper: GraphMapper,
+        dao: GraphDao
+    ): GraphDataSource {
         return GraphRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideNewsRoomDataSource(mapper: NewsMapper,
-                                  dao: NewsDao): NewsDataSource {
+    fun provideNewsRoomDataSource(
+        mapper: NewsMapper,
+        dao: NewsDao
+    ): NewsDataSource {
         return NewsRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideIcoRoomDataSource(mapper: IcoMapper,
-                                 dao: IcoDao): IcoDataSource {
+    fun provideIcoRoomDataSource(
+        mapper: IcoMapper,
+        dao: IcoDao
+    ): IcoDataSource {
         return IcoRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideCoinAlertRoomDataSource(mapper: CoinAlertMapper,
-                                       dao: CoinAlertDao): CoinAlertDataSource {
+    fun provideCoinAlertRoomDataSource(
+        mapper: CoinAlertMapper,
+        dao: CoinAlertDao
+    ): CoinAlertDataSource {
         return CoinAlertRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
     @Remote
-    fun provideExchangeRemoteDataSource(network: NetworkManager,
-                                        mapper: ExchangeMapper,
-                                        service: CryptoCompareExchangeService): ExchangeDataSource {
+    fun provideExchangeRemoteDataSource(
+        network: NetworkManager,
+        mapper: ExchangeMapper,
+        service: CryptoCompareExchangeService
+    ): ExchangeDataSource {
         return ExchangeRemoteDataSource(network, mapper, service)
     }
 
     @Singleton
     @Provides
     @Remote
-    fun provideMarketRemoteDataSource(network: NetworkManager,
-                                      mapper: MarketMapper,
-                                      service: CryptoCompareMarketService): MarketDataSource {
+    fun provideMarketRemoteDataSource(
+        network: NetworkManager,
+        mapper: MarketMapper,
+        service: CryptoCompareMarketService
+    ): MarketDataSource {
         return MarketRemoteDataSource(network, mapper, service)
     }
 
     @Singleton
     @Provides
     @Remote
-    fun provideGraphRemoteDataSource(network: NetworkManager,
-                                     mapper: GraphMapper,
-                                     service: CoinMarketCapGraphService): GraphDataSource {
+    fun provideGraphRemoteDataSource(
+        network: NetworkManager,
+        mapper: GraphMapper,
+        service: CoinMarketCapGraphService
+    ): GraphDataSource {
         return GraphRemoteDataSource(network, mapper, service)
     }
 
     @Singleton
     @Provides
     @Remote
-    fun provideNewsRemoteDataSource(network: NetworkManager,
-                                    mapper: NewsMapper,
-                                    service: CryptoCompareNewsService): NewsDataSource {
+    fun provideNewsRemoteDataSource(
+        network: NetworkManager,
+        mapper: NewsMapper,
+        service: CryptoCompareNewsService
+    ): NewsDataSource {
         return NewsRemoteDataSource(network, mapper, service)
     }
 
     @Singleton
     @Provides
     @Remote
-    fun provideIcoRemoteDataSource(network: NetworkManager,
-                                   mapper: IcoMapper,
-                                   service: IcoService): IcoDataSource {
+    fun provideIcoRemoteDataSource(
+        network: NetworkManager,
+        mapper: IcoMapper,
+        service: IcoService
+    ): IcoDataSource {
         return IcoRemoteDataSource(network, mapper, service)
     }
 
@@ -186,10 +234,10 @@ class BuildersModule {
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
-                //.cache(cache)
-                //.addNetworkInterceptor(networkCacheInterceptor)
-                .addInterceptor(loggingInterceptor)
-                .build()
+            //.cache(cache)
+            //.addNetworkInterceptor(networkCacheInterceptor)
+            .addInterceptor(loggingInterceptor)
+            .build()
 
         return httpClient
     }
@@ -199,12 +247,12 @@ class BuildersModule {
     @CoinMarketCap
     fun provideCoinMarketCapRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
-                .client(client)
-                .baseUrl(Constants.Api.CmcApiUrlV1)
-                //.addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+            .client(client)
+            .baseUrl(Constants.Api.CmcApiUrlV1)
+            //.addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
         return retrofit;
     }
 
@@ -213,12 +261,12 @@ class BuildersModule {
     @CoinMarketCapGraph
     fun provideCoinMarketCapGraphRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
-                .client(client)
-                .baseUrl(Constants.Api.CoinMarketCapGraphApiUrl)
-                //.addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+            .client(client)
+            .baseUrl(Constants.Api.CoinMarketCapGraphApiUrl)
+            //.addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
         return retrofit;
     }
 
@@ -227,12 +275,12 @@ class BuildersModule {
     @CryptoCompare
     fun provideCryptoCompareRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
-                .client(client)
-                .baseUrl(Constants.Api.CryptoCompareApiUrl)
-                //.addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+            .client(client)
+            .baseUrl(Constants.Api.CryptoCompareApiUrl)
+            //.addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
         return retrofit;
     }
 
@@ -241,12 +289,12 @@ class BuildersModule {
     @IcoWatchList
     fun provideIcoWatchListRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
-                .client(client)
-                .baseUrl(Constants.Api.IcoWatchListApiUrl)
-                //.addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(JacksonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
+            .client(client)
+            .baseUrl(Constants.Api.IcoWatchListApiUrl)
+            //.addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(JacksonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
         return retrofit;
     }
 

@@ -1,6 +1,6 @@
-package com.dreampany.lca.data.source.firestore;
+package com.dreampany.lca.data.source.firebase.firestore;
 
-import com.dreampany.firebase.RxFirestore;
+import com.dreampany.firebase.RxFirebaseFirestore;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
@@ -38,10 +38,10 @@ import timber.log.Timber;
 public class CoinFirestoreDataSource implements CoinDataSource {
 
     private final NetworkManager network;
-    private final RxFirestore firestore;
+    private final RxFirebaseFirestore firestore;
 
     public CoinFirestoreDataSource(NetworkManager network,
-                                   RxFirestore firestore) {
+                                   RxFirebaseFirestore firestore) {
         this.network = network;
         this.firestore = firestore;
     }
@@ -65,9 +65,9 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
-        String collection = Constants.FirestoreKey.CRYPTO;
+        String collection = Constants.FirebaseKey.CRYPTO;
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
-        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
+        paths.add(MutablePair.of(source.name(), Constants.FirebaseKey.COINS));
 
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
 
@@ -101,10 +101,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
             return null;
         }
 
-        String collection = Constants.FirestoreKey.CRYPTO;
+        String collection = Constants.FirebaseKey.CRYPTO;
 
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
-        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
+        paths.add(MutablePair.of(source.name(), Constants.FirebaseKey.COINS));
 
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
 
@@ -137,34 +137,6 @@ public class CoinFirestoreDataSource implements CoinDataSource {
                 emitter.onSuccess(result);
             }
         });
-
-        /*String collection = Constants.FirestoreKey.CRYPTO;
-
-        TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
-        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.COINS));
-
-        long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
-
-        List<MutablePair<String, Object>> equalTo = new ArrayList<>();
-        List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
-
-        for (long id : ids) {
-            equalTo.add(MutablePair.of(Constants.Coin.ID, id));
-        }
-
-        greaterThanOrEqualTo.add(MutablePair.of(Constants.Coin.LAST_UPDATED, lastUpdated));
-
-        Maybe<List<Coin>> result = firestore.getItemsRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
-
-        result = result.doOnSuccess(new Consumer<List<Coin>>() {
-            @DebugLog
-            @Override
-            public void accept(List<Coin> coins) throws Exception {
-
-            }
-        });
-
-        return result;*/
     }
 
     @Override
@@ -200,10 +172,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     @DebugLog
     @Override
     public long putItem(Coin coin) {
-        String collection = Constants.FirestoreKey.CRYPTO;
+        String collection = Constants.FirebaseKey.CRYPTO;
         String document = String.valueOf(coin.getId());
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
-        paths.add(MutablePair.of(coin.getSource().name(), Constants.FirestoreKey.COINS));
+        paths.add(MutablePair.of(coin.getSource().name(), Constants.FirebaseKey.COINS));
 
         Throwable error = firestore.setItemRx(collection, paths, document, coin).blockingGet();
         if (error == null) {
@@ -230,10 +202,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     @Override
     public List<Long> putItems(List<Coin> coins) {
-        String collection = Constants.FirestoreKey.CRYPTO;
+        String collection = Constants.FirebaseKey.CRYPTO;
         Map<String, MutableTriple<String, String, Coin>> items = Maps.newHashMap();
         for (Coin coin : coins) {
-            items.put(String.valueOf(coin.getId()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.COINS, coin));
+            items.put(String.valueOf(coin.getId()), MutableTriple.of(coin.getSource().name(), Constants.FirebaseKey.COINS, coin));
         }
         Throwable error = firestore.setItemsRx(collection, items).blockingGet();
         if (error == null) {
@@ -310,10 +282,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     /* private api */
     private List<Quote> getQuotes(CoinSource source, Currency currency, List<Long> ids) {
-        String collection = Constants.FirestoreKey.CRYPTO;
+        String collection = Constants.FirebaseKey.CRYPTO;
 
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
-        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.QUOTES));
+        paths.add(MutablePair.of(source.name(), Constants.FirebaseKey.QUOTES));
 
         long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
 
@@ -341,12 +313,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     private List<Long> putQuotes(List<Coin> coins) {
-        String collection = Constants.FirestoreKey.CRYPTO;
+        String collection = Constants.FirebaseKey.CRYPTO;
         Map<String, MutableTriple<String, String, Quote>> items = Maps.newHashMap();
         for (Coin coin : coins) {
             Quote latest = coin.getLatestQuote();
             if (latest != null) {
-                items.put(String.valueOf(latest.getId()).concat(latest.getCurrency().name()), MutableTriple.of(coin.getSource().name(), Constants.FirestoreKey.QUOTES, latest));
+                items.put(String.valueOf(latest.getId()).concat(latest.getCurrency().name()), MutableTriple.of(coin.getSource().name(), Constants.FirebaseKey.QUOTES, latest));
             }
         }
         if (!items.isEmpty()) {
@@ -360,10 +332,10 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
 
     private long putQuote(CoinSource source, Quote quote) {
-        String collection = Constants.FirestoreKey.CRYPTO;
+        String collection = Constants.FirebaseKey.CRYPTO;
         String document = String.valueOf(quote.getId()).concat(quote.getCurrency().name());
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
-        paths.add(MutablePair.of(source.name(), Constants.FirestoreKey.QUOTES));
+        paths.add(MutablePair.of(source.name(), Constants.FirebaseKey.QUOTES));
 
         Throwable error = firestore.setItemRx(collection, paths, document, quote).blockingGet();
         if (error == null) {

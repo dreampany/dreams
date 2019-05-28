@@ -184,7 +184,7 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
     /* crashlytics */
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     /* misc */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'

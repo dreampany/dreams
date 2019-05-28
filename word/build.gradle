@@ -4,13 +4,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'io.fabric'
-apply plugin: 'idea'
-
-idea {
-    module {
-        downloadJavadoc = true
-    }
-}
 
 android {
     compileSdkVersion 28
@@ -35,6 +28,22 @@ android {
         }
     }
 
+    signingConfigs {
+        debug {
+            storeFile file('../keystore/debug.keystore.jks')
+            keyAlias 'debug.keystore'
+            storePassword 'debug.keystore'
+            keyPassword 'debug.keystore'
+        }
+
+        release {
+            storeFile file('../keystore/dreampany.keystore.jks')
+            keyAlias 'dreampany'
+            storePassword 'ROOT.net080208ROOT.net080208'
+            keyPassword 'ROOT.net080208ROOT.net080208'
+        }
+    }
+
     buildTypes {
         debug {
             minifyEnabled false
@@ -43,6 +52,7 @@ android {
             crunchPngs false
             ext.enableCrashlytics = false
             ext.alwaysUpdateBuildId = false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
@@ -50,7 +60,8 @@ android {
             minifyEnabled true
             useProguard true
             shrinkResources true
-            //crunchPngs false
+            crunchPngs true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
@@ -75,6 +86,7 @@ android {
             proguardFiles 'proguard-rules-reactive-network.pro'
             proguardFiles 'proguard-rules-jackson.pro'
             proguardFiles 'proguard-rules-butterknife.pro'
+            proguardFiles 'proguard-rules-kotlin.pro'
         }
     }
 
@@ -91,30 +103,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-/*    dexOptions {
-        //jumboMode = true
-        preDexLibraries true
-        maxProcessCount 8
-        // Instead of setting the heap size for the DEX process, increase Gradle's
-        // heap size to enable dex-in-process. To learm more, read the next section.
-        // javaMaxHeapSize "2048m"
-    }*/
-
-/*    aaptOptions {
-        cruncherEnabled false
-    }*/
-
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the search even when errors are found:
-        abortOnError false
-        //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
-    }
-
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/dependencies.txt'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/license.txt'
         exclude 'META-INF/notice.txt'
@@ -123,21 +112,12 @@ android {
         exclude 'META-INF/metadata.kotlin_module'
     }
 
-/*    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/services/com.fasterxml.jackson.core.ObjectCodec'
-        exclude 'META-INF/services/com.fasterxml.jackson.core.JsonFactory'
-    }*/
-
+    applicationVariants.all { variant ->
+        def appName = variant.applicationId
+        variant.outputs.all {
+            outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
+        }
+    }
 }
 
 dependencies {
@@ -150,24 +130,22 @@ dependencies {
 
     /* library */
     implementation project(':frame')
-    implementation project(':network')
-    implementation project(':firebase')
-    implementation project(':vision')
+    //implementation project(':vision')
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0-alpha04'
-    kapt 'androidx.room:room-compiler:2.1.0-alpha06'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    kapt 'androidx.room:room-compiler:2.1.0-beta01'
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.20'
-    kapt 'com.google.dagger:dagger-android-processor:2.20'
+    kapt 'com.google.dagger:dagger-compiler:2.22.1'
+    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 
     /* butterknife */
     implementation 'com.jakewharton:butterknife:10.1.0'
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
     /* crashlytics */
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.9'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     /* misc */
     implementation 'com.wordnik:wordnik-android-client:4.0'

@@ -60,7 +60,7 @@ android {
             minifyEnabled true
             useProguard true
             shrinkResources true
-            crunchPngs true
+            crunchPngs false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
@@ -90,15 +90,15 @@ android {
         }
     }
 
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
     dataBinding {
         enabled = true
     }
 
-    compileOptions {
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+	
+	compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -118,6 +118,7 @@ android {
             outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
         }
     }
+
 }
 
 dependencies {
@@ -125,12 +126,11 @@ dependencies {
 
     /* test */
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
 
     /* library */
     implementation project(':frame')
-    //implementation project(':vision')
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
@@ -146,10 +146,6 @@ dependencies {
 
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-
-    /* misc */
-    implementation 'com.wordnik:wordnik-android-client:4.0'
-    implementation 'com.github.oliveiradev:RxPhoto:0.+'
 }
 
 apply plugin: 'com.google.gms.google-services'

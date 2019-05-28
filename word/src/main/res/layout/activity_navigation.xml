@@ -15,44 +15,21 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             auto:elevation="0dp">
 
-            <FrameLayout
+            <include layout="@layout/content_toolbar" />
+
+<!--            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <include layout="@layout/content_toolbar" />
 
-                <!--                <com.miguelcatalan.materialsearchview.MaterialSearchView
-                                    android:id="@+id/search_view"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="gone" />-->
 
-                <com.lapism.searchview.widget.SearchView
+                <com.miguelcatalan.materialsearchview.MaterialSearchView
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    auto:layout_behavior="@string/search_behavior"
-                    auto:search_hint="@string/search_hint"
-                    auto:search_logo="arrow"
-                    auto:search_version="menu_item" />
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
 
-                <!--                <com.chivorn.hum.smartsearchview.SmartSearchView
-                                    android:id="@+id/search_view"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    auto:smsv_close_search_on_keyboard_dismiss="false"
-                                    auto:smsv_dimBackground="false"
-                                    auto:smsv_dismissOnOutsideTouch="true"
-                                    auto:smsv_leftActionMode="showHamburger"
-                                    auto:smsv_menu="@menu/menu_search_view"
-                                    auto:smsv_searchBarMarginLeft="@dimen/search_view_inset"
-                                    auto:smsv_searchBarMarginRight="@dimen/search_view_inset"
-                                    auto:smsv_searchBarMarginTop="@dimen/search_view_inset"
-                                    auto:smsv_searchHint="Search..."
-                                    auto:smsv_showSearchKey="true"
-                                    auto:smsv_suggestionsListAnimDuration="250" />-->
-
-            </FrameLayout>
+            </FrameLayout>-->
 
         </com.google.android.material.appbar.AppBarLayout>
 

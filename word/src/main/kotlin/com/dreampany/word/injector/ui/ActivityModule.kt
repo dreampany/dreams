@@ -1,14 +1,9 @@
 package com.dreampany.word.injector.ui
 
-import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.vision.injector.ui.LiveTextOcrModule
-import com.dreampany.vision.injector.ui.TextOcrModule
-import com.dreampany.vision.ui.activity.LivePreviewActivity
-import com.dreampany.vision.ui.activity.TextOcrActivity
 import com.dreampany.word.ui.activity.LaunchActivity
-import com.dreampany.word.ui.activity.LoaderActivity
 import com.dreampany.word.ui.activity.NavigationActivity
 import com.dreampany.word.ui.activity.ToolsActivity
+import com.dreampany.frame.misc.ActivityScope
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -25,28 +20,10 @@ abstract class ActivityModule {
     abstract fun launchActivity(): LaunchActivity
 
     @ActivityScope
-    @ContributesAndroidInjector
-    abstract fun loaderActivity(): LoaderActivity
-
-    @ActivityScope
-    @ContributesAndroidInjector(modules = [MoreModule::class, RecentModule::class, HomeModule::class, FlagModule::class, SearchModule::class, OcrModule::class])
+    @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
     abstract fun navigationActivity(): NavigationActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [
-        SettingsModule::class,
-        LicenseModule::class,
-        AboutModule::class,
-        RecentsModule::class,
-        WordModule::class,
-        LiveTextOcrModule::class])
+    @ContributesAndroidInjector(modules = [SettingsModule::class, LicenseModule::class, AboutModule::class])
     abstract fun toolsActivity(): ToolsActivity
-
-    @ActivityScope
-    @ContributesAndroidInjector(modules = [TextOcrModule::class])
-    abstract fun textOcrActivity(): TextOcrActivity
-
-    @ActivityScope
-    @ContributesAndroidInjector
-    abstract fun livePreviewActivity(): LivePreviewActivity
 }

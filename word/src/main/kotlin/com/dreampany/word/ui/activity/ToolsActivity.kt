@@ -1,14 +1,15 @@
 package com.dreampany.word.ui.activity
 
 import android.os.Bundle
-import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
-import com.dreampany.vision.ui.fragment.LiveTextOcrFragment
 import com.dreampany.word.R
 import com.dreampany.word.ui.enums.UiSubtype
 import com.dreampany.word.ui.enums.UiType
-import com.dreampany.word.ui.fragment.*
+import com.dreampany.word.ui.fragment.AboutFragment
+import com.dreampany.word.ui.fragment.LicenseFragment
+import com.dreampany.word.ui.fragment.SettingsFragment
 import com.dreampany.word.ui.model.UiTask
+import com.dreampany.frame.misc.SmartAd
 import dagger.Lazy
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,12 +28,6 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
-    lateinit var wordProvider: Lazy<WordFragment>
-    @Inject
-    lateinit var recentsProvider: Lazy<RecentsFragment>
-    @Inject
-    lateinit var liveTexOcrProvider: Lazy<LiveTextOcrFragment>
-    @Inject
     lateinit var ad: SmartAd
 
     override fun getLayoutId(): Int {
@@ -45,15 +40,12 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStartUi(state: Bundle?) {
-        setTitle(null)
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype
         if (type == null || subtype == null) {
             return
         }
-        //ad.loadBanner(findViewById(R.id.adview))
-        //ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
@@ -65,29 +57,6 @@ class ToolsActivity : BaseActivity() {
                     }
                     UiSubtype.ABOUT -> {
                         commitFragment(AboutFragment::class.java, aboutProvider, R.id.layout, uiTask)
-                    }
-                    else -> {
-                    }
-                }
-            }
-            UiType.WORD -> {
-                when (subtype) {
-                    UiSubtype.VIEW -> {
-                        commitFragment(WordFragment::class.java, wordProvider, R.id.layout, uiTask)
-                        //ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
-                    }
-                    UiSubtype.RECENTS -> {
-                        commitFragment(RecentsFragment::class.java, recentsProvider, R.id.layout, uiTask)
-                        //ad.loadInterstitial(R.string.debug_interstitial_ad_unit_id)
-                    }
-                    else -> {
-                    }
-                }
-            }
-            UiType.OCR -> {
-                when (subtype) {
-                    UiSubtype.TEXT -> {
-                        commitFragment(LiveTextOcrFragment::class.java, liveTexOcrProvider, R.id.layout, uiTask)
                     }
                     else -> {
                     }

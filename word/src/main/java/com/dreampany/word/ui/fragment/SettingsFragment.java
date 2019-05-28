@@ -2,14 +2,14 @@ package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
 
+import com.dreampany.word.R;
+import com.dreampany.word.data.source.pref.Pref;
+import com.dreampany.word.service.NotifyService;
 import com.dreampany.frame.api.service.ServiceManager;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.word.R;
-import com.dreampany.word.data.source.pref.Pref;
-import com.dreampany.word.service.NotifyService;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -1,10 +1,8 @@
 package com.dreampany.word.ui.model;
 
-import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.dreampany.word.data.model.Demo;
-import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.model.BaseItem;
 
 import org.jetbrains.annotations.NotNull;
@@ -12,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
+import androidx.annotation.LayoutRes;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
@@ -22,12 +21,12 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  */
 public class DemoItem extends BaseItem<Demo, DemoItem.ViewHolder> {
 
-    private DemoItem(Demo scan, @LayoutRes int layoutId) {
-        super(scan, layoutId);
+    private DemoItem(Demo item, @LayoutRes int layoutId) {
+        super(item, layoutId);
     }
 
-    public static DemoItem getSimpleItem(Demo scan, @LayoutRes int layoutId) {
-        return new DemoItem(scan, layoutId);
+    public static DemoItem getSimpleItem(Demo item, @LayoutRes int layoutId) {
+        return new DemoItem(item, layoutId);
     }
 
     @Override
@@ -47,7 +46,7 @@ public class DemoItem extends BaseItem<Demo, DemoItem.ViewHolder> {
 
     static class ViewHolder extends BaseItem.ViewHolder {
 
-        ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
+        protected ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
         }
 

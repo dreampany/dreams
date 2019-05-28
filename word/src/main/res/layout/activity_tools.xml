@@ -19,7 +19,7 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/content_tools_adview" />
+        <include layout="@layout/content_tools" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

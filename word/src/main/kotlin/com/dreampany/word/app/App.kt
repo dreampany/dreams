@@ -10,7 +10,6 @@ import com.dreampany.word.injector.app.DaggerAppComponent
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.service.NotifyService
 import com.dreampany.frame.misc.SmartAd
-import com.dreampany.frame.util.AndroidUtil
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -36,20 +35,16 @@ class App : BaseApp() {
         return true
     }
 
-    override fun hasStetho(): Boolean {
-        return false
-    }
-
     override fun hasAppIndex(): Boolean {
         return true
     }
 
     override fun hasUpdate(): Boolean {
-        return false
+        return true
     }
 
     override fun hasRate(): Boolean {
-        return false
+        return true
     }
 
     override fun hasAd(): Boolean {
@@ -79,7 +74,6 @@ class App : BaseApp() {
         } else {
             service.cancel(NotifyService::class.java)
         }
-        AndroidUtil.initTts(this)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,10 @@ import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.word.R;
 
-import org.jetbrains.annotations.Nullable;
-
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
 
@@ -45,10 +44,10 @@ public class AboutFragment extends BaseFragment {
                 .addItem(getVersion(context))
                 .addItem(getPrivacyPolicy(context))
                 .addGroup("Connect with us")
-                .addEmail(TextUtil.getString(context, R.string.email))
-                .addWebsite(TextUtil.getString(context, R.string.website))
-                .addPlayStore(AndroidUtil.getPackageName(context))
-                .addGitHub(TextUtil.getString(context, R.string.id_github))
+                .addEmail(TextUtil.getString(context, R.string.email)/*, TextUtil.getString(context, R.string.title_email)*/)
+                .addWebsite(TextUtil.getString(context, R.string.website)/*, TextUtil.getString(context, R.string.title_website)*/)
+                .addPlayStore(AndroidUtil.getPackageName(context)/*, TextUtil.getString(context, R.string.title_play_store)*/)
+                .addGitHub(TextUtil.getString(context, R.string.id_github)/*, TextUtil.getString(context, R.string.title_github)*/)
                 /*.addItem(getYandexTranslation(context))*/;
 
         return page.create();

@@ -2,16 +2,15 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
+import com.dreampany.word.app.App;
+import com.dreampany.word.ui.model.DemoItem;
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.util.TextUtil;
 import com.dreampany.network.manager.NetworkManager;
-import com.dreampany.word.R;
-import com.dreampany.word.app.App;
-import com.dreampany.word.ui.activity.NavigationActivity;
-import com.dreampany.word.ui.model.WordItem;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -31,7 +30,8 @@ public class NotifyViewModel {
 
     private final Application application;
     private final RxMapper rx;
-    @Inject NotifyManager notify;
+    @Inject
+    NotifyManager notify;
     private Disposable disposable;
 
     @Inject
@@ -56,11 +56,11 @@ public class NotifyViewModel {
             //return;
         }
         Timber.v("Processing");
-        this.disposable = rx.backToMain(getNextItem())
+        this.disposable = rx.backToMain(getDemoItems())
                 .subscribe(this::postResult, this::postFailed);
     }
 
-    private Maybe<WordItem> getNextItem() {
+    private Maybe<List<DemoItem>> getDemoItems() {
         return Maybe.empty();
     }
 
@@ -70,20 +70,20 @@ public class NotifyViewModel {
     }
 
     @DebugLog
-    private void postResult(WordItem item) {
+    private void postResult(List<DemoItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
             //return;
         }
         Timber.v("Visible %s", app.isVisible());
-        String title = TextUtil.getString(application, R.string.app_name);
-        String message = TextUtil.getString(application, R.string.learn_word);
- /*       if (!DataUtil.isEmpty(items)) {
+/*        String title = TextUtil.getString(application, R.string.app_name);
+        String message;
+        if (!DataUtil.isEmpty(items)) {
             message = TextUtil.getString(app, R.string.profitable_coins, items.size());
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
-        }*/
-        //notify.showNotification(application, title, message, NavigationActivity.class);
+        }
+        notify.showNotification(application, title, message, NavigationActivity.class);*/
     }
 
     @DebugLog

@@ -3,11 +3,11 @@ package com.dreampany.word.vm;
 import android.app.Activity;
 import android.app.Application;
 
-import com.dreampany.frame.data.model.Response;
 import com.dreampany.word.data.model.More;
 import com.dreampany.word.ui.enums.MoreType;
 import com.dreampany.word.ui.model.MoreItem;
 import com.dreampany.word.ui.model.UiTask;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -22,7 +22,7 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import hugo.weaving.DebugLog;
-import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -42,8 +42,8 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
     }
 
     @DebugLog
-    public void loads(boolean fresh) {
-        if (!takeAction(fresh, getMultipleDisposable())) {
+    public void loads(boolean important) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
@@ -53,8 +53,8 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         addMultipleSubscription(disposable);
     }
 
-    private Flowable<List<MoreItem>> getItems() {
-        return Flowable.fromCallable(() -> {
+    private Maybe<List<MoreItem>> getItems() {
+        return Maybe.fromCallable(() -> {
             List<MoreItem> items = new ArrayList<>();
             items.add(MoreItem.getItem(new More(MoreType.SETTINGS)));
             items.add(MoreItem.getItem(new More(MoreType.APPS)));

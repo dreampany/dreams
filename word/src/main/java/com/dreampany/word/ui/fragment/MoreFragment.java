@@ -1,12 +1,7 @@
 package com.dreampany.word.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import android.view.Menu;
 import android.view.View;
 
 import com.dreampany.word.R;
@@ -28,6 +23,9 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 import eu.davidea.flexibleadapter.common.FlexibleItemAnimator;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
@@ -132,12 +130,6 @@ public class MoreFragment extends BaseMenuFragment {
 
     private void showItem(MoreItem item) {
         switch (item.getItem().getType()) {
-            case SETTINGS:
-                UiTask<?> task = new UiTask<>(false);
-                task.setUiType(UiType.MORE);
-                task.setSubtype(UiSubtype.SETTINGS);
-                openActivity(ToolsActivity.class, task);
-                break;
             case APPS:
                 vm.moreApps(getParent());
                 break;
@@ -146,6 +138,12 @@ public class MoreFragment extends BaseMenuFragment {
                 break;
             case FEEDBACK:
                 vm.sendFeedback(getParent());
+                break;
+            case SETTINGS:
+                UiTask<?> task = new UiTask<>(false);
+                task.setUiType(UiType.MORE);
+                task.setSubtype(UiSubtype.SETTINGS);
+                openActivity(ToolsActivity.class, task);
                 break;
             case LICENSE:
                 task = new UiTask<>(false);

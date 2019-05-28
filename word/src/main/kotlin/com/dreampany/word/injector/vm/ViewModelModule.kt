@@ -2,9 +2,10 @@ package com.dreampany.word.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.frame.vm.ViewModelKey
+import com.dreampany.word.vm.DemoViewModel
+import com.dreampany.word.vm.MoreViewModel
+import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
-import com.dreampany.word.vm.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -26,48 +27,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(LoaderViewModel::class)
-    abstract fun bindLoaderViewModel(vm: LoaderViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(SearchViewModel::class)
-    abstract fun bindSearchViewModel(vm: SearchViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(RecentViewModel::class)
-    abstract fun bindRecentViewModel(vm: RecentViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(TodayViewModel::class)
-    abstract fun bindTodayViewModel(vm: TodayViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(RecentsViewModel::class)
-    abstract fun bindRecentsViewModel(vm: RecentsViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(FavoriteViewModel::class)
-    abstract fun bindFlagViewModel(vm: FavoriteViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(WordViewModel::class)
-    abstract fun bindWordViewModel(vm: WordViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(OcrViewModel::class)
-    abstract fun bindOcrViewModel(vm: OcrViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(TextOcrViewModel::class)
-    abstract fun bindTextOcrViewModel(vm: TextOcrViewModel): ViewModel
+    @ViewModelKey(DemoViewModel::class)
+    abstract fun bindDemoViewModel(demoViewModel: DemoViewModel): ViewModel
 
     @Singleton
     @Binds

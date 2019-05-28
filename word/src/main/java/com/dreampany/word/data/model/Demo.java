@@ -1,10 +1,12 @@
 package com.dreampany.word.data.model;
 
-import androidx.room.Ignore;
 import android.os.Parcel;
-import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.Base;
+
+import org.jetbrains.annotations.NotNull;
+
+import androidx.room.Ignore;
 
 /**
  * Created by Hawladar Roman on 6/29/2018.
@@ -24,7 +26,7 @@ public class Demo extends Base {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
+    public void writeToParcel(@NotNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
     }
 

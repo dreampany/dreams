@@ -47,8 +47,3 @@
     <color name="light_black">#323232</color>
 
 </resources>
-
-    <!--public final static int materialLightGreen = Color.rgb(153,255,153);-->
-    <!--public final static int darkGreen = Color.rgb(0,153,0);-->
-    <!--public final static int materialLightBlue = Color.rgb(51,153,255);-->
-    <!--public final static int materialLightPurple = Color.rgb(178,102,255);-->

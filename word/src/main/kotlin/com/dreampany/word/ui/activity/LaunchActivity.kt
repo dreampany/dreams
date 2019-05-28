@@ -4,9 +4,7 @@ import android.os.Bundle
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.word.R
-import com.dreampany.word.data.source.pref.LoadPref
 import com.wang.avi.AVLoadingIndicatorView
-import javax.inject.Inject
 
 
 /**
@@ -15,9 +13,6 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  */
 class LaunchActivity : BaseActivity() {
-
-    @Inject
-    lateinit var pref : LoadPref
 
     override fun getLayoutId(): Int {
         return R.layout.activity_launch
@@ -39,12 +34,4 @@ class LaunchActivity : BaseActivity() {
 
     override fun onStopUi() {
     }
-
-/*    private fun getTargetClazz(): Class<*> {
-        if (pref.isCommonLoaded) {
-            return NavigationActivity::class.java
-        }
-        return LoaderActivity::class.java
-    }*/
-
 }

@@ -1,6 +1,5 @@
 package com.dreampany.word.injector.ui
 
-import com.dreampany.word.ui.fragment.FirstFragment
 import com.dreampany.word.ui.fragment.SecondFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

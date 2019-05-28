@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="app_description">Wordsify lets you build vocabulary for more than 3 million words. Get instant words by OCR from the hard book, pdf, newspaper etc. Automatic word\'s information from the trusted cloud. Phonetic alphabets help to learn pronunciations properly. Gives proper definitions of words. Every word comes with a lot of examples to use them in different sentences. Listen to texts using Text-to-Speech. Keep your favorite word list. Share word with your friends just instantly. Wordsify is a totally free app to make your learning better and easier. Learn words with fun and enjoyment.</string>
+<string name="app_description">
+       App Description
+    </string>
 <string name="app_url">https://play.google.com/store/apps/text?id=%1$s</string>
 </resources>

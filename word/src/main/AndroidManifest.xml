@@ -3,46 +3,51 @@
     package="com.dreampany.word"
     android:installLocation="auto">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!--<uses-permission android:name="android.permission.RECORD_AUDIO" />-->
-
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
+    <uses-permission
+            android:name="android.permission.READ_PHONE_STATE"
+            tools:node="remove"/>
+    <uses-permission
+            android:name="android.permission.READ_EXTERNAL_STORAGE"
+            tools:node="remove"/>
+    <uses-permission
+            android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+            tools:node="remove"/>
     <uses-permission
             android:name="android.permission.BLUETOOTH"
-            tools:node="remove" />
+            tools:node="remove"/>
     <uses-permission
             android:name="android.permission.BLUETOOTH_ADMIN"
-            tools:node="remove" />
+            tools:node="remove"/>
     <uses-permission
             android:name="android.permission.TETHER_PRIVILEGE"
-            tools:node="remove" />
+            tools:node="remove"/>
     <uses-permission
             android:name="android.permission.ACCESS_COARSE_LOCATION"
-            tools:node="remove" />
+            tools:node="remove"/>
     <uses-permission
             android:name="android.permission.WRITE_SETTINGS"
             tools:ignore="ProtectedPermissions"
-            tools:node="remove" />
+            tools:node="remove"/>
 
     <application
-        android:name=".app.App"
-        android:allowBackup="true"
+        android:name="com.dreampany.word.app.App"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme.App"
         tools:replace="android:allowBackup, android:label"
-        tools:ignore="GoogleAppIndexingWarning">
+		tools:ignore="GoogleAppIndexingWarning">
 
 <!--        <meta-data
             android:name="io.fabric.ApiKey"
@@ -57,11 +62,9 @@
             android:value="@string/admob_app_id"/>
 
         <activity
-            android:name=".ui.activity.LaunchActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
-            android:launchMode="singleTask"
-            android:noHistory="true"
-            android:theme="@style/AppTheme.Launch">
+            android:name="com.dreampany.word.ui.activity.LaunchActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,13 +73,8 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.LoaderActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
-            android:label="@string/loader" />
-
-        <activity
-            android:name=".ui.activity.NavigationActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+            android:name="com.dreampany.word.ui.activity.NavigationActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <meta-data
@@ -89,20 +87,12 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.ToolsActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
-            android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-        </activity>
-
-        <service
-            android:name=".service.NotifyService"
+            android:name="com.dreampany.word.ui.activity.ToolsActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:windowSoftInputMode="adjustResize" />
+			
+	    <service
+            android:name="com.dreampany.word.service.NotifyService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />

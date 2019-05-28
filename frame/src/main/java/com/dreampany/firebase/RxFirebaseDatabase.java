@@ -14,6 +14,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -66,6 +67,10 @@ public class RxFirebaseDatabase {
                 RxCompletableHandler.assignOnTask(emitter, ref.setValue(items))
         );
     }
+
+/*    public <T> Maybe<List<T>> getItemsRx(@NonNull String path, ) {
+
+    }*/
 
     @NonNull
     public static Flowable<DataSnapshot> observeValueEvent(@NonNull final Query query,

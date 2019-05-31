@@ -1,6 +1,7 @@
 package com.dreampany.word.misc
 
-import android.content.Context
+import com.dreampany.frame.misc.Constants
+import com.dreampany.word.R
 import java.util.concurrent.TimeUnit
 
 
@@ -36,16 +37,16 @@ class Constants {
             com.dreampany.frame.misc.Constants.license(context)
 
         fun app(context: android.content.Context): String =
-            lastAppId(context) + Sep.HYPHEN + com.dreampany.frame.util.TextUtil.getString(
+            lastAppId(context) + Constants.Sep.HYPHEN + com.dreampany.frame.util.TextUtil.getString(
                 context,
                 R.string.app_name
             )
 
         fun navigation(context: android.content.Context): String =
-            lastAppId(context) + Sep.HYPHEN + "navigation"
+            lastAppId(context) + Constants.Sep.HYPHEN + "navigation"
 
         fun tools(context: android.content.Context): String =
-            lastAppId(context) + Sep.HYPHEN + "tools"
+            lastAppId(context) + Constants.Sep.HYPHEN + "tools"
     }
 
     object Assets {

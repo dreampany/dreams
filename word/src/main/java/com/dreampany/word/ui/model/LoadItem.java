@@ -4,7 +4,6 @@ import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.dreampany.frame.ui.model.BaseItem;
-import com.dreampany.word.data.model.Demo;
 import com.dreampany.word.data.model.Load;
 
 import org.jetbrains.annotations.NotNull;

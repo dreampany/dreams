@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.blankj.utilcode.util.KeyboardUtils;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -253,7 +252,7 @@ public class SearchFragment extends BaseMenuFragment {
 
     private void fireQuery(String query, boolean urgent) {
         if (urgent) {
-            AndroidUtil.getUiHandler().postDelayed(() -> KeyboardUtils.hideSoftInput(getParent()), 1000);
+//            AndroidUtil.getUiHandler().postDelayed(() -> KeyboardUtils.hideSoftInput(getParent()), 1000);
         }
         this.query.setLength(0);
         this.query.append(query);

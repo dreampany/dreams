@@ -232,8 +232,8 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processFavourite(WordItem item) {
-        int flagImageId = item.isFlagged() ? R.drawable.ic_turned_in_white_24dp : R.drawable.ic_turned_in_not_white_24dp;
-        ViewUtil.setIcon(getMenu(), R.id.item_favourite_toggle, flagImageId);
+        //int flagImageId = item.isFlagged() ? R.drawable.ic_turned_in_white_24dp : R.drawable.ic_turned_in_not_white_24dp;
+        //ViewUtil.setIcon(getMenu(), R.id.item_favourite_toggle, flagImageId);
     }
 
     private void processDefinitions(List<Definition> definitions) {
@@ -387,11 +387,11 @@ public class WordFragment extends BaseMenuFragment {
         if (binding.layoutDefinition.layoutSingleExpandable.isExpanded()) {
             binding.layoutDefinition.layoutSingleExpandable.collapse(true);
             binding.layoutDefinition.layoutMultipleExpandable.expand(true);
-            binding.layoutDefinition.toggleDefinition.setImageResource(R.drawable.ic_arrow_drop_up_accent_24dp);
+           // binding.layoutDefinition.toggleDefinition.setImageResource(R.drawable.ic_arrow_drop_up_accent_24dp);
         } else {
             binding.layoutDefinition.layoutMultipleExpandable.collapse(true);
             binding.layoutDefinition.layoutSingleExpandable.expand(true);
-            binding.layoutDefinition.toggleDefinition.setImageResource(R.drawable.ic_arrow_drop_down_accent_24dp);
+//            binding.layoutDefinition.toggleDefinition.setImageResource(R.drawable.ic_arrow_drop_down_accent_24dp);
         }
     }
 
@@ -399,11 +399,11 @@ public class WordFragment extends BaseMenuFragment {
         if (binding.layoutExample.layoutSingleExpandable.isExpanded()) {
             binding.layoutExample.layoutSingleExpandable.collapse(true);
             binding.layoutExample.layoutMultipleExpandable.expand(true);
-            binding.layoutExample.toggleExample.setImageResource(R.drawable.ic_arrow_drop_up_accent_24dp);
+          //  binding.layoutExample.toggleExample.setImageResource(R.drawable.ic_arrow_drop_up_accent_24dp);
         } else {
             binding.layoutExample.layoutMultipleExpandable.collapse(true);
             binding.layoutExample.layoutSingleExpandable.expand(true);
-            binding.layoutExample.toggleExample.setImageResource(R.drawable.ic_arrow_drop_down_accent_24dp);
+//            binding.layoutExample.toggleExample.setImageResource(R.drawable.ic_arrow_drop_down_accent_24dp);
         }
     }
 }

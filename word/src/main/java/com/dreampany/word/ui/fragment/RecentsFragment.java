@@ -199,7 +199,7 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
         }
 
         ViewUtil.setSwipe(refresh, this);
-        ViewUtil.setClickListener(this, R.id.button_empty);
+//        ViewUtil.setClickListener(this, R.id.button_empty);
         UiTask<Word> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(RecentsViewModel.class);
         vm.setTask(uiTask);

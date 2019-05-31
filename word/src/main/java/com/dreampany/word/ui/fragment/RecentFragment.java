@@ -367,7 +367,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
     private void openOcrUi() {
         hideAlert();
         NavigationActivity parent = (NavigationActivity) activityCallback.getUiActivity();
-        parent.setSelectedItem(R.id.item_ocr);
+//        parent.setSelectedItem(R.id.item_ocr);
     }
 
     private void openAll() {

@@ -1,5 +1,7 @@
 package com.dreampany.word.ui.model;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,8 +14,6 @@ import com.dreampany.word.data.model.More;
 import java.io.Serializable;
 import java.util.List;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 

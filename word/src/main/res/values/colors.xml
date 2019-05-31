@@ -1,49 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <resources>
-    <color name="colorPrimary">@color/material_lightgreen700</color>
-    <color name="colorPrimaryDark">@color/material_lightgreen900</color>
+    <color name="colorPrimary">@color/material_lightgreen500</color>
+    <color name="colorPrimaryDark">@color/material_lightgreen700</color>
     <color name="colorAccent">@color/material_lightgreenA700</color>
-
-    <color name="materialLightGreen">#99FF99</color>
-    <color name="darkGreen">#009900</color>
-    <color name="materialLightBlue">#3399FF</color>
-    <color name="percentPositiveGreen">#52BE80</color>
-
-    <color name="materialLightPurple">#B266FF</color>
-
-    <color name="materialLightRed">#FA5858</color>
-    <color name="darkRed">#FF0000</color>
-    <color name="percentNegativeRed">#FE2E2E</color>
-
-    <color name="progressBarColor">#4dd0e1</color>
-
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="lightGray">#d3d3d3</color>
-    <color name="light_grey">#F2F4F7</color>
-    <color name="colorPrimaryLight">#FFE0B2</color>
-    <color name="colorPrimaryText">#212121</color>
-    <color name="colorSecondaryText">#757575</color>
-    <color name="colorDividerText">#bdbdbd</color>
-    <color name="colorIconText">#FFFFFF</color>
-
-    <color name="bpiChangeDecrease">#c95e22</color>
-    <color name="bpiChangeIncrease">#5cbb26</color>
-
-    <color name="jet">#222222</color>
-    <color name="oil">#333333</color>
-    <color name="monsoon">#777777</color>
-    <color name="jumbo">#888888</color>
-    <color name="aluminum">#999999</color>
-    <color name="base">#AAAAAA</color>
-    <color name="iron">#CCCCCC</color>
-
-    <color name="app_main_color">#d32f2f</color>
-    <color name="gray_Tabbed_Text_color">#b5b5b5</color>
-    <color name="gray_text_color">#7f7f7f</color>
-    <color name="off_white">#f6f6f6</color>
-    <color name="gray_bg">#f3f3f3</color>
-    <color name="light_black">#323232</color>
-
 </resources>

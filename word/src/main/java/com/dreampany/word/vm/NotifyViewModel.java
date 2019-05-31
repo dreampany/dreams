@@ -3,12 +3,12 @@ package com.dreampany.word.vm;
 import android.app.Application;
 
 import com.dreampany.word.app.App;
-import com.dreampany.word.ui.model.DemoItem;
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.network.manager.NetworkManager;
+import com.dreampany.word.ui.model.WordItem;
 
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class NotifyViewModel {
                 .subscribe(this::postResult, this::postFailed);
     }
 
-    private Maybe<List<DemoItem>> getDemoItems() {
+    private Maybe<List<WordItem>> getDemoItems() {
         return Maybe.empty();
     }
 
@@ -70,7 +70,7 @@ public class NotifyViewModel {
     }
 
     @DebugLog
-    private void postResult(List<DemoItem> items) {
+    private void postResult(List<WordItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
             //return;

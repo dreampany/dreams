@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_add"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_add_black_24dp"
+        android:title="@string/add_word"/>
+
+    <item
+        android:id="@+id/item_camera"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_camera_alt_black_24dp"
+        android:title="@string/add_word_camera"/>
+
+    <item
+        android:id="@+id/item_image"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_image_black_24dp"
+        android:title="@string/add_word_image"/>
+
+</menu>

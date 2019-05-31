@@ -1,6 +1,7 @@
 package com.dreampany.word.ui.model;
 
 import android.os.Parcel;
+import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.BaseParcel;
 import com.dreampany.frame.data.model.Task;
@@ -14,9 +15,14 @@ import com.dreampany.word.ui.enums.UiType;
  */
 public class UiTask<T extends BaseParcel> extends Task<T> {
 
-    private final boolean fullscreen;
     protected UiType type;
     protected UiSubtype subtype;
+    private boolean fullscreen;
+    private boolean full;
+
+
+    public UiTask() {
+    }
 
     public UiTask(boolean fullscreen) {
         this.fullscreen = fullscreen;
@@ -24,17 +30,19 @@ public class UiTask<T extends BaseParcel> extends Task<T> {
 
     private UiTask(Parcel in) {
         super(in);
-        fullscreen = in.readByte() != 0;
         type = UiType.valueOf(in.readInt());
         subtype = UiSubtype.valueOf(in.readInt());
+        fullscreen = in.readByte() != 0;
+        full = in.readByte() != 0;
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeByte((byte) (fullscreen ? 1 : 0));
         dest.writeInt(type == null ? -1 : type.ordinal());
         dest.writeInt(subtype == null ? -1 : subtype.ordinal());
+        dest.writeByte((byte) (fullscreen ? 1 : 0));
+        dest.writeByte((byte) (full ? 1 : 0));
     }
 
     public static final Creator<UiTask> CREATOR = new Creator<UiTask>() {
@@ -57,8 +65,12 @@ public class UiTask<T extends BaseParcel> extends Task<T> {
         this.subtype = subtype;
     }
 
-    public boolean isFullscreen() {
-        return fullscreen;
+    public void setFullscreen(boolean fullscreen) {
+        this.fullscreen = fullscreen;
+    }
+
+    public void setFull(boolean full) {
+        this.full = full;
     }
 
     public UiType getType() {
@@ -67,5 +79,13 @@ public class UiTask<T extends BaseParcel> extends Task<T> {
 
     public UiSubtype getSubtype() {
         return subtype;
+    }
+
+    public boolean isFullscreen() {
+        return fullscreen;
+    }
+
+    public boolean isFull() {
+        return full;
     }
 }

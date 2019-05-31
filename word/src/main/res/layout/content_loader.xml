@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.activity.LaunchActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+<!--        <ca.abushawish.multistatetogglebutton.MultiStateToggleButton
+            android:id="@+id/state_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"
+            auto:drawable_resource_list="@array/loader_states" />-->
+
+<!--        <com.github.silvestrpredko.dotprogressbar.DotProgressBar
+            android:id="@+id/pre_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_toEndOf="@id/state_button"
+            auto:amount="5"
+            auto:animationDirection="left"
+            auto:duration="@android:integer/config_mediumAnimTime"
+            auto:endColor="@color/colorPrimary"
+            auto:startColor="@color/colorAccent" />-->
+
+        <com.beardedhen.androidbootstrap.BootstrapProgressBar
+            android:id="@+id/post_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            auto:animated="true"
+            auto:bootstrapBrand="danger"
+            auto:bootstrapMaxProgress="100"
+            auto:bootstrapProgress="0"
+            auto:striped="true"
+            tools:visibility="visible" />
+
+        <fr.arnaudguyon.smartfontslib.FontTextView
+            android:id="@+id/text_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/words"
+            android:textColor="@color/material_grey700"
+            android:textSize="16sp"
+            android:visibility="gone"
+            auto:smart_font="@string/fontRobotoSlabBody"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+</layout>

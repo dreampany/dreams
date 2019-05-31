@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:cardCornerRadius="3dp"
+        auto:cardPreventCornerOverlap="false"
+        auto:elevation="2dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:id="@+id/text_word"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_volume_up_black_24dp"
+                android:drawablePadding="5dp"
+                android:text="@string/words"
+                android:textColor="@color/material_black"
+                android:textSize="18sp"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
+                auto:smart_font="@string/fontRobotoSlabTitle" />
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:id="@+id/text_part_of_speech"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:paddingEnd="5dp"
+                android:text="@string/part_of_speech"
+                android:textColor="@color/material_grey800"
+                android:textSize="14sp"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toBottomOf="@id/text_word"
+                auto:smart_font="@string/fontRobotoSlabBody" />
+
+            <fr.arnaudguyon.smartfontslib.FontTextView
+                android:id="@+id/text_pronunciation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/pronunciation"
+                android:textColor="@color/material_grey800"
+                android:textSize="14sp"
+                auto:layout_constraintStart_toEndOf="@id/text_part_of_speech"
+                auto:layout_constraintTop_toBottomOf="@id/text_word"
+                auto:smart_font="@string/fontRobotoSlabBody" />
+
+<!--            <com.like.LikeButton
+                android:id="@+id/button_like"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                auto:icon_size="20dp"
+                auto:icon_type="heart"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintTop_toTopOf="parent" />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

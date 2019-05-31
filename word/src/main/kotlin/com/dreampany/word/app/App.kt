@@ -6,7 +6,6 @@ import com.dreampany.frame.app.BaseApp
 import com.dreampany.word.BuildConfig
 import com.dreampany.word.R
 import com.dreampany.word.data.source.pref.Pref
-import com.dreampany.word.injector.app.DaggerAppComponent
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.service.NotifyService
 import com.dreampany.frame.misc.SmartAd
@@ -76,8 +75,8 @@ class App : BaseApp() {
         }
     }
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().application(this).build()
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {
+        return null//DaggerAppComponent.builder().application(this).build()
     }
 
     override fun onActivityOpen(activity: Activity) {

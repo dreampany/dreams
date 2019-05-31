@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <data>
+
+        <variable
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.beardedhen.androidbootstrap.BootstrapProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:visibility="gone"
+            auto:animated="true"
+            auto:bootstrapBrand="danger"
+            auto:bootstrapMaxProgress="100"
+            auto:bootstrapProgress="100"
+            auto:bootstrapSize="sm"
+            auto:striped="true"
+            tools:visibility="visible" />
+
+        <cz.kinst.jakub.view.StatefulLayout
+            android:id="@+id/stateful"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/progress">
+
+            <include
+                android:id="@+id/layout_recycler"
+                layout="@layout/content_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                auto:items="@{items}" />
+
+        </cz.kinst.jakub.view.StatefulLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/fab_margin"
+            auto:borderWidth="0dp"
+            auto:elevation="6dp"
+            auto:pressedTranslationZ="12dp"
+            auto:rippleColor="@color/material_white"
+            auto:srcCompat="@drawable/ic_camera_alt_black_24dp" />
+
+    </RelativeLayout>
+</layout>

@@ -14,9 +14,14 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class Pref extends FramePref {
-    
+
+
+
     @Inject
     Pref(Context context) {
         super(context);
     }
+
+
+
 }

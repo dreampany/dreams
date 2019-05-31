@@ -1,9 +1,9 @@
 package com.dreampany.word.injector.data
 
-import com.dreampany.word.data.model.Demo
-import com.dreampany.word.misc.DemoAnnote
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
+import com.dreampany.word.data.model.Word
+import com.dreampany.word.misc.WordAnnote
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,15 +19,15 @@ class SupportModule {
 
     @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartMap(): SmartMap<Long, Demo> {
+    @WordAnnote
+    fun provideWordSmartMap(): SmartMap<Long, Word> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartCache(): SmartCache<Long, Demo> {
+    @WordAnnote
+    fun provideWordSmartCache(): SmartCache<Long, Word> {
         return SmartCache.newCache()
     }
 }

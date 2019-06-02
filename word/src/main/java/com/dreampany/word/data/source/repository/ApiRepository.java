@@ -4,6 +4,7 @@ import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubtype;
@@ -18,6 +19,8 @@ import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -98,6 +101,14 @@ public class ApiRepository {
         return result;
     }
 
+    public List<Long> putItems(List<Word> words, ItemSubtype subtype, ItemState state) {
+        List<Long> result = wordRepo.putItems(words);
+        if (DataUtil.isEqual(words, result)) {
+            result = putStates(words, subtype, state);
+        }
+        return result;
+    }
+
     public boolean hasState(long id, ItemType type, ItemSubtype subtype, ItemState state) {
         boolean stated = stateRepo.getCount(id, type.name(), subtype.name(), state.name()) > 0;
         return stated;
@@ -117,6 +128,17 @@ public class ApiRepository {
         State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
         s.setTime(TimeUtil.currentTime());
         long result = stateRepo.putItem(s);
+        return result;
+    }
+
+    public List<Long> putStates(List<Word> words, ItemSubtype subtype, ItemState state) {
+        List<State> states = new ArrayList<>();
+        for (Word word : words) {
+            State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
+            s.setTime(TimeUtil.currentTime());
+            states.add(s);
+        }
+        List<Long> result = stateRepo.putItems(states);
         return result;
     }
 

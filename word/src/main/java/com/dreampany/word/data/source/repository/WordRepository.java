@@ -178,7 +178,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
 
     @Override
     public List<Long> putItems(List<Word> words) {
-        return null;
+        return room.putItems(words);
     }
 
     @Override

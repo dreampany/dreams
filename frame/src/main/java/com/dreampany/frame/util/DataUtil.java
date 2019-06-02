@@ -127,18 +127,6 @@ public final class DataUtil {
         return Strings.isNullOrEmpty(item);
     }
 
-/*    public static boolean isEmpty(String... items) {
-        if (items == null || items.length == 0) {
-            return true;
-        }
-        for (String item : items) {
-            if (!Strings.isNullOrEmpty(item)) {
-                return false;
-            }
-        }
-        return true;
-    }*/
-
     public static boolean isEmpty(String[] items) {
         if (items == null || items.length == 0) {
             return true;
@@ -155,27 +143,46 @@ public final class DataUtil {
         return data == null || data.length <= 0;
     }
 
-    public static <T> boolean isEmpty(Collection<T> collection) {
+    public static boolean isEmpty(Collection collection) {
         return collection == null || collection.isEmpty();
     }
 
-    public static <T> boolean isNotEmpty(Collection<T> collection) {
+    public static boolean isNotEmpty(Collection collection) {
         return !isEmpty(collection);
     }
 
-    public static <T> List<T> sub(List<T> list, int count) {
-        if (isEmpty(list) || list.size() <= count) {
+    public static int getSize(Collection collection) {
+        return collection == null ? 0 : collection.size();
+    }
+
+    public static boolean isEqual(Collection left, Collection right) {
+        return getSize(left) == getSize(right);
+    }
+
+
+
+    public static <T> List<T> takeFirst(List<T> list, int count) {
+        if (isEmpty(list)) {
             return null;
         }
-        return list.subList(0, count);
+
+        List<T> result = sub(list, count);
+        removeAll(list, result);
+        return result;
+    }
+
+    public static <T> List<T> sub(List<T> list, int count) {
+        if (isEmpty(list)) {
+            return null;
+        }
+        count = list.size() < count ? list.size() : count;
+        return new ArrayList<>(list.subList(0, count));
     }
 
     public static <T> List<T> sub(List<T> list, int index, int limit) {
-
         if (isEmpty(list) || index < 0 || limit < 1 || list.size() <= index) {
             return null;
         }
-        //limit = getMin(list.size(), limit);
         if ((list.size() - index) < limit) {
             limit = list.size() - index;
         }

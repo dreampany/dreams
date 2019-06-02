@@ -86,18 +86,7 @@ public class NavigationActivity
 
     @Override
     protected void onStartUi(Bundle state) {
-        UiTask<?> uiTask = getCurrentTask(false);
-        if (uiTask != null && uiTask.getType() != null && uiTask.getSubtype() != null) {
-            openActivity(ToolsActivity.class, uiTask);
-            return;
-        }
-
-        binding = (ActivityNavigationBinding) super.binding;
-        ad.initAd(this,
-                getClass().getSimpleName(),
-                findViewById(R.id.adview),
-                R.string.interstitial_ad_unit_id,
-                R.string.rewarded_ad_unit_id);
+        initView();
         ad.loadBanner(getClass().getSimpleName());
     }
 
@@ -142,5 +131,20 @@ public class NavigationActivity
     @Override
     public void execute(@NotNull Task<?> t) {
         setSelectedItem(R.id.item_coins);
+    }
+
+    private void initView() {
+        UiTask<?> uiTask = getCurrentTask(false);
+        if (uiTask != null && uiTask.getType() != null && uiTask.getSubtype() != null) {
+            openActivity(ToolsActivity.class, uiTask);
+            return;
+        }
+
+        binding = (ActivityNavigationBinding) super.binding;
+        ad.initAd(this,
+                getClass().getSimpleName(),
+                findViewById(R.id.adview),
+                R.string.interstitial_ad_unit_id,
+                R.string.rewarded_ad_unit_id);
     }
 }

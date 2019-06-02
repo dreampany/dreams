@@ -97,7 +97,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         }
         Timber.v("loadCommons running...");
         Disposable disposable = getRx()
-                .backToMain(getCommonItemsRxV2())
+                .backToMain(getCommonItemsRx())
                 .subscribe(result -> {
                     //postResult(result);
                     loadAlphas();
@@ -115,7 +115,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         }
         Timber.v("loadAlphas running...");
         Disposable disposable = getRx()
-                .backToMain(getAlphaItemsRxV2())
+                .backToMain(getAlphaItemsRx())
                 .subscribe(result -> {
                     postResult(Response.Type.GET, result);
                 }, error -> {
@@ -125,7 +125,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     }
 
     @DebugLog
-    private Maybe<LoadItem> getCommonItemsRxV2() {
+    private Maybe<LoadItem> getCommonItemsRx() {
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();
             if (pref.isCommonLoaded()) {
@@ -135,7 +135,6 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                 return item;
             }
 
-            AppExecutors ex = getEx();
             if (commonWords.size() != Constants.Count.WORD_COMMON) {
                 List<Word> words = repo.getCommonWords();
                 commonWords.clear();
@@ -146,23 +145,23 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
-            ex.postToUi(() -> postResult(Response.Type.GET, item));
-            Word word;
+            getEx().postToUi(() -> postResult(Response.Type.GET, item));
             if (lastIndex != 0) {
                 DataUtil.removeFirst(commonWords, lastIndex + 1);
             }
 
             while (!commonWords.isEmpty()) {
-                word = commonWords.remove(0);
-                long result = repo.putItem(word, ItemSubtype.DEFAULT, ItemState.RAW);
-                if (result != -1) {
+                List<Word> words = DataUtil.takeFirst(commonWords, Constants.Count.WORD_PAGE);
+                List<Long> result = repo.putItems(words, ItemSubtype.DEFAULT, ItemState.RAW);
+
+                if (DataUtil.isEqual(words, result)) {
                     pref.setLastWord(word);
                     current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                     load.setCurrent(current);
                     load.setTotal(current);
                     Timber.v("%d Next Common Word = %s", current, word.toString());
-                    ex.postToUi(() -> postResult(Response.Type.GET, item));
-                    AndroidUtil.sleep(3);
+                    getEx().postToUi(() -> postResult(Response.Type.GET, item));
+                    AndroidUtil.sleep(100);
                 }
             }
             if (commonWords.isEmpty()) {
@@ -173,7 +172,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         });
     }
 
-    private Maybe<LoadItem> getAlphaItemsRxV2() {
+    private Maybe<LoadItem> getAlphaItemsRx() {
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();
             if (pref.isAlphaLoaded()) {

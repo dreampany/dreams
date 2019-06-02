@@ -118,15 +118,6 @@ public class NavigationActivity
         super.onPause();
     }
 
-/*    @Override
-    public void onBackPressed() {
-        BaseFragment fragment = getCurrentFragment();
-        if (fragment != null && fragment.hasBackPressed()) {
-            return;
-        }
-        finish();
-    }*/
-
     @Override
     protected void onNavigationItem(int navigationItemId) {
         switch (navigationItemId) {

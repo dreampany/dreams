@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
 
-    object Event  {
+    object Event {
         const val ERROR = Constants.Event.ERROR
         const val APPLICATION = Constants.Event.APPLICATION
         const val ACTIVITY = Constants.Event.ACTIVITY
@@ -21,32 +21,17 @@ class Constants {
     }
 
     companion object Screen {
-        fun lastAppId(context: android.content.Context): String =
-            com.dreampany.frame.misc.Constants.lastAppId(context)
-
-        fun more(context: android.content.Context): String =
-            com.dreampany.frame.misc.Constants.more(context)
-
-        fun about(context: android.content.Context): String =
-            com.dreampany.frame.misc.Constants.about(context)
-
-        fun settings(context: android.content.Context): String =
-            com.dreampany.frame.misc.Constants.settings(context)
-
-        fun license(context: android.content.Context): String =
-            com.dreampany.frame.misc.Constants.license(context)
-
-        fun app(context: android.content.Context): String =
-            lastAppId(context) + Constants.Sep.HYPHEN + com.dreampany.frame.util.TextUtil.getString(
+        fun lastAppId(context: android.content.Context): String = Constants.lastAppId(context)
+        fun more(context: android.content.Context): String = Constants.more(context)
+        fun about(context: android.content.Context): String = Constants.about(context)
+        fun settings(context: android.content.Context): String = Constants.settings(context)
+        fun license(context: android.content.Context): String = Constants.license(context)
+        fun app(context: android.content.Context): String = lastAppId(context) + Constants.Sep.HYPHEN + com.dreampany.frame.util.TextUtil.getString(
                 context,
                 R.string.app_name
             )
-
-        fun navigation(context: android.content.Context): String =
-            lastAppId(context) + Constants.Sep.HYPHEN + "navigation"
-
-        fun tools(context: android.content.Context): String =
-            lastAppId(context) + Constants.Sep.HYPHEN + "tools"
+        fun navigation(context: android.content.Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "navigation"
+        fun tools(context: android.content.Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "tools"
     }
 
     object Assets {
@@ -59,6 +44,7 @@ class Constants {
         const val WORD_ALPHA = 370099
         const val WORD_RECENT = 100
         const val WORD_RECENT_LETTER = 4
+        const val WORD_PAGE = 100
     }
 
     object Limit {
@@ -82,5 +68,13 @@ class Constants {
         const val WORD = "word"
         const val LEFTER = "lefter"
         const val RIGHTER = "righter"
+    }
+
+    object Period {
+        val Notify = TimeUnit.MINUTES.toSeconds(3)
+    }
+
+    object Delay {
+        val Notify = TimeUnit.MINUTES.toSeconds(1)
     }
 }

@@ -2,12 +2,17 @@ package com.dreampany.word.ui.activity;
 
 import android.os.Bundle;
 
-import com.dreampany.word.ui.fragment.HomeFragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.word.R;
+import com.dreampany.word.databinding.ActivityNavigationBinding;
+import com.dreampany.word.ui.fragment.HomeFragment;
 import com.dreampany.word.ui.fragment.MoreFragment;
+import com.dreampany.word.ui.model.UiTask;
+import com.dreampany.word.vm.LoaderViewModel;
 
 import javax.inject.Inject;
 
@@ -25,8 +30,11 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     @Inject
     Lazy<MoreFragment> moreFragment;
     @Inject
+    ViewModelProvider.Factory factory;
+    @Inject
     SmartAd ad;
-//    ActivityNavigationBinding binding;
+    ActivityNavigationBinding binding;
+    LoaderViewModel vm;
 
     @Override
     public int getLayoutId() {
@@ -55,17 +63,26 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
 
     @Override
     protected void onStartUi(Bundle state) {
-       // binding = (ActivityNavigationBinding) super.binding;
-        //ad.loadBanner(findViewById(R.id.adview));
+        initView();
+        ad.loadBanner(getClass().getSimpleName());
+        vm.loads();
     }
 
     @Override
-    public void onBackPressed() {
-        BaseFragment fragment = getCurrentFragment();
-        if (fragment != null && fragment.hasBackPressed()) {
-            return;
-        }
-        finish();
+    protected void onStopUi() {
+        ad.destroyBanner(getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ad.resumeBanner(getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onPause() {
+        ad.pauseBanner(getClass().getSimpleName());
+        super.onPause();
     }
 
     @Override
@@ -80,8 +97,20 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
         }
     }
 
-    @Override
-    protected void onStopUi() {
+    private void initView() {
+        UiTask<?> uiTask = getCurrentTask(false);
+        if (uiTask != null && uiTask.getType() != null && uiTask.getSubtype() != null) {
+            openActivity(ToolsActivity.class, uiTask);
+            return;
+        }
 
+        binding = (ActivityNavigationBinding) super.binding;
+        ad.initAd(this,
+                getClass().getSimpleName(),
+                findViewById(R.id.adview),
+                R.string.interstitial_ad_unit_id,
+                R.string.rewarded_ad_unit_id);
+
+        vm = ViewModelProviders.of(this, factory).get(LoaderViewModel.class);
     }
 }

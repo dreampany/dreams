@@ -9,6 +9,8 @@ import com.dreampany.word.data.source.pref.Pref
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.service.NotifyService
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.word.injector.app.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -68,15 +70,12 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
-        if (pref.hasNotification()) {
-            service.schedulePowerService(NotifyService::class.java, Constants.Time.NotifyPeriod.toInt())
-        } else {
-            service.cancel(NotifyService::class.java)
-        }
+        configJob()
+        clean()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {
-        return null//DaggerAppComponent.builder().application(this).build()
+        return DaggerAppComponent.builder().application(this).build()
     }
 
     override fun onActivityOpen(activity: Activity) {
@@ -97,11 +96,48 @@ class App : BaseApp() {
 
     private fun configAd() {
         //ad.initPoints(Util.AD_POINTS)
-        val config = SmartAd.Config.Builder()
-                .bannerExpireDelay(TimeUnit.MINUTES.toMillis(1))
-                .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(10))
-                .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
-                .enabled(!isDebug())
+        val config = SmartAd.Config.Builder().bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
+            .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(10))
+            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30)).enabled(!isDebug())
         ad.setConfig(config.build())
     }
+
+    private fun configJob() {
+        if (pref.hasNotification()) {
+            job.create(
+                NotifyService::class.java,
+                Constants.Delay.Notify.toInt(),
+                Constants.Period.Notify.toInt()
+            )
+        } else {
+            job.cancel(NotifyService::class.java)
+        }
+    }
+
+    private fun isVersionUpgraded(): Boolean {
+        val exists = pref.versionCode
+        val current = AndroidUtil.getVersionCode(this)
+        if (current != exists) {
+            return true
+        }
+        return false
+    }
+
+    private fun clean() {
+        if (isVersionUpgraded()) {
+            val exists = pref.versionCode
+            val current = AndroidUtil.getVersionCode(this)
+
+            when (current) {
+                45 -> {
+                    if (exists < 44) {
+
+                    }
+                }
+
+            }
+            pref.versionCode = current
+        }
+    }
+
 }

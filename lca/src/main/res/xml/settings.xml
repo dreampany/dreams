@@ -10,7 +10,7 @@
         android:title="@string/title_notify_coin" />
 
     <androidx.preference.SwitchPreferenceCompat
-        android:defaultValue="false"
+        android:defaultValue="true"
         auto:iconSpaceReserved="false"
         android:key="@string/key_notify_news"
         android:summary="@string/summary_notify_news"

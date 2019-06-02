@@ -83,20 +83,19 @@ public class SettingsFragment extends BaseMenuFragment {
                 }));
     }
 
-    private final Runnable runner = new Runnable() {
-        @Override
-        public void run() {
-            if (pref.hasNotification()) {
-                job.create(
-                        NotifyService.class,
-                        (int) Constants.Delay.INSTANCE.getNotify(),
-                        (int) Constants.Period.INSTANCE.getNotify()
-                );
-            } else {
-                job.cancel(NotifyService.class);
-            }
+    private final Runnable runner = () -> configJob();
+
+    private void configJob() {
+        if (pref.hasNotification()) {
+            job.create(
+                    NotifyService.class,
+                    (int) Constants.Delay.INSTANCE.getNotify(),
+                    (int) Constants.Period.INSTANCE.getNotify()
+            );
+        } else {
+            job.cancel(NotifyService.class);
         }
-    };
+    }
 
     private void adjustNotify() {
         ex.postToUi(runner, 2000);

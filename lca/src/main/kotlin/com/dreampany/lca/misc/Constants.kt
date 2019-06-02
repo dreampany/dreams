@@ -52,6 +52,17 @@ class Constants {
         fun notifyNews(context: Context): String = lastAppId(context) + Sep.HYPHEN + "alert_news"
     }
 
+    object Id {
+        const val NotifyForeground = 101
+        const val NotifyGeneral = 102
+        const val NotifyForegroundChannelId = "channel_101"
+    }
+
+    object Action {
+        const val StartService = "start_service"
+        const val StopService = "stop_service"
+    }
+
     object Tag {
         const val CURRENCY_PICKER = "currency_picker"
     }
@@ -168,7 +179,7 @@ class Constants {
 
     object Period {
         //val Coin = TimeUnit.MINUTES.toMillis(30)
-        val Notify = TimeUnit.MINUTES.toSeconds(2)
+        val Notify = TimeUnit.MINUTES.toSeconds(3)
     }
 
     object Delay {

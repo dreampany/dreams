@@ -47,7 +47,7 @@ public class Pref extends FramePref {
     }
 
     public boolean hasNotifyNews() {
-        return getPublicly(KEY_NOTIFY_NEWS, Boolean.class, false);
+        return getPublicly(KEY_NOTIFY_NEWS, Boolean.class, true);
     }
 
     synchronized public void commitDefaultFavorite() {

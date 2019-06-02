@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
 apply plugin: 'io.fabric'
 
@@ -13,8 +13,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 129
-        versionName '1.2.9'
+        versionCode 130
+        versionName '1.3.0'
 
         multiDexEnabled true
 

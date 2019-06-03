@@ -20,38 +20,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/layout_top"
+            <include
+                android:id="@+id/layout_top_status"
+                layout="@layout/content_top_status"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.beardedhen.androidbootstrap.BootstrapProgressBar
-                    android:id="@+id/progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:visibility="gone"
-                    auto:animated="true"
-                    auto:bootstrapBrand="danger"
-                    auto:bootstrapMaxProgress="100"
-                    auto:bootstrapProgress="100"
-                    auto:bootstrapSize="sm"
-                    auto:striped="true"
-                    tools:visibility="visible" />
-
-                <include
-                    android:id="@+id/layout_top_status"
-                    layout="@layout/content_top_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </LinearLayout>
+                android:layout_height="wrap_content" />
 
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/layout_top">
+                android:layout_below="@id/layout_top_status">
 
                 <include
                     android:id="@+id/layout_recycler"

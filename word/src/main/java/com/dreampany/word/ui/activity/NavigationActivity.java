@@ -91,7 +91,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     protected void onNavigationItem(int navigationItemId) {
         switch (navigationItemId) {
             case R.id.item_home:
-                //commitFragment(HomeFragment.class, homeFragment, R.id.layout);
+                commitFragment(HomeFragment.class, homeFragment, R.id.layout);
                 break;
             case R.id.item_more:
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);

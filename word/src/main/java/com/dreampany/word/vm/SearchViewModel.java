@@ -147,7 +147,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
-    public void update(boolean withProgress) {
+    public void update(boolean progress) {
         Timber.v("update fired");
         if (hasDisposable(updateDisposable)) {
             return;
@@ -156,20 +156,20 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         updateDisposable = getRx()
                 .backToMain(getVisibleItemIfRx())
                 .doOnSubscribe(subscription -> {
-                    if (withProgress) {
+                    if (progress) {
                         postProgress(true);
                     }
                 })
                 .subscribe(
                         result -> {
                             if (result != null) {
-                                if (withProgress) {
+                                if (progress) {
                                     postProgress(false);
                                 }
                                 //postResult(result);
-                                getEx().postToUi(() -> update(withProgress), 3000L);
+                                getEx().postToUi(() -> update(progress), 3000L);
                             } else {
-                                if (withProgress) {
+                                if (progress) {
                                     postProgress(false);
                                 }
                             }

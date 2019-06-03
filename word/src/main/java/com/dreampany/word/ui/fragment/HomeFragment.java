@@ -314,7 +314,7 @@ public class HomeFragment extends BaseMenuFragment
     public void processSingleResponse(Response<WordItem> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
-            //processSingleProgress(result.getLoading());
+            processProgress(result.getLoading());
         } else if (response instanceof Response.Failure) {
             Response.Failure result = (Response.Failure) response;
             processFailure(result.getError());

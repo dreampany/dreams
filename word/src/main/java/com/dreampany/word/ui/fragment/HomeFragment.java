@@ -22,6 +22,7 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.activity.BaseActivity;
+import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.callback.SearchViewCallback;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
@@ -65,7 +66,8 @@ import timber.log.Timber;
  */
 @ActivityScope
 public class HomeFragment extends BaseMenuFragment
-        implements SearchAdapter.OnSearchItemClickListener,
+        implements SmartAdapter.Callback<WordItem>,
+        SearchAdapter.OnSearchItemClickListener,
         Search.OnQueryTextListener {
 
     private final String SEARCH = "search";
@@ -177,13 +179,33 @@ public class HomeFragment extends BaseMenuFragment
         item.setTitle(query);
         table.addItem(item);
 
-        searchVm.search(query.toString());
+        searchVm.search(query.toString(), false);
         return true;
     }
 
     @Override
     public void onQueryTextChange(CharSequence newText) {
 
+    }
+
+    @Override
+    public List<WordItem> getVisibleItems() {
+        return adapter.getVisibleItems();
+    }
+
+    @Override
+    public WordItem getVisibleItem() {
+        return adapter.getVisibleItem();
+    }
+
+    @Override
+    public List<WordItem> getItems() {
+        return null;
+    }
+
+    @Override
+    public boolean getEmpty() {
+        return false;
     }
 
     private void initView() {
@@ -198,12 +220,10 @@ public class HomeFragment extends BaseMenuFragment
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
 
-        //ViewUtil.getVi
-
         ViewUtil.setSwipe(refresh, this);
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
-        //searchVm.setUiCallback(this);
+        searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
         searchVm.observeOutputs(this, this::processResponse);
         searchVm.observeOutput(this, this::processSingleResponse);

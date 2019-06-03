@@ -264,7 +264,7 @@ public class SearchFragment extends BaseMenuFragment {
         @Override
         public void run() {
             if (query.length() > 0) {
-                vm.search(query.toString());
+                vm.search(query.toString(), false);
             } else {
                 vm.updateUiState(UiState.EMPTY);
             }

@@ -124,21 +124,25 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
-    public void search(String query) {
+    public void search(String query, boolean progress) {
         if (!takeAction(true, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getItemsRx(query.toLowerCase()))
                 .doOnSubscribe(subscription -> {
-                    postProgress(true);
+                    if (progress) {
+                        postProgress(true);
+                    }
                 })
                 .subscribe(result -> {
-                    postProgress(false);
-                    //postResult(result);
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.SEARCH, result);
                     //getEx().postToUi(() -> update(false), 3000L);
                 }, error -> {
-                    //postFailureMultiple(new MultiException(error, new ExtraException()));
+                    postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }

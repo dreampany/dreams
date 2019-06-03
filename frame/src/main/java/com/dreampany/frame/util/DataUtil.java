@@ -159,7 +159,12 @@ public final class DataUtil {
         return getSize(left) == getSize(right);
     }
 
-
+    public static <T> T pullLast(List<T> list ) {
+        if (isEmpty(list)) {
+            return null;
+        }
+        return list.get(list.size()-1);
+    }
 
     public static <T> List<T> takeFirst(List<T> list, int count) {
         if (isEmpty(list)) {

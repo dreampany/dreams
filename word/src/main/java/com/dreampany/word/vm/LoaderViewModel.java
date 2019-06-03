@@ -155,11 +155,13 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                 List<Long> result = repo.putItems(words, ItemSubtype.DEFAULT, ItemState.RAW);
 
                 if (DataUtil.isEqual(words, result)) {
-                    pref.setLastWord(word);
+                    Word lastWord = DataUtil.pullLast(words);
+                    pref.setLastWord(lastWord);
                     current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                     load.setCurrent(current);
                     load.setTotal(current);
-                    Timber.v("%d Next Common Word = %s", current, word.toString());
+
+                    Timber.v("%d Last Common Word = %s", current, lastWord.toString());
                     getEx().postToUi(() -> postResult(Response.Type.GET, item));
                     AndroidUtil.sleep(100);
                 }

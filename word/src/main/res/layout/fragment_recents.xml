@@ -42,14 +42,6 @@
                     auto:items="@{items}" />
 
             </cz.kinst.jakub.view.StatefulLayout>
-
-            <com.chivorn.hum.smartsearchview.SmartSearchView
-                android:id="@+id/smsv_search_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone">
-
-            </com.chivorn.hum.smartsearchview.SmartSearchView>
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

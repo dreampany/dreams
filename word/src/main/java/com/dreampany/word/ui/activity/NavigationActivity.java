@@ -7,12 +7,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.frame.ui.callback.SearchViewCallback;
 import com.dreampany.word.R;
 import com.dreampany.word.databinding.ActivityNavigationBinding;
 import com.dreampany.word.ui.fragment.HomeFragment;
 import com.dreampany.word.ui.fragment.MoreFragment;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.vm.LoaderViewModel;
+import com.lapism.searchview.widget.SearchView;
 
 import javax.inject.Inject;
 
@@ -23,7 +25,7 @@ import dagger.Lazy;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class NavigationActivity extends BaseBottomNavigationActivity {
+public class NavigationActivity extends BaseBottomNavigationActivity implements SearchViewCallback {
 
     @Inject
     Lazy<HomeFragment> homeFragment;
@@ -95,6 +97,11 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);
                 break;
         }
+    }
+
+    @Override
+    public SearchView getSearchView() {
+        return binding.searchView;
     }
 
     private void initView() {

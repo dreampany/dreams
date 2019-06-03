@@ -146,7 +146,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             Load load = new Load(current, current);
             item.setItem(load);
             getEx().postToUi(() -> postResult(Response.Type.GET, item));
-            if (lastIndex != 0) {
+            if (lastIndex > 0) {
                 DataUtil.removeFirst(commonWords, lastIndex + 1);
             }
 
@@ -184,35 +184,33 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                 return item;
             }
 
-            AppExecutors ex = getEx();
             if (alphaWords.size() != Constants.Count.WORD_ALPHA) {
                 List<Word> words = repo.getAlphaWords();
                 alphaWords.clear();
                 alphaWords.addAll(words);
             }
-            Timber.v("Cache Alpha Words (%d)", alphaWords.size());
             Word last = pref.getLastWord();
             int lastIndex = last != null ? alphaWords.indexOf(last) : 0;
             int current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
             Load load = new Load(current, current);
             item.setItem(load);
-            ex.postToUi(() -> postResult(Response.Type.GET, item));
-            Word word;
-            if (lastIndex != 0) {
-                Timber.v("Removing first %d elements", (lastIndex + 1));
+            getEx().postToUi(() -> postResult(Response.Type.GET, item));
+
+            if (lastIndex > 0) {
                 DataUtil.removeFirst(alphaWords, lastIndex + 1);
             }
-            Timber.v("Next final Alpha Words (%d)", alphaWords.size());
             while (!alphaWords.isEmpty()) {
-                word = alphaWords.remove(0);
-                long result = repo.putItem(word, ItemSubtype.DEFAULT, ItemState.RAW);
-                if (result != -1) {
-                    pref.setLastWord(word);
+                List<Word> words = DataUtil.takeFirst(alphaWords, Constants.Count.WORD_PAGE);
+                List<Long> result = repo.putItems(words, ItemSubtype.DEFAULT, ItemState.RAW);
+
+                if (DataUtil.isEqual(words, result)) {
+                    Word lastWord = DataUtil.pullLast(words);
+                    pref.setLastWord(lastWord);
                     current = repo.getStateCount(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW);
                     load.setCurrent(current);
                     load.setTotal(current);
-                    Timber.v("Next Alpha Word = %s", word.toString());
-                    ex.postToUi(() -> postResult(Response.Type.GET, item));
+                    Timber.v("Current Alpha Word = %d %s", current, lastWord.toString());
+                    getEx().postToUi(() -> postResult(Response.Type.GET, item));
                     AndroidUtil.sleep(3);
                 }
             }
@@ -228,9 +226,6 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         if (word.getWord().length() < Constants.Count.WORD_RECENT_LETTER) {
             return false;
         }
-/*        if (repo.getStateCount(ItemState.FREQUENT) >= Constants.Count.WORD_RECENT) {
-            return false;
-        }*/
         if (repo.hasState(word, ItemSubtype.RECENT)) {
             return false;
         }

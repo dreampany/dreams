@@ -49,6 +49,7 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -135,6 +136,7 @@ public class HomeFragment extends BaseMenuFragment
 
     @Override
     public boolean onQueryTextChange(@NonNull String newText) {
+
         return false;
     }
 
@@ -175,17 +177,17 @@ public class HomeFragment extends BaseMenuFragment
 
     @Override
     public boolean onQueryTextSubmit(CharSequence query) {
-        SearchItem item = new SearchItem(getContext());
-        item.setTitle(query);
-        table.addItem(item);
+        //SearchItem item = new SearchItem(getContext());
+        //item.setTitle(query);
+        //table.addItem(item);
 
-        searchVm.search(query.toString(), false);
+        searchVm.search(query.toString().trim(), false);
         return true;
     }
 
     @Override
     public void onQueryTextChange(CharSequence newText) {
-
+        searchVm.suggests(newText.toString().trim(), false);
     }
 
     @Override
@@ -306,7 +308,7 @@ public class HomeFragment extends BaseMenuFragment
             processFailure(result.getError());
         } else if (response instanceof Response.Result) {
             Response.Result<List<WordItem>> result = (Response.Result<List<WordItem>>) response;
-            processSuccess(result.getData());
+            processSuccess(result.getType(), result.getData());
         }
     }
 
@@ -346,8 +348,22 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
-    private void processSuccess(List<WordItem> items) {
-        Timber.v("Recent result %s", items.size());
+    private void processSuccess(Response.Type type, List<WordItem> items) {
+        Timber.v("Result Type[%s] Size[%s]", type.name(), items.size());
+
+        if (type == Response.Type.SUGGESTS) {
+            List<SearchItem> suggests = new ArrayList<>(items.size());
+            for (WordItem item : items) {
+                SearchItem searchItem = new SearchItem(getContext());
+                searchItem.setTitle(item.getItem().getWord());
+                suggests.add(searchItem);
+            }
+            searchAdapter.setSuggestionsList(suggests);
+            searchAdapter.notifyDataSetChanged();
+            return;
+        }
+
+
         adapter.clear();
         adapter.addItems(items);
         ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);

@@ -51,7 +51,7 @@ class Constants {
         const val WORD_RESOLVE = 10
         const val WORD_RECENT = 100
         const val WORD_SEARCH = 1000
-        const val WORD_SUGGESTION = 2
+        const val WORD_SUGGESTION = 10
         const val WORD_OCR = 1000
     }
 

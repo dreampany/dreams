@@ -1,6 +1,7 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
+
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -9,6 +10,7 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
@@ -24,6 +26,7 @@ import com.dreampany.word.data.source.repository.ApiRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -32,6 +35,7 @@ import io.reactivex.functions.Function;
 import timber.log.Timber;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -106,20 +110,24 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         removeSubscription(updateDisposable);
     }
 
-    public void suggests(String query) {
+    public void suggests(String query, boolean progress) {
         if (!takeAction(true, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
                 .backToMain(getSuggestionsRx(query.toLowerCase()))
                 .doOnSubscribe(subscription -> {
-                    postProgress(true);
+                    if (progress) {
+                        postProgress(true);
+                    }
                 })
                 .subscribe(result -> {
-                    postProgress(false);
-                    //postResult(result);
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.SUGGESTS, result);
                 }, error -> {
-                    //postFailureMultiple(new MultiException(error, new ExtraException()));
+                    postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
@@ -240,14 +248,12 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private Maybe<List<WordItem>> getSuggestionsRx(String query) {
-        return getSuggestionsRx(query, Constants.Limit.WORD_SEARCH)
-                .onErrorResumeNext(Maybe.empty())
+        return getSuggestionsRx(query, Constants.Limit.WORD_SUGGESTION)
                 .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words, false));
     }
 
     private Maybe<List<WordItem>> getItemsRx(String query) {
-        return getSearchItemsRx(query)
-                .onErrorResumeNext(Maybe.empty())
+        return getSearchItemsRx(query, Constants.Limit.WORD_SEARCH)
                 .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words, true));
     }
 
@@ -277,23 +283,50 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState())));
     }
 
-    private Maybe<List<Word>> getSearchItemsRx(String query) {
-        return Maybe.fromCallable(() -> {
-            Word word = repo.getItem(query, false);
-            List<Word> result = new ArrayList<>();
-            if (word != null) {
-                result.add(word);
-            } else {
-                List<Word> items = repo.getSearchItems(query, Constants.Limit.WORD_SEARCH);
-                if (!DataUtil.isEmpty(items)) {
-                    result.addAll(items);
-                }
+    private List<Word> getSearchItems(String query, int limit) {
+        Word word = repo.getItem(query, false);
+        List<Word> result = new ArrayList<>();
+        if (word != null) {
+            result.add(word);
+        } else {
+            List<Word> items = repo.getSearchItems(query, limit);
+            if (!DataUtil.isEmpty(items)) {
+                result.addAll(items);
             }
-            return result;
+        }
+        return result;
+    }
+
+    private Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
+        return Maybe.create(emitter -> {
+            List<Word> result = getSearchItems(query, limit);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
         });
     }
 
+    private List<Word> getSuggestions(String query, int limit) {
+        List<Word> result = repo.getSearchItems(query, limit);
+        return result;
+    }
+
     private Maybe<List<Word>> getSuggestionsRx(String query, int limit) {
-        return Maybe.empty();
+        return Maybe.create(emitter -> {
+            List<Word> result = getSuggestions(query, limit);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 }

@@ -364,7 +364,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return null
     }*/
 
-    fun takeAction(important: Boolean, disposable: Disposable?) : Boolean {
+    fun takeAction(important: Boolean, disposable: Disposable?): Boolean {
         if (important) {
             removeSubscription(disposable)
         }
@@ -493,15 +493,15 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }
 
-    fun postResult(type: Response.Type,data: List<X>) {
-        rm.response(inputs, type,data)
+    fun postResult(type: Response.Type, data: List<X>) {
+        rm.response(inputs, type, data)
     }
 
-    fun postResult(type: Response.Type,data: List<X>, withProgress: Boolean) {
+    fun postResult(type: Response.Type, data: List<X>, withProgress: Boolean) {
         if (withProgress) {
-            rm.responseWithProgress(inputs,type, data)
+            rm.responseWithProgress(inputs, type, data)
         } else {
-            rm.response(inputs, type,data)
+            rm.response(inputs, type, data)
         }
     }
 

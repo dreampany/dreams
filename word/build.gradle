@@ -90,12 +90,12 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    dataBinding {
+        enabled = true
     }
 	
 	compileOptions {
@@ -127,15 +127,15 @@ dependencies {
 
     /* test */
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     /* library */
     implementation project(':frame')
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
-    kapt 'androidx.room:room-compiler:2.1.0-beta01'
+    kapt 'androidx.room:room-compiler:2.1.0-rc01'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.22.1'

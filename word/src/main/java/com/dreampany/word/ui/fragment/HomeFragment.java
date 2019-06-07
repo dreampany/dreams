@@ -24,9 +24,11 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.activity.BaseActivity;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.callback.SearchViewCallback;
-import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.ColorUtil;
+import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Word;
@@ -38,18 +40,13 @@ import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.SearchViewModel;
-import com.lapism.searchview.Search;
-import com.lapism.searchview.database.SearchHistoryTable;
-import com.lapism.searchview.widget.SearchAdapter;
-import com.lapism.searchview.widget.SearchItem;
-import com.lapism.searchview.widget.SearchView;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -67,9 +64,7 @@ import timber.log.Timber;
  */
 @ActivityScope
 public class HomeFragment extends BaseMenuFragment
-        implements SmartAdapter.Callback<WordItem>,
-        SearchAdapter.OnSearchItemClickListener,
-        Search.OnQueryTextListener {
+        implements SmartAdapter.Callback<WordItem>, MaterialSearchView.OnQueryTextListener {
 
     private final String SEARCH = "search";
     private final String EMPTY = "empty";
@@ -82,9 +77,7 @@ public class HomeFragment extends BaseMenuFragment
     private SwipeRefreshLayout refresh;
     private ExpandableLayout expandable;
     private RecyclerView recycler;
-    private SearchView searchView;
-    private SearchAdapter searchAdapter;
-    private SearchHistoryTable table;
+    private MaterialSearchView searchView;
 
     SearchViewModel searchVm;
     WordAdapter adapter;
@@ -117,8 +110,8 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
-        if (searchView.isOpen()) {
-            searchView.close();
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
         }
     }
 
@@ -130,21 +123,16 @@ public class HomeFragment extends BaseMenuFragment
         if (activity instanceof SearchViewCallback) {
             SearchViewCallback searchCallback = (SearchViewCallback) activity;
             searchView = searchCallback.getSearchView();
-            initSearchView();
+            MenuItem searchItem = getSearchMenuItem();
+            initSearchView(searchView, searchItem);
         }
-    }
-
-    @Override
-    public boolean onQueryTextChange(@NonNull String newText) {
-
-        return false;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_search:
-                searchView.open(item);
+                //searchView.open(item);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -152,8 +140,8 @@ public class HomeFragment extends BaseMenuFragment
 
     @Override
     public boolean hasBackPressed() {
-        if (searchView.isOpen()) {
-            searchView.close();
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
             return true;
         }
         return super.hasBackPressed();
@@ -170,6 +158,17 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     @Override
+    public boolean onQueryTextSubmit(@NotNull String query) {
+
+        return super.onQueryTextSubmit(query);
+    }
+
+    @Override
+    public boolean onQueryTextChange(@NotNull String newText) {
+        return super.onQueryTextChange(newText);
+    }
+
+    /*    @Override
     public void onSearchItemClick(int position, CharSequence title, CharSequence subtitle) {
         searchView.setQuery(title, true);
         //searchView.close();
@@ -188,7 +187,7 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public void onQueryTextChange(CharSequence newText) {
         searchVm.suggests(newText.toString().trim(), false);
-    }
+    }*/
 
     @Override
     public List<WordItem> getVisibleItems() {
@@ -229,9 +228,6 @@ public class HomeFragment extends BaseMenuFragment
         searchVm.observeUiState(this, this::processUiState);
         searchVm.observeOutputs(this, this::processResponse);
         searchVm.observeOutput(this, this::processSingleResponse);
-
-        searchAdapter = new SearchAdapter(getContext());
-        table = new SearchHistoryTable(getContext());
     }
 
     private void initRecycler() {
@@ -257,10 +253,9 @@ public class HomeFragment extends BaseMenuFragment
         );
     }
 
-    private void initSearchView() {
-        searchAdapter.setOnSearchItemClickListener(this);
-        searchView.setAdapter(searchAdapter);
-        searchView.setOnQueryTextListener(this);
+    private void initSearchView(MaterialSearchView searchView, MenuItem searchItem) {
+        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+        searchView.setMenuItem(searchItem);
     }
 
     private void processUiState(UiState state) {
@@ -352,18 +347,15 @@ public class HomeFragment extends BaseMenuFragment
         Timber.v("Result Type[%s] Size[%s]", type.name(), items.size());
 
         if (type == Response.Type.SUGGESTS) {
-            List<SearchItem> suggests = new ArrayList<>(items.size());
-            for (WordItem item : items) {
-                SearchItem searchItem = new SearchItem(getContext());
-                searchItem.setTitle(item.getItem().getWord());
-                suggests.add(searchItem);
+            if (!DataUtil.isEmpty(items)) {
+                String[] suggests = new String[items.size()];
+                for (int index = 0; index < items.size(); index++) {
+                    suggests[index] = items.get(index).getItem().getWord();
+                }
+                searchView.setSuggestions(suggests);
             }
-            searchAdapter.setSuggestionsList(suggests);
-            searchAdapter.notifyDataSetChanged();
             return;
         }
-
-
         adapter.clear();
         adapter.addItems(items);
         ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);

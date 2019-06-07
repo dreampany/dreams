@@ -455,7 +455,7 @@ abstract class BaseActivity :
             //Timber.v("New Fragment Created %s", clazz)
             fragment = fragmentProvider.get()
         }
-        val currentFragment = FragmentUtil.commitFragment<T>(this, fragment, parentId)
+        val currentFragment = FragmentUtil.commitFragment<T>(ex, this, fragment, parentId)
         this.currentFragment = currentFragment
         return currentFragment
     }
@@ -476,7 +476,7 @@ abstract class BaseActivity :
             fragment.arguments!!.putParcelable(Task::class.java.simpleName, task)
         }
 
-        val currentFragment = FragmentUtil.commitFragment(this, fragment, parentId)
+        val currentFragment = FragmentUtil.commitFragment(ex, this, fragment, parentId)
         this.currentFragment = currentFragment
         return currentFragment
     }

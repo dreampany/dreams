@@ -22,14 +22,19 @@
 
                 <include layout="@layout/content_toolbar" />
 
-                <com.lapism.searchview.widget.SearchView
+                <com.miguelcatalan.materialsearchview.MaterialSearchView
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+<!--                <com.lapism.searchview.widget.SearchView
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     auto:layout_behavior="@string/search_behavior"
                     auto:search_hint="@string/search_hint"
                     auto:search_logo="arrow"
-                    auto:search_version="menu_item" />
+                    auto:search_version="menu_item" />-->
 
                 <!--                <com.miguelcatalan.materialsearchview.MaterialSearchView
                                     android:id="@+id/search_view"

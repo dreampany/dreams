@@ -58,7 +58,7 @@ abstract class BaseMenuFragment : BaseFragment() {
         }
     }
 
-    fun getMenuItem(menuItemId: Int) : MenuItem? {
+    protected fun getMenuItem(menuItemId: Int) : MenuItem? {
         if (menu == null || menuItemId == 0) {
             return null
         }
@@ -69,9 +69,14 @@ abstract class BaseMenuFragment : BaseFragment() {
         return item
     }
 
-    internal fun getSearchView() : SearchView? {
+    protected fun getSearchMenuItem(): MenuItem? {
         val menuItemId = getSearchMenuItemId()
         val item = getMenuItem(menuItemId)
+        return item
+    }
+
+    protected fun getSearchView() : SearchView? {
+        val item = getSearchMenuItem()
         if (item == null) {
             return null
         }
@@ -108,6 +113,8 @@ abstract class BaseMenuFragment : BaseFragment() {
             }
         })*/
     }
+
+
 
     fun getQuery(): String? {
         val searchView = getSearchView()

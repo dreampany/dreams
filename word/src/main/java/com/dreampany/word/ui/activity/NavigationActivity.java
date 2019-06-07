@@ -14,7 +14,7 @@ import com.dreampany.word.ui.fragment.HomeFragment;
 import com.dreampany.word.ui.fragment.MoreFragment;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.vm.LoaderViewModel;
-import com.lapism.searchview.widget.SearchView;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import javax.inject.Inject;
 
@@ -100,7 +100,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     }
 
     @Override
-    public SearchView getSearchView() {
+    public MaterialSearchView getSearchView() {
         return binding.searchView;
     }
 

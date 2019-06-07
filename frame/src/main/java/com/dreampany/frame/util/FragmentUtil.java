@@ -1,12 +1,15 @@
 package com.dreampany.frame.util;
 
 import android.os.Bundle;
+
 import androidx.annotation.IdRes;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.dreampany.frame.data.model.Task;
+import com.dreampany.frame.misc.AppExecutors;
+import com.dreampany.frame.ui.activity.BaseActivity;
 
 /**
  * Created by Hawladar Roman on 5/24/2018.
@@ -41,7 +44,7 @@ public final class FragmentUtil {
         return fragment;
     }*/
 
-    public static <T extends Fragment> T commitFragment(final AppCompatActivity activity, final T fragment, final int parentId) {
+/*    public static <T extends Fragment> T commitFragment(final BaseActivity activity, final T fragment, final int parentId) {
 
         Runnable commitRunnable = () -> {
             if (activity.isDestroyed() || activity.isFinishing()) {
@@ -56,6 +59,42 @@ public final class FragmentUtil {
         };
 
         AndroidUtil.getUiHandler().postDelayed(commitRunnable, 250L);
+        return fragment;
+    }*/
+
+/*    public static <T extends Fragment> T commitFragment(AppExecutors ex, BaseActivity activity, final T fragment, final int parentId) {
+
+        Runnable commitRunnable = () -> {
+            if (activity.isDestroyed() || activity.isFinishing()) {
+                return;
+            }
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    //.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    .replace(parentId, fragment, fragment.getClass().getSimpleName())
+                    .addToBackStack(null)
+                    .commitAllowingStateLoss();
+        };
+
+        ex.postToUi(commitRunnable);
+        return fragment;
+    }*/
+
+    public static <T extends Fragment> T commitFragment(AppExecutors ex, BaseActivity activity, final T fragment, final int parentId) {
+
+        Runnable commitRunnable = () -> {
+            if (activity.isDestroyed() || activity.isFinishing()) {
+                return;
+            }
+            activity.getSupportFragmentManager()
+                    .beginTransaction()
+                    //.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+                    .replace(parentId, fragment, fragment.getClass().getSimpleName())
+                    .addToBackStack(null)
+                    .commitAllowingStateLoss();
+        };
+
+        ex.postToUi(commitRunnable);
         return fragment;
     }
 

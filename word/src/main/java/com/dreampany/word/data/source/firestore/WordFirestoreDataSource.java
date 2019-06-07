@@ -191,4 +191,9 @@ public class WordFirestoreDataSource implements WordDataSource {
         return null;
     }
 
+    @Override
+    public Maybe<List<String>> getRawWordsRx() {
+        return null;
+    }
+
 }

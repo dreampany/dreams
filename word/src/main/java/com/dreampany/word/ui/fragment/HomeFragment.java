@@ -105,6 +105,7 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        searchVm.suggests(false);
     }
 
     @Override
@@ -226,6 +227,7 @@ public class HomeFragment extends BaseMenuFragment
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
+        searchVm.observeOutputsOfString(this, this::processResponseOfString);
         searchVm.observeOutputs(this, this::processResponse);
         searchVm.observeOutput(this, this::processSingleResponse);
     }

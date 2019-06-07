@@ -206,4 +206,9 @@ public class WordRemoteDataSource implements WordDataSource {
         return null;
     }
 
+    @Override
+    public Maybe<List<String>> getRawWordsRx() {
+        return null;
+    }
+
 }

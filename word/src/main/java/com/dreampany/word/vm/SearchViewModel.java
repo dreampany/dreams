@@ -131,7 +131,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 }, error -> {
                     postFailures(new MultiException(error, new ExtraException()));
                 });
-        addMultipleSubscription(disposable);
+        addMultipleSubscriptionOfString(disposable);
     }
 
     public void suggests(String query, boolean progress) {
@@ -272,17 +272,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private Maybe<List<String>> getSuggestionsRx() {
-        return Maybe.create(emitter -> {
-            List<String> result = repo.getAllRawWords();
-            if (emitter.isDisposed()) {
-                return;
-            }
-            if (DataUtil.isEmpty(result)) {
-                emitter.onError(new EmptyException());
-            } else {
-                emitter.onSuccess(result);
-            }
-        });
+        return repo.getAllRawWordsRx();
     }
 
     private Maybe<List<WordItem>> getSuggestionsRx(String query) {

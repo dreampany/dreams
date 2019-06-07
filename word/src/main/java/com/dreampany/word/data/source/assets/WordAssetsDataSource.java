@@ -2,17 +2,21 @@ package com.dreampany.word.data.source.assets;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+
 import com.annimon.stream.Stream;
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.FileUtil;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
+
 import io.reactivex.Maybe;
 import timber.log.Timber;
 
 import javax.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -171,7 +175,7 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getCommonItems() {
+    synchronized public List<Word> getCommonItems() {
         List<String> items = getCommonWords();
         List<Word> result = new ArrayList<>(items.size());
         Stream.of(Objects.requireNonNull(items)).forEach(item -> {
@@ -182,7 +186,7 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getAlphaItems() {
+    synchronized public List<Word> getAlphaItems() {
         List<String> items = getAlphaWords();
         List<Word> result = new ArrayList<>(items.size());
         Stream.of(Objects.requireNonNull(items)).forEach(item -> {
@@ -199,7 +203,22 @@ public class WordAssetsDataSource implements WordDataSource {
 
     @Override
     public List<String> getRawWords() {
-        return null;
+        return getAlphaWords();
+    }
+
+    @Override
+    public Maybe<List<String>> getRawWordsRx() {
+        return Maybe.create(emitter -> {
+            List<String> result = getRawWords();
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
 

@@ -1,6 +1,8 @@
 package com.dreampany.word.data.source.room;
 
 import android.graphics.Bitmap;
+
+import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Antonym;
@@ -192,16 +194,6 @@ public class WordRoomDataSource implements WordDataSource {
         return dao.getSearchItems(query, limit);
     }
 
-/*    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query) {
-        return dao.getSearchItemsRx(query);
-    }
-
-    @Override
-    public Maybe<List<Word>> getSearchItemsRx(String query, int limit) {
-        return dao.getSearchItemsRx(query, limit);
-    }*/
-
     @Override
     public List<Word> getCommonItems() {
         return null;
@@ -220,5 +212,20 @@ public class WordRoomDataSource implements WordDataSource {
     @Override
     public List<String> getRawWords() {
         return dao.getRawItems();
+    }
+
+    @Override
+    public Maybe<List<String>> getRawWordsRx() {
+        return Maybe.create(emitter -> {
+            List<String> result = getRawWords();
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 }

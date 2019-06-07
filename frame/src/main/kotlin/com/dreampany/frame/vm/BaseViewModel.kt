@@ -59,11 +59,13 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     var multipleOwner: LifecycleOwner? = null
     var singleOwners: MutableList<LifecycleOwner> = mutableListOf()
     var multipleOwners: MutableList<LifecycleOwner> = mutableListOf()
+    var multipleOwnersOfString: MutableList<LifecycleOwner> = mutableListOf()
 
     val disposables: CompositeDisposable
     val ioDisposables: CompositeDisposable
     var singleDisposable: Disposable? = null
     var multipleDisposable: Disposable? = null
+    var multipleDisposableOfString: Disposable? = null
 
     val liveTitle: SingleLiveEvent<String>
     val liveSubtitle: SingleLiveEvent<String>
@@ -173,10 +175,14 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         for (owner in multipleOwners) {
             owner.let { outputs.removeObservers(it) }
         }
+        for (owner in multipleOwnersOfString) {
+            owner.let { outputsOfString.removeObservers(it) }
+        }
         singleOwners.clear()
         multipleOwners.clear()
         removeSingleSubscription()
         removeMultipleSubscription()
+        removeMultipleSubscriptionOfString()
         uiMap.clear()
         uiCache.clear()
         clearUiState()
@@ -267,6 +273,12 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         outputs.reObserve(owner, observer)
     }
 
+    fun observeOutputsOfString(owner: LifecycleOwner, observer: Observer<Response<List<String>>>) {
+        //postEmpty(null as List<String>?)
+        multipleOwnersOfString.add(owner)
+        outputsOfString.reObserve(owner, observer)
+    }
+
     fun observeFavorite(owner: LifecycleOwner, observer: Observer<X>) {
         favoriteOwner = owner
         favorite.reObserve(owner, observer)
@@ -299,6 +311,11 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         addSubscription(disposable)
     }
 
+    fun addMultipleSubscriptionOfString(disposable: Disposable) {
+        multipleDisposableOfString = disposable
+        addSubscription(disposable)
+    }
+
     fun addSubscription(disposable: Disposable) {
         disposables.add(disposable)
     }
@@ -313,6 +330,10 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     fun removeMultipleSubscription() {
         removeSubscription(multipleDisposable)
+    }
+
+    fun removeMultipleSubscriptionOfString() {
+        removeSubscription(multipleDisposableOfString)
     }
 
     fun removeSubscription(disposable: Disposable?): Boolean {

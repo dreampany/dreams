@@ -1,8 +1,10 @@
 package com.dreampany.word.data.source.api;
 
 import android.graphics.Bitmap;
+
 import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.word.data.model.Word;
+
 import io.reactivex.Maybe;
 
 import java.util.List;
@@ -31,4 +33,6 @@ public interface WordDataSource extends DataSource<Word> {
     Maybe<List<Word>> getItemsRx(Bitmap bitmap);
 
     List<String> getRawWords();
+
+    Maybe<List<String>> getRawWordsRx();
 }

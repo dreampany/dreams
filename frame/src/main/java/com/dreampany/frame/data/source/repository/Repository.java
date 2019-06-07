@@ -81,6 +81,41 @@ public abstract class Repository<K, V> {
 
 
     @SafeVarargs
+    protected final Maybe<List<String>> concatFirstOfStringRx(Maybe<List<String>>... sources) {
+        return Maybe.create(emitter -> {
+            Throwable error = null;
+            List<String> items = null;
+
+            for (Maybe<List<String>> source : sources) {
+                try {
+                    items = source.blockingGet();
+                    Timber.v("Concat %d", items.size());
+                } catch (Throwable ex) {
+                    error = ex;
+                }
+                if (!DataUtil.isEmpty(items)) {
+                    break;
+                }
+            }
+            if (DataUtil.isEmpty(items)) {
+                if (error == null) {
+                    error = new EmptyException();
+                }
+            } else {
+                error = null;
+            }
+
+            if (!emitter.isDisposed()) {
+                if (error != null) {
+                    emitter.onError(error);
+                } else {
+                    emitter.onSuccess(items);
+                }
+            }
+        });
+    }
+
+    @SafeVarargs
     protected final Maybe<List<V>> concatFirstRx(Maybe<List<V>>... sources) {
         return Maybe.create(emitter -> {
             Throwable error = null;

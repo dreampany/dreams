@@ -181,4 +181,9 @@ public class WordVisionDataSource implements WordDataSource {
     public List<String> getRawWords() {
         return null;
     }
+
+    @Override
+    public Maybe<List<String>> getRawWordsRx() {
+        return null;
+    }
 }

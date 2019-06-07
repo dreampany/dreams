@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:auto="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="${relativePackage}.${activityClass}" >
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
 
-    <data >
+    <data>
+
+        <variable
+            name="item"
+            type="com.dreampany.word.ui.model.WordItem" />
 
         <variable
             name="items"
             type="androidx.databinding.ObservableArrayList" />
-    </data >
+    </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/layout_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <com.beardedhen.androidbootstrap.BootstrapProgressBar
                     android:id="@+id/progress"
@@ -45,22 +49,36 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-            </LinearLayout >
+            </LinearLayout>
 
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/layout_top" >
+                android:layout_below="@id/layout_top">
 
-                <include
-                    android:id="@+id/layout_recycler"
-                    layout="@layout/content_recycler"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    auto:items="@{items}" />
+                    android:layout_height="match_parent">
 
-            </cz.kinst.jakub.view.StatefulLayout >
+
+                    <include
+                        android:id="@+id/layout_recycler"
+                        layout="@layout/content_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        auto:items="@{items}" />
+
+                    <include
+                        android:id="@+id/layout_word"
+                        layout="@layout/content_medium_word"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible"
+                        auto:item="@{item}" />
+                </FrameLayout>
+            </cz.kinst.jakub.view.StatefulLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
@@ -74,6 +92,6 @@
                 auto:rippleColor="@color/material_white"
                 auto:srcCompat="@drawable/ic_filter_center_focus_black_24dp" />
 
-        </RelativeLayout >
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout >
-</layout >
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

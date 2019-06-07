@@ -32,6 +32,7 @@ import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Word;
+import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.databinding.FragmentItemsBinding;
 import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.WordAdapter;
@@ -71,7 +72,7 @@ public class HomeFragment extends BaseMenuFragment
 
     @Inject
     ViewModelProvider.Factory factory;
-    private FragmentItemsBinding binding;
+    private FragmentHomeBinding binding;
 
     private OnVerticalScrollListener scroller;
     private SwipeRefreshLayout refresh;
@@ -88,7 +89,7 @@ public class HomeFragment extends BaseMenuFragment
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_items;
+        return R.layout.fragment_home;
     }
 
     @Override
@@ -105,6 +106,7 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        searchVm.loadLastSearchWord(false);
         searchVm.suggests(false);
     }
 
@@ -158,37 +160,18 @@ public class HomeFragment extends BaseMenuFragment
         return false;
     }
 
+    @DebugLog
     @Override
     public boolean onQueryTextSubmit(@NotNull String query) {
-
+        Timber.v("onQueryTextSubmit %s", query);
         return super.onQueryTextSubmit(query);
     }
 
     @Override
     public boolean onQueryTextChange(@NotNull String newText) {
+        Timber.v("onQueryTextChange %s", newText);
         return super.onQueryTextChange(newText);
     }
-
-    /*    @Override
-    public void onSearchItemClick(int position, CharSequence title, CharSequence subtitle) {
-        searchView.setQuery(title, true);
-        //searchView.close();
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(CharSequence query) {
-        //SearchItem item = new SearchItem(getContext());
-        //item.setTitle(query);
-        //table.addItem(item);
-
-        searchVm.search(query.toString().trim(), false);
-        return true;
-    }
-
-    @Override
-    public void onQueryTextChange(CharSequence newText) {
-        searchVm.suggests(newText.toString().trim(), false);
-    }*/
 
     @Override
     public List<WordItem> getVisibleItems() {
@@ -212,7 +195,7 @@ public class HomeFragment extends BaseMenuFragment
 
     private void initView() {
         setTitle(R.string.home);
-        binding = (FragmentItemsBinding) super.binding;
+        binding = (FragmentHomeBinding) super.binding;
         binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         processUiState(UiState.SEARCH);
@@ -258,6 +241,7 @@ public class HomeFragment extends BaseMenuFragment
     private void initSearchView(MaterialSearchView searchView, MenuItem searchItem) {
         MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
         searchView.setMenuItem(searchItem);
+        searchView.setOnQueryTextListener(this);
     }
 
     private void processUiState(UiState state) {

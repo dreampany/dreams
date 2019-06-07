@@ -68,6 +68,7 @@ class Constants {
         const val WORD = "word"
         const val LEFTER = "lefter"
         const val RIGHTER = "righter"
+        const val LAST_SEARCH = "last_search_word"
     }
 
     object Period {

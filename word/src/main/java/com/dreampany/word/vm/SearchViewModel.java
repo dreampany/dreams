@@ -112,6 +112,29 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         removeSubscription(updateDisposable);
     }
 
+    public void loadLastSearchWord(boolean progress) {
+        if (!takeAction(true, getSingleDisposable())) {
+            return;
+        }
+
+        Disposable disposable = getRx()
+                .backToMain(getLastSearchWordRx())
+                .doOnSubscribe(subscription -> {
+                    if (progress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(result -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.GET, result);
+                }, error -> {
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
+        addSingleSubscription(disposable);
+    }
+
     public void suggests(boolean progress) {
         if (!takeAction(true, getMultipleDisposable())) {
             return;
@@ -273,6 +296,21 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     private Maybe<List<String>> getSuggestionsRx() {
         return repo.getAllRawWordsRx();
+    }
+
+    private Maybe<WordItem> getLastSearchWordRx() {
+        return Maybe.create(emitter -> {
+            Word word = pref.getLastSearchWord();
+            WordItem result = getItem(word, true);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     private Maybe<List<WordItem>> getSuggestionsRx(String query) {

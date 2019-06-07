@@ -24,4 +24,8 @@
     <dimen name="spacing_xxlarge">50dp</dimen>
     <dimen name="spacing_xxxlarge">55dp</dimen>
 
+    <!-- size -->
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_15">15dp</dimen>
+
 </resources>

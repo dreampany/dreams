@@ -43,7 +43,8 @@ import io.reactivex.disposables.Disposable;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class CoinViewModel
+public class
+CoinViewModel
         extends BaseViewModel<Coin, CoinItem, UiTask<Coin>>
         implements NetworkManager.Callback {
 

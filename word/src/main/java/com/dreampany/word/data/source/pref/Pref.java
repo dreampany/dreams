@@ -3,6 +3,8 @@ package com.dreampany.word.data.source.pref;
 import android.content.Context;
 
 import com.dreampany.frame.data.source.pref.FramePref;
+import com.dreampany.word.data.model.Word;
+import com.dreampany.word.misc.Constants;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -23,5 +25,11 @@ public class Pref extends FramePref {
     }
 
 
+    public void setLastSearchWord(Word word) {
+        setPrivately(Constants.Word.LAST_SEARCH, word);
+    }
 
+    public Word getLastSearchWord() {
+        return getPrivately(Constants.Word.LAST_SEARCH, Word.class, null);
+    }
 }

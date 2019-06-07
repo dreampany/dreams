@@ -197,6 +197,12 @@ public class WordAssetsDataSource implements WordDataSource {
         return null;
     }
 
+    @Override
+    public List<String> getRawWords() {
+        return null;
+    }
+
+
     synchronized private List<String> getCommonWords() {
         List<String> items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_COMMON);
         if (items == null) {

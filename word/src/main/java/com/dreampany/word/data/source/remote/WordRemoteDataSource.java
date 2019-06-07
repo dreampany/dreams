@@ -200,4 +200,10 @@ public class WordRemoteDataSource implements WordDataSource {
     public Maybe<List<Word>> getItemsRx(Bitmap bitmap) {
         return null;
     }
+
+    @Override
+    public List<String> getRawWords() {
+        return null;
+    }
+
 }

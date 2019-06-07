@@ -89,6 +89,10 @@ public class ApiRepository {
         return Maybe.fromCallable(() -> getItemIf(word));
     }
 
+    public List<String> getAllRawWords() {
+        return wordRepo.getRawWords();
+    }
+
     public List<Word> getSearchItems(String query, int limit) {
         return wordRepo.getSearchItems(query, limit);
     }

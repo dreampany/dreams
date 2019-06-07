@@ -272,6 +272,12 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return null;
     }
 
+    @Override
+    public List<String> getRawWords() {
+        return room.getRawWords();
+    }
+
+
     public Word getRoomItem(String word, boolean full) {
         return room.getItem(word, full);
     }

@@ -29,4 +29,6 @@ public interface WordDataSource extends DataSource<Word> {
     List<Word> getAlphaItems();
 
     Maybe<List<Word>> getItemsRx(Bitmap bitmap);
+
+    List<String> getRawWords();
 }

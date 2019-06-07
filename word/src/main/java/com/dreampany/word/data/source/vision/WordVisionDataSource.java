@@ -176,4 +176,9 @@ public class WordVisionDataSource implements WordDataSource {
             return result;
         });
     }
+
+    @Override
+    public List<String> getRawWords() {
+        return null;
+    }
 }

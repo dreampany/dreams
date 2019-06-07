@@ -211,7 +211,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     load.setTotal(current);
                     Timber.v("Current Alpha Word = %d %s", current, lastWord.toString());
                     getEx().postToUi(() -> postResult(Response.Type.GET, item));
-                    AndroidUtil.sleep(3);
+                    AndroidUtil.sleep(100);
                 }
             }
             if (alphaWords.isEmpty()) {

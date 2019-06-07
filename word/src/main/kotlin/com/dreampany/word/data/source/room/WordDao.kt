@@ -49,4 +49,7 @@ interface WordDao: BaseDao<Word> {
 
     @Query("select * from word where word like :query || '%' order by word asc limit :limit")
     fun getSearchItems(query: String, limit: Int): List<Word>
+
+    @Query("select word from word order by word asc")
+    fun getRawItems(): List<String>
 }

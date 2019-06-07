@@ -2,6 +2,8 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
+import androidx.annotation.Nullable;
+
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -110,12 +112,34 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         removeSubscription(updateDisposable);
     }
 
+    public void suggests(boolean progress) {
+        if (!takeAction(true, getMultipleDisposable())) {
+            return;
+        }
+        Disposable disposable = getRx()
+                .backToMain(getSuggestionsRx())
+                .doOnSubscribe(subscription -> {
+                    if (progress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(result -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResultOfString(Response.Type.SUGGESTS, result);
+                }, error -> {
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
+        addMultipleSubscription(disposable);
+    }
+
     public void suggests(String query, boolean progress) {
         if (!takeAction(true, getMultipleDisposable())) {
             return;
         }
         Disposable disposable = getRx()
-                .backToMain(getSuggestionsRx(query.toLowerCase()))
+                .backToMain(getSuggestionsRx(query))
                 .doOnSubscribe(subscription -> {
                     if (progress) {
                         postProgress(true);
@@ -244,6 +268,20 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         return Maybe.fromCallable(() -> {
             //repo.toggleFlag(word);
             return getItem(word, true);
+        });
+    }
+
+    private Maybe<List<String>> getSuggestionsRx() {
+        return Maybe.create(emitter -> {
+            List<String> result = repo.getAllRawWords();
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
         });
     }
 

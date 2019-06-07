@@ -74,8 +74,10 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     val select: MutableLiveData<X>
     val input: PublishSubject<Response<X>>
     val inputs: PublishSubject<Response<List<X>>>
+    val inputsOfString: PublishSubject<Response<List<String>>>
     val output: MutableLiveData<Response<X>>
     val outputs: MutableLiveData<Response<List<X>>>
+    val outputsOfString: MutableLiveData<Response<List<String>>>
     var task: Y? = null
     var networkEvent: NetworkState
     val itemOffset: Int = 4
@@ -97,8 +99,10 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         select = MutableLiveData()
         input = PublishSubject.create()
         inputs = PublishSubject.create()
+        inputsOfString = PublishSubject.create()
         output = rx.toLiveData(input, ioDisposables)
         outputs = rx.toLiveData(inputs, ioDisposables)
+        outputsOfString = rx.toLiveData(inputsOfString, ioDisposables)
         uiMap = SmartMap.newMap()
         uiCache = SmartCache.newCache()
         uiFavorites = Collections.synchronizedSet<T>(HashSet<T>())
@@ -495,6 +499,10 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     fun postResult(type: Response.Type, data: List<X>) {
         rm.response(inputs, type, data)
+    }
+
+    fun postResultOfString(type: Response.Type, data: List<String>) {
+        rm.response(inputsOfString, type, data)
     }
 
     fun postResult(type: Response.Type, data: List<X>, withProgress: Boolean) {

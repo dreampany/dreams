@@ -294,6 +294,19 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
+    public void processResponseOfString(Response<List<String>> response) {
+        if (response instanceof Response.Progress) {
+            Response.Progress result = (Response.Progress) response;
+            processProgress(result.getLoading());
+        } else if (response instanceof Response.Failure) {
+            Response.Failure result = (Response.Failure) response;
+            processFailure(result.getError());
+        } else if (response instanceof Response.Result) {
+            Response.Result<List<String>> result = (Response.Result<List<String>>) response;
+            processSuccessOfString(result.getType(), result.getData());
+        }
+    }
+
     public void processResponse(Response<List<WordItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
@@ -340,6 +353,16 @@ public class HomeFragment extends BaseMenuFragment
             for (Throwable e : ((MultiException) error).getErrors()) {
                 processFailure(e);
             }
+        }
+    }
+
+    private void processSuccessOfString(Response.Type type, List<String> items) {
+        Timber.v("Result Type[%s] Size[%s]", type.name(), items.size());
+
+        if (type == Response.Type.SUGGESTS) {
+            String[] result = DataUtil.toStringArray(items);
+            searchView.setSuggestions(result);
+            return;
         }
     }
 

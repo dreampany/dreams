@@ -87,6 +87,7 @@ android {
             proguardFiles 'proguard-rules-jackson.pro'
             proguardFiles 'proguard-rules-butterknife.pro'
             proguardFiles 'proguard-rules-kotlin.pro'
+            proguardFiles 'proguard-rules-moshi.pro'
         }
     }
 
@@ -145,11 +146,15 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.1.0'
     kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
+    /* squareup */
+    implementation 'com.squareup.moshi:moshi-kotlin:1.8.0'
+    implementation 'com.squareup.moshi:moshi-adapters:1.8.0'
+
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     /* misc */
-    implementation 'com.wordnik:wordnik-android-client:4.0'
+    //implementation 'com.wordnik:wordnik-android-client:4.0'
     implementation 'com.github.oliveiradev:RxPhoto:0.4.0'
 }
 

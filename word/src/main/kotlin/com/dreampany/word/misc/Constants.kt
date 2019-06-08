@@ -66,6 +66,7 @@ class Constants {
 
     object Word {
         const val WORD = "word"
+        const val PART_OF_SPEECH = "part_of_speech"
         const val LEFTER = "lefter"
         const val RIGHTER = "righter"
         const val LAST_SEARCH = "last_search_word"

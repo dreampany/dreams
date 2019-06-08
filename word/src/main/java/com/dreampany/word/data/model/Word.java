@@ -11,7 +11,9 @@ import com.dreampany.frame.data.model.Base;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.word.misc.Constants;
 import com.google.common.base.Objects;
+import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.PropertyName;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -26,17 +28,21 @@ import java.util.List;
 
 @Entity(indices = {@Index(value = {Constants.Word.WORD}, unique = true)},
         primaryKeys = {Constants.Word.WORD})
+@IgnoreExtraProperties
 public class Word extends Base {
 
     @NonNull
     private String word;
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
     private String partOfSpeech;
     private String pronunciation;
     private List<Definition> definitions;
     private List<String> examples;
     @Ignore
+    @Exclude
     private List<String> synonyms;
     @Ignore
+    @Exclude
     private List<String> antonyms;
     private List<String> categories;
     private List<String> tags;
@@ -123,6 +129,7 @@ public class Word extends Base {
         this.word = word;
     }
 
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
     public void setPartOfSpeech(String partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
@@ -168,6 +175,7 @@ public class Word extends Base {
         return word;
     }
 
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
     public String getPartOfSpeech() {
         return partOfSpeech;
     }

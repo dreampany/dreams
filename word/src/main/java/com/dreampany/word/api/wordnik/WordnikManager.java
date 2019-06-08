@@ -1,21 +1,20 @@
 package com.dreampany.word.api.wordnik;
 
 import com.dreampany.frame.util.DataUtil;
-import com.wordnik.client.api.WordApi;
-import com.wordnik.client.api.WordsApi;
-import com.wordnik.client.model.Definition;
-import com.wordnik.client.model.Example;
-import com.wordnik.client.model.ExampleSearchResults;
-import com.wordnik.client.model.Related;
-import com.wordnik.client.model.SimpleDefinition;
-import com.wordnik.client.model.SimpleExample;
-import com.wordnik.client.model.TextPron;
-import com.wordnik.client.model.WordObject;
-import com.wordnik.client.model.WordOfTheDay;
-import com.wordnik.client.model.WordSearchResult;
-import com.wordnik.client.model.WordSearchResults;
+import com.dreampany.word.api.wordnik.model.Definition;
+import com.dreampany.word.api.wordnik.model.Example;
+import com.dreampany.word.api.wordnik.model.ExampleSearchResults;
+import com.dreampany.word.api.wordnik.model.Related;
+import com.dreampany.word.api.wordnik.model.SimpleDefinition;
+import com.dreampany.word.api.wordnik.model.SimpleExample;
+import com.dreampany.word.api.wordnik.model.TextPron;
+import com.dreampany.word.api.wordnik.model.WordObject;
+import com.dreampany.word.api.wordnik.model.WordOfTheDay;
+import com.dreampany.word.api.wordnik.model.WordSearchResult;
+import com.dreampany.word.api.wordnik.model.WordSearchResults;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +22,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;
+
 import timber.log.Timber;
 
 /**
@@ -34,10 +34,10 @@ import timber.log.Timber;
 public class WordnikManager {
 
     private final String WORDNIK_API_KEY = "api_key";
-    private final String WORDNIK_API_KEY_VALUE_ROMANBJIT = "5c9a53f4c0e012d4cf5a66115420c073d7da523b9081dff1f";
-    private final String WORDNIK_API_KEY_VALUE_DREAMPANY = "464b0c5a35f469103f3610840dc061f1c768aa1c223ffa447";
-    private final String WORDNIK_API_KEY_VALUE_IFTENET = "a6714f04f26b9f14e29a920702e0f03dde4b84e98f94fe6fe";
-    private final String[] KEYS = {WORDNIK_API_KEY_VALUE_ROMANBJIT, WORDNIK_API_KEY_VALUE_DREAMPANY, WORDNIK_API_KEY_VALUE_IFTENET};
+    private final String WORDNIK_API_KEY_ROMANBJIT = "5c9a53f4c0e012d4cf5a66115420c073d7da523b9081dff1f";
+    private final String WORDNIK_API_KEY_DREAMPANY = "464b0c5a35f469103f3610840dc061f1c768aa1c223ffa447";
+    private final String WORDNIK_API_KEY_IFTENET = "a6714f04f26b9f14e29a920702e0f03dde4b84e98f94fe6fe";
+    private final String[] KEYS = {WORDNIK_API_KEY_ROMANBJIT, WORDNIK_API_KEY_DREAMPANY, WORDNIK_API_KEY_IFTENET};
 
     private final String RELATED_SYNONYM = "synonym";
     private final String RELATED_ANTONYM = "antonym";
@@ -60,11 +60,11 @@ public class WordnikManager {
             queue.add(index);
 
             WordsApi wordsApi = new WordsApi();
-            wordsApi.addHeader(WORDNIK_API_KEY, key);
+            //wordsApi.addHeader(WORDNIK_API_KEY, key);
             wordsApis.add(wordsApi);
 
             WordApi wordApi = new WordApi();
-            wordApi.addHeader(WORDNIK_API_KEY, key);
+            //wordApi.addHeader(WORDNIK_API_KEY, key);
             wordApis.add(wordApi);
         }
     }
@@ -115,7 +115,7 @@ public class WordnikManager {
 
         for (int index = 0; index < KEYS.length; index++) {
             WordsApi api = getWordsApi();
-            try {
+/*            try {
                 WordSearchResults results = api.searchWords(query,
                         includePartOfSpeech,
                         excludePartOfSpeech,
@@ -143,7 +143,7 @@ public class WordnikManager {
             } catch (Exception e) {
                 Timber.e(e);
                 iterateQueue();
-            }
+            }*/
         }
         return null;
     }
@@ -181,8 +181,9 @@ public class WordnikManager {
         word.setPronunciation(getPronunciation(from));
         word.setDefinitions(getDefinitions(definitions));
 
-        List<Example> examples = getExamples(from.getWord(), limit);
-        word.setExamples(getExamples(examples));
+        List<String> examples = getExamples(from.getWord(), limit);
+        word.setExamples(examples);
+        //word.setExamples(getExamples(examples));
 
         List<Related> relateds = getRelateds(from.getWord(), RELATED_SYNONYM_ANTONYM, limit);
         word.setSynonyms(getSynonyms(relateds));
@@ -192,12 +193,12 @@ public class WordnikManager {
     }
 
     private String getPartOfSpeech(WordOfTheDay word) {
-        List<SimpleDefinition> items = word.getDefinitions();
+        String[] items = word.getDefinitions();
         if (!DataUtil.isEmpty(items)) {
-            for (SimpleDefinition item : items) {
-                if (!DataUtil.isEmpty(item.getPartOfSpeech())) {
+            for (String item : items) {
+   /*             if (!DataUtil.isEmpty(item.getPartOfSpeech())) {
                     return item.getPartOfSpeech();
-                }
+                }*/
             }
         }
         return null;
@@ -223,11 +224,11 @@ public class WordnikManager {
     }
 
     private List<WordnikDefinition> getDefinitions(WordOfTheDay word) {
-        List<SimpleDefinition> items = word.getDefinitions();
+        String[] items = word.getDefinitions();
         if (!DataUtil.isEmpty(items)) {
-            List<WordnikDefinition> definitions = new ArrayList<>(items.size());
-            for (SimpleDefinition item : items) {
-                definitions.add(new WordnikDefinition(item.getPartOfSpeech(), item.getText()));
+            List<WordnikDefinition> definitions = new ArrayList<>(items.length);
+            for (String item : items) {
+                //definitions.add(new WordnikDefinition(item.getPartOfSpeech(), item.getText()));
             }
             return definitions;
         }
@@ -246,11 +247,11 @@ public class WordnikManager {
     }
 
     private List<String> getExamples(WordOfTheDay word) {
-        List<SimpleExample> items = word.getExamples();
+        String[] items = word.getExamples();
         if (!DataUtil.isEmpty(items)) {
-            List<String> examples = new ArrayList<>(items.size());
-            for (SimpleExample item : items) {
-                examples.add(item.getText());
+            List<String> examples = new ArrayList<>(items.length);
+            for (String item : items) {
+                examples.add(item);
             }
             return examples;
         }
@@ -271,7 +272,7 @@ public class WordnikManager {
     private List<String> getSynonyms(List<Related> relateds) {
         Related related = getRelated(relateds, RELATED_SYNONYM);
         if (related != null) {
-            return related.getWords();
+            return Arrays.asList(related.getWords());
         }
         return null;
     }
@@ -279,7 +280,7 @@ public class WordnikManager {
     private List<String> getAntonyms(List<Related> relateds) {
         Related related = getRelated(relateds, RELATED_ANTONYM);
         if (related != null) {
-            return related.getWords();
+            return Arrays.asList(related.getWords());
         }
         return null;
     }
@@ -293,7 +294,7 @@ public class WordnikManager {
                 String typeFormat = null;
                 String useCanonical = "true";
 
-                List<TextPron> pronunciations = api.getTextPronunciations(word, sourceDictionary, typeFormat, useCanonical, 3);
+                List<TextPron> pronunciations = Arrays.asList(api.getTextPronunciations(word, sourceDictionary, typeFormat, useCanonical, 3));
                 if (!DataUtil.isEmpty(pronunciations)) {
                     String pronunciation = pronunciations.get(0).getRaw();
                     for (int indexX = 1; indexX < pronunciations.size(); indexX++) {
@@ -317,11 +318,11 @@ public class WordnikManager {
             WordApi api = getWordApi();
             try {
                 String partOfSpeech = null;
-                String sourceDictionaries = null;
                 String includeRelated = null;
+                String[] sourceDictionaries = null;
                 String useCanonical = "true";
-                List<Definition> definitions = api.getDefinitions(word, partOfSpeech, sourceDictionaries, limit, includeRelated, useCanonical, null);
-                return definitions;
+                Definition[] definitions = api.getDefinitions(word,limit, partOfSpeech, includeRelated, sourceDictionaries, useCanonical, null);
+                return Arrays.asList(definitions);
             } catch (Exception e) {
                 Timber.e(e);
                 iterateQueue();
@@ -330,7 +331,7 @@ public class WordnikManager {
         return null;
     }
 
-    public List<Example> getExamples(String word, int limit) {
+    public List<String> getExamples(String word, int limit) {
         for (int index = 0; index < KEYS.length; index++) {
             WordApi api = getWordApi();
             try {
@@ -338,9 +339,7 @@ public class WordnikManager {
                 String useCanonical = "true";
                 int skip = 0;
                 ExampleSearchResults results = api.getExamples(word, includeDuplicates, useCanonical, skip, limit);
-                if (results != null) {
-                    return results.getExamples();
-                }
+                return Arrays.asList(results.getExamples());
             } catch (Exception e) {
                 Timber.e(e);
                 iterateQueue();
@@ -365,7 +364,7 @@ public class WordnikManager {
         for (int index = 0; index < KEYS.length; index++) {
             WordsApi api = getWordsApi();
 
-            try {
+/*            try {
                 WordSearchResults results = api.searchWords(query, includePartOfSpeech, excludePartOfSpeech,
                         caseSensitive, minCorpusCount, maxCorpusCount, minDictionaryCount, maxDictionaryCount, minLength, maxLength, skip, limit
                 );
@@ -383,7 +382,7 @@ public class WordnikManager {
             } catch (Exception e) {
                 Timber.e(e);
                 iterateQueue();
-            }
+            }*/
         }
         return null;
     }
@@ -394,8 +393,8 @@ public class WordnikManager {
             try {
                 String useCanonical = "true";
 
-                List<Related> relateds = api.getRelatedWords(word, relationshipTypes, useCanonical, limit);
-                return relateds;
+                Related[] relateds = api.getRelatedWords(word,useCanonical, relationshipTypes, limit);
+                return Arrays.asList(relateds);
 
             } catch (Exception e) {
                 Timber.e(e);

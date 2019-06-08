@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +34,6 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.databinding.FragmentHomeBinding;
-import com.dreampany.word.databinding.FragmentItemsBinding;
 import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.dreampany.word.ui.enums.UiSubtype;
@@ -65,7 +65,8 @@ import timber.log.Timber;
  */
 @ActivityScope
 public class HomeFragment extends BaseMenuFragment
-        implements SmartAdapter.Callback<WordItem>, MaterialSearchView.OnQueryTextListener {
+        implements SmartAdapter.Callback<WordItem>,
+        MaterialSearchView.OnQueryTextListener {
 
     private final String SEARCH = "search";
     private final String EMPTY = "empty";
@@ -164,6 +165,7 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public boolean onQueryTextSubmit(@NotNull String query) {
         Timber.v("onQueryTextSubmit %s", query);
+        searchVm.find(query, true);
         return super.onQueryTextSubmit(query);
     }
 
@@ -199,7 +201,7 @@ public class HomeFragment extends BaseMenuFragment
         binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         processUiState(UiState.SEARCH);
-        ViewUtil.setText(this, R.id.text_empty, R.string.empty_search_words);
+        //ViewUtil.setText(this, R.id.text_empty, R.string.empty_search_words);
 
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;
@@ -241,6 +243,7 @@ public class HomeFragment extends BaseMenuFragment
     private void initSearchView(MaterialSearchView searchView, MenuItem searchItem) {
         MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
         searchView.setMenuItem(searchItem);
+        searchView.setSubmitOnClick(true);
         searchView.setOnQueryTextListener(this);
     }
 
@@ -371,7 +374,8 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void processSingleSuccess(WordItem item) {
-        adapter.updateSilently(item);
+        Timber.v("Result Single Word[%s]", item.getItem().getWord());
+        //adapter.updateSilently(item);
     }
 
     private void openUi(Word item) {

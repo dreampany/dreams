@@ -25,6 +25,7 @@ import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
 import com.dreampany.word.data.source.repository.ApiRepository;
+import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
@@ -202,6 +203,29 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
+    public void find(String query, boolean progress) {
+        if (!takeAction(true, getSingleDisposable())) {
+            return;
+        }
+        Disposable disposable = getRx()
+                .backToMain(findItemRx(query))
+                .doOnSubscribe(subscription -> {
+                    if (progress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(result -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postResult(Response.Type.SEARCH, result);
+                    //getEx().postToUi(() -> update(false), 3000L);
+                }, error -> {
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
+        addSingleSubscription(disposable);
+    }
+
     public void update(boolean progress) {
         Timber.v("update fired");
         if (hasDisposable(updateDisposable)) {
@@ -316,6 +340,22 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     private Maybe<List<WordItem>> getSuggestionsRx(String query) {
         return getSuggestionsRx(query, Constants.Limit.WORD_SUGGESTION)
                 .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words, false));
+    }
+
+    private Maybe<WordItem> findItemRx(String query) {
+        return Maybe.create(emitter -> {
+            Word word = repo.getItem(query, false);
+            Word fullWord = repo.getItemIf(word);
+            WordItem result = getItem(fullWord, true);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     private Maybe<List<WordItem>> getItemsRx(String query) {

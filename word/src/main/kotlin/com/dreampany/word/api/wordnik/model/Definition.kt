@@ -11,6 +11,8 @@
  */
 package com.dreampany.word.api.wordnik.model
 
+import com.squareup.moshi.JsonClass
+
 
 /**
  *
@@ -34,19 +36,19 @@ package com.dreampany.word.api.wordnik.model
 data class Definition(
         val attributionText: String? = null,
         val attributionUrl: String? = null,
-        val citations: Array<String>? = null,
-        val exampleUses: Array<String>? = null,
+        val citations: List<String>? = null,
+        val exampleUses: List<String>? = null,
         val extendedText: String? = null,
-        val labels: Array<String>? = null,
-        val notes: Array<String>? = null,
+        val labels: List<String>? = null,
+        val notes: List<String>? = null,
         val partOfSpeech: String? = null,
-        val relatedWords: Array<String>? = null,
+        val relatedWords: List<String>? = null,
         val score: Float? = null,
         val seqString: String? = null,
         val sequence: String? = null,
         val sourceDictionary: String? = null,
         val text: String? = null,
-        val textProns: Array<String>? = null,
+        val textProns: List<String>? = null,
         val word: String? = null
 )
 

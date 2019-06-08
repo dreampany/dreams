@@ -58,16 +58,21 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return Array<Definition>
      */
     @Suppress("UNCHECKED_CAST")
-    fun getDefinitions(word: String, limit: Int, partOfSpeech: String, includeRelated: String, sourceDictionaries: Array<String>, useCanonical: String, includeTags: String): Array<Definition> {
+    fun getDefinitions(word: String, limit: Int, partOfSpeech: String?, includeRelated: String, sourceDictionaries: Array<String>?, useCanonical: String, includeTags: String): List<Definition> {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "limit" to listOf(limit.toString()),
-            "partOfSpeech" to listOf(partOfSpeech),
             "includeRelated" to listOf(includeRelated),
-            "sourceDictionaries" to toMultiValue(sourceDictionaries.toList(), "csv"),
             "useCanonical" to listOf(useCanonical),
-            "includeTags" to listOf(includeTags)
+            "includeTags" to listOf(includeTags),
+            ApiKey to listOf(keyOfApi!!)
         )
+        partOfSpeech?.let {
+            localVariableQuery.plus("partOfSpeech" to listOf(partOfSpeech))
+        }
+        sourceDictionaries?.let {
+            localVariableQuery.plus("sourceDictionaries" to toMultiValue(sourceDictionaries.toList(), "csv"))
+        }
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -75,13 +80,13 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<Array<Definition>>(
+        val response = request<List<Definition>>(
             localVariableConfig,
             localVariableBody
         )
 
         return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as Array<Definition>
+            ResponseType.Success -> (response as Success<*>).data as List<Definition>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
@@ -138,7 +143,8 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             "includeDuplicates" to listOf(includeDuplicates),
             "useCanonical" to listOf(useCanonical),
             "skip" to listOf(skip.toString()),
-            "limit" to listOf(limit.toString())
+            "limit" to listOf(limit.toString()),
+            ApiKey to listOf(keyOfApi!!)
         )
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -252,7 +258,8 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
         val localVariableQuery: MultiValueMap = mapOf(
             "useCanonical" to listOf(useCanonical),
             "relationshipTypes" to listOf(relationshipTypes),
-            "limitPerRelationshipType" to listOf(limitPerRelationshipType.toString())
+            "limitPerRelationshipType" to listOf(limitPerRelationshipType.toString()),
+            ApiKey to listOf(keyOfApi!!)
         )
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -323,7 +330,8 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             "useCanonical" to listOf(useCanonical),
             "sourceDictionary" to listOf(sourceDictionary),
             "typeFormat" to listOf(typeFormat),
-            "limit" to listOf(limit.toString())
+            "limit" to listOf(limit.toString()),
+            ApiKey to listOf(keyOfApi!!)
         )
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -391,7 +399,8 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "useCanonical" to listOf(useCanonical),
-            "includeSuggestions" to listOf(includeSuggestions)
+            "includeSuggestions" to listOf(includeSuggestions),
+            ApiKey to listOf(keyOfApi!!)
         )
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(

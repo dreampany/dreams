@@ -1,6 +1,7 @@
 package com.dreampany.word.api.wordnik.core
 
 import okhttp3.*
+import timber.log.Timber
 import java.io.File
 
 /**
@@ -12,6 +13,8 @@ import java.io.File
 open class ApiClient(val baseUrl: String) {
 
     companion object {
+        @JvmStatic
+        protected val ApiKey = "api_key"
         protected val ContentType = "Content-Type"
         protected val Accept = "Accept"
         protected val JsonMediaType = "application/json"
@@ -22,13 +25,28 @@ open class ApiClient(val baseUrl: String) {
         val client: OkHttpClient = OkHttpClient()
 
         @JvmStatic
-        var defaultHeaders: Map<String, String> by ApplicationDelegates.setOnce(mapOf(ContentType to JsonMediaType, Accept to JsonMediaType))
+        var defaultHeaders: Map<String, String> by ApplicationDelegates.setOnce(
+            mapOf(
+                ContentType to JsonMediaType,
+                Accept to JsonMediaType
+            )
+        )
 
         @JvmStatic
-        val jsonHeaders: Map<String, String> = mapOf(ContentType to JsonMediaType, Accept to JsonMediaType)
+        val jsonHeaders: Map<String, String> =
+            mapOf(ContentType to JsonMediaType, Accept to JsonMediaType)
     }
 
-    inline protected fun <reified T> requestBody(content: T, mediaType: String = JsonMediaType): RequestBody {
+    var keyOfApi: String? = null
+
+/*    fun addHeader(key:String, value:String) {
+        jsonHeaders.plus(key to value)
+    }*/
+
+    inline protected fun <reified T> requestBody(
+        content: T,
+        mediaType: String = JsonMediaType
+    ): RequestBody {
         when {
             content is File -> return RequestBody.create(
                 MediaType.parse(mediaType), content
@@ -54,15 +72,26 @@ open class ApiClient(val baseUrl: String) {
         TODO("requestBody currently only supports JSON body and File body.")
     }
 
-    inline protected fun <reified T : Any?> responseBody(body: ResponseBody?, mediaType: String = JsonMediaType): T? {
+    inline protected fun <reified T : Any?> responseBody(
+        body: ResponseBody?,
+        mediaType: String = JsonMediaType
+    ): T? {
         if (body == null) return null
+
+        val data = body.string()
+        Timber.v("Wordnking Server Response %s", data)
+
+
         return when (mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(body.source())
             else -> TODO()
         }
     }
 
-    inline protected fun <reified T : Any?> request(requestConfig: RequestConfig, body: Any? = null): ApiResponse<T?> {
+    inline protected fun <reified T : Any?> request(
+        requestConfig: RequestConfig,
+        body: Any? = null
+    ): ApiResponse<T?> {
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
 
         var urlBuilder = httpUrl.newBuilder()
@@ -93,7 +122,12 @@ open class ApiClient(val baseUrl: String) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete()
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
-            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body!!, contentType))
+            RequestMethod.PATCH -> Request.Builder().url(url).patch(
+                requestBody(
+                    body!!,
+                    contentType
+                )
+            )
             RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body!!, contentType))
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body!!, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)

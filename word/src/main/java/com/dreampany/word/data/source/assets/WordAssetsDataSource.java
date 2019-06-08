@@ -235,6 +235,6 @@ public class WordAssetsDataSource implements WordDataSource {
             List<String> items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_ALPHA);
             alphaWords.addAll(items);
         }
-        return alphaWords;
+        return new ArrayList<>(alphaWords);
     }
 }

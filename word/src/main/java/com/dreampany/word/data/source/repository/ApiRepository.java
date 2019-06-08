@@ -77,7 +77,7 @@ public class ApiRepository {
     public Word getItemIf(Word word) {
         Word result = getRoomItemIf(word);
         if (result == null) {
-            result = getFirestoreItemIf(word);
+            //result = getFirestoreItemIf(word);
         }
         if (result == null) {
             result = getRemoteItemIf(word);

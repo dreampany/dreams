@@ -58,7 +58,7 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return Array<Definition>
      */
     @Suppress("UNCHECKED_CAST")
-    fun getDefinitions(word: String, limit: Int, partOfSpeech: String?, includeRelated: String, sourceDictionaries: Array<String>?, useCanonical: String, includeTags: String): List<Definition> {
+    fun getDefinitions(word: String, limit: Int, partOfSpeech: String?, includeRelated: String, sourceDictionaries: Array<String>?, useCanonical: String, includeTags: String): Array<Definition> {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "limit" to listOf(limit.toString()),
@@ -80,13 +80,13 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             query = localVariableQuery,
             headers = localVariableHeaders
         )
-        val response = request<List<Definition>>(
+        val response = request<Array<Definition>>(
             localVariableConfig,
             localVariableBody
         )
 
         return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as List<Definition>
+            ResponseType.Success -> (response as Success<*>).data as Array<Definition>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")

@@ -318,8 +318,8 @@ public class WordnikManager {
                 String[] sourceDictionaries = null;
                 String useCanonical = "true";
                 String includeTags = "false";
-                List<Definition> definitions = api.getDefinitions(word,limit, partOfSpeech, includeRelated, sourceDictionaries, useCanonical, includeTags);
-                return definitions;
+                Definition[] definitions = api.getDefinitions(word,limit, partOfSpeech, includeRelated, sourceDictionaries, useCanonical, includeTags);
+                return Arrays.asList(definitions);
             } catch (Exception e) {
                 Timber.e(e);
                 iterateQueue();

@@ -126,12 +126,12 @@ public class WordFirestoreDataSource implements WordDataSource {
     }
 
     @Override
-    public Word getItem(long id) {
+    public Word getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Word> getItemRx(long id) {
+    public Maybe<Word> getItemRx(String id) {
         return null;
     }
 

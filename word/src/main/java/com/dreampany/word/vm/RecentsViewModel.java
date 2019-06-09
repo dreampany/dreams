@@ -142,7 +142,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
         return Maybe.fromCallable(() -> {
             //remove already in UI
             List<Word> filtered = new ArrayList<>();
-            SmartMap<Long, WordItem> ui = getUiMap();
+            SmartMap<String, WordItem> ui = getUiMap();
             Stream.of(words).forEach(word -> {
                 if (!ui.contains(word.getId())) {
                     filtered.add(word);
@@ -185,7 +185,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private WordItem getItem(Word word) {
-        SmartMap<Long, WordItem> map = getUiMap();
+        SmartMap<String, WordItem> map = getUiMap();
         WordItem item = map.get(word.getId());
         if (item == null) {
             item = WordItem.getSimpleItem(word);

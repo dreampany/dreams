@@ -29,12 +29,12 @@ import java.util.List;
 @Singleton
 public class WordMapper {
 
-    private final SmartMap<Long, Word> map;
-    private final SmartCache<Long, Word> cache;
+    private final SmartMap<String, Word> map;
+    private final SmartCache<String, Word> cache;
 
     @Inject
-    WordMapper(@WordAnnote SmartMap<Long, Word> map,
-               @WordAnnote SmartCache<Long, Word> cache) {
+    WordMapper(@WordAnnote SmartMap<String, Word> map,
+               @WordAnnote SmartCache<String, Word> cache) {
         this.map = map;
         this.cache = cache;
     }
@@ -47,7 +47,7 @@ public class WordMapper {
         if (DataUtil.isEmpty(word)) {
             return null;
         }
-        long id = DataUtil.getSha512(word);
+        String id = word;
         Word out = map.get(id);
         if (out == null) {
             out = new Word();
@@ -69,7 +69,7 @@ public class WordMapper {
             return null;
         }
 
-        long id = DataUtil.getSha512(in.getWord());
+        String id = in.getWord();
         Word out = map.get(id);
         if (out == null) {
             out = new Word();
@@ -102,7 +102,7 @@ public class WordMapper {
             return null;
         }
 
-        long id = DataUtil.getSha512(word);
+        String id = word;
         Word out = map.get(id);
         if (out == null) {
             out = new Word();

@@ -113,18 +113,18 @@ public class ApiRepository {
         return result;
     }
 
-    public boolean hasState(long id, ItemType type, ItemSubtype subtype, ItemState state) {
-        boolean stated = stateRepo.getCount(id, type.name(), subtype.name(), state.name()) > 0;
+    public boolean hasState(String id, ItemType type, ItemSubtype subtype, ItemState state) {
+        boolean stated = stateRepo.getCountById(id, type.name(), subtype.name(), state.name()) > 0;
         return stated;
     }
 
     public boolean hasState(Word word, ItemSubtype subtype) {
-        boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), subtype.name()) > 0;
+        boolean stated = stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name()) > 0;
         return stated;
     }
 
     public boolean hasState(Word word, ItemSubtype subtype, ItemState state) {
-        boolean stated = stateRepo.getCount(word.getId(), ItemType.WORD.name(), subtype.name(), state.name()) > 0;
+        boolean stated = stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name(), state.name()) > 0;
         return stated;
     }
 

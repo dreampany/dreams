@@ -75,7 +75,7 @@ public class TodayViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> 
     }
 
     private WordItem getItem(Word word) {
-        SmartMap<Long, WordItem> map = getUiMap();
+        SmartMap<String, WordItem> map = getUiMap();
         WordItem item = map.get(word.getId());
         if (item == null) {
             item = WordItem.getSimpleItem(word);

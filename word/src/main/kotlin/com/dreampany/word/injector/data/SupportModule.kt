@@ -20,14 +20,14 @@ class SupportModule {
     @Singleton
     @Provides
     @WordAnnote
-    fun provideWordSmartMap(): SmartMap<Long, Word> {
+    fun provideWordSmartMap(): SmartMap<String, Word> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @WordAnnote
-    fun provideWordSmartCache(): SmartCache<Long, Word> {
+    fun provideWordSmartCache(): SmartCache<String, Word> {
         return SmartCache.newCache()
     }
 }

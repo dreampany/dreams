@@ -15,15 +15,15 @@ import com.google.common.base.Objects;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-@Entity(indices = {@Index(value = {Constants.Word.LEFTER, Constants.Word.RIGHTER}, unique = true)},
-        primaryKeys = {Constants.Word.LEFTER, Constants.Word.RIGHTER})
+@Entity(indices = {@Index(value = {Constants.Synonym.LEFTER, Constants.Synonym.RIGHTER}, unique = true)},
+        primaryKeys = {Constants.Synonym.LEFTER, Constants.Synonym.RIGHTER})
 public class Synonym extends Base {
 
     @NonNull
-    @ColumnInfo(name = Constants.Word.LEFTER)
+    @ColumnInfo(name = Constants.Synonym.LEFTER)
     private String left;
     @NonNull
-    @ColumnInfo(name = Constants.Word.RIGHTER)
+    @ColumnInfo(name = Constants.Synonym.RIGHTER)
     private String right;
 
     public Synonym(@NonNull String left, @NonNull String right) {

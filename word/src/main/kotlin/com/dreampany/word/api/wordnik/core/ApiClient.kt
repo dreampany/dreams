@@ -83,7 +83,7 @@ open class ApiClient(val baseUrl: String) {
 
 
         return when (mediaType) {
-            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(body.source())
+            JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(data)
             else -> TODO()
         }
     }

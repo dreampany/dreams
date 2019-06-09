@@ -15,15 +15,15 @@ import com.google.common.base.Objects;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-@Entity(indices = {@Index(value = {Constants.Word.LEFTER, Constants.Word.RIGHTER}, unique = true)},
-        primaryKeys = {Constants.Word.LEFTER, Constants.Word.RIGHTER})
+@Entity(indices = {@Index(value = {Constants.Antonym.LEFTER, Constants.Antonym.RIGHTER}, unique = true)},
+        primaryKeys = {Constants.Antonym.LEFTER, Constants.Antonym.RIGHTER})
 public class Antonym extends Base {
 
     @NonNull
-    @ColumnInfo(name = Constants.Word.LEFTER)
+    @ColumnInfo(name = Constants.Antonym.LEFTER)
     private String left;
     @NonNull
-    @ColumnInfo(name = Constants.Word.RIGHTER)
+    @ColumnInfo(name = Constants.Antonym.RIGHTER)
     private String right;
 
     public Antonym(@NonNull String left, @NonNull String right) {

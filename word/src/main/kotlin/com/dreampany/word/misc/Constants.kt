@@ -67,9 +67,21 @@ class Constants {
     object Word {
         const val WORD = "word"
         const val PART_OF_SPEECH = "part_of_speech"
+        const val LAST_SEARCH = "last_search_word"
+    }
+
+    object Definition {
+        const val PART_OF_SPEECH = Word.PART_OF_SPEECH
+    }
+
+    object Synonym {
         const val LEFTER = "lefter"
         const val RIGHTER = "righter"
-        const val LAST_SEARCH = "last_search_word"
+    }
+
+    object Antonym {
+        const val LEFTER = Synonym.LEFTER
+        const val RIGHTER = Synonym.RIGHTER
     }
 
     object Period {

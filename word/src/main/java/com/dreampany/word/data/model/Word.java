@@ -3,6 +3,7 @@ package com.dreampany.word.data.model;
 import android.os.Parcel;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
@@ -33,6 +34,7 @@ public class Word extends Base {
 
     @NonNull
     private String word;
+    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
     private String partOfSpeech;
     private String pronunciation;

@@ -2,16 +2,16 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "27ab54e05242acf47b275d34504164de",
+    "identityHash": "adaf5ed8681a0cd773322d4d4808e866",
     "entities": [
       {
         "tableName": "Word",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `word` TEXT NOT NULL, `partOfSpeech` TEXT, `pronunciation` TEXT, `definitions` TEXT, `examples` TEXT, `categories` TEXT, `tags` TEXT, `notes` TEXT, `popularity` INTEGER NOT NULL, PRIMARY KEY(`word`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `word` TEXT NOT NULL, `part_of_speech` TEXT, `pronunciation` TEXT, `definitions` TEXT, `examples` TEXT, `categories` TEXT, `tags` TEXT, `notes` TEXT, `popularity` INTEGER NOT NULL, PRIMARY KEY(`word`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -28,7 +28,7 @@
           },
           {
             "fieldPath": "partOfSpeech",
-            "columnName": "partOfSpeech",
+            "columnName": "part_of_speech",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -95,12 +95,12 @@
       },
       {
         "tableName": "Synonym",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `lefter` TEXT NOT NULL, `righter` TEXT NOT NULL, PRIMARY KEY(`lefter`, `righter`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `lefter` TEXT NOT NULL, `righter` TEXT NOT NULL, PRIMARY KEY(`lefter`, `righter`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -144,12 +144,12 @@
       },
       {
         "tableName": "Antonym",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `time` INTEGER NOT NULL, `lefter` TEXT NOT NULL, `righter` TEXT NOT NULL, PRIMARY KEY(`lefter`, `righter`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `lefter` TEXT NOT NULL, `righter` TEXT NOT NULL, PRIMARY KEY(`lefter`, `righter`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -195,7 +195,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"27ab54e05242acf47b275d34504164de\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'adaf5ed8681a0cd773322d4d4808e866')"
     ]
   }
 }

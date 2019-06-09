@@ -178,7 +178,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     public void share(Fragment fragment) {
         Word word = getTask().getInput();
-        String subject = word.getWord();
+        String subject = word.getId();
         String text = Util.getText(word);
         AndroidUtil.share(fragment, subject, text);
     }

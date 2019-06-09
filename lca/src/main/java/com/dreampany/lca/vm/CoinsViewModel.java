@@ -367,21 +367,4 @@ public class CoinsViewModel
         item.setAlert(repo.hasAlert(coin));
     }
 
-      /*    private Maybe<CoinItem> toggleImpl(Coin coin) {
-        return Maybe.fromCallable(() -> {
-            repo.toggleFavorite(coin);
-            return getItemRx(coin);
-        });
-    }*/
-
-/*    private void putFlags(List<Coin> coins, int flagCount) {
-        if (!pref.isDefaultFavoriteCommitted()) {
-            List<Coin> flagItems = DataUtil.sub(coins, flagCount);
-            if (!DataUtil.isEmpty(flagItems)) {
-                Stream.of(flagItems).forEach(repo::putFavorite);
-                pref.commitDefaultFavorite();
-            }
-        }
-    }*/
-
 }

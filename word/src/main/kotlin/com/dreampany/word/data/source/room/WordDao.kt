@@ -20,36 +20,30 @@ interface WordDao: BaseDao<Word> {
     @get:Query("select count(*) from word")
     val countRx: Maybe<Int>
 
-    @get:Query("select * from word order by word asc")
+    @get:Query("select * from word order by id asc")
     val items: List<Word>
 
-    @get:Query("select * from word order by word asc")
+    @get:Query("select * from word order by id asc")
     val itemsRx: Maybe<List<Word>>
 
-    @Query("select count(*) from word where word = :word limit 1")
-    fun getCount(word: String): Int
+    @Query("select count(*) from word where id = :id limit 1")
+    fun getCount(id: String): Int
 
-    @Query("select count(*) from word where word = :word limit 1")
-    fun getCountRx(word: String): Maybe<Int>
-
-    @Query("select * from word where id = :id limit 1")
-    fun getItem(id: Long): Word
+    @Query("select count(*) from word where id = :id limit 1")
+    fun getCountRx(id: String): Maybe<Int>
 
     @Query("select * from word where id = :id limit 1")
-    fun getItemRx(id: Long): Maybe<Word>
+    fun getItem(id: String): Word
 
-    @Query("select * from word where word = :word limit 1")
-    fun getItem(word: String): Word
+    @Query("select * from word where id = :id limit 1")
+    fun getItemRx(id: String): Maybe<Word>
 
-    @Query("select * from word where word = :word limit 1")
-    fun getItemRx(word: String): Maybe<Word>
-
-    @Query("select * from word where word like :query || '%' order by word asc")
+    @Query("select * from word where id like :query || '%' order by id asc")
     fun getSearchItems(query: String): List<Word>
 
-    @Query("select * from word where word like :query || '%' order by word asc limit :limit")
+    @Query("select * from word where id like :query || '%' order by id asc limit :limit")
     fun getSearchItems(query: String, limit: Int): List<Word>
 
-    @Query("select word from word order by word asc")
+    @Query("select id from word order by id asc")
     fun getRawItems(): List<String>
 }

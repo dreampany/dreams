@@ -27,13 +27,11 @@ import java.util.List;
  * dreampanymail@gmail.com
  */
 
-@Entity(indices = {@Index(value = {Constants.Word.WORD}, unique = true)},
-        primaryKeys = {Constants.Word.WORD})
+@Entity(indices = {@Index(value = {Constants.Word.ID}, unique = true)},
+        primaryKeys = {Constants.Word.ID})
 @IgnoreExtraProperties
 public class Word extends Base {
 
-    @NonNull
-    private String word;
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
     private String partOfSpeech;
@@ -41,10 +39,8 @@ public class Word extends Base {
     private List<Definition> definitions;
     private List<String> examples;
     @Ignore
-    @Exclude
     private List<String> synonyms;
     @Ignore
-    @Exclude
     private List<String> antonyms;
     private List<String> categories;
     private List<String> tags;
@@ -55,14 +51,13 @@ public class Word extends Base {
     public Word() {
     }
 
-    public Word(@NotNull String word) {
-        this.word = word;
+    public Word(@NotNull String id) {
+        this.id = id;
     }
 
     @Ignore
     private Word(Parcel in) {
         super(in);
-        word = in.readString();
         partOfSpeech = in.readString();
         pronunciation = in.readString();
         if (in.readByte() == 0x01) {
@@ -83,7 +78,6 @@ public class Word extends Base {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(word);
         dest.writeString(partOfSpeech);
         dest.writeString(pronunciation);
         if (definitions == null) {
@@ -119,17 +113,14 @@ public class Word extends Base {
         if (in == null || getClass() != in.getClass()) return false;
 
         Word item = (Word) in;
-        return Objects.equal(word, item.word);
+        return Objects.equal(id, item.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(word);
+        return Objects.hashCode(id);
     }
 
-    public void setWord(@NonNull String word) {
-        this.word = word;
-    }
 
     @PropertyName(Constants.Word.PART_OF_SPEECH)
     public void setPartOfSpeech(String partOfSpeech) {
@@ -170,11 +161,6 @@ public class Word extends Base {
 
     public void setPopularity(int popularity) {
         this.popularity = popularity;
-    }
-
-    @NonNull
-    public String getWord() {
-        return word;
     }
 
     @PropertyName(Constants.Word.PART_OF_SPEECH)
@@ -366,11 +352,11 @@ public class Word extends Base {
 
     @Override
     public String toString() {
-        return "Word (" + word + ") == " + id;
+        return "Word (" + id + ") == " + id;
     }
 
     public void copyWord(Word from) {
-        word = from.getWord();
+        id = from.getId();
         partOfSpeech = from.getPartOfSpeech();
         pronunciation = from.getPronunciation();
         definitions = from.getDefinitions();

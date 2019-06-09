@@ -18,7 +18,7 @@ package com.dreampany.word.api.wordnik.model
  * @param facets
  */
 data class ExampleSearchResults(
-        val examples: Array<String>? = null,
-        val facets: Array<String>? = null
+        val examples: Array<String>? = null
+        //val facets: Array<String>? = null
 )
 

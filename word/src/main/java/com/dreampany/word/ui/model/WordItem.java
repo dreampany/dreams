@@ -95,7 +95,7 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
     @Override
     public boolean filter(Serializable constraint) {
-        return item.getWord().toLowerCase().startsWith(((String) constraint).toLowerCase());
+        return item.getId().toLowerCase().startsWith(((String) constraint).toLowerCase());
     }
 
     static abstract class ViewHolder extends BaseItem.ViewHolder {
@@ -131,7 +131,7 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         @Override
         void bind(int position, WordItem item) {
             Word word = item.getItem();
-            this.word.setText(word.getWord());
+            this.word.setText(word.getId());
             this.partOfSpeech.setText(word.getPartOfSpeech());
             this.pronunciation.setText(word.getPronunciation());
 

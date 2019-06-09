@@ -23,10 +23,7 @@ import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.ui.callback.UiCallback
 import com.dreampany.frame.ui.fragment.BaseFragment
-import com.dreampany.frame.util.AndroidUtil
-import com.dreampany.frame.util.FragmentUtil
-import com.dreampany.frame.util.NotifyUtil
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.frame.util.*
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -55,7 +52,7 @@ abstract class BaseActivity :
     PermissionRequestErrorListener {
 
     @Inject
-    internal lateinit var ex: AppExecutors
+    protected lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
     protected var task: Task<*>? = null
     protected var childTask: Task<*>? = null
@@ -412,6 +409,7 @@ abstract class BaseActivity :
 
     fun openActivity(target: Class<*>) {
         AndroidUtil.openActivity(this, target)
+        Animato.animateSlideLeft(this)
     }
 
     fun openActivity(target: Class<*>, requestCode: Int) {

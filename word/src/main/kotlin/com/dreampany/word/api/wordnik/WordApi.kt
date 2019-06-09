@@ -23,7 +23,8 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
     @Suppress("UNCHECKED_CAST")
     fun getAudio(word: String, useCanonical: String, limit: Int): Array<AudioFile> {
         val localVariableBody: Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("useCanonical" to listOf(useCanonical), "limit" to listOf(limit.toString()))
+        val localVariableQuery: MultiValueMap =
+            mapOf("useCanonical" to listOf(useCanonical), "limit" to listOf(limit.toString()))
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -40,8 +41,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Array<AudioFile>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -58,7 +63,15 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return Array<Definition>
      */
     @Suppress("UNCHECKED_CAST")
-    fun getDefinitions(word: String, limit: Int, partOfSpeech: String?, includeRelated: String, sourceDictionaries: Array<String>?, useCanonical: String, includeTags: String): Array<Definition> {
+    fun getDefinitions(
+        word: String,
+        limit: Int,
+        partOfSpeech: String?,
+        includeRelated: String,
+        sourceDictionaries: Array<String>?,
+        useCanonical: String,
+        includeTags: String
+    ): Array<Definition> {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "limit" to listOf(limit.toString()),
@@ -71,7 +84,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             localVariableQuery.plus("partOfSpeech" to listOf(partOfSpeech))
         }
         sourceDictionaries?.let {
-            localVariableQuery.plus("sourceDictionaries" to toMultiValue(sourceDictionaries.toList(), "csv"))
+            localVariableQuery.plus(
+                "sourceDictionaries" to toMultiValue(
+                    sourceDictionaries.toList(),
+                    "csv"
+                )
+            )
         }
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(
@@ -89,8 +107,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Array<Definition>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -121,8 +143,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Array<String>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -137,7 +163,13 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return ExampleSearchResults
      */
     @Suppress("UNCHECKED_CAST")
-    fun getExamples(word: String, includeDuplicates: String, useCanonical: String, skip: Int, limit: Int): ExampleSearchResults {
+    fun getExamples(
+        word: String,
+        includeDuplicates: String,
+        useCanonical: String,
+        skip: Int,
+        limit: Int
+    ): ExampleSearchResults {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "includeDuplicates" to listOf(includeDuplicates),
@@ -162,8 +194,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as ExampleSearchResults
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -177,7 +213,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return Array<Syllable>
      */
     @Suppress("UNCHECKED_CAST")
-    fun getHyphenation(word: String, useCanonical: String, sourceDictionary: String, limit: Int): Array<Syllable> {
+    fun getHyphenation(
+        word: String,
+        useCanonical: String,
+        sourceDictionary: String,
+        limit: Int
+    ): Array<Syllable> {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "useCanonical" to listOf(useCanonical),
@@ -200,8 +241,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Array<Syllable>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -238,8 +283,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Array<Bigram>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -253,7 +302,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return Array<Related>
      */
     @Suppress("UNCHECKED_CAST")
-    fun getRelatedWords(word: String, useCanonical: String, relationshipTypes: String, limitPerRelationshipType: Int): Array<Related> {
+    fun getRelatedWords(
+        word: String,
+        useCanonical: String,
+        relationshipTypes: String,
+        limitPerRelationshipType: Int
+    ): Array<Related> {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "useCanonical" to listOf(useCanonical),
@@ -277,8 +331,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Array<Related>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -308,8 +366,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Long
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -324,15 +386,25 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return Array<TextPron>
      */
     @Suppress("UNCHECKED_CAST")
-    fun getTextPronunciations(word: String, useCanonical: String, sourceDictionary: String, typeFormat: String, limit: Int): Array<TextPron> {
+    fun getTextPronunciations(
+        word: String,
+        useCanonical: String,
+        sourceDictionary: String?,
+        typeFormat: String?,
+        limit: Int
+    ): Array<TextPron> {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "useCanonical" to listOf(useCanonical),
-            "sourceDictionary" to listOf(sourceDictionary),
-            "typeFormat" to listOf(typeFormat),
             "limit" to listOf(limit.toString()),
             ApiKey to listOf(keyOfApi!!)
         )
+        sourceDictionary?.let {
+            localVariableQuery.plus("sourceDictionary" to listOf(sourceDictionary))
+        }
+        typeFormat?.let {
+            localVariableQuery.plus("typeFormat" to listOf(typeFormat))
+        }
         val localVariableHeaders: Map<String, String> = mapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
@@ -349,8 +421,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Array<TextPron>
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -381,8 +457,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as Example
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -418,8 +498,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as WordObject
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 
@@ -433,7 +517,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
      * @return FrequencySummary
      */
     @Suppress("UNCHECKED_CAST")
-    fun getWordFrequency(word: String, useCanonical: String, startYear: Int, endYear: Int): FrequencySummary {
+    fun getWordFrequency(
+        word: String,
+        useCanonical: String,
+        startYear: Int,
+        endYear: Int
+    ): FrequencySummary {
         val localVariableBody: Any? = null
         val localVariableQuery: MultiValueMap = mapOf(
             "useCanonical" to listOf(useCanonical),
@@ -456,8 +545,12 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Success -> (response as Success<*>).data as FrequencySummary
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
+            ResponseType.ClientError -> throw ClientException(
+                (response as ClientError<*>).body as? String ?: "Client error"
+            )
+            ResponseType.ServerError -> throw ServerException(
+                (response as ServerError<*>).message ?: "Server error"
+            )
         }
     }
 

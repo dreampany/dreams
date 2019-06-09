@@ -91,7 +91,7 @@ public class WordFragment extends BaseMenuFragment {
         switch (v.getId()) {
             case R.id.text_word:
             case R.id.fab:
-                vm.speak(parent.getWord());
+                vm.speak(parent.getId());
                 break;
             case R.id.text_simple_word:
                 String text = ViewUtil.getText(v);
@@ -113,7 +113,7 @@ public class WordFragment extends BaseMenuFragment {
         UiTask<Word> uiTask = getCurrentTask(true);
         parent = uiTask.getInput();
 
-        setTitle(parent.getWord());
+        setTitle(parent.getId());
         binding = (FragmentWordBinding) super.binding;
 
         ViewUtil.setClickListener(binding.textWord, this);
@@ -225,7 +225,7 @@ public class WordFragment extends BaseMenuFragment {
 
     private void processSimple(WordItem item) {
         Word word = item.getItem();
-        binding.layoutBottom.textSimpleWord.setText(word.getWord());
+        binding.layoutBottom.textSimpleWord.setText(word.getId());
         binding.layoutBottom.textPartOfSpeech.setText(word.getPartOfSpeech());
         binding.layoutBottom.textPronunciation.setText(word.getPronunciation());
         showBottom();

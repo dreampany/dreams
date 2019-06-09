@@ -1,12 +1,13 @@
 package com.dreampany.word.data.model;
 
+import android.os.Parcel;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
-import android.os.Parcel;
 
-import com.dreampany.frame.data.model.Base;
+import com.dreampany.frame.data.model.BaseParcel;
 import com.dreampany.word.misc.Constants;
 import com.google.common.base.Objects;
 
@@ -17,7 +18,7 @@ import com.google.common.base.Objects;
  */
 @Entity(indices = {@Index(value = {Constants.Antonym.LEFTER, Constants.Antonym.RIGHTER}, unique = true)},
         primaryKeys = {Constants.Antonym.LEFTER, Constants.Antonym.RIGHTER})
-public class Antonym extends Base {
+public class Antonym extends BaseParcel {
 
     @NonNull
     @ColumnInfo(name = Constants.Antonym.LEFTER)

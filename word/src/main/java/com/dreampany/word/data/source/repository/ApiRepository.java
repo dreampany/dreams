@@ -14,16 +14,16 @@ import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
 import com.google.common.collect.Maps;
-import io.reactivex.Maybe;
-import timber.log.Timber;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+import io.reactivex.Maybe;
+import timber.log.Timber;
 
 /**
  * Created by Roman on 1/30/2019
@@ -62,22 +62,22 @@ public class ApiRepository {
         flags = Maps.newConcurrentMap();
     }
 
-    public List<Word> getCommonWords() {
+   synchronized public List<Word> getCommonWords() {
         return wordRepo.getCommonItems();
     }
 
-    public List<Word> getAlphaWords() {
+    synchronized public List<Word> getAlphaWords() {
         return wordRepo.getAlphaItems();
     }
 
-    public Word getItem(String word, boolean full) {
+    synchronized  public Word getItem(String word, boolean full) {
         return wordRepo.getItem(word, full);
     }
 
-    public Word getItemIf(Word word) {
+    synchronized  public Word getItemIf(Word word) {
         Word result = getRoomItemIf(word);
         if (result == null) {
-            //result = getFirestoreItemIf(word);
+            result = getFirestoreItemIf(word);
         }
         if (result == null) {
             result = getRemoteItemIf(word);
@@ -85,19 +85,19 @@ public class ApiRepository {
         return result;
     }
 
-    public Maybe<Word> getItemIfRx(Word word) {
+    synchronized public Maybe<Word> getItemIfRx(Word word) {
         return Maybe.fromCallable(() -> getItemIf(word));
     }
 
-    public Maybe<List<String>> getAllRawWordsRx() {
+    synchronized public Maybe<List<String>> getAllRawWordsRx() {
         return wordRepo.getRawWordsRx();
     }
 
-    public List<Word> getSearchItems(String query, int limit) {
+    synchronized public List<Word> getSearchItems(String query, int limit) {
         return wordRepo.getSearchItems(query, limit);
     }
 
-    public long putItem(Word word, ItemSubtype subtype, ItemState state) {
+    synchronized public long putItem(Word word, ItemSubtype subtype, ItemState state) {
         long result = wordRepo.putItem(word);
         if (result != -1) {
             result = putState(word, subtype, state);
@@ -105,7 +105,7 @@ public class ApiRepository {
         return result;
     }
 
-    public List<Long> putItems(List<Word> words, ItemSubtype subtype, ItemState state) {
+    synchronized  public List<Long> putItems(List<Word> words, ItemSubtype subtype, ItemState state) {
         List<Long> result = wordRepo.putItems(words);
         if (DataUtil.isEqual(words, result)) {
             result = putStates(words, subtype, state);
@@ -113,29 +113,29 @@ public class ApiRepository {
         return result;
     }
 
-    public boolean hasState(String id, ItemType type, ItemSubtype subtype, ItemState state) {
+    synchronized public boolean hasState(String id, ItemType type, ItemSubtype subtype, ItemState state) {
         boolean stated = stateRepo.getCountById(id, type.name(), subtype.name(), state.name()) > 0;
         return stated;
     }
 
-    public boolean hasState(Word word, ItemSubtype subtype) {
+    synchronized public boolean hasState(Word word, ItemSubtype subtype) {
         boolean stated = stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name()) > 0;
         return stated;
     }
 
-    public boolean hasState(Word word, ItemSubtype subtype, ItemState state) {
+    synchronized  public boolean hasState(Word word, ItemSubtype subtype, ItemState state) {
         boolean stated = stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name(), state.name()) > 0;
         return stated;
     }
 
-    public long putState(Word word, ItemSubtype subtype, ItemState state) {
+    synchronized  public long putState(Word word, ItemSubtype subtype, ItemState state) {
         State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
         s.setTime(TimeUtil.currentTime());
         long result = stateRepo.putItem(s);
         return result;
     }
 
-    public List<Long> putStates(List<Word> words, ItemSubtype subtype, ItemState state) {
+    synchronized    public List<Long> putStates(List<Word> words, ItemSubtype subtype, ItemState state) {
         List<State> states = new ArrayList<>();
         for (Word word : words) {
             State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
@@ -146,22 +146,22 @@ public class ApiRepository {
         return result;
     }
 
-    public int removeState(Word word, ItemSubtype subtype, ItemState state) {
+    synchronized public int removeState(Word word, ItemSubtype subtype, ItemState state) {
         State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
         s.setTime(TimeUtil.currentTime());
         int result = stateRepo.delete(s);
         return result;
     }
 
-    public int getStateCount(ItemType type, ItemSubtype subtype, ItemState state) {
+    synchronized  public int getStateCount(ItemType type, ItemSubtype subtype, ItemState state) {
         return stateRepo.getCount(type.name(), subtype.name(), state.name());
     }
 
-    public List<State> getStates(Word word) {
+    synchronized public List<State> getStates(Word word) {
         return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
     }
 
-    public boolean isFlagged(Word word) {
+    synchronized public boolean isFlagged(Word word) {
         if (!flags.containsKey(word)) {
             boolean flag = hasState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
             flags.put(word, flag);
@@ -169,7 +169,7 @@ public class ApiRepository {
         return flags.get(word);
     }
 
-    public boolean toggleFlag(Word word) {
+    synchronized public boolean toggleFlag(Word word) {
         if (isFlagged(word)) {
             removeState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
             flags.put(word, false);
@@ -184,11 +184,11 @@ public class ApiRepository {
         if (!hasState(word, ItemSubtype.DEFAULT, ItemState.FULL)) {
             return null;
         }
-        return wordRepo.getRoomItem(word.getWord(), true);
+        return wordRepo.getRoomItem(word.getId(), true);
     }
 
     private Word getFirestoreItemIf(Word word) {
-        Word result = wordRepo.getFirestoreItem(word.getWord(), true);
+        Word result = wordRepo.getFirestoreItem(word.getId(), true);
         if (result != null) {
             Timber.v("Firestore result success");
             this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
@@ -197,7 +197,7 @@ public class ApiRepository {
     }
 
     private Word getRemoteItemIf(Word word) {
-        Word result = wordRepo.getRemoteItem(word.getWord(), true);
+        Word result = wordRepo.getRemoteItem(word.getId(), true);
         if (result != null) {
             this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
             wordRepo.putFirestoreItem(result);

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.frame.ui.callback.SearchViewCallback;
@@ -15,6 +16,8 @@ import com.dreampany.word.ui.fragment.MoreFragment;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.vm.LoaderViewModel;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -102,6 +105,11 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @Override
     public MaterialSearchView getSearchView() {
         return binding.searchView;
+    }
+
+    @Override
+    public void execute(@NotNull Task<?> t) {
+
     }
 
     private void initView() {

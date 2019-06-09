@@ -4,6 +4,7 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.word.api.wordnik.model.Definition;
 import com.dreampany.word.api.wordnik.model.Example;
 import com.dreampany.word.api.wordnik.model.ExampleSearchResults;
+import com.dreampany.word.api.wordnik.model.ExampleUsage;
 import com.dreampany.word.api.wordnik.model.Related;
 import com.dreampany.word.api.wordnik.model.TextPron;
 import com.dreampany.word.api.wordnik.model.WordObject;
@@ -86,7 +87,8 @@ public class WordnikManager {
                 String useCanonical = "true";
                 String includeSuggestions = "false";
                 //WordObject wordObject = api.getWord(word, useCanonical, includeSuggestions);
-                return getWordImpl(word, limit);
+                WordnikWord result = getWordImpl(word, limit);
+                return result;
             } catch (Exception e) {
                 Timber.e(e);
                 iterateQueue();
@@ -159,7 +161,7 @@ public class WordnikManager {
     private WordnikWord getWord(WordOfTheDay from, int limit) {
         WordnikWord word = new WordnikWord(from.getWord().toLowerCase());
         word.setPartOfSpeech(getPartOfSpeech(from));
-        word.setPronunciation(getPronunciation(from));
+        //word.setPronunciation(getPronunciation(from));
         word.setDefinitions(getDefinitions(from));
         word.setExamples(getExamples(from));
 
@@ -174,11 +176,12 @@ public class WordnikManager {
 
         List<Definition> definitions = getDefinitions(from, limit);
         word.setPartOfSpeech(getPartOfSpeech(definitions));
-        word.setPronunciation(getPronunciation(from));
+        word.setPronunciation(getPronunciation(from, limit));
         word.setDefinitions(getDefinitions(definitions));
+        word.setExamples(getExamplesBy(definitions));
 
-        List<String> examples = getExamples(from, limit);
-        word.setExamples(examples);
+        //List<String> examples = getExamples(from, limit);
+        //word.setExamples(examples);
         //word.setExamples(getExamples(examples));
 
         List<Related> relateds = getRelateds(from, RELATED_SYNONYM_ANTONYM, limit);
@@ -211,13 +214,13 @@ public class WordnikManager {
         return null;
     }
 
-    private String getPronunciation(WordOfTheDay word) {
+/*    private String getPronunciation(WordOfTheDay word) {
         return getPronunciation(word.getWord());
     }
 
     private String getPronunciation(WordObject word) {
         return getPronunciation(word.getWord());
-    }
+    }*/
 
     private List<WordnikDefinition> getDefinitions(WordOfTheDay word) {
         String[] items = word.getDefinitions();
@@ -265,6 +268,21 @@ public class WordnikManager {
         return null;
     }
 
+    private List<String> getExamplesBy(List<Definition> definitions) {
+        if (!DataUtil.isEmpty(definitions)) {
+            List<String> examples = new ArrayList<>();
+            for (Definition def : definitions) {
+                if (DataUtil.isEmpty(def.getExampleUses()))
+                    continue;
+                for (ExampleUsage ex : def.getExampleUses()) {
+                    examples.add(ex.getText());
+                }
+            }
+            return examples;
+        }
+        return null;
+    }
+
     private List<String> getSynonyms(List<Related> relateds) {
         Related related = getRelated(relateds, RELATED_SYNONYM);
         if (related != null) {
@@ -282,7 +300,7 @@ public class WordnikManager {
     }
 
 
-    private String getPronunciation(String word) {
+    private String getPronunciation(String word, int limit) {
         for (int index = 0; index < KEYS.length; index++) {
             WordApi api = getWordApi();
             try {
@@ -290,7 +308,8 @@ public class WordnikManager {
                 String typeFormat = null;
                 String useCanonical = "true";
 
-                List<TextPron> pronunciations = Arrays.asList(api.getTextPronunciations(word, sourceDictionary, typeFormat, useCanonical, 3));
+                TextPron[] result = api.getTextPronunciations(word, useCanonical, sourceDictionary, typeFormat, limit);
+                List<TextPron> pronunciations = Arrays.asList(result);
                 if (!DataUtil.isEmpty(pronunciations)) {
                     String pronunciation = pronunciations.get(0).getRaw();
                     for (int indexX = 1; indexX < pronunciations.size(); indexX++) {
@@ -318,7 +337,7 @@ public class WordnikManager {
                 String[] sourceDictionaries = null;
                 String useCanonical = "true";
                 String includeTags = "false";
-                Definition[] definitions = api.getDefinitions(word,limit, partOfSpeech, includeRelated, sourceDictionaries, useCanonical, includeTags);
+                Definition[] definitions = api.getDefinitions(word, limit, partOfSpeech, includeRelated, sourceDictionaries, useCanonical, includeTags);
                 return Arrays.asList(definitions);
             } catch (Exception e) {
                 Timber.e(e);
@@ -390,7 +409,7 @@ public class WordnikManager {
             try {
                 String useCanonical = "true";
 
-                Related[] relateds = api.getRelatedWords(word,useCanonical, relationshipTypes, limit);
+                Related[] relateds = api.getRelatedWords(word, useCanonical, relationshipTypes, limit);
                 return Arrays.asList(relateds);
 
             } catch (Exception e) {

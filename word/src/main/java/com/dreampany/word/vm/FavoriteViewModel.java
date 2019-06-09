@@ -141,7 +141,7 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
             List<WordItem> items = uiCallback.getVisibleItems();
             if (!DataUtil.isEmpty(items)) {
                 for (WordItem item : items) {
-                    item.setItem(repo.getItem(item.getItem().getWord(), true));
+                    item.setItem(repo.getItem(item.getItem().getId(), true));
                     adjustState(item);
                     adjustFlag(item);
                 }
@@ -196,7 +196,7 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord(), true).map(this::getItem);
+        return repo.getItemRx(item.getId(), true).map(this::getItem);
     }
 
     private WordItem getItem(Word word) {

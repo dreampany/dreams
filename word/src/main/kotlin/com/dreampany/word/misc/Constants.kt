@@ -44,7 +44,7 @@ class Constants {
         const val WORD_ALPHA = 370099
         const val WORD_RECENT = 100
         const val WORD_RECENT_LETTER = 4
-        const val WORD_PAGE = 100
+        const val WORD_PAGE = 1000
     }
 
     object Limit {
@@ -60,11 +60,12 @@ class Constants {
         val WordPeriod = TimeUnit.SECONDS.toMillis(10)
     }
 
-    object KEY {
+    object FirebaseKey {
         const val WORDS = "words"
     }
 
     object Word {
+        const val ID = Constants.Key.ID
         const val WORD = "word"
         const val PART_OF_SPEECH = "part_of_speech"
         const val LAST_SEARCH = "last_search_word"

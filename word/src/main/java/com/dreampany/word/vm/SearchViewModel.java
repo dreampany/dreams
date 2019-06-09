@@ -266,7 +266,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             if (next == null) {
                 return next;
             }
-            Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getWord());
+            Timber.d("Success at next to getVisibleItemIf %s", next.getItem().getId());
             return next;
         });
     }
@@ -296,7 +296,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         if (!DataUtil.isEmpty(items)) {
             for (WordItem item : items) {
                 if (!item.hasState(ItemState.FULL)) {
-                    Timber.d("Next Item to getVisibleItemIf %s", item.getItem().getWord());
+                    Timber.d("Next Item to getVisibleItemIf %s", item.getItem().getId());
                     Word result = repo.getItemIf(item.getItem());
                     if (result != null) {
                         next = getItem(result, true);

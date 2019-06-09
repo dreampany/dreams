@@ -64,7 +64,7 @@ class WordAdapter(listener: Any) : SmartAdapter<WordItem>(listener) {
             val right = p1 as WordItem
             val leftItem = left.item
             val rightItem = right.item
-            return leftItem.word.compareTo(rightItem.word)
+            return leftItem.id.compareTo(rightItem.id)
         }
     }
 }

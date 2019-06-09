@@ -54,7 +54,6 @@ public class WordMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setWord(word);
 
         if (word == null) {
             Exception e = new NullPointerException();
@@ -79,7 +78,6 @@ public class WordMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setWord(in.getWord());
         out.setPartOfSpeech(in.getPartOfSpeech());
         out.setPronunciation(in.getPronunciation());
         if (full) {
@@ -112,7 +110,6 @@ public class WordMapper {
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
-        out.setWord(word);
         out.setPartOfSpeech(in.getPartOfSpeech());
         out.setPronunciation(in.getPronunciation());
         if (full) {
@@ -151,7 +148,7 @@ public class WordMapper {
     public List<Synonym> getSynonyms(Word in) {
         if (in.hasSynonyms()) {
             List<Synonym> result = new ArrayList<>();
-            Stream.of(in.getSynonyms()).forEach(item -> result.add(new Synonym(in.getWord(), item)));
+            Stream.of(in.getSynonyms()).forEach(item -> result.add(new Synonym(in.getId(), item)));
             return result;
         }
         return null;
@@ -161,7 +158,7 @@ public class WordMapper {
         if (!DataUtil.isEmpty(in)) {
             List<String> result = new ArrayList<>();
             Stream.of(in).forEach(item -> {
-                if (word.getWord().equals(item.getLeft())) {
+                if (word.getId().equals(item.getLeft())) {
                     result.add(item.getRight());
                 } else {
                     result.add(item.getLeft());
@@ -175,7 +172,7 @@ public class WordMapper {
     public List<Antonym> getAntonyms(Word in) {
         if (in.hasAntonyms()) {
             List<Antonym> result = new ArrayList<>();
-            Stream.of(in.getAntonyms()).forEach(item -> result.add(new Antonym(in.getWord(), item)));
+            Stream.of(in.getAntonyms()).forEach(item -> result.add(new Antonym(in.getId(), item)));
             return result;
         }
         return null;
@@ -185,7 +182,7 @@ public class WordMapper {
         if (!DataUtil.isEmpty(in)) {
             List<String> result = new ArrayList<>();
             Stream.of(in).forEach(item -> {
-                if (word.getWord().equals(item.getLeft())) {
+                if (word.getId().equals(item.getLeft())) {
                     result.add(item.getRight());
                 } else {
                     result.add(item.getLeft());

@@ -17,6 +17,6 @@ package com.dreampany.word.api.wordnik.model
  * @param text
  */
 data class ExampleUsage(
-        val text: String? = null
+    val text: String? = null
 )
 

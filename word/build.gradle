@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId 'com.dreampany.word'
-        minSdkVersion 18
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 44
         versionName "0.4.4"
@@ -156,6 +156,7 @@ dependencies {
     /* misc */
     implementation 'com.wordnik:wordnik-android-client:4.0'
     implementation 'com.github.oliveiradev:RxPhoto:0.4.0'
+    implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

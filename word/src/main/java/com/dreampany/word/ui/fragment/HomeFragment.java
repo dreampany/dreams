@@ -362,7 +362,7 @@ public class HomeFragment extends BaseMenuFragment
             if (!DataUtil.isEmpty(items)) {
                 String[] suggests = new String[items.size()];
                 for (int index = 0; index < items.size(); index++) {
-                    suggests[index] = items.get(index).getItem().getWord();
+                    suggests[index] = items.get(index).getItem().getId();
                 }
                 searchView.setSuggestions(suggests);
             }
@@ -374,7 +374,7 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void processSingleSuccess(WordItem item) {
-        Timber.v("Result Single Word[%s]", item.getItem().getWord());
+        Timber.v("Result Single Word[%s]", item.getItem().getId());
         //adapter.updateSilently(item);
     }
 

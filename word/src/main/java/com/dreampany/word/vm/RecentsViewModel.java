@@ -181,7 +181,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getWord(), true).map(this::getItem);
+        return repo.getItemRx(item.getId(), true).map(this::getItem);
     }
 
     private WordItem getItem(Word word) {

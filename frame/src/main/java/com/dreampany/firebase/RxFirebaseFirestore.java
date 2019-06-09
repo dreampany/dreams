@@ -44,6 +44,19 @@ public final class RxFirebaseFirestore {
 
     /**
      * @param collection
+     * @param document
+     * @param item
+     * @param <T>
+     * @return
+     */
+    public <T> Completable setItemRx(@NonNull String collection,
+                                     @NonNull String document,
+                                     @NonNull T item) {
+        return setItemRx(collection, null, document, item);
+    }
+
+    /**
+     * @param collection
      * @param internalPaths collection of internal paths containing MutablePair<Document, Collection>
      * @param document
      * @param item

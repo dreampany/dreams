@@ -24,7 +24,7 @@
             android:padding="25dp"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-<!--            <at.grabner.circleprogress.CircleProgressView
+            <at.grabner.circleprogress.CircleProgressView
                 android:id="@+id/progress"
                 android:layout_width="277dp"
                 android:layout_height="277dp"
@@ -46,7 +46,7 @@
                 auto:cpv_unitColor="@color/colorAccent"
                 auto:cpv_unitPosition="right_top"
                 auto:cpv_unitScale="1"
-                auto:cpv_value="0" />-->
+                auto:cpv_value="0" />
 
             <com.rilixtech.materialfancybutton.MaterialFancyButton
                 android:id="@+id/button_done"

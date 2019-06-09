@@ -5,6 +5,7 @@ import android.app.Application;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
+import com.dreampany.frame.misc.Runner;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
@@ -43,6 +44,8 @@ import timber.log.Timber;
  * dreampanymail@gmail.com
  */
 public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>> {
+
+    private final Object guard = new Object();
 
     private final LoadPref pref;
     private final ApiRepository repo;
@@ -99,10 +102,9 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         Disposable disposable = getRx()
                 .backToMain(getCommonItemsRx())
                 .subscribe(result -> {
-                    //postResult(result);
                     loadAlphas();
                 }, error -> {
-                    //postFailureMultiple(new MultiException(error, new ExtraException()));
+                    postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
     }
@@ -117,7 +119,8 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         Disposable disposable = getRx()
                 .backToMain(getAlphaItemsRx())
                 .subscribe(result -> {
-                    postResult(Response.Type.GET, result);
+                    //loadAlphas();
+                    //postResult(Response.Type.GET, result);
                 }, error -> {
                     postFailures(new MultiException(error, new ExtraException()));
                 });
@@ -223,7 +226,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     }
 
     private boolean hasRecent(Word word) {
-        if (word.getWord().length() < Constants.Count.WORD_RECENT_LETTER) {
+        if (word.getId().length() < Constants.Count.WORD_RECENT_LETTER) {
             return false;
         }
         if (repo.hasState(word, ItemSubtype.RECENT)) {
@@ -231,4 +234,49 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         }
         return true;
     }
+
+/*    private void startRequestThread() {
+        synchronized (guard) {
+            if (syncThread == null || !syncThread.isRunning()) {
+                syncThread = new SyncThread();
+                syncThread.start();
+            }
+            syncThread.notifyRunner();
+        }
+    }
+
+    private void stopRequestThread() {
+        synchronized (guard) {
+            if (syncThread != null) {
+                syncThread.stop();
+            }
+        }
+    }*/
+
+
+/*    private class SyncThread extends Runner {
+
+        private final long delay = Constants.Time.INSTANCE.getCoin();
+
+        SyncThread() {
+
+        }
+
+        @Override
+        protected boolean looping() {
+            //1. download listing if expired or not performed
+            //2. Take one by one coins from server
+
+            long lastTime = pref.getCoinListingTime();
+            if (TimeUtil.isExpired(lastTime, delay)) {
+                List<Coin> result = getListing(CoinSource.CMC);
+                if (!DataUtil.isEmpty(result)) {
+                    pref.commitCoinListingTime();
+                }
+            }
+
+
+            return true;
+        }
+    }*/
 }

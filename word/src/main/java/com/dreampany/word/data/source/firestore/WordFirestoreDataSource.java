@@ -22,7 +22,7 @@ import io.reactivex.Maybe;
 @Singleton
 public class WordFirestoreDataSource implements WordDataSource {
 
-    private static final String WORDS = Constants.KEY.WORDS;
+    private static final String WORDS = Constants.FirebaseKey.WORDS;
 
     private final NetworkManager network;
     private final RxFirebaseFirestore firestore;
@@ -75,14 +75,7 @@ public class WordFirestoreDataSource implements WordDataSource {
 
     @Override
     public long putItem(Word word) {
-/*        Maybe<Long> maybe = putItemRx(word);
-        try {
-           return maybe.blockingGet();
-        } catch (Exception error) {
-            Timber.e(error);
-            return -1;
-        }*/
-       Throwable error = null;//firestore.setPutRx(WORDS, word.getWord(), word).blockingGet();
+       Throwable error = firestore.setItemRx(WORDS, word.getId(), word).blockingGet();
        if (error == null) {
            return 0;
        }

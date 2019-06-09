@@ -64,6 +64,13 @@
         </activity>
 
         <activity
+            android:name="com.dreampany.word.ui.activity.LoaderActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:launchMode="singleTask">
+
+        </activity>
+
+        <activity
             android:name="com.dreampany.word.ui.activity.NavigationActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:launchMode="singleTask"

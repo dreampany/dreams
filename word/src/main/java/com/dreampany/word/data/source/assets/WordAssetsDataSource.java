@@ -75,7 +75,7 @@ public class WordAssetsDataSource implements WordDataSource {
     @Override
     public boolean isExists(Word word) {
         List<String> items = getAlphaWords();
-        return items.contains(word.getWord());
+        return items.contains(word.getId());
     }
 
     @Override

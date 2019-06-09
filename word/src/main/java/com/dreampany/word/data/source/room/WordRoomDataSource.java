@@ -72,7 +72,7 @@ public class WordRoomDataSource implements WordDataSource {
 
     @Override
     public boolean isExists(Word word) {
-        return dao.getCount(word.getWord()) > 0;
+        return dao.getCount(word.getId()) > 0;
     }
 
     @Override
@@ -176,8 +176,8 @@ public class WordRoomDataSource implements WordDataSource {
     public Word getItem(String word, boolean full) {
         Word result = dao.getItem(word);
         if (result != null && full) {
-            List<Synonym> synonyms = synonymDao.getItems(result.getWord());
-            List<Antonym> antonyms = antonymDao.getItems(result.getWord());
+            List<Synonym> synonyms = synonymDao.getItems(result.getId());
+            List<Antonym> antonyms = antonymDao.getItems(result.getId());
             result.setSynonyms(mapper.getSynonyms(result, synonyms));
             result.setAntonyms(mapper.getAntonyms(result, antonyms));
         }

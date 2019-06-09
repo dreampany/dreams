@@ -91,7 +91,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
                 if (repo.isExists(word)) {
                     result.add(word);
                     long resultId = putWordOfOcr(word, ocrTime);
-                    Timber.v("Result of OCR %s = %d", word.getWord(), resultId);
+                    Timber.v("Result of OCR %s = %d", word.getId(), resultId);
                 }
             });
             return getItems(result);
@@ -132,7 +132,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     private long putWordOfOcr(Word word, long timeOfOcr) {
         Store store = new Store(word.getId(), ItemType.WORD.name(), ItemSubtype.OCR.name());
         store.setTime(timeOfOcr);
-        store.setData(word.getWord());
+        store.setData(word.getId());
         return storeRepo.putItem(store);
     }
 }

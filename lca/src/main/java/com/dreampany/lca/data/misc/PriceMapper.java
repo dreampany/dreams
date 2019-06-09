@@ -14,12 +14,12 @@ import javax.inject.Inject;
  */
 public class PriceMapper {
 
-    private final SmartMap<Long, Price> map;
-    private final SmartCache<Long, Price> cache;
+    private final SmartMap<String, Price> map;
+    private final SmartCache<String, Price> cache;
 
     @Inject
-    PriceMapper(@PriceAnnote SmartMap<Long, Price> map,
-                @PriceAnnote SmartCache<Long, Price> cache) {
+    PriceMapper(@PriceAnnote SmartMap<String, Price> map,
+                @PriceAnnote SmartCache<String, Price> cache) {
         this.map = map;
         this.cache = cache;
     }

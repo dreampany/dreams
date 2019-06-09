@@ -121,12 +121,12 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     }
 
     @Override
-    public Ico getItem(long id) {
+    public Ico getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Ico> getItemRx(long id) {
+    public Maybe<Ico> getItemRx(String id) {
         return null;
     }
 

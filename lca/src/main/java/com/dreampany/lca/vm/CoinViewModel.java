@@ -204,27 +204,6 @@ CoinViewModel
                     items.add(getQuoteCoinItem(result, currency));
                     return items;
                 });
-/*        return Maybe.create(emitter -> {
-            Coin coin = Objects.requireNonNull(getTask()).getInput();
-            long lastUpdated = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
-            Coin result = repo.getItemIf(CoinSource.CMC, coin.getSymbol(), currency);
-            List<CoinItem> items = null;
-            if (result != null) {
-                getTask().setInput(result);
-                items = new ArrayList<>();
-                items.add(getItemRx(result, currency));
-                items.add(getQuoteCoinItem(result, currency));
-            }
-
-            if (emitter.isDisposed()) {
-                return;
-            }
-            if (DataUtil.isEmpty(items)) {
-                emitter.onError(new NullPointerException());
-            } else {
-                emitter.onSuccess(items);
-            }
-        });*/
     }
 
 /*    private Maybe<List<CoinItem>> getItemsRx(Coin coin, Currency currency) {
@@ -249,7 +228,7 @@ CoinViewModel
     }
 
     private CoinItem getItem(Coin coin, Currency currency) {
-        SmartMap<Long, CoinItem> map = getUiMap();
+        SmartMap<String, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
             item = CoinItem.getDetailsItem(coin, currency);

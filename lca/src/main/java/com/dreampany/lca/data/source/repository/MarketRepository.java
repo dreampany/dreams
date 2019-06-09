@@ -110,12 +110,12 @@ public class MarketRepository extends Repository<Long, Market> implements Market
     }
 
     @Override
-    public Market getItem(long id) {
+    public Market getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Market> getItemRx(long id) {
+    public Maybe<Market> getItemRx(String id) {
         return null;
     }
 

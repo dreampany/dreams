@@ -109,12 +109,12 @@ public class NewsRemoteDataSource implements NewsDataSource {
     }
 
     @Override
-    public News getItem(long id) {
+    public News getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<News> getItemRx(long id) {
+    public Maybe<News> getItemRx(String id) {
         return null;
     }
 

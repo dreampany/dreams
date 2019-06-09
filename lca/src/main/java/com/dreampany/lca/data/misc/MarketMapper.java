@@ -17,12 +17,12 @@ import javax.inject.Inject;
  */
 public class MarketMapper {
 
-    private final SmartMap<Long, Market> map;
-    private final SmartCache<Long, Market> cache;
+    private final SmartMap<String, Market> map;
+    private final SmartCache<String, Market> cache;
 
     @Inject
-    MarketMapper(@MarketAnnote SmartMap<Long, Market> map,
-                 @MarketAnnote SmartCache<Long, Market> cache) {
+    MarketMapper(@MarketAnnote SmartMap<String, Market> map,
+                 @MarketAnnote SmartCache<String, Market> cache) {
         this.map = map;
         this.cache = cache;
     }
@@ -32,7 +32,7 @@ public class MarketMapper {
             return null;
         }
 
-        long id  = DataUtil.getSha512(in.getMarket(), in.getFromSymbol(), in.getToSymbol());
+        String id  = DataUtil.concat(in.getMarket(), in.getFromSymbol(), in.getToSymbol());
         Market out = map.get(id);
         if (out == null) {
             out = new Market();

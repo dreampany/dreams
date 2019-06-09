@@ -17,12 +17,12 @@ import javax.inject.Inject;
  */
 public class ExchangeMapper {
 
-    private final SmartMap<Long, Exchange> map;
-    private final SmartCache<Long, Exchange> cache;
+    private final SmartMap<String, Exchange> map;
+    private final SmartCache<String, Exchange> cache;
 
     @Inject
-    ExchangeMapper(@ExchangeAnnote SmartMap<Long, Exchange> map,
-                   @ExchangeAnnote SmartCache<Long, Exchange> cache) {
+    ExchangeMapper(@ExchangeAnnote SmartMap<String, Exchange> map,
+                   @ExchangeAnnote SmartCache<String, Exchange> cache) {
         this.map = map;
         this.cache = cache;
     }
@@ -31,7 +31,7 @@ public class ExchangeMapper {
         if (in == null) {
             return null;
         }
-        long id = DataUtil.getSha512(in.getExchange(), in.getFromSymbol(), in.getToSymbol());
+        String id = DataUtil.concat(in.getExchange(), in.getFromSymbol(), in.getToSymbol());
         Exchange out = map.get(id);
         if (out == null) {
             out = new Exchange();

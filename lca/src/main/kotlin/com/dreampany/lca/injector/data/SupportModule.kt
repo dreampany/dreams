@@ -22,126 +22,126 @@ class SupportModule {
     @Singleton
     @Provides
     @CoinAnnote
-    fun provideCoinSmartMap(): SmartMap<Long, Coin> {
+    fun provideCoinSmartMap(): SmartMap<String, Coin> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @CoinAlertAnnote
-    fun provideCoinAlertSmartMap(): SmartMap<Long, CoinAlert> {
+    fun provideCoinAlertSmartMap(): SmartMap<String, CoinAlert> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @QuoteAnnote
-    fun provideQuoteSmartMap(): SmartMap<Pair<Long, Currency>, Quote> {
+    fun provideQuoteSmartMap(): SmartMap<Pair<String, Currency>, Quote> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @PriceAnnote
-    fun providePriceSmartMap(): SmartMap<Long, Price> {
+    fun providePriceSmartMap(): SmartMap<String, Price> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @ExchangeAnnote
-    fun provideExchangeSmartMap(): SmartMap<Long, Exchange> {
+    fun provideExchangeSmartMap(): SmartMap<String, Exchange> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @MarketAnnote
-    fun provideMarketSmartMap(): SmartMap<Long, Market> {
+    fun provideMarketSmartMap(): SmartMap<String, Market> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @GraphAnnote
-    fun provideGraphSmartMap(): SmartMap<Long, Graph> {
+    fun provideGraphSmartMap(): SmartMap<String, Graph> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @IcoAnnote
-    fun provideIcoSmartMap(): SmartMap<Long, Ico> {
+    fun provideIcoSmartMap(): SmartMap<String, Ico> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @NewsAnnote
-    fun provideNewsSmartMap(): SmartMap<Long, News> {
+    fun provideNewsSmartMap(): SmartMap<String, News> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @CoinAnnote
-    fun provideCoinSmartCache(): SmartCache<Long, Coin> {
+    fun provideCoinSmartCache(): SmartCache<String, Coin> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @CoinAlertAnnote
-    fun provideCoinAlertSmartCache(): SmartCache<Long, CoinAlert> {
+    fun provideCoinAlertSmartCache(): SmartCache<String, CoinAlert> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @QuoteAnnote
-    fun provideQuoteSmartCache(): SmartCache<Pair<Long, Currency>, Quote> {
+    fun provideQuoteSmartCache(): SmartCache<Pair<String, Currency>, Quote> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @PriceAnnote
-    fun providePriceSmartCache(): SmartCache<Long, Price> {
+    fun providePriceSmartCache(): SmartCache<String, Price> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @ExchangeAnnote
-    fun provideExchangeSmartCache(): SmartCache<Long, Exchange> {
+    fun provideExchangeSmartCache(): SmartCache<String, Exchange> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @MarketAnnote
-    fun provideMarketSmartCache(): SmartCache<Long, Market> {
+    fun provideMarketSmartCache(): SmartCache<String, Market> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @GraphAnnote
-    fun provideGraphSmartCache(): SmartCache<Long, Graph> {
+    fun provideGraphSmartCache(): SmartCache<String, Graph> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @IcoAnnote
-    fun provideIcoSmartCache(): SmartCache<Long, Ico> {
+    fun provideIcoSmartCache(): SmartCache<String, Ico> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @NewsAnnote
-    fun provideNewsSmartCache(): SmartCache<Long, News> {
+    fun provideNewsSmartCache(): SmartCache<String, News> {
         return SmartCache.newCache()
     }
 }

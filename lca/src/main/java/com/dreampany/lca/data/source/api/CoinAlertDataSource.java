@@ -10,7 +10,7 @@ import com.dreampany.lca.data.model.CoinAlert;
  */
 public interface CoinAlertDataSource extends DataSource<CoinAlert> {
 
-    boolean isExists(long id);
+    boolean isExists(String id);
 
-    CoinAlert getItem(long id);
+    CoinAlert getItem(String id);
 }

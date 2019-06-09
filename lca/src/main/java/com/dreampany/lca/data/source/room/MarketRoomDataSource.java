@@ -99,12 +99,12 @@ public class MarketRoomDataSource implements MarketDataSource {
     }
 
     @Override
-    public Market getItem(long id) {
+    public Market getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Market> getItemRx(long id) {
+    public Maybe<Market> getItemRx(String id) {
         return null;
     }
 

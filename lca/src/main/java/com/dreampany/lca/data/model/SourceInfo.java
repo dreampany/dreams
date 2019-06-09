@@ -1,15 +1,16 @@
 package com.dreampany.lca.data.model;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.Index;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.Index;
 
 import com.dreampany.frame.data.model.BaseParcel;
+import com.dreampany.lca.misc.Constants;
 import com.google.common.base.Objects;
 
 /**
@@ -17,12 +18,12 @@ import com.google.common.base.Objects;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.SourceInfo.ID}, unique = true)},
+        primaryKeys = {Constants.SourceInfo.ID})
 public class SourceInfo extends BaseParcel {
 
     @ColumnInfo(name = "sourceInfoId")
-    private long id;
+    private String id;
     @ColumnInfo(name = "sourceInfoName")
     private String name;
     @ColumnInfo(name = "sourceInfoLanguage")
@@ -35,14 +36,14 @@ public class SourceInfo extends BaseParcel {
 
     }
 
-    public SourceInfo(long id) {
+    public SourceInfo(String id) {
         this.id = id;
     }
 
     @Ignore
     private SourceInfo(Parcel in) {
         super(in);
-        id = in.readLong();
+        id = in.readString();
         name = in.readString();
         language = in.readString();
         imageUrl = in.readString();
@@ -51,7 +52,7 @@ public class SourceInfo extends BaseParcel {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeString(name);
         dest.writeString(language);
         dest.writeString(imageUrl);
@@ -84,7 +85,7 @@ public class SourceInfo extends BaseParcel {
         return Objects.hashCode(id);
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -100,7 +101,7 @@ public class SourceInfo extends BaseParcel {
         this.imageUrl = imageUrl;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 

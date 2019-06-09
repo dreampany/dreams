@@ -28,7 +28,7 @@ interface StateDao : BaseDao<State> {
     val itemsRx: Maybe<List<State>>
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype")
-    fun getCount(id: Long, type: String, subtype: String): Int
+    fun getCountById(id: String, type: String, subtype: String): Int
 
     @Query("select count(*) from state where type = :type and subtype = :subtype and state = :state")
     fun getCount(type: String, subtype: String, state: String): Int
@@ -37,16 +37,16 @@ interface StateDao : BaseDao<State> {
     fun getCountRx(type: String, subtype: String, state: String): Maybe<Int>
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype and state = :state")
-    fun getCount(id: Long, type: String, subtype: String, state: String): Int
+    fun getCount(id: String, type: String, subtype: String, state: String): Int
 
     @Query("select count(*) from state where id = :id and type = :type and subtype = :subtype and state = :state")
-    fun getCountRx(id: Long, type: String, subtype: String, state: String): Maybe<Int>
+    fun getCountRx(id: String, type: String, subtype: String, state: String): Maybe<Int>
 
     @Query("select * from state where id = :id limit 1")
-    fun getItem(id: Long): State
+    fun getItem(id: String): State
 
     @Query("select * from state where id = :id limit 1")
-    fun getItemRx(id: Long): Maybe<State>
+    fun getItemRx(id: String): Maybe<State>
 
     @Query("select * from state where type = :type and subtype = :subtype and state != :state order by time desc limit 1")
     fun getItemNotStateOrderByRx(type: String, subtype: String, state: String): Maybe<State>
@@ -61,7 +61,7 @@ interface StateDao : BaseDao<State> {
     fun getItemsRx(limit: Int): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state")
-    fun getItems(type: String, subtype: String, state: String): List<State>
+    fun getItemsWithoutId(type: String, subtype: String, state: String): List<State>
 
     @Query("select * from state where id = :id and type = :type and subtype = :subtype")
     fun getItems(id: Long, type: String, subtype: String): List<State>
@@ -94,10 +94,10 @@ interface StateDao : BaseDao<State> {
     fun getItemsOrderByRx(type: String, subtype: String, state: String, limit: Int): Maybe<List<State>>
 
     @Query("select * from state where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
-    fun getItem(id: Long, type: String, subtype: String, state: String): State
+    fun getItem(id: String, type: String, subtype: String, state: String): State
 
     @Query("select * from state where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
-    fun getItemRx(id: Long, type: String, subtype: String, state: String): Maybe<State>
+    fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<State>
 
     @Query("select * from state where type = :type and subtype = :subtype")
     fun getItems(type: String, subtype: String): List<State>

@@ -129,7 +129,7 @@ public class LiveIcoViewModel
     }
 
     private IcoItem getItem(Ico ico) {
-        SmartMap<Long, IcoItem> map = getUiMap();
+        SmartMap<String, IcoItem> map = getUiMap();
         IcoItem item = map.get(ico.getId());
         if (item == null) {
             item = IcoItem.getItem(ico);

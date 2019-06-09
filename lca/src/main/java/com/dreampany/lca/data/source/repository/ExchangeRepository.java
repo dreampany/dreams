@@ -120,12 +120,12 @@ public class ExchangeRepository extends Repository<Long, Exchange> implements Ex
     }
 
     @Override
-    public Exchange getItem(long id) {
+    public Exchange getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Exchange> getItemRx(long id) {
+    public Maybe<Exchange> getItemRx(String id) {
         return null;
     }
 

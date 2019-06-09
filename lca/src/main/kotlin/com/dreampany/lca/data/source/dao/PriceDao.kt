@@ -28,16 +28,16 @@ interface PriceDao : BaseDao<Price> {
     val itemsRx: Flowable<List<Price>>
 
     @Query("select count(*) from price where id = :id limit 1")
-    fun getCount(id: Long): Int
+    fun getCount(id: String): Int
 
     @Query("select count(*) from price where id = :id limit 1")
-    fun getCountRx(id: Long): Single<Int>
+    fun getCountRx(id: String): Single<Int>
 
     @Query("select * from price where id = :id limit 1")
-    fun getItem(id: Long): Price
+    fun getItem(id: String): Price
 
     @Query("select * from price where id = :id limit 1")
-    fun getItemRx(id: Long): Single<Price>
+    fun getItemRx(id: String): Single<Price>
 
     @Query("select * from price limit :limit")
     fun getItems(limit: Int): List<Price>

@@ -58,13 +58,13 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long id) {
+    public Coin getItem(CoinSource source, Currency currency, String id) {
         return null;
     }
 
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, String id) {
         String collection = Constants.FirebaseKey.CRYPTO;
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
         paths.add(MutablePair.of(source.name(), Constants.FirebaseKey.COINS));
@@ -93,7 +93,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<String> ids) {
 
         List<Quote> quotes = getQuotes(source, currency, ids);
 
@@ -122,7 +122,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids) {
 
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, ids);
@@ -251,12 +251,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(long id) {
+    public Coin getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Coin> getItemRx(long id) {
+    public Maybe<Coin> getItemRx(String id) {
         return null;
     }
 
@@ -281,7 +281,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     /* private api */
-    private List<Quote> getQuotes(CoinSource source, Currency currency, List<Long> ids) {
+    private List<Quote> getQuotes(CoinSource source, Currency currency, List<String> ids) {
         String collection = Constants.FirebaseKey.CRYPTO;
 
         TreeSet<MutablePair<String, String>> paths = new TreeSet<>();
@@ -292,7 +292,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         List<MutablePair<String, Object>> equalTo = new ArrayList<>();
         List<MutablePair<String, Object>> greaterThanOrEqualTo = new ArrayList<>();
 
-        for (long id : ids) {
+        for (String id : ids) {
             equalTo.add(MutablePair.of(Constants.Quote.ID, id));
             equalTo.add(MutablePair.of(Constants.Quote.CURRENCY, currency.name()));
         }
@@ -346,7 +346,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
 
     private void bindQuote(Currency currency, Coin coin) {
         if (coin != null && !coin.hasQuote(currency)) {
-            //Quote quote = quoteDao.getItems(coin.getId(), currency.name());
+            //Quote quote = quoteDao.getItemsWithoutId(coin.getId(), currency.name());
             //coin.addQuote(quote);
         }
     }

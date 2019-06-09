@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
 
-    object Event  {
+    object Event {
         const val ERROR = Constants.Event.ERROR
         const val APPLICATION = Constants.Event.APPLICATION
         const val ACTIVITY = Constants.Event.ACTIVITY
@@ -30,7 +30,9 @@ class Constants {
         fun settings(context: Context): String = Constants.settings(context)
         fun license(context: Context): String = Constants.license(context)
 
-        fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+        fun app(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+
         fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + "navigation"
         fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + "tools"
         fun coins(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coins"
@@ -38,7 +40,9 @@ class Constants {
         fun coinDetails(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_details"
         fun coinMarket(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_market"
         fun coinGraph(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_graph"
-        fun favoriteCoins(context: Context): String = lastAppId(context) + Sep.HYPHEN + "favorite_coins"
+        fun favoriteCoins(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "favorite_coins"
+
         fun coinAlerts(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_alerts"
         fun coinAlert(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_alert"
         fun ico(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico"
@@ -47,8 +51,12 @@ class Constants {
         fun icoFinished(context: Context): String = lastAppId(context) + Sep.HYPHEN + "ico_finished"
         fun news(context: Context): String = lastAppId(context) + Sep.HYPHEN + "news"
 
-        fun notifyProfitableCoin(context: Context): String = lastAppId(context) + Sep.HYPHEN + "profitable_coin"
-        fun notifyAlertCoin(context: Context): String = lastAppId(context) + Sep.HYPHEN + "alert_coin"
+        fun notifyProfitableCoin(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "profitable_coin"
+
+        fun notifyAlertCoin(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "alert_coin"
+
         fun notifyNews(context: Context): String = lastAppId(context) + Sep.HYPHEN + "alert_news"
     }
 
@@ -90,11 +98,13 @@ class Constants {
         const val SLASH = "/"
     }
 
-    object Key {
-        const val CMC_PRO_DREAM_DEBUG_1 = "b1334b04-d6ee-4010-866c-aea715bb2d6f" //dream.debug.1@gmail.com
+    object ApiKey {
+        const val CMC_PRO_DREAM_DEBUG_1 =
+            "b1334b04-d6ee-4010-866c-aea715bb2d6f" //dream.debug.1@gmail.com
         const val CMC_PRO_ROMAN_BJIT = "2526f063-e73d-4fb9-b221-2bd8c8097525" //roman.bjit@gmail.com
         const val CMC_PRO_IFTE_NET = "e5c34607-689c-4530-886e-0d62c923797a" //ifte.net@gmail.com
-        const val CMC_PRO_DREAMPANY = "d158ff45-ef74-4562-8984-8d717f422df8" //dreampanymail@gmail.com
+        const val CMC_PRO_DREAMPANY =
+            "d158ff45-ef74-4562-8984-8d717f422df8" //dreampanymail@gmail.com
         const val CMC_SANDBOX = "ba266b8e-abf4-466f-84cd-38700d6eb8f0"
     }
 
@@ -109,13 +119,19 @@ class Constants {
         const val CoinMarketCapGraphApiUrl = "https://graphs2.coinmarketcap.com/"
 
         const val CryptoCompareApiUrl = "https://min-api.cryptocompare.com/data/"
-        const val CryptoCompareMarketOverviewUrl = "https://www.cryptocompare.com/exchanges/binance/overview/%s"
+        const val CryptoCompareMarketOverviewUrl =
+            "https://www.cryptocompare.com/exchanges/binance/overview/%s"
 
         const val IcoWatchListApiUrl = "https://api.icowatchlist.com/public/v1/"
     }
 
     object ImageUrl {
-        const val CoinMarketCapImageUrl = "https://s2.coinmarketcap.com/static/img/coins/64x64/%d.png" //id reference
+        const val CoinMarketCapImageUrl =
+            "https://s2.coinmarketcap.com/static/img/coins/64x64/%s.png" //id reference
+    }
+
+    object Key {
+        const val ID = Constants.Key.ID
     }
 
     object FirebaseKey {
@@ -125,7 +141,7 @@ class Constants {
     }
 
     object CmcCoinKey {
-        const val ID = "id"
+        const val ID = Key.ID
         const val NAME = "name"
         const val SYMBOL = "symbol"
         const val SLUG = "slug"
@@ -141,7 +157,7 @@ class Constants {
     }
 
     object Coin {
-        const val ID = "id"
+        const val ID = Key.ID
         const val MARKET_PAIRS = "market_pairs"
         const val CIRCULATING_SUPPLY = "circulating_supply"
         const val TOTAL_SUPPLY = "total_supply"
@@ -151,7 +167,7 @@ class Constants {
     }
 
     object Quote {
-        const val ID = "id"
+        const val ID = Key.ID
         const val CURRENCY = "currency"
         const val DAY_VOLUME = "day_volume"
         const val MARKET_CAP = "market_cap"
@@ -159,6 +175,38 @@ class Constants {
         const val DAY_CHANGE = "day_change"
         const val WEEK_CHANGE = "week_change"
         const val LAST_UPDATED = "last_updated"
+    }
+
+    object Price {
+        const val ID = Key.ID
+    }
+
+    object Exchange {
+        const val ID = Key.ID
+    }
+
+    object Market {
+        const val ID = Key.ID
+    }
+
+    object Graph {
+        const val ID = Key.ID
+    }
+
+    object Ico {
+        const val ID = Key.ID
+    }
+
+    object News {
+        const val ID = Key.ID
+    }
+
+    object CoinAlert {
+        const val ID = Key.ID
+    }
+
+    object SourceInfo {
+        const val ID = Key.ID
     }
 
     object Limit {
@@ -173,12 +221,13 @@ class Constants {
 
     object Time {
         val Listing = TimeUnit.HOURS.toMillis(1) //get listing per 7 days
-        val Coin = TimeUnit.MINUTES.toMillis(3) // Every ~1 minute; as per coinmarketcap limit 30 per minute
+        val Coin =
+            TimeUnit.MINUTES.toMillis(3) // Every ~1 minute; as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toSeconds(3)
+        val Notify = TimeUnit.MINUTES.toSeconds(5)
     }
 
     object Delay {

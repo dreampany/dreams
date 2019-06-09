@@ -19,13 +19,13 @@ import java.util.Map;
  */
 public class CoinAlertMapper {
 
-    private final SmartMap<Long, CoinAlert> map;
-    private final SmartCache<Long, CoinAlert> cache;
+    private final SmartMap<String, CoinAlert> map;
+    private final SmartCache<String, CoinAlert> cache;
     private final Map<String, CoinAlert> alerts;
 
     @Inject
-    CoinAlertMapper(@CoinAlertAnnote SmartMap<Long, CoinAlert> map,
-                    @CoinAlertAnnote SmartCache<Long, CoinAlert> cache) {
+    CoinAlertMapper(@CoinAlertAnnote SmartMap<String, CoinAlert> map,
+                    @CoinAlertAnnote SmartCache<String, CoinAlert> cache) {
         this.map = map;
         this.cache = cache;
         this.alerts = Maps.newConcurrentMap();
@@ -35,11 +35,11 @@ public class CoinAlertMapper {
         return !map.isEmpty();
     }
 
-    public boolean hasCoinAlert(long id) {
+    public boolean hasCoinAlert(String id) {
         return alerts.containsKey(id);
     }
 
-    public boolean hasCoinAlert(long id, double dayChange) {
+    public boolean hasCoinAlert(String id, double dayChange) {
         return map.contains(id);
     }
 
@@ -47,7 +47,7 @@ public class CoinAlertMapper {
         this.add(alert.getId(), alert);
     }
 
-    public void add(long id, CoinAlert alert) {
+    public void add(String id, CoinAlert alert) {
         map.put(id, alert);
     }
 
@@ -63,11 +63,7 @@ public class CoinAlertMapper {
         return alerts.get(symbol);
     }
 
-    public CoinAlert toItem(long coinId, double priceUp, double priceDown, boolean full) {
-/*        if (DataUtil.isEmpty(symbol)) {
-            return null;
-        }*/
-        //long id = DataUtil.getSha512(symbol);
+    public CoinAlert toItem(String coinId, double priceUp, double priceDown, boolean full) {
         CoinAlert out = map.get(coinId);
         if (out == null) {
             out = new CoinAlert();

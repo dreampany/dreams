@@ -229,7 +229,7 @@ public class FavoritesViewModel
         }
         List<CoinItem> items = uiCallback.getVisibleItems();
         if (!DataUtil.isEmpty(items)) {
-            List<Long> coinIds = new ArrayList<>();
+            List<String> coinIds = new ArrayList<>();
             for (CoinItem item : items) {
                 coinIds.add(item.getItem().getId());
             }
@@ -245,7 +245,7 @@ public class FavoritesViewModel
     }
 
     private CoinItem getItem(Currency currency, Coin coin) {
-        SmartMap<Long, CoinItem> map = getUiMap();
+        SmartMap<String, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
             item = CoinItem.getSimpleItem(coin, currency);

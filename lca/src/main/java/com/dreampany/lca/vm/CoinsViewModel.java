@@ -243,7 +243,7 @@ public class CoinsViewModel
         }
         List<CoinItem> items = currency.equals(currentCurrency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
         if (!DataUtil.isEmpty(items)) {
-            List<Long> coinIds = new ArrayList<>();
+            List<String> coinIds = new ArrayList<>();
             for (CoinItem item : items) {
                 coinIds.add(item.getItem().getId());
             }
@@ -265,7 +265,7 @@ public class CoinsViewModel
         if (uiCallback == null) {
             return null;
         }
-        List<CoinItem> items = currency.equals(currency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
+        List<CoinItem> items = currency.equals(currency) ? uiCallback.getVisibleItems() : uiCallback.getItemsWithoutId();
         if (!DataUtil.isEmpty(items)) {
             List<String> symbols = new ArrayList<>();
             for (CoinItem item : items) {
@@ -276,7 +276,7 @@ public class CoinsViewModel
                 String[] result = DataUtil.toStringArray(symbols);
                 List<Coin> coins = repo.getItemsIf(CoinSource.CMC, result, currency);
                 if (!DataUtil.isEmpty(coins)) {
-                    items = getItems(coins, currency);
+                    items = getItemsWithoutId(coins, currency);
                 }
             }
         }
@@ -339,13 +339,13 @@ public class CoinsViewModel
         for (Coin coin : coins) {
             CoinItem item = getItem(currency, coin);
             items.add(item);
-            Timber.v("Coin %s %d", item.getItem().getName(), item.getItem().getId());
+            Timber.v("Coin %s %s", item.getItem().getName(), item.getItem().getId());
         }
         return items;
     }
 
     private CoinItem getItem(Currency currency, Coin coin) {
-        SmartMap<Long, CoinItem> map = getUiMap();
+        SmartMap<String, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
             item = CoinItem.getSimpleItem(coin, currency);

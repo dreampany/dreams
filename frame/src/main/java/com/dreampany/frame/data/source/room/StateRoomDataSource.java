@@ -29,8 +29,13 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public int getCount(long id, String type, String subtype) {
-        return dao.getCount(id, type, subtype);
+    public int getCountById(String id, String type, String subtype) {
+        return dao.getCountById(id, type, subtype);
+    }
+
+    @Override
+    public Maybe<Integer> getCountByIdRx(String id, String type, String subtype) {
+        return null;
     }
 
     @Override
@@ -64,17 +69,17 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public int getCount(long id, String type, String subtype, String state) {
+    public int getCountById(String id, String type, String subtype, String state) {
         return dao.getCount(id, type, subtype, state);
     }
 
     @Override
-    public Maybe<Integer> getCountRx(long id, String type, String subtype, String state) {
+    public Maybe<Integer> getCountRx(String id, String type, String subtype, String state) {
         return dao.getCountRx(id, type, subtype, state);
     }
 
     @Override
-    public State getItem(long id, String type, String subtype, String state) {
+    public State getItem(String id, String type, String subtype, String state) {
         State item = mapper.getItem(id, type, subtype, state);
         if (item == null) {
             item = dao.getItem(id, type, subtype, state);
@@ -87,7 +92,7 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public Maybe<State> getItemRx(long id, String type, String subtype, String state) {
+    public Maybe<State> getItemRx(String id, String type, String subtype, String state) {
         if (mapper.isExists(id, type, subtype, state)) {
             return Maybe.fromCallable(() -> mapper.getItem(id, type, subtype, state));
         }
@@ -105,10 +110,6 @@ public class StateRoomDataSource implements StateDataSource {
         return dao.getItems(type, subtype);
     }
 
-    @Override
-    public List<State> getItems(long id, String type, String subtype) {
-        return dao.getItems(id, type, subtype);
-    }
 
     @Override
     public State getItemOrderBy(String type, String subtype) {
@@ -142,7 +143,7 @@ public class StateRoomDataSource implements StateDataSource {
 
     @Override
     public List<State> getItems(String type, String subtype, String state) {
-        return dao.getItems(type, subtype, state);
+        return dao.getItemsWithoutId(type, subtype, state);
     }
 
     @Override
@@ -251,13 +252,13 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public State getItem(long id) {
-        return dao.getItem(id);
+    public State getItem(String id) {
+        return null;
     }
 
     @Override
-    public Maybe<State> getItemRx(long id) {
-        return dao.getItemRx(id);
+    public Maybe<State> getItemRx(String id) {
+        return null;
     }
 
     @Override

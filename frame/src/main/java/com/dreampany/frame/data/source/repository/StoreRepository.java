@@ -11,7 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 
 /**
@@ -20,7 +19,7 @@ import io.reactivex.Maybe;
  * hawladar.roman@bjitgroup.com
  */
 @Singleton
-public class StoreRepository extends Repository<Long, Store> implements StoreDataSource {
+public class StoreRepository extends Repository<String, Store> implements StoreDataSource {
 
     private final StoreDataSource room;
 
@@ -128,12 +127,12 @@ public class StoreRepository extends Repository<Long, Store> implements StoreDat
     }
 
     @Override
-    public Store getItem(long id) {
+    public Store getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Store> getItemRx(long id) {
+    public Maybe<Store> getItemRx(String id) {
         return null;
     }
 

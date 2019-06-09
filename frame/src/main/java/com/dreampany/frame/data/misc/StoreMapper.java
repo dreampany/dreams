@@ -15,21 +15,21 @@ import javax.inject.Inject;
 public class StoreMapper {
 
     //keeps only LRU
-    private final SmartMap<Long, Store> map;
-    private final SmartCache<Long, Store> cache;
+    private final SmartMap<String, Store> map;
+    private final SmartCache<String, Store> cache;
 
     @Inject
-    StoreMapper(@StoreAnnote SmartMap<Long, Store> map,
-                @StoreAnnote SmartCache<Long, Store> cache) {
+    StoreMapper(@StoreAnnote SmartMap<String, Store> map,
+                @StoreAnnote SmartCache<String, Store> cache) {
         this.map = map;
         this.cache = cache;
     }
 
-    public boolean isExists(long id) {
+    public boolean isExists(String id) {
         return map.contains(id);
     }
 
-    public boolean isExists(long id, String type, String subtype) {
+    public boolean isExists(String id, String type, String subtype) {
         if (isExists(id)) {
             Store item = getItem(id);
             return item.hasProperty(type, subtype);
@@ -41,11 +41,11 @@ public class StoreMapper {
         map.put(item.getId(), item);
     }
 
-    public Store getItem(long id) {
+    public Store getItem(String id) {
         return map.get(id);
     }
 
-    public Store getItem(long id, String type, String subtype) {
+    public Store getItem(String id, String type, String subtype) {
         if (isExists(id, type, subtype)) {
             return getItem(id);
         }

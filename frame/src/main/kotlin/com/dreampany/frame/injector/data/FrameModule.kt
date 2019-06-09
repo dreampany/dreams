@@ -23,19 +23,6 @@ import javax.inject.Singleton
 @Module(includes = [SupportModule::class, DatabaseModule::class, FirebaseModule::class])
 class FrameModule {
 
-/*    @Provides
-    fun provideBaseApp(application: Application): BaseApp {
-        return application as BaseApp
-    }*/
-
-/*    @Singleton
-    @Provides
-    @Room
-    fun provideFlagRoomDataSource(mapper: FlagMapper,
-                                   dao: FlagDao): FlagDataSource {
-        return FlagRoomDataSource(mapper, dao)
-    }*/
-
     @Singleton
     @Provides
     @Room

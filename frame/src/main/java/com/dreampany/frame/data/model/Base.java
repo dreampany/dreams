@@ -11,27 +11,37 @@ import androidx.annotation.NonNull;
  */
 public abstract class Base extends BaseParcel {
 
-    protected long id;
+    @NonNull
+    protected String id;
     protected long time;
 
     protected Base() {
-        this(0);
+        this(0L);
+    }
+
+    protected Base(String id) {
+        this(id,0L);
     }
 
     protected Base(long time) {
         this.time = time;
     }
 
+    protected Base(@NonNull String id, long time) {
+        this.id = id;
+        this.time = time;
+    }
+
     protected Base(Parcel in) {
         super(in);
-        id = in.readLong();
+        id = in.readString();
         time = in.readLong();
     }
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeLong(time);
     }
 
@@ -49,7 +59,7 @@ public abstract class Base extends BaseParcel {
         return Objects.hashCode(id);
     }
 
-    public void setId(long id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
@@ -57,7 +67,8 @@ public abstract class Base extends BaseParcel {
         this.time = time;
     }
 
-    public long getId() {
+    @NonNull
+    public String getId() {
         return id;
     }
 

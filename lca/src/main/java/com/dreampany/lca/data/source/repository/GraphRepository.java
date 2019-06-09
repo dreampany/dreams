@@ -116,12 +116,12 @@ public class GraphRepository extends Repository<Long, Graph> implements GraphDat
     }
 
     @Override
-    public Graph getItem(long id) {
+    public Graph getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Graph> getItemRx(long id) {
+    public Maybe<Graph> getItemRx(String id) {
         return null;
     }
 

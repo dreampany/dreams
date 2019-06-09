@@ -70,15 +70,15 @@ public class Pref extends FramePref {
         return getPrivately(COIN_INDEX_TIME + source + currency + coinIndex, 0L);
     }
 
-    synchronized public void commitCoinTime(String source, String currency, long coinId) {
+    synchronized public void commitCoinTime(String source, String currency, String coinId) {
         commitCoinTime(source, currency, coinId, TimeUtil.currentTime());
     }
 
-    synchronized public void commitCoinTime(String source, String currency, long coinId, long time) {
+    synchronized public void commitCoinTime(String source, String currency, String coinId, long time) {
         setPrivately(COIN_TIME + source + currency + coinId, time);
     }
 
-    synchronized public long getCoinTime(String source, String currency, long coinId) {
+    synchronized public long getCoinTime(String source, String currency, String coinId) {
         return getPrivately(COIN_TIME + source + currency + coinId, 0L);
     }
 

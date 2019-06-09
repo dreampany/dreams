@@ -150,6 +150,13 @@ class App : BaseApp() {
             val current = AndroidUtil.getVersionCode(this)
 
             when (current) {
+                131 -> {
+                    if (exists < 131) {
+                        val currency = pref.getCurrency(Currency.USD)
+                        for (coinIndex in 0..100)
+                            pref.clearCoinIndexTime(CoinSource.CMC.name, currency.name, coinIndex);
+                    }
+                }
                 130,
                 129,
                 128,

@@ -38,21 +38,21 @@ public class CoinMapper {
 
     private final Pref pref;
 
-    private final SmartMap<Long, Coin> map;
-    private final SmartCache<Long, Coin> cache;
+    private final SmartMap<String, Coin> map;
+    private final SmartCache<String, Coin> cache;
 
-    private final SmartMap<Pair<Long, Currency>, Quote> quoteMap;
-    private final SmartCache<Pair<Long, Currency>, Quote> quoteCache;
+    private final SmartMap<Pair<String, Currency>, Quote> quoteMap;
+    private final SmartCache<Pair<String, Currency>, Quote> quoteCache;
 
-    private final Map<Long, Coin> coins;
+    private final Map<String, Coin> coins;
 
     @Inject
     CoinMapper(
             Pref pref,
-            @CoinAnnote SmartMap<Long, Coin> map,
-            @CoinAnnote SmartCache<Long, Coin> cache,
-            @QuoteAnnote SmartMap<Pair<Long, Currency>, Quote> quoteMap,
-            @QuoteAnnote SmartCache<Pair<Long, Currency>, Quote> quoteCache) {
+            @CoinAnnote SmartMap<String, Coin> map,
+            @CoinAnnote SmartCache<String, Coin> cache,
+            @QuoteAnnote SmartMap<Pair<String, Currency>, Quote> quoteMap,
+            @QuoteAnnote SmartCache<Pair<String, Currency>, Quote> quoteCache) {
         this.pref = pref;
         this.map = map;
         this.cache = cache;
@@ -65,12 +65,12 @@ public class CoinMapper {
         return !coins.isEmpty();
     }
 
-    public boolean hasCoin(long coinId) {
+    public boolean hasCoin(String coinId) {
         return coins.containsKey(coinId);
     }
 
-    public boolean hasCoins(List<Long> coinIds) {
-        for (long coinId : coinIds) {
+    public boolean hasCoins(List<String> coinIds) {
+        for (String coinId : coinIds) {
             if (!hasCoin(coinId)) {
                 return false;
             }
@@ -82,7 +82,7 @@ public class CoinMapper {
         this.add(coin.getId(), coin);
     }
 
-    public void add(long key, Coin coin) {
+    public void add(String key, Coin coin) {
         coins.put(key, coin);
     }
 
@@ -94,7 +94,7 @@ public class CoinMapper {
         }
     }
 
-    public Coin getCoin(long coinId) {
+    public Coin getCoin(String coinId) {
         if (!hasCoin(coinId)) {
             return null;
         }
@@ -105,9 +105,9 @@ public class CoinMapper {
         return new ArrayList<>(coins.values());
     }
 
-    public List<Coin> getCoins(List<Long> coinIds) {
+    public List<Coin> getCoins(List<String> coinIds) {
         List<Coin> result = new ArrayList<>();
-        for (long coinId : coinIds) {
+        for (String coinId : coinIds) {
             result.add(getCoin(coinId));
         }
         return result;
@@ -121,16 +121,19 @@ public class CoinMapper {
         return quoteMap.contains(Pair.create(in.getId(), in.getCurrency()));
     }
 
-    public boolean isCoinExpired(CoinSource source, Currency currency, long coinId) {
+    public boolean isCoinExpired(CoinSource source, Currency currency, String coinId) {
         long lastTime = pref.getCoinTime(source.name(), currency.name(), coinId);
         return TimeUtil.isExpired(lastTime, Constants.Time.INSTANCE.getCoin());
     }
 
-    public void updateCoinTime(CoinSource source, Currency currency, long coinId) {
+    public void updateCoinTime(CoinSource source, Currency currency, String coinId) {
         pref.commitCoinTime(source.name(), currency.name(), coinId);
     }
 
     public boolean isCoinIndexExpired(CoinSource source, Currency currency, int index) {
+        if (true) {
+            return true;
+        }
         long time = pref.getCoinIndexTime(source.name(), currency.name(), index);
         return TimeUtil.isExpired(time, Constants.Time.INSTANCE.getListing());
     }
@@ -144,7 +147,7 @@ public class CoinMapper {
             return null;
         }
 
-        long id = in.getId();
+        String id = String.valueOf(in.getId());
         Coin out = map.get(id);
         if (out == null) {
             out = new Coin();
@@ -189,7 +192,7 @@ public class CoinMapper {
         if (in == null) {
             return null;
         }
-        Pair<Long, Currency> pair = Pair.create(coin.getId(), currency);
+        Pair<String, Currency> pair = Pair.create(coin.getId(), currency);
         Quote out = quoteMap.get(pair);
         if (out == null) {
             out = new Quote();
@@ -227,7 +230,7 @@ public class CoinMapper {
         return TextUtils.join(separator, values);
     }
 
-    public String joinLongToString(List<Long> values, String separator) {
+    public String joinLongToString(List<String> values, String separator) {
         return TextUtils.join(separator, values);
     }
 

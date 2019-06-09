@@ -7,14 +7,15 @@ import android.os.Parcel;
 import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.lca.misc.Constants;
 
 /**
  * Created by Hawladar Roman on 24/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.Exchange.ID}, unique = true)},
+        primaryKeys = {Constants.Exchange.ID})
 public class Exchange extends Base {
 
     private String exchange;
@@ -28,15 +29,10 @@ public class Exchange extends Base {
 
     }
 
-    public Exchange(long id) {
+    public Exchange(String id) {
         this.id = id;
     }
 
-/*    public Exchange(@NonNull String exchange, @NonNull String fromSymbol, @NonNull String toSymbol) {
-        this.exchange = exchange;
-        this.fromSymbol = fromSymbol;
-        this.toSymbol = toSymbol;
-    }*/
 
     @Ignore
     private Exchange(Parcel in) {
@@ -51,7 +47,6 @@ public class Exchange extends Base {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeLong(id);
         dest.writeString(exchange);
         dest.writeString(fromSymbol);
         dest.writeString(toSymbol);

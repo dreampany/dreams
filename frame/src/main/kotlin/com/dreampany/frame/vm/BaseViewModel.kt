@@ -43,8 +43,8 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     private val lifecycleRegistry: LifecycleRegistry
 
-    var uiMap: SmartMap<Long, X>
-    var uiCache: SmartCache<Long, X>
+    var uiMap: SmartMap<String, X>
+    var uiCache: SmartCache<String, X>
     var uiFavorites: Set<T>
     var uiSelects: Set<T>
 
@@ -363,7 +363,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         addSubscription(disposable)
     }
 
-/*    open fun getItems(): Flowable<List<T>>? {
+/*    open fun getItemsWithoutId(): Flowable<List<T>>? {
         return null
     }
 
@@ -375,7 +375,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         if (hasMultipleDisposable()) {
             return multipleDisposable
         }
-        var items = getItems()
+        var items = getItemsWithoutId()
         val repeatWhen = getRepeatWhenSeconds()
         if (items != null) {
             rxMapper.backToMain<List<T>>(items)

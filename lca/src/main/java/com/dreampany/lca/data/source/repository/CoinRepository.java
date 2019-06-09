@@ -80,12 +80,12 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long id) {
+    public Coin getItem(CoinSource source, Currency currency, String id) {
         return room.getItem(source, currency, id);
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, String id) {
         Maybe<Coin> firestoreIf = getFirestoreItemIfRx(source, currency, id);
         Maybe<Coin> remoteIf = getRemoteItemIfRx(source, currency, id);
         Maybe<Coin> roomAny = room.getItemRx(source, currency, id);
@@ -93,14 +93,14 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<String> ids) {
 
 
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids) {
         Maybe<List<Coin>> firestoreRemote = getFirestoreRemoteItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> firestoreIf = getFirestoreItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, ids);
@@ -181,12 +181,12 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
-    public Coin getItem(long id) {
+    public Coin getItem(String id) {
         return room.getItem(id);
     }
 
     @Override
-    public Maybe<Coin> getItemRx(long id) {
+    public Maybe<Coin> getItemRx(String id) {
         return null;
     }
 
@@ -224,7 +224,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 });
     }
 
-    private Maybe<Coin> getFirestoreItemIfRx(CoinSource source, Currency currency, long coinId) {
+    private Maybe<Coin> getFirestoreItemIfRx(CoinSource source, Currency currency, String coinId) {
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? firestore.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(room.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
@@ -232,7 +232,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, Currency currency, long coinId) {
+    private Maybe<Coin> getRemoteItemIfRx(CoinSource source, Currency currency, String coinId) {
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? remote.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(room.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
@@ -241,10 +241,10 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-    private Maybe<List<Coin>> getFirestoreRemoteItemsIfRx(CoinSource source, Currency currency, List<Long> coinIds) {
+    private Maybe<List<Coin>> getFirestoreRemoteItemsIfRx(CoinSource source, Currency currency, List<String> coinIds) {
         Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
-            List<Long> ids = new ArrayList<>();
-            for (long id : coinIds) {
+            List<String> ids = new ArrayList<>();
+            for (String id : coinIds) {
                 if (mapper.isCoinExpired(source, currency, id)) {
                     ids.add(id);
                 }
@@ -288,10 +288,10 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
 
-    private Maybe<List<Coin>> getFirestoreItemsIfRx(CoinSource source, Currency currency, List<Long> coinIds) {
+    private Maybe<List<Coin>> getFirestoreItemsIfRx(CoinSource source, Currency currency, List<String> coinIds) {
         Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
-            List<Long> ids = new ArrayList<>();
-            for (long id : coinIds) {
+            List<String> ids = new ArrayList<>();
+            for (String id : coinIds) {
                 if (mapper.isCoinExpired(source, currency, id)) {
                     ids.add(id);
                 }
@@ -315,10 +315,10 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
-    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, List<Long> coinIds) {
+    private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, List<String> coinIds) {
         Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
-            List<Long> ids = new ArrayList<>();
-            for (long id : coinIds) {
+            List<String> ids = new ArrayList<>();
+            for (String id : coinIds) {
                 if (mapper.isCoinExpired(source, currency, id)) {
                     ids.add(id);
                 }

@@ -10,6 +10,7 @@ import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.misc.IcoAnnote;
 
 import javax.inject.Inject;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -20,20 +21,20 @@ import java.util.Map;
  */
 public class IcoMapper {
 
-    private final SmartMap<Long, Ico> map;
-    private final SmartCache<Long, Ico> cache;
+    private final SmartMap<String, Ico> map;
+    private final SmartCache<String, Ico> cache;
 
     @Inject
-    IcoMapper(@IcoAnnote SmartMap<Long, Ico> map,
-              @IcoAnnote SmartCache<Long, Ico> cache) {
+    IcoMapper(@IcoAnnote SmartMap<String, Ico> map,
+              @IcoAnnote SmartCache<String, Ico> cache) {
         this.map = map;
         this.cache = cache;
     }
 
     public void clear(IcoStatus status) {
-        Iterator<Map.Entry<Long, Ico>> it = map.getIterator();
+        Iterator<Map.Entry<String, Ico>> it = map.getIterator();
         while (it.hasNext()) {
-            Map.Entry<Long, Ico> entry = it.next();
+            Map.Entry<String, Ico> entry = it.next();
             if (status.equals(entry.getValue().getStatus())) {
                 it.remove();
             }
@@ -45,7 +46,7 @@ public class IcoMapper {
             return null;
         }
 
-        long id = DataUtil.getSha512(in.getIcoWatchListUrl());
+        String id = in.getIcoWatchListUrl();
         Ico out = map.get(id);
         if (out == null) {
             out = new Ico();

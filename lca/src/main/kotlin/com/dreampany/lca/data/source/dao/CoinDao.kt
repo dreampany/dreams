@@ -29,16 +29,16 @@ interface CoinDao : BaseDao<Coin> {
     val itemsRx: Maybe<List<Coin>>
 
     @Query("select count(*) from coin where id = :id limit 1")
-    fun getCount(id: Long): Int
+    fun getCount(id: String): Int
 
     @Query("select count(*) from coin where id = :id limit 1")
-    fun getCountRx(id: Long): Maybe<Int>
+    fun getCountRx(id: String): Maybe<Int>
 
     @Query("select * from coin where id = :id limit 1")
-    fun getItem(id: Long): Coin
+    fun getItemById(id: String): Coin
 
     @Query("select * from coin where id = :id limit 1")
-    fun getItemRx(id: Long): Maybe<Coin>
+    fun getItemRx(id: String): Maybe<Coin>
 
     @Query("select * from coin where symbol = :symbol limit 1")
     fun getItem(symbol: String): Coin
@@ -48,12 +48,6 @@ interface CoinDao : BaseDao<Coin> {
 
     @Query("select * from coin where symbol = :symbol and lastUpdated  <= :lastUpdated limit 1")
     fun getItemRx(symbol: String, lastUpdated: Long): Maybe<Coin>
-
-/*    @Query("select * from coin where coinId = :coinId limit 1")
-    fun getItemByCoinId(coinId: Long): Coin*/
-
-/*    @Query("select * from coin where coinId = :coinId limit 1")
-    fun getItemByCoinIdRx(coinId: Long): Maybe<Coin>*/
 
     @Query("select * from coin where rank >= :start order by rank asc")
     fun getItems(start: Int): List<Coin>
@@ -66,15 +60,6 @@ interface CoinDao : BaseDao<Coin> {
 
     @Query("select * from coin where symbol in (:symbols) order by rank asc")
     fun getItems(symbols: List<String>): List<Coin>
-
-/*    @Query("select * from coin where coinId = :coinId and lastUpdated >= :lastUpdated order by rank asc limit 1")
-    fun getItem(coinId: Long, lastUpdated: Long): Coin*/
-
-/*    @Query("select * from coin where coinId in (:coinIds) and lastUpdated >= :lastUpdated order by rank asc")
-    fun getItems(coinIds: List<Long>, lastUpdated: Long): List<Coin>*/
-
-/*    @Query("select * from coin where coinId in (:coinIds) and lastUpdated >= :lastUpdated order by rank asc")
-    fun getItemsRx(coinIds: List<Long>, lastUpdated: Long): Maybe<List<Coin>>*/
 
     @Query("select * from coin where rank >= :start order by rank asc limit :limit")
     fun getItemsRx(start: Int, limit: Int): Maybe<List<Coin>>

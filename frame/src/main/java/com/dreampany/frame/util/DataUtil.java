@@ -7,6 +7,8 @@ import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -35,6 +37,10 @@ public final class DataUtil {
 
     }
 
+    public static String concat(String... data) {
+        return StringUtils.join(data);
+    }
+
     public static long getSha512() {
         String uuid = UUID.randomUUID().toString();
         return getSha512(uuid);
@@ -50,17 +56,6 @@ public final class DataUtil {
         }
         return getSha512(builder.toString());
     }
-
-/*    public static long getSha512(long first, String... data) {
-        if (DataUtil.isEmpty(data)) {
-            return 0L;
-        }
-        StringBuilder builder = new StringBuilder(String.valueOf(first));
-        for (String item : data) {
-            builder.append(item);
-        }
-        return getSha512(builder.toString());
-    }*/
 
     public static long getSha512(String... data) {
         if (DataUtil.isEmpty(data)) {
@@ -79,13 +74,6 @@ public final class DataUtil {
         }
         return getSha512(data.getBytes());
     }
-
-/*    public static long getSha512CollisionFree(String data) {
-        if (DataUtil.isEmpty(data)) {
-            return 0L;
-        }
-        return getSha512(data, COLLISION_TAG);
-    }*/
 
     public static long getSha512(byte[] data) {
         if (DataUtil.isEmpty(data)) {

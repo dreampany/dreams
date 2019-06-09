@@ -39,9 +39,9 @@ public interface DataSource<T> {
 
     Maybe<List<Long>> deleteRx(List<T> ts);
 
-    T getItem(long id);
+    T getItem(String id);
 
-    Maybe<T> getItemRx(long id);
+    Maybe<T> getItemRx(String id);
 
     List<T> getItems();
 

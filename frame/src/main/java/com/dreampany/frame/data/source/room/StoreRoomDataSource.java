@@ -124,12 +124,12 @@ public class StoreRoomDataSource implements StoreDataSource {
     }
 
     @Override
-    public Store getItem(long id) {
+    public Store getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Store> getItemRx(long id) {
+    public Maybe<Store> getItemRx(String id) {
         return null;
     }
 

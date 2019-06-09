@@ -17,10 +17,10 @@ import retrofit2.http.Query;
 public interface CoinMarketCapService {
 
     @GET("ticker/{id}/")
-    Call<CmcCoinResponse> getCoin(@Path("id") long id, @Query("structure") String structure);
+    Call<CmcCoinResponse> getCoin(@Path("id") String id, @Query("structure") String structure);
 
     @GET("ticker/{id}/")
-    Maybe<CmcCoinResponse> getCoinRx(@Path("id") long id, @Query("structure") String structure);
+    Maybe<CmcCoinResponse> getCoinRx(@Path("id") String id, @Query("structure") String structure);
 
     @GET("ticker/")
     Call<CmcCoinsResponse> getCoins(@Query("structure") String structure);

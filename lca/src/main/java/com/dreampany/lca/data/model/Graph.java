@@ -7,6 +7,7 @@ import android.os.Parcel;
 import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.lca.misc.Constants;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.List;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.Graph.ID}, unique = true)},
+        primaryKeys = {Constants.Graph.ID})
 public class Graph extends Base {
 
     private String slug;
@@ -31,7 +32,7 @@ public class Graph extends Base {
     public Graph() {
     }
 
-    public Graph(long id) {
+    public Graph(String id) {
         this.id = id;
     }
 

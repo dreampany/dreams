@@ -75,7 +75,7 @@ public class ApiRepository {
     }
 
     public boolean hasState(Coin coin, ItemSubtype subtype, ItemState state) {
-        boolean stated = stateRepo.getCount(coin.getId(), ItemType.COIN.name(), subtype.name(), state.name()) > 0;
+        boolean stated = stateRepo.getCountById(coin.getId(), ItemType.COIN.name(), subtype.name(), state.name()) > 0;
         return stated;
     }
 
@@ -136,15 +136,15 @@ public class ApiRepository {
         return coinRepo.getItemsRx(source, currency, index, limit);
     }
 
-    public List<Coin> getItemsIf(CoinSource source, Currency currency, List<Long> coinIds) {
+    public List<Coin> getItemsIf(CoinSource source, Currency currency, List<String> coinIds) {
         return coinRepo.getItemsRx(source, currency, coinIds).blockingGet();
     }
 
-    public Coin getItemIf(CoinSource source, Currency currency, long coinId) {
+    public Coin getItemIf(CoinSource source, Currency currency, String coinId) {
         return getItemIfRx(source, currency, coinId).blockingGet();
     }
 
-    public Maybe<Coin> getItemIfRx(CoinSource source, Currency currency, long coinId) {
+    public Maybe<Coin> getItemIfRx(CoinSource source, Currency currency, String coinId) {
         return coinRepo.getItemRx(source, currency, coinId);
     }
 
@@ -153,7 +153,7 @@ public class ApiRepository {
         return getItemsOfStatesIf(source, currency, states);
     }
 
-    public CoinAlert getCoinAlert(long coinId) {
+    public CoinAlert getCoinAlert(String coinId) {
         return alertRepo.getItem(coinId);
     }
 

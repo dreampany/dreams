@@ -31,7 +31,7 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
-    public boolean isExists(long id) {
+    public boolean isExists(String id) {
         return dao.getCount(id) > 0;
     }
 
@@ -106,12 +106,12 @@ public class CoinAlertRoomDataSource implements CoinAlertDataSource {
     }
 
     @Override
-    public CoinAlert getItem(long id) {
+    public CoinAlert getItem(String id) {
         return dao.getItem(id);
     }
 
     @Override
-    public Maybe<CoinAlert> getItemRx(long id) {
+    public Maybe<CoinAlert> getItemRx(String id) {
         return null;
     }
 

@@ -34,8 +34,13 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public int getCount(long id, String type, String subtype) {
-        return room.getCount(id, type, subtype);
+    public int getCountById(String id, String type, String subtype) {
+        return room.getCountById(id, type, subtype);
+    }
+
+    @Override
+    public Maybe<Integer> getCountByIdRx(String id, String type, String subtype) {
+        return null;
     }
 
     @Override
@@ -54,8 +59,8 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public int getCount(long id, String type, String subtype, String state) {
-        return room.getCount(id, type, subtype, state);
+    public int getCountById(String id, String type, String subtype, String state) {
+        return room.getCountById(id, type, subtype, state);
     }
 
     @Override
@@ -64,17 +69,17 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public Maybe<Integer> getCountRx(long id, String type, String subtype, String state) {
+    public Maybe<Integer> getCountRx(String id, String type, String subtype, String state) {
         return room.getCountRx(id, type, subtype, state);
     }
 
     @Override
-    public State getItem(long id, String type, String subtype, String state) {
+    public State getItem(String id, String type, String subtype, String state) {
         return room.getItem(id, type, subtype, state);
     }
 
     @Override
-    public Maybe<State> getItemRx(long id, String type, String subtype, String state) {
+    public Maybe<State> getItemRx(String id, String type, String subtype, String state) {
         return room.getItemRx(id, type, subtype, state);
     }
 
@@ -98,10 +103,10 @@ public class StateRepository extends Repository<Long, State> implements StateDat
         return room.getItems(type, subtype);
     }
 
-    @Override
-    public List<State> getItems(long id, String type, String subtype) {
-        return room.getItems(id, type, subtype);
-    }
+/*    @Override
+    public List<State> getItemsWithoutId(long id, String type, String subtype) {
+        return room.getItemsWithoutId(id, type, subtype);
+    }*/
 
     @Override
     public State getItemOrderBy(String type, String subtype) {
@@ -244,13 +249,13 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     }
 
     @Override
-    public State getItem(long id) {
-        return room.getItem(id);
+    public State getItem(String id) {
+        return null;
     }
 
     @Override
-    public Maybe<State> getItemRx(long id) {
-        return room.getItemRx(id);
+    public Maybe<State> getItemRx(String id) {
+        return null;
     }
 
     @Override

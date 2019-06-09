@@ -61,7 +61,7 @@ public class Coin extends Base {
 
     }
 
-    public Coin(long id) {
+    public Coin(@NonNull String id) {
         this.id = id;
     }
 
@@ -126,17 +126,6 @@ public class Coin extends Base {
     public CoinSource getSource() {
         return source;
     }
-
-    @Override
-    public void setId(long id) {
-        super.setId(id);
-    }
-
-    @Override
-    public long getId() {
-        return super.getId();
-    }
-
 
     public void setName(String name) {
         this.name = name;

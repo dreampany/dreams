@@ -18,12 +18,12 @@ import javax.inject.Inject;
  */
 public class NewsMapper {
 
-    private final SmartMap<Long, News> map;
-    private final SmartCache<Long, News> cache;
+    private final SmartMap<String, News> map;
+    private final SmartCache<String, News> cache;
 
     @Inject
-    NewsMapper(@NewsAnnote SmartMap<Long, News> map,
-               @NewsAnnote SmartCache<Long, News> cache) {
+    NewsMapper(@NewsAnnote SmartMap<String, News> map,
+               @NewsAnnote SmartCache<String, News> cache) {
         this.map = map;
         this.cache = cache;
     }
@@ -37,7 +37,7 @@ public class NewsMapper {
         if (in == null) {
             return null;
         }
-        long id = DataUtil.getSha512(in.getGuid());
+        String id = in.getGuid();
         News out = map.get(id);
         if (out == null) {
             out = new News();
@@ -69,7 +69,7 @@ public class NewsMapper {
         if (out == null) {
             out = new SourceInfo();
         }
-        out.setId(DataUtil.getSha512(in.getName(), in.getLanguage()));
+        out.setId(DataUtil.concat(in.getName(), in.getLanguage()));
         out.setName(in.getName());
         out.setLanguage(in.getLanguage());
         out.setImageUrl(in.getImageUrl());

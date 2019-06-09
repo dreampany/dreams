@@ -7,14 +7,15 @@ import android.os.Parcel;
 import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.lca.misc.Constants;
 
 /**
  * Created by Hawladar Roman on 24/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.Market.ID}, unique = true)},
+        primaryKeys = {Constants.Market.ID})
 public class Market extends Base {
 
     private String market;
@@ -30,15 +31,9 @@ public class Market extends Base {
 
     }
 
-    public Market(long id) {
+    public Market(String id) {
         this.id = id;
     }
-
-/*    public Market(@NonNull String market, @NonNull String fromSymbol, @NonNull String toSymbol) {
-        this.market = market;
-        this.fromSymbol = fromSymbol;
-        this.market = toSymbol;
-    }*/
 
     @Ignore
     private Market(Parcel in) {

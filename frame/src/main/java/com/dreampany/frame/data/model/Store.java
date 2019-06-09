@@ -32,13 +32,13 @@ public class Store extends Base {
     }
 
     @Ignore
-    public Store(long id, @NonNull String type, @NonNull String subtype) {
+    public Store(@NonNull String id, @NonNull String type, @NonNull String subtype) {
         this.id = id;
         this.type = type;
         this.subtype = subtype;
     }
 
-    public Store(long id, @NonNull String type, @NonNull String subtype, @NonNull String state) {
+    public Store(@NonNull String id, @NonNull String type, @NonNull String subtype, @NonNull String state) {
         this.id = id;
         this.type = type;
         this.subtype = subtype;

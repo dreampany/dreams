@@ -103,12 +103,12 @@ public class GraphRemoteDataSource implements GraphDataSource {
     }
 
     @Override
-    public Graph getItem(long id) {
+    public Graph getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Graph> getItemRx(long id) {
+    public Maybe<Graph> getItemRx(String id) {
         return null;
     }
 

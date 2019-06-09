@@ -74,7 +74,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long id) {
+    public Coin getItem(CoinSource source, Currency currency, String id) {
         if (!mapper.hasCoin(id)) {
             Coin room = dao.getItem(id);
             mapper.add(room);
@@ -88,7 +88,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, String id) {
         return Maybe.create(emitter -> {
             Coin result = getItem(source, currency, id);
             if (emitter.isDisposed()) {
@@ -103,7 +103,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<String> ids) {
         updateCache();
         List<Coin> cache = mapper.getCoins(ids);
         if (DataUtil.isEmpty(cache)) {
@@ -117,7 +117,7 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids) {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, ids);
             if (emitter.isDisposed()) {
@@ -230,12 +230,12 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(long id) {
+    public Coin getItem(String id) {
         return dao.getItem(id);
     }
 
     @Override
-    public Maybe<Coin> getItemRx(long id) {
+    public Maybe<Coin> getItemRx(String id) {
         return null;
     }
 

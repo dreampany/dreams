@@ -124,7 +124,7 @@ public class NewsViewModel
         return Maybe.fromCallable(() -> {
             //remove already in UI
             List<News> filtered = new ArrayList<>();
-            SmartMap<Long, NewsItem> ui = getUiMap();
+            SmartMap<String, NewsItem> ui = getUiMap();
             Stream.of(items).forEach(news -> {
                 if (!ui.contains(news.getId())) {
                     filtered.add(news);
@@ -141,7 +141,7 @@ public class NewsViewModel
     }
 
     private NewsItem getItem(News news) {
-        SmartMap<Long, NewsItem> map = getUiMap();
+        SmartMap<String, NewsItem> map = getUiMap();
         NewsItem item = map.get(news.getId());
         if (item == null) {
             item = NewsItem.getItem(news);

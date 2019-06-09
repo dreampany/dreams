@@ -48,7 +48,7 @@ public class Quote extends Base {
 
     }
 
-    public Quote(long id) {
+    public Quote(String id) {
         this.id = id;
     }
 

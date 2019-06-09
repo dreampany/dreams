@@ -36,7 +36,7 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
     }
 
     @Override
-    public boolean isExists(long id) {
+    public boolean isExists(String id) {
         return room.isExists(id);
     }
 
@@ -111,12 +111,12 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
     }
 
     @Override
-    public CoinAlert getItem(long id) {
+    public CoinAlert getItem(String id) {
         return room.getItem(id);
     }
 
     @Override
-    public Maybe<CoinAlert> getItemRx(long id) {
+    public Maybe<CoinAlert> getItemRx(String id) {
         return null;
     }
 

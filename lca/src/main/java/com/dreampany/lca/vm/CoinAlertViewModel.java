@@ -238,7 +238,7 @@ public class CoinAlertViewModel
     }
 
     private CoinAlertItem getItem(Coin coin, CoinAlert alert) {
-        SmartMap<Long, CoinAlertItem> map = getUiMap();
+        SmartMap<String, CoinAlertItem> map = getUiMap();
         CoinAlertItem item = map.get(alert.getId());
         if (item == null) {
             item = CoinAlertItem.getItem(coin, alert);

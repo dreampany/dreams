@@ -99,16 +99,6 @@ public class PriceRoomDataSource implements PriceDataSource {
     }
 
     @Override
-    public Price getItem(long id) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Price> getItemRx(long id) {
-        return null;
-    }
-
-    @Override
     public List<Price> getItems() {
         return null;
     }

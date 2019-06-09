@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.source.room.IcoStatusConverter;
+import com.dreampany.lca.misc.Constants;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
@@ -18,8 +20,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
  * hawladar.roman@bjitgroup.com
  */
 
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.Ico.ID}, unique = true)},
+        primaryKeys = {Constants.Ico.ID})
 public class Ico extends Base {
 
     private String name;
@@ -41,7 +43,7 @@ public class Ico extends Base {
 
     }
 
-    public Ico(long id) {
+    public Ico(String id) {
         this.id = id;
     }
 

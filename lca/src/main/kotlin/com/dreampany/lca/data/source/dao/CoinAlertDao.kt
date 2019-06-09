@@ -27,16 +27,16 @@ interface CoinAlertDao : BaseDao<CoinAlert> {
     val itemsRx: Maybe<List<CoinAlert>>
 
     @Query("select count(*) from coinalert where id = :id limit 1")
-    fun getCount(id: Long): Int
+    fun getCount(id: String): Int
 
     @Query("select count(*) from coinalert where id = :id limit 1")
-    fun getCountRx(id: Long): Maybe<Int>
+    fun getCountRx(id: String): Maybe<Int>
 
     @Query("select * from coinalert where id = :id limit 1")
-    fun getItem(id: Long): CoinAlert
+    fun getItem(id: String): CoinAlert
 
     @Query("select * from coinalert where id = :id limit 1")
-    fun getItemRx(id: Long): Maybe<CoinAlert>
+    fun getItemRx(id: String): Maybe<CoinAlert>
 
     @Query("select * from coinalert limit :limit")
     fun getItems(limit: Int): List<CoinAlert>

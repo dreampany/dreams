@@ -13,25 +13,25 @@ import io.reactivex.Maybe;
  */
 public interface StateDataSource extends DataSource<State> {
 
-    int getCount(long id, String type, String subtype);
+    int getCountById(String id, String type, String subtype);
+
+    Maybe<Integer> getCountByIdRx(String id, String type, String subtype);
 
     int getCount(String type, String subtype, String state);
 
     Maybe<Integer> getCountRx(String type, String subtype, String state);
 
-    int getCount(long id, String type, String subtype, String state);
+    int getCountById(String id, String type, String subtype, String state);
 
-    Maybe<Integer> getCountRx(long id, String type, String subtype, String state);
+    Maybe<Integer> getCountRx(String id, String type, String subtype, String state);
 
-    State getItem(long id, String type, String subtype, String state);
+    State getItem(String id, String type, String subtype, String state);
 
-    Maybe<State> getItemRx(long id, String type, String subtype, String state);
+    Maybe<State> getItemRx(String id, String type, String subtype, String state);
 
     Maybe<State> getItemOrderByRx(String type, String subtype, String state, long from, long to);
 
     List<State> getItems(String type, String subtype);
-
-    List<State> getItems(long id, String type, String subtype);
 
     State getItemOrderBy(String type, String subtype);
 

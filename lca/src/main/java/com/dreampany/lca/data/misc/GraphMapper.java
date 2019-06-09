@@ -2,7 +2,6 @@ package com.dreampany.lca.data.misc;
 
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.api.cmc.model.CmcGraph;
 import com.dreampany.lca.data.model.Graph;
@@ -17,12 +16,12 @@ import javax.inject.Inject;
  */
 public class GraphMapper {
 
-    private final SmartMap<Long, Graph> map;
-    private final SmartCache<Long, Graph> cache;
+    private final SmartMap<String, Graph> map;
+    private final SmartCache<String, Graph> cache;
 
     @Inject
-    GraphMapper(@GraphAnnote SmartMap<Long, Graph> map,
-                @GraphAnnote SmartCache<Long, Graph> cache) {
+    GraphMapper(@GraphAnnote SmartMap<String, Graph> map,
+                @GraphAnnote SmartCache<String, Graph> cache) {
         this.map = map;
         this.cache = cache;
     }
@@ -32,7 +31,7 @@ public class GraphMapper {
             return null;
         }
 
-        long id  = DataUtil.getSha512(in.getSlug());
+        String id = in.getSlug();
         Graph out = map.get(id);
         if (out == null) {
             out = new Graph();
@@ -49,12 +48,11 @@ public class GraphMapper {
         return out;
     }
 
-    public boolean hasGraph(String slug) {
-        return map.contains(DataUtil.getSha512(slug));
+    public boolean hasGraph(String id) {
+        return map.contains(id);
     }
 
-    public Graph getGraph(String slug) {
-        long id  = DataUtil.getSha512(slug);
+    public Graph getGraph(String id) {
         return map.get(id);
     }
 

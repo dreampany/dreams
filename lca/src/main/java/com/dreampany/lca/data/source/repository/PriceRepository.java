@@ -113,16 +113,6 @@ public class PriceRepository extends Repository<Long, Price> implements PriceDat
     }
 
     @Override
-    public Price getItem(long id) {
-        return null;
-    }
-
-    @Override
-    public Maybe<Price> getItemRx(long id) {
-        return null;
-    }
-
-    @Override
     public List<Price> getItems() {
         return null;
     }

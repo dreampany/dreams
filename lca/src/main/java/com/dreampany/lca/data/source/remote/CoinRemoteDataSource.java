@@ -58,10 +58,10 @@ public class CoinRemoteDataSource implements CoinDataSource {
         this.service = service;
         keys = Collections.synchronizedList(new ArrayList<>());
 
-        keys.add(Constants.Key.CMC_PRO_ROMAN_BJIT);
-        keys.add(Constants.Key.CMC_PRO_IFTE_NET);
-        keys.add(Constants.Key.CMC_PRO_DREAMPANY);
-        keys.add(Constants.Key.CMC_PRO_DREAM_DEBUG_1);
+        keys.add(Constants.ApiKey.CMC_PRO_ROMAN_BJIT);
+        keys.add(Constants.ApiKey.CMC_PRO_IFTE_NET);
+        keys.add(Constants.ApiKey.CMC_PRO_DREAMPANY);
+        keys.add(Constants.ApiKey.CMC_PRO_DREAM_DEBUG_1);
 
         indexQueue = new CircularFifoQueue<>(keys.size());
         indexStatus = Maps.newConcurrentMap();
@@ -114,7 +114,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long id) {
+    public Coin getItem(CoinSource source, Currency currency, String id) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
@@ -137,7 +137,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, String id) {
         return Maybe.create(emitter -> {
             Coin result = getItem(source, currency, id);
             if (emitter.isDisposed()) {
@@ -152,7 +152,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> coinIds) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<String> coinIds) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;
         }
@@ -175,7 +175,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids) {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, ids);
             if (emitter.isDisposed()) {
@@ -261,12 +261,12 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(long id) {
+    public Coin getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Coin> getItemRx(long id) {
+    public Maybe<Coin> getItemRx(String id) {
         return null;
     }
 

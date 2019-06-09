@@ -3,6 +3,7 @@ package com.dreampany.lca.data.model;
 import android.os.Parcel;
 
 import com.dreampany.frame.data.model.Alert;
+import com.dreampany.lca.misc.Constants;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
@@ -15,8 +16,8 @@ import androidx.room.Index;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.CoinAlert.ID}, unique = true)},
+        primaryKeys = {Constants.CoinAlert.ID})
 public class CoinAlert extends Alert {
 
     private double priceUp;
@@ -56,20 +57,6 @@ public class CoinAlert extends Alert {
             return new CoinAlert[size];
         }
     };
-
-/*    @Override
-    public boolean equals(Object in) {
-        if (this == in) return true;
-        if (in == null || getClass() != in.getClass()) return false;
-
-        CoinAlert item = (CoinAlert) in;
-        return id == item.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }*/
 
     public void setPriceUp(double priceUp) {
         this.priceUp = priceUp;

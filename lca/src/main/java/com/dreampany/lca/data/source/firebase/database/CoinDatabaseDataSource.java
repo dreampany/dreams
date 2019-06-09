@@ -53,22 +53,22 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(CoinSource source, Currency currency, long id) {
+    public Coin getItem(CoinSource source, Currency currency, String id) {
         return null;
     }
 
     @Override
-    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, long id) {
+    public Maybe<Coin> getItemRx(CoinSource source, Currency currency, String id) {
         return null;
     }
 
     @Override
-    public List<Coin> getItems(CoinSource source, Currency currency, List<Long> ids) {
+    public List<Coin> getItems(CoinSource source, Currency currency, List<String> ids) {
         return null;
     }
 
     @Override
-    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<Long> ids) {
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids) {
         return null;
     }
 
@@ -184,12 +184,12 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     }
 
     @Override
-    public Coin getItem(long id) {
+    public Coin getItem(String id) {
         return null;
     }
 
     @Override
-    public Maybe<Coin> getItemRx(long id) {
+    public Maybe<Coin> getItemRx(String id) {
         return null;
     }
 

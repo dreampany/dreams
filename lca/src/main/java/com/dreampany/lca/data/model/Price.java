@@ -7,14 +7,15 @@ import android.os.Parcel;
 import androidx.annotation.NonNull;
 
 import com.dreampany.frame.data.model.Base;
+import com.dreampany.lca.misc.Constants;
 
 /**
  * Created by Hawladar Roman on 8/8/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-@Entity(indices = {@Index(value = {"id"}, unique = true)},
-        primaryKeys = {"id"})
+@Entity(indices = {@Index(value = {Constants.Price.ID}, unique = true)},
+        primaryKeys = {Constants.Price.ID})
 public class Price extends Base {
 
     private double price;
@@ -24,7 +25,7 @@ public class Price extends Base {
 
     }
 
-    public Price(long id, double price) {
+    public Price(String id, double price) {
         super(id);
         this.price = price;
     }

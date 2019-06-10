@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,8 +31,10 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.MenuTint;
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
+import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.ui.activity.ToolsActivity;
@@ -108,7 +111,6 @@ public class HomeFragment extends BaseMenuFragment
         initView();
         initRecycler();
         searchVm.loadLastSearchWord(true);
-        searchVm.suggests(false);
     }
 
     @Override
@@ -208,6 +210,7 @@ public class HomeFragment extends BaseMenuFragment
         recycler = binding.layoutRecycler.recycler;
 
         ViewUtil.setSwipe(refresh, this);
+        refresh.setEnabled(false);
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         searchVm.setUiCallback(this);
@@ -245,6 +248,8 @@ public class HomeFragment extends BaseMenuFragment
         searchView.setMenuItem(searchItem);
         searchView.setSubmitOnClick(true);
         searchView.setOnQueryTextListener(this);
+
+        searchVm.suggests(false);
     }
 
     private void processUiState(UiState state) {
@@ -375,7 +380,62 @@ public class HomeFragment extends BaseMenuFragment
     private void processSingleSuccess(WordItem item) {
         Timber.v("Result Single Word[%s]", item.getItem().getId());
         binding.setItem(item);
+        processDefinitions(item.getItem().getDefinitions());
         processUiState(UiState.CONTENT);
+    }
+
+    private void processDefinitions(List<Definition> definitions) {
+        StringBuilder singleBuilder = new StringBuilder();
+        StringBuilder multipleBuilder = new StringBuilder();
+
+        if (!DataUtil.isEmpty(definitions)) {
+            for (int index = 0; index < definitions.size(); index++) {
+                if (index == 0) {
+                    singleBuilder
+                            .append(definitions.get(index).getPartOfSpeech())
+                            .append(DataUtil.SEMI)
+                            .append(DataUtil.SPACE)
+                            .append(definitions.get(index).getText());
+                    multipleBuilder
+                            .append(definitions.get(index).getPartOfSpeech())
+                            .append(DataUtil.SEMI)
+                            .append(DataUtil.SPACE)
+                            .append(definitions.get(index).getText());
+                    continue;
+                }
+                multipleBuilder
+                        .append(DataUtil.NewLine2)
+                        .append(definitions.get(index).getPartOfSpeech())
+                        .append(DataUtil.SEMI)
+                        .append(DataUtil.SPACE)
+                        .append(definitions.get(index).getText());
+            }
+        }
+
+        if (singleBuilder.length() > 0) {
+            String text = singleBuilder.toString();
+            binding.layoutWord.layoutDefinition.textSingleDefinition.setText(text);
+            setSpan(binding.layoutWord.layoutDefinition.textSingleDefinition, text, null);
+
+            text = multipleBuilder.toString();
+            binding.layoutWord.layoutDefinition.textMultipleDefinition.setText(text);
+            setSpan(binding.layoutWord.layoutDefinition.textMultipleDefinition, text, null);
+            binding.layoutWord.layoutDefinition.layoutDefinition.setVisibility(View.VISIBLE);
+
+            if (definitions.size() > 1) {
+                binding.layoutWord.layoutDefinition.toggleDefinition.setVisibility(View.VISIBLE);
+            } else {
+                binding.layoutWord.layoutDefinition.toggleDefinition.setVisibility(View.GONE);
+            }
+
+        } else {
+            binding.layoutWord.layoutDefinition.layoutDefinition.setVisibility(View.GONE);
+        }
+    }
+
+    private void setSpan(TextView view, String text, String bold) {
+        List<String> items = TextUtil.getWords(text);
+        TextUtil.setSpan(view, items, bold, null, null);
     }
 
     private void openUi(Word item) {

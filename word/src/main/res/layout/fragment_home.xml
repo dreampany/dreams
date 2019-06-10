@@ -23,7 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bootstrap_gray_lighter">
+            android:background="@color/material_green50">
 
             <LinearLayout
                 android:id="@+id/layout_top"
@@ -49,7 +49,6 @@
                     layout="@layout/content_top_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <cz.kinst.jakub.view.StatefulLayout
@@ -60,8 +59,7 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/material_grey800">
+                    android:layout_height="match_parent">
 
                     <include
                         android:id="@+id/layout_recycler"
@@ -75,8 +73,8 @@
                         android:id="@+id/layout_word"
                         layout="@layout/content_medium_word"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/material_grey800"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/size_10"
                         android:visibility="visible"
                         auto:item="@{item}" />
                 </FrameLayout>

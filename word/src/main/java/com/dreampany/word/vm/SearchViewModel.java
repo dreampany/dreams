@@ -346,7 +346,12 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         return Maybe.create(emitter -> {
             Word word = repo.getItem(query, false);
             Word fullWord = repo.getItemIf(word);
-            WordItem result = getItem(fullWord, true);
+            WordItem result = null;
+            if (fullWord != null) {
+                pref.setLastSearchWord(fullWord);
+                result = getItem(fullWord, true);
+            }
+
             if (emitter.isDisposed()) {
                 return;
             }

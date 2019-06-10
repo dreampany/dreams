@@ -22,7 +22,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/bootstrap_gray_lighter">
 
             <LinearLayout
                 android:id="@+id/layout_top"
@@ -59,8 +60,8 @@
 
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
+                    android:layout_height="match_parent"
+                    android:background="@color/material_grey800">
 
                     <include
                         android:id="@+id/layout_recycler"
@@ -75,6 +76,7 @@
                         layout="@layout/content_medium_word"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@color/material_grey800"
                         android:visibility="visible"
                         auto:item="@{item}" />
                 </FrameLayout>

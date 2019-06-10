@@ -107,7 +107,7 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        searchVm.loadLastSearchWord(false);
+        searchVm.loadLastSearchWord(true);
         searchVm.suggests(false);
     }
 

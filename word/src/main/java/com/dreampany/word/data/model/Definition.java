@@ -1,11 +1,14 @@
 package com.dreampany.word.data.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Ignore;
 import android.os.Parcel;
 
 import com.dreampany.frame.data.model.BaseParcel;
+import com.dreampany.word.misc.Constants;
 import com.google.common.base.Objects;
+import com.google.firebase.firestore.PropertyName;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -14,6 +17,8 @@ import com.google.common.base.Objects;
  */
 public class Definition extends BaseParcel {
 
+    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
     private String partOfSpeech;
     private String text;
 
@@ -60,6 +65,7 @@ public class Definition extends BaseParcel {
         return Objects.hashCode(partOfSpeech, text);
     }
 
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
     public void setPartOfSpeech(@NonNull String partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
@@ -68,6 +74,7 @@ public class Definition extends BaseParcel {
         this.text = text;
     }
 
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
     @NonNull
     public String getPartOfSpeech() {
         return partOfSpeech;

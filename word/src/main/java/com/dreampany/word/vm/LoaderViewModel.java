@@ -52,6 +52,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
     private final List<Word> commonWords;
     private final List<Word> alphaWords;
     private final int totalResId;
+    private volatile LoadThread loadThread;
 
     @Inject
     LoaderViewModel(Application application,
@@ -102,6 +103,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         Disposable disposable = getRx()
                 .backToMain(getCommonItemsRx())
                 .subscribe(result -> {
+                    postResult(Response.Type.GET, result);
                     loadAlphas();
                 }, error -> {
                     postFailures(new MultiException(error, new ExtraException()));
@@ -120,7 +122,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                 .backToMain(getAlphaItemsRx())
                 .subscribe(result -> {
                     //loadAlphas();
-                    //postResult(Response.Type.GET, result);
+                    postResult(Response.Type.GET, result);
                 }, error -> {
                     postFailures(new MultiException(error, new ExtraException()));
                 });
@@ -166,7 +168,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
 
                     Timber.v("%d Last Common Word = %s", current, lastWord.toString());
                     getEx().postToUi(() -> postResult(Response.Type.GET, item));
-                    AndroidUtil.sleep(100);
+                    AndroidUtil.sleep(10);
                 }
             }
             if (commonWords.isEmpty()) {
@@ -235,30 +237,28 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         return true;
     }
 
-/*    private void startRequestThread() {
+    private void startLoadThread() {
         synchronized (guard) {
-            if (syncThread == null || !syncThread.isRunning()) {
-                syncThread = new SyncThread();
-                syncThread.start();
+            if (loadThread == null || !loadThread.isRunning()) {
+                loadThread = new LoadThread();
+                loadThread.start();
             }
-            syncThread.notifyRunner();
+            loadThread.notifyRunner();
         }
     }
 
     private void stopRequestThread() {
         synchronized (guard) {
-            if (syncThread != null) {
-                syncThread.stop();
+            if (loadThread != null) {
+                loadThread.stop();
             }
         }
-    }*/
+    }
 
 
-/*    private class SyncThread extends Runner {
+    private class LoadThread extends Runner {
 
-        private final long delay = Constants.Time.INSTANCE.getCoin();
-
-        SyncThread() {
+        LoadThread() {
 
         }
 
@@ -267,16 +267,10 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             //1. download listing if expired or not performed
             //2. Take one by one coins from server
 
-            long lastTime = pref.getCoinListingTime();
-            if (TimeUtil.isExpired(lastTime, delay)) {
-                List<Coin> result = getListing(CoinSource.CMC);
-                if (!DataUtil.isEmpty(result)) {
-                    pref.commitCoinListingTime();
-                }
-            }
+
 
 
             return true;
         }
-    }*/
+    }
 }

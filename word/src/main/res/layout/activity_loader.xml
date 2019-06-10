@@ -33,36 +33,23 @@
                 auto:cpv_barColor="@color/colorPrimary"
                 auto:cpv_barWidth="30dp"
                 auto:cpv_innerContourSize="0dp"
-                auto:cpv_maxValue="100"
                 auto:cpv_outerContourSize="0dp"
                 auto:cpv_rimColor="@color/material_grey400"
                 auto:cpv_rimWidth="30dp"
                 auto:cpv_seekMode="false"
-                auto:cpv_showUnit="true"
                 auto:cpv_spinColor="@color/colorPrimary"
                 auto:cpv_textColor="@color/colorPrimaryDark"
                 auto:cpv_textScale="1"
-                auto:cpv_unit="%"
                 auto:cpv_unitColor="@color/colorAccent"
                 auto:cpv_unitPosition="right_top"
                 auto:cpv_unitScale="1"
                 auto:cpv_value="0" />
 
-            <com.rilixtech.materialfancybutton.MaterialFancyButton
+            <com.github.nikartm.button.FitButton
                 android:id="@+id/button_done"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:minHeight="36dp"
-                android:minWidth="120dp"
                 android:visibility="gone"
-                auto:mfb_defaultColor="@color/colorAccent"
-                auto:mfb_radius="6dp"
-                auto:mfb_text="@string/done"
-                auto:mfb_textColor="@color/material_white"
-                auto:mfb_textFont="@string/fontRobotoSlabTitle"
-                auto:mfb_textSize="18sp"
                 tools:visibility="visible" />
 
         </RelativeLayout>

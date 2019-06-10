@@ -24,18 +24,4 @@
         android:textSize="16sp"
         auto:smart_font="@string/fontRobotoSlabTitle" />
 
-<!--    <com.rilixtech.materialfancybutton.MaterialFancyButton
-        android:id="@+id/button_empty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:minHeight="36dp"
-        android:minWidth="120dp"
-        auto:mfb_defaultColor="@color/colorAccent"
-        auto:mfb_radius="6dp"
-        auto:mfb_text="@string/try_again"
-        auto:mfb_textColor="@color/material_white"
-        auto:mfb_textFont="@string/fontRobotoSlabTitle"
-        auto:mfb_textSize="18sp" />-->
-
 </LinearLayout>

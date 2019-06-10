@@ -403,13 +403,12 @@ abstract class BaseActivity :
         }
     }
 
-    fun <T : Any> openActivity(target: KClass<T>) {
-        openActivity(target.java)
+    fun <T : Any> openActivity(target: KClass<T>, finish: Boolean) {
+        openActivity(target.java, finish)
     }
 
-    fun openActivity(target: Class<*>) {
-        AndroidUtil.openActivity(this, target)
-        Animato.animateSlideLeft(this)
+    fun openActivity(target: Class<*>, finish: Boolean) {
+        AndroidUtil.openActivity(this, target, finish)
     }
 
     fun openActivity(target: Class<*>, requestCode: Int) {

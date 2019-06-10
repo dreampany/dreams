@@ -70,7 +70,6 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     protected void onStartUi(Bundle state) {
         initView();
         ad.loadBanner(getClass().getSimpleName());
-        vm.loads();
     }
 
     @Override
@@ -82,6 +81,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     protected void onResume() {
         super.onResume();
         ad.resumeBanner(getClass().getSimpleName());
+        vm.loads();
     }
 
     @Override

@@ -27,8 +27,7 @@ class LaunchActivity : BaseActivity() {
         loader.smoothToShow()
         AndroidUtil.getUiHandler().postDelayed({
             loader.smoothToHide()
-            openActivity(NavigationActivity::class.java)
-            finish()
+            openActivity(NavigationActivity::class.java, true)
         }, 2000L)
     }
 

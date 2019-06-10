@@ -351,6 +351,7 @@ public final class AndroidUtil {
             if (finish) {
                 source.finish();
             }
+            Animato.animateSlideLeft(source);
         }
     }
 
@@ -360,18 +361,21 @@ public final class AndroidUtil {
             if (finish) {
                 source.getActivity().finish();
             }
+            Animato.animateSlideLeft(source.getActivity());
         }
     }
 
     public static <T extends Activity> void openActivity(T source, Class<?> target, int requestCode) {
         if (source != null) {
             source.startActivityForResult(new Intent(source, target), requestCode);
+            Animato.animateSlideLeft(source);
         }
     }
 
     public static <T extends Fragment> void openActivity(T source, Class<?> target, int requestCode) {
         if (source != null) {
             source.startActivityForResult(new Intent(source.getActivity(), target), requestCode);
+            Animato.animateSlideLeft(source.getActivity());
         }
     }
 
@@ -388,6 +392,7 @@ public final class AndroidUtil {
         if (finish) {
             source.finish();
         }
+        Animato.animateSlideLeft(source);
     }
 
     public static <T extends Fragment, X extends Parcelable> void openActivity(T source, Class<?> target, Task<X> task) {
@@ -397,6 +402,7 @@ public final class AndroidUtil {
                 intent.putExtra(Task.class.getSimpleName(), (Parcelable) task);
             }
             source.startActivity(intent);
+            Animato.animateSlideLeft(source.getActivity());
         }
     }
 
@@ -405,6 +411,7 @@ public final class AndroidUtil {
             Intent intent = new Intent(source.getActivity(), target);
             intent.putExtra(Task.class.getSimpleName(), (Parcelable) task);
             source.startActivityForResult(intent, requestCode);
+            Animato.animateSlideLeft(source.getActivity());
         }
     }
 

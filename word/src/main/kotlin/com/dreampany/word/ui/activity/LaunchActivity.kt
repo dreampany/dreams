@@ -27,8 +27,7 @@ class LaunchActivity : BaseActivity() {
         loader.smoothToShow()
         ex.postToUi({
             loader.smoothToHide()
-            openActivity(NavigationActivity::class.java)
-            finish()
+            openActivity(NavigationActivity::class.java, true)
         }, 2000L)
     }
 

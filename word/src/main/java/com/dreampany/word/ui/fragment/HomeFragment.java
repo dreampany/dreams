@@ -279,7 +279,6 @@ public class HomeFragment extends BaseMenuFragment
             case CONTENT:
                 binding.stateful.setState(StatefulLayout.State.CONTENT);
                 break;
-
         }
     }
 
@@ -375,7 +374,8 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processSingleSuccess(WordItem item) {
         Timber.v("Result Single Word[%s]", item.getItem().getId());
-        //adapter.updateSilently(item);
+        binding.setItem(item);
+        processUiState(UiState.CONTENT);
     }
 
     private void openUi(Word item) {
@@ -385,4 +385,5 @@ public class HomeFragment extends BaseMenuFragment
         task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
     }
+
 }

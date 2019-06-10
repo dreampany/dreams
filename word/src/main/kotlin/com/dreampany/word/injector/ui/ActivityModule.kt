@@ -4,6 +4,7 @@ import com.dreampany.word.ui.activity.LaunchActivity
 import com.dreampany.word.ui.activity.NavigationActivity
 import com.dreampany.word.ui.activity.ToolsActivity
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.word.ui.activity.LoaderActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -18,6 +19,10 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract fun launchActivity(): LaunchActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun laoderActivity(): LoaderActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])

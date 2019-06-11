@@ -123,6 +123,7 @@ public class GraphFragment
 
     @Override
     public void onPause() {
+        processUiState(UiState.HIDE_PROGRESS);
         super.onPause();
         //vm.removeSingleSubscription();
     }

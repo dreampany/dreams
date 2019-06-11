@@ -109,6 +109,7 @@ public class MarketFragment
 
     @Override
     public void onPause() {
+        processUiState(UiState.HIDE_PROGRESS);
         super.onPause();
        // evm.removeMultipleSubscription();
     }

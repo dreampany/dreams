@@ -113,6 +113,7 @@ public class CoinDetailsFragment
     @Override
     public void onPause() {
         vm.removeMultipleSubscription();
+        processUiState(UiState.HIDE_PROGRESS);
         super.onPause();
     }
 

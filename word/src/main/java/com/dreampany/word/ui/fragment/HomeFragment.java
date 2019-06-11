@@ -89,12 +89,6 @@ public class HomeFragment extends BaseMenuFragment
     private OnVerticalScrollListener scroller;
     private MaterialSearchView searchView;
 
-/*    private SwipeRefreshLayout refresh;
-    private StatefulLayout stateFull;
-    private ExpandableLayout expandable;
-    private RecyclerView recycler;
-    */
-
     SearchViewModel searchVm;
     WordAdapter adapter;
 
@@ -160,6 +154,9 @@ public class HomeFragment extends BaseMenuFragment
         switch (v.getId()) {
             case R.id.toggle_definition:
                 toggleDefinition();
+                break;
+            case R.id.button_favorite:
+                searchVm.toggleFavorite(binding.getItem().getItem());
                 break;
         }
     }
@@ -233,6 +230,7 @@ public class HomeFragment extends BaseMenuFragment
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         binding.layoutRefresh.setEnabled(false);
         bindDef.toggleDefinition.setOnClickListener(this);
+        bindWord.buttonFavorite.setOnClickListener(this);
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         searchVm.setUiCallback(this);

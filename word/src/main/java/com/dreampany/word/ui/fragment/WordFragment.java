@@ -232,7 +232,7 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processFavourite(WordItem item) {
-        //int flagImageId = item.isFlagged() ? R.drawable.ic_turned_in_white_24dp : R.drawable.ic_turned_in_not_white_24dp;
+        //int flagImageId = item.isFavorite() ? R.drawable.ic_turned_in_white_24dp : R.drawable.ic_turned_in_not_white_24dp;
         //ViewUtil.setIcon(getMenu(), R.id.item_favourite_toggle, flagImageId);
     }
 

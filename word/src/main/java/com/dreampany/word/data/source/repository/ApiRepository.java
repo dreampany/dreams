@@ -42,7 +42,7 @@ public class ApiRepository {
     private final StateMapper stateMapper;
     private final WordRepository wordRepo;
     private final StateRepository stateRepo;
-    private final Map<Word, Boolean> flags;
+    private final Map<Word, Boolean> favorites;
 
     @Inject
     ApiRepository(RxMapper rx,
@@ -59,7 +59,7 @@ public class ApiRepository {
         this.stateMapper = stateMapper;
         this.wordRepo = wordRepo;
         this.stateRepo = stateRepo;
-        flags = Maps.newConcurrentMap();
+        favorites = Maps.newConcurrentMap();
     }
 
     synchronized public List<Word> getCommonWords() {
@@ -161,23 +161,34 @@ public class ApiRepository {
         return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
     }
 
-    synchronized public boolean isFlagged(Word word) {
-        if (!flags.containsKey(word)) {
-            boolean flag = hasState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
-            flags.put(word, flag);
-        }
-        return flags.get(word);
+    public long putFavorite(Word word) {
+        long result = putState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+        return result;
     }
 
-    synchronized public boolean toggleFlag(Word word) {
-        if (isFlagged(word)) {
-            removeState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
-            flags.put(word, false);
-        } else {
-            putState(word, ItemSubtype.DEFAULT, ItemState.FLAG);
-            flags.put(word, true);
+    public int removeFavorite(Word word) {
+        int result = removeState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+        return result;
+    }
+
+    synchronized public boolean isFavorite(Word word) {
+        if (!favorites.containsKey(word)) {
+            boolean favorite = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+            favorites.put(word, favorite);
         }
-        return flags.get(word);
+        return favorites.get(word);
+    }
+
+    public boolean toggleFavorite(Word word) {
+        boolean flagged = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+        if (flagged) {
+            removeFavorite(word);
+            favorites.put(word, false);
+        } else {
+            putFavorite(word);
+            favorites.put(word, true);
+        }
+        return favorites.get(word);
     }
 
     private Word getRoomItemIf(Word word) {

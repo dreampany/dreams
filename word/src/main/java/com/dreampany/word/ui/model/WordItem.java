@@ -12,7 +12,7 @@ import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.google.common.base.Objects;
-import com.like.LikeButton;
+
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
     private Set<ItemState> states;
     private boolean recent;
     private Map<String, String> translates;
-    private boolean flagged;
+    private boolean favorite;
     private long time;
 
     private WordItem(Word word, @LayoutRes int layoutId) {
@@ -55,8 +55,8 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         this.recent = recent;
     }
 
-    public void setFlagged(boolean flagged) {
-        this.flagged = flagged;
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
     }
 
     public void setTime(long time) {
@@ -67,8 +67,8 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         return recent;
     }
 
-    public boolean isFlagged() {
-        return flagged;
+    public boolean isFavorite() {
+        return favorite;
     }
 
     public long getTime() {
@@ -138,7 +138,7 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
             int color = item.hasState(ItemState.FULL) ? R.color.material_black : R.color.material_grey500;
             this.word.setTextColor(ColorUtil.getColor(getContext(), color));
             //like.setTag(word);
-            //like.setLiked(item.isFlagged());
+            //like.setLiked(item.isFavorite());
         }
     }
 }

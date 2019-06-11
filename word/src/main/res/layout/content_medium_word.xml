@@ -36,7 +36,6 @@
                     android:id="@+id/text_word"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
                     android:drawablePadding="5dp"
                     android:ellipsize="end"
                     android:text="@{item.item.id}"
@@ -49,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text_word"
-                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentStart="true"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -74,6 +73,29 @@
                         android:textSize="14sp"
                         android:textStyle="bold"
                         auto:fontFamily="@font/roboto_slab_bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/size_25"
+                        android:layout_height="@dimen/size_25"
+                        android:tint="@color/colorAccent"
+                        auto:srcCompat="@drawable/ic_keyboard_voice_black_24dp" />
+
+                    <com.like.LikeButton
+                        android:id="@+id/button_favorite"
+                        android:layout_width="@dimen/size_23"
+                        android:layout_height="@dimen/size_23"
+                        android:layout_marginTop="@dimen/size_8"
+                        auto:icon_size="@dimen/size_23"
+                        auto:icon_type="heart"
+                        auto:liked="@{item.favorite}" />
+
                 </LinearLayout>
 
                 <!--                <RelativeLayout
@@ -105,7 +127,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_word"
-            android:layout_marginTop="@dimen/size_4"
+            android:layout_marginTop="@dimen/size_8"
             android:scrollbars="none"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 

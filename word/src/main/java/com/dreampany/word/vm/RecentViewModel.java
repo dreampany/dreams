@@ -240,8 +240,8 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustFlag(WordItem item) {
-        //boolean flagged = repo.isFlagged(item.getItemRx());
-        //item.setFlagged(flagged);
+        //boolean flagged = repo.isFavorite(item.getItemRx());
+        //item.setFavorite(flagged);
     }
 
     /*@DebugLog
@@ -402,7 +402,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     private void adjustFlag(WordItem item) {
-        boolean flagged = repo.isFlagged(item.getItemRx());
-        item.setFlagged(flagged);
+        boolean flagged = repo.isFavorite(item.getItemRx());
+        item.setFavorite(flagged);
     }*/
 }

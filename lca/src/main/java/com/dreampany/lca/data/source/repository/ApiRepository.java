@@ -103,11 +103,10 @@ public class ApiRepository {
         return result;
     }
 
-
     public boolean isFavorite(Coin coin) {
         if (!favorites.containsKey(coin)) {
-            boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
-            favorites.put(coin, flagged);
+            boolean favorite = hasState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+            favorites.put(coin, favorite);
         }
         return favorites.get(coin);
     }
@@ -121,8 +120,8 @@ public class ApiRepository {
     }
 
     public boolean toggleFavorite(Coin coin) {
-        boolean flagged = hasState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
-        if (flagged) {
+        boolean favorite = hasState(coin, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+        if (favorite) {
             removeFavorite(coin);
             favorites.put(coin, false);
         } else {

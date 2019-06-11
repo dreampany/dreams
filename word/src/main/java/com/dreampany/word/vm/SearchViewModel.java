@@ -271,6 +271,12 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addSubscription(updateDisposable);
     }
 
+    public void toggleFavorite(Word word) {
+        Disposable disposable = getRx()
+                .backToMain(toggleImpl(word))
+                .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
+    }
+
     /**
      * private api
      */
@@ -328,7 +334,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
-            //repo.toggleFlag(word);
+            repo.toggleFavorite(word);
             return getItem(word, true);
         });
     }
@@ -401,6 +407,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             map.put(word.getId(), item);
         }
         item.setItem(word);
+        adjustFavorite(word, item);
         if (fully) {
             adjustState(item);
         }
@@ -457,5 +464,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 emitter.onSuccess(result);
             }
         });
+    }
+
+    private void adjustFavorite(Word word, WordItem item) {
+        item.setFavorite(repo.isFavorite(word));
     }
 }

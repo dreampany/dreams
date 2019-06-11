@@ -203,7 +203,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
     }
 
     private void adjustFlag(WordItem item) {
-/*        boolean flagged = repo.isFlagged(coin);
-        item.setFlagged(flagged);*/
+/*        boolean flagged = repo.isFavorite(coin);
+        item.setFavorite(flagged);*/
     }
 }

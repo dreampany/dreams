@@ -1,7 +1,6 @@
 package com.dreampany.word.data.misc;
 
 import com.annimon.stream.Stream;
-import com.annimon.stream.function.Consumer;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
@@ -197,6 +196,9 @@ public class WordMapper {
         if (in.hasDefinition()) {
             List<Definition> result = new ArrayList<>();
             Stream.of(in.getDefinitions()).forEach(item -> {
+                if (item.isEmpty()) {
+                    return;
+                }
                 Definition def = new Definition();
                 def.setPartOfSpeech(item.getPartOfSpeech());
                 def.setText(item.getText());

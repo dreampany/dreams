@@ -36,6 +36,10 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
+import com.dreampany.word.databinding.ContentDefinitionBinding;
+import com.dreampany.word.databinding.ContentMediumWordBinding;
+import com.dreampany.word.databinding.ContentRecyclerBinding;
+import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.WordAdapter;
@@ -77,12 +81,19 @@ public class HomeFragment extends BaseMenuFragment
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentHomeBinding binding;
+    private ContentTopStatusBinding bindStatus;
+    private ContentRecyclerBinding bindRecycler;
+    private ContentMediumWordBinding bindWord;
+    private ContentDefinitionBinding bindDef;
 
     private OnVerticalScrollListener scroller;
-    private SwipeRefreshLayout refresh;
+    private MaterialSearchView searchView;
+
+/*    private SwipeRefreshLayout refresh;
+    private StatefulLayout stateFull;
     private ExpandableLayout expandable;
     private RecyclerView recycler;
-    private MaterialSearchView searchView;
+    */
 
     SearchViewModel searchVm;
     WordAdapter adapter;
@@ -145,12 +156,12 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     @Override
-    public boolean hasBackPressed() {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch();
-            return true;
+    public void onClick(@NotNull View v) {
+        switch (v.getId()) {
+            case R.id.toggle_definition:
+                toggleDefinition();
+                break;
         }
-        return super.hasBackPressed();
     }
 
     @Override
@@ -197,20 +208,31 @@ public class HomeFragment extends BaseMenuFragment
         return false;
     }
 
+    @Override
+    public boolean hasBackPressed() {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+            return true;
+        }
+        return super.hasBackPressed();
+    }
+
     private void initView() {
         setTitle(R.string.home);
         binding = (FragmentHomeBinding) super.binding;
+        bindStatus = binding.layoutTopStatus;
+        bindWord = binding.layoutWord;
+        bindRecycler = binding.layoutRecycler;
+        bindDef = bindWord.layoutDefinition;
+
         binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         processUiState(UiState.SEARCH);
         //ViewUtil.setText(this, R.id.text_empty, R.string.empty_search_words);
 
-        refresh = binding.layoutRefresh;
-        expandable = binding.layoutTopStatus.layoutExpandable;
-        recycler = binding.layoutRecycler.recycler;
-
-        ViewUtil.setSwipe(refresh, this);
-        refresh.setEnabled(false);
+        ViewUtil.setSwipe(binding.layoutRefresh, this);
+        binding.layoutRefresh.setEnabled(false);
+        bindDef.toggleDefinition.setOnClickListener(this);
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         searchVm.setUiCallback(this);
@@ -232,7 +254,7 @@ public class HomeFragment extends BaseMenuFragment
         };
         ViewUtil.setRecycler(
                 adapter,
-                recycler,
+                bindRecycler.recycler,
                 new SmoothScrollLinearLayoutManager(getContext()),
                 new FlexibleItemDecoration(getContext())
                         .addItemViewType(R.layout.item_word, searchVm.getItemOffset())
@@ -255,20 +277,20 @@ public class HomeFragment extends BaseMenuFragment
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                if (!refresh.isRefreshing()) {
-                    refresh.setRefreshing(true);
+                if (!binding.layoutRefresh.isRefreshing()) {
+                    binding.layoutRefresh.setRefreshing(true);
                 }
                 break;
             case HIDE_PROGRESS:
-                if (refresh.isRefreshing()) {
-                    refresh.setRefreshing(false);
+                if (binding.layoutRefresh.isRefreshing()) {
+                    binding.layoutRefresh.setRefreshing(false);
                 }
                 break;
             case OFFLINE:
-                expandable.expand();
+                bindStatus.layoutExpandable.expand();
                 break;
             case ONLINE:
-                expandable.collapse();
+                bindStatus.layoutExpandable.collapse();
                 break;
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);
@@ -374,7 +396,7 @@ public class HomeFragment extends BaseMenuFragment
         }
         adapter.clear();
         adapter.addItems(items);
-        ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 500);
     }
 
     private void processSingleSuccess(WordItem item) {
@@ -414,28 +436,44 @@ public class HomeFragment extends BaseMenuFragment
 
         if (singleBuilder.length() > 0) {
             String text = singleBuilder.toString();
-            binding.layoutWord.layoutDefinition.textSingleDefinition.setText(text);
-            setSpan(binding.layoutWord.layoutDefinition.textSingleDefinition, text, null);
+            bindDef.textSingleDefinition.setText(text);
+            setSpan(bindDef.textSingleDefinition, text, null);
 
             text = multipleBuilder.toString();
-            binding.layoutWord.layoutDefinition.textMultipleDefinition.setText(text);
-            setSpan(binding.layoutWord.layoutDefinition.textMultipleDefinition, text, null);
-            binding.layoutWord.layoutDefinition.layoutDefinition.setVisibility(View.VISIBLE);
+            bindDef.textMultipleDefinition.setText(text);
+            setSpan(bindDef.textMultipleDefinition, text, null);
+            bindDef.layoutDefinition.setVisibility(View.VISIBLE);
 
             if (definitions.size() > 1) {
-                binding.layoutWord.layoutDefinition.toggleDefinition.setVisibility(View.VISIBLE);
+                bindDef.toggleDefinition.setVisibility(View.VISIBLE);
             } else {
-                binding.layoutWord.layoutDefinition.toggleDefinition.setVisibility(View.GONE);
+                bindDef.toggleDefinition.setVisibility(View.GONE);
             }
 
         } else {
-            binding.layoutWord.layoutDefinition.layoutDefinition.setVisibility(View.GONE);
+            bindDef.layoutDefinition.setVisibility(View.GONE);
         }
     }
 
     private void setSpan(TextView view, String text, String bold) {
         List<String> items = TextUtil.getWords(text);
-        TextUtil.setSpan(view, items, bold, null, null);
+        TextUtil.setSpan(view, items, bold, this::searchWord, this::searchWord);
+    }
+
+    private void toggleDefinition() {
+        if (bindDef.layoutSingleExpandable.isExpanded()) {
+            bindDef.layoutSingleExpandable.collapse(true);
+            bindDef.layoutMultipleExpandable.expand(true);
+            bindDef.toggleDefinition.setImageResource(R.drawable.ic_arrow_drop_up_black_24dp);
+        } else {
+            bindDef.layoutMultipleExpandable.collapse(true);
+            bindDef.layoutSingleExpandable.expand(true);
+            bindDef.toggleDefinition.setImageResource(R.drawable.ic_arrow_drop_down_black_24dp);
+        }
+    }
+
+    private void searchWord(String word) {
+        searchVm.find(word, true);
     }
 
     private void openUi(Word item) {

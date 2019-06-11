@@ -279,7 +279,7 @@ public final class TextUtil {
     }
 
     public static boolean setSpan(TextView view, List<String> items, String bold,
-                                  Link.OnClickListener listener,
+                                  Link.OnClickListener clickListener,
                                   Link.OnLongClickListener longClickListener) {
         List<Link> links = new ArrayList<>();
         Link link;
@@ -288,11 +288,17 @@ public final class TextUtil {
                 continue;
             }
             link = new Link(item)
-                    .setOnClickListener(listener)
+                    //.setOnClickListener(listener)
                     .setUnderlined(true)
-                    .setOnLongClickListener(longClickListener)
+                    //.setOnLongClickListener(longClickListener)
                     .setTextColor(ColorUtil.getColor(view.getContext(), R.color.material_grey700))
                     .setTextColorOfHighlightedLink(ColorUtil.getColor(view.getContext(), R.color.colorAccent));
+            if (clickListener != null) {
+                link.setOnClickListener(clickListener);
+            }
+            if (longClickListener != null) {
+                link.setOnLongClickListener(longClickListener);
+            }
             links.add(link);
         }
 

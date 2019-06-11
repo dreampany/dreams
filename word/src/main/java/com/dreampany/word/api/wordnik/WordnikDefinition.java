@@ -1,5 +1,7 @@
 package com.dreampany.word.api.wordnik;
 
+import com.dreampany.frame.util.DataUtil;
+
 /**
  * Created by Hawladar Roman on 9/3/2018.
  * BJIT Group
@@ -21,5 +23,9 @@ public class WordnikDefinition {
 
     public String getText() {
         return text;
+    }
+
+    public boolean isEmpty() {
+        return DataUtil.isEmpty(partOfSpeech) || DataUtil.isEmpty(text);
     }
 }

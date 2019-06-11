@@ -212,6 +212,7 @@ abstract class BaseActivity :
             if (doubleBackToExitPressedOnce) {
                 //super.onBackPressed()
                 finish()
+                Animato.animateSlideRight(this)
                 return;
             }
             doubleBackToExitPressedOnce = true
@@ -219,6 +220,7 @@ abstract class BaseActivity :
             ex.postToUi({ doubleBackToExitPressedOnce = false }, 2000)
         } else {
             finish()
+            Animato.animateSlideRight(this)
         }
     }
 

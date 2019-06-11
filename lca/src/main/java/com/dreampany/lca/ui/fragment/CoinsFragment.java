@@ -428,7 +428,7 @@ public class CoinsFragment
         adapter.addItems(items);
         //adapter.loadMoreComplete(items);
         //recycler.setNestedScrollingEnabled(true);
-        AndroidUtil.getUiHandler().postDelayed(() -> processUiState(UiState.EXTRA), 1000);
+        ex.postToUi(() -> processUiState(UiState.EXTRA));
     }
 
     private void processSingleSuccess(CoinItem item) {

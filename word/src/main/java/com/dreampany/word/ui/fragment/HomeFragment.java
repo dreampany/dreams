@@ -73,7 +73,8 @@ import timber.log.Timber;
 @ActivityScope
 public class HomeFragment extends BaseMenuFragment
         implements SmartAdapter.Callback<WordItem>,
-        MaterialSearchView.OnQueryTextListener {
+        MaterialSearchView.OnQueryTextListener,
+        MaterialSearchView.SearchViewListener {
 
     private final String SEARCH = "search";
     private final String EMPTY = "empty";
@@ -91,6 +92,8 @@ public class HomeFragment extends BaseMenuFragment
 
     SearchViewModel searchVm;
     WordAdapter adapter;
+
+    String query;
 
     @Inject
     public HomeFragment() {
@@ -158,6 +161,9 @@ public class HomeFragment extends BaseMenuFragment
             case R.id.button_favorite:
                 searchVm.toggleFavorite(binding.getItem().getItem());
                 break;
+            case R.id.fab:
+                processFabAction();
+                break;
         }
     }
 
@@ -171,7 +177,16 @@ public class HomeFragment extends BaseMenuFragment
         return false;
     }
 
-    @DebugLog
+    @Override
+    public void onSearchViewShown() {
+        toSearchMode();
+    }
+
+    @Override
+    public void onSearchViewClosed() {
+        toScanMode();
+    }
+
     @Override
     public boolean onQueryTextSubmit(@NotNull String query) {
         Timber.v("onQueryTextSubmit %s", query);
@@ -182,6 +197,7 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public boolean onQueryTextChange(@NotNull String newText) {
         Timber.v("onQueryTextChange %s", newText);
+        this.query = newText;
         return super.onQueryTextChange(newText);
     }
 
@@ -228,9 +244,9 @@ public class HomeFragment extends BaseMenuFragment
         //ViewUtil.setText(this, R.id.text_empty, R.string.empty_search_words);
 
         ViewUtil.setSwipe(binding.layoutRefresh, this);
-        binding.layoutRefresh.setEnabled(false);
         bindDef.toggleDefinition.setOnClickListener(this);
         bindWord.buttonFavorite.setOnClickListener(this);
+        binding.fab.setOnClickListener(this);
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         searchVm.setUiCallback(this);
@@ -267,6 +283,8 @@ public class HomeFragment extends BaseMenuFragment
         MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
         searchView.setMenuItem(searchItem);
         searchView.setSubmitOnClick(true);
+
+        searchView.setOnSearchViewListener(this);
         searchView.setOnQueryTextListener(this);
 
         searchVm.suggests(false);
@@ -333,7 +351,6 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
-    @DebugLog
     public void processSingleResponse(Response<WordItem> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
@@ -347,7 +364,22 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
-    @DebugLog
+    private void toScanMode() {
+        query = null;
+        binding.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp);
+    }
+
+    private void toSearchMode() {
+        binding.fab.setImageResource(R.drawable.ic_search_black_24dp);
+    }
+
+    private void processFabAction() {
+        if (searchView.isSearchOpen()) {
+            searchVm.find(query, true);
+            return;
+        }
+    }
+
     private void processProgress(boolean loading) {
         if (loading) {
             searchVm.updateUiState(UiState.SHOW_PROGRESS);
@@ -483,5 +515,4 @@ public class HomeFragment extends BaseMenuFragment
         task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
     }
-
 }

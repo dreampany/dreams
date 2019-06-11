@@ -299,7 +299,7 @@ public class HomeFragment extends BaseMenuFragment
                 binding.stateful.setState(SEARCH);
                 break;
             case EMPTY:
-                binding.stateful.setState(EMPTY);
+                binding.stateful.setState(SEARCH);
                 break;
             case ERROR:
                 break;
@@ -349,6 +349,7 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
+    @DebugLog
     private void processProgress(boolean loading) {
         if (loading) {
             searchVm.updateUiState(UiState.SHOW_PROGRESS);
@@ -412,25 +413,26 @@ public class HomeFragment extends BaseMenuFragment
 
         if (!DataUtil.isEmpty(definitions)) {
             for (int index = 0; index < definitions.size(); index++) {
+                Definition def = definitions.get(index);
                 if (index == 0) {
                     singleBuilder
-                            .append(definitions.get(index).getPartOfSpeech())
+                            .append(def.getPartOfSpeech())
                             .append(DataUtil.SEMI)
                             .append(DataUtil.SPACE)
-                            .append(definitions.get(index).getText());
+                            .append(def.getText());
                     multipleBuilder
-                            .append(definitions.get(index).getPartOfSpeech())
+                            .append(def.getPartOfSpeech())
                             .append(DataUtil.SEMI)
                             .append(DataUtil.SPACE)
-                            .append(definitions.get(index).getText());
+                            .append(def.getText());
                     continue;
                 }
                 multipleBuilder
                         .append(DataUtil.NewLine2)
-                        .append(definitions.get(index).getPartOfSpeech())
+                        .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
-                        .append(definitions.get(index).getText());
+                        .append(def.getText());
             }
         }
 

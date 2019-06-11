@@ -161,7 +161,7 @@ public class WordAssetsDataSource implements WordDataSource {
 
     @Override
     public Word getItem(String word, boolean full) {
-        return null;
+        return alphaWords.contains(word) ? mapper.toItem(word) : null;
     }
 
     @Override

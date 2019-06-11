@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center" >
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/image_icon"
@@ -11,6 +11,7 @@
         android:layout_height="150dp"
         android:alpha="0.5"
         android:scaleType="fitCenter"
+        android:tint="@color/colorAccent"
         auto:srcCompat="@drawable/ic_search_black_24dp" />
 
     <fr.arnaudguyon.smartfontslib.FontTextView
@@ -18,11 +19,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:paddingEnd="15dp"
         android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:text="@string/search_words"
         android:textColor="@color/material_grey700"
         android:textSize="16sp"
         auto:smart_font="@string/fontRobotoSlabBody" />
 
-</LinearLayout >
+</LinearLayout>

@@ -131,6 +131,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     }
                     postResult(Response.Type.GET, result);
                 }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);
@@ -153,6 +156,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     }
                     postResultOfString(Response.Type.SUGGESTS, result);
                 }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscriptionOfString(disposable);
@@ -175,6 +181,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     }
                     postResult(Response.Type.SUGGESTS, result);
                 }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
@@ -198,6 +207,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     postResult(Response.Type.SEARCH, result);
                     //getEx().postToUi(() -> update(false), 3000L);
                 }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addMultipleSubscription(disposable);
@@ -221,6 +233,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     postResult(Response.Type.SEARCH, result);
                     //getEx().postToUi(() -> update(false), 3000L);
                 }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);
@@ -325,7 +340,10 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     private Maybe<WordItem> getLastSearchWordRx() {
         return Maybe.create(emitter -> {
             Word word = pref.getLastSearchWord();
-            WordItem result = getItem(word, true);
+            WordItem result = null;
+            if (word != null) {
+                result = getItem(word, true);
+            }
             if (emitter.isDisposed()) {
                 return;
             }

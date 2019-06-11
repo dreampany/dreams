@@ -72,6 +72,14 @@ public final class TextUtil {
         return text.replaceAll("(<(/)img>)|(<img.+?>)", "");
     }
 
+    public static String stripHtml(String html) {
+        if (AndroidUtil.hasNougat()) {
+            return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
+        } else {
+            return Html.fromHtml(html).toString();
+        }
+    }
+
     public static SpannableString toUnderscore(Context context, @StringRes int resId) {
         String text = TextUtil.getString(context, resId);
         return toUnderscore(text);
@@ -288,9 +296,7 @@ public final class TextUtil {
                 continue;
             }
             link = new Link(item)
-                    //.setOnClickListener(listener)
-                    .setUnderlined(true)
-                    //.setOnLongClickListener(longClickListener)
+                    .setUnderlined(false)
                     .setTextColor(ColorUtil.getColor(view.getContext(), R.color.material_grey700))
                     .setTextColorOfHighlightedLink(ColorUtil.getColor(view.getContext(), R.color.colorAccent));
             if (clickListener != null) {

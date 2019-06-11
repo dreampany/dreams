@@ -183,7 +183,11 @@ public class WordRepository extends Repository<String, Word> implements WordData
 
     @Override
     public Word getItem(String word, boolean full) {
-        return room.getItem(word, full);
+        Word result = room.getItem(word, full);
+        if (result == null) {
+            result = assets.getItem(word, full);
+        }
+        return result;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.api.wordnik.WordnikWord;
 import com.dreampany.word.data.model.Antonym;
@@ -13,10 +14,12 @@ import com.dreampany.word.data.model.Synonym;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.WordAnnote;
+
 import timber.log.Timber;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +65,7 @@ public class WordMapper {
         return out;
     }
 
-    public Word toItem(WordnikWord in,  boolean full) {
+    public Word toItem(WordnikWord in, boolean full) {
         if (in == null) {
             return null;
         }
@@ -94,7 +97,7 @@ public class WordMapper {
         return out;
     }
 
-    public Word toItem(String word, WordnikWord in,  boolean full) {
+    public Word toItem(String word, WordnikWord in, boolean full) {
         if (in == null) {
             return null;
         }
@@ -201,7 +204,7 @@ public class WordMapper {
                 }
                 Definition def = new Definition();
                 def.setPartOfSpeech(item.getPartOfSpeech());
-                def.setText(item.getText());
+                def.setText(TextUtil.stripHtml(item.getText()));
                 result.add(def);
             });
             return result;

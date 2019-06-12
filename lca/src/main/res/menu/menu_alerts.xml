@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:auto="http://schemas.android.com/apk/res-auto">
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
 
     <item
-            android:id="@+id/item_search"
-            android:animateLayoutChanges="true"
-            android:icon="@drawable/ic_search_white_24dp"
-            android:title="@string/search"
-            auto:actionViewClass="androidx.appcompat.widget.SearchView"
-            auto:showAsAction="collapseActionView|always"/>
+        android:id="@+id/item_search"
+        android:animateLayoutChanges="true"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:iconTint="@color/material_white"
+        android:title="@string/search"
+        auto:actionViewClass="androidx.appcompat.widget.SearchView"
+        auto:showAsAction="collapseActionView|always" />
+
     <item
         android:id="@+id/item_delete"
         android:icon="@drawable/ic_delete_forever_white_24dp"
         android:title="@string/delete"
         auto:showAsAction="always" />
-
-
 </menu>

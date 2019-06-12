@@ -6,30 +6,20 @@
         android:icon="@drawable/ic_coin"
         android:title="@string/coins" />
 
-<!--    <item
-        android:id="@+id/item_favorite"
-        android:icon="@drawable/ic_favorite_black_24dp"
-        android:title="@string/favorites" />-->
-
     <item
-            android:id="@+id/item_alerts"
-            android:icon="@drawable/ic_add_alert_black_24dp"
-            android:title="@string/alerts" />
-
-    <item
-        android:id="@+id/item_ico"
-        android:icon="@drawable/ic_event_note_black_24dp"
-        android:title="@string/ico" />
+        android:id="@+id/item_library"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        android:title="@string/library" />
 
     <item
         android:id="@+id/item_news"
         android:icon="@drawable/ic_news"
         android:title="@string/news" />
 
-<!--    <item
-        android:id="@+id/item_share"
-        android:icon="@drawable/ic_share"
-        android:title="@string/share" />-->
+    <item
+        android:id="@+id/item_ico"
+        android:icon="@drawable/ic_event_note_black_24dp"
+        android:title="@string/ico" />
 
     <item
         android:id="@+id/item_more"

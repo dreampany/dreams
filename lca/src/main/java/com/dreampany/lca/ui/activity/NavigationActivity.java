@@ -8,9 +8,9 @@ import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.lca.R;
 import com.dreampany.lca.databinding.ActivityNavigationBinding;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.lca.ui.fragment.CoinAlertsFragment;
 import com.dreampany.lca.ui.fragment.CoinsFragment;
 import com.dreampany.lca.ui.fragment.IcoFragment;
+import com.dreampany.lca.ui.fragment.LibraryFragment;
 import com.dreampany.lca.ui.fragment.MoreFragment;
 import com.dreampany.lca.ui.fragment.NewsFragment;
 import com.dreampany.lca.ui.model.UiTask;
@@ -32,7 +32,7 @@ public class NavigationActivity
     @Inject
     Lazy<CoinsFragment> coinsFragment;
     @Inject
-    Lazy<CoinAlertsFragment> coinAlertsFragment;
+    Lazy<LibraryFragment> libraryFragment;
     @Inject
     Lazy<IcoFragment> icoFragment;
     @Inject
@@ -113,8 +113,8 @@ public class NavigationActivity
             case R.id.item_coins:
                 commitFragment(CoinsFragment.class, coinsFragment, R.id.layout);
                 break;
-            case R.id.item_alerts:
-                commitFragment(CoinAlertsFragment.class, coinAlertsFragment, R.id.layout);
+            case R.id.item_library:
+                commitFragment(LibraryFragment.class, libraryFragment, R.id.layout);
                 break;
             case R.id.item_ico:
                 commitFragment(IcoFragment.class, icoFragment, R.id.layout);

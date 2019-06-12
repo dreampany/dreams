@@ -19,7 +19,8 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
-import com.dreampany.frame.util.AndroidUtil;
+import com.dreampany.frame.util.ColorUtil;
+import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
@@ -123,6 +124,15 @@ public class CoinsFragment
     }
 
     @Override
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        MenuItem refreshItem = findMenuItemById(R.id.item_refresh);
+        MenuItem searchItem = findMenuItemById(R.id.item_search);
+        MenuTint.colorMenuItem(refreshItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+        initCurrencyMenuItem();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         initCurrencyMenuItem();
@@ -157,18 +167,13 @@ public class CoinsFragment
     }*/
 
     @Override
-    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
-        initCurrencyMenuItem();
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_currency:
                 openCurrencyPicker();
                 return true;
-            case R.id.item_favorites:
-                openFavoritesUi();
+            case R.id.item_refresh:
+                vm.refresh(!adapter.isEmpty(), true, true);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -329,7 +334,7 @@ public class CoinsFragment
 
     private void initCurrencyMenuItem() {
         String currency = vm.getCurrentCurrencyCode();
-        MenuItem currencyItem = getMenuItem(R.id.item_currency);
+        MenuItem currencyItem = findMenuItemById(R.id.item_currency);
         if (currencyItem != null) {
             currencyItem.setTitle(currency);
         }

@@ -24,7 +24,7 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
 
     protected abstract fun pageClasses(): Array<Class<T>>
 
-    protected abstract fun pageTasks() : Array<Task<*>>
+    protected abstract fun pageTasks(): Array<Task<*>>?
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_tabpager
@@ -84,18 +84,25 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
 
         if (hasTabColor()) {
             if (hasColor() && applyColor()) {
-                tabLayout.setBackgroundColor(ColorUtil.getColor(getContext(), color!!.getPrimaryId()))
+                tabLayout.setBackgroundColor(
+                    ColorUtil.getColor(
+                        getContext(),
+                        color!!.getPrimaryId()
+                    )
+                )
                 tabLayout.setSelectedTabIndicatorColor(
-                        ColorUtil.getColor(getContext(), R.color.material_white))
+                    ColorUtil.getColor(getContext(), R.color.material_white)
+                )
 
                 tabLayout.setTabTextColors(
-                        ColorUtil.getColor(context, R.color.material_grey200),
-                        ColorUtil.getColor(context, R.color.material_white))
+                    ColorUtil.getColor(context, R.color.material_grey200),
+                    ColorUtil.getColor(context, R.color.material_white)
+                )
             }
         }
 
         //if (adapter == null) {
-            adapter = SmartPagerAdapter<T>(childFragmentManager)
+        adapter = SmartPagerAdapter<T>(childFragmentManager)
         //}
 
         viewPager.setAdapter(adapter)
@@ -112,9 +119,13 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
 
         val pagerRunnable = {
             for (index in pageClasses.indices) {
-                adapter?.addPage(pageTitles[index], pageClasses[index], pageTasks[index])
+                var task: Task<*>? = null
+                pageTasks?.let {
+                    task = it[index]
+                }
+                adapter?.addPage(pageTitles[index], pageClasses[index], task)
             }
         }
-        viewPager.postDelayed(pagerRunnable, 250L)
+        ex.postToUi(pagerRunnable)
     }
 }

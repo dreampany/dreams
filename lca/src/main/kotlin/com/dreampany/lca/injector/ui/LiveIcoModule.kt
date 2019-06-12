@@ -12,5 +12,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class LiveIcoModule {
     @ContributesAndroidInjector
-    abstract fun liveICOFragment(): LiveIcoFragment;
+    abstract fun liveIcoFragment(): LiveIcoFragment;
 }

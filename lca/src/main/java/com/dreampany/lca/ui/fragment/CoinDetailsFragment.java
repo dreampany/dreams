@@ -227,7 +227,7 @@ public class CoinDetailsFragment
 
     private void initCurrencyMenuItem() {
         String currency = vm.getCurrentCurrencyCode();
-        MenuItem currencyItem = getMenuItem(R.id.item_currency);
+        MenuItem currencyItem = findMenuItemById(R.id.item_currency);
         if (currencyItem != null) {
             currencyItem.setTitle(currency);
         }

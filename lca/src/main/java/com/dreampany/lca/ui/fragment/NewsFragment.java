@@ -2,6 +2,9 @@ package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
@@ -20,6 +23,8 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.ColorUtil;
+import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.News;
@@ -109,6 +114,12 @@ public class NewsFragment
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
         vm.clear();
+    }
+
+    @Override
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        MenuItem searchItem = findMenuItemById(R.id.item_search);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
     }
 
     @Override

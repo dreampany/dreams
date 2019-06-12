@@ -2,28 +2,32 @@ package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.misc.ActivityScope;
+import com.dreampany.frame.misc.FragmentScope;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
-import com.dreampany.frame.util.AndroidUtil;
+import com.dreampany.frame.util.ColorUtil;
+import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.databinding.FragmentCoinAlertsBinding;
-import com.dreampany.lca.databinding.FragmentCoinsBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
 import com.dreampany.lca.ui.adapter.CoinAlertAdapter;
@@ -32,18 +36,22 @@ import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinAlertViewModel;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Objects;
+
+import javax.inject.Inject;
+
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import hugo.weaving.DebugLog;
-import net.cachapa.expandablelayout.ExpandableLayout;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import timber.log.Timber;
-
-import javax.inject.Inject;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -51,7 +59,7 @@ import java.util.Objects;
  * hawladar.roman@bjitgroup.com
  */
 
-@ActivityScope
+@FragmentScope
 public class CoinAlertsFragment
         extends BaseMenuFragment {
 
@@ -104,6 +112,12 @@ public class CoinAlertsFragment
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
         vm.clear();
+    }
+
+    @Override
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        MenuItem searchItem = findMenuItemById(R.id.item_search);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
     }
 
     @Override
@@ -180,7 +194,7 @@ public class CoinAlertsFragment
     }
 
     private void initView() {
-        setTitle(R.string.alerts);
+
         setSubtitle(null);
         binding = (FragmentCoinAlertsBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));

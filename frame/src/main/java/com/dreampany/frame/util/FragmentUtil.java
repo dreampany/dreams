@@ -152,7 +152,7 @@ public final class FragmentUtil {
 
     public static <T extends Fragment> T newFragment(Class<T> fragmentClass, Task<?> task) {
         T fragment = newFragment(fragmentClass);
-        if (fragment != null) {
+        if (fragment != null && task != null) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(Task.class.getSimpleName(), task);
             fragment.setArguments(bundle);

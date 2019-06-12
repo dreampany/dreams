@@ -9,5 +9,4 @@
         android:title="@string/search"
         auto:actionViewClass="androidx.appcompat.widget.SearchView"
         auto:showAsAction="collapseActionView|always" />
-
 </menu>

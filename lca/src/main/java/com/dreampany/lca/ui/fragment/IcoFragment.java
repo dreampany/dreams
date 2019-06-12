@@ -1,6 +1,10 @@
 package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -8,6 +12,8 @@ import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseStateFragment;
+import com.dreampany.frame.util.ColorUtil;
+import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.misc.Constants;
@@ -87,6 +93,12 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
     @Override
     protected void onStopUi() {
 
+    }
+
+    @Override
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        MenuItem searchItem = findMenuItemById(R.id.item_search);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
     }
 
     @Override

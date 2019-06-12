@@ -58,7 +58,7 @@ abstract class BaseMenuFragment : BaseFragment() {
         }
     }
 
-    protected fun getMenuItem(menuItemId: Int) : MenuItem? {
+    protected fun findMenuItemById(menuItemId: Int) : MenuItem? {
         if (menu == null || menuItemId == 0) {
             return null
         }
@@ -71,7 +71,7 @@ abstract class BaseMenuFragment : BaseFragment() {
 
     protected fun getSearchMenuItem(): MenuItem? {
         val menuItemId = getSearchMenuItemId()
-        val item = getMenuItem(menuItemId)
+        val item = findMenuItemById(menuItemId)
         return item
     }
 

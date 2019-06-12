@@ -34,6 +34,7 @@ class Constants {
             lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
 
         fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + "navigation"
+        fun library(context: Context): String = lastAppId(context) + Sep.HYPHEN + "library"
         fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + "tools"
         fun coins(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coins"
         fun coin(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin"

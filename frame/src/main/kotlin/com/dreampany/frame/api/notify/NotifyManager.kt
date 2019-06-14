@@ -40,6 +40,7 @@ class NotifyManager @Inject constructor(val context: Context) {
         }
     }*/
 
+    @Synchronized
     fun showNotification(
         title: String,
         contentText: String,
@@ -80,8 +81,9 @@ class NotifyManager @Inject constructor(val context: Context) {
         )
     }
 
+    @Synchronized
     fun showNotification(
-        title : String,
+        title: String,
         contentText: String,
         icon: Int,
         notifyId: Int,
@@ -102,6 +104,7 @@ class NotifyManager @Inject constructor(val context: Context) {
         )
     }
 
+    @Synchronized
     fun showNotification(
         notifyId: Int,
         notifyTitle: String,

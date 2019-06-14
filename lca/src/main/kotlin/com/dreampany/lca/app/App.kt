@@ -143,13 +143,13 @@ class App : BaseApp() {
         }
     }
 
-
     private fun clean() {
         if (isVersionUpgraded()) {
             val exists = pref.versionCode
             val current = AndroidUtil.getVersionCode(this)
 
             when (current) {
+                134,
                 133,
                 132,
                 131 -> {

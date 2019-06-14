@@ -8,6 +8,7 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.enums.Currency;
+import com.dreampany.lca.misc.Constants;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -122,5 +123,29 @@ public class Pref extends FramePref {
 
     synchronized public long getGraphTime(String symbol, String currency) {
         return getPrivately(GRAPH_SYMBOL + symbol + currency, 0L);
+    }
+
+    synchronized public void commitAlertProfitableCoin() {
+        setPrivately(Constants.Pref.ALERT_PROFITABLE_COIN, TimeUtil.currentTime());
+    }
+
+    synchronized public long getAlertProfitableCoin() {
+        return getPrivately(Constants.Pref.ALERT_PROFITABLE_COIN, 0L);
+    }
+
+    synchronized public void commitAlertCoin() {
+        setPrivately(Constants.Pref.ALERT_COIN, TimeUtil.currentTime());
+    }
+
+    synchronized public long getAlertCoin() {
+        return getPrivately(Constants.Pref.ALERT_COIN, 0L);
+    }
+
+    synchronized public void commitAlertNews() {
+        setPrivately(Constants.Pref.ALERT_NEWS, TimeUtil.currentTime());
+    }
+
+    synchronized public long getAlertNews() {
+        return getPrivately(Constants.Pref.ALERT_NEWS, 0L);
     }
 }

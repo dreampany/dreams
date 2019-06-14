@@ -11,6 +11,7 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TextUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
@@ -71,9 +72,6 @@ public class NotifyViewModel {
 
     private final Map<Coin, Price> prices;
 
-    private static final int MAX_NOTIFY_COUNT = 3;
-    private int currentNotifyIndex = 0;
-
     @Inject
     NotifyViewModel(Application application,
                     RxMapper rx,
@@ -110,53 +108,65 @@ public class NotifyViewModel {
     @DebugLog
     public void notifyIf() {
         Timber.v("Job Processing");
-        Currency currency = pref.getCurrency(Currency.USD);
-        currentNotifyIndex %= 3;
-        switch (currentNotifyIndex) {
-            case 0: {
-                if (!pref.hasNotifyCoin()) {
-                    break;
-                }
-                Maybe<List<CoinItem>> profitMaybe = getProfitableItemsRx(currency);
-                if (profitMaybe != null) {
-                    Disposable disposable = rx
-                            .backToMain(profitMaybe)
-                            .subscribe(result -> postProfitableCoins(currency, result), this::postFailed);
-                } else {
-                    Timber.e("getProfitableItemsRx is Null");
-                }
-            }
-            break;
-            case 1: {
-                if (!pref.hasNotifyCoin()) {
-                    break;
-                }
-                Maybe<List<CoinAlertItem>> alertMaybe = getAlertItemsRx(currency);
-                if (alertMaybe != null) {
-                    Disposable disposable = rx
-                            .backToMain(alertMaybe)
-                            .subscribe(this::postResultAlerts, this::postFailed);
-                } else {
-                    Timber.e("getAlertItemsRx is Null");
-                }
-            }
-            break;
-            case 2: {
-                if (!pref.hasNotifyNews()) {
-                    break;
-                }
-                Maybe<List<NewsItem>> newsMaybe = getNewsItemsRx();
-                if (newsMaybe != null) {
-                    Disposable disposable = rx
-                            .backToMain(newsMaybe)
-                            .subscribe(this::postResultNews, this::postFailed);
-                } else {
-                    Timber.e("getNewsItemsRx is Null");
-                }
-            }
-            break;
+        notifyProfitableCoin();
+        notifyCoin();
+        notifyNews();
+    }
+
+    private void notifyProfitableCoin() {
+        if (!pref.hasNotifyCoin()) {
+            return;
         }
-        currentNotifyIndex++;
+        if (!TimeUtil.isExpired(pref.getAlertProfitableCoin(), Constants.Delay.INSTANCE.getAlertProfitableCoin())) {
+            return;
+        }
+        pref.commitAlertProfitableCoin();
+        Currency currency = pref.getCurrency(Currency.USD);
+        Maybe<List<CoinItem>> profitMaybe = getProfitableItemsRx(currency);
+        if (profitMaybe != null) {
+            Disposable disposable = rx
+                    .backToMain(profitMaybe)
+                    .subscribe(result -> postProfitableCoins(currency, result), this::postFailed);
+        } else {
+            Timber.e("getProfitableItemsRx is Null");
+        }
+    }
+
+    private void notifyCoin() {
+        if (!pref.hasNotifyCoin()) {
+            return;
+        }
+        if (!TimeUtil.isExpired(pref.getAlertCoin(), Constants.Delay.INSTANCE.getAlertCoin())) {
+            return;
+        }
+        pref.commitAlertCoin();
+        Currency currency = pref.getCurrency(Currency.USD);
+        Maybe<List<CoinAlertItem>> alertMaybe = getAlertItemsRx(currency);
+        if (alertMaybe != null) {
+            Disposable disposable = rx
+                    .backToMain(alertMaybe)
+                    .subscribe(this::postResultAlerts, this::postFailed);
+        } else {
+            Timber.e("getAlertItemsRx is Null");
+        }
+    }
+
+    private void notifyNews() {
+        if (!pref.hasNotifyNews()) {
+            return;
+        }
+        if (!TimeUtil.isExpired(pref.getAlertNews(), Constants.Delay.INSTANCE.getAlertNews())) {
+            return;
+        }
+        pref.commitAlertNews();
+        Maybe<List<NewsItem>> newsMaybe = getNewsItemsRx();
+        if (newsMaybe != null) {
+            Disposable disposable = rx
+                    .backToMain(newsMaybe)
+                    .subscribe(this::postResultNews, this::postFailed);
+        } else {
+            Timber.e("getNewsItemsRx is Null");
+        }
     }
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {

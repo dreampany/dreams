@@ -163,8 +163,8 @@ dependencies {
 
     /* test */
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-beta01'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-beta01'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     /* library */
     implementation project(':frame')
@@ -173,7 +173,7 @@ dependencies {
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
-    kapt 'androidx.room:room-compiler:2.1.0-beta01'
+    kapt 'androidx.room:room-compiler:2.1.0'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
@@ -190,6 +190,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.libRG:customtextview:1.4'
     implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
+    implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
 }
 
 apply plugin: 'com.google.gms.google-services'

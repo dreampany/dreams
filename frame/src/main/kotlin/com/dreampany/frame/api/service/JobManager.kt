@@ -9,6 +9,7 @@ import hugo.weaving.DebugLog
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.reflect.KClass
 
 
 /**
@@ -26,14 +27,30 @@ class JobManager @Inject constructor(val context: Context) {
     }
 
     @DebugLog
-    fun <T : BaseJobService> create(classOfService: Class<T>, startTime: Int, delay: Int): Boolean {
-        Timber.v("BaseJobService created")
-        val tag = classOfService.simpleName
-        val job = JobUtil.create(dispatcher,
-                tag,
-                classOfService,
-                startTime,
-                delay)
+    fun <T : BaseJobService> create(
+        tag: String,
+        classOfService: KClass<T>,
+        startTime: Int,
+        delay: Int
+    ): Boolean {
+        return create(tag, classOfService.java, startTime, delay)
+    }
+
+    @DebugLog
+    fun <T : BaseJobService> create(
+        tag: String,
+        classOfService: Class<T>,
+        startTime: Int,
+        delay: Int
+    ): Boolean {
+        Timber.v("Job created")
+        val job = JobUtil.create(
+            dispatcher,
+            tag,
+            classOfService,
+            startTime,
+            delay
+        )
 
         if (job == null) {
             Timber.e("Job shouldn't be null")
@@ -55,6 +72,10 @@ class JobManager @Inject constructor(val context: Context) {
 
     fun <T : BaseJobService> cancel(classOfT: Class<T>) {
         val tag = classOfT.simpleName
+        cancel(tag)
+    }
+
+    fun cancel(tag: String) {
         dispatcher.cancel(tag)
     }
 }

@@ -121,12 +121,13 @@ class App : BaseApp() {
     private fun configJob() {
         if (pref.hasNotification()) {
             job.create(
-                NotifyService::class.java,
+                Constants.Tag.NOTIFY_SERVICE,
+                NotifyService::class,
                 Constants.Delay.Notify.toInt(),
                 Constants.Period.Notify.toInt()
             )
         } else {
-            job.cancel(NotifyService::class.java)
+            job.cancel(Constants.Tag.NOTIFY_SERVICE)
         }
     }
 

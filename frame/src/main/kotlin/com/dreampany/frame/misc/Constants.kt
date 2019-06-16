@@ -36,6 +36,7 @@ class Constants {
     }
 
     object Tag {
+        const val NOTIFY_SERVICE = "notify_service"
         const val MORE_APPS = "more_apps"
         const val RATE_US = "rate_us"
     }

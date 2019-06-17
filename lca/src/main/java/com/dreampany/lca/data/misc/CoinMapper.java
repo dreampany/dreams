@@ -131,9 +131,6 @@ public class CoinMapper {
     }
 
     public boolean isCoinIndexExpired(CoinSource source, Currency currency, int index) {
-        if (true) {
-            return true;
-        }
         long time = pref.getCoinIndexTime(source.name(), currency.name(), index);
         return TimeUtil.isExpired(time, Constants.Time.INSTANCE.getListing());
     }

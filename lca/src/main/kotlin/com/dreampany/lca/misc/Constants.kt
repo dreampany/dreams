@@ -236,8 +236,8 @@ class Constants {
         val News = TimeUnit.MINUTES.toMillis(15)
         val Notify = TimeUnit.MINUTES.toSeconds(1)
         val CmcKey = TimeUnit.SECONDS.toSeconds(30)
-        val AlertProfitableCoin = TimeUnit.HOURS.toSeconds(3)
-        val AlertCoin = TimeUnit.HOURS.toSeconds(3)
+        val AlertProfitableCoin = TimeUnit.HOURS.toSeconds(1)
+        val AlertCoin = TimeUnit.HOURS.toSeconds(1)
         val AlertNews = TimeUnit.HOURS.toSeconds(1)
     }
 

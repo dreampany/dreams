@@ -15,11 +15,12 @@ import com.dreampany.lca.service.NotifyService;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Hawladar Roman on 5/28/2018.
@@ -37,7 +38,7 @@ public class SettingsFragment extends BaseMenuFragment {
     AppExecutors ex;
     @Inject
     JobManager job;
-    CompositeDisposable disposables;
+    private CompositeDisposable disposables;
 
     @Inject
     public SettingsFragment() {
@@ -52,7 +53,7 @@ public class SettingsFragment extends BaseMenuFragment {
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.settings(getAppContext());
+        return Constants.Screen.settings(Objects.requireNonNull(getAppContext()));
     }
 
     @Override
@@ -83,17 +84,18 @@ public class SettingsFragment extends BaseMenuFragment {
                 }));
     }
 
-    private final Runnable runner = () -> configJob();
+    private final Runnable runner = this::configJob;
 
     private void configJob() {
         if (pref.hasNotification()) {
             job.create(
+                    Constants.Tag.NOTIFY_SERVICE,
                     NotifyService.class,
                     (int) Constants.Delay.INSTANCE.getNotify(),
                     (int) Constants.Period.INSTANCE.getNotify()
             );
         } else {
-            job.cancel(NotifyService.class);
+            job.cancel(Constants.Tag.NOTIFY_SERVICE);
         }
     }
 

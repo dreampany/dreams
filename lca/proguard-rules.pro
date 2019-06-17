@@ -6,3 +6,12 @@
 -ignorewarnings
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 #-renamesourcefileattribute SourceFile
+
+-keep class com.dreampany.lca.data.model.** { *; }
+-keepclassmembers class com.dreampany.lca.data.model.** { *; }
+
+-keep class com.dreampany.lca.ui.model.** { *; }
+-keepclassmembers class com.dreampany.lca.ui.model.** { *; }
+
+-keep class com.dreampany.lca.misc.** { *; }
+-keepclassmembers class com.dreampany.lca.misc.** { *; }

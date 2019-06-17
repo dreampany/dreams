@@ -73,6 +73,7 @@ class Constants {
     }
 
     object Tag {
+        const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val CURRENCY_PICKER = "currency_picker"
     }
 
@@ -222,8 +223,7 @@ class Constants {
 
     object Time {
         val Listing = TimeUnit.HOURS.toMillis(1) //get listing per 7 days
-        val Coin =
-            TimeUnit.MINUTES.toMillis(3) // Every ~1 minute; as per coinmarketcap limit 30 per minute
+        val Coin = TimeUnit.MINUTES.toMillis(5) // Every ~1 minute; as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
     }
 
@@ -237,8 +237,8 @@ class Constants {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
         val CmcKey = TimeUnit.SECONDS.toSeconds(30)
         val AlertProfitableCoin = TimeUnit.HOURS.toSeconds(1)
-        val AlertCoin = TimeUnit.MINUTES.toSeconds(30)
-        val AlertNews = TimeUnit.MINUTES.toSeconds(30)
+        val AlertCoin = TimeUnit.HOURS.toSeconds(1)
+        val AlertNews = TimeUnit.HOURS.toSeconds(1)
     }
 
     object Pref {

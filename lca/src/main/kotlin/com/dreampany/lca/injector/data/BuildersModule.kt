@@ -230,13 +230,13 @@ class BuildersModule {
                     .build()
         }
 */
-        val loggingInterceptor = HttpLoggingInterceptor()
-        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val httpClient = OkHttpClient.Builder()
             //.cache(cache)
             //.addNetworkInterceptor(networkCacheInterceptor)
-            .addInterceptor(loggingInterceptor)
+            .addInterceptor(interceptor)
             .build()
 
         return httpClient

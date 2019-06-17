@@ -124,9 +124,6 @@ public class CoinsViewModel
 
     @DebugLog
     public void refresh(boolean update, boolean important, boolean progress) {
-        if (true) {
-            //return;
-        }
         if (update) {
             update(important, progress);
             return;

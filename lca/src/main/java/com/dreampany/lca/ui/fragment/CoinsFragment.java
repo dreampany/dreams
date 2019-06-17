@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.*;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -44,9 +45,6 @@ import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import hugo.weaving.DebugLog;
 import timber.log.Timber;
@@ -103,7 +101,7 @@ public class CoinsFragment
         return R.id.item_search;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getScreen() {
         return Constants.Screen.coins(getAppContext());
@@ -124,7 +122,7 @@ public class CoinsFragment
     }
 
     @Override
-    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+    public void onMenuCreated(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         MenuItem refreshItem = findMenuItemById(R.id.item_refresh);
         MenuItem searchItem = findMenuItemById(R.id.item_search);
         MenuTint.colorMenuItem(refreshItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
@@ -138,33 +136,6 @@ public class CoinsFragment
         initCurrencyMenuItem();
         vm.refresh(!adapter.isEmpty(), true, true);
     }
-
-/*    @Override
-    public void onPause() {
-        vm.removeMultipleSubscription();
-        vm.removeSingleSubscription();
-        vm.removeUpdateDisposable();
-        vm.removeUpdateItemDisposable();
-        vm.removeUpdateVisibleItemsDisposable();
-        super.onPause();
-    }*/
-
-/*    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isResumed()) {
-            return;
-        }
-        if (isVisibleToUser) {
-            vm.loads(false);
-        } else {
-            vm.removeMultipleSubscription();
-            vm.removeSingleSubscription();
-            vm.removeUpdateDisposable();
-            vm.removeUpdateItemDisposable();
-            vm.removeUpdateVisibleItemsDisposable();
-        }
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -199,24 +170,6 @@ public class CoinsFragment
     public void noMoreLoad(int newItemsSize) {
         //super.noMoreLoad(newItemsSize);
     }
-
-/*    @Override
-    public void onUpdateEmptyDataView(int size) {
-        if (size > 0) {
-            processUiState(UiState.CONTENT);
-        } else  {
-            processUiState(UiState.EMPTY);
-        }
-    }
-
-    @Override
-    public void onUpdateEmptyFilterView(int size) {
-        if (size > 0) {
-            processUiState(UiState.CONTENT);
-        } else  {
-            processUiState(UiState.EMPTY);
-        }
-    }*/
 
     @Override
     public boolean onQueryTextChange(@NonNull String newText) {
@@ -425,14 +378,8 @@ public class CoinsFragment
     }
 
     private void processResult(List<CoinItem> items) {
-/*        if (scroller.isScrolling()) {
-            return;
-        }*/
-        //recycler.setNestedScrollingEnabled(false);
         Timber.v("Coins %s", items.size());
         adapter.addItems(items);
-        //adapter.loadMoreComplete(items);
-        //recycler.setNestedScrollingEnabled(true);
         ex.postToUi(() -> processUiState(UiState.EXTRA));
     }
 

@@ -211,6 +211,19 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     /* private api */
+    private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, Currency currency, int index, int limit) {
+        Maybe<List<Coin>> maybe = mapper.isCoinIndexExpired(source, currency, index)
+                ? remote.getItemsRx(source, currency, index, limit)
+                : Maybe.empty();
+        return maybe.filter(coins -> !DataUtil.isEmpty(coins))
+                .doOnSuccess(coins -> {
+                    Timber.v("Remote Result %d", coins.size());
+                    rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    //rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    mapper.updateCoinIndexTime(source, currency, index);
+                });
+    }
+
     private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, int index, int limit) {
         Maybe<List<Coin>> maybe = mapper.isCoinIndexExpired(source, currency, index)
                 ? remote.getItemsRx(source, currency, index, limit)

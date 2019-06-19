@@ -86,13 +86,23 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
+    public List<Coin> getItems(CoinSource source, Currency currency) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency) {
+        return null;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int limit) {
         return null;
     }
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int limit) {
-        Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, limit);
+        Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency);
         Maybe<List<Coin>> remoteAny = contactSuccess(remote.getItemsRx(source, currency, limit), coins -> {
             Timber.v("Remote Result %d", coins.size());
             rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());

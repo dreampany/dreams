@@ -58,6 +58,16 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     }
 
     @Override
+    public List<Coin> getItems(CoinSource source, Currency currency) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency) {
+        return null;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int limit) {
         return null;
     }

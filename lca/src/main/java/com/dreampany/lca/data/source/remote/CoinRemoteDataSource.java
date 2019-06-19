@@ -58,10 +58,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
         this.service = service;
         keys = Collections.synchronizedList(new ArrayList<>());
 
+        keys.add(Constants.ApiKey.CMC_PRO_DREAM_DEBUG_1);
+        keys.add(Constants.ApiKey.CMC_PRO_DREAM_DEBUG_2);
         keys.add(Constants.ApiKey.CMC_PRO_ROMAN_BJIT);
         keys.add(Constants.ApiKey.CMC_PRO_IFTE_NET);
         keys.add(Constants.ApiKey.CMC_PRO_DREAMPANY);
-        keys.add(Constants.ApiKey.CMC_PRO_DREAM_DEBUG_1);
 
         indexQueue = new CircularFifoQueue<>(keys.size());
         indexStatus = Maps.newConcurrentMap();

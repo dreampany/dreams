@@ -112,8 +112,8 @@ public class CoinMapper {
     }
 
     public List<Coin> getSortedCoins() {
-        Collections.sort(bankCoins, (left, right) -> left.getRank() - right.getRank());
         List<Coin> result = new ArrayList<>(bankCoins);
+        Collections.sort(result, (left, right) -> left.getRank() - right.getRank());
         return result;
     }
 

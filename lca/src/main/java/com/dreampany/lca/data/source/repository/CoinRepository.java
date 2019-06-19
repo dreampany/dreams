@@ -25,6 +25,7 @@ import javax.inject.Singleton;
 
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
+import io.reactivex.functions.Consumer;
 import io.reactivex.internal.functions.Functions;
 import timber.log.Timber;
 
@@ -82,6 +83,21 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<List<Coin>> remote = getRemoteItemsIfRx(source, currency, index, limit);
         Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, index, limit);
         return concatFirstRx(remote, roomAny);
+    }
+
+    @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, int limit) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int limit) {
+        Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, limit);
+        Maybe<List<Coin>> remoteAny = contactSuccess(remote.getItemsRx(source, currency, limit), coins -> {
+            Timber.v("Remote Result %d", coins.size());
+            rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+        });
+        return concatFirstRx(roomAny, remoteAny);
     }
 
     @Override

@@ -35,7 +35,7 @@ class App : BaseApp() {
     lateinit var notify: NotifyViewModel*/
 
     override fun isDebug(): Boolean {
-        return BuildConfig.DEBUG;
+        return BuildConfig.DEBUG
     }
 
     override fun hasCrashlytics(): Boolean {

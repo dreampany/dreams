@@ -266,7 +266,7 @@ public class CoinsFragment
             @DebugLog
             @Override
             public void onScrolledToBottom() {
-                vm.loadMore(!adapter.isEmpty(), true);
+                vm.loads(adapter.getItemCount(), !adapter.isEmpty(), true);
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());

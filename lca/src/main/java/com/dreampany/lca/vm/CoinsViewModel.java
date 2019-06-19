@@ -23,6 +23,7 @@ import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
+import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.model.CoinItem;
@@ -59,12 +60,13 @@ public class CoinsViewModel
     private final NetworkManager network;
     private final Pref pref;
     private final ApiRepository repo;
+    private final CoinRepository coinRepo;
     private final CurrencyFormatter formatter;
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private final List<String> currencies;
     private Currency currentCurrency;
-    private int currentIndex;
+    //private int currentIndex;
 
     @Inject
     CoinsViewModel(@NotNull Application application,
@@ -74,14 +76,16 @@ public class CoinsViewModel
                    NetworkManager network,
                    Pref pref,
                    ApiRepository repo,
+                   CoinRepository coinRepo,
                    CurrencyFormatter formatter) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
         this.repo = repo;
+        this.coinRepo = coinRepo;
         this.formatter = formatter;
         currencies = Collections.synchronizedList(new ArrayList<>());
-        currentIndex = Constants.Limit.COIN_START_INDEX;
+        //currentIndex = Constants.Limit.COIN_START_INDEX;
 
         String[] cur = TextUtil.getStringArray(application, R.array.crypto_currencies);
         if (!DataUtil.isEmpty(cur)) {
@@ -93,7 +97,7 @@ public class CoinsViewModel
     public void clear() {
         network.deObserve(this, true);
         this.uiCallback = null;
-        currentIndex = Constants.Limit.COIN_START_INDEX;
+        //currentIndex = Constants.Limit.COIN_START_INDEX;
         super.clear();
     }
 
@@ -106,7 +110,7 @@ public class CoinsViewModel
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result == null || result instanceof Response.Failure) {
                     boolean empty = uiCallback == null || uiCallback.getEmpty();
-                    getEx().postToUi(() -> loads(currentIndex, false, empty), 250L);
+                    getEx().postToUi(() -> loads(0, false, empty), 250L);
                 }
             }
         }
@@ -122,7 +126,7 @@ public class CoinsViewModel
         network.observe(this, true);
     }
 
-   /* public void refresh(boolean update, boolean important, boolean progress) {
+    public void refresh(boolean update, boolean important, boolean progress) {
         if (update) {
             update(important, progress);
             return;
@@ -130,28 +134,45 @@ public class CoinsViewModel
         loads(important, progress);
     }
 
-    public void refresh(int index, boolean update, boolean important, boolean progress) {
-        if (update) {
-            update(important, progress);
+    public void loads(boolean important, boolean progress) {
+        if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
+        Currency currency = pref.getCurrency(Currency.USD);
+        Disposable disposable = getRx()
+                .backToMain(getListingRx(currency))
+                .doOnSubscribe(subscription -> {
+                    if (progress) {
+                        postProgress(true);
+                    }
+                })
+                .subscribe(result -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    currentCurrency = currency;
+                    Timber.v("Result posting %d", result.size());
+                    postResult(Response.Type.GET, result);
+                    //getEx().postToUi(() -> update(false), 2000L);
+                }, error -> {
+                    if (progress) {
+                        postProgress(false);
+                    }
+                    postFailures(new MultiException(error, new ExtraException()));
+                });
+        addMultipleSubscription(disposable);
     }
 
-    public void loads(boolean important, boolean progress) {
-
-        //loads(currentIndex, important, progress);
-    }*/
-
-    public void loadMore(boolean important, boolean progress) {
+/*    public void loadMore(boolean important, boolean progress) {
         loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);
-    }
+    }*/
 
     @DebugLog
     public void loads(int index, boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
-        currentIndex = index;
+        //currentIndex = index;
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
                 .backToMain(getListingRx(currency, index))
@@ -234,7 +255,12 @@ public class CoinsViewModel
     }
 
     /* private api */
-    @DebugLog
+    private Maybe<List<CoinItem>> getListingRx(Currency currency) {
+        return coinRepo
+                .getItemsRx(CoinSource.CMC, currency, Constants.Limit.COIN_FULL)
+                .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(currency, coins));
+    }
+
     private Maybe<List<CoinItem>> getListingRx(Currency currency, int index) {
         return repo
                 .getItemsIfRx(CoinSource.CMC, currency, index, Constants.Limit.COIN_PAGE)

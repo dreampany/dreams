@@ -1,9 +1,11 @@
 package com.dreampany.lca.data.source.remote;
 
 import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.lca.BuildConfig;
 import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcListingResponse;
 import com.dreampany.lca.api.cmc.model.CmcQuotesResponse;
@@ -58,11 +60,13 @@ public class CoinRemoteDataSource implements CoinDataSource {
         this.service = service;
         keys = Collections.synchronizedList(new ArrayList<>());
 
-        keys.add(Constants.ApiKey.CMC_PRO_DREAM_DEBUG_1);
         keys.add(Constants.ApiKey.CMC_PRO_DREAM_DEBUG_2);
-        keys.add(Constants.ApiKey.CMC_PRO_ROMAN_BJIT);
-        keys.add(Constants.ApiKey.CMC_PRO_IFTE_NET);
-        keys.add(Constants.ApiKey.CMC_PRO_DREAMPANY);
+        if (!BuildConfig.DEBUG) {
+            keys.add(Constants.ApiKey.CMC_PRO_DREAM_DEBUG_1);
+            keys.add(Constants.ApiKey.CMC_PRO_ROMAN_BJIT);
+            keys.add(Constants.ApiKey.CMC_PRO_IFTE_NET);
+            keys.add(Constants.ApiKey.CMC_PRO_DREAMPANY);
+        }
 
         indexQueue = new CircularFifoQueue<>(keys.size());
         indexStatus = Maps.newConcurrentMap();
@@ -108,6 +112,43 @@ public class CoinRemoteDataSource implements CoinDataSource {
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit) {
         return Maybe.create(emitter -> {
             List<Coin> result = getItems(source, currency, index, limit);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, int limit) {
+        if (network.isObserving() && !network.hasInternet()) {
+            return null;
+        }
+        int start = 1; // start from 1 index
+        for (int loop = 0; loop < keys.size(); loop++) {
+            String apiKey = getApiKey();
+            try {
+                Response<CmcListingResponse> response = service.getListing(apiKey, currency.name(), start, limit).execute();
+                if (response.isSuccessful()) {
+                    CmcListingResponse result = response.body();
+                    return getItemsRx(source, result).blockingGet();
+                }
+            } catch (IOException | RuntimeException e) {
+                Timber.e(e);
+                iterateQueue();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int limit) {
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, limit);
             if (emitter.isDisposed()) {
                 return;
             }

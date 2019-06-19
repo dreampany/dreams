@@ -81,6 +81,38 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public List<Coin> getItems(CoinSource source, Currency currency, int limit) {
+        updateCache();
+        List<Coin> cache = mapper.getSortedCoins();
+        if (DataUtil.isEmpty(cache)) {
+            return null;
+        }
+        List<Coin> result = DataUtil.sub(cache, 0, limit);
+        if (DataUtil.isEmpty(result)) {
+            return null;
+        }
+        for (Coin coin : result) {
+            bindQuote(currency, coin);
+        }
+        return result;
+    }
+
+    @Override
+    public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int limit) {
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, limit);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }
+
+    @Override
     public Coin getItem(CoinSource source, Currency currency, String id) {
         if (!mapper.hasCoin(id)) {
             Coin room = dao.getItem(id);

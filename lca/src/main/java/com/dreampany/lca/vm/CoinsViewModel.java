@@ -122,8 +122,7 @@ public class CoinsViewModel
         network.observe(this, true);
     }
 
-    @DebugLog
-    public void refresh(boolean update, boolean important, boolean progress) {
+   /* public void refresh(boolean update, boolean important, boolean progress) {
         if (update) {
             update(important, progress);
             return;
@@ -131,9 +130,17 @@ public class CoinsViewModel
         loads(important, progress);
     }
 
-    public void loads(boolean important, boolean progress) {
-        loads(currentIndex, important, progress);
+    public void refresh(int index, boolean update, boolean important, boolean progress) {
+        if (update) {
+            update(important, progress);
+            return;
+        }
     }
+
+    public void loads(boolean important, boolean progress) {
+
+        //loads(currentIndex, important, progress);
+    }*/
 
     public void loadMore(boolean important, boolean progress) {
         loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);

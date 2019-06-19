@@ -43,6 +43,11 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     }
 
     @Override
+    public boolean isEmpty(CoinSource source, Currency currency, int index, int limit) {
+        return false;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
         return null;
     }

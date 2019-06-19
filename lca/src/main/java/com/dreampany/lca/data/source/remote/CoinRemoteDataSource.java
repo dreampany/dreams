@@ -78,6 +78,11 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
+    public boolean isEmpty(CoinSource source, Currency currency, int index, int limit) {
+        return false;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
         if (network.isObserving() && !network.hasInternet()) {
             return null;

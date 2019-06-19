@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface CoinDataSource extends DataSource<Coin> {
 
+    boolean isEmpty(CoinSource source, Currency currency, int index, int limit);
+
     List<Coin> getItems(CoinSource source, Currency currency, int index, int limit);
 
     Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, int index, int limit);

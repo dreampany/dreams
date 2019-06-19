@@ -24,6 +24,7 @@ import com.dreampany.lca.misc.QuoteAnnote;
 import com.google.common.collect.Maps;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -45,6 +46,7 @@ public class CoinMapper {
     private final SmartCache<Pair<String, Currency>, Quote> quoteCache;
 
     private final Map<String, Coin> coins;
+    private final List<Coin> bankCoins;
 
     @Inject
     CoinMapper(
@@ -59,6 +61,7 @@ public class CoinMapper {
         this.quoteMap = quoteMap;
         this.quoteCache = quoteCache;
         this.coins = Maps.newConcurrentMap();
+        bankCoins = Collections.synchronizedList(new ArrayList<>());
     }
 
     public boolean hasCoins() {
@@ -80,6 +83,9 @@ public class CoinMapper {
 
     public void add(Coin coin) {
         this.add(coin.getId(), coin);
+        if (!bankCoins.contains(coin)) {
+            bankCoins.add(coin);
+        }
     }
 
     public void add(String key, Coin coin) {
@@ -103,6 +109,17 @@ public class CoinMapper {
 
     public List<Coin> getCoins() {
         return new ArrayList<>(coins.values());
+    }
+
+    public List<Coin> getSortedCoins() {
+        Collections.sort(bankCoins, (left, right) -> left.getRank() - right.getRank());
+        List<Coin> result = new ArrayList<>(bankCoins);
+        return result;
+    }
+
+    public boolean hasCoins(int index, int limit) {
+        return (index + limit) <= bankCoins.size();
+        //Collections.sort(bankCoins, (left, right) -> left.getRank() - right.getRank());
     }
 
     public List<Coin> getCoins(List<String> coinIds) {

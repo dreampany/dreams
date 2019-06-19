@@ -68,6 +68,11 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     @Override
+    public boolean isEmpty(CoinSource source, Currency currency, int index, int limit) {
+        return false;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
         return null;
     }
@@ -212,16 +217,21 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     /* private api */
     private Maybe<List<Coin>> getRoomItemsIfRx(CoinSource source, Currency currency, int index, int limit) {
-        Maybe<List<Coin>> maybe = mapper.isCoinIndexExpired(source, currency, index)
-                ? remote.getItemsRx(source, currency, index, limit)
-                : Maybe.empty();
-        return maybe.filter(coins -> !DataUtil.isEmpty(coins))
-                .doOnSuccess(coins -> {
-                    Timber.v("Remote Result %d", coins.size());
-                    rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-                    //rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-                    mapper.updateCoinIndexTime(source, currency, index);
-                });
+        Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
+            List<Coin> result = null;
+            if (!room.isEmpty(source, currency, index, limit)) {
+                result = room.getItems(source, currency, index, limit);
+            }
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+        return maybe;
     }
 
     private Maybe<List<Coin>> getRemoteItemsIfRx(CoinSource source, Currency currency, int index, int limit) {

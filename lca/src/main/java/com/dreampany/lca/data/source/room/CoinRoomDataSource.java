@@ -11,9 +11,11 @@ import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.dao.CoinDao;
 import com.dreampany.lca.data.source.dao.QuoteDao;
+
 import io.reactivex.Maybe;
 
 import javax.inject.Singleton;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -41,13 +43,18 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public boolean isEmpty(CoinSource source, Currency currency, int index, int limit) {
+        int count = getCount();
+        return (index + limit) > count;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
         updateCache();
-        List<Coin> cache = mapper.getCoins();
+        List<Coin> cache = mapper.getSortedCoins();
         if (DataUtil.isEmpty(cache)) {
             return null;
         }
-        Collections.sort(cache, (left, right) -> left.getRank() - right.getRank());
         List<Coin> result = DataUtil.sub(cache, index, limit);
         if (DataUtil.isEmpty(result)) {
             return null;

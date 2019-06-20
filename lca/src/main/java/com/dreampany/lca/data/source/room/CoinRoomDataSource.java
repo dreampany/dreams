@@ -49,6 +49,12 @@ public class CoinRoomDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getRandomItem(CoinSource source, Currency currency) {
+        updateCache();
+        return mapper.getRandomCoin();
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
         updateCache();
         List<Coin> cache = mapper.getSortedCoins();

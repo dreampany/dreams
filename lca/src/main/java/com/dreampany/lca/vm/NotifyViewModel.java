@@ -24,6 +24,7 @@ import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.data.source.repository.CoinAlertRepository;
+import com.dreampany.lca.data.source.repository.CoinRepository;
 import com.dreampany.lca.data.source.repository.NewsRepository;
 import com.dreampany.lca.data.source.repository.PriceRepository;
 import com.dreampany.lca.misc.Constants;
@@ -64,6 +65,7 @@ public class NotifyViewModel {
     private final RxMapper rx;
     private final Pref pref;
     private final ApiRepository repo;
+    private final CoinRepository coinRepo;
     private final PriceRepository priceRepo;
     private final CoinAlertRepository alertRepo;
     private final NewsRepository newsRepo;
@@ -80,6 +82,7 @@ public class NotifyViewModel {
                     NetworkManager network,
                     Pref pref,
                     ApiRepository repo,
+                    CoinRepository coinRepo,
                     PriceRepository priceRepo,
                     CoinAlertRepository alertRepo,
                     NewsRepository newsRepo,
@@ -88,6 +91,7 @@ public class NotifyViewModel {
         this.rx = rx;
         this.pref = pref;
         this.repo = repo;
+        this.coinRepo = coinRepo;
         this.priceRepo = priceRepo;
         this.alertRepo = alertRepo;
         this.newsRepo = newsRepo;
@@ -171,15 +175,18 @@ public class NotifyViewModel {
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
         return Maybe.create(emitter -> {
-            int coinCount = repo.getCoinCount();
-            int resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
+            List<CoinItem> result = coinRepo
+                    .getRandomItemsRx(CoinSource.CMC, currency, Constants.Limit.COIN_RANDOM)
+                    .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
+                    .blockingGet();
+/*            int resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
 
             int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
             int listLimit = Constants.Limit.COIN_PAGE;
             List<CoinItem> result = repo
                     .getItemsIfRx(CoinSource.CMC, currency, listStart, listLimit)
                     .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
-                    .blockingGet();
+                    .blockingGet();*/
 
             if (emitter.isDisposed()) {
                 return;

@@ -52,6 +52,11 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
+    public Coin getRandomItem(CoinSource source, Currency currency) {
+        return null;
+    }
+
+    @Override
     public List<Coin> getItems(CoinSource source, Currency currency, int index, int limit) {
         return null;
     }

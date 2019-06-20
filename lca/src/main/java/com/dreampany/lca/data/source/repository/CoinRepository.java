@@ -41,7 +41,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     private final NetworkManager network;
     private final Pref pref;
-    private CoinMapper mapper;
+    private final CoinMapper mapper;
     private final CoinDataSource room;
     private final CoinDataSource database;
     private final CoinDataSource firestore;
@@ -71,6 +71,11 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     @Override
     public boolean isEmpty(CoinSource source, Currency currency, int index, int limit) {
         return false;
+    }
+
+    @Override
+    public Coin getRandomItem(CoinSource source, Currency currency) {
+        return room.getRandomItem(source, currency);
     }
 
     @Override
@@ -239,6 +244,47 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     @Override
     public Maybe<List<Coin>> getItemsRx(int limit) {
         return null;
+    }
+
+    public List<Coin> getRandomItems(CoinSource source, Currency currency, int limit) {
+        List<Coin> result = new ArrayList<>();
+        for (int index = 0; index < limit; index++) {
+            Coin coin = room.getRandomItem(source, currency);
+            if (!result.contains(coin)) {
+                result.add(coin);
+            }
+        }
+        return result;
+    }
+
+    public Maybe<List<Coin>> getRandomItemsRx(CoinSource source, Currency currency, int limit) {
+        return Maybe.create(emitter -> {
+            List<Coin> coins = getRandomItems(source, currency, limit);
+            //update the list if possible
+            List<String> ids = new ArrayList<>();
+            for (Coin coin : coins) {
+                if (mapper.isCoinExpired(source, currency, coin.getId())) {
+                    ids.add(coin.getId());
+                }
+            }
+
+            if (!DataUtil.isEmpty(ids)) {
+                List<Coin> result = remote.getItems(source, currency, ids);
+                if (!DataUtil.isEmpty(result)) {
+                    for (Coin coin : result) {
+                        coins.set(coins.indexOf(coin), coin);
+                    }
+                }
+            }
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(coins)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(coins);
+            }
+        });
     }
 
     /* private api */

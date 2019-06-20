@@ -8,6 +8,7 @@ import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.api.cmc.model.CmcCoin;
@@ -115,6 +116,11 @@ public class CoinMapper {
         List<Coin> result = new ArrayList<>(bankCoins);
         Collections.sort(result, (left, right) -> left.getRank() - right.getRank());
         return result;
+    }
+
+    public Coin getRandomCoin() {
+        int randPosition = NumberUtil.nextRand(bankCoins.size() - 1);
+        return bankCoins.get(randPosition);
     }
 
     public boolean hasCoins(int index, int limit) {

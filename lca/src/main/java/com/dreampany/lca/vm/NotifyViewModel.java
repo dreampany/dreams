@@ -9,15 +9,14 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.app.App;
 import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.CoinAlert;
-import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.data.model.Quote;
@@ -121,10 +120,11 @@ public class NotifyViewModel {
         if (!pref.hasNotifyCoin()) {
             return;
         }
-        if (!TimeUtil.isExpired(pref.getAlertProfitableCoin(), Constants.Delay.INSTANCE.getAlertProfitableCoin())) {
+        if (!TimeUtil.isExpired(pref.getAlertProfitableCoin(), Constants.Delay.INSTANCE.getAlertProfitableCoinMS())) {
             return;
         }
         pref.commitAlertProfitableCoin();
+        Timber.e("Fire Profitable Notification");
         Currency currency = pref.getCurrency(Currency.USD);
         Maybe<List<CoinItem>> profitMaybe = getProfitableItemsRx(currency);
         if (profitMaybe != null) {
@@ -140,10 +140,11 @@ public class NotifyViewModel {
         if (!pref.hasNotifyCoin()) {
             return;
         }
-        if (!TimeUtil.isExpired(pref.getAlertCoin(), Constants.Delay.INSTANCE.getAlertCoin())) {
+        if (!TimeUtil.isExpired(pref.getAlertCoin(), Constants.Delay.INSTANCE.getAlertCoinMS())) {
             return;
         }
         pref.commitAlertCoin();
+        Timber.e("Fire Alert Notification");
         Currency currency = pref.getCurrency(Currency.USD);
         Maybe<List<CoinAlertItem>> alertMaybe = getAlertItemsRx(currency);
         if (alertMaybe != null) {
@@ -159,10 +160,11 @@ public class NotifyViewModel {
         if (!pref.hasNotifyNews()) {
             return;
         }
-        if (!TimeUtil.isExpired(pref.getAlertNews(), Constants.Delay.INSTANCE.getAlertNews())) {
+        if (!TimeUtil.isExpired(pref.getAlertNews(), Constants.Delay.INSTANCE.getAlertNewsMS())) {
             return;
         }
         pref.commitAlertNews();
+        Timber.e("Fire Notification");
         Maybe<List<NewsItem>> newsMaybe = getNewsItemsRx();
         if (newsMaybe != null) {
             Disposable disposable = rx
@@ -175,10 +177,10 @@ public class NotifyViewModel {
 
     private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
         return Maybe.create(emitter -> {
-            List<CoinItem> result = coinRepo
-                    .getRandomItemsRx(CoinSource.CMC, currency, Constants.Limit.COIN_RANDOM)
-                    .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
-                    .blockingGet();
+            List<CoinItem> result =
+                    coinRepo.getRandomItemsRx(CoinSource.CMC, currency, Constants.Limit.COIN_RANDOM)
+                            .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
+                            .blockingGet();
 /*            int resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
 
             int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);

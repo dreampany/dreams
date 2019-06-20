@@ -232,7 +232,7 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toSeconds(5)
+        val Notify = TimeUnit.MINUTES.toSeconds(10)
     }
 
     object Delay {
@@ -240,9 +240,14 @@ class Constants {
         val News = TimeUnit.MINUTES.toMillis(15)
         val Notify = TimeUnit.MINUTES.toSeconds(1)
         val CmcKey = TimeUnit.SECONDS.toSeconds(30)
-        val AlertProfitableCoin = TimeUnit.HOURS.toSeconds(1)
-        val AlertCoin = TimeUnit.HOURS.toSeconds(1)
-        val AlertNews = TimeUnit.HOURS.toSeconds(1)
+
+        val AlertProfitableCoin = TimeUnit.MINUTES.toSeconds(30)
+        val AlertCoin = TimeUnit.MINUTES.toSeconds(30)
+        val AlertNews = TimeUnit.MINUTES.toSeconds(30)
+
+        val AlertProfitableCoinMS = TimeUnit.MINUTES.toMillis(30)
+        val AlertCoinMS = TimeUnit.MINUTES.toMillis(30)
+        val AlertNewsMS = TimeUnit.MINUTES.toMillis(30)
     }
 
     object Pref {

@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
 import com.dreampany.frame.R
 import com.dreampany.frame.data.model.Task
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.NotifyUtil
 import javax.inject.Inject
@@ -20,25 +21,9 @@ import javax.inject.Singleton
  */
 @Singleton
 class NotifyManager @Inject constructor(val context: Context) {
-    private val NOTIFY_FOREGROUND_DEFAULT = 101
-    private val NOTIFY_DEFAULT = 102
-    private val NOTIFY_CHANNEL_DEFAULT = "103"
-    private val NOTIFY_IDENTIFIER = "102"
-
     private val icon: Bitmap? = null
 
     private var manager: NotificationManagerCompat? = null
-
-/*    init {
-        Notify.defaultConfig {
-            header {
-                color = AndroidUtil.getColorPrimaryDark(context)
-            }
-            alerting(Notify.CHANNEL_DEFAULT_KEY) {
-                lightColor = Color.RED
-            }
-        }
-    }*/
 
     @Synchronized
     fun showNotification(
@@ -49,13 +34,13 @@ class NotifyManager @Inject constructor(val context: Context) {
         task: Task<*>?
     ) {
         showNotification(
-            NOTIFY_DEFAULT,
+            Constants.Notify.DEFAULT_ID,
             title,
             contentText,
             icon,
             targetClass,
             task,
-            NOTIFY_CHANNEL_DEFAULT,
+            Constants.Notify.DEFAULT_CHANNEL_ID,
             context.getString(R.string.app_name),
             context.getString(R.string.description)
         )
@@ -69,7 +54,7 @@ class NotifyManager @Inject constructor(val context: Context) {
         task: Task<*>?
     ) {
         showNotification(
-            NOTIFY_DEFAULT,
+            Constants.Notify.DEFAULT_ID,
             context.getString(R.string.app_name),
             contentText,
             icon,
@@ -131,6 +116,7 @@ class NotifyManager @Inject constructor(val context: Context) {
 
         val notification = NotifyUtil.createNotification(
             context,
+            notifyId,
             notifyTitle,
             contentText,
             smallIcon,
@@ -170,6 +156,7 @@ class NotifyManager @Inject constructor(val context: Context) {
 
         val notification = NotifyUtil.createNotification(
             context,
+            notifyId,
             notifyTitle,
             contentText,
             smallIcon,

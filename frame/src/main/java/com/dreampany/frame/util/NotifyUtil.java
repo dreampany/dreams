@@ -93,20 +93,15 @@ public final class NotifyUtil {
     }
 
 
-    public static NotificationChannel createNotificationChannel(//Context context,
-                                                                String channelId,
+    public static NotificationChannel createNotificationChannel(String channelId,
                                                                 String channelName,
                                                                 String channelDescription,
                                                                 int channelImportance) {
         if (!AndroidUtil.hasOreo()) {
             return null;
         }
-        //Context appContext = context.getApplicationContext();
         NotificationChannel channel = new NotificationChannel(channelId, channelName, channelImportance);
         channel.setDescription(channelDescription);
-
-/*        NotificationManager manager = appContext.getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(channel);*/
         return channel;
     }
 
@@ -121,6 +116,7 @@ public final class NotifyUtil {
     }
 
     public static Notification createNotification(Context context,
+                                                  int notifyId,
                                                   String notifyTitle,
                                                   String contentText,
                                                   @DrawableRes int smallIcon,
@@ -140,12 +136,13 @@ public final class NotifyUtil {
 
         Intent showTaskIntent = AndroidUtil.createIntent(appContext, targetClass, task);
         showTaskIntent.setAction(Intent.ACTION_MAIN);
+        //showTaskIntent.setAction(Long.toString(System.currentTimeMillis()));
         showTaskIntent.addCategory(Intent.CATEGORY_LAUNCHER);
         showTaskIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         PendingIntent contentIntent = PendingIntent.getActivity(
                 appContext,
-                0,
+                notifyId,
                 showTaskIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
 

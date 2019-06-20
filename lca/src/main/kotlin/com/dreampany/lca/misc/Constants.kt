@@ -2,7 +2,6 @@ package com.dreampany.lca.misc
 
 import android.content.Context
 import com.dreampany.frame.misc.Constants
-import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.lca.R
 import java.util.concurrent.TimeUnit
@@ -78,8 +77,11 @@ class Constants {
     }
 
     object Notify {
-        const val ALERT_ID = 201
-        const val NEWS_ID = 202
+        const val DEFAULT_ID = Constants.Notify.DEFAULT_ID
+        const val ALERT_ID = 102
+        const val NEWS_ID = 103
+
+        const val DEFAULT_CHANNEL_ID = Constants.Notify.DEFAULT_CHANNEL_ID
         const val ALERT_CHANNEL_ID = "alert_channel_id"
         const val NEWS_CHANNEL_ID = "news_channel_id"
     }

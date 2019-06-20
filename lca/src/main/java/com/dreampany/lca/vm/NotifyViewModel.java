@@ -192,6 +192,29 @@ public class NotifyViewModel {
         });
     }
 
+/*    private Maybe<List<CoinItem>> getProfitableItemsRx(Currency currency) {
+        return Maybe.create(emitter -> {
+            int coinCount = repo.getCoinCount();
+            int resultMax = coinCount > Constants.Limit.COIN_PAGE ? coinCount : Constants.Limit.COIN_PAGE;
+
+            int listStart = (resultMax == Constants.Limit.COIN_PAGE) ? 0 : NumberUtil.nextRand((resultMax - Constants.Limit.COIN_PAGE) + 1);
+            int listLimit = Constants.Limit.COIN_PAGE;
+            List<CoinItem> result = repo
+                    .getItemsIfRx(CoinSource.CMC, currency, listStart, listLimit)
+                    .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getProfitableItemsRx(currency, coins))
+                    .blockingGet();
+
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+    }*/
+
     private Maybe<List<CoinAlertItem>> getAlertItemsRx(Currency currency) {
         return alertRepo
                 .getItemsRx()

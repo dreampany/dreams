@@ -62,4 +62,9 @@ class Constants {
     object LanguageCountry {
         const val ARABIC = "Arabic"
     }
+
+    object Notify {
+        const val DEFAULT_ID = 101
+        const val DEFAULT_CHANNEL_ID = "default_channel_id"
+    }
 }

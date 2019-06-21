@@ -258,7 +258,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
     }
 
     public Maybe<List<Coin>> getRandomItemsRx(CoinSource source, Currency currency, int limit) {
-        return Maybe.create(emitter -> {
+        Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
             List<Coin> coins = getRandomItems(source, currency, limit);
             //update the list if possible
             List<String> ids = new ArrayList<>();
@@ -269,9 +269,17 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
             }
 
             if (!DataUtil.isEmpty(ids)) {
-                List<Coin> result = remote.getItems(source, currency, ids);
-                if (!DataUtil.isEmpty(result)) {
-                    for (Coin coin : result) {
+                Maybe<List<Coin>> remoteRx = remote.getItemsRx(source, currency, ids);
+                remoteRx = contactSuccess(remoteRx, items -> {
+                    rx.compute(room.putItemsRx(items)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    rx.compute(database.putItemsRx(items)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    for (Coin coin : coins) {
+                        mapper.updateCoinTime(source, currency, coin.getId());
+                    }
+                });
+                List<Coin> remoteResult = remoteRx.blockingGet();
+                if (!DataUtil.isEmpty(remoteResult)) {
+                    for (Coin coin : remoteResult) {
                         coins.set(coins.indexOf(coin), coin);
                     }
                 }
@@ -285,6 +293,8 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 emitter.onSuccess(coins);
             }
         });
+
+        return maybe;
     }
 
     /* private api */
@@ -314,7 +324,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 .doOnSuccess(coins -> {
                     Timber.v("Remote Result %d", coins.size());
                     rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-                    //rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+                    rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                     mapper.updateCoinIndexTime(source, currency, index);
                 });
     }
@@ -331,7 +341,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? remote.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(room.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            //rx.compute(database.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            rx.compute(database.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             mapper.updateCoinTime(source, currency, coinId);
         });
     }
@@ -434,7 +444,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
         return contactSuccess(maybe, coins -> {
             rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            //rx.compute(firestore.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             for (Coin coin : coins) {
                 mapper.updateCoinTime(source, currency, coin.getId());
             }

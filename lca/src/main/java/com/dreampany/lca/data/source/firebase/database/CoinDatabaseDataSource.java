@@ -135,7 +135,7 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     @Override
     public long putItem(Coin coin) {
         String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.COINS);
-        String child = String.valueOf(coin.getId());
+        String child = coin.getId();
 
         Throwable error = database.setItemRx(path, child, coin).blockingGet();
         if (error == null) {

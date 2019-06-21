@@ -111,6 +111,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<List<Coin>> remoteAny = contactSuccess(remote.getItemsRx(source, currency, limit), coins -> {
             Timber.v("Remote Result %d", coins.size());
             rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
         });
         return concatFirstRx(roomAny, remoteAny);
     }
@@ -137,11 +138,11 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids) {
-        Maybe<List<Coin>> firestoreRemote = getFirestoreRemoteItemsIfRx(source, currency, ids);
-        Maybe<List<Coin>> firestoreIf = getFirestoreItemsIfRx(source, currency, ids);
+        //Maybe<List<Coin>> firestoreRemote = getFirestoreRemoteItemsIfRx(source, currency, ids);
+        Maybe<List<Coin>> databaseIf = getDatabaseItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, ids);
-        return concatLastRx(remoteIf, roomAny);
+        return concatLastRx(databaseIf, remoteIf, roomAny);
     }
 
     @Override
@@ -392,6 +393,32 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         });
     }
 
+    private Maybe<List<Coin>> getDatabaseItemsIfRx(CoinSource source, Currency currency, List<String> coinIds) {
+        Maybe<List<Coin>> maybe = Maybe.create(emitter -> {
+            List<String> ids = new ArrayList<>();
+            for (String id : coinIds) {
+                if (mapper.isCoinExpired(source, currency, id)) {
+                    ids.add(id);
+                }
+            }
+            List<Coin> result = null;
+            if (!DataUtil.isEmpty(ids)) {
+                result = database.getItemsRx(source, currency, ids).blockingGet();
+            }
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
+
+        return contactSuccess(maybe, coins -> {
+            rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+        });
+    }
 
     private Maybe<List<Coin>> getFirestoreItemsIfRx(CoinSource source, Currency currency, List<String> coinIds) {
         Maybe<List<Coin>> maybe = Maybe.create(emitter -> {

@@ -10,6 +10,8 @@ import com.dreampany.word.ui.fragment.LicenseFragment
 import com.dreampany.word.ui.fragment.SettingsFragment
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.word.ui.fragment.WordFragment
+import com.google.android.gms.ads.AdView
 import dagger.Lazy
 import timber.log.Timber
 import javax.inject.Inject
@@ -27,6 +29,8 @@ class ToolsActivity : BaseActivity() {
     lateinit var licenseProvider: Lazy<LicenseFragment>
     @Inject
     lateinit var aboutProvider: Lazy<AboutFragment>
+    @Inject
+    lateinit var wordProvider: Lazy<WordFragment>
     @Inject
     lateinit var ad: SmartAd
 
@@ -46,6 +50,13 @@ class ToolsActivity : BaseActivity() {
         if (type == null || subtype == null) {
             return
         }
+        ad.initAd(
+            this,
+            javaClass.simpleName,
+            findViewById<AdView>(R.id.adview),
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
+        )
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
@@ -62,7 +73,13 @@ class ToolsActivity : BaseActivity() {
                     }
                 }
             }
-            else -> {
+            UiType.WORD -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        commitFragment(WordFragment::class.java, wordProvider, R.id.layout, uiTask)
+                        //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
+                    }
+                }
             }
         }
     }

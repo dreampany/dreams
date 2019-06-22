@@ -165,6 +165,9 @@ public class HomeFragment extends BaseMenuFragment
             case R.id.imageSpeak:
                 speak();
                 break;
+            case R.id.text_word:
+                openUi(bindWord.getItem().getItem());
+                break;
         }
     }
 
@@ -247,8 +250,10 @@ public class HomeFragment extends BaseMenuFragment
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         bindDef.toggleDefinition.setOnClickListener(this);
         bindWord.buttonFavorite.setOnClickListener(this);
+        bindWord.textWord.setOnClickListener(this);
         bindWord.imageSpeak.setOnClickListener(this);
         binding.fab.setOnClickListener(this);
+
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         searchVm.setUiCallback(this);

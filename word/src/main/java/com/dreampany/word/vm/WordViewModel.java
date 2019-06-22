@@ -1,7 +1,9 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
+
 import androidx.fragment.app.Fragment;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -12,9 +14,8 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import com.dreampany.word.data.misc.StateMapper;
+import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
@@ -22,11 +23,13 @@ import com.dreampany.word.data.source.repository.ApiRepository;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.util.Util;
-import io.reactivex.Maybe;
-import io.reactivex.disposables.Disposable;
+
+import java.util.List;
 
 import javax.inject.Inject;
-import java.util.List;
+
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -38,9 +41,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     private final NetworkManager network;
     private final Pref pref;
     private final WordMapper mapper;
-    private final StateMapper stateMapper;
     private final ApiRepository repo;
-    private Disposable updateDisposable;
 
     @Inject
     WordViewModel(Application application,
@@ -50,20 +51,17 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                   NetworkManager network,
                   Pref pref,
                   WordMapper mapper,
-                  StateMapper stateMapper,
                   ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
         this.mapper = mapper;
-        this.stateMapper = stateMapper;
         this.repo = repo;
     }
 
     @Override
     public void clear() {
         network.deObserve(this::onResult, true);
-        removeUpdateDisposable();
         super.clear();
     }
 
@@ -87,9 +85,6 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         network.observe(this::onResult, true);
     }
 
-    public void removeUpdateDisposable() {
-        removeSubscription(updateDisposable);
-    }
 
     public void refresh(Word word, boolean onlyUpdate, boolean withProgress) {
         if (onlyUpdate) {
@@ -114,9 +109,9 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                     if (withProgress) {
                         postProgress(false);
                     }
-                   // postResult(result);
+                    postResult(Response.Type.GET, result);
                 }, error -> {
-                    //postFailureMultiple(new MultiException(error, new ExtraException()));
+                    postFailure(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);
     }

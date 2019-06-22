@@ -1,9 +1,13 @@
 package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import com.dreampany.frame.data.enums.UiState;
@@ -14,7 +18,9 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
+import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
@@ -70,13 +76,20 @@ public class WordFragment extends BaseMenuFragment {
 
     @Override
     protected void onStopUi() {
-        vm.removeSingleSubscription();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        MenuItem favoriteItem = findMenuItemById(R.id.item_favourite);
+        MenuItem shareItem = findMenuItemById(R.id.item_share);
+        MenuTint.colorMenuItem(favoriteItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+        MenuTint.colorMenuItem(shareItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.item_favourite_toggle:
+            case R.id.item_favourite:
                 vm.toggle();
                 return true;
             case R.id.item_share:
@@ -132,9 +145,7 @@ public class WordFragment extends BaseMenuFragment {
         vm.setTask(uiTask);
 
         vm.observeUiState(this, this::processUiState);
-//        vm.observeFlag(this, this::onFlag);
         vm.observeOutput(this, this::processResponse);
-
         vm.load(parent, true, true);
     }
 
@@ -176,10 +187,6 @@ public class WordFragment extends BaseMenuFragment {
             Response.Result<WordItem> result = (Response.Result<WordItem>) response;
             processSuccess(result.getData());
         }
-    }
-
-    public void onFlag(WordItem item) {
-        processFavourite(item);
     }
 
     private void processProgress(boolean loading) {

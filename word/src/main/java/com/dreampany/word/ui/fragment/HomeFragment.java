@@ -197,7 +197,7 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public boolean onQueryTextChange(@NotNull String newText) {
         Timber.v("onQueryTextChange %s", newText);
-        this.query = newText;
+        this.query = newText.toLowerCase();
         return super.onQueryTextChange(newText);
     }
 
@@ -375,6 +375,7 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processFabAction() {
         if (searchView.isSearchOpen()) {
+            searchView.clearFocus();
             searchVm.find(query, true);
             return;
         }
@@ -505,6 +506,7 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void searchWord(String word) {
+        searchView.clearFocus();
         searchVm.find(word, true);
     }
 

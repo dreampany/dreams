@@ -39,6 +39,10 @@ class Constants {
         const val WORDS_ALPHA = "alpha.txt"
     }
 
+    object Tag {
+        const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
+    }
+
     object Count {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099

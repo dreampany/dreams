@@ -198,6 +198,8 @@ public class ApiRepository {
         return wordRepo.getRoomItem(word.getId(), true);
     }
 
+
+
     private Word getFirestoreItemIf(Word word) {
         Word result = wordRepo.getFirestoreItem(word.getId(), true);
         if (result != null) {

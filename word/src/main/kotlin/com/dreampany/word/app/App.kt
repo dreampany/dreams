@@ -105,6 +105,7 @@ class App : BaseApp() {
     private fun configJob() {
         if (pref.hasNotification()) {
             job.create(
+                Constants.Tag.NOTIFY_SERVICE,
                 NotifyService::class.java,
                 Constants.Delay.Notify.toInt(),
                 Constants.Period.Notify.toInt()

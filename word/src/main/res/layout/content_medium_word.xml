@@ -92,7 +92,7 @@
                         android:layout_width="@dimen/size_23"
                         android:layout_height="@dimen/size_23"
                         android:layout_marginTop="@dimen/size_8"
-                        auto:icon_size="@dimen/size_23"
+                        auto:icon_size="@dimen/size_22"
                         auto:icon_type="heart"
                         auto:liked="@{item.favorite}" />
 

@@ -31,19 +31,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <com.beardedhen.androidbootstrap.BootstrapProgressBar
-                    android:id="@+id/progress"
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"
-                    android:visibility="gone"
-                    auto:animated="true"
-                    auto:bootstrapBrand="danger"
-                    auto:bootstrapMaxProgress="100"
-                    auto:bootstrapProgress="100"
-                    auto:bootstrapSize="sm"
-                    auto:striped="true"
-                    tools:visibility="visible" />
-
                 <include
                     android:id="@+id/layout_top_status"
                     layout="@layout/content_top_status"

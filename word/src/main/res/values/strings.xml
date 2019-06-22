@@ -15,6 +15,7 @@
     <string name="recent_words">Recent Words</string>
     <string name="ocr_words">OCR Words</string>
     <string name="recent_all">All Recent Words</string>
+    <string name="word">Word</string>
     <string name="words">Words</string>
     <string name="pronunciation">Pronunciation</string>
     <string name="part_of_speech">PartOfSpeech</string>
@@ -33,6 +34,10 @@
     <string name="add_word_camera">Add words from camera</string>
     <string name="add_word_image">Add words from image</string>
     <string name="add_word_title">Add your words</string>
+    <string name="synonyms">Synonyms: %s</string>
+    <string name="antonyms">Antonyms: %s</string>
+    <string name="synonyms_bold">Synonyms:</string>
+    <string name="antonyms_bold">Antonyms:</string>
 
     <string name="ocr_detected_word_title">OCR words</string>
     <string name="ocr_detected_word_info">%d true OCR words</string>

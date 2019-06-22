@@ -513,8 +513,9 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void searchWord(String word) {
+        query = word.toLowerCase();
         searchView.clearFocus();
-        searchVm.find(word, true);
+        searchVm.find(query, true);
     }
 
     private void openUi(Word item) {

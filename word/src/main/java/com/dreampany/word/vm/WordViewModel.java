@@ -116,23 +116,15 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         addSingleSubscription(disposable);
     }
 
-    public void load(String word, boolean fresh, boolean withProgress) {
-
-    }
-
-    public void toggle() {
-        if (hasSingleDisposable()) {
-            return;
-        }
+    public void toggleFavorite(Word word) {
         Disposable disposable = getRx()
-                .backToMain(toggleImpl(getTask().getInput()))
-                .subscribe(this::postFavorite, this::postFailure);
-        addSingleSubscription(disposable);
+                .backToMain(toggleImpl(word))
+                .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
     }
 
-    public Word toWord(String word) {
+/*    public Word toWord(String word) {
         return mapper.toItem(word.toLowerCase());
-    }
+    }*/
 
     private Maybe<WordItem> getItemRx(Word word) {
         return repo.getItemIfRx(word).map(this::getItem);
@@ -145,12 +137,11 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
             item = WordItem.getSimpleItem(word);
             map.put(word.getId(), item);
         }
-        getTask().setInput(word);
         item.setItem(word);
-        adjustState(item);
-        adjustFlag(item);
-        //put as Recent
-        //repo.putState(word, ItemState.RECENT);
+        adjustFavorite(word, item);
+/*        if (fully) {
+            //adjustState(item);
+        }*/
         return item;
     }
 
@@ -159,9 +150,8 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
     }
 
-    private void adjustFlag(WordItem item) {
-        //boolean flagged = repo.isFavorite(item.getItemRx());
-        //item.setFavorite(flagged);
+    private void adjustFavorite(Word word, WordItem item) {
+        item.setFavorite(repo.isFavorite(word));
     }
 
     private Maybe<WordItem> toggleImpl(Word word) {

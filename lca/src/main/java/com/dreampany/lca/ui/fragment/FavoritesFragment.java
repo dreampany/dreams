@@ -130,30 +130,6 @@ public class FavoritesFragment
         vm.refresh(!adapter.isEmpty(), true, true);
     }
 
-/*    @Override
-    public void onPause() {
-        vm.removeMultipleSubscription();
-        vm.removeUpdateDisposable();
-        vm.clearInputs();
-        super.onPause();
-    }*/
- /*
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isResumed()) {
-            return;
-        }
-        if (isVisibleToUser) {
-            vm.loads(false);
-        } else {
-            vm.removeMultipleSubscription();
-            vm.removeSingleSubscription();
-            vm.removeUpdateItemDisposable();
-            vm.removeUpdateVisibleItemsDisposable();
-        }
-    }*/
-
     @Override
     public void onRefresh() {
         vm.refresh(!adapter.isEmpty(), true, true);
@@ -333,13 +309,7 @@ public class FavoritesFragment
     }
 
     private void processSuccess(List<CoinItem> items) {
-/*        if (scroller.isScrolling()) {
-            return;
-        }*/
-        //recycler.setNestedScrollingEnabled(false);
-        Timber.v("Flag Result %s", items.size());
         adapter.addFavoriteItems(items);
-        //recycler.setNestedScrollingEnabled(true);
         ex.postToUi(() -> processUiState(UiState.EXTRA), 500);
     }
 

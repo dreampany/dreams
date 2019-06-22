@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,6 @@ import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -28,6 +26,7 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.callback.SearchViewCallback;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.MenuTint;
@@ -50,8 +49,6 @@ import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.SearchViewModel;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import net.cachapa.expandablelayout.ExpandableLayout;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -62,7 +59,6 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
 import timber.log.Timber;
 
 /**
@@ -118,11 +114,13 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        AndroidUtil.initTts(getApp());
         searchVm.loadLastSearchWord(true);
     }
 
     @Override
     protected void onStopUi() {
+        AndroidUtil.stopTts();
         processUiState(UiState.HIDE_PROGRESS);
         if (searchView.isSearchOpen()) {
             searchView.closeSearch();
@@ -163,6 +161,9 @@ public class HomeFragment extends BaseMenuFragment
                 break;
             case R.id.fab:
                 processFabAction();
+                break;
+            case R.id.imageSpeak:
+                speak();
                 break;
         }
     }
@@ -246,6 +247,7 @@ public class HomeFragment extends BaseMenuFragment
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         bindDef.toggleDefinition.setOnClickListener(this);
         bindWord.buttonFavorite.setOnClickListener(this);
+        bindWord.imageSpeak.setOnClickListener(this);
         binding.fab.setOnClickListener(this);
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
@@ -365,8 +367,8 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void toScanMode() {
-        query = null;
-        binding.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp);
+        //query = null;
+        //binding.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp);
     }
 
     private void toSearchMode() {
@@ -516,5 +518,12 @@ public class HomeFragment extends BaseMenuFragment
         task.setUiType(UiType.WORD);
         task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
+    }
+
+    private void speak() {
+        WordItem item = bindWord.getItem();
+        if (item != null) {
+            AndroidUtil.speak(item.getItem().getId());
+        }
     }
 }

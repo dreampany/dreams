@@ -160,6 +160,16 @@ public class WordRemoteDataSource implements WordDataSource {
     }
 
     @Override
+    public List<Word> getItems(List<String> ids) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Word>> getItemsRx(List<String> ids) {
+        return null;
+    }
+
+    @Override
     public List<Word> getSearchItems(String query, int limit) {
         List<WordnikWord> items = wordnik.search(query, limit);
         List<Word> result = new ArrayList<>();

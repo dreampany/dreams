@@ -11,6 +11,7 @@ import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.frame.ui.callback.SearchViewCallback;
 import com.dreampany.word.R;
 import com.dreampany.word.databinding.ActivityNavigationBinding;
+import com.dreampany.word.ui.fragment.FavoritesFragment;
 import com.dreampany.word.ui.fragment.HomeFragment;
 import com.dreampany.word.ui.fragment.MoreFragment;
 import com.dreampany.word.ui.model.UiTask;
@@ -31,9 +32,11 @@ import dagger.Lazy;
 public class NavigationActivity extends BaseBottomNavigationActivity implements SearchViewCallback {
 
     @Inject
+    Lazy<MoreFragment> moreFragment;
+    @Inject
     Lazy<HomeFragment> homeFragment;
     @Inject
-    Lazy<MoreFragment> moreFragment;
+    Lazy<FavoritesFragment> favoritesFragment;
     @Inject
     ViewModelProvider.Factory factory;
     @Inject
@@ -95,6 +98,9 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
         switch (navigationItemId) {
             case R.id.item_home:
                 commitFragment(HomeFragment.class, homeFragment, R.id.layout);
+                break;
+            case R.id.item_favorites:
+                commitFragment(FavoritesFragment.class, favoritesFragment, R.id.layout);
                 break;
             case R.id.item_more:
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);

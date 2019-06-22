@@ -81,7 +81,7 @@
                     android:layout_alignParentEnd="true"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <ImageView android:id="@+id/imageSpeak"
                         android:layout_width="@dimen/size_25"
                         android:layout_height="@dimen/size_25"
                         android:tint="@color/colorAccent"

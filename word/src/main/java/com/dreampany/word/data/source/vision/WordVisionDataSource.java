@@ -150,6 +150,16 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
+    public List<Word> getItems(List<String> ids) {
+        return null;
+    }
+
+    @Override
+    public Maybe<List<Word>> getItemsRx(List<String> ids) {
+        return null;
+    }
+
+    @Override
     public List<Word> getSearchItems(String query, int limit) {
         return null;
     }

@@ -1,5 +1,6 @@
 package com.dreampany.word.data.source.repository;
 
+import com.annimon.stream.Stream;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -161,6 +162,11 @@ public class ApiRepository {
         return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
     }
 
+    public List<Word> getFavorites() {
+        List<State> states = stateRepo.getItems(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());
+        return getItemsOfStatesIf(states);
+    }
+
     public long putFavorite(Word word) {
         long result = putState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
         return result;
@@ -180,8 +186,8 @@ public class ApiRepository {
     }
 
     public boolean toggleFavorite(Word word) {
-        boolean flagged = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
-        if (flagged) {
+        boolean favorite = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+        if (favorite) {
             removeFavorite(word);
             favorites.put(word, false);
         } else {
@@ -198,6 +204,9 @@ public class ApiRepository {
         return wordRepo.getRoomItem(word.getId(), true);
     }
 
+    public List<Word> getItemsIf(List<String> wordIds) {
+        return wordRepo.getItemsRx(wordIds).blockingGet();
+    }
 
 
     private Word getFirestoreItemIf(Word word) {
@@ -215,6 +224,20 @@ public class ApiRepository {
             this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL);
             wordRepo.putFirestoreItem(result);
         }
+        return result;
+    }
+
+    private List<Word> getItemsOfStatesIf(List<State> states) {
+        if (DataUtil.isEmpty(states)) {
+            return null;
+        }
+        List<Word> result = new ArrayList<>(states.size());
+        Stream.of(states).forEach(state -> {
+            Word item = mapper.toItem(state, wordRepo);
+            if (item != null) {
+                result.add(item);
+            }
+        });
         return result;
     }
 }

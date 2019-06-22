@@ -8,6 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.dreampany.frame.data.enums.UiState;
@@ -19,10 +22,12 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.ColorUtil;
+import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Word;
-import com.dreampany.word.databinding.FragmentFlagBinding;
+import com.dreampany.word.databinding.FragmentFavoritesBinding;
 import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.dreampany.word.ui.enums.UiSubtype;
@@ -31,6 +36,7 @@ import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.FavoriteViewModel;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -49,13 +55,13 @@ import hugo.weaving.DebugLog;
  * hawladar.roman@bjitgroup.com
  */
 @ActivityScope
-public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.Callback<WordItem> {
+public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.Callback<WordItem> {
 
     private static final String EMPTY = "empty";
 
     @Inject
     ViewModelProvider.Factory factory;
-    FragmentFlagBinding binding;
+    FragmentFavoritesBinding binding;
     FavoriteViewModel vm;
     WordAdapter adapter;
     OnVerticalScrollListener scroller;
@@ -63,12 +69,12 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
     RecyclerView recycler;
 
     @Inject
-    public FavoriteFragment() {
+    public FavoritesFragment() {
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.fragment_flag;
+        return R.layout.fragment_favorites;
     }
 
     @Override
@@ -94,23 +100,20 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        vm.loads(adapter.isEmpty());
+    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        MenuItem searchItem = findMenuItemById(R.id.item_search);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
     }
 
     @Override
-    public void onPause() {
-        vm.removeMultipleSubscription();
-        vm.removeSingleSubscription();
-        vm.removeUpdateDisposable();
-        vm.removeUpdateVisibleItemsDisposable();
-        super.onPause();
+    public void onResume() {
+        super.onResume();
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
     @Override
     public void onRefresh() {
-        vm.loads(true);
+        vm.refresh(!adapter.isEmpty(), true, true);
     }
 
     @Override
@@ -145,6 +148,18 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
         return false;
     }
 
+    @Override
+    public boolean getEmpty() {
+        return adapter == null || adapter.isEmpty();
+    }
+
+    @Nullable
+    @Override
+    public List<WordItem> getItems() {
+        return adapter.getCurrentItems();
+    }
+
+
     @Nullable
     @Override
     public List<WordItem> getVisibleItems() {
@@ -159,7 +174,7 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
 
     private void initView() {
         setTitle(R.string.favourite_words);
-        binding = (FragmentFlagBinding) super.binding;
+        binding = (FragmentFavoritesBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_favourite);
         refresh = binding.layoutRefresh;
@@ -173,19 +188,13 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
-//        vm.observeFlag(this, this::onFlag);
     }
 
     private void initRecycler() {
         binding.setItems(new ObservableArrayList<>());
         adapter = new WordAdapter(this);
         adapter.setStickyHeaders(false);
-        scroller = new OnVerticalScrollListener() {
-            @Override
-            public void onScrolling() {
-                vm.update();
-            }
-        };
+        scroller = new OnVerticalScrollListener();
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
         ViewUtil.setRecycler(
                 adapter,
@@ -203,10 +212,14 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                refresh.setRefreshing(true);
+                if (!refresh.isRefreshing()) {
+                    refresh.setRefreshing(true);
+                }
                 break;
             case HIDE_PROGRESS:
-                refresh.setRefreshing(false);
+                if (refresh.isRefreshing()) {
+                    refresh.setRefreshing(false);
+                }
                 break;
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);
@@ -248,10 +261,6 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
         }
     }
 
-    public void onFlag(WordItem item) {
-        adapter.updateSilently(item);
-    }
-
     private void processProgress(boolean loading) {
         if (loading) {
             vm.updateUiState(UiState.SHOW_PROGRESS);
@@ -283,13 +292,8 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
     }
 
     private void processSuccess(List<WordItem> items) {
-        if (scroller.isScrolling()) {
-            return;
-        }
-        recycler.setNestedScrollingEnabled(false);
-        adapter.addItemsByRecent(items);
-        recycler.setNestedScrollingEnabled(true);
-        processUiState(UiState.EXTRA);
+        adapter.addFavoriteItems(items);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 500);
     }
 
     private void processSingleSuccess(WordItem item) {
@@ -302,16 +306,5 @@ public class FavoriteFragment extends BaseMenuFragment implements SmartAdapter.C
         task.setUiType(UiType.WORD);
         task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
-    }
-
-    @Nullable
-    @Override
-    public List<WordItem> getItems() {
-        return null;
-    }
-
-    @Override
-    public boolean getEmpty() {
-        return false;
     }
 }

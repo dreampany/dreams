@@ -38,6 +38,9 @@ interface WordDao: BaseDao<Word> {
     @Query("select * from word where id = :id limit 1")
     fun getItemRx(id: String): Maybe<Word>
 
+    @Query("select * from word where id in (:ids)")
+    fun getItemsRx(ids: List<String>): Maybe<List<Word>>
+
     @Query("select * from word where id like :query || '%' order by id asc")
     fun getSearchItems(query: String): List<Word>
 

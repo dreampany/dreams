@@ -24,6 +24,10 @@ public interface WordDataSource extends DataSource<Word> {
 
     Maybe<Word> getItemRx(String word, boolean full);
 
+    List<Word> getItems(List<String> ids);
+
+    Maybe<List<Word>> getItemsRx(List<String> ids);
+
     List<Word> getSearchItems(String query, int limit);
 
     List<Word> getCommonItems();
@@ -35,4 +39,5 @@ public interface WordDataSource extends DataSource<Word> {
     List<String> getRawWords();
 
     Maybe<List<String>> getRawWordsRx();
+
 }

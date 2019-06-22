@@ -2,7 +2,7 @@
 package com.dreampany.frame.data.misc;
 
 import com.dreampany.frame.data.model.Flag;
-import com.dreampany.frame.misc.FlagAnnote;
+import com.dreampany.frame.misc.FavoriteAnnote;
 import com.dreampany.frame.misc.SmartCache;
 import com.dreampany.frame.misc.SmartMap;
 
@@ -22,8 +22,8 @@ public class FlagMapper {
     private final SmartCache<Long, Flag> cache;
 
     @Inject
-    FlagMapper(@FlagAnnote SmartMap<Long, Flag> map,
-               @FlagAnnote SmartCache<Long, Flag> cache) {
+    FlagMapper(@FavoriteAnnote SmartMap<Long, Flag> map,
+               @FavoriteAnnote SmartCache<Long, Flag> cache) {
         this.map = map;
         this.cache = cache;
     }

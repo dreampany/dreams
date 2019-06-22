@@ -450,7 +450,6 @@ public final class AndroidUtil {
 
     public static void speak(String text) {
         if (tts != null && text != null) {
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Bundle params = new Bundle();
                 params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1f);
@@ -474,7 +473,7 @@ public final class AndroidUtil {
     }
 
 
-    public static void stopTextToSpeech() {
+    public static void stopTts() {
         if (tts != null) {
             tts.stop();
             tts.shutdown();

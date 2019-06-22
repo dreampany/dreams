@@ -151,7 +151,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
 
     @Override
     public Word getItem(String id) {
-        return null;
+        return room.getItem(id);
     }
 
     @Override
@@ -197,6 +197,16 @@ public class WordRepository extends Repository<String, Word> implements WordData
         Maybe<Word> remote = saveRoomFirestore(this.remote.getItemRx(word));
         return concatSingleFirstRx(room, firestore, remote);*/
         return Maybe.empty();
+    }
+
+    @Override
+    public List<Word> getItems(List<String> ids) {
+        return room.getItems(ids);
+    }
+
+    @Override
+    public Maybe<List<Word>> getItemsRx(List<String> ids) {
+        return room.getItemsRx(ids);
     }
 
     @Override
@@ -279,7 +289,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
         });
     }
 
-    private Maybe<List<Word>> getItemsRx(List<State> items) {
+    private Maybe<List<Word>> getItemsByStatesRx(List<State> items) {
         return Flowable.fromIterable(items)
                 .map(item -> mapper.toItem(item, room))
                 .toList()

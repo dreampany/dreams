@@ -91,7 +91,7 @@
                 android:tint="@color/material_white"
                 auto:elevation="6dp"
                 auto:rippleColor="@color/material_white"
-                auto:srcCompat="@drawable/ic_filter_center_focus_black_24dp" />
+                auto:srcCompat="@drawable/ic_search_black_24dp" />
 
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

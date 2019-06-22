@@ -50,6 +50,21 @@ class WordAdapter(listener: Any) : SmartAdapter<WordItem>(listener) {
         return super.addItems(items, alphaComparator)
     }
 
+    fun addFavoriteItem(item: WordItem) {
+        if (item.isFavorite) {
+            addItem(item)
+        } else {
+            removeItem(item)
+        }
+    }
+
+    fun addFavoriteItems(items: List<WordItem>): Boolean {
+        for (item in items) {
+            addFavoriteItem(item)
+        }
+        return true
+    }
+
     class RecentComparator : Comparator<IFlexible<*>> {
         override fun compare(p0: IFlexible<*>?, p1: IFlexible<*>?): Int {
             val left = p0 as WordItem

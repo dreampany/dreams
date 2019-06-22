@@ -2,6 +2,7 @@ package com.dreampany.firebase;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import com.dreampany.firebase.exceptions.RxFirebaseDataException;
 import com.google.firebase.database.ChildEventListener;
@@ -14,16 +15,21 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import hugo.weaving.DebugLog;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
+import io.reactivex.MaybeEmitter;
+import io.reactivex.MaybeOnSubscribe;
 import io.reactivex.MaybeSource;
 import io.reactivex.Single;
 import io.reactivex.functions.Function;
@@ -218,5 +224,103 @@ public class RxFirebaseDatabase {
         return Maybe.merge(Flowable.fromArray(whereRefs)
                 .map((Function<DatabaseReference, MaybeSource<? extends DataSnapshot>>) databaseReference -> observeSingleValueEvent(databaseReference))
         );
+    }
+
+    @DebugLog
+    public <T> Maybe<List<T>> getItemsRx(@NonNull String path,
+                                         @Nullable Pair<String, String> greater,
+                                         @Nullable List<Pair<String, Object>> equalTo) {
+        DatabaseReference ref = database.getReference(path);
+        Query query = ref;
+        if (greater != null) {
+            query = query.startAt(greater.second, greater.first);
+        }
+        if (equalTo != null) {
+            for (Pair<String, Object> entry : equalTo) {
+                query = query.equalTo(greater.second, greater.first);
+            }
+        }
+        return Maybe.empty();
+    }
+
+    @DebugLog
+    public <T> Maybe<T> getItemRx(@NonNull String parent,
+                                  @NonNull String child,
+                                  @Nullable Pair<String, String> greater,
+                                  @NonNull Class<T> clazz) {
+        Query ref = database.getReference(parent).child(child);
+        if (greater != null) {
+            ref = ref.startAt(greater.second, greater.first);
+        }
+        return getItemRx(ref, clazz);
+    }
+
+    public <T> Maybe<T> getItemRx(@NonNull Query ref, @NonNull Class<T> clazz) {
+        return Maybe.create(emitter -> {
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (emitter.isDisposed()) {
+                        return;
+                    }
+                    if (!snapshot.exists()) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onSuccess(snapshot.getValue(clazz));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    if (emitter.isDisposed()) {
+                        return;
+                    }
+                    emitter.onError(new RxFirebaseDataException(databaseError));
+                }
+            });
+        });
+
+
+        //return Maybe.create(emitter ->
+                /*ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (emitter.isDisposed()) {
+                            return;
+                        }
+                        if (snapshot.exists()) {
+                            emitter.onComplete();
+                        } else {
+                            emitter.onSuccess(snapshot.getValue(clazz));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        if (emitter.isDisposed()) {
+                            return;
+                        }
+                        emitter.onError(new E);
+                    }
+                });*/
+
+
+
+/*                ref.get().addOnSuccessListener(snapshot -> {
+                    if (emitter.isDisposed()) {
+                        return;
+                    }
+                    if (snapshot.isEmpty()) {
+                        emitter.onComplete();
+                    } else {
+                        emitter.onSuccess(snapshot.getDocuments().get(0).toObject(clazz));
+                    }
+                }).addOnFailureListener(error -> {
+                    if (emitter.isDisposed()) {
+                        return;
+                    }
+                    emitter.onError(error);
+                })*/
+        //);
     }
 }

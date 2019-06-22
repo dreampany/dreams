@@ -1,8 +1,11 @@
 package com.dreampany.lca.data.source.firebase.database;
 
+import androidx.core.util.Pair;
+
 import com.dreampany.firebase.RxFirebaseDatabase;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Coin;
@@ -94,12 +97,33 @@ public class CoinDatabaseDataSource implements CoinDataSource {
 
     @Override
     public List<Coin> getItems(CoinSource source, Currency currency, List<String> ids) {
-        return null;
+        String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.COINS);
+
+        List<Quote> quotes = getQuotes(currency, ids);
+        List<Coin> coins = null;
+        if (!DataUtil.isEmpty(quotes)) {
+            coins = new ArrayList<>();
+            for (Quote quote : quotes) {
+                Coin coin = database.getItemRx(path, quote.getId(), null, Coin.class).blockingGet();
+                coins.add(coin);
+            }
+        }
+        return coins;
     }
 
     @Override
     public Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids) {
-        return null;
+        return Maybe.create(emitter -> {
+            List<Coin> result = getItems(source, currency, ids);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
@@ -135,7 +159,7 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     @Override
     public long putItem(Coin coin) {
         String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.COINS);
-        String child = String.valueOf(coin.getId());
+        String child = coin.getId();
 
         Throwable error = database.setItemRx(path, child, coin).blockingGet();
         if (error == null) {
@@ -150,7 +174,7 @@ public class CoinDatabaseDataSource implements CoinDataSource {
         return Maybe.create(emitter -> {
             long result = putItem(coin);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (result == -1) {
                 emitter.onError(new EmptyException());
@@ -183,7 +207,7 @@ public class CoinDatabaseDataSource implements CoinDataSource {
         return Maybe.create(emitter -> {
             List<Long> result = putItems(coins);
             if (emitter.isDisposed()) {
-                throw new IllegalStateException();
+                return;
             }
             if (!DataUtil.isEmpty(result)) {
                 emitter.onError(new EmptyException());
@@ -253,12 +277,28 @@ public class CoinDatabaseDataSource implements CoinDataSource {
 
     private long putQuote(Quote quote) {
         String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.QUOTES);
-        String child = String.valueOf(quote.getId()).concat(quote.getCurrency().name());
+        String child = quote.getId().concat(quote.getCurrency().name());
 
         Throwable error = database.setItemRx(path, child, quote).blockingGet();
         if (error == null) {
             return 1;
         }
         return -1;
+    }
+
+    private List<Quote> getQuotes(Currency currency, List<String> ids) {
+        String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.QUOTES);
+        long coinDelayTime = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+        Pair<String, String> greater = Pair.create(Constants.Quote.LAST_UPDATED, String.valueOf(coinDelayTime));
+        List<Quote> quotes = new ArrayList<>();
+        for (String id : ids) {
+            String child = id.concat(currency.name());
+            Quote quote = database.getItemRx(path, child, greater, Quote.class).blockingGet();
+            if (quote != null) {
+                quotes.add(quote);
+            }
+        }
+
+        return quotes;
     }
 }

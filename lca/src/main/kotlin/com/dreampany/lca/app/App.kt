@@ -150,6 +150,7 @@ class App : BaseApp() {
             val current = AndroidUtil.getVersionCode(this)
 
             when (current) {
+                141,
                 140,
                 139,
                 138,

@@ -100,11 +100,15 @@ public class CoinDatabaseDataSource implements CoinDataSource {
         String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.COINS);
 
         List<Quote> quotes = getQuotes(currency, ids);
-       /* for (String id : ids) {
-            Coin coin = database.getItemRx(path, id, greater, Coin.class).blockingGet();
-            result.add(coin);
-        }*/
-        return new ArrayList<>();
+        List<Coin> coins = null;
+        if (!DataUtil.isEmpty(quotes)) {
+            coins = new ArrayList<>();
+            for (Quote quote : quotes) {
+                Coin coin = database.getItemRx(path, quote.getId(), null, Coin.class).blockingGet();
+                coins.add(coin);
+            }
+        }
+        return coins;
     }
 
     @Override
@@ -289,6 +293,10 @@ public class CoinDatabaseDataSource implements CoinDataSource {
         List<Quote> quotes = new ArrayList<>();
         for (String id : ids) {
             String child = id.concat(currency.name());
+            Quote quote = database.getItemRx(path, child, greater, Quote.class).blockingGet();
+            if (quote != null) {
+                quotes.add(quote);
+            }
         }
 
         return quotes;

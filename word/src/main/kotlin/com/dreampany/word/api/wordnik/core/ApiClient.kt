@@ -18,12 +18,12 @@ open class ApiClient(val baseUrl: String) {
 
     companion object {
         @JvmStatic
-        protected val ApiKey = "api_key"
-        protected val ContentType = "Content-Type"
-        protected val Accept = "Accept"
-        protected val JsonMediaType = "application/json"
-        protected val FormDataMediaType = "multipart/form-data"
-        protected val XmlMediaType = "application/xml"
+        val ApiKey = "api_key"
+        val ContentType = "Content-Type"
+        val Accept = "Accept"
+        val JsonMediaType = "application/json"
+        val FormDataMediaType = "multipart/form-data"
+        val XmlMediaType = "application/xml"
 
         @JvmStatic
         val client: OkHttpClient = OkHttpClient()
@@ -76,7 +76,10 @@ open class ApiClient(val baseUrl: String) {
         TODO("requestBody currently only supports JSON body and File body.")
     }
 
-    inline protected fun <reified T : Any?> responseBody(body: ResponseBody?, mediaType: String = JsonMediaType): T? {
+    inline protected fun <reified T : Any?> responseBody(
+        body: ResponseBody?,
+        mediaType: String = JsonMediaType
+    ): T? {
         if (body == null) return null
         return when (mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(body.source())
@@ -105,7 +108,10 @@ open class ApiClient(val baseUrl: String) {
         }
     }
 
-    inline protected fun <reified T : Any?> request(requestConfig: RequestConfig, body: Any? = null): ApiResponse<T?> {
+    inline protected fun <reified T : Any?> request(
+        requestConfig: RequestConfig,
+        body: Any? = null
+    ): ApiResponse<T?> {
         val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
 
         var urlBuilder = httpUrl.newBuilder()
@@ -136,7 +142,12 @@ open class ApiClient(val baseUrl: String) {
             RequestMethod.DELETE -> Request.Builder().url(url).delete()
             RequestMethod.GET -> Request.Builder().url(url)
             RequestMethod.HEAD -> Request.Builder().url(url).head()
-            RequestMethod.PATCH -> Request.Builder().url(url).patch(requestBody(body!!, contentType))
+            RequestMethod.PATCH -> Request.Builder().url(url).patch(
+                requestBody(
+                    body!!,
+                    contentType
+                )
+            )
             RequestMethod.PUT -> Request.Builder().url(url).put(requestBody(body!!, contentType))
             RequestMethod.POST -> Request.Builder().url(url).post(requestBody(body!!, contentType))
             RequestMethod.OPTIONS -> Request.Builder().url(url).method("OPTIONS", null)

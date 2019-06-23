@@ -31,6 +31,7 @@ import com.dreampany.word.databinding.ContentDefinitionBinding;
 import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRelatedBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
+import com.dreampany.word.databinding.ContentWordBinding;
 import com.dreampany.word.databinding.FragmentWordBinding;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
@@ -59,7 +60,8 @@ public class WordFragment extends BaseMenuFragment {
     ViewModelProvider.Factory factory;
     FragmentWordBinding binding;
     private ContentTopStatusBinding bindStatus;
-    private ContentFullWordBinding bindWord;
+    private ContentFullWordBinding bindFullWord;
+    private ContentWordBinding bindWord;
     private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
     WordViewModel vm;
@@ -142,9 +144,10 @@ public class WordFragment extends BaseMenuFragment {
 
         binding = (FragmentWordBinding) super.binding;
         bindStatus = binding.layoutTopStatus;
-        bindWord = binding.layoutWord;
-        bindRelated = bindWord.layoutRelated;
-        bindDef = bindWord.layoutDefinition;
+        bindFullWord = binding.layoutFullWord;
+        bindWord = bindFullWord.layoutWord;
+        bindRelated = bindFullWord.layoutRelated;
+        bindDef = bindFullWord.layoutDefinition;
 
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         bindDef.toggleDefinition.setOnClickListener(this);
@@ -243,16 +246,17 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processSuccess(WordItem item) {
-        if (!parent.equals(item.getItem())) {
+/*        if (!parent.equals(item.getItem())) {
             processSimple(item);
             return;
-        }
+        }*/
         processDetails(item);
     }
 
     private void processDetails(WordItem item) {
         Word word = item.getItem();
         binding.setItem(item);
+        bindWord.layoutWord.setVisibility(View.VISIBLE);
         processRelated(word.getSynonyms(), word.getAntonyms());
         processDefinitions(item.getItem().getDefinitions());
         processUiState(UiState.CONTENT);

@@ -44,6 +44,7 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStartUi(state: Bundle?) {
+        setTitle(null)
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype

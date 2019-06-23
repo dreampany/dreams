@@ -45,11 +45,10 @@
                     android:layout_height="match_parent">
 
                     <include
-                        android:id="@+id/layout_word"
+                        android:id="@+id/layout_full_word"
                         layout="@layout/content_full_word"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="@dimen/size_8"
                         android:visibility="visible"
                         auto:item="@{item}" />
                 </FrameLayout>

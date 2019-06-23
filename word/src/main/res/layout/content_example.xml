@@ -14,8 +14,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_margin="@dimen/size_6"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -46,8 +46,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@color/material_grey400"
                 android:visibility="gone" />
 
@@ -55,8 +55,8 @@
                 android:id="@+id/layout_single_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 auto:el_duration="500"
                 auto:el_expanded="true"
                 auto:el_parallax="0.5">
@@ -75,8 +75,8 @@
                 android:id="@+id/layout_multiple_expandable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
                 android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 auto:el_duration="500"
                 auto:el_expanded="false"
                 auto:el_parallax="0.5">

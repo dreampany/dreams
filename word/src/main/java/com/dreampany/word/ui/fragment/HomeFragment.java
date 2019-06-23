@@ -36,9 +36,11 @@ import com.dreampany.word.R;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.databinding.ContentDefinitionBinding;
+import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentMediumWordBinding;
 import com.dreampany.word.databinding.ContentRecyclerBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
+import com.dreampany.word.databinding.ContentWordBinding;
 import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.WordAdapter;
@@ -80,7 +82,8 @@ public class HomeFragment extends BaseMenuFragment
     private FragmentHomeBinding binding;
     private ContentTopStatusBinding bindStatus;
     private ContentRecyclerBinding bindRecycler;
-    private ContentMediumWordBinding bindWord;
+    private ContentFullWordBinding bindFullWord;
+    private ContentWordBinding bindWord;
     private ContentDefinitionBinding bindDef;
 
     private OnVerticalScrollListener scroller;
@@ -238,9 +241,10 @@ public class HomeFragment extends BaseMenuFragment
         setTitle(R.string.home);
         binding = (FragmentHomeBinding) super.binding;
         bindStatus = binding.layoutTopStatus;
-        bindWord = binding.layoutWord;
         bindRecycler = binding.layoutRecycler;
-        bindDef = bindWord.layoutDefinition;
+        bindFullWord = binding.layoutFullWord;
+        bindWord = bindFullWord.layoutWord;
+        bindDef = bindFullWord.layoutDefinition;
 
         binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
@@ -441,6 +445,7 @@ public class HomeFragment extends BaseMenuFragment
     private void processSingleSuccess(WordItem item) {
         Timber.v("Result Single Word[%s]", item.getItem().getId());
         binding.setItem(item);
+        bindWord.layoutWord.setVisibility(View.VISIBLE);
         processDefinitions(item.getItem().getDefinitions());
         processUiState(UiState.CONTENT);
     }

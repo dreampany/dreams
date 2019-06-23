@@ -13,8 +13,8 @@ android {
         applicationId 'com.dreampany.word'
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 44
-        versionName "0.4.4"
+        versionCode 45
+        versionName '0.4.5'
 
         multiDexEnabled true
 
@@ -87,7 +87,6 @@ android {
             proguardFiles 'proguard-rules-jackson.pro'
             proguardFiles 'proguard-rules-butterknife.pro'
             proguardFiles 'proguard-rules-kotlin.pro'
-            proguardFiles 'proguard-rules-moshi.pro'
         }
     }
 
@@ -154,7 +153,7 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     /* misc */
-    implementation 'com.wordnik:wordnik-android-client:4.0'
+    //implementation 'com.wordnik:wordnik-android-client:4.0'
     implementation 'com.github.oliveiradev:RxPhoto:0.4.0'
     implementation 'com.github.jakob-grabner:Circle-Progress-View:1.4'
 }

@@ -22,6 +22,11 @@ buildscript {
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.5'
         //classpath 'net.ltgt.gradle:gradle-errorprone-plugin:0.0.13'
     }
+    configurations.all {
+        resolutionStrategy {
+            force 'net.sf.proguard:proguard-gradle:6.1.1'
+        }
+    }
 }
 
 allprojects {

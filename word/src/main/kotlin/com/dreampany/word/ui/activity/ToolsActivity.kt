@@ -51,6 +51,7 @@ class ToolsActivity : BaseActivity() {
         if (type == null || subtype == null) {
             return
         }
+
         ad.initAd(
             this,
             javaClass.simpleName,
@@ -58,6 +59,8 @@ class ToolsActivity : BaseActivity() {
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
         )
+        ad.loadAd(javaClass.simpleName)
+
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
@@ -86,9 +89,20 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStopUi() {
+        ad.destroyBanner(javaClass.simpleName)
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        ad.resumeBanner(javaClass.simpleName)
+    }
+
+    override fun onPause() {
+        ad.pauseBanner(javaClass.simpleName)
+        super.onPause()
+    }
+
+/*    override fun onDestroy() {
         try {
             super.onDestroy()
         } catch (e: Exception) {
@@ -103,5 +117,5 @@ class ToolsActivity : BaseActivity() {
             return
         }
         finish()
-    }
+    }*/
 }

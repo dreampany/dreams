@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import at.grabner.circleprogress.CircleProgressView
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.exception.EmptyException
@@ -34,7 +33,7 @@ class LoaderActivity : BaseActivity() {
     internal lateinit var factory: ViewModelProvider.Factory
     internal lateinit var vm: LoaderViewModel
     internal lateinit var bind: ActivityLoaderBinding
-    internal lateinit var progress: CircleProgressView
+   // internal lateinit var progress: CircleProgressView
     internal lateinit var buttonDone: FitButton
 
     override fun getLayoutId(): Int {
@@ -58,11 +57,11 @@ class LoaderActivity : BaseActivity() {
         bind = super.binding as ActivityLoaderBinding
         vm = ViewModelProviders.of(this, factory).get(LoaderViewModel::class.java)
         vm.observeOutput(this, Observer { processSingleResponse(it) })
-        progress = bind.progress
+        //progress = bind.progress
         buttonDone = bind.buttonDone
 
         val total:Float = (Constants.Count.WORD_ALPHA).toFloat()
-        progress.maxValue = total
+        //progress.maxValue = total
     }
 
     @DebugLog
@@ -100,6 +99,6 @@ class LoaderActivity : BaseActivity() {
 
     private fun processSingleSuccess(item: LoadItem) {
         Timber.v("Result Single Load[%d]", item.item.current)
-        progress.setValueAnimated(item.item.current.toFloat())
+     //   progress.setValueAnimated(item.item.current.toFloat())
     }
 }

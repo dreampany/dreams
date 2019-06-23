@@ -153,7 +153,7 @@ public class CoinsViewModel
                     currentCurrency = currency;
                     Timber.v("Result posting %d", result.size());
                     postResult(Response.Type.GET, result);
-                    //getEx().postToUi(() -> update(false), 2000L);
+                    getEx().postToUi(() -> update(false, false), 1000L);
                 }, error -> {
                     if (progress) {
                         postProgress(false);

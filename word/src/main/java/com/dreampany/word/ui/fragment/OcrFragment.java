@@ -301,9 +301,9 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
 
     private void processSingleProgress(boolean loading) {
         if (loading) {
-            binding.progress.setVisibility(View.VISIBLE);
+            //binding.progress.setVisibility(View.VISIBLE);
         } else {
-            binding.progress.setVisibility(View.GONE);
+            //binding.progress.setVisibility(View.GONE);
         }
     }
 

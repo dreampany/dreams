@@ -271,9 +271,9 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
 
     private void processSingleProgress(boolean loading) {
         if (loading) {
-            binding.progress.setVisibility(View.VISIBLE);
+  //          binding.progress.setVisibility(View.VISIBLE);
         } else {
-            binding.progress.setVisibility(View.GONE);
+//            binding.progress.setVisibility(View.GONE);
         }
     }
 

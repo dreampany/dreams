@@ -117,20 +117,6 @@ public class CoinDetailsFragment
         super.onPause();
     }
 
-/*    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (!isResumed()) {
-            return;
-        }
-        if (isVisibleToUser) {
-            vm.loads(false);
-        } else {
-            vm.removeMultipleSubscription();
-            vm.removeUpdateDisposable();
-        }
-    }*/
-
     @Override
     public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         initCurrencyMenuItem();

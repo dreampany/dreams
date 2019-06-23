@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.beardedhen.androidbootstrap.BootstrapProgressBar
+<!--        <com.beardedhen.androidbootstrap.BootstrapProgressBar
             android:id="@+id/progress"
             android:layout_width="match_parent"
             android:layout_height="5dp"
@@ -26,13 +26,12 @@
             auto:bootstrapProgress="100"
             auto:bootstrapSize="sm"
             auto:striped="true"
-            tools:visibility="visible" />
+            tools:visibility="visible" />-->
 
         <cz.kinst.jakub.view.StatefulLayout
             android:id="@+id/stateful"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/progress">
+            android:layout_height="match_parent">
 
             <include
                 android:id="@+id/layout_recycler"

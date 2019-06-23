@@ -222,7 +222,7 @@ class Constants {
         const val ICO = 50
         const val NEWS = 50
         const val CMC_KEY = 5
-        const val COIN_RANDOM = 50
+        const val COIN_RANDOM = 10
     }
 
     object Time {

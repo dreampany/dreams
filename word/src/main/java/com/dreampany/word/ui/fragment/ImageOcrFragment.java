@@ -171,10 +171,10 @@ public class ImageOcrFragment extends BaseMenuFragment {
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:
-                binding.progress.setVisibility(View.VISIBLE);
+//                binding.progress.setVisibility(View.VISIBLE);
                 break;
             case HIDE_PROGRESS:
-                binding.progress.setVisibility(View.GONE);
+  //              binding.progress.setVisibility(View.GONE);
                 break;
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);

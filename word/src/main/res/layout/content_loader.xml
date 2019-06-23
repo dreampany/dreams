@@ -29,7 +29,7 @@
             auto:endColor="@color/colorPrimary"
             auto:startColor="@color/colorAccent" />-->
 
-        <com.beardedhen.androidbootstrap.BootstrapProgressBar
+<!--        <com.beardedhen.androidbootstrap.BootstrapProgressBar
             android:id="@+id/post_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             auto:bootstrapMaxProgress="100"
             auto:bootstrapProgress="0"
             auto:striped="true"
-            tools:visibility="visible" />
+            tools:visibility="visible" />-->
 
         <fr.arnaudguyon.smartfontslib.FontTextView
             android:id="@+id/text_status"

@@ -87,12 +87,29 @@ public class CoinDatabaseDataSource implements CoinDataSource {
 
     @Override
     public Coin getItem(CoinSource source, Currency currency, String id) {
-        return null;
+        String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.COINS);
+
+        Quote quote = getQuote(currency, id);
+        Coin coin = null;
+        if (!DataUtil.isEmpty(quote)) {
+             coin = database.getItemRx(path, quote.getId(), null, Coin.class).blockingGet();
+        }
+        return coin;
     }
 
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, Currency currency, String id) {
-        return null;
+        return Maybe.create(emitter -> {
+            Coin result = getItem(source, currency, id);
+            if (emitter.isDisposed()) {
+                return;
+            }
+            if (DataUtil.isEmpty(result)) {
+                emitter.onError(new EmptyException());
+            } else {
+                emitter.onSuccess(result);
+            }
+        });
     }
 
     @Override
@@ -284,6 +301,15 @@ public class CoinDatabaseDataSource implements CoinDataSource {
             return 1;
         }
         return -1;
+    }
+
+    private Quote getQuote(Currency currency, String id) {
+        String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.QUOTES);
+        long coinDelayTime = TimeUtil.currentTime() - Constants.Time.INSTANCE.getCoin();
+        Pair<String, String> greater = Pair.create(Constants.Quote.LAST_UPDATED, String.valueOf(coinDelayTime));
+        String child = id.concat(currency.name());
+        Quote quote = database.getItemRx(path, child, greater, Quote.class).blockingGet();
+        return quote;
     }
 
     private List<Quote> getQuotes(Currency currency, List<String> ids) {

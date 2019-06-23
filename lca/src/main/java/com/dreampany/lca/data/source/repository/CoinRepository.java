@@ -10,9 +10,9 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.network.manager.NetworkManager;
@@ -25,7 +25,6 @@ import javax.inject.Singleton;
 
 import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
-import io.reactivex.functions.Consumer;
 import io.reactivex.internal.functions.Functions;
 import timber.log.Timber;
 
@@ -123,10 +122,11 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
 
     @Override
     public Maybe<Coin> getItemRx(CoinSource source, Currency currency, String id) {
-        Maybe<Coin> firestoreIf = getFirestoreItemIfRx(source, currency, id);
+        Maybe<Coin> databaseIf = getDatabaseItemIfRx(source, currency, id);
         Maybe<Coin> remoteIf = getRemoteItemIfRx(source, currency, id);
+        Maybe<Coin> roomIf = getRoomItemIfRx(source, currency, id);
         Maybe<Coin> roomAny = room.getItemRx(source, currency, id);
-        return concatSingleLastRx(/*firestoreIf,*/ remoteIf, roomAny);
+        return concatSingleFirstRx(roomIf, databaseIf, remoteIf, roomAny);
     }
 
     @Override
@@ -275,7 +275,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                     rx.compute(room.putItemsRx(items)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                     rx.compute(database.putItemsRx(items)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
                     for (Coin coin : coins) {
-                        mapper.updateCoinTime(source, currency, coin.getId());
+                        mapper.updateCoinTime(source, currency, coin.getId(), coin.getLastUpdated());
                     }
                 });
                 List<Coin> remoteResult = remoteRx.blockingGet();
@@ -330,11 +330,19 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
                 });
     }
 
+    private Maybe<Coin> getDatabaseItemIfRx(CoinSource source, Currency currency, String coinId) {
+        Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? database.getItemRx(source, currency, coinId) : Maybe.empty();
+        return contactSingleSuccess(maybe, coin -> {
+            rx.compute(room.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
+            mapper.updateCoinTime(source, currency, coinId, coin.getLastUpdated());
+        });
+    }
+
     private Maybe<Coin> getFirestoreItemIfRx(CoinSource source, Currency currency, String coinId) {
         Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? firestore.getItemRx(source, currency, coinId) : Maybe.empty();
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(room.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            mapper.updateCoinTime(source, currency, coinId);
+            mapper.updateCoinTime(source, currency, coinId, coin.getLastUpdated());
         });
     }
 
@@ -343,8 +351,13 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return contactSingleSuccess(maybe, coin -> {
             rx.compute(room.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             rx.compute(database.putItemRx(coin)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
-            mapper.updateCoinTime(source, currency, coinId);
+            mapper.updateCoinTime(source, currency, coinId,coin.getLastUpdated());
         });
+    }
+
+    private Maybe<Coin> getRoomItemIfRx(CoinSource source, Currency currency, String coinId) {
+        Maybe<Coin> maybe = mapper.isCoinExpired(source, currency, coinId) ? Maybe.empty() : room.getItemRx(source, currency, coinId);
+        return maybe;
     }
 
     private Maybe<List<Coin>> getFirestoreRemoteItemsIfRx(CoinSource source, Currency currency, List<String> coinIds) {
@@ -388,7 +401,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
             rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             //rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             for (Coin coin : coins) {
-                mapper.updateCoinTime(source, currency, coin.getId());
+                mapper.updateCoinTime(source, currency, coin.getId(),coin.getLastUpdated());
             }
         });
     }
@@ -473,7 +486,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
             rx.compute(room.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             rx.compute(database.putItemsRx(coins)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer());
             for (Coin coin : coins) {
-                mapper.updateCoinTime(source, currency, coin.getId());
+                mapper.updateCoinTime(source, currency, coin.getId(),coin.getLastUpdated());
             }
         });
     }

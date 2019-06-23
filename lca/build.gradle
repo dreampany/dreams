@@ -13,8 +13,8 @@ android {
         applicationId 'com.dreampany.lca'
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 141
-        versionName '1.4.1'
+        versionCode 142
+        versionName '1.4.2'
 
         multiDexEnabled true
 
@@ -190,6 +190,7 @@ dependencies {
     implementation 'com.libRG:customtextview:1.4'
     implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
     implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
+    implementation 'com.beardedhen:androidbootstrap:2.3.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

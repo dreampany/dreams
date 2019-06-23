@@ -273,6 +273,21 @@ public final class DataUtil {
         return value;
     }
 
+    public static String toString(List<String> values, String sep) {
+        String value = null;
+        if (!DataUtil.isEmpty(values)) {
+            StringBuilder builder = new StringBuilder();
+            for (String v : values) {
+                if (builder.length() > 0) {
+                    builder.append(sep);
+                }
+                builder.append(v);
+            }
+            value = builder.toString();
+        }
+        return value;
+    }
+
     public static void joinString(StringBuilder builder, String value) {
         joinString(builder, value, COMMA);
     }

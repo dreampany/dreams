@@ -4,8 +4,10 @@ import android.app.Application;
 
 import androidx.fragment.app.Fragment;
 
+import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
+import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
@@ -16,6 +18,7 @@ import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
+import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
@@ -41,6 +44,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     private final NetworkManager network;
     private final Pref pref;
     private final WordMapper mapper;
+    private final StateMapper stateMapper;
     private final ApiRepository repo;
 
     @Inject
@@ -51,11 +55,13 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                   NetworkManager network,
                   Pref pref,
                   WordMapper mapper,
+                  StateMapper stateMapper,
                   ApiRepository repo) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
         this.mapper = mapper;
+        this.stateMapper = stateMapper;
         this.repo = repo;
     }
 
@@ -140,14 +146,14 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         item.setItem(word);
         adjustFavorite(word, item);
 /*        if (fully) {
-            //adjustState(item);
+            adjustState(item);
         }*/
         return item;
     }
 
     private void adjustState(WordItem item) {
-        //List<State> states = repo.getStates(item.getItemRx());
-        //Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+        List<State> states = repo.getStates(item.getItem());
+        Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState())));
     }
 
     private void adjustFavorite(Word word, WordItem item) {
@@ -156,7 +162,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
-            //repo.toggleFlag(word);
+            repo.toggleFavorite(word);
             return getItem(word);
         });
     }

@@ -96,4 +96,12 @@ class Constants {
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
     }
+
+    object Sep {
+        const val DOT = Constants.Sep.DOT
+        const val COMMA = Constants.Sep.COMMA
+        const val COMMA_SPACE = Constants.Sep.COMMA_SPACE
+        const val SPACE = Constants.Sep.SPACE
+        const val HYPHEN = Constants.Sep.HYPHEN
+    }
 }

@@ -19,6 +19,7 @@ import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.MenuTint;
@@ -33,8 +34,10 @@ import com.dreampany.word.databinding.ContentRelatedBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;
 import com.dreampany.word.databinding.FragmentWordBinding;
+import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
+import com.dreampany.word.vm.SearchViewModel;
 import com.dreampany.word.vm.WordViewModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -65,6 +68,7 @@ public class WordFragment extends BaseMenuFragment {
     private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
     WordViewModel vm;
+    SearchViewModel searchVm;
     Word parent;
 
     @Inject
@@ -85,10 +89,14 @@ public class WordFragment extends BaseMenuFragment {
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
+        AndroidUtil.initTts(getApp());
+        vm.load(parent, true, true);
     }
 
     @Override
     protected void onStopUi() {
+        AndroidUtil.stopTts();
+        processUiState(UiState.HIDE_PROGRESS);
     }
 
     @Override
@@ -111,11 +119,17 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     @Override
+    public void onRefresh() {
+        super.onRefresh();
+        processUiState(UiState.HIDE_PROGRESS);
+    }
+
+    @Override
     public void onClick(@NotNull View v) {
         switch (v.getId()) {
+            case R.id.image_speak:
             case R.id.text_word:
-            case R.id.fab:
-                vm.speak(parent.getId());
+                speak();
                 break;
             case R.id.text_simple_word:
                 String text = ViewUtil.getText(v);
@@ -131,7 +145,7 @@ public class WordFragment extends BaseMenuFragment {
                 //closeBottom();
                 break;
             case R.id.button_favorite:
-                vm.toggleFavorite(binding.getItem().getItem());
+                searchVm.toggleFavorite(binding.getItem().getItem());
                 break;
         }
     }
@@ -166,12 +180,14 @@ public class WordFragment extends BaseMenuFragment {
         Color color = getColor();
         ViewUtil.setBackground(binding.layoutBottom.layoutExpandable, color.getPrimaryId());
 
+        searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
         vm.setTask(uiTask);
 
         vm.observeUiState(this, this::processUiState);
         vm.observeOutput(this, this::processResponse);
-        vm.load(parent, true, true);
+        searchVm.observeUiState(this, this::processUiState);
+        searchVm.observeOutput(this, this::processResponse);
     }
 
     private void processUiState(UiState state) {
@@ -277,8 +293,8 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processRelated(List<String> synonyms, List<String> antonyms) {
-        String synonym = DataUtil.toString(synonyms);
-        String antonym = DataUtil.toString(antonyms);
+        String synonym = DataUtil.toString(synonyms, Constants.Sep.COMMA_SPACE);
+        String antonym = DataUtil.toString(antonyms, Constants.Sep.COMMA_SPACE);
 
         if (!DataUtil.isEmpty(synonym)) {
             bindRelated.textSynonym.setText(getString(R.string.synonyms, synonym));
@@ -295,7 +311,6 @@ public class WordFragment extends BaseMenuFragment {
         } else {
             bindRelated.textAntonym.setVisibility(View.GONE);
         }
-
         bindRelated.layoutRelated.setVisibility(DataUtil.isEmpty(synonyms) && DataUtil.isEmpty(antonyms) ? View.GONE : View.VISIBLE);
     }
 
@@ -368,7 +383,14 @@ public class WordFragment extends BaseMenuFragment {
 
     private void searchWord(String word) {
         //searchView.clearFocus();
-        //searchVm.find(word, true);
+        searchVm.find(word, true);
+    }
+
+    private void speak() {
+        WordItem item = bindWord.getItem();
+        if (item != null) {
+            AndroidUtil.speak(item.getItem().getId());
+        }
     }
 
 /*    private void processExamples(List<String> examples) {

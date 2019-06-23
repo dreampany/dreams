@@ -135,8 +135,8 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
             this.partOfSpeech.setText(word.getPartOfSpeech());
             this.pronunciation.setText(word.getPronunciation());
 
-            int color = item.hasState(ItemState.FULL) ? R.color.material_black : R.color.material_grey500;
-            this.word.setTextColor(ColorUtil.getColor(getContext(), color));
+            //int color = item.hasState(ItemState.FULL) ? R.color.material_black : R.color.material_grey500;
+            //this.word.setTextColor(ColorUtil.getColor(getContext(), color));
             //like.setTag(word);
             //like.setLiked(item.isFavorite());
         }

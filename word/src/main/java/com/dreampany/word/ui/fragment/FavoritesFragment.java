@@ -22,6 +22,7 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
+import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.ViewUtil;
@@ -62,11 +63,13 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
     @Inject
     ViewModelProvider.Factory factory;
     FragmentFavoritesBinding binding;
-    FavoriteViewModel vm;
-    WordAdapter adapter;
+
     OnVerticalScrollListener scroller;
     SwipeRefreshLayout refresh;
     RecyclerView recycler;
+
+    FavoriteViewModel vm;
+    WordAdapter adapter;
 
     @Inject
     public FavoritesFragment() {
@@ -92,11 +95,12 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        AndroidUtil.initTts(getApp());
     }
 
     @Override
     protected void onStopUi() {
-
+        AndroidUtil.stopTts();
     }
 
     @Override
@@ -130,11 +134,8 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
         switch (v.getId()) {
             case R.id.text_word:
                 String text = ViewUtil.getText(v);
-                vm.speak(text);
+                AndroidUtil.speak(text);
                 break;
-/*            case R.id.button_like:
-                vm.toggle((Word) v.getTag());
-                break;*/
         }
     }
 
@@ -271,9 +272,9 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
 
     private void processSingleProgress(boolean loading) {
         if (loading) {
-  //          binding.progress.setVisibility(View.VISIBLE);
+            refresh.setVisibility(View.VISIBLE);
         } else {
-//            binding.progress.setVisibility(View.GONE);
+            refresh.setVisibility(View.GONE);
         }
     }
 
@@ -293,7 +294,7 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
 
     private void processSuccess(List<WordItem> items) {
         adapter.addFavoriteItems(items);
-        ex.postToUi(() -> processUiState(UiState.EXTRA), 500);
+        ex.postToUi(() -> processUiState(UiState.EXTRA), 500L);
     }
 
     private void processSingleSuccess(WordItem item) {

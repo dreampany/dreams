@@ -269,6 +269,9 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     public void toggleFavorite(Word word) {
+        if (hasDisposable(getMultipleDisposable())) {
+            return;
+        }
         Disposable disposable = getRx()
                 .backToMain(toggleImpl(word))
                 .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);

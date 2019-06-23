@@ -154,6 +154,12 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     @Override
+    public void onRefresh() {
+        super.onRefresh();
+        processUiState(UiState.HIDE_PROGRESS);
+    }
+
+    @Override
     public void onClick(@NotNull View v) {
         switch (v.getId()) {
             case R.id.toggle_definition:
@@ -165,7 +171,7 @@ public class HomeFragment extends BaseMenuFragment
             case R.id.fab:
                 processFabAction();
                 break;
-            case R.id.imageSpeak:
+            case R.id.image_speak:
                 speak();
                 break;
             case R.id.text_word:

@@ -16,6 +16,9 @@ class Constants {
         fun about(context: Context): String = lastAppId(context) + Sep.HYPHEN + "about"
         fun settings(context: Context): String = lastAppId(context) + Sep.HYPHEN + "settings"
         fun license(context: Context): String = lastAppId(context) + Sep.HYPHEN + "license"
+        fun launch(context: Context): String = lastAppId(context) + Sep.HYPHEN + "launch"
+        fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + "navigation"
+        fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + "tools"
     }
 
     object Event {

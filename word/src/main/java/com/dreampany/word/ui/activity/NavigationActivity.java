@@ -11,6 +11,7 @@ import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.frame.ui.callback.SearchViewCallback;
 import com.dreampany.word.R;
 import com.dreampany.word.databinding.ActivityNavigationBinding;
+import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.fragment.FavoritesFragment;
 import com.dreampany.word.ui.fragment.HomeFragment;
 import com.dreampany.word.ui.fragment.MoreFragment;
@@ -67,6 +68,12 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @Override
     public boolean isHomeUp() {
         return false;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.navigation(getApplicationContext());
     }
 
     @Override

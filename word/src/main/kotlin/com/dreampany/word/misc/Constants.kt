@@ -1,6 +1,8 @@
 package com.dreampany.word.misc
 
+import android.content.Context
 import com.dreampany.frame.misc.Constants
+import com.dreampany.frame.util.TextUtil
 import com.dreampany.word.R
 import java.util.concurrent.TimeUnit
 
@@ -21,17 +23,17 @@ class Constants {
     }
 
     companion object Screen {
-        fun lastAppId(context: android.content.Context): String = Constants.lastAppId(context)
-        fun more(context: android.content.Context): String = Constants.more(context)
-        fun about(context: android.content.Context): String = Constants.about(context)
-        fun settings(context: android.content.Context): String = Constants.settings(context)
-        fun license(context: android.content.Context): String = Constants.license(context)
-        fun app(context: android.content.Context): String = lastAppId(context) + Constants.Sep.HYPHEN + com.dreampany.frame.util.TextUtil.getString(
-                context,
-                R.string.app_name
-            )
-        fun navigation(context: android.content.Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "navigation"
-        fun tools(context: android.content.Context): String = lastAppId(context) + Constants.Sep.HYPHEN + "tools"
+        fun lastAppId(context: Context): String = Constants.lastAppId(context)
+        fun more(context: Context): String = Constants.more(context)
+        fun about(context: Context): String = Constants.about(context)
+        fun settings(context: Context): String = Constants.settings(context)
+        fun license(context: Context): String = Constants.license(context)
+
+        fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+
+        fun launch(context: Context): String = Constants.launch(context)
+        fun navigation(context: Context): String = Constants.navigation(context)
+        fun tools(context: Context): String = Constants.tools(context)
     }
 
     object Assets {

@@ -29,12 +29,13 @@ class Constants {
         fun settings(context: Context): String = Constants.settings(context)
         fun license(context: Context): String = Constants.license(context)
 
-        fun app(context: Context): String =
-            lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+        fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
 
-        fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + "navigation"
+        fun launch(context: Context): String = Constants.launch(context)
+        fun navigation(context: Context): String = Constants.navigation(context)
+        fun tools(context: Context): String = Constants.tools(context)
+
         fun library(context: Context): String = lastAppId(context) + Sep.HYPHEN + "library"
-        fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + "tools"
         fun coins(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coins"
         fun coin(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin"
         fun coinDetails(context: Context): String = lastAppId(context) + Sep.HYPHEN + "coin_details"
@@ -103,8 +104,10 @@ class Constants {
     }
 
     object ApiKey {
-        const val CMC_PRO_DREAM_DEBUG_2 = "24532bfc-8802-4e18-937f-9b682c13df01" //dream.debug.2@gmail.com
-        const val CMC_PRO_DREAM_DEBUG_1 = "b1334b04-d6ee-4010-866c-aea715bb2d6f" //dream.debug.1@gmail.com
+        const val CMC_PRO_DREAM_DEBUG_2 =
+            "24532bfc-8802-4e18-937f-9b682c13df01" //dream.debug.2@gmail.com
+        const val CMC_PRO_DREAM_DEBUG_1 =
+            "b1334b04-d6ee-4010-866c-aea715bb2d6f" //dream.debug.1@gmail.com
         const val CMC_PRO_ROMAN_BJIT = "2526f063-e73d-4fb9-b221-2bd8c8097525" //roman.bjit@gmail.com
         const val CMC_PRO_IFTE_NET = "e5c34607-689c-4530-886e-0d62c923797a" //ifte.net@gmail.com
         const val CMC_PRO_DREAMPANY =
@@ -227,7 +230,8 @@ class Constants {
 
     object Time {
         val Listing = TimeUnit.HOURS.toMillis(1) //get listing per 7 days
-        val Coin = TimeUnit.MINUTES.toMillis(5) // Every ~1 minute; as per coinmarketcap limit 30 per minute
+        val Coin =
+            TimeUnit.MINUTES.toMillis(5) // Every ~1 minute; as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
     }
 

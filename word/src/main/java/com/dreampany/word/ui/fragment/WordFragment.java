@@ -384,6 +384,7 @@ public class WordFragment extends BaseMenuFragment {
     private void searchWord(String word) {
         //searchView.clearFocus();
         searchVm.find(word.toLowerCase(), true);
+        AndroidUtil.speak(word);
     }
 
     private void speak() {

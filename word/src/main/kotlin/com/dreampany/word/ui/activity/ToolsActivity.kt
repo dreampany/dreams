@@ -10,6 +10,7 @@ import com.dreampany.word.ui.fragment.LicenseFragment
 import com.dreampany.word.ui.fragment.SettingsFragment
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.fragment.WordFragment
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
@@ -41,6 +42,10 @@ class ToolsActivity : BaseActivity() {
     override fun isFullScreen(): Boolean {
         val uiTask = getCurrentTask<UiTask<*>>(true)
         return uiTask?.isFullscreen ?: super.isFullScreen()
+    }
+
+    override fun getScreen(): String {
+        return Constants.tools(this)
     }
 
     override fun onStartUi(state: Bundle?) {

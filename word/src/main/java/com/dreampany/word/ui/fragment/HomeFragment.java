@@ -118,7 +118,6 @@ public class HomeFragment extends BaseMenuFragment
         initView();
         initRecycler();
         AndroidUtil.initTts(getApp());
-        searchVm.loadLastSearchWord(true);
     }
 
     @Override
@@ -128,6 +127,12 @@ public class HomeFragment extends BaseMenuFragment
         if (searchView.isSearchOpen()) {
             searchView.closeSearch();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchVm.loadLastSearchWord(true);
     }
 
     @Override
@@ -528,6 +533,7 @@ public class HomeFragment extends BaseMenuFragment
         query = word.toLowerCase();
         searchView.clearFocus();
         searchVm.find(query, true);
+        AndroidUtil.speak(query);
     }
 
     private void openUi(Word item) {

@@ -383,7 +383,7 @@ public class WordFragment extends BaseMenuFragment {
 
     private void searchWord(String word) {
         //searchView.clearFocus();
-        searchVm.find(word, true);
+        searchVm.find(word.toLowerCase(), true);
     }
 
     private void speak() {

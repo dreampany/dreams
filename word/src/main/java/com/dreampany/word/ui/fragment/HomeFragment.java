@@ -117,14 +117,12 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        AndroidUtil.initTts(getApp());
     }
 
     @Override
     protected void onStopUi() {
-        AndroidUtil.stopTts();
         processUiState(UiState.HIDE_PROGRESS);
-        if (searchView.isSearchOpen()) {
+        if (searchView != null && searchView.isSearchOpen()) {
             searchView.closeSearch();
         }
     }

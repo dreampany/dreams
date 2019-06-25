@@ -106,7 +106,7 @@ public class TextOcrFragment extends BaseMenuFragment implements ScaleGestureDet
                 Snackbar.LENGTH_INDEFINITE)
                 .show();
 
-        AndroidUtil.initTts(getApp());
+        //AndroidUtil.initTts(getApp());
         words = new HashSet<>();
     }
 

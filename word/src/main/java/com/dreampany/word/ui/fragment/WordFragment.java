@@ -89,13 +89,11 @@ public class WordFragment extends BaseMenuFragment {
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
-        AndroidUtil.initTts(getApp());
         vm.load(parent, true, true);
     }
 
     @Override
     protected void onStopUi() {
-        AndroidUtil.stopTts();
         processUiState(UiState.HIDE_PROGRESS);
     }
 

@@ -72,6 +72,12 @@ class App : BaseApp() {
         configAd()
         configJob()
         clean()
+        AndroidUtil.initTts(this)
+    }
+
+    override fun onTerminate() {
+        AndroidUtil.stopTts()
+        super.onTerminate()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication>? {

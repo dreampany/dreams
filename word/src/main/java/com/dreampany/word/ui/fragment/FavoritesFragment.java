@@ -95,12 +95,10 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        AndroidUtil.initTts(getApp());
     }
 
     @Override
     protected void onStopUi() {
-        AndroidUtil.stopTts();
     }
 
     @Override

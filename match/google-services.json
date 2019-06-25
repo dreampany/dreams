@@ -219,6 +219,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "387180098728-t9dq4042journbd9puurbcirmgdto5r4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dreampany.match",
+            "certificate_hash": "488ec01e09bda83c069cb4659081e9706789819e"
+          }
+        },
+        {
           "client_id": "387180098728-cm60iu3vdmk181km5kj41e6a69vslb0u.apps.googleusercontent.com",
           "client_type": 3
         }

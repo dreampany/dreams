@@ -136,9 +136,6 @@ dependencies {
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
     kapt 'androidx.room:room-compiler:2.1.0'
 
-    /* firebase */
-    implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
-
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'

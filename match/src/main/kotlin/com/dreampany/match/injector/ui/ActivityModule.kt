@@ -4,6 +4,7 @@ import com.dreampany.match.ui.activity.LaunchActivity
 import com.dreampany.match.ui.activity.NavigationActivity
 import com.dreampany.match.ui.activity.ToolsActivity
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.match.ui.activity.AuthActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -18,6 +19,10 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract fun launchActivity(): LaunchActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun authActivity(): AuthActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])

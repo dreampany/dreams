@@ -13,13 +13,13 @@ import com.dreampany.frame.data.model.Base
  */
 class User : Base {
 
-    private var email: String? = null
+     var email: String? = null
 
     @Ignore
     constructor() {
     }
 
-    private constructor(id: String) : super(id) {
+    constructor(id: String) : super(id) {
     }
 
     @Ignore

@@ -40,14 +40,22 @@
             android:background="@color/material_grey300"
             android:gravity="center_vertical">
 
-            <Button
+            <!--            <Button
+                            android:id="@+id/signInButton"
+                            style="@style/Widget.AppCompat.Button.Colored"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:text="@string/sign_in"
+                            android:theme="@style/ThemeOverlay.DarkButton"
+                            android:visibility="visible" />-->
+
+            <com.google.android.gms.common.SignInButton
                 android:id="@+id/signInButton"
-                style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/sign_in"
-                android:theme="@style/ThemeOverlay.DarkButton"
+                android:text="@string/sign_in_google"
                 android:visibility="visible" />
 
             <Button

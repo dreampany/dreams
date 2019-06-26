@@ -7,10 +7,12 @@ import android.view.View
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.match.R
+import com.dreampany.match.data.source.pref.Pref
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_auth.*
+import javax.inject.Inject
 
 
 /**
@@ -25,6 +27,9 @@ class AuthActivity : BaseActivity() {
     }
 
     private lateinit var auth: FirebaseAuth
+    @Inject
+    lateinit var pref: Pref
+    private val user by lazy { pref.getUser() }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_auth
@@ -57,10 +62,8 @@ class AuthActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
             if (resultCode == Activity.RESULT_OK) {
-
                 updateUi(auth.currentUser)
             } else {
                 //Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show()
@@ -76,7 +79,6 @@ class AuthActivity : BaseActivity() {
             .setLogo(R.mipmap.ic_launcher)
             .build()
 
-       // signOut()
         startActivityForResult(intent, RC_SIGN_IN)
     }
 
@@ -87,12 +89,15 @@ class AuthActivity : BaseActivity() {
 
     private fun updateUi(user: FirebaseUser?) {
         if (user != null) {
-            // Signed in
             status.text = getString(R.string.email_fmt, user.email)
             detail.text = getString(R.string.id_fmt, user.uid)
 
             signInButton.visibility = View.GONE
             signOutButton.visibility = View.VISIBLE
+
+            this.user.email = user.email
+            this.user.id = user.uid
+            pref.setUser(this.user)
         } else {
             // Signed out
             status.setText(R.string.signed_out)

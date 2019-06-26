@@ -167,11 +167,11 @@ dependencies {
     api 'com.google.firebase:firebase-core:17.0.0'
     api 'com.google.firebase:firebase-appindexing:19.0.0'
     api 'com.google.firebase:firebase-ads:18.0.0'
-    api 'com.google.firebase:firebase-messaging:19.0.0'
+    api 'com.google.firebase:firebase-messaging:19.0.1'
     //api 'com.google.firebase:firebase-invites:17.0.0'
     api 'com.google.firebase:firebase-auth:18.0.0'
     api 'com.google.firebase:firebase-database:18.0.0'
-    api 'com.google.firebase:firebase-firestore:20.0.0'
+    api 'com.google.firebase:firebase-firestore:20.1.0'
     //implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'com.google.firebase:firebase-ml-common:20.0.0'
     implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
@@ -187,7 +187,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 
     /* reactivex */
-    api 'io.reactivex.rxjava2:rxjava:2.2.8'
+    api 'io.reactivex.rxjava2:rxjava:2.2.9'
     api 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 

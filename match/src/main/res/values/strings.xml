@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Match</string>
+    <string name="app_name">MatchME</string>
+
+    <string name="sign_in">Sign in</string>
+    <string name="signed_out">Signed out</string>
+
+    <string name="id_fmt">User ID: %s</string>
+    <string name="email_fmt">Email: %s</string>
 </resources>

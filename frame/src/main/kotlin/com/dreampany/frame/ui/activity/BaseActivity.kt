@@ -47,6 +47,7 @@ import kotlin.reflect.KClass
 @Suppress("UNCHECKED_CAST")
 abstract class BaseActivity :
     DaggerAppCompatActivity(),
+    View.OnClickListener,
     UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
     MultiplePermissionsListener,
     PermissionRequestErrorListener {
@@ -229,6 +230,10 @@ abstract class BaseActivity :
     public String key() {
         return "base";
     }*/
+
+    override fun onClick(view: View) {
+
+    }
 
     override fun getUiActivity(): BaseActivity {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

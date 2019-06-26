@@ -180,6 +180,10 @@ public final class AndroidUtil {
         return debuggable;
     }
 
+    public static boolean isRelease(Context context) {
+        return !isDebug(context);
+    }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public static int getColorPrimary(Context context) {

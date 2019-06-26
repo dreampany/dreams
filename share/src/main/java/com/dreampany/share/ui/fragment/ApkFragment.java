@@ -42,7 +42,7 @@ import javax.inject.Inject;
 
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 7/18/2018.
@@ -189,7 +189,7 @@ public class ApkFragment extends BaseFragment {
         );
     }
 
-    @DebugLog
+
     private void processUiState(UiState state) {
         switch (state) {
             case SHOW_PROGRESS:

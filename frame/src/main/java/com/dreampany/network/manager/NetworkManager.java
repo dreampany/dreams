@@ -2,7 +2,11 @@ package com.dreampany.network.manager;
 
 import android.content.Context;
 
-import com.dreampany.network.api.*;
+import com.dreampany.network.api.BluetoothApi;
+import com.dreampany.network.api.InternetApi;
+import com.dreampany.network.api.MobileApi;
+import com.dreampany.network.api.WifiApApi;
+import com.dreampany.network.api.WifiApi;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.network.misc.RxMapper;
 import com.google.common.collect.Maps;
@@ -15,9 +19,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import hugo.weaving.DebugLog;
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 8/18/2018.

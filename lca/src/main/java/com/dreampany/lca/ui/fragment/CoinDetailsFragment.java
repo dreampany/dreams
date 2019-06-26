@@ -48,7 +48,7 @@ import javax.inject.Inject;
 
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -243,7 +243,7 @@ public class CoinDetailsFragment
         }
     }
 
-    @DebugLog
+
     private void processResponse(Response<List<CoinItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;

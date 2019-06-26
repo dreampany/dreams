@@ -49,7 +49,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 import timber.log.Timber;
 
 /**
@@ -92,7 +92,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         return R.id.item_search;
     }
 
-    @DebugLog
+
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
@@ -183,7 +183,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         return adapter.getVisibleItem();
     }
 
-    @DebugLog
+
     private void initView() {
         setTitle(R.string.recent_words);
         binding = (FragmentRecentBinding) super.binding;
@@ -293,7 +293,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         }
     }
 
-    @DebugLog
+
     public void processLoadResponse(Response<LoadItem> response) {
         if (response instanceof Response.Result) {
             Response.Result<LoadItem> result = (Response.Result<LoadItem>) response;
@@ -301,7 +301,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         }
     }
 
-    @DebugLog
+
     private void processSuccess(LoadItem item) {
         Timber.v("Load Progress = %d", item.getItem().getTotal());
         String title = TextUtil.getString(getContext(), R.string.total_words, item.getItem().getCurrent());

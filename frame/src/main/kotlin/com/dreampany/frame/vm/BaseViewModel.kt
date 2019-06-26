@@ -142,7 +142,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         super.onCleared()
     }
 
-/*    @DebugLog
+/*
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onEvent(networkEvent: NetworkState) {
         if (this.networkEvent != networkEvent) {

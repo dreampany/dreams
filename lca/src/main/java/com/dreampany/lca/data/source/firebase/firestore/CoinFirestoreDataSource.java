@@ -23,7 +23,7 @@ import java.util.TreeSet;
 
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 import io.reactivex.functions.Consumer;
 import timber.log.Timber;
@@ -112,7 +112,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         Maybe<Coin> result = firestore.getItemRx(collection, paths, equalTo, null, greaterThanOrEqualTo, Coin.class);
 
         result = result.doOnSuccess(new Consumer<Coin>() {
-            @DebugLog
+
             @Override
             public void accept(Coin coin) throws Exception {
 
@@ -199,7 +199,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         return null;
     }
 
-    @DebugLog
+
     @Override
     public long putItem(Coin coin) {
         String collection = Constants.FirebaseKey.CRYPTO;

@@ -16,7 +16,7 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import timber.log.Timber;
 
 /**

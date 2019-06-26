@@ -2,21 +2,20 @@ package com.dreampany.match.ui.fragment;
 
 import android.os.Bundle;
 
-import com.dreampany.match.R;
-import com.dreampany.match.ui.model.UiTask;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.ActivityScope;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.fragment.BaseStateFragment;
+import com.dreampany.match.R;
+import com.dreampany.match.ui.model.UiTask;
 
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.ViewModelProvider;
-import hugo.weaving.DebugLog;
 
 /**
  * Created by Hawladar Roman on 6/20/2018.
@@ -87,7 +86,6 @@ public class HomeFragment extends BaseStateFragment<BaseFragment> {
 
     }
 
-    @DebugLog
     @NonNull
     @Override
     public ViewModelProvider.Factory get() {

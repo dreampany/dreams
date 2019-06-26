@@ -41,7 +41,7 @@ import com.dreampany.lca.vm.NewsViewModel;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 import im.delight.android.webview.AdvancedWebView;
 import net.cachapa.expandablelayout.ExpandableLayout;
 import org.jetbrains.annotations.NotNull;
@@ -101,7 +101,7 @@ public class NewsFragment
         return Constants.Screen.news(getAppContext());
     }
 
-    @DebugLog
+
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
@@ -109,7 +109,7 @@ public class NewsFragment
         vm.start();
     }
 
-    @DebugLog
+
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
@@ -267,7 +267,7 @@ public class NewsFragment
         }
     }*/
 
-    @DebugLog
+
     private void processResponse(Response<List<NewsItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;

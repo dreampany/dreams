@@ -50,7 +50,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 import timber.log.Timber;
 
 /**
@@ -100,14 +100,14 @@ public class CoinAlertsFragment
         return Constants.Screen.coinAlerts(getAppContext());
     }
 
-    @DebugLog
+
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
     }
 
-    @DebugLog
+
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);

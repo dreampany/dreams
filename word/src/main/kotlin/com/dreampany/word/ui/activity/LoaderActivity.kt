@@ -16,7 +16,7 @@ import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.model.LoadItem
 import com.dreampany.word.vm.LoaderViewModel
 import com.github.nikartm.button.FitButton
-import hugo.weaving.DebugLog
+
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -64,7 +64,7 @@ class LoaderActivity : BaseActivity() {
         //progress.maxValue = total
     }
 
-    @DebugLog
+
     fun processSingleResponse(response: Response<LoadItem>) {
         if (response is Response.Progress<LoadItem>) {
             processProgress(response.loading)

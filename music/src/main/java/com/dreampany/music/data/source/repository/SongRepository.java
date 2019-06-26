@@ -11,7 +11,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 
 /**
@@ -22,7 +22,7 @@ import io.reactivex.Flowable;
 @Singleton
 public class SongRepository extends Repository<String, Song> implements MusicDataSource {
 
-    @DebugLog
+
     @Inject
     SongRepository(ResponseMapper responseMapper,
                    RxMapper rxMapper) {

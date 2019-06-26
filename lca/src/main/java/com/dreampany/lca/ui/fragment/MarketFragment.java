@@ -45,7 +45,7 @@ import javax.inject.Inject;
 
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -225,7 +225,7 @@ public class MarketFragment
         }
     }*/
 
-    @DebugLog
+
     private void processExchangeResponse(Response<List<ExchangeItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;
@@ -239,7 +239,7 @@ public class MarketFragment
         }
     }
 
-    @DebugLog
+
     private void processMarketResponse(Response<List<MarketItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;
@@ -253,7 +253,7 @@ public class MarketFragment
         }
     }
 
-    @DebugLog
+
     private void processExchangeProgress(boolean loading) {
         if (!adapter.isEmpty()) {
             return;
@@ -266,7 +266,7 @@ public class MarketFragment
     }
 
 
-    @DebugLog
+
     private void processMarketProgress(boolean loading) {
         if (loading) {
             mvm.updateUiState(UiState.SHOW_PROGRESS);
@@ -275,7 +275,7 @@ public class MarketFragment
         }
     }
 
-    @DebugLog
+
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
             mvm.updateUiState(UiState.OFFLINE);
@@ -286,7 +286,7 @@ public class MarketFragment
         }
     }
 
-    @DebugLog
+
     private void processExchangeSuccess(List<ExchangeItem> items) {
         if (items == null || items.isEmpty()) {
             //todo show message
@@ -307,7 +307,7 @@ public class MarketFragment
         }
     }
 
-    @DebugLog
+
     private void processMarketSuccess(List<MarketItem> items) {
         adapter.clear();
         adapter.addItems(items);

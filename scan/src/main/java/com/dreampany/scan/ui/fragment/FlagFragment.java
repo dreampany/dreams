@@ -37,7 +37,7 @@ import javax.inject.Inject;
 
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 6/20/2018.
@@ -158,7 +158,7 @@ public class FlagFragment extends BaseMenuFragment {
         );
     }
 
-    @DebugLog
+
     private void processResponse(Response<List<ScanItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;
@@ -178,7 +178,7 @@ public class FlagFragment extends BaseMenuFragment {
         }
     }
 
-    @DebugLog
+
     private void processProgress(boolean loading) {
         if (loading) {
             updateState(UiState.SHOW_PROGRESS);
@@ -187,14 +187,14 @@ public class FlagFragment extends BaseMenuFragment {
         }
     }
 
-    @DebugLog
+
     private void processFailure(Throwable error) {
         if (error instanceof IOException) {
             updateState(UiState.OFFLINE);
         }
     }
 
-    @DebugLog
+
     private void processSuccess(List<ScanItem> items) {
         adapter.addItems(items);
         if (adapter.isEmpty()) {

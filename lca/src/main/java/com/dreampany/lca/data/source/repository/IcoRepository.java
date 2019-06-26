@@ -19,7 +19,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import com.dreampany.network.manager.NetworkManager;
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 
 /**
@@ -35,7 +35,7 @@ public class IcoRepository extends Repository<Long, Ico> implements IcoDataSourc
     private final IcoDataSource room;
     private final IcoDataSource remote;
 
-    @DebugLog
+
     @Inject
     IcoRepository(RxMapper rx,
                   ResponseMapper rm,

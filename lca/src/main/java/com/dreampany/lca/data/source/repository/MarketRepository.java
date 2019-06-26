@@ -14,7 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 
 /**
@@ -28,7 +28,7 @@ public class MarketRepository extends Repository<Long, Market> implements Market
     private final MarketDataSource local;
     private final MarketDataSource remote;
 
-    @DebugLog
+
     @Inject
     MarketRepository(RxMapper rx,
                      ResponseMapper rm,

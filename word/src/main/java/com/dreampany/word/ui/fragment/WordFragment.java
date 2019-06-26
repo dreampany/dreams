@@ -49,7 +49,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import cz.kinst.jakub.view.StatefulLayout;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 9/17/2018.
@@ -223,7 +223,7 @@ public class WordFragment extends BaseMenuFragment {
         }
     }
 
-    @DebugLog
+
     private void processResponse(Response<WordItem> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;

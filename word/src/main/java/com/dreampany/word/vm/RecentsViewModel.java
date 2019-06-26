@@ -18,7 +18,7 @@ import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
@@ -73,7 +73,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
         this.uiCallback = callback;
     }
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (!takeAction(fresh, getMultipleDisposable())) {
             return;

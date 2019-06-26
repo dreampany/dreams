@@ -21,7 +21,6 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
@@ -41,7 +40,6 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         super(application, rx, ex, rm);
     }
 
-    @DebugLog
     public void loads(boolean important) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;

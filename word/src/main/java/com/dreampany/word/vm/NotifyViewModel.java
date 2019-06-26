@@ -2,12 +2,12 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
-import com.dreampany.word.app.App;
 import com.dreampany.frame.api.notify.NotifyManager;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.network.manager.NetworkManager;
+import com.dreampany.word.app.App;
 import com.dreampany.word.ui.model.WordItem;
 
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
@@ -50,7 +49,7 @@ public class NotifyViewModel {
         }
     }
 
-    @DebugLog
+
     public void notifyIf() {
         if (hasDisposable()) {
             //return;
@@ -69,7 +68,7 @@ public class NotifyViewModel {
         return disposable != null && !disposable.isDisposed();
     }
 
-    @DebugLog
+
     private void postResult(List<WordItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
@@ -86,7 +85,7 @@ public class NotifyViewModel {
         notify.showNotification(application, title, message, NavigationActivity.class);*/
     }
 
-    @DebugLog
+
     private void postFailed(Throwable error) {
 
     }

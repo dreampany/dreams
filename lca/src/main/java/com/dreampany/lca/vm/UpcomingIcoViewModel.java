@@ -19,7 +19,7 @@ import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.network.data.model.Network;
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -120,7 +120,7 @@ public class UpcomingIcoViewModel
                 .flatMap((Function<List<Ico>, MaybeSource<List<IcoItem>>>) this::getItemsRx);
     }
 
-    @DebugLog
+
     private Maybe<List<IcoItem>> getItemsRx(List<Ico> icos) {
         return Flowable.fromIterable(icos)
                 .map(this::getItem)

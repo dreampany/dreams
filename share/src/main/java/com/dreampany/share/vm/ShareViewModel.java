@@ -27,7 +27,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -57,7 +57,7 @@ public class ShareViewModel extends BaseViewModel<Media, MediaItem, UiTask<Media
         repos.put(MediaType.IMAGE, imageRepo);
     }
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (fresh ) {
             removeMultipleSubscription();

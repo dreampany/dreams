@@ -28,7 +28,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
@@ -68,7 +68,7 @@ public class ScanViewModel extends BaseViewModel<Scan, ScanItem, UiTask<Scan>> {
         return Flowable.empty();
     }
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             return;
@@ -84,7 +84,7 @@ public class ScanViewModel extends BaseViewModel<Scan, ScanItem, UiTask<Scan>> {
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     public void load(boolean fresh) {
         if (hasSingleDisposable()) {
             return;
@@ -99,7 +99,7 @@ public class ScanViewModel extends BaseViewModel<Scan, ScanItem, UiTask<Scan>> {
         addSingleSubscription(disposable);
     }
 
-    @DebugLog
+
     public void loadScan(ScanType type, boolean fresh) {
         if (hasSingleDisposable()) {
             return;
@@ -146,7 +146,7 @@ public class ScanViewModel extends BaseViewModel<Scan, ScanItem, UiTask<Scan>> {
         });
     }
 
-    @DebugLog
+
     private Flowable<List<ScanItem>> getItems(List<Scan> scans) {
         return Flowable.fromCallable(() -> {
 

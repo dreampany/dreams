@@ -6,7 +6,7 @@ import com.firebase.jobdispatcher.JobParameters;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 8/29/2018.
@@ -20,7 +20,7 @@ public class NotifyService extends BaseJobService {
     @Inject
     AppExecutors ex;
 
-    @DebugLog
+
     @Override
     public boolean onStartJob(JobParameters params) {
         //ex.getUiExecutor().execute(() -> completeJob(params));
@@ -29,7 +29,7 @@ public class NotifyService extends BaseJobService {
         return true;
     }
 
-    @DebugLog
+
     @Override
     public boolean onStopJob(JobParameters job) {
        // vm.clear();

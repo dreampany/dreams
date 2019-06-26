@@ -22,7 +22,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
-import hugo.weaving.DebugLog
+
 import javax.inject.Inject
 
 /**
@@ -62,10 +62,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         return this
     }
 
-    @DebugLog
+
     protected abstract fun onStartUi(state: Bundle?)
 
-    @DebugLog
+
     protected abstract fun onStopUi()
 
     override fun onAttach(context: Context) {

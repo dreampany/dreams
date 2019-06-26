@@ -15,7 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
@@ -51,7 +51,7 @@ public class NotifyViewModel {
         }
     }
 
-    @DebugLog
+
     public void notifyIf() {
         if (hasDisposable()) {
             //return;
@@ -70,7 +70,7 @@ public class NotifyViewModel {
         return disposable != null && !disposable.isDisposed();
     }
 
-    @DebugLog
+
     private void postResult(List<DemoItem> items) {
         App app = (App) application;
         if (app.isVisible()) {
@@ -87,7 +87,7 @@ public class NotifyViewModel {
         notify.showNotification(application, title, message, NavigationActivity.class);*/
     }
 
-    @DebugLog
+
     private void postFailed(Throwable error) {
 
     }

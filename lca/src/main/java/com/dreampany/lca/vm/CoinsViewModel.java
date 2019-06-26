@@ -41,7 +41,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
@@ -167,7 +167,7 @@ public class CoinsViewModel
         loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);
     }*/
 
-    @DebugLog
+
     public void loads(int index, boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;

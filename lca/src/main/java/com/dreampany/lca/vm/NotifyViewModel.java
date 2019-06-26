@@ -43,8 +43,6 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import hugo.weaving.DebugLog;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -108,7 +106,6 @@ public class NotifyViewModel {
         //disposables.dispose();
     }
 
-    @DebugLog
     public void notifyIf() {
         Timber.v("Job Processing");
         notifyProfitableCoin();
@@ -388,7 +385,7 @@ public class NotifyViewModel {
         getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Screen.notifyNews(application));
     }
 
-    @DebugLog
+
     private void postFailed(Throwable error) {
 
     }

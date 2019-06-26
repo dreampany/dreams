@@ -244,7 +244,7 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         //item.setFavorite(flagged);
     }
 
-    /*@DebugLog
+    /*
     public void search(boolean fresh) {
         if (!preLoads(fresh)) {
             updateVisibleItems();

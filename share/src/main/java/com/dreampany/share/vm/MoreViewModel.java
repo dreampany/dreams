@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 
@@ -44,7 +44,7 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         this.network = network;
     }
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (fresh) {
             removeMultipleSubscription();

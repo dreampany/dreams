@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import eu.davidea.flexibleadapter.common.FlexibleItemAnimator;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 5/24/2018.
@@ -125,7 +125,7 @@ public class MoreFragment extends BaseMenuFragment {
         );
     }
 
-    @DebugLog
+
     private void processResponse(Response<List<MoreItem>> response) {
         if (response instanceof Response.Result) {
             Response.Result<List<MoreItem>> result = (Response.Result<List<MoreItem>>) response;

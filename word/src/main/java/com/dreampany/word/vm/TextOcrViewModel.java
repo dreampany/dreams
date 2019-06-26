@@ -29,7 +29,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
@@ -60,7 +60,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
         this.stateMapper = stateMapper;
     }
 
-    @DebugLog
+
     public void loadOcr(String text) {
         if (!takeAction(true, getMultipleDisposable())) {
             return;
@@ -98,7 +98,7 @@ public class TextOcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
         });
     }
 
-    @DebugLog
+
     private List<WordItem> getItems(List<Word> items) {
         return Flowable.fromIterable(items)
                 .map(this::getItem)

@@ -58,7 +58,7 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 5/29/2018.
@@ -313,7 +313,7 @@ public class GraphFragment
         }
     }
 
-    @DebugLog
+
     private void processResponse(Response<GraphItem> response) {
         if (response instanceof Response.Progress) {
             Response.Progress<GraphItem> progress = (Response.Progress<GraphItem>) response;
@@ -349,7 +349,7 @@ public class GraphFragment
         }
     }
 
-    @DebugLog
+
     private void processResult(GraphItem item) {
         if (!item.isSuccess()) {
             vm.updateUiState(UiState.EMPTY);

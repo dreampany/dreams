@@ -236,7 +236,7 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
     }
 
 
-/*    @DebugLog
+/*
     public void loads(boolean fresh) {
         if (!takeAction(fresh, getMultipleDisposable())) {
             updateVisibleItems();

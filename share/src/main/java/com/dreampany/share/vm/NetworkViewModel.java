@@ -18,7 +18,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 
@@ -41,7 +41,7 @@ public class NetworkViewModel extends BaseViewModel<Network, NetworkItem, UiTask
         this.network = network;
     }
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             return;
@@ -56,7 +56,7 @@ public class NetworkViewModel extends BaseViewModel<Network, NetworkItem, UiTask
         return getItemsRx(network.getActiveNetworks());
     }
 
-    @DebugLog
+
     private Flowable<List<NetworkItem>> getItemsRx(List<Network> result) {
         return Flowable.fromCallable(() -> {
             List<NetworkItem> items = new ArrayList<>(result.size());

@@ -49,7 +49,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 import im.delight.android.webview.AdvancedWebView;
 
 //import com.dreampany.frame.data.enums.EventType;
@@ -265,7 +265,7 @@ public class LiveIcoFragment
         }
     }*/
 
-    @DebugLog
+
     private void processResponse(Response<List<IcoItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;
@@ -301,7 +301,7 @@ public class LiveIcoFragment
         }
     }
 
-    @DebugLog
+
     private void processSuccess(List<IcoItem> items) {
         adapter.addItems(items);
         ex.postToUi(() -> processUiState(UiState.EXTRA), 1000);

@@ -30,7 +30,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -82,7 +82,7 @@ public class ImageViewModel extends BaseViewModel<Image, MediaItem, UiTask<Image
         observe(selectOwner, observer, select);
     }
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             return;
@@ -96,7 +96,7 @@ public class ImageViewModel extends BaseViewModel<Image, MediaItem, UiTask<Image
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     public void loadsWithShare(boolean fresh) {
         getEx().postToUi(() -> {
             if (!preLoads(fresh)) {
@@ -113,7 +113,7 @@ public class ImageViewModel extends BaseViewModel<Image, MediaItem, UiTask<Image
         }, 500L);
     }
 
-    @DebugLog
+
     public void loadsShared(boolean fresh) {
         if (!preLoads(fresh)) {
             return;
@@ -163,7 +163,7 @@ public class ImageViewModel extends BaseViewModel<Image, MediaItem, UiTask<Image
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     public void notifySelect() {
         if (hasDisposable(selectDisposable)) {
             return;
@@ -197,7 +197,7 @@ public class ImageViewModel extends BaseViewModel<Image, MediaItem, UiTask<Image
         return shareRepo.putItemsRx(items);
     }
 
-    @DebugLog
+
     private Maybe<List<MediaItem>> getItemsRx(List<Image> result) {
         return Maybe.fromCallable(() -> {
             List<MediaItem> items = new ArrayList<>(result.size());
@@ -210,7 +210,7 @@ public class ImageViewModel extends BaseViewModel<Image, MediaItem, UiTask<Image
         });
     }
 
-    @DebugLog
+
     private Maybe<List<MediaItem>> getItemsWithShareRx(List<Image> result) {
         return Maybe.fromCallable(() -> {
             Collections.sort(result, comparators.getDateModifiedComparator());
@@ -223,7 +223,7 @@ public class ImageViewModel extends BaseViewModel<Image, MediaItem, UiTask<Image
         });
     }
 
-    @DebugLog
+
     private MaybeSource<List<MediaItem>> getSharedItemsRx(List<Image> result) {
         return Maybe.fromCallable(() -> {
             List<MediaItem> items = new ArrayList<>(result.size());

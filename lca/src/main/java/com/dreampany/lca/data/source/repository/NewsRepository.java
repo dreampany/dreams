@@ -18,7 +18,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 import io.reactivex.internal.functions.Functions;
 
@@ -35,7 +35,7 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
     private final NewsDataSource room;
     private final NewsDataSource remote;
 
-    @DebugLog
+
     @Inject
     NewsRepository(RxMapper rx,
                    ResponseMapper rm,

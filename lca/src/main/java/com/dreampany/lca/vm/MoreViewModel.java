@@ -2,6 +2,7 @@ package com.dreampany.lca.vm;
 
 import android.app.Activity;
 import android.app.Application;
+
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
@@ -13,14 +14,15 @@ import com.dreampany.lca.ui.enums.MoreType;
 import com.dreampany.lca.ui.model.MoreItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
-import hugo.weaving.DebugLog;
-import io.reactivex.Maybe;
-import io.reactivex.disposables.Disposable;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Inject;
+
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by Hawladar Roman on 7/24/2018.
@@ -38,7 +40,6 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         super(application, rx, ex, rm);
     }
 
-    @DebugLog
     public void loads(boolean important) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;

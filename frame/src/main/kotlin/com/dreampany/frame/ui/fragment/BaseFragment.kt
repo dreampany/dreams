@@ -42,7 +42,6 @@ import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.helpers.EmptyViewHelper
-import hugo.weaving.DebugLog
 import javax.inject.Inject
 
 
@@ -111,10 +110,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         return javaClass.simpleName
     }
 
-    @DebugLog
     protected abstract fun onStartUi(state: Bundle?)
 
-    @DebugLog
     protected abstract fun onStopUi()
 
     override fun onAttach(context: Context) {

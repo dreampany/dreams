@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -139,7 +139,7 @@ public class NewsRemoteDataSource implements NewsDataSource {
                 .flatMap((Function<List<CcNews>, MaybeSource<List<News>>>) this::getItemsRx);
     }
 
-    @DebugLog
+
     private Maybe<List<News>> getItemsRx(List<CcNews> items) {
         return Flowable.fromIterable(items)
                 .map(mapper::toNews)

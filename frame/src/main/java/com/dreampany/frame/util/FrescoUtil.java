@@ -9,8 +9,6 @@ import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
-import hugo.weaving.DebugLog;
-
 /**
  * Created by Hawladar Roman on 6/29/2018.
  * BJIT Group

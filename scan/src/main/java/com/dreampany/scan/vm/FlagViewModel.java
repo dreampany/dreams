@@ -24,7 +24,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
@@ -65,7 +65,7 @@ public class FlagViewModel extends BaseViewModel<Scan, ScanItem, UiTask<Scan>> {
     }
 
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (!preLoads(fresh)) {
             return;
@@ -81,7 +81,7 @@ public class FlagViewModel extends BaseViewModel<Scan, ScanItem, UiTask<Scan>> {
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     public Disposable toggle(Scan scan) {
         if (hasSingleDisposable()) {
             return getSingleDisposable();
@@ -103,7 +103,7 @@ public class FlagViewModel extends BaseViewModel<Scan, ScanItem, UiTask<Scan>> {
                 .flatMap((Function<List<Scan>, Publisher<List<ScanItem>>>) this::getItems);
     }
 
-    @DebugLog
+
     private Flowable<List<ScanItem>> getItems(List<Scan> scans) {
         return Flowable.fromCallable(() -> {
 

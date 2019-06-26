@@ -2,8 +2,8 @@ package com.dreampany.frame.data.source.repository;
 
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.api.StateDataSource;
-import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.ResponseMapper;
+import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 
 import java.util.List;
@@ -11,7 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 
 /**
@@ -24,7 +23,6 @@ public class StateRepository extends Repository<Long, State> implements StateDat
 
     private final StateDataSource room;
 
-    @DebugLog
     @Inject
     StateRepository(RxMapper rx,
                     ResponseMapper rm,

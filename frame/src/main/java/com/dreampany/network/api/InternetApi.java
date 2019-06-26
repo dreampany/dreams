@@ -5,7 +5,6 @@ import com.dreampany.network.misc.RxMapper;
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
 import com.google.common.collect.Sets;
-import hugo.weaving.DebugLog;
 import io.reactivex.Single;
 import io.reactivex.SingleSource;
 import io.reactivex.disposables.Disposable;
@@ -83,7 +82,6 @@ public class InternetApi {
         }
     }
 
-    @DebugLog
     private void postResult(boolean connected) {
         this.connected = connected;
         for (Callback callback : callbacks) {

@@ -3,16 +3,16 @@ package com.dreampany.match.vm;
 import android.app.Activity;
 import android.app.Application;
 
-import com.dreampany.match.data.model.More;
-import com.dreampany.match.ui.enums.MoreType;
-import com.dreampany.match.ui.model.MoreItem;
-import com.dreampany.match.ui.model.UiTask;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.SettingsUtil;
 import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.match.data.model.More;
+import com.dreampany.match.ui.enums.MoreType;
+import com.dreampany.match.ui.model.MoreItem;
+import com.dreampany.match.ui.model.UiTask;
 import com.dreampany.network.manager.NetworkManager;
 
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
@@ -41,7 +40,6 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         super(application, rx, ex, rm);
     }
 
-    @DebugLog
     public void loads(boolean important) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;

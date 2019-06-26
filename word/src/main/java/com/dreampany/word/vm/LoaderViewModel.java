@@ -33,7 +33,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
@@ -111,7 +111,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     public void loadAlphas() {
         if (!takeAction(false, getMultipleDisposable())) {
             Timber.v("loadAlphas already running...");
@@ -129,7 +129,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     private Maybe<LoadItem> getCommonItemsRx() {
         return Maybe.fromCallable(() -> {
             LoadItem item = LoadItem.getSimpleItem();

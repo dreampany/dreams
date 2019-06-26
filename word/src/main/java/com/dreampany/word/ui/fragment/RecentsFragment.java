@@ -48,7 +48,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -166,7 +166,7 @@ public class RecentsFragment extends BaseMenuFragment implements SmartAdapter.Ca
         return adapter.getVisibleItem();
     }
 
-    @DebugLog
+
     private void initView() {
         setTitle(R.string.recent_all);
         binding = (FragmentRecentsBinding) super.binding;

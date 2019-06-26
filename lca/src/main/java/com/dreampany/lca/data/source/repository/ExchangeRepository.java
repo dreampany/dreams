@@ -14,7 +14,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 
 /**
@@ -28,7 +28,7 @@ public class ExchangeRepository extends Repository<Long, Exchange> implements Ex
     private final ExchangeDataSource local;
     private final ExchangeDataSource remote;
 
-    @DebugLog
+
     @Inject
     ExchangeRepository(RxMapper rx,
                        ResponseMapper rm,

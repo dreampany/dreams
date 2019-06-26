@@ -23,7 +23,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Maybe;
 import io.reactivex.internal.functions.Functions;
 import timber.log.Timber;
@@ -191,7 +191,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         return room.putItems(coins);
     }
 
-    @DebugLog
+
     @Override
     public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
         return room.putItemsRx(coins);

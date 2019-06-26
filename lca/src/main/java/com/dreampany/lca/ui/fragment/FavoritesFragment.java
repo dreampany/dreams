@@ -52,7 +52,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 import timber.log.Timber;
 
 /**
@@ -103,7 +103,7 @@ public class FavoritesFragment
         return Constants.Screen.favoriteCoins(getAppContext());
     }
 
-    @DebugLog
+
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
@@ -111,7 +111,7 @@ public class FavoritesFragment
         vm.start();
     }
 
-    @DebugLog
+
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
@@ -259,7 +259,7 @@ public class FavoritesFragment
         }
     }
 
-    @DebugLog
+
     private void processResponse(Response<List<CoinItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress progress = (Response.Progress) response;

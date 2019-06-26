@@ -46,7 +46,7 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 
 import net.cachapa.expandablelayout.ExpandableLayout;
 
-import hugo.weaving.DebugLog;
+
 import timber.log.Timber;
 
 import javax.inject.Inject;
@@ -150,7 +150,7 @@ public class CoinsFragment
         return super.onOptionsItemSelected(item);
     }
 
-    @DebugLog
+
     @Override
     public void onRefresh() {
         vm.refresh(!adapter.isEmpty(), true, true);
@@ -257,13 +257,13 @@ public class CoinsFragment
         adapter = new CoinAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener(true) {
-            @DebugLog
+
             @Override
             public void onScrollingAtEnd() {
                 vm.refresh(true, false, false);
             }
 
-            @DebugLog
+
             @Override
             public void onScrolledToBottom() {
                 vm.loads(adapter.getItemCount(), !adapter.isEmpty(), true);
@@ -328,7 +328,7 @@ public class CoinsFragment
         }
     }
 
-    @DebugLog
+
     public void processResponse(Response<List<CoinItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;

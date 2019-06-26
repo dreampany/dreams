@@ -21,7 +21,7 @@ import javax.inject.Singleton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Completable;
 import io.reactivex.CompletableEmitter;
 import io.reactivex.CompletableOnSubscribe;
@@ -102,7 +102,7 @@ public final class RxFirestore {
         return getItemRx(ref, clazz);
     }
 
-    @DebugLog
+
     public <T> Maybe<T> getItemRx(@NonNull String collection,
                                   @Nullable TreeSet<MutablePair<String, String>> internalPaths,
                                   @Nullable List<MutablePair<String, Object>> equalTo,
@@ -138,7 +138,7 @@ public final class RxFirestore {
         return getItemRx(ref, clazz);
     }
 
-    @DebugLog
+
     public <T> Maybe<List<T>> getItemsRx(@NonNull String collection,
                                          @Nullable TreeSet<MutablePair<String, String>> internalPaths,
                                          @Nullable List<MutablePair<String, Object>> equalTo,

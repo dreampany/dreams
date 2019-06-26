@@ -27,7 +27,6 @@ import javax.inject.Singleton;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
 import com.google.common.collect.Maps;
-import hugo.weaving.DebugLog;
 import org.apache.commons.lang3.tuple.MutablePair;
 
 /**
@@ -71,7 +70,7 @@ public class SmartAd {
         this.config = config;
     }
 
-    @DebugLog
+
     public void initAd(@NonNull Context context,
                        @NonNull String screenId,
                        @NonNull AdView banner,
@@ -85,7 +84,7 @@ public class SmartAd {
         initRewarded(context, screenId, rewardedId);
     }
 
-    @DebugLog
+
     public void initBanner(@NonNull String screenId,
                            @NonNull AdView banner) {
         banners.put(screenId, MutablePair.of(banner, State.NONE));
@@ -134,7 +133,7 @@ public class SmartAd {
         }
     }
 
-    @DebugLog
+
     @SuppressLint("MissingPermission")
     public boolean loadBanner(@NonNull String screenId) {
         if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
@@ -148,7 +147,6 @@ public class SmartAd {
         return true;
     }
 
-    @DebugLog
     @SuppressLint("MissingPermission")
     public void resumeBanner(@NonNull String screenId) {
         if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
@@ -167,7 +165,7 @@ public class SmartAd {
         view.setVisibility(View.VISIBLE);
     }
 
-    @DebugLog
+
     @SuppressLint("MissingPermission")
     public void pauseBanner(@NonNull String screenId) {
         if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
@@ -186,7 +184,8 @@ public class SmartAd {
         banner.pause();
     }
 
-    @DebugLog
+
+
     @SuppressLint("MissingPermission")
     public void destroyBanner(@NonNull String screenId) {
         if (!pref.isBannerTimeExpired(config.bannerExpireDelay)) {
@@ -201,7 +200,8 @@ public class SmartAd {
         banner.destroy();
     }
 
-    @DebugLog
+
+
     public void initInterstitial(@NonNull Context context,
                                  @NonNull String screenId,
                                  @StringRes int adUnitId) {
@@ -246,7 +246,6 @@ public class SmartAd {
         }
     }
 
-    @DebugLog
     @SuppressLint("MissingPermission")
     public boolean loadInterstitial(@NonNull String screenId) {
         if (!pref.isInterstitialTimeExpired(config.interstitialExpireDelay)) {
@@ -260,7 +259,8 @@ public class SmartAd {
         return true;
     }
 
-    @DebugLog
+
+
     @SuppressLint("MissingPermission")
     public void resumeInterstitial(@NonNull String screenId) {
         if (!pref.isInterstitialTimeExpired(config.interstitialExpireDelay)) {
@@ -272,7 +272,8 @@ public class SmartAd {
         InterstitialAd interstitial = interstitials.get(screenId).left;
     }
 
-    @DebugLog
+
+
     @SuppressLint("MissingPermission")
     public void pauseInterstitial(@NonNull String screenId) {
         if (!pref.isInterstitialTimeExpired(config.interstitialExpireDelay)) {
@@ -296,7 +297,7 @@ public class SmartAd {
         //interstitial.d();
     }
 
-    @DebugLog
+
     public void initRewarded(@NonNull Context context,
                              @NonNull String screenId,
                              @StringRes int adUnitId) {
@@ -305,7 +306,8 @@ public class SmartAd {
         rewardeds.put(screenId, MutablePair.of(rewarded, State.NONE));
     }
 
-    @DebugLog
+
+
     @SuppressLint("MissingPermission")
     public void loadRewarded(@NonNull String screenId) {
         if (!pref.isRewardedTimeExpired(config.rewardedExpireDelay)) {
@@ -330,7 +332,8 @@ public class SmartAd {
         });
     }
 
-    @DebugLog
+
+
     @SuppressLint("MissingPermission")
     public void resumeRewarded(@NonNull String screenId) {
         if (!pref.isRewardedTimeExpired(config.rewardedExpireDelay)) {
@@ -342,7 +345,8 @@ public class SmartAd {
         RewardedAd rewarded = rewardeds.get(screenId).left;
     }
 
-    @DebugLog
+
+
     @SuppressLint("MissingPermission")
     public void pauseRewarded(@NonNull String screenId) {
         if (!pref.isRewardedTimeExpired(config.rewardedExpireDelay)) {
@@ -354,7 +358,8 @@ public class SmartAd {
         RewardedAd rewarded = rewardeds.get(screenId).left;
     }
 
-    @DebugLog
+
+
     @SuppressLint("MissingPermission")
     public void destroyRewarded(@NonNull String screenId) {
         if (!pref.isRewardedTimeExpired(config.rewardedExpireDelay)) {
@@ -366,7 +371,7 @@ public class SmartAd {
         RewardedAd rewarded = rewardeds.get(screenId).left;
     }
 
-    /*@DebugLog
+    /*
     public boolean loadRewarded(@NonNull Context context, @StringRes int adUnitId) {
         if (!config.enabled) {
             return false;
@@ -383,14 +388,14 @@ public class SmartAd {
         return initAd(rewardedVideoAd, context.getString(adUnitId));
     }
 
-    @DebugLog
+
     @SuppressLint("MissingPermission")
     private boolean initAd(final AdView adView) {
 
         return true;
     }
 
-    @DebugLog
+
     private boolean initAd(RewardedVideoAd rewardedVideoAd, String unitId) {
         if (rewardedVideoAd.getRewardedVideoAdListener() == null) {
             rewardedVideoAd.setRewardedVideoAdListener(new RewardedListener());

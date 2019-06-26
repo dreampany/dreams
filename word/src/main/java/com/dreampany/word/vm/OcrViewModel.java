@@ -30,7 +30,7 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import hugo.weaving.DebugLog;
+
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
@@ -95,7 +95,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         this.uiCallback = callback;
     }
 
-    @DebugLog
+
     public void loads(boolean fresh) {
         if (!takeAction(fresh, getMultipleDisposable())) {
             updateVisibleItems();
@@ -128,7 +128,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         addSubscription(updateVisibleItemsDisposable);*/
     }
 
-    @DebugLog
+
     public void loadOcrOfCamera(Activity parent, boolean fresh) {
         Dexter.withActivity(parent)
                 .withPermissions(Manifest.permission.CAMERA,
@@ -149,7 +149,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 }).check();
     }
 
-    @DebugLog
+
     public void loadOcrOfImage(boolean fresh) {
         if (!takeAction(fresh, getMultipleDisposable())) {
             return;
@@ -283,7 +283,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
         return repo.getItemRx(item.getId(), false).map(this::getItem);
     }
 
-    @DebugLog
+
     private List<WordItem> getItems(List<Word> items) {
         return Flowable.fromIterable(items)
                 .map(this::getItem)
@@ -291,7 +291,7 @@ public class OcrViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
                 .blockingGet();
     }
 
-    @DebugLog
+
     private List<Word> getItemsOf(List<String> items) {
         return Flowable.fromIterable(items)
                 .map(s -> repo.getItemOf(s, false))

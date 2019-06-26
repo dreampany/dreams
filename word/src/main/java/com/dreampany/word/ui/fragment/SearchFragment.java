@@ -42,7 +42,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -83,7 +83,7 @@ public class SearchFragment extends BaseMenuFragment {
         return R.id.item_search;
     }
 
-    @DebugLog
+
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
@@ -129,7 +129,7 @@ public class SearchFragment extends BaseMenuFragment {
         return false;
     }
 
-    @DebugLog
+
     private void initView() {
         setTitle(R.string.search_words);
         binding = (FragmentSearchBinding) super.binding;

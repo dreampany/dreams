@@ -22,7 +22,7 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 7/18/2018.
@@ -53,7 +53,7 @@ public class MediaViewModel extends BaseViewModel<Media, MediaItem, UiTask<Media
         super.onCleared();
     }
 
-    @DebugLog
+
     public void onSelect(SelectEvent event) {
         events.put(event.getType(), event);
         select.setValue(new HashSet<>(events.values()));

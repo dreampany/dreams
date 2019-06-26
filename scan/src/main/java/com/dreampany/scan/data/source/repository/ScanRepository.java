@@ -21,7 +21,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -38,7 +38,7 @@ public class ScanRepository extends Repository<String, Scan> implements ScanData
     private final ScanDataSource localSource;
     private final Map<Scan, Boolean> flags;
 
-    @DebugLog
+
     @Inject
     ScanRepository(
             @ScanAnnote SmartCache<String, Scan> cache,

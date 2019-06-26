@@ -31,7 +31,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -72,7 +72,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         super.clear();
     }
 
-    @DebugLog
+
     public void loads(boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;
@@ -98,7 +98,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     public void loadsWithShare(boolean important, boolean progress) {
         getEx().postToUi(() -> {
             if (!takeAction(important, getMultipleDisposable())) {
@@ -127,7 +127,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         }, 500L);
     }
 
-    @DebugLog
+
     public void loadsShared(boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;
@@ -189,7 +189,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         addMultipleSubscription(disposable);
     }
 
-    @DebugLog
+
     public void notifySelect() {
         if (!takeAction(false, getSingleDisposable())) {
             return;
@@ -228,7 +228,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         return shareRepo.putItemsRx(items);
     }
 
-    @DebugLog
+
     private Maybe<List<MediaItem>> getItemsRx(List<Apk> result) {
         return Maybe.fromCallable(() -> {
             List<MediaItem> items = new ArrayList<>(result.size());
@@ -241,7 +241,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         });
     }
 
-    @DebugLog
+
     private Maybe<List<MediaItem>> getItemsWithShareRx(List<Apk> result) {
         return Maybe.fromCallable(() -> {
             Collections.sort(result, comparators.getDisplayNameComparator());
@@ -254,7 +254,7 @@ public class ApkViewModel extends BaseViewModel<Apk, MediaItem, UiTask<Apk>> {
         });
     }
 
-    @DebugLog
+
     private Maybe<List<MediaItem>> getSharedItemsRx(List<Apk> result) {
         return Maybe.fromCallable(() -> {
             List<MediaItem> items = new ArrayList<>(result.size());

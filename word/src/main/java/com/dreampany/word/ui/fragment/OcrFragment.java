@@ -49,7 +49,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
+
 import timber.log.Timber;
 
 /**
@@ -182,7 +182,7 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
         tvm.loadOcr(text);
     }
 
-    @DebugLog
+
     private void initView() {
         setTitle(R.string.ocr_words);
         binding = (FragmentOcrBinding) super.binding;

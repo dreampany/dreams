@@ -48,7 +48,7 @@ import javax.inject.Inject;
 
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager;
-import hugo.weaving.DebugLog;
+
 import timber.log.Timber;
 
 /**
@@ -245,7 +245,7 @@ public class ImageFragment extends BaseFragment {
         }
     }
 
-    @DebugLog
+
     public void processResponse(Response<List<MediaItem>> response) {
         if (response instanceof Response.Progress) {
             Response.Progress result = (Response.Progress) response;

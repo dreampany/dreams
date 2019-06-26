@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
-import hugo.weaving.DebugLog;
+
 
 /**
  * Created by Hawladar Roman on 6/20/2018.
@@ -109,7 +109,7 @@ public class HomeFragment extends BaseStateFragment<BaseFragment> {
 
     }
 
-    @DebugLog
+
     @NonNull
     @Override
     public ViewModelProvider.Factory get() {

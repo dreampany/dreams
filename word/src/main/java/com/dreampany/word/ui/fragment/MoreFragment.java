@@ -1,9 +1,18 @@
 package com.dreampany.word.ui.fragment;
 
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.dreampany.frame.data.model.Response;
+import com.dreampany.frame.databinding.FragmentRecyclerBinding;
+import com.dreampany.frame.misc.ActivityScope;
+import com.dreampany.frame.ui.fragment.BaseMenuFragment;
+import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.MoreAdapter;
@@ -12,24 +21,15 @@ import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.MoreItem;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.vm.MoreViewModel;
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.databinding.FragmentRecyclerBinding;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.util.ViewUtil;
 
 import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 import eu.davidea.flexibleadapter.common.FlexibleItemAnimator;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-import hugo.weaving.DebugLog;
 
 /**
  * Created by Hawladar Roman on 5/24/2018.
@@ -114,7 +114,6 @@ public class MoreFragment extends BaseMenuFragment {
         );
     }
 
-    @DebugLog
     private void processResponse(Response<List<MoreItem>> response) {
         if (response instanceof Response.Result) {
             Response.Result<List<MoreItem>> result = (Response.Result<List<MoreItem>>) response;

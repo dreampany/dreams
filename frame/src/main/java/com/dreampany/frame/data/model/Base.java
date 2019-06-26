@@ -20,7 +20,7 @@ public abstract class Base extends BaseParcel {
     }
 
     protected Base(String id) {
-        this(id,0L);
+        this(id, 0L);
     }
 
     protected Base(long time) {

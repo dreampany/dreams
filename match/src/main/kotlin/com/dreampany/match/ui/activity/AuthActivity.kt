@@ -1,5 +1,7 @@
 package com.dreampany.match.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.dreampany.frame.ui.activity.BaseActivity
@@ -53,6 +55,20 @@ class AuthActivity : BaseActivity() {
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_SIGN_IN) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                updateUi(auth.currentUser)
+            } else {
+                //Toast.makeText(this, "Sign In Failed", Toast.LENGTH_SHORT).show()
+                updateUi(null)
+            }
+        }
+    }
+
     private fun signIn() {
         val intent = AuthUI.getInstance().createSignInIntentBuilder()
             .setIsSmartLockEnabled(AndroidUtil.isRelease(this))
@@ -60,6 +76,7 @@ class AuthActivity : BaseActivity() {
             .setLogo(R.mipmap.ic_launcher)
             .build()
 
+       // signOut()
         startActivityForResult(intent, RC_SIGN_IN)
     }
 

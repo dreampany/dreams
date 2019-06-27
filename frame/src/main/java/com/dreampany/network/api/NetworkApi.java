@@ -7,6 +7,10 @@ import com.dreampany.network.data.model.Network;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public interface BaseNetwork {
+public interface NetworkApi {
+    void start();
+
+    void stop();
+
     Network getNetwork(boolean internet);
 }

@@ -12,16 +12,25 @@ import com.dreampany.cast.databinding.FragmentHomeBinding;
 import com.dreampany.cast.ui.adapter.UserAdapter;
 import com.dreampany.cast.vm.UserViewModel;
 import com.dreampany.frame.data.enums.UiState;
+import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.databinding.ContentRecyclerBinding;
 import com.dreampany.frame.misc.ActivityScope;
+import com.dreampany.frame.misc.exception.EmptyException;
+import com.dreampany.frame.misc.exception.ExtraException;
+import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
 import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.network.data.model.Network;
+
+import java.io.IOException;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import timber.log.Timber;
 
 
 /**
@@ -56,12 +65,13 @@ public class HomeFragment extends BaseMenuFragment {
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        userVm.start();
     }
 
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
-
+        userVm.start();
     }
 
     private void initView() {
@@ -87,6 +97,7 @@ public class HomeFragment extends BaseMenuFragment {
 
         userVm = ViewModelProviders.of(this, factory).get(UserViewModel.class);
         userVm.observeUiState(this, this::processUiState);
+        userVm.observeOutputsOfNetwork(this, this::processResponseOfNetwork);
 /*
         searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
@@ -131,10 +142,10 @@ public class HomeFragment extends BaseMenuFragment {
                 }
                 break;
             case OFFLINE:
-               // bindStatus.layoutExpandable.expand();
+                // bindStatus.layoutExpandable.expand();
                 break;
             case ONLINE:
-             //   bindStatus.layoutExpandable.collapse();
+                //   bindStatus.layoutExpandable.collapse();
                 break;
             case EXTRA:
                 processUiState(adapter.isEmpty() ? UiState.EMPTY : UiState.CONTENT);
@@ -143,13 +154,53 @@ public class HomeFragment extends BaseMenuFragment {
                 //binding.stateful.setState(SEARCH);
                 break;
             case EMPTY:
-             //   binding.stateful.setState(SEARCH);
+                //   binding.stateful.setState(SEARCH);
                 break;
             case ERROR:
                 break;
             case CONTENT:
-              //  binding.stateful.setState(StatefulLayout.State.CONTENT);
+                //  binding.stateful.setState(StatefulLayout.State.CONTENT);
                 break;
         }
+    }
+
+    public void processResponseOfNetwork(Response<List<Network>> response) {
+        if (response instanceof Response.Progress) {
+            Response.Progress result = (Response.Progress) response;
+            processProgress(result.getLoading());
+        } else if (response instanceof Response.Failure) {
+            Response.Failure result = (Response.Failure) response;
+            processFailure(result.getError());
+        } else if (response instanceof Response.Result) {
+            Response.Result<List<Network>> result = (Response.Result<List<Network>>) response;
+            processSuccessOfNetwork(result.getType(), result.getData());
+        }
+    }
+
+    private void processProgress(boolean loading) {
+        if (loading) {
+            userVm.updateUiState(UiState.SHOW_PROGRESS);
+        } else {
+            userVm.updateUiState(UiState.HIDE_PROGRESS);
+        }
+    }
+
+    private void processFailure(Throwable error) {
+        if (error instanceof IOException || error.getCause() instanceof IOException) {
+            userVm.updateUiState(UiState.OFFLINE);
+        } else if (error instanceof EmptyException) {
+            userVm.updateUiState(UiState.EMPTY);
+        } else if (error instanceof ExtraException) {
+            userVm.updateUiState(UiState.EXTRA);
+        } else if (error instanceof MultiException) {
+            for (Throwable e : ((MultiException) error).getErrors()) {
+                processFailure(e);
+            }
+        }
+    }
+
+    private void processSuccessOfNetwork(Response.Type type, List<Network> items) {
+        Timber.v("Result Type[%s] Size[%s]", type.name(), items.size());
+
     }
 }

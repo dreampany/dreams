@@ -1,4 +1,4 @@
-package com.dreampany.network.vm
+package com.dreampany.cast.vm
 
 /**
  * Created by Roman-372 on 6/27/2019

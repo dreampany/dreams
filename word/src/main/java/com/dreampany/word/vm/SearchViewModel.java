@@ -85,7 +85,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.isConnected()) {
+            if (network.getConnected()) {
                 state = UiState.ONLINE;
                 Response<List<WordItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {

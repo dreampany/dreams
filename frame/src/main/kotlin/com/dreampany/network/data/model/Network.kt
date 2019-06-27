@@ -21,12 +21,14 @@ import kotlinx.android.parcel.Parcelize
     indices = [Index(value = [Constants.Network.BSSID, Constants.Network.SSID], unique = true)],
     primaryKeys = [Constants.Network.BSSID, Constants.Network.SSID]
 )
-data class Network(val type: Type, val bssid: String, val ssid: String) : Parcelable {
+data class Network(val type: Type) : Parcelable {
 
     enum class Type {
         WIFI, HOTSPOT, BLUETOOTH;
     }
 
+    lateinit var bssid: String
+    lateinit var ssid: String
     var capabilities: String? = null
     var enabled: Boolean = false
     var connected: Boolean = false

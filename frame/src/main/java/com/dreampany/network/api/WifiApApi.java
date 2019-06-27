@@ -5,7 +5,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 
 import com.dreampany.network.data.enums.ApState;
-import com.dreampany.network.data.enums.NetworkType;
 import com.dreampany.network.data.model.Network;
 
 import java.lang.reflect.Method;
@@ -19,7 +18,7 @@ import timber.log.Timber;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class WifiApApi implements BaseNetwork {
+public class WifiApApi implements NetworkApi {
 
     private final Context context;
     private final WifiManager wifi;
@@ -31,8 +30,19 @@ public class WifiApApi implements BaseNetwork {
     }
 
     @Override
+    public void start() {
+
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
     public Network getNetwork(boolean internet) {
-        Network network = new Network(NetworkType.HOTSPOT);
+        Network network = new Network(Network.Type.WIFI);
         network.setEnabled(isEnabled());
         network.setInternet(internet);
         return network;

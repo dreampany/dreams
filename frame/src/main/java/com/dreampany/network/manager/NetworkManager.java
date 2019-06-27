@@ -2,6 +2,8 @@ package com.dreampany.network.manager;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import com.dreampany.network.api.BluetoothApi;
 import com.dreampany.network.api.InternetApi;
 import com.dreampany.network.api.MobileApi;
@@ -29,7 +31,7 @@ import javax.inject.Singleton;
 public final class NetworkManager {
 
     public interface Callback {
-        void onResult(Network... networks);
+        void onResult(@Nullable Network... networks);
     }
 
     private final Context context;
@@ -76,8 +78,6 @@ public final class NetworkManager {
         callbacks.add(callback);
         checkInternets.put(callback, checkInternet);
         startInternetIfPossible();
-
-        //Timber.v("Internet Callbacks %d", callbacks.size());
     }
 
     public void deObserve(Callback callback, boolean stopInternetCheck) {
@@ -146,7 +146,6 @@ public final class NetworkManager {
     private void postActiveNetworks() {
         List<Network> result = getActiveNetworks();
         Network[] networks = result.toArray(new Network[0]);
-        //Timber.v("NetworkCallbacks %d", callbacks.size());
         for (Callback callback : callbacks) {
             callback.onResult(networks);
         }

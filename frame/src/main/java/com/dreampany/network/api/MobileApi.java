@@ -3,7 +3,7 @@ package com.dreampany.network.api;
 import android.content.Context;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import com.dreampany.network.data.enums.NetworkType;
+
 import com.dreampany.network.data.model.Network;
 
 import javax.inject.Inject;
@@ -14,7 +14,7 @@ import javax.inject.Inject;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-public class MobileApi implements BaseNetwork {
+public class MobileApi implements NetworkApi {
 
     private final Context context;
     private final TelephonyManager manager;
@@ -26,8 +26,19 @@ public class MobileApi implements BaseNetwork {
     }
 
     @Override
+    public void start() {
+
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
     public Network getNetwork(boolean internet) {
-        Network network = new Network(NetworkType.WIFI);
+        Network network = new Network(Network.Type.WIFI);
         network.setEnabled(isEnabled());
         network.setInternet(internet);
         return network;

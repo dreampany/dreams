@@ -2,8 +2,8 @@ package com.dreampany.cast.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.cast.vm.DemoViewModel
 import com.dreampany.cast.vm.MoreViewModel
+import com.dreampany.cast.vm.UserViewModel
 import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
 import dagger.Binds
@@ -27,8 +27,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DemoViewModel::class)
-    abstract fun bindDemoViewModel(demoViewModel: DemoViewModel): ViewModel
+    @ViewModelKey(UserViewModel::class)
+    abstract fun bindUserViewModel(vm: UserViewModel): ViewModel
 
     @Singleton
     @Binds

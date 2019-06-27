@@ -4,7 +4,8 @@ import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import com.dreampany.network.data.enums.NetworkType;
+import com.dreampany.frame.misc.AppExecutors;
+import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.network.data.model.Network;
 
 import javax.inject.Inject;
@@ -14,19 +15,32 @@ import javax.inject.Inject;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class WifiApi implements BaseNetwork {
+public class WifiApi implements NetworkApi {
+
     private final Context context;
     private final WifiManager wifi;
 
     @Inject
-    WifiApi(Context context) {
-        this.context = context.getApplicationContext();
+    WifiApi(Context context,
+            RxMapper rx,
+            AppExecutors ex) {
+        this.context = context;
         wifi = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
     }
 
     @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
     public Network getNetwork(boolean internet) {
-        Network network = new Network(NetworkType.WIFI);
+        Network network = new Network(Network.Type.WIFI);
         network.setEnabled(isEnabled());
         network.setConnected(isConnected());
         network.setInternet(internet);

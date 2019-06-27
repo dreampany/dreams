@@ -105,7 +105,7 @@ public class CoinsViewModel
     public void onResult(Network... networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.hasInternet()) {
+            if (network.getInternet()) {
                 state = UiState.ONLINE;
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result == null || result instanceof Response.Failure) {

@@ -10,6 +10,7 @@ import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
 import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 
 /**
@@ -18,11 +19,11 @@ import com.dreampany.network.manager.NetworkManager
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>> {
+class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>>, NetworkManager.Callback {
 
-    private lateinit var network: NetworkManager
-    private lateinit var pref: Pref
-    private lateinit var stateMapper: StateMapper
+    private var network: NetworkManager
+    private var pref: Pref
+    private var stateMapper: StateMapper
 
     constructor(
         application: Application,
@@ -36,5 +37,22 @@ class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>> {
         this.network = network
         this.pref = pref
         this.stateMapper = stateMapper
+    }
+
+    override fun clear() {
+        network.deObserve(this, false)
+        super.clear()
+    }
+
+    override fun onResult(vararg networks: Network?) {
+
+    }
+
+    fun startNetwork() {
+        network.observe(this, false)
+    }
+
+    fun stopNetwork() {
+
     }
 }

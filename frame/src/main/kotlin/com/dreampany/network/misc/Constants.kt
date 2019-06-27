@@ -12,4 +12,9 @@ object Constants {
         const val PSK = "PSK"
         const val EAP = "EAP"
     }
+
+    object Network {
+        const val BSSID = "bssid"
+        const val SSID = "ssid"
+    }
 }

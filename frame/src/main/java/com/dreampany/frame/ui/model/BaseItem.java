@@ -33,10 +33,10 @@ public abstract class BaseItem<T, VH extends BaseItem.ViewHolder> extends Abstra
     }
 
     @Override
-    public boolean equals(Object inObject) {
-        if (this == inObject) return true;
-        if (inObject == null || getClass() != inObject.getClass()) return false;
-        BaseItem item = (BaseItem) inObject;
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        BaseItem item = (BaseItem) other;
         return Objects.equal(item, item.item);
     }
 

@@ -2,12 +2,17 @@ package com.dreampany.cast.ui.activity;
 
 import android.os.Bundle;
 
+import com.dreampany.cast.R;
+import com.dreampany.cast.databinding.ActivityNavigationBinding;
+import com.dreampany.cast.misc.Constants;
 import com.dreampany.cast.ui.fragment.HomeFragment;
+import com.dreampany.cast.ui.fragment.MoreFragment;
+import com.dreampany.cast.ui.model.UiTask;
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.cast.R;
-import com.dreampany.cast.ui.fragment.MoreFragment;
+
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
@@ -21,12 +26,13 @@ import dagger.Lazy;
 public class NavigationActivity extends BaseBottomNavigationActivity {
 
     @Inject
-    Lazy<HomeFragment> homeFragment;
-    @Inject
     Lazy<MoreFragment> moreFragment;
     @Inject
+    Lazy<HomeFragment> homeFragment;
+    @Inject
     SmartAd ad;
-//    ActivityNavigationBinding binding;
+
+    private ActivityNavigationBinding bind;
 
     @Override
     public int getLayoutId() {
@@ -54,9 +60,20 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     }
 
     @Override
+    public boolean hasDoubleBackPressed() {
+        return true;
+    }
+
+    @NotNull
+    @Override
+    public String getScreen() {
+        return Constants.Screen.navigation(getApplicationContext());
+    }
+
+    @Override
     protected void onStartUi(Bundle state) {
-       // binding = (ActivityNavigationBinding) super.binding;
-        //ad.loadBanner(findViewById(R.id.adview));
+        initView();
+        ad.loadBanner(getClass().getSimpleName());
     }
 
     @Override
@@ -72,7 +89,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     protected void onNavigationItem(int navigationItemId) {
         switch (navigationItemId) {
             case R.id.item_home:
-                //commitFragment(HomeFragment.class, homeFragment, R.id.layout);
+                commitFragment(HomeFragment.class, homeFragment, R.id.layout);
                 break;
             case R.id.item_more:
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);
@@ -83,5 +100,20 @@ public class NavigationActivity extends BaseBottomNavigationActivity {
     @Override
     protected void onStopUi() {
 
+    }
+
+    private void initView() {
+        UiTask<?> uiTask = getCurrentTask(false);
+        if (uiTask != null && uiTask.getType() != null && uiTask.getSubtype() != null) {
+            openActivity(ToolsActivity.class, uiTask);
+            return;
+        }
+
+        bind = (ActivityNavigationBinding) super.binding;
+        ad.initAd(this,
+                getClass().getSimpleName(),
+                findViewById(R.id.adview),
+                R.string.interstitial_ad_unit_id,
+                R.string.rewarded_ad_unit_id);
     }
 }

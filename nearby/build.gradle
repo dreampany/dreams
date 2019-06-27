@@ -3,13 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.jakewharton.hugo'
-apply plugin: 'idea'
-
-idea {
-    module {
-        downloadJavadoc = true
-    }
-}
 
 android {
     compileSdkVersion 28

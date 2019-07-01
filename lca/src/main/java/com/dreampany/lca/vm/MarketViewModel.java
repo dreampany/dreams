@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import androidx.annotation.ColorRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import com.dreampany.frame.data.enums.UiState;
@@ -71,15 +72,16 @@ public class MarketViewModel
 
     @Override
     public void clear() {
-        network.deObserve(this, true);
+        network.deObserve(this);
         super.clear();
     }
 
     @Override
-    public void onResult(Network... networks) {
+    public void onNetworkResult(@NonNull List<Network> networks) {
+
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.hasInternet()) {
+            if (network.getInternet()) {
                 state = UiState.ONLINE;
             }
         }

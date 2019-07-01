@@ -27,8 +27,8 @@ data class Network(val type: Type) : Parcelable {
         WIFI, HOTSPOT, BLUETOOTH;
     }
 
-    lateinit var bssid: String
-    lateinit var ssid: String
+    lateinit var bssid: String //only for hotspot
+    lateinit var ssid: String //only for hotspot
     var capabilities: String? = null
     var enabled: Boolean = false
     var connected: Boolean = false

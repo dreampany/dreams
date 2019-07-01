@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.misc
 
 import io.reactivex.Scheduler
@@ -6,11 +7,13 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
+*/
 /**
  * Created by Hawladar Roman on 5/22/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 class RxFacade @Inject constructor() {
 
     fun io(): Scheduler {
@@ -24,4 +27,4 @@ class RxFacade @Inject constructor() {
     fun ui(): Scheduler {
         return AndroidSchedulers.mainThread()
     }
-}
+}*/

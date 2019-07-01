@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.api;
 
 import android.content.Context;
@@ -13,12 +14,14 @@ import javax.inject.Inject;
 
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 8/18/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
-public class WifiApApi implements NetworkApi {
+ *//*
+
+public class WifiApApi implements NetworkApit {
 
     private final Context context;
     private final WifiManager wifi;
@@ -92,3 +95,4 @@ public class WifiApApi implements NetworkApi {
 
 
 }
+*/

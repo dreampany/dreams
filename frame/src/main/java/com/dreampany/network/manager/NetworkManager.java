@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.manager;
 
 import android.content.Context;
@@ -22,25 +23,29 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+*/
 /**
  * Created by Hawladar Roman on 8/18/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
 public final class NetworkManager {
 
     public interface Callback {
-        void onResult(@Nullable Network... networks);
+        void onResult(Network... networks);
     }
 
     private final Context context;
     private final RxMapper rx;
-    private final WifiApi wifi;
+*/
+/*    private final WifiApi wifi;
     private final WifiApApi ap;
     private final MobileApi mobile;
     private final BluetoothApi bt;
-    private final InternetApi internetApi;
+    private final InternetApi internetApi;*//*
+
     private volatile boolean internet;
     private final Set<Callback> callbacks;
     private final Map<Callback, Boolean> checkInternets;
@@ -111,9 +116,11 @@ public final class NetworkManager {
         if (mobile.isEnabled()) {
             networks.add(mobile.getNetwork(internet));
         }
+*/
 /*        if (bt.isEnabled()) {
             networks.add(bt.getNetwork(internet));
-        }*/
+        }*//*
+
         return networks;
     }
 
@@ -151,3 +158,4 @@ public final class NetworkManager {
         }
     }
 }
+*/

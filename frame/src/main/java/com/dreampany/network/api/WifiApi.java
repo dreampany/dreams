@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.api;
 
 import android.content.Context;
@@ -10,12 +11,14 @@ import com.dreampany.network.data.model.Network;
 
 import javax.inject.Inject;
 
+*/
 /**
  * Created by Hawladar Roman on 8/18/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
-public class WifiApi implements NetworkApi {
+ *//*
+
+public class WifiApi implements NetworkApit {
 
     private final Context context;
     private final WifiManager wifi;
@@ -60,3 +63,4 @@ public class WifiApi implements NetworkApi {
         }
     }
 }
+*/

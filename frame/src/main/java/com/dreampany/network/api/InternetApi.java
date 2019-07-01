@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.api;
 
 import android.content.Context;
@@ -17,11 +18,13 @@ import timber.log.Timber;
 import javax.inject.Inject;
 import java.util.Set;
 
+*/
 /**
  * Created by Hawladar Roman on 8/18/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class InternetApi {
 
     public interface Callback {
@@ -60,7 +63,6 @@ public class InternetApi {
                         Single<Boolean> single = ReactiveNetwork.checkInternetConnectivity();
                         boolean result = single.blockingGet();
                         Timber.v("Connectivity Result %s", result);
-
                         return Single.just(result);
                     }
 
@@ -107,3 +109,4 @@ public class InternetApi {
         return !(disposable == null || disposable.isDisposed());
     }
 }
+*/

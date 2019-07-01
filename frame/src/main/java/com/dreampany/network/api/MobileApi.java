@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.api;
 
 import android.content.Context;
@@ -8,13 +9,15 @@ import com.dreampany.network.data.model.Network;
 
 import javax.inject.Inject;
 
+*/
 /**
  * Created by roman on 3/1/19
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
-public class MobileApi implements NetworkApi {
+ *//*
+
+public class MobileApi implements NetworkApit {
 
     private final Context context;
     private final TelephonyManager manager;
@@ -51,3 +54,4 @@ public class MobileApi implements NetworkApi {
         return false;
     }
 }
+*/

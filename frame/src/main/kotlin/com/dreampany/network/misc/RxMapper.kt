@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.misc
 
 import androidx.lifecycle.MutableLiveData
@@ -8,11 +9,13 @@ import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.ReplaySubject
 import javax.inject.Inject
 
+*/
 /**
  * Created by Hawladar Roman on 5/26/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 class RxMapper @Inject constructor(var facade: RxFacade) {
 
     fun <T> toLiveData(subject: AsyncSubject<T>, disposables: CompositeDisposable): MutableLiveData<T> {
@@ -97,3 +100,4 @@ class RxMapper @Inject constructor(var facade: RxFacade) {
         return facade.ui()
     }
 }
+*/

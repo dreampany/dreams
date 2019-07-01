@@ -1,6 +1,9 @@
 package com.dreampany.lca.vm;
 
 import android.app.Application;
+
+import androidx.annotation.NonNull;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -59,16 +62,17 @@ public class UpcomingIcoViewModel
 
     @Override
     public void clear() {
-        network.deObserve(this, true);
+        network.deObserve(this);
         //repo.clear(IcoStatus.UPCOMING);
         super.clear();
     }
 
     @Override
-    public void onResult(Network... networks) {
+    public void onNetworkResult(@NonNull List<Network> networks) {
+
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.hasInternet()) {
+            if (network.getInternet()) {
                 state = UiState.ONLINE;
                 Response<List<IcoItem>> result = getOutputs().getValue();
                 if (result == null || result instanceof Response.Failure) {

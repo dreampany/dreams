@@ -1,6 +1,10 @@
+/*
 package com.dreampany.network.api;
 
 import android.content.Context;
+
+import com.dreampany.frame.misc.AppExecutors;
+import com.dreampany.network.data.model.Network;
 import com.dreampany.network.misc.RxMapper;
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity;
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork;
@@ -14,22 +18,22 @@ import timber.log.Timber;
 import javax.inject.Inject;
 import java.util.Set;
 
+*/
 /**
  * Created by Hawladar Roman on 8/18/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class InternetApi {
 
     public interface Callback {
-        void onResult(boolean internet);
+        void onResult(Network network);
     }
-
-    private static final String INTERNET = "internet";
 
     private final Context context;
     private final RxMapper rx;
-    //private volatile boolean started;
+    private final AppExecutors ex;
     private Disposable disposable;
     private final Set<Callback> callbacks;
     private volatile boolean connected;
@@ -37,16 +41,18 @@ public class InternetApi {
 
     @Inject
     InternetApi(Context context,
-                RxMapper rx) {
-        this.context = context.getApplicationContext();
+                RxMapper rx,
+                AppExecutors ex) {
+        this.context = context;
         this.rx = rx;
+        this.ex = ex;
         callbacks = Sets.newConcurrentHashSet();
     }
 
     public void start(Callback callback) {
         callbacks.add(callback);
         if (isStarted()) {
-            postResult(connected);
+            //ex.postToNetwork(() -> postResult(connected));
             return;
         }
         Timber.v("Network Observer created for new");
@@ -58,8 +64,6 @@ public class InternetApi {
                         boolean result = single.blockingGet();
                         Timber.v("Connectivity Result %s", result);
                         return Single.just(result);
-                        //Timber.v("Connectivity Result %s", result.blockingGet());
-                        //return result;
                     }
 
                     return Single.just(false);
@@ -85,6 +89,7 @@ public class InternetApi {
     private void postResult(boolean connected) {
         this.connected = connected;
         for (Callback callback : callbacks) {
+            Network network = new Network(Network.Type.)
             callback.onResult(connected);
         }
     }
@@ -104,3 +109,4 @@ public class InternetApi {
         return !(disposable == null || disposable.isDisposed());
     }
 }
+*/

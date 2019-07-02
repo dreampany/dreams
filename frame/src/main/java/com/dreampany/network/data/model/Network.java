@@ -1,3 +1,4 @@
+/*
 package com.dreampany.network.data.model;
 
 import androidx.room.Entity;
@@ -10,11 +11,13 @@ import androidx.annotation.NonNull;
 import com.dreampany.network.data.enums.NetworkType;
 import com.dreampany.network.misc.Constants;
 
+*/
 /**
  * Created by Hawladar Roman on 8/18/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {"bssid", "ssid"}, unique = true)},
         primaryKeys = {"bssid", "ssid"})
 public class Network implements Parcelable {
@@ -139,3 +142,4 @@ public class Network implements Parcelable {
         return internet;
     }
 }
+*/

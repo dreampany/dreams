@@ -10,15 +10,30 @@ import com.dreampany.frame.util.AndroidUtil
  */
 class Constants {
 
+    object Tag {
+        const val MORE = "more"
+        const val ABOUT = "about"
+        const val SETTINGS = "settings"
+        const val LICENSE = "license"
+        const val LAUNCH = "launch"
+        const val NAVIGATION = "navigation"
+        const val TOOLS = "tools"
+
+
+        const val NOTIFY_SERVICE = "notify_service"
+        const val MORE_APPS = "more_apps"
+        const val RATE_US = "rate_us"
+    }
+
     companion object Screen {
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
-        fun more(context: Context): String = lastAppId(context) + Sep.HYPHEN + "more"
-        fun about(context: Context): String = lastAppId(context) + Sep.HYPHEN + "about"
-        fun settings(context: Context): String = lastAppId(context) + Sep.HYPHEN + "settings"
-        fun license(context: Context): String = lastAppId(context) + Sep.HYPHEN + "license"
-        fun launch(context: Context): String = lastAppId(context) + Sep.HYPHEN + "launch"
-        fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + "navigation"
-        fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + "tools"
+        fun more(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
+        fun about(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT
+        fun settings(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.SETTINGS
+        fun license(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.LICENSE
+        fun launch(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.LAUNCH
+        fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.NAVIGATION
+        fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.TOOLS
     }
 
     object Event {
@@ -38,10 +53,10 @@ class Constants {
         const val ERROR_DETAILS = "error_details"
     }
 
-    object Tag {
-        const val NOTIFY_SERVICE = "notify_service"
-        const val MORE_APPS = "more_apps"
-        const val RATE_US = "rate_us"
+    object Ad {
+        const val BANNER = "banner"
+        const val INTERSTITIAL = "interstitial"
+        const val REWARDED = "rewarded"
     }
 
     object Sep {

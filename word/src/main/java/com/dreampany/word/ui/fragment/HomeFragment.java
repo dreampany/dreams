@@ -37,7 +37,6 @@ import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.databinding.ContentDefinitionBinding;
 import com.dreampany.word.databinding.ContentFullWordBinding;
-import com.dreampany.word.databinding.ContentMediumWordBinding;
 import com.dreampany.word.databinding.ContentRecyclerBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;

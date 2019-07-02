@@ -2,23 +2,29 @@ package com.dreampany.word.ui.model;
 
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.annotation.LayoutRes;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import com.dreampany.frame.ui.model.BaseItem;
-import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.google.common.base.Objects;
 
-import eu.davidea.flexibleadapter.FlexibleAdapter;
-import eu.davidea.flexibleadapter.items.IFlexible;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import eu.davidea.flexibleadapter.FlexibleAdapter;
+import eu.davidea.flexibleadapter.items.IFlexible;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -113,18 +119,17 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
     static final class SimpleViewHolder extends ViewHolder {
 
-        @BindView(R.id.text_word)
         TextView word;
-        @BindView(R.id.text_part_of_speech)
         TextView partOfSpeech;
-        @BindView(R.id.text_pronunciation)
         TextView pronunciation;
-/*        @BindView(R.id.button_like)
-        LikeButton like;*/
+       /*  LikeButton like;*/
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
             super(view, adapter);
             word.setOnClickListener(super.adapter.getClickListener());
+            word = view.findViewById(R.id.text_word);
+            partOfSpeech = view.findViewById(R.id.text_part_of_speech);
+            pronunciation = view.findViewById(R.id.text_pronunciation);
             //like.setOnClickListener(super.adapter.getClickListener());
         }
 

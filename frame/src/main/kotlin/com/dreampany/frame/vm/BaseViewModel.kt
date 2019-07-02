@@ -13,6 +13,7 @@ import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.network.data.model.Network
 import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -60,6 +61,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     var singleOwners: MutableList<LifecycleOwner> = mutableListOf()
     var multipleOwners: MutableList<LifecycleOwner> = mutableListOf()
     var multipleOwnersOfString: MutableList<LifecycleOwner> = mutableListOf()
+    var multipleOwnersOfNetwork: MutableList<LifecycleOwner> = mutableListOf()
 
     val disposables: CompositeDisposable
     val ioDisposables: CompositeDisposable
@@ -77,9 +79,11 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     val input: PublishSubject<Response<X>>
     val inputs: PublishSubject<Response<List<X>>>
     val inputsOfString: PublishSubject<Response<List<String>>>
+    val inputsOfNetwork: PublishSubject<Response<List<Network>>>
     val output: MutableLiveData<Response<X>>
     val outputs: MutableLiveData<Response<List<X>>>
     val outputsOfString: MutableLiveData<Response<List<String>>>
+    val outputsOfNetwork: MutableLiveData<Response<List<Network>>>
     var task: Y? = null
     var networkEvent: NetworkState
     val itemOffset: Int = 4
@@ -102,9 +106,11 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         input = PublishSubject.create()
         inputs = PublishSubject.create()
         inputsOfString = PublishSubject.create()
+        inputsOfNetwork = PublishSubject.create()
         output = rx.toLiveData(input, ioDisposables)
         outputs = rx.toLiveData(inputs, ioDisposables)
         outputsOfString = rx.toLiveData(inputsOfString, ioDisposables)
+        outputsOfNetwork = rx.toLiveData(inputsOfNetwork, ioDisposables)
         uiMap = SmartMap.newMap()
         uiCache = SmartCache.newCache()
         uiFavorites = Collections.synchronizedSet<T>(HashSet<T>())
@@ -178,8 +184,13 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         for (owner in multipleOwnersOfString) {
             owner.let { outputsOfString.removeObservers(it) }
         }
+        for (owner in multipleOwnersOfNetwork) {
+            owner.let { outputsOfNetwork.removeObservers(it) }
+        }
         singleOwners.clear()
         multipleOwners.clear()
+        multipleOwnersOfString.clear()
+        multipleOwnersOfNetwork.clear()
         removeSingleSubscription()
         removeMultipleSubscription()
         removeMultipleSubscriptionOfString()
@@ -277,6 +288,12 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         //postEmpty(null as List<String>?)
         multipleOwnersOfString.add(owner)
         outputsOfString.reObserve(owner, observer)
+    }
+
+    fun observeOutputsOfNetwork(owner: LifecycleOwner, observer: Observer<Response<List<Network>>>) {
+        //postEmpty(null as List<String>?)
+        multipleOwnersOfNetwork.add(owner)
+        outputsOfNetwork.reObserve(owner, observer)
     }
 
     fun observeFavorite(owner: LifecycleOwner, observer: Observer<X>) {

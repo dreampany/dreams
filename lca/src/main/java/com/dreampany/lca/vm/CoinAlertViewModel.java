@@ -196,10 +196,10 @@ public class CoinAlertViewModel
     private Maybe<List<CoinAlertItem>> getItemsRx(Currency currency, List<CoinAlert> result) {
         return Flowable.fromIterable(result)
                 .map(alert -> {
-                    Timber.v("CoinAlert %d", alert.getId());
+                    Timber.v("CoinAlert %s", alert.getId());
                     Coin coin = repo.getItemIf(CoinSource.CMC, currency, alert.getId());
                     CoinAlertItem item = getItem(coin, alert);
-                    Timber.v("CoinAlert %s %d", item.getCoin().getName(), item.getCoin().getId());
+                    Timber.v("CoinAlert %s %s", item.getCoin().getName(), item.getCoin().getId());
                     return item;
                 })
                 .toList()
@@ -209,7 +209,7 @@ public class CoinAlertViewModel
     private Maybe<CoinAlertItem> saveRx(Coin coin, double priceUp, double priceDown) {
         return Maybe.create(emitter -> {
             CoinAlert alert = mapper.toItem(coin.getId(), priceUp, priceDown, true);
-            Timber.v("CoinAlertID %d", alert.getId());
+            Timber.v("CoinAlertID %s", alert.getId());
             long result = repo.putItem(coin, alert);
             CoinAlertItem item = result == -1 ? null : getItem(coin, alert);
             if (emitter.isDisposed()) {

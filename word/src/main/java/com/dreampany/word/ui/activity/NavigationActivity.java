@@ -42,7 +42,8 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     ViewModelProvider.Factory factory;
     @Inject
     SmartAd ad;
-    ActivityNavigationBinding binding;
+
+    ActivityNavigationBinding bind;
     LoaderViewModel vm;
 
     @Override
@@ -68,6 +69,11 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @Override
     public boolean isHomeUp() {
         return false;
+    }
+
+    @Override
+    public boolean hasDoubleBackPressed() {
+        return true;
     }
 
     @NotNull
@@ -117,7 +123,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
 
     @Override
     public MaterialSearchView getSearchView() {
-        return binding.searchView;
+        return bind.searchView;
     }
 
     @Override
@@ -132,7 +138,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
             return;
         }
 
-        binding = (ActivityNavigationBinding) super.binding;
+        bind = (ActivityNavigationBinding) super.binding;
         ad.initAd(this,
                 getClass().getSimpleName(),
                 findViewById(R.id.adview),

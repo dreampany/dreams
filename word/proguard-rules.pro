@@ -19,3 +19,6 @@
 -keep class com.dreampany.word.api.** { *; }
 -keepclassmembers class com.dreampany.word.api.** { *; }
 
+-keep class com.dreampany.frame.misc.** { *; }
+-keepclassmembers class com.dreampany.frame.misc.** { *; }
+

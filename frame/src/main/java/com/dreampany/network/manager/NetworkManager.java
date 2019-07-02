@@ -1,6 +1,9 @@
+/*
 package com.dreampany.network.manager;
 
 import android.content.Context;
+
+import androidx.annotation.Nullable;
 
 import com.dreampany.network.api.BluetoothApi;
 import com.dreampany.network.api.InternetApi;
@@ -20,11 +23,13 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+*/
 /**
  * Created by Hawladar Roman on 8/18/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
 public final class NetworkManager {
 
@@ -34,11 +39,13 @@ public final class NetworkManager {
 
     private final Context context;
     private final RxMapper rx;
-    private final WifiApi wifi;
+*/
+/*    private final WifiApi wifi;
     private final WifiApApi ap;
     private final MobileApi mobile;
     private final BluetoothApi bt;
-    private final InternetApi internetApi;
+    private final InternetApi internetApi;*//*
+
     private volatile boolean internet;
     private final Set<Callback> callbacks;
     private final Map<Callback, Boolean> checkInternets;
@@ -76,8 +83,6 @@ public final class NetworkManager {
         callbacks.add(callback);
         checkInternets.put(callback, checkInternet);
         startInternetIfPossible();
-
-        //Timber.v("Internet Callbacks %d", callbacks.size());
     }
 
     public void deObserve(Callback callback, boolean stopInternetCheck) {
@@ -111,9 +116,11 @@ public final class NetworkManager {
         if (mobile.isEnabled()) {
             networks.add(mobile.getNetwork(internet));
         }
+*/
 /*        if (bt.isEnabled()) {
             networks.add(bt.getNetwork(internet));
-        }*/
+        }*//*
+
         return networks;
     }
 
@@ -146,9 +153,9 @@ public final class NetworkManager {
     private void postActiveNetworks() {
         List<Network> result = getActiveNetworks();
         Network[] networks = result.toArray(new Network[0]);
-        //Timber.v("NetworkCallbacks %d", callbacks.size());
         for (Callback callback : callbacks) {
             callback.onResult(networks);
         }
     }
 }
+*/

@@ -105,6 +105,7 @@ public class CoinsViewModel
 
     @Override
     public void onNetworkResult(@NonNull List<Network> networks) {
+        Timber.v("onNetworkResult %d", networks.size());
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.getInternet()) {
@@ -155,7 +156,7 @@ public class CoinsViewModel
                     currentCurrency = currency;
                     Timber.v("Result posting %d", result.size());
                     postResult(Response.Type.GET, result);
-                    getEx().postToUi(() -> update(false, false), 1000L);
+                    getEx().postToUi(() -> update(false, false), 3000L);
                 }, error -> {
                     if (progress) {
                         postProgress(false);
@@ -165,16 +166,10 @@ public class CoinsViewModel
         addMultipleSubscription(disposable);
     }
 
-/*    public void loadMore(boolean important, boolean progress) {
-        loads(currentIndex + Constants.Limit.COIN_PAGE, important, progress);
-    }*/
-
-
     public void loads(int index, boolean important, boolean progress) {
         if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
-        //currentIndex = index;
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
                 .backToMain(getListingRx(currency, index))

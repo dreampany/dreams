@@ -34,6 +34,11 @@ data class Network(val type: Type) : Parcelable {
     var connected: Boolean = false
     var internet: Boolean = false
 
+    init {
+        bssid = ""
+        ssid = ""
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -43,13 +48,13 @@ data class Network(val type: Type) : Parcelable {
 
     override fun toString(): String {
         val builder = StringBuilder("network#");
-        builder.append(" type: ").append(type);
-        builder.append(" bssid: ").append(bssid);
-        builder.append(" ssid: ").append(ssid);
-        builder.append(" open: ").append(isOpen());
-        builder.append(" enabled: ").append(enabled);
-        builder.append(" connected: ").append(connected);
-        builder.append(" internet: ").append(internet);
+        builder.append(" type: ").append(type)
+        builder.append(" bssid: ").append(bssid)
+        builder.append(" ssid: ").append(ssid)
+        builder.append(" open: ").append(isOpen())
+        builder.append(" enabled: ").append(enabled)
+        builder.append(" connected: ").append(connected)
+        builder.append(" internet: ").append(internet)
         return builder.toString();
     }
 

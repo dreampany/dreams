@@ -224,7 +224,7 @@ dependencies {
     api 'com.mikepenz:iconics-core:4.0.0'
 
     /* misc */
-    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.3'
+    api 'com.github.pwittchen:reactivenetwork-rx2:3.0.3'
     implementation 'com.github.pwittchen:prefser-rx2:2.2.2'
     //implementation 'com.afollestad:aesthetic:1.0.0-beta05'
     //implementation 'com.afollestad.material-dialogs:core:2.7.0'

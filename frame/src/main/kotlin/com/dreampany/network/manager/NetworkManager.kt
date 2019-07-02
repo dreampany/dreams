@@ -8,10 +8,9 @@ import com.dreampany.network.data.model.Network
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import io.reactivex.Single
-import io.reactivex.SingleSource
 import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Function
 import timber.log.Timber
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
@@ -21,7 +20,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class NetworkManager constructor(
+class NetworkManager @Inject constructor(
     val context: Context,
     val rx: RxMapper,
     val ex: AppExecutors,
@@ -38,6 +37,7 @@ class NetworkManager constructor(
     private var checkInternet: Boolean = false
 
     fun observe(callback: Callback, checkInternet: Boolean) {
+        callbacks.add(callback)
         this.checkInternet = checkInternet
         if (isStarted()) {
             ex.postToUi({
@@ -70,6 +70,10 @@ class NetworkManager constructor(
         return false
     }
 
+    fun isObserving(): Boolean {
+        return !callbacks.isEmpty();
+    }
+
     private fun isStarted(): Boolean {
         disposable?.let {
             if (it.isDisposed) {
@@ -93,11 +97,17 @@ class NetworkManager constructor(
     }
 
     private fun postResult(network: Network) {
-
+        Timber.v("postReesult %s", network.toString())
+        if (networks.contains(network)) {
+            networks.set(networks.indexOf(network), network)
+        } else {
+            networks.add(network)
+        }
+        postNetworks()
     }
 
     private fun postError(error: Throwable) {
-
+        postNetworks()
     }
 
     private fun buildNetwork(connectivity: Connectivity): Single<Network> {
@@ -108,13 +118,13 @@ class NetworkManager constructor(
             connectivity.toString()
         )
         return Single.create({
+            val network = wifi.getNetwork()
             if (connectivity.available()) {
-                val network = wifi.getNetwork()
                 if (checkInternet) {
                     network.internet = ReactiveNetwork.checkInternetConnectivity().blockingGet()
                 }
-                it.onSuccess(network)
             }
+            it.onSuccess(network)
         })
     }
 }

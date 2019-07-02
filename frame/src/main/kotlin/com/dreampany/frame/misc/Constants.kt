@@ -77,10 +77,16 @@ class Constants {
 
     object LanguageCode {
         const val ARABIC = "ar"
+        const val BENGALI = "bn"
+        const val FRENCH = "fr"
+        const val SPANISH = "es"
     }
 
     object LanguageCountry {
         const val ARABIC = "Arabic"
+        const val BENGALI = "Bengali"
+        const val FRENCH = "French"
+        const val SPANISH = "Spanish"
     }
 
     object Notify {

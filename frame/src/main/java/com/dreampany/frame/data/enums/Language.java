@@ -16,6 +16,9 @@ import java.util.Locale;
 public enum Language implements Type, Serializable {
 
     ARABIC(Constants.LanguageCode.ARABIC, Constants.LanguageCountry.ARABIC),
+    BENGALI(Constants.LanguageCode.ARABIC, Constants.LanguageCountry.ARABIC),
+    FRENCH(Constants.LanguageCode.FRENCH, Constants.LanguageCountry.FRENCH),
+    SPANISH(Constants.LanguageCode.SPANISH, Constants.LanguageCountry.SPANISH),
     ENGLISH(Locale.ENGLISH.getLanguage(), Locale.ENGLISH.getCountry());
 
     private final String code;
@@ -78,6 +81,12 @@ public enum Language implements Type, Serializable {
             case 0:
                 return ARABIC;
             case 1:
+                return BENGALI;
+            case 2:
+                return FRENCH;
+            case 3:
+                return SPANISH;
+            case 4:
             default:
                 return ENGLISH;
         }

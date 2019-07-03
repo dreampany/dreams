@@ -23,12 +23,6 @@ class DatabaseModule {
         return FrameDatabase.onInstance(application.applicationContext)
     }
 
-/*    @Singleton
-    @Provides
-    fun provideFlagDao(database: FrameDatabase): FlagDao {
-        return database.flagDao()
-    }*/
-
     @Singleton
     @Provides
     fun provideStateDao(database: FrameDatabase): StateDao {

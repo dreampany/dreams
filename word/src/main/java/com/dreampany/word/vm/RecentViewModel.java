@@ -1,17 +1,14 @@
 package com.dreampany.word.vm;
 
 import android.app.Application;
-import com.dreampany.frame.data.enums.UiState;
+
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
-import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
@@ -19,14 +16,16 @@ import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
-
-import javax.inject.Inject;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -65,28 +64,19 @@ public class RecentViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        //network.deObserve(this::onResult, true);
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
     }
 
-    void onResult(Network... networks) {
-        UiState state = UiState.OFFLINE;
-        for (Network network : networks) {
-            if (network.isConnected()) {
-                state = UiState.ONLINE;
-
-            }
-        }
-    }
 
     public void setUiCallback(SmartAdapter.Callback<WordItem> callback) {
         this.uiCallback = callback;
     }
 
     public void start() {
-        network.observe(this::onResult, true);
+        //network.observe(this::onResult, true);
     }
 
     public void removeUpdateDisposable() {

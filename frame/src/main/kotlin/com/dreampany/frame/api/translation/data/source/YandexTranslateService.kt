@@ -12,13 +12,12 @@ import retrofit2.http.Query
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface YandexService {
+interface YandexTranslateService {
     @Headers("Connection:close")
-    @GET("api/v1.5/tr.json/translate")
+    @GET("/api/v1.5/tr.json/translate")
     fun getTranslation(
-        @Query("key") apiKey: String,
+        @Query("key") key: String,
         @Query("text") text: String,
-        @Query("lang") language: String,
-        @Query("limit") limit: Int
+        @Query("lang") language: String
     ): Call<WordTranslation>
 }

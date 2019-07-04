@@ -1,14 +1,16 @@
 package com.dreampany.frame.api.translation.injector
 
+import com.dreampany.frame.api.translation.data.source.YandexTranslateService
 import com.dreampany.frame.api.translation.misc.Constants
-import dagger.Module
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.Retrofit
+import com.dreampany.frame.api.translation.misc.YandexTranslate
 import com.google.gson.Gson
-import javax.inject.Singleton
+import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 
 /**
@@ -19,14 +21,21 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
  */
 @Module
 class TranslateModule {
+
     @Provides
     @Singleton
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
+    @YandexTranslate
+    fun provideYandexTranslateRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(Constants.Yandex.TRANSLATE_BASE_URL)
-            .client(okHttpClient)
+            .client(httpClient)
             .build()
+    }
+
+    @Provides
+    fun provideYandexTranslateService(@YandexTranslate retrofit: Retrofit): YandexTranslateService {
+        return retrofit.create(YandexTranslateService::class.java);
     }
 }

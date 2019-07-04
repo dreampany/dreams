@@ -1,8 +1,8 @@
-package com.dreampany.frame.api.translation.injector
+package com.dreampany.translation.injector
 
-import com.dreampany.frame.api.translation.data.source.YandexTranslateService
-import com.dreampany.frame.api.translation.misc.Constants
-import com.dreampany.frame.api.translation.misc.YandexTranslate
+import com.dreampany.translation.data.source.remote.YandexTranslateService
+import com.dreampany.translation.misc.Constants
+import com.dreampany.translation.misc.YandexTranslate
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -19,7 +19,7 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Module
+@Module(includes = [SupportModule::class])
 class TranslateModule {
 
     @Provides

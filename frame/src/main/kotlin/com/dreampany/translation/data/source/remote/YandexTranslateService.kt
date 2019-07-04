@@ -1,6 +1,6 @@
-package com.dreampany.frame.api.translation.data.source
+package com.dreampany.translation.data.source.remote
 
-import com.dreampany.frame.api.translation.data.model.WordTranslation
+import com.dreampany.translation.data.model.TextTranslation
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -19,5 +19,5 @@ interface YandexTranslateService {
         @Query("key") key: String,
         @Query("text") text: String,
         @Query("lang") language: String
-    ): Call<WordTranslation>
+    ): Call<TextTranslation>
 }

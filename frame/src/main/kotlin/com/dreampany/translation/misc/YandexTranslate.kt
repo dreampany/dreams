@@ -1,4 +1,4 @@
-package com.dreampany.frame.api.translation.misc
+package com.dreampany.translation.misc
 
 import javax.inject.Qualifier
 

@@ -6,6 +6,7 @@ import com.dreampany.word.injector.vm.ViewModelModule
 import com.dreampany.frame.injector.data.FrameModule
 import com.dreampany.frame.misc.*
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.translation.injector.TranslateModule
 import com.dreampany.vision.VisionApi
 import com.dreampany.word.api.wordnik.WordnikManager
 import com.dreampany.word.data.misc.WordMapper
@@ -29,7 +30,7 @@ import javax.inject.Singleton
  * dreampanymail@gmail.com
  */
 
-@Module(includes = [FrameModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
+@Module(includes = [FrameModule::class, TranslateModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
 class BuildersModule {
     @Singleton
     @Provides

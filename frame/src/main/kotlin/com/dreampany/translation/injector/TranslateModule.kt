@@ -1,6 +1,14 @@
 package com.dreampany.translation.injector
 
+import com.dreampany.frame.misc.Remote
+import com.dreampany.frame.misc.Room
+import com.dreampany.network.manager.NetworkManager
+import com.dreampany.translation.data.misc.TextTranslateMapper
+import com.dreampany.translation.data.source.api.TextTranslateDataSource
+import com.dreampany.translation.data.source.remote.TextTranslateRemoteDataSource
 import com.dreampany.translation.data.source.remote.YandexTranslateService
+import com.dreampany.translation.data.source.room.TextTranslateDao
+import com.dreampany.translation.data.source.room.TextTranslateRoomDataSource
 import com.dreampany.translation.misc.Constants
 import com.dreampany.translation.misc.YandexTranslate
 import com.google.gson.Gson
@@ -19,7 +27,7 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Module(includes = [SupportModule::class])
+@Module(includes = [SupportModule::class, DatabaseModule::class])
 class TranslateModule {
 
     @Provides
@@ -37,5 +45,27 @@ class TranslateModule {
     @Provides
     fun provideYandexTranslateService(@YandexTranslate retrofit: Retrofit): YandexTranslateService {
         return retrofit.create(YandexTranslateService::class.java);
+    }
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideTextRoomDataSource(
+        network: NetworkManager,
+        mapper: TextTranslateMapper,
+        dao: TextTranslateDao
+    ): TextTranslateDataSource {
+        return TextTranslateRoomDataSource(mapper, dao)
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideTextRemoteDataSource(
+        network: NetworkManager,
+        mapper: TextTranslateMapper,
+        service: YandexTranslateService
+    ): TextTranslateDataSource {
+        return TextTranslateRemoteDataSource(network, mapper, service)
     }
 }

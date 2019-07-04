@@ -2,7 +2,7 @@ package com.dreampany.word.data.source.room
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.dreampany.frame.data.source.dao.BaseDao
+import com.dreampany.frame.data.source.BaseDaoKt
 import com.dreampany.word.data.model.Antonym
 import io.reactivex.Maybe
 
@@ -13,7 +13,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  */
 @Dao
-interface AntonymDao : BaseDao<Antonym> {
+interface AntonymDao : BaseDaoKt<Antonym> {
     @get:Query("select count(*) from antonym")
     val count: Int
 

@@ -1,7 +1,6 @@
 package com.dreampany.lca.data.source.remote;
 
 import com.dreampany.frame.misc.exception.EmptyException;
-import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.NumberUtil;
 import com.dreampany.frame.util.TimeUtil;
@@ -10,11 +9,10 @@ import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcListingResponse;
 import com.dreampany.lca.api.cmc.model.CmcQuotesResponse;
 import com.dreampany.lca.data.enums.CoinSource;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.misc.CoinMapper;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.source.api.CoinDataSource;
-import com.dreampany.lca.misc.CoinMarketCap;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.network.manager.NetworkManager;
 import com.google.common.collect.Maps;
@@ -54,7 +52,7 @@ public class CoinRemoteDataSource implements CoinDataSource {
 
     public CoinRemoteDataSource(NetworkManager network,
                                 CoinMapper mapper,
-                                @CoinMarketCap CmcService service) {
+                                CmcService service) {
         this.network = network;
         this.mapper = mapper;
         this.service = service;

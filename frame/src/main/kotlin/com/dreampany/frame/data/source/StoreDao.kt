@@ -1,4 +1,4 @@
-package com.dreampany.frame.data.source.local
+package com.dreampany.frame.data.source
 
 import androidx.room.Dao
 import androidx.room.Query

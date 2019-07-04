@@ -1,8 +1,8 @@
 package com.dreampany.frame.injector.data
 
 import android.app.Application
-import com.dreampany.frame.data.source.local.StateDao
-import com.dreampany.frame.data.source.local.StoreDao
+import com.dreampany.frame.data.source.StateDao
+import com.dreampany.frame.data.source.StoreDao
 import com.dreampany.frame.data.source.room.FrameDatabase
 import dagger.Module
 import dagger.Provides

@@ -1,10 +1,10 @@
 package com.dreampany.translation.data.source.remote
 
-import com.dreampany.translation.data.model.TextTranslation
+import com.dreampany.translation.data.model.TextTranslationResponse
 import retrofit2.Call
-import retrofit2.http.GET
+import retrofit2.http.Field
 import retrofit2.http.Headers
-import retrofit2.http.Query
+import retrofit2.http.POST
 
 /**
  * Created by roman on 2019-07-03
@@ -14,10 +14,10 @@ import retrofit2.http.Query
  */
 interface YandexTranslateService {
     @Headers("Connection:close")
-    @GET("/api/v1.5/tr.json/translate")
+    @POST("/api/v1.5/tr.json/translate")
     fun getTranslation(
-        @Query("key") key: String,
-        @Query("text") text: String,
-        @Query("lang") language: String
-    ): Call<TextTranslation>
+        @Field("key") key: String,
+        @Field("text") text: String,
+        @Field("lang") language: String
+    ): Call<TextTranslationResponse>
 }

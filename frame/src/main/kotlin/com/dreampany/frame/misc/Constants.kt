@@ -1,7 +1,10 @@
 package com.dreampany.frame.misc
 
 import android.content.Context
+import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.util.AndroidUtil
+import com.google.common.base.Splitter
+import com.google.common.collect.Iterables
 
 /**
  * Created by Hawladar Roman on 24/2/19.
@@ -25,7 +28,11 @@ class Constants {
         const val RATE_US = "rate_us"
     }
 
-    companion object Screen {
+    companion object {
+        fun database(name: String): String {
+            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + Database.POST_FIX
+        }
+
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
         fun more(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
         fun about(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT
@@ -65,6 +72,10 @@ class Constants {
         const val COMMA_SPACE = ", "
         const val SPACE = " "
         const val HYPHEN = "-"
+    }
+
+    object Database {
+        const val POST_FIX = Sep.HYPHEN + "db"
     }
 
     object Key {

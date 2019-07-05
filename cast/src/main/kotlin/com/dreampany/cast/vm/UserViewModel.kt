@@ -20,6 +20,9 @@ import com.dreampany.network.manager.NetworkManager
  * Last modified $file.lastModified
  */
 class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>>, NetworkManager.Callback {
+    override fun onNetworkResult(network: List<Network>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private var network: NetworkManager
     private var pref: Pref
@@ -40,11 +43,11 @@ class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>>, NetworkManage
     }
 
     override fun clear() {
-        network.deObserve(this, false)
+        //network.deObserve(this, false)
         super.clear()
     }
 
-    override fun onResult(vararg networks: Network?) {
+    fun onResult(vararg networks: Network?) {
 
     }
 

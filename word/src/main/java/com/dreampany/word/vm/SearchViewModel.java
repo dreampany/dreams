@@ -241,6 +241,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addSingleSubscription(disposable);
     }
 
+
     public void update(boolean progress) {
         Timber.v("update fired");
         if (hasDisposable(updateDisposable)) {

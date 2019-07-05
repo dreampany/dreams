@@ -35,6 +35,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
+import com.dreampany.word.data.model.WordRequest;
 import com.dreampany.word.databinding.ContentDefinitionBinding;
 import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRecyclerBinding;
@@ -48,6 +49,7 @@ import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.SearchViewModel;
+import com.dreampany.word.vm.WordViewModelKt;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.jetbrains.annotations.NotNull;
@@ -89,6 +91,7 @@ public class HomeFragment extends BaseMenuFragment
     private MaterialSearchView searchView;
 
     SearchViewModel searchVm;
+    WordViewModelKt vm;
     WordAdapter adapter;
 
     String query;
@@ -206,14 +209,18 @@ public class HomeFragment extends BaseMenuFragment
     public boolean onQueryTextSubmit(@NotNull String query) {
         Timber.v("onQueryTextSubmit %s", query);
         this.query = query.toLowerCase();
-        searchVm.find(query, true);
+
+        WordRequest request = new WordRequest();
+        request.setInputWord(query);
+        request.setProgress(true);
+        vm.load(request);
         return super.onQueryTextSubmit(query);
     }
 
     @Override
     public boolean onQueryTextChange(@NotNull String newText) {
         Timber.v("onQueryTextChange %s", newText);
-        this.query = newText;
+        this.query = newText.toLowerCase();
         return super.onQueryTextChange(newText);
     }
 
@@ -269,11 +276,15 @@ public class HomeFragment extends BaseMenuFragment
 
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
         searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
+        vm.observeUiState(this, this::processUiState);
         searchVm.observeOutputsOfString(this, this::processResponseOfString);
         searchVm.observeOutputs(this, this::processResponse);
+        searchVm.observeOutputs(this, this::processResponse);
         searchVm.observeOutput(this, this::processSingleResponse);
+        vm.observeOutput(this, this::processSingleResponse);
     }
 
     private void initRecycler() {
@@ -396,7 +407,11 @@ public class HomeFragment extends BaseMenuFragment
     private void processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus();
-            searchVm.find(query.toLowerCase(), true);
+
+            WordRequest request = new WordRequest();
+            request.setInputWord(query);
+            request.setProgress(true);
+            vm.load(request);
             return;
         }
     }
@@ -529,7 +544,12 @@ public class HomeFragment extends BaseMenuFragment
     private void searchWord(String word) {
         query = word.toLowerCase();
         searchView.clearFocus();
-        searchVm.find(query, true);
+
+        WordRequest request = new WordRequest();
+        request.setInputWord(query);
+        request.setProgress(true);
+        vm.load(request);
+
         AndroidUtil.speak(query);
     }
 

@@ -32,7 +32,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(WordViewModelKt::class)
-    abstract fun bindWordViewModel(vm: WordViewModelKt): ViewModel
+    abstract fun bindWordViewModelKt(vm: WordViewModelKt): ViewModel
 
     @Binds
     @IntoMap

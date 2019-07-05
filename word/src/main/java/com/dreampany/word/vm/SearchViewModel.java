@@ -215,7 +215,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
-    public void find(String query, boolean progress) {
+/*    public void find(String query, boolean progress) {
         if (!takeAction(true, getSingleDisposable())) {
             return;
         }
@@ -239,7 +239,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);
-    }
+    }*/
 
 
     public void update(boolean progress) {
@@ -370,7 +370,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words, false));
     }
 
-    private Maybe<WordItem> findItemRx(String query) {
+/*    private Maybe<WordItem> findItemRx(String query) {
         return Maybe.create(emitter -> {
             Word word = repo.getItem(query, false);
             Word fullWord = repo.getItemIf(word);
@@ -389,7 +389,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 emitter.onSuccess(result);
             }
         });
-    }
+    }*/
 
     private Maybe<List<WordItem>> getItemsRx(String query) {
         return getSearchItemsRx(query, Constants.Limit.WORD_SEARCH)

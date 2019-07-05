@@ -188,7 +188,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.libRG:customtextview:1.4'
     implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
-    implementation 'com.github.midorikocak:currency-picker-android:1.1.9'
+    implementation 'com.github.midorikocak:currency-picker-android:1.2.1'
     implementation 'com.beardedhen:androidbootstrap:2.3.2'
 }
 

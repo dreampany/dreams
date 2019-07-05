@@ -63,6 +63,14 @@ public enum Language implements Type, Serializable {
         return name().toLowerCase();
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
     public static final Creator<Language> CREATOR = new Creator<Language>() {
 
         @Override

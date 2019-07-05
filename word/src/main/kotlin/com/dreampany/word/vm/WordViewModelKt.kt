@@ -2,6 +2,7 @@ package com.dreampany.word.vm
 
 import android.app.Application
 import com.annimon.stream.Stream
+import com.dreampany.frame.data.enums.Language
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
@@ -19,6 +20,7 @@ import com.dreampany.word.data.source.repository.ApiRepository
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.word.ui.model.WordItem
 import io.reactivex.Maybe
+import java.util.ArrayList
 import javax.inject.Inject
 
 /**
@@ -64,6 +66,24 @@ class WordViewModelKt @Inject constructor(
         addSingleSubscription(disposable)
     }
 
+
+    fun getCurrentLanguage(): Language {
+        return pref.getLanguage(Language.ENGLISH)
+    }
+
+    fun setCurrentLanguage(language: Language) {
+        pref.setLanguage(language)
+    }
+
+    fun getLanguages(): ArrayList<Language> {
+        val result = ArrayList<Language>()
+        result.add(Language.ARABIC)
+        result.add(Language.BENGALI)
+        result.add(Language.FRENCH)
+        result.add(Language.SPANISH)
+        result.add(Language.ENGLISH)
+        return result
+    }
 
     private fun findItemRx(query: String): Maybe<WordItem> {
         return Maybe.create { emitter ->

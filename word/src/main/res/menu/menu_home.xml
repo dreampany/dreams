@@ -9,4 +9,9 @@
         android:title="@string/search"
         auto:showAsAction="collapseActionView|always" />
 
+    <item
+        android:id="@+id/item_language"
+        android:title="@string/language_en"
+        auto:showAsAction="always" />
+
 </menu>

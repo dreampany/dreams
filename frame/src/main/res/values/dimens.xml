@@ -34,5 +34,6 @@
     <dimen name="size_22">22dp</dimen>
     <dimen name="size_23">23dp</dimen>
     <dimen name="size_25">25dp</dimen>
+    <dimen name="size_56">56dp</dimen>
 
 </resources>

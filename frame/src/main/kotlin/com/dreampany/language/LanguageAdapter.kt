@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.R
 import com.dreampany.frame.data.enums.Language
+import com.dreampany.frame.util.TextUtil
 
 /**
  * Created by Roman-372 on 7/5/2019
@@ -20,7 +21,7 @@ class LanguageAdapter(
     val click: (Language) -> Unit
 ) : RecyclerView.Adapter<LanguageAdapter.ViewHolder>() {
 
-    private val languages = mutableListOf<Language>()
+    private val languages = ArrayList<Language>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflator = LayoutInflater.from(context)
@@ -58,7 +59,7 @@ class LanguageAdapter(
         }
 
         fun bind(language: Language) {
-            viewText.text = language.country
+            viewText.text = TextUtil.getString(itemView.context, R.string.language_text_format, language.country, language.code)
             itemView.setTag(language)
         }
     }

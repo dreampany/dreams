@@ -2,4 +2,7 @@
 <resources>
     <dimen name="dialog_width">200dp</dimen>
     <dimen name="dialog_height">300dp</dimen>
+
+    <string name="language_text_format">%s (%s)</string>
+    <string name="language_en">en</string>
 </resources>

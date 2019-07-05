@@ -6,10 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.R
 import com.dreampany.frame.data.enums.Language
 import com.dreampany.frame.databinding.DialogLanguagePickerBinding
-
 
 /**
  * Created by Roman-372 on 7/5/2019
@@ -19,8 +20,10 @@ import com.dreampany.frame.databinding.DialogLanguagePickerBinding
  */
 class LanguagePicker : DialogFragment() {
 
-    private lateinit var binding: DialogLanguagePickerBinding
-    private val languages = mutableListOf<Language>()
+     private lateinit var binding: DialogLanguagePickerBinding
+    private lateinit var title: String
+    private lateinit var languages: ArrayList<Language>
+    private lateinit var recycler: RecyclerView
     private lateinit var click: (Language) -> Unit
     private lateinit var adapter: LanguageAdapter
 
@@ -45,8 +48,13 @@ class LanguagePicker : DialogFragment() {
     }
 
     companion object {
-        fun newInstance(title: String, languages: List<Language>) {
-
+        fun newInstance(title: String, languages: ArrayList<Language>): LanguagePicker {
+            val picker = LanguagePicker()
+            val bundle = Bundle()
+            bundle.putString("title", title)
+            bundle.putParcelableArrayList("list", languages)
+            picker.setArguments(bundle)
+            return picker
         }
     }
 
@@ -54,7 +62,7 @@ class LanguagePicker : DialogFragment() {
         this.click = click
     }
 
-    fun setLanguages(languages: List<Language>) {
+    fun setLanguages(languages: ArrayList<Language>) {
         this.languages.clear()
         this.languages.addAll(languages)
         adapter.addLanguages(languages)
@@ -63,13 +71,22 @@ class LanguagePicker : DialogFragment() {
     private fun initView() {
         val args = arguments
         if (args != null && dialog != null) {
-            val dialogTitle = args.getString("title")
-            dialog!!.setTitle(dialogTitle)
+            title = args.getString("title") as String
+            languages = args.getParcelableArrayList<Language>("list") as ArrayList<Language>
+            dialog!!.setTitle(title)
 
             val width = resources.getDimensionPixelSize(R.dimen.dialog_width)
             val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
             dialog!!.window!!.setLayout(width, height)
+
+            adapter = LanguageAdapter(context!!, click)
+
+            binding.recycler.apply {
+                setHasFixedSize(true)
+                adapter = this@LanguagePicker.adapter
+                layoutManager = LinearLayoutManager(context)
+            }
+            adapter.addLanguages(languages)
         }
-        adapter = LanguageAdapter(context!!, click)
     }
 }

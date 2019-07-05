@@ -91,6 +91,7 @@ class Constants {
         const val BENGALI = "bn"
         const val FRENCH = "fr"
         const val SPANISH = "es"
+        const val ENGLISH = "en"
     }
 
     object LanguageCountry {
@@ -98,6 +99,7 @@ class Constants {
         const val BENGALI = "Bengali"
         const val FRENCH = "French"
         const val SPANISH = "Spanish"
+        const val ENGLISH = "English"
     }
 
     object Notify {

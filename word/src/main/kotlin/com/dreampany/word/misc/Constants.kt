@@ -43,6 +43,7 @@ class Constants {
 
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
+        const val LANGUAGE_PICKER = "language_picker"
     }
 
     object Count {
@@ -89,6 +90,10 @@ class Constants {
     object Antonym {
         const val LEFTER = Synonym.LEFTER
         const val RIGHTER = Synonym.RIGHTER
+    }
+
+    object Language {
+        const val LANGUAGE = "language"
     }
 
     object Period {

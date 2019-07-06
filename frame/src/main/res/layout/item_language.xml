@@ -4,19 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <LinearLayout
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/viewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:minHeight="@dimen/size_56"
-        android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/viewText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            auto:fontFamily="@font/roboto_slab_regular" />
-
-    </LinearLayout>
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        auto:fontFamily="@font/roboto_slab_regular" />
 </layout>

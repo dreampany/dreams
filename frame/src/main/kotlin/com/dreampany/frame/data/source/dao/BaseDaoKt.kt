@@ -1,4 +1,4 @@
-package com.dreampany.frame.data.source
+package com.dreampany.frame.data.source.dao
 
 import androidx.room.Delete
 import androidx.room.Insert

@@ -2,7 +2,7 @@ package com.dreampany.word.data.source.room
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.dreampany.frame.data.source.BaseDaoKt
+import com.dreampany.frame.data.source.dao.BaseDaoKt
 import com.dreampany.word.data.model.Antonym
 import io.reactivex.Maybe
 

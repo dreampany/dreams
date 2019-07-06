@@ -45,5 +45,5 @@ abstract class TranslateDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun textTranslateDao(): TextTranslateDao
+    abstract fun textTranslateDao(): TextTranslationDao
 }

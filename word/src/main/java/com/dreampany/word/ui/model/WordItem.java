@@ -103,6 +103,14 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         return item.getId().toLowerCase().startsWith(((String) constraint).toLowerCase());
     }
 
+    public void addTranslation(String language, String translatedWord) {
+        translates.put(language, translatedWord);
+    }
+
+    public boolean hasTranslation(String language) {
+        return translates.containsKey(language);
+    }
+
     static abstract class ViewHolder extends BaseItem.ViewHolder {
 
         final WordAdapter adapter;

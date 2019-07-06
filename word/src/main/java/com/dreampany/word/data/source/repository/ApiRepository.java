@@ -63,19 +63,19 @@ public class ApiRepository {
         favorites = Maps.newConcurrentMap();
     }
 
-    synchronized public List<Word> getCommonWords() {
+    public List<Word> getCommonWords() {
         return wordRepo.getCommonItems();
     }
 
-    synchronized public List<Word> getAlphaWords() {
+    public List<Word> getAlphaWords() {
         return wordRepo.getAlphaItems();
     }
 
-    synchronized public Word getItem(String word, boolean full) {
+    public Word getItem(String word, boolean full) {
         return wordRepo.getItem(word, full);
     }
 
-    synchronized public Word getItemIf(Word word) {
+    public Word getItemIf(Word word) {
         Word result = getRoomItemIf(word);
         if (result == null) {
             result = getFirestoreItemIf(word);
@@ -86,19 +86,19 @@ public class ApiRepository {
         return result;
     }
 
-    synchronized public Maybe<Word> getItemIfRx(Word word) {
+    public Maybe<Word> getItemIfRx(Word word) {
         return Maybe.fromCallable(() -> getItemIf(word));
     }
 
-    synchronized public Maybe<List<String>> getAllRawWordsRx() {
+    public Maybe<List<String>> getAllRawWordsRx() {
         return wordRepo.getRawWordsRx();
     }
 
-    synchronized public List<Word> getSearchItems(String query, int limit) {
+    public List<Word> getSearchItems(String query, int limit) {
         return wordRepo.getSearchItems(query, limit);
     }
 
-    synchronized public long putItem(Word word, ItemSubtype subtype, ItemState state) {
+    public long putItem(Word word, ItemSubtype subtype, ItemState state) {
         long result = wordRepo.putItem(word);
         if (result != -1) {
             result = putState(word, subtype, state);
@@ -106,7 +106,7 @@ public class ApiRepository {
         return result;
     }
 
-    synchronized public List<Long> putItems(List<Word> words, ItemSubtype subtype, ItemState state) {
+    public List<Long> putItems(List<Word> words, ItemSubtype subtype, ItemState state) {
         List<Long> result = wordRepo.putItems(words);
         if (DataUtil.isEqual(words, result)) {
             result = putStates(words, subtype, state);
@@ -114,29 +114,29 @@ public class ApiRepository {
         return result;
     }
 
-    synchronized public boolean hasState(String id, ItemType type, ItemSubtype subtype, ItemState state) {
+    public boolean hasState(String id, ItemType type, ItemSubtype subtype, ItemState state) {
         boolean stated = stateRepo.getCountById(id, type.name(), subtype.name(), state.name()) > 0;
         return stated;
     }
 
-    synchronized public boolean hasState(Word word, ItemSubtype subtype) {
+    public boolean hasState(Word word, ItemSubtype subtype) {
         boolean stated = stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name()) > 0;
         return stated;
     }
 
-    synchronized public boolean hasState(Word word, ItemSubtype subtype, ItemState state) {
+    public boolean hasState(Word word, ItemSubtype subtype, ItemState state) {
         boolean stated = stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name(), state.name()) > 0;
         return stated;
     }
 
-    synchronized public long putState(Word word, ItemSubtype subtype, ItemState state) {
+    public long putState(Word word, ItemSubtype subtype, ItemState state) {
         State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
         s.setTime(TimeUtil.currentTime());
         long result = stateRepo.putItem(s);
         return result;
     }
 
-    synchronized public List<Long> putStates(List<Word> words, ItemSubtype subtype, ItemState state) {
+    public List<Long> putStates(List<Word> words, ItemSubtype subtype, ItemState state) {
         List<State> states = new ArrayList<>();
         for (Word word : words) {
             State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
@@ -147,18 +147,18 @@ public class ApiRepository {
         return result;
     }
 
-    synchronized public int removeState(Word word, ItemSubtype subtype, ItemState state) {
+    public int removeState(Word word, ItemSubtype subtype, ItemState state) {
         State s = new State(word.getId(), ItemType.WORD.name(), subtype.name(), state.name());
         s.setTime(TimeUtil.currentTime());
         int result = stateRepo.delete(s);
         return result;
     }
 
-    synchronized public int getStateCount(ItemType type, ItemSubtype subtype, ItemState state) {
+    public int getStateCount(ItemType type, ItemSubtype subtype, ItemState state) {
         return stateRepo.getCount(type.name(), subtype.name(), state.name());
     }
 
-    synchronized public List<State> getStates(Word word) {
+    public List<State> getStates(Word word) {
         return stateRepo.getItems(word.getId(), ItemType.WORD.name(), ItemSubtype.DEFAULT.name());
     }
 

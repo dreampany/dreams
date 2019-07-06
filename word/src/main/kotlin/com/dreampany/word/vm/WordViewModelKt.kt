@@ -12,14 +12,17 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.translation.data.source.repository.TranslationRepository
 import com.dreampany.word.data.misc.StateMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.model.WordRequest
 import com.dreampany.word.data.source.pref.Pref
 import com.dreampany.word.data.source.repository.ApiRepository
+import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.word.ui.model.WordItem
 import io.reactivex.Maybe
+import timber.log.Timber
 import java.util.ArrayList
 import javax.inject.Inject
 
@@ -37,7 +40,8 @@ class WordViewModelKt @Inject constructor(
     val network: NetworkManager,
     val pref: Pref,
     val stateMapper: StateMapper,
-    val repo: ApiRepository
+    val repo: ApiRepository,
+    val translationRepo: TranslationRepository
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm) {
 
     fun load(request: WordRequest) {
@@ -45,7 +49,7 @@ class WordViewModelKt @Inject constructor(
             return
         }
         val disposable = rx
-            .backToMain(findItemRx(request.inputWord!!))
+            .backToMain(findItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
                     postProgress(true)
@@ -85,14 +89,24 @@ class WordViewModelKt @Inject constructor(
         return result
     }
 
-    private fun findItemRx(query: String): Maybe<WordItem> {
+    fun needToTranslate(): Boolean {
+        val language = getCurrentLanguage()
+        return language != Language.ENGLISH
+    }
+
+    fun getLanguageDirection(): String {
+        val language = getCurrentLanguage()
+        return Language.ENGLISH.code + Constants.Sep.HYPHEN + language.code
+    }
+
+    private fun findItemRx(request: WordRequest): Maybe<WordItem> {
         return Maybe.create { emitter ->
-            val word = repo.getItem(query, false)
+            val word = repo.getItem(request.inputWord!!, false)
             val fullWord = repo.getItemIf(word)
             var result: WordItem? = null
             if (fullWord != null) {
                 pref.lastSearchWord = fullWord
-                result = getItem(fullWord, true)
+                result = getItem(request, fullWord, true)
             }
 
             if (!emitter.isDisposed) {
@@ -105,7 +119,7 @@ class WordViewModelKt @Inject constructor(
         }
     }
 
-    private fun getItem(word: Word, fully: Boolean): WordItem {
+    private fun getItem(request: WordRequest, word: Word, fully: Boolean): WordItem {
         val map = uiMap
         var item: WordItem? = map.get(word.id)
         if (item == null) {
@@ -117,6 +131,9 @@ class WordViewModelKt @Inject constructor(
         if (fully) {
             adjustState(item)
         }
+        if (request.translate) {
+            adjustTranslate(request, item)
+        }
         return item
     }
 
@@ -127,5 +144,13 @@ class WordViewModelKt @Inject constructor(
     private fun adjustState(item: WordItem) {
         val states = repo.getStates(item.item)
         Stream.of(states).forEach { state -> item.addState(stateMapper.toState(state.state)) }
+    }
+
+    private fun adjustTranslate(request: WordRequest, item: WordItem) {
+        if (request.translate && !item.hasTranslation(request.target)) {
+            val translation = translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
+            Timber.v("Translation %s - %s", request.inputWord, translation)
+            //item.addTranslation(request.target!!, translation.output)
+        }
     }
 }

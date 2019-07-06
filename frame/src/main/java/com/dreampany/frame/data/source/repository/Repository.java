@@ -6,7 +6,6 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.util.DataUtil;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -349,6 +348,4 @@ public abstract class Repository<K, V> {
         }
         return maybe;
     }
-
-
 }

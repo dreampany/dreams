@@ -4,8 +4,8 @@ import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.source.api.StateDataSource
 import com.dreampany.frame.data.source.api.StoreDataSource
-import com.dreampany.frame.data.source.StateDao
-import com.dreampany.frame.data.source.StoreDao
+import com.dreampany.frame.data.source.dao.StateDao
+import com.dreampany.frame.data.source.dao.StoreDao
 import com.dreampany.frame.data.source.room.StateRoomDataSource
 import com.dreampany.frame.data.source.room.StoreRoomDataSource
 import com.dreampany.frame.injector.network.HttpModule

@@ -1,14 +1,16 @@
 package com.dreampany.translation.injector
 
+import com.dreampany.frame.misc.Firestore
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.misc.TextTranslateMapper
-import com.dreampany.translation.data.source.api.TextTranslateDataSource
-import com.dreampany.translation.data.source.remote.TextTranslateRemoteDataSource
+import com.dreampany.translation.data.source.api.TextTranslationDataSource
+import com.dreampany.translation.data.source.firestore.TextTranslationFirestoreDataSource
+import com.dreampany.translation.data.source.remote.TextTranslationRemoteDataSource
 import com.dreampany.translation.data.source.remote.YandexTranslateService
-import com.dreampany.translation.data.source.room.TextTranslateDao
-import com.dreampany.translation.data.source.room.TextTranslateRoomDataSource
+import com.dreampany.translation.data.source.room.TextTranslationDao
+import com.dreampany.translation.data.source.room.TextTranslationRoomDataSource
 import com.dreampany.translation.misc.Constants
 import com.dreampany.translation.misc.YandexTranslate
 import com.google.gson.Gson
@@ -50,22 +52,33 @@ class TranslateModule {
     @Singleton
     @Provides
     @Room
-    fun provideTextRoomDataSource(
+    fun provideTextTranslateRoomDataSource(
         network: NetworkManager,
         mapper: TextTranslateMapper,
-        dao: TextTranslateDao
-    ): TextTranslateDataSource {
-        return TextTranslateRoomDataSource(mapper, dao)
+        dao: TextTranslationDao
+    ): TextTranslationDataSource {
+        return TextTranslationRoomDataSource(mapper, dao)
     }
 
     @Singleton
     @Provides
+    @Firestore
+    fun provideTextTranslateFirestoreDataSource(
+        network: NetworkManager,
+        mapper: TextTranslateMapper
+    ): TextTranslationDataSource {
+        return TextTranslationFirestoreDataSource(network, mapper)
+    }
+
+
+    @Singleton
+    @Provides
     @Remote
-    fun provideTextRemoteDataSource(
+    fun provideTextTranslateRemoteDataSource(
         network: NetworkManager,
         mapper: TextTranslateMapper,
         service: YandexTranslateService
-    ): TextTranslateDataSource {
-        return TextTranslateRemoteDataSource(network, mapper, service)
+    ): TextTranslationDataSource {
+        return TextTranslationRemoteDataSource(network, mapper, service)
     }
 }

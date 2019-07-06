@@ -220,10 +220,7 @@ public class HomeFragment extends BaseMenuFragment
         Timber.v("onQueryTextSubmit %s", query);
         this.query = query.toLowerCase();
 
-        WordRequest request = new WordRequest();
-        request.setInputWord(query);
-        request.setProgress(true);
-        vm.load(request);
+        request(query, true, true);
         return super.onQueryTextSubmit(query);
     }
 
@@ -332,10 +329,10 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void initLanguageMenuItem() {
-        String language = vm.getCurrentLanguage().getCode();
+        Language language = vm.getCurrentLanguage();
         MenuItem item = findMenuItemById(R.id.item_language);
         if (item != null) {
-            item.setTitle(language);
+            item.setTitle(language.getCode());
         }
     }
 
@@ -346,8 +343,8 @@ public class HomeFragment extends BaseMenuFragment
         picker.setCallback(language -> {
             vm.setCurrentLanguage(language);
             initLanguageMenuItem();
-            //updateCurrency(vm.getCurrentCurrency());
-            //onRefresh();
+            onRefresh();
+            request(query, true, true);
             picker.dismissAllowingStateLoss();
             return Unit.INSTANCE;
         });
@@ -440,11 +437,7 @@ public class HomeFragment extends BaseMenuFragment
     private void processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus();
-
-            WordRequest request = new WordRequest();
-            request.setInputWord(query);
-            request.setProgress(true);
-            vm.load(request);
+            request(query, true, true);
             return;
         }
     }
@@ -577,12 +570,7 @@ public class HomeFragment extends BaseMenuFragment
     private void searchWord(String word) {
         query = word.toLowerCase();
         searchView.clearFocus();
-
-        WordRequest request = new WordRequest();
-        request.setInputWord(query);
-        request.setProgress(true);
-        vm.load(request);
-
+        request(query, true, true);
         AndroidUtil.speak(query);
     }
 
@@ -599,5 +587,20 @@ public class HomeFragment extends BaseMenuFragment
         if (item != null) {
             AndroidUtil.speak(item.getItem().getId());
         }
+    }
+
+    private void request(String word, boolean important, boolean progress) {
+        boolean translate = vm.needToTranslate();
+        Language language = vm.getCurrentLanguage();
+        String langDir = vm.getLanguageDirection();
+
+        WordRequest request = new WordRequest();
+        request.setInputWord(word);
+        request.setSource(Language.ENGLISH.getCode());
+        request.setTarget(language.getCode());
+        request.setTranslate(translate);
+        request.setImportant(important);
+        request.setProgress(progress);
+        vm.load(request);
     }
 }

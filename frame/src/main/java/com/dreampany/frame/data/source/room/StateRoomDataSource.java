@@ -3,7 +3,7 @@ package com.dreampany.frame.data.source.room;
 import com.dreampany.frame.data.misc.StateMapper;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.data.source.api.StateDataSource;
-import com.dreampany.frame.data.source.StateDao;
+import com.dreampany.frame.data.source.dao.StateDao;
 
 import java.util.List;
 

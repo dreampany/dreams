@@ -1,7 +1,7 @@
 package com.dreampany.translation.injector
 
 import android.app.Application
-import com.dreampany.translation.data.source.room.TextTranslateDao
+import com.dreampany.translation.data.source.room.TextTranslationDao
 import com.dreampany.translation.data.source.room.TranslateDatabase
 import dagger.Module
 import dagger.Provides
@@ -24,7 +24,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideTextTranslateDao(database: TranslateDatabase): TextTranslateDao{
+    fun provideTextTranslateDao(database: TranslateDatabase): TextTranslationDao{
         return database.textTranslateDao()
     }
 }

@@ -20,10 +20,9 @@ import com.dreampany.frame.databinding.DialogLanguagePickerBinding
  */
 class LanguagePicker : DialogFragment() {
 
-     private lateinit var binding: DialogLanguagePickerBinding
+    private lateinit var binding: DialogLanguagePickerBinding
     private lateinit var title: String
     private lateinit var languages: ArrayList<Language>
-    private lateinit var recycler: RecyclerView
     private lateinit var click: (Language) -> Unit
     private lateinit var adapter: LanguageAdapter
 
@@ -62,12 +61,6 @@ class LanguagePicker : DialogFragment() {
         this.click = click
     }
 
-    fun setLanguages(languages: ArrayList<Language>) {
-        this.languages.clear()
-        this.languages.addAll(languages)
-        adapter.addLanguages(languages)
-    }
-
     private fun initView() {
         val args = arguments
         if (args != null && dialog != null) {
@@ -77,16 +70,15 @@ class LanguagePicker : DialogFragment() {
 
             val width = resources.getDimensionPixelSize(R.dimen.dialog_width)
             val height = resources.getDimensionPixelSize(R.dimen.dialog_height)
-            dialog!!.window!!.setLayout(width, height)
+            //dialog!!.window!!.setLayout(width, height)
 
             adapter = LanguageAdapter(context!!, click)
-
+            adapter.addLanguages(languages)
             binding.recycler.apply {
                 setHasFixedSize(true)
                 adapter = this@LanguagePicker.adapter
                 layoutManager = LinearLayoutManager(context)
             }
-            adapter.addLanguages(languages)
         }
     }
 }

@@ -28,7 +28,7 @@ data class TextTranslation(
     val source: String,
     val target: String,
     val output: String
-):BaseKt() {
+) : BaseKt() {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -31,7 +31,6 @@ public class WordRepository extends Repository<String, Word> implements WordData
     private final WordDataSource firestore;
     private final WordDataSource remote;
     private final WordDataSource vision;
-    //private final Map<Word, Boolean> flags;
 
     @Inject
     WordRepository(RxMapper rx,
@@ -51,7 +50,6 @@ public class WordRepository extends Repository<String, Word> implements WordData
         this.firestore = firestore;
         this.remote = remote;
         this.vision = vision;
-        //flags = Maps.newConcurrentMap();
     }
 
     @Override

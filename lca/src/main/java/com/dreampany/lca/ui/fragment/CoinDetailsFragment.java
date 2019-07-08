@@ -89,7 +89,7 @@ public class CoinDetailsFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.coinDetails(getAppContext());
+        return Constants.Companion.coinDetails(getAppContext());
     }
 
     @Override

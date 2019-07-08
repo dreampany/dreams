@@ -100,7 +100,7 @@ public class FavoritesFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.favoriteCoins(getAppContext());
+        return Constants.Companion.favoriteCoins(getAppContext());
     }
 
 

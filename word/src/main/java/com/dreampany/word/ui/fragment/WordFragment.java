@@ -28,6 +28,7 @@ import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
+import com.dreampany.word.data.model.WordRequest;
 import com.dreampany.word.databinding.ContentDefinitionBinding;
 import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRelatedBinding;
@@ -39,6 +40,7 @@ import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.SearchViewModel;
 import com.dreampany.word.vm.WordViewModel;
+import com.dreampany.word.vm.WordViewModelKt;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -69,6 +71,7 @@ public class WordFragment extends BaseMenuFragment {
     private ContentDefinitionBinding bindDef;
     WordViewModel vm;
     SearchViewModel searchVm;
+    WordViewModelKt vmkt;
     Word parent;
 
     @Inject
@@ -179,13 +182,18 @@ public class WordFragment extends BaseMenuFragment {
         ViewUtil.setBackground(binding.layoutBottom.layoutExpandable, color.getPrimaryId());
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
+        vmkt = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
         vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
         vm.setTask(uiTask);
 
         vm.observeUiState(this, this::processUiState);
+        vmkt.observeUiState(this, this::processUiState);
         vm.observeOutput(this, this::processResponse);
+        vmkt.observeOutput(this, this::processResponse);
         searchVm.observeUiState(this, this::processUiState);
+        vmkt.observeUiState(this, this::processUiState);
         searchVm.observeOutput(this, this::processResponse);
+        vmkt.observeOutput(this, this::processResponse);
     }
 
     private void processUiState(UiState state) {
@@ -380,8 +388,10 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void searchWord(String word) {
-        //searchView.clearFocus();
-        searchVm.find(word.toLowerCase(), true);
+        WordRequest request = new WordRequest();
+        request.setInputWord(word.toLowerCase());
+        request.setProgress(true);
+        vmkt.load(request);
         AndroidUtil.speak(word);
     }
 

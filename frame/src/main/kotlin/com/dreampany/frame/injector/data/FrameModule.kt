@@ -4,10 +4,11 @@ import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.source.api.StateDataSource
 import com.dreampany.frame.data.source.api.StoreDataSource
-import com.dreampany.frame.data.source.local.StateDao
-import com.dreampany.frame.data.source.local.StoreDao
+import com.dreampany.frame.data.source.dao.StateDao
+import com.dreampany.frame.data.source.dao.StoreDao
 import com.dreampany.frame.data.source.room.StateRoomDataSource
 import com.dreampany.frame.data.source.room.StoreRoomDataSource
+import com.dreampany.frame.injector.network.HttpModule
 import com.dreampany.frame.misc.Room
 import dagger.Module
 import dagger.Provides
@@ -20,14 +21,15 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  */
 
-@Module(includes = [SupportModule::class, DatabaseModule::class, FirebaseModule::class])
+@Module(includes = [SupportModule::class, DatabaseModule::class, FirebaseModule::class, HttpModule::class])
 class FrameModule {
 
     @Singleton
     @Provides
     @Room
     fun provideStateRoomDataSource(mapper: StateMapper,
-                                    dao: StateDao): StateDataSource {
+                                    dao: StateDao
+    ): StateDataSource {
         return StateRoomDataSource(mapper, dao)
     }
 
@@ -35,7 +37,8 @@ class FrameModule {
     @Provides
     @Room
     fun provideStoreRoomDataSource(mapper: StoreMapper,
-                                    dao: StoreDao): StoreDataSource {
+                                    dao: StoreDao
+    ): StoreDataSource {
         return StoreRoomDataSource(mapper, dao)
     }
 }

@@ -22,14 +22,15 @@ class Constants {
         const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
-    companion object Screen {
+    companion object {
         fun lastAppId(context: Context): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
         fun about(context: Context): String = Constants.about(context)
         fun settings(context: Context): String = Constants.settings(context)
         fun license(context: Context): String = Constants.license(context)
 
-        fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+        fun app(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
 
         fun launch(context: Context): String = Constants.launch(context)
         fun navigation(context: Context): String = Constants.navigation(context)
@@ -249,9 +250,9 @@ class Constants {
         val AlertCoin = TimeUnit.MINUTES.toSeconds(30)
         val AlertNews = TimeUnit.MINUTES.toSeconds(30)
 
-        val AlertProfitableCoinMS = TimeUnit.MINUTES.toMillis(30)
+        val AlertProfitableCoinMS = TimeUnit.MINUTES.toMillis(35)
         val AlertCoinMS = TimeUnit.MINUTES.toMillis(30)
-        val AlertNewsMS = TimeUnit.MINUTES.toMillis(30)
+        val AlertNewsMS = TimeUnit.MINUTES.toMillis(25)
     }
 
     object Pref {

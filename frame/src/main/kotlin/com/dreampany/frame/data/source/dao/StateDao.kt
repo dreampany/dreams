@@ -1,9 +1,8 @@
-package com.dreampany.frame.data.source.local
+package com.dreampany.frame.data.source.dao
 
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.frame.data.model.State
-import com.dreampany.frame.data.source.dao.BaseDao
 import io.reactivex.Maybe
 
 
@@ -13,7 +12,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  */
 @Dao
-interface StateDao : BaseDao<State> {
+interface StateDao : BaseDaoKt<State> {
 
     @get:Query("select count(*) from state")
     val count: Int

@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -32,15 +33,18 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.language.LanguagePicker;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
+import com.dreampany.word.data.model.WordRequest;
 import com.dreampany.word.databinding.ContentDefinitionBinding;
 import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRecyclerBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;
 import com.dreampany.word.databinding.FragmentHomeBinding;
+import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.activity.ToolsActivity;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.dreampany.word.ui.enums.UiSubtype;
@@ -48,11 +52,13 @@ import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 import com.dreampany.word.vm.SearchViewModel;
+import com.dreampany.word.vm.WordViewModelKt;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -60,6 +66,7 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import kotlin.Unit;
 import timber.log.Timber;
 
 /**
@@ -89,6 +96,7 @@ public class HomeFragment extends BaseMenuFragment
     private MaterialSearchView searchView;
 
     SearchViewModel searchVm;
+    WordViewModelKt vm;
     WordAdapter adapter;
 
     String query;
@@ -129,6 +137,7 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public void onResume() {
         super.onResume();
+        initLanguageMenuItem();
         searchVm.loadLastSearchWord(true);
     }
 
@@ -143,6 +152,7 @@ public class HomeFragment extends BaseMenuFragment
             MenuItem searchItem = getSearchMenuItem();
             initSearchView(searchView, searchItem);
         }
+        initLanguageMenuItem();
     }
 
     @Override
@@ -150,6 +160,9 @@ public class HomeFragment extends BaseMenuFragment
         switch (item.getItemId()) {
             case R.id.item_search:
                 //searchView.open(item);
+                return true;
+            case R.id.item_language:
+                openLanguagePicker();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -206,14 +219,15 @@ public class HomeFragment extends BaseMenuFragment
     public boolean onQueryTextSubmit(@NotNull String query) {
         Timber.v("onQueryTextSubmit %s", query);
         this.query = query.toLowerCase();
-        searchVm.find(query, true);
+
+        request(query, true, true);
         return super.onQueryTextSubmit(query);
     }
 
     @Override
     public boolean onQueryTextChange(@NotNull String newText) {
         Timber.v("onQueryTextChange %s", newText);
-        this.query = newText;
+        this.query = newText.toLowerCase();
         return super.onQueryTextChange(newText);
     }
 
@@ -269,11 +283,15 @@ public class HomeFragment extends BaseMenuFragment
 
 
         searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
         searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
+        vm.observeUiState(this, this::processUiState);
         searchVm.observeOutputsOfString(this, this::processResponseOfString);
         searchVm.observeOutputs(this, this::processResponse);
+        searchVm.observeOutputs(this, this::processResponse);
         searchVm.observeOutput(this, this::processSingleResponse);
+        vm.observeOutput(this, this::processSingleResponse);
     }
 
     private void initRecycler() {
@@ -308,6 +326,29 @@ public class HomeFragment extends BaseMenuFragment
         searchView.setOnQueryTextListener(this);
 
         searchVm.suggests(false);
+    }
+
+    private void initLanguageMenuItem() {
+        Language language = vm.getCurrentLanguage();
+        MenuItem item = findMenuItemById(R.id.item_language);
+        if (item != null) {
+            item.setTitle(language.getCode());
+        }
+    }
+
+    private void openLanguagePicker() {
+        ArrayList<Language> languages = vm.getLanguages();
+
+        LanguagePicker picker = LanguagePicker.Companion.newInstance(getString(R.string.select_language), languages);
+        picker.setCallback(language -> {
+            vm.setCurrentLanguage(language);
+            initLanguageMenuItem();
+            onRefresh();
+            request(query, true, true);
+            picker.dismissAllowingStateLoss();
+            return Unit.INSTANCE;
+        });
+        picker.show(getFragmentManager(), Constants.Tag.LANGUAGE_PICKER);
     }
 
     private void processUiState(UiState state) {
@@ -396,7 +437,7 @@ public class HomeFragment extends BaseMenuFragment
     private void processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus();
-            searchVm.find(query.toLowerCase(), true);
+            request(query, true, true);
             return;
         }
     }
@@ -529,7 +570,7 @@ public class HomeFragment extends BaseMenuFragment
     private void searchWord(String word) {
         query = word.toLowerCase();
         searchView.clearFocus();
-        searchVm.find(query, true);
+        request(query, true, true);
         AndroidUtil.speak(query);
     }
 
@@ -546,5 +587,20 @@ public class HomeFragment extends BaseMenuFragment
         if (item != null) {
             AndroidUtil.speak(item.getItem().getId());
         }
+    }
+
+    private void request(String word, boolean important, boolean progress) {
+        boolean translate = vm.needToTranslate();
+        Language language = vm.getCurrentLanguage();
+        String langDir = vm.getLanguageDirection();
+
+        WordRequest request = new WordRequest();
+        request.setInputWord(word);
+        request.setSource(Language.ENGLISH.getCode());
+        request.setTarget(language.getCode());
+        request.setTranslate(translate);
+        request.setImportant(important);
+        request.setProgress(progress);
+        vm.load(request);
     }
 }

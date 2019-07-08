@@ -71,7 +71,7 @@ public class CoinFragment extends BaseStateFragment<BaseFragment> implements Sea
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.coin(getAppContext());
+        return Constants.Companion.coin(getAppContext());
     }
 
     @Override

@@ -61,7 +61,7 @@ public class MoreFragment extends BaseMenuFragment {
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.more(getAppContext());
+        return Constants.Companion.more(getAppContext());
     }
 
     @Override

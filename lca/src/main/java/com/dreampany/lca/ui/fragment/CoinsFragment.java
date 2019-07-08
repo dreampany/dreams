@@ -66,7 +66,7 @@ public class CoinsFragment
         extends BaseMenuFragment
         implements SmartAdapter.Callback<CoinItem> {
 
-    private static final String LOADING = "loading";
+    private static final String NONE = "none";
     private static final String EMPTY = "empty";
 
     @Inject
@@ -77,7 +77,6 @@ public class CoinsFragment
     private SwipeRefreshLayout refresh;
     private ExpandableLayout expandable;
     private RecyclerView recycler;
-    private View empty, filter;
 
     private CoinsViewModel vm;
     private CoinAdapter adapter;
@@ -104,9 +103,8 @@ public class CoinsFragment
     @NonNull
     @Override
     public String getScreen() {
-        return Constants.Screen.coins(getAppContext());
+        return Constants.Companion.coins(getAppContext());
     }
-
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {
@@ -229,7 +227,7 @@ public class CoinsFragment
         setTitle(R.string.coins);
         setSubtitle(TextUtil.getString(getContext(), R.string.coins_total, 0));
         binding = (FragmentCoinsBinding) super.binding;
-        binding.stateful.setStateView(LOADING, LayoutInflater.from(getContext()).inflate(R.layout.item_loading, null));
+        binding.stateful.setStateView(NONE, LayoutInflater.from(getContext()).inflate(R.layout.item_none, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         ViewUtil.setText(this, R.id.text_loading, R.string.loading_coins);
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_coins);
@@ -237,11 +235,8 @@ public class CoinsFragment
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
-        empty = binding.getRoot().findViewById(R.id.empty_view);
-        filter = binding.getRoot().findViewById(R.id.filter_view);
 
         ViewUtil.setSwipe(refresh, this);
-
         UiTask<Coin> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(CoinsViewModel.class);
         vm.setUiCallback(this);
@@ -260,12 +255,14 @@ public class CoinsFragment
 
             @Override
             public void onScrollingAtEnd() {
-                vm.refresh(true, false, false);
+                Timber.v("onScrollingAtEnd");
+                vm.refresh(true, false, true);
             }
 
 
             @Override
             public void onScrolledToBottom() {
+                Timber.v("onScrolledToBottom");
                 vm.loads(adapter.getItemCount(), !adapter.isEmpty(), true);
             }
         };
@@ -295,6 +292,9 @@ public class CoinsFragment
 
     private void processUiState(UiState state) {
         switch (state) {
+            case NONE:
+                binding.stateful.setState(NONE);
+                break;
             case SHOW_PROGRESS:
                 if (!refresh.isRefreshing()) {
                     refresh.setRefreshing(true);

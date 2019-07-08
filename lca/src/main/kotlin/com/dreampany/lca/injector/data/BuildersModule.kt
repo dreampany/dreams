@@ -22,7 +22,6 @@ import com.dreampany.network.manager.NetworkManager
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
@@ -211,10 +210,10 @@ class BuildersModule {
         return IcoRemoteDataSource(network, mapper, service)
     }
 
-    @Provides
+/*    @Provides
     @Singleton
     fun provideHttpClient(context: Context): OkHttpClient {
-/*        val cacheSize = 10 * 1024 * 1024 // 10 MB
+*//*        val cacheSize = 10 * 1024 * 1024 // 10 MB
         val httpCacheDirectory = File(context.getCacheDir(), "http-cache")
         val cache = Cache(httpCacheDirectory, cacheSize.toLong())
 
@@ -229,7 +228,7 @@ class BuildersModule {
                     .header("Cache-Control", cacheControl.toString())
                     .build()
         }
-*/
+*//*
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -240,7 +239,7 @@ class BuildersModule {
             .build()
 
         return httpClient
-    }
+    }*/
 
     @Singleton
     @Provides

@@ -5,7 +5,6 @@ import android.os.Parcel;
 import com.dreampany.frame.misc.Constants;
 
 import java.io.Serializable;
-import java.util.Locale;
 
 /**
  * Created by Roman-372 on 5/8/2019
@@ -16,7 +15,10 @@ import java.util.Locale;
 public enum Language implements Type, Serializable {
 
     ARABIC(Constants.LanguageCode.ARABIC, Constants.LanguageCountry.ARABIC),
-    ENGLISH(Locale.ENGLISH.getLanguage(), Locale.ENGLISH.getCountry());
+    BENGALI(Constants.LanguageCode.BENGALI, Constants.LanguageCountry.BENGALI),
+    FRENCH(Constants.LanguageCode.FRENCH, Constants.LanguageCountry.FRENCH),
+    SPANISH(Constants.LanguageCode.SPANISH, Constants.LanguageCountry.SPANISH),
+    ENGLISH(Constants.LanguageCode.ENGLISH, Constants.LanguageCountry.ENGLISH);
 
     private final String code;
     private final String country;
@@ -60,6 +62,14 @@ public enum Language implements Type, Serializable {
         return name().toLowerCase();
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
     public static final Creator<Language> CREATOR = new Creator<Language>() {
 
         @Override
@@ -78,6 +88,12 @@ public enum Language implements Type, Serializable {
             case 0:
                 return ARABIC;
             case 1:
+                return BENGALI;
+            case 2:
+                return FRENCH;
+            case 3:
+                return SPANISH;
+            case 4:
             default:
                 return ENGLISH;
         }

@@ -7,7 +7,6 @@ import com.dreampany.word.api.wordnik.model.ExampleSearchResults;
 import com.dreampany.word.api.wordnik.model.ExampleUsage;
 import com.dreampany.word.api.wordnik.model.Related;
 import com.dreampany.word.api.wordnik.model.TextPron;
-import com.dreampany.word.api.wordnik.model.WordObject;
 import com.dreampany.word.api.wordnik.model.WordOfTheDay;
 
 import org.apache.commons.collections4.queue.CircularFifoQueue;

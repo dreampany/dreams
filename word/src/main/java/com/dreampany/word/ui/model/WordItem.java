@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
@@ -104,6 +103,14 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         return item.getId().toLowerCase().startsWith(((String) constraint).toLowerCase());
     }
 
+    public void addTranslation(String language, String translatedWord) {
+        translates.put(language, translatedWord);
+    }
+
+    public boolean hasTranslation(String language) {
+        return translates.containsKey(language);
+    }
+
     static abstract class ViewHolder extends BaseItem.ViewHolder {
 
         final WordAdapter adapter;
@@ -126,11 +133,11 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
             super(view, adapter);
-            word.setOnClickListener(super.adapter.getClickListener());
             word = view.findViewById(R.id.text_word);
             partOfSpeech = view.findViewById(R.id.text_part_of_speech);
             pronunciation = view.findViewById(R.id.text_pronunciation);
             //like.setOnClickListener(super.adapter.getClickListener());
+            word.setOnClickListener(super.adapter.getClickListener());
         }
 
         @Override

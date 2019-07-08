@@ -123,4 +123,6 @@
     <string name="error_price_up_input">Wrong price!</string>
     <string name="error_price_down_input">Wrong price!</string>
 
+    <string name="select_currency">Select Currency</string>
+
 </resources>

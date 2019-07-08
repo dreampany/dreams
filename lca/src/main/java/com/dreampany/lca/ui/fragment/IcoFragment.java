@@ -82,7 +82,7 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.ico(getAppContext());
+        return Constants.Companion.ico(getAppContext());
     }
 
     @Override

@@ -40,7 +40,7 @@ public class LicenseFragment extends BaseFragment {
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.license(getAppContext());
+        return Constants.Companion.license(getAppContext());
     }
 
     @Override

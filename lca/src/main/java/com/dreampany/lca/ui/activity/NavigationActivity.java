@@ -81,7 +81,7 @@ public class NavigationActivity
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.navigation(getApplicationContext());
+        return Constants.Companion.navigation(getApplicationContext());
     }
 
     @Override

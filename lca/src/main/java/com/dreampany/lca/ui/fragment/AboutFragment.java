@@ -59,7 +59,7 @@ public class AboutFragment extends BaseFragment {
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.about(getAppContext());
+        return Constants.Companion.about(getAppContext());
     }
 
     @Override

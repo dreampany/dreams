@@ -2,6 +2,7 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.annimon.stream.Stream;
@@ -39,7 +40,7 @@ import io.reactivex.disposables.Disposable;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
+public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> implements NetworkManager.Callback {
 
     private final NetworkManager network;
     private final Pref pref;
@@ -67,14 +68,15 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this);
         super.clear();
     }
 
-    void onResult(Network... networks) {
+    @Override
+    public void onNetworkResult(@NonNull List<Network> networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
-            if (network.isConnected()) {
+            if (network.getConnected()) {
                 state = UiState.ONLINE;
                 Response<List<WordItem>> result = getOutputs().getValue();
                 if (result instanceof Response.Failure) {
@@ -88,7 +90,7 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
     }
 
     public void start() {
-        network.observe(this::onResult, true);
+        network.observe(this, true);
     }
 
 

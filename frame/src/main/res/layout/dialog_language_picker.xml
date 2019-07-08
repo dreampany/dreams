@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <!--    <data>
+
+            <variable
+                name="items"
+                type="androidx.databinding.ObservableArrayList" />
+        </data>-->
+
+    <LinearLayout
+        android:id="@+id/parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <!--        <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="fhsdfds sdfl sdlds ldsf"></TextView>-->
+        <FrameLayout
+            android:layout_width="@dimen/size_250"
+            android:layout_height="@dimen/size_500">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:scrollbars="none"
+                tools:listitem="@layout/item_list" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+</layout>

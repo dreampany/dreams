@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dialog_width">250dp</dimen>
+    <dimen name="dialog_height">500dp</dimen>
+
+    <string name="language_text_format">%s (%s)</string>
+    <string name="language_en">en</string>
+</resources>

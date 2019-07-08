@@ -1,0 +1,77 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "4ad66c9bfdc8c342dcb620711c653c35",
+    "entities": [
+      {
+        "tableName": "TextTranslation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`input` TEXT NOT NULL, `source` TEXT NOT NULL, `target` TEXT NOT NULL, `output` TEXT NOT NULL, `id` TEXT, `time` INTEGER NOT NULL, PRIMARY KEY(`input`, `source`, `target`))",
+        "fields": [
+          {
+            "fieldPath": "input",
+            "columnName": "input",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "target",
+            "columnName": "target",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "output",
+            "columnName": "output",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "input",
+            "source",
+            "target"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_TextTranslation_input_source_target",
+            "unique": true,
+            "columnNames": [
+              "input",
+              "source",
+              "target"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_TextTranslation_input_source_target` ON `${TABLE_NAME}` (`input`, `source`, `target`)"
+          }
+        ],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4ad66c9bfdc8c342dcb620711c653c35')"
+    ]
+  }
+}

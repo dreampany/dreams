@@ -51,4 +51,7 @@
     <string name="action_location">action location</string>
     <string name="action_taxi">action taxi</string>
     <string name="action_change_colors">change style</string>
+
+    <string name="select_language">Select Language</string>
+
 </resources>

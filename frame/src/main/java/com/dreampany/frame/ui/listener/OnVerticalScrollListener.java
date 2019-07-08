@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class OnVerticalScrollListener extends RecyclerView.OnScrollListener {
 
-    private int delay = 10000;
+    private int delay = 3000;
     private boolean scrolling;
     private boolean scrollingCallAtEnd;
     private Handler handler;

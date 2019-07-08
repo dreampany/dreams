@@ -2,6 +2,8 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
+import androidx.annotation.NonNull;
+
 import com.annimon.stream.Stream;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -45,7 +47,7 @@ import timber.log.Timber;
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
+public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> implements NetworkManager.Callback{
 
     private static final long INITIAL_DELAY = Constants.Time.INSTANCE.getWordPeriod();
     private static final long PERIOD = Constants.Time.INSTANCE.getWordPeriod();
@@ -76,13 +78,14 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     @Override
     public void clear() {
-        network.deObserve(this::onResult, true);
+        network.deObserve(this);
         this.uiCallback = null;
         removeUpdateDisposable();
         super.clear();
     }
 
-    void onResult(Network... networks) {
+    @Override
+    public void onNetworkResult(@NonNull List<Network> networks) {
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
             if (network.getConnected()) {
@@ -103,7 +106,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
     }
 
     public void start() {
-        network.observe(this::onResult, true);
+        network.observe(this, true);
     }
 
     public void removeUpdateDisposable() {
@@ -212,7 +215,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
-    public void find(String query, boolean progress) {
+/*    public void find(String query, boolean progress) {
         if (!takeAction(true, getSingleDisposable())) {
             return;
         }
@@ -236,7 +239,8 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);
-    }
+    }*/
+
 
     public void update(boolean progress) {
         Timber.v("update fired");
@@ -366,7 +370,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words, false));
     }
 
-    private Maybe<WordItem> findItemRx(String query) {
+/*    private Maybe<WordItem> findItemRx(String query) {
         return Maybe.create(emitter -> {
             Word word = repo.getItem(query, false);
             Word fullWord = repo.getItemIf(word);
@@ -385,7 +389,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 emitter.onSuccess(result);
             }
         });
-    }
+    }*/
 
     private Maybe<List<WordItem>> getItemsRx(String query) {
         return getSearchItemsRx(query, Constants.Limit.WORD_SEARCH)

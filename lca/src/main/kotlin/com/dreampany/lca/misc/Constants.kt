@@ -250,9 +250,9 @@ class Constants {
         val AlertCoin = TimeUnit.MINUTES.toSeconds(30)
         val AlertNews = TimeUnit.MINUTES.toSeconds(30)
 
-        val AlertProfitableCoinMS = TimeUnit.MINUTES.toMillis(30)
+        val AlertProfitableCoinMS = TimeUnit.MINUTES.toMillis(35)
         val AlertCoinMS = TimeUnit.MINUTES.toMillis(30)
-        val AlertNewsMS = TimeUnit.MINUTES.toMillis(30)
+        val AlertNewsMS = TimeUnit.MINUTES.toMillis(25)
     }
 
     object Pref {

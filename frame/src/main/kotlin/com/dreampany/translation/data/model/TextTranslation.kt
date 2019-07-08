@@ -44,9 +44,4 @@ data class TextTranslation(
     override fun hashCode(): Int {
         return Objects.hashCode(input, source, target)
     }
-
-    fun getIdentifier(): String {
-        return input.plus(source).plus(target)
-    }
-
 }

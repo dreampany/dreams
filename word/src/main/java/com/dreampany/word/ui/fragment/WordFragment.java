@@ -299,8 +299,8 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processRelated(List<String> synonyms, List<String> antonyms) {
-        String synonym = DataUtil.toString(synonyms, Constants.Sep.COMMA_SPACE);
-        String antonym = DataUtil.toString(antonyms, Constants.Sep.COMMA_SPACE);
+        String synonym = DataUtil.joinString(synonyms, Constants.Sep.COMMA_SPACE);
+        String antonym = DataUtil.joinString(antonyms, Constants.Sep.COMMA_SPACE);
 
         if (!DataUtil.isEmpty(synonym)) {
             bindRelated.textSynonym.setText(getString(R.string.synonyms, synonym));
@@ -431,11 +431,11 @@ public class WordFragment extends BaseMenuFragment {
         }
 
         if (singleBuilder.length() > 0) {
-            String text = singleBuilder.toString();
+            String text = singleBuilder.joinString();
             binding.layoutExample.textSingleExample.setText(text);
             setSpan(binding.layoutExample.textSingleExample, text, null);
 
-            text = multipleBuilder.toString();
+            text = multipleBuilder.joinString();
             binding.layoutExample.textMultipleExample.setText(text);
             setSpan(binding.layoutExample.textMultipleExample, text, null);
             binding.layoutExample.layoutExample.setVisibility(View.VISIBLE);

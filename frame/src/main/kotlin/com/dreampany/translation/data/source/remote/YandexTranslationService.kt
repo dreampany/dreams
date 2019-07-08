@@ -1,8 +1,10 @@
 package com.dreampany.translation.data.source.remote
 
 import com.dreampany.translation.data.model.TextTranslationResponse
+import com.dreampany.translation.misc.Constants
 import retrofit2.Call
 import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
@@ -12,12 +14,13 @@ import retrofit2.http.POST
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface YandexTranslateService {
-    @Headers("Connection:close")
-    @POST("/api/v1.5/tr.json/translate")
+interface YandexTranslationService {
+    @FormUrlEncoded
+    @Headers(Constants.Network.HEADER_CONNECTION_CLOSE)
+    @POST(Constants.Yandex.TRANSLATION_END_POINT)
     fun getTranslation(
-        @Field("key") key: String,
-        @Field("text") text: String,
-        @Field("lang") language: String
+        @Field(Constants.Yandex.KEY) key: String,
+        @Field(Constants.Yandex.TEXT) text: String,
+        @Field(Constants.Yandex.LANGUAGE) language: String
     ): Call<TextTranslationResponse>
 }

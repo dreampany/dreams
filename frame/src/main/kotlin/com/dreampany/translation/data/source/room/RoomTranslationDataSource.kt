@@ -1,9 +1,9 @@
-package com.dreampany.translation.data.source.firestore
+package com.dreampany.translation.data.source.room
 
-import com.dreampany.network.manager.NetworkManager
-import com.dreampany.translation.data.misc.TextTranslateMapper
+import com.dreampany.frame.util.DataUtil
+import com.dreampany.translation.data.misc.TextTranslationMapper
 import com.dreampany.translation.data.model.TextTranslation
-import com.dreampany.translation.data.source.api.TextTranslationDataSource
+import com.dreampany.translation.data.source.api.TranslationDataSource
 import io.reactivex.Maybe
 import javax.inject.Singleton
 
@@ -14,21 +14,23 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class TextTranslationFirestoreDataSource
-constructor(
-    val network: NetworkManager,
-    val mapper: TextTranslateMapper
-) : TextTranslationDataSource {
-    override fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class RoomTranslationDataSource constructor(
+    val mapper: TextTranslationMapper,
+    val dao: TextTranslationDao
+) : TranslationDataSource {
 
     override fun isExists(input: String, source: String, target: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getCount(input, source, target) > 0
+    }
+
+    override fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean> {
+        return dao.getCountRx(input, source, target).map {
+            if (it > 0) true else false
+        }
     }
 
     override fun getItem(input: String, source: String, target: String): TextTranslation {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItem(input, source, target)
     }
 
     override fun isEmpty(): Boolean {
@@ -63,12 +65,13 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItem(t: TextTranslation?): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun putItem(t: TextTranslation): Long {
+        val result = dao.insertOrReplace(t)
+        return result
     }
 
-    override fun putItemRx(t: TextTranslation?): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun putItemRx(t: TextTranslation): Maybe<Long> {
+        return dao.insertOrReplaceRx(t)
     }
 
     override fun putItems(ts: MutableList<TextTranslation>?): MutableList<Long> {

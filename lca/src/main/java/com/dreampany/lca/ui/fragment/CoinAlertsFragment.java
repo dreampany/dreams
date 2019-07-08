@@ -97,7 +97,7 @@ public class CoinAlertsFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.coinAlerts(getAppContext());
+        return Constants.Companion.coinAlerts(getAppContext());
     }
 
 

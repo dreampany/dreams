@@ -90,7 +90,7 @@ public class UpcomingIcoFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.icoUpcoming(getAppContext());
+        return Constants.Companion.icoUpcoming(getAppContext());
     }
 
     @Override

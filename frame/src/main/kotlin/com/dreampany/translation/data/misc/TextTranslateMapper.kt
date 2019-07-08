@@ -21,6 +21,6 @@ class TextTranslateMapper
 ) {
 
     fun isExists(translation: TextTranslation): Boolean {
-        return map.contains(translation.getId())
+        return map.contains(translation.getIdentifier())
     }
 }

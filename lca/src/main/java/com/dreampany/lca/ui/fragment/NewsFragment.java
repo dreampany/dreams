@@ -98,7 +98,7 @@ public class NewsFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.news(getAppContext());
+        return Constants.Companion.news(getAppContext());
     }
 
 

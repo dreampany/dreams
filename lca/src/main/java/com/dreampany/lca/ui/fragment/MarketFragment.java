@@ -84,7 +84,7 @@ public class MarketFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.coinMarket(getAppContext());
+        return Constants.Companion.coinMarket(getAppContext());
     }
 
     @Override

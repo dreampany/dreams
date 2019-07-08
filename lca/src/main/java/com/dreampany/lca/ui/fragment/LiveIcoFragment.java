@@ -90,7 +90,7 @@ public class LiveIcoFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.icoLive(getAppContext());
+        return Constants.Companion.icoLive(getAppContext());
     }
 
     @Override

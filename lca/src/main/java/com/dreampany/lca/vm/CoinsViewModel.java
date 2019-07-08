@@ -21,8 +21,8 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.CoinSource;
-import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.enums.Currency;
+import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.data.source.repository.ApiRepository;
 import com.dreampany.lca.data.source.repository.CoinRepository;
@@ -42,7 +42,6 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
-
 
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
@@ -67,8 +66,7 @@ public class CoinsViewModel
     private SmartAdapter.Callback<CoinItem> uiCallback;
 
     private final List<String> currencies;
-    private Currency currentCurrency;
-    //private int currentIndex;
+    //private Currency currentCurrency;
 
     @Inject
     CoinsViewModel(@NotNull Application application,
@@ -87,7 +85,6 @@ public class CoinsViewModel
         this.coinRepo = coinRepo;
         this.formatter = formatter;
         currencies = Collections.synchronizedList(new ArrayList<>());
-        //currentIndex = Constants.Limit.COIN_START_INDEX;
 
         String[] cur = TextUtil.getStringArray(application, R.array.crypto_currencies);
         if (!DataUtil.isEmpty(cur)) {
@@ -99,7 +96,6 @@ public class CoinsViewModel
     public void clear() {
         network.deObserve(this);
         this.uiCallback = null;
-        //currentIndex = Constants.Limit.COIN_START_INDEX;
         super.clear();
     }
 
@@ -130,6 +126,7 @@ public class CoinsViewModel
     }
 
     public void refresh(boolean update, boolean important, boolean progress) {
+        Timber.v("refresh fired");
         if (update) {
             update(important, progress);
             return;
@@ -138,13 +135,18 @@ public class CoinsViewModel
     }
 
     public void loads(boolean important, boolean progress) {
+        Timber.v("loads fired");
         if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
         Currency currency = pref.getCurrency(Currency.USD);
+        Timber.v("loads fired for %s", currency.name());
         Disposable disposable = getRx()
                 .backToMain(getListingRx(currency))
                 .doOnSubscribe(subscription -> {
+                    if (!pref.isLoaded()) {
+                        updateUiState(UiState.NONE);
+                    }
                     if (progress) {
                         postProgress(true);
                     }
@@ -153,7 +155,9 @@ public class CoinsViewModel
                     if (progress) {
                         postProgress(false);
                     }
-                    currentCurrency = currency;
+                    if (!DataUtil.isEmpty(result)) {
+                        pref.commitLoaded();
+                    }
                     Timber.v("Result posting %d", result.size());
                     postResult(Response.Type.GET, result);
                     getEx().postToUi(() -> update(false, false), 3000L);
@@ -174,6 +178,9 @@ public class CoinsViewModel
         Disposable disposable = getRx()
                 .backToMain(getListingRx(currency, index))
                 .doOnSubscribe(subscription -> {
+                    if (!pref.isLoaded()) {
+                        updateUiState(UiState.NONE);
+                    }
                     if (progress) {
                         postProgress(true);
                     }
@@ -182,8 +189,9 @@ public class CoinsViewModel
                     if (progress) {
                         postProgress(false);
                     }
-                    currentCurrency = currency;
-                    Timber.v("Result posting %d", result.size());
+                    if (!DataUtil.isEmpty(result)) {
+                        pref.commitLoaded();
+                    }                    Timber.v("Result posting %d", result.size());
                     postResult(Response.Type.GET, result);
                     //getEx().postToUi(() -> update(false), 2000L);
                 }, error -> {
@@ -196,13 +204,18 @@ public class CoinsViewModel
     }
 
     public void update(boolean important, boolean progress) {
+        Timber.v("update fired");
         if (!takeAction(important, getSingleDisposable())) {
             return;
         }
+        Timber.v("update fired accepted");
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
                 .backToMain(getUpdateItemsIfRx(currency))
                 .doOnSubscribe(subscription -> {
+                    if (!pref.isLoaded()) {
+                        updateUiState(UiState.NONE);
+                    }
                     if (progress) {
                         postProgress(true);
                     }
@@ -211,7 +224,9 @@ public class CoinsViewModel
                     if (progress) {
                         postProgress(false);
                     }
-                    currentCurrency = currency;
+                    if (!DataUtil.isEmpty(result)) {
+                        pref.commitLoaded();
+                    }
                     postResult(Response.Type.UPDATE, result);
                 }, error -> {
                     if (progress) {
@@ -253,6 +268,7 @@ public class CoinsViewModel
 
     /* private api */
     private Maybe<List<CoinItem>> getListingRx(Currency currency) {
+        Timber.v("getListingRx fired for %s", currency.name());
         return coinRepo
                 .getItemsRx(CoinSource.CMC, currency, Constants.Limit.COIN_FULL)
                 .flatMap((Function<List<Coin>, MaybeSource<List<CoinItem>>>) coins -> getItemsRx(currency, coins));
@@ -268,7 +284,8 @@ public class CoinsViewModel
         if (uiCallback == null) {
             return null;
         }
-        List<CoinItem> items = currency.equals(currentCurrency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
+        //List<CoinItem> items = currency.equals(currentCurrency) ? uiCallback.getVisibleItems() : uiCallback.getItems();
+        List<CoinItem> items = uiCallback.getVisibleItems();
         if (!DataUtil.isEmpty(items)) {
             List<String> coinIds = new ArrayList<>();
             for (CoinItem item : items) {

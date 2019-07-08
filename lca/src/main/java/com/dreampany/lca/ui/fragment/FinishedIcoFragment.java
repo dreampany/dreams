@@ -89,7 +89,7 @@ public class FinishedIcoFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.icoFinished(getAppContext());
+        return Constants.Companion.icoFinished(getAppContext());
     }
 
     @Override

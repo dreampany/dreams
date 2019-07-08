@@ -7,6 +7,22 @@ package com.dreampany.frame.data.model
  * Last modified $file.lastModified
  */
 abstract class BaseKt : BaseParcelKt() {
-    private var id: String? = null
-    private var time: Long = 0L
+    abstract var id: String?
+    abstract var time: Long
+
+   /* fun getId(): String? {
+        return id
+    }
+
+    fun getTime(): Long {
+        return time
+    }
+
+    fun setId(id: String?) {
+        this.id = id
+    }
+
+    fun setTime(time: Long) {
+        this.time = time
+    }*/
 }

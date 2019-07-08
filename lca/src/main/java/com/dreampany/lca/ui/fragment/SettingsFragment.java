@@ -53,7 +53,7 @@ public class SettingsFragment extends BaseMenuFragment {
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.settings(Objects.requireNonNull(getAppContext()));
+        return Constants.Companion.settings(Objects.requireNonNull(getAppContext()));
     }
 
     @Override

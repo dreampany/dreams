@@ -21,6 +21,10 @@ constructor(
     val mapper: TextTranslateMapper,
     val service: YandexTranslateService
 ) : TextTranslationDataSource {
+    override fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun isExists(input: String, source: String, target: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -53,7 +57,7 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(input: String, source: String, target: String): Maybe<TextTranslation?> {
+    override fun getItemRx(input: String, source: String, target: String): Maybe<TextTranslation> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

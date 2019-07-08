@@ -142,7 +142,7 @@ public class CoinRepository extends Repository<Long, Coin> implements CoinDataSo
         Maybe<List<Coin>> databaseIf = getDatabaseItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> remoteIf = getRemoteItemsIfRx(source, currency, ids);
         Maybe<List<Coin>> roomAny = room.getItemsRx(source, currency, ids);
-        return concatLastRx(databaseIf, remoteIf, roomAny);
+        return concatLastRx(/*databaseIf,*/ remoteIf, roomAny);
     }
 
     @Override

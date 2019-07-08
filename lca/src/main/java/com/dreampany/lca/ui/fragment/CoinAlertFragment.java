@@ -62,7 +62,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.coinAlert(getAppContext());
+        return Constants.Companion.coinAlert(getAppContext());
     }
 
     @Override

@@ -296,7 +296,7 @@ public class NotifyViewModel {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
         notify.showNotification(title, message, R.drawable.ic_notification, targetClass, task);
-        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Screen.notifyProfitableCoin(application));
+        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Companion.notifyProfitableCoin(application));
     }
 
     private void postResultAlerts(List<CoinAlertItem> items) {
@@ -350,7 +350,7 @@ public class NotifyViewModel {
                 task
         );
 
-        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Screen.notifyAlertCoin(application));
+        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Companion.notifyAlertCoin(application));
     }
 
     private void postResultNews(List<NewsItem> items) {
@@ -382,7 +382,7 @@ public class NotifyViewModel {
                 Constants.Notify.NEWS_CHANNEL_ID,
                 targetClass,
                 task);
-        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Screen.notifyNews(application));
+        getApp().throwAnalytics(Constants.Event.NOTIFICATION, Constants.Companion.notifyNews(application));
     }
 
 

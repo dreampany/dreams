@@ -99,7 +99,7 @@ public class GraphFragment
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.coinGraph(getAppContext());
+        return Constants.Companion.coinGraph(getAppContext());
     }
 
     @Override

@@ -23,7 +23,7 @@ public class Pref extends FramePref {
 
     private final String KEY_NOTIFY_COIN;
     private final String KEY_NOTIFY_NEWS;
-    private final String DEFAULT_FAVORITE_COMMITTED = "default_favorite_committed";
+    private final String LOADED = "coin_loaded";
     private final String COIN_INDEX_TIME = "coin_index_time";
     private final String COIN_TIME = "coin_time";
     private final String ICO_TIME = "ico_time";
@@ -51,12 +51,12 @@ public class Pref extends FramePref {
         return getPublicly(KEY_NOTIFY_NEWS, Boolean.class, true);
     }
 
-    synchronized public void commitDefaultFavorite() {
-        setPrivately(DEFAULT_FAVORITE_COMMITTED, true);
+    public void commitLoaded() {
+        setPrivately(LOADED, true);
     }
 
-    synchronized public boolean isDefaultFavoriteCommitted() {
-        return getPrivately(DEFAULT_FAVORITE_COMMITTED, false);
+    public boolean isLoaded() {
+        return getPrivately(LOADED, false);
     }
 
     synchronized public void clearCoinIndexTime(String source, String currency, int coinIndex) {

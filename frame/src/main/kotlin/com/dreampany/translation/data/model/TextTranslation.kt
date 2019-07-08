@@ -24,6 +24,8 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Parcelize
 data class TextTranslation(
+    override var id: String?,
+    override var time: Long,
     val input: String,
     val source: String,
     val target: String,
@@ -43,7 +45,8 @@ data class TextTranslation(
         return Objects.hashCode(input, source, target)
     }
 
-    fun getId(): String {
+    fun getIdentifier(): String {
         return input.plus(source).plus(target)
     }
+
 }

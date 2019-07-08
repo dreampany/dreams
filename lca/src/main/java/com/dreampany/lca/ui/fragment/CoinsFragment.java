@@ -259,7 +259,6 @@ public class CoinsFragment
                 vm.refresh(true, false, true);
             }
 
-
             @Override
             public void onScrolledToBottom() {
                 Timber.v("onScrolledToBottom");

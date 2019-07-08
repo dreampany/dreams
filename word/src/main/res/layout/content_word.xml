@@ -37,10 +37,24 @@
                 android:textStyle="bold"
                 auto:fontFamily="@font/roboto_slab_bold" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_translation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_word"
+                android:drawablePadding="5dp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text='@{item.translation}'
+                android:textColor="@color/material_black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                auto:fontFamily="@font/roboto_slab_bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_translation"
                 android:layout_alignParentStart="true"
                 android:orientation="horizontal">
 

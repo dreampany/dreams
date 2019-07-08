@@ -76,6 +76,7 @@ class Constants {
         const val WORD = "word"
         const val PART_OF_SPEECH = "part_of_speech"
         const val LAST_SEARCH = "last_search_word"
+        const val LOADED = "loaded"
     }
 
     object Definition {

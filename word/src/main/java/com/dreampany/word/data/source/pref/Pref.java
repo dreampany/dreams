@@ -18,12 +18,18 @@ import javax.inject.Singleton;
 @Singleton
 public class Pref extends FramePref {
 
-
     @Inject
     Pref(Context context) {
         super(context);
     }
 
+    public void commitLoaded() {
+        setPrivately(Constants.Word.LOADED, true);
+    }
+
+    public boolean isLoaded() {
+        return getPrivately(Constants.Word.LOADED, false);
+    }
 
     public void setLastSearchWord(Word word) {
         setPrivately(Constants.Word.LAST_SEARCH, word);

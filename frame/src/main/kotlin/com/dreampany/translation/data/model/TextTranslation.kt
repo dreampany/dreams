@@ -1,6 +1,7 @@
 package com.dreampany.translation.data.model
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.translation.misc.Constants
@@ -31,6 +32,10 @@ data class TextTranslation(
     val target: String,
     val output: String
 ) : BaseKt() {
+
+    @Ignore
+    constructor() : this(null, 0L, "", "", "", "") {
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

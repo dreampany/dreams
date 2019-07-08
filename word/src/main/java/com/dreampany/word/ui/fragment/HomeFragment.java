@@ -80,6 +80,7 @@ public class HomeFragment extends BaseMenuFragment
         MaterialSearchView.OnQueryTextListener,
         MaterialSearchView.SearchViewListener {
 
+    private final String NONE = "none";
     private final String SEARCH = "search";
     private final String EMPTY = "empty";
 
@@ -269,6 +270,7 @@ public class HomeFragment extends BaseMenuFragment
         bindWord = bindFullWord.layoutWord;
         bindDef = bindFullWord.layoutDefinition;
 
+        binding.stateful.setStateView(NONE, LayoutInflater.from(getContext()).inflate(R.layout.item_none, null));
         binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         processUiState(UiState.SEARCH);
@@ -353,6 +355,9 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processUiState(UiState state) {
         switch (state) {
+            case NONE:
+                binding.stateful.setState(NONE);
+                break;
             case SHOW_PROGRESS:
                 if (!binding.layoutRefresh.isRefreshing()) {
                     binding.layoutRefresh.setRefreshing(true);

@@ -23,7 +23,7 @@ public class Pref extends FramePref {
 
     private final String KEY_NOTIFY_COIN;
     private final String KEY_NOTIFY_NEWS;
-    private final String LOADED = "coin_loaded";
+    private final String LOADED = "loaded";
     private final String COIN_INDEX_TIME = "coin_index_time";
     private final String COIN_TIME = "coin_time";
     private final String ICO_TIME = "ico_time";

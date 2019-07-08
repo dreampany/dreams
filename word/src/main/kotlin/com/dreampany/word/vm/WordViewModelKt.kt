@@ -3,6 +3,7 @@ package com.dreampany.word.vm
 import android.app.Application
 import com.annimon.stream.Stream
 import com.dreampany.frame.data.enums.Language
+import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
@@ -10,6 +11,7 @@ import com.dreampany.frame.misc.RxMapper
 import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
+import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.source.repository.TranslationRepository
@@ -51,6 +53,9 @@ class WordViewModelKt @Inject constructor(
         val disposable = rx
             .backToMain(findItemRx(request))
             .doOnSubscribe { subscription ->
+                if (!pref.isLoaded) {
+                    updateUiState(UiState.NONE)
+                }
                 if (request.progress) {
                     postProgress(true)
                 }
@@ -58,6 +63,9 @@ class WordViewModelKt @Inject constructor(
             .subscribe({ result ->
                 if (request.progress) {
                     postProgress(false)
+                }
+                if (!DataUtil.isEmpty(result)) {
+                    pref.commitLoaded()
                 }
                 postResult(Response.Type.SEARCH, result)
                 //getEx().postToUi(() -> update(false), 3000L);
@@ -69,7 +77,6 @@ class WordViewModelKt @Inject constructor(
             })
         addSingleSubscription(disposable)
     }
-
 
     fun getCurrentLanguage(): Language {
         return pref.getLanguage(Language.ENGLISH)
@@ -148,9 +155,13 @@ class WordViewModelKt @Inject constructor(
 
     private fun adjustTranslate(request: WordRequest, item: WordItem) {
         if (request.translate && !item.hasTranslation(request.target)) {
-            val translation = translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
+            val translation =
+                translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
             Timber.v("Translation %s - %s", request.inputWord, translation)
-            //item.addTranslation(request.target!!, translation.output)
+            translation?.let {
+                item.addTranslation(request.target!!, it.output)
+                item.translation = it.output
+            }
         }
     }
 }

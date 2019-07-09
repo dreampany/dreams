@@ -41,6 +41,7 @@ import com.dreampany.word.data.model.WordRequest;
 import com.dreampany.word.databinding.ContentDefinitionBinding;
 import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRecyclerBinding;
+import com.dreampany.word.databinding.ContentRelatedBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;
 import com.dreampany.word.databinding.FragmentHomeBinding;
@@ -90,6 +91,7 @@ public class HomeFragment extends BaseMenuFragment
     private ContentRecyclerBinding bindRecycler;
     private ContentFullWordBinding bindFullWord;
     private ContentWordBinding bindWord;
+    private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
 
     private OnVerticalScrollListener scroller;
@@ -98,7 +100,6 @@ public class HomeFragment extends BaseMenuFragment
     //SearchViewModel searchVm;
     WordViewModelKt vm;
     WordAdapter adapter;
-
     String recentWord;
 
     @Inject
@@ -269,6 +270,7 @@ public class HomeFragment extends BaseMenuFragment
         bindRecycler = binding.layoutRecycler;
         bindFullWord = binding.layoutFullWord;
         bindWord = bindFullWord.layoutWord;
+        bindRelated = bindFullWord.layoutRelated;
         bindDef = bindFullWord.layoutDefinition;
 
         binding.stateful.setStateView(NONE, LayoutInflater.from(getContext()).inflate(R.layout.item_none, null));
@@ -284,14 +286,10 @@ public class HomeFragment extends BaseMenuFragment
         bindWord.imageSpeak.setOnClickListener(this);
         binding.fab.setOnClickListener(this);
 
-
-
-        // searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
         vm.setUiCallback(this);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputsOfString(this, this::processResponseOfString);
-        vm.observeOutputs(this, this::processResponse);
         vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
     }
@@ -505,8 +503,31 @@ public class HomeFragment extends BaseMenuFragment
         recentWord = item.getItem().getId();
         binding.setItem(item);
         bindWord.layoutWord.setVisibility(View.VISIBLE);
+        //processRelated(item.getItem().getSynonyms(), item.getItem().getAntonyms());
         processDefinitions(item.getItem().getDefinitions());
         processUiState(UiState.CONTENT);
+    }
+
+    private void processRelated(List<String> synonyms, List<String> antonyms) {
+        String synonym = DataUtil.joinString(synonyms, Constants.Sep.COMMA_SPACE);
+        String antonym = DataUtil.joinString(antonyms, Constants.Sep.COMMA_SPACE);
+
+        if (!DataUtil.isEmpty(synonym)) {
+            bindRelated.textSynonym.setText(getString(R.string.synonyms, synonym));
+            setSpan(bindRelated.textSynonym, synonym, getString(R.string.synonyms_bold));
+            bindRelated.textSynonym.setVisibility(View.VISIBLE);
+        } else {
+            bindRelated.textSynonym.setVisibility(View.GONE);
+        }
+
+        if (!DataUtil.isEmpty(antonym)) {
+            bindRelated.textAntonym.setText(getString(R.string.antonyms, antonym));
+            setSpan(bindRelated.textAntonym, antonym, getString(R.string.antonyms_bold));
+            bindRelated.textAntonym.setVisibility(View.VISIBLE);
+        } else {
+            bindRelated.textAntonym.setVisibility(View.GONE);
+        }
+        bindRelated.layoutRelated.setVisibility(DataUtil.isEmpty(synonyms) && DataUtil.isEmpty(antonyms) ? View.GONE : View.VISIBLE);
     }
 
     private void processDefinitions(List<Definition> definitions) {

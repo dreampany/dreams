@@ -1,6 +1,7 @@
 package com.dreampany.word.vm
 
 import android.app.Application
+import androidx.fragment.app.Fragment
 import com.annimon.stream.Stream
 import com.dreampany.frame.data.enums.Language
 import com.dreampany.frame.data.enums.UiState
@@ -12,6 +13,7 @@ import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.adapter.SmartAdapter
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
@@ -24,6 +26,7 @@ import com.dreampany.word.data.source.repository.ApiRepository
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.word.ui.model.WordItem
+import com.dreampany.word.util.Util
 import io.reactivex.Maybe
 import timber.log.Timber
 import java.util.ArrayList
@@ -155,6 +158,13 @@ class WordViewModelKt @Inject constructor(
     fun getLanguageDirection(): String {
         val language = getCurrentLanguage()
         return Language.ENGLISH.code + Constants.Sep.HYPHEN + language.code
+    }
+
+    fun share(fragment: Fragment) {
+        val word = task!!.input
+        val subject = word.id
+        val text = Util.getText(word)
+        AndroidUtil.share(fragment, subject, text)
     }
 
     private fun findItemRx(request: WordRequest): Maybe<WordItem> {

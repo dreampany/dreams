@@ -31,12 +31,12 @@ public class Pref extends FramePref {
         return getPrivately(Constants.Word.LOADED, false);
     }
 
-    public void setLastSearchWord(Word word) {
-        setPrivately(Constants.Word.LAST_SEARCH, word);
+    public void setRecentWord(Word word) {
+        setPrivately(Constants.Word.RECENT_WORD, word);
     }
 
-    public Word getLastSearchWord() {
-        return getPrivately(Constants.Word.LAST_SEARCH, Word.class, null);
+    public Word getRecentWord() {
+        return getPrivately(Constants.Word.RECENT_WORD, Word.class, null);
     }
 
     public void setLanguage(Language language) {

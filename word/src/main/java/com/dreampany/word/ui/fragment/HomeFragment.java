@@ -51,7 +51,6 @@ import com.dreampany.word.ui.enums.UiSubtype;
 import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.SearchViewModel;
 import com.dreampany.word.vm.WordViewModelKt;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -96,11 +95,11 @@ public class HomeFragment extends BaseMenuFragment
     private OnVerticalScrollListener scroller;
     private MaterialSearchView searchView;
 
-    SearchViewModel searchVm;
+    //SearchViewModel searchVm;
     WordViewModelKt vm;
     WordAdapter adapter;
 
-    String query;
+    String recentWord;
 
     @Inject
     public HomeFragment() {
@@ -125,6 +124,7 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        adjustTranslationUi(!vm.isDefaultLanguage());
     }
 
     @Override
@@ -139,7 +139,8 @@ public class HomeFragment extends BaseMenuFragment
     public void onResume() {
         super.onResume();
         initLanguageMenuItem();
-        searchVm.loadLastSearchWord(true);
+        //searchVm.loadLastSearchWord(true);
+        request(null, true, true, true);
     }
 
     @Override
@@ -172,7 +173,7 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public void onRefresh() {
         super.onRefresh();
-        processUiState(UiState.HIDE_PROGRESS);
+        //processUiState(UiState.HIDE_PROGRESS);
     }
 
     @Override
@@ -182,7 +183,7 @@ public class HomeFragment extends BaseMenuFragment
                 toggleDefinition();
                 break;
             case R.id.button_favorite:
-                searchVm.toggleFavorite(binding.getItem().getItem());
+                vm.toggleFavorite(binding.getItem().getItem());
                 break;
             case R.id.fab:
                 processFabAction();
@@ -219,16 +220,16 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public boolean onQueryTextSubmit(@NotNull String query) {
         Timber.v("onQueryTextSubmit %s", query);
-        this.query = query.toLowerCase();
+        this.recentWord = query.toLowerCase();
 
-        request(query, true, true);
+        request(query, false, true, true);
         return super.onQueryTextSubmit(query);
     }
 
     @Override
     public boolean onQueryTextChange(@NotNull String newText) {
         Timber.v("onQueryTextChange %s", newText);
-        this.query = newText.toLowerCase();
+        this.recentWord = newText.toLowerCase();
         return super.onQueryTextChange(newText);
     }
 
@@ -284,15 +285,14 @@ public class HomeFragment extends BaseMenuFragment
         binding.fab.setOnClickListener(this);
 
 
-        searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
+
+        // searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
-        searchVm.setUiCallback(this);
-        searchVm.observeUiState(this, this::processUiState);
+        vm.setUiCallback(this);
         vm.observeUiState(this, this::processUiState);
-        searchVm.observeOutputsOfString(this, this::processResponseOfString);
-        searchVm.observeOutputs(this, this::processResponse);
-        searchVm.observeOutputs(this, this::processResponse);
-        searchVm.observeOutput(this, this::processSingleResponse);
+        vm.observeOutputsOfString(this, this::processResponseOfString);
+        vm.observeOutputs(this, this::processResponse);
+        vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
     }
 
@@ -311,7 +311,7 @@ public class HomeFragment extends BaseMenuFragment
                 bindRecycler.recycler,
                 new SmoothScrollLinearLayoutManager(getContext()),
                 new FlexibleItemDecoration(getContext())
-                        .addItemViewType(R.layout.item_word, searchVm.getItemOffset())
+                        .addItemViewType(R.layout.item_word, vm.getItemOffset())
                         .withEdge(true),
                 null,
                 scroller,
@@ -327,7 +327,7 @@ public class HomeFragment extends BaseMenuFragment
         searchView.setOnSearchViewListener(this);
         searchView.setOnQueryTextListener(this);
 
-        searchVm.suggests(false);
+        vm.suggests(false);
     }
 
     private void initLanguageMenuItem() {
@@ -345,8 +345,11 @@ public class HomeFragment extends BaseMenuFragment
         picker.setCallback(language -> {
             vm.setCurrentLanguage(language);
             initLanguageMenuItem();
-            onRefresh();
-            request(query, true, true);
+            adjustTranslationUi(!vm.isDefaultLanguage());
+            if (!vm.isDefaultLanguage()) {
+                //onRefresh();
+                request(recentWord, false, true, true);
+            }
             picker.dismissAllowingStateLoss();
             return Unit.INSTANCE;
         });
@@ -431,7 +434,7 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void toScanMode() {
-        //query = null;
+        //recentWord = null;
         //binding.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp);
     }
 
@@ -442,26 +445,26 @@ public class HomeFragment extends BaseMenuFragment
     private void processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus();
-            request(query, true, true);
+            request(recentWord, false, true, true);
             return;
         }
     }
 
     private void processProgress(boolean loading) {
         if (loading) {
-            searchVm.updateUiState(UiState.SHOW_PROGRESS);
+            vm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
-            searchVm.updateUiState(UiState.HIDE_PROGRESS);
+            vm.updateUiState(UiState.HIDE_PROGRESS);
         }
     }
 
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
-            searchVm.updateUiState(UiState.OFFLINE);
+            vm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            searchVm.updateUiState(UiState.EMPTY);
+            vm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
-            searchVm.updateUiState(UiState.EXTRA);
+            vm.updateUiState(UiState.EXTRA);
         } else if (error instanceof MultiException) {
             for (Throwable e : ((MultiException) error).getErrors()) {
                 processFailure(e);
@@ -499,6 +502,7 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processSingleSuccess(WordItem item) {
         Timber.v("Result Single Word[%s]", item.getItem().getId());
+        recentWord = item.getItem().getId();
         binding.setItem(item);
         bindWord.layoutWord.setVisibility(View.VISIBLE);
         processDefinitions(item.getItem().getDefinitions());
@@ -560,6 +564,10 @@ public class HomeFragment extends BaseMenuFragment
         TextUtil.setSpan(view, items, bold, this::searchWord, this::searchWord);
     }
 
+    private void adjustTranslationUi(boolean visible) {
+        bindWord.textTranslation.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     private void toggleDefinition() {
         if (bindDef.layoutSingleExpandable.isExpanded()) {
             bindDef.layoutSingleExpandable.collapse(true);
@@ -573,10 +581,10 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void searchWord(String word) {
-        query = word.toLowerCase();
+        recentWord = word.toLowerCase();
         searchView.clearFocus();
-        request(query, true, true);
-        AndroidUtil.speak(query);
+        request(recentWord, false, true, true);
+        AndroidUtil.speak(recentWord);
     }
 
     private void openUi(Word item) {
@@ -594,16 +602,16 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
-    private void request(String word, boolean important, boolean progress) {
+    private void request(String word, boolean recentWord, boolean important, boolean progress) {
         boolean translate = vm.needToTranslate();
         Language language = vm.getCurrentLanguage();
-        String langDir = vm.getLanguageDirection();
 
         WordRequest request = new WordRequest();
         request.setInputWord(word);
         request.setSource(Language.ENGLISH.getCode());
         request.setTarget(language.getCode());
         request.setTranslate(translate);
+        request.setRecentWord(recentWord);
         request.setImportant(important);
         request.setProgress(progress);
         vm.load(request);

@@ -349,7 +349,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
 
     private Maybe<WordItem> getLastSearchWordRx() {
         return Maybe.create(emitter -> {
-            Word word = pref.getLastSearchWord();
+            Word word = pref.getRecentWord();
             WordItem result = null;
             if (word != null) {
                 result = getItem(word, true);
@@ -376,7 +376,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
             Word fullWord = repo.getItemIf(word);
             WordItem result = null;
             if (fullWord != null) {
-                pref.setLastSearchWord(fullWord);
+                pref.setRecentWord(fullWord);
                 result = getItem(fullWord, true);
             }
 

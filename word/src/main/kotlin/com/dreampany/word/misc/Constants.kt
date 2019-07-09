@@ -75,7 +75,7 @@ class Constants {
         const val ID = Constants.Key.ID
         const val WORD = "word"
         const val PART_OF_SPEECH = "part_of_speech"
-        const val LAST_SEARCH = "last_search_word"
+        const val RECENT_WORD = "recent_word"
         const val LOADED = "loaded"
     }
 

@@ -10,7 +10,7 @@ import com.dreampany.frame.data.enums.Type;
  * dreampanymail@gmail.com
  */
 public enum UiType implements Type {
-    WORD, OCR, MORE;
+    MORE, WORD, OCR, SITE;
 
     @Override
     public boolean equals(Type type) {
@@ -61,12 +61,14 @@ public enum UiType implements Type {
     public static UiType valueOf(int ordinal) {
         switch (ordinal) {
             case 0:
-                return WORD;
-            case 1:
-                return OCR;
-            case 2:
-            default:
                 return MORE;
+            case 1:
+                return WORD;
+            case 2:
+                return OCR;
+            case 3:
+            default:
+                return SITE;
         }
     }
 }

@@ -44,6 +44,7 @@ import com.dreampany.word.databinding.ContentRecyclerBinding;
 import com.dreampany.word.databinding.ContentRelatedBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;
+import com.dreampany.word.databinding.ContentYandexTranslationBinding;
 import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.activity.ToolsActivity;
@@ -93,14 +94,14 @@ public class HomeFragment extends BaseMenuFragment
     private ContentWordBinding bindWord;
     private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
+    private ContentYandexTranslationBinding bindYandex;
 
     private OnVerticalScrollListener scroller;
     private MaterialSearchView searchView;
 
-    //SearchViewModel searchVm;
-    WordViewModelKt vm;
-    WordAdapter adapter;
-    String recentWord;
+    private WordViewModelKt vm;
+    private WordAdapter adapter;
+    private String recentWord;
 
     @Inject
     public HomeFragment() {
@@ -140,7 +141,6 @@ public class HomeFragment extends BaseMenuFragment
     public void onResume() {
         super.onResume();
         initLanguageMenuItem();
-        //searchVm.loadLastSearchWord(true);
         request(null, true, true, true);
     }
 
@@ -195,6 +195,9 @@ public class HomeFragment extends BaseMenuFragment
             case R.id.text_word:
                 openUi(bindWord.getItem().getItem());
                 break;
+            case R.id.layout_yandex:
+                openYandexSite();
+                break;
         }
     }
 
@@ -202,7 +205,7 @@ public class HomeFragment extends BaseMenuFragment
     public boolean onItemClick(View view, int position) {
         if (position != RecyclerView.NO_POSITION) {
             WordItem item = adapter.getItem(position);
-            openUi(item.getItem());
+            // openUi(item.getItem());
             return true;
         }
         return false;
@@ -272,12 +275,12 @@ public class HomeFragment extends BaseMenuFragment
         bindWord = bindFullWord.layoutWord;
         bindRelated = bindFullWord.layoutRelated;
         bindDef = bindFullWord.layoutDefinition;
+        bindYandex = bindFullWord.layoutYandex;
 
         binding.stateful.setStateView(NONE, LayoutInflater.from(getContext()).inflate(R.layout.item_none, null));
         binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         processUiState(UiState.SEARCH);
-        //ViewUtil.setText(this, R.id.text_empty, R.string.empty_search_words);
 
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         bindDef.toggleDefinition.setOnClickListener(this);
@@ -285,6 +288,8 @@ public class HomeFragment extends BaseMenuFragment
         bindWord.textWord.setOnClickListener(this);
         bindWord.imageSpeak.setOnClickListener(this);
         binding.fab.setOnClickListener(this);
+        bindYandex.textYandexPowered.setOnClickListener(this);
+
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
         vm.setUiCallback(this);
@@ -636,5 +641,13 @@ public class HomeFragment extends BaseMenuFragment
         request.setImportant(important);
         request.setProgress(progress);
         vm.load(request);
+    }
+
+    public void openYandexSite() {
+        UiTask<?> outTask = new UiTask<>(true);
+        outTask.setComment(Constants.Translation.YANDEX_URL);
+        outTask.setUiType(UiType.SITE);
+        outTask.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, outTask);
     }
 }

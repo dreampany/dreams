@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <TextView
-        android:id="@+id/textYandexTranslation"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_yandex_powered"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text=""
-        android:textColor="@color/black"
-        android:textStyle="bold" />
+        android:text="@string/yandex_powered"
+        android:textColor="@color/material_black"
+        android:textSize="20sp"
+        auto:fontFamily="@font/roboto_slab_bold" />
 </layout>

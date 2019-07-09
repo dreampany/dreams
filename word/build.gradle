@@ -12,8 +12,8 @@ android {
         applicationId 'com.dreampany.word'
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 48
-        versionName '0.4.8'
+        versionCode 49
+        versionName '0.4.9'
 
         multiDexEnabled true
 
@@ -132,7 +132,7 @@ dependencies {
     implementation project(':frame')
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02'
     kapt 'androidx.room:room-compiler:2.1.0'
 
     /* dagger */

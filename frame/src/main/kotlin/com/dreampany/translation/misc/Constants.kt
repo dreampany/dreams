@@ -15,6 +15,7 @@ class Constants {
     }
 
     object Yandex {
+        const val URL = "http://translate.yandex.com/"
         const val TRANSLATE_BASE_URL = "https://translate.yandex.net"
         const val TRANSLATE_API_KEY_ROMAN_BJIT_QURAN =
             "trnsl.1.1.20190510T101322Z.98458679b6c802ad.8fa66e27efd6ea413c6d7c6655aa5726cd295608"

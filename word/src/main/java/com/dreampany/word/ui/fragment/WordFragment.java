@@ -36,11 +36,14 @@ import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRelatedBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;
+import com.dreampany.word.databinding.ContentYandexTranslationBinding;
 import com.dreampany.word.databinding.FragmentWordBinding;
 import com.dreampany.word.misc.Constants;
+import com.dreampany.word.ui.activity.ToolsActivity;
+import com.dreampany.word.ui.enums.UiSubtype;
+import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.WordViewModel;
 import com.dreampany.word.vm.WordViewModelKt;
 
 import org.jetbrains.annotations.NotNull;
@@ -72,8 +75,8 @@ public class WordFragment extends BaseMenuFragment {
     private ContentWordBinding bindWord;
     private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
-   // private WordViewModel vm;
-    private WordViewModelKt vmkt;
+    private ContentYandexTranslationBinding bindYandex;
+    private WordViewModelKt vm;
     private String recentWord;
 
     @Inject
@@ -94,8 +97,7 @@ public class WordFragment extends BaseMenuFragment {
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
-        adjustTranslationUi(!vmkt.isDefaultLanguage());
-        //vm.load(recentWord, true, true);
+        adjustTranslationUi(!vm.isDefaultLanguage());
     }
 
     @Override
@@ -106,6 +108,7 @@ public class WordFragment extends BaseMenuFragment {
     @Override
     public void onResume() {
         super.onResume();
+        initLanguageMenuItem();
         request(recentWord, true, true, true);
     }
 
@@ -113,6 +116,8 @@ public class WordFragment extends BaseMenuFragment {
     public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         MenuItem shareItem = findMenuItemById(R.id.item_share);
         MenuTint.colorMenuItem(shareItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+
+        initLanguageMenuItem();
     }
 
     @Override
@@ -122,7 +127,7 @@ public class WordFragment extends BaseMenuFragment {
                 openLanguagePicker();
                 return true;
             case R.id.item_share:
-                vmkt.share(this);
+                vm.share(this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -143,7 +148,7 @@ public class WordFragment extends BaseMenuFragment {
                 break;
             case R.id.text_simple_word:
                 String text = ViewUtil.getText(v);
-                vmkt.speak(text);
+                vm.speak(text);
                 break;
             case R.id.toggle_definition:
                 toggleDefinition();
@@ -155,7 +160,10 @@ public class WordFragment extends BaseMenuFragment {
                 //closeBottom();
                 break;
             case R.id.button_favorite:
-                vmkt.toggleFavorite(binding.getItem().getItem());
+                vm.toggleFavorite(binding.getItem().getItem());
+                break;
+            case R.id.layout_yandex:
+                openYandexSite();
                 break;
         }
     }
@@ -172,12 +180,14 @@ public class WordFragment extends BaseMenuFragment {
         bindWord = bindFullWord.layoutWord;
         bindRelated = bindFullWord.layoutRelated;
         bindDef = bindFullWord.layoutDefinition;
+        bindYandex = bindFullWord.layoutYandex;
 
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         bindDef.toggleDefinition.setOnClickListener(this);
         bindWord.buttonFavorite.setOnClickListener(this);
         bindWord.textWord.setOnClickListener(this);
         bindWord.imageSpeak.setOnClickListener(this);
+        bindYandex.textYandexPowered.setOnClickListener(this);
 
 /*        ViewUtil.setClickListener(binding.textWord, this);
         binding.layoutDefinition.toggleDefinition.setOnClickListener(this);
@@ -190,19 +200,14 @@ public class WordFragment extends BaseMenuFragment {
         Color color = getColor();
         ViewUtil.setBackground(binding.layoutBottom.layoutExpandable, color.getPrimaryId());
 
-        vmkt = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
-        //vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
-        vmkt.setTask(uiTask);
-        //vm.setTask(uiTask);
-
-        //vm.observeUiState(this, this::processUiState);
-        vmkt.observeUiState(this, this::processUiState);
-        //vm.observeOutput(this, this::processResponse);
-        vmkt.observeOutput(this, this::processResponse);
+        vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
+        vm.setTask(uiTask);
+        vm.observeUiState(this, this::processUiState);
+        vm.observeOutput(this, this::processResponse);
     }
 
     private void initLanguageMenuItem() {
-        Language language = vmkt.getCurrentLanguage();
+        Language language = vm.getCurrentLanguage();
         MenuItem item = findMenuItemById(R.id.item_language);
         if (item != null) {
             item.setTitle(language.getCode());
@@ -210,14 +215,14 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void openLanguagePicker() {
-        ArrayList<Language> languages = vmkt.getLanguages();
+        ArrayList<Language> languages = vm.getLanguages();
 
         LanguagePicker picker = LanguagePicker.Companion.newInstance(getString(R.string.select_language), languages);
         picker.setCallback(language -> {
-            vmkt.setCurrentLanguage(language);
+            vm.setCurrentLanguage(language);
             initLanguageMenuItem();
-            adjustTranslationUi(!vmkt.isDefaultLanguage());
-            if (!vmkt.isDefaultLanguage()) {
+            adjustTranslationUi(!vm.isDefaultLanguage());
+            if (!vm.isDefaultLanguage()) {
                 //onRefresh();
                 request(recentWord, false, true, true);
             }
@@ -278,19 +283,19 @@ public class WordFragment extends BaseMenuFragment {
 
     private void processProgress(boolean loading) {
         if (loading) {
-            vmkt.updateUiState(UiState.SHOW_PROGRESS);
+            vm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
-            vmkt.updateUiState(UiState.HIDE_PROGRESS);
+            vm.updateUiState(UiState.HIDE_PROGRESS);
         }
     }
 
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
-            vmkt.updateUiState(UiState.OFFLINE);
+            vm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            vmkt.updateUiState(UiState.EMPTY);
+            vm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
-            vmkt.updateUiState(UiState.EXTRA);
+            vm.updateUiState(UiState.EXTRA);
         } else if (error instanceof MultiException) {
             for (Throwable e : ((MultiException) error).getErrors()) {
                 processFailure(e);
@@ -424,6 +429,7 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void searchWord(String word) {
+        recentWord = word.toLowerCase();
         request(recentWord, false, true, true);
         AndroidUtil.speak(word);
     }
@@ -436,8 +442,8 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void request(String word, boolean recentWord, boolean important, boolean progress) {
-        boolean translate = vmkt.needToTranslate();
-        Language language = vmkt.getCurrentLanguage();
+        boolean translate = vm.needToTranslate();
+        Language language = vm.getCurrentLanguage();
 
         WordRequest request = new WordRequest();
         request.setInputWord(word);
@@ -447,7 +453,15 @@ public class WordFragment extends BaseMenuFragment {
         request.setRecentWord(recentWord);
         request.setImportant(important);
         request.setProgress(progress);
-        vmkt.load(request);
+        vm.load(request);
+    }
+
+    public void openYandexSite() {
+        UiTask<?> outTask = new UiTask<>(true);
+        outTask.setComment(Constants.Translation.YANDEX_URL);
+        outTask.setUiType(UiType.SITE);
+        outTask.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, outTask);
     }
 
 /*    private void processExamples(List<String> examples) {

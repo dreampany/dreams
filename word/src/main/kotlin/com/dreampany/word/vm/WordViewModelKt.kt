@@ -136,7 +136,7 @@ class WordViewModelKt @Inject constructor(
         pref.setLanguage(language)
     }
 
-    fun isDefaultLanguage():Boolean {
+    fun isDefaultLanguage(): Boolean {
         return if (Language.ENGLISH == getCurrentLanguage()) true else false
     }
 
@@ -144,7 +144,10 @@ class WordViewModelKt @Inject constructor(
         val result = ArrayList<Language>()
         result.add(Language.ARABIC)
         result.add(Language.BENGALI)
+        result.add(Language.CHINESE)
+        result.add(Language.HINDI)
         result.add(Language.FRENCH)
+        result.add(Language.RUSSIA)
         result.add(Language.SPANISH)
         result.add(Language.ENGLISH)
         return result
@@ -238,13 +241,20 @@ class WordViewModelKt @Inject constructor(
     }
 
     private fun adjustTranslate(request: WordRequest, item: WordItem) {
-        if (request.translate && !item.hasTranslation(request.target)) {
-            val translation = translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
-            Timber.v("Translation %s - %s", request.inputWord, translation)
-            translation?.let {
-                item.addTranslation(request.target!!, it.output)
-                item.translation = it.output
+        var translation: String? = null
+        if (request.translate) {
+            if (item.hasTranslation(request.target)) {
+                translation = item.getTranslationBy(request.target)
+            } else {
+                val textTranslation =
+                    translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
+                Timber.v("Translation %s - %s", request.inputWord, translation)
+                textTranslation?.let {
+                    item.addTranslation(request.target!!, it.output)
+                    translation = it.output
+                }
             }
         }
+        item.translation = translation
     }
 }

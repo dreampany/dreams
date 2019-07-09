@@ -112,4 +112,8 @@ class Constants {
         const val SPACE = Constants.Sep.SPACE
         const val HYPHEN = Constants.Sep.HYPHEN
     }
+
+    object Translation {
+        const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
+    }
 }

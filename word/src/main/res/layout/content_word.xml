@@ -46,9 +46,8 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:text='@{item.translation}'
-                android:textColor="@color/material_black"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:textColor="@color/material_grey800"
+                android:textSize="22sp"
                 auto:fontFamily="@font/roboto_slab_bold" />
 
             <LinearLayout

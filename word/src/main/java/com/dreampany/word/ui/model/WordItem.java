@@ -121,12 +121,12 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         return translations.containsKey(language);
     }
 
-/*    public String getTranslation(String language) {
+    public String getTranslationBy(String language) {
         if (hasTranslation(language)) {
             return translations.get(language);
         }
         return null;
-    }*/
+    }
 
     public String getTranslation() {
 /*        if (hasTranslation(language.get())) {

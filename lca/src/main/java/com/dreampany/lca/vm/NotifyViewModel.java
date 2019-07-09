@@ -95,7 +95,6 @@ public class NotifyViewModel {
         this.formatter = formatter;
         this.notify = new NotifyManager(application);
         prices = Maps.newConcurrentMap();
-        //disposables = new CompositeDisposable();
     }
 
     public BaseApp getApp() {

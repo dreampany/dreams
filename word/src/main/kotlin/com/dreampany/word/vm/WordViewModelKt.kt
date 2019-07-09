@@ -6,23 +6,28 @@ import com.annimon.stream.Stream
 import com.dreampany.frame.data.enums.Language
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
-import com.dreampany.frame.misc.AppExecutors
-import com.dreampany.frame.misc.ResponseMapper
-import com.dreampany.frame.misc.RxMapper
+import com.dreampany.frame.data.model.State
+import com.dreampany.frame.data.source.repository.StateRepository
+import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtil
+import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.source.repository.TranslationRepository
+import com.dreampany.word.data.enums.ItemState
+import com.dreampany.word.data.enums.ItemSubtype
+import com.dreampany.word.data.enums.ItemType
 import com.dreampany.word.data.misc.StateMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.model.WordRequest
 import com.dreampany.word.data.source.pref.Pref
 import com.dreampany.word.data.source.repository.ApiRepository
+import com.dreampany.word.data.source.repository.WordRepository
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.word.ui.model.WordItem
@@ -46,8 +51,10 @@ class WordViewModelKt @Inject constructor(
     val network: NetworkManager,
     val pref: Pref,
     val stateMapper: StateMapper,
-    val repo: ApiRepository,
-    val translationRepo: TranslationRepository
+    val stateRepo: StateRepository,
+    val wordRepo: WordRepository,
+    val translationRepo: TranslationRepository,
+    @Favorite val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm) {
 
     private var uiCallback: SmartAdapter.Callback<WordItem>? = null
@@ -182,8 +189,8 @@ class WordViewModelKt @Inject constructor(
                     result = getItem(request, fullWord, true)
                 }
             } else {
-                val word = repo.getItem(request.inputWord!!, false)
-                val fullWord = repo.getItemIf(word)
+                val word = wordRepo.getItem(request.inputWord!!, false)
+                val fullWord = getItemIf(word)
                 if (fullWord != null) {
                     pref.recentWord = fullWord
                     result = getItem(request, fullWord, true)
@@ -201,12 +208,12 @@ class WordViewModelKt @Inject constructor(
     }
 
     private fun getSuggestionsRx(): Maybe<List<String>> {
-        return repo.allRawWordsRx
+        return wordRepo.getRawWordsRx()
     }
 
     private fun toggleImpl(word: Word): Maybe<WordItem> {
         return Maybe.fromCallable {
-            repo.toggleFavorite(word)
+            toggleFavorite(word.id)
             getItem(null, word, true)
         }
     }
@@ -232,11 +239,11 @@ class WordViewModelKt @Inject constructor(
     }
 
     private fun adjustFavorite(word: Word, item: WordItem) {
-        item.isFavorite = repo.isFavorite(word)
+        item.isFavorite = isFavorite(word)
     }
 
     private fun adjustState(item: WordItem) {
-        val states = repo.getStates(item.item)
+        val states = getStates(item.item)
         Stream.of(states).forEach { state -> item.addState(stateMapper.toState(state.state)) }
     }
 
@@ -256,5 +263,102 @@ class WordViewModelKt @Inject constructor(
             }
         }
         item.translation = translation
+    }
+
+    fun getItemIf(word: Word): Word? {
+        var result = getRoomItemIf(word)
+        if (result == null) {
+            result = getFirestoreItemIf(word)
+        }
+        if (result == null) {
+            result = getRemoteItemIf(word)
+        }
+        return result
+    }
+
+    fun hasState(word: Word, subtype: ItemSubtype): Boolean {
+        return stateRepo.getCountById(word.id, ItemType.WORD.name, subtype.name) > 0
+    }
+
+    fun hasState(word: Word, subtype: ItemSubtype, state: ItemState): Boolean {
+        return stateRepo.getCountById(word.id, ItemType.WORD.name, subtype.name, state.name) > 0
+    }
+
+    fun hasState(id: String, subtype: ItemSubtype, state: ItemState): Boolean {
+        return stateRepo.getCountById(id, ItemType.WORD.name, subtype.name, state.name) > 0
+    }
+
+    fun putState(word: Word, subtype: ItemSubtype, state: ItemState): Long {
+        val s = State(word.id, ItemType.WORD.name, subtype.name, state.name)
+        s.time = TimeUtil.currentTime()
+        return stateRepo.putItem(s)
+    }
+
+    fun putState(id: String, subtype: ItemSubtype, state: ItemState): Long {
+        val s = State(id, ItemType.WORD.name, subtype.name, state.name)
+        s.time = TimeUtil.currentTime()
+        return stateRepo.putItem(s)
+    }
+
+    private fun getRoomItemIf(word: Word): Word? {
+        return if (!hasState(word, ItemSubtype.DEFAULT, ItemState.FULL)) {
+            null
+        } else wordRepo.getRoomItem(word.id, true)
+    }
+
+    private fun getFirestoreItemIf(word: Word): Word? {
+        val result = wordRepo.getFirestoreItem(word.id, true)
+        if (result != null) {
+            Timber.v("Firestore result success")
+            this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL)
+        }
+        return result
+    }
+
+    private fun getRemoteItemIf(word: Word): Word? {
+        val result = wordRepo.getRemoteItem(word.id, true)
+        if (result != null) {
+            this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL)
+            wordRepo.putFirestoreItem(result)
+        }
+        return result
+    }
+
+    fun putItem(word: Word, subtype: ItemSubtype, state: ItemState): Long {
+        var result = wordRepo.putItem(word)
+        if (result != -1L) {
+            result = putState(word, subtype, state)
+        }
+        return result
+    }
+
+    fun toggleFavorite(id: String): Boolean {
+        val favorite = hasState(id, ItemSubtype.DEFAULT, ItemState.FAVORITE)
+        if (favorite) {
+            removeState(id, ItemSubtype.DEFAULT, ItemState.FAVORITE)
+            favorites.put(id, false)
+        } else {
+            putState(id, ItemSubtype.DEFAULT, ItemState.FAVORITE)
+            favorites.put(id, true)
+        }
+        return favorites.get(id)
+    }
+
+    fun removeState(id: String, subtype: ItemSubtype, state: ItemState): Int {
+        val s = State(id, ItemType.WORD.name, subtype.name, state.name)
+        s.time = TimeUtil.currentTime()
+        return stateRepo.delete(s)
+    }
+
+    fun isFavorite(word: Word): Boolean {
+        if (!favorites.contains(word.id)) {
+            val favorite = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE)
+            favorites.put(word.id, favorite)
+        }
+        return favorites.get(word.id)
+    }
+
+    fun getStates(word: Word): List<State> {
+        return stateRepo.getItems(word.id, ItemType.WORD.name, ItemSubtype.DEFAULT.name)
     }
 }

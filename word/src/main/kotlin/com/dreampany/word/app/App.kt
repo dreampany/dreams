@@ -112,12 +112,12 @@ class App : BaseApp() {
         if (pref.hasNotification()) {
             job.create(
                 Constants.Tag.NOTIFY_SERVICE,
-                NotifyService::class.java,
+                NotifyService::class,
                 Constants.Delay.Notify.toInt(),
                 Constants.Period.Notify.toInt()
             )
         } else {
-            job.cancel(NotifyService::class.java)
+            job.cancel(Constants.Tag.NOTIFY_SERVICE)
         }
     }
 

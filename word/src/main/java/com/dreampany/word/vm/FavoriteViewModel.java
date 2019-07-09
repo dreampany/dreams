@@ -2,8 +2,12 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
+import com.annimon.stream.Stream;
 import com.dreampany.frame.data.model.Response;
+import com.dreampany.frame.data.model.State;
+import com.dreampany.frame.data.source.repository.StateRepository;
 import com.dreampany.frame.misc.AppExecutors;
+import com.dreampany.frame.misc.Favorite;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
@@ -14,9 +18,13 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
+import com.dreampany.word.data.enums.ItemState;
+import com.dreampany.word.data.enums.ItemSubtype;
+import com.dreampany.word.data.enums.ItemType;
+import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.pref.Pref;
-import com.dreampany.word.data.source.repository.ApiRepository;
+import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
 
@@ -37,9 +45,11 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
 
     private final NetworkManager network;
     private final Pref pref;
-    private final ApiRepository repo;
+    private final WordMapper mapper;
+    private final StateRepository stateRepo;
+    private final WordRepository wordRepo;
+    private final SmartMap<String, Boolean> favorites;
     private SmartAdapter.Callback<WordItem> uiCallback;
-    private Disposable updateDisposable;
 
     @Inject
     FavoriteViewModel(Application application,
@@ -48,11 +58,17 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
                       ResponseMapper rm,
                       NetworkManager network,
                       Pref pref,
-                      ApiRepository repo) {
+                      WordMapper mapper,
+                      StateRepository stateRepo,
+                      WordRepository wordRepo,
+                      @Favorite SmartMap<String, Boolean> favorites) {
         super(application, rx, ex, rm);
         this.network = network;
         this.pref = pref;
-        this.repo = repo;
+        this.mapper = mapper;
+        this.stateRepo = stateRepo;
+        this.wordRepo = wordRepo;
+        this.favorites = favorites;
     }
 
     @Override
@@ -144,7 +160,7 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
             }
             items = null;
             if (!DataUtil.isEmpty(wordIds)) {
-                List<Word> words = repo.getItemsIf(wordIds);
+                List<Word> words = wordRepo.getItemsRx(wordIds).blockingGet();
                 if (!DataUtil.isEmpty(words)) {
                     items = getItems(words);
                 }
@@ -167,7 +183,7 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
 
     private List<WordItem> getFavoriteItems() {
         List<WordItem> result = new ArrayList<>();
-        List<Word> real = repo.getFavorites();
+        List<Word> real = getFavorites();
         if (real == null) {
             real = new ArrayList<>();
         }
@@ -205,13 +221,13 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
 
     private Maybe<WordItem> toggleImpl(Word word) {
         return Maybe.fromCallable(() -> {
-            repo.toggleFavorite(word);
+            toggleFavorite(word);
             return getItem(word);
         });
     }
 
     private void adjustFavorite(Word word, WordItem item) {
-        item.setFavorite(repo.isFavorite(word));
+        item.setFavorite(isFavorite(word));
     }
 
     private WordItem getItem(Word word) {
@@ -235,147 +251,34 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
         return items;
     }
 
-
-/*
-    public void loads(boolean fresh) {
-        if (!takeAction(fresh, getMultipleDisposable())) {
-            updateVisibleItems();
-            return;
-        }
-        Disposable disposable = getRx()
-                .backToMain(getItemsRx())
-                .doOnSubscribe(subscription -> {
-                    postProgress(true);
-                })
-                .subscribe(result -> {
-                    postProgress(false);
-                    //postResult(result);
-                }, error -> {
-                    //postFailureMultiple(new MultiException(error, new ExtraException()));
-                });
-        addMultipleSubscription(disposable);
-        updateVisibleItems();
+    public List<Word> getFavorites() {
+        List<State> states = stateRepo.getItems(ItemType.WORD.name(), ItemSubtype.DEFAULT.name(), ItemState.FAVORITE.name());
+        return getItemsOfStatesIf(states);
     }
 
-    public void update() {
-        if (hasDisposable(updateDisposable)) {
-            Timber.v("Updater Running...");
-            return;
+    private List<Word> getItemsOfStatesIf(List<State> states) {
+        if (DataUtil.isEmpty(states)) {
+            return null;
         }
-        updateDisposable = getRx()
-                .backToMain(updateItemInterval())
-                .subscribe(result -> {
-                    postProgress(false);
-                    //postResult(result);
-                }, this::postFailure);
-        addSubscription(updateDisposable);
-    }
-
-    public void updateVisibleItems() {
-        if (hasDisposable(updateVisibleItemsDisposable)) {
-            return;
-        }
- *//*       updateVisibleItemsDisposable = getRx()
-                .backToMain(getVisibleItemsRx())
-                .subscribe(this::postResult, error -> {
-
-                });
-        addSubscription(updateVisibleItemsDisposable);*//*
-    }
-
-    public void toggle(Word word) {
-        if (hasSingleDisposable()) {
-            return;
-        }
-        Disposable disposable = getRx()
-                .backToMain(toggleImpl(word))
-                .subscribe(this::postFavorite, this::postFailure);
-        addSingleSubscription(disposable);
-    }
-
-    private Maybe<List<WordItem>> getVisibleItemsRx() {
-        return Maybe.fromCallable(() -> {
-            List<WordItem> items = uiCallback.getVisibleItems();
-            if (!DataUtil.isEmpty(items)) {
-                for (WordItem item : items) {
-                    item.setItem(repo.getItem(item.getItem().getId(), true));
-                    adjustState(item);
-                    adjustFlag(item);
-                }
+        List<Word> result = new ArrayList<>(states.size());
+        Stream.of(states).forEach(state -> {
+            Word item = mapper.toItem(state, wordRepo);
+            if (item != null) {
+                result.add(item);
             }
-            return items;
         });
+        return result;
     }
 
-    private Maybe<List<WordItem>> getItemsRx() {
-
-        return Maybe.empty();
-        *//*        return repo.getFlagsRx()
-                .onErrorResumeNext(Maybe.empty())
-                .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) this::getItemsRx);*//*
-    }
-
-    private Maybe<WordItem> toggleImpl(Word word) {
-        return Maybe.fromCallable(() -> {
-            //repo.toggleFlag(word);
-            return getItem(word);
-        });
-    }
-
-    private Maybe<List<WordItem>> getItemsRx(List<Word> items) {
-        return Flowable.fromIterable(items)
-                .map(this::getItem)
-                .toList()
-                .toMaybe();
-    }
-
-    private Flowable<WordItem> updateItemInterval() {
-        Flowable<WordItem> flowable = Flowable
-                .interval(initialDelay, period, TimeUnit.MILLISECONDS, getRx().io())
-                .map(tick -> {
-                    WordItem next = null;
-                    if (uiCallback != null) {
-                        List<WordItem> items = uiCallback.getVisibleItems();
-                        if (!DataUtil.isEmpty(items)) {
-                            for (WordItem item : items) {
-  *//*                              if (!repo.hasState(item.getItemRx(), ItemState.STATE, ItemSubstate.FULL)) {
-                                    Timber.d("Next Item to updateVisibleItemIf %s", item.getItemRx().getWord());
-                                    getEx().postToUi(() -> postProgress(true));
-                                    next = updateItemRx(item.getItemRx()).blockingGet();
-                                    break;
-                                }*//*
-                            }
-                        }
-                    }
-                    return next;
-                });
-        return flowable;
-    }
-
-    private Maybe<WordItem> updateItemRx(Word item) {
-        return repo.getItemRx(item.getId(), true).map(this::getItem);
-    }
-
-    private WordItem getItem(Word word) {
-        SmartMap<String, WordItem> map = getUiMap();
-        WordItem item = map.get(word.getId());
-        if (item == null) {
-            item = WordItem.getSimpleItem(word);
-            map.put(word.getId(), item);
+    private boolean isFavorite(Word word) {
+        if (!favorites.contains(word.getId())) {
+            boolean favorite = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE);
+            favorites.put(word.getId(), favorite);
         }
-        item.setItem(word);
-        adjustState(item);
-        adjustFlag(item);
-        return item;
+        return favorites.get(word.getId());
     }
 
-    private void adjustState(WordItem item) {
-        //List<State> states = repo.getStates(item.getItemRx(), ItemState.STATE);
-        // Stream.of(states).forEach(state -> item.addState(stateMapper.toState(state.getState()), stateMapper.toSubstate(state.getSubstate())));
+    private boolean hasState(Word word, ItemSubtype subtype,  ItemState state) {
+        return stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name(), state.name()) > 0;
     }
-
-    private void adjustFlag(WordItem item) {
-        //boolean flagged = repo.isFavorite(item.getItemRx());
-        //item.setFavorite(flagged);
-    }*/
 }

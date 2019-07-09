@@ -19,7 +19,7 @@ public class SmartMap<K, V> {
     private Map<K, V> map;
 
     private SmartMap() {
-        map = Maps.newHashMap();
+        map = Maps.newConcurrentMap();
     }
 
     public static <K, V>  SmartMap<K, V> newMap() {

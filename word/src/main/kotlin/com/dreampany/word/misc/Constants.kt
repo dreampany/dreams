@@ -98,7 +98,7 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toSeconds(3)
+        val Notify = TimeUnit.MINUTES.toSeconds(5)
     }
 
     object Delay {

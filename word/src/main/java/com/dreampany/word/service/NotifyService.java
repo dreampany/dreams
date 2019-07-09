@@ -19,13 +19,13 @@ public class NotifyService extends BaseJobService {
     NotifyViewModel vm;
     @Override
     protected boolean doJob(@NonNull JobParameters job) {
-        vm.notifyIf();
+        //vm.notifyIf();
         return true;
     }
 
     @Override
     protected boolean done(@NonNull JobParameters job) {
-        vm.clear();
+//        vm.clear();
         return true;
     }
 }

@@ -2,10 +2,7 @@ package com.dreampany.frame.injector.data
 
 import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.model.Store
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
-import com.dreampany.frame.misc.StateAnnote
-import com.dreampany.frame.misc.StoreAnnote
+import com.dreampany.frame.misc.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -45,5 +42,12 @@ class SupportModule {
     @StoreAnnote
     fun provideStoreSmartCache(): SmartCache<String, Store> {
         return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @Favorite
+    fun provideFavoriteSmartMap(): SmartMap<String, Boolean> {
+        return SmartMap.newMap()
     }
 }

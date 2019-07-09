@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.data.source.pref.FramePref;
+import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.misc.Constants;
 
@@ -45,5 +46,13 @@ public class Pref extends FramePref {
 
     public Language getLanguage(Language language) {
         return getPrivately(Constants.Language.LANGUAGE, Language.class, language);
+    }
+
+    public void commitLastWordSyncTime() {
+        setPrivately(Constants.Pref.WORD_SYNC, TimeUtil.currentTime());
+    }
+
+    public long getLastWordSyncTime() {
+        return getPrivately(Constants.Pref.WORD_SYNC, 0L);
     }
 }

@@ -101,11 +101,6 @@ public class StateRepository extends Repository<Long, State> implements StateDat
         return room.getItems(type, subtype);
     }
 
-/*    @Override
-    public List<State> getItemsWithoutId(long id, String type, String subtype) {
-        return room.getItemsWithoutId(id, type, subtype);
-    }*/
-
     @Override
     public State getItemOrderBy(String type, String subtype) {
         return null;
@@ -134,6 +129,16 @@ public class StateRepository extends Repository<Long, State> implements StateDat
     @Override
     public Maybe<List<State>> getItemsOrderByRx(String type, String subtype, long from, long to) {
         return room.getItemsOrderByRx(type, subtype, from, to);
+    }
+
+    @Override
+    public State getItem(String type, String subtype, String state) {
+        return room.getItem(type, subtype, state);
+    }
+
+    @Override
+    public Maybe<State> getItemRx(String type, String subtype, String state) {
+        return room.getItemRx(type, subtype, state);
     }
 
     @Override

@@ -29,7 +29,8 @@ class Constants {
         fun settings(context: Context): String = Constants.settings(context)
         fun license(context: Context): String = Constants.license(context)
 
-        fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+        fun app(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
 
         fun launch(context: Context): String = Constants.launch(context)
         fun navigation(context: Context): String = Constants.navigation(context)
@@ -98,11 +99,12 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toSeconds(5)
+        val Notify = TimeUnit.MINUTES.toSeconds(3)
     }
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
+        val WordSyncTimeMS = TimeUnit.MINUTES.toMillis(5)
     }
 
     object Sep {
@@ -115,5 +117,9 @@ class Constants {
 
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
+    }
+
+    object Pref {
+        const val WORD_SYNC = "word_sync"
     }
 }

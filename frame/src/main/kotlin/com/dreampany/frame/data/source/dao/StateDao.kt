@@ -51,7 +51,13 @@ interface StateDao : BaseDaoKt<State> {
     fun getItemNotStateOrderByRx(type: String, subtype: String, state: String): Maybe<State>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state and time between :to and :from order by time desc limit 1")
-    fun getItemOrderByRx(type: String, subtype: String, state: String, from: Long, to: Long): Maybe<State>
+    fun getItemOrderByRx(
+        type: String,
+        subtype: String,
+        state: String,
+        from: Long,
+        to: Long
+    ): Maybe<State>
 
     @Query("select * from state limit :limit")
     fun getItems(limit: Int): List<State>
@@ -90,7 +96,12 @@ interface StateDao : BaseDaoKt<State> {
     fun getItemsOrderBy(type: String, subtype: String, state: String, limit: Int): List<State>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state order by time desc limit :limit")
-    fun getItemsOrderByRx(type: String, subtype: String, state: String, limit: Int): Maybe<List<State>>
+    fun getItemsOrderByRx(
+        type: String,
+        subtype: String,
+        state: String,
+        limit: Int
+    ): Maybe<List<State>>
 
     @Query("select * from state where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
     fun getItem(id: String, type: String, subtype: String, state: String): State
@@ -98,11 +109,18 @@ interface StateDao : BaseDaoKt<State> {
     @Query("select * from state where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
     fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<State>
 
+    @Query("select * from state where type = :type and subtype = :subtype and state = :state limit 1")
+    fun getItem(type: String, subtype: String, state: String): State
+
+    @Query("select * from state where type = :type and subtype = :subtype and state = :state limit 1")
+    fun getItemRx(type: String, subtype: String, state: String): Maybe<State>
+
     @Query("select * from state where type = :type and subtype = :subtype")
     fun getItems(type: String, subtype: String): List<State>
 
     @Query("select * from state where type = :type and subtype = :subtype")
     fun getItemsRx(type: String, subtype: String): Maybe<List<State>>
+
 
     @Query("select * from state where type = :type and subtype = :subtype and time between :to and :from order by time desc")
     fun getItemsOrderBy(type: String, subtype: String, from: Long, to: Long): List<State>

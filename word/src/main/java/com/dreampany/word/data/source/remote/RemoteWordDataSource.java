@@ -23,13 +23,13 @@ import java.util.List;
  * dreampanymail@gmail.com
  */
 @Singleton
-public class WordRemoteDataSource implements WordDataSource {
+public class RemoteWordDataSource implements WordDataSource {
 
     private final NetworkManager network;
     private final WordMapper mapper;
     private final WordnikManager wordnik;
 
-    public WordRemoteDataSource(NetworkManager network,
+    public RemoteWordDataSource(NetworkManager network,
                                 WordMapper mapper,
                                 WordnikManager wordnik) {
         this.network = network;

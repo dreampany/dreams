@@ -6,18 +6,18 @@ import com.dreampany.word.injector.vm.ViewModelModule
 import com.dreampany.frame.injector.data.FrameModule
 import com.dreampany.frame.misc.*
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.translation.injector.TranslateModule
+import com.dreampany.translation.injector.TranslationModule
 import com.dreampany.vision.VisionApi
 import com.dreampany.word.api.wordnik.WordnikManager
 import com.dreampany.word.data.misc.WordMapper
 import com.dreampany.word.data.source.api.WordDataSource
 import com.dreampany.word.data.source.assets.WordAssetsDataSource
-import com.dreampany.word.data.source.firestore.WordFirestoreDataSource
-import com.dreampany.word.data.source.remote.WordRemoteDataSource
+import com.dreampany.word.data.source.firestore.FirestoreWordDataSource
+import com.dreampany.word.data.source.remote.RemoteWordDataSource
 import com.dreampany.word.data.source.room.AntonymDao
 import com.dreampany.word.data.source.room.SynonymDao
 import com.dreampany.word.data.source.room.WordDao
-import com.dreampany.word.data.source.room.WordRoomDataSource
+import com.dreampany.word.data.source.room.RoomWordDataSource
 import com.dreampany.word.data.source.vision.WordVisionDataSource
 import dagger.Module
 import dagger.Provides
@@ -30,7 +30,7 @@ import javax.inject.Singleton
  * dreampanymail@gmail.com
  */
 
-@Module(includes = [FrameModule::class, TranslateModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
+@Module(includes = [FrameModule::class, TranslationModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
 class BuildersModule {
     @Singleton
     @Provides
@@ -49,7 +49,12 @@ class BuildersModule {
                                   synonymDao: SynonymDao,
                                   antonymDao: AntonymDao
     ): WordDataSource {
-        return WordRoomDataSource(mapper, dao, synonymDao, antonymDao)
+        return RoomWordDataSource(
+            mapper,
+            dao,
+            synonymDao,
+            antonymDao
+        )
     }
 
     @Singleton
@@ -58,7 +63,7 @@ class BuildersModule {
     fun provideWordFirestoreDataSource(network: NetworkManager,
                                        firestore: RxFirebaseFirestore
     ): WordDataSource {
-        return WordFirestoreDataSource(network, firestore)
+        return FirestoreWordDataSource(network, firestore)
     }
 
     @Singleton
@@ -68,7 +73,7 @@ class BuildersModule {
                                     mapper: WordMapper,
                                     wordnik: WordnikManager
     ): WordDataSource {
-        return WordRemoteDataSource(network, mapper, wordnik)
+        return RemoteWordDataSource(network, mapper, wordnik)
     }
 
     @Singleton

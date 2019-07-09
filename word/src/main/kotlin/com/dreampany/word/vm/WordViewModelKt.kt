@@ -1,8 +1,10 @@
 package com.dreampany.word.vm
 
 import android.app.Application
+import androidx.fragment.app.Fragment
 import com.annimon.stream.Stream
 import com.dreampany.frame.data.enums.Language
+import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
@@ -10,6 +12,9 @@ import com.dreampany.frame.misc.RxMapper
 import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
+import com.dreampany.frame.ui.adapter.SmartAdapter
+import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.source.repository.TranslationRepository
@@ -21,6 +26,7 @@ import com.dreampany.word.data.source.repository.ApiRepository
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.word.ui.model.WordItem
+import com.dreampany.word.util.Util
 import io.reactivex.Maybe
 import timber.log.Timber
 import java.util.ArrayList
@@ -44,6 +50,12 @@ class WordViewModelKt @Inject constructor(
     val translationRepo: TranslationRepository
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm) {
 
+    private var uiCallback: SmartAdapter.Callback<WordItem>? = null
+
+    fun setUiCallback(callback: SmartAdapter.Callback<WordItem>) {
+        this.uiCallback = callback
+    }
+
     fun load(request: WordRequest) {
         if (!takeAction(request.important, singleDisposable)) {
             return
@@ -51,6 +63,9 @@ class WordViewModelKt @Inject constructor(
         val disposable = rx
             .backToMain(findItemRx(request))
             .doOnSubscribe { subscription ->
+                if (!pref.isLoaded) {
+                    updateUiState(UiState.NONE)
+                }
                 if (request.progress) {
                     postProgress(true)
                 }
@@ -59,7 +74,14 @@ class WordViewModelKt @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Response.Type.SEARCH, result)
+                if (!DataUtil.isEmpty(result)) {
+                    pref.commitLoaded()
+                }
+                if (request.recentWord) {
+                    postResult(Response.Type.GET, result)
+                } else {
+                    postResult(Response.Type.SEARCH, result)
+                }
                 //getEx().postToUi(() -> update(false), 3000L);
             }, { error ->
                 if (request.progress) {
@@ -70,6 +92,41 @@ class WordViewModelKt @Inject constructor(
         addSingleSubscription(disposable)
     }
 
+    fun suggests(progress: Boolean) {
+        if (!takeAction(true, multipleDisposable)) {
+            return
+        }
+        val disposable = rx
+            .backToMain<List<String>>(getSuggestionsRx())
+            .doOnSubscribe({ subscription ->
+                if (progress) {
+                    postProgress(true)
+                }
+            })
+            .subscribe({ result ->
+                if (progress) {
+                    postProgress(false)
+                }
+                postResultOfString(Response.Type.SUGGESTS, result)
+            }, { error ->
+                if (progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
+        addMultipleSubscriptionOfString(disposable)
+    }
+
+    fun toggleFavorite(word: Word) {
+        if (hasDisposable(multipleDisposable)) {
+            return
+        }
+        val disposable = rx
+            .backToMain<WordItem>(toggleImpl(word))
+            .subscribe({ result ->
+                postResult(Response.Type.UPDATE, result, false)
+            }, { this.postFailure(it) })
+    }
 
     fun getCurrentLanguage(): Language {
         return pref.getLanguage(Language.ENGLISH)
@@ -79,11 +136,18 @@ class WordViewModelKt @Inject constructor(
         pref.setLanguage(language)
     }
 
+    fun isDefaultLanguage(): Boolean {
+        return if (Language.ENGLISH == getCurrentLanguage()) true else false
+    }
+
     fun getLanguages(): ArrayList<Language> {
         val result = ArrayList<Language>()
         result.add(Language.ARABIC)
         result.add(Language.BENGALI)
+        result.add(Language.CHINESE)
+        result.add(Language.HINDI)
         result.add(Language.FRENCH)
+        result.add(Language.RUSSIA)
         result.add(Language.SPANISH)
         result.add(Language.ENGLISH)
         return result
@@ -99,14 +163,31 @@ class WordViewModelKt @Inject constructor(
         return Language.ENGLISH.code + Constants.Sep.HYPHEN + language.code
     }
 
+    fun share(fragment: Fragment) {
+        val word = task!!.input
+        val subject = word.id
+        val text = Util.getText(word)
+        AndroidUtil.share(fragment, subject, text)
+    }
+
     private fun findItemRx(request: WordRequest): Maybe<WordItem> {
         return Maybe.create { emitter ->
-            val word = repo.getItem(request.inputWord!!, false)
-            val fullWord = repo.getItemIf(word)
+
             var result: WordItem? = null
-            if (fullWord != null) {
-                pref.lastSearchWord = fullWord
-                result = getItem(request, fullWord, true)
+
+            if (request.recentWord) {
+                val fullWord = pref.recentWord
+                if (fullWord != null) {
+                    request.inputWord = fullWord.id
+                    result = getItem(request, fullWord, true)
+                }
+            } else {
+                val word = repo.getItem(request.inputWord!!, false)
+                val fullWord = repo.getItemIf(word)
+                if (fullWord != null) {
+                    pref.recentWord = fullWord
+                    result = getItem(request, fullWord, true)
+                }
             }
 
             if (!emitter.isDisposed) {
@@ -119,7 +200,18 @@ class WordViewModelKt @Inject constructor(
         }
     }
 
-    private fun getItem(request: WordRequest, word: Word, fully: Boolean): WordItem {
+    private fun getSuggestionsRx(): Maybe<List<String>> {
+        return repo.allRawWordsRx
+    }
+
+    private fun toggleImpl(word: Word): Maybe<WordItem> {
+        return Maybe.fromCallable {
+            repo.toggleFavorite(word)
+            getItem(null, word, true)
+        }
+    }
+
+    private fun getItem(request: WordRequest?, word: Word, fully: Boolean): WordItem {
         val map = uiMap
         var item: WordItem? = map.get(word.id)
         if (item == null) {
@@ -131,8 +223,10 @@ class WordViewModelKt @Inject constructor(
         if (fully) {
             adjustState(item)
         }
-        if (request.translate) {
-            adjustTranslate(request, item)
+        if (request != null) {
+            if (request.translate) {
+                adjustTranslate(request, item)
+            }
         }
         return item
     }
@@ -147,10 +241,20 @@ class WordViewModelKt @Inject constructor(
     }
 
     private fun adjustTranslate(request: WordRequest, item: WordItem) {
-        if (request.translate && !item.hasTranslation(request.target)) {
-            val translation = translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
-            Timber.v("Translation %s - %s", request.inputWord, translation)
-            //item.addTranslation(request.target!!, translation.output)
+        var translation: String? = null
+        if (request.translate) {
+            if (item.hasTranslation(request.target)) {
+                translation = item.getTranslationBy(request.target)
+            } else {
+                val textTranslation =
+                    translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
+                Timber.v("Translation %s - %s", request.inputWord, translation)
+                textTranslation?.let {
+                    item.addTranslation(request.target!!, it.output)
+                    translation = it.output
+                }
+            }
         }
+        item.translation = translation
     }
 }

@@ -9,8 +9,9 @@ import com.dreampany.frame.data.model.Request
  * Last modified $file.lastModified
  */
 class WordRequest : Request<Word>() {
-    var inputWord:String? = null
+    var inputWord: String? = null
     var source: String? = null
     var target: String? = null
     var translate: Boolean = false
+    var recentWord: Boolean = false
 }

@@ -75,7 +75,8 @@ class Constants {
         const val ID = Constants.Key.ID
         const val WORD = "word"
         const val PART_OF_SPEECH = "part_of_speech"
-        const val LAST_SEARCH = "last_search_word"
+        const val RECENT_WORD = "recent_word"
+        const val LOADED = "loaded"
     }
 
     object Definition {
@@ -110,5 +111,9 @@ class Constants {
         const val COMMA_SPACE = Constants.Sep.COMMA_SPACE
         const val SPACE = Constants.Sep.SPACE
         const val HYPHEN = Constants.Sep.HYPHEN
+    }
+
+    object Translation {
+        const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
     }
 }

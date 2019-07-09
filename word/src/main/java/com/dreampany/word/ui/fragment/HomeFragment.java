@@ -41,8 +41,10 @@ import com.dreampany.word.data.model.WordRequest;
 import com.dreampany.word.databinding.ContentDefinitionBinding;
 import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRecyclerBinding;
+import com.dreampany.word.databinding.ContentRelatedBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;
+import com.dreampany.word.databinding.ContentYandexTranslationBinding;
 import com.dreampany.word.databinding.FragmentHomeBinding;
 import com.dreampany.word.misc.Constants;
 import com.dreampany.word.ui.activity.ToolsActivity;
@@ -51,7 +53,6 @@ import com.dreampany.word.ui.enums.UiSubtype;
 import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.SearchViewModel;
 import com.dreampany.word.vm.WordViewModelKt;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
@@ -80,6 +81,7 @@ public class HomeFragment extends BaseMenuFragment
         MaterialSearchView.OnQueryTextListener,
         MaterialSearchView.SearchViewListener {
 
+    private final String NONE = "none";
     private final String SEARCH = "search";
     private final String EMPTY = "empty";
 
@@ -90,16 +92,16 @@ public class HomeFragment extends BaseMenuFragment
     private ContentRecyclerBinding bindRecycler;
     private ContentFullWordBinding bindFullWord;
     private ContentWordBinding bindWord;
+    private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
+    private ContentYandexTranslationBinding bindYandex;
 
     private OnVerticalScrollListener scroller;
     private MaterialSearchView searchView;
 
-    SearchViewModel searchVm;
-    WordViewModelKt vm;
-    WordAdapter adapter;
-
-    String query;
+    private WordViewModelKt vm;
+    private WordAdapter adapter;
+    private String recentWord;
 
     @Inject
     public HomeFragment() {
@@ -124,6 +126,7 @@ public class HomeFragment extends BaseMenuFragment
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
+        adjustTranslationUi(!vm.isDefaultLanguage());
     }
 
     @Override
@@ -138,7 +141,7 @@ public class HomeFragment extends BaseMenuFragment
     public void onResume() {
         super.onResume();
         initLanguageMenuItem();
-        searchVm.loadLastSearchWord(true);
+        request(null, true, true, true);
     }
 
     @Override
@@ -171,7 +174,7 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public void onRefresh() {
         super.onRefresh();
-        processUiState(UiState.HIDE_PROGRESS);
+        //processUiState(UiState.HIDE_PROGRESS);
     }
 
     @Override
@@ -181,7 +184,7 @@ public class HomeFragment extends BaseMenuFragment
                 toggleDefinition();
                 break;
             case R.id.button_favorite:
-                searchVm.toggleFavorite(binding.getItem().getItem());
+                vm.toggleFavorite(binding.getItem().getItem());
                 break;
             case R.id.fab:
                 processFabAction();
@@ -192,6 +195,9 @@ public class HomeFragment extends BaseMenuFragment
             case R.id.text_word:
                 openUi(bindWord.getItem().getItem());
                 break;
+            case R.id.layout_yandex:
+                openYandexSite();
+                break;
         }
     }
 
@@ -199,7 +205,7 @@ public class HomeFragment extends BaseMenuFragment
     public boolean onItemClick(View view, int position) {
         if (position != RecyclerView.NO_POSITION) {
             WordItem item = adapter.getItem(position);
-            openUi(item.getItem());
+            // openUi(item.getItem());
             return true;
         }
         return false;
@@ -218,16 +224,16 @@ public class HomeFragment extends BaseMenuFragment
     @Override
     public boolean onQueryTextSubmit(@NotNull String query) {
         Timber.v("onQueryTextSubmit %s", query);
-        this.query = query.toLowerCase();
+        this.recentWord = query.toLowerCase();
 
-        request(query, true, true);
+        request(query, false, true, true);
         return super.onQueryTextSubmit(query);
     }
 
     @Override
     public boolean onQueryTextChange(@NotNull String newText) {
         Timber.v("onQueryTextChange %s", newText);
-        this.query = newText.toLowerCase();
+        this.recentWord = newText.toLowerCase();
         return super.onQueryTextChange(newText);
     }
 
@@ -267,12 +273,14 @@ public class HomeFragment extends BaseMenuFragment
         bindRecycler = binding.layoutRecycler;
         bindFullWord = binding.layoutFullWord;
         bindWord = bindFullWord.layoutWord;
+        bindRelated = bindFullWord.layoutRelated;
         bindDef = bindFullWord.layoutDefinition;
+        bindYandex = bindFullWord.layoutYandex;
 
+        binding.stateful.setStateView(NONE, LayoutInflater.from(getContext()).inflate(R.layout.item_none, null));
         binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         processUiState(UiState.SEARCH);
-        //ViewUtil.setText(this, R.id.text_empty, R.string.empty_search_words);
 
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         bindDef.toggleDefinition.setOnClickListener(this);
@@ -280,17 +288,14 @@ public class HomeFragment extends BaseMenuFragment
         bindWord.textWord.setOnClickListener(this);
         bindWord.imageSpeak.setOnClickListener(this);
         binding.fab.setOnClickListener(this);
+        bindYandex.textYandexPowered.setOnClickListener(this);
 
 
-        searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
         vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
-        searchVm.setUiCallback(this);
-        searchVm.observeUiState(this, this::processUiState);
+        vm.setUiCallback(this);
         vm.observeUiState(this, this::processUiState);
-        searchVm.observeOutputsOfString(this, this::processResponseOfString);
-        searchVm.observeOutputs(this, this::processResponse);
-        searchVm.observeOutputs(this, this::processResponse);
-        searchVm.observeOutput(this, this::processSingleResponse);
+        vm.observeOutputsOfString(this, this::processResponseOfString);
+        vm.observeOutputs(this, this::processResponse);
         vm.observeOutput(this, this::processSingleResponse);
     }
 
@@ -309,7 +314,7 @@ public class HomeFragment extends BaseMenuFragment
                 bindRecycler.recycler,
                 new SmoothScrollLinearLayoutManager(getContext()),
                 new FlexibleItemDecoration(getContext())
-                        .addItemViewType(R.layout.item_word, searchVm.getItemOffset())
+                        .addItemViewType(R.layout.item_word, vm.getItemOffset())
                         .withEdge(true),
                 null,
                 scroller,
@@ -325,7 +330,7 @@ public class HomeFragment extends BaseMenuFragment
         searchView.setOnSearchViewListener(this);
         searchView.setOnQueryTextListener(this);
 
-        searchVm.suggests(false);
+        vm.suggests(false);
     }
 
     private void initLanguageMenuItem() {
@@ -343,8 +348,11 @@ public class HomeFragment extends BaseMenuFragment
         picker.setCallback(language -> {
             vm.setCurrentLanguage(language);
             initLanguageMenuItem();
-            onRefresh();
-            request(query, true, true);
+            adjustTranslationUi(!vm.isDefaultLanguage());
+            if (!vm.isDefaultLanguage()) {
+                //onRefresh();
+                request(recentWord, false, true, true);
+            }
             picker.dismissAllowingStateLoss();
             return Unit.INSTANCE;
         });
@@ -353,6 +361,9 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processUiState(UiState state) {
         switch (state) {
+            case NONE:
+                binding.stateful.setState(NONE);
+                break;
             case SHOW_PROGRESS:
                 if (!binding.layoutRefresh.isRefreshing()) {
                     binding.layoutRefresh.setRefreshing(true);
@@ -426,7 +437,7 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void toScanMode() {
-        //query = null;
+        //recentWord = null;
         //binding.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp);
     }
 
@@ -437,26 +448,26 @@ public class HomeFragment extends BaseMenuFragment
     private void processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus();
-            request(query, true, true);
+            request(recentWord, false, true, true);
             return;
         }
     }
 
     private void processProgress(boolean loading) {
         if (loading) {
-            searchVm.updateUiState(UiState.SHOW_PROGRESS);
+            vm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
-            searchVm.updateUiState(UiState.HIDE_PROGRESS);
+            vm.updateUiState(UiState.HIDE_PROGRESS);
         }
     }
 
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
-            searchVm.updateUiState(UiState.OFFLINE);
+            vm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            searchVm.updateUiState(UiState.EMPTY);
+            vm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
-            searchVm.updateUiState(UiState.EXTRA);
+            vm.updateUiState(UiState.EXTRA);
         } else if (error instanceof MultiException) {
             for (Throwable e : ((MultiException) error).getErrors()) {
                 processFailure(e);
@@ -494,10 +505,34 @@ public class HomeFragment extends BaseMenuFragment
 
     private void processSingleSuccess(WordItem item) {
         Timber.v("Result Single Word[%s]", item.getItem().getId());
+        recentWord = item.getItem().getId();
         binding.setItem(item);
         bindWord.layoutWord.setVisibility(View.VISIBLE);
+        //processRelated(item.getItem().getSynonyms(), item.getItem().getAntonyms());
         processDefinitions(item.getItem().getDefinitions());
         processUiState(UiState.CONTENT);
+    }
+
+    private void processRelated(List<String> synonyms, List<String> antonyms) {
+        String synonym = DataUtil.joinString(synonyms, Constants.Sep.COMMA_SPACE);
+        String antonym = DataUtil.joinString(antonyms, Constants.Sep.COMMA_SPACE);
+
+        if (!DataUtil.isEmpty(synonym)) {
+            bindRelated.textSynonym.setText(getString(R.string.synonyms, synonym));
+            setSpan(bindRelated.textSynonym, synonym, getString(R.string.synonyms_bold));
+            bindRelated.textSynonym.setVisibility(View.VISIBLE);
+        } else {
+            bindRelated.textSynonym.setVisibility(View.GONE);
+        }
+
+        if (!DataUtil.isEmpty(antonym)) {
+            bindRelated.textAntonym.setText(getString(R.string.antonyms, antonym));
+            setSpan(bindRelated.textAntonym, antonym, getString(R.string.antonyms_bold));
+            bindRelated.textAntonym.setVisibility(View.VISIBLE);
+        } else {
+            bindRelated.textAntonym.setVisibility(View.GONE);
+        }
+        bindRelated.layoutRelated.setVisibility(DataUtil.isEmpty(synonyms) && DataUtil.isEmpty(antonyms) ? View.GONE : View.VISIBLE);
     }
 
     private void processDefinitions(List<Definition> definitions) {
@@ -555,6 +590,10 @@ public class HomeFragment extends BaseMenuFragment
         TextUtil.setSpan(view, items, bold, this::searchWord, this::searchWord);
     }
 
+    private void adjustTranslationUi(boolean visible) {
+        bindWord.textTranslation.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     private void toggleDefinition() {
         if (bindDef.layoutSingleExpandable.isExpanded()) {
             bindDef.layoutSingleExpandable.collapse(true);
@@ -568,10 +607,10 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void searchWord(String word) {
-        query = word.toLowerCase();
+        recentWord = word.toLowerCase();
         searchView.clearFocus();
-        request(query, true, true);
-        AndroidUtil.speak(query);
+        request(recentWord, false, true, true);
+        AndroidUtil.speak(recentWord);
     }
 
     private void openUi(Word item) {
@@ -589,18 +628,26 @@ public class HomeFragment extends BaseMenuFragment
         }
     }
 
-    private void request(String word, boolean important, boolean progress) {
+    private void request(String word, boolean recentWord, boolean important, boolean progress) {
         boolean translate = vm.needToTranslate();
         Language language = vm.getCurrentLanguage();
-        String langDir = vm.getLanguageDirection();
 
         WordRequest request = new WordRequest();
         request.setInputWord(word);
         request.setSource(Language.ENGLISH.getCode());
         request.setTarget(language.getCode());
         request.setTranslate(translate);
+        request.setRecentWord(recentWord);
         request.setImportant(important);
         request.setProgress(progress);
         vm.load(request);
+    }
+
+    public void openYandexSite() {
+        UiTask<?> outTask = new UiTask<>(true);
+        outTask.setComment(Constants.Translation.YANDEX_URL);
+        outTask.setUiType(UiType.SITE);
+        outTask.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, outTask);
     }
 }

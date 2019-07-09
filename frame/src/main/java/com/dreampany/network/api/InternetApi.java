@@ -58,7 +58,7 @@ public class InternetApi {
         Timber.v("Network Observer created for new");
         disposable = ReactiveNetwork.observeNetworkConnectivity(context)
                 .flatMapSingle((Function<Connectivity, SingleSource<Boolean>>) connectivity -> {
-                    Timber.v("Connectivity %s %s", connectivity.available(), connectivity.toString());
+                    Timber.v("Connectivity %s %s", connectivity.available(), connectivity.joinString());
                     if (connectivity.available()) {
                         Single<Boolean> single = ReactiveNetwork.checkInternetConnectivity();
                         boolean result = single.blockingGet();

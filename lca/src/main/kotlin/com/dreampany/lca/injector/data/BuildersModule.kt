@@ -225,7 +225,7 @@ class BuildersModule {
                     .build()
 
             response.newBuilder()
-                    .header("Cache-Control", cacheControl.toString())
+                    .header("Cache-Control", cacheControl.joinString())
                     .build()
         }
 *//*

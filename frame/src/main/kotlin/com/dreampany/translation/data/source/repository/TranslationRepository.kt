@@ -3,7 +3,7 @@ package com.dreampany.translation.data.source.repository
 import com.dreampany.frame.data.source.repository.RepositoryKt
 import com.dreampany.frame.misc.*
 import com.dreampany.translation.data.model.TextTranslation
-import com.dreampany.translation.data.source.api.TextTranslationDataSource
+import com.dreampany.translation.data.source.api.TranslationDataSource
 import io.reactivex.Maybe
 import io.reactivex.functions.Consumer
 import io.reactivex.internal.functions.Functions
@@ -22,10 +22,10 @@ class TranslationRepository
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    @Room val room: TextTranslationDataSource,
-    @Firestore val firestore: TextTranslationDataSource,
-    @Remote val remote: TextTranslationDataSource
-) : RepositoryKt<String, TextTranslation>(rx, rm), TextTranslationDataSource {
+    @Room val room: TranslationDataSource,
+    @Firestore val firestore: TranslationDataSource,
+    @Remote val remote: TranslationDataSource
+) : RepositoryKt<String, TextTranslation>(rx, rm), TranslationDataSource {
     override fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -147,15 +147,17 @@ class TranslationRepository
     ): Maybe<TextTranslation> {
         val maybe = firestore.getItemRx(text, source, target)
         return contactSingleSuccess(maybe, Consumer {
-            rx.compute(room.putItemRx(it)).subscribe(
-                Functions.emptyConsumer<Any>(),
-                Functions.emptyConsumer<Any>()
-            )
+            rx.compute(room.putItemRx(it))
+                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
         })
     }
 
-    private fun getRemoteItemIfRx(text: String, source: String, target: String): Maybe<TextTranslation> {
-        val maybe = firestore.getItemRx(text, source, target)
+    private fun getRemoteItemIfRx(
+        text: String,
+        source: String,
+        target: String
+    ): Maybe<TextTranslation> {
+        val maybe = remote.getItemRx(text, source, target)
         return contactSingleSuccess(maybe, Consumer {
             rx.compute(room.putItemRx(it)).subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
             rx.compute(firestore.putItemRx(it)).subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())

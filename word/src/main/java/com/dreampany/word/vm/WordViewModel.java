@@ -130,10 +130,6 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> i
                 .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
     }
 
-/*    public Word toWord(String word) {
-        return mapper.toItem(word.toLowerCase());
-    }*/
-
     private Maybe<WordItem> getItemRx(Word word) {
         return repo.getItemIfRx(word).map(this::getItem);
     }

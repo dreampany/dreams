@@ -89,7 +89,10 @@ class Constants {
     object LanguageCode {
         const val ARABIC = "ar"
         const val BENGALI = "bn"
+        const val CHINESE = "zh"
+        const val HINDI = "hi"
         const val FRENCH = "fr"
+        const val RUSSIA = "ru"
         const val SPANISH = "es"
         const val ENGLISH = "en"
     }
@@ -97,7 +100,10 @@ class Constants {
     object LanguageCountry {
         const val ARABIC = "Arabic"
         const val BENGALI = "Bengali"
+        const val CHINESE = "Chinese"
+        const val HINDI = "Hindi"
         const val FRENCH = "French"
+        const val RUSSIA = "Russian"
         const val SPANISH = "Spanish"
         const val ENGLISH = "English"
     }

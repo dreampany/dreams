@@ -170,7 +170,7 @@ dependencies {
     //implementation project(':firebase')
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02'
     kapt 'androidx.room:room-compiler:2.1.0'
 
     /* dagger */
@@ -187,7 +187,6 @@ dependencies {
     /* misc */
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'com.libRG:customtextview:1.4'
-    implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
     implementation 'com.github.midorikocak:currency-picker-android:1.2.1'
     implementation 'com.beardedhen:androidbootstrap:2.3.2'
 }

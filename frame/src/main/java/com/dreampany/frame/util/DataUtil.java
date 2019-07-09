@@ -243,7 +243,7 @@ public final class DataUtil {
         return name.matches("[a-zA-Z]+");
     }
 
-    public static String toString(String[] values) {
+    public static String joinString(String[] values) {
         String value = null;
         if (!DataUtil.isEmpty(values)) {
             StringBuilder builder = new StringBuilder();
@@ -258,7 +258,7 @@ public final class DataUtil {
         return value;
     }
 
-    public static String toString(List<String> values) {
+    public static String joinString(List<String> values) {
         String value = null;
         if (!DataUtil.isEmpty(values)) {
             StringBuilder builder = new StringBuilder();
@@ -273,7 +273,7 @@ public final class DataUtil {
         return value;
     }
 
-    public static String toString(List<String> values, String sep) {
+    public static String joinString(List<String> values, String sep) {
         String value = null;
         if (!DataUtil.isEmpty(values)) {
             StringBuilder builder = new StringBuilder();

@@ -18,19 +18,25 @@ import javax.inject.Singleton;
 @Singleton
 public class Pref extends FramePref {
 
-
     @Inject
     Pref(Context context) {
         super(context);
     }
 
-
-    public void setLastSearchWord(Word word) {
-        setPrivately(Constants.Word.LAST_SEARCH, word);
+    public void commitLoaded() {
+        setPrivately(Constants.Word.LOADED, true);
     }
 
-    public Word getLastSearchWord() {
-        return getPrivately(Constants.Word.LAST_SEARCH, Word.class, null);
+    public boolean isLoaded() {
+        return getPrivately(Constants.Word.LOADED, false);
+    }
+
+    public void setRecentWord(Word word) {
+        setPrivately(Constants.Word.RECENT_WORD, word);
+    }
+
+    public Word getRecentWord() {
+        return getPrivately(Constants.Word.RECENT_WORD, Word.class, null);
     }
 
     public void setLanguage(Language language) {

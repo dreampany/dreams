@@ -16,7 +16,10 @@ public enum Language implements Type, Serializable {
 
     ARABIC(Constants.LanguageCode.ARABIC, Constants.LanguageCountry.ARABIC),
     BENGALI(Constants.LanguageCode.BENGALI, Constants.LanguageCountry.BENGALI),
+    CHINESE(Constants.LanguageCode.CHINESE, Constants.LanguageCountry.CHINESE),
+    HINDI(Constants.LanguageCode.HINDI, Constants.LanguageCountry.HINDI),
     FRENCH(Constants.LanguageCode.FRENCH, Constants.LanguageCountry.FRENCH),
+    RUSSIA(Constants.LanguageCode.RUSSIA, Constants.LanguageCountry.RUSSIA),
     SPANISH(Constants.LanguageCode.SPANISH, Constants.LanguageCountry.SPANISH),
     ENGLISH(Constants.LanguageCode.ENGLISH, Constants.LanguageCountry.ENGLISH);
 
@@ -90,10 +93,16 @@ public enum Language implements Type, Serializable {
             case 1:
                 return BENGALI;
             case 2:
-                return FRENCH;
+                return CHINESE;
             case 3:
-                return SPANISH;
+                return HINDI;
             case 4:
+                return FRENCH;
+            case 5:
+                return RUSSIA;
+            case 6:
+                return SPANISH;
+            case 7:
             default:
                 return ENGLISH;
         }

@@ -14,6 +14,7 @@ import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.fragment.WordFragment
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
+import im.delight.android.webview.AdvancedWebView
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -87,6 +88,18 @@ class ToolsActivity : BaseActivity() {
                     UiSubtype.VIEW -> {
                         commitFragment(WordFragment::class.java, wordProvider, R.id.layout, uiTask)
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
+                    }
+                }
+            }
+            UiType.SITE -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        if (AdvancedWebView.Browsers.hasAlternative(this)) {
+                            AdvancedWebView.Browsers.openUrl(this, uiTask.comment)
+                            finish()
+                        } else {
+                            openActivity(WebActivity::class.java, uiTask, true)
+                        }
                     }
                 }
             }

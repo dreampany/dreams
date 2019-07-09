@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.dreampany.frame.data.enums.Language;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Color;
 import com.dreampany.frame.data.model.Response;
@@ -25,6 +26,7 @@ import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.MenuTint;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.language.LanguagePicker;
 import com.dreampany.word.R;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
@@ -34,23 +36,27 @@ import com.dreampany.word.databinding.ContentFullWordBinding;
 import com.dreampany.word.databinding.ContentRelatedBinding;
 import com.dreampany.word.databinding.ContentTopStatusBinding;
 import com.dreampany.word.databinding.ContentWordBinding;
+import com.dreampany.word.databinding.ContentYandexTranslationBinding;
 import com.dreampany.word.databinding.FragmentWordBinding;
 import com.dreampany.word.misc.Constants;
+import com.dreampany.word.ui.activity.ToolsActivity;
+import com.dreampany.word.ui.enums.UiSubtype;
+import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.SearchViewModel;
-import com.dreampany.word.vm.WordViewModel;
 import com.dreampany.word.vm.WordViewModelKt;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import cz.kinst.jakub.view.StatefulLayout;
+import kotlin.Unit;
 
 
 /**
@@ -69,10 +75,9 @@ public class WordFragment extends BaseMenuFragment {
     private ContentWordBinding bindWord;
     private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
-    WordViewModel vm;
-    SearchViewModel searchVm;
-    WordViewModelKt vmkt;
-    Word parent;
+    private ContentYandexTranslationBinding bindYandex;
+    private WordViewModelKt vm;
+    private String recentWord;
 
     @Inject
     public WordFragment() {
@@ -92,7 +97,7 @@ public class WordFragment extends BaseMenuFragment {
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         initView();
-        vm.load(parent, true, true);
+        adjustTranslationUi(!vm.isDefaultLanguage());
     }
 
     @Override
@@ -101,17 +106,26 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        initLanguageMenuItem();
+        request(recentWord, true, true, true);
+    }
+
+    @Override
     public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         MenuItem shareItem = findMenuItemById(R.id.item_share);
         MenuTint.colorMenuItem(shareItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+
+        initLanguageMenuItem();
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-/*            case R.id.item_favourite:
-                vm.toggle();
-                return true;*/
+            case R.id.item_language:
+                openLanguagePicker();
+                return true;
             case R.id.item_share:
                 vm.share(this);
                 return true;
@@ -146,7 +160,10 @@ public class WordFragment extends BaseMenuFragment {
                 //closeBottom();
                 break;
             case R.id.button_favorite:
-                searchVm.toggleFavorite(binding.getItem().getItem());
+                vm.toggleFavorite(binding.getItem().getItem());
+                break;
+            case R.id.layout_yandex:
+                openYandexSite();
                 break;
         }
     }
@@ -155,7 +172,7 @@ public class WordFragment extends BaseMenuFragment {
         setTitle(R.string.word);
 
         UiTask<Word> uiTask = getCurrentTask(true);
-        parent = uiTask.getInput();
+        recentWord = uiTask.getInput().getId();
 
         binding = (FragmentWordBinding) super.binding;
         bindStatus = binding.layoutTopStatus;
@@ -163,12 +180,14 @@ public class WordFragment extends BaseMenuFragment {
         bindWord = bindFullWord.layoutWord;
         bindRelated = bindFullWord.layoutRelated;
         bindDef = bindFullWord.layoutDefinition;
+        bindYandex = bindFullWord.layoutYandex;
 
         ViewUtil.setSwipe(binding.layoutRefresh, this);
         bindDef.toggleDefinition.setOnClickListener(this);
         bindWord.buttonFavorite.setOnClickListener(this);
         bindWord.textWord.setOnClickListener(this);
         bindWord.imageSpeak.setOnClickListener(this);
+        bindYandex.textYandexPowered.setOnClickListener(this);
 
 /*        ViewUtil.setClickListener(binding.textWord, this);
         binding.layoutDefinition.toggleDefinition.setOnClickListener(this);
@@ -181,19 +200,36 @@ public class WordFragment extends BaseMenuFragment {
         Color color = getColor();
         ViewUtil.setBackground(binding.layoutBottom.layoutExpandable, color.getPrimaryId());
 
-        searchVm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
-        vmkt = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
-        vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
+        vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
         vm.setTask(uiTask);
-
         vm.observeUiState(this, this::processUiState);
-        vmkt.observeUiState(this, this::processUiState);
         vm.observeOutput(this, this::processResponse);
-        vmkt.observeOutput(this, this::processResponse);
-        searchVm.observeUiState(this, this::processUiState);
-        vmkt.observeUiState(this, this::processUiState);
-        searchVm.observeOutput(this, this::processResponse);
-        vmkt.observeOutput(this, this::processResponse);
+    }
+
+    private void initLanguageMenuItem() {
+        Language language = vm.getCurrentLanguage();
+        MenuItem item = findMenuItemById(R.id.item_language);
+        if (item != null) {
+            item.setTitle(language.getCode());
+        }
+    }
+
+    private void openLanguagePicker() {
+        ArrayList<Language> languages = vm.getLanguages();
+
+        LanguagePicker picker = LanguagePicker.Companion.newInstance(getString(R.string.select_language), languages);
+        picker.setCallback(language -> {
+            vm.setCurrentLanguage(language);
+            initLanguageMenuItem();
+            adjustTranslationUi(!vm.isDefaultLanguage());
+            if (!vm.isDefaultLanguage()) {
+                //onRefresh();
+                request(recentWord, false, true, true);
+            }
+            picker.dismissAllowingStateLoss();
+            return Unit.INSTANCE;
+        });
+        picker.show(getFragmentManager(), Constants.Tag.LANGUAGE_PICKER);
     }
 
     private void processUiState(UiState state) {
@@ -268,7 +304,7 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processSuccess(WordItem item) {
-/*        if (!parent.equals(item.getItem())) {
+/*        if (!recentWord.equals(item.getItem())) {
             processSimple(item);
             return;
         }*/
@@ -277,6 +313,7 @@ public class WordFragment extends BaseMenuFragment {
 
     private void processDetails(WordItem item) {
         Word word = item.getItem();
+        recentWord = word.getId();
         binding.setItem(item);
         bindWord.layoutWord.setVisibility(View.VISIBLE);
         processRelated(word.getSynonyms(), word.getAntonyms());
@@ -299,8 +336,8 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void processRelated(List<String> synonyms, List<String> antonyms) {
-        String synonym = DataUtil.toString(synonyms, Constants.Sep.COMMA_SPACE);
-        String antonym = DataUtil.toString(antonyms, Constants.Sep.COMMA_SPACE);
+        String synonym = DataUtil.joinString(synonyms, Constants.Sep.COMMA_SPACE);
+        String antonym = DataUtil.joinString(antonyms, Constants.Sep.COMMA_SPACE);
 
         if (!DataUtil.isEmpty(synonym)) {
             bindRelated.textSynonym.setText(getString(R.string.synonyms, synonym));
@@ -375,6 +412,10 @@ public class WordFragment extends BaseMenuFragment {
         TextUtil.setSpan(view, items, bold, this::searchWord, this::searchWord);
     }
 
+    private void adjustTranslationUi(boolean visible) {
+        bindWord.textTranslation.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
     private void toggleDefinition() {
         if (bindDef.layoutSingleExpandable.isExpanded()) {
             bindDef.layoutSingleExpandable.collapse(true);
@@ -388,10 +429,8 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void searchWord(String word) {
-        WordRequest request = new WordRequest();
-        request.setInputWord(word.toLowerCase());
-        request.setProgress(true);
-        vmkt.load(request);
+        recentWord = word.toLowerCase();
+        request(recentWord, false, true, true);
         AndroidUtil.speak(word);
     }
 
@@ -400,6 +439,29 @@ public class WordFragment extends BaseMenuFragment {
         if (item != null) {
             AndroidUtil.speak(item.getItem().getId());
         }
+    }
+
+    private void request(String word, boolean recentWord, boolean important, boolean progress) {
+        boolean translate = vm.needToTranslate();
+        Language language = vm.getCurrentLanguage();
+
+        WordRequest request = new WordRequest();
+        request.setInputWord(word);
+        request.setSource(Language.ENGLISH.getCode());
+        request.setTarget(language.getCode());
+        request.setTranslate(translate);
+        request.setRecentWord(recentWord);
+        request.setImportant(important);
+        request.setProgress(progress);
+        vm.load(request);
+    }
+
+    public void openYandexSite() {
+        UiTask<?> outTask = new UiTask<>(true);
+        outTask.setComment(Constants.Translation.YANDEX_URL);
+        outTask.setUiType(UiType.SITE);
+        outTask.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, outTask);
     }
 
 /*    private void processExamples(List<String> examples) {
@@ -431,11 +493,11 @@ public class WordFragment extends BaseMenuFragment {
         }
 
         if (singleBuilder.length() > 0) {
-            String text = singleBuilder.toString();
+            String text = singleBuilder.joinString();
             binding.layoutExample.textSingleExample.setText(text);
             setSpan(binding.layoutExample.textSingleExample, text, null);
 
-            text = multipleBuilder.toString();
+            text = multipleBuilder.joinString();
             binding.layoutExample.textMultipleExample.setText(text);
             setSpan(binding.layoutExample.textMultipleExample, text, null);
             binding.layoutExample.layoutExample.setVisibility(View.VISIBLE);
@@ -451,7 +513,7 @@ public class WordFragment extends BaseMenuFragment {
         }
     }*/
 
-/*    */
+    /*    */
 
 /*    private void showSimple(String word) {
         vm.updateUiState(UiState.SHOW_PROGRESS);
@@ -460,8 +522,8 @@ public class WordFragment extends BaseMenuFragment {
 
     private void showDetails(String word) {
         vm.updateUiState(UiState.SHOW_PROGRESS);
-        parent = vm.toWord(word);
-        vm.load(parent, true, true);
+        recentWord = vm.toWord(word);
+        vm.load(recentWord, true, true);
     }*/
 
 /*    private void showBottom() {

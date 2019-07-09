@@ -21,7 +21,7 @@ import java.util.List;
  * dreampanymail@gmail.com
  */
 @Singleton
-public class WordRoomDataSource implements WordDataSource {
+public class RoomWordDataSource implements WordDataSource {
 
     private final String LIKE = "%";
 
@@ -30,7 +30,7 @@ public class WordRoomDataSource implements WordDataSource {
     private final SynonymDao synonymDao;
     private final AntonymDao antonymDao;
 
-    public WordRoomDataSource(WordMapper mapper,
+    public RoomWordDataSource(WordMapper mapper,
                               WordDao dao,
                               SynonymDao synonymDao,
                               AntonymDao antonymDao) {

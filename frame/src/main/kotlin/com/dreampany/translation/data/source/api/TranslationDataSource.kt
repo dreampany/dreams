@@ -10,7 +10,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface TextTranslationDataSource : DataSource<TextTranslation> {
+interface TranslationDataSource : DataSource<TextTranslation> {
     fun isExists(input: String, source: String, target: String): Boolean
     fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean>
     fun getItem(input: String, source: String, target: String): TextTranslation?

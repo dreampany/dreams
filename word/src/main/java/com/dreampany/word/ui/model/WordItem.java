@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
+import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableMap;
 
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.word.R;
@@ -34,14 +36,15 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
     private Set<ItemState> states;
     private boolean recent;
-    private Map<String, String> translates;
+    private Map<String, String> translations;
+    private String translation;
     private boolean favorite;
     private long time;
 
     private WordItem(Word word, @LayoutRes int layoutId) {
         super(word, layoutId);
         states = new HashSet<>();
-        translates = new HashMap<>();
+        translations = new HashMap<>();
     }
 
     public static WordItem getSimpleItem(Word item) {
@@ -80,6 +83,10 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         return time;
     }
 
+    public void setTranslation(String translation) {
+        this.translation = translation;
+    }
+
     @Override
     public boolean equals(Object inObject) {
         if (this == inObject) return true;
@@ -104,11 +111,28 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
     }
 
     public void addTranslation(String language, String translatedWord) {
-        translates.put(language, translatedWord);
+        translations.put(language, translatedWord);
     }
 
     public boolean hasTranslation(String language) {
-        return translates.containsKey(language);
+        if (language == null) {
+            return false;
+        }
+        return translations.containsKey(language);
+    }
+
+    public String getTranslationBy(String language) {
+        if (hasTranslation(language)) {
+            return translations.get(language);
+        }
+        return null;
+    }
+
+    public String getTranslation() {
+/*        if (hasTranslation(language.get())) {
+            return translations.get(language.get());
+        }*/
+        return translation;
     }
 
     static abstract class ViewHolder extends BaseItem.ViewHolder {
@@ -129,7 +153,7 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
         TextView word;
         TextView partOfSpeech;
         TextView pronunciation;
-       /*  LikeButton like;*/
+        /*  LikeButton like;*/
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
             super(view, adapter);

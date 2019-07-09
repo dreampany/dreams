@@ -20,14 +20,14 @@ import io.reactivex.Maybe;
  * hawladar.roman@bjitgroup.com
  */
 @Singleton
-public class WordFirestoreDataSource implements WordDataSource {
+public class FirestoreWordDataSource implements WordDataSource {
 
     private static final String WORDS = Constants.FirebaseKey.WORDS;
 
     private final NetworkManager network;
     private final RxFirebaseFirestore firestore;
 
-    public WordFirestoreDataSource(NetworkManager network,
+    public FirestoreWordDataSource(NetworkManager network,
                                    RxFirebaseFirestore firestore) {
         this.network = network;
         this.firestore = firestore;

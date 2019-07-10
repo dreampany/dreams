@@ -1,6 +1,10 @@
 package com.dreampany.word.api.wordnik;
 
+import android.text.TextUtils;
+
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TextUtil;
+import com.dreampany.word.api.wordnik.core.ClientException;
 import com.dreampany.word.api.wordnik.model.Definition;
 import com.dreampany.word.api.wordnik.model.Example;
 import com.dreampany.word.api.wordnik.model.ExampleSearchResults;
@@ -340,8 +344,13 @@ public class WordnikManager {
                 String includeTags = "false";
                 Definition[] definitions = api.getDefinitions(word, limit, partOfSpeech, includeRelated, sourceDictionaries, useCanonical, includeTags);
                 return Arrays.asList(definitions);
-            } catch (Exception e) {
-                Timber.e(e);
+            } catch (Exception error) {
+                Timber.e(error);
+                if (error instanceof ClientException) {
+                    word = TextUtil.toTitleCase(word);
+                    index--;
+                    continue;
+                }
                 iterateQueue();
             }
         }
@@ -413,8 +422,13 @@ public class WordnikManager {
                 Related[] relateds = api.getRelatedWords(word, useCanonical, relationshipTypes, limit);
                 return Arrays.asList(relateds);
 
-            } catch (Exception e) {
-                Timber.e(e);
+            } catch (Exception error) {
+                Timber.e(error);
+                if (error instanceof ClientException) {
+                    word = TextUtil.toTitleCase(word);
+                    index--;
+                    continue;
+                }
                 iterateQueue();
             }
         }

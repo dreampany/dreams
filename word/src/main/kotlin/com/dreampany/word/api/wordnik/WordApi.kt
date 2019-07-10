@@ -108,7 +108,7 @@ class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(baseP
             ResponseType.Informational -> TODO()
             ResponseType.Redirection -> TODO()
             ResponseType.ClientError -> throw ClientException(
-                word + (response as ClientError<*>).body as? String ?: "Client error"
+                (response as ClientError<*>).body as? String ?: "Client error"
             )
             ResponseType.ServerError -> throw ServerException(
                 (response as ServerError<*>).message ?: "Server error"

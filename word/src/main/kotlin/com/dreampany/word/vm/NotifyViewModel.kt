@@ -68,7 +68,7 @@ class NotifyViewModel @Inject constructor(
 
     private fun notifySync() {
         if (!TimeUtil.isExpired(pref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
-            //return
+            return
         }
         pref.commitLastWordSyncTime()
         Timber.v("Fire Notification")

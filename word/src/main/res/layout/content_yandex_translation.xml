@@ -11,6 +11,6 @@
         android:layout_gravity="center"
         android:text="@string/yandex_powered"
         android:textColor="@color/material_black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         auto:fontFamily="@font/roboto_slab_bold" />
 </layout>

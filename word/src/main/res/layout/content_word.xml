@@ -28,7 +28,6 @@
                 android:id="@+id/text_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="@{item.item.id}"
@@ -42,7 +41,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_word"
-                android:drawablePadding="5dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:text='@{item.translation}'

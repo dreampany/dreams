@@ -139,10 +139,6 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 
-    /* butterknife */
-    //implementation 'com.jakewharton:butterknife:10.1.0'
-    //kapt 'com.jakewharton:butterknife-compiler:10.1.0'
-
     /* squareup */
     implementation 'com.squareup.moshi:moshi-kotlin:1.8.0'
     implementation 'com.squareup.moshi:moshi-adapters:1.8.0'

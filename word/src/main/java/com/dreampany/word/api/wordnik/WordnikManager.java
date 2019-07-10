@@ -174,6 +174,7 @@ public class WordnikManager {
         WordnikWord word = new WordnikWord(from);
 
         List<Definition> definitions = getDefinitions(from, limit);
+
         word.setPartOfSpeech(getPartOfSpeech(definitions));
         word.setPronunciation(getPronunciation(from, limit));
         word.setDefinitions(getDefinitions(definitions));
@@ -184,6 +185,7 @@ public class WordnikManager {
         //word.setExamples(getExamples(examples));
 
         List<Related> relateds = getRelateds(from, RELATED_SYNONYM_ANTONYM, limit);
+
         word.setSynonyms(getSynonyms(relateds));
         word.setAntonyms(getAntonyms(relateds));
 

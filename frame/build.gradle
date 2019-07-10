@@ -179,6 +179,8 @@ dependencies {
     //implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'com.google.firebase:firebase-ml-common:20.0.0'
     implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
+    implementation 'com.google.firebase:firebase-ml-natural-language:20.0.0'
+    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.0'
 
     /* crashlytics */
     //api 'com.crashlytics.sdk.android:crashlytics:2.10.0'

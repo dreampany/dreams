@@ -2,48 +2,56 @@
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
-    <androidx.preference.PreferenceCategory android:title="@string/category_general">
+    <androidx.preference.SwitchPreferenceCompat
+        android:defaultValue="true"
+        auto:iconSpaceReserved="false"
+        android:key="@string/key_word_sync"
+        android:summary="@string/summary_word_sync"
+        android:title="@string/title_word_sync" />
 
-        <androidx.preference.CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/key_notification"
-            android:summary="@string/summary_notification"
-            android:title="@string/title_notification" />
+    <!--
+       <androidx.preference.PreferenceCategory android:title="@string/category_general">
 
-<!--        <android.support.v7.preference.CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/key_speak"
-            android:summary="@string/summary_speak"
-            android:title="@string/title_speak" />-->
+           <androidx.preference.CheckBoxPreference
+               android:defaultValue="true"
+               android:key="@string/key_notification"
+               android:summary="@string/summary_notification"
+               android:title="@string/title_notification" />
 
-<!--        <android.support.v7.preference.CheckBoxPreference
+          <android.support.v7.preference.CheckBoxPreference
+               android:defaultValue="true"
+               android:key="@string/key_speak"
+               android:summary="@string/summary_speak"
+               android:title="@string/title_speak" />
+
+       <android.support.v7.preference.CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/key_auto_discover"
             android:summary="@string/summary_auto_discover"
-            android:title="@string/title_auto_discover" />-->
+            android:title="@string/title_auto_discover" />
 
-<!--        <android.support.v7.preference.SwitchPreferenceCompat
+     <android.support.v7.preference.SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/key_translation"
             android:summary="@string/summary_translation"
-            android:title="@string/title_translation" />-->
+            android:title="@string/title_translation" />
 
-<!--        <android.support.v7.preference.ListPreference
+       <android.support.v7.preference.ListPreference
             android:defaultValue="default"
             android:entries="@array/yandex_language_names"
             android:entryValues="@array/yandex_language_codes"
             android:key="@string/key_language"
             android:summary="%s"
-            android:title="@string/title_language" />-->
+            android:title="@string/title_language" />
 
 
-        <!--        <im.delight.android.languages.LanguagePreference
+        <im.delight.android.languages.LanguagePreference
                     android:key="@string/key_language"
                     android:title="@string/title_language"
                     android:enabled="true"
-                    android:selectable="true" />-->
+                    android:selectable="true" />
 
-    </androidx.preference.PreferenceCategory>
+    </androidx.preference.PreferenceCategory>-->
 
 <!--    <android.support.v7.preference.PreferenceCategory android:title="@string/category_theme">
 

@@ -79,7 +79,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @NotNull
     @Override
     public String getScreen() {
-        return Constants.Screen.navigation(getApplicationContext());
+        return Constants.Companion.navigation(getApplicationContext());
     }
 
     @Override

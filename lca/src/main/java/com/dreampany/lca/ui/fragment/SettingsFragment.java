@@ -70,15 +70,15 @@ public class SettingsFragment extends BaseMenuFragment {
         setTitle(R.string.settings);
         String notifyCoin = getString(R.string.key_notify_coin);
         String notifyNews = getString(R.string.key_notify_news);
-        Flowable<Boolean> flowable = pref.observePublic(notifyCoin, Boolean.class, true);
+        Flowable<Boolean> coinFlowable = pref.observePublic(notifyCoin, Boolean.class, true);
         disposables.add(rx
-                .backToMain(flowable)
+                .backToMain(coinFlowable)
                 .subscribe(enabled -> {
                     adjustNotify();
                 }));
-        flowable = pref.observePublic(notifyNews, Boolean.class, false);
+        Flowable<Boolean>  newsFlowable = pref.observePublic(notifyNews, Boolean.class, false);
         disposables.add(rx
-                .backToMain(flowable)
+                .backToMain(newsFlowable)
                 .subscribe(enabled -> {
                     adjustNotify();
                 }));

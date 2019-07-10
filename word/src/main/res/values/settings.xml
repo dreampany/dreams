@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="key_word_sync">word_sync</string>
+    <string name="title_word_sync">Download New Words</string>
+    <string name="summary_word_sync">Enable to download new words with translation.</string>
+
+</resources>

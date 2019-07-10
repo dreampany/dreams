@@ -54,4 +54,8 @@
 
     <string name="select_language">Select Language</string>
 
+    <string name="notify_title_word_sync">New Downloaded Word</string>
+    <string name="notify_word_translation_format">%s - %s</string>
+    <string name="notify_word_format">%s [%s]</string>
+
 </resources>

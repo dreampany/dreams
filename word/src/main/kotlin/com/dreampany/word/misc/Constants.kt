@@ -14,15 +14,7 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
 
-    object Event {
-        const val ERROR = Constants.Event.ERROR
-        const val APPLICATION = Constants.Event.APPLICATION
-        const val ACTIVITY = Constants.Event.ACTIVITY
-        const val FRAGMENT = Constants.Event.FRAGMENT
-        const val NOTIFICATION = Constants.Event.NOTIFICATION
-    }
-
-    companion object Screen {
+    companion object {
         fun lastAppId(context: Context): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
         fun about(context: Context): String = Constants.about(context)
@@ -35,6 +27,17 @@ class Constants {
         fun launch(context: Context): String = Constants.launch(context)
         fun navigation(context: Context): String = Constants.navigation(context)
         fun tools(context: Context): String = Constants.tools(context)
+
+        fun notifyWordSync(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "profitable_coin"
+    }
+
+    object Event {
+        const val ERROR = Constants.Event.ERROR
+        const val APPLICATION = Constants.Event.APPLICATION
+        const val ACTIVITY = Constants.Event.ACTIVITY
+        const val FRAGMENT = Constants.Event.FRAGMENT
+        const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
     object Assets {
@@ -120,6 +123,10 @@ class Constants {
     }
 
     object Pref {
+        const val WORD_SYNC = "word_sync"
+    }
+
+    object Notify {
         const val WORD_SYNC = "word_sync"
     }
 }

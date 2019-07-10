@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Words</string>
+    <string name="app_name">Words - Translation</string>
 
     <string name="learn_word">Learn a new word</string>
     <string name="loader">Words Loader</string>

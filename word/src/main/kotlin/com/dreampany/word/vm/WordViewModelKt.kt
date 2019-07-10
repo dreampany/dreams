@@ -129,10 +129,9 @@ class WordViewModelKt @Inject constructor(
             return
         }
         val disposable = rx
-            .backToMain<WordItem>(toggleImpl(word))
+            .backToMain(toggleImpl(word))
             .subscribe({ result ->
-                postResult(Response.Type.UPDATE, result, false)
-            }, { this.postFailure(it) })
+                postResult(Response.Type.UPDATE, result, false) }, { this.postFailure(it) })
     }
 
     fun getCurrentLanguage(): Language {

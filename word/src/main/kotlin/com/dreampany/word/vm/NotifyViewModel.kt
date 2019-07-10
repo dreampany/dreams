@@ -68,10 +68,10 @@ class NotifyViewModel @Inject constructor(
 
     private fun notifySync() {
         if (!TimeUtil.isExpired(pref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
-            return
+            //return
         }
         pref.commitLastWordSyncTime()
-        Timber.e("Fire Alert Notification")
+        Timber.v("Fire Notification")
         val disposable = rx
             .backToMain(getSyncWordItemRx())
             .subscribe({ this.postResult(it) }, { this.postFailed(it) })
@@ -80,6 +80,7 @@ class NotifyViewModel @Inject constructor(
     private fun getSyncWordItemRx(): Maybe<WordItem> {
         return Maybe.create<WordItem> { emitter ->
             //find raw word item
+            //val stateCount = stateRepo.getCount(ItemType.WORD.name, ItemSubtype.DEFAULT.name, ItemState.RAW.name)
             val state = getState(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW)
             if (state == null) {
                 return@create
@@ -87,7 +88,9 @@ class NotifyViewModel @Inject constructor(
             if (emitter.isDisposed) {
                 return@create
             }
-            val item = wordMapper.toItem(state, wordRepo)
+            Timber.v("Statue %s", state.toString())
+            var item = wordMapper.toItem(state, wordRepo)
+            item = getItemIf(item)
             val source = Language.ENGLISH.code
             val target = pref.getLanguage(Language.ENGLISH).code
             val result = getItem(item, source, target, true);
@@ -132,11 +135,64 @@ class NotifyViewModel @Inject constructor(
         return state
     }
 
+    fun hasState(word: Word, subtype: ItemSubtype, state: ItemState): Boolean {
+        return stateRepo.getCountById(word.id, ItemType.WORD.name, subtype.name, state.name) > 0
+    }
+
     private fun getItem(word: Word, source: String, target: String, fully: Boolean): WordItem {
         val item = WordItem.getSimpleItem(word)
         item!!.setItem(word)
         adjustTranslate(item, source, target)
         return item
+    }
+
+    fun putState(word: Word, subtype: ItemSubtype, state: ItemState): Long {
+        val s = State(word.id, ItemType.WORD.name, subtype.name, state.name)
+        s.time = TimeUtil.currentTime()
+        return stateRepo.putItem(s)
+    }
+
+    fun putItem(word: Word, subtype: ItemSubtype, state: ItemState): Long {
+        var result = wordRepo.putItem(word)
+        if (result != -1L) {
+            result = putState(word, subtype, state)
+        }
+        return result
+    }
+
+    fun getItemIf(word: Word): Word? {
+        var result = getRoomItemIf(word)
+        if (result == null) {
+            result = getFirestoreItemIf(word)
+        }
+        if (result == null) {
+            result = getRemoteItemIf(word)
+        }
+        return result
+    }
+
+    private fun getRoomItemIf(word: Word): Word? {
+        return if (!hasState(word, ItemSubtype.DEFAULT, ItemState.FULL)) {
+            null
+        } else wordRepo.getRoomItem(word.id, true)
+    }
+
+    private fun getFirestoreItemIf(word: Word): Word? {
+        val result = wordRepo.getFirestoreItem(word.id, true)
+        if (result != null) {
+            Timber.v("Firestore result success")
+            this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL)
+        }
+        return result
+    }
+
+    private fun getRemoteItemIf(word: Word): Word? {
+        val result = wordRepo.getRemoteItem(word.id, true)
+        if (result != null) {
+            this.putItem(result, ItemSubtype.DEFAULT, ItemState.FULL)
+            wordRepo.putFirestoreItem(result)
+        }
+        return result
     }
 
     private fun adjustTranslate(item: WordItem, source: String, target: String) {

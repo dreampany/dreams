@@ -6,14 +6,14 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.0'
+    buildToolsVersion '29.0.1'
 
     defaultConfig {
         applicationId 'com.dreampany.lca'
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 144
-        versionName '1.4.4'
+        versionCode 145
+        versionName '1.4.5'
 
         multiDexEnabled true
 
@@ -166,8 +166,6 @@ dependencies {
 
     /* library */
     implementation project(':frame')
-    //implementation project(':network')
-    //implementation project(':firebase')
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02'

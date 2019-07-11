@@ -6,7 +6,7 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.0'
+    buildToolsVersion '29.0.1'
 
     defaultConfig {
         applicationId 'com.dreampany.word'

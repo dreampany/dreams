@@ -14,7 +14,7 @@ import com.dreampany.translation.data.model.TextTranslation
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [TextTranslation::class], version = 1)
+@Database(entities = [TextTranslation::class], version = 2)
 abstract class TranslateDatabase : RoomDatabase() {
 
     companion object {

@@ -1,9 +1,10 @@
 package com.dreampany.frame.ui.model;
 
 import android.content.Context;
+import android.view.View;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import android.view.View;
 
 import com.google.common.base.Objects;
 
@@ -26,7 +27,7 @@ public abstract class BaseItem<T, VH extends BaseItem.ViewHolder> extends Abstra
     protected int layoutId;
     protected boolean success;
 
-    protected BaseItem(T item, int layoutId) {
+    protected BaseItem(T item, @LayoutRes int layoutId) {
         this.item = item;
         this.layoutId = layoutId;
         this.success = true;
@@ -37,7 +38,7 @@ public abstract class BaseItem<T, VH extends BaseItem.ViewHolder> extends Abstra
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         BaseItem item = (BaseItem) other;
-        return Objects.equal(item, item.item);
+        return Objects.equal(this.item, item.item);
     }
 
     @Override

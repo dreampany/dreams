@@ -43,8 +43,8 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @Inject
     SmartAd ad;
 
-    ActivityNavigationBinding bind;
-    LoaderViewModel vm;
+    private ActivityNavigationBinding bind;
+    private LoaderViewModel vm;
 
     @Override
     public int getLayoutId() {
@@ -85,7 +85,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @Override
     protected void onStartUi(Bundle state) {
         initView();
-        ad.loadBanner(getClass().getSimpleName());
+        ad.loadBanner(getScreen());
     }
 
     @Override

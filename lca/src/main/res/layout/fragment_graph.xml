@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/size_4"
+                    android:layout_marginTop="@dimen/dp_4"
                     android:background="@drawable/ripple"
                     android:text="@string/more_graph"
                     android:textColor="@color/colorPrimary"

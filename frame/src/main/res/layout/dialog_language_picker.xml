@@ -24,8 +24,8 @@
                     android:layout_height="match_parent"
                     android:text="fhsdfds sdfl sdlds ldsf"></TextView>-->
         <FrameLayout
-            android:layout_width="@dimen/size_250"
-            android:layout_height="@dimen/size_500">
+            android:layout_width="@dimen/dp_250"
+            android:layout_height="@dimen/dp_500">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"

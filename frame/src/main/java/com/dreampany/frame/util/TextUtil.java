@@ -1,14 +1,16 @@
 package com.dreampany.frame.util;
 
 import android.content.Context;
-import androidx.annotation.ArrayRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.UnderlineSpan;
 import android.widget.TextView;
+
+import androidx.annotation.ArrayRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.dreampany.frame.R;
 import com.google.common.base.Strings;
@@ -218,12 +220,16 @@ public final class TextUtil {
         return strings;
     }
 
-    @NonNull
-    public static String getString(@NonNull Context context, @StringRes int resId) {
+    @Nullable
+    public static String getString(@Nullable Context context, @StringRes int resId) {
+        if (context == null) {
+            return null;
+        }
         return context.getString(resId);
     }
 
-    public static String getString(@NonNull Context context, @StringRes int resId, Object... args) {
+    @Nullable
+    public static String getString(@Nullable Context context, @StringRes int resId, Object... args) {
         if (context == null) {
             return null;
         }

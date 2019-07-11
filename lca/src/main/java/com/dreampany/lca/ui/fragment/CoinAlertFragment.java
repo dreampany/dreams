@@ -2,9 +2,11 @@ package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -23,10 +25,12 @@ import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinAlertViewModel;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.inject.Inject;
+
 import java.io.IOException;
 import java.util.Locale;
 
@@ -42,8 +46,8 @@ public class CoinAlertFragment extends BaseMenuFragment {
 
     @Inject
     ViewModelProvider.Factory factory;
-    FragmentCoinAlertBinding binding;
-    CoinAlertViewModel vm;
+    private FragmentCoinAlertBinding binding;
+    private CoinAlertViewModel vm;
 
     @Inject
     public CoinAlertFragment() {
@@ -89,10 +93,13 @@ public class CoinAlertFragment extends BaseMenuFragment {
     }
 
     void initView() {
+        UiTask<Coin> uiTask = getCurrentTask(true);
+
         setTitle(R.string.alert);
         binding = (FragmentCoinAlertBinding) super.binding;
 
         vm = ViewModelProviders.of(this, factory).get(CoinAlertViewModel.class);
+        //vm.setTask(uiTask);
         //vm.observeUiState(this, this::processUiState);
         vm.observeOutput(this, this::processResponse);
     }

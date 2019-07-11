@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:minHeight="@dimen/size_56"
+        android:minHeight="@dimen/dp_56"
         android:textColor="@color/black"
         android:textSize="20sp"
         auto:fontFamily="@font/roboto_slab_regular" />

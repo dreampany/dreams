@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="item"
+            type="com.dreampany.translate.ui.model.TextTranslationItem" />
+
+        <variable
             name="items"
             type="androidx.databinding.ObservableArrayList" />
     </data>
@@ -44,13 +48,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <include
+<!--                    <include
                         android:id="@+id/layout_recycler"
                         layout="@layout/content_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="gone"
-                        auto:items="@{items}" />
+                        auto:items="@{items}" />-->
+
+                    <include
+                        android:id="@+id/layout_text_translation"
+                        layout="@layout/content_text_translation"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible"
+                        auto:item="@{item}" />
                 </FrameLayout>
             </cz.kinst.jakub.view.StatefulLayout>
 

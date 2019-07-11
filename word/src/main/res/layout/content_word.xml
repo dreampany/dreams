@@ -22,7 +22,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_8">
+            android:layout_margin="@dimen/dp_8">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_word"
@@ -87,17 +87,17 @@
 
                 <ImageView
                     android:id="@+id/image_speak"
-                    android:layout_width="@dimen/size_25"
-                    android:layout_height="@dimen/size_25"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
                     android:tint="@color/colorAccent"
                     auto:srcCompat="@drawable/ic_keyboard_voice_black_24dp" />
 
                 <com.like.LikeButton
                     android:id="@+id/button_favorite"
-                    android:layout_width="@dimen/size_23"
-                    android:layout_height="@dimen/size_23"
-                    android:layout_marginTop="@dimen/size_8"
-                    auto:icon_size="@dimen/size_22"
+                    android:layout_width="@dimen/dp_23"
+                    android:layout_height="@dimen/dp_23"
+                    android:layout_marginTop="@dimen/dp_8"
+                    auto:icon_size="@dimen/dp_22"
                     auto:icon_type="heart"
                     auto:liked="@{item.favorite}" />
 

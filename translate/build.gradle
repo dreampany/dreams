@@ -89,12 +89,12 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    dataBinding {
+        enabled = true
     }
 	
 	compileOptions {
@@ -141,6 +141,9 @@ dependencies {
 
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
+    /* misc */
+    implementation 'com.github.jaiselrahman:HintSpinner:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.dreampany.translate.ui.model.TextTranslationItem" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.jaiselrahman.hintspinner.HintSpinner
+                android:id="@+id/spinnerSourceLanguage"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputSource"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_slab_regular" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <ImageView
+            android:id="@+id/imageSweep"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="@dimen/dp_80"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/dp_30"
+            auto:srcCompat="@drawable/ic_unfold_more_black_24dp" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.jaiselrahman.hintspinner.HintSpinner
+                android:id="@+id/spinnerTargetLanguage"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/outputSource"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_slab_regular" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <ImageView
+                android:id="@+id/imageSweep"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_80"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
+                auto:srcCompat="@drawable/ic_unfold_more_black_24dp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputSource"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                auto:layout_constraintBottom_toTopOf="@id/imageSweep"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
+</layout>

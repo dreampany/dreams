@@ -27,10 +27,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/size_15"
-                android:paddingTop="@dimen/size_8"
-                android:paddingEnd="@dimen/size_15"
-                android:paddingBottom="@dimen/size_8">
+                android:paddingStart="@dimen/dp_15"
+                android:paddingTop="@dimen/dp_8"
+                android:paddingEnd="@dimen/dp_15"
+                android:paddingBottom="@dimen/dp_8">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_word"
@@ -90,10 +90,10 @@
 
                     <com.like.LikeButton
                         android:id="@+id/button_favorite"
-                        android:layout_width="@dimen/size_23"
-                        android:layout_height="@dimen/size_23"
-                        android:layout_marginTop="@dimen/size_8"
-                        auto:icon_size="@dimen/size_22"
+                        android:layout_width="@dimen/dp_23"
+                        android:layout_height="@dimen/dp_23"
+                        android:layout_marginTop="@dimen/dp_8"
+                        auto:icon_size="@dimen/dp_22"
                         auto:icon_type="heart"
                         auto:liked="@{item.favorite}" />
 
@@ -128,7 +128,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_word"
-            android:layout_marginTop="@dimen/size_8"
+            android:layout_marginTop="@dimen/dp_8"
             android:scrollbars="none"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 

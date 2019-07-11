@@ -25,17 +25,28 @@
     <dimen name="spacing_xxxlarge">55dp</dimen>
 
     <!-- size -->
-    <dimen name="size_4">4dp</dimen>
-    <dimen name="size_6">6dp</dimen>
-    <dimen name="size_8">8dp</dimen>
-    <dimen name="size_10">10dp</dimen>
-    <dimen name="size_15">15dp</dimen>
-    <dimen name="size_20">20dp</dimen>
-    <dimen name="size_22">22dp</dimen>
-    <dimen name="size_23">23dp</dimen>
-    <dimen name="size_25">25dp</dimen>
-    <dimen name="size_56">56dp</dimen>
-    <dimen name="size_250">250dp</dimen>
-    <dimen name="size_500">500dp</dimen>
+    <dimen name="dp_4">4dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
+    <dimen name="dp_8">8dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_15">15dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_22">22dp</dimen>
+    <dimen name="dp_23">23dp</dimen>
+    <dimen name="dp_25">25dp</dimen>
+    <dimen name="dp_30">30dp</dimen>
+    <dimen name="dp_40">40dp</dimen>
+    <dimen name="dp_50">50dp</dimen>
+    <dimen name="dp_56">56dp</dimen>
+    <dimen name="dp_60">60dp</dimen>
+    <dimen name="dp_80">80dp</dimen>
+    <dimen name="dp_250">250dp</dimen>
+    <dimen name="dp_500">500dp</dimen>
+
+    <dimen name="sp_18">18sp</dimen>
+    <dimen name="sp_20">20sp</dimen>
+    <dimen name="sp_22">22sp</dimen>
+    <dimen name="sp_24">24sp</dimen>
+    <dimen name="sp_26">26sp</dimen>
 
 </resources>

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.translate.ui.fragment;
 
 import android.os.Bundle;
@@ -19,11 +20,13 @@ import com.jaiselrahman.hintspinner.HintSpinner;
 import javax.inject.Inject;
 
 
+*/
 /**
  * Created by Hawladar Roman on 6/20/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class HomeFragment extends BaseMenuFragment {
 
@@ -48,6 +51,7 @@ public class HomeFragment extends BaseMenuFragment {
         return R.layout.fragment_home;
     }
 
+*/
 /*    @Override
     public int getMenuId() {
         return R.menu.menu_home;
@@ -56,7 +60,8 @@ public class HomeFragment extends BaseMenuFragment {
     @Override
     public int getSearchMenuItemId() {
         return R.id.item_search;
-    }*/
+    }*//*
+
 
     @Override
     protected void onStartUi(@Nullable Bundle state) {
@@ -81,26 +86,33 @@ public class HomeFragment extends BaseMenuFragment {
         binding.fab.setOnClickListener(this);
 
 
-        /*vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
+        */
+/*vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
         vm.setUiCallback(this);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputsOfString(this, this::processResponseOfString);
         vm.observeOutputs(this, this::processResponse);
-        vm.observeOutput(this, this::processSingleResponse);*/
+        vm.observeOutput(this, this::processSingleResponse);*//*
+
 
 
     }
 
     private void initRecycler() {
+*/
 /*        binding.setItems(new ObservableArrayList<>());
         adapter = new TranslationAdapter(this);
-        adapter.setStickyHeaders(false);*/
+        adapter.setStickyHeaders(false);*//*
+
+*/
 /*        scroller = new OnVerticalScrollListener() {
             @Override
             public void onScrollingAtEnd() {
 
             }
-        };*/
+        };*//*
+
+*/
 /*        ViewUtil.setRecycler(
                 adapter,
                 bindRecycler.recycler,
@@ -111,6 +123,8 @@ public class HomeFragment extends BaseMenuFragment {
                 null,
                 scroller,
                 null
-        );*/
+        );*//*
+
     }
 }
+*/

@@ -18,19 +18,12 @@ abstract class TextTranslationItem(item: TextTranslation?, @LayoutRes layoutId: 
      class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         TranslationItem.ViewHolder(view, adapter) {
 
-         override fun bind(
+         override fun <VH : TranslationItem.ViewHolder, T : Translation, I : TranslationItem<T, VH, String>> bind(
              position: Int,
-             item: TranslationItem<Translation, TranslationItem.ViewHolder, String>
+             item: I
          ) {
-
+             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
          }
 
-         /*val adapter: WordAdapter
-
-         init {
-             this.adapter = adapter as WordAdapter
-         }*/
-
-        // abstract fun bind(position: Int, item: TranslationItem)
     }
 }

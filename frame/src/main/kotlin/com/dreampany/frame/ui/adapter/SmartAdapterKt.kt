@@ -1,20 +1,23 @@
 package com.dreampany.frame.ui.adapter
 
 import android.view.View
-import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.util.DataUtil
 import eu.davidea.flexibleadapter.databinding.BindingFlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import java.util.Comparator
+import java.util.*
 import kotlin.collections.ArrayList
-
+import kotlin.collections.List
 
 /**
- * Created by Hawladar Roman on 5/22/2018.
- * BJIT Group
+ * Created by Roman-372 on 7/11/2019
+ * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
-open class SmartAdapter<T : BaseItem<*, *>>(listener: Any?) : BindingFlexibleAdapter<T>(listener) {
+open class SmartAdapterKt<T : BaseItemKt<*, *, *>>(listener: Any?) :
+    BindingFlexibleAdapter<T>(listener) {
+
     var clickListener: View.OnClickListener? = null
         private set
     var longClickListener: View.OnLongClickListener? = null
@@ -67,17 +70,17 @@ open class SmartAdapter<T : BaseItem<*, *>>(listener: Any?) : BindingFlexibleAda
         }
     }
 
-    open fun setItems(items: List<T>) {
+    fun setItems(items: List<T>) {
         for (item in items) {
             addItem(itemCount, item)
         }
     }
 
-    open fun addItems(items: List<T>): Boolean {
+    fun addItems(items: List<T>): Boolean {
         return addItems(0, items)
     }
 
-    open fun addItems(items: List<T>, comparator: Comparator<IFlexible<*>>): Boolean {
+    fun addItems(items: List<T>, comparator: Comparator<IFlexible<*>>): Boolean {
         if (items.isEmpty()) {
             return false
         }

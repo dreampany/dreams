@@ -1,15 +1,13 @@
-package com.dreampany.frame.ui
+package com.dreampany.frame.ui.model
 
 import android.content.Context
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.translation.data.model.TextTranslation
+import com.dreampany.frame.data.model.BaseKt
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFilterable
-import eu.davidea.flexibleadapter.items.IFlexible
 import eu.davidea.viewholders.FlexibleViewHolder
 import java.io.Serializable
 
@@ -19,17 +17,11 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseItemKt<T, VH : BaseItemKt.ViewHolder, S : Serializable> : AbstractFlexibleItem<VH>, IFilterable<S>, Serializable {
+abstract class BaseItemKt<T : BaseKt, VH : BaseItemKt.ViewHolder, S : Serializable>(var item: T?, @LayoutRes var layoutId: Int = 0) :
+    AbstractFlexibleItem<VH>(), IFilterable<S>, Serializable {
 
-    protected var item: T? = null
-    @LayoutRes
-    protected var layoutId: Int = 0
     protected var success: Boolean = false
-
-    protected constructor(item: T?, @LayoutRes layoutId: Int) {
-        this.item = item
-        this.layoutId = layoutId
-    }
+    protected var favorite: Boolean = false
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -42,24 +34,20 @@ abstract class BaseItemKt<T, VH : BaseItemKt.ViewHolder, S : Serializable> : Abs
         return Objects.hashCode(item)
     }
 
-/*    fun setItem(item: T) {
-        this.item = item
-    }
-
-    fun setLayoutId(@LayoutRes layoutId: Int) {
-        this.layoutId = layoutId
-    }
-
-    fun setSuccess(success: Boolean) {
-        this.success = success
-    }*/
-
     abstract class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         FlexibleViewHolder(view, adapter) {
-        fun getContext(): Context {
+        internal fun getContext(): Context {
             return itemView.context
         }
     }
 
-
+/*    abstract class ViewHolder<VH : RecyclerView.ViewHolder, T : IFlexible<VH>>(
+        view: View,
+        adapter: FlexibleAdapter<T>
+    ) :
+        FlexibleViewHolder(view, adapter) {
+        internal fun getContext(): Context {
+            return itemView.context
+        }
+    }*/
 }

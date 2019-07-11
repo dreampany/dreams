@@ -3,7 +3,6 @@ package com.dreampany.translation.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.translation.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -17,36 +16,36 @@ import kotlinx.android.parcel.Parcelize
  */
 @Entity(
     indices = [Index(
-        value = [Constants.Translation.INPUT, Constants.Translation.SOURCE, Constants.Translation.TARGET],
+        value = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT],
         unique = true
     )],
-    primaryKeys = [Constants.Translation.INPUT, Constants.Translation.SOURCE, Constants.Translation.TARGET]
+    primaryKeys = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT]
 )
 @IgnoreExtraProperties
 @Parcelize
 data class TextTranslation(
-    override var id: String?,
-    override var time: Long,
+    override val id: String,
+    override val time: Long,
+    override val source: String,
+    override val target: String,
     val input: String,
-    val source: String,
-    val target: String,
     val output: String
-) : BaseKt() {
+) : Translation() {
 
     @Ignore
-    constructor() : this(null, 0L, "", "", "", "") {
+    constructor() : this("", 0L, "", "", "", "") {
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as TextTranslation
-        return Objects.equal(item.input, input)
-                && Objects.equal(item.source, source)
+        return Objects.equal(item.source, source)
                 && Objects.equal(item.target, target)
+                && Objects.equal(item.input, input)
     }
 
     override fun hashCode(): Int {
-        return Objects.hashCode(input, source, target)
+        return Objects.hashCode(source, target, input)
     }
 }

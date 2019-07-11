@@ -1,25 +1,19 @@
-package com.dreampany.word.ui.activity;
+package com.dreampany.translate.ui.activity;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.dreampany.frame.data.model.Task;
 import com.dreampany.frame.misc.SmartAd;
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.callback.SearchViewCallback;
-import com.dreampany.word.R;
-import com.dreampany.word.databinding.ActivityNavigationBinding;
-import com.dreampany.word.misc.Constants;
-import com.dreampany.word.ui.fragment.FavoritesFragment;
-import com.dreampany.word.ui.fragment.HomeFragment;
-import com.dreampany.word.ui.fragment.MoreFragment;
-import com.dreampany.word.ui.model.UiTask;
-import com.dreampany.word.vm.LoaderViewModel;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
-
-import org.jetbrains.annotations.NotNull;
+import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.translate.R;
+import com.dreampany.translate.databinding.ActivityNavigationBinding;
+import com.dreampany.translate.misc.Constants;
+import com.dreampany.translate.ui.fragment.HomeFragment;
+import com.dreampany.translate.ui.fragment.MoreFragment;
+import com.dreampany.translate.ui.model.UiTask;
 
 import javax.inject.Inject;
 
@@ -30,21 +24,18 @@ import dagger.Lazy;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class NavigationActivity extends BaseBottomNavigationActivity implements SearchViewCallback {
+public class NavigationActivity extends BaseBottomNavigationActivity {
 
     @Inject
     Lazy<MoreFragment> moreFragment;
     @Inject
     Lazy<HomeFragment> homeFragment;
     @Inject
-    Lazy<FavoritesFragment> favoritesFragment;
-    @Inject
     ViewModelProvider.Factory factory;
     @Inject
     SmartAd ad;
 
-    private ActivityNavigationBinding bind;
-    private LoaderViewModel vm;
+  private   ActivityNavigationBinding bind;
 
     @Override
     public int getLayoutId() {
@@ -76,7 +67,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
         return true;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getScreen() {
         return Constants.Companion.navigation(getApplicationContext());
@@ -89,21 +80,12 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     }
 
     @Override
-    protected void onStopUi() {
-        ad.destroyBanner(getClass().getSimpleName());
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        ad.resumeBanner(getClass().getSimpleName());
-        vm.loads();
-    }
-
-    @Override
-    protected void onPause() {
-        ad.pauseBanner(getClass().getSimpleName());
-        super.onPause();
+    public void onBackPressed() {
+        BaseFragment fragment = getCurrentFragment();
+        if (fragment != null && fragment.hasBackPressed()) {
+            return;
+        }
+        finish();
     }
 
     @Override
@@ -112,9 +94,6 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
             case R.id.item_home:
                 commitFragment(HomeFragment.class, homeFragment, R.id.layout);
                 break;
-            case R.id.item_favorites:
-                commitFragment(FavoritesFragment.class, favoritesFragment, R.id.layout);
-                break;
             case R.id.item_more:
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);
                 break;
@@ -122,12 +101,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     }
 
     @Override
-    public MaterialSearchView getSearchView() {
-        return bind.searchView;
-    }
-
-    @Override
-    public void execute(@NotNull Task<?> t) {
+    protected void onStopUi() {
 
     }
 
@@ -140,11 +114,9 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
 
         bind = (ActivityNavigationBinding) super.binding;
         ad.initAd(this,
-                getClass().getSimpleName(),
+                getScreen(),
                 findViewById(R.id.adview),
                 R.string.interstitial_ad_unit_id,
                 R.string.rewarded_ad_unit_id);
-
-        vm = ViewModelProviders.of(this, factory).get(LoaderViewModel.class);
     }
 }

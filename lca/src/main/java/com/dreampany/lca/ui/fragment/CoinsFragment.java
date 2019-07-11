@@ -229,6 +229,8 @@ public class CoinsFragment
         binding = (FragmentCoinsBinding) super.binding;
         binding.stateful.setStateView(NONE, LayoutInflater.from(getContext()).inflate(R.layout.item_none, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
+        binding.stateful.setState(NONE);
+
         ViewUtil.setText(this, R.id.text_loading, R.string.loading_coins);
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_coins);
 

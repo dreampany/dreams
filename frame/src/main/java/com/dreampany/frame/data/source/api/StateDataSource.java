@@ -45,6 +45,10 @@ public interface StateDataSource extends DataSource<State> {
 
     Maybe<List<State>> getItemsOrderByRx(String type, String subtype, long from, long to);
 
+    State getItem(String type, String subtype, String state);
+
+    Maybe<State> getItemRx(String type, String subtype, String state);
+
     List<State> getItems(String type, String subtype, String state);
 
     Maybe<List<State>> getItemsRx(String type, String subtype, String state);

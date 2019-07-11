@@ -226,7 +226,7 @@ public class HomeFragment extends BaseMenuFragment
         Timber.v("onQueryTextSubmit %s", query);
         this.recentWord = query.toLowerCase();
 
-        request(query, false, true, true);
+        request(recentWord, false, true, true);
         return super.onQueryTextSubmit(query);
     }
 
@@ -629,6 +629,9 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void request(String word, boolean recentWord, boolean important, boolean progress) {
+
+        Timber.v("Request Word %s", word);
+
         boolean translate = vm.needToTranslate();
         Language language = vm.getCurrentLanguage();
 

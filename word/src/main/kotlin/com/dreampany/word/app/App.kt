@@ -3,14 +3,15 @@ package com.dreampany.word.app
 import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.dreampany.frame.app.BaseApp
+import com.dreampany.frame.misc.SmartAd
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.word.BuildConfig
 import com.dreampany.word.R
 import com.dreampany.word.data.source.pref.Pref
+import com.dreampany.word.injector.app.DaggerAppComponent
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.service.NotifyService
-import com.dreampany.frame.misc.SmartAd
-import com.dreampany.frame.util.AndroidUtil
-import com.dreampany.word.injector.app.DaggerAppComponent
+import com.dreampany.word.vm.NotifyViewModel
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -27,6 +28,8 @@ class App : BaseApp() {
 
     @Inject
     lateinit var pref: Pref
+    @Inject
+    lateinit var notify: NotifyViewModel
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG;
@@ -73,6 +76,7 @@ class App : BaseApp() {
         configJob()
         clean()
         AndroidUtil.initTts(this)
+        //notify.notifyIf()
     }
 
     override fun onTerminate() {
@@ -94,9 +98,9 @@ class App : BaseApp() {
 
     private fun configFabric() {
         val fabric = Fabric.Builder(this)
-                .kits(Crashlytics())
-                .debuggable(isDebug())
-                .build()
+            .kits(Crashlytics())
+            .debuggable(isDebug())
+            .build()
         Fabric.with(fabric)
     }
 
@@ -112,12 +116,12 @@ class App : BaseApp() {
         if (pref.hasNotification()) {
             job.create(
                 Constants.Tag.NOTIFY_SERVICE,
-                NotifyService::class.java,
+                NotifyService::class,
                 Constants.Delay.Notify.toInt(),
                 Constants.Period.Notify.toInt()
             )
         } else {
-            job.cancel(NotifyService::class.java)
+            job.cancel(Constants.Tag.NOTIFY_SERVICE)
         }
     }
 

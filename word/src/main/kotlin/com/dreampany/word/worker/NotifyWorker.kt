@@ -22,13 +22,13 @@ class NotifyWorker(
 
     override fun onStart(): Result {
         Timber.v("NotifyWorker Started")
-        vm.notifyIf()
+        //vm.notifyIf()
         return Result.retry()
     }
 
     override fun onStop() {
         Timber.v("NotifyWorker Stopped")
-        vm.clear()
+        //vm.clear()
     }
 
     class Factory

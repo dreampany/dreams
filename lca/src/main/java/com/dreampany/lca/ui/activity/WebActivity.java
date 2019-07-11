@@ -3,12 +3,14 @@ package com.dreampany.lca.ui.activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
+
+import com.dreampany.frame.databinding.ActivityWebBinding;
 import com.dreampany.frame.ui.activity.BaseActivity;
 import com.dreampany.lca.R;
-import com.dreampany.lca.databinding.ActivityWebBinding;
 import com.dreampany.lca.ui.model.UiTask;
 import im.delight.android.webview.AdvancedWebView;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Roman on 1/23/2019

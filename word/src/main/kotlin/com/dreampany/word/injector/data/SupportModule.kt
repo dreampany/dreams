@@ -1,5 +1,6 @@
 package com.dreampany.word.injector.data
 
+import com.dreampany.frame.misc.Favorite
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.word.data.model.Word

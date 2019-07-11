@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Words</string>
+    <string name="app_name">Words - Translation</string>
 
     <string name="learn_word">Learn a new word</string>
     <string name="loader">Words Loader</string>
@@ -53,5 +53,9 @@
     <string name="action_change_colors">change style</string>
 
     <string name="select_language">Select Language</string>
+
+    <string name="notify_title_word_sync">New Word</string>
+    <string name="notify_word_translation_format">%s (%s)</string>
+    <string name="notify_word_format">%s (%s)</string>
 
 </resources>

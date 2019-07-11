@@ -142,6 +142,16 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
+    public State getItem(String type, String subtype, String state) {
+        return dao.getItem(type, subtype, state);
+    }
+
+    @Override
+    public Maybe<State> getItemRx(String type, String subtype, String state) {
+        return dao.getItemRx(type, subtype, state);
+    }
+
+    @Override
     public List<State> getItems(String type, String subtype, String state) {
         return dao.getItemsWithoutId(type, subtype, state);
     }

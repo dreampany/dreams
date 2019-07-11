@@ -7,5 +7,5 @@ package com.dreampany.word.data.enums
  * dreampanymail@gmail.com
  */
 enum class ItemState {
-    RAW, FULL, FAVORITE
+    RAW, FULL, FAVORITE, SYNONYM_QUIZ, ANTONYM_QUIZ
 }

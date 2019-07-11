@@ -23,7 +23,7 @@ import com.google.common.collect.Iterables;
                 State.class,
                 Store.class
         },
-        version = 8
+        version = 9
 )
 public abstract class FrameDatabase extends RoomDatabase {
     private static final String DATABASE = Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(BuildConfig.APPLICATION_ID)).concat("-db");

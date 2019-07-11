@@ -95,7 +95,7 @@
             android:screenOrientation="sensor" />
 
 	    <service
-            android:name="com.dreampany.word.service.NotifyService"
+            android:name=".service.NotifyService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />

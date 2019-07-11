@@ -4,8 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.LayoutRes;
-import androidx.databinding.ObservableField;
-import androidx.databinding.ObservableMap;
+import androidx.annotation.NonNull;
 
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.word.R;
@@ -14,8 +13,6 @@ import com.dreampany.word.data.model.Word;
 import com.dreampany.word.ui.adapter.WordAdapter;
 import com.google.common.base.Objects;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
@@ -139,9 +135,8 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
         final WordAdapter adapter;
 
-        ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
+        ViewHolder(@NonNull View view, @NonNull FlexibleAdapter adapter) {
             super(view, adapter);
-            ButterKnife.bind(this, view);
             this.adapter = (WordAdapter) adapter;
         }
 
@@ -152,8 +147,6 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
         TextView word;
         TextView partOfSpeech;
-        TextView pronunciation;
-        /*  LikeButton like;*/
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
             super(view, adapter);
@@ -163,6 +156,8 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
             //like.setOnClickListener(super.adapter.getClickListener());
             word.setOnClickListener(super.adapter.getClickListener());
         }
+        TextView pronunciation;
+        /*  LikeButton like;*/
 
         @Override
         void bind(int position, WordItem item) {

@@ -1,6 +1,10 @@
 package com.dreampany.word.api.wordnik;
 
+import android.text.TextUtils;
+
 import com.dreampany.frame.util.DataUtil;
+import com.dreampany.frame.util.TextUtil;
+import com.dreampany.word.api.wordnik.core.ClientException;
 import com.dreampany.word.api.wordnik.model.Definition;
 import com.dreampany.word.api.wordnik.model.Example;
 import com.dreampany.word.api.wordnik.model.ExampleSearchResults;
@@ -174,6 +178,7 @@ public class WordnikManager {
         WordnikWord word = new WordnikWord(from);
 
         List<Definition> definitions = getDefinitions(from, limit);
+
         word.setPartOfSpeech(getPartOfSpeech(definitions));
         word.setPronunciation(getPronunciation(from, limit));
         word.setDefinitions(getDefinitions(definitions));
@@ -184,6 +189,7 @@ public class WordnikManager {
         //word.setExamples(getExamples(examples));
 
         List<Related> relateds = getRelateds(from, RELATED_SYNONYM_ANTONYM, limit);
+
         word.setSynonyms(getSynonyms(relateds));
         word.setAntonyms(getAntonyms(relateds));
 
@@ -338,8 +344,13 @@ public class WordnikManager {
                 String includeTags = "false";
                 Definition[] definitions = api.getDefinitions(word, limit, partOfSpeech, includeRelated, sourceDictionaries, useCanonical, includeTags);
                 return Arrays.asList(definitions);
-            } catch (Exception e) {
-                Timber.e(e);
+            } catch (Exception error) {
+                Timber.e(error);
+                if (error instanceof ClientException) {
+                    word = TextUtil.toTitleCase(word);
+                    index--;
+                    continue;
+                }
                 iterateQueue();
             }
         }
@@ -411,8 +422,13 @@ public class WordnikManager {
                 Related[] relateds = api.getRelatedWords(word, useCanonical, relationshipTypes, limit);
                 return Arrays.asList(relateds);
 
-            } catch (Exception e) {
-                Timber.e(e);
+            } catch (Exception error) {
+                Timber.e(error);
+                if (error instanceof ClientException) {
+                    word = TextUtil.toTitleCase(word);
+                    index--;
+                    continue;
+                }
                 iterateQueue();
             }
         }

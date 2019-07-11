@@ -14,26 +14,30 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
 
-    object Event {
-        const val ERROR = Constants.Event.ERROR
-        const val APPLICATION = Constants.Event.APPLICATION
-        const val ACTIVITY = Constants.Event.ACTIVITY
-        const val FRAGMENT = Constants.Event.FRAGMENT
-        const val NOTIFICATION = Constants.Event.NOTIFICATION
-    }
-
-    companion object Screen {
+    companion object {
         fun lastAppId(context: Context): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
         fun about(context: Context): String = Constants.about(context)
         fun settings(context: Context): String = Constants.settings(context)
         fun license(context: Context): String = Constants.license(context)
 
-        fun app(context: Context): String = lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
+        fun app(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
 
         fun launch(context: Context): String = Constants.launch(context)
         fun navigation(context: Context): String = Constants.navigation(context)
         fun tools(context: Context): String = Constants.tools(context)
+
+        fun notifyWordSync(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "profitable_coin"
+    }
+
+    object Event {
+        const val ERROR = Constants.Event.ERROR
+        const val APPLICATION = Constants.Event.APPLICATION
+        const val ACTIVITY = Constants.Event.ACTIVITY
+        const val FRAGMENT = Constants.Event.FRAGMENT
+        const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
     object Assets {
@@ -98,11 +102,12 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toSeconds(3)
+        val Notify = TimeUnit.MINUTES.toSeconds(5)
     }
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
+        val WordSyncTimeMS = TimeUnit.MINUTES.toMillis(10)
     }
 
     object Sep {
@@ -115,5 +120,13 @@ class Constants {
 
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
+    }
+
+    object Pref {
+        const val WORD_SYNC = "word_sync"
+    }
+
+    object Notify {
+        const val WORD_SYNC = "word_sync"
     }
 }

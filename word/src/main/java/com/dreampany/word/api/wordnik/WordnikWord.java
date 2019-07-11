@@ -23,6 +23,10 @@ public class WordnikWord {
         this.word = word;
     }
 
+    public void setWord(String word) {
+        this.word = word;
+    }
+
     public void setPartOfSpeech(String partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }

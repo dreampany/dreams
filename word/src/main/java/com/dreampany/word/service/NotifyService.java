@@ -25,7 +25,7 @@ public class NotifyService extends BaseJobService {
 
     @Override
     protected boolean done(@NonNull JobParameters job) {
-        vm.clear();
+        vm.clearIf();
         return true;
     }
 }

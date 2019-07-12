@@ -3,12 +3,14 @@ package com.dreampany.translation.injector
 import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.frame.api.key.KeyManager
 import com.dreampany.frame.misc.Firestore
+import com.dreampany.frame.misc.Machine
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.misc.TextTranslationMapper
 import com.dreampany.translation.data.source.api.TranslationDataSource
 import com.dreampany.translation.data.source.firestore.FirestoreTranslationDataSource
+import com.dreampany.translation.data.source.machine.MachineTranslationDataSource
 import com.dreampany.translation.data.source.remote.RemoteTranslationDataSource
 import com.dreampany.translation.data.source.remote.YandexTranslationService
 import com.dreampany.translation.data.source.room.TextTranslationDao
@@ -60,6 +62,16 @@ class TranslationModule {
         dao: TextTranslationDao
     ): TranslationDataSource {
         return RoomTranslationDataSource(mapper, dao)
+    }
+
+    @Singleton
+    @Provides
+    @Machine
+    fun provideMachineTranslationDataSource(
+        network: NetworkManager,
+        mapper: TextTranslationMapper
+    ): TranslationDataSource {
+        return MachineTranslationDataSource(network, mapper)
     }
 
     @Singleton

@@ -3,7 +3,7 @@ package com.dreampany.word.vm
 import android.app.Application
 import androidx.fragment.app.Fragment
 import com.annimon.stream.Stream
-import com.dreampany.frame.data.enums.Language
+import com.dreampany.language.Language
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.State
@@ -26,7 +26,6 @@ import com.dreampany.word.data.misc.StateMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.model.WordRequest
 import com.dreampany.word.data.source.pref.Pref
-import com.dreampany.word.data.source.repository.ApiRepository
 import com.dreampany.word.data.source.repository.WordRepository
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.model.UiTask

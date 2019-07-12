@@ -23,9 +23,19 @@ class TranslationRepository
     rx: RxMapper,
     rm: ResponseMapper,
     @Room val room: TranslationDataSource,
+    @Machine val machine: TranslationDataSource,
     @Firestore val firestore: TranslationDataSource,
     @Remote val remote: TranslationDataSource
 ) : RepositoryKt<String, TextTranslation>(rx, rm), TranslationDataSource {
+
+    override fun isReady(target: String): Boolean {
+      return  machine.isReady(target)
+    }
+
+    override fun ready(target: String) {
+        machine.ready(target)
+    }
+
     override fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -159,8 +169,10 @@ class TranslationRepository
     ): Maybe<TextTranslation> {
         val maybe = remote.getItemRx(text, source, target)
         return contactSingleSuccess(maybe, Consumer {
-            rx.compute(room.putItemRx(it)).subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
-            rx.compute(firestore.putItemRx(it)).subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
+            rx.compute(room.putItemRx(it))
+                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
+            rx.compute(firestore.putItemRx(it))
+                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
         })
     }
 

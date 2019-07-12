@@ -18,6 +18,13 @@ class RoomTranslationDataSource constructor(
     val mapper: TextTranslationMapper,
     val dao: TextTranslationDao
 ) : TranslationDataSource {
+    override fun isReady(target: String) : Boolean{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun ready(target: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun isExists(input: String, source: String, target: String): Boolean {
         return dao.getCount(input, source, target) > 0

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.enums;
 
 import android.os.Parcel;
@@ -6,12 +7,14 @@ import com.dreampany.frame.misc.Constants;
 
 import java.io.Serializable;
 
+*/
 /**
  * Created by Roman-372 on 5/8/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 public enum Language implements Type, Serializable {
 
     ARABIC(Constants.LanguageCode.ARABIC, Constants.LanguageCountry.ARABIC),
@@ -108,3 +111,4 @@ public enum Language implements Type, Serializable {
         }
     }
 }
+*/

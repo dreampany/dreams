@@ -2,7 +2,7 @@ package com.dreampany.frame.data.source.room;
 
 import androidx.room.TypeConverter;
 
-import com.dreampany.frame.data.enums.Language;
+import com.dreampany.language.Language;
 
 /**
  * Created by Roman-372 on 5/8/2019

@@ -26,6 +26,13 @@ constructor(
     val keyM: KeyManager,
     val service: YandexTranslationService
 ) : TranslationDataSource {
+    override fun isReady(target: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun ready(target: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     init {
         keyM.setKeys(

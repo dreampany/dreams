@@ -2,7 +2,7 @@ package com.dreampany.word.vm
 
 import android.app.Application
 import com.dreampany.frame.api.notify.NotifyManager
-import com.dreampany.frame.data.enums.Language
+import com.dreampany.language.Language
 import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.source.repository.StateRepository
 import com.dreampany.frame.misc.AppExecutors

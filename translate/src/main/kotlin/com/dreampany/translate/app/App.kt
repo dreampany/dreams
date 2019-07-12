@@ -69,11 +69,11 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
-        if (pref.hasNotification()) {
+/*        if (pref.hasNotification()) {
             service.schedulePowerService(NotifyService::class.java, Constants.Time.NotifyPeriod.toInt())
         } else {
             service.cancel(NotifyService::class.java)
-        }
+        }*/
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

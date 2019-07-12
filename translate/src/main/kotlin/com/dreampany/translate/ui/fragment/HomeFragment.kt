@@ -3,7 +3,7 @@ package com.dreampany.translate.ui.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.frame.data.enums.Language
+import com.dreampany.language.Language
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.util.TextUtil

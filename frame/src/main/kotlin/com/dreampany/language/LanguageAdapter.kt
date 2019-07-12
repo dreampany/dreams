@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.R
-import com.dreampany.frame.data.enums.Language
 import com.dreampany.frame.util.TextUtil
 
 /**

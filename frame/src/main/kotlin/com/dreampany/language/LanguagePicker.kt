@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.R
-import com.dreampany.frame.data.enums.Language
 import com.dreampany.frame.databinding.DialogLanguagePickerBinding
 
 /**

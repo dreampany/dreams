@@ -86,28 +86,6 @@ class Constants {
         const val STATE = "state"
     }
 
-    object LanguageCode {
-        const val ARABIC = "ar"
-        const val BENGALI = "bn"
-        const val CHINESE = "zh"
-        const val HINDI = "hi"
-        const val FRENCH = "fr"
-        const val RUSSIA = "ru"
-        const val SPANISH = "es"
-        const val ENGLISH = "en"
-    }
-
-    object LanguageCountry {
-        const val ARABIC = "Arabic"
-        const val BENGALI = "Bengali"
-        const val CHINESE = "Chinese"
-        const val HINDI = "Hindi"
-        const val FRENCH = "French"
-        const val RUSSIA = "Russian"
-        const val SPANISH = "Spanish"
-        const val ENGLISH = "English"
-    }
-
     object Notify {
         const val DEFAULT_ID = 101
         const val DEFAULT_CHANNEL_ID = "default_channel_id"

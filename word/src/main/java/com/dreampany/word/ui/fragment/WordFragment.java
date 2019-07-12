@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.dreampany.frame.data.enums.Language;
+import com.dreampany.language.Language;
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Color;
 import com.dreampany.frame.data.model.Response;

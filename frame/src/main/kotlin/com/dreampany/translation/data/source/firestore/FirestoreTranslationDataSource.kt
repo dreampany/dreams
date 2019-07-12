@@ -22,6 +22,13 @@ constructor(
     val mapper: TextTranslationMapper,
     val firestore: RxFirebaseFirestore
 ) : TranslationDataSource {
+    override fun isReady(target: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun ready(target: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val TRANSLATIONS = Constants.FirebaseKey.TRANSLATIONS
 

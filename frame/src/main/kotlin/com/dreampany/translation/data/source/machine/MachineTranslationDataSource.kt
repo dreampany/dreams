@@ -18,6 +18,14 @@ class MachineTranslationDataSource constructor(
     val network: NetworkManager,
     val mapper: TextTranslationMapper
 ) : TranslationDataSource {
+    override fun isReady(target: String) : Boolean{
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun ready(target: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun isExists(input: String, source: String, target: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

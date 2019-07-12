@@ -2,7 +2,7 @@ package com.dreampany.word.data.source.pref;
 
 import android.content.Context;
 
-import com.dreampany.frame.data.enums.Language;
+import com.dreampany.language.Language;
 import com.dreampany.frame.data.source.pref.FramePref;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;

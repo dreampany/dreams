@@ -146,6 +146,7 @@ class WordViewModel @Inject constructor(
 
     fun setCurrentLanguage(language: Language) {
         pref.setLanguage(language)
+        translationRepo.ready(language.code)
     }
 
     fun isDefaultLanguage(): Boolean {

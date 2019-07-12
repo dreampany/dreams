@@ -186,13 +186,13 @@ public abstract class Repository<K, V> {
     }
 
     @SafeVarargs
-    protected final Flowable<ArrayList<V>> concatLastRx(Flowable<ArrayList<V>>... sources) {
+    protected final Flowable<List<V>> concatLastRx(Flowable<List<V>>... sources) {
         return Flowable.create(emitter -> {
             Throwable error = null;
-            ArrayList<V> result = null;
+            List<V> result = null;
 
-            for (Flowable<ArrayList<V>> source : sources) {
-                ArrayList<V> items = null;
+            for (Flowable<List<V>> source : sources) {
+                List<V> items = null;
                 try {
                     items = source.blockingFirst();
                 } catch (Exception ex) {

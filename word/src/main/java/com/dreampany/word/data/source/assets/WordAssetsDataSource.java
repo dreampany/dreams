@@ -12,14 +12,14 @@ import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
 
-import io.reactivex.Maybe;
-import timber.log.Timber;
-
-import javax.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.inject.Singleton;
+
+import io.reactivex.Maybe;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 9/5/2018.

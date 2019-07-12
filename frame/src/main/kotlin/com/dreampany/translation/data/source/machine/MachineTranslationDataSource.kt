@@ -18,17 +18,15 @@ import javax.inject.Singleton
 class MachineTranslationDataSource constructor(
     val network: NetworkManager,
     val mapper: TextTranslationMapper,
-    val tranlation: RxFirebaseTranslation
+    val tranlator: RxFirebaseTranslation
 ) : TranslationDataSource {
 
     override fun isReady(target: String): Boolean {
-        return tranlation.isReady(target)
+        return tranlator.isReady(target)
     }
 
     override fun ready(target: String) {
-        if (!isReady(target)) {
-            tranlation.ready(target)
-        }
+        tranlator.ready(target)
     }
 
     override fun isExists(source: String, target: String, input: String): Boolean {
@@ -96,7 +94,8 @@ class MachineTranslationDataSource constructor(
     }
 
     override fun getItemRx(source: String, target: String, input: String): Maybe<TextTranslation> {
-        tranlation.
+        return tranlator.translateRx(source, target, input)
+            .map {output-> mapper.toItem(source, target, input, output)}
     }
 
     override fun putItemRx(t: TextTranslation): Maybe<Long> {

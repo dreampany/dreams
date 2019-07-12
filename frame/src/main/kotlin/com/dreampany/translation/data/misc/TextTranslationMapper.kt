@@ -41,15 +41,26 @@ class TextTranslationMapper
     }
 
     fun toItem(
-        input: String,
         source: String,
         target: String,
-        result: TextTranslationResponse
+        input: String,
+        output: String
     ): TextTranslation? {
-        val id = toId(input, source, target)
+        val id = toId(source, target, input)
         val time = TimeUtil.currentTime()
-        val output = DataUtil.joinString(result.text, Constants.Sep.SPACE)
-        output?.let {
+        return TextTranslation(id, time, input, source, target, output)
+    }
+
+    fun toItem(
+        source: String,
+        target: String,
+        input: String,
+        output: TextTranslationResponse
+    ): TextTranslation? {
+        val id = toId(source, target, input)
+        val time = TimeUtil.currentTime()
+        val outputText = DataUtil.joinString(output.text, Constants.Sep.SPACE)
+        outputText?.let {
             return TextTranslation(id, time, input, source, target, it)
         }
         return null

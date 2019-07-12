@@ -153,7 +153,8 @@ class TranslationRepository
     private fun getMachineItemIfRx(
         source: String, target: String, input: String
     ): Maybe<TextTranslation> {
-        val maybe = machine.getItemRx(source, target, input)
+        val maybe =
+            if (machine.isReady(target)) machine.getItemRx(source, target, input) else Maybe.empty()
         return contactSingleSuccess(maybe, Consumer {
             rx.compute(room.putItemRx(it))
                 .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())

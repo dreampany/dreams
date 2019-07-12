@@ -1,13 +1,14 @@
 package com.dreampany.firebase
 
 import com.dreampany.language.Language
-import com.dreampany.translation.data.model.TextTranslation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateModelManager
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateRemoteModel
+import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 import io.reactivex.Maybe
 import timber.log.Timber
 import javax.inject.Inject
@@ -25,7 +26,7 @@ class RxFirebaseTranslation @Inject constructor() {
 
     private val firebase: FirebaseApp
     private val manager: FirebaseTranslateModelManager
-    private val translator: FirebaseNaturalLanguage
+    private val natural: FirebaseNaturalLanguage
 
     private val bucket: MutableMap<String, Boolean>
     private var inited: Boolean = false
@@ -33,7 +34,7 @@ class RxFirebaseTranslation @Inject constructor() {
     init {
         firebase = FirebaseApp.getInstance()
         manager = FirebaseTranslateModelManager.getInstance()
-        translator = FirebaseNaturalLanguage.getInstance()
+        natural = FirebaseNaturalLanguage.getInstance()
         bucket = mutableMapOf()
         init()
     }
@@ -45,10 +46,10 @@ class RxFirebaseTranslation @Inject constructor() {
     }
 
     fun ready(language: String) {
-        val firebaseLanguageCode = convertToFirebaseLanguage(language)
+        val languageCode = convertToFirebaseLanguage(language)
         val conditions = FirebaseModelDownloadConditions.Builder()
             .build()
-        val model = FirebaseTranslateRemoteModel.Builder(firebaseLanguageCode)
+        val model = FirebaseTranslateRemoteModel.Builder(languageCode)
             .setDownloadConditions(conditions)
             .build()
         manager.downloadRemoteModelIfNeeded(model)
@@ -60,8 +61,24 @@ class RxFirebaseTranslation @Inject constructor() {
             }
     }
 
-    fun translateRx(source: String, target: String, input: String): Maybe<TextTranslation> {
-
+    fun translateRx(source: String, target: String, input: String): Maybe<String> {
+        return Maybe.create { emitter ->
+            val task = toTask(source, target, input)
+            task.addOnSuccessListener { output ->
+                if (!emitter.isDisposed) {
+                    if (output != null) {
+                        Timber.v("Machine Translation Result %s %s", input, output)
+                        emitter.onSuccess(output)
+                    } else {
+                        emitter.onComplete()
+                    }
+                }
+            }.addOnFailureListener { error ->
+                if (!emitter.isDisposed) {
+                    emitter.onError(error)
+                }
+            }
+        }
     }
 
 
@@ -77,6 +94,19 @@ class RxFirebaseTranslation @Inject constructor() {
                 inited = true
                 Timber.e(error)
             }
+    }
+
+    private fun toTask(source: String, target: String, input: String): Task<String> {
+        val sourceCode = convertToFirebaseLanguage(source)
+        val targetCode = convertToFirebaseLanguage(target)
+        val options = FirebaseTranslatorOptions.Builder()
+            .setSourceLanguage(sourceCode)
+            .setTargetLanguage(targetCode)
+            .build()
+
+        val translator = natural.getTranslator(options)
+        val result = translator.translate(input)
+        return result
     }
 
     private fun convertToFirebaseLanguage(language: String): Int {

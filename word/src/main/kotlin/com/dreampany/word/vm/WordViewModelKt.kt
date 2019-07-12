@@ -147,14 +147,19 @@ class WordViewModelKt @Inject constructor(
 
     fun getLanguages(): ArrayList<Language> {
         val result = ArrayList<Language>()
+        result.add(Language.AFRIKAANS)
         result.add(Language.ARABIC)
+        result.add(Language.BELARUSIAN)
+        result.add(Language.BULGARIAN)
         result.add(Language.BENGALI)
-        result.add(Language.CHINESE)
-        result.add(Language.HINDI)
-        result.add(Language.FRENCH)
-        result.add(Language.RUSSIA)
-        result.add(Language.SPANISH)
+        result.add(Language.CATALAN)
+        result.add(Language.CZECH)
         result.add(Language.ENGLISH)
+        result.add(Language.SPANISH)
+        result.add(Language.FRENCH)
+        result.add(Language.HINDI)
+        result.add(Language.RUSSIAN)
+        result.add(Language.CHINESE)
         return result
     }
 
@@ -253,8 +258,8 @@ class WordViewModelKt @Inject constructor(
             } else {
                 val textTranslation =
                     translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
-                Timber.v("Translation %s - %s", request.inputWord, translation)
                 textTranslation?.let {
+                    Timber.v("Translation %s - %s", request.inputWord, it.output)
                     item.addTranslation(request.target!!, it.output)
                     translation = it.output
                 }

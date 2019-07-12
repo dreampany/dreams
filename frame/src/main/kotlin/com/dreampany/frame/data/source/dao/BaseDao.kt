@@ -12,7 +12,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface BaseDaoKt<T> {
+interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrReplace(t: T): Long
 

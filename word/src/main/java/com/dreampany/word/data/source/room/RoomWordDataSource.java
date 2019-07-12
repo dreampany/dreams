@@ -9,11 +9,14 @@ import com.dreampany.word.data.model.Antonym;
 import com.dreampany.word.data.model.Synonym;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
-import io.reactivex.Maybe;
-import timber.log.Timber;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Singleton;
-import java.util.List;
+
+import io.reactivex.Maybe;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -84,8 +87,8 @@ public class RoomWordDataSource implements WordDataSource {
     public long putItem(Word word) {
         long result = dao.insertOrReplace(word);
         if (result != -1) {
-            List<Synonym> synonyms = mapper.getSynonyms(word);
-            List<Antonym> antonyms = mapper.getAntonyms(word);
+            ArrayList<Synonym> synonyms = mapper.getSynonyms(word);
+            ArrayList<Antonym> antonyms = mapper.getAntonyms(word);
             if (!DataUtil.isEmpty(synonyms)) {
                 synonymDao.insertOrReplace(synonyms);
             }
@@ -105,7 +108,7 @@ public class RoomWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Word> words) {
+    public List<Long> putItems(List<? extends Word> words) {
         List<Long> result = dao.insertOrIgnore(words);
 /*        Stream.of(words).forEach(coin -> {
             if (!isExists(coin)) {
@@ -118,7 +121,7 @@ public class RoomWordDataSource implements WordDataSource {
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Word> words) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Word> words) {
         return Maybe.fromCallable(() -> putItems(words));
     }
 
@@ -133,12 +136,12 @@ public class RoomWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Word> words) {
+    public List<Long> delete(List<? extends Word> words) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Word> words) {
+    public Maybe<List<Long>> deleteRx(List<? extends Word> words) {
         return null;
     }
 
@@ -163,7 +166,7 @@ public class RoomWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getItems(int limit) {
+    public ArrayList<Word> getItems(int limit) {
         return null;
     }
 
@@ -205,7 +208,7 @@ public class RoomWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getCommonItems() {
+    public ArrayList<Word> getCommonItems() {
         return null;
     }
 

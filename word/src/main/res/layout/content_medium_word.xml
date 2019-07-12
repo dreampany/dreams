@@ -83,8 +83,8 @@
 
                     <ImageView
                         android:id="@+id/image_speak"
-                        android:layout_width="@dimen/size_25"
-                        android:layout_height="@dimen/size_25"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
                         android:tint="@color/colorAccent"
                         auto:srcCompat="@drawable/ic_keyboard_voice_black_24dp" />
 

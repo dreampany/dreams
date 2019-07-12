@@ -32,15 +32,15 @@ constructor(
 
     private val TRANSLATIONS = Constants.FirebaseKey.TRANSLATIONS
 
-    override fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean> {
+    override fun isExistsRx(source: String, target: String, input: String): Maybe<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isExists(input: String, source: String, target: String): Boolean {
+    override fun isExists(source: String, target: String, input: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItem(input: String, source: String, target: String): TextTranslation {
+    override fun getItem(source: String, target: String, input: String): TextTranslation {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -60,61 +60,67 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isExists(t: TextTranslation?): Boolean {
+    override fun isExists(t: TextTranslation): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItem(id: String?): TextTranslation {
+    override fun getItem(id: String): TextTranslation {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(input: String, source: String, target: String): Maybe<TextTranslation> {
+    override fun getItemRx(
+        source: String,
+        target: String,
+        input: String
+    ): Maybe<TextTranslation> {
         return firestore.getItemRx(
             TRANSLATIONS,
-            mapper.toId(input, source, target),
+            mapper.toId(source, target, input),
             TextTranslation::class.java
         )
     }
 
-    override fun isExistsRx(t: TextTranslation?): Maybe<Boolean> {
+    override fun isExistsRx(t: TextTranslation): Maybe<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun putItem(t: TextTranslation): Long {
         val id = mapper.toId(t)
         val error = firestore.setItemRx(TRANSLATIONS, id, t).blockingGet()
-        return if (error == null) { 0L } else -1L
+        return if (error == null) {
+            0L
+        } else -1L
     }
 
     override fun putItemRx(t: TextTranslation): Maybe<Long> {
         return Maybe.fromCallable { putItem(t) }
     }
 
-    override fun putItems(ts: MutableList<TextTranslation>?): MutableList<Long> {
+    override fun putItems(ts: List<TextTranslation>): List<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItemsRx(ts: MutableList<TextTranslation>?): Maybe<MutableList<Long>> {
+    override fun putItemsRx(ts: List<TextTranslation>): Maybe<List<Long>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(t: TextTranslation?): Int {
+    override fun delete(t: TextTranslation): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteRx(t: TextTranslation?): Maybe<Int> {
+    override fun deleteRx(t: TextTranslation): Maybe<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(ts: MutableList<TextTranslation>?): MutableList<Long> {
+    override fun delete(ts: List<TextTranslation>): List<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteRx(ts: MutableList<TextTranslation>?): Maybe<MutableList<Long>> {
+    override fun deleteRx(ts: List<TextTranslation>): Maybe<List<Long>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(id: String?): Maybe<TextTranslation> {
+    override fun getItemRx(id: String): Maybe<TextTranslation> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -122,15 +128,15 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(): Maybe<MutableList<TextTranslation>> {
+    override fun getItemsRx(): Maybe<List<TextTranslation>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): MutableList<TextTranslation> {
+    override fun getItems(limit: Int): List<TextTranslation> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<MutableList<TextTranslation>> {
+    override fun getItemsRx(limit: Int): Maybe<List<TextTranslation>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

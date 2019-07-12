@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.dao;
 
 import androidx.room.Delete;
@@ -8,11 +9,13 @@ import io.reactivex.Maybe;
 
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 29/4/18.
  * Dreampany
  * dreampanymail@gmail.com
- */
+ *//*
+
 public interface BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertOrReplace(T t);
@@ -41,3 +44,4 @@ public interface BaseDao<T> {
     @Delete
     int delete(T t);
 }
+*/

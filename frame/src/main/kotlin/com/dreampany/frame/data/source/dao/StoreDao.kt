@@ -3,7 +3,6 @@ package com.dreampany.frame.data.source.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.frame.data.model.Store
-import com.dreampany.frame.data.source.dao.BaseDao
 import io.reactivex.Maybe
 
 /**
@@ -34,13 +33,13 @@ interface StoreDao : BaseDao<Store> {
     fun getCountRx(id: Long, type: String, subtype: String): Maybe<Int>
 
     @Query("select * from store where id = :id limit 1")
-    fun getItem(id: Long): Store
+    fun getItem(id: Long): Store?
 
     @Query("select * from store where id = :id limit 1")
     fun getItemRx(id: Long): Maybe<Store>
 
     @Query("select * from store where id = :id and type = :type and subtype = :subtype limit 1")
-    fun getItem(id: Long, type: String, subtype: String): Store
+    fun getItem(id: Long, type: String, subtype: String): Store?
 
     @Query("select * from store where id = :id and type = :type and subtype = :subtype limit 1")
     fun getItemRx(id: Long, type: String, subtype: String): Maybe<Store>

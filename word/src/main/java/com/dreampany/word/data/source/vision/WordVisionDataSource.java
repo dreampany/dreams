@@ -1,16 +1,19 @@
 package com.dreampany.word.data.source.vision;
 
 import android.graphics.Bitmap;
+
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.vision.VisionApi;
 import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
-import io.reactivex.Maybe;
 
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Singleton;
+
+import io.reactivex.Maybe;
 
 /**
  * Created by Hawladar Roman on 9/27/2018.
@@ -70,12 +73,12 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Word> words) {
+    public List<Long> putItems(List<? extends Word> words) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Word> words) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Word> words) {
         return null;
     }
 
@@ -90,12 +93,12 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Word> words) {
+    public List<Long> delete(List<? extends Word> words) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Word> words) {
+    public Maybe<List<Long>> deleteRx(List<? extends Word> words) {
         return null;
     }
 
@@ -160,17 +163,17 @@ public class WordVisionDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Word> getSearchItems(String query, int limit) {
+    public ArrayList<Word> getSearchItems(String query, int limit) {
         return null;
     }
 
     @Override
-    public List<Word> getCommonItems() {
+    public ArrayList<Word> getCommonItems() {
         return null;
     }
 
     @Override
-    public List<Word> getAlphaItems() {
+    public ArrayList<Word> getAlphaItems() {
         return null;
     }
 

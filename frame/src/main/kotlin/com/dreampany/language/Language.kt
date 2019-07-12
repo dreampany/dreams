@@ -12,12 +12,17 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Language(val code: String, val country: String) : Parcelable {
+    AFRIKAANS(Constants.LanguageCode.AFRIKAANS, Constants.LanguageCountry.AFRIKAANS),
     ARABIC(Constants.LanguageCode.ARABIC, Constants.LanguageCountry.ARABIC),
+    BELARUSIAN(Constants.LanguageCode.BELARUSIAN, Constants.LanguageCountry.BELARUSIAN),
+    BULGARIAN(Constants.LanguageCode.BULGARIAN, Constants.LanguageCountry.BULGARIAN),
     BENGALI(Constants.LanguageCode.BENGALI, Constants.LanguageCountry.BENGALI),
-    CHINESE(Constants.LanguageCode.CHINESE, Constants.LanguageCountry.CHINESE),
-    HINDI(Constants.LanguageCode.HINDI, Constants.LanguageCountry.HINDI),
-    FRENCH(Constants.LanguageCode.FRENCH, Constants.LanguageCountry.FRENCH),
-    RUSSIA(Constants.LanguageCode.RUSSIA, Constants.LanguageCountry.RUSSIA),
+    CATALAN(Constants.LanguageCode.CATALAN, Constants.LanguageCountry.CATALAN),
+    CZECH(Constants.LanguageCode.CZECH, Constants.LanguageCountry.CZECH),
+    ENGLISH(Constants.LanguageCode.ENGLISH, Constants.LanguageCountry.ENGLISH),
     SPANISH(Constants.LanguageCode.SPANISH, Constants.LanguageCountry.SPANISH),
-    ENGLISH(Constants.LanguageCode.ENGLISH, Constants.LanguageCountry.ENGLISH)
+    FRENCH(Constants.LanguageCode.FRENCH, Constants.LanguageCountry.FRENCH),
+    HINDI(Constants.LanguageCode.HINDI, Constants.LanguageCountry.HINDI),
+    RUSSIAN(Constants.LanguageCode.RUSSIAN, Constants.LanguageCountry.RUSSIAN),
+    CHINESE(Constants.LanguageCode.CHINESE, Constants.LanguageCountry.CHINESE)
 }

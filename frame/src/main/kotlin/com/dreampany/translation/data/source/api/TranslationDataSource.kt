@@ -13,8 +13,8 @@ import io.reactivex.Maybe
 interface TranslationDataSource : DataSource<TextTranslation> {
     fun isReady(target: String): Boolean
     fun ready(target: String)
-    fun isExists(input: String, source: String, target: String): Boolean
-    fun isExistsRx(input: String, source: String, target: String): Maybe<Boolean>
-    fun getItem(input: String, source: String, target: String): TextTranslation?
-    fun getItemRx(input: String, source: String, target: String): Maybe<TextTranslation>
+    fun isExists(source: String, target: String, input: String): Boolean
+    fun isExistsRx(source: String, target: String, input: String): Maybe<Boolean>
+    fun getItem(source: String, target: String, input: String): TextTranslation?
+    fun getItemRx(source: String, target: String, input: String): Maybe<TextTranslation>
 }

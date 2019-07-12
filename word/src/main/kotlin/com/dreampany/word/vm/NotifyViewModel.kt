@@ -119,7 +119,7 @@ class NotifyViewModel @Inject constructor(
         task.setUiType(UiType.WORD)
         task.setSubtype(UiSubtype.VIEW)
 
-        notify.showNotification(title, message!!, R.drawable.ic_notification, targetClass, task)
+        notify.showNotification(title!!, message!!, R.drawable.ic_notification, targetClass, task)
         app.throwAnalytics(
             Constants.Event.NOTIFICATION,
             Constants.notifyWordSync(application)

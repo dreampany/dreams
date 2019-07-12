@@ -27,7 +27,7 @@ class FrameModule {
     @Singleton
     @Provides
     @Room
-    fun provideStateRoomDataSource(mapper: StateMapper,
+    fun provideRoomStateDataSource(mapper: StateMapper,
                                     dao: StateDao
     ): StateDataSource {
         return StateRoomDataSource(mapper, dao)
@@ -36,7 +36,7 @@ class FrameModule {
     @Singleton
     @Provides
     @Room
-    fun provideStoreRoomDataSource(mapper: StoreMapper,
+    fun provideRoomStoreDataSource(mapper: StoreMapper,
                                     dao: StoreDao
     ): StoreDataSource {
         return StoreRoomDataSource(mapper, dao)

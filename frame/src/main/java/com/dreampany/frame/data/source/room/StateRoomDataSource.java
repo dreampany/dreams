@@ -232,12 +232,12 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<State> states) {
+    public List<Long> putItems(List<? extends State> states) {
         return dao.insertOrReplace(states);
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<State> states) {
+    public Maybe<List<Long>> putItemsRx(List<? extends State> states) {
         return Maybe.fromCallable(() -> putItems(states));
     }
 
@@ -252,12 +252,12 @@ public class StateRoomDataSource implements StateDataSource {
     }
 
     @Override
-    public List<Long> delete(List<State> states) {
+    public List<Long> delete(List<? extends State> states) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<State> states) {
+    public Maybe<List<Long>> deleteRx(List<? extends State> states) {
         return null;
     }
 

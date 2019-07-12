@@ -8,6 +8,9 @@ import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -89,12 +92,12 @@ public class FirestoreWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Word> words) {
+    public List<Long> putItems(List<? extends Word> words) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Word> words) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Word> words) {
         return null;
     }
 
@@ -109,42 +112,12 @@ public class FirestoreWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Word> words) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> deleteRx(List<Word> words) {
-        return null;
-    }
-
-    @Override
     public Word getItem(String id) {
         return null;
     }
 
     @Override
     public Maybe<Word> getItemRx(String id) {
-        return null;
-    }
-
-    @Override
-    public List<Word> getItems() {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getItemsRx() {
-        return null;
-    }
-
-    @Override
-    public List<Word> getItems(int limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getItemsRx(int limit) {
         return null;
     }
 
@@ -199,4 +172,39 @@ public class FirestoreWordDataSource implements WordDataSource {
         return null;
     }
 
+    @NotNull
+    @Override
+    public List<Long> delete(@NotNull List<? extends Word> words) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Long>> deleteRx(@NotNull List<? extends Word> words) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Word> getItems() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Word>> getItemsRx() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public ArrayList<Word> getItems(int limit) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Word>> getItemsRx(int limit) {
+        return null;
+    }
 }

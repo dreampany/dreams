@@ -5,6 +5,9 @@ import com.dreampany.frame.data.model.Store;
 import com.dreampany.frame.data.source.api.StoreDataSource;
 import com.dreampany.frame.data.source.dao.StoreDao;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Singleton;
@@ -93,15 +96,6 @@ public class StoreRoomDataSource implements StoreDataSource {
         return Maybe.fromCallable(() -> putItem(store));
     }
 
-    @Override
-    public List<Long> putItems(List<Store> stores) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> putItemsRx(List<Store> stores) {
-        return null;
-    }
 
     @Override
     public int delete(Store store) {
@@ -113,15 +107,6 @@ public class StoreRoomDataSource implements StoreDataSource {
         return null;
     }
 
-    @Override
-    public List<Long> delete(List<Store> stores) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> deleteRx(List<Store> stores) {
-        return null;
-    }
 
     @Override
     public Store getItem(String id) {
@@ -150,6 +135,30 @@ public class StoreRoomDataSource implements StoreDataSource {
 
     @Override
     public Maybe<List<Store>> getItemsRx(int limit) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Long> putItems(@NotNull List<? extends Store> stores) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Long>> putItemsRx(@NotNull List<? extends Store> stores) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Long> delete(@NotNull List<? extends Store> stores) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Long>> deleteRx(@NotNull List<? extends Store> stores) {
         return null;
     }
 }

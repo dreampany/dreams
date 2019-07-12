@@ -1,14 +1,11 @@
+/*
 package com.dreampany.frame.data.source.api;
 
 import java.util.List;
 
 import io.reactivex.Maybe;
 
-/**
- * Created by Hawladar Roman on 4/8/18.
- * Dreampany Ltd
- * dreampanymail@gmail.com
- */
+
 public interface DataSource<T> {
 
     boolean isEmpty();
@@ -51,3 +48,4 @@ public interface DataSource<T> {
 
     Maybe<List<T>> getItemsRx(int limit);
 }
+*/

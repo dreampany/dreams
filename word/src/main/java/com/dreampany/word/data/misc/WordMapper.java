@@ -138,9 +138,9 @@ public class WordMapper {
         return out;
     }
 
-    public List<Synonym> getSynonyms(Word in) {
+    public ArrayList<Synonym> getSynonyms(Word in) {
         if (in.hasSynonyms()) {
-            List<Synonym> result = new ArrayList<>();
+            ArrayList<Synonym> result = new ArrayList<>();
             Stream.of(in.getSynonyms()).forEach(item -> result.add(new Synonym(in.getId(), item)));
             return result;
         }
@@ -162,9 +162,9 @@ public class WordMapper {
         return null;
     }
 
-    public List<Antonym> getAntonyms(Word in) {
+    public ArrayList<Antonym> getAntonyms(Word in) {
         if (in.hasAntonyms()) {
-            List<Antonym> result = new ArrayList<>();
+            ArrayList<Antonym> result = new ArrayList<>();
             Stream.of(in.getAntonyms()).forEach(item -> result.add(new Antonym(in.getId(), item)));
             return result;
         }

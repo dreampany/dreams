@@ -3,7 +3,6 @@ package com.dreampany.translation.data.misc
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.frame.util.DataUtil
-import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.translation.data.model.TextTranslation
 import com.dreampany.translation.data.model.TextTranslationResponse
@@ -29,7 +28,7 @@ class TextTranslationMapper
         return map.contains(toId(translation))
     }
 
-    fun toId(input: String, source: String, target: String): String {
+    fun toId(source: String, target: String, input: String): String {
         return input.plus(source).plus(target)
     }
 

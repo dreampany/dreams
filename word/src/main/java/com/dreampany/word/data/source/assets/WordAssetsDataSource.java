@@ -94,12 +94,12 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Word> words) {
+    public List<Long> putItems(List<? extends Word> words) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Word> words) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Word> words) {
         return null;
     }
 
@@ -114,12 +114,12 @@ public class WordAssetsDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Word> words) {
+    public List<Long> delete(List<? extends Word> words) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Word> words) {
+    public Maybe<List<Long>> deleteRx(List<? extends Word> words) {
         return null;
     }
 

@@ -268,7 +268,7 @@ public final class TextUtil {
         return parent.replaceAll(child, "");
     }
 
-    public static List<String> getWords(String text) {
+    public static ArrayList<String> getWords(String text) {
         //String regex = "([^a-zA-Z']+)'*\\1*";
         //String[] split = text.split(regex);
 

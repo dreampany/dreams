@@ -6,6 +6,7 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.Room;
 import com.dreampany.frame.misc.RxMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -97,12 +98,12 @@ public class StoreRepository extends Repository<String, Store> implements StoreD
     }
 
     @Override
-    public List<Long> putItems(List<Store> stores) {
+    public List<Long> putItems(List<? extends Store> stores) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Store> stores) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Store> stores) {
         return null;
     }
 
@@ -117,12 +118,12 @@ public class StoreRepository extends Repository<String, Store> implements StoreD
     }
 
     @Override
-    public List<Long> delete(List<Store> stores) {
+    public List<Long> delete(List<? extends Store> stores) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Store> stores) {
+    public Maybe<List<Long>> deleteRx(List<? extends Store> stores) {
         return null;
     }
 

@@ -1,6 +1,7 @@
 package com.dreampany.word.data.source.remote;
 
 import android.graphics.Bitmap;
+
 import com.annimon.stream.Stream;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.network.manager.NetworkManager;
@@ -10,12 +11,16 @@ import com.dreampany.word.data.misc.WordMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.api.WordDataSource;
 import com.dreampany.word.misc.Constants;
-import io.reactivex.Maybe;
-import timber.log.Timber;
 
-import javax.inject.Singleton;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Singleton;
+
+import io.reactivex.Maybe;
+import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 2/9/18.
@@ -88,16 +93,6 @@ public class RemoteWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Word> words) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> putItemsRx(List<Word> words) {
-        return null;
-    }
-
-    @Override
     public int delete(Word word) {
         return 0;
     }
@@ -108,42 +103,12 @@ public class RemoteWordDataSource implements WordDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Word> words) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Long>> deleteRx(List<Word> words) {
-        return null;
-    }
-
-    @Override
     public Word getItem(String id) {
         return null;
     }
 
     @Override
     public Maybe<Word> getItemRx(String id) {
-        return null;
-    }
-
-    @Override
-    public List<Word> getItems() {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getItemsRx() {
-        return null;
-    }
-
-    @Override
-    public List<Word> getItems(int limit) {
-        return null;
-    }
-
-    @Override
-    public Maybe<List<Word>> getItemsRx(int limit) {
         return null;
     }
 
@@ -221,4 +186,52 @@ public class RemoteWordDataSource implements WordDataSource {
         return null;
     }
 
+
+    @NotNull
+    @Override
+    public List<Long> delete(@NotNull List<? extends Word> words) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Long>> deleteRx(@NotNull List<? extends Word> words) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Long> putItems(@NotNull List<? extends Word> words) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Long>> putItemsRx(@NotNull List<? extends Word> words) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Word> getItems() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Word>> getItemsRx() {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public List<Word> getItems(int limit) {
+        return null;
+    }
+
+    @NotNull
+    @Override
+    public Maybe<List<Word>> getItemsRx(int limit) {
+        return null;
+    }
 }

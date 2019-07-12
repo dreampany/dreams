@@ -19,7 +19,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class RxFirebaseTranslation {
+class RxFirebaseTranslation @Inject constructor() {
 
     private val firebase: FirebaseApp
     private val manager: FirebaseTranslateModelManager
@@ -28,21 +28,21 @@ class RxFirebaseTranslation {
     private val bucket: MutableMap<String, Boolean>
     private var inited: Boolean = false
 
-    @Inject
-    constructor() {
+    init {
         firebase = FirebaseApp.getInstance()
         manager = FirebaseTranslateModelManager.getInstance()
         translator = FirebaseNaturalLanguage.getInstance()
         bucket = mutableMapOf()
-
         init()
     }
 
-    fun isReady(language: Language): Boolean {
-        return bucket.get(language.code) ?: false
+    fun isReady(language: String): Boolean {
+        val ready = bucket.get(language) ?: false
+        Timber.v("Ready Check %s %s", language, ready)
+        return ready
     }
 
-    fun ready(language: Language) {
+    fun ready(language: String) {
         val firebaseLanguageCode = convertToFirebaseLanguage(language)
         val conditions = FirebaseModelDownloadConditions.Builder()
             .build()
@@ -51,9 +51,9 @@ class RxFirebaseTranslation {
             .build()
         manager.downloadRemoteModelIfNeeded(model)
             .addOnSuccessListener {
-                bucket.put(language.code, true)
-                Timber.v("Firebase Translation Model Downloaded %s %s", language.code, true)
-            }.addOnFailureListener {error ->
+                bucket.put(language, true)
+                Timber.v("Firebase Translation Model Downloaded %s %s", language, true)
+            }.addOnFailureListener { error ->
                 Timber.e(error)
             }
     }
@@ -72,12 +72,48 @@ class RxFirebaseTranslation {
             }
     }
 
-    private fun convertToFirebaseLanguage(language: Language): Int {
-        when(language) {
-            Language.ARABIC->{
+    private fun convertToFirebaseLanguage(language: String): Int {
+        when (language) {
+            Language.AFRIKAANS.code -> {
+                return FirebaseTranslateLanguage.AF
+            }
+            Language.ARABIC.code -> {
                 return FirebaseTranslateLanguage.AR
             }
+            Language.BELARUSIAN.code -> {
+                return FirebaseTranslateLanguage.BE
+            }
+            Language.BULGARIAN.code -> {
+                return FirebaseTranslateLanguage.BG
+            }
+            Language.BENGALI.code -> {
+                return FirebaseTranslateLanguage.BN
+            }
+            Language.CATALAN.code -> {
+                return FirebaseTranslateLanguage.CA
+            }
+            Language.CZECH.code -> {
+                return FirebaseTranslateLanguage.CS
+            }
+            Language.ENGLISH.code -> {
+                return FirebaseTranslateLanguage.EN
+            }
+            Language.SPANISH.code -> {
+                return FirebaseTranslateLanguage.ES
+            }
+            Language.FRENCH.code -> {
+                return FirebaseTranslateLanguage.FR
+            }
+            Language.HINDI.code -> {
+                return FirebaseTranslateLanguage.HI
+            }
+            Language.RUSSIAN.code -> {
+                return FirebaseTranslateLanguage.RU
+            }
+            Language.CHINESE.code -> {
+                return FirebaseTranslateLanguage.ZH
+            }
         }
-        return 0
+        return FirebaseTranslateLanguage.ZH
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.api;
 
 import com.dreampany.frame.data.model.State;
@@ -6,11 +7,13 @@ import java.util.List;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/18/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public interface StateDataSource extends DataSource<State> {
 
     int getCountById(String id, String type, String subtype);
@@ -73,3 +76,4 @@ public interface StateDataSource extends DataSource<State> {
 
     Maybe<List<State>> getItemsRx(String type, String subtype, int limit);
 }
+*/

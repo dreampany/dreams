@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.api;
 
 import android.graphics.Bitmap;
@@ -5,15 +6,18 @@ import android.graphics.Bitmap;
 import com.dreampany.frame.data.source.api.DataSource;
 import com.dreampany.word.data.model.Word;
 
-import io.reactivex.Maybe;
-
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Maybe;
+
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public interface WordDataSource extends DataSource<Word> {
 
     Word getTodayItem();
@@ -36,8 +40,9 @@ public interface WordDataSource extends DataSource<Word> {
 
     Maybe<List<Word>> getItemsRx(Bitmap bitmap);
 
-    List<String> getRawWords();
+    ArrayList<String> getRawWords();
 
     Maybe<List<String>> getRawWordsRx();
 
 }
+*/

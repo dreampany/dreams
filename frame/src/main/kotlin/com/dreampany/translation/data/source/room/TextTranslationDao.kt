@@ -2,7 +2,7 @@ package com.dreampany.translation.data.source.room
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.dreampany.frame.data.source.dao.BaseDaoKt
+import com.dreampany.frame.data.source.dao.BaseDao
 import com.dreampany.translation.data.model.TextTranslation
 import io.reactivex.Maybe
 
@@ -13,7 +13,7 @@ import io.reactivex.Maybe
  * Last modified $file.lastModified
  */
 @Dao
-interface TextTranslationDao : BaseDaoKt<TextTranslation> {
+interface TextTranslationDao : BaseDao<TextTranslation> {
 
     @Query("select count(*) from texttranslation where input = :input and source = :source and target = :target limit 1")
     fun getCount(input: String, source: String, target: String): Int
@@ -22,6 +22,6 @@ interface TextTranslationDao : BaseDaoKt<TextTranslation> {
     fun getCountRx(input: String, source: String, target: String): Maybe<Int>
 
     @Query("select * from texttranslation where input = :input and source = :source and target = :target limit 1")
-    fun getItem(input: String, source: String, target: String): TextTranslation
+    fun getItem(input: String, source: String, target: String): TextTranslation?
 
 }

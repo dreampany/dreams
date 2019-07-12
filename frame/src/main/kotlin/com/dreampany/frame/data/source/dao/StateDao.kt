@@ -12,7 +12,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  */
 @Dao
-interface StateDao : BaseDaoKt<State> {
+interface StateDao : BaseDao<State> {
 
     @get:Query("select count(*) from state")
     val count: Int
@@ -42,7 +42,7 @@ interface StateDao : BaseDaoKt<State> {
     fun getCountRx(id: String, type: String, subtype: String, state: String): Maybe<Int>
 
     @Query("select * from state where id = :id limit 1")
-    fun getItem(id: String): State
+    fun getItem(id: String): State?
 
     @Query("select * from state where id = :id limit 1")
     fun getItemRx(id: String): Maybe<State>
@@ -104,13 +104,13 @@ interface StateDao : BaseDaoKt<State> {
     ): Maybe<List<State>>
 
     @Query("select * from state where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
-    fun getItem(id: String, type: String, subtype: String, state: String): State
+    fun getItem(id: String, type: String, subtype: String, state: String): State?
 
     @Query("select * from state where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
     fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<State>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state limit 1")
-    fun getItem(type: String, subtype: String, state: String): State
+    fun getItem(type: String, subtype: String, state: String): State?
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state limit 1")
     fun getItemRx(type: String, subtype: String, state: String): Maybe<State>

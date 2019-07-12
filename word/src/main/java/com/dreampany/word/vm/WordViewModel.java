@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.vm;
 
 import android.app.Application;
@@ -35,11 +36,13 @@ import javax.inject.Inject;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> implements NetworkManager.Callback {
 
     private final NetworkManager network;
@@ -143,9 +146,11 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> i
         }
         item.setItem(word);
         adjustFavorite(word, item);
+*/
 /*        if (fully) {
             adjustState(item);
-        }*/
+        }*//*
+
         return item;
     }
 
@@ -172,3 +177,4 @@ public class WordViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> i
         AndroidUtil.share(fragment, subject, text);
     }
 }
+*/

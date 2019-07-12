@@ -48,7 +48,9 @@ class TranslationRepository
     }
 
     override fun ready(target: String) {
-        machine.ready(target)
+        if (!isReady(target)) {
+            machine.ready(target)
+        }
     }
 
     override fun isExistsRx(source: String, target: String, input: String): Maybe<Boolean> {
@@ -56,11 +58,11 @@ class TranslationRepository
     }
 
 
-    override fun isExists( source: String, target: String, input: String): Boolean {
+    override fun isExists(source: String, target: String, input: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItem(source: String, target: String,input: String): TextTranslation? {
+    override fun getItem(source: String, target: String, input: String): TextTranslation? {
         return getItemRx(input, source, target).blockingGet()
     }
 
@@ -89,10 +91,11 @@ class TranslationRepository
     }
 
     override fun getItemRx(source: String, target: String, input: String): Maybe<TextTranslation> {
-        val roomIf = getRoomItemIfRx(input, source, target)
-        val firestoreIf = getFirestoreItemIfRx(input, source, target)
-        val remoteIf = getRemoteItemIfRx(input, source, target)
-        return concatSingleFirstRx(roomIf, firestoreIf, remoteIf)
+        val roomIf = getRoomItemIfRx(source, target, input)
+        val machineIf = getMachineItemIfRx(source, target, input)
+        val firestoreIf = getFirestoreItemIfRx(source, target, input)
+        val remoteIf = getRemoteItemIfRx(source, target, input)
+        return concatSingleFirstRx(roomIf, machineIf, firestoreIf, remoteIf)
     }
 
     override fun isExistsRx(t: TextTranslation): Maybe<Boolean> {
@@ -136,35 +139,31 @@ class TranslationRepository
     }
 
     private fun getRoomItemIfRx(
-        text: String,
-        source: String,
-        target: String
+        source: String, target: String, input: String
     ): Maybe<TextTranslation> {
-        return room.isExistsRx(text, source, target).map {
+        return room.isExistsRx(source, target, input).map {
             if (it) {
-                room.getItem(text, source, target)
+                room.getItem(source, target, input)
             } else {
                 Maybe.empty<TextTranslation>().blockingGet()
             }
         }
     }
 
-/*
     private fun getMachineItemIfRx(
-        text: String,
-        source: String,
-        target: String
+        source: String, target: String, input: String
     ): Maybe<TextTranslation> {
-
+        val maybe = machine.getItemRx(source, target, input)
+        return contactSingleSuccess(maybe, Consumer {
+            rx.compute(room.putItemRx(it))
+                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
+        })
     }
-*/
 
     private fun getFirestoreItemIfRx(
-        text: String,
-        source: String,
-        target: String
+        source: String, target: String, input: String
     ): Maybe<TextTranslation> {
-        val maybe = firestore.getItemRx(text, source, target)
+        val maybe = firestore.getItemRx(source, target, input)
         return contactSingleSuccess(maybe, Consumer {
             rx.compute(room.putItemRx(it))
                 .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
@@ -172,11 +171,9 @@ class TranslationRepository
     }
 
     private fun getRemoteItemIfRx(
-        text: String,
-        source: String,
-        target: String
+        source: String, target: String, input: String
     ): Maybe<TextTranslation> {
-        val maybe = remote.getItemRx(text, source, target)
+        val maybe = remote.getItemRx(source, target, input)
         return contactSingleSuccess(maybe, Consumer {
             rx.compute(room.putItemRx(it))
                 .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())

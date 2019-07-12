@@ -20,12 +20,15 @@ class MachineTranslationDataSource constructor(
     val mapper: TextTranslationMapper,
     val tranlation: RxFirebaseTranslation
 ) : TranslationDataSource {
+
     override fun isReady(target: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return tranlation.isReady(target)
     }
 
     override fun ready(target: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (!isReady(target)) {
+            tranlation.ready(target)
+        }
     }
 
     override fun isExists(source: String, target: String, input: String): Boolean {
@@ -93,7 +96,7 @@ class MachineTranslationDataSource constructor(
     }
 
     override fun getItemRx(source: String, target: String, input: String): Maybe<TextTranslation> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        tranlation.
     }
 
     override fun putItemRx(t: TextTranslation): Maybe<Long> {

@@ -42,7 +42,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class WordViewModelKt @Inject constructor(
+class WordViewModel @Inject constructor(
     application: Application,
     rx: RxMapper,
     ex: AppExecutors,
@@ -57,6 +57,13 @@ class WordViewModelKt @Inject constructor(
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm) {
 
     private var uiCallback: SmartAdapter.Callback<WordItem>? = null
+
+    init {
+        val language = pref.getLanguage(Language.ENGLISH)
+        if (!language.equals(Language.ENGLISH)) {
+            translationRepo.ready(language.code)
+        }
+    }
 
     fun setUiCallback(callback: SmartAdapter.Callback<WordItem>) {
         this.uiCallback = callback
@@ -103,7 +110,7 @@ class WordViewModelKt @Inject constructor(
             return
         }
         val disposable = rx
-            .backToMain<List<String>>(getSuggestionsRx())
+            .backToMain(getSuggestionsRx())
             .doOnSubscribe({ subscription ->
                 if (progress) {
                     postProgress(true)

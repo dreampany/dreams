@@ -53,7 +53,7 @@ import com.dreampany.word.ui.enums.UiSubtype;
 import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.WordViewModelKt;
+import com.dreampany.word.vm.WordViewModel;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import org.jetbrains.annotations.NotNull;
@@ -99,7 +99,7 @@ public class HomeFragment extends BaseMenuFragment
     private OnVerticalScrollListener scroller;
     private MaterialSearchView searchView;
 
-    private WordViewModelKt vm;
+    private WordViewModel vm;
     private WordAdapter adapter;
     private String recentWord;
 
@@ -291,7 +291,7 @@ public class HomeFragment extends BaseMenuFragment
         bindYandex.textYandexPowered.setOnClickListener(this);
 
 
-        vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
+        vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
         vm.setUiCallback(this);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutputsOfString(this, this::processResponseOfString);

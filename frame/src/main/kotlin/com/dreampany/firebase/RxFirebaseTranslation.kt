@@ -1,12 +1,14 @@
 package com.dreampany.firebase
 
 import com.dreampany.language.Language
+import com.dreampany.translation.data.model.TextTranslation
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateModelManager
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateRemoteModel
+import io.reactivex.Maybe
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -58,7 +60,12 @@ class RxFirebaseTranslation @Inject constructor() {
             }
     }
 
-    private fun init() {
+    fun translateRx(source: String, target: String, input: String): Maybe<TextTranslation> {
+
+    }
+
+
+    fun init() {
         manager.getAvailableModels(firebase)
             .addOnSuccessListener { models ->
                 models.forEach { model ->

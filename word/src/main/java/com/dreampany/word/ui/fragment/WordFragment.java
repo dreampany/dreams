@@ -44,7 +44,7 @@ import com.dreampany.word.ui.enums.UiSubtype;
 import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.WordViewModelKt;
+import com.dreampany.word.vm.WordViewModel;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -76,7 +76,7 @@ public class WordFragment extends BaseMenuFragment {
     private ContentRelatedBinding bindRelated;
     private ContentDefinitionBinding bindDef;
     private ContentYandexTranslationBinding bindYandex;
-    private WordViewModelKt vm;
+    private WordViewModel vm;
     private String recentWord;
 
     @Inject
@@ -200,7 +200,7 @@ public class WordFragment extends BaseMenuFragment {
         Color color = getColor();
         ViewUtil.setBackground(binding.layoutBottom.layoutExpandable, color.getPrimaryId());
 
-        vm = ViewModelProviders.of(this, factory).get(WordViewModelKt.class);
+        vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
         vm.setTask(uiTask);
         vm.observeUiState(this, this::processUiState);
         vm.observeOutput(this, this::processResponse);

@@ -31,8 +31,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(WordViewModelKt::class)
-    abstract fun bindWordViewModelKt(vm: WordViewModelKt): ViewModel
+    @ViewModelKey(WordViewModel::class)
+    abstract fun bindWordViewModel(vm: WordViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -59,10 +59,10 @@ abstract class ViewModelModule {
     @ViewModelKey(FavoriteViewModel::class)
     abstract fun bindFlagViewModel(vm: FavoriteViewModel): ViewModel
 
-    @Binds
+/*    @Binds
     @IntoMap
     @ViewModelKey(WordViewModel::class)
-    abstract fun bindWordViewModel(vm: WordViewModel): ViewModel
+    abstract fun bindWordViewModel(vm: WordViewModel): ViewModel*/
 
     @Binds
     @IntoMap

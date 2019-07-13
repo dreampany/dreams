@@ -15,7 +15,7 @@ import com.google.common.collect.HashBiMap
  */
 class HomeAdapter(listener: Any) : SmartAdapter<BaseItem<Any, *>>(listener) {
 
-    private lateinit var types: BiMap<BaseItem<Any, *>, Triple<ItemType, ItemSubtype, ItemState>>
+    private var types: BiMap<BaseItem<Any, *>, Triple<ItemType, ItemSubtype, ItemState>>
 
     init {
         types = HashBiMap.create()

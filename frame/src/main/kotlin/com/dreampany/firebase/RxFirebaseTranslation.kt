@@ -46,6 +46,7 @@ class RxFirebaseTranslation @Inject constructor() {
     }
 
     fun ready(language: String) {
+        Timber.v("Ready Fired for %s", language)
         val languageCode = convertToFirebaseLanguage(language)
         val conditions = FirebaseModelDownloadConditions.Builder()
             .build()
@@ -62,6 +63,7 @@ class RxFirebaseTranslation @Inject constructor() {
     }
 
     fun translateRx(source: String, target: String, input: String): Maybe<String> {
+        Timber.v("Machine Translation Fired")
         return Maybe.create { emitter ->
             val task = toTask(source, target, input)
             task.addOnSuccessListener { output ->

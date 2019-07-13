@@ -55,7 +55,7 @@ class Constants {
         const val WORD_ALPHA = 370099
         const val WORD_RECENT = 100
         const val WORD_RECENT_LETTER = 4
-        const val WORD_PAGE = 100
+        const val WORD_PAGE = 1000
     }
 
     object Limit {

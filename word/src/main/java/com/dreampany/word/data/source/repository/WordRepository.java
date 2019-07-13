@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.repository;
 
 import android.graphics.Bitmap;
@@ -18,11 +19,13 @@ import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
 public class WordRepository extends Repository<String, Word> implements WordDataSource {
 
@@ -61,17 +64,23 @@ public class WordRepository extends Repository<String, Word> implements WordData
 
     @Override
     public Maybe<Word> getTodayItemRx() {
+*/
 /*        Maybe<Word> room = getTodayFromRoom();
         Maybe<Word> generated = saveState(this.generateToday(), ItemState.TODAY);
         Maybe<Word> single = concatSingleFirstRx(room, generated);
         return single
                 .filter(item -> item != null)
                 .map(word -> {
-*//*                    if (!hasState(word, ItemState.TODAY, ItemSubstate.FULL)) {
+*//*
+*/
+/*                    if (!hasState(word, ItemState.TODAY, ItemSubstate.FULL)) {
                         return getItemRx(word.getWord()).blockingGet();
                     }*//*
+*/
+/*
                     return word;
-                });*/
+                });*//*
+
         return Maybe.empty();
     }
 
@@ -192,10 +201,12 @@ public class WordRepository extends Repository<String, Word> implements WordData
 
     @Override
     public Maybe<Word> getItemRx(String word, boolean full) {
+*/
 /*        Maybe<Word> room = fullRoom(word);
         Maybe<Word> firestore = saveRoom(this.firestore.getItemRx(word));
         Maybe<Word> remote = saveRoomFirestore(this.remote.getItemRx(word));
-        return concatSingleFirstRx(room, firestore, remote);*/
+        return concatSingleFirstRx(room, firestore, remote);*//*
+
         return Maybe.empty();
     }
 
@@ -278,7 +289,9 @@ public class WordRepository extends Repository<String, Word> implements WordData
         return result;
     }
 
-    /* private api */
+    */
+/* private api *//*
+
     private Maybe<List<Word>> getAssetsItemsIfRx() {
         return Maybe.fromCallable(() -> {
             if (getCount() == 0) {
@@ -305,6 +318,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
                 });
     }
 
+*/
 /*    private Maybe<Word> getTodayFromRoom() {
         String type = ItemType.WORD.name();
         String subtype = ItemSubtype.DEFAULT.name();
@@ -318,8 +332,10 @@ public class WordRepository extends Repository<String, Word> implements WordData
                     }
                     return null;
                 });
-    }*/
+    }*//*
 
+
+*/
 /*    private Maybe<Word> generateToday() {
         String type = ItemType.WORD.name();
         String subtype = ItemSubtype.DEFAULT.name();
@@ -331,5 +347,7 @@ public class WordRepository extends Repository<String, Word> implements WordData
                     }
                     return null;
                 });
-    }*/
+    }*//*
+
 }
+*/

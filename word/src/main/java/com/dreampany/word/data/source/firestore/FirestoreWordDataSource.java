@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.firestore;
 
 import android.graphics.Bitmap;
@@ -17,11 +18,13 @@ import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 9/3/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 public class FirestoreWordDataSource implements WordDataSource {
 
@@ -208,3 +211,4 @@ public class FirestoreWordDataSource implements WordDataSource {
         return null;
     }
 }
+*/

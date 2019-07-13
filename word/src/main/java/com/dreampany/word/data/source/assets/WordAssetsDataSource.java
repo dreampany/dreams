@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.assets;
 
 import android.content.Context;
@@ -21,11 +22,13 @@ import javax.inject.Singleton;
 import io.reactivex.Maybe;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 9/5/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 public class WordAssetsDataSource implements WordDataSource {
 
@@ -248,3 +251,4 @@ public class WordAssetsDataSource implements WordDataSource {
         return new ArrayList<>(alphaWords);
     }
 }
+*/

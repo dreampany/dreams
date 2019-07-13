@@ -63,7 +63,7 @@ class TranslationRepository
     }
 
     override fun getItem(source: String, target: String, input: String): TextTranslation? {
-        return getItemRx(input, source, target).blockingGet()
+        return getItemRx(source, target, input).blockingGet()
     }
 
     override fun isEmpty(): Boolean {

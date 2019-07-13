@@ -34,10 +34,10 @@ abstract class ViewModelModule {
     @ViewModelKey(WordViewModel::class)
     abstract fun bindWordViewModel(vm: WordViewModel): ViewModel
 
-    @Binds
+/*    @Binds
     @IntoMap
     @ViewModelKey(SearchViewModel::class)
-    abstract fun bindSearchViewModel(vm: SearchViewModel): ViewModel
+    abstract fun bindSearchViewModel(vm: SearchViewModel): ViewModel*/
 
     @Binds
     @IntoMap

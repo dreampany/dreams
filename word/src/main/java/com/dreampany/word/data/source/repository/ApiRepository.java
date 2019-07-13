@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.repository;
 
 import com.annimon.stream.Stream;
@@ -26,12 +27,14 @@ import javax.inject.Singleton;
 import io.reactivex.Maybe;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Roman on 1/30/2019
  * Copyright (c) 2019 Dreampany. All rights reserved.
  * dreampanymail@gmail.com
  * Last modified $file.lastModified
- */
+ *//*
+
 
 @Singleton
 public class ApiRepository {
@@ -241,3 +244,4 @@ public class ApiRepository {
         return result;
     }
 }
+*/

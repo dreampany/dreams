@@ -2,7 +2,6 @@ package com.dreampany.word.injector.data
 
 import android.content.Context
 import com.dreampany.firebase.RxFirebaseFirestore
-import com.dreampany.word.injector.vm.ViewModelModule
 import com.dreampany.frame.injector.data.FrameModule
 import com.dreampany.frame.misc.*
 import com.dreampany.network.manager.NetworkManager
@@ -11,14 +10,15 @@ import com.dreampany.vision.VisionApi
 import com.dreampany.word.api.wordnik.WordnikManager
 import com.dreampany.word.data.misc.WordMapper
 import com.dreampany.word.data.source.api.WordDataSource
-import com.dreampany.word.data.source.assets.WordAssetsDataSource
+import com.dreampany.word.data.source.assets.AssetsWordDataSource
 import com.dreampany.word.data.source.firestore.FirestoreWordDataSource
 import com.dreampany.word.data.source.remote.RemoteWordDataSource
 import com.dreampany.word.data.source.room.AntonymDao
+import com.dreampany.word.data.source.room.RoomWordDataSource
 import com.dreampany.word.data.source.room.SynonymDao
 import com.dreampany.word.data.source.room.WordDao
-import com.dreampany.word.data.source.room.RoomWordDataSource
-import com.dreampany.word.data.source.vision.WordVisionDataSource
+import com.dreampany.word.data.source.vision.VisionWordDataSource
+import com.dreampany.word.injector.vm.ViewModelModule
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -35,16 +35,16 @@ class BuildersModule {
     @Singleton
     @Provides
     @Assets
-    fun provideWordAssetsDataSource(context: Context,
+    fun provideAssetsWordDataSource(context: Context,
                                     mapper: WordMapper
     ): WordDataSource {
-        return WordAssetsDataSource(context, mapper)
+        return AssetsWordDataSource(context, mapper)
     }
 
     @Singleton
     @Provides
     @Room
-    fun provideWordRoomDataSource(mapper: WordMapper,
+    fun provideRoomWordDataSource(mapper: WordMapper,
                                   dao: WordDao,
                                   synonymDao: SynonymDao,
                                   antonymDao: AntonymDao
@@ -60,7 +60,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Firestore
-    fun provideWordFirestoreDataSource(network: NetworkManager,
+    fun provideFirestoreWordDataSource(network: NetworkManager,
                                        firestore: RxFirebaseFirestore
     ): WordDataSource {
         return FirestoreWordDataSource(network, firestore)
@@ -69,7 +69,7 @@ class BuildersModule {
     @Singleton
     @Provides
     @Remote
-    fun provideWordRemoteDataSource(network: NetworkManager,
+    fun provideRemoteWordDataSource(network: NetworkManager,
                                     mapper: WordMapper,
                                     wordnik: WordnikManager
     ): WordDataSource {
@@ -79,9 +79,9 @@ class BuildersModule {
     @Singleton
     @Provides
     @Vision
-    fun provideWordVisionDataSource(mapper: WordMapper,
+    fun provideVisionWordDataSource(mapper: WordMapper,
                                     vision: VisionApi
     ): WordDataSource {
-        return WordVisionDataSource(mapper, vision)
+        return VisionWordDataSource(mapper, vision)
     }
 }

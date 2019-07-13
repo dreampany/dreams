@@ -1,13 +1,13 @@
 package com.dreampany.word.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -29,7 +29,6 @@ import com.dreampany.word.ui.enums.UiSubtype;
 import com.dreampany.word.ui.enums.UiType;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-import com.dreampany.word.vm.SearchViewModel;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -58,7 +57,7 @@ public class SearchFragment extends BaseMenuFragment {
     @Inject
     ViewModelProvider.Factory factory;
     private FragmentSearchBinding binding;
-    private SearchViewModel vm;
+    //private SearchViewModel vm;
     private WordAdapter adapter;
     private OnVerticalScrollListener scroller;
     private RecyclerView recycler;
@@ -111,7 +110,7 @@ public class SearchFragment extends BaseMenuFragment {
         switch (v.getId()) {
             case R.id.text_word:
                 String text = ViewUtil.getText(v);
-                vm.speak(text);
+                //vm.speak(text);
                 break;
 /*            case R.id.button_like:
                 vm.toggle((Word) v.getTag());
@@ -138,9 +137,9 @@ public class SearchFragment extends BaseMenuFragment {
 
         recycler = binding.layoutRecycler.recycler;
 
-        vm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
-        vm.observeUiState(this, this::processUiState);
-        vm.observeOutputs(this, this::processResponse);
+       // vm = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
+       // vm.observeUiState(this, this::processUiState);
+       // vm.observeOutputs(this, this::processResponse);
 //        vm.observeFlag(this, this::onFlag);
         binding.stateful.setState(SEARCH);
     }
@@ -160,7 +159,7 @@ public class SearchFragment extends BaseMenuFragment {
                 recycler,
                 new SmoothScrollLinearLayoutManager(getContext()),
                 new FlexibleItemDecoration(getContext())
-                        .addItemViewType(R.layout.item_word, vm.getItemOffset())
+                        .addItemViewType(R.layout.item_word, 0)
                         .withEdge(true),
                 null,
                 scroller,
@@ -208,19 +207,19 @@ public class SearchFragment extends BaseMenuFragment {
 
     private void processProgress(boolean loading) {
         if (loading) {
-            vm.updateUiState(UiState.SHOW_PROGRESS);
+            //vm.updateUiState(UiState.SHOW_PROGRESS);
         } else {
-            vm.updateUiState(UiState.HIDE_PROGRESS);
+           // vm.updateUiState(UiState.HIDE_PROGRESS);
         }
     }
 
     private void processFailure(Throwable error) {
         if (error instanceof IOException || error.getCause() instanceof IOException) {
-            vm.updateUiState(UiState.OFFLINE);
+            //vm.updateUiState(UiState.OFFLINE);
         } else if (error instanceof EmptyException) {
-            vm.updateUiState(UiState.EMPTY);
+            //vm.updateUiState(UiState.EMPTY);
         } else if (error instanceof ExtraException) {
-            vm.updateUiState(UiState.EXTRA);
+           // vm.updateUiState(UiState.EXTRA);
         } else if (error instanceof MultiException) {
             for (Throwable e : ((MultiException) error).getErrors()) {
                 processFailure(e);
@@ -264,9 +263,9 @@ public class SearchFragment extends BaseMenuFragment {
         @Override
         public void run() {
             if (query.length() > 0) {
-                vm.search(query.toString(), false);
+                //vm.search(query.toString(), false);
             } else {
-                vm.updateUiState(UiState.EMPTY);
+                //vm.updateUiState(UiState.EMPTY);
             }
         }
     };

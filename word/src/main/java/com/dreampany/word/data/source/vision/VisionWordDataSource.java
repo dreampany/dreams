@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.vision;
 
 import android.graphics.Bitmap;
@@ -15,18 +16,20 @@ import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 9/27/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
-public class WordVisionDataSource implements WordDataSource {
+public class VisionWordDataSource implements WordDataSource {
 
     private final WordMapper mapper;
     private final VisionApi vision;
 
-    public WordVisionDataSource(WordMapper mapper,
+    public VisionWordDataSource(WordMapper mapper,
                                 VisionApi vision) {
         this.mapper = mapper;
         this.vision = vision;
@@ -200,3 +203,4 @@ public class WordVisionDataSource implements WordDataSource {
         return null;
     }
 }
+*/

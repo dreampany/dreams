@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.remote;
 
 import android.graphics.Bitmap;
@@ -22,11 +23,13 @@ import javax.inject.Singleton;
 import io.reactivex.Maybe;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
 public class RemoteWordDataSource implements WordDataSource {
 
@@ -144,6 +147,7 @@ public class RemoteWordDataSource implements WordDataSource {
         return result;
     }
 
+*/
 /*    @Override
     public Maybe<List<Word>> getSearchItemsRx(String query) {
         return null;
@@ -159,7 +163,8 @@ public class RemoteWordDataSource implements WordDataSource {
             }
             return result;
         });
-    }*/
+    }*//*
+
 
     @Override
     public List<Word> getCommonItems() {
@@ -235,3 +240,4 @@ public class RemoteWordDataSource implements WordDataSource {
         return null;
     }
 }
+*/

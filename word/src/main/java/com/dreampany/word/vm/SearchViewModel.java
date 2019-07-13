@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.vm;
 
 import android.app.Application;
@@ -42,11 +43,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> implements NetworkManager.Callback{
 
     private static final long INITIAL_DELAY = Constants.Time.INSTANCE.getWordPeriod();
@@ -215,6 +218,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         addMultipleSubscription(disposable);
     }
 
+*/
 /*    public void find(String query, boolean progress) {
         if (!takeAction(true, getSingleDisposable())) {
             return;
@@ -239,7 +243,8 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     postFailures(new MultiException(error, new ExtraException()));
                 });
         addSingleSubscription(disposable);
-    }*/
+    }*//*
+
 
 
     public void update(boolean progress) {
@@ -281,9 +286,11 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
     }
 
-    /**
+    */
+/**
      * private api
-     */
+     *//*
+
     private Maybe<WordItem> getVisibleItemIfRx() {
         return Maybe.fromCallable(() -> {
             Timber.d("Ticking getVisibleItemIfRxPeriodically");
@@ -296,6 +303,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         });
     }
 
+*/
 /*    private Flowable<WordItem> getVisibleItemIfRxPeriodically() {
         return Flowable
                 .interval(INITIAL_DELAY, PERIOD, TimeUnit.MILLISECONDS, getRx().io())
@@ -310,7 +318,8 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                     Timber.d("Success at next to getVisibleItemIf %s", next.getItemRx().getWord());
                     return next;
                 });
-    }*/
+    }*//*
+
 
     private WordItem getVisibleItemIf() {
         if (uiCallback == null) {
@@ -370,6 +379,7 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 .flatMap((Function<List<Word>, MaybeSource<List<WordItem>>>) words -> getItemsRx(words, false));
     }
 
+*/
 /*    private Maybe<WordItem> findItemRx(String query) {
         return Maybe.create(emitter -> {
             Word word = repo.getItem(query, false);
@@ -389,7 +399,8 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
                 emitter.onSuccess(result);
             }
         });
-    }*/
+    }*//*
+
 
     private Maybe<List<WordItem>> getItemsRx(String query) {
         return getSearchItemsRx(query, Constants.Limit.WORD_SEARCH)
@@ -474,3 +485,4 @@ public class SearchViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>>
         item.setFavorite(repo.isFavorite(word));
     }
 }
+*/

@@ -146,7 +146,9 @@ class WordViewModel @Inject constructor(
 
     fun setCurrentLanguage(language: Language) {
         pref.setLanguage(language)
-        translationRepo.ready(language.code)
+        if (!language.equals(Language.ENGLISH)) {
+            translationRepo.ready(language.code)
+        }
     }
 
     fun isDefaultLanguage(): Boolean {
@@ -201,7 +203,7 @@ class WordViewModel @Inject constructor(
                 }
             } else {
                 val word = wordRepo.getItem(request.inputWord!!, false)
-                val fullWord = getItemIf(word)
+                val fullWord = getItemIf(word!!)
                 if (fullWord != null) {
                     pref.recentWord = fullWord
                     result = getItem(request, fullWord, true)

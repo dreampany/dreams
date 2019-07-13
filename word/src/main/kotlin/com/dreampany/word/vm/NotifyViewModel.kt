@@ -78,7 +78,7 @@ class NotifyViewModel @Inject constructor(
     }
 
     private fun getSyncWordItemRx(): Maybe<WordItem> {
-        return Maybe.create<WordItem> { emitter ->
+        return Maybe.create { emitter ->
             //find raw word item
             //val stateCount = stateRepo.getCount(ItemType.WORD.name, ItemSubtype.DEFAULT.name, ItemState.RAW.name)
             val state = getState(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW)

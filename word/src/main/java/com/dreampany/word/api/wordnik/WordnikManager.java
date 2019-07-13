@@ -347,9 +347,11 @@ public class WordnikManager {
             } catch (Exception error) {
                 Timber.e(error);
                 if (error instanceof ClientException) {
-                    word = TextUtil.toTitleCase(word);
-                    index--;
-                    continue;
+                    if (error.toString().contains("404")) {
+                        word = TextUtil.toTitleCase(word);
+                        index--;
+                        continue;
+                    }
                 }
                 iterateQueue();
             }
@@ -425,9 +427,11 @@ public class WordnikManager {
             } catch (Exception error) {
                 Timber.e(error);
                 if (error instanceof ClientException) {
-                    word = TextUtil.toTitleCase(word);
-                    index--;
-                    continue;
+                    if (error.toString().contains("404")) {
+                        word = TextUtil.toTitleCase(word);
+                        index--;
+                        continue;
+                    }
                 }
                 iterateQueue();
             }

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.room;
 
 import android.graphics.Bitmap;
@@ -18,11 +19,13 @@ import javax.inject.Singleton;
 import io.reactivex.Maybe;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
 public class RoomWordDataSource implements WordDataSource {
 
@@ -110,13 +113,15 @@ public class RoomWordDataSource implements WordDataSource {
     @Override
     public List<Long> putItems(List<? extends Word> words) {
         List<Long> result = dao.insertOrIgnore(words);
+*/
 /*        Stream.of(words).forEach(coin -> {
             if (!isExists(coin)) {
                 result.add(putItem(coin));
             }
-        });*/
+        });*//*
+
         int count = getCount();
-        Timber.v("Input Words %d Inserted Words %d total %d", words.size(), result.size(), count);
+        //Timber.v("Input Words %d Inserted Words %d total %d", words.size(), result.size(), count);
         return result;
     }
 
@@ -242,3 +247,4 @@ public class RoomWordDataSource implements WordDataSource {
         });
     }
 }
+*/

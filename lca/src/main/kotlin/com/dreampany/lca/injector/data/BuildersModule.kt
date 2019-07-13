@@ -45,7 +45,7 @@ class BuildersModule {
         dao: CoinDao,
         quoteDao: QuoteDao
     ): CoinDataSource {
-        return CoinRoomDataSource(mapper, dao, quoteDao)
+        return RoomCoinDataSource(mapper, dao, quoteDao)
     }
 
     @Singleton
@@ -152,7 +152,7 @@ class BuildersModule {
         mapper: CoinAlertMapper,
         dao: CoinAlertDao
     ): CoinAlertDataSource {
-        return CoinAlertRoomDataSource(mapper, dao)
+        return RoomCoinAlertDataSource(mapper, dao)
     }
 
     @Singleton

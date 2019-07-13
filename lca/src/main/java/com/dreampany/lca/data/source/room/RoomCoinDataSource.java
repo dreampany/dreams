@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import com.annimon.stream.Stream;
@@ -20,20 +21,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 30/5/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
-public class CoinRoomDataSource implements CoinDataSource {
+public class RoomCoinDataSource implements CoinDataSource {
 
     private final CoinMapper mapper;
     private final CoinDao dao;
     private final QuoteDao quoteDao;
     private volatile boolean cacheLoaded;
 
-    public CoinRoomDataSource(CoinMapper mapper,
+    public RoomCoinDataSource(CoinMapper mapper,
                               CoinDao dao,
                               QuoteDao quoteDao) {
         this.mapper = mapper;
@@ -94,9 +97,11 @@ public class CoinRoomDataSource implements CoinDataSource {
             return null;
         }
         //List<Coin> result = DataUtil.sub(cache, index, limit);
+*/
 /*        if (DataUtil.isEmpty(cache)) {
             return null;
-        }*/
+        }*//*
+
         for (Coin coin : cache) {
             bindQuote(currency, coin);
         }
@@ -336,7 +341,9 @@ public class CoinRoomDataSource implements CoinDataSource {
         return null;
     }
 
-    /* private */
+    */
+/* private *//*
+
     private void updateCache() {
         if (!cacheLoaded || !mapper.hasCoins()) {
             List<Coin> room = dao.getItems();
@@ -352,3 +359,4 @@ public class CoinRoomDataSource implements CoinDataSource {
         }
     }
 }
+*/

@@ -26,12 +26,24 @@ abstract class BasePrefKt {
         return AndroidUtil.getPackageName(context)
     }
 
-    fun hasPublic(key:String) : Boolean {
+    fun hasPublic(key: String): Boolean {
         return publicPref.contains(key)
     }
 
-    fun hasPrivate(key:String) : Boolean {
+    fun hasPrivate(key: String): Boolean {
         return privatePref.contains(key)
+    }
+
+    fun getPrivately(key: String, defaultValue: Boolean): Boolean {
+        return privatePref.get(key, Boolean::class.java, defaultValue)
+    }
+
+    fun setPrivately(key: String, value: Long) {
+        privatePref.put(key, value)
+    }
+
+    fun getPrivately(key: String, defaultValue: Long): Long {
+        return privatePref.get(key, Long::class.java, defaultValue)
     }
 
     fun <T> setPublicly(key: String, value: T) {
@@ -48,5 +60,9 @@ abstract class BasePrefKt {
 
     fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T): T {
         return privatePref.get(key, classOfT, defaultValue)
+    }
+
+    fun removePrivately(key: String) {
+        privatePref.remove(key)
     }
 }

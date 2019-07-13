@@ -26,7 +26,7 @@ interface DataSource<T> {
 
     fun putItemRx(t: T): Maybe<Long>
 
-    fun putItems(ts: List<T>): List<Long>
+    fun putItems(ts: List<T>): List<Long>?
 
     fun putItemsRx(ts: List<T>): Maybe<List<Long>>
 
@@ -34,7 +34,7 @@ interface DataSource<T> {
 
     fun deleteRx(t: T): Maybe<Int>
 
-    fun delete(ts: List<T>): List<Long>
+    fun delete(ts: List<T>): List<Long>?
 
     fun deleteRx(ts: List<T>): Maybe<List<Long>>
 
@@ -42,11 +42,11 @@ interface DataSource<T> {
 
     fun getItemRx(id: String): Maybe<T>
 
-    fun getItems(): List<T>
+    fun getItems(): List<T>?
 
     fun getItemsRx(): Maybe<List<T>>
 
-    fun getItems(limit: Int): List<T>
+    fun getItems(limit: Int): List<T>?
 
     fun getItemsRx(limit: Int): Maybe<List<T>>
 }

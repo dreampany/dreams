@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.api;
 
 import com.dreampany.frame.data.source.api.DataSource;
@@ -9,11 +10,13 @@ import io.reactivex.Maybe;
 
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 29/5/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public interface CoinDataSource extends DataSource<Coin> {
 
     boolean isEmpty(CoinSource source, Currency currency, int index, int limit);
@@ -40,3 +43,4 @@ public interface CoinDataSource extends DataSource<Coin> {
 
     Maybe<List<Coin>> getItemsRx(CoinSource source, Currency currency, List<String> ids);
 }
+*/

@@ -109,7 +109,7 @@ public class CoinsViewModel
                 Response<List<CoinItem>> result = getOutputs().getValue();
                 if (result == null || result instanceof Response.Failure) {
                     boolean empty = uiCallback == null || uiCallback.getEmpty();
-                    getEx().postToUi(() -> loads(0, false, empty), 250L);
+                    getEx().postToUi(() -> refresh(!empty, false, empty), 250L);
                 }
             }
         }
@@ -140,7 +140,7 @@ public class CoinsViewModel
             return;
         }
         Currency currency = pref.getCurrency(Currency.USD);
-        Timber.v("loads fired for %s", currency.name());
+        Timber.v("loads fired for full %s", currency.name());
         Disposable disposable = getRx()
                 .backToMain(getListingRx(currency))
                 .doOnSubscribe(subscription -> {
@@ -174,6 +174,7 @@ public class CoinsViewModel
         if (!takeAction(important, getMultipleDisposable())) {
             return;
         }
+        Timber.v("loads fired for index %d", index);
         Currency currency = pref.getCurrency(Currency.USD);
         Disposable disposable = getRx()
                 .backToMain(getListingRx(currency, index))

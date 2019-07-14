@@ -1,29 +1,31 @@
 package com.dreampany.translate.ui.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
-import com.dreampany.language.Language
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.language.Language
 import com.dreampany.translate.R
 import com.dreampany.translate.data.model.TextTranslationRequest
+import com.dreampany.translate.databinding.ContentTextTranslationBinding
 import com.dreampany.translate.databinding.ContentTopStatusBinding
 import com.dreampany.translate.databinding.FragmentHomeBinding
 import com.dreampany.translate.ui.model.TranslationItem
 import com.dreampany.translate.vm.TranslationViewModel
-import com.jaiselrahman.hintspinner.HintSpinnerAdapter
 import cz.kinst.jakub.view.StatefulLayout
-import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -35,7 +37,8 @@ import javax.inject.Inject
  */
 
 @ActivityScope
-class HomeFragment @Inject constructor() : BaseMenuFragment() {
+class HomeFragment @Inject constructor() : BaseMenuFragment(), AdapterView.OnItemSelectedListener,
+    TextWatcher {
 
     private val NONE = "none"
     private val SEARCH = "search"
@@ -45,8 +48,10 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     lateinit var factory: ViewModelProvider.Factory
     lateinit var bindHome: FragmentHomeBinding
     lateinit var bindStatus: ContentTopStatusBinding
+    lateinit var bindTranslation: ContentTextTranslationBinding
 
     lateinit var vm: TranslationViewModel
+    lateinit var adapter: ArrayAdapter<Language>
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -59,10 +64,36 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     override fun onStopUi() {
     }
 
+    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+        when (parent) {
+            bindTranslation.spinnerSource -> {
+                vm.setSourceLanguage(adapter.getItem(position)!!)
+            }
+            bindTranslation.spinnerTarget -> {
+                vm.setTargetLanguage(adapter.getItem(position)!!)
+            }
+        }
+    }
+
+    override fun onNothingSelected(parent: AdapterView<*>) {
+    }
+
+    override fun afterTextChanged(p0: Editable?) {
+    }
+
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+    }
+
+    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+    }
+
     override fun onClick(v: View) {
-        when (v.id) {
-            R.id.fab -> {
+        when (v) {
+            bindHome.fab -> {
                 request(true, true)
+            }
+            bindTranslation.buttonSwitchLanguage -> {
+
             }
         }
     }
@@ -71,7 +102,11 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
         setTitle(R.string.home)
         bindHome = super.binding as FragmentHomeBinding
         bindStatus = bindHome.layoutTopStatus
+        bindTranslation = bindHome.layoutTextTranslation
 
+        vm = ViewModelProviders.of(this, factory).get(TranslationViewModel::class.java)
+        vm.observeUiState(this, Observer { processUiState(it) })
+        vm.observeOutput(this, Observer { processResponse(it) })
 
         bindHome.stateful.setStateView(
             NONE,
@@ -79,28 +114,22 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
         )
 
         bindHome.fab.setOnClickListener(this)
+        bindTranslation.buttonSwitchLanguage.setOnClickListener(this)
 
-        val languages = mutableListOf(Language.ENGLISH, Language.ARABIC)
-        val adapter = object : HintSpinnerAdapter<Language>(
-            context,
-            languages,
-            TextUtil.getString(context, R.string.select_language)
-        ) {
-            override fun getLabelFor(input: Language): String {
-                return input.country
-            }
-        }
+        val source = vm.getSourceLanguage()
+        val target = vm.getTargetLanguage()
+        val languages = vm.getLanguages()
 
-        bindHome.layoutTextTranslation.spinnerSourceLanguage.setAdapter(adapter)
-        bindHome.layoutTextTranslation.spinnerTargetLanguage.setAdapter(adapter)
+        adapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_dropdown_item, languages)
 
+        bindTranslation.spinnerSource.adapter = adapter
+        bindTranslation.spinnerTarget.adapter = adapter
 
-        bindHome.layoutTextTranslation.spinnerSourceLanguage.setSelection(0)
-        bindHome.layoutTextTranslation.spinnerTargetLanguage.setSelection(0)
+        bindTranslation.spinnerSource.setSelection(adapter.getPosition(source), true)
+        bindTranslation.spinnerTarget.setSelection(adapter.getPosition(target), true)
 
-        vm = ViewModelProviders.of(this, factory).get(TranslationViewModel::class.java)
-        vm.observeUiState(this, Observer { processUiState(it) })
-        vm.observeOutput(this, Observer { processResponse(it) })
+        bindTranslation.spinnerSource.onItemSelectedListener = this
+        bindTranslation.spinnerTarget.onItemSelectedListener = this
     }
 
 
@@ -160,16 +189,15 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     private fun processSingleSuccess(item: TranslationItem<*, *, *>) {
-
         processUiState(UiState.CONTENT)
     }
 
     private fun request(important: Boolean, progress: Boolean) {
-        val source = bindHome.layoutTextTranslation.spinnerSourceLanguage.selectedItem as Language
-        val target = bindHome.layoutTextTranslation.spinnerTargetLanguage.selectedItem as Language
+        val source = vm.getSourceLanguage()
+        val target = vm.getTargetLanguage()
+        val input = bindTranslation.inputText.text.toString().trim()
 
-        val request = TextTranslationRequest("", "", "")
-
+        val request = TextTranslationRequest(source.code, target.code, input)
         request.important = important
         request.progress = progress
         vm.load(request)

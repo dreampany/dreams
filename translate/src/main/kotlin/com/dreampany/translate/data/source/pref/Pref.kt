@@ -17,12 +17,20 @@ import javax.inject.Singleton
 @Singleton
 class Pref @Inject constructor(context: Context) : BasePrefKt(context) {
 
-    fun setLanguage(language: Language) {
-        setPrivately(Constants.Language.LANGUAGE, language)
+    fun setSourceLanguage(language: Language) {
+        setPrivately(Constants.Language.SOURCE_LANGUAGE, language)
     }
 
-    fun getLanguage(language: Language): Language {
-        return getPrivately(Constants.Language.LANGUAGE, Language::class.java, language)
+    fun getSourceLanguage(language: Language): Language {
+        return getPrivately(Constants.Language.SOURCE_LANGUAGE, Language::class.java, language)
+    }
+
+    fun setTargetLanguage(language: Language) {
+        setPrivately(Constants.Language.TARGET_LANGUAGE, language)
+    }
+
+    fun getTargetLanguage(language: Language): Language {
+        return getPrivately(Constants.Language.TARGET_LANGUAGE, Language::class.java, language)
     }
 
 }

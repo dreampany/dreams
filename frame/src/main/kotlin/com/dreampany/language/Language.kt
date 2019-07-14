@@ -12,6 +12,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Language(val code: String, val country: String) : Parcelable {
+
     AFRIKAANS(Constants.LanguageCode.AFRIKAANS, Constants.LanguageCountry.AFRIKAANS),
     ARABIC(Constants.LanguageCode.ARABIC, Constants.LanguageCountry.ARABIC),
     BELARUSIAN(Constants.LanguageCode.BELARUSIAN, Constants.LanguageCountry.BELARUSIAN),
@@ -24,5 +25,10 @@ enum class Language(val code: String, val country: String) : Parcelable {
     FRENCH(Constants.LanguageCode.FRENCH, Constants.LanguageCountry.FRENCH),
     HINDI(Constants.LanguageCode.HINDI, Constants.LanguageCountry.HINDI),
     RUSSIAN(Constants.LanguageCode.RUSSIAN, Constants.LanguageCountry.RUSSIAN),
-    CHINESE(Constants.LanguageCode.CHINESE, Constants.LanguageCountry.CHINESE)
+    CHINESE(Constants.LanguageCode.CHINESE, Constants.LanguageCountry.CHINESE);
+
+    override fun toString(): String {
+        return country
+    }
+
 }

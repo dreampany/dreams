@@ -32,7 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="top"
-                android:hint="Input Text" />
+                android:hint="@string/input_text"
+                android:text="@string/input_text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

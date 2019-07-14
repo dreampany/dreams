@@ -2,6 +2,7 @@ package com.dreampany.firebase
 
 import com.dreampany.language.Language
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
@@ -107,8 +108,14 @@ class RxFirebaseTranslation @Inject constructor() {
             .build()
 
         val translator = natural.getTranslator(options)
-        val result = translator.translate(input)
-        return result
+        val task = translator.downloadModelIfNeeded().continueWithTask { task ->
+            if (task.isSuccessful) {
+                translator.translate(input)
+            } else{
+                Tasks.forException<String>(task.exception ?: Exception(""))
+            }
+        }
+        return task
     }
 
     private fun convertToFirebaseLanguage(language: String): Int {

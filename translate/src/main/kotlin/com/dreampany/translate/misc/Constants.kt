@@ -50,6 +50,7 @@ class Constants {
     }
 
     object Language {
-        const val LANGUAGE = "language"
+        const val SOURCE_LANGUAGE = "source_language"
+        const val TARGET_LANGUAGE = "target_language"
     }
 }

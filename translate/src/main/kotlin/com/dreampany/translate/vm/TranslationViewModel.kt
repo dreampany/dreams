@@ -14,6 +14,7 @@ import com.dreampany.language.Language
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translate.data.model.TextTranslationRequest
 import com.dreampany.translate.data.source.pref.Pref
+import com.dreampany.translate.misc.Constants
 import com.dreampany.translate.ui.model.TextTranslationItem
 import com.dreampany.translate.ui.model.TranslationItem
 import com.dreampany.translate.ui.model.UiTaskKt
@@ -45,10 +46,44 @@ class TranslationViewModel @Inject constructor(
 ) {
 
     init {
-        val language = pref.getLanguage(Language.ENGLISH)
+        val language = pref.getTargetLanguage(Language.ENGLISH)
         if (!language.equals(Language.ENGLISH)) {
-            translationRepo.ready(language.code)
+            //translationRepo.ready(language.code)
         }
+    }
+
+    fun setSourceLanguage(language: Language) {
+        pref.setSourceLanguage(language)
+    }
+
+    fun setTargetLanguage(language: Language) {
+        pref.setTargetLanguage(language)
+    }
+
+    fun getSourceLanguage(): Language {
+        return pref.getSourceLanguage(Language.ENGLISH)
+    }
+
+    fun getTargetLanguage(): Language {
+        return pref.getTargetLanguage(Language.ENGLISH)
+    }
+
+    fun getLanguages(): List<Language> {
+        val result = ArrayList<Language>()
+        result.add(Language.AFRIKAANS)
+        result.add(Language.ARABIC)
+        result.add(Language.BELARUSIAN)
+        result.add(Language.BULGARIAN)
+        result.add(Language.BENGALI)
+        result.add(Language.CATALAN)
+        result.add(Language.CZECH)
+        result.add(Language.ENGLISH)
+        result.add(Language.SPANISH)
+        result.add(Language.FRENCH)
+        result.add(Language.HINDI)
+        result.add(Language.RUSSIAN)
+        result.add(Language.CHINESE)
+        return result
     }
 
     fun load(request: TextTranslationRequest) {
@@ -67,7 +102,6 @@ class TranslationViewModel @Inject constructor(
                     postProgress(false)
                 }
                 postResult(Response.Type.GET, result)
-                //getEx().postToUi(() -> update(false), 3000L);
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -81,8 +115,7 @@ class TranslationViewModel @Inject constructor(
         return Maybe.create { emitter ->
 
             var result: TranslationItem<*, *, *>? = null
-            val textTranslation =
-                translationRepo.getItem(request.source, request.target, request.input)
+            val textTranslation = translationRepo.getItem(request.source, request.target, request.input)
             if (textTranslation != null) {
                 result = getItem(textTranslation)
             }

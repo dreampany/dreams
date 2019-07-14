@@ -36,6 +36,10 @@ abstract class BasePrefKt {
         return privatePref.contains(key)
     }
 
+    fun getPublicly(key: String, defaultValue: Boolean): Boolean {
+        return publicPref.preferences.getBoolean(key, defaultValue)
+    }
+
     fun getPrivately(key: String, defaultValue: Boolean): Boolean {
         return privatePref.preferences.getBoolean(key, defaultValue)
     }

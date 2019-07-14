@@ -47,17 +47,18 @@
             </cz.kinst.jakub.view.SimpleStatefulLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom|end"
-                    android:layout_margin="@dimen/fab_margin"
-                    auto:elevation="6dp"
-                    android:tint="@android:color/white"
-                    auto:rippleColor="@color/white"
-                    auto:srcCompat="@drawable/ic_add_alert_black_24dp" />
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:backgroundTint="@color/colorPrimary"
+                auto:elevation="6dp"
+                auto:rippleColor="@color/white"
+                auto:srcCompat="@drawable/ic_add_alert_black_24dp"
+                auto:tint="@android:color/white" />
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

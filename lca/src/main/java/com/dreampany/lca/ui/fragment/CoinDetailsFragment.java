@@ -3,6 +3,8 @@ package com.dreampany.lca.ui.fragment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.databinding.ObservableArrayList;
@@ -36,9 +38,6 @@ import com.dreampany.lca.vm.CoinViewModel;
 import com.mynameismidori.currencypicker.CurrencyPicker;
 import com.mynameismidori.currencypicker.ExtendedCurrency;
 import net.cachapa.expandablelayout.ExpandableLayout;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.List;
@@ -86,7 +85,7 @@ public class CoinDetailsFragment
         return R.menu.menu_coin_details;
     }
 
-    @NotNull
+    @NonNull
     @Override
     public String getScreen() {
         return Constants.Companion.coinDetails(getAppContext());
@@ -118,7 +117,7 @@ public class CoinDetailsFragment
     }
 
     @Override
-    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+    public void onMenuCreated(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         initCurrencyMenuItem();
     }
 
@@ -181,7 +180,6 @@ public class CoinDetailsFragment
         binding.fab.setOnClickListener(this);
 
         ViewUtil.setSwipe(refresh, this);
-//        ViewUtil.setClickListener(this, R.id.button_empty);
 
         UiTask<Coin> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(CoinViewModel.class);
@@ -289,12 +287,7 @@ public class CoinDetailsFragment
     }
 
     private void processSuccess(List<CoinItem> items) {
-        if (scroller.isScrolling()) {
-            return;
-        }
-        //recycler.setNestedScrollingEnabled(false);
         adapter.addItems(items);
-        //recycler.setNestedScrollingEnabled(true);
         processUiState(UiState.EXTRA);
     }
 

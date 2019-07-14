@@ -166,7 +166,7 @@ class App : BaseApp() {
                 133,
                 132,
                 131 -> {
-                    if (exists < 131) {
+                    if (exists < 131 || exists == 145) {
                         val currency = pref.getCurrency(Currency.USD)
                         for (coinIndex in 0..100)
                             pref.clearCoinIndexTime(CoinSource.CMC.name, currency.name, coinIndex);

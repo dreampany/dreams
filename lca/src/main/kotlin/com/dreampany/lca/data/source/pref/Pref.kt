@@ -41,11 +41,11 @@ class Pref @Inject constructor(val context: Context) : BasePrefKt(context) {
     }
 
     fun hasNotifyCoin(): Boolean {
-        return getPublicly(KEY_NOTIFY_COIN, Boolean::class.java, true)
+        return getPublicly(KEY_NOTIFY_COIN, true)
     }
 
     fun hasNotifyNews(): Boolean {
-        return getPublicly(KEY_NOTIFY_NEWS, Boolean::class.java, true)
+        return getPublicly(KEY_NOTIFY_NEWS,true)
     }
 
     fun commitLoaded() {

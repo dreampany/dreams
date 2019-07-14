@@ -74,6 +74,10 @@ public class CoinAlertViewModel
         this.uiCallback = callback;
     }
 
+    public Currency getCurrency() {
+        return pref.getCurrency(Currency.USD);
+    }
+
     public void load(Coin coin, boolean progress) {
         if (!takeAction(true, getSingleDisposable())) {
             return;
@@ -173,12 +177,15 @@ public class CoinAlertViewModel
 
     private Maybe<CoinAlertItem> getItemRx(Coin coin) {
         return Maybe.create(emitter -> {
-            CoinAlert alert = repo.getCoinAlert(coin.getId());
+            Currency currency = Currency.USD;
+            Coin result = repo.getItemIfRx(CoinSource.CMC, currency, coin.getId()).blockingGet();
+
+            CoinAlert alert = repo.getCoinAlert(result.getId());
             CoinAlertItem item;
             if (alert != null) {
-                item = getItem(coin, alert);
+                item = getItem(result, alert);
             } else {
-                item = CoinAlertItem.getItem(coin, alert);
+                item = CoinAlertItem.getItem(result, alert);
                 item.setEmpty(true);
             }
             if (emitter.isDisposed()) {

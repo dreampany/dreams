@@ -148,6 +148,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
         String nameText = String.format(Locale.ENGLISH, getString(R.string.full_name), coin.getSymbol(), coin.getName());
         binding.textName.setText(nameText);
 
+        Currency currency = vm.getCurrency();
         Quote quote = coin.getQuote(Currency.USD);
         if (quote != null) {
             binding.textPrice.setText(String.format(getString(R.string.usd_format), quote.getPrice()));

@@ -2,6 +2,8 @@ package com.dreampany.translate.data.source.pref
 
 import android.content.Context
 import com.dreampany.frame.data.source.pref.BasePrefKt
+import com.dreampany.language.Language
+import com.dreampany.translate.misc.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -14,5 +16,13 @@ import javax.inject.Singleton
 
 @Singleton
 class Pref @Inject constructor(context: Context) : BasePrefKt(context) {
+
+    fun setLanguage(language: Language) {
+        setPrivately(Constants.Language.LANGUAGE, language)
+    }
+
+    fun getLanguage(language: Language): Language {
+        return getPrivately(Constants.Language.LANGUAGE, Language::class.java, language)
+    }
 
 }

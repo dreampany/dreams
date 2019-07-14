@@ -2,9 +2,12 @@ package com.dreampany.translate.ui.model
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.translation.data.model.TextTranslation
-import com.dreampany.translation.data.model.Translation
 import eu.davidea.flexibleadapter.FlexibleAdapter
+import eu.davidea.flexibleadapter.items.IFlexible
+import java.io.Serializable
 
 /**
  * Created by Roman-372 on 7/11/2019
@@ -12,18 +15,37 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class TextTranslationItem(item: TextTranslation?, @LayoutRes layoutId: Int = 0) :
-    TranslationItem<TextTranslation, TextTranslationItem.ViewHolder, String> (item, layoutId) {
+class TextTranslationItem private constructor(item: TextTranslation, @LayoutRes layoutId: Int = 0) :
+    TranslationItem<TextTranslation, TextTranslationItem.ViewHolder, String>(item, layoutId) {
 
-     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
+    companion object {
+        fun getItem(item: TextTranslation): TranslationItem<*, *, *> {
+            return TextTranslationItem(item, 0)
+        }
+    }
+
+    override fun createViewHolder(
+        view: View,
+        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
+    ): ViewHolder {
+        return ViewHolder(view, adapter)
+    }
+
+    override fun filter(constraint: String?): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         TranslationItem.ViewHolder(view, adapter) {
 
-         override fun <VH : TranslationItem.ViewHolder, T : Translation, I : TranslationItem<T, VH, String>> bind(
-             position: Int,
-             item: I
-         ) {
-             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-         }
+        override fun <VH : TranslationItem.ViewHolder, T : BaseKt, S : Serializable, I : TranslationItem<T, VH, S>> bind(
+            position: Int,
+            item: I
+        ) {
+
+
+        }
 
     }
 }

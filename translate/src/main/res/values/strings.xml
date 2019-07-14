@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Translate</string>
 
+    <string name="input_text">Input Text</string>
     <string name="select_language">Select Language</string>
+    <string name="translated_text_hint">Translated text</string>
 </resources>

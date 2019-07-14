@@ -2,10 +2,10 @@ package com.dreampany.translate.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.translate.vm.DemoViewModel
-import com.dreampany.translate.vm.MoreViewModel
 import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
+import com.dreampany.translate.vm.MoreViewModel
+import com.dreampany.translate.vm.TranslationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -27,8 +27,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DemoViewModel::class)
-    abstract fun bindDemoViewModel(demoViewModel: DemoViewModel): ViewModel
+    @ViewModelKey(TranslationViewModel::class)
+    abstract fun bindTranslationViewModel(vm: TranslationViewModel): ViewModel
 
     @Singleton
     @Binds

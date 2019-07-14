@@ -34,6 +34,10 @@ abstract class BaseItemKt<T : BaseKt, VH : BaseItemKt.ViewHolder, S : Serializab
         return Objects.hashCode(item)
     }
 
+    override fun getLayoutRes(): Int {
+        return layoutId
+    }
+
     abstract class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         FlexibleViewHolder(view, adapter) {
         internal fun getContext(): Context {

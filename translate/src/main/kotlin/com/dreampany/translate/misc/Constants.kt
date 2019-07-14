@@ -48,4 +48,8 @@ class Constants {
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
     }
+
+    object Language {
+        const val LANGUAGE = "language"
+    }
 }

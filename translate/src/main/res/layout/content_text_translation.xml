@@ -12,75 +12,75 @@
     </data>
 
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:layout_margin="@dimen/dp_10"
+            android:inputType="textMultiLine"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:hint="Input Text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinnerSource"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:textAlignment="center"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toBottomOf="@id/inputLayout" />
+
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/spinnerTarget"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:textAlignment="center"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintTop_toBottomOf="@id/inputLayout" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonSwitchLanguage"
+            style="@style/IconOnlyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text=""
+            auto:icon="@drawable/ic_compare_arrows_black_24dp"
+            auto:layout_constraintEnd_toStartOf="@id/spinnerTarget"
+            auto:layout_constraintStart_toEndOf="@id/spinnerSource"
+            auto:layout_constraintTop_toBottomOf="@id/inputLayout" />
+
+        <TextView
+            android:id="@+id/outputText"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_margin="@dimen/dp_10"
+            android:gravity="top"
+            android:hint="@string/translated_text_hint"
+            auto:layout_constraintBottom_toBottomOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toBottomOf="@id/buttonSwitchLanguage" />
 
-            <com.jaiselrahman.hintspinner.HintSpinner
-                android:id="@+id/spinnerSourceLanguage"
-                android:layout_width="@dimen/dp_120"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@color/material_white" />
-
-            <com.dreampany.frame.ui.widget.SmartEditText
-                android:id="@+id/inputSource"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/material_grey200"
-                android:fontFamily="@font/roboto_slab_regular"
-                android:gravity="start"
-                android:inputType="textCapSentences|textMultiLine"
-                android:maxLength="2000"
-                android:maxLines="4"
-                android:padding="@dimen/dp_6" />
-
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <ImageView
-            android:id="@+id/imageSweep"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
-            android:layout_gravity="center_horizontal"
-            auto:srcCompat="@drawable/ic_unfold_more_black_24dp" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <com.jaiselrahman.hintspinner.HintSpinner
-                android:id="@+id/spinnerTargetLanguage"
-                android:layout_width="@dimen/dp_120"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:background="@color/material_white" />
-
-            <com.dreampany.frame.ui.widget.SmartEditText
-                android:id="@+id/outputSource"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@color/material_grey200"
-                android:fontFamily="@font/roboto_slab_regular"
-                android:gravity="start"
-                android:inputType="textCapSentences|textMultiLine"
-                android:maxLength="2000"
-                android:maxLines="4"
-                android:padding="@dimen/dp_6" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

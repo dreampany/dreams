@@ -32,6 +32,7 @@ import javax.inject.Singleton
 
 @Module(includes = [FrameModule::class, TranslationModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
 class BuildersModule {
+
     @Singleton
     @Provides
     @Assets

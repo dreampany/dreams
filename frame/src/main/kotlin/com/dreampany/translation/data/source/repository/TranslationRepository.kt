@@ -27,6 +27,17 @@ class TranslationRepository
     @Firestore val firestore: TranslationDataSource,
     @Remote val remote: TranslationDataSource
 ) : RepositoryKt<String, TextTranslation>(rx, rm), TranslationDataSource {
+
+    override fun isReady(target: String): Boolean {
+        return machine.isReady(target)
+    }
+
+    override fun ready(target: String) {
+        if (!isReady(target)) {
+            machine.ready(target)
+        }
+    }
+
     override fun putItems(ts: List<TextTranslation>): List<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -41,16 +52,6 @@ class TranslationRepository
 
     override fun deleteRx(ts: List<TextTranslation>): Maybe<List<Long>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun isReady(target: String): Boolean {
-        return machine.isReady(target)
-    }
-
-    override fun ready(target: String) {
-        if (!isReady(target)) {
-            machine.ready(target)
-        }
     }
 
     override fun isExistsRx(source: String, target: String, input: String): Maybe<Boolean> {

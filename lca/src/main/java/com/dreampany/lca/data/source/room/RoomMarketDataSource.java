@@ -17,12 +17,12 @@ import io.reactivex.Maybe;
  * dreampanymail@gmail.com
  */
 @Singleton
-public class MarketRoomDataSource implements MarketDataSource {
+public class RoomMarketDataSource implements MarketDataSource {
 
     private final MarketMapper mapper;
     private final MarketDao dao;
 
-    public MarketRoomDataSource(MarketMapper mapper,
+    public RoomMarketDataSource(MarketMapper mapper,
                                 MarketDao dao) {
         this.mapper = mapper;
         this.dao = dao;

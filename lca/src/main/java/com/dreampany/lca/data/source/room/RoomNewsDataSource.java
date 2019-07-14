@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import com.dreampany.frame.misc.exception.EmptyException;
@@ -12,19 +13,21 @@ import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/5/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 
 @Singleton
-public class NewsRoomDataSource implements NewsDataSource {
+public class RoomNewsDataSource implements NewsDataSource {
 
     private final NewsMapper mapper;
     private final NewsDao dao;
 
-    public NewsRoomDataSource(NewsMapper mapper,
+    public RoomNewsDataSource(NewsMapper mapper,
                               NewsDao dao) {
         this.mapper = mapper;
         this.dao = dao;
@@ -140,3 +143,4 @@ public class NewsRoomDataSource implements NewsDataSource {
         return dao.getItemsRx(limit);
     }
 }
+*/

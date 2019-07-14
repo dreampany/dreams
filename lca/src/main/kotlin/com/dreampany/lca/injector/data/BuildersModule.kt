@@ -92,7 +92,7 @@ class BuildersModule {
         mapper: PriceMapper,
         dao: PriceDao
     ): PriceDataSource {
-        return PriceRoomDataSource(mapper, dao)
+        return RoomPriceDataSource(mapper, dao)
     }
 
     @Singleton
@@ -102,7 +102,7 @@ class BuildersModule {
         mapper: ExchangeMapper,
         dao: ExchangeDao
     ): ExchangeDataSource {
-        return ExchangeRoomDataSource(mapper, dao)
+        return RoomExchangeDataSource(mapper, dao)
     }
 
     @Singleton
@@ -112,7 +112,7 @@ class BuildersModule {
         mapper: MarketMapper,
         dao: MarketDao
     ): MarketDataSource {
-        return MarketRoomDataSource(mapper, dao)
+        return RoomMarketDataSource(mapper, dao)
     }
 
     @Singleton
@@ -122,7 +122,7 @@ class BuildersModule {
         mapper: GraphMapper,
         dao: GraphDao
     ): GraphDataSource {
-        return GraphRoomDataSource(mapper, dao)
+        return RoomGraphDataSource(mapper, dao)
     }
 
     @Singleton
@@ -132,7 +132,7 @@ class BuildersModule {
         mapper: NewsMapper,
         dao: NewsDao
     ): NewsDataSource {
-        return NewsRoomDataSource(mapper, dao)
+        return RoomNewsDataSource(mapper, dao)
     }
 
     @Singleton
@@ -142,7 +142,7 @@ class BuildersModule {
         mapper: IcoMapper,
         dao: IcoDao
     ): IcoDataSource {
-        return IcoRoomDataSource(mapper, dao)
+        return RoomIcoDataSource(mapper, dao)
     }
 
     @Singleton

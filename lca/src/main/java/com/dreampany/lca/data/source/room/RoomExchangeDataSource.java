@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import com.dreampany.lca.data.misc.ExchangeMapper;
@@ -11,18 +12,20 @@ import javax.inject.Singleton;
 import com.dreampany.lca.data.source.dao.ExchangeDao;
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 30/5/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
-public class ExchangeRoomDataSource implements ExchangeDataSource {
+public class RoomExchangeDataSource implements ExchangeDataSource {
 
     private final ExchangeMapper mapper;
     private final ExchangeDao dao;
 
-    public ExchangeRoomDataSource(ExchangeMapper mapper,
+    public RoomExchangeDataSource(ExchangeMapper mapper,
                                   ExchangeDao dao) {
         this.mapper = mapper;
         this.dao = dao;
@@ -138,3 +141,4 @@ public class ExchangeRoomDataSource implements ExchangeDataSource {
         return null;
     }
 }
+*/

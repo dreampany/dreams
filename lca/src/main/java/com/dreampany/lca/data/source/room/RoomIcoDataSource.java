@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Singleton;
 
 import com.dreampany.lca.data.source.dao.IcoDao;
+
 import io.reactivex.Maybe;
 
 /**
@@ -19,12 +20,12 @@ import io.reactivex.Maybe;
  */
 
 @Singleton
-public class IcoRoomDataSource implements IcoDataSource {
+public class RoomIcoDataSource implements IcoDataSource {
 
     private final IcoMapper mapper;
     private final IcoDao dao;
 
-    public IcoRoomDataSource(IcoMapper mapper,
+    public RoomIcoDataSource(IcoMapper mapper,
                              IcoDao dao) {
         this.mapper = mapper;
         this.dao = dao;
@@ -71,12 +72,12 @@ public class IcoRoomDataSource implements IcoDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Ico> icos) {
+    public List<Long> putItems(List<?extends Ico> icos) {
         return dao.insertOrReplace(icos);
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Ico> icos) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Ico> icos) {
         return Maybe.fromCallable(() -> putItems(icos));
     }
 
@@ -91,12 +92,12 @@ public class IcoRoomDataSource implements IcoDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Ico> icos) {
+    public List<Long> delete(List<? extends Ico> icos) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Ico> icos) {
+    public Maybe<List<Long>> deleteRx(List<? extends Ico> icos) {
         return null;
     }
 

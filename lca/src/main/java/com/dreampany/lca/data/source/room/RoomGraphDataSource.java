@@ -17,12 +17,12 @@ import io.reactivex.Maybe;
  * dreampanymail@gmail.com
  */
 @Singleton
-public class GraphRoomDataSource implements GraphDataSource {
+public class RoomGraphDataSource implements GraphDataSource {
 
     private final GraphMapper mapper;
     private final GraphDao dao;
 
-    public GraphRoomDataSource(GraphMapper mapper,
+    public RoomGraphDataSource(GraphMapper mapper,
                                GraphDao dao) {
         this.mapper = mapper;
         this.dao = dao;

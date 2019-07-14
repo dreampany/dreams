@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import com.dreampany.lca.data.misc.PriceMapper;
@@ -11,18 +12,20 @@ import javax.inject.Singleton;
 import com.dreampany.lca.data.source.dao.PriceDao;
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/23/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
-public class PriceRoomDataSource implements PriceDataSource {
+public class RoomPriceDataSource implements PriceDataSource {
 
     private final PriceMapper mapper;
     private final PriceDao dao;
 
-    public PriceRoomDataSource(PriceMapper mapper,
+    public RoomPriceDataSource(PriceMapper mapper,
                                PriceDao dao) {
         this.mapper = mapper;
         this.dao = dao;
@@ -128,3 +131,4 @@ public class PriceRoomDataSource implements PriceDataSource {
         return null;
     }
 }
+*/

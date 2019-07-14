@@ -11,8 +11,8 @@ import com.dreampany.frame.misc.Room
 import com.dreampany.lca.data.misc.*
 import com.dreampany.lca.data.source.api.*
 import com.dreampany.lca.data.source.dao.*
-import com.dreampany.lca.data.source.firebase.database.CoinDatabaseDataSource
-import com.dreampany.lca.data.source.firebase.firestore.CoinFirestoreDataSource
+import com.dreampany.lca.data.source.firebase.database.DatabaseCoinDataSource
+import com.dreampany.lca.data.source.firebase.firestore.FirestoreCoinDataSource
 import com.dreampany.lca.data.source.remote.*
 import com.dreampany.lca.data.source.room.*
 import com.dreampany.lca.injector.vm.ViewModelModule
@@ -55,7 +55,7 @@ class BuildersModule {
         network: NetworkManager,
         database: RxFirebaseDatabase
     ): CoinDataSource {
-        return CoinDatabaseDataSource(
+        return DatabaseCoinDataSource(
             network,
             database
         )
@@ -68,7 +68,7 @@ class BuildersModule {
         network: NetworkManager,
         firestore: RxFirebaseFirestore
     ): CoinDataSource {
-        return CoinFirestoreDataSource(
+        return FirestoreCoinDataSource(
             network,
             firestore
         )
@@ -82,7 +82,7 @@ class BuildersModule {
         mapper: CoinMapper,
         service: CmcService
     ): CoinDataSource {
-        return CoinRemoteDataSource(network, mapper, service)
+        return RemoteCoinDataSource(network, mapper, service)
     }
 
     @Singleton
@@ -207,7 +207,7 @@ class BuildersModule {
         mapper: IcoMapper,
         service: IcoService
     ): IcoDataSource {
-        return IcoRemoteDataSource(network, mapper, service)
+        return RemoteIcoDataSource(network, mapper, service)
     }
 
 /*    @Provides

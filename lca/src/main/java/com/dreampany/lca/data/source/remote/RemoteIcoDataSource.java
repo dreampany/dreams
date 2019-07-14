@@ -6,21 +6,21 @@ import com.dreampany.lca.api.iwl.model.ApiIco;
 import com.dreampany.lca.api.iwl.model.IcoResponse;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.misc.IcoMapper;
-import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.api.IcoDataSource;
 import com.dreampany.lca.misc.IcoWatchList;
 import com.dreampany.network.manager.NetworkManager;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+
+import javax.inject.Singleton;
+
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import retrofit2.Response;
 import timber.log.Timber;
-
-import javax.inject.Singleton;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -28,13 +28,13 @@ import java.util.List;
  * hawladar.roman@bjitgroup.com
  */
 @Singleton
-public class IcoRemoteDataSource implements IcoDataSource {
+public class RemoteIcoDataSource implements IcoDataSource {
 
     private final NetworkManager network;
     private final IcoMapper mapper;
     private final IcoService service;
 
-    public IcoRemoteDataSource(NetworkManager network,
+    public RemoteIcoDataSource(NetworkManager network,
                                IcoMapper mapper,
                                @IcoWatchList IcoService service) {
         this.network = network;

@@ -37,7 +37,7 @@ abstract class BasePrefKt {
     }
 
     fun getPrivately(key: String, defaultValue: Boolean): Boolean {
-        return privatePref.get(key, Boolean::class.java, defaultValue)
+        return privatePref.preferences.getBoolean(key, defaultValue)
     }
 
     fun setPrivately(key: String, value: Int) {
@@ -45,7 +45,7 @@ abstract class BasePrefKt {
     }
 
     fun getPrivately(key: String, defaultValue: Int): Int {
-        return privatePref.get(key, Int::class.java, defaultValue)
+        return privatePref.preferences.getInt(key, defaultValue)
     }
 
     fun setPrivately(key: String, value: Long) {
@@ -53,7 +53,7 @@ abstract class BasePrefKt {
     }
 
     fun getPrivately(key: String, defaultValue: Long): Long {
-        return privatePref.get(key, Long::class.java, defaultValue)
+        return privatePref.preferences.getLong(key, defaultValue)
     }
 
     fun <T> setPublicly(key: String, value: T) {

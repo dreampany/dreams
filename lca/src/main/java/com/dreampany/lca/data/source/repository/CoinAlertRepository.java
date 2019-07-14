@@ -81,12 +81,12 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
     }
 
     @Override
-    public List<Long> putItems(List<CoinAlert> coinAlert) {
+    public List<Long> putItems(List<? extends CoinAlert> coinAlert) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<CoinAlert> coinAlerts) {
+    public Maybe<List<Long>> putItemsRx(List<? extends CoinAlert> coinAlerts) {
         return null;
     }
 
@@ -101,12 +101,12 @@ public class CoinAlertRepository extends Repository<Long, CoinAlert> implements 
     }
 
     @Override
-    public List<Long> delete(List<CoinAlert> coinAlerts) {
+    public List<Long> delete(List<? extends CoinAlert> coinAlerts) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<CoinAlert> coinAlerts) {
+    public Maybe<List<Long>> deleteRx(List<? extends CoinAlert> coinAlerts) {
         return null;
     }
 

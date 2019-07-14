@@ -91,12 +91,12 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
     }
 
     @Override
-    public List<Long> putItems(List<News> news) {
+    public List<Long> putItems(List<? extends News> news) {
         return room.putItems(news);
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<News> news) {
+    public Maybe<List<Long>> putItemsRx(List<? extends News> news) {
         return room.putItemsRx(news);
     }
 
@@ -111,12 +111,12 @@ public class NewsRepository extends Repository<Long, News> implements NewsDataSo
     }
 
     @Override
-    public List<Long> delete(List<News> news) {
+    public List<Long> delete(List<? extends News> news) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<News> news) {
+    public Maybe<List<Long>> deleteRx(List<? extends News> news) {
         return null;
     }
 

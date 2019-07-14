@@ -73,12 +73,12 @@ public class GraphRemoteDataSource implements GraphDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Graph> graphs) {
+    public List<Long> putItems(List<? extends Graph> graphs) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Graph> graphs) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Graph> graphs) {
         return null;
     }
 
@@ -93,12 +93,12 @@ public class GraphRemoteDataSource implements GraphDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Graph> graphs) {
+    public List<Long> delete(List<? extends Graph> graphs) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Graph> graphs) {
+    public Maybe<List<Long>> deleteRx(List<? extends Graph> graphs) {
         return null;
     }
 

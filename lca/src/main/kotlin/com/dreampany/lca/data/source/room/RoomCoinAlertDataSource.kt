@@ -14,44 +14,91 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class RoomCoinAlertDataSource constructor(val mapper: CoinAlertMapper, val dao : CoinAlertDao) :
+class RoomCoinAlertDataSource constructor(val mapper: CoinAlertMapper, val dao: CoinAlertDao) :
     CoinAlertDataSource {
+    override fun isEmpty(): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun isEmptyRx(): Maybe<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getCountRx(): Maybe<Int> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun putItemRx(t: CoinAlert): Maybe<Long> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun putItems(ts: List<CoinAlert>): List<Long>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun putItemsRx(ts: List<CoinAlert>): Maybe<List<Long>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deleteRx(t: CoinAlert): Maybe<Int> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun delete(ts: List<CoinAlert>): List<Long>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deleteRx(ts: List<CoinAlert>): Maybe<List<Long>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemRx(id: String): Maybe<CoinAlert> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItems(limit: Int): List<CoinAlert>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsRx(limit: Int): Maybe<List<CoinAlert>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun isExists(id: String): Boolean {
         return dao.getCount(id) > 0
     }
 
 
-    fun getCount(): Int {
+    override fun getCount(): Int {
         return dao.count
     }
 
-    fun isExists(coinAlert: CoinAlert): Boolean {
+    override fun isExists(coinAlert: CoinAlert): Boolean {
         return dao.getCount(coinAlert.id) > 0
     }
 
-    fun isExistsRx(coinAlert: CoinAlert): Maybe<Boolean> {
+    override fun isExistsRx(coinAlert: CoinAlert): Maybe<Boolean> {
         return Maybe.fromCallable { isExists(coinAlert) }
     }
 
-    fun putItem(coinAlert: CoinAlert): Long {
+    override fun putItem(coinAlert: CoinAlert): Long {
         return dao.insertOrReplace(coinAlert)
     }
 
 
-    fun delete(coinAlert: CoinAlert): Int {
+    override fun delete(coinAlert: CoinAlert): Int {
         return dao.delete(coinAlert)
     }
 
-    fun getItem(id: String): CoinAlert {
+    override fun getItem(id: String): CoinAlert? {
         return dao.getItem(id)
     }
 
-    fun getItems(): List<CoinAlert> {
+    override fun getItems(): List<CoinAlert> {
         return dao.items
     }
 
-    fun getItemsRx(): Maybe<List<CoinAlert>> {
+    override fun getItemsRx(): Maybe<List<CoinAlert>> {
         return Maybe.fromCallable { getItems() }
     }
 

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import com.dreampany.lca.data.misc.MarketMapper;
@@ -11,11 +12,13 @@ import javax.inject.Singleton;
 import com.dreampany.lca.data.source.dao.MarketDao;
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 30/5/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
 public class RoomMarketDataSource implements MarketDataSource {
 
@@ -138,3 +141,4 @@ public class RoomMarketDataSource implements MarketDataSource {
         return null;
     }
 }
+*/

@@ -83,12 +83,12 @@ public class IcoRemoteDataSource implements IcoDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Ico> icos) {
+    public List<Long> putItems(List<? extends Ico> icos) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Ico> icos) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Ico> icos) {
         return null;
     }
 
@@ -103,12 +103,12 @@ public class IcoRemoteDataSource implements IcoDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Ico> icos) {
+    public List<Long> delete(List<? extends Ico> icos) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Ico> icos) {
+    public Maybe<List<Long>> deleteRx(List<? extends Ico> icos) {
         return null;
     }
 

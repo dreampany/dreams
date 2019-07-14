@@ -146,7 +146,7 @@ class App : BaseApp() {
 
     private fun clean() {
         if (isVersionUpgraded()) {
-            val exists = pref.versionCode
+            val exists = pref.getVersionCode()
             val current = AndroidUtil.getVersionCode(this)
 
             when (current) {
@@ -211,12 +211,12 @@ class App : BaseApp() {
                     }
                 }
             }
-            pref.versionCode = current
+            pref.setVersionCode(current)
         }
     }
 
     private fun isVersionUpgraded(): Boolean {
-        val exists = pref.versionCode
+        val exists = pref.getVersionCode()
         val current = AndroidUtil.getVersionCode(this)
         if (current != exists) {
             return true

@@ -83,12 +83,12 @@ public class PriceRepository extends Repository<Long, Price> implements PriceDat
     }
 
     @Override
-    public List<Long> putItems(List<Price> prices) {
+    public List<Long> putItems(List<? extends Price> prices) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Price> prices) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Price> prices) {
         return null;
     }
 
@@ -103,12 +103,12 @@ public class PriceRepository extends Repository<Long, Price> implements PriceDat
     }
 
     @Override
-    public List<Long> delete(List<Price> prices) {
+    public List<Long> delete(List<? extends Price> prices) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Price> prices) {
+    public Maybe<List<Long>> deleteRx(List<? extends Price> prices) {
         return null;
     }
 

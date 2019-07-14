@@ -16,5 +16,8 @@
 -keep class com.dreampany.lca.misc.** { *; }
 -keepclassmembers class com.dreampany.lca.misc.** { *; }
 
+-keep class com.dreampany.lca.api.** { *; }
+-keepclassmembers class com.dreampany.lca.api.** { *; }
+
 -keep class com.dreampany.frame.misc.** { *; }
 -keepclassmembers class com.dreampany.frame.misc.** { *; }

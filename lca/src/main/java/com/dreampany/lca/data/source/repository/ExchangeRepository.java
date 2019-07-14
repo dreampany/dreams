@@ -90,12 +90,12 @@ public class ExchangeRepository extends Repository<Long, Exchange> implements Ex
     }
 
     @Override
-    public List<Long> putItems(List<Exchange> exchanges) {
+    public List<Long> putItems(List<? extends Exchange> exchanges) {
         return local.putItems(exchanges);
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Exchange> exchanges) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Exchange> exchanges) {
         return Maybe.fromCallable(() -> putItems(exchanges));
     }
 
@@ -110,12 +110,12 @@ public class ExchangeRepository extends Repository<Long, Exchange> implements Ex
     }
 
     @Override
-    public List<Long> delete(List<Exchange> exchanges) {
+    public List<Long> delete(List<? extends Exchange> exchanges) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Exchange> exchanges) {
+    public Maybe<List<Long>> deleteRx(List<? extends Exchange> exchanges) {
         return null;
     }
 

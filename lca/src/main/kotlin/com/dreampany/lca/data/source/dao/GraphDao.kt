@@ -22,7 +22,7 @@ interface GraphDao : BaseDao<Graph> {
     val countRx: Maybe<Int>
 
     @get:Query("select * from graph")
-    val items: List<Graph>
+    val items: List<Graph>?
 
     @get:Query("select * from graph")
     val itemsRx: Maybe<List<Graph>>
@@ -34,13 +34,13 @@ interface GraphDao : BaseDao<Graph> {
     fun getCountRx(id: Long): Maybe<Int>
 
     @Query("select * from graph where id = :id limit 1")
-    fun getItem(id: Long): Graph
+    fun getItem(id: Long): Graph?
 
     @Query("select * from graph where id = :id limit 1")
     fun getItemRx(id: Long): Maybe<Graph>
 
     @Query("select * from graph where slug = :slug and startTime = :startTime and endTime = :endTime limit 1")
-    fun getItem(slug: String, startTime: Long, endTime: Long): Graph
+    fun getItem(slug: String, startTime: Long, endTime: Long): Graph?
 
     @Query("select * from graph where slug = :slug and startTime = :startTime and endTime = :endTime limit 1")
     fun getItemRx(slug: String, startTime: Long, endTime: Long): Maybe<Graph>

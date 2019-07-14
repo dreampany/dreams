@@ -231,7 +231,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Coin> coins) {
+    public List<Long> putItems(List<? extends Coin> coins) {
         String collection = Constants.FirebaseKey.CRYPTO;
         Map<String, MutableTriple<String, String, Coin>> items = Maps.newHashMap();
         for (Coin coin : coins) {
@@ -246,7 +246,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Coin> coins) {
         return Maybe.create(emitter -> {
             List<Long> result = putItems(coins);
             if (emitter.isDisposed()) {
@@ -271,12 +271,12 @@ public class CoinFirestoreDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Coin> coins) {
+    public List<Long> delete(List<? extends Coin> coins) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
+    public Maybe<List<Long>> deleteRx(List<? extends Coin> coins) {
         return null;
     }
 
@@ -342,7 +342,7 @@ public class CoinFirestoreDataSource implements CoinDataSource {
         return 0;
     }
 
-    private List<Long> putQuotes(List<Coin> coins) {
+    private List<Long> putQuotes(List<? extends Coin> coins) {
         String collection = Constants.FirebaseKey.CRYPTO;
         Map<String, MutableTriple<String, String, Quote>> items = Maps.newHashMap();
         for (Coin coin : coins) {

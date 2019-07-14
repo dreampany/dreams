@@ -291,12 +291,12 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Coin> coins) {
+    public List<Long> putItems(List<? extends Coin> coins) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Coin> coins) {
         return null;
     }
 
@@ -311,12 +311,12 @@ public class CoinRemoteDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Coin> coins) {
+    public List<Long> delete(List<? extends Coin> coins) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
+    public Maybe<List<Long>> deleteRx(List<? extends Coin> coins) {
         return null;
     }
 

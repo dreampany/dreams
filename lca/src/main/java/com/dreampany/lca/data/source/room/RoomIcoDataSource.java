@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import com.dreampany.lca.data.enums.IcoStatus;
@@ -13,11 +14,13 @@ import com.dreampany.lca.data.source.dao.IcoDao;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/10/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 
 @Singleton
 public class RoomIcoDataSource implements IcoDataSource {
@@ -131,10 +134,12 @@ public class RoomIcoDataSource implements IcoDataSource {
         return null;
     }
 
+*/
 /*    @Override
     public void clear(IcoStatus status) {
         mapper.clear(status);
-    }*/
+    }*//*
+
 
 
     @Override
@@ -167,3 +172,4 @@ public class RoomIcoDataSource implements IcoDataSource {
         return dao.getItemsRx(IcoStatus.FINISHED.name(), limit);
     }
 }
+*/

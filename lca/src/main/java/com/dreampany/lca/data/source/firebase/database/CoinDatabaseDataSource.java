@@ -196,7 +196,7 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Coin> coins) {
+    public List<Long> putItems(List<? extends Coin> coins) {
         for (Coin coin : coins) {
             putItem(coin);
         }
@@ -214,7 +214,7 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Coin> coins) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Coin> coins) {
         return Maybe.create(emitter -> {
             List<Long> result = putItems(coins);
             if (emitter.isDisposed()) {
@@ -239,12 +239,12 @@ public class CoinDatabaseDataSource implements CoinDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Coin> coins) {
+    public List<Long> delete(List<? extends Coin> coins) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Coin> coins) {
+    public Maybe<List<Long>> deleteRx(List<? extends Coin> coins) {
         return null;
     }
 

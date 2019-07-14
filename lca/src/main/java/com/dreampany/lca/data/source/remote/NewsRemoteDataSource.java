@@ -79,12 +79,12 @@ public class NewsRemoteDataSource implements NewsDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<News> news) {
+    public List<Long> putItems(List<? extends News> news) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<News> news) {
+    public Maybe<List<Long>> putItemsRx(List<? extends News> news) {
         return null;
     }
 
@@ -99,12 +99,12 @@ public class NewsRemoteDataSource implements NewsDataSource {
     }
 
     @Override
-    public List<Long> delete(List<News> news) {
+    public List<Long> delete(List<? extends News> news) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<News> news) {
+    public Maybe<List<Long>> deleteRx(List<? extends News> news) {
         return null;
     }
 

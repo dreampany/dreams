@@ -220,7 +220,7 @@ class Constants {
     object Limit {
         const val COIN_START_INDEX = 0
         const val COIN_PAGE = 100
-        const val COIN_FULL = 1000
+        const val COIN_FULL = 100
         const val COIN_MARKET = 50
         const val COIN_EXCHANGE = 50
         const val ICO = 50
@@ -231,7 +231,8 @@ class Constants {
 
     object Time {
         val Listing = TimeUnit.HOURS.toMillis(1) //get listing per 7 days
-        val Coin = TimeUnit.MINUTES.toMillis(5) // Every ~1 minute; as per coinmarketcap limit 30 per minute
+        val Coin =
+            TimeUnit.MINUTES.toMillis(5) // Every ~1 minute; as per coinmarketcap limit 30 per minute
         val Graph = TimeUnit.MINUTES.toMillis(5) //as per coinmarketcap limit 30 per minute
     }
 
@@ -255,8 +256,17 @@ class Constants {
     }
 
     object Pref {
+        const val VERSION_CODE = "version_code"
         const val ALERT_PROFITABLE_COIN = "alert_profitable_coin"
         const val ALERT_COIN = "alert_coin"
         const val ALERT_NEWS = "alert_news"
+        const val LOADED = "loaded"
+        const val COIN_INDEX_TIME = "coin_index_time"
+        const val COIN_TIME = "coin_time"
+        const val ICO_TIME = "ico_time"
+        const val NEWS_TIME = "news_time"
+        const val CURRENCY = "currency"
+        const val CURRENCY_GRAPH = "currency_graph"
+        const val GRAPH_SYMBOL = "graph_symbol"
     }
 }

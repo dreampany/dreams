@@ -76,12 +76,12 @@ public class ExchangeRemoteDataSource implements ExchangeDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Exchange> exchanges) {
+    public List<Long> putItems(List<? extends Exchange> exchanges) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Exchange> exchanges) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Exchange> exchanges) {
         return null;
     }
 
@@ -96,12 +96,12 @@ public class ExchangeRemoteDataSource implements ExchangeDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Exchange> exchanges) {
+    public List<Long> delete(List<? extends Exchange> exchanges) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Exchange> exchanges) {
+    public Maybe<List<Long>> deleteRx(List<? extends Exchange> exchanges) {
         return null;
     }
 

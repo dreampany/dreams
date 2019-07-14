@@ -76,12 +76,12 @@ public class MarketRemoteDataSource implements MarketDataSource {
     }
 
     @Override
-    public List<Long> putItems(List<Market> markets) {
+    public List<Long> putItems(List<? extends Market> markets) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> putItemsRx(List<Market> markets) {
+    public Maybe<List<Long>> putItemsRx(List<? extends Market> markets) {
         return null;
     }
 
@@ -96,12 +96,12 @@ public class MarketRemoteDataSource implements MarketDataSource {
     }
 
     @Override
-    public List<Long> delete(List<Market> markets) {
+    public List<Long> delete(List<? extends Market> markets) {
         return null;
     }
 
     @Override
-    public Maybe<List<Long>> deleteRx(List<Market> markets) {
+    public Maybe<List<Long>> deleteRx(List<? extends Market> markets) {
         return null;
     }
 

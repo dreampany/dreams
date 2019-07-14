@@ -3,6 +3,8 @@ package com.dreampany.frame.data.source.pref
 import android.content.Context
 import com.dreampany.frame.util.AndroidUtil
 import com.github.pwittchen.prefser.library.rx2.Prefser
+import io.reactivex.BackpressureStrategy
+import io.reactivex.Flowable
 
 /**
  * Created by Roman-372 on 7/11/2019
@@ -38,6 +40,14 @@ abstract class BasePrefKt {
         return privatePref.get(key, Boolean::class.java, defaultValue)
     }
 
+    fun setPrivately(key: String, value: Int) {
+        privatePref.put(key, value)
+    }
+
+    fun getPrivately(key: String, defaultValue: Int): Int {
+        return privatePref.get(key, Int::class.java, defaultValue)
+    }
+
     fun setPrivately(key: String, value: Long) {
         privatePref.put(key, value)
     }
@@ -64,5 +74,15 @@ abstract class BasePrefKt {
 
     fun removePrivately(key: String) {
         privatePref.remove(key)
+    }
+
+    fun <T> observePublicly(key: String, classOfT: Class<T>, defaultValue: T): Flowable<T> {
+        return publicPref.observe(key, classOfT, defaultValue)
+            .toFlowable(BackpressureStrategy.LATEST)
+    }
+
+    fun <T> observePrivately(key: String, classOfT: Class<T>, defaultValue: T): Flowable<T> {
+        return privatePref.observe(key, classOfT, defaultValue)
+            .toFlowable(BackpressureStrategy.LATEST)
     }
 }

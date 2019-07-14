@@ -126,7 +126,7 @@ public class CoinsViewModel
     }
 
     public void refresh(boolean update, boolean important, boolean progress) {
-        Timber.v("refresh fired");
+        Timber.v("refresh fired %s", update);
         if (update) {
             update(important, progress);
             return;

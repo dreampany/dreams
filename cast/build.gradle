@@ -6,7 +6,7 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion '29.0.0'
+    buildToolsVersion '29.0.1'
 
     defaultConfig {
         applicationId 'com.dreampany.cast'
@@ -89,12 +89,12 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
-    }
-
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    dataBinding {
+        enabled = true
     }
 	
 	compileOptions {
@@ -117,7 +117,10 @@ android {
             outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
         }
     }
+}
 
+androidExtensions {
+    experimental = true
 }
 
 dependencies {
@@ -132,16 +135,12 @@ dependencies {
     implementation project(':frame')
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02'
     kapt 'androidx.room:room-compiler:2.1.0'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'
-
-    /* butterknife */
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
 
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'

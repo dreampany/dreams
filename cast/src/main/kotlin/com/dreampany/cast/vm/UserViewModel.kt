@@ -3,7 +3,6 @@ package com.dreampany.cast.vm
 import android.app.Application
 import com.dreampany.cast.data.model.User
 import com.dreampany.cast.data.source.pref.Pref
-import com.dreampany.cast.ui.model.UiTask
 import com.dreampany.cast.ui.model.UserItem
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.misc.AppExecutors
@@ -12,6 +11,7 @@ import com.dreampany.frame.misc.RxMapper
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.translate.ui.model.UiTask
 
 /**
  * Created by Roman-372 on 6/27/2019
@@ -20,9 +20,6 @@ import com.dreampany.network.manager.NetworkManager
  * Last modified $file.lastModified
  */
 class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>>, NetworkManager.Callback {
-    override fun onNetworkResult(network: List<Network>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     private var network: NetworkManager
     private var pref: Pref
@@ -45,6 +42,10 @@ class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>>, NetworkManage
     override fun clear() {
         //network.deObserve(this, false)
         super.clear()
+    }
+
+    override fun onNetworkResult(network: List<Network>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun onResult(vararg networks: Network?) {

@@ -9,12 +9,12 @@ import android.os.Parcelable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class TaskKt<T : Parcelable> : BaseParcelKt {
+abstract class TaskKt<T : Parcelable> : BaseParcelKt() {
 
     var input: T? = null
     var comment: String? = null
 
-     constructor(`in`: Parcel) {
+/*     constructor(`in`: Parcel) {
         comment = `in`.readString()
         if (`in`.readByte().toInt() == 0) {
             input = null
@@ -38,5 +38,5 @@ abstract class TaskKt<T : Parcelable> : BaseParcelKt {
 
     override fun describeContents(): Int {
         return 0
-    }
+    }*/
 }

@@ -133,6 +133,7 @@ class Connection extends ConnectionLifecycleCallback {
         states.put(endpointId, State.DISCONNECTED);
         pendingEndpoints.remove(endpointId);
         long peerId = getPeerId(endpointId);
+        endpoints.remove(peerId);
         executor.execute(() -> {
             if (callback != null)
                 callback.onConnection(peerId, false);

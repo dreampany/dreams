@@ -92,6 +92,11 @@ public class SmartQueue<T> extends LinkedBlockingDeque<T> {
         }
     }
 
+    @Override
+    public boolean remove(Object o) {
+        return super.remove(o);
+    }
+
     public void removeAll() {
         super.clear();
     }

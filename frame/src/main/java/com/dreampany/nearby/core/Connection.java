@@ -131,8 +131,8 @@ class Connection extends ConnectionLifecycleCallback {
     public void onDisconnected(@NonNull String endpointId) {
         Timber.v("Disconnected endpoint: %s", endpointId);
         states.put(endpointId, State.DISCONNECTED);
-        pendingEndpoints.insertLastUniquely(endpointId);
-        long peerId = endpoints.inverse().get(endpointId);
+        pendingEndpoints.remove(endpointId);
+        long peerId = getPeerId(endpointId);
         executor.execute(() -> {
             if (callback != null)
                 callback.onConnection(peerId, false);

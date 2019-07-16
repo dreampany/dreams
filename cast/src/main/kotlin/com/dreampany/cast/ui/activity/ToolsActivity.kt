@@ -36,7 +36,7 @@ class ToolsActivity : BaseActivity() {
 
     override fun isFullScreen(): Boolean {
         val uiTask = getCurrentTask<UiTask<*>>(true)
-        return uiTask?.isFullscreen ?: super.isFullScreen()
+        return uiTask?.fullscreen ?: super.isFullScreen()
     }
 
     override fun onStartUi(state: Bundle?) {

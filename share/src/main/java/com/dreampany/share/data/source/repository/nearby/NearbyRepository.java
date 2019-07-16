@@ -39,7 +39,6 @@ public class NearbyRepository extends Repository<Long, User> implements NearbyAp
 
     }
 
-
     private final Context context;
     private final NearbyApi nearby;
 

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.cast.ui.fragment;
 
 import android.os.Bundle;
@@ -33,11 +34,13 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import timber.log.Timber;
 
 
+*/
 /**
  * Created by Hawladar Roman on 6/20/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class HomeFragment extends BaseMenuFragment {
 
@@ -65,24 +68,27 @@ public class HomeFragment extends BaseMenuFragment {
     protected void onStartUi(@Nullable Bundle state) {
         initView();
         initRecycler();
-        userVm.start();
+       // userVm.start();
     }
 
     @Override
     protected void onStopUi() {
         processUiState(UiState.HIDE_PROGRESS);
-        userVm.start();
+       // userVm.start();
     }
 
     private void initView() {
         setTitle(R.string.home);
         bindHome = (FragmentHomeBinding) super.binding;
-       /* bindStatus = bindHome.layoutTopStatus;
+       */
+/* bindStatus = bindHome.layoutTopStatus;
         bindRecycler = binding.layoutRecycler;
         bindFullWord = binding.layoutFullWord;
         bindWord = bindFullWord.layoutWord;
-        bindDef = bindFullWord.layoutDefinition;*/
+        bindDef = bindFullWord.layoutDefinition;*//*
 
+
+*/
 /*        binding.stateful.setStateView(SEARCH, LayoutInflater.from(getContext()).inflate(R.layout.item_search, null));
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
         processUiState(UiState.SEARCH);
@@ -93,17 +99,20 @@ public class HomeFragment extends BaseMenuFragment {
         bindWord.buttonFavorite.setOnClickListener(this);
         bindWord.textWord.setOnClickListener(this);
         bindWord.imageSpeak.setOnClickListener(this);
-        binding.fab.setOnClickListener(this);*/
+        binding.fab.setOnClickListener(this);*//*
+
 
         userVm = ViewModelProviders.of(this, factory).get(UserViewModel.class);
         userVm.observeUiState(this, this::processUiState);
         userVm.observeOutputsOfNetwork(this, this::processResponseOfNetwork);
+*/
 /*
         searchVm.setUiCallback(this);
         searchVm.observeUiState(this, this::processUiState);
         searchVm.observeOutputsOfString(this, this::processResponseOfString);
         searchVm.observeOutputs(this, this::processResponse);
-        searchVm.observeOutput(this, this::processSingleResponse);*/
+        searchVm.observeOutput(this, this::processSingleResponse);*//*
+
     }
 
     private void initRecycler() {
@@ -204,3 +213,4 @@ public class HomeFragment extends BaseMenuFragment {
 
     }
 }
+*/

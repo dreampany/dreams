@@ -1,6 +1,5 @@
 package com.dreampany.frame.data.model
 
-import android.os.Parcel
 import android.os.Parcelable
 
 /**
@@ -9,7 +8,7 @@ import android.os.Parcelable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class TaskKt<T : Parcelable> : BaseParcelKt() {
+abstract class Task<T : Parcelable> : BaseParcelKt() {
 
     var input: T? = null
     var comment: String? = null

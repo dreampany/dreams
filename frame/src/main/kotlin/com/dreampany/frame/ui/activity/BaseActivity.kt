@@ -1,6 +1,5 @@
 package com.dreampany.frame.ui.activity
 
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
@@ -61,7 +60,7 @@ abstract class BaseActivity :
     protected var color: Color? = null
     protected var fireOnStartUi: Boolean = true
     private var ratingDialog: RatingDialog? = null
-    private var progress: ProgressDialog? = null
+    //private var progress: ProgressDialog? = null
     private var doubleBackToExitPressedOnce: Boolean = false
 
     open fun getLayoutId(): Int {
@@ -181,7 +180,7 @@ abstract class BaseActivity :
             stopRate()
         }
         hideAlert()
-        hideProgress()
+        //hideProgress()
         onStopUi()
         super.onDestroy()
     }
@@ -540,7 +539,7 @@ abstract class BaseActivity :
         }
     }
 
-    fun showProgress(message: String) {
+/*    fun showProgress(message: String) {
         if (progress == null) {
             progress = ProgressDialog(this)
             progress?.setCancelable(true)
@@ -561,7 +560,7 @@ abstract class BaseActivity :
                 it.dismiss()
             }
         }
-    }
+    }*/
 
     private fun startRate() {
         if (ratingDialog == null || !ratingDialog!!.isShowing) {

@@ -3,7 +3,7 @@ package com.dreampany.cast.ui.model
 import com.dreampany.cast.ui.enums.UiSubtype
 import com.dreampany.cast.ui.enums.UiType
 import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.data.model.TaskKt
+import com.dreampany.frame.data.model.Task
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -17,7 +17,7 @@ data class UiTask<T : BaseKt>(
     val fullscreen: Boolean,
     val type: UiType,
     val subtype: UiSubtype
-) : TaskKt<T>() {
+) : Task<T>() {
 
 /*    var type: UiType? = null
     var subtype: UiSubtype? = null*/

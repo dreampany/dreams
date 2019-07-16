@@ -485,7 +485,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         parent?.hideAlert()
     }
 
-    protected fun showProgress(message: String) {
+/*    protected fun showProgress(message: String) {
         if (!isParentAlive()) {
             return
         }
@@ -499,5 +499,5 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
         val parent = getParent()
         parent?.hideProgress()
-    }
+    }*/
 }

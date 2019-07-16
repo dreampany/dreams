@@ -1,14 +1,17 @@
+/*
 package com.dreampany.frame.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
+*/
 /**
  * Created by Hawladar Roman on 30/4/18.
  * Dreampany
  * dreampanymail@gmail.com
- */
+ *//*
+
 public abstract class Task<T extends Parcelable> extends Base {
     
     protected String comment;
@@ -59,3 +62,4 @@ public abstract class Task<T extends Parcelable> extends Base {
     }
 
 }
+*/

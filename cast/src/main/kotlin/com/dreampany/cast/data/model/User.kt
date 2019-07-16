@@ -27,7 +27,6 @@ data class User(
     override val time: Long
 ) : BaseKt() {
 
-    lateinit var email: String
     lateinit var name: String
-
+    lateinit var email: String
 }

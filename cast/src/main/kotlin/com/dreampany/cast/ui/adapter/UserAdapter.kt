@@ -12,7 +12,6 @@ import eu.davidea.flexibleadapter.items.IFlexible
  */
 class UserAdapter(listener: Any) : SmartAdapter<UserItem>(listener) {
 
-
     class RecentComparator : java.util.Comparator<IFlexible<*>> {
         override fun compare(left: IFlexible<*>?, right: IFlexible<*>?): Int {
             val leftItem = left as UserItem

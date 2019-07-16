@@ -140,22 +140,16 @@ public class MoreFragment extends BaseMenuFragment {
                 vm.sendFeedback(getParent());
                 break;
             case SETTINGS:
-                UiTask<?> task = new UiTask<>(false);
-                task.setUiType(UiType.MORE);
-                task.setSubtype(UiSubtype.SETTINGS);
+                UiTask<?> task = new UiTask(false, UiType.MORE, UiSubtype.SETTINGS);
                 openActivity(ToolsActivity.class, task);
                 break;
             case LICENSE:
-                task = new UiTask<>(false);
-                task.setUiType(UiType.MORE);
-                task.setSubtype(UiSubtype.LICENSE);
+                task = new UiTask(false, UiType.MORE, UiSubtype.LICENSE);
                 openActivity(ToolsActivity.class, task);
                 break;
             case ABOUT:
             default:
-                task = new UiTask<>(false);
-                task.setUiType(UiType.MORE);
-                task.setSubtype(UiSubtype.ABOUT);
+                task = new UiTask(false, UiType.MORE, UiSubtype.ABOUT);
                 openActivity(ToolsActivity.class, task);
                 break;
         }

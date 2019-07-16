@@ -1,3 +1,4 @@
+/*
 package com.dreampany.cast.vm;
 
 import android.app.Application;
@@ -13,11 +14,13 @@ import com.dreampany.cast.ui.model.UiTask;
 
 import javax.inject.Inject;
 
+*/
 /**
  * Created by Hawladar Roman on 6/29/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class DemoViewModel extends BaseViewModel<Demo, DemoItem, UiTask<Demo>> {
 
     private final NetworkManager network;
@@ -31,4 +34,4 @@ public class DemoViewModel extends BaseViewModel<Demo, DemoItem, UiTask<Demo>> {
         super(application, rx, ex, rm);
         this.network = network;
     }
-}
+}*/

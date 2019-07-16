@@ -135,7 +135,7 @@ public class Api implements Connection.Callback {
 
     @Override
     public void onConnection(long peerId, boolean connected) {
-        Timber.v("Peer (%ld) - Connection - (%s)", peerId, connected);
+        Timber.v("Peer (%d) - Connection - (%s)", peerId, connected);
         if (!peers.containsKey(peerId)) {
             Peer peer = new Peer(peerId);
             peers.put(peerId, peer);
@@ -151,7 +151,7 @@ public class Api implements Connection.Callback {
 
     @Override
     public void onPayload(long peerId, Payload payload) {
-        Timber.v("Payload Received from: %ld", peerId);
+        Timber.v("Payload Received from: %d", peerId);
         resolvePayload(peerId, payload);
     }
 
@@ -266,7 +266,7 @@ public class Api implements Connection.Callback {
             Peer peer = peers.get(peerId);
             peer.setData(buf.array());
 
-            Timber.v("received peer data (%d)", peer.getData().length);
+            Timber.v("Received peer data (%d)", peer.getData().length);
 
             peers.get(peerId);
             peerCallback(peer, Peer.State.LIVE);
@@ -432,7 +432,7 @@ public class Api implements Connection.Callback {
 
             if (isExpired(times.get(peerId), 5 * delayS)) {
                 Peer peer = peers.get(peerId);
-                Timber.v("Next syncing peer (%ld)", peer.getId());
+                Timber.v("Next syncing peer (%d)", peer.getId());
 
                 long metaHash = NearbyUtil.getSha256(peer.getData());
                 byte[] metaPacket = Packets.getPeerMetaPacket(metaHash);

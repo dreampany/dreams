@@ -39,6 +39,10 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     private lateinit var adapter: UserAdapter
     private lateinit var vm: UserViewModel
 
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_home
+    }
+
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
@@ -59,7 +63,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
         setTitle(R.string.home)
         bindHome = super.binding as FragmentHomeBinding
         bindStatus = bindHome.layoutTopStatus
-        // bindRecycler = bindHome.layoutRecycler
+         bindRecycler = bindHome.layoutRecycler
 
         vm = ViewModelProviders.of(this, factory).get(UserViewModel::class.java)
         vm.observeUiState(this, Observer { processUiState(it) })

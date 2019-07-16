@@ -1,6 +1,7 @@
 package com.dreampany.nearby.core;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 
 import com.dreampany.nearby.misc.Runner;
@@ -27,6 +28,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
@@ -100,7 +102,7 @@ class Connection extends ConnectionLifecycleCallback {
         states.put(endpointId, State.INITIATED);
         directs.put(endpointId, info.isIncomingConnection());
         client.acceptConnection(endpointId, payloadCallback);
-        Timber.v("Connection initiated for EndpointId(%s) Peer(%ld) incoming %s", endpointId, peerId, info.isIncomingConnection());
+        Timber.v("Connection initiated for EndpointId(%s) Peer(%d) incoming %s", endpointId, peerId, info.isIncomingConnection());
     }
 
     @Override
@@ -127,7 +129,7 @@ class Connection extends ConnectionLifecycleCallback {
 
     @Override
     public void onDisconnected(@NonNull String endpointId) {
-        Timber.w("Disconnected endpoint: %s", endpointId);
+        Timber.v("Disconnected endpoint: %s", endpointId);
         states.put(endpointId, State.DISCONNECTED);
         pendingEndpoints.insertLastUniquely(endpointId);
         long peerId = endpoints.inverse().get(endpointId);
@@ -165,11 +167,11 @@ class Connection extends ConnectionLifecycleCallback {
                     advertisingOptions)
                     .addOnSuccessListener(ignored -> {
                         advertising = true;
-                        Timber.e("Success Advertising of Peer (%ld) - ServiceId (%ld)", peerId, serviceId);
+                        Timber.v("Success Advertising of Peer (%d) - ServiceId (%d)", peerId, serviceId);
                     })
                     .addOnFailureListener(error -> {
                         advertising = false;
-                        Timber.e("Error in Advertising of Peer (%ld) - ServiceId (%ld) - %s", peerId, serviceId, error.getMessage());
+                        Timber.e("Error in Advertising of Peer (%d) - ServiceId (%d) - %s", peerId, serviceId, error.getMessage());
                     });
         }
     }
@@ -185,11 +187,11 @@ class Connection extends ConnectionLifecycleCallback {
                     discoveryOptions)
                     .addOnSuccessListener(ignored -> {
                         discovering = true;
-                        Timber.e("Success Discovering Peer (%ld) - ServiceId (%ld)", peerId, serviceId);
+                        Timber.v("Success Discovering Peer (%d) - ServiceId (%d)", peerId, serviceId);
                     })
                     .addOnFailureListener(error -> {
                         discovering = false;
-                        Timber.e("Error Discovering Peer (%ld) - ServiceId (%ld) - %s", peerId, serviceId, error.getMessage());
+                        Timber.e("Error Discovering Peer (%d) - ServiceId (%d) - %s", peerId, serviceId, error.getMessage());
                     });
         }
     }
@@ -238,12 +240,12 @@ class Connection extends ConnectionLifecycleCallback {
         public void onEndpointFound(@NonNull String endpointId, @NonNull DiscoveredEndpointInfo info) {
             long serviceId = toLong(info.getServiceId());
             if (Connection.this.serviceId != serviceId) {
-                Timber.v("Unknown ServiceId (%ld) from EndpointId (%s)", serviceId, info.getEndpointName());
+                Timber.e("Unknown ServiceId (%d) from EndpointId (%s)", serviceId, info.getEndpointName());
                 return;
             }
 
             long peerId = toLong(info.getEndpointName());
-            Timber.v("Found EndpointId (%s) - PeerId (%ld)", endpointId, peerId);
+            Timber.e("Found EndpointId (%s) - PeerId (%d)", endpointId, peerId);
 
             //priority works: remove old endpoints if exists
             if (endpoints.containsKey(peerId)) {
@@ -262,8 +264,8 @@ class Connection extends ConnectionLifecycleCallback {
 
         @Override
         public void onEndpointLost(@NonNull String endpointId) {
-            long peerId = endpoints.inverse().get(endpointId);
-            Timber.w("Endpoint lost (%s) - PeerId (%ld)", endpointId, peerId);
+            long peerId = getPeerId(endpointId);
+            Timber.v("Endpoint lost (%s) - PeerId (%d)", endpointId, peerId);
             endpoints.remove(peerId);
             states.put(endpointId, State.LOST);
             directs.remove(endpointId);
@@ -277,7 +279,7 @@ class Connection extends ConnectionLifecycleCallback {
         @Override
         public void onPayloadReceived(@NonNull String endpointId, @NonNull Payload payload) {
             long peerId = endpoints.inverse().get(endpointId);
-            Timber.v("Payload Received from PeerId (%ld)", peerId);
+            Timber.v("Payload Received from PeerId (%d)", peerId);
             executor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -291,7 +293,7 @@ class Connection extends ConnectionLifecycleCallback {
         @Override
         public void onPayloadTransferUpdate(@NonNull String endpointId, @NonNull PayloadTransferUpdate update) {
             long peerId = endpoints.inverse().get(endpointId);
-            Timber.v("Payload Transfer Update from PeerId (%ld)", peerId);
+            Timber.v("Payload Transfer Update from PeerId (%d)", peerId);
             executor.execute(() -> {
                 if (callback != null) {
                     callback.onPayloadStatus(peerId, update);
@@ -330,14 +332,14 @@ class Connection extends ConnectionLifecycleCallback {
         @Override
         protected boolean looping() {
             String endpointId = pendingEndpoints.pollFirst();
-            long peerId = endpoints.inverse().get(endpointId);
-            Timber.w("Next EndpointId (%s) - PeerId (%ld)", endpointId, peerId);
-            if (Strings.isNullOrEmpty(endpointId)) {
+            long peerId = getPeerId(endpointId);
+            Timber.v("Next EndpointId (%s) - PeerId (%d)", endpointId, peerId);
+            if (Strings.isNullOrEmpty(endpointId) || peerId == 0L) {
                 waitRunner(wait);
-                wait += delayS;
+                wait += (delayS + delayS);
                 return true;
             }
-            wait = delayS;
+            wait = delayS + delayS;
 
             //already requested endpoint
             if (states.containsKey(endpointId) && states.get(endpointId) == State.REQUESTING) {
@@ -386,6 +388,13 @@ class Connection extends ConnectionLifecycleCallback {
         }
         client.sendPayload(acceptedEndpoint, payload);
         return true;
+    }
+
+    private long getPeerId(String endpointId) {
+        if (endpoints.inverse().containsKey(endpointId)) {
+            return endpoints.inverse().get(endpointId);
+        }
+        return 0;
     }
 
     private String getAcceptedEndpointId(long peerId) {

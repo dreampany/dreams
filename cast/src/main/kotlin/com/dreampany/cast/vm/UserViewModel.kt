@@ -3,6 +3,7 @@ package com.dreampany.cast.vm
 import android.app.Application
 import com.dreampany.cast.data.model.User
 import com.dreampany.cast.data.source.pref.Pref
+import com.dreampany.cast.ui.model.UiTask
 import com.dreampany.cast.ui.model.UserItem
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.misc.AppExecutors
@@ -11,7 +12,8 @@ import com.dreampany.frame.misc.RxMapper
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.translate.ui.model.UiTask
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by Roman-372 on 6/27/2019
@@ -19,25 +21,15 @@ import com.dreampany.translate.ui.model.UiTask
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class UserViewModel : BaseViewModel<User, UserItem, UiTask<User>>, NetworkManager.Callback {
-
-    private var network: NetworkManager
-    private var pref: Pref
-    private var stateMapper: StateMapper
-
-    constructor(
-        application: Application,
-        rx: RxMapper,
-        ex: AppExecutors,
-        rm: ResponseMapper,
-        network: NetworkManager,
-        pref: Pref,
-        stateMapper: StateMapper
-    ) : super(application, rx, ex, rm) {
-        this.network = network
-        this.pref = pref
-        this.stateMapper = stateMapper
-    }
+class UserViewModel @Inject constructor(
+    application: Application,
+    rx: RxMapper,
+    ex: AppExecutors,
+    rm: ResponseMapper,
+    val network: NetworkManager,
+    val pref: Pref,
+    val stateMapper: StateMapper
+) : BaseViewModel<User, UserItem, UiTask<User>>(application, rx, ex, rm), NetworkManager.Callback {
 
     override fun clear() {
         //network.deObserve(this, false)

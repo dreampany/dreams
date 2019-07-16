@@ -221,18 +221,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
     }
 
-    protected fun forResult() {
-        if (!isParentAlive()) {
-            return
-        }
-        val parent = getParent()
-        val task = getCurrentTask<Task<*>>(false)
-        val intent = Intent()
-        intent.putExtra(Task::class.java.simpleName, task as Parcelable)
-        parent?.setResult(Activity.RESULT_OK, intent)
-        parent?.finish()
-    }
-
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -381,7 +369,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         return arguments
     }
 
-    open fun <T : View> findViewById(@IdRes id: Int): T? {
+    fun <T : View> findViewById(@IdRes id: Int): T? {
         var current = currentView
         if (current == null) {
             current = view
@@ -435,10 +423,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         AndroidUtil.openActivity(this, target, task, requestCode)
     }
 
-    fun checkPermissions(vararg permissions: String, listener: MultiplePermissionsListener) {
+    fun checkPermissions(vararg permissions: String) {
         val parent = getParent();
         parent?.let {
-            Dexter.withActivity(it).withPermissions(*permissions).withListener(listener).check()
+            Dexter.withActivity(it).withPermissions(*permissions).withListener(this).check()
         }
 
     }
@@ -483,6 +471,18 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
         val parent = getParent()
         parent?.hideAlert()
+    }
+
+    protected fun forResult() {
+        if (!isParentAlive()) {
+            return
+        }
+        val parent = getParent()
+        val task = getCurrentTask<Task<*>>(false)
+        val intent = Intent()
+        intent.putExtra(Task::class.java.simpleName, task as Parcelable)
+        parent?.setResult(Activity.RESULT_OK, intent)
+        parent?.finish()
     }
 
 /*    protected fun showProgress(message: String) {

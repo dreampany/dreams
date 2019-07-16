@@ -53,4 +53,8 @@ class Constants {
     object User {
         const val ID = Key.ID
     }
+
+    object Permission {
+         //val PERMISSIONS: Array<String> = Arrays.
+    }
 }

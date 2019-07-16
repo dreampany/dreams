@@ -21,10 +21,10 @@ import javax.inject.Singleton
  */
 @Singleton
 class NearbyRepository @Inject constructor(
-    val context: Context,
+    private val context: Context,
     rx: RxMapper,
     rm: ResponseMapper,
-    val nearby: NearbyApi
+    private val nearby: NearbyApi
 ) : RepositoryKt<String, User>(rx, rm), NearbyApi.Callback {
 
     interface UserCallback {

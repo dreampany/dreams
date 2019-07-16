@@ -1,5 +1,6 @@
 package com.dreampany.cast.ui.fragment
 
+import android.Manifest
 import android.os.Bundle
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.dreampany.frame.databinding.ContentTopStatusBinding
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.util.ViewUtil
+import com.karumi.dexter.MultiplePermissionsReport
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import javax.inject.Inject
@@ -40,9 +42,17 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+
+        checkPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onPermissionsChecked(report: MultiplePermissionsReport) {
+        if (report.areAllPermissionsGranted()) {
+            vm.startNearby()
+        }
     }
 
     private fun initView() {

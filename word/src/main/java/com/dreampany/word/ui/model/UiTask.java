@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.ui.model;
 
 import android.os.Parcel;
@@ -8,11 +9,13 @@ import com.dreampany.frame.data.model.Task;
 import com.dreampany.word.ui.enums.UiSubtype;
 import com.dreampany.word.ui.enums.UiType;
 
+*/
 /**
  * Created by Hawladar Roman on 30/4/18.
  * Dreampany
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class UiTask<T extends BaseParcel> extends Task<T> {
 
     protected UiType type;
@@ -89,3 +92,4 @@ public class UiTask<T extends BaseParcel> extends Task<T> {
         return full;
     }
 }
+*/

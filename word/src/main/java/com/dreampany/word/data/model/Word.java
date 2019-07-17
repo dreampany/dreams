@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.model;
 
 import android.os.Parcel;
@@ -21,11 +22,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 1/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 
 @Entity(indices = {@Index(value = {Constants.Word.ID}, unique = true)},
         primaryKeys = {Constants.Word.ID})
@@ -386,3 +389,4 @@ public class Word extends Base {
         return true;
     }
 }
+*/

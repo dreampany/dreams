@@ -168,19 +168,19 @@ dependencies {
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
-    api 'com.google.firebase:firebase-core:17.0.0'
+    api 'com.google.firebase:firebase-core:17.0.1'
     api 'com.google.firebase:firebase-appindexing:19.0.0'
     api 'com.google.firebase:firebase-ads:18.1.0'
     api 'com.google.firebase:firebase-messaging:19.0.1'
     //api 'com.google.firebase:firebase-invites:17.0.0'
-    api 'com.google.firebase:firebase-auth:18.0.0'
+    api 'com.google.firebase:firebase-auth:18.1.0'
     api 'com.google.firebase:firebase-database:18.0.0'
     api 'com.google.firebase:firebase-firestore:20.1.0'
     //implementation 'com.google.firebase:firebase-storage:17.0.0'
-    implementation 'com.google.firebase:firebase-ml-common:20.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
-    implementation 'com.google.firebase:firebase-ml-natural-language:20.0.0'
-    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.0'
+    implementation 'com.google.firebase:firebase-ml-common:20.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision:22.0.0'
+    implementation 'com.google.firebase:firebase-ml-natural-language:20.0.1'
+    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.1'
 
     /* crashlytics */
     //api 'com.crashlytics.sdk.android:crashlytics:2.10.0'

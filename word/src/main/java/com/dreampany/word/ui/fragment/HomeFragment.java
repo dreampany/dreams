@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
@@ -70,11 +71,13 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 import kotlin.Unit;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 6/20/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class HomeFragment extends BaseMenuFragment
         implements SmartAdapter.Callback<WordItem>,
@@ -290,7 +293,6 @@ public class HomeFragment extends BaseMenuFragment
         binding.fab.setOnClickListener(this);
         bindYandex.textYandexPowered.setOnClickListener(this);
 
-
         vm = ViewModelProviders.of(this, factory).get(WordViewModel.class);
         vm.setUiCallback(this);
         vm.observeUiState(this, this::processUiState);
@@ -437,8 +439,7 @@ public class HomeFragment extends BaseMenuFragment
     }
 
     private void toScanMode() {
-        //recentWord = null;
-        //binding.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp);
+        binding.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp);
     }
 
     private void toSearchMode() {
@@ -451,6 +452,7 @@ public class HomeFragment extends BaseMenuFragment
             request(recentWord, false, true, true);
             return;
         }
+
     }
 
     private void processProgress(boolean loading) {
@@ -613,14 +615,6 @@ public class HomeFragment extends BaseMenuFragment
         AndroidUtil.speak(recentWord);
     }
 
-    private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false);
-        task.setInput(item);
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.VIEW);
-        openActivity(ToolsActivity.class, task);
-    }
-
     private void speak() {
         WordItem item = bindWord.getItem();
         if (item != null) {
@@ -646,7 +640,15 @@ public class HomeFragment extends BaseMenuFragment
         vm.load(request);
     }
 
-    public void openYandexSite() {
+    private void openUi(Word item) {
+        UiTask<Word> task = new UiTask<>(false);
+        task.setInput(item);
+        task.setUiType(UiType.WORD);
+        task.setSubtype(UiSubtype.VIEW);
+        openActivity(ToolsActivity.class, task);
+    }
+
+    private void openYandexSite() {
         UiTask<?> outTask = new UiTask<>(true);
         outTask.setComment(Constants.Translation.YANDEX_URL);
         outTask.setUiType(UiType.SITE);
@@ -654,3 +656,4 @@ public class HomeFragment extends BaseMenuFragment
         openActivity(ToolsActivity.class, outTask);
     }
 }
+*/

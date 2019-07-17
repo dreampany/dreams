@@ -115,7 +115,19 @@ public final class DataUtil {
         return Strings.isNullOrEmpty(item);
     }
 
-    public static boolean isEmpty(String[] items) {
+/*    public static boolean isEmpty(String[] items) {
+        if (items == null || items.length == 0) {
+            return true;
+        }
+        for (String item : items) {
+            if (!Strings.isNullOrEmpty(item)) {
+                return false;
+            }
+        }
+        return true;
+    }*/
+
+    public static boolean isEmpty(String... items) {
         if (items == null || items.length == 0) {
             return true;
         }

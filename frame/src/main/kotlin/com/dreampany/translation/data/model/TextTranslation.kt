@@ -14,6 +14,9 @@ import kotlinx.android.parcel.Parcelize
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+
+@Parcelize
+@IgnoreExtraProperties
 @Entity(
     indices = [Index(
         value = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT],
@@ -21,8 +24,6 @@ import kotlinx.android.parcel.Parcelize
     )],
     primaryKeys = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT]
 )
-@IgnoreExtraProperties
-@Parcelize
 data class TextTranslation(
     override val id: String,
     override val time: Long,

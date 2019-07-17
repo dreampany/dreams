@@ -225,7 +225,6 @@ public class TextOcrFragment extends BaseMenuFragment implements ScaleGestureDet
         }
     }
 
-
     private boolean onTap(float rawX, float rawY) {
         OcrGraphic graphic = (OcrGraphic) binding.graphicOverlay.getGraphicAtLocation(rawX, rawY);
         TextBlock text = null;

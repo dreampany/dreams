@@ -10,6 +10,7 @@ import com.dreampany.word.ui.fragment.LicenseFragment
 import com.dreampany.word.ui.fragment.SettingsFragment
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.vision.ui.fragment.TextOcrFragment
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.fragment.WordFragment
 import com.google.android.gms.ads.AdView
@@ -33,6 +34,8 @@ class ToolsActivity : BaseActivity() {
     lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
     lateinit var wordProvider: Lazy<WordFragment>
+    @Inject
+    lateinit var ocrProvider: Lazy<TextOcrFragment>
     @Inject
     lateinit var ad: SmartAd
 
@@ -60,7 +63,7 @@ class ToolsActivity : BaseActivity() {
 
         ad.initAd(
             this,
-            javaClass.simpleName,
+            getScreen(),
             findViewById<AdView>(R.id.adview),
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
@@ -87,6 +90,14 @@ class ToolsActivity : BaseActivity() {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         commitFragment(WordFragment::class.java, wordProvider, R.id.layout, uiTask)
+                        //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
+                    }
+                }
+            }
+            UiType.OCR -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        commitFragment(TextOcrFragment::class.java, ocrProvider, R.id.layout, uiTask)
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
                     }
                 }

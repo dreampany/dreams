@@ -304,8 +304,6 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
             //2. Take one by one coins from server
 
 
-
-
             return true;
         }
     }

@@ -130,7 +130,7 @@ class RoomWordDataSource(
     }
 
     override fun isExists(t: Word): Boolean {
-        return dao.getCount(t.getId()) > 0
+        return dao.getCount(t.id) > 0
     }
 
     override fun isExistsRx(t: Word): Maybe<Boolean> {

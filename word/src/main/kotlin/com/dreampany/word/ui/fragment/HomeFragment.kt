@@ -141,10 +141,10 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     override fun onClick(v: View) {
         when (v.id) {
             R.id.toggle_definition -> toggleDefinition()
-            R.id.button_favorite -> vm.toggleFavorite(bindHome.getItem()!!.getItem())
+            R.id.button_favorite -> vm.toggleFavorite(bindHome.item!!.item)
             R.id.fab -> processFabAction()
             R.id.image_speak -> speak()
-            R.id.text_word -> openUi(bindWord.getItem()!!.getItem())
+            R.id.text_word -> openUi(bindHome.item!!.item)
             R.id.layout_yandex -> openYandexSite()
         }
     }
@@ -232,12 +232,10 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
         vm.setUiCallback(this)
-        vm.observeUiState(this, Observer<UiState> { this.processUiState(it) })
-        vm.observeOutputsOfString(
-            this,
-            Observer<Response<List<String>>> { this.processResponseOfString(it) })
-        vm.observeOutputs(this, Observer<Response<List<WordItem>>> { this.processResponse(it) })
-        vm.observeOutput(this, Observer<Response<WordItem>> { this.processSingleResponse(it) })
+        vm.observeUiState(this, Observer { this.processUiState(it) })
+        vm.observeOutputsOfString(this, Observer { this.processResponseOfString(it) })
+        vm.observeOutputs(this, Observer { this.processResponse(it) })
+        vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
     private fun initRecycler() {
@@ -564,9 +562,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     }
 
     private fun request(word: String?, recentWord: Boolean, important: Boolean, progress: Boolean) {
-
         Timber.v("Request Word %s", word)
-
         val translate = vm.needToTranslate()
         val language = vm.getCurrentLanguage()
 

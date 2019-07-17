@@ -185,7 +185,7 @@ class WordViewModel @Inject constructor(
 
     fun share(fragment: Fragment) {
         val word = task!!.input
-        val subject = word.id
+        val subject = word!!.id
         val text = Util.getText(word)
         AndroidUtil.share(fragment, subject, text)
     }
@@ -235,10 +235,10 @@ class WordViewModel @Inject constructor(
         val map = uiMap
         var item: WordItem? = map.get(word.id)
         if (item == null) {
-            item = WordItem.getSimpleItem(word)
+            item = WordItem.getItem(word)
             map.put(word.id, item)
         }
-        item!!.setItem(word)
+        item.item = word
         adjustFavorite(word, item)
         if (fully) {
             adjustState(item)
@@ -252,7 +252,7 @@ class WordViewModel @Inject constructor(
     }
 
     private fun adjustFavorite(word: Word, item: WordItem) {
-        item.isFavorite = isFavorite(word)
+        item.favorite = isFavorite(word)
     }
 
     private fun adjustState(item: WordItem) {

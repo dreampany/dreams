@@ -309,7 +309,7 @@ abstract class RepositoryKt<K, T>(val rx: RxMapper, val rm: ResponseMapper) {
                     if (result == null) {
                         result = ArrayList<T>()
                     }
-                    result!!.addAll(items!!)
+                    result.addAll(items!!)
                     if (result.size >= target) {
                         break
                     }

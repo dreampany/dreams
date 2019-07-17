@@ -1,9 +1,8 @@
 package com.dreampany.word.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
-import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.word.ui.enums.MoreType
+import kotlinx.android.parcel.Parcelize
 
 
 /**
@@ -11,24 +10,9 @@ import com.dreampany.word.ui.enums.MoreType
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-data class More(val type: MoreType?) : Base() {
-
-    constructor(parcel: Parcel) : this(
-            parcel.readParcelable<MoreType>(MoreType::class.java.getClassLoader()) ) {
-    }
-
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        super.writeToParcel(parcel, flags)
-        parcel.writeParcelable(type, flags)
-    }
-
-    companion object CREATOR : Parcelable.Creator<More> {
-        override fun createFromParcel(parcel: Parcel): More {
-            return More(parcel)
-        }
-
-        override fun newArray(size: Int): Array<More?> {
-            return arrayOfNulls(size)
-        }
-    }
+@Parcelize
+data class More(
+    override val id: String,
+    override val time: Long,
+    val type: MoreType) : BaseKt() {
 }

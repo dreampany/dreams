@@ -52,7 +52,7 @@ public class WordMapper {
         String id = word;
         Word out = map.get(id);
         if (out == null) {
-            out = new Word();
+            out = new Word(id);
         }
         out.setId(id);
         out.setTime(TimeUtil.currentTime());
@@ -73,7 +73,7 @@ public class WordMapper {
         String id = in.getWord();
         Word out = map.get(id);
         if (out == null) {
-            out = new Word();
+            out = new Word(id);
             if (full) {
                 map.put(id, out);
             }
@@ -105,7 +105,7 @@ public class WordMapper {
         String id = word;
         Word out = map.get(id);
         if (out == null) {
-            out = new Word();
+            out = new Word(id);
             if (full) {
                 map.put(id, out);
             }

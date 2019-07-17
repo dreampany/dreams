@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.ui.model;
 
 import android.view.View;
@@ -23,11 +24,13 @@ import java.util.Set;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
 
     private Set<ItemState> states;
@@ -125,9 +128,11 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
     }
 
     public String getTranslation() {
+*/
 /*        if (hasTranslation(language.get())) {
             return translations.get(language.get());
-        }*/
+        }*//*
+
         return translation;
     }
 
@@ -153,11 +158,9 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
             word = view.findViewById(R.id.text_word);
             partOfSpeech = view.findViewById(R.id.text_part_of_speech);
             pronunciation = view.findViewById(R.id.text_pronunciation);
-            //like.setOnClickListener(super.adapter.getClickListener());
             word.setOnClickListener(super.adapter.getClickListener());
         }
         TextView pronunciation;
-        /*  LikeButton like;*/
 
         @Override
         void bind(int position, WordItem item) {
@@ -165,11 +168,7 @@ public class WordItem extends BaseItem<Word, WordItem.ViewHolder> {
             this.word.setText(word.getId());
             this.partOfSpeech.setText(word.getPartOfSpeech());
             this.pronunciation.setText(word.getPronunciation());
-
-            //int color = item.hasState(ItemState.FULL) ? R.color.material_black : R.color.material_grey500;
-            //this.word.setTextColor(ColorUtil.getColor(getContext(), color));
-            //like.setTag(word);
-            //like.setLiked(item.isFavorite());
         }
     }
 }
+*/

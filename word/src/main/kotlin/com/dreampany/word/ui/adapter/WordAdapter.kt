@@ -51,7 +51,7 @@ class WordAdapter(listener: Any?) : SmartAdapter<WordItem>(listener) {
     }
 
     fun addFavoriteItem(item: WordItem) {
-        if (item.isFavorite) {
+        if (item.favorite) {
             addItem(item)
         } else {
             removeItem(item)

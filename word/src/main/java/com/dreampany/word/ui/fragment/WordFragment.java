@@ -457,10 +457,8 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     public void openYandexSite() {
-        UiTask<?> outTask = new UiTask<>(true);
+        UiTask<?> outTask = new UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW);
         outTask.setComment(Constants.Translation.YANDEX_URL);
-        outTask.setUiType(UiType.SITE);
-        outTask.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, outTask);
     }
 

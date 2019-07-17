@@ -242,10 +242,8 @@ public class SearchFragment extends BaseMenuFragment {
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false);
+        UiTask<Word> task = new UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW);
         task.setInput(item);
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
     }
 

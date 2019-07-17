@@ -44,7 +44,6 @@ class TextTranslationItem private constructor(item: TextTranslation, @LayoutRes 
             item: I
         ) {
 
-
         }
 
     }

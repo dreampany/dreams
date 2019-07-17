@@ -28,22 +28,32 @@ import kotlinx.android.parcel.Parcelize
 )
 data class Word(
     override var id: String,
-    override val time: Long
+    override var time: Long
 ) : BaseKt() {
+
+    @Ignore
+    constructor() : this("") {
+
+    }
+
+    constructor(id: String) : this(id, 0L) {
+
+    }
+
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
-    private var partOfSpeech: String? = null
-    private var pronunciation: String? = null
-     var definitions: MutableList<Definition>? = null
-    private var examples: MutableList<String>? = null
+    var partOfSpeech: String? = null
+    var pronunciation: String? = null
+    var definitions: MutableList<Definition>? = null
+    var examples: MutableList<String>? = null
     @Ignore
-    private var synonyms: MutableList<String>? = null
+    var synonyms: MutableList<String>? = null
     @Ignore
-    private var antonyms: MutableList<String>? = null
-    private var categories: MutableList<String>? = null
-    private var tags: MutableList<String>? = null
-    private var notes: MutableList<String>? = null
-    private var popularity: Int = 0
+    var antonyms: MutableList<String>? = null
+    var categories: MutableList<String>? = null
+    var tags: MutableList<String>? = null
+    var notes: MutableList<String>? = null
+    var popularity: Int = 0
 
     override fun toString(): String {
         return "Word ($id) == $id"
@@ -62,6 +72,35 @@ data class Word(
         notes = from.notes
         popularity = from.popularity
     }
+
+    fun hasDefinitions(): Boolean {
+        return definitions?.isEmpty() ?: false
+    }
+
+    fun hasExamples(): Boolean {
+        return examples?.isEmpty() ?: false
+    }
+
+    fun hasSynonyms(): Boolean {
+        return synonyms?.isEmpty() ?: false
+    }
+
+    fun hasAntonyms(): Boolean {
+        return antonyms?.isEmpty() ?: false
+    }
+
+    fun hasCategories(): Boolean {
+        return categories?.isEmpty() ?: false
+    }
+
+    fun hasTags(): Boolean {
+        return tags?.isEmpty() ?: false
+    }
+
+    fun hasNotes(): Boolean {
+        return notes?.isEmpty() ?: false
+    }
+
 
     fun hasPartial(): Boolean {
         return if (DataUtil.isEmpty(

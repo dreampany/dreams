@@ -121,7 +121,7 @@ class FirestoreWordDataSource(
     }
 
     override fun putItem(t: Word): Long {
-        val error = firestore.setItemRx<Word>(WORDS, t.getId(), t).blockingGet()
+        val error = firestore.setItemRx<Word>(WORDS, t.id, t).blockingGet()
         return if (error == null) {
             0
         } else -1

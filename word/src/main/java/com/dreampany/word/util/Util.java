@@ -36,6 +36,7 @@ public final class Util {
             for (String item : word.getAntonyms()) {
                 DataUtil.joinString(builder, item);
             }
+
         }
 
         String text = builder.toString();

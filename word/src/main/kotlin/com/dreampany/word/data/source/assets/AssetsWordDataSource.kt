@@ -152,7 +152,7 @@ class AssetsWordDataSource(
 
     override fun isExists(t: Word): Boolean {
         val items = getAlphaWords()
-        return items.contains(t.getId())
+        return items.contains(t.id)
     }
 
     override fun isExistsRx(t: Word): Maybe<Boolean> {

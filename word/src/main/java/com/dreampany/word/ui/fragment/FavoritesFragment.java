@@ -1,17 +1,18 @@
 package com.dreampany.word.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -300,10 +301,8 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false);
+        UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.VIEW);
         task.setInput(item);
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.VIEW);
         openActivity(ToolsActivity.class, task);
     }
 }

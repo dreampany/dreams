@@ -159,7 +159,7 @@ class WordRepository @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItems(ts: List<Word>): List<Long> {
+    override fun putItems(ts: List<Word>): List<Long>? {
         return room.putItems(ts)
     }
 

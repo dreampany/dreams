@@ -114,10 +114,8 @@ class NotifyViewModel @Inject constructor(
         else app.getString(R.string.notify_word_format, item.item.id, item.item.partOfSpeech)
         var targetClass: Class<*> = NavigationActivity::class.java
 
-        val task = UiTask<Word>(false)
-        task.setInput(item.item)
-        task.setUiType(UiType.WORD)
-        task.setSubtype(UiSubtype.VIEW)
+        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW)
+        task.input = item.item
 
         notify.showNotification(title!!, message!!, R.drawable.ic_notification, targetClass, task)
         app.throwAnalytics(
@@ -140,8 +138,8 @@ class NotifyViewModel @Inject constructor(
     }
 
     private fun getItem(word: Word, source: String, target: String, fully: Boolean): WordItem {
-        val item = WordItem.getSimpleItem(word)
-        item!!.setItem(word)
+        val item = WordItem.getItem(word)
+        item.item = word
         adjustTranslate(item, source, target)
         return item
     }

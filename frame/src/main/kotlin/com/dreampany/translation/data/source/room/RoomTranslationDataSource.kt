@@ -42,17 +42,17 @@ class RoomTranslationDataSource constructor(
     }
 
     override fun isExists(source: String, target: String, input: String): Boolean {
-        return dao.getCount(input, source, target) > 0
+        return dao.getCount(source, target, input) > 0
     }
 
     override fun isExistsRx(source: String, target: String, input: String): Maybe<Boolean> {
-        return dao.getCountRx(input, source, target).map {
+        return dao.getCountRx(source, target, input).map {
             if (it > 0) true else false
         }
     }
 
     override fun getItem(source: String, target: String, input: String): TextTranslation? {
-        return dao.getItem(input, source, target)
+        return dao.getItem(source, target, input)
     }
 
     override fun isEmpty(): Boolean {
@@ -79,7 +79,7 @@ class RoomTranslationDataSource constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx( source: String, target: String, input: String): Maybe<TextTranslation> {
+    override fun getItemRx(source: String, target: String, input: String): Maybe<TextTranslation> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

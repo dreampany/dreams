@@ -91,6 +91,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+        toScanMode()
         adjustTranslationUi(!vm.isDefaultLanguage())
     }
 
@@ -141,10 +142,18 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     override fun onClick(v: View) {
         when (v.id) {
             R.id.toggle_definition -> toggleDefinition()
-            R.id.button_favorite -> vm.toggleFavorite(bindHome.item!!.item)
+            R.id.button_favorite -> {
+                bindHome.getItem()?.let {
+                    vm.toggleFavorite(it.item)
+                }
+            }
             R.id.fab -> processFabAction()
             R.id.image_speak -> speak()
-            R.id.text_word -> openUi(bindHome.item!!.item)
+            R.id.text_word -> {
+                bindHome.getItem()?.let {
+                    openUi(it.item)
+                }
+            }
             R.id.layout_yandex -> openYandexSite()
         }
     }
@@ -556,8 +565,8 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
 
     private fun speak() {
         val item = bindWord.getItem()
-        if (item != null) {
-            AndroidUtil.speak(item.item.id)
+        item?.let {
+            AndroidUtil.speak(it.item.id)
         }
     }
 

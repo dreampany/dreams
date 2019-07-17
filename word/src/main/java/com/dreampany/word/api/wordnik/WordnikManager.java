@@ -1,7 +1,5 @@
 package com.dreampany.word.api.wordnik;
 
-import android.text.TextUtils;
-
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.word.api.wordnik.core.ClientException;

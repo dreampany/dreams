@@ -58,7 +58,7 @@ class MoreItem private constructor(item: More, @LayoutRes layoutId: Int = 0) :
         override fun <VH : BaseItemKt.ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>>
                 bind(position: Int, item: I) {
             val moreItem = item as MoreItem
-            val more = moreItem as More
+            val more = moreItem.item
             when (more.type) {
                 MoreType.APPS -> {
                     icon.setImageResource(R.drawable.ic_apps_black_24dp)

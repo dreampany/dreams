@@ -137,7 +137,8 @@ class WordViewModel @Inject constructor(
         val disposable = rx
             .backToMain(toggleImpl(word))
             .subscribe({ result ->
-                postResult(Response.Type.UPDATE, result, false) }, { this.postFailure(it) })
+                postResult(Response.Type.UPDATE, result, false)
+            }, { this.postFailure(it) })
     }
 
     fun getCurrentLanguage(): Language {
@@ -267,7 +268,7 @@ class WordViewModel @Inject constructor(
                 translation = item.getTranslationBy(request.target)
             } else {
                 val textTranslation =
-                    translationRepo.getItem(request.inputWord!!, request.source!!, request.target!!)
+                    translationRepo.getItem(request.source!!, request.target!!, request.inputWord!!)
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", request.inputWord, it.output)
                     item.addTranslation(request.target!!, it.output)

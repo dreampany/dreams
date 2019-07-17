@@ -108,7 +108,7 @@ constructor(
         input: String
     ): Maybe<TextTranslation> {
         return Maybe.create { emitter ->
-            val result = getItem(input, source, target)
+            val result = getItem(source, target, input)
             if (!emitter.isDisposed) {
                 if (result != null) {
                     emitter.onSuccess(result)

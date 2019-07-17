@@ -77,7 +77,7 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun initView() {
         setTitle(R.string.more)
-        binding = super.binding as FragmentRecyclerBinding
+        bindRecycler = super.binding as FragmentRecyclerBinding
 
         vm = ViewModelProviders.of(this, factory).get(MoreViewModel::class.java)
         vm.observeOutputs(this, Observer { this.processResponse(it) })
@@ -102,8 +102,8 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun processResponse(response: Response<List<MoreItem>>) {
         if (response is Response.Result<*>) {
-            val (_, data) = response as Response.Result<List<MoreItem>>
-            processSuccess(data)
+            val result = response as Response.Result<List<MoreItem>>
+            processSuccess(result.data)
         }
     }
 

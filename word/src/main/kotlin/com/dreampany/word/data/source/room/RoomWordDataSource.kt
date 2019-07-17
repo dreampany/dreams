@@ -46,7 +46,7 @@ class RoomWordDataSource(
     }
 
     override fun getItem(id: String): Word? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItem(id)
     }
 
     override fun getItemRx(word: String, full: Boolean): Maybe<Word> {

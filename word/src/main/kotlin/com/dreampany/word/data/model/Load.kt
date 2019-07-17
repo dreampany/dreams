@@ -20,6 +20,8 @@ class Load(
         this.total = total
     }
 
+    @Transient
     var current: Int = 0
+    @Transient
     var total: Int = 0
 }

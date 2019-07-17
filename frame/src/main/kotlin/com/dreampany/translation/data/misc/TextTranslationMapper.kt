@@ -33,7 +33,7 @@ class TextTranslationMapper
     }
 
     fun toId(translation: TextTranslation): String {
-        return toId(translation.input, translation.source, translation.target)
+        return toId(translation.source, translation.target, translation.input)
     }
 
     fun toLanguagePair(source: String, target: String): String {
@@ -48,7 +48,7 @@ class TextTranslationMapper
     ): TextTranslation? {
         val id = toId(source, target, input)
         val time = TimeUtil.currentTime()
-        return TextTranslation(id, time, input, source, target, output)
+        return TextTranslation(id, time, source, target, input, output)
     }
 
     fun toItem(
@@ -61,7 +61,7 @@ class TextTranslationMapper
         val time = TimeUtil.currentTime()
         val outputText = DataUtil.joinString(output.text, Constants.Sep.SPACE)
         outputText?.let {
-            return TextTranslation(id, time, input, source, target, it)
+            return TextTranslation(id, time, source, target, input, it)
         }
         return null
     }

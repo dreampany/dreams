@@ -36,14 +36,14 @@ import timber.log.Timber;
 public class Api implements Connection.Callback {
     protected static final Object guard = new Object();
     protected volatile boolean inited;
-    Executor executor;
+    protected Executor executor;
     protected NearbyApi.Processor processor;
     protected Set<NearbyApi.Callback> callbacks;
     protected Context context;
     protected long serviceId;
     protected Peer peer;
 
-    volatile Connection connection;
+    private volatile Connection connection;
     protected Map<Long, Peer> peers; // peerId to Peer
     protected Map<Long, Peer.State> states; // peerId to Boolean
     Map<Long, Long> liveTimes;
@@ -61,19 +61,7 @@ public class Api implements Connection.Callback {
 
     Runner syncingThread, outputThread, inputThread, downloadThread;
 
-
-/*    protected final RxFacade facade;
-    protected final RxMapper mapper;
-    protected final CompositeDisposable disposables;
-    protected final PublishSubject<Peer> peerInput;
-    protected final MutableLiveData<Peer> peerOutput;
-    protected LifecycleRegistry lifecycleRegistry;
-    protected LifecycleOwner peerOwner;*/
-
     protected Api() {
-        //lifecycleRegistry = new LifecycleRegistry(this);
-        //lifecycleRegistry.markState(Lifecycle.State.INITIALIZED);
-
         executor = Executors.newCachedThreadPool();
         callbacks = Collections.synchronizedSet(new HashSet<NearbyApi.Callback>());
 
@@ -91,12 +79,6 @@ public class Api implements Connection.Callback {
         inputs = new SmartQueue<>();
 
         timeouts = Maps.newConcurrentMap();
-
-        //facade = new RxFacade();
-        //mapper = new RxMapper(facade);
-        //disposables = new CompositeDisposable();
-        //peerInput = PublishSubject.create();
-        //peerOutput = mapper.toLiveData(peerInput, disposables);
     }
 
     protected void start() {
@@ -113,26 +95,13 @@ public class Api implements Connection.Callback {
         if (!inited) {
             return;
         }
-        //lifecycleRegistry.markState(Lifecycle.State.DESTROYED);
         stopInputThread();
         stopOutputThread();
         stopSyncingThread();
         if (connection != null) {
             connection.stop();
         }
-/*        if (peerOwner != null) {
-            peerOutput.removeObservers(peerOwner);
-            peerOwner = null;
-        }
-        disposables.clear();*/
     }
-
-/*    @NonNull
-    @Override
-    public Lifecycle getLifecycle() {
-        return lifecycleRegistry;
-    }*/
-
     @Override
     public void onConnection(long peerId, boolean connected) {
         Timber.v("Peer (%d) - Connection - (%s)", peerId, connected);

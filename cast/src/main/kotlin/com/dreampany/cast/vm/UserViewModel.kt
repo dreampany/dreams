@@ -68,4 +68,8 @@ class UserViewModel @Inject constructor(
     fun startNearby() {
         nearby.register(this)
     }
+
+    fun stopNearby() {
+        nearby.unregister(this)
+    }
 }

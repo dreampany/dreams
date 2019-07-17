@@ -28,7 +28,6 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 
 import timber.log.Timber;
 
@@ -102,17 +101,14 @@ class Connection extends ConnectionLifecycleCallback {
         states.put(endpointId, State.INITIATED);
         directs.put(endpointId, info.isIncomingConnection());
         client.acceptConnection(endpointId, payloadCallback);
-        Timber.v("Connection initiated for EndpointId(%s) Peer(%d) incoming %s", endpointId, peerId, info.isIncomingConnection());
+        Timber.v("First Connection initiated for EndpointId(%s) Peer(%d) incoming %s", endpointId, peerId, info.isIncomingConnection());
     }
 
     @Override
     public void onConnectionResult(@NonNull String endpointId, @NonNull ConnectionResolution result) {
-
         boolean accepted = result.getStatus().getStatusCode() == ConnectionsStatusCodes.STATUS_OK;
-
         //TODO STATUS_CONNECTION_REJECTED
-
-        Timber.v("Connection Result endpoint: %s accepted %s", endpointId, accepted);
+        Timber.v("First Connection Result endpoint: %s accepted %s", endpointId, accepted);
         states.put(endpointId, accepted ? State.ACCEPTED : State.REJECTED);
 
         if (accepted) {
@@ -129,7 +125,7 @@ class Connection extends ConnectionLifecycleCallback {
 
     @Override
     public void onDisconnected(@NonNull String endpointId) {
-        Timber.v("Disconnected endpoint: %s", endpointId);
+        Timber.v("First Disconnected endpoint: %s", endpointId);
         states.put(endpointId, State.DISCONNECTED);
         pendingEndpoints.insertLastUniquely(endpointId);
         long peerId = getPeerId(endpointId);
@@ -160,6 +156,7 @@ class Connection extends ConnectionLifecycleCallback {
             if (advertising) {
                 return;
             }
+            Timber.v("Advertising fired for Peer (%d) - ServiceId (%d)", peerId, serviceId);
             client.startAdvertising(
                     toString(peerId),
                     toString(serviceId),
@@ -181,6 +178,7 @@ class Connection extends ConnectionLifecycleCallback {
             if (discovering) {
                 return;
             }
+            Timber.v("Discovering fired for Peer (%d) - ServiceId (%d)", peerId, serviceId);
             client.startDiscovery(
                     toString(serviceId),
                     discoveryCallback,
@@ -211,7 +209,7 @@ class Connection extends ConnectionLifecycleCallback {
     }
 
     private void requestConnection(final String endpointId) {
-        Timber.v("Request Connection: %s", states.get(endpointId));
+        Timber.v("Requesting Connection: %s state[%s]", endpointId, states.get(endpointId));
         client.requestConnection(
                 toString(peerId),
                 endpointId,
@@ -223,17 +221,35 @@ class Connection extends ConnectionLifecycleCallback {
                     requestTries.remove(endpointId);
                 })
                 .addOnFailureListener(error -> {
-                    Timber.v("Request Connection failed for (%s)", endpointId);
+                    Timber.e("Request Connection error (%s) - %s", endpointId, error.getMessage());
+                    Timber.e(error);
                     states.put(endpointId, State.REQUEST_FAILED);
                     pendingEndpoints.insertLastUniquely(endpointId);
                     startRequestThread();
-                    Timber.e("Request Connection Error %s", error.getMessage());
                 });
-        states.put(endpointId, State.REQUESTING);
     }
 
+    /* Connection life cycle callback */
+    private final ConnectionLifecycleCallback connectionCallback = new ConnectionLifecycleCallback() {
+        @Override
+        public void onConnectionInitiated(@NonNull String endpointId, @NonNull ConnectionInfo info) {
+            Timber.v("Second Connection initiated endpointId(%s) %s", endpointId, info.isIncomingConnection());
 
-    // Discovery callback for getting advertised devices
+        }
+
+        @Override
+        public void onConnectionResult(@NonNull String endpointId, @NonNull ConnectionResolution result) {
+            boolean accepted = result.getStatus().getStatusCode() == ConnectionsStatusCodes.STATUS_OK;
+            Timber.v("Second Connection Result endpoint: %s accepted %s", endpointId, accepted);
+        }
+
+        @Override
+        public void onDisconnected(@NonNull String endpointId) {
+            Timber.v("Second Disconnected endpoint: %s", endpointId);
+        }
+    };
+
+    /* Discovery callback for getting advertised devices */
     private final EndpointDiscoveryCallback discoveryCallback = new EndpointDiscoveryCallback() {
 
         @Override
@@ -245,7 +261,7 @@ class Connection extends ConnectionLifecycleCallback {
             }
 
             long peerId = toLong(info.getEndpointName());
-            Timber.e("Found EndpointId (%s) - PeerId (%d)", endpointId, peerId);
+            Timber.v("Found EndpointId (%s) - PeerId (%d)", endpointId, peerId);
 
             //priority works: remove old endpoints if exists
             if (endpoints.containsKey(peerId)) {
@@ -327,7 +343,6 @@ class Connection extends ConnectionLifecycleCallback {
         RequestThread() {
             times = Maps.newHashMap();
             delays = Maps.newHashMap();
-            delayS = TimeUnit.SECONDS.toMillis(3);
         }
 
         @Override
@@ -367,12 +382,11 @@ class Connection extends ConnectionLifecycleCallback {
                 requestTries.put(endpointId, 0);
             }
 
-/*            if (tries.get(endpointId) > maxTry) {
-                //TODO
-            }*/
-            Timber.v("Next Request Attempt...." + endpointId + " " + isExpired(times.get(endpointId), delays.get(endpointId)));
-            if (isExpired(times.get(endpointId), delays.get(endpointId))) {
+            boolean readyToRequest = isExpired(times.get(endpointId), delays.get(endpointId));
+            Timber.v("Request Attempt %s %s", endpointId, readyToRequest);
+            if (readyToRequest) {
                 requestConnection(endpointId);
+                states.put(endpointId, State.REQUESTING);
                 times.remove(endpointId);
                 delays.remove(endpointId);
                 requestTries.put(endpointId, requestTries.get(endpointId) + 1);

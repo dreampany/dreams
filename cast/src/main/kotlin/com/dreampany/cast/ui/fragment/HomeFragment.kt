@@ -6,6 +6,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.cast.R
 import com.dreampany.cast.databinding.ContentRecyclerBinding
 import com.dreampany.cast.databinding.FragmentHomeBinding
@@ -36,6 +37,8 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
+    private lateinit var refresh: SwipeRefreshLayout
+
     private lateinit var adapter: UserAdapter
     private lateinit var vm: UserViewModel
 
@@ -46,11 +49,11 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
-
         checkPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onStopUi() {
+        vm.stopNearby()
     }
 
     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
@@ -63,7 +66,9 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
         setTitle(R.string.home)
         bindHome = super.binding as FragmentHomeBinding
         bindStatus = bindHome.layoutTopStatus
-         bindRecycler = bindHome.layoutRecycler
+        bindRecycler = bindHome.layoutRecycler
+
+        refresh = bindHome.layoutRefresh
 
         vm = ViewModelProviders.of(this, factory).get(UserViewModel::class.java)
         vm.observeUiState(this, Observer { processUiState(it) })
@@ -89,12 +94,12 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     private fun processUiState(state: UiState) {
         when (state) {
             UiState.SHOW_PROGRESS ->
-                if (!bindHome.layoutRefresh.isRefreshing) {
-                    bindHome.layoutRefresh.isRefreshing = true
+                if (!refresh.isRefreshing) {
+                    refresh.isRefreshing = true
                 }
             UiState.HIDE_PROGRESS ->
-                if (bindHome.layoutRefresh.isRefreshing) {
-                    bindHome.layoutRefresh.isRefreshing = false
+                if (refresh.isRefreshing) {
+                    refresh.isRefreshing = false
                 }
             UiState.OFFLINE -> {
             }

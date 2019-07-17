@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  */
 public abstract class Runner implements Runnable {
 
-    protected final long delayS = TimeUnit.SECONDS.toMillis(1);
+    protected  long delayS = TimeUnit.SECONDS.toMillis(1);
     protected long wait = delayS;
     protected Map<String, Long> times;
     protected Map<String, Long> delays;

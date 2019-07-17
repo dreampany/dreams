@@ -400,7 +400,7 @@ public final class AndroidUtil {
         Animato.animateSlideLeft(source);
     }
 
-    public static <T extends Fragment, X extends Parcelable> void openActivity(T source, Class<?> target, Task<X> task) {
+    public static <T extends Fragment> void openActivity(T source, Class<?> target, Task<?> task) {
         if (source != null) {
             Intent intent = new Intent(source.getActivity(), target);
             if (task != null) {

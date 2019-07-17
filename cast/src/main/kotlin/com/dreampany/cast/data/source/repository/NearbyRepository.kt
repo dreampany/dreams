@@ -10,6 +10,7 @@ import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.nearby.NearbyApi
 import com.dreampany.nearby.model.Peer
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -51,7 +52,7 @@ class NearbyRepository @Inject constructor(
     }
 
     override fun onPeer(peer: Peer, state: Peer.State) {
-
+        Timber.v("Peer (%d) - State(%s)", peer.id, state.toString())
     }
 
     override fun onData(peer: Peer, data: ByteArray) {

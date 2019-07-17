@@ -117,7 +117,7 @@ class Connection extends ConnectionLifecycleCallback {
 
         if (accepted) {
             pendingEndpoints.remove(endpointId);
-            long peerId = endpoints.inverse().get(endpointId);
+            long peerId = getPeerId(endpointId);
             if (callback != null) {
                 callback.onConnection(peerId, true);
             }
@@ -131,9 +131,8 @@ class Connection extends ConnectionLifecycleCallback {
     public void onDisconnected(@NonNull String endpointId) {
         Timber.v("Disconnected endpoint: %s", endpointId);
         states.put(endpointId, State.DISCONNECTED);
-        pendingEndpoints.remove(endpointId);
+        pendingEndpoints.insertLastUniquely(endpointId);
         long peerId = getPeerId(endpointId);
-        endpoints.remove(peerId);
         executor.execute(() -> {
             if (callback != null)
                 callback.onConnection(peerId, false);
@@ -328,6 +327,7 @@ class Connection extends ConnectionLifecycleCallback {
         RequestThread() {
             times = Maps.newHashMap();
             delays = Maps.newHashMap();
+            delayS = TimeUnit.SECONDS.toMillis(3);
         }
 
         @Override
@@ -343,6 +343,9 @@ class Connection extends ConnectionLifecycleCallback {
             wait = delayS + delayS;
 
             //already requested endpoint
+            if (states.containsKey(endpointId)) {
+                Timber.v("States endpointId (%s) - PeerId (%d) - %s", endpointId, peerId, states.get(endpointId));
+            }
             if (states.containsKey(endpointId) && states.get(endpointId) == State.REQUESTING) {
                 return true;
             }
@@ -407,7 +410,6 @@ class Connection extends ConnectionLifecycleCallback {
         if (!states.containsKey(endpointId)) {
             return null;
         }
-
         if (states.get(endpointId) != State.ACCEPTED) {
             return null;
         }

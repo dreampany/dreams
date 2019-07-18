@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.CheckBox
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatCheckBox
+import androidx.appcompat.widget.AppCompatTextView
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
 import com.dreampany.frame.R
@@ -13,10 +14,7 @@ import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.databinding.FragmentLiveTextOcrBinding
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
-import com.dreampany.frame.util.ColorUtil
-import com.dreampany.frame.util.MenuTint
-import com.dreampany.frame.util.NotifyUtil
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.frame.util.*
 import com.dreampany.vision.ml.CameraSource
 import com.dreampany.vision.ml.CameraSourcePreview
 import com.dreampany.vision.ml.GraphicOverlay
@@ -42,9 +40,10 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
     private var source: CameraSource? = null
     private lateinit var preview: CameraSourcePreview
     private lateinit var overlay: GraphicOverlay
-    //private lateinit var textView: AppCompatTextView
-    private lateinit var check: CheckBox
+    private lateinit var viewText: AppCompatTextView
+    private lateinit var viewCheck: AppCompatCheckBox
     private val texts = StringBuilder()
+    private val words = mutableListOf<String>()
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_live_text_ocr
@@ -64,8 +63,8 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
             clearItem, doneItem
         )
 
-        check = checkItem.actionView as CheckBox
-        check.setOnCheckedChangeListener { buttonView, isChecked ->
+        viewCheck = checkItem.actionView as AppCompatCheckBox
+        viewCheck.setOnCheckedChangeListener { buttonView, isChecked ->
             val text =
                 if (isChecked) "All text collection is enabled" else "All text collection is disabled"
             NotifyUtil.shortToast(context, text)
@@ -116,7 +115,7 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         bind = super.binding as FragmentLiveTextOcrBinding
         preview = bind.preview
         overlay = bind.overlay
-        // textView = bind.text
+        viewText = bind.viewText
     }
 
     private fun createCameraSource() {
@@ -150,26 +149,31 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     private fun updateTitle(text: String) {
-        if (!check.isChecked) {
-            texts.setLength(0)
+        if (!viewCheck.isChecked) {
+            //this.words.clear()
         }
-        texts.append(text)
-        val result = texts.toString()
-        //textView.text = text
-        // setSpan(textView, text, null)
-        val words = TextUtil.getWordsCount(result)
-        setTitle(TextUtil.getString(context, R.string.detected_words, words))
+        val words = TextUtil.getWords(text)
+        for (word in words) {
+            if (!this.words.contains(word)) {
+                this.words.add(word)
+                viewText.append(word + DataUtil.SPACE)
+            }
+        }
+        // val result = DataUtil.joinString(this.words, DataUtil.SPACE)
+
+        setSpan(viewText, this.words)
+        setTitle(TextUtil.getString(context, R.string.detected_words, this.words.size))
     }
 
-    private fun setSpan(view: TextView, text: String, bold: String?) {
-        val items = TextUtil.getWords(text)
-        if (items.isNullOrEmpty()) {
+    private fun setSpan(view: TextView, words: List<String>) {
+        if (words.isNullOrEmpty()) {
             return
         }
         TextUtil.setSpan(
             view,
-            items,
-            bold,
+            words,
+            R.color.material_white,
+            R.color.material_white,
             object : Link.OnClickListener {
                 override fun onClick(clickedText: String) {
                     onClickOnText(clickedText)

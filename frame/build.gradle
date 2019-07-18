@@ -220,7 +220,7 @@ dependencies {
     /* facebook */
     //api 'com.facebook.stetho:stetho:1.5.1'
     //api 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-    api 'com.facebook.fresco:fresco:1.13.0'
+    api 'com.facebook.fresco:fresco:2.0.0'
 
     /* android-iconics */
     api 'com.mikepenz:iconics-core:4.0.0'

@@ -38,4 +38,23 @@ public class MenuTint {
             }
         }
     }
+
+    public static void colorMenuItem(Integer color, Integer alpha, MenuItem... items) {
+        if (color == null && alpha == null) {
+            return; // nothing to do.
+        }
+        for (MenuItem item : items) {
+            Drawable drawable = item.getIcon();
+            if (drawable != null) {
+                // If we don't mutate the drawable, then all drawables with this id will have the ColorFilter
+                drawable.mutate();
+                if (color != null) {
+                    drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+                }
+                if (alpha != null) {
+                    drawable.setAlpha(alpha);
+                }
+            }
+        }
+    }
 }

@@ -2,7 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
-
     <item
         android:id="@+id/item_auto_collection"
         android:checkable="true"
@@ -18,7 +17,7 @@
 
     <item
         android:id="@+id/item_done"
-        android:icon="@drawable/ic_done_white_24dp"
+        android:icon="@drawable/ic_done_black_24dp"
         android:title="@string/done"
         auto:showAsAction="always" />
 

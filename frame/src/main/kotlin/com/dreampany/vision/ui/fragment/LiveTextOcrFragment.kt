@@ -14,6 +14,8 @@ import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.databinding.FragmentLiveTextOcrBinding
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.util.ColorUtil
+import com.dreampany.frame.util.MenuTint
 import com.dreampany.frame.util.NotifyUtil
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.vision.ml.CameraSource
@@ -54,6 +56,14 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         val checkItem = menu.findItem(R.id.item_auto_collection)
+        val clearItem = menu.findItem(R.id.item_clear)
+        val doneItem = menu.findItem(R.id.item_done)
+        MenuTint.colorMenuItem(
+            ColorUtil.getColor(context, R.color.material_white),
+            null,
+            checkItem, clearItem, doneItem
+        )
+
         check = checkItem.actionView as CheckBox
         check.setOnCheckedChangeListener { buttonView, isChecked ->
             val text =
@@ -102,7 +112,6 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     private fun initView() {
-
         setTitle(TextUtil.getString(context, R.string.detected_words, 0))
         bind = super.binding as FragmentLiveTextOcrBinding
         preview = bind.preview

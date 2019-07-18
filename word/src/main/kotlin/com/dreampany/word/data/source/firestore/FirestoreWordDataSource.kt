@@ -20,6 +20,10 @@ class FirestoreWordDataSource(
     val network: NetworkManager,
     val firestore: RxFirebaseFirestore
 ) : WordDataSource {
+    override fun isExists(word: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getTodayItem(): Word {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

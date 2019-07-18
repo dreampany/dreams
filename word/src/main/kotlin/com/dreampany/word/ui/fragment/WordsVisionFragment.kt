@@ -1,4 +1,4 @@
-package com.dreampany.vision.ui.fragment
+package com.dreampany.word.ui.fragment
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,9 +7,11 @@ import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
-import com.dreampany.frame.R
+import com.dreampany.word.R
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.databinding.FragmentLiveTextOcrBinding
 import com.dreampany.frame.misc.ActivityScope
@@ -19,6 +21,7 @@ import com.dreampany.vision.ml.CameraSource
 import com.dreampany.vision.ml.CameraSourcePreview
 import com.dreampany.vision.ml.GraphicOverlay
 import com.dreampany.vision.ml.ocr.TextRecognitionProcessor
+import com.dreampany.word.vm.WordViewModel
 import com.google.android.gms.common.annotation.KeepName
 import com.klinker.android.link_builder.Link
 import timber.log.Timber
@@ -34,8 +37,10 @@ import javax.inject.Inject
 
 @KeepName
 @ActivityScope
-class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
+class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
 
+    @Inject
+    internal lateinit var factory: ViewModelProvider.Factory
     private lateinit var bind: FragmentLiveTextOcrBinding
     private var source: CameraSource? = null
     private lateinit var preview: CameraSourcePreview
@@ -45,12 +50,14 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
     private val texts = StringBuilder()
     private val words = mutableListOf<String>()
 
+    private lateinit var vm: WordViewModel
+
     override fun getLayoutId(): Int {
-        return R.layout.fragment_live_text_ocr
+        return R.layout.fragment_words_vision
     }
 
     override fun getMenuId(): Int {
-        return R.menu.menu_live_text_ocr
+        return R.menu.menu_words_vision
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
@@ -116,6 +123,8 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         preview = bind.preview
         overlay = bind.overlay
         viewText = bind.viewText
+
+        vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
     }
 
     private fun createCameraSource() {
@@ -154,6 +163,9 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         }
         val words = TextUtil.getWords(text)
         for (word in words) {
+            if (!vm.isValid(word)) {
+                continue
+            }
             if (!this.words.contains(word)) {
                 this.words.add(word)
                 viewText.append(word + DataUtil.SPACE)

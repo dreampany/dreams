@@ -31,6 +31,9 @@ class WordRepository @Inject constructor(
     @Remote val remote: WordDataSource,
     @Vision val vision: WordDataSource
 ) : RepositoryKt<String, Word>(rx, rm), WordDataSource {
+    override fun isExists(word: String): Boolean {
+        return assets.isExists(word)
+    }
 
     override fun getTodayItem(): Word? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

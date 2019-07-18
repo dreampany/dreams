@@ -49,7 +49,8 @@ class HomeFragment @Inject constructor() : BaseMenuFragment() {
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
-        checkPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+        checkPermissions(Manifest.permission.ACCESS_FINE_LOCATION
+        )
     }
 
     override fun onStopUi() {

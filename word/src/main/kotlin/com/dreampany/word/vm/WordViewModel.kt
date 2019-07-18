@@ -375,4 +375,8 @@ class WordViewModel @Inject constructor(
     fun getStates(word: Word): List<State> {
         return stateRepo.getItems(word.id, ItemType.WORD.name, ItemSubtype.DEFAULT.name)
     }
+
+    fun isValid(word: String): Boolean {
+        return wordRepo.isExists(word)
+    }
 }

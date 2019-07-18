@@ -5,15 +5,12 @@ import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.word.R
 import com.dreampany.word.ui.enums.UiSubtype
 import com.dreampany.word.ui.enums.UiType
-import com.dreampany.word.ui.fragment.AboutFragment
-import com.dreampany.word.ui.fragment.LicenseFragment
-import com.dreampany.word.ui.fragment.SettingsFragment
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.vision.ui.fragment.LiveTextOcrFragment
 import com.dreampany.vision.ui.fragment.TextOcrFragment
 import com.dreampany.word.misc.Constants
-import com.dreampany.word.ui.fragment.WordFragment
+import com.dreampany.word.ui.fragment.*
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
 import im.delight.android.webview.AdvancedWebView
@@ -36,7 +33,7 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var wordProvider: Lazy<WordFragment>
     @Inject
-    lateinit var ocrProvider: Lazy<LiveTextOcrFragment>
+    lateinit var visionProvider: Lazy<WordsVisionFragment>
     @Inject
     lateinit var ad: SmartAd
 
@@ -98,7 +95,7 @@ class ToolsActivity : BaseActivity() {
             UiType.OCR -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
-                        commitFragment(LiveTextOcrFragment::class.java, ocrProvider, R.id.layout, uiTask)
+                        commitFragment(WordsVisionFragment::class.java, visionProvider, R.id.layout, uiTask)
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
                     }
                 }

@@ -1,6 +1,5 @@
 package com.dreampany.vision.ui.fragment
 
-import android.Manifest
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -23,6 +22,7 @@ import com.dreampany.vision.ml.CameraSourcePreview
 import com.dreampany.vision.ml.GraphicOverlay
 import com.dreampany.vision.ml.ocr.TextRecognitionProcessor
 import com.google.android.gms.common.annotation.KeepName
+import com.klinker.android.link_builder.Link
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
     private var source: CameraSource? = null
     private lateinit var preview: CameraSourcePreview
     private lateinit var overlay: GraphicOverlay
-    private lateinit var textView: TextView
+    //private lateinit var textView: AppCompatTextView
     private lateinit var check: CheckBox
     private val texts = StringBuilder()
 
@@ -61,7 +61,7 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         MenuTint.colorMenuItem(
             ColorUtil.getColor(context, R.color.material_white),
             null,
-            checkItem, clearItem, doneItem
+            clearItem, doneItem
         )
 
         check = checkItem.actionView as CheckBox
@@ -116,7 +116,7 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         bind = super.binding as FragmentLiveTextOcrBinding
         preview = bind.preview
         overlay = bind.overlay
-        textView = bind.text
+        // textView = bind.text
     }
 
     private fun createCameraSource() {
@@ -155,14 +155,45 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         }
         texts.append(text)
         val result = texts.toString()
-        textView.text = text
+        //textView.text = text
+        // setSpan(textView, text, null)
         val words = TextUtil.getWordsCount(result)
         setTitle(TextUtil.getString(context, R.string.detected_words, words))
     }
 
+    private fun setSpan(view: TextView, text: String, bold: String?) {
+        val items = TextUtil.getWords(text)
+        if (items.isNullOrEmpty()) {
+            return
+        }
+        TextUtil.setSpan(
+            view,
+            items,
+            bold,
+            object : Link.OnClickListener {
+                override fun onClick(clickedText: String) {
+                    onClickOnText(clickedText)
+                }
+            },
+            object : Link.OnLongClickListener {
+                override fun onLongClick(clickedText: String) {
+                    onLongClickOnText(clickedText)
+                }
+            }
+        )
+    }
+
+    private fun onClickOnText(text: String) {
+        Timber.v("Clicked Word %s", text)
+    }
+
+    private fun onLongClickOnText(text: String) {
+        Timber.v("Clicked Word %s", text)
+    }
+
     private fun clear() {
         setTitle(TextUtil.getString(context, R.string.detected_words, 0))
-        textView.text = null
+        // textView.text = null
         texts.setLength(0)
     }
 

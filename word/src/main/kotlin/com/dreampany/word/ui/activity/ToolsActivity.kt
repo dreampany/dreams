@@ -10,6 +10,7 @@ import com.dreampany.word.ui.fragment.LicenseFragment
 import com.dreampany.word.ui.fragment.SettingsFragment
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.vision.ui.fragment.LiveTextOcrFragment
 import com.dreampany.vision.ui.fragment.TextOcrFragment
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.fragment.WordFragment
@@ -35,7 +36,7 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var wordProvider: Lazy<WordFragment>
     @Inject
-    lateinit var ocrProvider: Lazy<TextOcrFragment>
+    lateinit var ocrProvider: Lazy<LiveTextOcrFragment>
     @Inject
     lateinit var ad: SmartAd
 
@@ -97,7 +98,7 @@ class ToolsActivity : BaseActivity() {
             UiType.OCR -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
-                        commitFragment(TextOcrFragment::class.java, ocrProvider, R.id.layout, uiTask)
+                        commitFragment(LiveTextOcrFragment::class.java, ocrProvider, R.id.layout, uiTask)
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
                     }
                 }

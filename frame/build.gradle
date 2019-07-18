@@ -237,8 +237,9 @@ dependencies {
     //implementation "io.karn:notify:1.2.0"
     implementation 'com.otaliastudios:cameraview:1.6.0'
 
+    api 'com.afollestad:assent:2.3.1'
     api 'com.karumi:dexter:5.0.0'
-    api 'joda-time:joda-time:2.10.2'
+    api 'joda-time:joda-time:2.10.3'
     api 'com.tapadoo.android:alerter:4.0.2'
 
     //api 'com.github.silvestrpredko:dot-progress-bar:1.1'

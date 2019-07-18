@@ -1,12 +1,15 @@
+/*
 package com.dreampany.vision.ui.fragment;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.dreampany.frame.R;
 import com.dreampany.frame.databinding.FragmentLiveTextOcrBinding;
@@ -19,27 +22,20 @@ import com.dreampany.vision.ml.CameraSourcePreview;
 import com.dreampany.vision.ml.GraphicOverlay;
 import com.dreampany.vision.ml.ocr.TextRecognitionProcessor;
 import com.google.android.gms.common.annotation.KeepName;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 9/28/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @KeepName
 @ActivityScope
 public class LiveTextOcrFragment extends BaseMenuFragment {
@@ -69,7 +65,7 @@ public class LiveTextOcrFragment extends BaseMenuFragment {
     }
 
     @Override
-    public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+    public void onMenuCreated(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         MenuItem checkItem = menu.findItem(R.id.item_auto_collection);
         check = (CheckBox) checkItem.getActionView();
         check.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -82,7 +78,10 @@ public class LiveTextOcrFragment extends BaseMenuFragment {
     protected void onStartUi(@Nullable Bundle state) {
         initView();
 
-        Dexter.withActivity(getParent())
+
+
+       */
+/* Dexter.withActivity(getParent())
                 .withPermissions(Manifest.permission.CAMERA,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -98,7 +97,8 @@ public class LiveTextOcrFragment extends BaseMenuFragment {
                     public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
 
                     }
-                }).check();
+                }).check();*//*
+
     }
 
     @Override
@@ -195,3 +195,4 @@ public class LiveTextOcrFragment extends BaseMenuFragment {
         forResult();
     }
 }
+*/

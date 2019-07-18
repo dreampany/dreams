@@ -21,6 +21,7 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.*
 import com.dreampany.language.Language
 import com.dreampany.language.LanguagePicker
+import com.dreampany.vision.ui.activity.TextOcrActivity
 import com.dreampany.word.R
 import com.dreampany.word.data.model.Definition
 import com.dreampany.word.data.model.Word
@@ -382,7 +383,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
             request(recentWord, false, true, true)
             return
         }
-
+        openOcr()
     }
 
     private fun processProgress(loading: Boolean) {
@@ -589,6 +590,11 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     private fun openUi(item: Word) {
         val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW)
         task.input = item
+        openActivity(ToolsActivity::class.java, task)
+    }
+
+    private fun openOcr() {
+        val task = UiTask<Word>(false, UiType.OCR, UiSubtype.VIEW)
         openActivity(ToolsActivity::class.java, task)
     }
 

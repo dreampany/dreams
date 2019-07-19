@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
@@ -51,11 +52,13 @@ import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 
 
+*/
 /**
  * Created by Hawladar Roman on 9/25/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.Callback<WordItem> {
 
@@ -306,3 +309,4 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
         openActivity(ToolsActivity.class, task);
     }
 }
+*/

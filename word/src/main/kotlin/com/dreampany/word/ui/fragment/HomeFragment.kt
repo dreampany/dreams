@@ -93,6 +93,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         initView()
         initRecycler()
         toScanMode()
+        processUiState(UiState.SEARCH)
         adjustTranslationUi(!vm.isDefaultLanguage())
     }
 
@@ -230,7 +231,6 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
             EMPTY,
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
-        processUiState(UiState.SEARCH)
 
         ViewUtil.setSwipe(bindHome.layoutRefresh, this)
         bindDef.toggleDefinition.setOnClickListener(this)
@@ -345,14 +345,14 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
 
     fun processResponse(response: Response<List<WordItem>>) {
         if (response is Response.Progress<*>) {
-            val (loading) = response
-            processProgress(loading)
+            val result = response as Response.Progress<*>
+            processProgress(result.loading)
         } else if (response is Response.Failure<*>) {
-            val (error) = response
-            processFailure(error)
+            val result = response as Response.Failure<*>
+            processFailure(result.error)
         } else if (response is Response.Result<*>) {
-            val (type, data) = response as Response.Result<List<WordItem>>
-            processSuccess(type, data)
+            val result = response as Response.Result<List<WordItem>>
+            processSuccess(result.type, result.data)
         }
     }
 
@@ -433,7 +433,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         }
         adapter.clear()
         adapter.addItems(items)
-        ex.postToUi({ processUiState(UiState.EXTRA) }, 500)
+        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }
 
     private fun processSingleSuccess(item: WordItem) {

@@ -161,13 +161,13 @@ class WordViewModel @Inject constructor(
     }
 
     fun toggleFavorite(word: Word) {
-        if (hasDisposable(multipleDisposable)) {
+/*        if (hasDisposable(multipleDisposable)) {
             return
-        }
+        }*/
         val disposable = rx
             .backToMain(toggleImpl(word))
             .subscribe({ result ->
-                postResult(Response.Type.UPDATE, result, false)
+                postResult(Response.Type.UPDATE, result)
             }, { this.postFailure(it) })
     }
 
@@ -415,8 +415,10 @@ class WordViewModel @Inject constructor(
     }
 
     private fun isFavorite(word: Word): Boolean {
+        Timber.v("Checking favorite")
         if (!favorites.contains(word.id)) {
             val favorite = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE)
+            Timber.v("Favorite of %s %s", word.id, favorite)
             favorites.put(word.id, favorite)
         }
         return favorites.get(word.id)

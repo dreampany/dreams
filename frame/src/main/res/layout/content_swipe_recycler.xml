@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:auto="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        tools:context="${relativePackage}.${activityClass}">
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
 
     <data>
 
         <variable
-                name="items"
-                type="androidx.databinding.ObservableArrayList"/>
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
     <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/layout_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                android:id="@+id/layout_refresh">
-
             <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none"
-                    auto:items="@{items}"
-                    tools:listitem="@layout/item_list"/>
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                auto:items="@{items}"
+                tools:listitem="@layout/item_list" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <include layout="@layout/fast_scroller"/>
+        <include layout="@layout/fast_scroller" />
 
     </FrameLayout>
 

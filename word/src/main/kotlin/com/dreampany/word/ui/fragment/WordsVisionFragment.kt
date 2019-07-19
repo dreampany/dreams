@@ -1,26 +1,37 @@
 package com.dreampany.word.ui.fragment
 
+import android.app.Activity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
-import com.dreampany.word.R
+import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.Task
-import com.dreampany.frame.databinding.FragmentLiveTextOcrBinding
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.frame.misc.exception.ExtraException
+import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.util.*
+import com.dreampany.language.Language
 import com.dreampany.vision.ml.CameraSource
 import com.dreampany.vision.ml.CameraSourcePreview
 import com.dreampany.vision.ml.GraphicOverlay
 import com.dreampany.vision.ml.ocr.TextRecognitionProcessor
+import com.dreampany.word.R
+import com.dreampany.word.data.model.WordRequest
+import com.dreampany.word.databinding.FragmentWordsVisionBinding
+import com.dreampany.word.ui.model.WordItem
 import com.dreampany.word.vm.WordViewModel
 import com.google.android.gms.common.annotation.KeepName
 import com.klinker.android.link_builder.Link
@@ -41,7 +52,7 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
-    private lateinit var bind: FragmentLiveTextOcrBinding
+    private lateinit var bind: FragmentWordsVisionBinding
     private var source: CameraSource? = null
     private lateinit var preview: CameraSourcePreview
     private lateinit var overlay: GraphicOverlay
@@ -61,7 +72,7 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
-        val checkItem = menu.findItem(R.id.item_auto_collection)
+        //val checkItem = menu.findItem(R.id.item_auto_collection)
         val clearItem = menu.findItem(R.id.item_clear)
         val doneItem = menu.findItem(R.id.item_done)
         MenuTint.colorMenuItem(
@@ -70,12 +81,12 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
             clearItem, doneItem
         )
 
-        viewCheck = checkItem.actionView as AppCompatCheckBox
+/*        viewCheck = checkItem.actionView as AppCompatCheckBox
         viewCheck.setOnCheckedChangeListener { buttonView, isChecked ->
             val text =
                 if (isChecked) "All text collection is enabled" else "All text collection is disabled"
             NotifyUtil.shortToast(context, text)
-        }
+        }*/
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -119,12 +130,13 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun initView() {
         setTitle(TextUtil.getString(context, R.string.detected_words, 0))
-        bind = super.binding as FragmentLiveTextOcrBinding
+        bind = super.binding as FragmentWordsVisionBinding
         preview = bind.preview
         overlay = bind.overlay
         viewText = bind.viewText
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
+        vm.observeOutput(this, Observer { this.processResponse(it) })
     }
 
     private fun createCameraSource() {
@@ -158,17 +170,18 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     private fun updateTitle(text: String) {
-        if (!viewCheck.isChecked) {
+/*        if (!viewCheck.isChecked) {
             this.words.clear()
-        }
+        }*/
         val words = TextUtil.getWords(text)
         for (word in words) {
-            if (!vm.isValid(word)) {
+            val lowerWord = word.toLowerCase()
+            if (!vm.isValid(lowerWord)) {
                 continue
             }
-            if (!this.words.contains(word)) {
-                this.words.add(word)
-                viewText.append(word + DataUtil.SPACE)
+            if (!this.words.contains(lowerWord)) {
+                this.words.add(lowerWord)
+                viewText.append(lowerWord + DataUtil.SPACE)
             }
         }
         // val result = DataUtil.joinString(this.words, DataUtil.SPACE)
@@ -201,20 +214,86 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun onClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
+        request(text.toLowerCase(), true, false)
     }
 
     private fun onLongClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
+        request(text.toLowerCase(), true, false)
     }
 
     private fun clear() {
         setTitle(TextUtil.getString(context, R.string.detected_words, 0))
-        // textView.text = null
-        texts.setLength(0)
+        viewText.text = null
+        words.clear()
     }
 
     private fun done() {
         getCurrentTask<Task<*>>(false)!!.comment = texts.toString()
         forResult()
     }
+
+    private fun request(word: String, important: Boolean, progress: Boolean) {
+        Timber.v("Request Word %s", word)
+        val translate = vm.needToTranslate()
+        val language = vm.getCurrentLanguage()
+
+        val request = WordRequest()
+        request.inputWord = word
+        request.source = Language.ENGLISH.code
+        request.target = language.code
+        request.translate = translate
+        request.important = important
+        request.progress = progress
+        vm.load(request)
+    }
+
+    private fun processResponse(response: Response<WordItem>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            processProgress(result.loading)
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            processFailure(result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<WordItem>
+            processSuccess(result.data)
+        }
+    }
+
+    private fun processProgress(loading: Boolean) {
+        if (loading) {
+            vm.updateUiState(UiState.SHOW_PROGRESS)
+        } else {
+            vm.updateUiState(UiState.HIDE_PROGRESS)
+        }
+    }
+
+    private fun processFailure(error: Throwable) {
+        if (error is IOException || error.cause is IOException) {
+            vm.updateUiState(UiState.OFFLINE)
+        } else if (error is EmptyException) {
+            vm.updateUiState(UiState.EMPTY)
+        } else if (error is ExtraException) {
+            vm.updateUiState(UiState.EXTRA)
+        } else if (error is MultiException) {
+            for (e in error.errors) {
+                processFailure(e)
+            }
+        }
+    }
+
+    private fun processSuccess(item: WordItem) {
+        val result = TextUtil.getString(
+            context!!,
+            R.string.word_vision,
+            item.item.id,
+            item.item.partOfSpeech,
+            item.translation
+        )
+        val activity = getParent() as Activity?
+        if (activity != null && result != null) {
+            NotifyUtilKt.showInfo(activity, result)
+        }
+     }
 }

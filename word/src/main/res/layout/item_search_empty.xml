@@ -13,7 +13,7 @@
         android:scaleType="fitCenter"
         auto:srcCompat="@drawable/ic_hourglass_empty_accent_24dp" />
 
-    <fr.arnaudguyon.smartfontslib.FontTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +23,6 @@
         android:text="@string/empty_search_words"
         android:textColor="@color/material_grey600"
         android:textSize="18sp"
-        auto:smart_font="@string/fontRobotoSlabBody" />
+        auto:fontFamily="@font/roboto_slab_regular" />
 
 </LinearLayout>

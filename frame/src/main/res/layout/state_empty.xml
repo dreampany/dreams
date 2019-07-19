@@ -12,16 +12,16 @@
         android:layout_height="150dp"
         auto:srcCompat="@drawable/sfl_ic_empty" />
 
-    <fr.arnaudguyon.smartfontslib.FontTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:paddingEnd="15dp"
         android:paddingStart="15dp"
+        android:paddingEnd="15dp"
         android:text="@string/empty"
         android:textColor="@color/material_grey700"
         android:textSize="16sp"
-        auto:smart_font="@string/fontRobotoSlabTitle" />
+        auto:fontFamily="@font/roboto_slab_bold" />
 
 </LinearLayout>

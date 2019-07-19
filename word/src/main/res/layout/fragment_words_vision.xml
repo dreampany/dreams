@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/_10sdp"
                     android:textColor="@color/material_white"
-                    android:textSize="@dimen/_12ssp"
+                    android:textSize="@dimen/_14ssp"
                     auto:fontFamily="@font/roboto_slab_regular" />
             </LinearLayout>
         </ScrollView>

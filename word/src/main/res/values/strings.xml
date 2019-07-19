@@ -45,6 +45,7 @@
     <string name="ocr">OCR</string>
     <string name="validate_words">Validate detected words</string>
     <string name="total_words">Total words %d</string>
+    <string name="word_vision">%s (%s)\n%s</string>
 
 
     <string name="action_voice_rec">action voice rec</string>

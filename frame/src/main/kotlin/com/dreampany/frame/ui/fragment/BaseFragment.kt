@@ -61,9 +61,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
 
     @Inject
     protected lateinit var ex: AppExecutors
-    protected lateinit var binding: ViewDataBinding
     @Inject
     internal lateinit var childInjector: DispatchingAndroidInjector<Fragment>
+    protected lateinit var binding: ViewDataBinding
     protected var task: Task<*>? = null
     protected var childTask: Task<*>? = null
     protected var currentView: View? = null

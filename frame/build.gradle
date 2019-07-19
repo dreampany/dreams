@@ -250,7 +250,7 @@ dependencies {
     api 'org.apache.commons:commons-lang3:3.9'
     api 'org.apache.commons:commons-collections4:4.3'
     //api 'com.blankj:utilcode:1.19.3'
-    api 'com.github.smart-fun:SmartFonts:1.0.4'
+    //api 'com.github.smart-fun:SmartFonts:1.0.4'
     api 'io.supercharge:shimmerlayout:2.1.0'
     api 'com.ethanhua:skeleton:1.1.1'
     //api 'com.dynamitechetan.flowinggradient:flowinggradient:1.1'
@@ -290,4 +290,5 @@ dependencies {
     //api 'com.github.bmarrdev:android-DecoView-charting:v1.2'
     api 'com.github.nikartm:fit-button:1.2.1'
     api 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
+    implementation 'com.github.onurkagan:ktoast:1.0.3'
 }

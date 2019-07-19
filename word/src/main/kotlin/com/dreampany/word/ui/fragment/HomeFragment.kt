@@ -356,16 +356,16 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         }
     }
 
-    fun processSingleResponse(response: Response<WordItem>) {
+   private fun processSingleResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
-            val (loading) = response
-            processProgress(loading)
+            val result  = response as Response.Progress<*>
+            processProgress(result.loading)
         } else if (response is Response.Failure<*>) {
-            val (error) = response
-            processFailure(error)
+            val result = response as Response.Failure<*>
+            processFailure(result.error)
         } else if (response is Response.Result<*>) {
-            val (_, data) = response as Response.Result<WordItem>
-            processSingleSuccess(data)
+            val result = response as Response.Result<WordItem>
+            processSingleSuccess(result.data)
         }
     }
 

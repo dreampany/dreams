@@ -23,6 +23,9 @@ public class MenuTint {
      *     The alpha value (0...255) to set on the icon or {@code null} for no changes.
      */
     public static void colorMenuItem(MenuItem menuItem, Integer color, Integer alpha) {
+        if (AndroidUtil.hasOreo()) {
+            //return;
+        }
         if (color == null && alpha == null) {
             return; // nothing to do.
         }
@@ -40,6 +43,9 @@ public class MenuTint {
     }
 
     public static void colorMenuItem(Integer color, Integer alpha, MenuItem... items) {
+        if (AndroidUtil.hasOreo()) {
+            //return;
+        }
         if (color == null && alpha == null) {
             return; // nothing to do.
         }

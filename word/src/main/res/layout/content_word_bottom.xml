@@ -18,19 +18,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-   <!--         <com.beardedhen.androidbootstrap.BootstrapProgressBar
-                android:id="@+id/progress"
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:visibility="gone"
-                auto:animated="true"
-                auto:bootstrapBrand="success"
-                auto:bootstrapMaxProgress="100"
-                auto:bootstrapProgress="100"
-                auto:bootstrapSize="sm"
-                auto:striped="true"
-                tools:visibility="visible" />-->
-
             <ImageView
                 android:id="@+id/image_close"
                 android:layout_width="wrap_content"
@@ -41,7 +28,7 @@
                 android:layout_marginTop="12dp"
                 auto:srcCompat="@drawable/ic_close_black_24dp" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_simple_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -53,9 +40,9 @@
                 android:textColor="@color/material_white"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                auto:smart_font="@string/fontRobotoSlabTitle" />
+                auto:fontFamily="@font/roboto_slab_bold" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_part_of_speech"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,9 +52,9 @@
                 android:layout_marginTop="2dp"
                 android:textColor="@color/material_grey100"
                 android:textSize="14sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_pronunciation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -78,9 +65,9 @@
                 android:textColor="@color/material_grey100"
                 android:textSize="14sp"
                 android:textStyle="italic"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_bold" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/view_translate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,7 +79,7 @@
                 android:ellipsize="end"
                 android:textColor="@color/material_grey100"
                 android:textSize="16sp"
-                auto:smart_font="@string/fontRobotoSlabBody"
+                auto:fontFamily="@font/roboto_slab_regular"
                 tools:visibility="visible" />
 
         </RelativeLayout>

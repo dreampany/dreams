@@ -35,6 +35,7 @@ import com.dreampany.word.ui.model.WordItem
 import com.dreampany.word.vm.WordViewModel
 import com.google.android.gms.common.annotation.KeepName
 import com.klinker.android.link_builder.Link
+import cz.kinst.jakub.view.StatefulLayout
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -107,6 +108,7 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     override fun onPause() {
+        processUiState(UiState.HIDE_PROGRESS)
         preview.stop()
         super.onPause()
     }
@@ -128,6 +130,11 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onRefresh() {
+        super.onRefresh()
+        processUiState(UiState.HIDE_PROGRESS)
+    }
+
     private fun initView() {
         setTitle(TextUtil.getString(context, R.string.detected_words, 0))
         bind = super.binding as FragmentWordsVisionBinding
@@ -135,7 +142,10 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
         overlay = bind.overlay
         viewText = bind.viewText
 
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
+
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
+        vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processResponse(it) })
     }
 
@@ -214,12 +224,12 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun onClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
-        request(text.toLowerCase(), true, false)
+        request(text.toLowerCase(), true, true)
     }
 
     private fun onLongClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
-        request(text.toLowerCase(), true, false)
+        request(text.toLowerCase(), true, true)
     }
 
     private fun clear() {
@@ -246,6 +256,17 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
         request.important = important
         request.progress = progress
         vm.load(request)
+    }
+
+    private fun processUiState(state: UiState) {
+        when (state) {
+            UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(true)
+            }
+            UiState.HIDE_PROGRESS -> if (bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(false)
+            }
+        }
     }
 
     private fun processResponse(response: Response<WordItem>) {

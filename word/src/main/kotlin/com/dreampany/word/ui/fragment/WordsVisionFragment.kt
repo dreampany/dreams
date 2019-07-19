@@ -2,7 +2,6 @@ package com.dreampany.word.ui.fragment
 
 import android.app.Activity
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -35,7 +34,6 @@ import com.dreampany.word.ui.model.WordItem
 import com.dreampany.word.vm.WordViewModel
 import com.google.android.gms.common.annotation.KeepName
 import com.klinker.android.link_builder.Link
-import cz.kinst.jakub.view.StatefulLayout
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject

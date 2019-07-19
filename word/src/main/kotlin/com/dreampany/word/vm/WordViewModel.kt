@@ -3,7 +3,6 @@ package com.dreampany.word.vm
 import android.app.Application
 import androidx.fragment.app.Fragment
 import com.annimon.stream.Stream
-import com.dreampany.language.Language
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.State
@@ -17,12 +16,14 @@ import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.language.Language
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import com.dreampany.word.data.enums.ItemState
 import com.dreampany.word.data.enums.ItemSubtype
 import com.dreampany.word.data.enums.ItemType
 import com.dreampany.word.data.misc.StateMapper
+import com.dreampany.word.data.misc.WordMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.model.WordRequest
 import com.dreampany.word.data.source.pref.Pref
@@ -33,7 +34,7 @@ import com.dreampany.word.ui.model.WordItem
 import com.dreampany.word.util.Util
 import io.reactivex.Maybe
 import timber.log.Timber
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -51,12 +52,13 @@ class WordViewModel @Inject constructor(
     val pref: Pref,
     val stateMapper: StateMapper,
     val stateRepo: StateRepository,
+    val wordMapper: WordMapper,
     val wordRepo: WordRepository,
     val translationRepo: TranslationRepository,
     @Favorite val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm) {
 
-    private var uiCallback: SmartAdapter.Callback<WordItem>? = null
+    private lateinit var uiCallback: SmartAdapter.Callback<WordItem>
 
     init {
         val language = pref.getLanguage(Language.ENGLISH)
@@ -74,7 +76,7 @@ class WordViewModel @Inject constructor(
             return
         }
         val disposable = rx
-            .backToMain(findItemRx(request))
+            .backToMain(loadItemRx(request))
             .doOnSubscribe { subscription ->
                 if (!pref.isLoaded) {
                     updateUiState(UiState.NONE)
@@ -90,7 +92,7 @@ class WordViewModel @Inject constructor(
                 if (!DataUtil.isEmpty(result)) {
                     pref.commitLoaded()
                 }
-                if (request.recentWord) {
+                if (request.recentWord || request.favorite) {
                     postResult(Response.Type.GET, result)
                 } else {
                     postResult(Response.Type.SEARCH, result)
@@ -103,6 +105,34 @@ class WordViewModel @Inject constructor(
                 postFailures(MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
+    }
+
+    fun loads(request: WordRequest) {
+        if (!takeAction(request.important, multipleDisposable)) {
+            return
+        }
+        val disposable = rx
+            .backToMain(loadItemsRx(request))
+            .doOnSubscribe { subscription ->
+                if (!pref.isLoaded) {
+                    updateUiState(UiState.NONE)
+                }
+                if (request.progress) {
+                    postProgress(true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postResult(Response.Type.GET, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
+        addMultipleSubscription(disposable)
     }
 
     fun suggests(progress: Boolean) {
@@ -191,7 +221,11 @@ class WordViewModel @Inject constructor(
         AndroidUtil.share(fragment, subject, text)
     }
 
-    private fun findItemRx(request: WordRequest): Maybe<WordItem> {
+    fun isValid(word: String): Boolean {
+        return wordRepo.isExists(word)
+    }
+
+    private fun loadItemRx(request: WordRequest): Maybe<WordItem> {
         return Maybe.create { emitter ->
 
             var result: WordItem? = null
@@ -211,6 +245,22 @@ class WordViewModel @Inject constructor(
                 }
             }
 
+            if (!emitter.isDisposed) {
+                if (result == null) {
+                    emitter.onError(EmptyException())
+                } else {
+                    emitter.onSuccess(result)
+                }
+            }
+        }
+    }
+
+    private fun loadItemsRx(request: WordRequest): Maybe<List<WordItem>> {
+        return Maybe.create { emitter ->
+            var result: List<WordItem>? = null
+            if (request.favorite) {
+                result = getFavoriteItems()
+            }
             if (!emitter.isDisposed) {
                 if (result == null) {
                     emitter.onError(EmptyException())
@@ -279,7 +329,7 @@ class WordViewModel @Inject constructor(
         item.translation = translation
     }
 
-    fun getItemIf(word: Word): Word? {
+    private fun getItemIf(word: Word): Word? {
         var result = getRoomItemIf(word)
         if (result == null) {
             result = getFirestoreItemIf(word)
@@ -290,25 +340,25 @@ class WordViewModel @Inject constructor(
         return result
     }
 
-    fun hasState(word: Word, subtype: ItemSubtype): Boolean {
+    private fun hasState(word: Word, subtype: ItemSubtype): Boolean {
         return stateRepo.getCountById(word.id, ItemType.WORD.name, subtype.name) > 0
     }
 
-    fun hasState(word: Word, subtype: ItemSubtype, state: ItemState): Boolean {
+    private fun hasState(word: Word, subtype: ItemSubtype, state: ItemState): Boolean {
         return stateRepo.getCountById(word.id, ItemType.WORD.name, subtype.name, state.name) > 0
     }
 
-    fun hasState(id: String, subtype: ItemSubtype, state: ItemState): Boolean {
+    private fun hasState(id: String, subtype: ItemSubtype, state: ItemState): Boolean {
         return stateRepo.getCountById(id, ItemType.WORD.name, subtype.name, state.name) > 0
     }
 
-    fun putState(word: Word, subtype: ItemSubtype, state: ItemState): Long {
+    private fun putState(word: Word, subtype: ItemSubtype, state: ItemState): Long {
         val s = State(word.id, ItemType.WORD.name, subtype.name, state.name)
         s.time = TimeUtil.currentTime()
         return stateRepo.putItem(s)
     }
 
-    fun putState(id: String, subtype: ItemSubtype, state: ItemState): Long {
+    private fun putState(id: String, subtype: ItemSubtype, state: ItemState): Long {
         val s = State(id, ItemType.WORD.name, subtype.name, state.name)
         s.time = TimeUtil.currentTime()
         return stateRepo.putItem(s)
@@ -338,7 +388,7 @@ class WordViewModel @Inject constructor(
         return result
     }
 
-    fun putItem(word: Word, subtype: ItemSubtype, state: ItemState): Long {
+    private fun putItem(word: Word, subtype: ItemSubtype, state: ItemState): Long {
         var result = wordRepo.putItem(word)
         if (result != -1L) {
             result = putState(word, subtype, state)
@@ -346,7 +396,7 @@ class WordViewModel @Inject constructor(
         return result
     }
 
-    fun toggleFavorite(id: String): Boolean {
+    private fun toggleFavorite(id: String): Boolean {
         val favorite = hasState(id, ItemSubtype.DEFAULT, ItemState.FAVORITE)
         if (favorite) {
             removeState(id, ItemSubtype.DEFAULT, ItemState.FAVORITE)
@@ -358,13 +408,13 @@ class WordViewModel @Inject constructor(
         return favorites.get(id)
     }
 
-    fun removeState(id: String, subtype: ItemSubtype, state: ItemState): Int {
+    private fun removeState(id: String, subtype: ItemSubtype, state: ItemState): Int {
         val s = State(id, ItemType.WORD.name, subtype.name, state.name)
         s.time = TimeUtil.currentTime()
         return stateRepo.delete(s)
     }
 
-    fun isFavorite(word: Word): Boolean {
+    private fun isFavorite(word: Word): Boolean {
         if (!favorites.contains(word.id)) {
             val favorite = hasState(word, ItemSubtype.DEFAULT, ItemState.FAVORITE)
             favorites.put(word.id, favorite)
@@ -372,11 +422,54 @@ class WordViewModel @Inject constructor(
         return favorites.get(word.id)
     }
 
-    fun getStates(word: Word): List<State> {
+    private fun getStates(word: Word): List<State> {
         return stateRepo.getItems(word.id, ItemType.WORD.name, ItemSubtype.DEFAULT.name)
     }
 
-    fun isValid(word: String): Boolean {
-        return wordRepo.isExists(word)
+    fun getFavorites(): List<Word>? {
+        val states = stateRepo.getItems(
+            ItemType.WORD.name,
+            ItemSubtype.DEFAULT.name,
+            ItemState.FAVORITE.name
+        )
+        return getItemsOfStatesIf(states)
+    }
+
+    private fun getItemsOfStatesIf(states: List<State>): List<Word>? {
+        if (DataUtil.isEmpty(states)) {
+            return null
+        }
+        val result = ArrayList<Word>(states.size)
+        Stream.of(states).forEach { state ->
+            val item = wordMapper.toItem(state, wordRepo)
+            if (item != null) {
+                result.add(item)
+            }
+        }
+        return result
+    }
+
+    private fun getFavoriteItems(): List<WordItem> {
+        val result = ArrayList<WordItem>()
+        var real: List<Word>? = getFavorites()
+        if (real == null) {
+            real = ArrayList()
+        }
+        val ui = uiCallback.items
+        for (word in real) {
+            val item = getItem(null, word, false)
+            item.favorite = true
+            result.add(item)
+        }
+
+        if (!DataUtil.isEmpty(ui)) {
+            for (item in ui!!) {
+                if (!real.contains(item.item)) {
+                    item.favorite = false
+                    result.add(item)
+                }
+            }
+        }
+        return result
     }
 }

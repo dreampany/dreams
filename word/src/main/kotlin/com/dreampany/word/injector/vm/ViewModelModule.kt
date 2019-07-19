@@ -34,11 +34,6 @@ abstract class ViewModelModule {
     @ViewModelKey(WordViewModel::class)
     abstract fun bindWordViewModel(vm: WordViewModel): ViewModel
 
-/*    @Binds
-    @IntoMap
-    @ViewModelKey(SearchViewModel::class)
-    abstract fun bindSearchViewModel(vm: SearchViewModel): ViewModel*/
-
     @Binds
     @IntoMap
     @ViewModelKey(RecentViewModel::class)
@@ -53,16 +48,6 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(RecentsViewModel::class)
     abstract fun bindRecentsViewModel(vm: RecentsViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(FavoriteViewModel::class)
-    abstract fun bindFlagViewModel(vm: FavoriteViewModel): ViewModel
-
-/*    @Binds
-    @IntoMap
-    @ViewModelKey(WordViewModel::class)
-    abstract fun bindWordViewModel(vm: WordViewModel): ViewModel*/
 
     @Binds
     @IntoMap

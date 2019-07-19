@@ -25,8 +25,8 @@ import kotlinx.android.parcel.Parcelize
     primaryKeys = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT]
 )
 data class TextTranslation(
-    override val id: String,
     override val time: Long,
+    override val id: String,
     override val source: String,
     override val target: String,
     val input: String,
@@ -34,7 +34,7 @@ data class TextTranslation(
 ) : Translation() {
 
     @Ignore
-    constructor() : this("", 0L, "", "", "", "") {
+    constructor() : this( 0L,"", "", "", "", "") {
     }
 
     override fun equals(other: Any?): Boolean {

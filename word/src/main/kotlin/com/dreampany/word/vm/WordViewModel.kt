@@ -410,7 +410,6 @@ class WordViewModel @Inject constructor(
 
     private fun removeState(id: String, subtype: ItemSubtype, state: ItemState): Int {
         val s = State(id, ItemType.WORD.name, subtype.name, state.name)
-        s.time = TimeUtil.currentTime()
         return stateRepo.delete(s)
     }
 
@@ -424,7 +423,7 @@ class WordViewModel @Inject constructor(
         return favorites.get(word.id)
     }
 
-    private fun getStates(word: Word): List<State> {
+    private fun getStates(word: Word): List<State>? {
         return stateRepo.getItems(word.id, ItemType.WORD.name, ItemSubtype.DEFAULT.name)
     }
 
@@ -437,8 +436,8 @@ class WordViewModel @Inject constructor(
         return getItemsOfStatesIf(states)
     }
 
-    private fun getItemsOfStatesIf(states: List<State>): List<Word>? {
-        if (DataUtil.isEmpty(states)) {
+    private fun getItemsOfStatesIf(states: List<State>?): List<Word>? {
+        if (states.isNullOrEmpty()) {
             return null
         }
         val result = ArrayList<Word>(states.size)

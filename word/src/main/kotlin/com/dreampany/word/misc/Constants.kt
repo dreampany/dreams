@@ -129,4 +129,5 @@ class Constants {
     object Notify {
         const val WORD_SYNC = "word_sync"
     }
+
 }

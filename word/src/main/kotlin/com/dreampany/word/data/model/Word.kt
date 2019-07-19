@@ -6,6 +6,7 @@ import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.frame.util.DataUtil
+import com.dreampany.frame.util.TimeUtil
 import com.dreampany.word.misc.Constants
 import com.google.firebase.firestore.IgnoreExtraProperties
 import com.google.firebase.firestore.PropertyName
@@ -27,16 +28,16 @@ import kotlinx.android.parcel.Parcelize
     primaryKeys = [Constants.Word.ID]
 )
 data class Word(
-    override var id: String,
-    override var time: Long
+    override var time: Long,
+    override var id: String
 ) : BaseKt() {
 
     @Ignore
-    constructor() : this("") {
+    constructor() : this(TimeUtil.currentTime(), "") {
 
     }
 
-    constructor(id: String) : this(id, 0L) {
+    constructor(id: String) : this(TimeUtil.currentTime(), id) {
 
     }
 
@@ -100,7 +101,6 @@ data class Word(
     fun hasNotes(): Boolean {
         return notes?.isEmpty() ?: false
     }
-
 
     fun hasPartial(): Boolean {
         return if (DataUtil.isEmpty(

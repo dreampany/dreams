@@ -1,7 +1,6 @@
 package com.dreampany.frame.misc
 
 import android.content.Context
-import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.util.AndroidUtil
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
@@ -31,6 +30,10 @@ class Constants {
     companion object {
         fun database(name: String): String {
             return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + Database.POST_FIX
+        }
+
+        fun database(name: String, type: String): String {
+            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + type + Database.POST_FIX
         }
 
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)
@@ -75,6 +78,8 @@ class Constants {
     }
 
     object Database {
+        const val TYPE_FRAME = "frame"
+        const val TYPE_TRANSLATION = "translation"
         const val POST_FIX = Sep.HYPHEN + "db"
     }
 

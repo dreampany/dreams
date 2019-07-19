@@ -36,7 +36,7 @@ interface StateDataSource : DataSource<State> {
         to: Long
     ): Maybe<State>
 
-     fun getItems(type: String, subtype: String): List<State>
+     fun getItems(type: String, subtype: String): List<State>?
 
      fun getItemOrderBy(type: String, subtype: String): State?
 
@@ -50,7 +50,7 @@ interface StateDataSource : DataSource<State> {
 
      fun getItemsRx(type: String, subtype: String): Maybe<List<State>>
 
-     fun getItemsOrderBy(type: String, subtype: String, from: Long, to: Long): List<State>
+     fun getItemsOrderBy(type: String, subtype: String, from: Long, to: Long): List<State>?
 
      fun getItemsOrderByRx(
         type: String,
@@ -63,19 +63,19 @@ interface StateDataSource : DataSource<State> {
 
      fun getItemRx(type: String, subtype: String, state: String): Maybe<State>
 
-     fun getItems(type: String, subtype: String, state: String): List<State>
+     fun getItems(type: String, subtype: String, state: String): List<State>?
 
      fun getItemsRx(type: String, subtype: String, state: String): Maybe<List<State>>
 
-     fun getItemsOrderBy(type: String, subtype: String): List<State>
+     fun getItemsOrderBy(type: String, subtype: String): List<State>?
 
      fun getItemsOrderByRx(type: String, subtype: String): Maybe<List<State>>
 
-     fun getItemsOrderBy(type: String, subtype: String, state: String): List<State>
+     fun getItemsOrderBy(type: String, subtype: String, state: String): List<State>?
 
      fun getItemsOrderByRx(type: String, subtype: String, state: String): Maybe<List<State>>
 
-     fun getItemsOrderBy(type: String, subtype: String, limit: Int): List<State>
+     fun getItemsOrderBy(type: String, subtype: String, limit: Int): List<State>?
 
      fun getItemsOrderByRx(type: String, subtype: String, limit: Int): Maybe<List<State>>
 
@@ -84,7 +84,7 @@ interface StateDataSource : DataSource<State> {
         subtype: String,
         state: String,
         limit: Int
-    ): List<State>
+    ): List<State>?
 
      fun getItemsOrderByRx(
         type: String,
@@ -93,7 +93,7 @@ interface StateDataSource : DataSource<State> {
         limit: Int
     ): Maybe<List<State>>
 
-     fun getItems(type: String, subtype: String, limit: Int): List<State>
+     fun getItems(type: String, subtype: String, limit: Int): List<State>?
 
      fun getItemsRx(type: String, subtype: String, limit: Int): Maybe<List<State>>
 }

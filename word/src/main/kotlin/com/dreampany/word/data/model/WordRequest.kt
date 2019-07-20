@@ -18,4 +18,6 @@ class WordRequest(input: Word?) : Request<Word>(input) {
     var translate: Boolean = false
     var recentWord: Boolean = false
     var favorite: Boolean = false
+    var history: Boolean = false
+
 }

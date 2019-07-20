@@ -107,7 +107,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     override fun onResume() {
         super.onResume()
         initLanguageMenuItem()
-        request(null, true, true, true)
+        request(null, true, true, true, false)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
@@ -181,7 +181,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         Timber.v("onQueryTextSubmit %s", query)
         this.recentWord = query.toLowerCase()
 
-        request(recentWord, false, true, true)
+        request(recentWord, false, true, true, true)
         return super.onQueryTextSubmit(query)
     }
 
@@ -302,7 +302,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
             adjustTranslationUi(!vm.isDefaultLanguage())
             if (!vm.isDefaultLanguage()) {
                 //onRefresh();
-                request(recentWord, false, true, true)
+                request(recentWord, false, true, true, false)
             }
             picker.dismissAllowingStateLoss()
             Unit
@@ -380,7 +380,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     private fun processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
-            request(recentWord, false, true, true)
+            request(recentWord, false, true, true, true)
             return
         }
         openOcr()
@@ -560,7 +560,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     private fun searchWord(word: String) {
         recentWord = word.toLowerCase()
         searchView.clearFocus()
-        request(recentWord, false, true, true)
+        request(recentWord, false, true, true, true)
         AndroidUtil.speak(recentWord)
     }
 
@@ -571,7 +571,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         }
     }
 
-    private fun request(word: String?, recentWord: Boolean, important: Boolean, progress: Boolean) {
+    private fun request(word: String?, recentWord: Boolean, important: Boolean, progress: Boolean, history: Boolean) {
         Timber.v("Request Word %s", word)
         val translate = vm.needToTranslate()
         val language = vm.getCurrentLanguage()
@@ -584,23 +584,23 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         request.recentWord = recentWord
         request.important = important
         request.progress = progress
+        request.history = history
         vm.load(request)
     }
 
     private fun openUi(item: Word) {
-        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW)
+        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW, item, null)
         task.input = item
         openActivity(ToolsActivity::class.java, task)
     }
 
     private fun openOcr() {
-        val task = UiTask<Word>(false, UiType.OCR, UiSubtype.VIEW)
+        val task = UiTask<Word>(false, UiType.OCR, UiSubtype.VIEW, null, null)
         openActivity(ToolsActivity::class.java, task)
     }
 
     private fun openYandexSite() {
-        val outTask = UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW)
-        outTask.comment = Constants.Translation.YANDEX_URL
+        val outTask = UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW, null, Constants.Translation.YANDEX_URL)
         openActivity(ToolsActivity::class.java, outTask)
     }
 }

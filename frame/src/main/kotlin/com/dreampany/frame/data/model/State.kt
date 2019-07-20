@@ -57,4 +57,10 @@ data class State(
     override fun hashCode(): Int {
         return Objects.hashCode(id, type, subtype, state)
     }
+
+    fun hasProperty(type: String, subtype: String, state: String): Boolean {
+        return (Objects.equal(type, this.type)
+                && Objects.equal(subtype, this.subtype)
+                && Objects.equal(state, this.state))
+    }
 }

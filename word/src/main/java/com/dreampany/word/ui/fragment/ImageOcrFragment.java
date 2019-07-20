@@ -240,8 +240,8 @@ public class ImageOcrFragment extends BaseMenuFragment {
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.VIEW);
+  /*      UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.VIEW);
         task.setInput(item);
-        openActivity(ToolsActivity.class, task);
+        openActivity(ToolsActivity.class, task);*/
     }
 }

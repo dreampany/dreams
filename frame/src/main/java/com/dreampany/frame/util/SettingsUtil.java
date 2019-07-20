@@ -47,7 +47,7 @@ public final class SettingsUtil {
 
     public static void rateUs(Activity activity, FirebaseAnalytics analytics) {
         try {
-            String id = AndroidUtil.getPackageName(activity);
+            String id = AndroidUtil.Companion.getPackageName(activity);
             Uri uri = Uri.parse("market://details?id=" + id);
             Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
             activity.startActivity(goToMarket);
@@ -64,7 +64,7 @@ public final class SettingsUtil {
     public static void feedback(Activity activity) {
         EasyFeedback.Builder feedback = new EasyFeedback.Builder(activity)
                 .withEmail(activity.getString(R.string.email));
-        if (!AndroidUtil.hasNougat()) {
+        if (!AndroidUtil.Companion.hasNougat()) {
             feedback.withSystemInfo();
         }
         feedback.build().start();

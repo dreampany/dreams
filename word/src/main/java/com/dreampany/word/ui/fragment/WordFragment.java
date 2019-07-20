@@ -109,7 +109,7 @@ public class WordFragment extends BaseMenuFragment {
     public void onResume() {
         super.onResume();
         initLanguageMenuItem();
-        request(recentWord, true, true, true);
+        request(recentWord, true, true, true, true);
     }
 
     @Override
@@ -224,7 +224,7 @@ public class WordFragment extends BaseMenuFragment {
             adjustTranslationUi(!vm.isDefaultLanguage());
             if (!vm.isDefaultLanguage()) {
                 //onRefresh();
-                request(recentWord, false, true, true);
+                request(recentWord, false, true, true, false);
             }
             picker.dismissAllowingStateLoss();
             return Unit.INSTANCE;
@@ -430,18 +430,18 @@ public class WordFragment extends BaseMenuFragment {
 
     private void searchWord(String word) {
         recentWord = word.toLowerCase();
-        request(recentWord, false, true, true);
-        AndroidUtil.speak(word);
+        request(recentWord, false, true, true, true);
+        AndroidUtil.Companion.speak(word);
     }
 
     private void speak() {
         WordItem item = bindWord.getItem();
         if (item != null) {
-            AndroidUtil.speak(item.getItem().getId());
+            AndroidUtil.Companion.speak(item.getItem().getId());
         }
     }
 
-    private void request(String word, boolean recentWord, boolean important, boolean progress) {
+    private void request(String word, boolean recentWord, boolean important, boolean progress, boolean history) {
         boolean translate = vm.needToTranslate();
         Language language = vm.getCurrentLanguage();
 
@@ -453,12 +453,13 @@ public class WordFragment extends BaseMenuFragment {
         request.setRecentWord(recentWord);
         request.setImportant(important);
         request.setProgress(progress);
+        request.setHistory(history);
         vm.load(request);
     }
 
     public void openYandexSite() {
-        UiTask<?> outTask = new UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW);
-        outTask.setComment(Constants.Translation.YANDEX_URL);
+        UiTask<?> outTask = new UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW, null, Constants.Translation.YANDEX_URL);
+
         openActivity(ToolsActivity.class, outTask);
     }
 

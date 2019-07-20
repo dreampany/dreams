@@ -97,7 +97,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     protected void onResume() {
         super.onResume();
         ad.resumeBanner(getClass().getSimpleName());
-        vm.loads();
+        //vm.loads();
     }
 
     @Override

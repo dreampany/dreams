@@ -41,7 +41,7 @@ public class LicenseFragment extends BaseFragment {
         licenseIds.add(LicenseID.RETROFIT);
 
 
-        RecyclerViewLicenseFragment fragment = FragmentUtil.getFragment(this, R.id.fragment);
+        RecyclerViewLicenseFragment fragment = FragmentUtil.Companion.getFragment(this, R.id.fragment);
         fragment.addLicense(licenseIds);
     }
 

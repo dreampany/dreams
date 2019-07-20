@@ -22,3 +22,6 @@
 -keep class com.dreampany.frame.misc.** { *; }
 -keepclassmembers class com.dreampany.frame.misc.** { *; }
 
+-keep class com.dreampany.translation.data.model.** { *; }
+-keepclassmembers class com.dreampany.translation.data.model.** { *; }
+

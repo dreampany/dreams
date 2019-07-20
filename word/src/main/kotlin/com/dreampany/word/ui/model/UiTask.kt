@@ -16,8 +16,10 @@ import kotlinx.android.parcel.Parcelize
 data class UiTask<T : BaseKt>(
     val fullscreen: Boolean,
     val type: UiType,
-    val subtype: UiSubtype
-) : Task<T>() {
+    val subtype: UiSubtype,
+    override var input: T?,
+    override var comment: String?
+) : Task<T>(input, comment) {
 
 /*    var type: UiType? = null
     var subtype: UiSubtype? = null*/

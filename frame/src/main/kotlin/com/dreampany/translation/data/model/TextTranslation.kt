@@ -3,6 +3,7 @@ package com.dreampany.translation.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
+import com.dreampany.frame.util.TimeUtil
 import com.dreampany.translation.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -34,7 +35,16 @@ data class TextTranslation(
 ) : Translation() {
 
     @Ignore
-    constructor() : this( 0L,"", "", "", "", "") {
+    constructor() : this(TimeUtil.currentTime(), "", "", "", "", "") {
+    }
+
+    constructor(
+        id: String,
+        source: String,
+        target: String,
+        input: String,
+        output: String
+    ) : this(TimeUtil.currentTime(), id, source,target, input, output) {
     }
 
     override fun equals(other: Any?): Boolean {

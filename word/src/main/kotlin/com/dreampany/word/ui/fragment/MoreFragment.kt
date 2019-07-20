@@ -119,19 +119,19 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
             MoreType.RATE_US -> vm.rateUs(getParent())
             MoreType.FEEDBACK -> vm.sendFeedback(getParent())
             MoreType.SETTINGS -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.SETTINGS)
+                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.SETTINGS, null, null)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.LICENSE -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.LICENSE)
+                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.LICENSE, null, null)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.ABOUT -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.ABOUT)
+                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.ABOUT, null, null)
                 openActivity(ToolsActivity::class.java, task)
             }
             else -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.ABOUT)
+                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.ABOUT, null, null)
                 openActivity(ToolsActivity::class.java, task)
             }
         }

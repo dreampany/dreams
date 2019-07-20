@@ -1,5 +1,7 @@
 package com.dreampany.word.data.model
 
+import android.os.Parcel
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
@@ -8,6 +10,7 @@ import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.word.misc.Constants
+import com.google.android.gms.common.internal.safeparcel.SafeParcelReader.readInt
 import com.google.firebase.firestore.IgnoreExtraProperties
 import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.Parcelize
@@ -18,7 +21,6 @@ import kotlinx.android.parcel.Parcelize
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
@@ -30,16 +32,7 @@ import kotlinx.android.parcel.Parcelize
 data class Word(
     override var time: Long,
     override var id: String
-) : BaseKt() {
-
-    @Ignore
-    constructor() : this(TimeUtil.currentTime(), "") {
-
-    }
-
-    constructor(id: String) : this(TimeUtil.currentTime(), id) {
-
-    }
+) : BaseKt(time, id) {
 
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
@@ -55,6 +48,62 @@ data class Word(
     var tags: MutableList<String>? = null
     var notes: MutableList<String>? = null
     var popularity: Int = 0
+
+    @Ignore
+    constructor() : this(TimeUtil.currentTime(), "") {
+
+    }
+
+    constructor(id: String) : this(TimeUtil.currentTime(), id) {
+
+    }
+
+    @Ignore
+    private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
+        partOfSpeech = parcel.readString();
+        pronunciation = parcel.readString();
+        if (parcel.readByte().compareTo(0x01) == 1) {
+            definitions = parcel.createTypedArrayList(Definition.CREATOR)
+        } else {
+            definitions = null;
+        }
+        examples = parcel.createStringArrayList()
+        synonyms = parcel.createStringArrayList()
+        antonyms = parcel.createStringArrayList()
+        categories = parcel.createStringArrayList()
+        tags = parcel.createStringArrayList()
+        notes = parcel.createStringArrayList()
+        popularity = parcel.readInt()
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeString(partOfSpeech);
+        dest.writeString(pronunciation);
+        if (definitions == null) {
+            dest.writeByte(0x00)
+        } else {
+            dest.writeByte(0x01)
+            dest.writeTypedList(definitions)
+        }
+        dest.writeStringList(examples)
+        dest.writeStringList(synonyms)
+        dest.writeStringList(antonyms)
+        dest.writeStringList(categories);
+        dest.writeStringList(tags)
+        dest.writeStringList(notes)
+        dest.writeInt(popularity)
+    }
+
+    companion object CREATOR : Parcelable.Creator<Word> {
+        override fun createFromParcel(parcel: Parcel): Word {
+            return Word(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Word?> {
+            return arrayOfNulls(size)
+        }
+    }
+
 
     override fun toString(): String {
         return "Word ($id) == $id"

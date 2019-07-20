@@ -98,7 +98,7 @@ class LoaderActivity : BaseActivity() {
     }
 
     private fun processSingleSuccess(item: LoadItem) {
-        Timber.v("Result Single Load[%d]", item.item.current)
+        //Timber.v("Result Single Load[%d]", item.getIteim().current)
      //   progress.setValueAnimated(item.item.current.toFloat())
     }
 }

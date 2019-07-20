@@ -129,7 +129,7 @@ public class WordMapper {
         return out;
     }
 
-    public Word toItem(State in, WordDataSource source) {
+    public Word toItemFromState(State in, WordDataSource source) {
         Word out = map.get(in.getId());
         if (out == null) {
             out = source.getItem(in.getId());

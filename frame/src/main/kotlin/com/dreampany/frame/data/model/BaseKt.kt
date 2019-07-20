@@ -9,10 +9,19 @@ import com.google.common.base.Objects
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseKt : BaseParcelKt() {
+abstract class BaseKt(open var time: Long, open var id: String) : BaseParcelKt() {
 
-    abstract val time: Long
-    abstract val id: String
+/*    protected constructor(parcel: Parcel) : this(
+        time = parcel.readLong(),
+        id = parcel.readString()!!
+    )
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeLong(time)
+        parcel.writeString(id)
+    }*/
+
+    override fun describeContents() = 0
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -24,4 +33,5 @@ abstract class BaseKt : BaseParcelKt() {
     override fun hashCode(): Int {
         return Objects.hashCode(id)
     }
+
 }

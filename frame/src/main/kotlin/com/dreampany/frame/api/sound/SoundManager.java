@@ -52,7 +52,7 @@ public final class SoundManager {
 
     private SoundPool getPool() {
         if (pool == null) {
-            if (AndroidUtil.hasLollipop()) {
+            if (AndroidUtil.Companion.hasLollipop()) {
                 pool = createNewSoundPool();
             } else {
                 pool = createOldSoundPool();

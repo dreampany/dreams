@@ -235,8 +235,7 @@ public class CameraOcrFragment extends BaseMenuFragment {
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.VIEW);
-        task.setInput(item);
+        UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.VIEW, item, null);
         openActivity(ToolsActivity.class, task);
     }
 }

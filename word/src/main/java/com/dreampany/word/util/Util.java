@@ -1,5 +1,7 @@
 package com.dreampany.word.util;
 
+import androidx.annotation.NonNull;
+
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
@@ -12,7 +14,7 @@ import com.dreampany.word.data.model.Word;
 public final class Util {
     private Util () {}
 
-    public static String getText(Word word) {
+    public static String getText(@NonNull Word word) {
         StringBuilder builder = new StringBuilder();
         if (word.hasDefinitions()) {
             for (Definition item : word.getDefinitions()) {

@@ -222,12 +222,12 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun onClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
-        request(text.toLowerCase(), true, true)
+        request(text.toLowerCase(), true, true, true)
     }
 
     private fun onLongClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
-        request(text.toLowerCase(), true, true)
+        request(text.toLowerCase(), true, true, true)
     }
 
     private fun clear() {
@@ -239,21 +239,6 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
     private fun done() {
         getCurrentTask<Task<*>>(false)!!.comment = texts.toString()
         forResult()
-    }
-
-    private fun request(word: String, important: Boolean, progress: Boolean) {
-        Timber.v("Request Word %s", word)
-        val translate = vm.needToTranslate()
-        val language = vm.getCurrentLanguage()
-
-        val request = WordRequest()
-        request.inputWord = word
-        request.source = Language.ENGLISH.code
-        request.target = language.code
-        request.translate = translate
-        request.important = important
-        request.progress = progress
-        vm.load(request)
     }
 
     private fun processUiState(state: UiState) {
@@ -314,5 +299,21 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
         if (activity != null && result != null) {
             NotifyUtilKt.showInfo(activity, result)
         }
-     }
+    }
+
+    private fun request(word: String, important: Boolean, progress: Boolean, history: Boolean) {
+        Timber.v("Request Word %s", word)
+        val translate = vm.needToTranslate()
+        val language = vm.getCurrentLanguage()
+
+        val request = WordRequest()
+        request.inputWord = word
+        request.source = Language.ENGLISH.code
+        request.target = language.code
+        request.translate = translate
+        request.important = important
+        request.progress = progress
+        request.history = history
+        vm.load(request)
+    }
 }

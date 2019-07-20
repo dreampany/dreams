@@ -78,7 +78,7 @@ class WordViewModel @Inject constructor(
         val disposable = rx
             .backToMain(loadItemRx(request))
             .doOnSubscribe { subscription ->
-                if (!pref.isLoaded) {
+                if (!pref.isLoaded()) {
                     updateUiState(UiState.NONE)
                 }
                 if (request.progress) {
@@ -97,7 +97,6 @@ class WordViewModel @Inject constructor(
                 } else {
                     postResult(Response.Type.SEARCH, result)
                 }
-                //getEx().postToUi(() -> update(false), 3000L);
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -114,7 +113,7 @@ class WordViewModel @Inject constructor(
         val disposable = rx
             .backToMain(loadItemsRx(request))
             .doOnSubscribe { subscription ->
-                if (!pref.isLoaded) {
+                if (!pref.isLoaded()) {
                     updateUiState(UiState.NONE)
                 }
                 if (request.progress) {
@@ -161,9 +160,6 @@ class WordViewModel @Inject constructor(
     }
 
     fun toggleFavorite(word: Word) {
-/*        if (hasDisposable(multipleDisposable)) {
-            return
-        }*/
         val disposable = rx
             .backToMain(toggleImpl(word))
             .subscribe({ result ->
@@ -231,17 +227,16 @@ class WordViewModel @Inject constructor(
             var result: WordItem? = null
 
             if (request.recentWord) {
-                val fullWord = pref.recentWord
-                if (fullWord != null) {
-                    request.inputWord = fullWord.id
-                    result = getItem(request, fullWord, true)
+                val fullWord = pref.getRecentWord()
+                fullWord?.run {
+                    request.inputWord = id
+                    result = getItem(request, this, true)
                 }
             } else {
                 val word = wordRepo.getItem(request.inputWord!!, false)
                 val fullWord = getItemIf(word!!)
-                if (fullWord != null) {
-                    pref.recentWord = fullWord
-                    result = getItem(request, fullWord, true)
+                fullWord?.run {
+                    result = getItem(request, this, true)
                 }
             }
 
@@ -249,7 +244,11 @@ class WordViewModel @Inject constructor(
                 if (result == null) {
                     emitter.onError(EmptyException())
                 } else {
-                    emitter.onSuccess(result)
+                    if (request.history) {
+                        pref.setRecentWord(result!!.item)
+                        putState(result!!.item.id, ItemSubtype.DEFAULT, ItemState.HISTORY)
+                    }
+                    emitter.onSuccess(result!!)
                 }
             }
         }
@@ -442,9 +441,9 @@ class WordViewModel @Inject constructor(
         }
         val result = ArrayList<Word>(states.size)
         Stream.of(states).forEach { state ->
-            val item = wordMapper.toItem(state, wordRepo)
-            if (item != null) {
-                result.add(item)
+            val item = wordMapper.toItemFromState(state, wordRepo)
+            item?.run {
+                result.add(this)
             }
         }
         return result

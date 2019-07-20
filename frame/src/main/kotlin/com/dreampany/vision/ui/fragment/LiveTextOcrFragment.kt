@@ -67,7 +67,9 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         viewCheck.setOnCheckedChangeListener { buttonView, isChecked ->
             val text =
                 if (isChecked) "All text collection is enabled" else "All text collection is disabled"
-            NotifyUtil.shortToast(context, text)
+            context?.run {
+                NotifyUtil.shortToast(this, text)
+            }
         }
     }
 

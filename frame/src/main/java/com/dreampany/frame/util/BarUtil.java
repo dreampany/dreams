@@ -18,7 +18,7 @@ public final class BarUtil {
     private BarUtil() {}
 
     public static void hide(AppCompatActivity activity) {
-        if (AndroidUtil.hasJellyBeanMR2()) {
+        if (AndroidUtil.Companion.hasJellyBeanMR2()) {
             View decorView = activity.getWindow().getDecorView();
             int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -38,7 +38,7 @@ public final class BarUtil {
     }
 
     public static void show(AppCompatActivity activity) {
-        if (activity != null && AndroidUtil.hasJellyBeanMR2()) {
+        if (activity != null && AndroidUtil.Companion.hasJellyBeanMR2()) {
             View decorView = activity.getWindow().getDecorView();
             int uiOptions = View.SYSTEM_UI_FLAG_VISIBLE;
 

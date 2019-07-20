@@ -89,7 +89,7 @@ class NotifyViewModel @Inject constructor(
                 return@create
             }
             Timber.v("Statue %s", state.toString())
-            var item = wordMapper.toItem(state, wordRepo)
+            var item = wordMapper.toItemFromState(state, wordRepo)
             item = getItemIf(item)
             val source = Language.ENGLISH.code
             val target = pref.getLanguage(Language.ENGLISH).code
@@ -114,8 +114,7 @@ class NotifyViewModel @Inject constructor(
         else app.getString(R.string.notify_word_format, item.item.id, item.item.partOfSpeech)
         var targetClass: Class<*> = NavigationActivity::class.java
 
-        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW)
-        task.input = item.item
+        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW, item.item, null)
 
         notify.showNotification(title!!, message!!, R.drawable.ic_notification, targetClass, task)
         app.throwAnalytics(

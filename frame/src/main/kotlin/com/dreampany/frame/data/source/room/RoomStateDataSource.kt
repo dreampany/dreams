@@ -63,7 +63,7 @@ class RoomStateDataSource(val mapper: StateMapper, val dao: StateDao) : StateDat
             item = dao.getItem(id, type, subtype, state)
         }
         if (item == null) {
-            item = State(TimeUtil.currentTime(), id, type, subtype, state)
+            item = State(id, type, subtype, state)
         }
         mapper.putItem(item)
         return item
@@ -111,7 +111,12 @@ class RoomStateDataSource(val mapper: StateMapper, val dao: StateDao) : StateDat
         return dao.getItemsRx(type, subtype)
     }
 
-    override fun getItemsOrderBy(type: String, subtype: String, from: Long, to: Long): List<State>?{
+    override fun getItemsOrderBy(
+        type: String,
+        subtype: String,
+        from: Long,
+        to: Long
+    ): List<State>? {
         return dao.getItemsOrderBy(type, subtype, from, to)
     }
 

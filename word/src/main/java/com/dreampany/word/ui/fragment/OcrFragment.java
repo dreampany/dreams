@@ -368,15 +368,15 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.RECENTS);
+ /*       UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.RECENTS);
         task.setInput(item);
-        openActivity(ToolsActivity.class, task);
+        openActivity(ToolsActivity.class, task);*/
     }
 
     private void openTextOcr() {
         //recentVm.clearInputs();
-        UiTask<Word> task = new UiTask<>(false , UiType.OCR, UiSubtype.TEXT);
-        openActivity(ToolsActivity.class, task, REQUEST_OCR);
+       /* UiTask<Word> task = new UiTask<>(false , UiType.OCR, UiSubtype.TEXT);
+        openActivity(ToolsActivity.class, task, REQUEST_OCR);*/
     }
 
     @Nullable

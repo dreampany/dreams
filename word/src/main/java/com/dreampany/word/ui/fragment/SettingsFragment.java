@@ -69,7 +69,7 @@ public class SettingsFragment extends BaseMenuFragment {
     private void initView() {
         setTitle(R.string.settings);
         String wordSyncKey = getString(R.string.key_word_sync);
-        Flowable<Boolean> wordSyncflowable = pref.observePublic(wordSyncKey, Boolean.class, true);
+        Flowable<Boolean> wordSyncflowable = pref.observePublicly(wordSyncKey, Boolean.class, true);
         disposables.add(rx
                 .backToMain(wordSyncflowable)
                 .subscribe(enabled -> {

@@ -198,7 +198,9 @@ class FavoriteWordsFragment @Inject constructor() : BaseMenuFragment(),
             UiState.EMPTY -> bind.stateful.setState(EMPTY)
             UiState.ERROR -> {
             }
-            UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
+            UiState.CONTENT -> {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+            }
         }
     }
 
@@ -260,8 +262,7 @@ class FavoriteWordsFragment @Inject constructor() : BaseMenuFragment(),
     }
 
     private fun openUi(item: Word) {
-        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW)
-        task.input = item
+        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW, item, null)
         openActivity(ToolsActivity::class.java, task)
     }
 

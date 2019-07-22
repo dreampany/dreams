@@ -27,9 +27,9 @@ import com.google.firebase.firestore.PropertyName
     )],
     primaryKeys = [Constants.Word.ID]
 )
-data class Word(
-    override var time: Long,
-    override var id: String
+class Word(
+    time: Long,
+    id: String
 ) : BaseKt(time, id) {
 
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
@@ -48,7 +48,7 @@ data class Word(
     var popularity: Int = 0
 
     @Ignore
-    constructor() : this(TimeUtil.currentTime(), "") {
+    constructor() : this("") {
 
     }
 
@@ -60,7 +60,7 @@ data class Word(
     private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
         partOfSpeech = parcel.readString()
         pronunciation = parcel.readString()
-        if (parcel.readByte().compareTo(0x01) == 1) {
+        if (parcel.readByte().compareTo(0x01) == 0) {
             definitions = parcel.createTypedArrayList(Definition.CREATOR)
         } else {
             definitions = null;

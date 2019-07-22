@@ -13,9 +13,9 @@ import com.dreampany.word.ui.enums.MoreType
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-data class More(
-    override var time: Long,
-    override var id: String
+class More(
+    time: Long,
+    id: String
 ) : BaseKt(time, id) {
 
     lateinit var type: MoreType

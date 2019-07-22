@@ -85,24 +85,26 @@ class WordViewModel @Inject constructor(
                     postProgress(true)
                 }
             }
-            .subscribe({ result ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                if (!DataUtil.isEmpty(result)) {
-                    pref.commitLoaded()
-                }
-                if (request.recentWord || request.favorite) {
-                    postResult(Response.Type.GET, result)
-                } else {
-                    postResult(Response.Type.SEARCH, result)
-                }
-            }, { error ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postFailures(MultiException(error, ExtraException()))
-            })
+            .subscribe(
+                { result ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    if (!DataUtil.isEmpty(result)) {
+                        pref.commitLoaded()
+                    }
+                    if (request.recentWord || request.favorite) {
+                        postResult(Response.Type.GET, result)
+                    } else {
+                        postResult(Response.Type.SEARCH, result)
+                    }
+                },
+                { error ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postFailures(MultiException(error, ExtraException()))
+                })
         addSingleSubscription(disposable)
     }
 

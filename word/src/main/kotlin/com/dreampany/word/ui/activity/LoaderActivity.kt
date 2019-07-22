@@ -46,7 +46,7 @@ class LoaderActivity : BaseActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initView()
-        vm.loads()
+        //vm.loads()
     }
 
     override fun onStopUi() {

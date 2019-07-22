@@ -24,14 +24,14 @@ import com.google.firebase.firestore.IgnoreExtraProperties
     )],
     primaryKeys = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT]
 )
-data class TextTranslation(
-    override var time: Long,
-    override var id: String,
-    override var source: String,
-    override var target: String,
+class TextTranslation(
+    time: Long,
+    id: String,
+    source: String,
+    target: String,
     var input: String,
     var output: String
-) : Translation(time, id) {
+) : Translation(time, id, source, target) {
 
     @Ignore
     constructor() : this(TimeUtil.currentTime(), "", "", "", "", "") {
@@ -47,13 +47,14 @@ data class TextTranslation(
     }
 
     @Ignore
-    private constructor(parcel: Parcel) : this(parcel.readLong(),
-                parcel.readString()!!,
-                parcel.readString()!!,
-                parcel.readString()!!,
-                parcel.readString()!!,
-                parcel.readString()!!
-            ) {
+    private constructor(parcel: Parcel) : this(
+        parcel.readLong(),
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!
+    ) {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

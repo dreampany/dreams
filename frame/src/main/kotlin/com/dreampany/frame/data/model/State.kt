@@ -24,9 +24,9 @@ import com.google.firebase.firestore.IgnoreExtraProperties
     )],
     primaryKeys = [Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE]
 )
-data class State(
-    override var time: Long,
-    override var id: String
+class State(
+    time: Long,
+    id: String
 ) : BaseKt(time, id) {
 
     lateinit var type: String

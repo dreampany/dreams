@@ -14,9 +14,9 @@ import com.google.common.base.Objects
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class Load(
-    override var time: Long,
-    override var id: String
+ class Load(
+      time: Long,
+      id: String
 ) : BaseKt(time, id) {
 
     var current: Int = 0

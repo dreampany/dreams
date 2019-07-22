@@ -332,14 +332,14 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
 
     fun processResponseOfString(response: Response<List<String>>) {
         if (response is Response.Progress<*>) {
-            val (loading) = response
-            processProgress(loading)
+            val result = response as Response.Progress<*>
+            processProgress(result.loading)
         } else if (response is Response.Failure<*>) {
-            val (error) = response
-            processFailure(error)
+            val result = response as Response.Failure<*>
+            processFailure(result.error)
         } else if (response is Response.Result<*>) {
-            val (type, data) = response as Response.Result<List<String>>
-            processSuccessOfString(type, data)
+            val result = response as Response.Result<List<String>>
+            processSuccessOfString(result.type, result.data)
         }
     }
 

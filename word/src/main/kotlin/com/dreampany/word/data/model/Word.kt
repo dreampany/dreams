@@ -10,10 +10,8 @@ import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.word.misc.Constants
-import com.google.android.gms.common.internal.safeparcel.SafeParcelReader.readInt
 import com.google.firebase.firestore.IgnoreExtraProperties
 import com.google.firebase.firestore.PropertyName
-import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Roman-372 on 7/17/2019
@@ -60,8 +58,8 @@ data class Word(
 
     @Ignore
     private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
-        partOfSpeech = parcel.readString();
-        pronunciation = parcel.readString();
+        partOfSpeech = parcel.readString()
+        pronunciation = parcel.readString()
         if (parcel.readByte().compareTo(0x01) == 1) {
             definitions = parcel.createTypedArrayList(Definition.CREATOR)
         } else {
@@ -77,8 +75,10 @@ data class Word(
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(partOfSpeech);
-        dest.writeString(pronunciation);
+        dest.writeLong(time)
+        dest.writeString(id)
+        dest.writeString(partOfSpeech)
+        dest.writeString(pronunciation)
         if (definitions == null) {
             dest.writeByte(0x00)
         } else {
@@ -88,7 +88,7 @@ data class Word(
         dest.writeStringList(examples)
         dest.writeStringList(synonyms)
         dest.writeStringList(antonyms)
-        dest.writeStringList(categories);
+        dest.writeStringList(categories)
         dest.writeStringList(tags)
         dest.writeStringList(notes)
         dest.writeInt(popularity)

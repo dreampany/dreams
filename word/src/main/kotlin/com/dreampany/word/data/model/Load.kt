@@ -1,7 +1,12 @@
 package com.dreampany.word.data.model
 
+import android.os.Parcel
+import android.os.Parcelable
+import androidx.room.Ignore
 import com.dreampany.frame.data.model.BaseKt
-import kotlinx.android.parcel.Parcelize
+import com.dreampany.frame.util.TimeUtil
+import com.dreampany.translation.data.model.TextTranslation
+import com.google.common.base.Objects
 
 /**
  * Created by Roman-372 on 7/17/2019
@@ -9,19 +14,51 @@ import kotlinx.android.parcel.Parcelize
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Parcelize
-class Load(
-    override val id: String,
-    override val time: Long
-) : BaseKt() {
+data class Load(
+    override var time: Long,
+    override var id: String
+) : BaseKt(time, id) {
 
-    constructor(current: Int, total: Int) : this("", 0L) {
+    var current: Int = 0
+    var total: Int = 0
+
+    constructor(current: Int, total: Int) : this(TimeUtil.currentTime(), "") {
         this.current = current
         this.total = total
     }
 
-    @Transient
-    var current: Int = 0
-    @Transient
-    var total: Int = 0
+    @Ignore
+    private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
+        current = parcel.readInt()
+        total = parcel.readInt()
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeLong(time)
+        dest.writeString(id)
+        dest.writeInt(current)
+        dest.writeInt(total)
+    }
+
+    companion object CREATOR : Parcelable.Creator<Load> {
+        override fun createFromParcel(parcel: Parcel): Load {
+            return Load(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Load?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as TextTranslation
+        return Objects.equal(item.id, id)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
 }

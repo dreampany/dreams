@@ -7,19 +7,19 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardElevation="1dp">
+        auto:cardElevation="@dimen/_1sdp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="15dp">
+            android:padding="@dimen/_12sdp">
 
             <ImageView
                 android:id="@+id/icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="25dp"
+                android:layout_marginEnd="@dimen/_20sdp"
                 auto:srcCompat="@drawable/ic_settings_black_24dp"
                 tools:ignore="ContentDescription" />
 
@@ -31,7 +31,7 @@
                 android:layout_toEndOf="@id/icon"
                 android:text="@string/more"
                 android:textColor="@color/material_black"
-                android:textSize="18sp"
+                android:textSize="@dimen/_16ssp"
                 auto:fontFamily="@font/roboto_slab_bold" />
 
         </RelativeLayout>

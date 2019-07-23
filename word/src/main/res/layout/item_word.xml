@@ -23,7 +23,7 @@
                 android:drawablePadding="5dp"
                 android:text="@string/words"
                 android:textColor="@color/material_black"
-                android:textSize="18sp"
+                android:textSize="@dimen/_18ssp"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent"
                 auto:fontFamily="@font/roboto_slab_bold" />
@@ -36,7 +36,7 @@
                 android:paddingEnd="5dp"
                 android:text="@string/part_of_speech"
                 android:textColor="@color/material_grey800"
-                android:textSize="14sp"
+                android:textSize="@dimen/_14ssp"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/text_word"
                 auto:fontFamily="@font/roboto_slab_regular" />
@@ -48,7 +48,7 @@
                 android:layout_marginTop="2dp"
                 android:text="@string/pronunciation"
                 android:textColor="@color/material_grey800"
-                android:textSize="14sp"
+                android:textSize="@dimen/_14ssp"
                 auto:layout_constraintStart_toEndOf="@id/text_part_of_speech"
                 auto:layout_constraintTop_toBottomOf="@id/text_word"
                 auto:fontFamily="@font/roboto_slab_regular" />

@@ -9,7 +9,10 @@ import com.google.common.base.Objects
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseKt(var time: Long, var id: String) : BaseParcelKt() {
+abstract class BaseKt : BaseParcelKt() {
+
+    abstract var time: Long
+    abstract var id: String
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

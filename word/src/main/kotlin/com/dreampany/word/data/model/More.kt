@@ -1,11 +1,9 @@
 package com.dreampany.word.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
-import androidx.room.Ignore
 import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.word.ui.enums.MoreType
+import kotlinx.android.parcel.Parcelize
 
 
 /**
@@ -13,18 +11,18 @@ import com.dreampany.word.ui.enums.MoreType
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class More(
-    time: Long,
-    id: String
-) : BaseKt(time, id) {
+@Parcelize
+data class More(
+    override var time: Long,
+    override var id: String,
+    var type : MoreType
+) : BaseKt() {
 
-    lateinit var type: MoreType
-
-    constructor(type: MoreType) : this(TimeUtil.currentTime(), type.name) {
+    constructor(type: MoreType) : this(TimeUtil.currentTime(), type.name, type) {
         this.type = type
     }
 
-    @Ignore
+ /*   @Ignore
     private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
         type = MoreType.valueOf(parcel.readString()!!)
     }
@@ -43,5 +41,5 @@ class More(
         override fun newArray(size: Int): Array<More?> {
             return arrayOfNulls(size)
         }
-    }
+    }*/
 }

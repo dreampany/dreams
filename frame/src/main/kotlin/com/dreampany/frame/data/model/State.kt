@@ -1,7 +1,5 @@
 package com.dreampany.frame.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -9,6 +7,7 @@ import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.TimeUtil
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by Roman-372 on 7/19/2019
@@ -16,6 +15,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
@@ -24,49 +24,20 @@ import com.google.firebase.firestore.IgnoreExtraProperties
     )],
     primaryKeys = [Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE]
 )
-class State(
-    time: Long,
-    id: String
-) : BaseKt(time, id) {
-
-    lateinit var type: String
-    lateinit var subtype: String
-    lateinit var state: String
+data class State(
+    override var time: Long,
+    override var id: String,
+    var type: String,
+    var subtype: String,
+    var state: String
+) : BaseKt() {
 
     @Ignore
-    constructor() : this(TimeUtil.currentTime(), "") {
+    constructor() : this("", "", "", "") {
     }
 
     constructor(id: String, type: String, subtype: String, state: String)
-            : this(TimeUtil.currentTime(), id) {
-        this.type = type
-        this.subtype = subtype
-        this.state = state
-    }
-
-    @Ignore
-    private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
-        type = parcel.readString()!!
-        subtype = parcel.readString()!!
-        state = parcel.readString()!!
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeLong(time)
-        dest.writeString(id)
-        dest.writeString(type)
-        dest.writeString(subtype)
-        dest.writeString(state)
-    }
-
-    companion object CREATOR : Parcelable.Creator<State> {
-        override fun createFromParcel(parcel: Parcel): State {
-            return State(parcel)
-        }
-
-        override fun newArray(size: Int): Array<State?> {
-            return arrayOfNulls(size)
-        }
+            : this(TimeUtil.currentTime(), id, type, subtype, state) {
     }
 
     override fun equals(other: Any?): Boolean {

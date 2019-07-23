@@ -28,9 +28,9 @@ import com.google.firebase.firestore.PropertyName
     primaryKeys = [Constants.Word.ID]
 )
 class Word(
-    time: Long,
-    id: String
-) : BaseKt(time, id) {
+    override var time: Long,
+    override var id: String
+) : BaseKt() {
 
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
@@ -60,8 +60,11 @@ class Word(
     private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
         partOfSpeech = parcel.readString()
         pronunciation = parcel.readString()
-        if (parcel.readByte().compareTo(0x01) == 0) {
-            definitions = parcel.createTypedArrayList(Definition.CREATOR)
+        if (parcel.readInt() == 1) {
+/*            definitions = arrayListOf<Definition>().apply {
+                parcel.readList(this, Definition::class.java.classLoader)
+            }*/
+//definitions = parcel.createTypedArrayList(Definition)
         } else {
             definitions = null;
         }

@@ -1,7 +1,5 @@
 package com.dreampany.translation.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -9,6 +7,7 @@ import com.dreampany.frame.util.TimeUtil
 import com.dreampany.translation.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by roman on 2019-07-03
@@ -16,6 +15,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
@@ -25,16 +25,16 @@ import com.google.firebase.firestore.IgnoreExtraProperties
     primaryKeys = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT]
 )
 class TextTranslation(
-    time: Long,
-    id: String,
-    source: String,
-    target: String,
+    override var time: Long,
+    override var id: String,
+    override var source: String,
+    override var target: String,
     var input: String,
     var output: String
-) : Translation(time, id, source, target) {
+) : Translation() {
 
     @Ignore
-    constructor() : this(TimeUtil.currentTime(), "", "", "", "", "") {
+    constructor() : this("", "", "", "", "") {
     }
 
     constructor(
@@ -46,7 +46,7 @@ class TextTranslation(
     ) : this(TimeUtil.currentTime(), id, source, target, input, output) {
     }
 
-    @Ignore
+/*    @Ignore
     private constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString()!!,
@@ -74,7 +74,7 @@ class TextTranslation(
         override fun newArray(size: Int): Array<TextTranslation?> {
             return arrayOfNulls(size)
         }
-    }
+    }*/
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

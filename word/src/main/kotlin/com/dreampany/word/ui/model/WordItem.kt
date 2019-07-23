@@ -67,7 +67,6 @@ class WordItem private constructor(item: Word, @LayoutRes layoutId: Int = 0) :
         return null
     }
 
-
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItemKt.ViewHolder(view, adapter) {
 
@@ -80,7 +79,7 @@ class WordItem private constructor(item: Word, @LayoutRes layoutId: Int = 0) :
             this.adapter = adapter as WordAdapter
             viewWord = view.findViewById(R.id.text_word)
             viewPartOfSpeech = view.findViewById(R.id.text_part_of_speech)
-            viewPronunciation = view.findViewById(R.id.text_part_of_speech)
+            viewPronunciation = view.findViewById(R.id.text_pronunciation)
         }
 
         override fun <VH : BaseItemKt.ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>>

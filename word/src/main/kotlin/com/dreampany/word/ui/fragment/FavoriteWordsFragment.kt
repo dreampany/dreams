@@ -131,7 +131,7 @@ class FavoriteWordsFragment @Inject constructor() : BaseMenuFragment(),
     }
 
     override val empty: Boolean
-        get() = adapter == null || adapter.isEmpty()
+        get() = adapter.isEmpty()
     override val items: List<WordItem>?
         get() = adapter.getCurrentItems()
     override val visibleItems: List<WordItem>?
@@ -145,7 +145,6 @@ class FavoriteWordsFragment @Inject constructor() : BaseMenuFragment(),
         bind = super.binding as FragmentFavoritesBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
-
 
         bind.stateful.setStateView(
             NONE,

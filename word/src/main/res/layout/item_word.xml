@@ -20,7 +20,6 @@
                 android:id="@+id/text_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_volume_up_black_24dp"
                 android:drawablePadding="5dp"
                 android:text="@string/words"
                 android:textColor="@color/material_black"

@@ -60,13 +60,11 @@ class Word(
     private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
         partOfSpeech = parcel.readString()
         pronunciation = parcel.readString()
-        if (parcel.readInt() == 1) {
-/*            definitions = arrayListOf<Definition>().apply {
-                parcel.readList(this, Definition::class.java.classLoader)
-            }*/
-//definitions = parcel.createTypedArrayList(Definition)
+        if (parcel.readByte().compareTo(0x00) == 0) {
+            definitions = null
         } else {
-            definitions = null;
+            definitions = mutableListOf()
+            parcel.readList(definitions as MutableList<Any?>, Definition::class.java.classLoader)
         }
         examples = parcel.createStringArrayList()
         synonyms = parcel.createStringArrayList()
@@ -86,7 +84,7 @@ class Word(
             dest.writeByte(0x00)
         } else {
             dest.writeByte(0x01)
-            dest.writeTypedList(definitions)
+            dest.writeList(definitions as MutableList<Any?>)
         }
         dest.writeStringList(examples)
         dest.writeStringList(synonyms)

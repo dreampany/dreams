@@ -89,7 +89,7 @@ class WordItem private constructor(item: Word, @LayoutRes layoutId: Int = 0) :
             val word = wordItem.item
 
             viewWord.text = word.id
-            viewPartOfSpeech.setText(word.partOfSpeech)
+            viewPartOfSpeech.setText(word.getPartOfSpeech())
             viewPronunciation.setText(word.pronunciation)
         }
     }

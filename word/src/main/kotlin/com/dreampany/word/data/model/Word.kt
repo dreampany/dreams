@@ -34,7 +34,7 @@ class Word(
 
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
-    var partOfSpeech: String? = null
+    private var partOfSpeech: String? = null
     var pronunciation: String? = null
     var definitions: MutableList<Definition>? = null
     var examples: MutableList<String>? = null
@@ -124,6 +124,16 @@ class Word(
         tags = from.tags
         notes = from.notes
         popularity = from.popularity
+    }
+
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
+    fun setPartOfSpeech(partOfSpeech: String?) {
+        this.partOfSpeech = partOfSpeech
+    }
+
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
+    fun getPartOfSpeech(): String? {
+        return partOfSpeech
     }
 
     fun hasDefinitions(): Boolean {

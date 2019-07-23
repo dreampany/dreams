@@ -4,16 +4,14 @@ import android.graphics.Bitmap
 import com.annimon.stream.Stream
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.vision.VisionApi
 import com.dreampany.word.api.wordnik.WordnikManager
-import com.dreampany.word.api.wordnik.WordnikWord
 import com.dreampany.word.data.misc.WordMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.source.api.WordDataSource
 import com.dreampany.word.misc.Constants
 import io.reactivex.Maybe
 import timber.log.Timber
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Singleton
 
 /**

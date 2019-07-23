@@ -429,7 +429,7 @@ public class WordFragment extends BaseMenuFragment {
     }
 
     private void searchWord(String word) {
-        recentWord = word.toLowerCase();
+        recentWord = word;
         request(recentWord, false, true, true, true);
         AndroidUtil.Companion.speak(word);
     }
@@ -446,7 +446,9 @@ public class WordFragment extends BaseMenuFragment {
         Language language = vm.getCurrentLanguage();
 
         WordRequest request = new WordRequest();
-        request.setInputWord(word);
+        if (word != null) {
+            request.setInputWord(word.toLowerCase());
+        }
         request.setSource(Language.ENGLISH.getCode());
         request.setTarget(language.getCode());
         request.setTranslate(translate);

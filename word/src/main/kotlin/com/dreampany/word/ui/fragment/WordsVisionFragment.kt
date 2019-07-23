@@ -292,7 +292,7 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
             context!!,
             R.string.word_vision,
             item.item.id,
-            item.item.partOfSpeech,
+            item.item.getPartOfSpeech(),
             item.translation
         )
         val activity = getParent() as Activity?

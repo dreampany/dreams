@@ -17,32 +17,12 @@ import kotlinx.android.parcel.Parcelize
 data class Definition(
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
-    var partOfSpeech: String?,
+    private var partOfSpeech: String?,
     var text: String?
 ) : BaseParcelKt() {
 
     constructor() : this("", "") {
     }
-
-    /*
-       @Ignore
-       private constructor(parcel: Parcel) : this(parcel.readString(), parcel.readString()) {
-       }
-
-       override fun writeToParcel(dest: Parcel, flags: Int) {
-           dest.writeString(partOfSpeech)
-           dest.writeString(text)
-       }
-
-       companion object CREATOR : Parcelable.Creator<Definition> {
-           override fun createFromParcel(parcel: Parcel): Definition {
-               return Definition(parcel)
-           }
-
-           override fun newArray(size: Int): Array<Definition?> {
-               return arrayOfNulls(size)
-           }
-       }*/
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -55,5 +35,13 @@ data class Definition(
         return Objects.hashCode(partOfSpeech, text)
     }
 
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
+    fun setPartOfSpeech(partOfSpeech: String?) {
+        this.partOfSpeech = partOfSpeech
+    }
 
+    @PropertyName(Constants.Word.PART_OF_SPEECH)
+    fun getPartOfSpeech(): String? {
+        return partOfSpeech
+    }
 }

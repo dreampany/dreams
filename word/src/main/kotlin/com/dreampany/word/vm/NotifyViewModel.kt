@@ -111,7 +111,7 @@ class NotifyViewModel @Inject constructor(
         val title = TextUtil.getString(app, R.string.notify_title_word_sync)
         var message: String? = if (!DataUtil.isEmpty(item.translation))
             app.getString(R.string.notify_word_translation_format, item.item.id, item.translation)
-        else app.getString(R.string.notify_word_format, item.item.id, item.item.partOfSpeech)
+        else app.getString(R.string.notify_word_format, item.item.id, item.item.getPartOfSpeech())
         var targetClass: Class<*> = NavigationActivity::class.java
 
         val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW, item.item, null)

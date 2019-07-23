@@ -21,7 +21,6 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.*
 import com.dreampany.language.Language
 import com.dreampany.language.LanguagePicker
-import com.dreampany.vision.ui.activity.TextOcrActivity
 import com.dreampany.word.R
 import com.dreampany.word.data.model.Definition
 import com.dreampany.word.data.model.Word
@@ -179,15 +178,14 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
 
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
-        this.recentWord = query.toLowerCase()
-
+        recentWord = query
         request(recentWord, false, true, true, true)
         return super.onQueryTextSubmit(query)
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
         Timber.v("onQueryTextChange %s", newText)
-        this.recentWord = newText.toLowerCase()
+        recentWord = newText
         return super.onQueryTextChange(newText)
     }
 
@@ -356,9 +354,9 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         }
     }
 
-   private fun processSingleResponse(response: Response<WordItem>) {
+    private fun processSingleResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
-            val result  = response as Response.Progress<*>
+            val result = response as Response.Progress<*>
             processProgress(result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
@@ -481,12 +479,12 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
                 val def = definitions[index]
                 if (index == 0) {
                     singleBuilder
-                        .append(def.partOfSpeech)
+                        .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
                     multipleBuilder
-                        .append(def.partOfSpeech)
+                        .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
@@ -494,7 +492,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
                 }
                 multipleBuilder
                     .append(DataUtil.NewLine2)
-                    .append(def.partOfSpeech)
+                    .append(def.getPartOfSpeech())
                     .append(DataUtil.SEMI)
                     .append(DataUtil.SPACE)
                     .append(def.text)
@@ -558,7 +556,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     }
 
     private fun searchWord(word: String) {
-        recentWord = word.toLowerCase()
+        recentWord = word
         searchView.clearFocus()
         request(recentWord, false, true, true, true)
         AndroidUtil.speak(recentWord)
@@ -571,13 +569,21 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
         }
     }
 
-    private fun request(word: String?, recentWord: Boolean, important: Boolean, progress: Boolean, history: Boolean) {
+    private fun request(
+        word: String?,
+        recentWord: Boolean,
+        important: Boolean,
+        progress: Boolean,
+        history: Boolean
+    ) {
         Timber.v("Request Word %s", word)
         val translate = vm.needToTranslate()
         val language = vm.getCurrentLanguage()
 
         val request = WordRequest()
-        request.inputWord = word
+        word?.run {
+            request.inputWord = toLowerCase()
+        }
         request.source = Language.ENGLISH.code
         request.target = language.code
         request.translate = translate
@@ -600,7 +606,8 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     }
 
     private fun openYandexSite() {
-        val outTask = UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW, null, Constants.Translation.YANDEX_URL)
+        val outTask =
+            UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW, null, Constants.Translation.YANDEX_URL)
         openActivity(ToolsActivity::class.java, outTask)
     }
 }

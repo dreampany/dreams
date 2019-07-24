@@ -131,7 +131,7 @@ abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal 
 
     internal fun newFragment(position: Int): T {
         val clazz = pageClasses.get(position)
-        val task = pageTasks.get(position) as Task<*>
+        val task = pageTasks.get(position)
         val fragment = FragmentUtil.newFragment(clazz, task)
         if (fragment != null) {
             fragment.retainInstance = true

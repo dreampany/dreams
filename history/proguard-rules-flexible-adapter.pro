@@ -1,0 +1,2 @@
+-dontwarn eu.davidea.flexibleadapter.livedata.**
+-keep class eu.davidea.flexibleadapter.livedata.** { *; }

@@ -45,6 +45,11 @@ class Constants {
         const val HYPHEN = Constants.Sep.HYPHEN
     }
 
+    object Tag {
+        const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
+        const val LANGUAGE_PICKER = "language_picker"
+    }
+
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
     }

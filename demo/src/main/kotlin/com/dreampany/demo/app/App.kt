@@ -2,13 +2,11 @@ package com.dreampany.demo.app
 
 import android.app.Activity
 import com.crashlytics.android.Crashlytics
-import com.dreampany.frame.app.BaseApp
 import com.dreampany.demo.BuildConfig
 import com.dreampany.demo.R
 import com.dreampany.demo.data.source.pref.Pref
 import com.dreampany.demo.injector.app.DaggerAppComponent
-import com.dreampany.demo.misc.Constants
-import com.dreampany.demo.service.NotifyService
+import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.misc.SmartAd
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -69,11 +67,11 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
-        if (pref.hasNotification()) {
+/*        if (pref.hasNotification()) {
             service.schedulePowerService(NotifyService::class.java, Constants.Time.NotifyPeriod.toInt())
         } else {
             service.cancel(NotifyService::class.java)
-        }
+        }*/
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

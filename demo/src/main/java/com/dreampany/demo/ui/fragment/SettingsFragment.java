@@ -62,7 +62,7 @@ public class SettingsFragment extends BaseMenuFragment {
     private void initView() {
         setTitle(R.string.settings);
         String notifyKey = getString(R.string.key_notification);
-        Flowable<Boolean> flowable = pref.observePublic(notifyKey, Boolean.class, true);
+        Flowable<Boolean> flowable = pref.observePublicly(notifyKey, Boolean.class, true);
         Disposable disposable = rx
                 .backToMain(flowable)
                 .subscribe(enabled -> {

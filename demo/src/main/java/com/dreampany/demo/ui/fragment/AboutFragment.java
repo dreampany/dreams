@@ -46,7 +46,7 @@ public class AboutFragment extends BaseFragment {
                 .addGroup("Connect with us")
                 .addEmail(TextUtil.getString(context, R.string.email)/*, TextUtil.getString(context, R.string.title_email)*/)
                 .addWebsite(TextUtil.getString(context, R.string.website)/*, TextUtil.getString(context, R.string.title_website)*/)
-                .addPlayStore(AndroidUtil.getPackageName(context)/*, TextUtil.getString(context, R.string.title_play_store)*/)
+                .addPlayStore(AndroidUtil.Companion.getPackageName(context)/*, TextUtil.getString(context, R.string.title_play_store)*/)
                 .addGitHub(TextUtil.getString(context, R.string.id_github)/*, TextUtil.getString(context, R.string.title_github)*/)
                 /*.addItem(getYandexTranslation(context))*/;
 
@@ -64,7 +64,7 @@ public class AboutFragment extends BaseFragment {
     }
 
     private Element getVersion(Context context) {
-        String version = AndroidUtil.getVersionName(context);
+        String version = AndroidUtil.Companion.getVersionName(context);
         Element element = new Element()
                 .setTitle(TextUtil.getString(context, R.string.summary_app_version, version));
         return element;

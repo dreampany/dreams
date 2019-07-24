@@ -1,7 +1,7 @@
 package com.dreampany.demo.ui.adapter
 
-import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.demo.ui.model.MoreItem
+import com.dreampany.frame.ui.adapter.SmartAdapter
 
 
 /**

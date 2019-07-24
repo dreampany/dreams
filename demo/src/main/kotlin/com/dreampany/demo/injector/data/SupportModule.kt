@@ -1,12 +1,6 @@
 package com.dreampany.demo.injector.data
 
-import com.dreampany.demo.data.model.Demo
-import com.dreampany.demo.misc.DemoAnnote
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 
 /**
@@ -17,17 +11,17 @@ import javax.inject.Singleton
 @Module
 class SupportModule {
 
-    @Singleton
+/*    @Singleton
     @Provides
     @DemoAnnote
-    fun provideDemoSmartMap(): SmartMap<Long, Demo> {
+    fun provideDemoSmartMap(): SmartMap<String, Demo> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @DemoAnnote
-    fun provideDemoSmartCache(): SmartCache<Long, Demo> {
+    fun provideDemoSmartCache(): SmartCache<String, Demo> {
         return SmartCache.newCache()
-    }
+    }*/
 }

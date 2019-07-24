@@ -10,7 +10,9 @@ import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
+import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Coin;
+import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.enums.CoinItemType;
@@ -23,10 +25,12 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
+import com.dreampany.lca.misc.CurrencyFormatter;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
+
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
@@ -272,20 +276,13 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     static final class DetailsViewHolder extends ViewHolder {
 
-        @BindView(R.id.image_icon)
         SimpleDraweeView icon;
-        @BindView(R.id.text_name)
         TextView name;
-        @BindView(R.id.text_price)
         TextView price;
-        @BindView(R.id.text_last_updated)
         TextView lastUpdated;
-        @BindView(R.id.button_favorite)
         LikeButton like;
 
-        @BindView(R.id.layout_market_cap)
         View marketCap;
-        @BindView(R.id.layout_volume)
         View volume;
 
         TextView marketCapTitle;
@@ -293,16 +290,27 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         TextView volumeTitle;
         TextView volumeValue;
 
-        @BindView(R.id.text_change_1h)
         TextView hourChange;
-        @BindView(R.id.text_change_24h)
         TextView dayChange;
-        @BindView(R.id.text_change_7d)
         TextView weekChange;
 
 
         DetailsViewHolder(@NotNull View view, @NotNull FlexibleAdapter<IFlexible> adapter, CurrencyFormatter formatter) {
             super(view, adapter, formatter);
+            icon = view.findViewById(R.id.image_icon);
+            name = view.findViewById(R.id.text_name);
+            price = view.findViewById(R.id.text_price);
+            lastUpdated = view.findViewById(R.id.text_last_updated);
+            like = view.findViewById(R.id.button_favorite);
+
+            marketCap = view.findViewById(R.id.layout_market_cap);
+            volume = view.findViewById(R.id.layout_volume);
+
+            hourChange = view.findViewById(R.id.text_change_1h);
+            dayChange = view.findViewById(R.id.text_change_24h);
+            weekChange = view.findViewById(R.id.text_change_7d);
+
+
             marketCapTitle = marketCap.findViewById(R.id.text_title);
             marketCapValue = marketCap.findViewById(R.id.text_value);
             volumeTitle = volume.findViewById(R.id.text_title);
@@ -369,11 +377,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     static final class QuoteViewHolder extends ViewHolder {
 
-        @BindView(R.id.layout_circulating)
         View circulatingSupply;
-        @BindView(R.id.layout_total)
         View totalSupply;
-        @BindView(R.id.layout_max)
         View maxSupply;
 
         TextView circulatingTitle;
@@ -383,11 +388,14 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         TextView maxTitle;
         TextView maxValue;
 
-        @BindView(R.id.text_last_updated)
         TextView lastUpdated;
 
         QuoteViewHolder(@NotNull View view, @NotNull FlexibleAdapter<IFlexible> adapter, CurrencyFormatter formatter) {
             super(view, adapter, formatter);
+
+            circulatingSupply = view.findViewById(R.id.layout_circulating);
+            totalSupply = view.findViewById(R.id.layout_total);
+            maxSupply = view.findViewById(R.id.layout_max);
 
             circulatingTitle = circulatingSupply.findViewById(R.id.text_title);
             circulatingValue = circulatingSupply.findViewById(R.id.text_value);
@@ -397,6 +405,8 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
             maxTitle = maxSupply.findViewById(R.id.text_title);
             maxValue = maxSupply.findViewById(R.id.text_value);
+
+            lastUpdated = view.findViewById(R.id.text_last_updated);
         }
 
         @Override

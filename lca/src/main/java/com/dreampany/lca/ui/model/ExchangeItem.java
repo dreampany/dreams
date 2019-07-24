@@ -48,7 +48,7 @@ public class ExchangeItem extends BaseItem<Exchange, ExchangeItem.ViewHolder> {
 
     static class ViewHolder extends BaseItem.ViewHolder {
 
-        protected ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
+        protected ViewHolder(@NonNull View view, @NonNull FlexibleAdapter adapter) {
             super(view, adapter);
         }
 

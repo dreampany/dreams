@@ -226,7 +226,7 @@ public enum Currency implements Type, Serializable {
         }
     }
 
-    enum CurrencyType {
+   public enum CurrencyType {
         FIAT,
         CRYPTO
     }

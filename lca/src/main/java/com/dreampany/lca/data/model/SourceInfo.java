@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import android.os.Parcel;
@@ -13,11 +14,13 @@ import com.dreampany.frame.data.model.BaseParcel;
 import com.dreampany.lca.misc.Constants;
 import com.google.common.base.Objects;
 
+*/
 /**
  * Created by Hawladar Roman on 23/8/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {Constants.SourceInfo.ID}, unique = true)},
         primaryKeys = {Constants.SourceInfo.ID})
 public class SourceInfo extends BaseParcel {
@@ -26,9 +29,9 @@ public class SourceInfo extends BaseParcel {
     private String id;
     @ColumnInfo(name = "sourceInfoName")
     private String name;
-    @ColumnInfo(name = "sourceInfoLanguage")
+    @ColumnInfo(name = Constants.SourceInfo.LANGUAGE)
     private String language;
-    @ColumnInfo(name = "sourceInfoImageUrl")
+    @ColumnInfo(name = Constants.SourceInfo.IMAGE_URL)
     private String imageUrl;
 
     @Ignore
@@ -117,3 +120,4 @@ public class SourceInfo extends BaseParcel {
         return imageUrl;
     }
 }
+*/

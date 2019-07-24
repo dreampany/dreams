@@ -38,7 +38,6 @@ android {
             //zipAlignEnabled true
             //shrinkResources true
             //consumerProguardFiles getDefaultProguardFile('proguard-android.txt')
-
         }
 
         release {
@@ -129,28 +128,23 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    /* android support */
-    api 'com.google.android.material:material:1.1.0-alpha08'
-    //api 'androidx.legacy:legacy-support-v4:1.0.0'
+    /* androidx support*/
+    api 'androidx.multidex:multidex:2.0.1'
     api 'androidx.core:core:1.2.0-alpha02'
     api 'androidx.palette:palette:1.0.0'
     api 'androidx.appcompat:appcompat:1.1.0-rc01'
     api 'androidx.cardview:cardview:1.0.0'
     api 'androidx.recyclerview:recyclerview:1.1.0-beta01'
     api 'androidx.preference:preference:1.1.0-rc01'
-    //api 'androidx.mediarouter:mediarouter:1.1.0-beta01'
-    //api 'androidx.legacy:legacy-support-v13:1.0.0'
-    //api 'androidx.legacy:legacy-preference-v14:1.0.0'
-
-    //api 'androidx.vectordrawable:vectordrawable:1.1.0-beta01'
-    //api 'androidx.vectordrawable:vectordrawable-animated:1.1.0-beta01'
-    //api 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha01'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     api 'androidx.work:work-runtime:2.1.0'
     api 'androidx.work:work-runtime-ktx:2.1.0'
     api 'androidx.work:work-rxjava2:2.1.0'
 
-    /* android arch */
+    /* google */
+    api 'com.google.android.material:material:1.1.0-alpha08'
+
+    /* androidx arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02'
     api 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02'
     api 'androidx.lifecycle:lifecycle-runtime:2.2.0-alpha02'
@@ -164,7 +158,6 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.5'
     api 'com.google.android.gms:play-services-location:17.0.0'
     api 'com.google.android.gms:play-services-nearby:17.0.0'
-    //errorprone 'com.google.errorprone:error_prone_core:2.3.3'
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
@@ -172,18 +165,13 @@ dependencies {
     api 'com.google.firebase:firebase-appindexing:19.0.0'
     api 'com.google.firebase:firebase-ads:18.1.0'
     api 'com.google.firebase:firebase-messaging:19.0.1'
-    //api 'com.google.firebase:firebase-invites:17.0.0'
     api 'com.google.firebase:firebase-auth:18.1.0'
     api 'com.google.firebase:firebase-database:18.0.0'
     api 'com.google.firebase:firebase-firestore:20.1.0'
-    //implementation 'com.google.firebase:firebase-storage:17.0.0'
     implementation 'com.google.firebase:firebase-ml-common:20.0.1'
     implementation 'com.google.firebase:firebase-ml-vision:22.0.0'
     implementation 'com.google.firebase:firebase-ml-natural-language:20.0.1'
     implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.1'
-
-    /* crashlytics */
-    //api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     /* dagger */
     api 'com.google.dagger:dagger:2.22.1'
@@ -196,10 +184,6 @@ dependencies {
     api 'io.reactivex.rxjava2:rxjava:2.2.10'
     api 'io.reactivex.rxjava2:rxkotlin:2.3.0'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
-
-    /* leakcanary */
-    //debugApi 'com.squareup.leakcanary:leakcanary-android:1.6.3'
-    //releaseApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 
     /* okhttp */
     api 'com.squareup.okhttp3:logging-interceptor:3.14.1'
@@ -218,77 +202,42 @@ dependencies {
     api 'eu.davidea:flexible-adapter-databinding:1.0.0'
 
     /* facebook */
-    //api 'com.facebook.stetho:stetho:1.5.1'
-    //api 'com.facebook.stetho:stetho-okhttp3:1.5.1'
     api 'com.facebook.fresco:fresco:2.0.0'
 
     /* android-iconics */
     api 'com.mikepenz:iconics-core:4.0.0'
 
     /* misc */
-    api 'com.intuit.ssp:ssp-android:1.0.6'
-    api 'com.intuit.sdp:sdp-android:1.0.6'
-    api 'com.github.pwittchen:reactivenetwork-rx2:3.0.3'
     implementation 'com.github.pwittchen:prefser-rx2:2.2.2'
-    //implementation 'com.afollestad:aesthetic:1.0.0-beta05'
-    //implementation 'com.afollestad.material-dialogs:core:2.7.0'
-    //implementation 'com.afollestad.material-dialogs:color:2.7.0'
     implementation 'com.webianks.library:easy-feedback:1.0.5'
     implementation 'com.codemybrainsout.rating:ratingdialog:1.0.8'
     implementation 'com.jaredrummler:android-device-names:1.1.9'
-    //implementation "io.karn:notify:1.2.0"
     implementation 'com.otaliastudios:cameraview:1.6.0'
-
+    implementation 'com.github.onurkagan:ktoast:1.0.3'
+    api 'com.intuit.ssp:ssp-android:1.0.6'
+    api 'com.intuit.sdp:sdp-android:1.0.6'
+    api 'com.github.pwittchen:reactivenetwork-rx2:3.0.3'
     api 'com.afollestad:assent:2.3.1'
     api 'com.karumi:dexter:5.0.0'
     api 'joda-time:joda-time:2.10.3'
     api 'com.tapadoo.android:alerter:4.0.2'
-
-    //api 'com.github.silvestrpredko:dot-progress-bar:1.1'
     api 'com.jakewharton.timber:timber:4.7.1'
-    //api 'org.greenrobot:eventbus:3.1.1'
     api 'org.apache.commons:commons-lang3:3.9'
     api 'org.apache.commons:commons-collections4:4.3'
-    //api 'com.blankj:utilcode:1.19.3'
-    //api 'com.github.smart-fun:SmartFonts:1.0.4'
     api 'io.supercharge:shimmerlayout:2.1.0'
     api 'com.ethanhua:skeleton:1.1.1'
-    //api 'com.dynamitechetan.flowinggradient:flowinggradient:1.1'
     api 'cz.kinst.jakub:android-stateful-layout-base:2.0.7'
     api 'cz.kinst.jakub:android-stateful-layout-simple:2.0.7'
-    //api 'com.rilixtech:materialfancybuttons:1.8.7'
-    //api 'com.jpardogo.googleprogressbar:library:1.2.0'
     api 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
-
-    //api 'com.beardedhen:androidbootstrap:2.3.2'
-    //api 'com.yinglan.keyboard:hidekeyboard:1.1.3'
     api 'com.wang.avi:library:2.1.3'
-
-    //api 'com.oasisfeng.condom:library:2.2.0'
     api 'com.annimon:stream:1.2.1'
-    //api 'me.angrybyte.sillyandroid:sillyandroid:1.2.0'
-    //api 'com.github.medyo:state-views:0.2'
     api 'com.github.medyo:android-about-page:1.2.4'
-    //api 'com.github.jrvansuita:MaterialAbout:0.2.3'
-    //api 'com.github.jrvansuita:IconHandler:v2.0.0'
-    //api 'me.grantland:autofittextview:0.2.1'
     api 'com.github.jd-alexander:LikeButton:0.2.3'
-    //api 'com.github.skydoves:powermenu:2.0.4'
-    //api 'com.github.sharish:ShimmerRecyclerView:v1.3'
     api 'com.artit-k:license-fragment-support-v4:1.3.0'
     api 'com.nex3z:toggle-button-group:1.1.4'
-    //api 'ca.abushawish.multistatetogglebutton:multistatetogglebutton:1.0'
-
     api 'com.muddzdev:styleabletoast:2.2.1'
     api 'com.klinkerapps:link_builder:2.0.5'
-    //api 'com.github.whalemare:sheetmenu:1.3.6'
-    //api 'com.robinhood.ticker:ticker:2.0.1'
-    //api 'com.lapism:searchview:28.0.0'
     api 'com.miguelcatalan:materialsearchview:1.4.0'
-    //api 'com.github.chivorns:smartsearchview:1.0.1'
-    //api 'com.github.mirrajabi:search-dialog:1.2.3'
-    //api 'com.github.bmarrdev:android-DecoView-charting:v1.2'
     api 'com.github.nikartm:fit-button:1.2.1'
     api 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
-    implementation 'com.github.onurkagan:ktoast:1.0.3'
 }

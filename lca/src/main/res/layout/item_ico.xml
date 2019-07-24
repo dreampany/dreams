@@ -32,7 +32,7 @@
                 auto:placeholderImage="@drawable/ic_event_note_black_24dp"
                 auto:placeholderImageScaleType="fitCenter" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:textSize="16sp"
                 auto:layout_constraintStart_toEndOf="@id/image_icon"
                 auto:layout_constraintTop_toTopOf="parent"
-                auto:smart_font="@string/fontRobotoSlabTitle" />
+                auto:fontFamily="@string/fontRobotoSlabTitle" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
                     auto:srcCompat="@drawable/ic_clock_start"
                     tools:ignore="ContentDescription" />
 
-                <fr.arnaudguyon.smartfontslib.FontTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,11 +70,11 @@
                     android:text="@string/time"
                     android:textColor="@color/material_grey600"
                     android:textSize="14sp"
-                    auto:smart_font="@string/fontRobotoSlabBody" />
+                    auto:fontFamily="@string/fontRobotoSlabBody" />
             </LinearLayout>
 
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                 android:textColor="@color/material_grey700"
                 android:textSize="14sp"
                 auto:layout_constraintTop_toBottomOf="@id/image_icon"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

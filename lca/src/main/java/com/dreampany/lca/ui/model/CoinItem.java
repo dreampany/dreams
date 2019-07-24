@@ -11,10 +11,7 @@ import com.dreampany.frame.util.TimeUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
-import com.dreampany.lca.data.enums.Currency;
-import com.dreampany.lca.data.model.Quote;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.lca.misc.CurrencyFormatter;
 import com.dreampany.lca.ui.adapter.CoinAdapter;
 import com.dreampany.lca.ui.enums.CoinItemType;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -30,8 +27,6 @@ import java.util.Locale;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
@@ -144,7 +139,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
         ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter, CurrencyFormatter formatter) {
             super(view, adapter);
-            ButterKnife.bind(this, view);
+            //ButterKnife.bind(this, view);
             this.adapter = (CoinAdapter) adapter;
             btcFormat = getText(R.string.btc_format);
             positiveChange = R.string.positive_pct_format;
@@ -177,32 +172,33 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     static final class SimpleViewHolder extends ViewHolder {
 
-        @BindView(R.id.image_icon)
         SimpleDraweeView icon;
-        @BindView(R.id.text_name)
         TextView name;
-        @BindView(R.id.text_price)
         TextView price;
-        @BindView(R.id.text_change_1h)
         TextView hourChange;
-        @BindView(R.id.text_change_24h)
         TextView dayChange;
-        @BindView(R.id.text_change_7d)
         TextView weekChange;
-        @BindView(R.id.text_market_cap)
         TextView marketCap;
-        @BindView(R.id.text_volume_24h)
         TextView dayVolume;
-        @BindView(R.id.text_last_updated)
         TextView lastUpdated;
 
-        @BindView(R.id.button_favorite)
         LikeButton buttonFavorite;
-        @BindView(R.id.button_alert)
         LikeButton buttonAlert;
 
         SimpleViewHolder(View view, FlexibleAdapter<IFlexible> adapter, CurrencyFormatter formatter) {
             super(view, adapter, formatter);
+            icon = view.findViewById(R.id.image_icon);
+            name = view.findViewById(R.id.text_name);
+            price = view.findViewById(R.id.text_price);
+            hourChange = view.findViewById(R.id.text_change_1h);
+            dayChange = view.findViewById(R.id.text_change_24h);
+            weekChange = view.findViewById(R.id.text_change_7d);
+            marketCap = view.findViewById(R.id.text_market_cap);
+            dayVolume = view.findViewById(R.id.text_volume_24h);
+            lastUpdated = view.findViewById(R.id.text_last_updated);
+            buttonFavorite = view.findViewById(R.id.button_favorite);
+            buttonAlert = view.findViewById(R.id.button_alert);
+
             buttonFavorite.setOnClickListener(super.adapter.getClickListener());
             buttonAlert.setOnClickListener(super.adapter.getClickListener());
         }

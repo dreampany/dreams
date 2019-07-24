@@ -4,8 +4,6 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.StringRes;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.frame.util.ViewUtil;
@@ -102,7 +100,6 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
         ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
-            ButterKnife.bind(this, view);
             this.adapter = (CoinAlertAdapter) adapter;
             usdFormat = getText(R.string.usd_format);
         }
@@ -116,52 +113,34 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
 
     static final class ItemViewHolder extends CoinAlertItem.ViewHolder {
 
-/*        @BindView(R.id.layout_left_view)
-        View leftView;
-        @BindView(R.id.layout_right_view)
-        View rightView;
-        @BindView(R.id.layout_front_view)
-        View frontView;*/
-
-        @BindView(R.id.image_icon)
         SimpleDraweeView icon;
-        @BindView(R.id.text_name)
         TextView name;
-        @BindView(R.id.text_price)
         TextView price;
 
-        @BindView(R.id.layout_price_up)
         View layoutPriceUp;
-        @BindView(R.id.layout_price_down)
         View layoutPriceDown;
 
-        @BindView(R.id.text_price_up)
         TextView textPriceUp;
-        @BindView(R.id.text_price_down)
         TextView textPriceDown;
 
-        @BindView(R.id.image_delete)
         View imageDelete;
 
         ItemViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
+            icon = view.findViewById(R.id.image_icon);
+            name = view.findViewById(R.id.text_name);
+            price = view.findViewById(R.id.text_price);
+
+            layoutPriceUp = view.findViewById(R.id.layout_price_up);
+            layoutPriceDown = view.findViewById(R.id.layout_price_down);
+
+            textPriceUp = view.findViewById(R.id.text_price_up);
+            textPriceDown = view.findViewById(R.id.text_price_down);
+
+            imageDelete = view.findViewById(R.id.image_delete);
+
             imageDelete.setOnClickListener(super.adapter.getClickListener());
         }
-
-/*        @Override
-        public View getFrontView() {
-            return frontView;
-        }
-
-        @Override
-        public View getRearLeftView() {
-            return leftView;
-        }
-
-        @Override
-        public View getRearRightView() {
-            return rightView;
-        }*/
 
         @Override
         void bind(int position, CoinAlertItem item) {

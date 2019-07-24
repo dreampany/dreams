@@ -153,7 +153,10 @@ android {
             outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
         }
     }
+}
 
+androidExtensions {
+    experimental = true
 }
 
 dependencies {
@@ -175,16 +178,12 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.22.1'
     kapt 'com.google.dagger:dagger-android-processor:2.22.1'
 
-    /* butterknife */
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
-
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
     /* misc */
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    implementation 'com.libRG:customtextview:1.4'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.libRG:customtextview:2.2'
     implementation 'com.github.midorikocak:currency-picker-android:1.2.1'
     implementation 'com.beardedhen:androidbootstrap:2.3.2'
 }

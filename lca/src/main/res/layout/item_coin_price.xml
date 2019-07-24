@@ -15,23 +15,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_change_1h"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_format"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/one_hour"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </LinearLayout>
 
@@ -40,23 +40,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_change_24h"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_format"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/one_day"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </LinearLayout>
 
@@ -65,23 +65,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_change_7d"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/coin_format"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/week"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </LinearLayout>
 
@@ -90,23 +90,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_market_cap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/usd_format"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/market_cap_min"
                 android:textColor="@color/material_grey800"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </LinearLayout>
 
@@ -115,23 +115,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_volume_24h"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/usd_format"
                 android:textColor="@color/material_grey700"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:text="@string/volume_24h_min"
                 android:textColor="@color/material_grey800"
                 android:textSize="12sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </LinearLayout>
 

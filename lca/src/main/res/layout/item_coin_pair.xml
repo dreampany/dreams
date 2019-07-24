@@ -11,16 +11,16 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <fr.arnaudguyon.smartfontslib.FontTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title"
             android:textColor="@color/material_grey700"
             android:textSize="14sp"
-            auto:smart_font="@string/fontRobotoSlabBody" />
+            auto:fontFamily="@font/roboto_slab_regular" />
 
-        <fr.arnaudguyon.smartfontslib.FontTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -29,6 +29,6 @@
             android:text="Value"
             android:textColor="@color/material_grey700"
             android:textSize="14sp"
-            auto:smart_font="@string/fontRobotoSlabBody" />
+            auto:fontFamily="@font/roboto_slab_regular" />
     </LinearLayout>
 </layout>

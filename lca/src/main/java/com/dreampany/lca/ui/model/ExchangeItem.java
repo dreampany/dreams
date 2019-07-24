@@ -9,8 +9,6 @@ import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Exchange;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Serializable;
 import java.util.List;
 

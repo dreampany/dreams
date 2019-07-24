@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,9 +12,10 @@
         android:layout_height="164dp"
         android:alpha="0.5"
         android:scaleType="fitCenter"
-        auto:srcCompat="@drawable/ic_feedback_accent_24dp" />
+        auto:srcCompat="@drawable/ic_feedback_accent_24dp"
+        tools:ignore="ContentDescription" />
 
-    <fr.arnaudguyon.smartfontslib.FontTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,6 +25,6 @@
         android:text="@string/empty"
         android:textColor="@color/material_grey800"
         android:textSize="18sp"
-        auto:smart_font="@string/fontRobotoSlabBody" />
+        auto:fontFamily="@font/roboto_slab_regular" />
 
 </LinearLayout>

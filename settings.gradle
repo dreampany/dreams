@@ -1,4 +1,4 @@
-include ':frame'
+include ':frame', ':demo'
 //include ':common'
 //include ':firebase'
 //include ':answer'

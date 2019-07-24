@@ -2,7 +2,16 @@ package com.dreampany.history.injector.data
 
 import com.dreampany.history.injector.vm.ViewModelModule
 import com.dreampany.frame.injector.data.FrameModule
+import com.dreampany.history.data.source.remote.WikiHistoryService
+import com.dreampany.history.misc.Constants
+import com.dreampany.history.misc.WikiHistory
 import dagger.Module
+import dagger.Provides
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Singleton
 
 
 /**
@@ -13,4 +22,22 @@ import dagger.Module
 
 @Module(includes = [FrameModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
 class BuildersModule {
+
+    @Singleton
+    @Provides
+    @WikiHistory
+    fun provideWikiHistoryRetrofit(client: OkHttpClient): Retrofit {
+        val retrofit = Retrofit.Builder()
+            .client(client)
+            .baseUrl(Constants.Api.HISTORY_MUFFIN_LABS)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build();
+        return retrofit;
+    }
+
+    @Provides
+    fun provideWikiHistoryService(@WikiHistory retrofit: Retrofit): WikiHistoryService {
+        return retrofit.create(WikiHistoryService::class.java);
+    }
 }

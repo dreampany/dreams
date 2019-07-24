@@ -99,4 +99,8 @@ class Constants {
     object Task {
         const val TASK = "task"
     }
+
+    object Retrofit {
+        const val CONNECTION_CLOSE = "Connection:close"
+    }
 }

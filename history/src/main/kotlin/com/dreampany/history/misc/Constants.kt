@@ -53,4 +53,22 @@ class Constants {
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
     }
+
+    object History {
+        const val ID = Constants.Key.ID
+        const val EVENTS = "Events"
+        const val BIRTHS = "Births"
+        const val DEATHS = "Deaths"
+        const val DAY = "day"
+        const val MONTH = "month"
+    }
+
+    object Retrofit {
+        const val CONNECTION_CLOSE = Constants.Retrofit.CONNECTION_CLOSE
+    }
+
+    object Api {
+        const val HISTORY_MUFFIN_LABS = "https://history.muffinlabs.com";
+        const val HISTORY_MUFFIN_LABS_DAY_MONTH = "/date/{month}/{day}";
+    }
 }

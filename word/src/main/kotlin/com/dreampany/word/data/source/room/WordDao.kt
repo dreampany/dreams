@@ -5,7 +5,6 @@ import androidx.room.Query
 import com.dreampany.frame.data.source.dao.BaseDao
 import com.dreampany.word.data.model.Word
 import io.reactivex.Maybe
-import java.util.ArrayList
 
 
 /**
@@ -22,7 +21,7 @@ interface WordDao: BaseDao<Word> {
     val countRx: Maybe<Int>
 
     @get:Query("select * from word order by id asc")
-    val items: List<Word>
+    val items: List<Word>?
 
     @get:Query("select * from word order by id asc")
     val itemsRx: Maybe<List<Word>>
@@ -34,7 +33,7 @@ interface WordDao: BaseDao<Word> {
     fun getCountRx(id: String): Maybe<Int>
 
     @Query("select * from word where id = :id limit 1")
-    fun getItem(id: String): Word
+    fun getItem(id: String): Word?
 
     @Query("select * from word where id = :id limit 1")
     fun getItemRx(id: String): Maybe<Word>
@@ -43,11 +42,11 @@ interface WordDao: BaseDao<Word> {
     fun getItemsRx(ids: List<String>): Maybe<List<Word>>
 
     @Query("select * from word where id like :query || '%' order by id asc")
-    fun getSearchItems(query: String): List<Word>
+    fun getSearchItems(query: String): List<Word>?
 
     @Query("select * from word where id like :query || '%' order by id asc limit :limit")
-    fun getSearchItems(query: String, limit: Int): List<Word>
+    fun getSearchItems(query: String, limit: Int): List<Word>?
 
     @Query("select id from word order by id asc")
-    fun getRawItems(): List<String>
+    fun getRawItems(): List<String>?
 }

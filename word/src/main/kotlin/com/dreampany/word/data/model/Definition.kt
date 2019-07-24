@@ -1,6 +1,7 @@
 package com.dreampany.word.data.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Ignore
 import com.dreampany.frame.data.model.BaseParcelKt
 import com.dreampany.word.misc.Constants
 import com.google.common.base.Objects
@@ -21,6 +22,7 @@ data class Definition(
     var text: String?
 ) : BaseParcelKt() {
 
+    @Ignore
     constructor() : this("", "") {
     }
 

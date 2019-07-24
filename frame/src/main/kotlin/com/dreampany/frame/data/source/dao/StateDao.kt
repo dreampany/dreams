@@ -60,40 +60,40 @@ interface StateDao : BaseDao<State> {
     ): Maybe<State>
 
     @Query("select * from state limit :limit")
-    fun getItems(limit: Int): List<State>
+    fun getItems(limit: Int): List<State>?
 
     @Query("select * from state limit :limit")
     fun getItemsRx(limit: Int): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state")
-    fun getItemsWithoutId(type: String, subtype: String, state: String): List<State>
+    fun getItemsWithoutId(type: String, subtype: String, state: String): List<State>?
 
     @Query("select * from state where id = :id and type = :type and subtype = :subtype")
-    fun getItems(id: Long, type: String, subtype: String): List<State>
+    fun getItems(id: Long, type: String, subtype: String): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state")
     fun getItemsRx(type: String, subtype: String, state: String): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state order by time desc")
-    fun getItemsOrderBy(type: String, subtype: String, state: String): List<State>
+    fun getItemsOrderBy(type: String, subtype: String, state: String): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state order by time desc")
     fun getItemsOrderByRx(type: String, subtype: String, state: String): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype order by time desc")
-    fun getItemsOrderBy(type: String, subtype: String): List<State>
+    fun getItemsOrderBy(type: String, subtype: String): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype order by time desc")
     fun getItemsOrderByRx(type: String, subtype: String): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype order by time desc limit :limit")
-    fun getItemsOrderBy(type: String, subtype: String, limit: Int): List<State>
+    fun getItemsOrderBy(type: String, subtype: String, limit: Int): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype order by time desc limit :limit")
     fun getItemsOrderByRx(type: String, subtype: String, limit: Int): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state order by time desc limit :limit")
-    fun getItemsOrderBy(type: String, subtype: String, state: String, limit: Int): List<State>
+    fun getItemsOrderBy(type: String, subtype: String, state: String, limit: Int): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype and state = :state order by time desc limit :limit")
     fun getItemsOrderByRx(
@@ -116,20 +116,19 @@ interface StateDao : BaseDao<State> {
     fun getItemRx(type: String, subtype: String, state: String): Maybe<State>
 
     @Query("select * from state where type = :type and subtype = :subtype")
-    fun getItems(type: String, subtype: String): List<State>
+    fun getItems(type: String, subtype: String): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype")
     fun getItemsRx(type: String, subtype: String): Maybe<List<State>>
 
-
     @Query("select * from state where type = :type and subtype = :subtype and time between :to and :from order by time desc")
-    fun getItemsOrderBy(type: String, subtype: String, from: Long, to: Long): List<State>
+    fun getItemsOrderBy(type: String, subtype: String, from: Long, to: Long): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype and time between :to and :from order by time desc")
     fun getItemsOrderByRx(type: String, subtype: String, from: Long, to: Long): Maybe<List<State>>
 
     @Query("select * from state where type = :type and subtype = :subtype limit :limit")
-    fun getItems(type: String, subtype: String, limit: Int): List<State>
+    fun getItems(type: String, subtype: String, limit: Int): List<State>?
 
     @Query("select * from state where type = :type and subtype = :subtype limit :limit")
     fun getItemsRx(type: String, subtype: String, limit: Int): Maybe<List<State>>

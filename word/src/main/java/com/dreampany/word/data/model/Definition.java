@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.model;
 
 import androidx.annotation.NonNull;
@@ -10,11 +11,13 @@ import com.dreampany.word.misc.Constants;
 import com.google.common.base.Objects;
 import com.google.firebase.firestore.PropertyName;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class Definition extends BaseParcel {
 
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
@@ -84,4 +87,4 @@ public class Definition extends BaseParcel {
     public String getText() {
         return text;
     }
-}
+}*/

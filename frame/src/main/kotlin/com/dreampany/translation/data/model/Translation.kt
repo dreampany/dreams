@@ -9,6 +9,6 @@ import com.dreampany.frame.data.model.BaseKt
  * Last modified $file.lastModified
  */
 abstract class Translation : BaseKt() {
-    abstract val source: String
-    abstract val target: String
+    abstract var source: String
+    abstract var target: String
 }

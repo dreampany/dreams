@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.vm;
 
 import android.app.Application;
@@ -36,11 +37,13 @@ import javax.inject.Inject;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
+*/
 /**
  * Created by Hawladar Roman on 2/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>> {
 
     private final NetworkManager network;
@@ -147,7 +150,9 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
                 .subscribe(result -> postResult(Response.Type.UPDATE, result, false), this::postFailure);
     }
 
-    /* private api */
+    */
+/* private api *//*
+
     private List<WordItem> getVisibleItemsIf() {
         if (uiCallback == null) {
             return null;
@@ -234,7 +239,7 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
         SmartMap<String, WordItem> map = getUiMap();
         WordItem item = map.get(word.getId());
         if (item == null) {
-            item = WordItem.getSimpleItem(word);
+            item = WordItem.Companion.getItem(word);
             map.put(word.getId(), item);
         }
         item.setItem(word);
@@ -282,3 +287,4 @@ public class FavoriteViewModel extends BaseViewModel<Word, WordItem, UiTask<Word
         return stateRepo.getCountById(word.getId(), ItemType.WORD.name(), subtype.name(), state.name()) > 0;
     }
 }
+*/

@@ -8,10 +8,16 @@ import com.dreampany.frame.data.model.Request
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class WordRequest : Request<Word>() {
+class WordRequest(input: Word?) : Request<Word>(input) {
+    constructor() : this(null) {
+    }
+
     var inputWord: String? = null
     var source: String? = null
     var target: String? = null
     var translate: Boolean = false
     var recentWord: Boolean = false
+    var favorite: Boolean = false
+    var history: Boolean = false
+
 }

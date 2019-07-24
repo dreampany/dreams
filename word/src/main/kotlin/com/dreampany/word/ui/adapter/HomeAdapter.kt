@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.ui.adapter
 
 import com.dreampany.frame.ui.adapter.SmartAdapter
@@ -8,11 +9,13 @@ import com.dreampany.word.data.enums.ItemType
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
 
+*/
 /**
  * Created by Hawladar Roman on 1/9/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 class HomeAdapter(listener: Any) : SmartAdapter<BaseItem<Any, *>>(listener) {
 
     private var types: BiMap<BaseItem<Any, *>, Triple<ItemType, ItemSubtype, ItemState>>
@@ -48,4 +51,4 @@ class HomeAdapter(listener: Any) : SmartAdapter<BaseItem<Any, *>>(listener) {
             removeItem(getGlobalPositionOf(item));
         }
     }
-}
+}*/

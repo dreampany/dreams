@@ -5,13 +5,12 @@ import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.word.R
 import com.dreampany.word.ui.enums.UiSubtype
 import com.dreampany.word.ui.enums.UiType
-import com.dreampany.word.ui.fragment.AboutFragment
-import com.dreampany.word.ui.fragment.LicenseFragment
-import com.dreampany.word.ui.fragment.SettingsFragment
 import com.dreampany.word.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.vision.ui.fragment.LiveTextOcrFragment
+import com.dreampany.vision.ui.fragment.TextOcrFragment
 import com.dreampany.word.misc.Constants
-import com.dreampany.word.ui.fragment.WordFragment
+import com.dreampany.word.ui.fragment.*
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
 import im.delight.android.webview.AdvancedWebView
@@ -34,6 +33,8 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var wordProvider: Lazy<WordFragment>
     @Inject
+    lateinit var visionProvider: Lazy<WordsVisionFragment>
+    @Inject
     lateinit var ad: SmartAd
 
     override fun getLayoutId(): Int {
@@ -42,7 +43,7 @@ class ToolsActivity : BaseActivity() {
 
     override fun isFullScreen(): Boolean {
         val uiTask = getCurrentTask<UiTask<*>>(true)
-        return uiTask?.isFullscreen ?: super.isFullScreen()
+        return uiTask?.fullscreen ?: super.isFullScreen()
     }
 
     override fun getScreen(): String {
@@ -60,7 +61,7 @@ class ToolsActivity : BaseActivity() {
 
         ad.initAd(
             this,
-            javaClass.simpleName,
+            getScreen(),
             findViewById<AdView>(R.id.adview),
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
@@ -87,6 +88,14 @@ class ToolsActivity : BaseActivity() {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         commitFragment(WordFragment::class.java, wordProvider, R.id.layout, uiTask)
+                        //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
+                    }
+                }
+            }
+            UiType.OCR -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        commitFragment(WordsVisionFragment::class.java, visionProvider, R.id.layout, uiTask)
                         //ad.loadInterstitial(R.string.interstitial_ad_unit_id)
                     }
                 }

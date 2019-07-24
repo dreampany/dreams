@@ -356,7 +356,7 @@ abstract class BaseActivity :
 
     protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {
         if (task == null || freshTask) {
-            task = getIntentValue<T>(Task::class.java.simpleName)
+            task = getIntentValue<T>(Constants.Task.TASK)
         }
         return task as T?
     }
@@ -433,7 +433,7 @@ abstract class BaseActivity :
         clazz: Class<T>,
         fragmentProvider: Lazy<T>,
         parentId: Int
-    ): T {
+    ): T? {
 /*        val manager = getSupportFragmentManager()
         val transaction = manager?.beginTransaction();
         val current = manager?.primaryNavigationFragment
@@ -468,15 +468,15 @@ abstract class BaseActivity :
         fragmentProvider: Lazy<T>,
         parentId: Int,
         task: Task<*>
-    ): T {
+    ): T? {
         var fragment: T? = FragmentUtil.getFragmentByTag(this, clazz.simpleName)
         if (fragment == null) {
             fragment = fragmentProvider.get()
             val bundle = Bundle()
-            bundle.putParcelable(Task::class.java.simpleName, task)
+            bundle.putParcelable(Constants.Task.TASK, task)
             fragment!!.arguments = bundle
         } else {
-            fragment.arguments!!.putParcelable(Task::class.java.simpleName, task)
+            fragment.arguments!!.putParcelable(Constants.Task.TASK, task)
         }
 
         val currentFragment = FragmentUtil.commitFragment(ex, this, fragment, parentId)

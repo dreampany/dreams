@@ -26,6 +26,10 @@ class AssetsWordDataSource(
     val context: Context,
     val mapper: WordMapper
 ) : WordDataSource {
+    override fun isExists(word: String): Boolean {
+        loadWords()
+        return alphaWords.contains(word)
+    }
 
     private val alphaWords = mutableListOf<String>()
 
@@ -152,7 +156,7 @@ class AssetsWordDataSource(
 
     override fun isExists(t: Word): Boolean {
         val items = getAlphaWords()
-        return items.contains(t.getId())
+        return items.contains(t.id)
     }
 
     override fun isExistsRx(t: Word): Maybe<Boolean> {

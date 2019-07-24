@@ -174,7 +174,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
 
                     Timber.v("%d Last Common Word = %s", current, lastWord.toString());
                     getEx().postToUi(() -> postResult(Response.Type.GET, item));
-                    AndroidUtil.sleep(100);
+                    AndroidUtil.Companion.sleep(100);
                 }
             }
             if (commonWords.isEmpty()) {
@@ -222,7 +222,7 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
                     load.setTotal(current);
                     Timber.v("Current Alpha Word = %d %s", current, lastWord.toString());
                     getEx().postToUi(() -> postResult(Response.Type.GET, item));
-                    AndroidUtil.sleep(100);
+                    AndroidUtil.Companion.sleep(100);
                 }
             }
             if (alphaWords.isEmpty()) {
@@ -302,8 +302,6 @@ public class LoaderViewModel extends BaseViewModel<Load, LoadItem, UiTask<Load>>
         protected boolean looping() {
             //1. download listing if expired or not performed
             //2. Take one by one coins from server
-
-
 
 
             return true;

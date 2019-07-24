@@ -19,21 +19,21 @@
             android:layout_margin="@dimen/dp_8"
             android:orientation="vertical">
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_synonym"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/material_grey800"
                 android:textSize="16sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_antonym"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/material_grey800"
                 android:textSize="16sp"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </LinearLayout>
 

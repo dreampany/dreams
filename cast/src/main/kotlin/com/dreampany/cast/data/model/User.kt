@@ -13,6 +13,8 @@ import kotlinx.android.parcel.Parcelize
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@Parcelize
+@IgnoreExtraProperties
 @Entity(
     indices = [Index(
         value = [Constants.User.ID],
@@ -20,8 +22,6 @@ import kotlinx.android.parcel.Parcelize
     )],
     primaryKeys = [Constants.User.ID]
 )
-@IgnoreExtraProperties
-@Parcelize
 data class User(
     override val id: String,
     override val time: Long

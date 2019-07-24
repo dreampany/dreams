@@ -17,6 +17,9 @@ import javax.inject.Singleton
 
 @Singleton
 class VisionWordDataSource(val mapper: WordMapper, val vision: VisionApi) : WordDataSource {
+    override fun isExists(word: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getTodayItem(): Word {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

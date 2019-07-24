@@ -8,10 +8,12 @@ import android.os.Parcelable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Task<T : Parcelable> : BaseParcelKt() {
+abstract class Task<T : Parcelable>(open var input: T?, open var comment: String?) :
+    BaseParcelKt() {
 
-    var input: T? = null
-    var comment: String? = null
+/*    var input: T? = null
+    var comment: String? = null*/
+/*    */
 
 /*     constructor(`in`: Parcel) {
         comment = `in`.readString()

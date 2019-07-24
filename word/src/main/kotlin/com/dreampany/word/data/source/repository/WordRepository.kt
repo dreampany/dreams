@@ -1,20 +1,15 @@
 package com.dreampany.word.data.source.repository
 
 import android.graphics.Bitmap
-import com.dreampany.frame.data.model.State
-import com.dreampany.frame.data.source.repository.Repository
 import com.dreampany.frame.data.source.repository.RepositoryKt
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.util.DataUtil
-import com.dreampany.translation.data.source.api.TranslationDataSource
 import com.dreampany.word.data.misc.WordMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.source.api.WordDataSource
 import com.dreampany.word.data.source.pref.Pref
-import io.reactivex.Flowable
 import io.reactivex.Maybe
-import java.util.ArrayList
-import java.util.concurrent.Callable
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,6 +31,10 @@ class WordRepository @Inject constructor(
     @Remote val remote: WordDataSource,
     @Vision val vision: WordDataSource
 ) : RepositoryKt<String, Word>(rx, rm), WordDataSource {
+    override fun isExists(word: String): Boolean {
+        return assets.isExists(word)
+    }
+
     override fun getTodayItem(): Word? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -159,7 +158,7 @@ class WordRepository @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItems(ts: List<Word>): List<Long> {
+    override fun putItems(ts: List<Word>): List<Long>? {
         return room.putItems(ts)
     }
 

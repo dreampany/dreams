@@ -102,7 +102,7 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toSeconds(5)
+        val Notify = TimeUnit.MINUTES.toSeconds(1)
     }
 
     object Delay {
@@ -129,4 +129,5 @@ class Constants {
     object Notify {
         const val WORD_SYNC = "word_sync"
     }
+
 }

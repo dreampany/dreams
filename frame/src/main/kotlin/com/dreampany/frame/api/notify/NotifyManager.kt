@@ -126,7 +126,9 @@ class NotifyManager @Inject constructor(val context: Context) {
             true
         )
 
-        manager?.notify(notifyId, notification)
+        notification?.run {
+            manager?.notify(notifyId, this)
+        }
     }
 
     fun showForegroundNotification(
@@ -166,10 +168,13 @@ class NotifyManager @Inject constructor(val context: Context) {
             true
         )
 
-        if (AndroidUtil.hasOreo()) {
-            (context as Service).startForeground(notifyId, notification)
-        } else {
-            manager?.notify(notifyId, notification)
+        notification?.run {
+            if (AndroidUtil.hasOreo()) {
+                (context as Service).startForeground(notifyId, this)
+            }
+            else {
+                manager?.notify(notifyId, this)
+            }
         }
     }
 

@@ -1,11 +1,11 @@
 package com.dreampany.frame.ui.adapter
 
 import android.view.View
-import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.util.DataUtil
 import eu.davidea.flexibleadapter.databinding.BindingFlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import java.util.Comparator
+import java.util.*
 import kotlin.collections.ArrayList
 
 
@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-open class SmartAdapter<T : BaseItem<*, *>>(listener: Any?) : BindingFlexibleAdapter<T>(listener) {
+open class SmartAdapter<T : BaseItemKt<*, *, *>>(listener: Any?) : BindingFlexibleAdapter<T>(listener) {
     var clickListener: View.OnClickListener? = null
         private set
     var longClickListener: View.OnLongClickListener? = null

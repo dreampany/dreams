@@ -9,4 +9,6 @@ import android.os.Parcelable
  * Last modified $file.lastModified
  */
 abstract class BaseParcelKt : BaseSerialKt(), Parcelable {
+
+    override fun describeContents() = 0
 }

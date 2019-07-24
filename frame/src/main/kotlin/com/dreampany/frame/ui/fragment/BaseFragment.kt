@@ -61,9 +61,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
 
     @Inject
     protected lateinit var ex: AppExecutors
-    protected lateinit var binding: ViewDataBinding
     @Inject
     internal lateinit var childInjector: DispatchingAndroidInjector<Fragment>
+    protected lateinit var binding: ViewDataBinding
     protected var task: Task<*>? = null
     protected var childTask: Task<*>? = null
     protected var currentView: View? = null
@@ -334,7 +334,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     }
 
     protected fun <T : Task<*>> getCurrentTask(intent: Intent): T? {
-        val task = getIntentValue<T>(Task::class.java.simpleName, intent.extras)
+        val task = getIntentValue<T>(Constants.Task.TASK, intent.extras)
         return task
     }
 
@@ -344,7 +344,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
 
     protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {
         if (task == null || freshTask) {
-            task = getIntentValue<T>(Task::class.java.simpleName)
+            task = getIntentValue<T>(Constants.Task.TASK)
         }
         return task as T?
     }
@@ -480,7 +480,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         val parent = getParent()
         val task = getCurrentTask<Task<*>>(false)
         val intent = Intent()
-        intent.putExtra(Task::class.java.simpleName, task as Parcelable)
+        intent.putExtra(Constants.Task.TASK, task as Parcelable)
         parent?.setResult(Activity.RESULT_OK, intent)
         parent?.finish()
     }

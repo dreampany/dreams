@@ -10,8 +10,9 @@ import com.google.common.base.Objects
  * Last modified $file.lastModified
  */
 abstract class BaseKt : BaseParcelKt() {
-    abstract val id: String
-    abstract val time: Long
+
+    abstract var time: Long
+    abstract var id: String
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -23,4 +24,5 @@ abstract class BaseKt : BaseParcelKt() {
     override fun hashCode(): Int {
         return Objects.hashCode(id)
     }
+
 }

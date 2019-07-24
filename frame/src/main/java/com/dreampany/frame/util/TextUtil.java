@@ -8,6 +8,7 @@ import android.text.style.UnderlineSpan;
 import android.widget.TextView;
 
 import androidx.annotation.ArrayRes;
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -75,7 +76,7 @@ public final class TextUtil {
     }
 
     public static String stripHtml(String html) {
-        if (AndroidUtil.hasNougat()) {
+        if (AndroidUtil.Companion.hasNougat()) {
             return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY).toString();
         } else {
             return Html.fromHtml(html).toString();
@@ -320,6 +321,37 @@ public final class TextUtil {
                     .setBold(true)
                     .setTextColor(ColorUtil.getColor(view.getContext(), R.color.material_grey900))
                     .setTextColorOfHighlightedLink(ColorUtil.getColor(view.getContext(), R.color.colorAccent));
+            links.add(link);
+        }
+
+        LinkBuilder.on(view)
+                .addLinks(links)
+                .build();
+
+        return false;
+    }
+
+    public static boolean setSpan(TextView view, List<String> items,
+                                  @ColorRes int textColor,
+                                  @ColorRes int textColorOfLink,
+                                  Link.OnClickListener clickListener,
+                                  Link.OnLongClickListener longClickListener) {
+        List<Link> links = new ArrayList<>();
+        Link link;
+        for (String item : items) {
+            if (DataUtil.isEmpty(item)) {
+                continue;
+            }
+            link = new Link(item)
+                    .setUnderlined(false)
+                    .setTextColor(ColorUtil.getColor(view.getContext(), textColor))
+                    .setTextColorOfHighlightedLink(ColorUtil.getColor(view.getContext(), textColorOfLink));
+            if (clickListener != null) {
+                link.setOnClickListener(clickListener);
+            }
+            if (longClickListener != null) {
+                link.setOnLongClickListener(longClickListener);
+            }
             links.add(link);
         }
 

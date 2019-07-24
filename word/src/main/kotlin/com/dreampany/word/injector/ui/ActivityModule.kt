@@ -1,6 +1,7 @@
 package com.dreampany.word.injector.ui
 
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.vision.injector.ui.LiveTextOcrModule
 import com.dreampany.word.ui.activity.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -26,7 +27,7 @@ abstract class ActivityModule {
     abstract fun navigationActivity(): NavigationActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [SettingsModule::class, LicenseModule::class, AboutModule::class, WordModule::class])
+    @ContributesAndroidInjector(modules = [SettingsModule::class, LicenseModule::class, AboutModule::class, WordModule::class, WordsVisionModule::class])
     abstract fun toolsActivity(): ToolsActivity
 
     @ActivityScope

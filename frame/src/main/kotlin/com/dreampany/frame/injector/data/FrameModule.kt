@@ -6,7 +6,7 @@ import com.dreampany.frame.data.source.api.StateDataSource
 import com.dreampany.frame.data.source.api.StoreDataSource
 import com.dreampany.frame.data.source.dao.StateDao
 import com.dreampany.frame.data.source.dao.StoreDao
-import com.dreampany.frame.data.source.room.StateRoomDataSource
+import com.dreampany.frame.data.source.room.RoomStateDataSource
 import com.dreampany.frame.data.source.room.StoreRoomDataSource
 import com.dreampany.frame.injector.network.HttpModule
 import com.dreampany.frame.misc.Room
@@ -30,7 +30,7 @@ class FrameModule {
     fun provideRoomStateDataSource(mapper: StateMapper,
                                     dao: StateDao
     ): StateDataSource {
-        return StateRoomDataSource(mapper, dao)
+        return RoomStateDataSource(mapper, dao)
     }
 
     @Singleton

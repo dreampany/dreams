@@ -230,20 +230,12 @@ public class CameraOcrFragment extends BaseMenuFragment {
     }
 
     private void processSuccess(List<WordItem> items) {
-        if (scroller.isScrolling()) {
-            return;
-        }
-        recycler.setNestedScrollingEnabled(false);
         adapter.addItemsByAlpha(items);
-        recycler.setNestedScrollingEnabled(true);
         processUiState(UiState.EXTRA);
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false);
-        task.setInput(item);
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.VIEW);
+        UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.VIEW, item, null);
         openActivity(ToolsActivity.class, task);
     }
 }

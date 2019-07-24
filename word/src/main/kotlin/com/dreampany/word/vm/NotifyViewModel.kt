@@ -89,7 +89,7 @@ class NotifyViewModel @Inject constructor(
                 return@create
             }
             Timber.v("Statue %s", state.toString())
-            var item = wordMapper.toItem(state, wordRepo)
+            var item = wordMapper.toItemFromState(state, wordRepo)
             item = getItemIf(item)
             val source = Language.ENGLISH.code
             val target = pref.getLanguage(Language.ENGLISH).code
@@ -111,13 +111,10 @@ class NotifyViewModel @Inject constructor(
         val title = TextUtil.getString(app, R.string.notify_title_word_sync)
         var message: String? = if (!DataUtil.isEmpty(item.translation))
             app.getString(R.string.notify_word_translation_format, item.item.id, item.translation)
-        else app.getString(R.string.notify_word_format, item.item.id, item.item.partOfSpeech)
+        else app.getString(R.string.notify_word_format, item.item.id, item.item.getPartOfSpeech())
         var targetClass: Class<*> = NavigationActivity::class.java
 
-        val task = UiTask<Word>(false)
-        task.setInput(item.item)
-        task.setUiType(UiType.WORD)
-        task.setSubtype(UiSubtype.VIEW)
+        val task = UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW, item.item, null)
 
         notify.showNotification(title!!, message!!, R.drawable.ic_notification, targetClass, task)
         app.throwAnalytics(
@@ -140,8 +137,8 @@ class NotifyViewModel @Inject constructor(
     }
 
     private fun getItem(word: Word, source: String, target: String, fully: Boolean): WordItem {
-        val item = WordItem.getSimpleItem(word)
-        item!!.setItem(word)
+        val item = WordItem.getItem(word)
+        item.item = word
         adjustTranslate(item, source, target)
         return item
     }

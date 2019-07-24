@@ -18,33 +18,39 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/material_grey300">
 
-<!--            <com.beardedhen.androidbootstrap.BootstrapProgressBar
-                android:id="@+id/progress"
+            <LinearLayout
+                android:id="@+id/layout_top"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:visibility="gone"
-                auto:animated="true"
-                auto:bootstrapBrand="danger"
-                auto:bootstrapMaxProgress="100"
-                auto:bootstrapProgress="100"
-                auto:bootstrapSize="sm"
-                auto:striped="true"
-                tools:visibility="visible" />-->
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/layout_top_status"
+                    layout="@layout/content_top_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_below="@id/layout_top">
 
-                <include
-                    android:id="@+id/layout_recycler"
-                    layout="@layout/content_recycler"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    auto:items="@{items}" />
+                    android:layout_height="match_parent">
 
+                    <include
+                        android:id="@+id/layout_recycler"
+                        layout="@layout/content_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        auto:items="@{items}" />
+                </FrameLayout>
             </cz.kinst.jakub.view.StatefulLayout>
 
         </RelativeLayout>

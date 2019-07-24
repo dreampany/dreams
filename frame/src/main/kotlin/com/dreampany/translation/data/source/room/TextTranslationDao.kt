@@ -15,13 +15,13 @@ import io.reactivex.Maybe
 @Dao
 interface TextTranslationDao : BaseDao<TextTranslation> {
 
-    @Query("select count(*) from texttranslation where input = :input and source = :source and target = :target limit 1")
-    fun getCount(input: String, source: String, target: String): Int
+    @Query("select count(*) from texttranslation where source = :source and target = :target and input = :input limit 1")
+    fun getCount(source: String, target: String, input: String): Int
 
-    @Query("select count(*) from texttranslation where input = :input and source = :source and target = :target limit 1")
-    fun getCountRx(input: String, source: String, target: String): Maybe<Int>
+    @Query("select count(*) from texttranslation where source = :source and target = :target and input = :input limit 1")
+    fun getCountRx(source: String, target: String, input: String): Maybe<Int>
 
-    @Query("select * from texttranslation where input = :input and source = :source and target = :target limit 1")
-    fun getItem(input: String, source: String, target: String): TextTranslation?
+    @Query("select * from texttranslation where source = :source and target = :target and input = :input limit 1")
+    fun getItem(source: String, target: String, input: String): TextTranslation?
 
 }

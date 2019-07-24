@@ -96,7 +96,7 @@ class TranslationRepository
         val machineIf = getMachineItemIfRx(source, target, input)
         val firestoreIf = getFirestoreItemIfRx(source, target, input)
         val remoteIf = getRemoteItemIfRx(source, target, input)
-        return concatSingleFirstRx(roomIf, machineIf/*, firestoreIf, remoteIf*/)
+        return concatSingleFirstRx(roomIf, firestoreIf, remoteIf)
     }
 
     override fun isExistsRx(t: TextTranslation): Maybe<Boolean> {

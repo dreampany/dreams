@@ -188,7 +188,7 @@ public class RecentsViewModel extends BaseViewModel<Word, WordItem, UiTask<Word>
         SmartMap<String, WordItem> map = getUiMap();
         WordItem item = map.get(word.getId());
         if (item == null) {
-            item = WordItem.getSimpleItem(word);
+            item = WordItem.Companion.getItem(word);
             map.put(word.getId(), item);
         }
         item.setItem(word);

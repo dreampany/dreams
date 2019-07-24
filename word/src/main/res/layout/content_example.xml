@@ -21,14 +21,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <fr.arnaudguyon.smartfontslib.FontTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:text="@string/examples"
                     android:textColor="@color/material_grey800"
                     android:textSize="16sp"
-                    auto:smart_font="@string/fontRobotoSlabTitle" />
+                    auto:fontFamily="@font/roboto_slab_bold" />
 
                 <ImageView
                     android:id="@+id/toggle_example"
@@ -61,13 +61,13 @@
                 auto:el_expanded="true"
                 auto:el_parallax="0.5">
 
-                <fr.arnaudguyon.smartfontslib.FontTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_single_example"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/material_grey700"
                     android:textSize="16sp"
-                    auto:smart_font="@string/fontRobotoSlabBody" />
+                    auto:fontFamily="@font/roboto_slab_regular"/>
 
             </net.cachapa.expandablelayout.ExpandableLayout>
 
@@ -81,13 +81,13 @@
                 auto:el_expanded="false"
                 auto:el_parallax="0.5">
 
-                <fr.arnaudguyon.smartfontslib.FontTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/text_multiple_example"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/material_grey700"
                     android:textSize="16sp"
-                    auto:smart_font="@string/fontRobotoSlabBody" />
+                    auto:fontFamily="@font/roboto_slab_regular" />
 
             </net.cachapa.expandablelayout.ExpandableLayout>
 

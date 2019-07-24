@@ -22,6 +22,10 @@ class RoomWordDataSource(
     val synonymDao: SynonymDao,
     val antonymDao: AntonymDao
 ) : WordDataSource {
+    override fun isExists(word: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getTodayItem(): Word {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -46,7 +50,7 @@ class RoomWordDataSource(
     }
 
     override fun getItem(id: String): Word? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItem(id)
     }
 
     override fun getItemRx(word: String, full: Boolean): Maybe<Word> {
@@ -130,7 +134,7 @@ class RoomWordDataSource(
     }
 
     override fun isExists(t: Word): Boolean {
-        return dao.getCount(t.getId()) > 0
+        return dao.getCount(t.id) > 0
     }
 
     override fun isExistsRx(t: Word): Maybe<Boolean> {

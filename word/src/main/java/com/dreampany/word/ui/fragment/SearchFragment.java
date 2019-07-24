@@ -242,11 +242,9 @@ public class SearchFragment extends BaseMenuFragment {
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false);
+/*        UiTask<Word> task = new UiTask<Word>(false, UiType.WORD, UiSubtype.VIEW);
         task.setInput(item);
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.VIEW);
-        openActivity(ToolsActivity.class, task);
+        openActivity(ToolsActivity.class, task);*/
     }
 
     private void fireQuery(String query, boolean urgent) {
@@ -255,8 +253,8 @@ public class SearchFragment extends BaseMenuFragment {
         }
         this.query.setLength(0);
         this.query.append(query);
-        AndroidUtil.getUiHandler().removeCallbacks(queryRunner);
-        AndroidUtil.getUiHandler().postDelayed(queryRunner, urgent ? 0L : 1500L);
+        AndroidUtil.Companion.getUiHandler().removeCallbacks(queryRunner);
+        AndroidUtil.Companion.getUiHandler().postDelayed(queryRunner, urgent ? 0L : 1500L);
     }
 
     private final Runnable queryRunner = new Runnable() {

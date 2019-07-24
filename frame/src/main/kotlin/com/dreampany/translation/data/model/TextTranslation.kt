@@ -3,6 +3,7 @@ package com.dreampany.translation.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
+import com.dreampany.frame.util.TimeUtil
 import com.dreampany.translation.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -14,6 +15,8 @@ import kotlinx.android.parcel.Parcelize
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@Parcelize
+@IgnoreExtraProperties
 @Entity(
     indices = [Index(
         value = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT],
@@ -21,20 +24,57 @@ import kotlinx.android.parcel.Parcelize
     )],
     primaryKeys = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT]
 )
-@IgnoreExtraProperties
-@Parcelize
-data class TextTranslation(
-    override val id: String,
-    override val time: Long,
-    override val source: String,
-    override val target: String,
-    val input: String,
-    val output: String
+class TextTranslation(
+    override var time: Long,
+    override var id: String,
+    override var source: String,
+    override var target: String,
+    var input: String,
+    var output: String
 ) : Translation() {
 
     @Ignore
-    constructor() : this("", 0L, "", "", "", "") {
+    constructor() : this("", "", "", "", "") {
     }
+
+    constructor(
+        id: String,
+        source: String,
+        target: String,
+        input: String,
+        output: String
+    ) : this(TimeUtil.currentTime(), id, source, target, input, output) {
+    }
+
+/*    @Ignore
+    private constructor(parcel: Parcel) : this(
+        parcel.readLong(),
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!
+    ) {
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeLong(time)
+        dest.writeString(id)
+        dest.writeString(source)
+        dest.writeString(target)
+        dest.writeString(input)
+        dest.writeString(output)
+    }
+
+    companion object CREATOR : Parcelable.Creator<TextTranslation> {
+        override fun createFromParcel(parcel: Parcel): TextTranslation {
+            return TextTranslation(parcel)
+        }
+
+        override fun newArray(size: Int): Array<TextTranslation?> {
+            return arrayOfNulls(size)
+        }
+    }*/
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

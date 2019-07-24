@@ -12,12 +12,12 @@ import io.reactivex.Flowable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BasePrefKt {
+abstract class BasePrefKt(val context: Context) {
 
     private val publicPref: Prefser
     private val privatePref: Prefser
 
-    constructor(context: Context) {
+    init {
         publicPref = Prefser(context)
         val prefName = getPrivatePrefName(context)
         val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
@@ -68,11 +68,11 @@ abstract class BasePrefKt {
         privatePref.put(key, value)
     }
 
-    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T): T {
+    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T?): T {
         return publicPref.get(key, classOfT, defaultValue)
     }
 
-    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T): T {
+    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T?): T {
         return privatePref.get(key, classOfT, defaultValue)
     }
 

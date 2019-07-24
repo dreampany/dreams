@@ -14,7 +14,6 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 import timber.log.Timber;
 
@@ -65,23 +64,10 @@ public class TextRecognitionProcessor extends VisionProcessor<FirebaseVisionText
         if (callback != null) {
             callback.onText(textBuilder.toString());
         }
-
-/*        for (int i = 0; i < blocks.size(); i++) {
-            List<FirebaseVisionText.Line> lines = blocks.get(i).getLines();
-            for (int j = 0; j < lines.size(); j++) {
-                List<FirebaseVisionText.Element> elements = lines.get(j).getElements();
-                for (int k = 0; k < elements.size(); k++) {
-                    textBuilder.append(elements.get(k).getText()) ;
-                   // if (textBuilder.c)
-                    *//*GraphicOverlay.Graphic textGraphic = new TextGraphic(overlay, elements.get(k));
-                    overlay.add(textGraphic);*//*
-                }
-            }
-        }*/
     }
 
     @Override
-    protected void onFailure(@NonNull Exception e) {
-        Timber.w(e, "Text detection failed.");
+    protected void onFailure(@NonNull Exception error) {
+        Timber.e(error, "Text detection failed.");
     }
 }

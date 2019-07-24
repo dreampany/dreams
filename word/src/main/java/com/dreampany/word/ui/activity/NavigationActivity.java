@@ -12,7 +12,7 @@ import com.dreampany.frame.ui.callback.SearchViewCallback;
 import com.dreampany.word.R;
 import com.dreampany.word.databinding.ActivityNavigationBinding;
 import com.dreampany.word.misc.Constants;
-import com.dreampany.word.ui.fragment.FavoritesFragment;
+import com.dreampany.word.ui.fragment.FavoriteWordsFragment;
 import com.dreampany.word.ui.fragment.HomeFragment;
 import com.dreampany.word.ui.fragment.MoreFragment;
 import com.dreampany.word.ui.model.UiTask;
@@ -37,7 +37,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     @Inject
     Lazy<HomeFragment> homeFragment;
     @Inject
-    Lazy<FavoritesFragment> favoritesFragment;
+    Lazy<FavoriteWordsFragment> favoritesFragment;
     @Inject
     ViewModelProvider.Factory factory;
     @Inject
@@ -97,7 +97,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     protected void onResume() {
         super.onResume();
         ad.resumeBanner(getClass().getSimpleName());
-        vm.loads();
+        //vm.loads();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
                 commitFragment(HomeFragment.class, homeFragment, R.id.layout);
                 break;
             case R.id.item_favorites:
-                commitFragment(FavoritesFragment.class, favoritesFragment, R.id.layout);
+                commitFragment(FavoriteWordsFragment.class, favoritesFragment, R.id.layout);
                 break;
             case R.id.item_more:
                 commitFragment(MoreFragment.class, moreFragment, R.id.layout);

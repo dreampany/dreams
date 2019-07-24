@@ -1,15 +1,16 @@
 package com.dreampany.word.ui.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -41,7 +42,6 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,7 +49,6 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-
 import timber.log.Timber;
 
 /**
@@ -117,7 +116,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         vm.removeMultipleSubscription();
         vm.removeSingleSubscription();
         vm.removeUpdateDisposable();
-       // recentVm.removeUpdateVisibleItemsDisposable();
+        // recentVm.removeUpdateVisibleItemsDisposable();
         super.onPause();
     }
 
@@ -216,7 +215,7 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
         scroller = new OnVerticalScrollListener() {
             @Override
             public void onScrolling() {
-               // recentVm.updateVisibleItemIf();
+                // recentVm.updateVisibleItemIf();
             }
         };
         //adapter.setEndlessScrollListener(this, CoinItem.getProgressItem());
@@ -357,11 +356,9 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false);
+/*        UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.VIEW);
         task.setInput(item);
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.VIEW);
-        openActivity(ToolsActivity.class, task);
+        openActivity(ToolsActivity.class, task);*/
     }
 
     private void openOcrUi() {
@@ -371,11 +368,8 @@ public class RecentFragment extends BaseMenuFragment implements SmartAdapter.Cal
     }
 
     private void openAll() {
-        UiTask<Word> task = new UiTask<>();
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.RECENTS);
-        task.setFull(true);
-        openActivity(ToolsActivity.class, task);
+   /*     UiTask<Word> task = new UiTask<>(true, UiType.WORD, UiSubtype.RECENTS);
+        openActivity(ToolsActivity.class, task);*/
     }
 
     @Nullable

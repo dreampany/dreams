@@ -16,20 +16,19 @@
             android:layout_height="wrap_content"
             android:padding="8dp">
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_volume_up_black_24dp"
                 android:drawablePadding="5dp"
                 android:text="@string/words"
                 android:textColor="@color/material_black"
-                android:textSize="18sp"
+                android:textSize="@dimen/_18ssp"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent"
-                auto:smart_font="@string/fontRobotoSlabTitle" />
+                auto:fontFamily="@font/roboto_slab_bold" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_part_of_speech"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,31 +36,22 @@
                 android:paddingEnd="5dp"
                 android:text="@string/part_of_speech"
                 android:textColor="@color/material_grey800"
-                android:textSize="14sp"
+                android:textSize="@dimen/_14ssp"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/text_word"
-                auto:smart_font="@string/fontRobotoSlabBody" />
+                auto:fontFamily="@font/roboto_slab_regular" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_pronunciation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/pronunciation"
                 android:textColor="@color/material_grey800"
-                android:textSize="14sp"
+                android:textSize="@dimen/_14ssp"
                 auto:layout_constraintStart_toEndOf="@id/text_part_of_speech"
                 auto:layout_constraintTop_toBottomOf="@id/text_word"
-                auto:smart_font="@string/fontRobotoSlabBody" />
-
-<!--            <com.like.LikeButton
-                android:id="@+id/button_like"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                auto:icon_size="20dp"
-                auto:icon_type="heart"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintTop_toTopOf="parent" />-->
+                auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

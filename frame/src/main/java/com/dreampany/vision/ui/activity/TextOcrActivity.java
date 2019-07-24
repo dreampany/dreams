@@ -29,8 +29,6 @@ public class TextOcrActivity extends BaseMenuActivity {
         return R.layout.activity_base;
     }
 
-
-
     @Override
     protected void onStartUi(@Nullable Bundle state) {
         commitFragment(TextOcrFragment.class, textOcrFragment, R.id.layout);

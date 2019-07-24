@@ -1,16 +1,17 @@
 package com.dreampany.word.ui.fragment;
 
 import android.app.Activity;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import androidx.databinding.ObservableArrayList;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.ObservableArrayList;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
@@ -41,7 +42,6 @@ import net.cachapa.expandablelayout.ExpandableLayout;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -49,7 +49,6 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-
 import timber.log.Timber;
 
 /**
@@ -340,9 +339,9 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
             Response.Progress result = (Response.Progress) response;
             boolean loading = result.getLoading();
             if (loading) {
-                showProgress(TextUtil.getString(getContext(), R.string.validate_words));
+                //showProgress(TextUtil.getString(getContext(), R.string.validate_words));
             } else {
-                hideProgress();
+                //hideProgress();
             }
 
         } else if (response instanceof Response.Failure) {
@@ -369,19 +368,15 @@ public class OcrFragment extends BaseMenuFragment implements SmartAdapter.Callba
     }
 
     private void openUi(Word item) {
-        UiTask<Word> task = new UiTask<>(false);
+ /*       UiTask<Word> task = new UiTask<>(false, UiType.WORD, UiSubtype.RECENTS);
         task.setInput(item);
-        task.setUiType(UiType.WORD);
-        task.setSubtype(UiSubtype.VIEW);
-        openActivity(ToolsActivity.class, task);
+        openActivity(ToolsActivity.class, task);*/
     }
 
     private void openTextOcr() {
         //recentVm.clearInputs();
-        UiTask<Word> task = new UiTask<>();
-        task.setUiType(UiType.OCR);
-        task.setSubtype(UiSubtype.TEXT);
-        openActivity(ToolsActivity.class, task, REQUEST_OCR);
+       /* UiTask<Word> task = new UiTask<>(false , UiType.OCR, UiSubtype.TEXT);
+        openActivity(ToolsActivity.class, task, REQUEST_OCR);*/
     }
 
     @Nullable

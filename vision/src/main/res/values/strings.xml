@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">vision</string>
-    <string name="auto_collection">Auto collection</string>
-    <string name="detected_words">%d Words</string>
-</resources>

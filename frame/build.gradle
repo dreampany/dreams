@@ -168,19 +168,19 @@ dependencies {
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
-    api 'com.google.firebase:firebase-core:17.0.0'
+    api 'com.google.firebase:firebase-core:17.0.1'
     api 'com.google.firebase:firebase-appindexing:19.0.0'
     api 'com.google.firebase:firebase-ads:18.1.0'
     api 'com.google.firebase:firebase-messaging:19.0.1'
     //api 'com.google.firebase:firebase-invites:17.0.0'
-    api 'com.google.firebase:firebase-auth:18.0.0'
+    api 'com.google.firebase:firebase-auth:18.1.0'
     api 'com.google.firebase:firebase-database:18.0.0'
     api 'com.google.firebase:firebase-firestore:20.1.0'
     //implementation 'com.google.firebase:firebase-storage:17.0.0'
-    implementation 'com.google.firebase:firebase-ml-common:20.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision:21.0.0'
-    implementation 'com.google.firebase:firebase-ml-natural-language:20.0.0'
-    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.0'
+    implementation 'com.google.firebase:firebase-ml-common:20.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision:22.0.0'
+    implementation 'com.google.firebase:firebase-ml-natural-language:20.0.1'
+    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.1'
 
     /* crashlytics */
     //api 'com.crashlytics.sdk.android:crashlytics:2.10.0'
@@ -220,12 +220,14 @@ dependencies {
     /* facebook */
     //api 'com.facebook.stetho:stetho:1.5.1'
     //api 'com.facebook.stetho:stetho-okhttp3:1.5.1'
-    api 'com.facebook.fresco:fresco:1.13.0'
+    api 'com.facebook.fresco:fresco:2.0.0'
 
     /* android-iconics */
     api 'com.mikepenz:iconics-core:4.0.0'
 
     /* misc */
+    api 'com.intuit.ssp:ssp-android:1.0.6'
+    api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.github.pwittchen:reactivenetwork-rx2:3.0.3'
     implementation 'com.github.pwittchen:prefser-rx2:2.2.2'
     //implementation 'com.afollestad:aesthetic:1.0.0-beta05'
@@ -237,8 +239,9 @@ dependencies {
     //implementation "io.karn:notify:1.2.0"
     implementation 'com.otaliastudios:cameraview:1.6.0'
 
+    api 'com.afollestad:assent:2.3.1'
     api 'com.karumi:dexter:5.0.0'
-    api 'joda-time:joda-time:2.10.2'
+    api 'joda-time:joda-time:2.10.3'
     api 'com.tapadoo.android:alerter:4.0.2'
 
     //api 'com.github.silvestrpredko:dot-progress-bar:1.1'
@@ -247,7 +250,7 @@ dependencies {
     api 'org.apache.commons:commons-lang3:3.9'
     api 'org.apache.commons:commons-collections4:4.3'
     //api 'com.blankj:utilcode:1.19.3'
-    api 'com.github.smart-fun:SmartFonts:1.0.4'
+    //api 'com.github.smart-fun:SmartFonts:1.0.4'
     api 'io.supercharge:shimmerlayout:2.1.0'
     api 'com.ethanhua:skeleton:1.1.1'
     //api 'com.dynamitechetan.flowinggradient:flowinggradient:1.1'
@@ -287,4 +290,5 @@ dependencies {
     //api 'com.github.bmarrdev:android-DecoView-charting:v1.2'
     api 'com.github.nikartm:fit-button:1.2.1'
     api 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
+    implementation 'com.github.onurkagan:ktoast:1.0.3'
 }

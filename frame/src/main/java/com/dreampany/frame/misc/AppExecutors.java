@@ -65,7 +65,7 @@ public class AppExecutors {
     }
 
     public void postToUiSmartly(Runnable runnable) {
-        if (AndroidUtil.isOnUiThread()) {
+        if (AndroidUtil.Companion.isOnUiThread()) {
             runnable.run();
         } else {
             uiExecutor.execute(runnable);

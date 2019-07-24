@@ -1,9 +1,9 @@
 package com.dreampany.word.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
-import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.util.TimeUtil
 import com.dreampany.word.ui.enums.MoreType
+import kotlinx.android.parcel.Parcelize
 
 
 /**
@@ -11,15 +11,26 @@ import com.dreampany.word.ui.enums.MoreType
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-data class More(val type: MoreType?) : Base() {
+@Parcelize
+data class More(
+    override var time: Long,
+    override var id: String,
+    var type : MoreType
+) : BaseKt() {
 
-    constructor(parcel: Parcel) : this(
-            parcel.readParcelable<MoreType>(MoreType::class.java.getClassLoader()) ) {
+    constructor(type: MoreType) : this(TimeUtil.currentTime(), type.name, type) {
+        this.type = type
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        super.writeToParcel(parcel, flags)
-        parcel.writeParcelable(type, flags)
+ /*   @Ignore
+    private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
+        type = MoreType.valueOf(parcel.readString()!!)
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeLong(time)
+        dest.writeString(id)
+        dest.writeString(type.name)
     }
 
     companion object CREATOR : Parcelable.Creator<More> {
@@ -30,5 +41,5 @@ data class More(val type: MoreType?) : Base() {
         override fun newArray(size: Int): Array<More?> {
             return arrayOfNulls(size)
         }
-    }
+    }*/
 }

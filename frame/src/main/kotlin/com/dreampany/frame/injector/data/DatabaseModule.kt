@@ -20,7 +20,7 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideFrameDatabase(application: Application): FrameDatabase {
-        return FrameDatabase.onInstance(application.applicationContext)
+        return FrameDatabase.getInstance(application.applicationContext)
     }
 
     @Singleton

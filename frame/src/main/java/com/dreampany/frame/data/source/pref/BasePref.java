@@ -32,7 +32,7 @@ public abstract class BasePref {
     }
 
     protected String getPrivatePrefName(Context context) {
-        return AndroidUtil.getPackageName(context);
+        return AndroidUtil.Companion.getPackageName(context);
     }
 
     public boolean isPubliclyAvailable(String key) {

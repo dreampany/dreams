@@ -6,46 +6,45 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#000"
-        android:keepScreenOn="true"
-        android:orientation="vertical">
+        android:background="@color/material_grey600"
+        android:keepScreenOn="true">
 
         <com.dreampany.vision.ml.CameraSourcePreview
             android:id="@+id/preview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true">
 
             <com.dreampany.vision.ml.GraphicOverlay
                 android:id="@+id/overlay"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentBottom="true" />
+                android:layout_height="match_parent" />
         </com.dreampany.vision.ml.CameraSourcePreview>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="400dp"
+                android:background="@android:color/transparent"
+                android:maxHeight="@dimen/_400sdp"
                 android:orientation="vertical">
 
-                <fr.arnaudguyon.smartfontslib.FontTextView
-                    android:id="@+id/text"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/viewText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="14sp"
-                    auto:smart_font="@string/fontRobotoSlabBody" />
+                    android:padding="@dimen/_10sdp"
+                    android:textColor="@color/material_white"
+                    android:textSize="@dimen/_12ssp"
+                    auto:fontFamily="@font/roboto_slab_regular" />
             </LinearLayout>
         </ScrollView>
+
     </RelativeLayout>
 </layout>

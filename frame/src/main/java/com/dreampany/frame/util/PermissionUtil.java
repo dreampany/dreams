@@ -80,7 +80,7 @@ public final class PermissionUtil {
     }
 
     private static boolean hasPermissionInManifest(Context context, String permission) {
-        PackageInfo packageInfo = AndroidUtil.getPackageInfo(context, PackageManager.GET_PERMISSIONS);
+        PackageInfo packageInfo = AndroidUtil.Companion.getPackageInfo(context, PackageManager.GET_PERMISSIONS);
         if (packageInfo != null) {
             String[] requestedPermissions = packageInfo.requestedPermissions;
             if (requestedPermissions != null) {

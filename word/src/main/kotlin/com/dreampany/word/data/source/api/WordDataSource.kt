@@ -13,6 +13,8 @@ import io.reactivex.Maybe
  */
 interface WordDataSource : DataSource<Word> {
 
+    fun isExists(word: String): Boolean
+
     fun getTodayItem(): Word?
 
     fun getTodayItemRx(): Maybe<Word>

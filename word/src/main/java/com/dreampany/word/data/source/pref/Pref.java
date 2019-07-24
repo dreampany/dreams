@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.source.pref;
 
 import android.content.Context;
@@ -13,11 +14,13 @@ import com.dreampany.word.misc.Constants;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+*/
 /**
  * Created by Hawladar Roman on 3/7/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Singleton
 public class Pref extends FramePref {
 
@@ -69,3 +72,4 @@ public class Pref extends FramePref {
         return getPrivately(Constants.Pref.WORD_SYNC, 0L);
     }
 }
+*/

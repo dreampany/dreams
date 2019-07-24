@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.data.model;
 
 import androidx.annotation.NonNull;
@@ -6,11 +7,13 @@ import android.os.Parcel;
 
 import com.dreampany.frame.data.model.Base;
 
+*/
 /**
  * Created by Hawladar Roman on 6/29/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class Load extends Base {
 
     private int current;
@@ -69,3 +72,4 @@ public class Load extends Base {
         return total;
     }
 }
+*/

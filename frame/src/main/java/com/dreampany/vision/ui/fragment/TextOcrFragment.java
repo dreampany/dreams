@@ -93,7 +93,7 @@ public class TextOcrFragment extends BaseMenuFragment implements ScaleGestureDet
         autoFocus = getActivity().getIntent().getBooleanExtra(TextOcrActivity.AUTO_FOCUS, false);
         useFlash = getActivity().getIntent().getBooleanExtra(TextOcrActivity.USE_FLASH, false);
 
-        if (AndroidUtil.hasMarshmallow()) {
+        if (AndroidUtil.Companion.hasMarshmallow()) {
             Dexter.withActivity(getActivity())
                     .withPermission(Manifest.permission.CAMERA)
                     .withListener(this)
@@ -225,7 +225,6 @@ public class TextOcrFragment extends BaseMenuFragment implements ScaleGestureDet
         }
     }
 
-
     private boolean onTap(float rawX, float rawY) {
         OcrGraphic graphic = (OcrGraphic) binding.graphicOverlay.getGraphicAtLocation(rawX, rawY);
         TextBlock text = null;
@@ -233,7 +232,7 @@ public class TextOcrFragment extends BaseMenuFragment implements ScaleGestureDet
         if (graphic != null) {
             text = graphic.getTextBlock();
             if (text != null && text.getValue() != null) {
-                AndroidUtil.speak(text.getValue());
+                AndroidUtil.Companion.speak(text.getValue());
                 buildWords(text.getValue());
                 Timber.v("text data is being spoken! %s", text.getValue());
             } else {

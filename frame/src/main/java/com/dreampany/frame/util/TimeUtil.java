@@ -39,6 +39,11 @@ public final class TimeUtil {
         return fmt.print(time);
     }
 
+/*    public static int getYear(String date, String pattern) {
+        DateTimeFormatter fmt = DateTimeFormat.forPattern(DATE_PATTERN);
+        return fmt.parseDateTime(dateOfBirth).getYear();
+    }*/
+
     public static long getUtcTime(String time) {
         DateTimeFormatter dtf = DateTimeFormat.forPattern(UTC_PATTERN);
         DateTime jodaTime = dtf.parseDateTime(time);

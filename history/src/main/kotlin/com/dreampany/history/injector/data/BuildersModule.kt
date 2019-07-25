@@ -1,10 +1,18 @@
 package com.dreampany.history.injector.data
 
-import com.dreampany.history.injector.vm.ViewModelModule
 import com.dreampany.frame.injector.data.FrameModule
+import com.dreampany.frame.misc.Remote
+import com.dreampany.frame.misc.Room
+import com.dreampany.history.data.misc.HistoryMapper
+import com.dreampany.history.data.source.api.HistoryDataSource
+import com.dreampany.history.data.source.remote.RemoteHistoryDataSource
 import com.dreampany.history.data.source.remote.WikiHistoryService
+import com.dreampany.history.data.source.room.HistoryDao
+import com.dreampany.history.data.source.room.RoomHistoryDataSource
+import com.dreampany.history.injector.vm.ViewModelModule
 import com.dreampany.history.misc.Constants
 import com.dreampany.history.misc.WikiHistory
+import com.dreampany.network.manager.NetworkManager
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -22,6 +30,28 @@ import javax.inject.Singleton
 
 @Module(includes = [FrameModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
 class BuildersModule {
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideRoomHistoryDataSource(
+        mapper: HistoryMapper,
+        dao : HistoryDao
+    ): HistoryDataSource {
+        return RoomHistoryDataSource(mapper, dao)
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideRemoteHistoryDataSource(
+        network: NetworkManager,
+        mapper: HistoryMapper,
+        service : WikiHistoryService
+    ): HistoryDataSource {
+        return RemoteHistoryDataSource(network, mapper, service)
+    }
+
 
     @Singleton
     @Provides

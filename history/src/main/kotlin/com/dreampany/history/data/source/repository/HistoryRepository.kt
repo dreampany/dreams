@@ -1,49 +1,56 @@
-package com.dreampany.history.data.source.remote
+package com.dreampany.history.data.source.repository
 
+import com.dreampany.frame.data.source.repository.RepositoryKt
+import com.dreampany.frame.misc.Remote
+import com.dreampany.frame.misc.ResponseMapper
+import com.dreampany.frame.misc.Room
+import com.dreampany.frame.misc.RxMapper
 import com.dreampany.history.data.enums.HistoryType
-import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.HistoryDataSource
-import com.dreampany.network.manager.NetworkManager
-import io.reactivex.Flowable
 import io.reactivex.Maybe
-import timber.log.Timber
-import java.io.IOException
+import io.reactivex.internal.functions.Functions
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by roman on 2019-07-24
+ * Created by Roman-372 on 7/25/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @Singleton
-class RemoteHistoryDataSource(
-    val network: NetworkManager,
-    val mapper: HistoryMapper,
-    val service: WikiHistoryService
-) : HistoryDataSource {
+class HistoryRepository
+@Inject constructor(
+    rx: RxMapper,
+    rm: ResponseMapper,
+    @Room val room: HistoryDataSource,
+    @Remote val remote: HistoryDataSource
+) : RepositoryKt<String, History>(rx, rm), HistoryDataSource {
 
     override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
-        if (network.isObserving() && !network.hasInternet()) {
-            return null
-        }
-        try {
-            val response = service.getWikiHistory(day, month).execute()
-            if (response.isSuccessful) {
-                val result = response.body()
-                return getItems(result)
-            }
-        } catch (error: IOException) {
-            Timber.e(error)
-        } catch (error: RuntimeException) {
-            Timber.e(error)
-        }
-        return null
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItems(): List<History>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItems(limit: Int): List<History>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val room = this.room.getItemsRx(type, day, month)
+        val remote = this.remote.getItemsRx(type, day, month)
+            .filter{ !it.isNullOrEmpty() }
+            .doOnSuccess {
+                rx.compute(this.room.putItemsRx(it)).subscribe(
+                    Functions.emptyConsumer<List<Long>>(),
+                    Functions.emptyConsumer<Throwable>()
+                )
+            }
+       return concatFirstRx(room, remote)
     }
 
     override fun isEmpty(): Boolean {
@@ -110,39 +117,11 @@ class RemoteHistoryDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(): List<History>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun getItemsRx(): Maybe<List<History>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getItems(limit: Int): List<History>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItemsRx(limit: Int): Maybe<List<History>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    /* private api */
-    private fun getItems(response: WikiHistoryResponse?): List<History>? {
-        if (response == null) {
-            return null
-        }
-        val histories = mutableListOf<History>()
-        response.data.run {
-            events.forEach {
-
-            }
-            births.forEach {
-
-            }
-            deaths.forEach {
-
-            }
-        }
-        return histories
     }
 }

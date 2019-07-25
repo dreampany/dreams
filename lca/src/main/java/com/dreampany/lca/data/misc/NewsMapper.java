@@ -69,7 +69,7 @@ public class NewsMapper {
         if (out == null) {
             out = new SourceInfo();
         }
-        out.setId(DataUtil.concat(in.getName(), in.getLanguage()));
+        out.setId(DataUtil.join(in.getName(), in.getLanguage()));
         out.setName(in.getName());
         out.setLanguage(in.getLanguage());
         out.setImageUrl(in.getImageUrl());

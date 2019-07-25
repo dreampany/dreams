@@ -1,9 +1,14 @@
 package com.dreampany.history.data.source.room
 
+import com.annimon.stream.Stream
+import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.frame.util.DataUtil
 import com.dreampany.history.data.enums.HistoryType
+import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.HistoryDataSource
 import io.reactivex.Maybe
+import java.util.ArrayList
 import javax.inject.Singleton
 
 /**
@@ -14,11 +19,16 @@ import javax.inject.Singleton
  */
 @Singleton
 class RoomHistoryDataSource(
+    val mapper: HistoryMapper,
     val dao: HistoryDao
 ) : HistoryDataSource {
 
     override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
         return dao.getItems(type, day, month)
+    }
+
+    override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
+        return dao.getItemsRx(type, day, month)
     }
 
     override fun isEmpty(): Boolean {
@@ -46,7 +56,7 @@ class RoomHistoryDataSource(
     }
 
     override fun putItem(t: History): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun putItemRx(t: History): Maybe<Long> {
@@ -54,11 +64,23 @@ class RoomHistoryDataSource(
     }
 
     override fun putItems(ts: List<History>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = mutableListOf<Long>()
+        ts.forEach {result.add(putItem(it))}
+        return result
     }
 
     override fun putItemsRx(ts: List<History>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItems(ts)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun delete(t: History): Int {

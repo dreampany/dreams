@@ -31,7 +31,7 @@ public class ExchangeMapper {
         if (in == null) {
             return null;
         }
-        String id = DataUtil.concat(in.getExchange(), in.getFromSymbol(), in.getToSymbol());
+        String id = DataUtil.join(in.getExchange(), in.getFromSymbol(), in.getToSymbol());
         Exchange out = map.get(id);
         if (out == null) {
             out = new Exchange();

@@ -1,6 +1,12 @@
 package com.dreampany.history.injector.data
 
+import com.dreampany.frame.misc.SmartCache
+import com.dreampany.frame.misc.SmartMap
+import com.dreampany.history.data.model.History
+import com.dreampany.history.misc.HistoryAnnote
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 
 /**
@@ -11,17 +17,17 @@ import dagger.Module
 @Module
 class SupportModule {
 
-/*    @Singleton
+    @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartMap(): SmartMap<String, Demo> {
+    @HistoryAnnote
+    fun provideHistorySmartMap(): SmartMap<String, History> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
-    @DemoAnnote
-    fun provideDemoSmartCache(): SmartCache<String, Demo> {
+    @HistoryAnnote
+    fun provideHistorySmartCache(): SmartCache<String, History> {
         return SmartCache.newCache()
-    }*/
+    }
 }

@@ -1,6 +1,10 @@
 package com.dreampany.history.injector.data
 
+import android.app.Application
+import com.dreampany.history.data.source.room.DatabaseManager
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 
 /**
@@ -11,4 +15,9 @@ import dagger.Module
 @Module
 class DatabaseModule {
 
+    @Singleton
+    @Provides
+    fun provideDatabase(application: Application): DatabaseManager {
+        return DatabaseManager.getInstance(application.applicationContext)
+    }
 }

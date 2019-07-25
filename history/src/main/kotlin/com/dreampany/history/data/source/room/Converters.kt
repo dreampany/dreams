@@ -14,33 +14,30 @@ import com.google.gson.reflect.TypeToken
  */
 class Converters {
 
-    companion object {
+    private val gson = Gson()
+    private val typeOfLinks = object : TypeToken<List<Link>>() {}.type
 
-        private val gson = Gson()
-        private val typeOfLinks = object : TypeToken<List<Link>>() {}.type
+    @TypeConverter
+    @Synchronized
+    fun toHistoryTypeString(type: HistoryType?): String? {
+        return type?.name
+    }
 
-        @TypeConverter
-        @Synchronized
-        fun toHistoryTypeString(type: HistoryType?): String? {
-            return if (type == null) null else type.name
-        }
+    @TypeConverter
+    @Synchronized
+    fun toHistoryType(json: String?): HistoryType? {
+        return if (json.isNullOrEmpty()) null else HistoryType.valueOf(json)
+    }
 
-        @TypeConverter
-        @Synchronized
-        fun toHistoryType(json: String?): HistoryType? {
-            return if (json.isNullOrEmpty()) null else HistoryType.valueOf(json)
-        }
+    @TypeConverter
+    @Synchronized
+    fun fromLinks(links: MutableList<Link>): String {
+        return gson.toJson(links, typeOfLinks)
+    }
 
-        @TypeConverter
-        @Synchronized
-        fun fromLinks(links: MutableList<Link>): String {
-            return gson.toJson(links, typeOfLinks)
-        }
-
-        @TypeConverter
-        @Synchronized
-        fun fromLinksJson(json: String): MutableList<Link> {
-            return gson.fromJson<MutableList<Link>>(json, typeOfLinks)
-        }
+    @TypeConverter
+    @Synchronized
+    fun fromLinksJson(json: String): MutableList<Link> {
+        return gson.fromJson<MutableList<Link>>(json, typeOfLinks)
     }
 }

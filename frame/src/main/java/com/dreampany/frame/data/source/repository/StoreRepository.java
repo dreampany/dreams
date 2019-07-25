@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.repository;
 
 import com.dreampany.frame.data.model.Store;
@@ -14,11 +15,13 @@ import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/18/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 public class StoreRepository extends Repository<String, Store> implements StoreDataSource {
 
@@ -159,3 +162,4 @@ public class StoreRepository extends Repository<String, Store> implements StoreD
 
 
 }
+*/

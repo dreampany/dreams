@@ -21,7 +21,7 @@ interface StoreDao : BaseDao<Store> {
     val countRx: Maybe<Int>
 
     @get:Query("select * from store")
-    val items: List<Store>
+    val items: List<Store>?
 
     @get:Query("select * from store")
     val itemsRx: Maybe<List<Store>>
@@ -45,13 +45,13 @@ interface StoreDao : BaseDao<Store> {
     fun getItemRx(id: Long, type: String, subtype: String): Maybe<Store>
 
     @Query("select * from store limit :limit")
-    fun getItems(limit: Int): List<Store>
+    fun getItems(limit: Int): List<Store>?
 
     @Query("select * from store limit :limit")
     fun getItemsRx(limit: Int): Maybe<List<Store>>
 
     @Query("select data from store where type = :type and subtype = :subtype and state = :state order by time desc")
-    fun getItemsOf(type: String, subtype: String, state: String): List<String>
+    fun getItemsOf(type: String, subtype: String, state: String): List<String>?
 
     @Query("select data from store where type = :type and subtype = :subtype and state = :state order by time desc")
     fun getItemsOfRx(type: String, subtype: String, state: String): Maybe<List<String>>
@@ -60,13 +60,13 @@ interface StoreDao : BaseDao<Store> {
     fun getItemsOfRx(type: String, subtype: String, state: String, limit: Int): Maybe<List<String>>
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state")
-    fun getItems(type: String, subtype: String, state: String): List<Store>
+    fun getItems(type: String, subtype: String, state: String): List<Store>?
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state")
     fun getItemsRx(type: String, subtype: String, state: String): Maybe<List<Store>>
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state limit :limit")
-    fun getItems(type: String, subtype: String, state: String, limit: Int): List<Store>
+    fun getItems(type: String, subtype: String, state: String, limit: Int): List<Store>?
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state limit :limit")
     fun getItemsRx(type: String, subtype: String, state: String, limit: Int): Maybe<List<Store>>

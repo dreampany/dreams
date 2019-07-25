@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.model;
 
 import androidx.room.Entity;
@@ -9,11 +10,13 @@ import androidx.annotation.NonNull;
 import com.dreampany.frame.misc.Constants;
 import com.google.common.base.Objects;
 
+*/
 /**
  * Created by Hawladar Roman on 3/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE}, unique = true)},
         primaryKeys = {Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE})
 public class Store extends Base {
@@ -132,3 +135,4 @@ public class Store extends Base {
         return Objects.equal(type, this.type) && Objects.equal(subtype, this.subtype);
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.room;
 
 import com.dreampany.frame.data.misc.StoreMapper;
@@ -14,18 +15,20 @@ import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 7/18/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
-public class StoreRoomDataSource implements StoreDataSource {
+public class RoomStoreDataSource implements StoreDataSource {
 
     private final StoreMapper mapper;
     private final StoreDao dao;
 
-    public StoreRoomDataSource(StoreMapper mapper,
+    public RoomStoreDataSource(StoreMapper mapper,
                                StoreDao dao) {
         this.mapper = mapper;
         this.dao = dao;
@@ -162,3 +165,4 @@ public class StoreRoomDataSource implements StoreDataSource {
         return null;
     }
 }
+*/

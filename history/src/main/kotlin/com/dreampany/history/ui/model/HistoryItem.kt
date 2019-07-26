@@ -21,9 +21,9 @@ class HistoryItem private constructor(item: History, @LayoutRes layoutId: Int = 
     BaseItemKt<History, HistoryItem.ViewHolder, String>(item, layoutId) {
 
     companion object {
-        /*fun getItem(item: Word): WordItem {
-            return WordItem(item, R.layout.item_word)
-        }*/
+        fun getItem(item: History): HistoryItem {
+            return HistoryItem(item, 0)
+        }
     }
 
     override fun createViewHolder(
@@ -40,7 +40,7 @@ class HistoryItem private constructor(item: History, @LayoutRes layoutId: Int = 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItemKt.ViewHolder(view, adapter) {
 
-         private var adapter: HistoryAdapter
+        private var adapter: HistoryAdapter
         //private var text: TextView
 
         init {

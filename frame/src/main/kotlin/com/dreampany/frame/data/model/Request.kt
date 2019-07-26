@@ -9,4 +9,5 @@ package com.dreampany.frame.data.model
 abstract class Request<T>(val input: T?) {
     var important: Boolean = false
     var progress: Boolean = false
+    var favorite: Boolean = false
 }

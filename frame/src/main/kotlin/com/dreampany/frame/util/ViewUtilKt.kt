@@ -1,7 +1,10 @@
 package com.dreampany.frame.util
 
+import android.app.DatePickerDialog
 import android.content.Context
-import java.util.*
+import android.os.Bundle
+import android.view.View
+
 
 /**
  * Created by Roman-372 on 7/26/2019
@@ -11,9 +14,24 @@ import java.util.*
  */
 class ViewUtilKt {
     companion object {
-        fun showDatePicker(context: Context) {
-            val calendar = Calendar.getInstance()
-           // val dialog = DatePickerDialog(context, )
+        fun createDatePicker(
+            context: Context,
+            listener: DatePickerDialog.OnDateSetListener?,
+            day: Int,
+            month: Int,
+            year: Int
+        ) : DatePickerDialog {
+            val dialog = object : DatePickerDialog(context, listener, year, month, day) {
+                override fun onCreate(savedInstanceState: Bundle) {
+                    super.onCreate(savedInstanceState)
+                    val year = context.resources.getIdentifier("android:id/year", null, null)
+                    if (year != 0) {
+                        val yearPicker = findViewById<View>(year)
+                        yearPicker?.setVisibility(View.GONE)
+                    }
+                }
+            }
+            return dialog
         }
     }
 }

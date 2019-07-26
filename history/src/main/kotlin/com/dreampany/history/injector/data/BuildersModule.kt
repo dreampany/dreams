@@ -13,6 +13,7 @@ import com.dreampany.history.injector.vm.ViewModelModule
 import com.dreampany.history.misc.Constants
 import com.dreampany.history.misc.WikiHistory
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.translation.injector.TranslationModule
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -28,7 +29,7 @@ import javax.inject.Singleton
  * dreampanymail@gmail.com
  */
 
-@Module(includes = [FrameModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
+@Module(includes = [FrameModule::class, TranslationModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
 class BuildersModule {
 
     @Singleton

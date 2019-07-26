@@ -12,6 +12,7 @@ import com.dreampany.history.data.source.remote.WikiHistory
 import com.dreampany.history.data.source.remote.WikiLink
 import com.dreampany.history.misc.Constants
 import com.dreampany.history.misc.HistoryAnnote
+import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
@@ -21,7 +22,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class HistoryMapper(
+class HistoryMapper
+@Inject constructor(
     @HistoryAnnote val map: SmartMap<String, History>,
     @HistoryAnnote val cache: SmartCache<String, History>
 ) {

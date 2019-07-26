@@ -68,9 +68,8 @@ open class SmartAdapter<T : BaseItemKt<*, *, *>>(listener: Any?) : BindingFlexib
     }
 
     open fun setItems(items: List<T>) {
-        for (item in items) {
-            addItem(itemCount, item)
-        }
+        clear()
+        addItems(items)
     }
 
     open fun addItems(items: List<T>): Boolean {

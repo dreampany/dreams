@@ -8,12 +8,15 @@ import com.dreampany.frame.data.source.repository.StateRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.data.source.pref.Pref
 import com.dreampany.history.data.source.repository.HistoryRepository
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.model.HistoryItem
 import com.dreampany.history.ui.model.UiTask
 import com.dreampany.network.manager.NetworkManager
@@ -42,6 +45,22 @@ class HistoryViewModel @Inject constructor(
     val translationRepo: TranslationRepository,
     @Favorite val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<History, HistoryItem, UiTask<History>>(application, rx, ex, rm) {
+
+    fun getHistoryType() : HistoryType {
+        return pref.getHistoryType()
+    }
+
+    fun getDay(): Int {
+        return pref.getDay()
+    }
+
+    fun getMonth(): Int {
+        return pref.getMonth()
+    }
+
+    fun getYear(): Int {
+        return pref.getYear()
+    }
 
     fun load(request: HistoryRequest) {
         if (!takeAction(request.important, multipleDisposable)) {

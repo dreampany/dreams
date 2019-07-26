@@ -66,6 +66,9 @@ class Constants {
 
     object Date {
         const val MONTH_DAY = "MMM dd"
+        const val DAY = "day"
+        const val MONTH = "month"
+        const val YEAR = "year"
     }
 
     object History {
@@ -75,6 +78,7 @@ class Constants {
         const val DEATHS = "Deaths"
         const val DAY = "day"
         const val MONTH = "month"
+        const val TYPE = "history_type"
     }
 
     object Retrofit {

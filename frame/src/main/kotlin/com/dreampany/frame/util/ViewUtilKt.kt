@@ -22,7 +22,7 @@ class ViewUtilKt {
             year: Int
         ) : DatePickerDialog {
             val dialog = object : DatePickerDialog(context, listener, year, month, day) {
-                override fun onCreate(savedInstanceState: Bundle) {
+                override fun onCreate(savedInstanceState: Bundle?) {
                     super.onCreate(savedInstanceState)
                     val year = context.resources.getIdentifier("android:id/year", null, null)
                     if (year != 0) {

@@ -1,5 +1,6 @@
 package com.dreampany.history.data.source.remote
 
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
@@ -43,7 +44,17 @@ class RemoteHistoryDataSource(
     }
 
     override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create {emitter ->
+            val items = getItems(type, day, month)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (items.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(items)
+            }
+        }
     }
 
     override fun isEmpty(): Boolean {
@@ -134,13 +145,13 @@ class RemoteHistoryDataSource(
         val histories = mutableListOf<History>()
         response.data.run {
             events.forEach {
-
+                histories.add(mapper.toItem(response.date, response.url, it, HistoryType.EVENT))
             }
             births.forEach {
-
+                histories.add(mapper.toItem(response.date, response.url, it, HistoryType.BIRTH))
             }
             deaths.forEach {
-
+                histories.add(mapper.toItem(response.date, response.url, it, HistoryType.DEATH))
             }
         }
         return histories

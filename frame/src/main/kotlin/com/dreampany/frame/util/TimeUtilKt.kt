@@ -1,5 +1,6 @@
 package com.dreampany.frame.util
 
+import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
 /**
@@ -10,6 +11,22 @@ import org.joda.time.format.DateTimeFormat
  */
 class TimeUtilKt {
     companion object {
+        fun getDay(): Int {
+            val date = DateTime()
+            return date.dayOfMonth
+        }
+
+        fun getMonth(): Int {
+            val date = DateTime()
+            return date.monthOfYear
+        }
+
+        fun getYear(): Int {
+            val date = DateTime()
+            return date.year
+        }
+
+
         fun getDay(date: String, pattern: String): Int {
             val fmt = DateTimeFormat.forPattern(pattern);
             return fmt.parseDateTime(date).dayOfMonth
@@ -22,7 +39,7 @@ class TimeUtilKt {
 
         fun getYear(date: String, pattern: String): Int {
             val fmt = DateTimeFormat.forPattern(pattern);
-            return fmt.parseDateTime(date).getYear();
+            return fmt.parseDateTime(date).year
         }
     }
 }

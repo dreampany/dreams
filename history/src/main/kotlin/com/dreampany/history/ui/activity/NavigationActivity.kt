@@ -9,6 +9,8 @@ import com.dreampany.history.ui.fragment.MoreFragment
 import com.dreampany.history.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity
+import com.dreampany.frame.ui.callback.SearchViewCallback
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -18,7 +20,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NavigationActivity : BaseBottomNavigationActivity() {
+class NavigationActivity : BaseBottomNavigationActivity(), SearchViewCallback {
 
     @Inject
     internal lateinit var homeFragment: Lazy<HomeFragment>
@@ -49,6 +51,10 @@ class NavigationActivity : BaseBottomNavigationActivity() {
         return false
     }
 
+    override fun hasDoubleBackPressed(): Boolean {
+        return true
+    }
+
     override fun getScreen(): String {
         return Constants.navigation(applicationContext)
     }
@@ -74,9 +80,13 @@ class NavigationActivity : BaseBottomNavigationActivity() {
 
     override fun onNavigationItem(navigationItemId: Int) {
         when (navigationItemId) {
-          //  R.id.item_home -> commitFragment(HomeFragment::class.java, homeFragment, R.id.layout)
+            R.id.item_home -> commitFragment(HomeFragment::class.java, homeFragment, R.id.layout)
             R.id.item_more -> commitFragment(MoreFragment::class.java, moreFragment, R.id.layout)
         }
+    }
+
+    override fun getSearchView(): MaterialSearchView {
+        return bind.searchView
     }
 
     private fun initView() {

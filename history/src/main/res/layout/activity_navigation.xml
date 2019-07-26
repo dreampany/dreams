@@ -15,21 +15,19 @@
             android:theme="@style/AppTheme.AppBarOverlay"
             auto:elevation="0dp">
 
-            <include layout="@layout/content_toolbar" />
-
-<!--            <FrameLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="visible">
 
-
+                <include layout="@layout/content_toolbar" />
 
                 <com.miguelcatalan.materialsearchview.MaterialSearchView
                     android:id="@+id/search_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
+                    android:layout_height="wrap_content" />
 
-            </FrameLayout>-->
+            </FrameLayout>
 
         </com.google.android.material.appbar.AppBarLayout>
 

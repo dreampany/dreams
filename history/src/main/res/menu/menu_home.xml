@@ -3,9 +3,24 @@
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_date"
+        android:icon="@drawable/ic_date_range_black_24dp"
+        android:iconTint="@color/white"
+        android:title=""
+        auto:showAsAction="always" />
+
+    <item
+        android:id="@+id/item_type"
+        android:icon="@drawable/ic_style_black_24dp"
+        android:iconTint="@color/white"
+        android:title=""
+        auto:showAsAction="always" />
+
+    <item
         android:id="@+id/item_search"
         android:animateLayoutChanges="true"
         android:icon="@drawable/ic_search_black_24dp"
+        android:iconTint="@color/white"
         android:title="@string/search"
         auto:actionViewClass="androidx.appcompat.widget.SearchView"
         auto:showAsAction="collapseActionView|always" />

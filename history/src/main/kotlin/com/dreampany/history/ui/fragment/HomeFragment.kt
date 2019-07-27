@@ -182,6 +182,10 @@ class HomeFragment
         openSite(link)
     }
 
+    override fun onFavoritClicked(history: History) {
+
+    }
+
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
         searchView.setMenuItem(searchItem)
         searchView.setSubmitOnClick(true)

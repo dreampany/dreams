@@ -12,6 +12,7 @@ import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.History
 import com.dreampany.history.ui.adapter.HistoryAdapter
+import com.like.LikeButton
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import timber.log.Timber
@@ -60,6 +61,7 @@ class HistoryItem private constructor(
         //private var textText: AppCompatTextView
         private var textHtml: AppCompatTextView
         private var textYear: AppCompatTextView
+        private var buttonFavorite: LikeButton
 
         init {
             this.adapter = adapter as HistoryAdapter
@@ -68,6 +70,7 @@ class HistoryItem private constructor(
             //textText = view.findViewById(R.id.text_text)
             textHtml = view.findViewById(R.id.text_html)
             textYear = view.findViewById(R.id.text_year)
+            buttonFavorite = view.findViewById(R.id.button_favorite)
 
             textHtml.movementMethod = TextViewClickMovement(this, getContext())
         }
@@ -80,6 +83,7 @@ class HistoryItem private constructor(
             textHtml.text = HtmlCompat.fromHtml(history.html!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
             textYear.text = TextUtil.getString(getContext(), R.string.year_format, history.year)
 
+            buttonFavorite.isLiked = uiItem.favorite
             setTag(history)
         }
 

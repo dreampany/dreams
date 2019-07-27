@@ -100,7 +100,7 @@ class RoomHistoryDataSource(
     }
 
     override fun getItem(id: String): History? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItem(id)
     }
 
     override fun getItemRx(id: String): Maybe<History> {

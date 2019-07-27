@@ -1,5 +1,6 @@
 package com.dreampany.history.data.misc
 
+import com.dreampany.frame.data.model.State
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.frame.util.DataUtilKt
@@ -8,6 +9,7 @@ import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.Link
+import com.dreampany.history.data.source.api.HistoryDataSource
 import com.dreampany.history.data.source.remote.WikiHistory
 import com.dreampany.history.data.source.remote.WikiLink
 import com.dreampany.history.misc.Constants
@@ -52,7 +54,16 @@ class HistoryMapper
         return output
     }
 
-    fun toLinks(inputLinks: MutableList<WikiLink>): MutableList<Link> {
+    fun toItem(input: State, source: HistoryDataSource): History {
+        var out: History? = map.get(input.id)
+        if (out == null) {
+            out = source.getItem(input.id)
+            map.put(input.id, out)
+        }
+        return out!!
+    }
+
+   private fun toLinks(inputLinks: MutableList<WikiLink>): MutableList<Link> {
         val links = mutableListOf<Link>()
         inputLinks.forEach {
             links.add(toLink(it))
@@ -60,7 +71,7 @@ class HistoryMapper
         return links
     }
 
-    fun toLink(inputLink: WikiLink): Link {
+    private  fun toLink(inputLink: WikiLink): Link {
         return Link(inputLink.title, inputLink.link)
     }
 }

@@ -20,6 +20,7 @@ class Constants {
         const val LAUNCH = "launch"
         const val NAVIGATION = "navigation"
         const val TOOLS = "tools"
+        const val WEB = "web"
 
 
         const val NOTIFY_SERVICE = "notify_service"
@@ -44,6 +45,7 @@ class Constants {
         fun launch(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.LAUNCH
         fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.NAVIGATION
         fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.TOOLS
+        fun web(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.WEB
     }
 
     object Event {

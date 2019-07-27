@@ -1,20 +1,18 @@
 package com.dreampany.word.ui.activity
 
 import android.os.Bundle
+import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.activity.WebActivity
 import com.dreampany.word.R
+import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.enums.UiSubtype
 import com.dreampany.word.ui.enums.UiType
-import com.dreampany.word.ui.model.UiTask
-import com.dreampany.frame.misc.SmartAd
-import com.dreampany.vision.ui.fragment.LiveTextOcrFragment
-import com.dreampany.vision.ui.fragment.TextOcrFragment
-import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.fragment.*
+import com.dreampany.word.ui.model.UiTask
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
 import im.delight.android.webview.AdvancedWebView
-import timber.log.Timber
 import javax.inject.Inject
 
 /**

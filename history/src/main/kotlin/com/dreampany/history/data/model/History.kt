@@ -96,11 +96,15 @@ class History(
         return "History ($id) == $id"
     }
 
-    fun hasLink() : Boolean {
+    fun hasLink(): Boolean {
         return !links.isNullOrEmpty()
     }
 
-    fun getFirstLink() : Link? {
+    fun getFirstLink(): Link? {
         return links?.first()
+    }
+
+    fun getLinkByTitle(title: String): Link? {
+        return links?.find { title.equals(it.title) }
     }
 }

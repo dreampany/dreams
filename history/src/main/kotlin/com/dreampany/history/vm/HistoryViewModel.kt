@@ -1,14 +1,12 @@
 package com.dreampany.history.vm
 
 import android.app.Application
-import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.source.repository.StateRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
-import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
@@ -16,7 +14,6 @@ import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.data.source.pref.Pref
 import com.dreampany.history.data.source.repository.HistoryRepository
-import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.model.HistoryItem
 import com.dreampany.history.ui.model.UiTask
 import com.dreampany.network.manager.NetworkManager
@@ -44,7 +41,21 @@ class HistoryViewModel @Inject constructor(
     val repo: HistoryRepository,
     val translationRepo: TranslationRepository,
     @Favorite val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<History, HistoryItem, UiTask<History>>(application, rx, ex, rm) {
+) : BaseViewModel<History, HistoryItem, UiTask<History>>(application, rx, ex, rm), HistoryItem.OnLinkClickListener {
+
+    interface OnClickListener {
+        fun onLinkClicked(link: String)
+    }
+
+    private var clickListener: OnClickListener? = null
+
+    override fun onLickClicked(link: String) {
+        clickListener?.onLinkClicked(link)
+    }
+
+    fun setOnLinkClickListener(clickListener: OnClickListener?) {
+        this.clickListener = clickListener
+    }
 
     fun setHistoryType(type: HistoryType) {
         pref.setHistoryType(type)
@@ -116,10 +127,11 @@ class HistoryViewModel @Inject constructor(
         val map = uiMap
         var uiItem: HistoryItem? = map.get(input.id)
         if (uiItem == null) {
-            uiItem = HistoryItem.getItem(input)
+            uiItem = HistoryItem.getItem(input, this)
             map.put(input.id, uiItem)
         }
         uiItem.item = input
+        uiItem.linkClickListener = this
         return uiItem
     }
 }

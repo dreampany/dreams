@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.ui.activity;
 
 import android.content.Intent;
@@ -13,12 +14,14 @@ import org.jetbrains.annotations.Nullable;
 
 import im.delight.android.webview.AdvancedWebView;
 
+*/
 /**
  * Created by Roman on 1/23/2019
  * Copyright (c) 2019 Dreampany. All rights reserved.
  * dreampanymail@gmail.com
  * Last modified $file.lastModified
- */
+ *//*
+
 public class WebActivity extends BaseActivity implements AdvancedWebView.Listener {
 
     ActivityWebBinding binding;
@@ -101,3 +104,4 @@ public class WebActivity extends BaseActivity implements AdvancedWebView.Listene
 
     }
 }
+*/

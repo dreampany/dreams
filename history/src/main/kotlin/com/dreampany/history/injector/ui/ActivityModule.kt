@@ -4,6 +4,7 @@ import com.dreampany.history.ui.activity.LaunchActivity
 import com.dreampany.history.ui.activity.NavigationActivity
 import com.dreampany.history.ui.activity.ToolsActivity
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.frame.ui.activity.WebActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -26,4 +27,8 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [SettingsModule::class, LicenseModule::class, AboutModule::class])
     abstract fun toolsActivity(): ToolsActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun webActivity(): WebActivity
 }

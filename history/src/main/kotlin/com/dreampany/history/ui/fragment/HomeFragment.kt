@@ -21,13 +21,18 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.*
 import com.dreampany.history.R
 import com.dreampany.history.data.enums.HistoryType
+import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.databinding.ContentRecyclerBinding
 import com.dreampany.history.databinding.ContentTopStatusBinding
 import com.dreampany.history.databinding.FragmentHomeBinding
 import com.dreampany.history.misc.Constants
+import com.dreampany.history.ui.activity.ToolsActivity
 import com.dreampany.history.ui.adapter.HistoryAdapter
+import com.dreampany.history.ui.enums.UiSubtype
+import com.dreampany.history.ui.enums.UiType
 import com.dreampany.history.ui.model.HistoryItem
+import com.dreampany.history.ui.model.UiTask
 import com.dreampany.history.vm.HistoryViewModel
 import com.dreampany.language.Language
 import com.dreampany.language.LanguagePicker
@@ -56,7 +61,8 @@ class HomeFragment
     MaterialSearchView.OnQueryTextListener,
     MaterialSearchView.SearchViewListener,
     OnMenuItemClickListener<PowerMenuItem>,
-    DatePickerDialog.OnDateSetListener {
+    DatePickerDialog.OnDateSetListener,
+    HistoryViewModel.OnClickListener {
 
     private val NONE = "none"
     private val SEARCH = "search"
@@ -97,6 +103,7 @@ class HomeFragment
     }
 
     override fun onStopUi() {
+        vm.setOnLinkClickListener(null)
         processUiState(UiState.HIDE_PROGRESS)
         powerMenu?.run {
             if (isShowing) {
@@ -171,6 +178,10 @@ class HomeFragment
         request(true, true, false)
     }
 
+    override fun onLinkClicked(link: String) {
+        openSite(link)
+    }
+
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
         searchView.setMenuItem(searchItem)
         searchView.setSubmitOnClick(true)
@@ -203,6 +214,8 @@ class HomeFragment
         vm = ViewModelProviders.of(this, factory).get(HistoryViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processResponse(it) })
+
+        vm.setOnLinkClickListener(this)
 
         typeItems.add(
             PowerMenuItem(
@@ -344,5 +357,10 @@ class HomeFragment
 
         val request = HistoryRequest(type, day, month, important, progress, favorite)
         vm.load(request)
+    }
+
+    fun openSite(url: String) {
+        var task = UiTask<History>(true, UiType.SITE, UiSubtype.VIEW, null, url)
+        openActivity(ToolsActivity::class.java, task)
     }
 }

@@ -56,6 +56,14 @@ abstract class BaseItemKt<T : BaseKt, VH : BaseItemKt.ViewHolder, S : Serializab
             return itemView.context
         }
 
+        open fun <T : BaseKt> setTag(tag : T) {
+            itemView.setTag(tag)
+        }
+
+        open fun <T : BaseKt> getTag() : T? {
+            return itemView.tag as T?
+        }
+
         abstract fun <VH : ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>> bind(
             position: Int,
             item: I

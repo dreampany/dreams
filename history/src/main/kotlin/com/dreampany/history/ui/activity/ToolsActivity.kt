@@ -1,7 +1,9 @@
 package com.dreampany.history.ui.activity
 
 import android.os.Bundle
+import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.activity.WebActivity
 import com.dreampany.history.R
 import com.dreampany.history.ui.enums.UiSubtype
 import com.dreampany.history.ui.enums.UiType
@@ -9,7 +11,6 @@ import com.dreampany.history.ui.fragment.AboutFragment
 import com.dreampany.history.ui.fragment.LicenseFragment
 import com.dreampany.history.ui.fragment.SettingsFragment
 import com.dreampany.history.ui.model.UiTask
-import com.dreampany.frame.misc.SmartAd
 import dagger.Lazy
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,6 +60,19 @@ class ToolsActivity : BaseActivity() {
                         commitFragment(AboutFragment::class.java, aboutProvider, R.id.layout, uiTask)
                     }
                     else -> {
+                    }
+                }
+            }
+            UiType.SITE -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        openActivity(WebActivity::class.java, uiTask, true)
+/*                        if (AdvancedWebView.Browsers.hasAlternative(this)) {
+                            AdvancedWebView.Browsers.openUrl(this, uiTask.comment)
+                            finish()
+                        } else {
+                            openActivity(WebActivity::class.java, uiTask, true)
+                        }*/
                     }
                 }
             }

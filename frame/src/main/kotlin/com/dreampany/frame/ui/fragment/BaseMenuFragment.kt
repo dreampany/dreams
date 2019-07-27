@@ -52,10 +52,10 @@ abstract class BaseMenuFragment : BaseFragment() {
         }
         menu.clear()
         inflater.inflate(menuId, menu)
-        binding.root.post {
+        //binding.root.post {
             onMenuCreated(menu, inflater)
             initSearch()
-        }
+        //}
     }
 
     protected fun findMenuItemById(menuItemId: Int) : MenuItem? {

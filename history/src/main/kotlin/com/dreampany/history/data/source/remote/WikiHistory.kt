@@ -7,7 +7,7 @@ package com.dreampany.history.data.source.remote
  * Last modified $file.lastModified
  */
 data class WikiHistory(
-    val year: Int,
+    val year: String,
     val text: String,
     val html: String,
     val links: MutableList<WikiLink>

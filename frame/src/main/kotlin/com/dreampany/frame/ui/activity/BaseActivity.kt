@@ -54,6 +54,7 @@ abstract class BaseActivity :
     @Inject
     protected lateinit var ex: AppExecutors
     protected lateinit var binding: ViewDataBinding
+    protected var toolbar: Toolbar? = null
     protected var task: Task<*>? = null
     protected var childTask: Task<*>? = null
     protected var currentFragment: BaseFragment? = null
@@ -224,22 +225,16 @@ abstract class BaseActivity :
         }
     }
 
-/*    @Nullable
-    @Override
-    public String key() {
-        return "base";
-    }*/
-
     override fun onClick(view: View) {
 
     }
 
     override fun getUiActivity(): BaseActivity {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return this
     }
 
-    override fun getUiFragment(): BaseFragment {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getUiFragment(): BaseFragment? {
+        return currentFragment
     }
 
     override fun set(t: Task<*>) {
@@ -273,6 +268,10 @@ abstract class BaseActivity :
 
     }
 
+    fun getToolbarRef(): Toolbar? {
+        return toolbar
+    }
+
     fun isAlive(): Boolean {
         return AndroidUtil.isAlive(this)
     }
@@ -296,15 +295,15 @@ abstract class BaseActivity :
     }
 
     private fun initToolbar() {
-        val toolbar = findViewById<Toolbar>(getToolbarId())
+        toolbar = findViewById<Toolbar>(getToolbarId())
         if (toolbar != null) {
             if (isFullScreen()) {
-                if (toolbar.isShown) {
-                    toolbar.visibility = View.GONE
+                if (toolbar!!.isShown) {
+                    toolbar!!.visibility = View.GONE
                 }
             } else {
-                if (!toolbar.isShown) {
-                    toolbar.visibility = View.VISIBLE
+                if (!toolbar!!.isShown) {
+                    toolbar!!.visibility = View.VISIBLE
                 }
                 setSupportActionBar(toolbar)
                 if (isHomeUp()) {

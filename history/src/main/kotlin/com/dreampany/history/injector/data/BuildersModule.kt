@@ -11,7 +11,7 @@ import com.dreampany.history.data.source.room.HistoryDao
 import com.dreampany.history.data.source.room.RoomHistoryDataSource
 import com.dreampany.history.injector.vm.ViewModelModule
 import com.dreampany.history.misc.Constants
-import com.dreampany.history.misc.WikiHistory
+import com.dreampany.history.misc.WikiHistoryAnnote
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.injector.TranslationModule
 import dagger.Module
@@ -56,7 +56,7 @@ class BuildersModule {
 
     @Singleton
     @Provides
-    @WikiHistory
+    @WikiHistoryAnnote
     fun provideWikiHistoryRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .client(client)
@@ -68,7 +68,7 @@ class BuildersModule {
     }
 
     @Provides
-    fun provideWikiHistoryService(@WikiHistory retrofit: Retrofit): WikiHistoryService {
+    fun provideWikiHistoryService(@WikiHistoryAnnote retrofit: Retrofit): WikiHistoryService {
         return retrofit.create(WikiHistoryService::class.java);
     }
 }

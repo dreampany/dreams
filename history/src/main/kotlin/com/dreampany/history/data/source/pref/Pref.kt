@@ -17,11 +17,11 @@ import javax.inject.Singleton
 @Singleton
 class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
 
-    fun setHistoryType(type:HistoryType) {
+    fun setHistoryType(type: HistoryType) {
         setPublicly(Constants.History.TYPE, type)
     }
 
-    fun getHistoryType() : HistoryType {
+    fun getHistoryType(): HistoryType {
         return getPublicly(Constants.History.TYPE, HistoryType::class.java, HistoryType.EVENT)
     }
 
@@ -33,7 +33,7 @@ class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
         setPublicly(Constants.Date.MONTH, month)
     }
 
-    fun setYear(year: Int) {
+    fun setYear(year: String) {
         setPublicly(Constants.Date.YEAR, year)
     }
 

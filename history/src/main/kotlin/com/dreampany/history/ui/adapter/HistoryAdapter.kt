@@ -18,6 +18,10 @@ class HistoryAdapter(listener: Any?) : SmartAdapter<HistoryItem>(listener) {
         recentComparator = RecentComparator()
     }
 
+    fun setItems(items: List<HistoryItem>) {
+        super.setItems(items, recentComparator)
+    }
+
     fun addFavoriteItem(item: HistoryItem) {
         if (item.favorite) {
             addItem(item)

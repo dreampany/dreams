@@ -72,7 +72,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     protected lateinit var activityCallback: UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
     protected lateinit var fragmentCallback: UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
 
-    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> {
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
         return childInjector
     }
 

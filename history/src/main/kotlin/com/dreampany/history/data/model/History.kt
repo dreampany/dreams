@@ -95,4 +95,12 @@ class History(
     override fun toString(): String {
         return "History ($id) == $id"
     }
+
+    fun hasLink() : Boolean {
+        return !links.isNullOrEmpty()
+    }
+
+    fun getFirstLink() : Link? {
+        return links?.first()
+    }
 }

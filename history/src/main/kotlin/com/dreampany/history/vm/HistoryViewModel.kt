@@ -46,7 +46,19 @@ class HistoryViewModel @Inject constructor(
     @Favorite val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<History, HistoryItem, UiTask<History>>(application, rx, ex, rm) {
 
-    fun getHistoryType() : HistoryType {
+    fun setHistoryType(type: HistoryType) {
+        pref.setHistoryType(type)
+    }
+
+    fun setDay(day: Int) {
+        pref.setDay(day)
+    }
+
+    fun setMonth(month: Int) {
+        pref.setMonth(month)
+    }
+
+    fun getHistoryType(): HistoryType {
         return pref.getHistoryType()
     }
 

@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Demo</string>
+    <string name="app_name">History</string>
+    <string name="type_format">%s: %d</string>
+    <string name="year_format">Year: %d</string>
 </resources>

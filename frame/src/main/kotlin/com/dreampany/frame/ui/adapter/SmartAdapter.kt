@@ -67,9 +67,9 @@ open class SmartAdapter<T : BaseItemKt<*, *, *>>(listener: Any?) : BindingFlexib
         }
     }
 
-    open fun setItems(items: List<T>) {
+    open fun setItems(items: List<T>, comparator: Comparator<IFlexible<*>>) {
         clear()
-        addItems(items)
+        addItems(items, comparator)
     }
 
     open fun addItems(items: List<T>): Boolean {

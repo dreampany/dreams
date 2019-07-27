@@ -1,6 +1,7 @@
 package com.dreampany.history.data.enums
 
 import android.os.Parcelable
+import com.dreampany.frame.util.TextUtil
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -11,5 +12,9 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class HistoryType: Parcelable {
-    EVENT, BIRTH, DEATH
+    EVENT, BIRTH, DEATH;
+
+    fun toTitle() : String {
+        return TextUtil.toTitleCase(name)
+    }
 }

@@ -72,6 +72,14 @@ abstract class BasePrefKt(val context: Context) {
         publicPref.put(key, value)
     }
 
+    fun setPublicly(key: String, value: String) {
+        publicPref.put(key, value)
+    }
+
+    fun getPublicly(key: String, defaultValue: String): String {
+        return publicPref.get(key, String::class.java, defaultValue)
+    }
+
     fun <T> setPrivately(key: String, value: T) {
         privatePref.put(key, value)
     }

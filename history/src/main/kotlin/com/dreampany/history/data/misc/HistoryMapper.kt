@@ -31,7 +31,9 @@ class HistoryMapper
     fun toItem(date: String, url: String, input: WikiHistory, inputType: HistoryType): History {
         val day = TimeUtilKt.getDay(date, Constants.Date.MONTH_DAY)
         val month = TimeUtilKt.getMonth(date, Constants.Date.MONTH_DAY)
-        val id = DataUtilKt.join(day, month, input.year)
+        val yearData = DataUtilKt.getFirstPart(input.year, Constants.Sep.SPACE)
+        val year = yearData.toInt()
+        val id = DataUtilKt.join(day, month, year)
         var output: History? = map.get(id)
         if (output == null) {
             output = History(id)
@@ -42,7 +44,7 @@ class HistoryMapper
         output.type = inputType
         output.day = day
         output.month = month
-        output.year = input.year
+        output.year = year
         output.text = input.text
         output.html = input.html
         output.url = url

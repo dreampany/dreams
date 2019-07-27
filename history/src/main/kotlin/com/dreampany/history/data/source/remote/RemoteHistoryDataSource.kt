@@ -33,7 +33,7 @@ class RemoteHistoryDataSource(
             val response = service.getWikiHistory(day, month).execute()
             if (response.isSuccessful) {
                 val result = response.body()
-                return getItems(result)
+                return getItems(type, result)
             }
         } catch (error: IOException) {
             Timber.e(error)
@@ -138,20 +138,28 @@ class RemoteHistoryDataSource(
     }
 
     /* private api */
-    private fun getItems(response: WikiHistoryResponse?): List<History>? {
+    private fun getItems(type: HistoryType, response: WikiHistoryResponse?): List<History>? {
         if (response == null) {
             return null
         }
         val histories = mutableListOf<History>()
         response.data.run {
-            events.forEach {
-                histories.add(mapper.toItem(response.date, response.url, it, HistoryType.EVENT))
-            }
-            births.forEach {
-                histories.add(mapper.toItem(response.date, response.url, it, HistoryType.BIRTH))
-            }
-            deaths.forEach {
-                histories.add(mapper.toItem(response.date, response.url, it, HistoryType.DEATH))
+            when(type) {
+                HistoryType.EVENT -> {
+                    events.forEach {
+                        histories.add(mapper.toItem(response.date, response.url, it, type))
+                    }
+                }
+                HistoryType.BIRTH -> {
+                    births.forEach {
+                        histories.add(mapper.toItem(response.date, response.url, it, type))
+                    }
+                }
+                HistoryType.DEATH -> {
+                    deaths.forEach {
+                        histories.add(mapper.toItem(response.date, response.url, it, type))
+                    }
+                }
             }
         }
         return histories

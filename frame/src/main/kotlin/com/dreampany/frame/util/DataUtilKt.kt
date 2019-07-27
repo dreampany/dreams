@@ -1,7 +1,5 @@
 package com.dreampany.frame.util
 
-import org.apache.commons.lang3.StringUtils
-
 /**
  * Created by Roman-372 on 7/25/2019
  * Copyright (c) 2019 bjit. All rights reserved.
@@ -16,6 +14,10 @@ class DataUtilKt {
                 builder.append(item)
             }
             return builder.toString()
+        }
+
+        fun getFirstPart(value: String, sep: String): String {
+            return value.split(sep).first()
         }
     }
 }

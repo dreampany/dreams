@@ -1,13 +1,12 @@
 package com.dreampany.history.ui.fragment
 
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import android.widget.DatePicker
 import androidx.databinding.ObservableArrayList
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.data.enums.UiState
@@ -26,12 +25,17 @@ import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.databinding.ContentRecyclerBinding
 import com.dreampany.history.databinding.ContentTopStatusBinding
 import com.dreampany.history.databinding.FragmentHomeBinding
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.adapter.HistoryAdapter
 import com.dreampany.history.ui.model.HistoryItem
 import com.dreampany.history.vm.HistoryViewModel
 import com.dreampany.language.Language
 import com.dreampany.language.LanguagePicker
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.skydoves.powermenu.MenuAnimation
+import com.skydoves.powermenu.OnMenuItemClickListener
+import com.skydoves.powermenu.PowerMenu
+import com.skydoves.powermenu.PowerMenuItem
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -51,6 +55,7 @@ class HomeFragment
     BaseMenuFragment(),
     MaterialSearchView.OnQueryTextListener,
     MaterialSearchView.SearchViewListener,
+    OnMenuItemClickListener<PowerMenuItem>,
     DatePickerDialog.OnDateSetListener {
 
     private val NONE = "none"
@@ -69,6 +74,9 @@ class HomeFragment
     private lateinit var vm: HistoryViewModel
     private lateinit var adapter: HistoryAdapter
 
+    private val typeItems = mutableListOf<PowerMenuItem>()
+    private var powerMenu: PowerMenu? = null
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
     }
@@ -84,36 +92,60 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+        initTitleSubtitle()
         request(true, true, false)
     }
 
     override fun onStopUi() {
-        //processUiState(UiState.HIDE_PROGRESS)
+        processUiState(UiState.HIDE_PROGRESS)
+        powerMenu?.run {
+            if (isShowing) {
+                dismiss()
+            }
+        }
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
+        val typeItem = findMenuItemById(R.id.item_type)
+        val dateItem = findMenuItemById(R.id.item_date)
+        val searchItem = getSearchMenuItem()
+        MenuTint.colorMenuItem(
+            ColorUtil.getColor(context, R.color.material_white),
+            null, typeItem, dateItem, searchItem
+        )
         val activity = getParent()
-
         if (activity is SearchViewCallback) {
             val searchCallback = activity as SearchViewCallback?
             searchView = searchCallback!!.searchView
-            val searchItem = getSearchMenuItem()
             initSearchView(searchView, searchItem)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_search ->
-                //searchView.open(item);
+            R.id.item_type -> {
+                val toolbar = getParent()?.getToolbarRef()
+                //val view = findViewById<View>(R.id.item_type)
+                toolbar?.run {
+                    openTypePicker(this)
+                }
                 return true
+            }
             R.id.item_date -> {
                 openDatePicker()
                 return true
             }
+            R.id.item_search ->
+                //searchView.open(item);
+                return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onRefresh() {
+        super.onRefresh()
+        request(true, true, false)
     }
 
     override fun onSearchViewClosed() {
@@ -124,16 +156,22 @@ class HomeFragment
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+    override fun onItemClick(position: Int, item: PowerMenuItem) {
+        powerMenu?.setSelectedPosition(position)
+        powerMenu?.dismiss()
+        vm.setHistoryType(item.tag as HistoryType)
+        initTitleSubtitle()
+        request(true, true, false)
     }
 
+    override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+        vm.setDay(dayOfMonth)
+        vm.setMonth(month)
+        initTitleSubtitle()
+        request(true, true, false)
+    }
 
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
-        MenuTint.colorMenuItem(
-            searchItem,
-            ColorUtil.getColor(context, R.color.material_white),
-            null
-        )
         searchView.setMenuItem(searchItem)
         searchView.setSubmitOnClick(true)
 
@@ -141,8 +179,15 @@ class HomeFragment
         searchView.setOnQueryTextListener(this)
     }
 
+    private fun initTitleSubtitle() {
+        setTitle(TimeUtilKt.getDate(Constants.Date.MONTH_DAY))
+        val type = vm.getHistoryType().toTitle()
+        val subtitle = getString(R.string.type_format, type, adapter.itemCount)
+        setSubtitle(subtitle)
+    }
+
     private fun initView() {
-        setTitle(R.string.home)
+
         bindHome = super.binding as FragmentHomeBinding
         bindStatus = bindHome.layoutTopStatus
         bindRecycler = bindHome.layoutRecycler
@@ -155,9 +200,31 @@ class HomeFragment
         ViewUtil.setSwipe(bindHome.layoutRefresh, this)
         bindHome.fab.setOnClickListener(this)
 
-
-
         vm = ViewModelProviders.of(this, factory).get(HistoryViewModel::class.java)
+        vm.observeUiState(this, Observer { this.processUiState(it) })
+        vm.observeOutputs(this, Observer { this.processResponse(it) })
+
+        typeItems.add(
+            PowerMenuItem(
+                HistoryType.EVENT.toTitle(),
+                HistoryType.EVENT == vm.getHistoryType(),
+                HistoryType.EVENT
+            )
+        )
+        typeItems.add(
+            PowerMenuItem(
+                HistoryType.BIRTH.toTitle(),
+                HistoryType.BIRTH == vm.getHistoryType(),
+                HistoryType.BIRTH
+            )
+        )
+        typeItems.add(
+            PowerMenuItem(
+                HistoryType.DEATH.toTitle(),
+                HistoryType.DEATH == vm.getHistoryType(),
+                HistoryType.DEATH
+            )
+        )
     }
 
     private fun initRecycler() {
@@ -174,11 +241,24 @@ class HomeFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                //.addItemViewType(R.layout.item_word, vm.itemOffset)
+                .addItemViewType(R.layout.item_history, vm.itemOffset)
                 .withEdge(true),
             null,
-            scroller, null
+            scroller,
+            null
         )
+    }
+
+    private fun openTypePicker(view: View) {
+        powerMenu = PowerMenu.Builder(context)
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(typeItems)
+            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .build()
+        powerMenu?.showAsAnchorRightBottom(view)
     }
 
     private fun openDatePicker() {
@@ -248,6 +328,7 @@ class HomeFragment
         Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
         adapter.setItems(items)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+        initTitleSubtitle()
     }
 
 

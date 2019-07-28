@@ -9,6 +9,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -70,6 +71,8 @@ class HomeFragment
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var session: SessionManager
     private lateinit var bindHome: FragmentHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
@@ -98,6 +101,8 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+
+        session.track()
         initTitleSubtitle()
         request(true, true, false)
     }
@@ -239,27 +244,34 @@ class HomeFragment
 
         vm.setOnLinkClickListener(this)
 
-        typeItems.add(
-            PowerMenuItem(
-                HistoryType.EVENT.toTitle(),
-                HistoryType.EVENT == vm.getHistoryType(),
-                HistoryType.EVENT
+        if (typeItems.isEmpty()) {
+
+            typeItems.add(
+                PowerMenuItem(
+                    HistoryType.EVENT.toTitle(),
+                    HistoryType.EVENT == vm.getHistoryType(),
+                    HistoryType.EVENT
+                )
             )
-        )
-        typeItems.add(
-            PowerMenuItem(
-                HistoryType.BIRTH.toTitle(),
-                HistoryType.BIRTH == vm.getHistoryType(),
-                HistoryType.BIRTH
+            typeItems.add(
+                PowerMenuItem(
+                    HistoryType.BIRTH.toTitle(),
+                    HistoryType.BIRTH == vm.getHistoryType(),
+                    HistoryType.BIRTH
+                )
             )
-        )
-        typeItems.add(
-            PowerMenuItem(
-                HistoryType.DEATH.toTitle(),
-                HistoryType.DEATH == vm.getHistoryType(),
-                HistoryType.DEATH
+            typeItems.add(
+                PowerMenuItem(
+                    HistoryType.DEATH.toTitle(),
+                    HistoryType.DEATH == vm.getHistoryType(),
+                    HistoryType.DEATH
+                )
             )
-        )
+        }
+
+        if (session.isExpired()) {
+            vm.setCurrentDate()
+        }
     }
 
     private fun initRecycler() {

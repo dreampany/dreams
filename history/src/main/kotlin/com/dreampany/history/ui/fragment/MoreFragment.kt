@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.databinding.FragmentRecyclerBinding
@@ -39,6 +40,8 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var session: SessionManager
     private lateinit var bindRecycler: FragmentRecyclerBinding
     private lateinit var vm: MoreViewModel
     private lateinit var adapter: MoreAdapter
@@ -50,6 +53,7 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+        session.track()
     }
 
     override fun onStopUi() {

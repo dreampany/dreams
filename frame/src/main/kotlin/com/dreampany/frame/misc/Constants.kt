@@ -4,6 +4,7 @@ import android.content.Context
 import com.dreampany.frame.util.AndroidUtil
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Hawladar Roman on 24/2/19.
@@ -104,5 +105,9 @@ class Constants {
 
     object Retrofit {
         const val CONNECTION_CLOSE = "Connection:close"
+    }
+
+    object Session {
+        val EXPIRED_TIME = TimeUnit.MINUTES.toMillis(5)
     }
 }

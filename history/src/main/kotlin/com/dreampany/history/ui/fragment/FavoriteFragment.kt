@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -21,7 +20,6 @@ import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.MenuTint
-import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.History
@@ -29,7 +27,6 @@ import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.databinding.ContentRecyclerBinding
 import com.dreampany.history.databinding.ContentTopStatusBinding
 import com.dreampany.history.databinding.FragmentFavoriteBinding
-import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.activity.ToolsActivity
 import com.dreampany.history.ui.adapter.HistoryAdapter
 import com.dreampany.history.ui.enums.UiSubtype
@@ -62,6 +59,8 @@ class FavoriteFragment
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var session: SessionManager
     private lateinit var bind: FragmentFavoriteBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
@@ -85,6 +84,7 @@ class FavoriteFragment
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+        session.track()
         initTitleSubtitle()
         processUiState(UiState.NONE)
     }
@@ -144,9 +144,6 @@ class FavoriteFragment
     }
 
     private fun initView() {
-        setTitle(R.string.favorites)
-        setSubtitle(null)
-
         bind = super.binding as FragmentFavoriteBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler

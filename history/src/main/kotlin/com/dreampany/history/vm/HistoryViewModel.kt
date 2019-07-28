@@ -9,6 +9,7 @@ import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.util.TimeUtil
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.enums.ItemState
@@ -78,6 +79,11 @@ class HistoryViewModel @Inject constructor(
 
     fun setMonth(month: Int) {
         pref.setMonth(month)
+    }
+
+    fun setCurrentDate() {
+        setDay(TimeUtilKt.getDay())
+        setMonth(TimeUtilKt.getMonth())
     }
 
     fun getHistoryType(): HistoryType {

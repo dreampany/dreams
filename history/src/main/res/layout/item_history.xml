@@ -73,7 +73,7 @@
                 android:layout_height="@dimen/_20sdp"
                 android:layout_marginTop="@dimen/dp_8"
                 android:layout_marginEnd="@dimen/_8sdp"
-                auto:icon_size="@dimen/_16sdp"
+                auto:icon_size="@dimen/_12sdp"
                 auto:icon_type="heart"
                 auto:layout_constraintEnd_toStartOf="@id/text_year"
                 auto:layout_constraintTop_toBottomOf="@id/text_html" />

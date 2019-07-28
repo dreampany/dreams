@@ -105,6 +105,9 @@ class HomeFragment
     override fun onStopUi() {
         vm.setOnLinkClickListener(null)
         processUiState(UiState.HIDE_PROGRESS)
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch()
+        }
         powerMenu?.run {
             if (isShowing) {
                 dismiss()
@@ -150,17 +153,31 @@ class HomeFragment
         return super.onOptionsItemSelected(item)
     }
 
+    override fun hasBackPressed(): Boolean {
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch()
+            return true
+        }
+        return super.hasBackPressed()
+    }
+
     override fun onRefresh() {
         super.onRefresh()
         request(true, true, false)
     }
 
+    override fun onQueryTextChange(newText: String): Boolean {
+        if (adapter.hasNewFilter(newText)) {
+            adapter.setFilter(newText)
+            adapter.filterItems()
+        }
+        return false
+    }
+
     override fun onSearchViewClosed() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSearchViewShown() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onItemClick(position: Int, item: PowerMenuItem) {
@@ -178,12 +195,12 @@ class HomeFragment
         request(true, true, false)
     }
 
+    override fun onFavoriteClicked(history: History) {
+        vm.toggleFavorite(history)
+     }
+
     override fun onLinkClicked(link: String) {
         openSite(link)
-    }
-
-    override fun onFavoritClicked(history: History) {
-
     }
 
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
@@ -195,7 +212,7 @@ class HomeFragment
     }
 
     private fun initTitleSubtitle() {
-        setTitle(TimeUtilKt.getDate(Constants.Date.MONTH_DAY))
+        setTitle(TimeUtilKt.getDate(vm.getDay(), vm.getMonth(), Constants.Date.MONTH_DAY))
         val type = vm.getHistoryType().toTitle()
         val subtitle = getString(R.string.type_format, type, adapter.itemCount)
         setSubtitle(subtitle)
@@ -218,6 +235,7 @@ class HomeFragment
         vm = ViewModelProviders.of(this, factory).get(HistoryViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processResponse(it) })
+        vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
         vm.setOnLinkClickListener(this)
 
@@ -341,6 +359,19 @@ class HomeFragment
         }
     }
 
+    private fun processSingleResponse(response: Response<HistoryItem>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            processProgress(result.loading)
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            processFailure(result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<HistoryItem>
+            processSingleSuccess(result.data)
+        }
+    }
+
     private fun processSuccess(type: Response.Type, items: List<HistoryItem>) {
         Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
         adapter.setItems(items)
@@ -348,6 +379,9 @@ class HomeFragment
         initTitleSubtitle()
     }
 
+    private fun processSingleSuccess(item: HistoryItem) {
+        adapter.updateSilently(item)
+    }
 
     private fun request(
         important: Boolean,

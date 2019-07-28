@@ -1,7 +1,7 @@
 package com.dreampany.history.injector.ui
 
-import com.dreampany.history.ui.fragment.HomeFragment
 import com.dreampany.frame.misc.FragmentScope
+import com.dreampany.history.ui.fragment.FavoriteFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -12,8 +12,8 @@ import dagger.android.ContributesAndroidInjector
  * hawladar.roman@bjitgroup.com
  */
 @Module
-abstract class HomeModule {
+abstract class FavoriteModule {
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun homeFragment(): HomeFragment
+    abstract fun favoriteFragment(): FavoriteFragment
 }

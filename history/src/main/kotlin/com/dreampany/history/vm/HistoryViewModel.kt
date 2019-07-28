@@ -48,16 +48,19 @@ class HistoryViewModel @Inject constructor(
     val translationRepo: TranslationRepository,
     @Favorite val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<History, HistoryItem, UiTask<History>>(application, rx, ex, rm),
-    HistoryItem.OnLinkClickListener {
+    HistoryItem.OnClickListener {
 
-    interface OnClickListener {
-        fun onLinkClicked(link: String)
-        fun onFavoritClicked(history: History)
+    interface OnClickListener : HistoryItem.OnClickListener {
+
     }
 
     private var clickListener: OnClickListener? = null
 
-    override fun onLickClicked(link: String) {
+    override fun onFavoriteClicked(history: History) {
+        clickListener?.onFavoriteClicked(history)
+    }
+
+    override fun onLinkClicked(link: String) {
         clickListener?.onLinkClicked(link)
     }
 
@@ -204,7 +207,7 @@ class HistoryViewModel @Inject constructor(
             map.put(input.id, uiItem)
         }
         uiItem.item = input
-        uiItem.linkClickListener = this
+        uiItem.clickListener = this
         uiItem.favorite = isFavorite(input)
         return uiItem
     }

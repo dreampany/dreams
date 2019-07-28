@@ -30,11 +30,14 @@ class HistoryMapper
     @HistoryAnnote val cache: SmartCache<String, History>
 ) {
 
-    fun toItem(date: String, url: String, input: WikiHistory, inputType: HistoryType): History {
+    fun toItem(date: String, url: String, input: WikiHistory, inputType: HistoryType): History? {
         val day = TimeUtilKt.getDay(date, Constants.Date.MONTH_DAY)
         val month = TimeUtilKt.getMonth(date, Constants.Date.MONTH_DAY)
         val yearData = DataUtilKt.getFirstPart(input.year, Constants.Sep.SPACE)
-        val year = yearData.toInt()
+        val year = yearData.toIntOrNull()
+        if (year == null) {
+            return null
+        }
         val id = DataUtilKt.join(day, month, year)
         var output: History? = map.get(id)
         if (output == null) {

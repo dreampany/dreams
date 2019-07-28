@@ -27,11 +27,6 @@ class TimeUtilKt {
             return date.year
         }
 
-/*        fun getYearAsString(): String {
-            val date = DateTime()
-            return date.year.toString()
-        }*/
-
         fun getDay(date: String, pattern: String): Int {
             val fmt = DateTimeFormat.forPattern(pattern)
             return fmt.parseDateTime(date).dayOfMonth
@@ -47,9 +42,10 @@ class TimeUtilKt {
             return fmt.parseDateTime(date).year
         }
 
-        fun getDate(pattern: String): String {
+        fun getDate(day: Int, month: Int, pattern: String): String {
             val calendar = Calendar.getInstance()
-            calendar.set(getYear(), getMonth(), getDay())
+            val year = getYear()
+            calendar.set(year, month, day)
             val dateTime = DateTime(calendar.timeInMillis)
             val fmt = DateTimeFormat.forPattern(pattern)
             return dateTime.toString(fmt)

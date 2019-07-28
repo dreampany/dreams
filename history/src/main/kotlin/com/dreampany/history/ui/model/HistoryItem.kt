@@ -26,17 +26,17 @@ import java.io.Serializable
  */
 class HistoryItem private constructor(
     item: History, @LayoutRes layoutId: Int = 0,
-    var linkClickListener: OnLinkClickListener? = null
-) :
-    BaseItemKt<History, HistoryItem.ViewHolder, String>(item, layoutId) {
+    var clickListener: OnClickListener? = null
+) : BaseItemKt<History, HistoryItem.ViewHolder, String>(item, layoutId) {
 
-    interface OnLinkClickListener {
-        fun onLickClicked(link: String)
+    interface OnClickListener {
+        fun onFavoriteClicked(history: History)
+        fun onLinkClicked(link: String)
     }
 
     companion object {
-        fun getItem(item: History, linkClickListener: OnLinkClickListener? = null): HistoryItem {
-            return HistoryItem(item, R.layout.item_history, linkClickListener)
+        fun getItem(item: History, clickListener: OnClickListener? = null): HistoryItem {
+            return HistoryItem(item, R.layout.item_history, clickListener)
         }
     }
 
@@ -44,14 +44,19 @@ class HistoryItem private constructor(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
-        return ViewHolder(view, adapter, linkClickListener)
+        return ViewHolder(view, adapter, clickListener)
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.id.startsWith(constraint, true);
+        val history = item as History
+        return history.text!!.contains(constraint, true)
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>, var linkClickListener: OnLinkClickListener? = null) :
+    class ViewHolder(
+        view: View,
+        adapter: FlexibleAdapter<*>,
+        var clickListener: OnClickListener? = null
+    ) :
         BaseItemKt.ViewHolder(view, adapter),
         TextViewClickMovement.OnTextViewClickMovementListener {
 
@@ -73,6 +78,12 @@ class HistoryItem private constructor(
             buttonFavorite = view.findViewById(R.id.button_favorite)
 
             textHtml.movementMethod = TextViewClickMovement(this, getContext())
+            buttonFavorite.setOnClickListener {
+                val uiItem = adapter.getItem(adapterPosition)
+                uiItem?.run {
+                    clickListener?.onFavoriteClicked(this.item)
+                }
+            }
         }
 
         override fun <VH : BaseItemKt.ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>>
@@ -94,7 +105,7 @@ class HistoryItem private constructor(
                 val history = getTag<History>()
                 val link = history?.getLinkByTitle(linkText)
                 link?.run {
-                    linkClickListener?.onLickClicked(this.link)
+                    clickListener?.onLinkClicked(this.link)
                 }
             }
 

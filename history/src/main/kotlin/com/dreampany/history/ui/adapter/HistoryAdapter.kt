@@ -30,11 +30,18 @@ class HistoryAdapter(listener: Any?) : SmartAdapter<HistoryItem>(listener) {
         }
     }
 
+    fun addFavoriteItems(items: List<HistoryItem>): Boolean {
+        for (item in items) {
+            addFavoriteItem(item)
+        }
+        return true
+    }
+
     class RecentComparator : Comparator<IFlexible<*>> {
         override fun compare(left: IFlexible<*>, right: IFlexible<*>): Int {
             val leftItem = left as HistoryItem
             val rightItem = right as HistoryItem
-            return (rightItem.item.year - leftItem.item.year).toInt()
+            return (rightItem.item.year - leftItem.item.year)
         }
     }
 }

@@ -44,7 +44,7 @@ class RemoteHistoryDataSource(
     }
 
     override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
-        return Maybe.create {emitter ->
+        return Maybe.create { emitter ->
             val items = getItems(type, day, month)
             if (emitter.isDisposed) {
                 return@create
@@ -144,20 +144,29 @@ class RemoteHistoryDataSource(
         }
         val histories = mutableListOf<History>()
         response.data.run {
-            when(type) {
+            when (type) {
                 HistoryType.EVENT -> {
                     events.forEach {
-                        histories.add(mapper.toItem(response.date, response.url, it, type))
+                        val history = mapper.toItem(response.date, response.url, it, type)
+                        history?.run {
+                            histories.add(this)
+                        }
                     }
                 }
                 HistoryType.BIRTH -> {
                     births.forEach {
-                        histories.add(mapper.toItem(response.date, response.url, it, type))
+                        val history = mapper.toItem(response.date, response.url, it, type)
+                        history?.run {
+                            histories.add(this)
+                        }
                     }
                 }
                 HistoryType.DEATH -> {
                     deaths.forEach {
-                        histories.add(mapper.toItem(response.date, response.url, it, type))
+                        val history = mapper.toItem(response.date, response.url, it, type)
+                        history?.run {
+                            histories.add(this)
+                        }
                     }
                 }
             }

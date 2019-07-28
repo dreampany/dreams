@@ -10,6 +10,7 @@ import com.dreampany.history.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity
 import com.dreampany.frame.ui.callback.SearchViewCallback
+import com.dreampany.history.ui.fragment.FavoriteFragment
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
 import javax.inject.Inject
@@ -24,6 +25,8 @@ class NavigationActivity : BaseBottomNavigationActivity(), SearchViewCallback {
 
     @Inject
     internal lateinit var homeFragment: Lazy<HomeFragment>
+    @Inject
+    internal lateinit var favoriteFragment: Lazy<FavoriteFragment>
     @Inject
     internal lateinit var moreFragment: Lazy<MoreFragment>
     @Inject
@@ -81,6 +84,7 @@ class NavigationActivity : BaseBottomNavigationActivity(), SearchViewCallback {
     override fun onNavigationItem(navigationItemId: Int) {
         when (navigationItemId) {
             R.id.item_home -> commitFragment(HomeFragment::class.java, homeFragment, R.id.layout)
+            R.id.item_favorite -> commitFragment(FavoriteFragment::class.java, favoriteFragment, R.id.layout)
             R.id.item_more -> commitFragment(MoreFragment::class.java, moreFragment, R.id.layout)
         }
     }

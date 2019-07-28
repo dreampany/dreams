@@ -43,7 +43,8 @@ import javax.inject.Singleton
  */
 
 @Singleton
-class NotifyViewModel @Inject constructor(
+class NotifyViewModel
+@Inject constructor(
     val application: Application,
     val rx: RxMapper,
     val ex: AppExecutors,
@@ -52,8 +53,8 @@ class NotifyViewModel @Inject constructor(
     val pref: Pref,
     val notify: NotifyManager,
     val stateMapper: StateMapper,
-    val wordMapper: WordMapper,
     val stateRepo: StateRepository,
+    val wordMapper: WordMapper,
     val wordRepo: WordRepository,
     val translationRepo: TranslationRepository
 ) {
@@ -82,10 +83,7 @@ class NotifyViewModel @Inject constructor(
             //find raw word item
             //val stateCount = stateRepo.getCount(ItemType.WORD.name, ItemSubtype.DEFAULT.name, ItemState.RAW.name)
             val state = getState(ItemType.WORD, ItemSubtype.DEFAULT, ItemState.RAW)
-            if (state == null) {
-                return@create
-            }
-            if (emitter.isDisposed) {
+            if (state == null || emitter.isDisposed) {
                 return@create
             }
             Timber.v("Statue %s", state.toString())

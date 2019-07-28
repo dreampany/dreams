@@ -17,7 +17,8 @@ class NotifyService : BaseJobService() {
     internal lateinit var vm: NotifyViewModel
 
     override fun doJob(job: JobParameters): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        vm.notifyIf()
+        return true
     }
 
     override fun done(job: JobParameters): Boolean {

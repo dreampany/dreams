@@ -2,6 +2,7 @@ package com.dreampany.history.data.source.pref
 
 import android.content.Context
 import com.dreampany.frame.data.source.pref.FramePrefKt
+import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.misc.Constants
@@ -47,5 +48,13 @@ class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
 
     fun getYear(): Int {
         return getPublicly(Constants.Date.YEAR, TimeUtilKt.getYear())
+    }
+
+    fun commitNotifyHistoryTime() {
+        setPrivately(Constants.Pref.NOTIFY_HISTORY, TimeUtil.currentTime())
+    }
+
+    fun getNotifyHistoryTime(): Long {
+        return getPrivately(Constants.Pref.NOTIFY_HISTORY, 0L)
     }
 }

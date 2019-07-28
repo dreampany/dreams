@@ -23,19 +23,19 @@ interface WordDataSource : DataSource<Word> {
 
     fun getItemRx(word: String, full: Boolean): Maybe<Word>
 
-    fun getItems(ids: List<String>): List<Word>
+    fun getItems(ids: List<String>): List<Word>?
 
     fun getItemsRx(ids: List<String>): Maybe<List<Word>>
 
-    fun getSearchItems(query: String, limit: Int): List<Word>
+    fun getSearchItems(query: String, limit: Int): List<Word>?
 
-    fun getCommonItems(): List<Word>
+    fun getCommonItems(): List<Word>?
 
-    fun getAlphaItems(): List<Word>
+    fun getAlphaItems(): List<Word>?
 
     fun getItemsRx(bitmap: Bitmap): Maybe<List<Word>>
 
-    fun getRawWords(): List<String>
+    fun getRawWords(): List<String>?
 
     fun getRawWordsRx(): Maybe<List<String>>
 }

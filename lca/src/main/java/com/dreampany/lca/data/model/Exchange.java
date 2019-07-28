@@ -3,6 +3,8 @@ package com.dreampany.lca.data.model;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
+
+import android.annotation.SuppressLint;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 

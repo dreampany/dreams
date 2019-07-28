@@ -40,6 +40,14 @@ abstract class BasePrefKt(val context: Context) {
         return publicPref.preferences.getBoolean(key, defaultValue)
     }
 
+    fun setPublicly(key: String, value: Int) {
+        publicPref.put(key, value)
+    }
+
+    fun getPublicly(key: String, defaultValue: Int): Int {
+        return publicPref.preferences.getInt(key, defaultValue)
+    }
+
     fun getPrivately(key: String, defaultValue: Boolean): Boolean {
         return privatePref.preferences.getBoolean(key, defaultValue)
     }
@@ -62,6 +70,14 @@ abstract class BasePrefKt(val context: Context) {
 
     fun <T> setPublicly(key: String, value: T) {
         publicPref.put(key, value)
+    }
+
+    fun setPublicly(key: String, value: String) {
+        publicPref.put(key, value)
+    }
+
+    fun getPublicly(key: String, defaultValue: String): String {
+        return publicPref.get(key, String::class.java, defaultValue)
     }
 
     fun <T> setPrivately(key: String, value: T) {

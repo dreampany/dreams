@@ -32,7 +32,7 @@ public class MarketMapper {
             return null;
         }
 
-        String id  = DataUtil.concat(in.getMarket(), in.getFromSymbol(), in.getToSymbol());
+        String id  = DataUtil.join(in.getMarket(), in.getFromSymbol(), in.getToSymbol());
         Market out = map.get(id);
         if (out == null) {
             out = new Market();

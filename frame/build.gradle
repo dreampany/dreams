@@ -131,6 +131,12 @@ dependencies {
     /* androidx support*/
     api 'androidx.multidex:multidex:2.0.1'
     api 'androidx.core:core:1.2.0-alpha02'
+    //api 'androidx.core:core-ktx:1.0.2'
+    //api 'androidx.navigation:navigation-fragment:2.1.0-beta02'
+    //api 'androidx.navigation:navigation-ui:2.1.0-beta02'
+    //api 'androidx.navigation:navigation-fragment-ktx:2.1.0-beta02'
+    //api 'androidx.navigation:navigation-ui-ktx:2.1.0-beta02'
+    //api 'androidx.fragment:fragment-ktx:1.0.1'
     api 'androidx.palette:palette:1.0.0'
     api 'androidx.appcompat:appcompat:1.1.0-rc01'
     api 'androidx.cardview:cardview:1.0.0'
@@ -190,10 +196,10 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:3.14.1'
 
     /* retrofit */
-    api 'com.squareup.retrofit2:retrofit:2.5.0'
-    api 'com.squareup.retrofit2:converter-gson:2.5.0'
-    api 'com.squareup.retrofit2:converter-jackson:2.5.0'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    api 'com.squareup.retrofit2:retrofit:2.6.0'
+    api 'com.squareup.retrofit2:converter-gson:2.6.0'
+    api 'com.squareup.retrofit2:converter-jackson:2.6.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
 
     /* flexible adapter */
     api 'eu.davidea:flexible-adapter:5.1.0'
@@ -223,7 +229,7 @@ dependencies {
     api 'com.tapadoo.android:alerter:4.0.2'
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'org.apache.commons:commons-lang3:3.9'
-    api 'org.apache.commons:commons-collections4:4.3'
+    api 'org.apache.commons:commons-collections4:4.4'
     api 'io.supercharge:shimmerlayout:2.1.0'
     api 'com.ethanhua:skeleton:1.1.1'
     api 'cz.kinst.jakub:android-stateful-layout-base:2.0.7'
@@ -240,4 +246,5 @@ dependencies {
     api 'com.miguelcatalan:materialsearchview:1.4.0'
     api 'com.github.nikartm:fit-button:1.2.1'
     api 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
+    api 'com.github.skydoves:powermenu:2.1.0'
 }

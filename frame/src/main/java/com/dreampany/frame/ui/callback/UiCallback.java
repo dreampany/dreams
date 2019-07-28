@@ -1,6 +1,7 @@
 package com.dreampany.frame.ui.callback;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Hawladar Roman on 2/6/18.
@@ -12,7 +13,7 @@ public interface UiCallback<A, F, T, R, X> {
     @NonNull
     A getUiActivity();
 
-    @NonNull
+    @Nullable
     F getUiFragment();
 
     void set(@NonNull T t);

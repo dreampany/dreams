@@ -71,7 +71,7 @@
                     android:layout_marginTop="8dp"
                     android:orientation="horizontal">
 
-                    <fr.arnaudguyon.smartfontslib.FontTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_change_1h"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -79,9 +79,9 @@
                         android:gravity="start"
                         android:text="@string/coin_format"
                         android:textColor="@color/black"
-                        auto:smart_font="@string/fontRobotoSlabTitle" />
+                        auto:fontFamily="@font/roboto_slab_bold" />
 
-                    <fr.arnaudguyon.smartfontslib.FontTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_change_24h"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -89,9 +89,9 @@
                         android:gravity="center"
                         android:text="@string/coin_format"
                         android:textColor="@color/black"
-                        auto:smart_font="@string/fontRobotoSlabTitle" />
+                        auto:fontFamily="@font/roboto_slab_bold" />
 
-                    <fr.arnaudguyon.smartfontslib.FontTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_change_7d"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
                         android:gravity="end"
                         android:text="@string/coin_format"
                         android:textColor="@color/black"
-                        auto:smart_font="@string/fontRobotoSlabTitle" />
+                        auto:fontFamily="@font/roboto_slab_bold" />
 
                 </LinearLayout>
 

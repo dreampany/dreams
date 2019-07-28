@@ -43,9 +43,19 @@ public enum CoinSource implements Type {
 
     public static final Creator<CoinSource> CREATOR = new Creator<CoinSource>() {
 
+        public CoinSource valueOf(int ordinal) {
+            switch (ordinal) {
+                case 0:
+                    return CMC;
+                case 1:
+                default:
+                    return CC;
+            }
+        }
+
         @Override
         public CoinSource createFromParcel(Parcel in) {
-            return CoinSource.valueOf(in.readInt());
+            return valueOf(in.readInt());
         }
 
         @Override
@@ -54,14 +64,4 @@ public enum CoinSource implements Type {
         }
 
     };
-
-    public static CoinSource valueOf(int ordinal) {
-        switch (ordinal) {
-            case 0:
-                return CMC;
-            case 1:
-            default:
-                return CC;
-        }
-    }
 }

@@ -241,7 +241,7 @@ class RoomCoinDataSource constructor(
         }
     }
 
-  override  fun putItems(coins: List<Coin>): List<Long> {
+    override fun putItems(coins: List<Coin>): List<Long> {
         val result = ArrayList<Long>()
         Stream.of(coins).forEach { coin -> result.add(putItem(coin)) }
         return result
@@ -273,7 +273,7 @@ class RoomCoinDataSource constructor(
         return null
     }
 
-   override fun deleteRx(coins: List<Coin>): Maybe<List<Long>> {
+    override fun deleteRx(coins: List<Coin>): Maybe<List<Long>> {
         return Maybe.empty()
     }
 

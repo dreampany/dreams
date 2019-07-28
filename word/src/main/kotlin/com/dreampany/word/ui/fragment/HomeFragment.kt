@@ -606,8 +606,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     }
 
     private fun openYandexSite() {
-        val outTask =
-            UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW, null, Constants.Translation.YANDEX_URL)
+        val outTask = UiTask<Word>(true, UiType.SITE, UiSubtype.VIEW, null, Constants.Translation.YANDEX_URL)
         openActivity(ToolsActivity::class.java, outTask)
     }
 }

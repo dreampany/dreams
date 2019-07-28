@@ -36,7 +36,7 @@
                     android:layout_below="@id/layout_top"
                     android:padding="10dp">
 
-                    <fr.arnaudguyon.smartfontslib.FontTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -45,9 +45,9 @@
                         auto:layout_constraintEnd_toEndOf="parent"
                         auto:layout_constraintStart_toStartOf="parent"
                         auto:layout_constraintTop_toTopOf="parent"
-                        auto:smart_font="@string/fontRobotoSlabBody" />
+                        auto:fontFamily="@font/roboto_slab_regular" />
 
-                    <fr.arnaudguyon.smartfontslib.FontTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -58,9 +58,9 @@
                         auto:layout_constraintEnd_toEndOf="parent"
                         auto:layout_constraintStart_toStartOf="parent"
                         auto:layout_constraintTop_toBottomOf="@id/text_price"
-                        auto:smart_font="@string/fontRobotoSlabBody" />
+                        auto:fontFamily="@font/roboto_slab_regular" />
 
-                    <fr.arnaudguyon.smartfontslib.FontTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/text_change"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                         auto:layout_constraintEnd_toEndOf="parent"
                         auto:layout_constraintStart_toStartOf="parent"
                         auto:layout_constraintTop_toBottomOf="@id/text_time"
-                        auto:smart_font="@string/fontRobotoSlabTitle" />
+                        auto:fontFamily="@font/roboto_slab_bold" />
 
                     <com.beardedhen.androidbootstrap.BootstrapDropDown
                         android:id="@+id/drop_down_currency"
@@ -97,7 +97,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <fr.arnaudguyon.smartfontslib.FontButton
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button_more"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -107,8 +107,7 @@
                     android:background="@drawable/ripple"
                     android:text="@string/more_graph"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="20sp"
-                    auto:smart_font="@string/fontRobotoSlabTitle" />
+                    android:textSize="20sp" />
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart"

@@ -88,6 +88,11 @@
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name="com.dreampany.frame.ui.activity.WebActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:screenOrientation="sensor" />
+
         <service
             android:name="com.dreampany.history.service.NotifyService"
             android:exported="false">

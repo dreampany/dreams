@@ -2,12 +2,24 @@
   "formatVersion": 1,
   "database": {
     "version": 10,
-    "identityHash": "7437e54d37d8d705e87b4998918b22ed",
+    "identityHash": "f8db6641873057f556d11edccaeb2309",
     "entities": [
       {
         "tableName": "State",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT NOT NULL, `subtype` TEXT NOT NULL, `state` TEXT NOT NULL, `time` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`, `type`, `subtype`, `state`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `type` TEXT NOT NULL, `subtype` TEXT NOT NULL, `state` TEXT NOT NULL, PRIMARY KEY(`id`, `type`, `subtype`, `state`))",
         "fields": [
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
           {
             "fieldPath": "type",
             "columnName": "type",
@@ -23,18 +35,6 @@
           {
             "fieldPath": "state",
             "columnName": "state",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "time",
-            "columnName": "time",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -65,18 +65,18 @@
       },
       {
         "tableName": "Store",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `type` TEXT NOT NULL, `subtype` TEXT NOT NULL, `state` TEXT NOT NULL, `data` TEXT NOT NULL, PRIMARY KEY(`id`, `type`, `subtype`, `state`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `type` TEXT NOT NULL, `subtype` TEXT NOT NULL, `state` TEXT NOT NULL, `data` TEXT, PRIMARY KEY(`id`, `type`, `subtype`, `state`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -101,7 +101,7 @@
             "fieldPath": "data",
             "columnName": "data",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -132,7 +132,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7437e54d37d8d705e87b4998918b22ed')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f8db6641873057f556d11edccaeb2309')"
     ]
   }
 }

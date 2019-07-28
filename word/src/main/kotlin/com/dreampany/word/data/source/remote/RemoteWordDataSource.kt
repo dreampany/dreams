@@ -94,7 +94,8 @@ class RemoteWordDataSource(
         if (!DataUtil.isEmpty(items)) {
             Stream.of(items!!).forEach { word -> result.add(mapper.toItem(word, false)) }
         }
-        return result    }
+        return result
+    }
 
     override fun getCommonItems(): List<Word> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

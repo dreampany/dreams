@@ -183,10 +183,10 @@ class DatabaseCoinDataSource constructor(
             putItem(coin)
         }
         return ArrayList()
-        /*        String path = Constants.FirebaseKey.CRYPTO.concat(Constants.Sep.SLASH).concat(Constants.FirebaseKey.COINS);
+        /*        String path = Constants.FirebaseKey.CRYPTO.join(Constants.Sep.SLASH).join(Constants.FirebaseKey.COINS);
         Map<String, Coin> items = Maps.newHashMap();
         for (Coin coin : coins) {
-            items.put(Constants.Sep.HYPHEN.concat(String.valueOf(coin.getId())), coin);
+            items.put(Constants.Sep.HYPHEN.join(String.valueOf(coin.getId())), coin);
         }
         Throwable error = database.setItemRx(path, items).blockingGet();
         if (error == null) {

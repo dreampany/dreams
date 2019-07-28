@@ -4,6 +4,7 @@ import android.content.Context
 import com.dreampany.frame.util.AndroidUtil
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Hawladar Roman on 24/2/19.
@@ -20,6 +21,7 @@ class Constants {
         const val LAUNCH = "launch"
         const val NAVIGATION = "navigation"
         const val TOOLS = "tools"
+        const val WEB = "web"
 
 
         const val NOTIFY_SERVICE = "notify_service"
@@ -44,6 +46,7 @@ class Constants {
         fun launch(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.LAUNCH
         fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.NAVIGATION
         fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.TOOLS
+        fun web(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.WEB
     }
 
     object Event {
@@ -98,5 +101,13 @@ class Constants {
 
     object Task {
         const val TASK = "task"
+    }
+
+    object Retrofit {
+        const val CONNECTION_CLOSE = "Connection:close"
+    }
+
+    object Session {
+        val EXPIRED_TIME = TimeUnit.MINUTES.toMillis(5)
     }
 }

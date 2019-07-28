@@ -19,8 +19,6 @@ import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.vm.LoaderViewModel;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.inject.Inject;
 
 import dagger.Lazy;
@@ -76,7 +74,6 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
         return true;
     }
 
-    @NotNull
     @Override
     public String getScreen() {
         return Constants.Companion.navigation(getApplicationContext());
@@ -127,7 +124,7 @@ public class NavigationActivity extends BaseBottomNavigationActivity implements 
     }
 
     @Override
-    public void execute(@NotNull Task<?> t) {
+    public void execute(Task<?> t) {
 
     }
 

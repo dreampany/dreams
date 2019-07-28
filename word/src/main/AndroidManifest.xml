@@ -93,7 +93,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.activity.WebActivity"
+            android:name="com.dreampany.frame.ui.activity.WebActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:screenOrientation="sensor" />
 

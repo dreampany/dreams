@@ -88,7 +88,7 @@ class RoomWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getSearchItems(query: String, limit: Int): List<Word> {
+    override fun getSearchItems(query: String, limit: Int): List<Word>? {
         return dao.getSearchItems(query, limit)
     }
 
@@ -100,7 +100,7 @@ class RoomWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getRawWords(): List<String> {
+    override fun getRawWords(): List<String>? {
         return dao.getRawItems()    }
 
     override fun getRawWordsRx(): Maybe<List<String>> {
@@ -109,7 +109,7 @@ class RoomWordDataSource(
             if (emitter.isDisposed) {
                 return@create
             }
-            if (DataUtil.isEmpty(result)) {
+            if (result == null) {
                 emitter.onError(EmptyException())
             } else {
                 emitter.onSuccess(result)

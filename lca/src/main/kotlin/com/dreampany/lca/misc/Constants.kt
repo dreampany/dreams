@@ -214,7 +214,10 @@ class Constants {
     }
 
     object SourceInfo {
-        const val ID = Key.ID
+        const val ID = "sourceInfoId"
+        const val NAME = "sourceInfoName"
+        const val LANGUAGE = "sourceInfoLanguage"
+        const val IMAGE_URL = "sourceInfoImageUrl"
     }
 
     object Limit {

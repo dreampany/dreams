@@ -18,8 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
@@ -66,20 +64,19 @@ public class NewsItem extends BaseItem<News, NewsItem.ViewHolder> {
 
     static class ViewHolder extends BaseItem.ViewHolder {
 
-        @BindView(R.id.image_icon)
         SimpleDraweeView icon;
-        @BindView(R.id.text_title)
         TextView title;
-        @BindView(R.id.text_body)
         TextView body;
-        @BindView(R.id.text_source)
         TextView source;
-        @BindView(R.id.text_time)
         TextView time;
 
         ViewHolder(@NotNull View view, @NotNull FlexibleAdapter adapter) {
             super(view, adapter);
-            ButterKnife.bind(this, view);
+            icon = view.findViewById(R.id.image_icon);
+            title = view.findViewById(R.id.text_title);
+            body = view.findViewById(R.id.text_body);
+            source = view.findViewById(R.id.text_source);
+            time = view.findViewById(R.id.text_time);
         }
 
         void bind(NewsItem item) {

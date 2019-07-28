@@ -1,15 +1,18 @@
 package com.dreampany.history.ui.activity
 
 import android.os.Bundle
+import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.activity.WebActivity
 import com.dreampany.history.R
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.enums.UiSubtype
 import com.dreampany.history.ui.enums.UiType
 import com.dreampany.history.ui.fragment.AboutFragment
 import com.dreampany.history.ui.fragment.LicenseFragment
 import com.dreampany.history.ui.fragment.SettingsFragment
 import com.dreampany.history.ui.model.UiTask
-import com.dreampany.frame.misc.SmartAd
+import com.google.android.gms.ads.AdView
 import dagger.Lazy
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,6 +42,10 @@ class ToolsActivity : BaseActivity() {
         return uiTask?.fullscreen ?: super.isFullScreen()
     }
 
+    override fun getScreen(): String {
+        return Constants.tools(this)
+    }
+
     override fun onStartUi(state: Bundle?) {
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
@@ -46,6 +53,16 @@ class ToolsActivity : BaseActivity() {
         if (type == null || subtype == null) {
             return
         }
+
+        ad.initAd(
+            this,
+            getScreen(),
+            findViewById<AdView>(R.id.adview),
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
+        )
+        ad.loadAd(getScreen())
+
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
@@ -59,6 +76,19 @@ class ToolsActivity : BaseActivity() {
                         commitFragment(AboutFragment::class.java, aboutProvider, R.id.layout, uiTask)
                     }
                     else -> {
+                    }
+                }
+            }
+            UiType.SITE -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        openActivity(WebActivity::class.java, uiTask, true)
+/*                        if (AdvancedWebView.Browsers.hasAlternative(this)) {
+                            AdvancedWebView.Browsers.openUrl(this, uiTask.comment)
+                            finish()
+                        } else {
+                            openActivity(WebActivity::class.java, uiTask, true)
+                        }*/
                     }
                 }
             }

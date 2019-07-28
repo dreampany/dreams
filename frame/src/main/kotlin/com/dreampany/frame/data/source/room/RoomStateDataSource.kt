@@ -4,7 +4,6 @@ import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.source.api.StateDataSource
 import com.dreampany.frame.data.source.dao.StateDao
-import com.dreampany.frame.util.TimeUtil
 import io.reactivex.Maybe
 import javax.inject.Singleton
 

@@ -28,7 +28,7 @@
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent" />
 
-            <fr.arnaudguyon.smartfontslib.FontTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -36,11 +36,11 @@
                 android:text="@string/app_name"
                 android:textColor="@color/white"
                 android:textSize="30sp"
-                auto:smart_font="@string/fontRobotoSlabTitle" />
+                auto:fontFamily="@font/roboto_slab_bold" />
 
         </LinearLayout>
 
-        <fr.arnaudguyon.smartfontslib.FontTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_copyright"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             auto:layout_constraintBottom_toBottomOf="parent"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
-            auto:smart_font="@string/fontRobotoSlabBody" />
+            auto:fontFamily="@font/roboto_slab_regular" />
 
         <com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/view_loading"

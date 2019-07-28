@@ -17,6 +17,7 @@ import javax.inject.Singleton
  */
 @Module
 class DatabaseModule {
+
     @Singleton
     @Provides
     fun provideDatabase(application: Application): DatabaseManager {

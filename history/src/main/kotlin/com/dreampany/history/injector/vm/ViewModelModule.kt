@@ -2,10 +2,10 @@ package com.dreampany.history.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.history.vm.DemoViewModel
-import com.dreampany.history.vm.MoreViewModel
 import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
+import com.dreampany.history.vm.HistoryViewModel
+import com.dreampany.history.vm.MoreViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -27,8 +27,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DemoViewModel::class)
-    abstract fun bindDemoViewModel(demoViewModel: DemoViewModel): ViewModel
+    @ViewModelKey(HistoryViewModel::class)
+    abstract fun bindHistoryViewModel(vm: HistoryViewModel): ViewModel
 
     @Singleton
     @Binds

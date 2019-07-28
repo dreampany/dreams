@@ -58,7 +58,7 @@ class MoreViewModel @Inject constructor(
     private fun getItems(): Maybe<List<MoreItem>> {
         return Maybe.fromCallable {
             val items = ArrayList<MoreItem>()
-            items.add(MoreItem.getItem(More(MoreType.SETTINGS)))
+            //items.add(MoreItem.getItem(More(MoreType.SETTINGS)))
             items.add(MoreItem.getItem(More(MoreType.APPS)))
             items.add(MoreItem.getItem(More(MoreType.RATE_US)))
             items.add(MoreItem.getItem(More(MoreType.FEEDBACK)))

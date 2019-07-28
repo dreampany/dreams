@@ -4,6 +4,8 @@ import android.content.Context
 import com.dreampany.history.R
 import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.TextUtil
+import com.google.common.base.Splitter
+import com.google.common.collect.Iterables
 import java.util.concurrent.TimeUnit
 
 
@@ -15,6 +17,14 @@ import java.util.concurrent.TimeUnit
 class Constants {
 
     companion object {
+        fun database(name: String): String {
+            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + Constants.Database.POST_FIX
+        }
+
+        fun database(name: String, type: String): String {
+            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + type + Constants.Database.POST_FIX
+        }
+
         fun lastAppId(context: Context): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
         fun about(context: Context): String = Constants.about(context)
@@ -52,5 +62,36 @@ class Constants {
 
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
+    }
+
+    object Date {
+        const val MONTH_DAY = "MMM dd"
+        const val DAY = "day"
+        const val MONTH = "month"
+        const val YEAR = "year"
+    }
+
+    object History {
+        const val ID = Constants.Key.ID
+        const val EVENTS = "Events"
+        const val BIRTHS = "Births"
+        const val DEATHS = "Deaths"
+        const val DAY = "day"
+        const val MONTH = "month"
+        const val TYPE = "history_type"
+    }
+
+    object Retrofit {
+        const val CONNECTION_CLOSE = Constants.Retrofit.CONNECTION_CLOSE
+    }
+
+    object Api {
+        const val HISTORY_MUFFIN_LABS = "https://history.muffinlabs.com"
+        const val HISTORY_MUFFIN_LABS_DAY_MONTH = "/date/{month}/{day}"
+    }
+
+    object Database {
+        const val TYPE_HISTORY = "history"
+        const val POST_FIX = Constants.Sep.HYPHEN + "db"
     }
 }

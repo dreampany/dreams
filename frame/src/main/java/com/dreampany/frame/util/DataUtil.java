@@ -37,7 +37,7 @@ public final class DataUtil {
 
     }
 
-    public static String concat(String... data) {
+    public static String join(String... data) {
         return StringUtils.join(data);
     }
 

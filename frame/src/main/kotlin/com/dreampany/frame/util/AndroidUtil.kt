@@ -421,6 +421,15 @@ class AndroidUtil {
             }
         }
 
+/*        fun  openActivity(context: Context, target: Class<*>, task: Task<*>?) {
+            val intent = Intent(context, target)
+            if (task != null) {
+                intent.putExtra(Constants.Task.TASK, task as Parcelable?)
+            }
+            startActivity(intent)
+            Animato.animateSlideLeft(getActivity())
+        }*/
+
         fun sleep(time: Long) {
             try {
                 Thread.sleep(time)

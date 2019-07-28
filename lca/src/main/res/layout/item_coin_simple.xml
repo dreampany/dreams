@@ -24,7 +24,7 @@
             auto:placeholderImageScaleType="centerCrop"
             auto:roundAsCircle="true" />
 
-        <fr.arnaudguyon.smartfontslib.FontTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,9 +35,9 @@
             android:textSize="14sp"
             auto:layout_constraintStart_toEndOf="@id/image_icon"
             auto:layout_constraintTop_toTopOf="parent"
-            auto:smart_font="@string/fontRobotoSlabTitle" />
+            auto:fontFamily="@font/roboto_slab_regular" />
 
-        <fr.arnaudguyon.smartfontslib.FontTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,9 +48,9 @@
             android:textSize="15sp"
             auto:layout_constraintStart_toEndOf="@id/image_icon"
             auto:layout_constraintTop_toBottomOf="@id/text_name"
-            auto:smart_font="@string/fontRobotoSlabTitle" />
+            auto:fontFamily="@font/roboto_slab_bold" />
 
-        <fr.arnaudguyon.smartfontslib.FontTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_last_updated"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -62,20 +62,7 @@
             android:textColor="@color/material_grey800"
             auto:layout_constraintStart_toEndOf="@id/image_icon"
             auto:layout_constraintTop_toBottomOf="@id/text_price"
-            auto:smart_font="@string/fontRobotoSlabBody" />
-
-        <!--        <fr.arnaudguyon.smartfontslib.FontTextView
-                    android:id="@+id/text_change_24h"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/coin_format"
-                    android:textColor="@color/material_grey700"
-                    android:textSize="15sp"
-                    auto:layout_constraintStart_toEndOf="@id/text_price"
-                    auto:layout_constraintTop_toBottomOf="@id/text_name"
-                    auto:smart_font="@string/fontRobotoSlabTitle" />-->
+            auto:fontFamily="@font/roboto_slab_regular" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

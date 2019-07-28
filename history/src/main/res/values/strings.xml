@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Demo</string>
+    <string name="app_name">History</string>
+    <string name="type_format">%s: %d</string>
+    <string name="year_format">Year: %d</string>
+    <string name="history_format">Histories: %d</string>
+    <string name="favourite_history">Favourite Histories</string>
+    <string name="empty_favourite">Oops! No favourite histories.</string>
+    <string name="search_history">Search Histories</string>
+    <string name="empty_search_history">History not found!\nPlease search again.</string>
 </resources>

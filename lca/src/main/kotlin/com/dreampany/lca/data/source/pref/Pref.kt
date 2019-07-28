@@ -18,7 +18,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class Pref @Inject constructor(val context: Context) : BasePrefKt(context) {
+class Pref @Inject constructor(context: Context) : BasePrefKt(context) {
 
     private val KEY_NOTIFY_COIN: String
     private val KEY_NOTIFY_NEWS: String

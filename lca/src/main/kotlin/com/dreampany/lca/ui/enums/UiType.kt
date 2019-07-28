@@ -1,4 +1,4 @@
-package com.dreampany.lca.data.enums
+package com.dreampany.lca.ui.enums
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -10,6 +10,6 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class ItemState : Parcelable {
-    FAVORITE
+enum class UiType : Parcelable {
+    MORE, COIN, GRAPH, ICO, NEWS
 }

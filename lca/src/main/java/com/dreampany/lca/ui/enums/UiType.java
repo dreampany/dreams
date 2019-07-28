@@ -1,14 +1,17 @@
+/*
 package com.dreampany.lca.ui.enums;
 
 import android.os.Parcel;
 
 import com.dreampany.frame.data.enums.Type;
 
+*/
 /**
  * Created by Hawladar Roman on 30/4/18.
  * Dreampany
  * dreampanymail@gmail.com
- */
+ *//*
+
 public enum UiType implements Type {
     MORE, COIN, GRAPH, ICO, NEWS;
 
@@ -75,3 +78,4 @@ public enum UiType implements Type {
         }
     }
 }
+*/

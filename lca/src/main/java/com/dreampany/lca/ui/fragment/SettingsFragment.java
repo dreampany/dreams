@@ -10,7 +10,6 @@ import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
-import com.dreampany.lca.service.NotifyService;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

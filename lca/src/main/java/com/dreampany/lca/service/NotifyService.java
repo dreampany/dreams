@@ -3,7 +3,6 @@ package com.dreampany.lca.service;
 import androidx.annotation.NonNull;
 
 import com.dreampany.frame.api.service.BaseJobService;
-import com.dreampany.lca.vm.NotifyViewModel;
 import com.firebase.jobdispatcher.JobParameters;
 
 import javax.inject.Inject;

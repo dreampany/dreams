@@ -75,7 +75,10 @@ class SettingsFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun configJob() {
         if (pref.hasNotification()) {
-            service.schedulePowerService(NotifyService::class.java, Constants.Time.NotifyPeriod.toInt())
+            service.schedulePowerService(
+                NotifyService::class.java,
+                Constants.Time.NotifyPeriod.toInt()
+            )
         } else {
             service.cancel(NotifyService::class.java)
         }

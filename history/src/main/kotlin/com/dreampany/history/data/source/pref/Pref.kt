@@ -62,12 +62,12 @@ class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
         return getPublicly(Constants.Date.YEAR, TimeUtilKt.getYear())
     }
 
-    fun commitNotifyHistoryTime() {
-        setPrivately(Constants.Pref.NOTIFY_HISTORY, TimeUtil.currentTime())
+    fun commitNotifyHistoryTime(type: HistoryType) {
+        setPrivately(Constants.Pref.NOTIFY_HISTORY.plus(type.name), TimeUtil.currentTime())
     }
 
-    fun getNotifyHistoryTime(): Long {
-        return getPrivately(Constants.Pref.NOTIFY_HISTORY, 0L)
+    fun getNotifyHistoryTime(type: HistoryType): Long {
+        return getPrivately(Constants.Pref.NOTIFY_HISTORY.plus(type.name), 0L)
     }
 
     fun hasNotification(): Boolean {

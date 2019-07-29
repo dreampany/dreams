@@ -10,7 +10,7 @@ import com.dreampany.history.data.enums.HistoryType
  * Last modified $file.lastModified
  */
 class HistoryRequest(val type: HistoryType, val day: Int, val month: Int) :
-    Request<History>(null) {
+    Request<History>() {
     constructor(
         type: HistoryType,
         day: Int,

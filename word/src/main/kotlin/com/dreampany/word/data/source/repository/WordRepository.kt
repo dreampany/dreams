@@ -104,15 +104,15 @@ class WordRepository @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCommonItems(): List<Word> {
+    override fun getCommonItems(): List<Word>? {
         return assets.getCommonItems();
     }
 
-    override fun getAlphaItems(): List<Word> {
+    override fun getAlphaItems(): List<Word>? {
         return assets.getAlphaItems()
     }
 
-    override fun getRawWords(): List<String> {
+    override fun getRawWords(): List<String>? {
         return room.getRawWords()
     }
 

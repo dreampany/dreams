@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
@@ -110,6 +112,15 @@ class FavoriteFragment
             ColorUtil.getColor(context, R.color.material_white),
             null
         )
+    }
+
+    override fun onItemClick(view: View?, position: Int): Boolean {
+        if (position != RecyclerView.NO_POSITION) {
+            val item = adapter.getItem(position) as HistoryItem
+            openUi(item.item);
+            return true
+        }
+        return false
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
@@ -281,6 +292,11 @@ class FavoriteFragment
 
     fun openSite(url: String) {
         var task = UiTask<History>(true, UiType.SITE, UiSubtype.VIEW, null, url)
+        openActivity(ToolsActivity::class.java, task)
+    }
+
+    private fun openUi(history: History) {
+        var task = UiTask<History>(false, UiType.HISTORY, UiSubtype.VIEW, history)
         openActivity(ToolsActivity::class.java, task)
     }
 }

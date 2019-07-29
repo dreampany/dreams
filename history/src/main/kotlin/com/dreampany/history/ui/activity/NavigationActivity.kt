@@ -94,13 +94,12 @@ class NavigationActivity : BaseBottomNavigationActivity(), SearchViewCallback {
     }
 
     private fun initView() {
+        bind = super.binding as ActivityNavigationBinding
         val uiTask = getCurrentTask<UiTask<*>>(false)
         if (uiTask != null && uiTask!!.type != null && uiTask!!.subtype != null) {
             openActivity(ToolsActivity::class.java, uiTask!!)
             return
         }
-
-        bind = super.binding as ActivityNavigationBinding
         ad.initAd(
             this,
             getScreen(),

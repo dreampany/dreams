@@ -9,6 +9,7 @@ import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.enums.UiSubtype
 import com.dreampany.history.ui.enums.UiType
 import com.dreampany.history.ui.fragment.AboutFragment
+import com.dreampany.history.ui.fragment.HistoryFragment
 import com.dreampany.history.ui.fragment.LicenseFragment
 import com.dreampany.history.ui.fragment.SettingsFragment
 import com.dreampany.history.ui.model.UiTask
@@ -30,6 +31,8 @@ class ToolsActivity : BaseActivity() {
     lateinit var licenseProvider: Lazy<LicenseFragment>
     @Inject
     lateinit var aboutProvider: Lazy<AboutFragment>
+    @Inject
+    lateinit var historyProvider: Lazy<HistoryFragment>
     @Inject
     lateinit var ad: SmartAd
 
@@ -83,12 +86,13 @@ class ToolsActivity : BaseActivity() {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         openActivity(WebActivity::class.java, uiTask, true)
-/*                        if (AdvancedWebView.Browsers.hasAlternative(this)) {
-                            AdvancedWebView.Browsers.openUrl(this, uiTask.comment)
-                            finish()
-                        } else {
-                            openActivity(WebActivity::class.java, uiTask, true)
-                        }*/
+                    }
+                }
+            }
+            UiType.HISTORY -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        commitFragment(HistoryFragment::class.java, historyProvider, R.id.layout, uiTask)
                     }
                 }
             }

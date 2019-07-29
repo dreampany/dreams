@@ -6,6 +6,7 @@ import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.source.repository.StateRepository
 import com.dreampany.frame.misc.*
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.util.TimeUtil
@@ -103,6 +104,48 @@ class HistoryViewModel @Inject constructor(
     }
 
     fun load(request: HistoryRequest) {
+        if (request.input != null) {
+            loadSingle(request)
+        } else {
+            loadMultiple(request)
+        }
+    }
+
+    fun toggleFavorite(history: History) {
+        val disposable = rx
+            .backToMain(toggleImpl(history))
+            .subscribe({ result ->
+                postResult(Response.Type.UPDATE, result)
+            }, { this.postFailure(it) })
+    }
+
+    private fun loadSingle(request: HistoryRequest) {
+        if (!takeAction(request.important, singleDisposable)) {
+            return
+        }
+
+        val disposable = rx
+            .backToMain(loadUiItemRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postResult(Response.Type.GET, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
+        addSingleSubscription(disposable)
+    }
+
+    private fun loadMultiple(request: HistoryRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
@@ -126,14 +169,6 @@ class HistoryViewModel @Inject constructor(
                 postFailures(MultiException(error, ExtraException()))
             })
         addMultipleSubscription(disposable)
-    }
-
-    fun toggleFavorite(history: History) {
-        val disposable = rx
-            .backToMain(toggleImpl(history))
-            .subscribe({ result ->
-                postResult(Response.Type.UPDATE, result)
-            }, { this.postFailure(it) })
     }
 
     private fun toggleImpl(history: History): Maybe<HistoryItem> {
@@ -168,6 +203,21 @@ class HistoryViewModel @Inject constructor(
 
     private fun hasState(id: String, subtype: ItemSubtype, state: ItemState): Boolean {
         return stateRepo.getCountById(id, ItemType.HISTORY.name, subtype.name, state.name) > 0
+    }
+
+
+    private fun loadUiItemRx(request: HistoryRequest): Maybe<HistoryItem> {
+        return Maybe.create { emitter ->
+            val uiItem = getUiItem(request.input!!)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (uiItem == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(uiItem)
+            }
+        }
     }
 
     private fun loadUiItemsRx(request: HistoryRequest): Maybe<List<HistoryItem>> {

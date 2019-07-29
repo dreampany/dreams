@@ -8,6 +8,8 @@ import com.dreampany.history.data.source.pref.Pref
 import com.dreampany.history.injector.app.DaggerAppComponent
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.history.misc.Constants
+import com.dreampany.history.service.NotifyService
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric

@@ -3,11 +3,12 @@ package com.dreampany.lca.ui.activity
 import android.os.Bundle
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.fragment.AboutFragment
+import com.dreampany.frame.ui.fragment.SettingsFragment
 import com.dreampany.lca.R
 import com.dreampany.lca.misc.Constants
 import com.dreampany.lca.ui.enums.UiSubtype
 import com.dreampany.lca.ui.enums.UiType
-import com.dreampany.lca.ui.fragment.*
 import com.dreampany.lca.ui.model.UiTask
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
@@ -40,7 +41,7 @@ class ToolsActivity : BaseActivity() {
 
     override fun isFullScreen(): Boolean {
         val uiTask = getCurrentTask<UiTask<*>>(true)
-        return uiTask?.isFullscreen ?: super.isFullScreen()
+        return uiTask?.fullscreen ?: super.isFullScreen()
     }
 
     override fun hasRatePermitted(): Boolean {

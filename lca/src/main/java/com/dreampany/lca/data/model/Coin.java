@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import android.os.Parcel;
@@ -24,11 +25,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+*/
 /**
  * Created by Hawladar Roman on 29/5/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {Constants.Coin.ID}, unique = true)},
         primaryKeys = {Constants.Coin.ID})
 @IgnoreExtraProperties
@@ -319,3 +322,4 @@ public class Coin extends Base {
         return latest;
     }
 }
+*/

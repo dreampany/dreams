@@ -37,6 +37,9 @@ class Constants {
         fun launch(context: Context): String = Constants.launch(context)
         fun navigation(context: Context): String = Constants.navigation(context)
         fun tools(context: Context): String = Constants.tools(context)
+
+        fun notifyHistory(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "notify_history"
     }
 
     object Event {
@@ -61,7 +64,8 @@ class Constants {
     }
 
     object Time {
-        val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
+        val NotifyPeriod = TimeUnit.MINUTES.toSeconds(10)
+        val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(30)
     }
 
     object Date {
@@ -93,5 +97,9 @@ class Constants {
     object Database {
         const val TYPE_HISTORY = "history"
         const val POST_FIX = Constants.Sep.HYPHEN + "db"
+    }
+
+    object Pref {
+        const val NOTIFY_HISTORY = "notify_history"
     }
 }

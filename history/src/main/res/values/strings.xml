@@ -7,4 +7,6 @@
     <string name="empty_favourite">Oops! No favourite histories.</string>
     <string name="search_history">Search Histories</string>
     <string name="empty_search_history">History not found!\nPlease search again.</string>
+
+    <string name="notify_title_history">History - (%s)</string>
 </resources>

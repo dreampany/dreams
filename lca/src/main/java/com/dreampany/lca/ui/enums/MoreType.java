@@ -1,14 +1,17 @@
+/*
 package com.dreampany.lca.ui.enums;
 
 import android.os.Parcel;
 
 import com.dreampany.frame.data.enums.Type;
 
+*/
 /**
  * Created by Hawladar Roman on 7/24/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public enum MoreType implements Type {
     SETTINGS, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT;
 
@@ -77,4 +80,4 @@ public enum MoreType implements Type {
                 return ABOUT;
         }
     }
-}
+}*/

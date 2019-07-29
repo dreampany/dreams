@@ -17,7 +17,8 @@ class HistoryRequest(val type: HistoryType, val day: Int, val month: Int) :
         month: Int,
         important: Boolean,
         progress: Boolean,
-        favorite: Boolean
+        favorite: Boolean,
+        notify: Boolean = false
     ) : this(type, day, month) {
         this.important = important
         this.progress = progress

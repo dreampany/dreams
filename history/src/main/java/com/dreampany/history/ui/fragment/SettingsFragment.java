@@ -1,3 +1,4 @@
+/*
 package com.dreampany.history.ui.fragment;
 
 import android.os.Bundle;
@@ -19,11 +20,13 @@ import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 5/28/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class SettingsFragment extends BaseMenuFragment {
 
@@ -76,3 +79,4 @@ public class SettingsFragment extends BaseMenuFragment {
         this.disposable = disposable;
     }
 }
+*/

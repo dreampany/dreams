@@ -98,9 +98,20 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStopUi() {
+        ad.destroyBanner(getScreen())
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        ad.resumeBanner(getScreen())
+    }
+
+    override fun onPause() {
+        ad.pauseBanner(getScreen())
+        super.onPause()
+    }
+
+/*    override fun onDestroy() {
         try {
             super.onDestroy()
         } catch (e: Exception) {
@@ -115,5 +126,5 @@ class ToolsActivity : BaseActivity() {
             return
         }
         finish()
-    }
+    }*/
 }

@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.api.session.SessionManager
-import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.databinding.FragmentRecyclerBinding
 import com.dreampany.frame.misc.ActivityScope
@@ -81,6 +80,7 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun initView() {
         setTitle(R.string.more)
+        setSubtitle()
         bindRecycler = super.binding as FragmentRecyclerBinding
 
         vm = ViewModelProviders.of(this, factory).get(MoreViewModel::class.java)
@@ -123,19 +123,19 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
             MoreType.RATE_US -> vm.rateUs(getParent()!!)
             MoreType.FEEDBACK -> vm.sendFeedback(getParent()!!)
             MoreType.SETTINGS -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.SETTINGS, null, null)
+                val task = UiTask(false, UiType.MORE, UiSubtype.SETTINGS, null)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.LICENSE -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.LICENSE, null, null)
+                val task = UiTask(false, UiType.MORE, UiSubtype.LICENSE, null)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.ABOUT -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.ABOUT, null, null)
+                val task = UiTask(false, UiType.MORE, UiSubtype.ABOUT, null)
                 openActivity(ToolsActivity::class.java, task)
             }
             else -> {
-                var task = UiTask<BaseKt>(false, UiType.MORE, UiSubtype.ABOUT, null, null)
+                val task = UiTask(false, UiType.MORE, UiSubtype.ABOUT, null)
                 openActivity(ToolsActivity::class.java, task)
             }
         }

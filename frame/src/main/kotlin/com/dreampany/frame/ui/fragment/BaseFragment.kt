@@ -400,7 +400,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
     }
 
-    protected fun setSubtitle(subtitle: String?) {
+    protected fun setSubtitle(subtitle: String?= null) {
         val activity = activity
         if (BaseActivity::class.java.isInstance(activity)) {
             (activity as BaseActivity).setSubtitle(subtitle)

@@ -9,13 +9,11 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.misc.exception.ExtraException
-import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.callback.SearchViewCallback
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
@@ -35,8 +33,6 @@ import com.dreampany.history.ui.enums.UiType
 import com.dreampany.history.ui.model.HistoryItem
 import com.dreampany.history.ui.model.UiTask
 import com.dreampany.history.vm.HistoryViewModel
-import com.dreampany.language.Language
-import com.dreampany.language.LanguagePicker
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
@@ -46,7 +42,6 @@ import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -73,12 +68,12 @@ class HomeFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var session: SessionManager
-    private lateinit var bindHome: FragmentHomeBinding
+    private lateinit var bind: FragmentHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var scroller: OnVerticalScrollListener
-    private lateinit var searchView: MaterialSearchView
+    private var searchView: MaterialSearchView? = null
 
     private lateinit var vm: HistoryViewModel
     private lateinit var adapter: HistoryAdapter
@@ -110,8 +105,10 @@ class HomeFragment
     override fun onStopUi() {
         vm.setOnLinkClickListener(null)
         processUiState(UiState.HIDE_PROGRESS)
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch()
+        searchView?.run {
+            if (isSearchOpen) {
+                closeSearch()
+            }
         }
         powerMenu?.run {
             if (isShowing) {
@@ -133,7 +130,7 @@ class HomeFragment
         if (activity is SearchViewCallback) {
             val searchCallback = activity as SearchViewCallback?
             searchView = searchCallback!!.searchView
-            initSearchView(searchView, searchItem)
+            initSearchView(searchView!!, searchItem)
         }
     }
 
@@ -158,10 +155,21 @@ class HomeFragment
         return super.onOptionsItemSelected(item)
     }
 
-    override fun hasBackPressed(): Boolean {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch()
+    override fun onItemClick(view: View?, position: Int): Boolean {
+        if (position != RecyclerView.NO_POSITION) {
+            val item = adapter.getItem(position) as HistoryItem
+             openUi(item.item);
             return true
+        }
+        return false
+    }
+
+    override fun hasBackPressed(): Boolean {
+        if (searchView != null) {
+            if (searchView!!.isSearchOpen) {
+                searchView!!.closeSearch()
+                return true
+            }
         }
         return super.hasBackPressed()
     }
@@ -202,7 +210,7 @@ class HomeFragment
 
     override fun onFavoriteClicked(history: History) {
         vm.toggleFavorite(history)
-     }
+    }
 
     override fun onLinkClicked(link: String) {
         openSite(link)
@@ -225,17 +233,17 @@ class HomeFragment
 
     private fun initView() {
 
-        bindHome = super.binding as FragmentHomeBinding
-        bindStatus = bindHome.layoutTopStatus
-        bindRecycler = bindHome.layoutRecycler
+        bind = super.binding as FragmentHomeBinding
+        bindStatus = bind.layoutTopStatus
+        bindRecycler = bind.layoutRecycler
 
-        bindHome.stateful.setStateView(
+        bind.stateful.setStateView(
             NONE,
             LayoutInflater.from(context).inflate(R.layout.item_none, null)
         )
 
-        ViewUtil.setSwipe(bindHome.layoutRefresh, this)
-        bindHome.fab.setOnClickListener(this)
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bind.fab.setOnClickListener(this)
 
         vm = ViewModelProviders.of(this, factory).get(HistoryViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -275,7 +283,7 @@ class HomeFragment
     }
 
     private fun initRecycler() {
-        bindHome.setItems(ObservableArrayList<Any>())
+        bind.setItems(ObservableArrayList<Any>())
         adapter = HistoryAdapter(this)
         adapter.setStickyHeaders(false)
         scroller = object : OnVerticalScrollListener() {
@@ -318,66 +326,44 @@ class HomeFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.NONE -> bindHome.stateful.setState(NONE)
-            UiState.SHOW_PROGRESS -> if (!bindHome.layoutRefresh.isRefreshing()) {
-                bindHome.layoutRefresh.setRefreshing(true)
+            UiState.NONE -> bind.stateful.setState(NONE)
+            UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(true)
             }
-            UiState.HIDE_PROGRESS -> if (bindHome.layoutRefresh.isRefreshing()) {
-                bindHome.layoutRefresh.setRefreshing(false)
+            UiState.HIDE_PROGRESS -> if (bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(false)
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
             UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
-            UiState.SEARCH -> bindHome.stateful.setState(SEARCH)
-            UiState.EMPTY -> bindHome.stateful.setState(SEARCH)
+            UiState.SEARCH -> bind.stateful.setState(SEARCH)
+            UiState.EMPTY -> bind.stateful.setState(SEARCH)
             UiState.ERROR -> {
             }
-            UiState.CONTENT -> bindHome.stateful.setState(StatefulLayout.State.CONTENT)
+            UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 
     fun processResponse(response: Response<List<HistoryItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            processProgress(result.loading)
+            vm.processProgress(result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            processFailure(result.error)
+            vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<HistoryItem>>
             processSuccess(result.type, result.data)
         }
     }
 
-    private fun processProgress(loading: Boolean) {
-        if (loading) {
-            vm.updateUiState(UiState.SHOW_PROGRESS)
-        } else {
-            vm.updateUiState(UiState.HIDE_PROGRESS)
-        }
-    }
-
-    private fun processFailure(error: Throwable) {
-        if (error is IOException || error.cause is IOException) {
-            vm.updateUiState(UiState.OFFLINE)
-        } else if (error is EmptyException) {
-            vm.updateUiState(UiState.EMPTY)
-        } else if (error is ExtraException) {
-            vm.updateUiState(UiState.EXTRA)
-        } else if (error is MultiException) {
-            for (e in error.errors) {
-                processFailure(e)
-            }
-        }
-    }
-
     private fun processSingleResponse(response: Response<HistoryItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            processProgress(result.loading)
+            vm.processProgress(result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            processFailure(result.error)
+            vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<HistoryItem>
             processSingleSuccess(result.data)
@@ -411,6 +397,11 @@ class HomeFragment
 
     fun openSite(url: String) {
         var task = UiTask<History>(true, UiType.SITE, UiSubtype.VIEW, null, url)
+        openActivity(ToolsActivity::class.java, task)
+    }
+
+    private fun openUi(history: History) {
+        var task = UiTask<History>(false, UiType.HISTORY, UiSubtype.VIEW, history)
         openActivity(ToolsActivity::class.java, task)
     }
 }

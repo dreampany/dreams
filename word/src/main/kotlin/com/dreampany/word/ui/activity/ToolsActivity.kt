@@ -114,12 +114,12 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStopUi() {
-        ad.destroyBanner(javaClass.simpleName)
+        ad.destroyBanner(getScreen())
     }
 
     override fun onResume() {
         super.onResume()
-        ad.resumeBanner(javaClass.simpleName)
+        ad.resumeBanner(getScreen())
     }
 
     override fun onPause() {

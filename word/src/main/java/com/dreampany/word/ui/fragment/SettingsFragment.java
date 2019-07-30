@@ -1,3 +1,4 @@
+/*
 package com.dreampany.word.ui.fragment;
 
 import android.os.Bundle;
@@ -22,11 +23,13 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
 
+*/
 /**
  * Created by Hawladar Roman on 5/28/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class SettingsFragment extends BaseMenuFragment {
 
@@ -96,3 +99,4 @@ public class SettingsFragment extends BaseMenuFragment {
         ex.postToUi(runner, 2000);
     }
 }
+*/

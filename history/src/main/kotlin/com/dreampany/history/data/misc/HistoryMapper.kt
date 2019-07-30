@@ -14,7 +14,6 @@ import com.dreampany.history.data.source.remote.WikiHistory
 import com.dreampany.history.data.source.remote.WikiLink
 import com.dreampany.history.misc.Constants
 import com.dreampany.history.misc.HistoryAnnote
-import com.dreampany.history.ui.model.HistoryItem
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -65,10 +64,6 @@ class HistoryMapper
             map.put(input.id, out)
         }
         return out!!
-    }
-
-    fun getCacheUiItem(input: History): HistoryItem? {
-        return map.get(input.id)
     }
 
     private fun toLinks(inputLinks: MutableList<WikiLink>): MutableList<Link> {

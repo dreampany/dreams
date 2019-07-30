@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.vm
 
 import android.app.Application
@@ -21,12 +22,14 @@ import io.reactivex.subjects.PublishSubject
 import java.io.IOException
 import java.util.*
 
+*/
 /**
  * Created by roman on 2019-07-13
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 abstract class BaseViewModelKt<T, X, Y> protected constructor(
     application: Application,
     protected val rx: RxMapper,
@@ -127,12 +130,14 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         TODO("not implemented")
     }
 
+*/
 /*    protected open fun hasNetCheck(): Boolean {
         return false
     }
 
     protected open fun onNetworkEvent(eventType: NetworkState) {
-    }*/
+    }*//*
+
 
     override fun onCleared() {
         clear()
@@ -140,6 +145,7 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         super.onCleared()
     }
 
+*/
 /*
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onEvent(networkEvent: NetworkState) {
@@ -149,11 +155,14 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
             updateUiState(if (networkEvent == NetworkState.ONLINE) UiState.ONLINE else UiState.OFFLINE)
             // this.eventType.postValue(eventType)
         }
-    }*/
+    }*//*
 
+
+*/
 /*    fun processEvent(eventType: EventType?) {
 
-    }*/
+    }*//*
+
 
     open fun clear() {
         lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED)
@@ -223,9 +232,11 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         select.value = t
     }
 
+*/
 /*    override fun onChanged(t: X?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }*/
+    }*//*
+
 
     fun observeTitle(owner: LifecycleOwner, observer: Observer<String>) {
         titleOwner = owner
@@ -255,9 +266,11 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         uiState.reObserve(owner, observer)
     }
 
+*/
 /*    fun observeEvent() {
         observeEvent(this, Observer { processEvent(it)  })
-    }*/
+    }*//*
+
 
     fun observeEvent(owner: LifecycleOwner, observer: Observer<Event>) {
         eventOwner = owner
@@ -356,11 +369,13 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         return false;
     }
 
+*/
 /*    fun removeSubscription(vararg disposables: Disposable) {
         for (disposable in disposables) {
             removeSubscription(disposable)
         }
-    }*/
+    }*//*
+
 
     fun loadTitle() {
         val disposable = rx.backToMain(getTitle()).subscribe({ liveTitle.setValue(it) })
@@ -372,6 +387,7 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         addSubscription(disposable)
     }
 
+*/
 /*    open fun getItemsWithoutId(): Flowable<List<T>>? {
         return null
     }
@@ -396,7 +412,8 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
             addSubscription(disposable)
         }
         return null
-    }*/
+    }*//*
+
 
     fun takeAction(important: Boolean, disposable: Disposable?): Boolean {
         if (important) {
@@ -409,6 +426,7 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         return true
     }
 
+*/
 /*    fun preLoad(fresh: Boolean): Boolean {
         if (fresh) {
             removeSingleSubscription()
@@ -429,7 +447,8 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
             return false
         }
         return true
-    }*/
+    }*//*
+
 
     fun updateUiMode(mode: UiMode?) {
         mode?.let {
@@ -455,11 +474,13 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         updateUiState(uiState.value)
     }
 
+*/
 /*    fun notifyNetworkState() {
         val state = network.state
         val uiState = if (state == NetworkState.ONLINE) UiState.ONLINE else UiState.OFFLINE
         updateUiState(uiState)
-    }*/
+    }*//*
+
 
     fun postProgress(loading: Boolean) {
         updateUiState(if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
@@ -574,4 +595,4 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
     fun speak(text: String) {
         AndroidUtil.speak(text);
     }
-}
+}*/

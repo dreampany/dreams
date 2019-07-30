@@ -1,9 +1,10 @@
 package com.dreampany.history.misc
 
 import android.content.Context
-import com.dreampany.history.R
 import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.TextUtil
+import com.dreampany.history.R
+import com.dreampany.history.data.enums.HistoryType
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
 import java.util.concurrent.TimeUnit
@@ -39,7 +40,10 @@ class Constants {
         fun tools(context: Context): String = Constants.tools(context)
 
         fun notifyHistory(context: Context): String =
-            lastAppId(context) + Sep.HYPHEN + "notify_history"
+            lastAppId(context).plus(Sep.HYPHEN).plus(Pref.NOTIFY_HISTORY)
+
+        fun notifyHistory(context: Context, type: HistoryType): String =
+            lastAppId(context).plus(Sep.HYPHEN).plus(Pref.NOTIFY_HISTORY).plus(type.name)
     }
 
     object Event {
@@ -64,8 +68,8 @@ class Constants {
     }
 
     object Time {
-        val NotifyPeriod = TimeUnit.MINUTES.toSeconds(10)
-        val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(30)
+        val NotifyPeriod = TimeUnit.MINUTES.toSeconds(1)
+        val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(1)
     }
 
     object Date {

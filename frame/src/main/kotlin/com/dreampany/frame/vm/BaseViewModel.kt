@@ -135,37 +135,14 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         TODO("not implemented")
     }
 
-/*    protected open fun hasNetCheck(): Boolean {
-        return false
-    }
-
-    protected open fun onNetworkEvent(eventType: NetworkState) {
-    }*/
-
     override fun onCleared() {
         clear()
         ioDisposables.clear()
         super.onCleared()
     }
 
-/*
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onEvent(networkEvent: NetworkState) {
-        if (this.networkEvent != networkEvent) {
-            this.networkEvent = networkEvent;
-            onNetworkEvent(networkEvent)
-            updateUiState(if (networkEvent == NetworkState.ONLINE) UiState.ONLINE else UiState.OFFLINE)
-            // this.eventType.postValue(eventType)
-        }
-    }*/
-
-/*    fun processEvent(eventType: EventType?) {
-
-    }*/
-
     open fun clear() {
         lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED)
-        //unregister(this)
         titleOwner?.let { liveTitle.removeObservers(it) }
         subtitleOwner?.let { liveSubtitle.removeObservers(it) }
         uiModeOwner?.let { uiMode.removeObservers(it) }
@@ -197,8 +174,6 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         uiMap.clear()
         uiCache.clear()
         clearUiState()
-        //postEmpty(null as X?)
-        //postEmpty(null as List<X>?)
     }
 
     open fun clearUiState() {
@@ -231,10 +206,6 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         select.value = t
     }
 
-/*    override fun onChanged(t: X?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }*/
-
     fun observeTitle(owner: LifecycleOwner, observer: Observer<String>) {
         titleOwner = owner
         liveTitle.observe(owner, observer)
@@ -263,10 +234,6 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         uiState.reObserve(owner, observer)
     }
 
-/*    fun observeEvent() {
-        observeEvent(this, Observer { processEvent(it)  })
-    }*/
-
     fun observeEvent(owner: LifecycleOwner, observer: Observer<Event>) {
         eventOwner = owner
         event.reObserve(owner, observer)
@@ -285,13 +252,14 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun observeOutputsOfString(owner: LifecycleOwner, observer: Observer<Response<List<String>>>) {
-        //postEmpty(null as List<String>?)
         multipleOwnersOfString.add(owner)
         outputsOfString.reObserve(owner, observer)
     }
 
-    fun observeOutputsOfNetwork(owner: LifecycleOwner, observer: Observer<Response<List<Network>>>) {
-        //postEmpty(null as List<String>?)
+    fun observeOutputsOfNetwork(
+        owner: LifecycleOwner,
+        observer: Observer<Response<List<Network>>>
+    ) {
         multipleOwnersOfNetwork.add(owner)
         outputsOfNetwork.reObserve(owner, observer)
     }
@@ -364,12 +332,6 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return false;
     }
 
-/*    fun removeSubscription(vararg disposables: Disposable) {
-        for (disposable in disposables) {
-            removeSubscription(disposable)
-        }
-    }*/
-
     fun loadTitle() {
         val disposable = rx.backToMain(getTitle()).subscribe({ liveTitle.setValue(it) })
         addSubscription(disposable)
@@ -417,41 +379,15 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         return true
     }
 
-/*    fun preLoad(fresh: Boolean): Boolean {
-        if (fresh) {
-            removeSingleSubscription()
-        }
-        if (hasSingleDisposable()) {
-            notifyUiState()
-            return false
-        }
-        return true
-    }
-
-    fun preLoads(fresh: Boolean): Boolean {
-        if (fresh) {
-            removeMultipleSubscription()
-        }
-        if (hasMultipleDisposable()) {
-            notifyUiState()
-            return false
-        }
-        return true
-    }*/
-
     fun updateUiMode(mode: UiMode?) {
         mode?.let {
-            // if (it != uiMode.value) {
             uiMode.value = it
-            // }
         }
     }
 
     fun updateUiState(state: UiState?) {
         state?.let {
-            //if (it != UiState.NONE) {
             uiState.value = it
-            //}
         }
     }
 
@@ -463,17 +399,11 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         updateUiState(uiState.value)
     }
 
-/*    fun notifyNetworkState() {
-        val state = network.state
-        val uiState = if (state == NetworkState.ONLINE) UiState.ONLINE else UiState.OFFLINE
-        updateUiState(uiState)
-    }*/
-
     fun postProgress(loading: Boolean) {
         updateUiState(if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
     }
 
-    fun processFailure(error: Throwable) {
+/*    fun processFailure(error: Throwable) {
         if (error is IOException || error.cause is IOException) {
             updateUiState(UiState.OFFLINE)
         } else if (error is EmptyException) {
@@ -485,18 +415,16 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
                 processFailure(e)
             }
         }
-    }
+    }*/
 
     fun postFailure(error: Throwable) {
         if (!hasSingleDisposable()) {
-            //return
         }
         rm.response(input, error)
     }
 
     fun postFailure(error: Throwable, withProgress: Boolean) {
         if (!hasSingleDisposable()) {
-            //return
         }
         if (withProgress) {
             rm.responseWithProgress(input, error)
@@ -507,14 +435,12 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
     fun postFailures(error: Throwable) {
         if (!hasMultipleDisposable()) {
-            //return
         }
         rm.response(inputs, error)
     }
 
     fun postFailures(error: Throwable, withProgress: Boolean) {
         if (!hasMultipleDisposable()) {
-            //return
         }
         if (withProgress) {
             rm.responseWithProgress(inputs, error)
@@ -579,23 +505,29 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         favorite.value = data
     }
 
+    fun processProgress(loading: Boolean) {
+        if (loading) {
+            updateUiState(UiState.SHOW_PROGRESS)
+        } else {
+            updateUiState(UiState.HIDE_PROGRESS)
+        }
+    }
+
+    fun processFailure(error: Throwable) {
+        if (error is IOException || error.cause is IOException) {
+            updateUiState(UiState.OFFLINE)
+        } else if (error is EmptyException) {
+            updateUiState(UiState.EMPTY)
+        } else if (error is ExtraException) {
+            updateUiState(UiState.EXTRA)
+        } else if (error is MultiException) {
+            for (e in error.errors) {
+                processFailure(e)
+            }
+        }
+    }
+
     fun speak(text: String) {
         AndroidUtil.speak(text);
     }
-
-/*    private fun register(subscriber: Any) {
-        if (!EventBus.getDefault().isRegistered(subscriber)) {
-            EventBus.getDefault().register(subscriber)
-        }
-    }
-
-    private fun unregister(subscriber: Any) {
-        if (EventBus.getDefault().isRegistered(subscriber)) {
-            EventBus.getDefault().unregister(subscriber)
-        }
-    }*/
-
-/*    fun post(eventType: Any) {
-        EventBus.getDefault().post(eventType)
-    }*/
 }

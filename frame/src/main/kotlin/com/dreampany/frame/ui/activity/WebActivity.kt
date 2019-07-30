@@ -16,7 +16,7 @@ import im.delight.android.webview.AdvancedWebView
  */
 class WebActivity : BaseActivity(), AdvancedWebView.Listener {
 
-    internal lateinit var bindWeb: ActivityWebBinding
+    internal lateinit var bind: ActivityWebBinding
 
     override fun getLayoutId(): Int {
         return R.layout.activity_web
@@ -27,34 +27,34 @@ class WebActivity : BaseActivity(), AdvancedWebView.Listener {
     }
 
     override fun onStartUi(state: Bundle?) {
-        bindWeb = super.binding as ActivityWebBinding
+        bind = super.binding as ActivityWebBinding
 
         val task = getCurrentTask<Task<*>>(false)
         if (task == null) {
             finish()
             return
         }
-        bindWeb.webview.setListener(this, this)
+        bind.webview.setListener(this, this)
         val url = task!!.comment
-        bindWeb.webview.loadUrl(url)
+        bind.webview.loadUrl(url)
     }
 
     override fun onStopUi() {
-        bindWeb.webview.onDestroy()
+        bind.webview.onDestroy()
     }
 
     override fun onResume() {
         super.onResume()
-        bindWeb.webview.onResume()
+        bind.webview.onResume()
     }
 
     override fun onPause() {
-        bindWeb.webview.onPause()
+        bind.webview.onPause()
         super.onPause()
     }
 
     override fun onBackPressed() {
-        if (!bindWeb.webview.onBackPressed()) {
+        if (!bind.webview.onBackPressed()) {
             return
         }
         super.onBackPressed()
@@ -62,7 +62,7 @@ class WebActivity : BaseActivity(), AdvancedWebView.Listener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        bindWeb.webview.onActivityResult(requestCode, resultCode, intent)
+        bind.webview.onActivityResult(requestCode, resultCode, intent)
     }
 
     override fun onPageStarted(url: String, favicon: Bitmap?) {

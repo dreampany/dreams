@@ -8,5 +8,7 @@
     <string name="search_history">Search Histories</string>
     <string name="empty_search_history">History not found!\nPlease search again.</string>
 
+    <string name="history">History</string>
+
     <string name="notify_title_history">History - (%s)</string>
 </resources>

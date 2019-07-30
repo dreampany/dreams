@@ -7,15 +7,12 @@ import com.dreampany.frame.data.source.repository.StateRepository
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
-import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.NumberUtil
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.history.R
 import com.dreampany.history.app.App
-import com.dreampany.history.data.enums.ItemState
-import com.dreampany.history.data.enums.ItemSubtype
-import com.dreampany.history.data.enums.ItemType
+import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
@@ -30,6 +27,7 @@ import com.dreampany.history.ui.model.UiTask
 import com.dreampany.network.manager.NetworkManager
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -56,31 +54,38 @@ class NotifyViewModel
     private val repo: HistoryRepository
 ) {
 
+    private val disposables: CompositeDisposable
+
+    init {
+        disposables = CompositeDisposable()
+    }
+
     fun notifyIf() {
-        val type = pref.getHistoryType()
-        Timber.v("Request type %s", type)
         val day = pref.getDay()
         val month = pref.getMonth()
 
-        val request = HistoryRequest(type, day, month, true, false, false, true)
-        load(request)
-
+        val requestEvent = HistoryRequest(HistoryType.EVENT, day, month, true, false, false, true)
+        val requestBirth = HistoryRequest(HistoryType.BIRTH, day, month, true, false, false, true)
+        val requestDeath = HistoryRequest(HistoryType.DEATH, day, month, true, false, false, true)
+        load(requestEvent)
+        load(requestBirth)
+        load(requestDeath)
     }
 
-
     fun clearIf() {
-
+        disposables.clear()
     }
 
     private fun load(request: HistoryRequest) {
-        if (!TimeUtil.isExpired(pref.getNotifyHistoryTime(), Constants.Time.NotifyNextHistory)) {
+        if (!TimeUtil.isExpired(pref.getNotifyHistoryTime(request.type), Constants.Time.NotifyNextHistory)) {
             return
         }
-        pref.commitNotifyHistoryTime()
+        pref.commitNotifyHistoryTime(request.type)
         Timber.v("Fire Notification")
-        val disposable = rx
+        disposables.add(rx
             .backToMain(loadUiItemsRx(request))
             .subscribe({ this.postResult(it) }, { this.postFailed(it) })
+        )
     }
 
     private fun loadUiItemsRx(request: HistoryRequest): Maybe<List<HistoryItem>> {
@@ -111,24 +116,24 @@ class NotifyViewModel
             //return;
         }
 
-
-        val uiItem =result.get(NumberUtil.nextRand(result.size))
+        val uiItem = result.get(NumberUtil.nextRand(result.size))
         val item = uiItem.item
 
         val title = TextUtil.getString(app, R.string.notify_title_history, item.type!!.toTitle())
-        var message: String? = item.text
-        var targetClass: Class<*> = NavigationActivity::class.java
+        val message: String? = item.text
+        val targetClass: Class<*> = NavigationActivity::class.java
 
-        val task = UiTask<History>(false, UiType.HISTORY, UiSubtype.VIEW, item, null)
-
+        val task = UiTask(false, UiType.HISTORY, UiSubtype.VIEW, item)
         notify.showNotification(title!!, message!!, R.drawable.ic_notification, targetClass, task)
         app.throwAnalytics(
             Constants.Event.NOTIFICATION,
-            Constants.notifyHistory(application)
+            Constants.notifyHistory(application, item.type!!)
         )
     }
 
     private fun postFailed(error: Throwable) {
+        val app = application as App
         Timber.v(error)
+        app.throwAnalytics(Constants.Event.ERROR, Constants.notifyHistory(application), error)
     }
 }

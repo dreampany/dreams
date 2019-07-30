@@ -2,8 +2,10 @@ package com.dreampany.history.data.source.pref
 
 import android.content.Context
 import com.dreampany.frame.data.source.pref.FramePrefKt
+import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.history.R
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.misc.Constants
 import javax.inject.Inject
@@ -17,6 +19,16 @@ import javax.inject.Singleton
  */
 @Singleton
 class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
+
+    private val KEY_NOTIFY_HISTORY_EVENT: String
+    private val KEY_NOTIFY_HISTORY_BIRTH: String
+    private val KEY_NOTIFY_HISTORY_DEATH: String
+
+    init {
+        KEY_NOTIFY_HISTORY_EVENT = TextUtil.getString(context, R.string.key_notify_history_event)!!
+        KEY_NOTIFY_HISTORY_BIRTH = TextUtil.getString(context, R.string.key_notify_history_birth)!!
+        KEY_NOTIFY_HISTORY_DEATH = TextUtil.getString(context, R.string.key_notify_history_death)!!
+    }
 
     fun setHistoryType(type: HistoryType) {
         setPublicly(Constants.History.TYPE, type)
@@ -50,11 +62,27 @@ class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
         return getPublicly(Constants.Date.YEAR, TimeUtilKt.getYear())
     }
 
-    fun commitNotifyHistoryTime() {
-        setPrivately(Constants.Pref.NOTIFY_HISTORY, TimeUtil.currentTime())
+    fun commitNotifyHistoryTime(type: HistoryType) {
+        setPrivately(Constants.Pref.NOTIFY_HISTORY.plus(type.name), TimeUtil.currentTime())
     }
 
-    fun getNotifyHistoryTime(): Long {
-        return getPrivately(Constants.Pref.NOTIFY_HISTORY, 0L)
+    fun getNotifyHistoryTime(type: HistoryType): Long {
+        return getPrivately(Constants.Pref.NOTIFY_HISTORY.plus(type.name), 0L)
+    }
+
+    fun hasNotification(): Boolean {
+        return hasNotifyHistoryEvent() || hasNotifyHistoryBirth() || hasNotifyHistoryDeath()
+    }
+
+    fun hasNotifyHistoryEvent(): Boolean {
+        return getPublicly(KEY_NOTIFY_HISTORY_EVENT, true)
+    }
+
+    fun hasNotifyHistoryBirth(): Boolean {
+        return getPublicly(KEY_NOTIFY_HISTORY_BIRTH, true)
+    }
+
+    fun hasNotifyHistoryDeath(): Boolean {
+        return getPublicly(KEY_NOTIFY_HISTORY_DEATH, true)
     }
 }

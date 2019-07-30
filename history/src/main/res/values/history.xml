@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="key_notify_history_event" translatable="false">history_event</string>
+    <string name="title_notify_history_event">History (Events)</string>
+    <string name="summary_notify_history_event">Enable events history notification</string>
+
+    <string name="key_notify_history_birth" translatable="false">history_birth</string>
+    <string name="title_notify_history_birth">History (Births)</string>
+    <string name="summary_notify_history_birth">Enable births history notification</string>
+
+    <string name="key_notify_history_death" translatable="false">history_death</string>
+    <string name="title_notify_history_death">History (Deaths)</string>
+    <string name="summary_notify_history_death">Enable deaths history notification</string>
+</resources>

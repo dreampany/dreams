@@ -111,6 +111,7 @@ class Constants {
     }
 
     object Link {
+        const val ID = Key.ID
         const val REF = "ref"
         const val URL = "url"
     }
@@ -119,5 +120,9 @@ class Constants {
         const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
         const val SOURCE = "src"
         const val ALTERNATE = "alt"
+    }
+
+    object Default {
+        const val EMPTY_STRING = ""
     }
 }

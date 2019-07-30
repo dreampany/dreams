@@ -1,11 +1,5 @@
 package com.dreampany.frame.api.parser
 
-import com.dreampany.frame.data.model.Link
-import com.dreampany.frame.misc.Constants
-import org.jsoup.Jsoup
-import javax.inject.Inject
-import javax.inject.Singleton
-
 
 /**
  * Created by Roman-372 on 7/30/2019
@@ -13,10 +7,11 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
-class Parser @Inject constructor() {
+interface Parser<T> {
 
-    fun parseImageLink(url: String): List<Link>? {
+    fun parse(url: String): List<T>?
+
+/*    fun parseImageLink(url: String): List<Link>? {
         val doc = Jsoup.connect(url).get()
         val images = doc.select(Constants.Parser.PATTERN_IMAGE)
         var result: MutableList<Link>? = null
@@ -27,5 +22,5 @@ class Parser @Inject constructor() {
             }
         }
         return result
-    }
+    }*/
 }

@@ -14,6 +14,8 @@ import com.dreampany.history.data.source.remote.WikiHistory
 import com.dreampany.history.data.source.remote.WikiLink
 import com.dreampany.history.misc.Constants
 import com.dreampany.history.misc.HistoryAnnote
+import com.dreampany.history.misc.HistoryItemAnnote
+import com.dreampany.history.ui.model.HistoryItem
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -27,8 +29,18 @@ import javax.inject.Singleton
 class HistoryMapper
 @Inject constructor(
     @HistoryAnnote val map: SmartMap<String, History>,
-    @HistoryAnnote val cache: SmartCache<String, History>
+    @HistoryAnnote val cache: SmartCache<String, History>,
+    @HistoryItemAnnote val uiMap: SmartMap<String, HistoryItem>,
+    @HistoryItemAnnote val uiCache: SmartCache<String, HistoryItem>
 ) {
+
+    fun getUiItem(id: String): HistoryItem? {
+        return uiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: HistoryItem) {
+        uiMap.put(id, uiItem)
+    }
 
     fun toItem(date: String, url: String, input: WikiHistory, inputType: HistoryType): History? {
         val day = TimeUtilKt.getDay(date, Constants.Date.MONTH_DAY)

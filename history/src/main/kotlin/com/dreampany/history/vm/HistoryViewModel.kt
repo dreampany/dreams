@@ -17,11 +17,14 @@ import com.dreampany.history.data.enums.ItemState
 import com.dreampany.history.data.enums.ItemSubtype
 import com.dreampany.history.data.enums.ItemType
 import com.dreampany.history.data.misc.HistoryMapper
+import com.dreampany.history.data.misc.ImageLinkMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.data.source.pref.Pref
 import com.dreampany.history.data.source.repository.HistoryRepository
+import com.dreampany.history.data.source.repository.ImageLinkRepository
 import com.dreampany.history.ui.model.HistoryItem
+import com.dreampany.history.ui.model.ImageLinkItem
 import com.dreampany.history.ui.model.UiTask
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.source.repository.TranslationRepository
@@ -45,6 +48,8 @@ class HistoryViewModel @Inject constructor(
     val pref: Pref,
     val stateMapper: StateMapper,
     val stateRepo: StateRepository,
+    val linkMapper: ImageLinkMapper,
+    val linkRepo: ImageLinkRepository,
     val mapper: HistoryMapper,
     val repo: HistoryRepository,
     val translationRepo: TranslationRepository,
@@ -256,11 +261,10 @@ class HistoryViewModel @Inject constructor(
     }
 
     private fun getUiItem(input: History): HistoryItem {
-        val map = uiMap
-        var uiItem: HistoryItem? = map.get(input.id)
+        var uiItem: HistoryItem? = mapper.getUiItem(input.id)
         if (uiItem == null) {
             uiItem = HistoryItem.getItem(input, this)
-            map.put(input.id, uiItem)
+            mapper.putUiItem(input.id, uiItem)
         }
         uiItem.item = input
         uiItem.clickListener = this
@@ -276,5 +280,10 @@ class HistoryViewModel @Inject constructor(
             favorites.put(history.id, favorite)
         }
         return favorites.get(history.id)
+    }
+
+    private fun getLinkUiItems(url: String): List<ImageLinkItem>? {
+        //TODO
+        return null
     }
 }

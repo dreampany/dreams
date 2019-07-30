@@ -1,22 +1,23 @@
-package com.dreampany.history.data.source.room
+package com.dreampany.history.data.source.remote
 
 import com.dreampany.frame.data.model.ImageLink
-import com.dreampany.frame.data.source.dao.ImageLinkDao
 import com.dreampany.history.data.misc.ImageLinkMapper
 import com.dreampany.history.data.source.api.ImageLinkDataSource
+import com.dreampany.network.manager.NetworkManager
 import io.reactivex.Maybe
 import javax.inject.Singleton
 
 /**
- * Created by Roman-372 on 7/30/2019
+ * Created by roman on 2019-07-30
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @Singleton
-class RoomImageLinkDataSource(
+class RemoteImageLinkDataSource (
+    val network: NetworkManager,
     val mapper: ImageLinkMapper,
-    val dao: ImageLinkDao
+    val parser: ImageParser
 ) : ImageLinkDataSource {
     override fun getItem(ref: String, url: String): ImageLink? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

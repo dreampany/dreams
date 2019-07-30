@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.misc.Constants
-import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
@@ -18,31 +17,21 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Link.REF, Constants.Link.URL],
+        value = [Constants.Link.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Link.REF, Constants.Link.URL]
+    primaryKeys = [Constants.Link.ID]
 )
 data class ImageLink(
-    var ref: String,
-    var url: String,
-    var title: String,
-    var time: Long = 0
-) : BaseParcelKt() {
+    override var time: Long = 0,
+    override var id: String = Constants.Default.EMPTY_STRING,
+    var ref: String = Constants.Default.EMPTY_STRING,
+    var url: String = Constants.Default.EMPTY_STRING,
+    var title: String = Constants.Default.EMPTY_STRING
+) : BaseKt() {
 
     @Ignore
-    constructor() : this("", "", "") {
+    constructor() : this(time = 0) {
 
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        val item = other as ImageLink
-        return Objects.equal(item.ref, ref) && Objects.equal(item.url, url)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(ref, url)
     }
 }

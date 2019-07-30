@@ -26,7 +26,8 @@ import kotlinx.android.parcel.Parcelize
 data class ImageLink(
     var ref: String,
     var url: String,
-    var title: String
+    var title: String,
+    var time: Long = 0
 ) : BaseParcelKt() {
 
     @Ignore

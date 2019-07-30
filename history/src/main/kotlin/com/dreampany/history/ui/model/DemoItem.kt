@@ -1,3 +1,4 @@
+/*
 package com.dreampany.history.ui.model
 
 import android.view.View
@@ -11,12 +12,14 @@ import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
 
+*/
 /**
  * Created by Roman-372 on 7/24/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class DemoItem private constructor(item: Demo, @LayoutRes layoutId: Int = 0) :
     BaseItemKt<Demo, DemoItem.ViewHolder, String>(item, layoutId) {
 
@@ -52,4 +55,4 @@ class DemoItem private constructor(item: Demo, @LayoutRes layoutId: Int = 0) :
             val word = uiItem.item
         }
     }
-}
+}*/

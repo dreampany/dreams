@@ -8,7 +8,7 @@ import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.misc.IcoMapper;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.data.source.api.IcoDataSource;
-import com.dreampany.lca.misc.IcoWatchList;
+import com.dreampany.lca.misc.IcoWatchListAnnote;
 import com.dreampany.network.manager.NetworkManager;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class RemoteIcoDataSource implements IcoDataSource {
 
     public RemoteIcoDataSource(NetworkManager network,
                                IcoMapper mapper,
-                               @IcoWatchList IcoService service) {
+                               @IcoWatchListAnnote IcoService service) {
         this.network = network;
         this.mapper = mapper;
         this.service = service;

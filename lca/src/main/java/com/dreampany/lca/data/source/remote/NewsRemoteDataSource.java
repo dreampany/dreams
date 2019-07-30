@@ -4,7 +4,7 @@ import com.dreampany.lca.api.cc.model.CcNews;
 import com.dreampany.lca.data.misc.NewsMapper;
 import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.data.source.api.NewsDataSource;
-import com.dreampany.lca.misc.CryptoCompare;
+import com.dreampany.lca.misc.CryptoCompareAnnote;
 import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class NewsRemoteDataSource implements NewsDataSource {
 
     public NewsRemoteDataSource(NetworkManager network,
                                 NewsMapper mapper,
-                                @CryptoCompare CryptoCompareNewsService service) {
+                                @CryptoCompareAnnote CryptoCompareNewsService service) {
 
         this.network = network;
         this.service = service;

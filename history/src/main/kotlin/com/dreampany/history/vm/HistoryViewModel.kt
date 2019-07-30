@@ -205,10 +205,10 @@ class HistoryViewModel @Inject constructor(
         return stateRepo.getCountById(id, ItemType.HISTORY.name, subtype.name, state.name) > 0
     }
 
-
     private fun loadUiItemRx(request: HistoryRequest): Maybe<HistoryItem> {
         return Maybe.create { emitter ->
-            val uiItem = getUiItem(request.input!!)
+            val item = repo.getItem(request.input!!.id)
+            val uiItem = getUiItem(item!!)
             if (emitter.isDisposed) {
                 return@create
             }

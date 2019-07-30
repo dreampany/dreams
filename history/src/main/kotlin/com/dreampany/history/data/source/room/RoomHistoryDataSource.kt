@@ -1,14 +1,11 @@
 package com.dreampany.history.data.source.room
 
-import com.annimon.stream.Stream
 import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.util.DataUtil
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.HistoryDataSource
 import io.reactivex.Maybe
-import java.util.ArrayList
 import javax.inject.Singleton
 
 /**
@@ -60,7 +57,7 @@ class RoomHistoryDataSource(
     }
 
     override fun putItemRx(t: History): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplaceRx(t)
     }
 
     override fun putItems(ts: List<History>): List<Long>? {

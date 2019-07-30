@@ -124,11 +124,13 @@ class Word(
         popularity = from.popularity
     }
 
+    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
     fun setPartOfSpeech(partOfSpeech: String?) {
         this.partOfSpeech = partOfSpeech
     }
 
+    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     @PropertyName(Constants.Word.PART_OF_SPEECH)
     fun getPartOfSpeech(): String? {
         return partOfSpeech

@@ -248,5 +248,5 @@ dependencies {
     api 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
     api 'com.github.skydoves:powermenu:2.1.0'
     api 'com.github.ybq:Android-SpinKit:1.2.0'
-
+    api 'org.jsoup:jsoup:1.12.1'
 }

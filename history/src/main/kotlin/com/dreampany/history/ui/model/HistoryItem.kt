@@ -6,6 +6,8 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.ImageLink
+import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.ui.view.TextViewClickMovement
 import com.dreampany.frame.util.TextUtil
@@ -33,6 +35,8 @@ class HistoryItem private constructor(
         fun onFavoriteClicked(history: History)
         fun onLinkClicked(link: String)
     }
+
+    private var imageBucket: MutableMap<Link, MutableList<ImageLink>>? = null
 
     companion object {
         fun getItem(item: History, clickListener: OnClickListener? = null): HistoryItem {
@@ -105,7 +109,7 @@ class HistoryItem private constructor(
                 val history = getTag<History>()
                 val link = history?.getLinkByTitle(linkText)
                 link?.run {
-                    clickListener?.onLinkClicked(this.link)
+                    clickListener?.onLinkClicked(this.url)
                 }
             }
 
@@ -117,7 +121,7 @@ class HistoryItem private constructor(
         private fun loadImage(history: History) {
             if (history.hasLink()) {
                 val link = history.getFirstLink()
-                val url = link?.link
+                val url = link?.url
                 //FrescoUtil.loadImage(imageIcon, url, false)
             }
         }

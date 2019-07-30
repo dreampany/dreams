@@ -1,6 +1,7 @@
 package com.dreampany.history.injector.data
 
 import android.app.Application
+import com.dreampany.frame.data.source.dao.ImageLinkDao
 import com.dreampany.history.data.source.room.DatabaseManager
 import com.dreampany.history.data.source.room.HistoryDao
 import dagger.Module
@@ -26,5 +27,11 @@ class DatabaseModule {
     @Provides
     fun provideHistoryDao(database: DatabaseManager): HistoryDao {
         return database.historyDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideImageLinkDao(database: DatabaseManager): ImageLinkDao {
+        return database.imageLinkDao()
     }
 }

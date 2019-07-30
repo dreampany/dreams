@@ -23,7 +23,6 @@ class Constants {
         const val TOOLS = "tools"
         const val WEB = "web"
 
-
         const val NOTIFY_SERVICE = "notify_service"
         const val MORE_APPS = "more_apps"
         const val RATE_US = "rate_us"
@@ -109,5 +108,16 @@ class Constants {
 
     object Session {
         val EXPIRED_TIME = TimeUnit.MINUTES.toMillis(5)
+    }
+
+    object Link {
+        const val REF = "ref"
+        const val URL = "url"
+    }
+
+    object Parser {
+        const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
+        const val SOURCE = "src"
+        const val ALTERNATE = "alt"
     }
 }

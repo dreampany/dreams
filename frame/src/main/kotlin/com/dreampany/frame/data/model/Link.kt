@@ -1,7 +1,6 @@
-package com.dreampany.history.data.model
+package com.dreampany.frame.data.model
 
 import androidx.room.Ignore
-import com.dreampany.frame.data.model.BaseParcelKt
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -12,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-data class Link(var title: String, var link: String) : BaseParcelKt() {
+data class Link(var url: String, var title: String) : BaseParcelKt() {
 
     @Ignore
     constructor() : this ("", "") {
@@ -23,10 +22,10 @@ data class Link(var title: String, var link: String) : BaseParcelKt() {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as Link
-        return Objects.equal(item.link, link)
+        return Objects.equal(item.url, url)
     }
 
     override fun hashCode(): Int {
-        return Objects.hashCode(link)
+        return Objects.hashCode(url)
     }
 }

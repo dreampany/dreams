@@ -8,7 +8,7 @@ import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.model.History
-import com.dreampany.history.data.model.Link
+import com.dreampany.frame.data.model.Link
 import com.dreampany.history.data.source.api.HistoryDataSource
 import com.dreampany.history.data.source.remote.WikiHistory
 import com.dreampany.history.data.source.remote.WikiLink
@@ -75,6 +75,6 @@ class HistoryMapper
     }
 
     private fun toLink(inputLink: WikiLink): Link {
-        return Link(inputLink.title, inputLink.link)
+        return Link(inputLink.link, inputLink.title)
     }
 }

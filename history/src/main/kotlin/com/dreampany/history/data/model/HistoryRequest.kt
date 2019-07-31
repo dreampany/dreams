@@ -9,8 +9,13 @@ import com.dreampany.history.data.enums.HistoryType
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class HistoryRequest(val type: HistoryType, val day: Int, val month: Int) :
-    Request<History>() {
+class HistoryRequest(
+    val type: HistoryType,
+    val day: Int,
+    val month: Int,
+    val links: Boolean
+) : Request<History>() {
+
     constructor(
         type: HistoryType,
         day: Int,
@@ -18,8 +23,9 @@ class HistoryRequest(val type: HistoryType, val day: Int, val month: Int) :
         important: Boolean,
         progress: Boolean,
         favorite: Boolean,
+        links: Boolean = false,
         notify: Boolean = false
-    ) : this(type, day, month) {
+    ) : this(type, day, month, links) {
         this.important = important
         this.progress = progress
         this.favorite = favorite

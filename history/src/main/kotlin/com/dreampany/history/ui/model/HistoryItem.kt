@@ -6,7 +6,6 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.data.model.ImageLink
 import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.ui.view.TextViewClickMovement
@@ -14,6 +13,7 @@ import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.History
 import com.dreampany.history.ui.adapter.HistoryAdapter
+import com.google.common.collect.Maps
 import com.like.LikeButton
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -36,7 +36,7 @@ class HistoryItem private constructor(
         fun onLinkClicked(link: String)
     }
 
-    private var imageBucket: MutableMap<Link, MutableList<ImageLink>>? = null
+    private var imageBucket: MutableMap<Link, List<ImageLinkItem>>? = null
 
     companion object {
         fun getItem(item: History, clickListener: OnClickListener? = null): HistoryItem {
@@ -52,8 +52,39 @@ class HistoryItem private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        val history = item as History
+        val history: History = item
         return history.text!!.contains(constraint, true)
+    }
+
+    fun hasBucket(link: Link): Boolean {
+        if (imageBucket == null) {
+            return false
+        }
+        if (!imageBucket!!.containsKey(link)) {
+            return false
+        }
+        if (imageBucket!!.get(link).isNullOrEmpty()) {
+            return false
+        }
+        return true
+    }
+
+    fun putBucket(link: Link, uiLinkItems: List<ImageLinkItem>) {
+        if (imageBucket == null) {
+            imageBucket = Maps.newConcurrentMap()
+        }
+        imageBucket!!.put(link, uiLinkItems)
+    }
+
+    fun getImageLinkItems() : List<ImageLinkItem>? {
+        if (imageBucket.isNullOrEmpty()) {
+            return null
+        }
+        val links = mutableListOf<ImageLinkItem>()
+        imageBucket!!.forEach { entry ->
+            links.addAll(entry.value)
+        }
+        return links
     }
 
     class ViewHolder(

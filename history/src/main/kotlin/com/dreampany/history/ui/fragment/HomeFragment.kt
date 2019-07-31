@@ -336,8 +336,8 @@ class HomeFragment
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
             UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
-            UiState.SEARCH -> bind.stateful.setState(SEARCH)
-            UiState.EMPTY -> bind.stateful.setState(SEARCH)
+            //UiState.SEARCH -> bind.stateful.setState(SEARCH)
+            //UiState.EMPTY -> bind.stateful.setState(SEARCH)
             UiState.ERROR -> {
             }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)

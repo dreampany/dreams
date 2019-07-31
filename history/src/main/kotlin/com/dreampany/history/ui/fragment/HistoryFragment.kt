@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.text.HtmlCompat
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -12,22 +13,25 @@ import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.ui.view.TextViewClickMovement
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
-import com.dreampany.history.databinding.ContentHistoryBinding
-import com.dreampany.history.databinding.ContentTopStatusBinding
-import com.dreampany.history.databinding.FragmentHistoryBinding
+import com.dreampany.history.databinding.*
 import com.dreampany.history.ui.activity.ToolsActivity
+import com.dreampany.history.ui.adapter.HistoryAdapter
+import com.dreampany.history.ui.adapter.ImageLinkAdapter
 import com.dreampany.history.ui.enums.UiSubtype
 import com.dreampany.history.ui.enums.UiType
 import com.dreampany.history.ui.model.HistoryItem
 import com.dreampany.history.ui.model.UiTask
 import com.dreampany.history.vm.HistoryViewModel
 import cz.kinst.jakub.view.StatefulLayout
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,8 +56,10 @@ class HistoryFragment
     private lateinit var bind: FragmentHistoryBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindHistory: ContentHistoryBinding
+    private lateinit var bindRecycler: ContentHorizonalRecyclerBinding
 
     private lateinit var vm: HistoryViewModel
+    private lateinit var adapter: ImageLinkAdapter
 
 
     override fun getLayoutId(): Int {
@@ -62,6 +68,7 @@ class HistoryFragment
 
     override fun onStartUi(state: Bundle?) {
         initView()
+        initRecycler()
         session.track()
         initTitleSubtitle()
         val task = vm.task as UiTask<History>
@@ -116,6 +123,7 @@ class HistoryFragment
         bind = super.binding as FragmentHistoryBinding
         bindStatus = bind.layoutTopStatus
         bindHistory = bind.layoutHistory
+        bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
             NONE,
@@ -131,6 +139,20 @@ class HistoryFragment
         vm.observeOutput(this, Observer { this.processResponse(it) })
 
         vm.task = getCurrentTask(true)
+    }
+
+    private fun initRecycler() {
+        bind.setItems(ObservableArrayList<Any>())
+        adapter = ImageLinkAdapter()
+        adapter.setStickyHeaders(false)
+        ViewUtil.setRecycler(
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollLinearLayoutManager(context!!),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_history_image, vm.itemOffset)
+                .withEdge(true)
+        )
     }
 
     private fun processResponse(response: Response<HistoryItem>) {
@@ -172,10 +194,14 @@ class HistoryFragment
         val history = uiItem.item
         bindHistory.textHtml.text =
             HtmlCompat.fromHtml(history.html!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        bindHistory.textYear.text =
-            TextUtil.getString(getContext(), R.string.year_format, history.year)
+        bindHistory.textYear.text = TextUtil.getString(getContext(), R.string.year_format, history.year)
 
         bindHistory.buttonFavorite.isLiked = uiItem.favorite
+
+        val linkItems = uiItem.getImageLinkItems()
+        linkItems?.run {
+            adapter.addItems(this)
+        }
     }
 
     private fun request(
@@ -189,7 +215,7 @@ class HistoryFragment
         val day = vm.getDay()
         val month = vm.getMonth()
 
-        val request = HistoryRequest(type, day, month, important, progress, favorite)
+        val request = HistoryRequest(type, day, month, important, progress, favorite, links = true)
         request.input = history
         vm.load(request)
     }

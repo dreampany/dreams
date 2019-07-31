@@ -24,8 +24,8 @@ class HistoryRepository
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    @Room val room: HistoryDataSource,
-    @Remote val remote: HistoryDataSource
+    @Room private val room: HistoryDataSource,
+    @Remote private val remote: HistoryDataSource
 ) : RepositoryKt<String, History>(rx, rm), HistoryDataSource {
 
     override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
@@ -50,7 +50,7 @@ class HistoryRepository
                     Functions.emptyConsumer<Throwable>()
                 )
             }
-       return concatFirstRx(room, remote)
+       return concatFirstRx(true, room, remote)
     }
 
     override fun isEmpty(): Boolean {

@@ -16,6 +16,14 @@ class DataUtilKt {
             return builder.toString()
         }
 
+        fun join(vararg items: String): String {
+            val builder = StringBuilder()
+            for (item in items) {
+                builder.append(item)
+            }
+            return builder.toString()
+        }
+
         fun getFirstPart(value: String, sep: String): String {
             return value.split(sep).first()
         }

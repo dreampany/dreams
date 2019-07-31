@@ -2,6 +2,8 @@ package com.dreampany.history.vm
 
 import android.app.Application
 import com.dreampany.frame.data.misc.StateMapper
+import com.dreampany.frame.data.model.ImageLink
+import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.source.repository.StateRepository
@@ -214,6 +216,20 @@ class HistoryViewModel @Inject constructor(
         return Maybe.create { emitter ->
             val item = repo.getItem(request.input!!.id)
             val uiItem = getUiItem(item!!)
+
+            if (request.links) {
+                item.links?.forEach { link ->
+                    if (!uiItem.hasBucket(link)) {
+                        val linkUiItems = getLinkUiItems(link)
+                        linkUiItems?.run {
+                            if (isNotEmpty()) {
+                                uiItem.putBucket(link, this)
+                            }
+                        }
+                    }
+                }
+            }
+
             if (emitter.isDisposed) {
                 return@create
             }
@@ -282,8 +298,25 @@ class HistoryViewModel @Inject constructor(
         return favorites.get(history.id)
     }
 
-    private fun getLinkUiItems(url: String): List<ImageLinkItem>? {
-        //TODO
+    private fun getLinkUiItems(link: Link): List<ImageLinkItem>? {
+        val imageLinks = linkRepo.getItemsRx(link.url).blockingGet()
+        if (imageLinks.isNullOrEmpty()) {
+            return null
+        }
+        val uiItems = mutableListOf<ImageLinkItem>()
+        imageLinks.forEach { link ->
+            uiItems.add(getUiItem(link))
+        }
         return null
+    }
+
+    private fun getUiItem(input: ImageLink): ImageLinkItem {
+        var uiItem: ImageLinkItem? = linkMapper.getUiItem(input.id)
+        if (uiItem == null) {
+            uiItem = ImageLinkItem.getItem(input)
+            linkMapper.putUiItem(input.id, uiItem)
+        }
+        uiItem.item = input
+        return uiItem
     }
 }

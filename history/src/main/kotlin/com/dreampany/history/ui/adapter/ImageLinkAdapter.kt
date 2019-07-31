@@ -9,7 +9,7 @@ import com.dreampany.history.ui.model.ImageLinkItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ImageLinkAdapter(listener: Any?) : SmartAdapter<ImageLinkItem>(listener) {
+class ImageLinkAdapter(listener: Any? = null) : SmartAdapter<ImageLinkItem>(listener) {
 
 
 }

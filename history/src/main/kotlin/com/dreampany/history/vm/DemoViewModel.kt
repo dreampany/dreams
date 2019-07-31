@@ -1,3 +1,4 @@
+/*
 package com.dreampany.history.vm
 
 import android.app.Application
@@ -12,12 +13,14 @@ import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import javax.inject.Inject
 
+*/
 /**
  * Created by Roman-372 on 7/24/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class DemoViewModel @Inject constructor(
     application: Application,
     rx: RxMapper,
@@ -29,4 +32,4 @@ class DemoViewModel @Inject constructor(
     val stateRepo: StateRepository,
     @Favorite val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Demo, DemoItem, UiTask<Demo>>(application, rx, ex, rm) {
-}
+}*/

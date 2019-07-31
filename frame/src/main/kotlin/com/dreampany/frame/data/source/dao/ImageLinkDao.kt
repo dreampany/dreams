@@ -3,6 +3,7 @@ package com.dreampany.frame.data.source.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.frame.data.model.ImageLink
+import io.reactivex.Maybe
 
 /**
  * Created by Roman-372 on 7/30/2019
@@ -18,4 +19,7 @@ interface ImageLinkDao : BaseDao<ImageLink> {
 
     @Query("select * from imagelink where ref = :ref")
     fun getItems(ref: String): List<ImageLink>?
+
+    @Query("select * from imagelink where ref = :ref")
+    fun getItemsRx(ref: String): Maybe<List<ImageLink>>
 }

@@ -6,8 +6,5 @@ package com.dreampany.frame.data.model
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Request<T>(var input: T? = null) {
-    var important: Boolean = false
-    var progress: Boolean = false
-    var favorite: Boolean = false
+abstract class Request<T>(var input: T? = null, var important: Boolean = false, var progress: Boolean = false, var favorite: Boolean = false) {
 }

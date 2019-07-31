@@ -1,10 +1,16 @@
 package com.dreampany.history.data.source.remote
 
 import com.dreampany.frame.data.model.ImageLink
+import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.ImageLinkMapper
+import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.ImageLinkDataSource
 import com.dreampany.network.manager.NetworkManager
 import io.reactivex.Maybe
+import org.jsoup.nodes.Element
+import timber.log.Timber
+import java.io.IOException
 import javax.inject.Singleton
 
 /**
@@ -14,7 +20,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class RemoteImageLinkDataSource (
+class RemoteImageLinkDataSource(
     val network: NetworkManager,
     val mapper: ImageLinkMapper,
     val parser: ImageParser
@@ -48,7 +54,11 @@ class RemoteImageLinkDataSource (
     }
 
     override fun getItems(ref: String): List<ImageLink>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (network.isObserving() && !network.hasInternet()) {
+            return null
+        }
+        val images = parser.parse(ref)
+        return getItems(ref, images)
     }
 
     override fun isEmpty(): Boolean {
@@ -76,7 +86,17 @@ class RemoteImageLinkDataSource (
     }
 
     override fun getItemsRx(ref: String): Maybe<List<ImageLink>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val items = getItems(ref)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (items.isNullOrEmpty()) {
+                emitter.onComplete()
+            } else {
+                emitter.onSuccess(items)
+            }
+        }
     }
 
     override fun isEmptyRx(): Maybe<Boolean> {
@@ -113,5 +133,19 @@ class RemoteImageLinkDataSource (
 
     override fun getItemsRx(limit: Int): Maybe<List<ImageLink>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /* private api */
+    private fun getItems(ref: String, inputs: List<Element>?): List<ImageLink>? {
+        if (inputs.isNullOrEmpty()) {
+            return null
+        }
+        val links = mutableListOf<ImageLink>()
+        inputs.forEach { element ->
+            mapper.toItem(ref, element)?.run {
+                links.add(this)
+            }
+        }
+        return links
     }
 }

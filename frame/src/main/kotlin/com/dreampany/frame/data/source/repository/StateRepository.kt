@@ -19,7 +19,7 @@ import javax.inject.Singleton
 class StateRepository @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    @Room val room: StateDataSource
+    @Room private val room: StateDataSource
 ): RepositoryKt<String, State>(rx, rm), StateDataSource {
 
     override fun getCountById(id: String, type: String, subtype: String): Int {

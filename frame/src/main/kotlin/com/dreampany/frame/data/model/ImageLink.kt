@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.misc.Constants
+import com.dreampany.frame.util.TimeUtil
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
@@ -31,7 +32,16 @@ data class ImageLink(
 ) : BaseKt() {
 
     @Ignore
-    constructor() : this(time = 0) {
+    constructor() : this(time = TimeUtil.currentTime()) {
+
+    }
+
+    constructor(id: String) : this(time = TimeUtil.currentTime(), id = id) {
+
+    }
+
+    constructor(id: String, ref: String, url: String, title: String) :
+            this(time = TimeUtil.currentTime(), id = id, ref = ref, url = url, title = title) {
 
     }
 }

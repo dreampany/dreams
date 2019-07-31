@@ -2,6 +2,7 @@ package com.dreampany.history.data.source.room
 
 import com.dreampany.frame.data.model.ImageLink
 import com.dreampany.frame.data.source.dao.ImageLinkDao
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.history.data.misc.ImageLinkMapper
 import com.dreampany.history.data.source.api.ImageLinkDataSource
 import io.reactivex.Maybe
@@ -27,7 +28,7 @@ class RoomImageLinkDataSource(
     }
 
     override fun putItem(t: ImageLink): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun getItem(id: String): ImageLink? {
@@ -59,8 +60,9 @@ class RoomImageLinkDataSource(
     }
 
     override fun putItems(ts: List<ImageLink>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        val result = mutableListOf<Long>()
+        ts.forEach {result.add(putItem(it))}
+        return result    }
 
     override fun deleteRx(t: ImageLink): Maybe<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -75,7 +77,7 @@ class RoomImageLinkDataSource(
     }
 
     override fun getItemsRx(ref: String): Maybe<List<ImageLink>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItemsRx(ref)
     }
 
     override fun isEmptyRx(): Maybe<Boolean> {
@@ -91,11 +93,21 @@ class RoomImageLinkDataSource(
     }
 
     override fun putItemRx(t: ImageLink): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplaceRx(t)
     }
 
     override fun putItemsRx(ts: List<ImageLink>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItems(ts)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun delete(ts: List<ImageLink>): List<Long>? {

@@ -3,7 +3,7 @@ package com.dreampany.lca.data.source.remote;
 import com.dreampany.lca.data.misc.GraphMapper;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.source.api.GraphDataSource;
-import com.dreampany.lca.misc.CoinMarketCapGraph;
+import com.dreampany.lca.misc.CmcGraphAnnote;
 import com.dreampany.network.manager.NetworkManager;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class GraphRemoteDataSource implements GraphDataSource {
 
     public GraphRemoteDataSource(NetworkManager network,
                                  GraphMapper mapper,
-                                 @CoinMarketCapGraph CoinMarketCapGraphService service) {
+                                 @CmcGraphAnnote CoinMarketCapGraphService service) {
         this.network = network;
         this.mapper = mapper;
         this.service = service;

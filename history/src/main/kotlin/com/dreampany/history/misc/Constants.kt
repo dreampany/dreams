@@ -89,6 +89,11 @@ class Constants {
         const val TYPE = "history_type"
     }
 
+    object ImageLink {
+        const val REF = Constants.Link.REF
+        const val URL = Constants.Link.URL
+    }
+
     object Retrofit {
         const val CONNECTION_CLOSE = Constants.Retrofit.CONNECTION_CLOSE
     }
@@ -105,5 +110,15 @@ class Constants {
 
     object Pref {
         const val NOTIFY_HISTORY = "notify_history"
+    }
+
+    object ImageParser {
+        const val PATTERN_IMAGE = Constants.Parser.PATTERN_IMAGE
+        const val SOURCE = Constants.Parser.SOURCE
+        const val ALTERNATE = Constants.Parser.ALTERNATE
+    }
+
+    object Default {
+        const val EMPTY_STRING = Constants.Default.EMPTY_STRING
     }
 }

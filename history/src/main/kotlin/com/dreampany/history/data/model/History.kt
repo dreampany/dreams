@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.misc.Constants
@@ -37,6 +38,7 @@ class History(
     var html: String? = null
     var url: String? = null
     var links: MutableList<Link>? = null
+    //var imageLinks: MutableList<Link>? = null
 
     @Ignore
     constructor() : this("") {
@@ -62,6 +64,12 @@ class History(
             links = mutableListOf()
             parcel.readList(links as MutableList<Any?>, Link::class.java.classLoader)
         }
+/*        if (parcel.readByte().compareTo(0x00) == 0) {
+            imageLinks = null
+        } else {
+            imageLinks = mutableListOf()
+            parcel.readList(imageLinks as MutableList<Any?>, Link::class.java.classLoader)
+        }*/
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -80,6 +88,12 @@ class History(
             dest.writeByte(0x01)
             dest.writeList(links as MutableList<Any?>)
         }
+/*        if (imageLinks == null) {
+            dest.writeByte(0x00)
+        } else {
+            dest.writeByte(0x01)
+            dest.writeList(imageLinks as MutableList<Any?>)
+        }*/
     }
 
     companion object CREATOR : Parcelable.Creator<History> {

@@ -243,7 +243,7 @@ class BuildersModule {
 
     @Singleton
     @Provides
-    @CoinMarketCap
+    @CmcAnnote
     fun provideCoinMarketCapRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .client(client)
@@ -257,7 +257,7 @@ class BuildersModule {
 
     @Singleton
     @Provides
-    @CoinMarketCapGraph
+    @CmcGraphAnnote
     fun provideCoinMarketCapGraphRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .client(client)
@@ -271,7 +271,7 @@ class BuildersModule {
 
     @Singleton
     @Provides
-    @CryptoCompare
+    @CryptoCompareAnnote
     fun provideCryptoCompareRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .client(client)
@@ -285,7 +285,7 @@ class BuildersModule {
 
     @Singleton
     @Provides
-    @IcoWatchList
+    @IcoWatchListAnnote
     fun provideIcoWatchListRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .client(client)
@@ -298,32 +298,32 @@ class BuildersModule {
     }
 
     @Provides
-    fun provideCoinMarketCapService(@CoinMarketCap retrofit: Retrofit): CmcService {
+    fun provideCoinMarketCapService(@CmcAnnote retrofit: Retrofit): CmcService {
         return retrofit.create(CmcService::class.java);
     }
 
     @Provides
-    fun provideCoinMarketCapGraphService(@CoinMarketCapGraph retrofit: Retrofit): CoinMarketCapGraphService {
+    fun provideCoinMarketCapGraphService(@CmcGraphAnnote retrofit: Retrofit): CoinMarketCapGraphService {
         return retrofit.create(CoinMarketCapGraphService::class.java);
     }
 
     @Provides
-    fun provideCryptoCompareExchangeService(@CryptoCompare retrofit: Retrofit): CryptoCompareExchangeService {
+    fun provideCryptoCompareExchangeService(@CryptoCompareAnnote retrofit: Retrofit): CryptoCompareExchangeService {
         return retrofit.create(CryptoCompareExchangeService::class.java);
     }
 
     @Provides
-    fun provideCryptoCompareMarketService(@CryptoCompare retrofit: Retrofit): CryptoCompareMarketService {
+    fun provideCryptoCompareMarketService(@CryptoCompareAnnote retrofit: Retrofit): CryptoCompareMarketService {
         return retrofit.create(CryptoCompareMarketService::class.java);
     }
 
     @Provides
-    fun provideCryptoCompareNewsService(@CryptoCompare retrofit: Retrofit): CryptoCompareNewsService {
+    fun provideCryptoCompareNewsService(@CryptoCompareAnnote retrofit: Retrofit): CryptoCompareNewsService {
         return retrofit.create(CryptoCompareNewsService::class.java);
     }
 
     @Provides
-    fun provideIcoService(@IcoWatchList retrofit: Retrofit): IcoService {
+    fun provideIcoService(@IcoWatchListAnnote retrofit: Retrofit): IcoService {
         return retrofit.create(IcoService::class.java);
     }
 

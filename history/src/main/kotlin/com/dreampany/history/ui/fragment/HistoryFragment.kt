@@ -98,7 +98,7 @@ class HistoryFragment
             val history = task.input!!
             val link = history?.getLinkByTitle(linkText)
             link?.run {
-                openSite(this.link)
+                openSite(this.url)
             }
         }
     }

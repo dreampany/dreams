@@ -1,8 +1,11 @@
 package com.dreampany.word.injector.ui
 
 import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.vision.injector.ui.LiveTextOcrModule
-import com.dreampany.word.ui.activity.*
+import com.dreampany.frame.ui.activity.WebActivity
+import com.dreampany.word.ui.activity.LaunchActivity
+import com.dreampany.word.ui.activity.LoaderActivity
+import com.dreampany.word.ui.activity.NavigationActivity
+import com.dreampany.word.ui.activity.ToolsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

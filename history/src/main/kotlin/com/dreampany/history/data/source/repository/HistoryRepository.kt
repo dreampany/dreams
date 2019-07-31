@@ -114,7 +114,16 @@ class HistoryRepository
     }
 
     override fun getItemRx(id: String): Maybe<History> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val room = this.room.getItemRx(id)
+        val remote = this.remote.getItemRx(id)
+            .filter{ it != null }
+            .doOnSuccess {
+                rx.compute(this.room.putItemRx(it)).subscribe(
+                    Functions.emptyConsumer<Long>(),
+                    Functions.emptyConsumer<Throwable>()
+                )
+            }
+        return concatSingleFirstRx(room, remote)
     }
 
     override fun getItemsRx(): Maybe<List<History>> {

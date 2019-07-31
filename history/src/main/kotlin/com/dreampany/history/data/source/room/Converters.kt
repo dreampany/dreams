@@ -2,7 +2,7 @@ package com.dreampany.history.data.source.room
 
 import androidx.room.TypeConverter
 import com.dreampany.history.data.enums.HistoryType
-import com.dreampany.history.data.model.Link
+import com.dreampany.frame.data.model.Link
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 

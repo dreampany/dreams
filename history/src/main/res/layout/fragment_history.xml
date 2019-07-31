@@ -9,6 +9,10 @@
         <variable
             name="item"
             type="com.dreampany.history.ui.model.HistoryItem" />
+
+        <variable
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -40,7 +44,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/layout_top">
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -51,7 +55,15 @@
                         android:layout_height="match_parent"
                         android:visibility="visible"
                         auto:item="@{item}" />
-                </FrameLayout>
+
+                    <include
+                        android:id="@+id/layout_recycler"
+                        layout="@layout/content_horizonal_recycler"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        auto:items="@{items}" />
+                </RelativeLayout>
             </cz.kinst.jakub.view.StatefulLayout>
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

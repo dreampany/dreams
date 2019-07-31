@@ -31,7 +31,7 @@ class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
     }
 
     fun hasWordSync(): Boolean {
-        return getPublicly(KEY_WORD_SYNC, Boolean::class.java, true)
+        return getPublicly(KEY_WORD_SYNC, true)
     }
 
     fun commitLoaded() {

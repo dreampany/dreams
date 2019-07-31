@@ -6,6 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.frame.BuildConfig
+import com.dreampany.frame.data.model.ImageLink
+import com.dreampany.frame.data.source.dao.ImageLinkDao
 import com.dreampany.history.data.model.History
 import com.dreampany.history.misc.Constants
 
@@ -15,12 +17,13 @@ import com.dreampany.history.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [History::class], version = 1)
+@Database(entities = [History::class, ImageLink::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
     companion object {
-        private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.TYPE_HISTORY)
+        private val DATABASE =
+            Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.TYPE_HISTORY)
         private var instance: DatabaseManager? = null
 
         @Synchronized
@@ -48,4 +51,5 @@ abstract class DatabaseManager : RoomDatabase() {
     }
 
     abstract fun historyDao(): HistoryDao
+    abstract fun imageLinkDao(): ImageLinkDao
 }

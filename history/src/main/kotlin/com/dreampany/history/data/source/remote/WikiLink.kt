@@ -6,6 +6,6 @@ package com.dreampany.history.data.source.remote
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class WikiLink(val title: String, val link: String) {
+data class WikiLink(val link: String, val title: String) {
 
 }

@@ -89,6 +89,9 @@ class NotifyViewModel
             Timber.v("Statue %s", state.toString())
             var item = wordMapper.toItemFromState(state, wordRepo)
             item = getItemIf(item)
+            if (item != null) {
+                pref.setRecentWord(item)
+            }
             val source = Language.ENGLISH.code
             val target = pref.getLanguage(Language.ENGLISH).code
             val result = getItem(item, source, target, true);

@@ -4,7 +4,6 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.misc.Constants
-import com.dreampany.frame.util.TimeUtil
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
@@ -25,21 +24,21 @@ import kotlinx.android.parcel.Parcelize
     primaryKeys = [Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE]
 )
 data class Store(
-    override var time: Long,
-    override var id: String,
-    var type: String,
-    var subtype: String,
-    var state: String,
-    var data: String?
+    override var time: Long = Constants.Default.EMPTY_LONG,
+    override var id: String = Constants.Default.EMPTY_STRING,
+    var type: String = Constants.Default.EMPTY_STRING,
+    var subtype: String = Constants.Default.EMPTY_STRING,
+    var state: String = Constants.Default.EMPTY_STRING,
+    var data: String = Constants.Default.EMPTY_STRING
 ) : BaseKt() {
 
     @Ignore
-    constructor() : this("", "", "", "", "") {
+    constructor() : this(time = 0L) {
     }
 
-    constructor(id: String, type: String, subtype: String, state: String, data: String?)
+/*    constructor(id: String, type: String, subtype: String, state: String, data: String?)
             : this(TimeUtil.currentTime(), id, type, subtype, state, data) {
-    }
+    }*/
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

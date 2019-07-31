@@ -23,7 +23,7 @@ import kotlinx.android.parcel.Parcelize
     primaryKeys = [Constants.Link.ID]
 )
 data class ImageLink(
-    override var time: Long = 0,
+    override var time: Long = Constants.Default.EMPTY_LONG,
     override var id: String = Constants.Default.EMPTY_STRING,
     var ref: String = Constants.Default.EMPTY_STRING,
     var url: String = Constants.Default.EMPTY_STRING,

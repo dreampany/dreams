@@ -57,8 +57,7 @@
 
         <activity
             android:name="com.dreampany.word.ui.activity.LaunchActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:launchMode="singleTask">
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -68,15 +67,12 @@
 
         <activity
             android:name="com.dreampany.word.ui.activity.LoaderActivity"
-            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:launchMode="singleTask">
-
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout">
         </activity>
 
         <activity
             android:name="com.dreampany.word.ui.activity.NavigationActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.searchable"

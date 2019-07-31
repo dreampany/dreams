@@ -1,9 +1,11 @@
 package com.dreampany.word.ui.activity
 
 import android.os.Bundle
+import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.word.R
 import com.dreampany.word.misc.Constants
+import com.dreampany.word.ui.model.UiTask
 import com.wang.avi.AVLoadingIndicatorView
 
 
@@ -27,11 +29,12 @@ class LaunchActivity : BaseActivity() {
     }
 
     override fun onStartUi(state: Bundle?) {
+        val uiTask = getCurrentTask<UiTask<*>>(false) as Task<*>
         val loader = findViewById<AVLoadingIndicatorView>(R.id.view_loading)
         loader.smoothToShow()
         ex.postToUi({
             loader.smoothToHide()
-            openActivity(NavigationActivity::class.java, true)
+            openActivity(NavigationActivity::class.java, uiTask, true)
         }, 2000L)
     }
 

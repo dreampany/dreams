@@ -1,16 +1,12 @@
 package com.dreampany.history.data.source.remote
 
 import com.dreampany.frame.data.model.ImageLink
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.history.data.enums.HistoryType
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.misc.ImageLinkMapper
-import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.ImageLinkDataSource
 import com.dreampany.network.manager.NetworkManager
 import io.reactivex.Maybe
 import org.jsoup.nodes.Element
-import timber.log.Timber
-import java.io.IOException
 import javax.inject.Singleton
 
 /**
@@ -25,7 +21,7 @@ class RemoteImageLinkDataSource(
     val mapper: ImageLinkMapper,
     val parser: ImageParser
 ) : ImageLinkDataSource {
-    override fun getItem(ref: String, url: String): ImageLink? {
+    override fun getItem(source: HistorySource, ref: String, url: String): ImageLink? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -41,7 +37,7 @@ class RemoteImageLinkDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(ref: String, url: String): Maybe<ImageLink> {
+    override fun getItemRx(source: HistorySource, ref: String, url: String): Maybe<ImageLink> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -53,7 +49,7 @@ class RemoteImageLinkDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(ref: String): List<ImageLink>? {
+    override fun getItems(source: HistorySource, ref: String): List<ImageLink>? {
         if (network.isObserving() && !network.hasInternet()) {
             return null
         }
@@ -85,9 +81,9 @@ class RemoteImageLinkDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(ref: String): Maybe<List<ImageLink>> {
+    override fun getItemsRx(source: HistorySource, ref: String): Maybe<List<ImageLink>> {
         return Maybe.create { emitter ->
-            val items = getItems(ref)
+            val items = getItems(source, ref)
             if (emitter.isDisposed) {
                 return@create
             }

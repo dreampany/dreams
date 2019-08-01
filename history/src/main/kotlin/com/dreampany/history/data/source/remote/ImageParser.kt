@@ -1,7 +1,7 @@
 package com.dreampany.history.data.source.remote
 
 import com.dreampany.frame.api.parser.Parser
-import com.dreampany.frame.misc.Constants
+import com.dreampany.history.misc.Constants
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import timber.log.Timber
@@ -19,8 +19,10 @@ class ImageParser @Inject constructor() : Parser<Element> {
 
     override fun parse(ref: String): List<Element>? {
         try {
-            val doc = Jsoup.connect(ref).get()
-            return doc.select(Constants.Parser.PATTERN_IMAGE)
+            val connection = Jsoup.connect(ref).timeout(Constants.Time.JSOUP.toInt())
+            val doc = connection.get()
+            val elements = doc.getElementsByTag(Constants.ImageParser.PATTERN_IMAGE_TAG)
+            return elements
         } catch (error : Throwable) {
             Timber.e(error)
         }

@@ -6,8 +6,7 @@ import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.Room
 import com.dreampany.frame.misc.RxMapper
-import com.dreampany.history.data.model.History
-import com.dreampany.history.data.source.api.HistoryDataSource
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.source.api.ImageLinkDataSource
 import io.reactivex.Maybe
 import io.reactivex.internal.functions.Functions
@@ -29,7 +28,7 @@ class ImageLinkRepository
     @Remote private val remote: ImageLinkDataSource
 ) : RepositoryKt<String, ImageLink>(rx, rm), ImageLinkDataSource {
 
-    override fun getItem(ref: String, url: String): ImageLink? {
+    override fun getItem(source: HistorySource, ref: String, url: String): ImageLink? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -45,7 +44,7 @@ class ImageLinkRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(ref: String, url: String): Maybe<ImageLink> {
+    override fun getItemRx(source: HistorySource, ref: String, url: String): Maybe<ImageLink> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -57,7 +56,7 @@ class ImageLinkRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(ref: String): List<ImageLink>? {
+    override fun getItems(source: HistorySource, ref: String): List<ImageLink>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -85,9 +84,9 @@ class ImageLinkRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(ref: String): Maybe<List<ImageLink>> {
-        val room = this.room.getItemsRx(ref)
-        val remote = this.remote.getItemsRx(ref)
+    override fun getItemsRx(source: HistorySource, ref: String): Maybe<List<ImageLink>> {
+        val room = this.room.getItemsRx(source, ref)
+        val remote = this.remote.getItemsRx(source, ref)
             .filter { !it.isNullOrEmpty() }
             .doOnSuccess {
                 rx.compute(this.room.putItemsRx(it)).subscribe(

@@ -70,6 +70,7 @@ class Constants {
     object Time {
         val NotifyPeriod = TimeUnit.MINUTES.toSeconds(1)
         val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(1)
+        val JSOUP = TimeUnit.SECONDS.toMillis(10)
     }
 
     object Date {
@@ -114,11 +115,20 @@ class Constants {
 
     object ImageParser {
         const val PATTERN_IMAGE = Constants.Parser.PATTERN_IMAGE
+        const val PATTERN_IMAGE_TAG = Constants.Parser.PATTERN_IMAGE_TAG
+        const val BASE_URL = Constants.Parser.BASE_URL
+        const val HREF = Constants.Parser.HREF
         const val SOURCE = Constants.Parser.SOURCE
         const val ALTERNATE = Constants.Parser.ALTERNATE
     }
 
     object Default {
         const val EMPTY_STRING = Constants.Default.EMPTY_STRING
+    }
+
+    object UiState  {
+        enum class State {
+            NONE, EMPTY, SEARCH
+        }
     }
 }

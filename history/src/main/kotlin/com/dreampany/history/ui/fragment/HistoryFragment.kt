@@ -8,21 +8,24 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
-import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.ui.view.TextViewClickMovement
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
-import com.dreampany.history.databinding.*
+import com.dreampany.history.databinding.ContentHistoryBinding
+import com.dreampany.history.databinding.ContentHorizonalRecyclerBinding
+import com.dreampany.history.databinding.ContentTopStatusBinding
+import com.dreampany.history.databinding.FragmentHistoryBinding
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.activity.ToolsActivity
-import com.dreampany.history.ui.adapter.HistoryAdapter
 import com.dreampany.history.ui.adapter.ImageLinkAdapter
 import com.dreampany.history.ui.enums.UiSubtype
 import com.dreampany.history.ui.enums.UiType
@@ -46,8 +49,6 @@ class HistoryFragment
 @Inject constructor() :
     BaseMenuFragment(),
     TextViewClickMovement.OnTextViewClickMovementListener {
-
-    private val NONE = "none"
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -126,10 +127,10 @@ class HistoryFragment
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            NONE,
+            Constants.UiState.State.NONE.name,
             LayoutInflater.from(context).inflate(R.layout.item_none, null)
         )
-
+        processUiState(UiState.NONE)
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindHistory.buttonFavorite.setOnClickListener(this)
         bindHistory.textHtml.movementMethod = TextViewClickMovement(this, getContext())
@@ -148,7 +149,7 @@ class HistoryFragment
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
-            SmoothScrollLinearLayoutManager(context!!),
+            SmoothScrollLinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false),
             FlexibleItemDecoration(context!!)
                 .addItemViewType(R.layout.item_history_image, vm.itemOffset)
                 .withEdge(true)
@@ -170,6 +171,9 @@ class HistoryFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
+            UiState.NONE -> {
+                bind.stateful.setState(Constants.UiState.State.NONE.name)
+            }
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -191,10 +195,12 @@ class HistoryFragment
     }
 
     private fun processSuccess(uiItem: HistoryItem) {
+        processUiState(UiState.CONTENT);
         val history = uiItem.item
         bindHistory.textHtml.text =
             HtmlCompat.fromHtml(history.html!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        bindHistory.textYear.text = TextUtil.getString(getContext(), R.string.year_format, history.year)
+        bindHistory.textYear.text =
+            TextUtil.getString(getContext(), R.string.year_format, history.year)
 
         bindHistory.buttonFavorite.isLiked = uiItem.favorite
 

@@ -1,6 +1,7 @@
 package com.dreampany.history.data.source.remote
 
 import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
@@ -25,7 +26,7 @@ class RemoteHistoryDataSource(
     val service: WikiHistoryService
 ) : HistoryDataSource {
 
-    override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
+    override fun getItems(source: HistorySource, type: HistoryType, day: Int, month: Int): List<History>? {
         if (network.isObserving() && !network.hasInternet()) {
             return null
         }
@@ -43,9 +44,9 @@ class RemoteHistoryDataSource(
         return null
     }
 
-    override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
+    override fun getItemsRx(source: HistorySource, type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
         return Maybe.create { emitter ->
-            val items = getItems(type, day, month)
+            val items = getItems(source, type, day, month)
             if (emitter.isDisposed) {
                 return@create
             }

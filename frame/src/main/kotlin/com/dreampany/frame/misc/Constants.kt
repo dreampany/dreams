@@ -118,6 +118,9 @@ class Constants {
 
     object Parser {
         const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
+        const val PATTERN_IMAGE_TAG = "img"
+        const val BASE_URL = "baseUrl"
+        const val HREF = "href"
         const val SOURCE = "src"
         const val ALTERNATE = "alt"
     }
@@ -125,5 +128,11 @@ class Constants {
     object Default {
         const val EMPTY_STRING = ""
         const val EMPTY_LONG = 0L
+    }
+
+    object UiState {
+        enum class State {
+            NONE, EMPTY, SEARCH
+        }
     }
 }

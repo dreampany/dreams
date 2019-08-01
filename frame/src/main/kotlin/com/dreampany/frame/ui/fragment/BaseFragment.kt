@@ -184,6 +184,18 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        val needUpdate = isResumed && isVisibleToUser != userVisibleHint
+        super.setUserVisibleHint(isVisibleToUser)
+        if (needUpdate) {
+            if (isVisibleToUser) {
+                this.onVisible()
+            } else {
+                this.onInvisible()
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         if (hasBus()) {
@@ -196,6 +208,18 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
             Events.unregister(this)
         }
         super.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (this.userVisibleHint) {
+            this.onVisible()
+        }
+    }
+
+    override fun onPause() {
+        this.onInvisible()
+        super.onPause()
     }
 
     override fun onDestroyView() {
@@ -306,6 +330,14 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
 
     override fun onQueryTextChange(newText: String): Boolean {
         return false
+    }
+
+    fun onVisible() {
+
+    }
+
+    fun onInvisible() {
+
     }
 
     fun getApp(): BaseApp? {

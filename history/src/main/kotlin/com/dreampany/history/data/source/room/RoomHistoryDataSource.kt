@@ -1,6 +1,7 @@
 package com.dreampany.history.data.source.room
 
 import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
@@ -20,11 +21,11 @@ class RoomHistoryDataSource(
     val dao: HistoryDao
 ) : HistoryDataSource {
 
-    override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
+    override fun getItems(source: HistorySource, type: HistoryType, day: Int, month: Int): List<History>? {
         return dao.getItems(type, day, month)
     }
 
-    override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
+    override fun getItemsRx(source: HistorySource, type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
         return dao.getItemsRx(type, day, month)
     }
 

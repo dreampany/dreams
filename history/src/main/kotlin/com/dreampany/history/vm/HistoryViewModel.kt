@@ -14,10 +14,7 @@ import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.frame.vm.BaseViewModel
-import com.dreampany.history.data.enums.HistoryType
-import com.dreampany.history.data.enums.ItemState
-import com.dreampany.history.data.enums.ItemSubtype
-import com.dreampany.history.data.enums.ItemType
+import com.dreampany.history.data.enums.*
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.misc.ImageLinkMapper
 import com.dreampany.history.data.model.History
@@ -220,7 +217,7 @@ class HistoryViewModel @Inject constructor(
             if (request.links) {
                 item.links?.forEach { link ->
                     if (!uiItem.hasBucket(link)) {
-                        val linkUiItems = getLinkUiItems(link)
+                        val linkUiItems = getLinkUiItems(request.source, link)
                         linkUiItems?.run {
                             if (isNotEmpty()) {
                                 uiItem.putBucket(link, this)
@@ -250,6 +247,7 @@ class HistoryViewModel @Inject constructor(
             ).flatMap { getFavoriteUiItemsRx(it) }
         } else {
             repo.getItemsRx(
+                request.source,
                 request.type,
                 request.day,
                 request.month
@@ -298,8 +296,8 @@ class HistoryViewModel @Inject constructor(
         return favorites.get(history.id)
     }
 
-    private fun getLinkUiItems(link: Link): List<ImageLinkItem>? {
-        val imageLinks = linkRepo.getItemsRx(link.url).blockingGet()
+    private fun getLinkUiItems(source: HistorySource, link: Link): List<ImageLinkItem>? {
+        val imageLinks = linkRepo.getItemsRx(source, link.url).blockingGet()
         if (imageLinks.isNullOrEmpty()) {
             return null
         }
@@ -307,7 +305,7 @@ class HistoryViewModel @Inject constructor(
         imageLinks.forEach { link ->
             uiItems.add(getUiItem(link))
         }
-        return null
+        return uiItems
     }
 
     private fun getUiItem(input: ImageLink): ImageLinkItem {

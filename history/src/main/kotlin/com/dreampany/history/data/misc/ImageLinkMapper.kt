@@ -38,8 +38,11 @@ class ImageLinkMapper
     }
 
     fun toItem(ref: String, input: Element): ImageLink? {
-        val url = input.attr(Constants.ImageParser.SOURCE)
+        val baseUrl = input.baseUri()
+        val relUrl = input.attr(Constants.ImageParser.SOURCE)
         val title = input.attr(Constants.ImageParser.ALTERNATE)
+
+        val url = baseUrl.plus(relUrl)
 
         val id = DataUtilKt.join(ref, url)
 

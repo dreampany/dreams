@@ -5,6 +5,7 @@ import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.Room
 import com.dreampany.frame.misc.RxMapper
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.HistoryDataSource
@@ -28,7 +29,7 @@ class HistoryRepository
     @Remote private val remote: HistoryDataSource
 ) : RepositoryKt<String, History>(rx, rm), HistoryDataSource {
 
-    override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
+    override fun getItems(source: HistorySource, type: HistoryType, day: Int, month: Int): List<History>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -40,9 +41,9 @@ class HistoryRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
-        val room = this.room.getItemsRx(type, day, month)
-        val remote = this.remote.getItemsRx(type, day, month)
+    override fun getItemsRx(source: HistorySource, type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
+        val room = this.room.getItemsRx(source, type, day, month)
+        val remote = this.remote.getItemsRx(source, type, day, month)
             .filter{ !it.isNullOrEmpty() }
             .doOnSuccess {
                 rx.compute(this.room.putItemsRx(it)).subscribe(

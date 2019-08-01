@@ -27,7 +27,6 @@ data class ImageLink(
     override var time: Long = Constants.Default.EMPTY_LONG,
     override var id: String = Constants.Default.EMPTY_STRING,
     var ref: String = Constants.Default.EMPTY_STRING,
-    var url: String = Constants.Default.EMPTY_STRING,
     var title: String = Constants.Default.EMPTY_STRING
 ) : BaseKt() {
 
@@ -40,8 +39,11 @@ data class ImageLink(
 
     }
 
-    constructor(id: String, ref: String, url: String, title: String) :
-            this(time = TimeUtil.currentTime(), id = id, ref = ref, url = url, title = title) {
+    constructor(
+        id: String,
+        ref: String,
+        title: String
+    ) : this(time = TimeUtil.currentTime(), id = id, ref = ref, title = title) {
 
     }
 }

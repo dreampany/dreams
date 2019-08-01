@@ -13,7 +13,7 @@ import io.reactivex.Maybe
  */
 interface ImageLinkDataSource : DataSource<ImageLink> {
 
-    fun getItem(source: HistorySource, ref: String, url: String): ImageLink?
+    fun getItem(source: HistorySource, id: String): ImageLink?
 
     fun getItemRx(source: HistorySource, ref: String, url: String): Maybe<ImageLink>
 

@@ -22,12 +22,22 @@ class RoomHistoryDataSource(
     val dao: HistoryDao
 ) : HistoryDataSource {
 
-    override fun getItems(source: HistorySource, type: HistoryType, day: Int, month: Int): List<History>? {
-        return dao.getItems(type, day, month)
+    override fun getItems(
+        source: HistorySource,
+        type: HistoryType,
+        day: Int,
+        month: Int
+    ): List<History>? {
+        return dao.getItems(source, type, day, month)
     }
 
-    override fun getItemsRx(source: HistorySource, type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
-        return dao.getItemsRx(type, day, month)
+    override fun getItemsRx(
+        source: HistorySource,
+        type: HistoryType,
+        day: Int,
+        month: Int
+    ): Maybe<List<History>> {
+        return dao.getItemsRx(source, type, day, month)
     }
 
     override fun isEmpty(): Boolean {
@@ -64,7 +74,7 @@ class RoomHistoryDataSource(
 
     override fun putItems(ts: List<History>): List<Long>? {
         val result = mutableListOf<Long>()
-        ts.forEach {result.add(putItem(it))}
+        ts.forEach { result.add(putItem(it)) }
         return result
     }
 

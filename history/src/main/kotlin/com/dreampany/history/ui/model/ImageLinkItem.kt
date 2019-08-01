@@ -5,12 +5,11 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.history.data.model.ImageLink
-import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.util.DisplayUtil
 import com.dreampany.frame.util.FrescoUtil
 import com.dreampany.history.R
+import com.dreampany.history.data.model.ImageLink
 import com.dreampany.history.ui.adapter.ImageLinkAdapter
 import com.facebook.drawee.view.SimpleDraweeView
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -27,8 +26,6 @@ import java.io.Serializable
 class ImageLinkItem private constructor(
     item: ImageLink, @LayoutRes layoutId: Int = 0
 ) : BaseItemKt<ImageLink, ImageLinkItem.ViewHolder, String>(item, layoutId) {
-
-    private var imageBucket: MutableMap<Link, MutableList<ImageLink>>? = null
 
     companion object {
         fun getItem(item: ImageLink): ImageLinkItem {

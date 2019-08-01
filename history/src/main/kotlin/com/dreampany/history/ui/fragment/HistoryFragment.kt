@@ -8,7 +8,6 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
@@ -21,7 +20,7 @@ import com.dreampany.history.R
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.databinding.ContentHistoryBinding
-import com.dreampany.history.databinding.ContentHorizonalRecyclerBinding
+import com.dreampany.history.databinding.ContentRecyclerBinding
 import com.dreampany.history.databinding.ContentTopStatusBinding
 import com.dreampany.history.databinding.FragmentHistoryBinding
 import com.dreampany.history.misc.Constants
@@ -34,7 +33,7 @@ import com.dreampany.history.ui.model.UiTask
 import com.dreampany.history.vm.HistoryViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -57,7 +56,7 @@ class HistoryFragment
     private lateinit var bind: FragmentHistoryBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindHistory: ContentHistoryBinding
-    private lateinit var bindRecycler: ContentHorizonalRecyclerBinding
+    private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var vm: HistoryViewModel
     private lateinit var adapter: ImageLinkAdapter
@@ -149,7 +148,7 @@ class HistoryFragment
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
-            SmoothScrollLinearLayoutManager(context!!, LinearLayoutManager.HORIZONTAL, false),
+            SmoothScrollGridLayoutManager(context!!, 2),
             FlexibleItemDecoration(context!!)
                 .addItemViewType(R.layout.item_history_image, vm.itemOffset)
                 .withEdge(true)

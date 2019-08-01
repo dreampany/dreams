@@ -64,10 +64,10 @@
 
                         <include
                             android:id="@+id/layout_recycler"
-                            layout="@layout/content_horizonal_recycler"
+                            layout="@layout/content_recycler"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_200sdp"
-                            android:layout_alignParentBottom="true"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
                             android:background="@color/material_red800"
                             auto:items="@{items}" />
 

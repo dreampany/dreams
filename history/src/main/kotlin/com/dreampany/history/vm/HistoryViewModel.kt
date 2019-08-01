@@ -43,16 +43,16 @@ class HistoryViewModel @Inject constructor(
     rx: RxMapper,
     ex: AppExecutors,
     rm: ResponseMapper,
-    val network: NetworkManager,
-    val pref: Pref,
-    val stateMapper: StateMapper,
-    val stateRepo: StateRepository,
-    val linkMapper: ImageLinkMapper,
-    val linkRepo: ImageLinkRepository,
-    val mapper: HistoryMapper,
-    val repo: HistoryRepository,
-    val translationRepo: TranslationRepository,
-    @Favorite val favorites: SmartMap<String, Boolean>
+    private val network: NetworkManager,
+    private val pref: Pref,
+    private val stateMapper: StateMapper,
+    private val stateRepo: StateRepository,
+    private val linkMapper: ImageLinkMapper,
+    private val linkRepo: ImageLinkRepository,
+    private val mapper: HistoryMapper,
+    private val repo: HistoryRepository,
+    private val translationRepo: TranslationRepository,
+    @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<History, HistoryItem, UiTask<History>>(application, rx, ex, rm),
     HistoryItem.OnClickListener {
 

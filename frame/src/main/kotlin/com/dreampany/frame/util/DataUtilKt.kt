@@ -1,6 +1,8 @@
 package com.dreampany.frame.util
 
 import androidx.core.util.PatternsCompat
+import com.dreampany.frame.misc.Constants
+import java.util.regex.Pattern
 
 /**
  * Created by Roman-372 on 7/25/2019
@@ -32,6 +34,15 @@ class DataUtilKt {
 
         fun isValidUrl(url: String): Boolean {
             return PatternsCompat.WEB_URL.matcher(url).matches()
+        }
+
+        fun isValidImageUrl(url: String): Boolean {
+            val pattern = Constants.Pattern.IMAGE_PATTERN
+            return pattern.matcher(url).matches()
+        }
+
+        fun joinPrefixIf(url: String, prefix: String): String {
+            return if (!url.startsWith(prefix)) prefix.plus(url) else url
         }
     }
 }

@@ -5,6 +5,7 @@ import com.dreampany.frame.util.AndroidUtil
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
 import java.util.concurrent.TimeUnit
+import java.util.regex.Pattern
 
 /**
  * Created by Hawladar Roman on 24/2/19.
@@ -117,12 +118,13 @@ class Constants {
     }
 
     object Parser {
-        const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
         const val PATTERN_IMAGE_TAG = "img"
         const val BASE_URL = "baseUrl"
         const val HREF = "href"
         const val SOURCE = "src"
         const val ALTERNATE = "alt"
+        const val WIDTH = "width"
+        const val HEIGHT = "height"
     }
 
     object Default {
@@ -132,9 +134,20 @@ class Constants {
         const val STRING = ""
     }
 
+    object Network {
+        const val HTTP = "http:"
+        const val HTTPS = "https:"
+    }
+
     object UiState {
         enum class State {
             NONE, EMPTY, SEARCH
         }
+    }
+
+    object Pattern {
+        const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
+        const val PATTERN_IMAGE_URL = "^https?://(?:[a-z0-9\\-]+\\.)+[a-z0-9]{2,6}(?:/[^/#?]+)+\\.(?:jpg|gif|png)\$"
+        val IMAGE_PATTERN = java.util.regex.Pattern.compile(PATTERN_IMAGE_URL)
     }
 }

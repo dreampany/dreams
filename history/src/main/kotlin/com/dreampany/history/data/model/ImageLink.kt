@@ -30,7 +30,9 @@ data class ImageLink(
     override var id: String = Constants.Default.STRING,
     var source: LinkSource? = Constants.Default.NULL,
     var ref: String = Constants.Default.STRING,
-    var title: String = Constants.Default.STRING
+    var title: String = Constants.Default.STRING,
+    var width: Int = Constants.Default.INT,
+    var height: Int = Constants.Default.INT
 ) : BaseKt() {
 
     @Ignore
@@ -46,8 +48,18 @@ data class ImageLink(
         id: String,
         source: LinkSource,
         ref: String,
-        title: String
-    ) : this(time = TimeUtilKt.currentMillis(), id = id, source = source, ref = ref, title = title) {
+        title: String,
+        width: Int,
+        height: Int
+    ) : this(
+        time = TimeUtilKt.currentMillis(),
+        id = id,
+        source = source,
+        ref = ref,
+        title = title,
+        width = width,
+        height = height
+    ) {
 
     }
 }

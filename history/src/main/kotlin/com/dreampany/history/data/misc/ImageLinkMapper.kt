@@ -11,6 +11,7 @@ import com.dreampany.history.misc.ImageLinkAnnote
 import com.dreampany.history.misc.ImageLinkItemAnnote
 import com.dreampany.history.ui.model.ImageLinkItem
 import org.jsoup.nodes.Element
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -48,16 +49,21 @@ class ImageLinkMapper
     fun toItem(source: LinkSource, ref: String, input: Element): ImageLink? {
 
         var id = input.attr(Constants.ImageParser.SOURCE)
+        id = DataUtilKt.joinPrefixIf(id, Constants.Network.HTTPS)
 
-        if (!DataUtilKt.isValidUrl(id)) {
-            id = getValidUrl(source, input)
-        }
-
-        if (!DataUtilKt.isValidUrl(id)) {
+        if (!DataUtilKt.isValidImageUrl(id)) {
             return null
         }
 
         val title = input.attr(Constants.ImageParser.ALTERNATE)
+        val width = input.attr(Constants.ImageParser.WIDTH).toInt()
+        val height = input.attr(Constants.ImageParser.HEIGHT).toInt()
+
+        if (width < Constants.Threshold.IMAGE_MIN_WIDTH || height < Constants.Threshold.IMAGE_MIN_HEIGHT) {
+            Timber.v("Invalid Image URL = %s", id)
+            return null
+        }
+
         var output: ImageLink? = map.get(id)
         if (output == null) {
             output = ImageLink(id)
@@ -66,6 +72,8 @@ class ImageLinkMapper
         output.source = source
         output.ref = ref
         output.title = title
+        output.width = width
+        output.height = height
         return output
     }
 

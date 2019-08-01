@@ -140,7 +140,7 @@ class HistoryItem private constructor(
                 val history = getTag<History>()
                 val link = history?.getLinkByTitle(linkText)
                 link?.run {
-                    clickListener?.onLinkClicked(this.url)
+                    clickListener?.onLinkClicked(this.id)
                 }
             }
 
@@ -152,7 +152,7 @@ class HistoryItem private constructor(
         private fun loadImage(history: History) {
             if (history.hasLink()) {
                 val link = history.getFirstLink()
-                val url = link?.url
+                val url = link?.id
                 //FrescoUtil.loadImage(imageIcon, url, false)
             }
         }

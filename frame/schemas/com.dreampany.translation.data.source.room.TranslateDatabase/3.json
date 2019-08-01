@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 3,
-    "identityHash": "0a7435e224d25a3769dda386edbc6d3f",
+    "identityHash": "1bb48e79771d721bd198d9a5d04a4f3a",
     "entities": [
       {
         "tableName": "TextTranslation",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `source` TEXT NOT NULL, `target` TEXT NOT NULL, `input` TEXT NOT NULL, `output` TEXT NOT NULL, PRIMARY KEY(`source`, `target`, `input`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `source` TEXT NOT NULL, `target` TEXT NOT NULL, `input` TEXT NOT NULL, `output` TEXT NOT NULL, `time` INTEGER NOT NULL, `id` TEXT NOT NULL, `source` TEXT NOT NULL, `target` TEXT NOT NULL, `time` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "time",
@@ -43,26 +43,58 @@
             "columnName": "output",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "target",
+            "columnName": "target",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "source",
-            "target",
-            "input"
+            "id"
           ],
           "autoGenerate": false
         },
         "indices": [
           {
-            "name": "index_TextTranslation_source_target_input",
+            "name": "index_TextTranslation_id",
             "unique": true,
             "columnNames": [
-              "source",
-              "target",
-              "input"
+              "id"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_TextTranslation_source_target_input` ON `${TABLE_NAME}` (`source`, `target`, `input`)"
+            "createSql": "CREATE UNIQUE INDEX `index_TextTranslation_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
@@ -71,7 +103,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0a7435e224d25a3769dda386edbc6d3f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '1bb48e79771d721bd198d9a5d04a4f3a')"
     ]
   }
 }

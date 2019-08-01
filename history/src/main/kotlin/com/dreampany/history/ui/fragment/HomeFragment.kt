@@ -386,12 +386,13 @@ class HomeFragment
         progress: Boolean,
         favorite: Boolean
     ) {
+        val source = vm.getHistorySource()
         val type = vm.getHistoryType()
         Timber.v("Request type %s", type)
         val day = vm.getDay()
         val month = vm.getMonth()
 
-        val request = HistoryRequest(type, day, month, important, progress, favorite)
+        val request = HistoryRequest(source, type, day, month, false, important, progress, favorite)
         vm.load(request)
     }
 

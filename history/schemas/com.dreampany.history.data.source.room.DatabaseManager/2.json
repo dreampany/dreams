@@ -2,12 +2,30 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "38529e726d069a16680918673eb83e6b",
+    "identityHash": "14c1c70a01e41eeef22c6a61e126c3c0",
     "entities": [
       {
         "tableName": "History",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT, `day` INTEGER NOT NULL, `month` INTEGER NOT NULL, `year` INTEGER NOT NULL, `text` TEXT, `html` TEXT, `url` TEXT, `links` TEXT, `time` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `source` TEXT, `type` TEXT, `day` INTEGER NOT NULL, `month` INTEGER NOT NULL, `year` INTEGER NOT NULL, `text` TEXT, `html` TEXT, `url` TEXT, `links` TEXT, PRIMARY KEY(`id`))",
         "fields": [
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": false
+          },
           {
             "fieldPath": "type",
             "columnName": "type",
@@ -55,18 +73,6 @@
             "columnName": "links",
             "affinity": "TEXT",
             "notNull": false
-          },
-          {
-            "fieldPath": "time",
-            "columnName": "time",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -89,7 +95,7 @@
       },
       {
         "tableName": "ImageLink",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `ref` TEXT NOT NULL, `url` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `source` TEXT, `ref` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "time",
@@ -104,14 +110,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "ref",
-            "columnName": "ref",
+            "fieldPath": "source",
+            "columnName": "source",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
-            "fieldPath": "url",
-            "columnName": "url",
+            "fieldPath": "ref",
+            "columnName": "ref",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -144,7 +150,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '38529e726d069a16680918673eb83e6b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '14c1c70a01e41eeef22c6a61e126c3c0')"
     ]
   }
 }

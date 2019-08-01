@@ -71,8 +71,8 @@ class ImageLinkItem private constructor(
                 bind(position: Int, item: I) {
             val uiItem = item as ImageLinkItem
             val link = uiItem.item
-            FrescoUtil.loadImage(draweeImage, link.url, false)
-            Timber.v("link- Title (%s) Url (%s)", link.title, link.url)
+            FrescoUtil.loadImage(draweeImage, link.id, false)
+            Timber.v("link- Title (%s) Url (%s)", link.title, link.id)
             textTitle.text = link.title
         }
     }

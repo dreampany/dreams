@@ -31,7 +31,7 @@ data class ImageLink(
     var source: LinkSource? = Constants.Default.NULL,
     var ref: String = Constants.Default.STRING,
     var title: String = Constants.Default.STRING
-) : BaseKt(time = time, id = id) {
+) : BaseKt() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

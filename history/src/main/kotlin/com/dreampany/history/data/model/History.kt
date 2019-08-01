@@ -40,7 +40,7 @@ data class History(
     var url: String? = Constants.Default.NULL,
     var links: MutableList<Link>? = Constants.Default.NULL
 
-) : BaseKt(time = time, id = id) {
+) : BaseKt() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

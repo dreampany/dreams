@@ -91,6 +91,10 @@ class HistoryViewModel @Inject constructor(
         setMonth(TimeUtilKt.getMonth())
     }
 
+    fun getHistorySource(): HistorySource {
+        return HistorySource.WIKIPEDIA
+    }
+
     fun getHistoryType(): HistoryType {
         return pref.getHistoryType()
     }

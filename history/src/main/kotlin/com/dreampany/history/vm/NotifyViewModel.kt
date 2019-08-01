@@ -12,6 +12,7 @@ import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.history.R
 import com.dreampany.history.app.App
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
@@ -64,9 +65,9 @@ class NotifyViewModel
         val day = pref.getDay()
         val month = pref.getMonth()
 
-        val requestEvent = HistoryRequest(HistoryType.EVENT, day, month, true, false, false, true)
-        val requestBirth = HistoryRequest(HistoryType.BIRTH, day, month, true, false, false, true)
-        val requestDeath = HistoryRequest(HistoryType.DEATH, day, month, true, false, false, true)
+        val requestEvent = HistoryRequest(HistorySource.WIKIPEDIA, HistoryType.EVENT, day, month, true, false, false, true)
+        val requestBirth = HistoryRequest(HistorySource.WIKIPEDIA,HistoryType.BIRTH, day, month, true, false, false, true)
+        val requestDeath = HistoryRequest(HistorySource.WIKIPEDIA,HistoryType.DEATH, day, month, true, false, false, true)
         load(requestEvent)
         load(requestBirth)
         load(requestDeath)
@@ -90,6 +91,7 @@ class NotifyViewModel
 
     private fun loadUiItemsRx(request: HistoryRequest): Maybe<List<HistoryItem>> {
         return repo.getItemsRx(
+            request.source,
             request.type,
             request.day,
             request.month

@@ -31,7 +31,7 @@ data class TextTranslation(
     override var target: String = Constants.Default.STRING,
     var input: String = Constants.Default.STRING,
     var output: String = Constants.Default.STRING
-) : Translation(time = time, id = id, source = source, target = target) {
+) : Translation() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

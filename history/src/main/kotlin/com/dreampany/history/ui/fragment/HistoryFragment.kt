@@ -106,7 +106,7 @@ class HistoryFragment
             val history = task.input!!
             val link = history?.getLinkByTitle(linkText)
             link?.run {
-                openSite(this.url)
+                openSite(this.id)
             }
         }
     }
@@ -216,12 +216,13 @@ class HistoryFragment
         progress: Boolean,
         favorite: Boolean
     ) {
+        val source = vm.getHistorySource()
         val type = vm.getHistoryType()
         Timber.v("Request type %s", type)
         val day = vm.getDay()
         val month = vm.getMonth()
 
-        val request = HistoryRequest(type, day, month, important, progress, favorite, links = true)
+        val request = HistoryRequest(source, type, day, month, true, important, progress, favorite)
         request.input = history
         vm.load(request)
     }

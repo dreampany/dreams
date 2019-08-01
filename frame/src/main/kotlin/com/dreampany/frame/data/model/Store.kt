@@ -24,12 +24,12 @@ import kotlinx.android.parcel.Parcelize
     primaryKeys = [Constants.Key.ID, Constants.Key.TYPE, Constants.Key.SUBTYPE, Constants.Key.STATE]
 )
 data class Store(
-    override var time: Long = Constants.Default.EMPTY_LONG,
-    override var id: String = Constants.Default.EMPTY_STRING,
-    var type: String = Constants.Default.EMPTY_STRING,
-    var subtype: String = Constants.Default.EMPTY_STRING,
-    var state: String = Constants.Default.EMPTY_STRING,
-    var data: String = Constants.Default.EMPTY_STRING
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    var type: String = Constants.Default.STRING,
+    var subtype: String = Constants.Default.STRING,
+    var state: String = Constants.Default.STRING,
+    var data: String = Constants.Default.STRING
 ) : BaseKt() {
 
     @Ignore

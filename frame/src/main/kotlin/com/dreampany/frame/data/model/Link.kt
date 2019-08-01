@@ -2,7 +2,7 @@ package com.dreampany.frame.data.model
 
 import androidx.room.Ignore
 import com.dreampany.frame.misc.Constants
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.frame.util.TimeUtilKt
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -13,17 +13,21 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Link(
-    override var time: Long = Constants.Default.EMPTY_LONG,
-    override var id: String = Constants.Default.EMPTY_STRING,
-    var title: String = Constants.Default.EMPTY_STRING
-) : BaseKt() {
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    var title: String = Constants.Default.STRING
+) : BaseKt(time = time, id = id) {
 
     @Ignore
-    constructor() : this(time = TimeUtil.currentTime()) {
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
 
     }
 
-    constructor(id: String) : this(time = TimeUtil.currentTime(), id = id) {
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+
+    }
+
+    constructor(id: String, title: String) : this(time = TimeUtilKt.currentMillis(), id = id, title = title) {
 
     }
 }

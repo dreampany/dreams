@@ -1,14 +1,14 @@
 package com.dreampany.history.data.misc
 
-import com.dreampany.frame.data.model.ImageLink
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.frame.util.DataUtilKt
-import com.dreampany.history.data.model.History
+import com.dreampany.history.data.enums.HistorySource
+import com.dreampany.history.data.enums.LinkSource
+import com.dreampany.history.data.model.ImageLink
 import com.dreampany.history.misc.Constants
 import com.dreampany.history.misc.ImageLinkAnnote
 import com.dreampany.history.misc.ImageLinkItemAnnote
-import com.dreampany.history.ui.model.HistoryItem
 import com.dreampany.history.ui.model.ImageLinkItem
 import org.jsoup.nodes.Element
 import javax.inject.Inject
@@ -37,23 +37,48 @@ class ImageLinkMapper
         uiMap.put(id, uiItem)
     }
 
-    fun toItem(ref: String, input: Element): ImageLink? {
-        val baseUrl = input.baseUri()
-        val relUrl = input.attr(Constants.ImageParser.SOURCE)
+    fun convertSource(input: HistorySource): LinkSource {
+        when (input) {
+            HistorySource.WIKIPEDIA -> {
+                return LinkSource.WIKIPEDIA
+            }
+        }
+    }
+
+    fun toItem(source: LinkSource, ref: String, input: Element): ImageLink? {
+
+        var id = input.attr(Constants.ImageParser.SOURCE)
+
+        if (!DataUtilKt.isValidUrl(id)) {
+            id = getValidUrl(source, input)
+        }
+
+        if (!DataUtilKt.isValidUrl(id)) {
+            return null
+        }
+
         val title = input.attr(Constants.ImageParser.ALTERNATE)
-
-        val url = baseUrl.plus(relUrl)
-
-        val id = DataUtilKt.join(ref, url)
-
         var output: ImageLink? = map.get(id)
         if (output == null) {
             output = ImageLink(id)
             map.put(id, output)
         }
+        output.source = source
         output.ref = ref
-        output.url = url
         output.title = title
         return output
+    }
+
+    private fun getValidUrl(source: LinkSource, input: Element): String? {
+        when (source) {
+            LinkSource.WIKIPEDIA -> {
+                if (input.hasParent()) {
+                    val parent = input.parent()
+                    val href = parent.attr(Constants.ImageParser.HREF)
+                    return Constants.toUrl(source, href)
+                }
+            }
+        }
+        return null
     }
 }

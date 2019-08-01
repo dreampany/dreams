@@ -1,8 +1,8 @@
 package com.dreampany.history.data.source.api
 
-import com.dreampany.frame.data.model.ImageLink
 import com.dreampany.frame.data.source.api.DataSource
-import com.dreampany.history.data.enums.HistorySource
+import com.dreampany.history.data.enums.LinkSource
+import com.dreampany.history.data.model.ImageLink
 import io.reactivex.Maybe
 
 /**
@@ -13,11 +13,11 @@ import io.reactivex.Maybe
  */
 interface ImageLinkDataSource : DataSource<ImageLink> {
 
-    fun getItem(source: HistorySource, id: String): ImageLink?
+    fun getItem(source: LinkSource, id: String): ImageLink?
 
-    fun getItemRx(source: HistorySource, ref: String, url: String): Maybe<ImageLink>
+    fun getItemRx(source: LinkSource, id: String): Maybe<ImageLink>
 
-    fun getItems(source: HistorySource, ref: String): List<ImageLink>?
+    fun getItems(source: LinkSource, ref: String): List<ImageLink>?
 
-    fun getItemsRx(source: HistorySource, ref: String): Maybe<List<ImageLink>>
+    fun getItemsRx(source: LinkSource, ref: String): Maybe<List<ImageLink>>
 }

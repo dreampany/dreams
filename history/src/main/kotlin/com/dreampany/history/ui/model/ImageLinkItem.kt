@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.data.model.ImageLink
+import com.dreampany.history.data.model.ImageLink
 import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.util.DisplayUtil

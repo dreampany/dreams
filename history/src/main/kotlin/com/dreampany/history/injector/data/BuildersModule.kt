@@ -1,6 +1,6 @@
 package com.dreampany.history.injector.data
 
-import com.dreampany.frame.data.source.dao.ImageLinkDao
+import com.dreampany.history.data.source.dao.ImageLinkDao
 import com.dreampany.frame.injector.data.FrameModule
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.Room
@@ -12,7 +12,7 @@ import com.dreampany.history.data.source.remote.ImageParser
 import com.dreampany.history.data.source.remote.RemoteHistoryDataSource
 import com.dreampany.history.data.source.remote.RemoteImageLinkDataSource
 import com.dreampany.history.data.source.remote.WikiHistoryService
-import com.dreampany.history.data.source.room.HistoryDao
+import com.dreampany.history.data.source.dao.HistoryDao
 import com.dreampany.history.data.source.room.RoomHistoryDataSource
 import com.dreampany.history.data.source.room.RoomImageLinkDataSource
 import com.dreampany.history.injector.vm.ViewModelModule

@@ -1,12 +1,13 @@
 package com.dreampany.history.data.source.repository
 
-import com.dreampany.frame.data.model.ImageLink
+import com.dreampany.history.data.model.ImageLink
 import com.dreampany.frame.data.source.repository.RepositoryKt
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.Room
 import com.dreampany.frame.misc.RxMapper
 import com.dreampany.history.data.enums.HistorySource
+import com.dreampany.history.data.enums.LinkSource
 import com.dreampany.history.data.source.api.ImageLinkDataSource
 import io.reactivex.Maybe
 import io.reactivex.internal.functions.Functions
@@ -28,7 +29,7 @@ class ImageLinkRepository
     @Remote private val remote: ImageLinkDataSource
 ) : RepositoryKt<String, ImageLink>(rx, rm), ImageLinkDataSource {
 
-    override fun getItem(source: HistorySource, ref: String, url: String): ImageLink? {
+    override fun getItem(source: LinkSource, id: String): ImageLink? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -44,7 +45,7 @@ class ImageLinkRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(source: HistorySource, ref: String, url: String): Maybe<ImageLink> {
+    override fun getItemRx(source: LinkSource, id: String): Maybe<ImageLink> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -56,7 +57,7 @@ class ImageLinkRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(source: HistorySource, ref: String): List<ImageLink>? {
+    override fun getItems(source: LinkSource, ref: String): List<ImageLink>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -84,7 +85,7 @@ class ImageLinkRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(source: HistorySource, ref: String): Maybe<List<ImageLink>> {
+    override fun getItemsRx(source: LinkSource, ref: String): Maybe<List<ImageLink>> {
         val room = this.room.getItemsRx(source, ref)
         val remote = this.remote.getItemsRx(source, ref)
             .filter { !it.isNullOrEmpty() }

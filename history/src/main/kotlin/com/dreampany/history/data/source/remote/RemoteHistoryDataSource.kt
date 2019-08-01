@@ -34,7 +34,7 @@ class RemoteHistoryDataSource(
             val response = service.getWikiHistory(day, month).execute()
             if (response.isSuccessful) {
                 val result = response.body()
-                return getItems(type, result)
+                return getItems(source, type, result)
             }
         } catch (error: IOException) {
             Timber.e(error)
@@ -139,7 +139,7 @@ class RemoteHistoryDataSource(
     }
 
     /* private api */
-    private fun getItems(type: HistoryType, response: WikiHistoryResponse?): List<History>? {
+    private fun getItems(source : HistorySource, type: HistoryType, response: WikiHistoryResponse?): List<History>? {
         if (response == null) {
             return null
         }

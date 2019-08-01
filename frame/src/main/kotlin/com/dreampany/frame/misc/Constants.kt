@@ -126,8 +126,10 @@ class Constants {
     }
 
     object Default {
-        const val EMPTY_STRING = ""
-        const val EMPTY_LONG = 0L
+        val NULL = null
+        const val INT = 0
+        const val LONG = 0L
+        const val STRING = ""
     }
 
     object UiState {

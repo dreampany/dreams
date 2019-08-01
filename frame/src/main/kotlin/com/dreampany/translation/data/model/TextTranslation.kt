@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.util.TimeUtil
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.translation.misc.Constants
-import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
@@ -19,22 +19,27 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT],
+        value = [Constants.Translation.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Translation.SOURCE, Constants.Translation.TARGET, Constants.Translation.INPUT]
+    primaryKeys = [Constants.Translation.ID]
 )
-class TextTranslation(
-    override var time: Long,
-    override var id: String,
-    override var source: String,
-    override var target: String,
-    var input: String,
-    var output: String
-) : Translation() {
+data class TextTranslation(
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    override var source: String = Constants.Default.STRING,
+    override var target: String = Constants.Default.STRING,
+    var input: String = Constants.Default.STRING,
+    var output: String = Constants.Default.STRING
+) : Translation(time = time, id = id, source = source, target = target) {
 
     @Ignore
-    constructor() : this("", "", "", "", "") {
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
+
+    }
+
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+
     }
 
     constructor(
@@ -76,7 +81,7 @@ class TextTranslation(
         }
     }*/
 
-    override fun equals(other: Any?): Boolean {
+/*    override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as TextTranslation
@@ -87,5 +92,5 @@ class TextTranslation(
 
     override fun hashCode(): Int {
         return Objects.hashCode(source, target, input)
-    }
+    }*/
 }

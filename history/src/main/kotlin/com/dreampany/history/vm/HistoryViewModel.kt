@@ -2,7 +2,6 @@ package com.dreampany.history.vm
 
 import android.app.Application
 import com.dreampany.frame.data.misc.StateMapper
-import com.dreampany.frame.data.model.ImageLink
 import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.State
@@ -19,6 +18,7 @@ import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.misc.ImageLinkMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
+import com.dreampany.history.data.model.ImageLink
 import com.dreampany.history.data.source.pref.Pref
 import com.dreampany.history.data.source.repository.HistoryRepository
 import com.dreampany.history.data.source.repository.ImageLinkRepository
@@ -297,7 +297,8 @@ class HistoryViewModel @Inject constructor(
     }
 
     private fun getLinkUiItems(source: HistorySource, link: Link): List<ImageLinkItem>? {
-        val imageLinks = linkRepo.getItemsRx(source, link.url).blockingGet()
+        val linkSource = linkMapper.convertSource(source)
+        val imageLinks = linkRepo.getItemsRx(linkSource, link.id).blockingGet()
         if (imageLinks.isNullOrEmpty()) {
             return null
         }

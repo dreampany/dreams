@@ -10,6 +10,6 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class HistorySource : Parcelable {
+enum class LinkSource : Parcelable {
     WIKIPEDIA
 }

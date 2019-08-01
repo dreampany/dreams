@@ -6,6 +6,7 @@ import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.HistoryDataSource
+import com.dreampany.history.data.source.dao.HistoryDao
 import io.reactivex.Maybe
 import javax.inject.Singleton
 

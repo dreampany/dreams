@@ -1,5 +1,7 @@
 package com.dreampany.frame.util
 
+import androidx.core.util.PatternsCompat
+
 /**
  * Created by Roman-372 on 7/25/2019
  * Copyright (c) 2019 bjit. All rights reserved.
@@ -26,6 +28,10 @@ class DataUtilKt {
 
         fun getFirstPart(value: String, sep: String): String {
             return value.split(sep).first()
+        }
+
+        fun isValidUrl(url: String): Boolean {
+            return PatternsCompat.WEB_URL.matcher(url).matches()
         }
     }
 }

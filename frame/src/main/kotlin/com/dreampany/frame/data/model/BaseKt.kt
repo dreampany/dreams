@@ -1,6 +1,5 @@
 package com.dreampany.frame.data.model
 
-import com.dreampany.translation.data.model.TextTranslation
 import com.google.common.base.Objects
 
 /**
@@ -9,20 +8,18 @@ import com.google.common.base.Objects
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseKt : BaseParcelKt() {
-
-    abstract var time: Long
-    abstract var id: String
-
+abstract class BaseKt(
+    open var time: Long,
+    open var id: String
+) : BaseParcelKt() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as TextTranslation
+        val item = other as BaseKt
         return Objects.equal(item.id, id)
     }
 
     override fun hashCode(): Int {
         return Objects.hashCode(id)
     }
-
 }

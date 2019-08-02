@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import androidx.room.Entity;
@@ -11,11 +12,13 @@ import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.misc.Constants;
 
+*/
 /**
  * Created by Hawladar Roman on 24/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {Constants.Exchange.ID}, unique = true)},
         primaryKeys = {Constants.Exchange.ID})
 public class Exchange extends Base {
@@ -117,3 +120,4 @@ public class Exchange extends Base {
         return volume24hTo;
     }
 }
+*/

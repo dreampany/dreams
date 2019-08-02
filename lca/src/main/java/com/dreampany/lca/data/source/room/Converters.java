@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import androidx.room.TypeConverter;
@@ -13,11 +14,13 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+*/
 /**
  * Created by Hawladar Roman on 15/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public final class Converters {
     private static Gson gson = new Gson();
     private static Type typeOfListString = new TypeToken<List<String>>() {}.getType();
@@ -107,3 +110,4 @@ public final class Converters {
         return CoinSource.valueOf(source);
     }
 }
+*/

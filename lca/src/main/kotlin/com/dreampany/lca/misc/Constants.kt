@@ -4,6 +4,8 @@ import android.content.Context
 import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.lca.R
+import com.google.common.base.Splitter
+import com.google.common.collect.Iterables
 import java.util.concurrent.TimeUnit
 
 
@@ -14,15 +16,15 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
 
-    object Event {
-        const val ERROR = Constants.Event.ERROR
-        const val APPLICATION = Constants.Event.APPLICATION
-        const val ACTIVITY = Constants.Event.ACTIVITY
-        const val FRAGMENT = Constants.Event.FRAGMENT
-        const val NOTIFICATION = Constants.Event.NOTIFICATION
-    }
-
     companion object {
+        fun database(name: String): String {
+            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + Constants.Database.POST_FIX
+        }
+
+        fun database(name: String, type: String): String {
+            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + type + Constants.Database.POST_FIX
+        }
+
         fun lastAppId(context: Context): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
         fun about(context: Context): String = Constants.about(context)
@@ -62,6 +64,14 @@ class Constants {
         fun notifyNews(context: Context): String = lastAppId(context) + Sep.HYPHEN + "alert_news"
     }
 
+    object Event {
+        const val ERROR = Constants.Event.ERROR
+        const val APPLICATION = Constants.Event.APPLICATION
+        const val ACTIVITY = Constants.Event.ACTIVITY
+        const val FRAGMENT = Constants.Event.FRAGMENT
+        const val NOTIFICATION = Constants.Event.NOTIFICATION
+    }
+
     object Id {
         const val NotifyForeground = 101
         const val NotifyGeneral = 102
@@ -76,6 +86,11 @@ class Constants {
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val CURRENCY_PICKER = "currency_picker"
+    }
+
+    object Database {
+        const val TYPE_LCA = "lca"
+        const val POST_FIX = Constants.Sep.HYPHEN + "db"
     }
 
     object Notify {

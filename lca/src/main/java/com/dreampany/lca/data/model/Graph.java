@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import androidx.room.Entity;
@@ -12,11 +13,13 @@ import com.dreampany.lca.misc.Constants;
 import java.io.Serializable;
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 29/5/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {Constants.Graph.ID}, unique = true)},
         primaryKeys = {Constants.Graph.ID})
 public class Graph extends Base {
@@ -118,3 +121,4 @@ public class Graph extends Base {
         return volumeUsd;
     }
 }
+*/

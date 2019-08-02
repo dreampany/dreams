@@ -17,26 +17,21 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.CoinAlert.ID],
+        value = [Constants.Price.ID],
         unique = true
     )],
-    primaryKeys = [Constants.CoinAlert.ID]
+    primaryKeys = [Constants.Price.ID]
 )
-data class CoinAlert(
+data class Price(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var priceUp: Double = Constants.Default.DOUBLE,
-    var priceDown: Double = Constants.Default.DOUBLE,
-    var dayChange: Double = Constants.Default.DOUBLE,
-    var periodicTime: Long = Constants.Default.LONG
+    var price: Double = Constants.Default.DOUBLE
 ) : Base() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {
-
     }
 
-    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {}
 
-    }
 }

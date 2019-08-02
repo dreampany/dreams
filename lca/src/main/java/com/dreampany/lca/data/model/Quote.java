@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import android.os.Parcel;
@@ -15,12 +16,14 @@ import com.google.firebase.database.PropertyName;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+*/
 /**
  * Created by Roman on 1/14/2019
  * Copyright (c) 2019 Dreampany. All rights reserved.
  * dreampanymail@gmail.com
  * Last modified $file.lastModified
- */
+ *//*
+
 
 @Entity(indices = {@Index(value = {Constants.Quote.ID, Constants.Quote.CURRENCY}, unique = true)},
         primaryKeys = {Constants.Quote.ID, Constants.Quote.CURRENCY})
@@ -173,3 +176,4 @@ public class Quote extends Base {
         return lastUpdated;
     }
 }
+*/

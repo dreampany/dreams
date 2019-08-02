@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.ui.model;
 
 import androidx.annotation.LayoutRes;
@@ -21,11 +22,13 @@ import java.util.List;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
+*/
 /**
  * Created by Hawladar Roman on 5/31/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class NewsItem extends BaseItem<News, NewsItem.ViewHolder> {
 
     private NewsItem(News news, @LayoutRes int layoutId) {
@@ -93,3 +96,4 @@ public class NewsItem extends BaseItem<News, NewsItem.ViewHolder> {
         }
     }
 }
+*/

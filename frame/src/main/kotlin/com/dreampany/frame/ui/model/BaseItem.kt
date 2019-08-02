@@ -19,7 +19,7 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseItemKt<T : Base, VH : BaseItemKt.ViewHolder, S : Serializable>(var item: T, @LayoutRes var layoutId: Int = 0) :
+abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(var item: T, @LayoutRes var layoutId: Int = 0) :
     AbstractFlexibleItem<VH>(), IFilterable<S>, Serializable {
 
     var success: Boolean = false
@@ -29,7 +29,7 @@ abstract class BaseItemKt<T : Base, VH : BaseItemKt.ViewHolder, S : Serializable
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as BaseItemKt<T, VH, S>
+        val item = other as BaseItem<T, VH, S>
         return Objects.equal(this.item, item)
     }
 
@@ -64,7 +64,7 @@ abstract class BaseItemKt<T : Base, VH : BaseItemKt.ViewHolder, S : Serializable
             return itemView.tag as T?
         }
 
-        abstract fun <VH : ViewHolder, T : Base, S : Serializable, I : BaseItemKt<T, VH, S>> bind(
+        abstract fun <VH : ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
             position: Int,
             item: I
         )

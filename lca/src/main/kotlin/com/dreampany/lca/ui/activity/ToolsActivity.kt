@@ -4,16 +4,14 @@ import android.os.Bundle
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.frame.ui.activity.WebActivity
-import com.dreampany.frame.ui.fragment.AboutFragment
-import com.dreampany.frame.ui.fragment.SettingsFragment
 import com.dreampany.lca.R
 import com.dreampany.lca.misc.Constants
 import com.dreampany.lca.ui.enums.UiSubtype
 import com.dreampany.lca.ui.enums.UiType
+import com.dreampany.lca.ui.fragment.*
 import com.dreampany.lca.ui.model.UiTask
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
-import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
 
 /**

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import com.dreampany.frame.ui.fragment.BaseMenuFragment;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.source.pref.Pref;
 import com.dreampany.lca.misc.Constants;
+import com.dreampany.lca.service.NotifyService;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,11 +23,13 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.disposables.CompositeDisposable;
 
+*/
 /**
  * Created by Hawladar Roman on 5/28/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class SettingsFragment extends BaseMenuFragment {
 
@@ -102,3 +106,4 @@ public class SettingsFragment extends BaseMenuFragment {
         ex.postToUi(runner, 2000);
     }
 }
+*/

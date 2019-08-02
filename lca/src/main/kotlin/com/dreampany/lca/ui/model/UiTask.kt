@@ -17,7 +17,7 @@ data class UiTask<T : Base>(
     val fullscreen: Boolean,
     val type: UiType,
     val subtype: UiSubtype,
-    override var input: T?,
-    override var comment: String?
+    override var input: T? = null,
+    override var comment: String? = null
 ) : Task<T>(input, comment) {
 }

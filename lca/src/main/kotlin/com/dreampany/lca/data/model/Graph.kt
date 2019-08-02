@@ -25,7 +25,7 @@ import kotlinx.android.parcel.Parcelize
 data class Graph(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    private var slug: String = Constants.Default.STRING,
+    var slug: String = Constants.Default.STRING,
     var startTime: Long = Constants.Default.LONG,
     var endTime: Long = Constants.Default.LONG,
     var priceBtc: List<List<Float>>? = Constants.Default.NULL,

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.ui.model;
 
 import android.content.Context;
@@ -15,11 +16,13 @@ import eu.davidea.flexibleadapter.items.AbstractFlexibleItem;
 import eu.davidea.flexibleadapter.items.IFilterable;
 import eu.davidea.viewholders.FlexibleViewHolder;
 
+*/
 /**
  * Created by Hawladar Roman on 30/4/18.
  * Dreampany
  * dreampanymail@gmail.com
- */
+ *//*
+
 public abstract class BaseItem<T, VH extends BaseItem.ViewHolder> extends AbstractFlexibleItem<VH> implements IFilterable, Serializable {
 
     protected T item;
@@ -85,3 +88,4 @@ public abstract class BaseItem<T, VH extends BaseItem.ViewHolder> extends Abstra
         }
     }
 }
+*/

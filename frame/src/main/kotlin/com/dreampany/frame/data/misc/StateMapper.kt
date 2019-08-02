@@ -3,6 +3,7 @@ package com.dreampany.frame.data.misc
 import com.dreampany.frame.data.model.State
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
+import com.dreampany.frame.misc.StateAnnote
 import com.dreampany.frame.misc.StoreAnnote
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,8 +16,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class StateMapper @Inject constructor(
-    @StoreAnnote val map: SmartMap<String, State>,
-    @StoreAnnote val cache: SmartCache<String, State>
+    @StateAnnote val map: SmartMap<String, State>,
+    @StateAnnote val cache: SmartCache<String, State>
 ) {
 
     fun isExists(id: String): Boolean {

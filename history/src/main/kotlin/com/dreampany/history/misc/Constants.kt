@@ -163,4 +163,12 @@ class Constants {
     object Pattern {
         const val PATTERN_IMAGE = Constants.Pattern.PATTERN_IMAGE
     }
+
+    object Period {
+        val Notify = TimeUnit.MINUTES.toSeconds(1)
+    }
+
+    object Delay {
+        val Notify = TimeUnit.MINUTES.toSeconds(1)
+    }
 }

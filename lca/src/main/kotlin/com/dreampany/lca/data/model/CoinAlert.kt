@@ -39,4 +39,12 @@ data class CoinAlert(
     constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
 
     }
+
+    fun hasPriceUp(): Boolean {
+        return priceUp != Constants.Default.DOUBLE
+    }
+
+    fun hasPriceDown(): Boolean {
+        return priceDown != Constants.Default.DOUBLE
+    }
 }

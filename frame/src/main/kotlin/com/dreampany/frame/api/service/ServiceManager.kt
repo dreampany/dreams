@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.api.service
 
 import android.content.Context
@@ -9,11 +10,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
+*/
 /**
  * Created by Hawladar Roman on 7/23/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 class ServiceManager @Inject constructor(val context: Context) {
     val dispatcher: FirebaseJobDispatcher
@@ -80,4 +83,4 @@ class ServiceManager @Inject constructor(val context: Context) {
     }
 
 
-}
+}*/

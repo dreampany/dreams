@@ -98,7 +98,7 @@ public class IcoFragment extends BaseStateFragment<BaseFragment> {
     @Override
     public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         MenuItem searchItem = findMenuItemById(R.id.item_search);
-        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.Companion.getColor(getContext(), R.color.material_white), null);
     }
 
     @Override

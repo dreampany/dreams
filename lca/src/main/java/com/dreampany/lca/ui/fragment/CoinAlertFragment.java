@@ -26,9 +26,6 @@ import com.dreampany.lca.ui.model.CoinAlertItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.CoinAlertViewModel;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import javax.inject.Inject;
 
 import java.io.IOException;
@@ -63,14 +60,14 @@ public class CoinAlertFragment extends BaseMenuFragment {
         return R.menu.menu_coin_alert;
     }
 
-    @NotNull
+
     @Override
     public String getScreen() {
         return Constants.Companion.coinAlert(getAppContext());
     }
 
     @Override
-    protected void onStartUi(@Nullable Bundle state) {
+    protected void onStartUi(Bundle state) {
         initView();
         //loadView();
         UiTask<Coin> uiTask = getCurrentTask();
@@ -137,7 +134,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
 
     private void processResult(Response.Type type, CoinAlertItem item) {
         if (type == Response.Type.ADD) {
-            NotifyUtil.showInfo(getContext(), R.string.message_alert_saved);
+            NotifyUtil.Companion.showInfo(getContext(), R.string.message_alert_saved);
             return;
         }
 
@@ -177,7 +174,7 @@ public class CoinAlertFragment extends BaseMenuFragment {
 
     private void saveAlert() {
         if (!binding.checkUp.isChecked() && !binding.checkDown.isChecked()) {
-            NotifyUtil.showInfo(getContext(), R.string.message_select_alert);
+            NotifyUtil.Companion.showInfo(getContext(), R.string.message_select_alert);
             return;
         }
 

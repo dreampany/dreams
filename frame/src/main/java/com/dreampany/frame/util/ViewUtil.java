@@ -142,7 +142,7 @@ public final class ViewUtil {
 
     public static void setBackground(final View view, final int colorId) {
         if (FloatingActionButton.class.isInstance(view)) {
-            Runnable runnable = () -> ((FloatingActionButton) view).setBackgroundTintList(ColorStateList.valueOf(ColorUtil.getColor(view.getContext(), colorId)));
+            Runnable runnable = () -> ((FloatingActionButton) view).setBackgroundTintList(ColorStateList.valueOf(ColorUtil.Companion.getColor(view.getContext(), colorId)));
             view.post(runnable);
         } else if (ImageView.class.isInstance(view)) {
             /*Runnable runnable = new Runnable() {
@@ -153,7 +153,7 @@ public final class ViewUtil {
             };
             AndroidUtil.post(runnable);*/
         } else if (View.class.isInstance(view)) {
-            view.setBackgroundColor(ColorUtil.getColor(view.getContext(), colorId));
+            view.setBackgroundColor(ColorUtil.Companion.getColor(view.getContext(), colorId));
         }
     }
 
@@ -266,8 +266,8 @@ public final class ViewUtil {
     }
 
     public static void blink(TextView view, int startColorId, int endColorId) {
-        int startColor = ColorUtil.getColor(view.getContext(), startColorId);
-        int endColor = ColorUtil.getColor(view.getContext(), endColorId);
+        int startColor = ColorUtil.Companion.getColor(view.getContext(), startColorId);
+        int endColor = ColorUtil.Companion.getColor(view.getContext(), endColorId);
         ObjectAnimator animator = ObjectAnimator.ofInt(view, "textColor", startColor, endColor, startColor);
         animator.setDuration(1500);
         animator.setEvaluator(new ArgbEvaluator());
@@ -325,7 +325,7 @@ public final class ViewUtil {
         Drawable drawable = menuItem.getIcon();
         if (drawable != null) {
             drawable.mutate();
-            drawable.setColorFilter(ColorUtil.getColor(context, colorRes), PorterDuff.Mode.SRC_ATOP);
+            drawable.setColorFilter(ColorUtil.Companion.getColor(context, colorRes), PorterDuff.Mode.SRC_ATOP);
         }
     }
 

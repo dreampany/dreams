@@ -26,7 +26,7 @@ import kotlinx.android.parcel.Parcelize
 data class Ico(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    private var name: String? = Constants.Default.NULL,
+    var name: String? = Constants.Default.NULL,
 
     var imageUrl: String? = Constants.Default.NULL,
     var description: String? = Constants.Default.NULL,

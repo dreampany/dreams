@@ -7,7 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.history.data.model.More
 import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.ui.model.BaseItemKt
+import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
 import com.dreampany.history.ui.adapter.MoreAdapter
@@ -23,7 +23,7 @@ import java.io.Serializable
  * Last modified $file.lastModified
  */
 class MoreItem private constructor(item: More, @LayoutRes layoutId: Int = 0) :
-    BaseItemKt<More, MoreItem.ViewHolder, String>(item, layoutId) {
+    BaseItem<More, MoreItem.ViewHolder, String>(item, layoutId) {
 
     companion object {
         fun getItem(item: More): MoreItem {
@@ -43,7 +43,7 @@ class MoreItem private constructor(item: More, @LayoutRes layoutId: Int = 0) :
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
-        BaseItemKt.ViewHolder(view, adapter) {
+        BaseItem.ViewHolder(view, adapter) {
 
         private var adapter: MoreAdapter
         private var icon: ImageView
@@ -55,7 +55,7 @@ class MoreItem private constructor(item: More, @LayoutRes layoutId: Int = 0) :
             title = view.findViewById(R.id.title)
         }
 
-        override fun <VH : BaseItemKt.ViewHolder, T : Base, S : Serializable, I : BaseItemKt<T, VH, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
                 bind(position: Int, item: I) {
             val moreItem = item as MoreItem
             val more = moreItem.item

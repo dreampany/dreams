@@ -272,4 +272,12 @@ class Constants {
         const val CURRENCY_GRAPH = "currency_graph"
         const val GRAPH_SYMBOL = "graph_symbol"
     }
+
+    object Default {
+        val NULL = Constants.Default.NULL
+        const val INT = Constants.Default.INT
+        const val LONG = Constants.Default.LONG
+        const val DOUBLE = Constants.Default.DOUBLE
+        const val STRING = Constants.Default.STRING
+    }
 }

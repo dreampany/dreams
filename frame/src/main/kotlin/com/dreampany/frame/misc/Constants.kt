@@ -131,6 +131,7 @@ class Constants {
         val NULL = null
         const val INT = 0
         const val LONG = 0L
+        const val DOUBLE = 0.0
         const val STRING = ""
     }
 

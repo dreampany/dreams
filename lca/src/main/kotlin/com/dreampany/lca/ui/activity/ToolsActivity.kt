@@ -3,6 +3,7 @@ package com.dreampany.lca.ui.activity
 import android.os.Bundle
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.activity.WebActivity
 import com.dreampany.frame.ui.fragment.AboutFragment
 import com.dreampany.frame.ui.fragment.SettingsFragment
 import com.dreampany.lca.R
@@ -124,12 +125,7 @@ class ToolsActivity : BaseActivity() {
             UiType.GRAPH, UiType.ICO, UiType.NEWS -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
-                        if (AdvancedWebView.Browsers.hasAlternative(this)) {
-                            AdvancedWebView.Browsers.openUrl(this, uiTask.comment)
-                            finish()
-                        } else {
-                            openActivity(WebActivity::class.java, uiTask, true)
-                        }
+                        openActivity(WebActivity::class.java, uiTask, true)
                     }
                 }
             }

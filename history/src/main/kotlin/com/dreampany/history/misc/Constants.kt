@@ -81,8 +81,8 @@ class Constants {
     }
 
     object Time {
-        val NotifyPeriod = TimeUnit.MINUTES.toSeconds(1)
-        val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(1)
+        val NotifyPeriod = TimeUnit.MINUTES.toSeconds(3)
+        val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(10)
         val JSOUP = TimeUnit.SECONDS.toMillis(20)
     }
 

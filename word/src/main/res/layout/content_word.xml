@@ -96,7 +96,7 @@
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_marginTop="@dimen/dp_8"
+                    android:layout_marginTop="@dimen/_8sdp"
                     auto:icon_size="@dimen/_18sdp"
                     auto:icon_type="heart"
                     auto:liked="@{item.favorite}" />

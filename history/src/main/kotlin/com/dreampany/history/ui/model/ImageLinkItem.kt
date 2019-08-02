@@ -50,17 +50,17 @@ class ImageLinkItem private constructor(
         adapter: FlexibleAdapter<*>
     ) : BaseItemKt.ViewHolder(view, adapter) {
 
-        private val width: Int
+        private val height: Int
 
         private var adapter: ImageLinkAdapter
         private var draweeImage: SimpleDraweeView
         private var textTitle: AppCompatTextView
 
         init {
-            width = DisplayUtil.getScreenWidthInPx(getContext()) / 3
             this.adapter = adapter as ImageLinkAdapter
+            height = DisplayUtil.getScreenWidthInPx(getContext()) / this.adapter.getSpanCount()
+            view.layoutParams.height = height
             draweeImage = view.findViewById(R.id.drawee_image)
-            draweeImage.layoutParams.width = width
             textTitle = view.findViewById(R.id.text_title)
         }
 

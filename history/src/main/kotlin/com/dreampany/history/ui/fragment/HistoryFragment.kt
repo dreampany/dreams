@@ -34,6 +34,7 @@ import com.dreampany.history.vm.HistoryViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -60,7 +61,6 @@ class HistoryFragment
 
     private lateinit var vm: HistoryViewModel
     private lateinit var adapter: ImageLinkAdapter
-
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_history
@@ -148,9 +148,9 @@ class HistoryFragment
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
-            SmoothScrollGridLayoutManager(context!!, 2),
+            SmoothScrollGridLayoutManager(context!!, ImageLinkAdapter.SPAN_COUNT),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_history_image, vm.itemOffset)
+                .addItemViewType(R.layout.item_history_image, ImageLinkAdapter.ITEM_OFFSET)
                 .withEdge(true)
         )
     }

@@ -10,6 +10,7 @@ import com.dreampany.frame.util.DisplayUtil
 import com.dreampany.frame.util.FrescoUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.ImageLink
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.adapter.ImageLinkAdapter
 import com.facebook.drawee.view.SimpleDraweeView
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -24,7 +25,7 @@ import java.io.Serializable
  * Last modified $file.lastModified
  */
 class ImageLinkItem private constructor(
-    item: ImageLink, @LayoutRes layoutId: Int = 0
+    item: ImageLink, @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<ImageLink, ImageLinkItem.ViewHolder, String>(item, layoutId) {
 
     companion object {

@@ -12,6 +12,7 @@ import com.dreampany.frame.ui.view.TextViewClickMovement
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.History
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.adapter.HistoryAdapter
 import com.google.common.collect.Maps
 import com.like.LikeButton
@@ -27,7 +28,7 @@ import java.io.Serializable
  * Last modified $file.lastModified
  */
 class HistoryItem private constructor(
-    item: History, @LayoutRes layoutId: Int = 0,
+    item: History, @LayoutRes layoutId: Int = Constants.Default.INT,
     var clickListener: OnClickListener? = null
 ) : BaseItem<History, HistoryItem.ViewHolder, String>(item, layoutId) {
 

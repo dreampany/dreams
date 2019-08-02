@@ -75,6 +75,13 @@ class Constants {
         const val HYPHEN = Constants.Sep.HYPHEN
     }
 
+    object Default {
+        val NULL = Constants.Default.NULL
+        const val INT = Constants.Default.INT
+        const val LONG = Constants.Default.LONG
+        const val STRING = Constants.Default.STRING
+    }
+
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val LANGUAGE_PICKER = "language_picker"
@@ -135,13 +142,6 @@ class Constants {
         const val ALTERNATE = Constants.Parser.ALTERNATE
         const val WIDTH = Constants.Parser.WIDTH
         const val HEIGHT = Constants.Parser.HEIGHT
-    }
-
-    object Default {
-        val NULL = Constants.Default.NULL
-        const val INT = Constants.Default.INT
-        const val LONG = Constants.Default.LONG
-        const val STRING = Constants.Default.STRING
     }
 
     object Network {

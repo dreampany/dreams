@@ -2,6 +2,7 @@ package com.dreampany.history.vm
 
 import android.app.Application
 import com.dreampany.frame.data.misc.StateMapper
+import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.source.repository.StateRepository
@@ -12,14 +13,12 @@ import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.frame.vm.BaseViewModel
-import com.dreampany.history.data.enums.HistoryType
-import com.dreampany.history.data.enums.ItemState
-import com.dreampany.history.data.enums.ItemSubtype
-import com.dreampany.history.data.enums.ItemType
+import com.dreampany.history.data.enums.*
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.misc.ImageLinkMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
+import com.dreampany.history.data.model.ImageLink
 import com.dreampany.history.data.source.pref.Pref
 import com.dreampany.history.data.source.repository.HistoryRepository
 import com.dreampany.history.data.source.repository.ImageLinkRepository
@@ -44,16 +43,16 @@ class HistoryViewModel @Inject constructor(
     rx: RxMapper,
     ex: AppExecutors,
     rm: ResponseMapper,
-    val network: NetworkManager,
-    val pref: Pref,
-    val stateMapper: StateMapper,
-    val stateRepo: StateRepository,
-    val linkMapper: ImageLinkMapper,
-    val linkRepo: ImageLinkRepository,
-    val mapper: HistoryMapper,
-    val repo: HistoryRepository,
-    val translationRepo: TranslationRepository,
-    @Favorite val favorites: SmartMap<String, Boolean>
+    private val network: NetworkManager,
+    private val pref: Pref,
+    private val stateMapper: StateMapper,
+    private val stateRepo: StateRepository,
+    private val linkMapper: ImageLinkMapper,
+    private val linkRepo: ImageLinkRepository,
+    private val mapper: HistoryMapper,
+    private val repo: HistoryRepository,
+    private val translationRepo: TranslationRepository,
+    @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<History, HistoryItem, UiTask<History>>(application, rx, ex, rm),
     HistoryItem.OnClickListener {
 
@@ -90,6 +89,10 @@ class HistoryViewModel @Inject constructor(
     fun setCurrentDate() {
         setDay(TimeUtilKt.getDay())
         setMonth(TimeUtilKt.getMonth())
+    }
+
+    fun getHistorySource(): HistorySource {
+        return HistorySource.WIKIPEDIA
     }
 
     fun getHistoryType(): HistoryType {
@@ -214,6 +217,20 @@ class HistoryViewModel @Inject constructor(
         return Maybe.create { emitter ->
             val item = repo.getItem(request.input!!.id)
             val uiItem = getUiItem(item!!)
+
+            if (request.links) {
+                item.links?.forEach { link ->
+                    if (!uiItem.hasBucket(link)) {
+                        val linkUiItems = getLinkUiItems(request.source, link)
+                        linkUiItems?.run {
+                            if (isNotEmpty()) {
+                                uiItem.putBucket(link, this)
+                            }
+                        }
+                    }
+                }
+            }
+
             if (emitter.isDisposed) {
                 return@create
             }
@@ -234,6 +251,7 @@ class HistoryViewModel @Inject constructor(
             ).flatMap { getFavoriteUiItemsRx(it) }
         } else {
             repo.getItemsRx(
+                request.source,
                 request.type,
                 request.day,
                 request.month
@@ -282,8 +300,26 @@ class HistoryViewModel @Inject constructor(
         return favorites.get(history.id)
     }
 
-    private fun getLinkUiItems(url: String): List<ImageLinkItem>? {
-        //TODO
-        return null
+    private fun getLinkUiItems(source: HistorySource, link: Link): List<ImageLinkItem>? {
+        val linkSource = linkMapper.convertSource(source)
+        val imageLinks = linkRepo.getItemsRx(linkSource, link.id).blockingGet()
+        if (imageLinks.isNullOrEmpty()) {
+            return null
+        }
+        val uiItems = mutableListOf<ImageLinkItem>()
+        imageLinks.forEach { link ->
+            uiItems.add(getUiItem(link))
+        }
+        return uiItems
+    }
+
+    private fun getUiItem(input: ImageLink): ImageLinkItem {
+        var uiItem: ImageLinkItem? = linkMapper.getUiItem(input.id)
+        if (uiItem == null) {
+            uiItem = ImageLinkItem.getItem(input)
+            linkMapper.putUiItem(input.id, uiItem)
+        }
+        uiItem.item = input
+        return uiItem
     }
 }

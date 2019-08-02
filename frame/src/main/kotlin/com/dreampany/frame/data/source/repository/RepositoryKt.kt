@@ -101,7 +101,10 @@ abstract class RepositoryKt<K, T>(val rx: RxMapper, val rm: ResponseMapper) {
     }
 
     @SafeVarargs
-    protected fun concatFirstRx(vararg sources: Maybe<List<T>>): Maybe<List<T>> {
+    protected fun concatFirstRx(
+        emitError: Boolean,
+        vararg sources: Maybe<List<T>>
+    ): Maybe<List<T>> {
         return Maybe.create<List<T>> { emitter ->
             var error: Throwable? = null
             var items: List<T>? = null
@@ -126,13 +129,18 @@ abstract class RepositoryKt<K, T>(val rx: RxMapper, val rm: ResponseMapper) {
                 error = null
             }
 
-            if (!emitter.isDisposed) {
-                if (error != null) {
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (error != null) {
+                if (emitError) {
                     emitter.onError(error)
                 } else {
-                    items?.let {
-                        emitter.onSuccess(it)
-                    }
+                    emitter.onComplete()
+                }
+            } else {
+                items?.let {
+                    emitter.onSuccess(it)
                 }
             }
         }

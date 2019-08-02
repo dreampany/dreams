@@ -8,7 +8,7 @@ import com.dreampany.frame.data.model.BaseKt
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Translation : BaseKt() {
+abstract class Translation: BaseKt() {
     abstract var source: String
     abstract var target: String
 }

@@ -1,10 +1,12 @@
 package com.dreampany.history.data.source.room
 
 import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.source.api.HistoryDataSource
+import com.dreampany.history.data.source.dao.HistoryDao
 import io.reactivex.Maybe
 import javax.inject.Singleton
 
@@ -20,12 +22,22 @@ class RoomHistoryDataSource(
     val dao: HistoryDao
 ) : HistoryDataSource {
 
-    override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
-        return dao.getItems(type, day, month)
+    override fun getItems(
+        source: HistorySource,
+        type: HistoryType,
+        day: Int,
+        month: Int
+    ): List<History>? {
+        return dao.getItems(source, type, day, month)
     }
 
-    override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
-        return dao.getItemsRx(type, day, month)
+    override fun getItemsRx(
+        source: HistorySource,
+        type: HistoryType,
+        day: Int,
+        month: Int
+    ): Maybe<List<History>> {
+        return dao.getItemsRx(source, type, day, month)
     }
 
     override fun isEmpty(): Boolean {
@@ -62,7 +74,7 @@ class RoomHistoryDataSource(
 
     override fun putItems(ts: List<History>): List<Long>? {
         val result = mutableListOf<Long>()
-        ts.forEach {result.add(putItem(it))}
+        ts.forEach { result.add(putItem(it)) }
         return result
     }
 

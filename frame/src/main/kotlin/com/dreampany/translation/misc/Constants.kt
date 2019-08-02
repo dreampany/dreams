@@ -29,6 +29,7 @@ class Constants {
     }
 
     object Translation {
+        const val ID = Constants.Key.ID
         const val INPUT = "input"
         const val SOURCE = "source"
         const val TARGET = "target"
@@ -41,5 +42,12 @@ class Constants {
     object Sep {
         const val SPACE = Constants.Sep.SPACE
         const val HYPHEN = Constants.Sep.HYPHEN
+    }
+
+    object Default {
+        val NULL = Constants.Default.NULL
+        const val INT = Constants.Default.INT
+        const val LONG = Constants.Default.LONG
+        const val STRING = Constants.Default.STRING
     }
 }

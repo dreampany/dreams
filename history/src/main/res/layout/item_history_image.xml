@@ -6,20 +6,19 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_3sdp"
+        android:layout_height="match_parent"
+        auto:cardCornerRadius="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false"
         auto:elevation="@dimen/_2sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/drawee_image"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_100sdp"
-                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 auto:actualImageScaleType="fitCenter"
@@ -28,20 +27,24 @@
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent"
-                auto:placeholderImage="@mipmap/ic_launcher"
+                auto:placeholderImage="@drawable/ic_image_black_24dp"
                 auto:placeholderImageScaleType="fitCenter"
-                auto:roundedCornerRadius="@dimen/_5sdp" />
+                auto:roundedCornerRadius="@dimen/_4sdp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_margin="@dimen/_5sdp"
+                android:ellipsize="end"
+                android:maxLines="2"
                 android:text="Html"
-                android:textColor="@color/material_black"
+                android:textColor="@color/material_grey600"
                 android:textColorLink="@color/material_blue700"
-                android:textSize="@dimen/_12ssp"
+                android:textSize="@dimen/_10ssp"
+                android:visibility="gone"
                 auto:fontFamily="@font/roboto_slab_regular"
+                auto:layout_constraintBottom_toBottomOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/drawee_image" />
 

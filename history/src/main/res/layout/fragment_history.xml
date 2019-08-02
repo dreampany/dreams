@@ -23,7 +23,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/material_green50">
+            android:background="@color/material_grey100">
 
             <LinearLayout
                 android:id="@+id/layout_top"
@@ -44,26 +44,35 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/layout_top">
 
-                <RelativeLayout
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
 
-                    <include
-                        android:id="@+id/layout_history"
-                        layout="@layout/content_history"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:visibility="visible"
-                        auto:item="@{item}" />
+                        android:orientation="vertical">
 
-                    <include
-                        android:id="@+id/layout_recycler"
-                        layout="@layout/content_horizonal_recycler"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        auto:items="@{items}" />
-                </RelativeLayout>
+                        <include
+                            android:id="@+id/layout_history"
+                            layout="@layout/content_history"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            auto:item="@{item}" />
+
+                        <include
+                            android:id="@+id/layout_recycler"
+                            layout="@layout/content_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:background="@color/material_red800"
+                            auto:items="@{items}" />
+
+                    </LinearLayout>
+                </androidx.core.widget.NestedScrollView>
             </cz.kinst.jakub.view.StatefulLayout>
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

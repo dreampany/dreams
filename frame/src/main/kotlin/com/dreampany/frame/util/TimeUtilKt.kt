@@ -12,6 +12,11 @@ import java.util.*
  */
 class TimeUtilKt {
     companion object {
+
+        fun currentMillis(): Long {
+            return System.currentTimeMillis()
+        }
+
         fun getDay(): Int {
             val date = DateTime()
             return date.dayOfMonth

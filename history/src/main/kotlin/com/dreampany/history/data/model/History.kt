@@ -1,16 +1,16 @@
 package com.dreampany.history.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.data.model.BaseKt
 import com.dreampany.frame.data.model.Link
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.misc.Constants
 import com.google.firebase.firestore.IgnoreExtraProperties
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by roman on 2019-07-24
@@ -18,6 +18,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
@@ -26,30 +27,50 @@ import com.google.firebase.firestore.IgnoreExtraProperties
     )],
     primaryKeys = [Constants.History.ID]
 )
-class History(
-    override var time: Long,
-    override var id: String
+data class History(
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    var source: HistorySource? = Constants.Default.NULL,
+    var type: HistoryType? = Constants.Default.NULL,
+    var day: Int = Constants.Default.INT,
+    var month: Int = Constants.Default.INT,
+    var year: Int = Constants.Default.INT,
+    var text: String? = Constants.Default.NULL,
+    var html: String? = Constants.Default.NULL,
+    var url: String? = Constants.Default.NULL,
+    var links: MutableList<Link>? = Constants.Default.NULL
+
 ) : BaseKt() {
-    var type: HistoryType? = null
-    var day: Int = 0
-    var month: Int = 0
-    var year: Int = 0
-    var text: String? = null
-    var html: String? = null
-    var url: String? = null
-    var links: MutableList<Link>? = null
-    //var imageLinks: MutableList<Link>? = null
 
     @Ignore
-    constructor() : this("") {
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
 
     }
 
-    constructor(id: String) : this(TimeUtil.currentTime(), id) {
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
 
     }
 
-    @Ignore
+    constructor(
+        id: String = Constants.Default.STRING,
+        source: HistorySource? = Constants.Default.NULL,
+        type: HistoryType? = Constants.Default.NULL,
+        day: Int = Constants.Default.INT,
+        month: Int = Constants.Default.INT,
+        year: Int = Constants.Default.INT
+    ) : this(
+        time = TimeUtilKt.currentMillis(),
+        id = id,
+        source = source,
+        type = type,
+        day = day,
+        month = month,
+        year = year
+    ) {
+
+    }
+
+/*    @Ignore
     private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
         type = parcel.readParcelable<HistoryType>(HistoryType::class.java.classLoader)
         day = parcel.readInt()
@@ -64,12 +85,6 @@ class History(
             links = mutableListOf()
             parcel.readList(links as MutableList<Any?>, Link::class.java.classLoader)
         }
-/*        if (parcel.readByte().compareTo(0x00) == 0) {
-            imageLinks = null
-        } else {
-            imageLinks = mutableListOf()
-            parcel.readList(imageLinks as MutableList<Any?>, Link::class.java.classLoader)
-        }*/
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -88,12 +103,6 @@ class History(
             dest.writeByte(0x01)
             dest.writeList(links as MutableList<Any?>)
         }
-/*        if (imageLinks == null) {
-            dest.writeByte(0x00)
-        } else {
-            dest.writeByte(0x01)
-            dest.writeList(imageLinks as MutableList<Any?>)
-        }*/
     }
 
     companion object CREATOR : Parcelable.Creator<History> {
@@ -104,7 +113,7 @@ class History(
         override fun newArray(size: Int): Array<History?> {
             return arrayOfNulls(size)
         }
-    }
+    }*/
 
     override fun toString(): String {
         return "History ($id) == $id"

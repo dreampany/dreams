@@ -33,23 +33,23 @@
                 android:id="@+id/text_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:text="Year"
-                android:textColor="@color/material_grey900"
-                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Year" android:textStyle="italic"
+                android:textColor="@color/material_grey500"
+                android:textSize="@dimen/_10ssp"
                 auto:fontFamily="@font/roboto_slab_regular"
-                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/text_html" />
 
             <com.like.LikeButton
                 android:id="@+id/button_favorite"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/dp_8"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 auto:icon_size="@dimen/_12sdp"
                 auto:icon_type="heart"
-                auto:layout_constraintEnd_toStartOf="@id/text_year"
+                auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/text_html" />
 
 

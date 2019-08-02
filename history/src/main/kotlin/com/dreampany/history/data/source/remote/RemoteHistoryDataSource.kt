@@ -1,6 +1,7 @@
 package com.dreampany.history.data.source.remote
 
 import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.misc.HistoryMapper
 import com.dreampany.history.data.model.History
@@ -25,7 +26,12 @@ class RemoteHistoryDataSource(
     val service: WikiHistoryService
 ) : HistoryDataSource {
 
-    override fun getItems(type: HistoryType, day: Int, month: Int): List<History>? {
+    override fun getItems(
+        source: HistorySource,
+        type: HistoryType,
+        day: Int,
+        month: Int
+    ): List<History>? {
         if (network.isObserving() && !network.hasInternet()) {
             return null
         }
@@ -33,7 +39,7 @@ class RemoteHistoryDataSource(
             val response = service.getWikiHistory(day, month).execute()
             if (response.isSuccessful) {
                 val result = response.body()
-                return getItems(type, result)
+                return getItems(source, type, result)
             }
         } catch (error: IOException) {
             Timber.e(error)
@@ -43,9 +49,14 @@ class RemoteHistoryDataSource(
         return null
     }
 
-    override fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>> {
+    override fun getItemsRx(
+        source: HistorySource,
+        type: HistoryType,
+        day: Int,
+        month: Int
+    ): Maybe<List<History>> {
         return Maybe.create { emitter ->
-            val items = getItems(type, day, month)
+            val items = getItems(source, type, day, month)
             if (emitter.isDisposed) {
                 return@create
             }
@@ -138,7 +149,11 @@ class RemoteHistoryDataSource(
     }
 
     /* private api */
-    private fun getItems(type: HistoryType, response: WikiHistoryResponse?): List<History>? {
+    private fun getItems(
+        source: HistorySource,
+        type: HistoryType,
+        response: WikiHistoryResponse?
+    ): List<History>? {
         if (response == null) {
             return null
         }
@@ -147,7 +162,7 @@ class RemoteHistoryDataSource(
             when (type) {
                 HistoryType.EVENT -> {
                     events.forEach {
-                        val history = mapper.toItem(response.date, response.url, it, type)
+                        val history = mapper.toItem(source, type, response.date, response.url, it)
                         history?.run {
                             histories.add(this)
                         }
@@ -155,7 +170,7 @@ class RemoteHistoryDataSource(
                 }
                 HistoryType.BIRTH -> {
                     births.forEach {
-                        val history = mapper.toItem(response.date, response.url, it, type)
+                        val history = mapper.toItem(source, type, response.date, response.url, it)
                         history?.run {
                             histories.add(this)
                         }
@@ -163,7 +178,7 @@ class RemoteHistoryDataSource(
                 }
                 HistoryType.DEATH -> {
                     deaths.forEach {
-                        val history = mapper.toItem(response.date, response.url, it, type)
+                        val history = mapper.toItem(source, type, response.date, response.url, it)
                         history?.run {
                             histories.add(this)
                         }

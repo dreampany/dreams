@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.text.HtmlCompat
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -19,15 +20,21 @@ import com.dreampany.history.R
 import com.dreampany.history.data.model.History
 import com.dreampany.history.data.model.HistoryRequest
 import com.dreampany.history.databinding.ContentHistoryBinding
+import com.dreampany.history.databinding.ContentRecyclerBinding
 import com.dreampany.history.databinding.ContentTopStatusBinding
 import com.dreampany.history.databinding.FragmentHistoryBinding
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.activity.ToolsActivity
+import com.dreampany.history.ui.adapter.ImageLinkAdapter
 import com.dreampany.history.ui.enums.UiSubtype
 import com.dreampany.history.ui.enums.UiType
 import com.dreampany.history.ui.model.HistoryItem
 import com.dreampany.history.ui.model.UiTask
 import com.dreampany.history.vm.HistoryViewModel
 import cz.kinst.jakub.view.StatefulLayout
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
+import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -43,8 +50,6 @@ class HistoryFragment
     BaseMenuFragment(),
     TextViewClickMovement.OnTextViewClickMovementListener {
 
-    private val NONE = "none"
-
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
@@ -52,9 +57,10 @@ class HistoryFragment
     private lateinit var bind: FragmentHistoryBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindHistory: ContentHistoryBinding
+    private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var vm: HistoryViewModel
-
+    private lateinit var adapter: ImageLinkAdapter
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_history
@@ -62,6 +68,7 @@ class HistoryFragment
 
     override fun onStartUi(state: Bundle?) {
         initView()
+        initRecycler()
         session.track()
         initTitleSubtitle()
         val task = vm.task as UiTask<History>
@@ -98,7 +105,7 @@ class HistoryFragment
             val history = task.input!!
             val link = history?.getLinkByTitle(linkText)
             link?.run {
-                openSite(this.url)
+                openSite(this.id)
             }
         }
     }
@@ -116,12 +123,13 @@ class HistoryFragment
         bind = super.binding as FragmentHistoryBinding
         bindStatus = bind.layoutTopStatus
         bindHistory = bind.layoutHistory
+        bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            NONE,
+            Constants.UiState.State.NONE.name,
             LayoutInflater.from(context).inflate(R.layout.item_none, null)
         )
-
+        processUiState(UiState.NONE)
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindHistory.buttonFavorite.setOnClickListener(this)
         bindHistory.textHtml.movementMethod = TextViewClickMovement(this, getContext())
@@ -131,6 +139,20 @@ class HistoryFragment
         vm.observeOutput(this, Observer { this.processResponse(it) })
 
         vm.task = getCurrentTask(true)
+    }
+
+    private fun initRecycler() {
+        bind.setItems(ObservableArrayList<Any>())
+        adapter = ImageLinkAdapter()
+        adapter.setStickyHeaders(false)
+        ViewUtil.setRecycler(
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollGridLayoutManager(context!!, ImageLinkAdapter.SPAN_COUNT),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_history_image, ImageLinkAdapter.ITEM_OFFSET)
+                .withEdge(true)
+        )
     }
 
     private fun processResponse(response: Response<HistoryItem>) {
@@ -148,6 +170,9 @@ class HistoryFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
+            UiState.NONE -> {
+                bind.stateful.setState(Constants.UiState.State.NONE.name)
+            }
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -169,6 +194,7 @@ class HistoryFragment
     }
 
     private fun processSuccess(uiItem: HistoryItem) {
+        processUiState(UiState.CONTENT);
         val history = uiItem.item
         bindHistory.textHtml.text =
             HtmlCompat.fromHtml(history.html!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -176,6 +202,11 @@ class HistoryFragment
             TextUtil.getString(getContext(), R.string.year_format, history.year)
 
         bindHistory.buttonFavorite.isLiked = uiItem.favorite
+
+        val linkItems = uiItem.getImageLinkItems()
+        linkItems?.run {
+            adapter.addItems(this)
+        }
     }
 
     private fun request(
@@ -184,12 +215,13 @@ class HistoryFragment
         progress: Boolean,
         favorite: Boolean
     ) {
+        val source = vm.getHistorySource()
         val type = vm.getHistoryType()
         Timber.v("Request type %s", type)
         val day = vm.getDay()
         val month = vm.getMonth()
 
-        val request = HistoryRequest(type, day, month, important, progress, favorite)
+        val request = HistoryRequest(source, type, day, month, true, important, progress, favorite)
         request.input = history
         vm.load(request)
     }

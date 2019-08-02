@@ -1,12 +1,17 @@
 package com.dreampany.history.data.misc
 
-import com.dreampany.frame.data.model.ImageLink
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
-import com.dreampany.history.data.enums.HistoryType
-import com.dreampany.history.data.model.History
-import com.dreampany.history.data.source.remote.WikiHistory
+import com.dreampany.frame.util.DataUtilKt
+import com.dreampany.history.data.enums.HistorySource
+import com.dreampany.history.data.enums.LinkSource
+import com.dreampany.history.data.model.ImageLink
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.misc.ImageLinkAnnote
+import com.dreampany.history.misc.ImageLinkItemAnnote
+import com.dreampany.history.ui.model.ImageLinkItem
+import org.jsoup.nodes.Element
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,10 +25,68 @@ import javax.inject.Singleton
 class ImageLinkMapper
 @Inject constructor(
     @ImageLinkAnnote val map: SmartMap<String, ImageLink>,
-    @ImageLinkAnnote val cache: SmartCache<String, ImageLink>
+    @ImageLinkAnnote val cache: SmartCache<String, ImageLink>,
+    @ImageLinkItemAnnote val uiMap: SmartMap<String, ImageLinkItem>,
+    @ImageLinkItemAnnote val uiCache: SmartCache<String, ImageLinkItem>
 ) {
 
-/*    fun toItem(ref: String, url: String, title:String): ImageLink? {
+    fun getUiItem(id: String): ImageLinkItem? {
+        return uiMap.get(id)
+    }
 
-    }*/
+    fun putUiItem(id: String, uiItem: ImageLinkItem) {
+        uiMap.put(id, uiItem)
+    }
+
+    fun convertSource(input: HistorySource): LinkSource {
+        when (input) {
+            HistorySource.WIKIPEDIA -> {
+                return LinkSource.WIKIPEDIA
+            }
+        }
+    }
+
+    fun toItem(source: LinkSource, ref: String, input: Element): ImageLink? {
+
+        var id = input.attr(Constants.ImageParser.SOURCE)
+        id = DataUtilKt.joinPrefixIf(id, Constants.Network.HTTPS)
+
+        if (!DataUtilKt.isValidImageUrl(id)) {
+            return null
+        }
+
+        val title = input.attr(Constants.ImageParser.ALTERNATE)
+        val width = input.attr(Constants.ImageParser.WIDTH).toInt()
+        val height = input.attr(Constants.ImageParser.HEIGHT).toInt()
+
+        if (width < Constants.Threshold.IMAGE_MIN_WIDTH || height < Constants.Threshold.IMAGE_MIN_HEIGHT) {
+            Timber.v("Invalid Image URL = %s", id)
+            return null
+        }
+
+        var output: ImageLink? = map.get(id)
+        if (output == null) {
+            output = ImageLink(id)
+            map.put(id, output)
+        }
+        output.source = source
+        output.ref = ref
+        output.title = title
+        output.width = width
+        output.height = height
+        return output
+    }
+
+    private fun getValidUrl(source: LinkSource, input: Element): String? {
+        when (source) {
+            LinkSource.WIKIPEDIA -> {
+                if (input.hasParent()) {
+                    val parent = input.parent()
+                    val href = parent.attr(Constants.ImageParser.HREF)
+                    return Constants.toUrl(source, href)
+                }
+            }
+        }
+        return null
+    }
 }

@@ -1,6 +1,6 @@
 package com.dreampany.history.injector.data
 
-import com.dreampany.frame.data.model.ImageLink
+import com.dreampany.history.data.model.ImageLink
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.history.data.model.History

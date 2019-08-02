@@ -9,7 +9,18 @@ import com.dreampany.history.ui.model.ImageLinkItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ImageLinkAdapter(listener: Any?) : SmartAdapter<ImageLinkItem>(listener) {
+class ImageLinkAdapter(listener: Any? = null) : SmartAdapter<ImageLinkItem>(listener) {
 
+    companion object {
+        val SPAN_COUNT = 2
+        val ITEM_OFFSET = 4
+    }
 
+    fun getSpanCount() : Int {
+        return SPAN_COUNT
+    }
+
+    fun getItemOffset() : Int {
+        return ITEM_OFFSET
+    }
 }

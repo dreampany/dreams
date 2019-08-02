@@ -5,6 +5,7 @@ import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.enums.HistoryType
+import com.dreampany.history.data.enums.LinkSource
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
 import java.util.concurrent.TimeUnit
@@ -44,6 +45,18 @@ class Constants {
 
         fun notifyHistory(context: Context, type: HistoryType): String =
             lastAppId(context).plus(Sep.HYPHEN).plus(Pref.NOTIFY_HISTORY).plus(type.name)
+
+        fun toUrl(source: LinkSource, relUrl: String): String {
+            return toBaseUrl(source).plus(relUrl)
+        }
+
+        fun toBaseUrl(source: LinkSource): String {
+            when (source) {
+                LinkSource.WIKIPEDIA -> {
+                    return ImageLink.WIKIPEDIA_BASE_URL
+                }
+            }
+        }
     }
 
     object Event {
@@ -68,8 +81,9 @@ class Constants {
     }
 
     object Time {
-        val NotifyPeriod = TimeUnit.MINUTES.toSeconds(1)
-        val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(1)
+        val NotifyPeriod = TimeUnit.MINUTES.toSeconds(3)
+        val NotifyNextHistory = TimeUnit.MINUTES.toSeconds(10)
+        val JSOUP = TimeUnit.SECONDS.toMillis(20)
     }
 
     object Date {
@@ -90,6 +104,7 @@ class Constants {
     }
 
     object ImageLink {
+        const val WIKIPEDIA_BASE_URL = "https://en.wikipedia.org"
         const val REF = Constants.Link.REF
         const val URL = Constants.Link.URL
     }
@@ -113,12 +128,39 @@ class Constants {
     }
 
     object ImageParser {
-        const val PATTERN_IMAGE = Constants.Parser.PATTERN_IMAGE
+        const val PATTERN_IMAGE_TAG = Constants.Parser.PATTERN_IMAGE_TAG
+        const val BASE_URL = Constants.Parser.BASE_URL
+        const val HREF = Constants.Parser.HREF
         const val SOURCE = Constants.Parser.SOURCE
         const val ALTERNATE = Constants.Parser.ALTERNATE
+        const val WIDTH = Constants.Parser.WIDTH
+        const val HEIGHT = Constants.Parser.HEIGHT
     }
 
     object Default {
-        const val EMPTY_STRING = Constants.Default.EMPTY_STRING
+        val NULL = Constants.Default.NULL
+        const val INT = Constants.Default.INT
+        const val LONG = Constants.Default.LONG
+        const val STRING = Constants.Default.STRING
+    }
+
+    object Network {
+        const val HTTP = Constants.Network.HTTP
+        const val HTTPS = Constants.Network.HTTPS
+    }
+
+    object Threshold {
+        const val IMAGE_MIN_WIDTH = 100
+        const val IMAGE_MIN_HEIGHT = 100
+    }
+
+    object UiState {
+        enum class State {
+            NONE, EMPTY, SEARCH
+        }
+    }
+
+    object Pattern {
+        const val PATTERN_IMAGE = Constants.Pattern.PATTERN_IMAGE
     }
 }

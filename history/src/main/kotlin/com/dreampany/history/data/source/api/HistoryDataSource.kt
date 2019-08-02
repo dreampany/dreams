@@ -1,6 +1,7 @@
 package com.dreampany.history.data.source.api
 
 import com.dreampany.frame.data.source.api.DataSource
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.model.History
 import io.reactivex.Maybe
@@ -12,6 +13,13 @@ import io.reactivex.Maybe
  * Last modified $file.lastModified
  */
 interface HistoryDataSource : DataSource<History> {
-    fun getItems(type: HistoryType, day: Int, month: Int): List<History>?
-    fun getItemsRx(type: HistoryType, day: Int, month: Int): Maybe<List<History>>
+
+    fun getItems(source: HistorySource, type: HistoryType, day: Int, month: Int): List<History>?
+
+    fun getItemsRx(
+        source: HistorySource,
+        type: HistoryType,
+        day: Int,
+        month: Int
+    ): Maybe<List<History>>
 }

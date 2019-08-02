@@ -1,7 +1,8 @@
 package com.dreampany.frame.data.model
 
 import androidx.room.Ignore
-import com.google.common.base.Objects
+import com.dreampany.frame.misc.Constants
+import com.dreampany.frame.util.TimeUtilKt
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -11,21 +12,22 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-data class Link(var url: String, var title: String) : BaseParcelKt() {
+data class Link(
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    var title: String = Constants.Default.STRING
+) : BaseKt() {
 
     @Ignore
-    constructor() : this ("", "") {
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
 
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        val item = other as Link
-        return Objects.equal(item.url, url)
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+
     }
 
-    override fun hashCode(): Int {
-        return Objects.hashCode(url)
+    constructor(id: String, title: String) : this(time = TimeUtilKt.currentMillis(), id = id, title = title) {
+
     }
 }

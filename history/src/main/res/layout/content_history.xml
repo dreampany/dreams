@@ -14,7 +14,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="3dp"
+        auto:cardCornerRadius="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false"
         auto:elevation="@dimen/_2sdp">
 
@@ -41,18 +41,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
                 android:text="Year"
-                android:textColor="@color/material_grey900"
-                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/material_grey500"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="italic"
                 auto:fontFamily="@font/roboto_slab_regular"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/text_html" />
 
             <com.like.LikeButton
                 android:id="@+id/button_favorite"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_marginTop="@dimen/dp_8"
-                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 auto:icon_size="@dimen/_12sdp"
                 auto:icon_type="heart"
                 auto:layout_constraintEnd_toEndOf="parent"

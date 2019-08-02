@@ -336,8 +336,8 @@ class HomeFragment
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
             UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
-            UiState.SEARCH -> bind.stateful.setState(SEARCH)
-            UiState.EMPTY -> bind.stateful.setState(SEARCH)
+            //UiState.SEARCH -> bind.stateful.setState(SEARCH)
+            //UiState.EMPTY -> bind.stateful.setState(SEARCH)
             UiState.ERROR -> {
             }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
@@ -386,12 +386,13 @@ class HomeFragment
         progress: Boolean,
         favorite: Boolean
     ) {
+        val source = vm.getHistorySource()
         val type = vm.getHistoryType()
         Timber.v("Request type %s", type)
         val day = vm.getDay()
         val month = vm.getMonth()
 
-        val request = HistoryRequest(type, day, month, important, progress, favorite)
+        val request = HistoryRequest(source, type, day, month, false, important, progress, favorite)
         vm.load(request)
     }
 

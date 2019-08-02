@@ -9,6 +9,7 @@ import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.model.History
 import com.dreampany.frame.data.model.Link
+import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.source.api.HistoryDataSource
 import com.dreampany.history.data.source.remote.WikiHistory
 import com.dreampany.history.data.source.remote.WikiLink
@@ -42,7 +43,7 @@ class HistoryMapper
         uiMap.put(id, uiItem)
     }
 
-    fun toItem(date: String, url: String, input: WikiHistory, inputType: HistoryType): History? {
+    fun toItem(source : HistorySource, type : HistoryType, date: String, url: String, input: WikiHistory): History? {
         val day = TimeUtilKt.getDay(date, Constants.Date.MONTH_DAY)
         val month = TimeUtilKt.getMonth(date, Constants.Date.MONTH_DAY)
         val yearData = DataUtilKt.getFirstPart(input.year, Constants.Sep.SPACE)
@@ -58,7 +59,8 @@ class HistoryMapper
         }
         output.time = TimeUtil.currentTime()
         output.id = id
-        output.type = inputType
+        output.source = source
+        output.type = type
         output.day = day
         output.month = month
         output.year = year

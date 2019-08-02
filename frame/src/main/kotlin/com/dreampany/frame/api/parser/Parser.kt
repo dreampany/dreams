@@ -9,7 +9,7 @@ package com.dreampany.frame.api.parser
  */
 interface Parser<T> {
 
-    fun parse(url: String): List<T>?
+    fun parse(ref: String): List<T>?
 
 /*    fun parseImageLink(url: String): List<Link>? {
         val doc = Jsoup.connect(url).get()

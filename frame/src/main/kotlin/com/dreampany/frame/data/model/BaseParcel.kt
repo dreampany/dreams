@@ -1,7 +1,6 @@
 package com.dreampany.frame.data.model
 
-import androidx.databinding.BaseObservable
-import java.io.Serializable
+import android.os.Parcelable
 
 /**
  * Created by Roman-372 on 7/4/2019
@@ -9,5 +8,7 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseSerialKt : BaseObservable(), Serializable, Cloneable {
+abstract class BaseParcel : BaseSerial(), Parcelable {
+
+    override fun describeContents() = 0
 }

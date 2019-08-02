@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseParcelKt
+import com.dreampany.frame.data.model.BaseParcel
 import com.dreampany.lca.misc.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -31,7 +31,7 @@ data class SourceInfo(
     @ColumnInfo(name = Constants.SourceInfo.IMAGE_URL)
     private var imageUrl: String
 
-) : BaseParcelKt() {
+) : BaseParcel() {
 
     @Ignore
     constructor() : this ("") {

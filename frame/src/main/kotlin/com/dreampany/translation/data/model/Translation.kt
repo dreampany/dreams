@@ -1,6 +1,6 @@
 package com.dreampany.translation.data.model
 
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 
 /**
  * Created by Roman-372 on 7/11/2019
@@ -8,7 +8,7 @@ import com.dreampany.frame.data.model.BaseKt
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Translation: BaseKt() {
+abstract class Translation: Base() {
     abstract var source: String
     abstract var target: String
 }

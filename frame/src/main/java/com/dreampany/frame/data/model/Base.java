@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.model;
 
 import android.os.Parcel;
@@ -6,9 +7,11 @@ import com.google.common.base.Objects;
 
 import androidx.annotation.NonNull;
 
+*/
 /**
  * Created by nuc on 12/6/2015.
- */
+ *//*
+
 public abstract class Base extends BaseParcel {
 
     @NonNull
@@ -76,3 +79,4 @@ public abstract class Base extends BaseParcel {
         return time;
     }
 }
+*/

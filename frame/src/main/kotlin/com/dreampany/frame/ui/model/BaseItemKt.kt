@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
@@ -19,7 +19,7 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseItemKt<T : BaseKt, VH : BaseItemKt.ViewHolder, S : Serializable>(var item: T, @LayoutRes var layoutId: Int = 0) :
+abstract class BaseItemKt<T : Base, VH : BaseItemKt.ViewHolder, S : Serializable>(var item: T, @LayoutRes var layoutId: Int = 0) :
     AbstractFlexibleItem<VH>(), IFilterable<S>, Serializable {
 
     var success: Boolean = false
@@ -56,15 +56,15 @@ abstract class BaseItemKt<T : BaseKt, VH : BaseItemKt.ViewHolder, S : Serializab
             return itemView.context
         }
 
-        open fun <T : BaseKt> setTag(tag : T) {
+        open fun <T : Base> setTag(tag : T) {
             itemView.setTag(tag)
         }
 
-        open fun <T : BaseKt> getTag() : T? {
+        open fun <T : Base> getTag() : T? {
             return itemView.tag as T?
         }
 
-        abstract fun <VH : ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>> bind(
+        abstract fun <VH : ViewHolder, T : Base, S : Serializable, I : BaseItemKt<T, VH, S>> bind(
             position: Int,
             item: I
         )

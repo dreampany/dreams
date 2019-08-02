@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.ui.view.TextViewClickMovement
@@ -121,7 +121,7 @@ class HistoryItem private constructor(
             }
         }
 
-        override fun <VH : BaseItemKt.ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>>
+        override fun <VH : BaseItemKt.ViewHolder, T : Base, S : Serializable, I : BaseItemKt<T, VH, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as HistoryItem
             val history = uiItem.item

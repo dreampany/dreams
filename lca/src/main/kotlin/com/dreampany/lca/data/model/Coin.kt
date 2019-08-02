@@ -3,7 +3,7 @@ package com.dreampany.lca.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.lca.data.enums.CoinSource
 import com.dreampany.lca.data.enums.Currency
@@ -63,7 +63,7 @@ data class Coin(
     @Exclude
     private var quotes: MutableMap<Currency, Quote>? =  Constants.Default.NULL
 
-) : BaseKt() {
+) : Base() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {}

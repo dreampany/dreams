@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.pref;
 
 import android.content.Context;
@@ -9,11 +10,13 @@ import com.dreampany.frame.util.TimeUtil;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+*/
 /**
  * Created by Hawladar Roman on 6/25/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class FramePref extends BasePref {
 
     private static final long NOTIFY_EXPIRE_TIME = TimeUnit.HOURS.toMillis(24);
@@ -209,3 +212,4 @@ public class FramePref extends BasePref {
         return privatePref.get(LIST_OR_GRID, Boolean.class, true);
     }
 }
+*/

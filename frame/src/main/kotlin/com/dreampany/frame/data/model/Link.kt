@@ -16,7 +16,7 @@ data class Link(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
     var title: String = Constants.Default.STRING
-) : BaseKt() {
+) : Base() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

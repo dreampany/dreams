@@ -8,7 +8,7 @@ import com.google.common.base.Objects
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseKt : BaseParcelKt() {
+abstract class Base : BaseParcel() {
 
     abstract var time: Long
     abstract var id: String
@@ -16,7 +16,7 @@ abstract class BaseKt : BaseParcelKt() {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as BaseKt
+        val item = other as Base
         return Objects.equal(item.id, id)
     }
 

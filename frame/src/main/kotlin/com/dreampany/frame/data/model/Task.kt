@@ -9,7 +9,7 @@ import android.os.Parcelable
  * Last modified $file.lastModified
  */
 abstract class Task<T : Parcelable>(open var input: T?, open var comment: String?) :
-    BaseParcelKt() {
+    BaseParcel() {
 
 /*    var input: T? = null
     var comment: String? = null*/

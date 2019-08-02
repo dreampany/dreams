@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.history.data.model.More
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
@@ -55,7 +55,7 @@ class MoreItem private constructor(item: More, @LayoutRes layoutId: Int = 0) :
             title = view.findViewById(R.id.title)
         }
 
-        override fun <VH : BaseItemKt.ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>>
+        override fun <VH : BaseItemKt.ViewHolder, T : Base, S : Serializable, I : BaseItemKt<T, VH, S>>
                 bind(position: Int, item: I) {
             val moreItem = item as MoreItem
             val more = moreItem.item

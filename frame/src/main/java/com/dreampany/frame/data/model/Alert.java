@@ -1,14 +1,17 @@
+/*
 package com.dreampany.frame.data.model;
 
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 
+*/
 /**
  * Created by Roman-372 on 2/19/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 public abstract class Alert extends Base {
 
     protected String title;
@@ -47,3 +50,4 @@ public abstract class Alert extends Base {
         return description;
     }
 }
+*/

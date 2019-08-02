@@ -4,7 +4,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItemKt
 import com.dreampany.frame.util.DisplayUtil
 import com.dreampany.frame.util.FrescoUtil
@@ -64,7 +64,7 @@ class ImageLinkItem private constructor(
             textTitle = view.findViewById(R.id.text_title)
         }
 
-        override fun <VH : BaseItemKt.ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>>
+        override fun <VH : BaseItemKt.ViewHolder, T : Base, S : Serializable, I : BaseItemKt<T, VH, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as ImageLinkItem
             val link = uiItem.item

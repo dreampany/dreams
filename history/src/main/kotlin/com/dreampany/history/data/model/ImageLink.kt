@@ -3,7 +3,7 @@ package com.dreampany.history.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.history.data.enums.LinkSource
@@ -33,7 +33,7 @@ data class ImageLink(
     var title: String = Constants.Default.STRING,
     var width: Int = Constants.Default.INT,
     var height: Int = Constants.Default.INT
-) : BaseKt() {
+) : Base() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

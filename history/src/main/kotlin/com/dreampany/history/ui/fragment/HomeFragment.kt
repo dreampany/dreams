@@ -154,7 +154,7 @@ class HomeFragment
     override fun onItemClick(view: View?, position: Int): Boolean {
         if (position != RecyclerView.NO_POSITION) {
             val item = adapter.getItem(position) as HistoryItem
-             openUi(item.item);
+            openUi(item.item);
             return true
         }
         return false
@@ -292,7 +292,7 @@ class HomeFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_history, vm.itemOffset)
+                .addItemViewType(R.layout.item_history, adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller,
@@ -332,10 +332,6 @@ class HomeFragment
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
             UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
-            //UiState.SEARCH -> bind.stateful.setState(SEARCH)
-            //UiState.EMPTY -> bind.stateful.setState(SEARCH)
-            UiState.ERROR -> {
-            }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }

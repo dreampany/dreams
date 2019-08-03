@@ -8,6 +8,7 @@ import com.dreampany.frame.R
 import com.dreampany.frame.data.model.Color
 import java.util.*
 
+
 /**
  * Created by roman on 2019-08-02
  * Copyright (c) 2019 bjit. All rights reserved.
@@ -15,7 +16,66 @@ import java.util.*
  * Last modified $file.lastModified
  */
 class ColorUtil {
+
+
     companion object {
+        private val random: Random = Random(System.currentTimeMillis())
+        private val defaultColorCodes: MutableList<Int> = mutableListOf()
+        private val materialColorCodes: MutableList<Int> = mutableListOf()
+
+        init {
+            defaultColorCodes.addAll(
+                listOf(
+                    0xfff16364,
+                    0xfff58559,
+                    0xfff9a43e,
+                    0xffe4c62e,
+                    0xff67bf74,
+                    0xff59a2be,
+                    0xff2093cd,
+                    0xffad62a7,
+                    0xff805781
+                ) as Collection<Int>
+            )
+            materialColorCodes.addAll(
+                listOf(
+                    0xffe57373,
+                    0xfff06292,
+                    0xffba68c8,
+                    0xff9575cd,
+                    0xff7986cb,
+                    0xff64b5f6,
+                    0xff4fc3f7,
+                    0xff4dd0e1,
+                    0xff4db6ac,
+                    0xff81c784,
+                    0xffaed581,
+                    0xffff8a65,
+                    0xffd4e157,
+                    0xffffd54f,
+                    0xffffb74d,
+                    0xffa1887f,
+                    0xff90a4ae
+                ) as Collection<Int>
+            )
+        }
+
+        fun getDefaultRandomColor(): Int {
+            return defaultColorCodes.get(random.nextInt(defaultColorCodes.size))
+        }
+
+        fun getDefaultColor(key: Any): Int {
+            return defaultColorCodes.get(Math.abs(key.hashCode()) % defaultColorCodes.size)
+        }
+
+        fun getMaterialRandomColor(): Int {
+            return materialColorCodes.get(random.nextInt(materialColorCodes.size))
+        }
+
+        fun getMaterialColor(key: Any): Int {
+            return materialColorCodes.get(Math.abs(key.hashCode()) % materialColorCodes.size)
+        }
+
         fun getStatusBarColor(primaryColor: Int): Int {
             val arrayOfFloat = FloatArray(3)
             android.graphics.Color.colorToHSV(primaryColor, arrayOfFloat)

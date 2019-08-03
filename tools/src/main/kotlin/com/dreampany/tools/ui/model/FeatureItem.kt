@@ -1,15 +1,23 @@
 package com.dreampany.tools.ui.model
 
+import android.graphics.Color
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.frame.ui.widget.TextDrawable
+import com.dreampany.frame.util.ColorUtil
+import com.dreampany.frame.util.DisplayUtil
+import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.FeatureAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
+
 
 /**
  * Created by roman on 2019-08-03
@@ -23,19 +31,19 @@ class FeatureItem private constructor(
 
     companion object {
         fun getItem(item: Feature): FeatureItem {
-            return FeatureItem(item, 0)
+            return FeatureItem(item, R.layout.item_feature)
         }
     }
 
     override fun createViewHolder(
-        view: View?,
-        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
+        view: View,
+        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return ViewHolder(view, adapter)
     }
 
     override fun filter(constraint: String?): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
     }
 
     fun order(): Int {
@@ -48,8 +56,16 @@ class FeatureItem private constructor(
         adapter: FlexibleAdapter<*>
     ) : BaseItem.ViewHolder(view, adapter) {
 
-        init {
+        private val height: Int
 
+        private var adapter: FeatureAdapter
+        private var imageIcon: AppCompatImageView
+
+        init {
+            this.adapter = adapter as FeatureAdapter
+            height = DisplayUtil.getScreenWidthInPx(getContext()) / this.adapter.getSpanCount()
+            view.layoutParams.height = height
+            imageIcon = view.findViewById(R.id.image_icon)
         }
 
 
@@ -57,7 +73,11 @@ class FeatureItem private constructor(
             position: Int,
             item: I
         ) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            val feature = (item as FeatureItem).item
+            val type = feature.type
+            val drawable = TextDrawable.builder().buildRound("A", ColorUtil.getMaterialRandomColor())
+            imageIcon.setImageDrawable(drawable)
+
         }
     }
 }

@@ -1,16 +1,33 @@
 package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import androidx.databinding.ObservableArrayList
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
+import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.FeatureType
+import com.dreampany.tools.data.model.FeatureRequest
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentHomeBinding
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.FeatureAdapter
+import com.dreampany.tools.ui.model.FeatureItem
+import com.dreampany.tools.vm.FeatureViewModel
+import cz.kinst.jakub.view.StatefulLayout
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
+import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -33,7 +50,7 @@ class HomeFragment
     private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var scroller: OnVerticalScrollListener
-    //private lateinit var vm:
+    private lateinit var vm: FeatureViewModel
     private lateinit var adapter: FeatureAdapter
 
     override fun getLayoutId(): Int {
@@ -49,17 +66,99 @@ class HomeFragment
     }*/
 
     override fun onStartUi(state: Bundle?) {
-        /*initView()
+        initView()
         initRecycler()
 
         session.track()
-        initTitleSubtitle()
-        request(true, true, false)*/
+        request(progress = true, favorite = false)
+        /* initTitleSubtitle()
+         */
     }
 
     override fun onStopUi() {
 
     }
 
+    private fun initView() {
+
+        bind = super.binding as FragmentHomeBinding
+        bindStatus = bind.layoutTopStatus
+        bindRecycler = bind.layoutRecycler
+
+        bind.stateful.setStateView(
+            Constants.UiState.State.NONE.name,
+            LayoutInflater.from(context).inflate(R.layout.item_none, null)
+        )
+
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bind.fab.setOnClickListener(this)
+
+        vm = ViewModelProviders.of(this, factory).get(FeatureViewModel::class.java)
+        vm.observeUiState(this, Observer { this.processUiState(it) })
+        vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
+        //vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+    }
+
+    private fun request(
+        important: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        favorite: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = FeatureRequest(FeatureType.DEFAULT, important, progress, favorite)
+        vm.load(request)
+    }
+
+    private fun initRecycler() {
+        bind.setItems(ObservableArrayList<Any>())
+        adapter = FeatureAdapter(this)
+        adapter.setStickyHeaders(false)
+        scroller = object : OnVerticalScrollListener() {}
+        ViewUtil.setRecycler(
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollGridLayoutManager(context!!, adapter.getSpanCount()),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_feature, adapter.getItemOffset())
+                .withEdge(true),
+            null,
+            scroller,
+            null
+        )
+    }
+
+    private fun processUiState(state: UiState) {
+        when (state) {
+            UiState.NONE -> bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(true)
+            }
+            UiState.HIDE_PROGRESS -> if (bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(false)
+            }
+            UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
+            UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
+            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
+        }
+    }
+
+    fun processMultipleResponse(response: Response<List<FeatureItem>>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            vm.processProgress(result.loading)
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            vm.processFailure(result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<List<FeatureItem>>
+            processSuccess(result.type, result.data)
+        }
+    }
+
+    private fun processSuccess(type: Response.Type, items: List<FeatureItem>) {
+        Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
+        adapter.setItems(items)
+        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+    }
 
 }

@@ -18,6 +18,19 @@ class FeatureAdapter(listener: Any?) : SmartAdapter<FeatureItem>(listener) {
         orderComparator = OrderComparator()
     }
 
+    companion object {
+        private val SPAN_COUNT = 2
+        private val ITEM_OFFSET = 4
+    }
+
+    fun getSpanCount(): Int {
+        return SPAN_COUNT
+    }
+
+    fun getItemOffset(): Int {
+        return ITEM_OFFSET
+    }
+
     fun setItems(items: List<FeatureItem>) {
         super.setItems(items, orderComparator)
     }

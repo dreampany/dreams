@@ -60,10 +60,6 @@ class HomeFragment
     DatePickerDialog.OnDateSetListener,
     HistoryViewModel.OnClickListener {
 
-    private val NONE = "none"
-    private val SEARCH = "search"
-    private val EMPTY = "empty"
-
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
@@ -123,7 +119,7 @@ class HomeFragment
         val dateItem = findMenuItemById(R.id.item_date)
         val searchItem = getSearchMenuItem()
         MenuTint.colorMenuItem(
-            ColorUtil.getColor(context, R.color.material_white),
+            ColorUtil.getColor(context!!, R.color.material_white),
             null, typeItem, dateItem, searchItem
         )
         val activity = getParent()
@@ -238,7 +234,7 @@ class HomeFragment
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            NONE,
+            Constants.UiState.State.NONE.name,
             LayoutInflater.from(context).inflate(R.layout.item_none, null)
         )
 
@@ -320,13 +316,13 @@ class HomeFragment
         val day = vm.getDay()
         val month = vm.getMonth()
         val year = vm.getYear()
-        val picker = ViewUtilKt.createDatePicker(context!!, this, day, month, year)
+        val picker = ViewUtil.createDatePicker(context!!, this, day, month, year)
         picker.show()
     }
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.NONE -> bind.stateful.setState(NONE)
+            UiState.NONE -> bind.stateful.setState(Constants.UiState.State.NONE.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }

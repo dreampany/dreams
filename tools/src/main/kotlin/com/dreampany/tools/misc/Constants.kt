@@ -57,8 +57,11 @@ class Constants {
 
     object Default {
         val NULL = Constants.Default.NULL
+        const val BOOLEAN = Constants.Default.BOOLEAN
         const val INT = Constants.Default.INT
         const val LONG = Constants.Default.LONG
+        const val FLOAT = Constants.Default.FLOAT
+        const val DOUBLE = Constants.Default.DOUBLE
         const val STRING = Constants.Default.STRING
     }
 
@@ -87,6 +90,11 @@ class Constants {
     object Demo {
         const val ID = Constants.Key.ID
     }
+
+    object Feature {
+        const val ID = Constants.Key.ID
+    }
+
 
     object Apk {
         const val ID = Constants.Key.ID

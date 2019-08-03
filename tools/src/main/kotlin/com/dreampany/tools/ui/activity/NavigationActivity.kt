@@ -83,10 +83,6 @@ class NavigationActivity : BaseBottomNavigationActivity() {
         }
     }
 
-/*    override fun getSearchView(): MaterialSearchView {
-        return n
-    }*/
-
     private fun initView() {
         bind = super.binding as ActivityNavigationBinding
         val uiTask = getCurrentTask<UiTask<*>>(false)

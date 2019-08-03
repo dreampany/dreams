@@ -4,6 +4,8 @@ import com.dreampany.tools.data.model.Demo
 import com.dreampany.tools.misc.DemoAnnote
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
+import com.dreampany.tools.data.model.Apk
+import com.dreampany.tools.misc.ApkAnnote
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -28,6 +30,20 @@ class SupportModule {
     @Provides
     @DemoAnnote
     fun provideDemoSmartCache(): SmartCache<Long, Demo> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ApkAnnote
+    fun provideApkSmartMap(): SmartMap<Long, Apk> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ApkAnnote
+    fun provideApkSmartCache(): SmartCache<Long, Apk> {
         return SmartCache.newCache()
     }
 }

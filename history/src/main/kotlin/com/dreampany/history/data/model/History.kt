@@ -39,7 +39,6 @@ data class History(
     var html: String? = Constants.Default.NULL,
     var url: String? = Constants.Default.NULL,
     var links: MutableList<Link>? = Constants.Default.NULL
-
 ) : Base() {
 
     @Ignore

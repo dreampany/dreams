@@ -62,10 +62,6 @@ class Constants {
         const val STRING = Constants.Default.STRING
     }
 
-    object Demo {
-        const val ID = Constants.Key.ID
-    }
-
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
     }
@@ -86,5 +82,13 @@ class Constants {
         enum class State {
             NONE, EMPTY, SEARCH
         }
+    }
+
+    object Demo {
+        const val ID = Constants.Key.ID
+    }
+
+    object Apk {
+        const val ID = Constants.Key.ID
     }
 }

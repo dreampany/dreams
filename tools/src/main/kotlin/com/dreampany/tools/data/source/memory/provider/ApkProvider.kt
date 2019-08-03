@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.source.memory
+package com.dreampany.tools.data.source.memory.provider
 
 import android.content.Context
 import android.content.pm.PackageManager

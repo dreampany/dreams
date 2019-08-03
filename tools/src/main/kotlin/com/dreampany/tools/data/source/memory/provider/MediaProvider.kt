@@ -1,11 +1,13 @@
-package com.dreampany.tools.data.source.memory
+package com.dreampany.tools.data.source.memory.provider
 
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.net.Uri
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.util.CursorUtil
 import com.dreampany.tools.data.model.Media
+import io.reactivex.Maybe
 import timber.log.Timber
 
 /**
@@ -41,6 +43,14 @@ abstract class MediaProvider<T : Media> {
         return null
     }
 
+    open fun getItems(): List<T>? {
+        return getItems(Integer.MAX_VALUE)
+    }
+
+    open fun getItemsRx(): Maybe<List<T>> {
+        return getItemsRx(Integer.MAX_VALUE)
+    }
+
     open fun getItems(limit: Int): List<T>? {
         val cursor = getCursor()
         if (!CursorUtil.hasCursor(cursor)) {
@@ -60,8 +70,18 @@ abstract class MediaProvider<T : Media> {
         return result
     }
 
-    open fun getItems(): List<T>? {
-        return getItems(Integer.MAX_VALUE)
+    open fun getItemsRx(limit: Int): Maybe<List<T>> {
+        return Maybe.create { emitter ->
+            val result = getItems(limit)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
 }

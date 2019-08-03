@@ -19,5 +19,14 @@
 -keep class com.dreampany.lca.api.** { *; }
 -keepclassmembers class com.dreampany.lca.api.** { *; }
 
+-keep class com.dreampany.frame.data.model.** { *; }
+-keepclassmembers class com.dreampany.frame.data.model.** { *; }
+
+-keep class com.dreampany.frame.ui.model.** { *; }
+-keepclassmembers class com.dreampany.frame.ui.model.** { *; }
+
 -keep class com.dreampany.frame.misc.** { *; }
 -keepclassmembers class com.dreampany.frame.misc.** { *; }
+
+-keep class com.dreampany.translation.data.model.** { *; }
+-keepclassmembers class com.dreampany.translation.data.model.** { *; }

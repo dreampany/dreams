@@ -2,6 +2,7 @@ package com.dreampany.demo.injector.data
 
 import com.dreampany.demo.injector.vm.ViewModelModule
 import com.dreampany.frame.injector.data.FrameModule
+import com.dreampany.translation.injector.TranslationModule
 import dagger.Module
 
 
@@ -11,6 +12,6 @@ import dagger.Module
  * dreampanymail@gmail.com
  */
 
-@Module(includes = [FrameModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
+@Module(includes = [FrameModule::class, TranslationModule::class,DatabaseModule::class, SupportModule::class, ViewModelModule::class])
 class BuildersModule {
 }

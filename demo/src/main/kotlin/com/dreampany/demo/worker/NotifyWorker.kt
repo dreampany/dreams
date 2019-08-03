@@ -1,11 +1,10 @@
 package com.dreampany.demo.worker
 
 import android.content.Context
-import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.dreampany.demo.vm.NotifyViewModel
 import com.dreampany.frame.api.worker.BaseWorker
 import com.dreampany.frame.worker.factory.IWorkerFactory
-import com.dreampany.demo.vm.NotifyViewModel
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -29,7 +28,7 @@ class NotifyWorker(
 
     override fun onStop() {
         Timber.v("NotifyWorker Stopped")
-        vm.clear()
+        vm.clearIf()
     }
 
     class Factory

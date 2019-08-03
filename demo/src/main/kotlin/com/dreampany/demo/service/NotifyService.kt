@@ -22,7 +22,7 @@ class NotifyService : BaseJobService() {
     }
 
     override fun done(job: JobParameters): Boolean {
-        vm.clear()
+        vm.clearIf()
         return true
     }
 }

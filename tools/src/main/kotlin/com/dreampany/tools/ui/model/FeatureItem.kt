@@ -1,6 +1,5 @@
 package com.dreampany.tools.ui.model
 
-import android.graphics.Color
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
@@ -10,6 +9,7 @@ import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.ui.widget.TextDrawable
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.DisplayUtil
+import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.misc.Constants
@@ -50,7 +50,6 @@ class FeatureItem private constructor(
         return item.type.ordinal
     }
 
-
     class ViewHolder(
         view: View,
         adapter: FlexibleAdapter<*>
@@ -64,10 +63,18 @@ class FeatureItem private constructor(
         init {
             this.adapter = adapter as FeatureAdapter
             height = DisplayUtil.getScreenWidthInPx(getContext()) / this.adapter.getSpanCount()
-            view.layoutParams.height = height
             imageIcon = view.findViewById(R.id.image_icon)
-        }
 
+
+            view.layoutParams.height = height
+            view.setOnClickListener { view ->
+                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+            }
+            view.setOnLongClickListener { view ->
+                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+                true
+            }
+        }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
             position: Int,
@@ -75,9 +82,9 @@ class FeatureItem private constructor(
         ) {
             val feature = (item as FeatureItem).item
             val type = feature.type
-            val drawable = TextDrawable.builder().buildRound("A", ColorUtil.getMaterialRandomColor())
+            val drawable = TextDrawable.builder()
+                .buildRound(TextUtilKt.getFirst(type.name), ColorUtil.getMaterialRandomColor())
             imageIcon.setImageDrawable(drawable)
-
         }
     }
 }

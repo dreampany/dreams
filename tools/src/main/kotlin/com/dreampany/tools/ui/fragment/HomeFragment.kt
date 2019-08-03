@@ -10,6 +10,7 @@ import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ViewUtil
@@ -26,7 +27,6 @@ import com.dreampany.tools.vm.FeatureViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,9 +37,8 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class HomeFragment
-@Inject constructor() :
-    BaseMenuFragment() {
+class HomeFragment @Inject constructor() :
+    BaseMenuFragment(), SmartAdapter.OnClickListener<FeatureItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -71,12 +70,23 @@ class HomeFragment
 
         session.track()
         request(progress = true, favorite = false)
-        /* initTitleSubtitle()
-         */
+        initTitleSubtitle()
     }
 
     override fun onStopUi() {
 
+    }
+
+    override fun onClick(t: FeatureItem) {
+        Timber.v("%s", t.item.type.name)
+    }
+
+    override fun onLongClick(t: FeatureItem) {
+        Timber.v("%s", t.item.type.name)
+    }
+
+    private fun initTitleSubtitle() {
+        setTitle(R.string.home)
     }
 
     private fun initView() {
@@ -99,15 +109,6 @@ class HomeFragment
         //vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
-    private fun request(
-        important: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN,
-        favorite: Boolean = Constants.Default.BOOLEAN
-    ) {
-        val request = FeatureRequest(FeatureType.DEFAULT, important, progress, favorite)
-        vm.load(request)
-    }
-
     private fun initRecycler() {
         bind.setItems(ObservableArrayList<Any>())
         adapter = FeatureAdapter(this)
@@ -124,6 +125,15 @@ class HomeFragment
             scroller,
             null
         )
+    }
+
+    private fun request(
+        important: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        favorite: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = FeatureRequest(FeatureType.DEFAULT, important, progress, favorite)
+        vm.load(request)
     }
 
     private fun processUiState(state: UiState) {

@@ -14,7 +14,16 @@ import kotlin.collections.ArrayList
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) : BindingFlexibleAdapter<T>(listener) {
+open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
+    BindingFlexibleAdapter<T>(listener) {
+
+    interface OnClickListener<T> {
+        fun onClick(t: T)
+        fun onLongClick(t: T)
+    }
+
+    var click: OnClickListener<Any>? = null
+        private set
 
     var clickListener: View.OnClickListener? = null
         private set
@@ -22,6 +31,10 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) : BindingFlexible
         private set
 
     init {
+        if (listener is OnClickListener<*>) {
+            click = listener as OnClickListener<Any>?
+        }
+
         if (listener is View.OnClickListener) {
             clickListener = listener
         }

@@ -1,6 +1,5 @@
 package com.dreampany.lca.ui.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -358,7 +357,7 @@ public class GraphFragment
         updatePrice(item.getCurrentPrice());
         updateDate(item.getCurrentTime());
         updateChange(item.getDifferencePrice(), item.getChangeInPercent(), item.getChangeInPercentFormat(), item.getChangeInPercentColor());
-        binding.lineChart.getXAxis().setValueFormatter(item.getXAxisValueFormatter());
+        binding.lineChart.getXAxis().setValueFormatter(item.getValueFormatter());
         binding.lineChart.setData(item.getLineData());
         binding.lineChart.animateX(800);
     }

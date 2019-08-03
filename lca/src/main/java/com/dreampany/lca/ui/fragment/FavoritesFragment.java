@@ -121,7 +121,7 @@ public class FavoritesFragment
     @Override
     public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         MenuItem searchItem = findMenuItemById(R.id.item_search);
-        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.Companion.getColor(getContext(), R.color.material_white), null);
     }
 
     @Override
@@ -193,13 +193,13 @@ public class FavoritesFragment
     private void initView() {
         binding = (FragmentCoinsBinding) super.binding;
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
-        ViewUtil.setText(this, R.id.text_empty, R.string.empty_favorites);
+        ViewUtil.Companion.setText(this, R.id.text_empty, R.string.empty_favorites);
 
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
 
-        ViewUtil.setSwipe(refresh, this);
+        ViewUtil.Companion.setSwipe(refresh, this);
         UiTask<Coin> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(FavoritesViewModel.class);
         vm.setUiCallback(this);
@@ -214,7 +214,7 @@ public class FavoritesFragment
         adapter = new CoinAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener();
-        ViewUtil.setRecycler(
+        ViewUtil.Companion.setRecycler(
                 adapter,
                 recycler,
                 new SmoothScrollLinearLayoutManager(Objects.requireNonNull(getContext())),
@@ -318,18 +318,12 @@ public class FavoritesFragment
     }
 
     private void openCoinUi(Coin coin) {
-        UiTask<Coin> task = new UiTask<>(false);
-        task.setInput(coin);
-        task.setUiType(UiType.COIN);
-        task.setSubtype(UiSubtype.VIEW);
+        UiTask<Coin> task = new UiTask<>(false, UiType.COIN, UiSubtype.VIEW, coin, null);
         openActivity(ToolsActivity.class, task);
     }
 
     private void openCoinAlertUi(Coin coin) {
-        UiTask<Coin> task = new UiTask<>(false);
-        task.setInput(coin);
-        task.setUiType(UiType.COIN);
-        task.setSubtype(UiSubtype.ALERT);
+        UiTask<Coin> task = new UiTask<>(false, UiType.COIN, UiSubtype.ALERT, coin, null);
         openActivity(ToolsActivity.class, task);
     }
 }

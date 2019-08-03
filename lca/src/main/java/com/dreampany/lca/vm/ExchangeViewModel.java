@@ -137,7 +137,7 @@ public class ExchangeViewModel
         SmartMap<String, ExchangeItem> map = getUiMap();
         ExchangeItem item = map.get(exchange.getId());
         if (item == null) {
-            item = ExchangeItem.getItem(exchange);
+            item = ExchangeItem.Companion.getItem(exchange);
             map.put(exchange.getId(), item);
         }
         item.setItem(exchange);

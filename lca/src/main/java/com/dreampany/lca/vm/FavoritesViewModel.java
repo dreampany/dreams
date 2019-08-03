@@ -251,8 +251,7 @@ public class FavoritesViewModel
         SmartMap<String, CoinItem> map = getUiMap();
         CoinItem item = map.get(coin.getId());
         if (item == null) {
-            item = CoinItem.getSimpleItem(coin, currency);
-            item.setFormatter(formatter);
+            item = CoinItem.Companion.getSimpleItem(coin, currency, formatter);
             map.put(coin.getId(), item);
         }
         item.setItem(coin);

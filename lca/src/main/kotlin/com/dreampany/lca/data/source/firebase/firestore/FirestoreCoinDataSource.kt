@@ -185,7 +185,7 @@ class FirestoreCoinDataSource constructor(
         val collection = Constants.FirebaseKey.CRYPTO
         val document = coin.id
         val paths = TreeSet<MutablePair<String, String>>()
-        paths.add(MutablePair.of(coin.source.name, Constants.FirebaseKey.COINS))
+        paths.add(MutablePair.of(coin.source!!.name, Constants.FirebaseKey.COINS))
 
         val error = firestore.setItemRx(collection, paths, document, coin).blockingGet()
         if (error == null) {
@@ -214,7 +214,7 @@ class FirestoreCoinDataSource constructor(
         val items = Maps.newHashMap<String, MutableTriple<String, String, Coin>>()
         for (coin in coins) {
             items[coin.id] =
-                MutableTriple.of(coin.source.name, Constants.FirebaseKey.COINS, coin)
+                MutableTriple.of(coin.source!!.name, Constants.FirebaseKey.COINS, coin)
         }
         val error = firestore.setItemsRx(collection, items).blockingGet()
         if (error == null) {
@@ -305,9 +305,9 @@ class FirestoreCoinDataSource constructor(
 
 
     private fun putQuote(coin: Coin): Long {
-        val latest = coin.latestQuote
+        val latest = coin.getLatestQuote()
         return if (latest != null) {
-            putQuote(coin.source, latest)
+            putQuote(coin.source!!, latest)
         } else 0
     }
 
@@ -315,10 +315,10 @@ class FirestoreCoinDataSource constructor(
         val collection = Constants.FirebaseKey.CRYPTO
         val items = Maps.newHashMap<String, MutableTriple<String, String, Quote>>()
         for (coin in coins) {
-            val latest = coin.latestQuote
+            val latest = coin.getLatestQuote()
             if (latest != null) {
                 items[latest.id + latest.currency.name] =
-                    MutableTriple.of(coin.source.name, Constants.FirebaseKey.QUOTES, latest)
+                    MutableTriple.of(coin.source!!.name, Constants.FirebaseKey.QUOTES, latest)
             }
         }
         if (!items.isEmpty()) {

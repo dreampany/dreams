@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dreampany.frame.data.model.Base;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.frame.util.TextUtil;
@@ -28,7 +29,7 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class IcoItem extends BaseItem<Ico, IcoItem.ViewHolder> {
+public class IcoItem extends BaseItem<Ico, IcoItem.ViewHolder, String> {
 
     private IcoItem(Ico ico, @LayoutRes int layoutId) {
         super(ico, layoutId);
@@ -57,12 +58,20 @@ public class IcoItem extends BaseItem<Ico, IcoItem.ViewHolder> {
     }
 
     @Override
+    public boolean filter(String constraint) {
+        if (getItem().getName().toLowerCase().startsWith(((String) constraint).toLowerCase())) {
+            return true;
+        }
+        return false;
+    }
+
+/*    @Override
     public boolean filter(Serializable constraint) {
         if (item.getName().toLowerCase().startsWith(((String) constraint).toLowerCase())) {
             return true;
         }
         return false;
-    }
+    }*/
 
     static class ViewHolder extends BaseItem.ViewHolder {
 
@@ -117,6 +126,11 @@ public class IcoItem extends BaseItem<Ico, IcoItem.ViewHolder> {
                 timeDrawable = getContext().getResources().getDrawable(getTimeDrawable(ico.getStatus()));
                 time.setCompoundDrawablesWithIntrinsicBounds(timeDrawable, null, null, null);
             }*/
+        }
+
+        @Override
+        public <VH extends BaseItem.ViewHolder, T extends Base, S extends Serializable, I extends BaseItem<T, VH, S>> void bind(int position, @NotNull I item) {
+
         }
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.vm;
 
 import android.app.Activity;
@@ -24,11 +25,13 @@ import javax.inject.Inject;
 import io.reactivex.Maybe;
 import io.reactivex.disposables.Disposable;
 
+*/
 /**
  * Created by Hawladar Roman on 7/24/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
 
     @Inject
@@ -77,3 +80,4 @@ public class MoreViewModel extends BaseViewModel<More, MoreItem, UiTask<More>> {
         SettingsUtil.feedback(activity);
     }
 }
+*/

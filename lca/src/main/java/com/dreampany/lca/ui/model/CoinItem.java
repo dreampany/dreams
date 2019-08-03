@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.ui.model;
 
 import android.text.format.DateUtils;
@@ -34,11 +35,13 @@ import androidx.annotation.StringRes;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
+*/
 /**
  * Created by Hawladar Roman on 5/31/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
 
     private CurrencyFormatter formatter;
@@ -51,10 +54,6 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         super(coin, layoutId);
         this.currency = currency;
         this.type = type;
-    }
-
-    public static CoinItem getProgressItem() {
-        return new CoinItem(null, null, CoinItemType.PROGRESS, R.layout.item_progress);
     }
 
     public static CoinItem getSimpleItem(@NonNull Coin coin, Currency currency) {
@@ -102,9 +101,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         if (this == in) return true;
         if (in == null || getClass() != in.getClass()) return false;
         CoinItem item = (CoinItem) in;
-        return Objects.equal(item.getItem(), getItem())
-                && item.type == type/*
-                && (item.type != CoinItemType.QUOTE|| item.currency == currency)*/;
+        return Objects.equal(item.getItem(), getItem()) && item.type == type;
     }
 
     @Override
@@ -433,3 +430,4 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
         }
     }
 }
+*/

@@ -15,6 +15,7 @@ import kotlin.collections.ArrayList
  * hawladar.roman@bjitgroup.com
  */
 open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) : BindingFlexibleAdapter<T>(listener) {
+
     var clickListener: View.OnClickListener? = null
         private set
     var longClickListener: View.OnLongClickListener? = null

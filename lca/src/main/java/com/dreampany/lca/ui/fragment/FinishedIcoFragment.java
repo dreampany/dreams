@@ -3,14 +3,12 @@ package com.dreampany.lca.ui.fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.FragmentScope;
@@ -20,38 +18,29 @@ import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
-import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.ViewUtil;
 import com.dreampany.lca.R;
-import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.data.model.Ico;
 import com.dreampany.lca.databinding.FragmentIcoBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
-import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.IcoAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
 import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.IcoItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.FinishedIcoViewModel;
-
-import net.cachapa.expandablelayout.ExpandableLayout;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-
-import javax.inject.Inject;
-
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
+import net.cachapa.expandablelayout.ExpandableLayout;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import im.delight.android.webview.AdvancedWebView;
+import javax.inject.Inject;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -177,13 +166,13 @@ public class FinishedIcoFragment
         binding = (FragmentIcoBinding) super.binding;
 
         binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
-        ViewUtil.setText(this, R.id.text_empty, R.string.empty_finished_ico);
+        ViewUtil.Companion.setText(this, R.id.text_empty, R.string.empty_finished_ico);
 
         refresh = binding.layoutRefresh;
         expandable = binding.layoutTopStatus.layoutExpandable;
         recycler = binding.layoutRecycler.recycler;
 
-        ViewUtil.setSwipe(refresh, this);
+        ViewUtil.Companion.setSwipe(refresh, this);
 
         UiTask<Ico> uiTask = getCurrentTask(true);
         vm = ViewModelProviders.of(this, factory).get(FinishedIcoViewModel.class);
@@ -199,7 +188,7 @@ public class FinishedIcoFragment
         adapter = new IcoAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener();
-        ViewUtil.setRecycler(
+        ViewUtil.Companion.setRecycler(
                 adapter,
                 recycler,
                 new SmoothScrollLinearLayoutManager(Objects.requireNonNull(getContext())),
@@ -287,10 +276,7 @@ public class FinishedIcoFragment
     }
 
     private void openCoinUi(Ico ico) {
-        UiTask<Ico> task = new UiTask<>(true);
-        task.setComment(ico.getIcoWatchListUrl());
-        task.setUiType(UiType.ICO);
-        task.setSubtype(UiSubtype.VIEW);
+        UiTask<Ico> task = new UiTask<>(true, UiType.ICO, UiSubtype.VIEW, null, ico.getIcoWatchListUrl());
         openActivity(ToolsActivity.class, task);
     }
 }

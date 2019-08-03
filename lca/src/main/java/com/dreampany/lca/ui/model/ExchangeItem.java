@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.ui.model;
 
 import androidx.annotation.LayoutRes;
@@ -15,11 +16,13 @@ import java.util.List;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
+*/
 /**
  * Created by Hawladar Roman on 5/31/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class ExchangeItem extends BaseItem<Exchange, ExchangeItem.ViewHolder> {
 
     private ExchangeItem(@NonNull Exchange exchange,
@@ -73,3 +76,4 @@ public class ExchangeItem extends BaseItem<Exchange, ExchangeItem.ViewHolder> {
 
 
 }
+*/

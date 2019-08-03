@@ -213,8 +213,7 @@ public class NotifyViewModel {
         return Flowable.fromIterable(result)
                 .filter(this::isProfitable)
                 .map(coin -> {
-                    CoinItem item = CoinItem.getSimpleItem(coin, currency);
-                    item.setFormatter(formatter);
+                    CoinItem item = CoinItem.Companion.getSimpleItem(coin, currency, formatter);
                     return item;
                 })
                 .toList()
@@ -233,7 +232,7 @@ public class NotifyViewModel {
 
     private Maybe<List<NewsItem>> getNewsItemsRx(List<News> result) {
         return Flowable.fromIterable(result)
-                .map(NewsItem::getItem)
+                .map(NewsItem.Companion::getItem)
                 .toList()
                 .toMaybe();
     }
@@ -264,10 +263,7 @@ public class NotifyViewModel {
             message = formatter.formatPrice(coin.getSymbol(), coin.getName(), price, dayChange, currency);
 
             targetClass = NavigationActivity.class;
-            task = new UiTask<>(false);
-            task.setInput(coin);
-            task.setUiType(UiType.COIN);
-            task.setSubtype(UiSubtype.VIEW);
+            task = new UiTask<>(false,UiType.COIN, UiSubtype.VIEW, coin, null);
         } else {
             message = TextUtil.getString(app, R.string.profitable_coins_motto);
         }
@@ -310,10 +306,7 @@ public class NotifyViewModel {
             }
 
             targetClass = NavigationActivity.class;
-            task = new UiTask<>(false);
-            task.setInput(coin);
-            task.setUiType(UiType.COIN);
-            task.setSubtype(UiSubtype.VIEW);
+            task = new UiTask<>(false, UiType.COIN, UiSubtype.VIEW, coin, null);
         }
 
         notify.showNotification(
@@ -344,11 +337,7 @@ public class NotifyViewModel {
         message.append(news.getItem().getBody());
 
         Class<?> targetClass = NavigationActivity.class;
-        UiTask<News> task = new UiTask<>(true);
-        task.setComment(news.getItem().getUrl());
-        task.setInput(news.getItem());
-        task.setUiType(UiType.NEWS);
-        task.setSubtype(UiSubtype.VIEW);
+        UiTask<News> task = new UiTask<>(true, UiType.NEWS, UiSubtype.VIEW, news.getItem(), news.getItem().getUrl());
 
         notify.showNotification(
                 title,

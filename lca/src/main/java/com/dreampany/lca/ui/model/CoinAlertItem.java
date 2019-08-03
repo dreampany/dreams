@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.StringRes;
+import com.dreampany.frame.data.model.Base;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.frame.util.FrescoUtil;
 import com.dreampany.frame.util.ViewUtil;
@@ -30,7 +31,7 @@ import java.util.Locale;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder> {
+public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder, String> {
 
     private Coin coin;
     private boolean empty;
@@ -64,9 +65,9 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
     }
 
     @Override
-    public boolean filter(Serializable constraint) {
+    public boolean filter(String constraint) {
         String keyword = coin.getName() + coin.getSymbol() + coin.getSlug();
-        return keyword.toLowerCase().contains(((String) constraint).toLowerCase());
+        return keyword.toLowerCase().contains(( constraint).toLowerCase());
     }
 
     public void setCoin(Coin coin) {
@@ -161,20 +162,25 @@ public class CoinAlertItem extends BaseItem<CoinAlert, CoinAlertItem.ViewHolder>
             if (alert.hasPriceUp()) {
                 textPriceUp.setText(String.format(usdFormat, alert.getPriceUp()));
             } else {
-                ViewUtil.hide(layoutPriceUp);
+                ViewUtil.Companion.hide(layoutPriceUp);
             }
             if (alert.hasPriceDown()) {
                 textPriceDown.setText(String.format(usdFormat, alert.getPriceDown()));
             } else {
-                ViewUtil.hide(layoutPriceDown);
+                ViewUtil.Companion.hide(layoutPriceDown);
             }
 
             if (item.getDeleting()) {
-                ViewUtil.visible(imageDelete);
+                ViewUtil.Companion.visible(imageDelete);
             } else {
-                ViewUtil.hide(imageDelete);
+                ViewUtil.Companion.hide(imageDelete);
             }
             imageDelete.setTag(item);
+        }
+
+        @Override
+        public <VH extends BaseItem.ViewHolder, T extends Base, S extends Serializable, I extends BaseItem<T, VH, S>> void bind(int position, @NotNull I item) {
+
         }
     }
 }

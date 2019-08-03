@@ -1,33 +1,34 @@
+/*
 package com.dreampany.lca.ui.model;
 
 import android.view.View;
-
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
-
+import androidx.recyclerview.widget.RecyclerView;
+import com.dreampany.frame.data.model.Base;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Graph;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-
+import eu.davidea.flexibleadapter.FlexibleAdapter;
+import eu.davidea.flexibleadapter.items.IFlexible;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.List;
 
-import eu.davidea.flexibleadapter.FlexibleAdapter;
-import eu.davidea.flexibleadapter.items.IFlexible;
-
+*/
 /**
  * Created by Hawladar Roman on 5/31/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
-public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
+ *//*
+
+public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder, String> {
 
     private Currency currency;
     private LineData lineData;
@@ -50,21 +51,6 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
 
     public static GraphItem getItem(@NonNull Graph graph, @NonNull Currency currency) {
         return new GraphItem(graph, currency, 0);
-    }
-
-    @Override
-    public ViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
-        return new ViewHolder(view, adapter);
-    }
-
-    @Override
-    public void bindViewHolder(FlexibleAdapter<IFlexible> adapter, ViewHolder holder, int position, List<Object> payloads) {
-
-    }
-
-    @Override
-    public boolean filter(Serializable constraint) {
-        return false;
     }
 
     public void setLineData(LineData lineData) {
@@ -133,9 +119,20 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
         return changeInPercentColor;
     }
 
-    public ValueFormatter getXAxisValueFormatter() {
+    public ValueFormatter getValueFormatter() {
         return valueFormatter;
     }
+
+    @Override
+    public ViewHolder createViewHolder(View view, FlexibleAdapter<IFlexible> adapter) {
+        return null;
+    }
+
+    @Override
+    public boolean filter(String constraint) {
+        return false;
+    }
+
 
     static class ViewHolder extends BaseItem.ViewHolder {
 
@@ -160,7 +157,13 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
                     getText(keyResId),
                     value);
         }
+
+        @Override
+        public <VH extends BaseItem.ViewHolder, T extends Base, S extends Serializable, I extends BaseItem<T, VH, S>> void bind(int position, @NotNull I item) {
+
+        }
     }
 
 
 }
+*/

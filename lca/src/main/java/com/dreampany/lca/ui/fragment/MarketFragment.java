@@ -145,7 +145,7 @@ public class MarketFragment
     public boolean onItemClick(View view, int position) {
         if (position != RecyclerView.NO_POSITION) {
             MarketItem item = adapter.getItem(position);
-            mvm.openMarket(getActivity(), Objects.requireNonNull(item).getItem().getMarket());
+            mvm.openMarket(this, Objects.requireNonNull(item).getItem().getMarket());
             return true;
         }
         return false;
@@ -159,7 +159,7 @@ public class MarketFragment
 
         currencyDropDown = binding.dropDownCurrency;
 
-        ViewUtil.setSwipe(refresh, this);
+        ViewUtil.Companion.setSwipe(refresh, this);
         //ViewUtil.setClickListener(this, R.id.button_empty);
         currencyDropDown.setOnDropDownItemClickListener(this);
 
@@ -182,7 +182,7 @@ public class MarketFragment
         adapter = new MarketAdapter(this);
         adapter.setStickyHeaders(false);
         scroller = new OnVerticalScrollListener();
-        ViewUtil.setRecycler(
+        ViewUtil.Companion.setRecycler(
                 adapter,
                 recycler,
                 new SmoothScrollLinearLayoutManager(Objects.requireNonNull(getContext())),

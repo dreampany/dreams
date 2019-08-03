@@ -120,7 +120,7 @@ class ToolsActivity : BaseActivity() {
                     }
                 }
             }
-            UiType.GRAPH, UiType.ICO, UiType.NEWS -> {
+            UiType.GRAPH, UiType.ICO, UiType.NEWS, UiType.SITE -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         openActivity(WebActivity::class.java, uiTask, true)

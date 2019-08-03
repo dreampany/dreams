@@ -7,6 +7,7 @@ import androidx.annotation.StringRes;
 import android.view.View;
 import android.widget.TextView;
 
+import com.dreampany.frame.data.model.Base;
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.frame.util.ColorUtil;
 import com.dreampany.frame.util.TextUtil;
@@ -26,7 +27,7 @@ import eu.davidea.flexibleadapter.items.IFlexible;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public class MarketItem extends BaseItem<Market, MarketItem.ViewHolder> {
+public class MarketItem extends BaseItem<Market, MarketItem.ViewHolder, String> {
 
     private String volume24h;
     private String price;
@@ -55,7 +56,7 @@ public class MarketItem extends BaseItem<Market, MarketItem.ViewHolder> {
     }
 
     @Override
-    public boolean filter(Serializable constraint) {
+    public boolean filter(String constraint) {
         return false;
     }
 
@@ -95,7 +96,7 @@ public class MarketItem extends BaseItem<Market, MarketItem.ViewHolder> {
             name.setText(market.getMarket());
             volume24h.setText(item.volume24h);
             changePct24h.setText(TextUtil.getString(getContext(), item.changePct24hFormat, market.getChangePct24h()));
-            changePct24h.setTextColor(ColorUtil.getColor(getContext(), item.changePct24hColor));
+            changePct24h.setTextColor(ColorUtil.Companion.getColor(getContext(), item.changePct24hColor));
             price.setText(item.price);
         }
 
@@ -115,6 +116,11 @@ public class MarketItem extends BaseItem<Market, MarketItem.ViewHolder> {
                     getText(R.string.coin_format),
                     getText(keyResId),
                     value);
+        }
+
+        @Override
+        public <VH extends BaseItem.ViewHolder, T extends Base, S extends Serializable, I extends BaseItem<T, VH, S>> void bind(int position, @NotNull I item) {
+
         }
     }
 

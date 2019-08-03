@@ -222,7 +222,7 @@ class RoomCoinDataSource constructor(
     override fun putItem(coin: Coin): Long {
         mapper.add(coin) //adding mapper to reuse
         if (coin.hasQuote()) {
-            quoteDao.insertOrReplace(coin.quotesAsList!!)
+            quoteDao.insertOrReplace(coin.getQuotesAsList()!!)
         }
         return dao.insertOrReplace(coin)
     }

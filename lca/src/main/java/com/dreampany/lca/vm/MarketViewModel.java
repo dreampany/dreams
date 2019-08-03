@@ -1,12 +1,9 @@
 package com.dreampany.lca.vm;
 
-import android.app.Activity;
 import android.app.Application;
-
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
-
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.AppExecutors;
@@ -15,7 +12,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.util.AndroidUtil;
+import com.dreampany.frame.ui.fragment.BaseFragment;
 import com.dreampany.frame.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
@@ -23,22 +20,21 @@ import com.dreampany.lca.data.model.Market;
 import com.dreampany.lca.data.source.repository.MarketRepository;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.misc.CurrencyFormatter;
-import com.dreampany.lca.ui.activity.WebActivity;
+import com.dreampany.lca.ui.activity.ToolsActivity;
+import com.dreampany.lca.ui.enums.UiSubtype;
+import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.MarketItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.network.manager.NetworkManager;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
-import im.delight.android.webview.AdvancedWebView;
 import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * Created by Hawladar Roman on 6/12/2018.
@@ -151,15 +147,10 @@ public class MarketViewModel
         return changePct24h >= 0.0f ? R.color.material_green500 : R.color.material_red500;
     }
 
-    public void openMarket(Activity activity, String market) {
+    public void openMarket(BaseFragment fragment, String market) {
         String webUrl = Constants.Api.CryptoCompareMarketOverviewUrl;
         String url = String.format(webUrl, market);
-        if (AdvancedWebView.Browsers.hasAlternative(activity)) {
-            AdvancedWebView.Browsers.openUrl(activity, url);
-        } else {
-            UiTask<?> task = new UiTask<>(true);
-            task.setComment(url);
-            AndroidUtil.openActivity(activity, WebActivity.class, task);
-        }
+        UiTask<?> task = new UiTask<Market>(true, UiType.SITE, UiSubtype.VIEW, null, url);
+        fragment.openActivity(ToolsActivity.class, task);
     }
 }

@@ -24,6 +24,8 @@ abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(va
 
     var success: Boolean = false
     var favorite: Boolean = false
+    var notify: Boolean = false
+    var alert: Boolean = false
     var time: Long = 0L
 
     override fun equals(other: Any?): Boolean {

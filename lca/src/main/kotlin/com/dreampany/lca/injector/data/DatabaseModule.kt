@@ -20,7 +20,7 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideDatabase(application: Application): DatabaseManager {
-        return DatabaseManager.onInstance(application.applicationContext)
+        return DatabaseManager.getInstance(application.applicationContext)
     }
 
     @Singleton

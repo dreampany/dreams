@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.util;
 
 import android.animation.Animator;
@@ -34,11 +35,13 @@ import java.util.Objects;
 
 import eu.davidea.flexibleadapter.helpers.EmptyViewHelper;
 
+*/
 /**
  * Created by Hawladar Roman on 5/24/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public final class ViewUtil {
 
     private ViewUtil() {
@@ -121,11 +124,13 @@ public final class ViewUtil {
         }
     }
 
+*/
 /*    public static void setFancyText(MaterialFancyButton view, String text) {
         if (view != null) {
             view.setText(text);
         }
-    }*/
+    }*//*
+
 
     public static void setFabBackgroundTint(FloatingActionButton fab, int color) {
         ColorStateList fabColorStateList = new ColorStateList(
@@ -145,13 +150,15 @@ public final class ViewUtil {
             Runnable runnable = () -> ((FloatingActionButton) view).setBackgroundTintList(ColorStateList.valueOf(ColorUtil.Companion.getColor(view.getContext(), colorId)));
             view.post(runnable);
         } else if (ImageView.class.isInstance(view)) {
-            /*Runnable runnable = new Runnable() {
+            */
+/*Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
                     ((ImageView) view).setImageResource(resourceId);
                 }
             };
-            AndroidUtil.post(runnable);*/
+            AndroidUtil.post(runnable);*//*
+
         } else if (View.class.isInstance(view)) {
             view.setBackgroundColor(ColorUtil.Companion.getColor(view.getContext(), colorId));
         }
@@ -329,6 +336,7 @@ public final class ViewUtil {
         }
     }
 
+*/
 /*    mPopupWindow = new PopupWindow();
         mPopupWindow.setFocusable(true);
         mPopupWindow.setOutsideTouchable(true);
@@ -347,5 +355,7 @@ public final class ViewUtil {
         mPopupWindow.update(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     } else  {
         mPopupWindow.update();
-    }*/
+    }*//*
+
 }
+*/

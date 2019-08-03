@@ -27,7 +27,8 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class HistoryItem private constructor(
+class HistoryItem
+private constructor(
     item: History, @LayoutRes layoutId: Int = Constants.Default.INT,
     var clickListener: OnClickListener? = null
 ) : BaseItem<History, HistoryItem.ViewHolder, String>(item, layoutId) {
@@ -77,7 +78,7 @@ class HistoryItem private constructor(
         imageBucket!!.put(link, uiLinkItems)
     }
 
-    fun getImageLinkItems() : List<ImageLinkItem>? {
+    fun getImageLinkItems(): List<ImageLinkItem>? {
         if (imageBucket.isNullOrEmpty()) {
             return null
         }
@@ -92,23 +93,16 @@ class HistoryItem private constructor(
         view: View,
         adapter: FlexibleAdapter<*>,
         var clickListener: OnClickListener? = null
-    ) :
-        BaseItem.ViewHolder(view, adapter),
+    ) : BaseItem.ViewHolder(view, adapter),
         TextViewClickMovement.OnTextViewClickMovementListener {
 
         private var adapter: HistoryAdapter
-        //private var imageIcon: SimpleDraweeView
-        //private var textTitle: AppCompatTextView
-        //private var textText: AppCompatTextView
         private var textHtml: AppCompatTextView
         private var textYear: AppCompatTextView
         private var buttonFavorite: LikeButton
 
         init {
             this.adapter = adapter as HistoryAdapter
-            //imageIcon = view.findViewById(R.id.image_icon)
-            //textTitle = view.findViewById(R.id.text_title)
-            //textText = view.findViewById(R.id.text_text)
             textHtml = view.findViewById(R.id.text_html)
             textYear = view.findViewById(R.id.text_year)
             buttonFavorite = view.findViewById(R.id.button_favorite)
@@ -126,7 +120,6 @@ class HistoryItem private constructor(
                 bind(position: Int, item: I) {
             val uiItem = item as HistoryItem
             val history = uiItem.item
-            // loadImage(history)
             textHtml.text = HtmlCompat.fromHtml(history.html!!, HtmlCompat.FROM_HTML_MODE_LEGACY)
             textYear.text = TextUtil.getString(getContext(), R.string.year_format, history.year)
 
@@ -148,14 +141,6 @@ class HistoryItem private constructor(
         }
 
         override fun onLongClick(text: String) {
-        }
-
-        private fun loadImage(history: History) {
-            if (history.hasLink()) {
-                val link = history.getFirstLink()
-                val url = link?.id
-                //FrescoUtil.loadImage(imageIcon, url, false)
-            }
         }
     }
 }

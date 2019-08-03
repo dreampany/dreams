@@ -250,7 +250,7 @@ class DatabaseCoinDataSource constructor(
     }
 
     private fun putQuote(coin: Coin): Long {
-        val latest = coin.latestQuote
+        val latest = coin.getLatestQuote()
         return latest?.let { putQuote(it) } ?: 0
     }
 

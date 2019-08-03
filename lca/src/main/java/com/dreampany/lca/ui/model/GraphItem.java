@@ -1,17 +1,18 @@
 package com.dreampany.lca.ui.model;
 
+import android.view.View;
+
 import androidx.annotation.ColorRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
-import android.view.View;
 
 import com.dreampany.frame.ui.model.BaseItem;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.model.Graph;
 import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +39,7 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
     private int changeInPercentFormat;
     @ColorRes
     private int changeInPercentColor;
-    private IAxisValueFormatter xAxisValueFormatter;
+    private ValueFormatter valueFormatter;
 
     private GraphItem(Graph chart,
                       Currency currency,
@@ -94,8 +95,8 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
         this.changeInPercentColor = changeInPercentColor;
     }
 
-    public void setXAxisValueFormatter(IAxisValueFormatter xAxisValueFormatter) {
-        this.xAxisValueFormatter = xAxisValueFormatter;
+    public void setValueFormatter(ValueFormatter formatter) {
+        this.valueFormatter = formatter;
     }
 
     public Currency getCurrency() {
@@ -132,8 +133,8 @@ public class GraphItem extends BaseItem<Graph, GraphItem.ViewHolder> {
         return changeInPercentColor;
     }
 
-    public IAxisValueFormatter getXAxisValueFormatter() {
-        return xAxisValueFormatter;
+    public ValueFormatter getXAxisValueFormatter() {
+        return valueFormatter;
     }
 
     static class ViewHolder extends BaseItem.ViewHolder {

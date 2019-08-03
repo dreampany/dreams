@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import android.os.Parcel;
@@ -10,12 +11,14 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 
+*/
 /**
  * Created by Roman-372 on 2/19/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Entity(indices = {@Index(value = {Constants.CoinAlert.ID}, unique = true)},
         primaryKeys = {Constants.CoinAlert.ID})
 public class CoinAlert extends Alert {
@@ -99,3 +102,4 @@ public class CoinAlert extends Alert {
     }
 
 }
+*/

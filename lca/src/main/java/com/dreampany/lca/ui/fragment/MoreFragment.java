@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.ui.fragment;
 
 import android.os.Bundle;
@@ -34,11 +35,13 @@ import eu.davidea.flexibleadapter.common.FlexibleItemAnimator;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 
+*/
 /**
  * Created by Hawladar Roman on 5/24/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @ActivityScope
 public class MoreFragment extends BaseMenuFragment {
 
@@ -171,3 +174,4 @@ public class MoreFragment extends BaseMenuFragment {
         }
     }
 }
+*/

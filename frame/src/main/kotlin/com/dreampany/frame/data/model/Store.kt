@@ -30,7 +30,7 @@ data class Store(
     var subtype: String = Constants.Default.STRING,
     var state: String = Constants.Default.STRING,
     var data: String = Constants.Default.STRING
-) : BaseKt() {
+) : Base() {
 
     @Ignore
     constructor() : this(time = 0L) {

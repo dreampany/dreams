@@ -31,8 +31,7 @@ class NotifyWorker(
         //vm.clear()
     }
 
-    class Factory
-    @Inject constructor(private val vm: Provider<NotifyViewModel>) : IWorkerFactory<NotifyWorker> {
+    class Factory @Inject constructor(private val vm: Provider<NotifyViewModel>) : IWorkerFactory<NotifyWorker> {
         override fun create(context: Context, params: WorkerParameters): NotifyWorker {
             return NotifyWorker(context, params, vm.get())
         }

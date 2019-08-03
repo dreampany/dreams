@@ -76,7 +76,6 @@ class App : BaseApp() {
         configJob()
         clean()
         AndroidUtil.initTts(this)
-        //notify.notifyIf()
     }
 
     override fun onTerminate() {

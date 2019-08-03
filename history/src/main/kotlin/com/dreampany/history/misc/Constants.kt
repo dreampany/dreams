@@ -75,6 +75,13 @@ class Constants {
         const val HYPHEN = Constants.Sep.HYPHEN
     }
 
+    object Default {
+        val NULL = Constants.Default.NULL
+        const val INT = Constants.Default.INT
+        const val LONG = Constants.Default.LONG
+        const val STRING = Constants.Default.STRING
+    }
+
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val LANGUAGE_PICKER = "language_picker"
@@ -137,13 +144,6 @@ class Constants {
         const val HEIGHT = Constants.Parser.HEIGHT
     }
 
-    object Default {
-        val NULL = Constants.Default.NULL
-        const val INT = Constants.Default.INT
-        const val LONG = Constants.Default.LONG
-        const val STRING = Constants.Default.STRING
-    }
-
     object Network {
         const val HTTP = Constants.Network.HTTP
         const val HTTPS = Constants.Network.HTTPS
@@ -162,5 +162,13 @@ class Constants {
 
     object Pattern {
         const val PATTERN_IMAGE = Constants.Pattern.PATTERN_IMAGE
+    }
+
+    object Period {
+        val Notify = TimeUnit.MINUTES.toSeconds(1)
+    }
+
+    object Delay {
+        val Notify = TimeUnit.MINUTES.toSeconds(1)
     }
 }

@@ -30,7 +30,7 @@ data class State(
     var type: String,
     var subtype: String,
     var state: String
-) : BaseKt() {
+) : Base() {
 
     @Ignore
     constructor() : this("", "", "", "") {

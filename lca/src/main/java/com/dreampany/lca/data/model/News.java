@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import androidx.room.Entity;
@@ -9,11 +10,13 @@ import androidx.annotation.NonNull;
 import com.dreampany.frame.data.model.Base;
 import com.dreampany.lca.misc.Constants;
 
+*/
 /**
  * Created by Hawladar Roman on 6/22/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Entity(indices = {@Index(value = {Constants.News.ID}, unique = true)},
         primaryKeys = {Constants.News.ID})
 public class News extends Base {
@@ -206,3 +209,4 @@ public class News extends Base {
         return sourceInfo;
     }
 }
+*/

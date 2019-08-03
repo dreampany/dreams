@@ -1,5 +1,0 @@
--keepclasseswithmembernames class * { native <methods>; }
--keep, includedescriptorclasses class in.uncod.android.bypass.Document { *; }
--keep, includedescriptorclasses class in.uncod.android.bypass.Element { *; }
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
--keepnames class org.jsoup.nodes.Entities

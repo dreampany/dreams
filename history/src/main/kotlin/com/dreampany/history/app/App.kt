@@ -8,6 +8,7 @@ import com.dreampany.history.data.source.pref.Pref
 import com.dreampany.history.injector.app.DaggerAppComponent
 import com.dreampany.frame.app.BaseApp
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.history.misc.Constants
 import com.dreampany.history.service.NotifyService
 import dagger.android.AndroidInjector
@@ -69,11 +70,7 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
-        if (pref.hasNotification()) {
-            service.schedulePowerService(NotifyService::class.java, Constants.Time.NotifyPeriod.toInt())
-        } else {
-            service.cancel(NotifyService::class.java)
-        }
+        configJob()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -104,5 +101,44 @@ class App : BaseApp() {
                 .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
                 .enabled(!isDebug())
         ad.setConfig(config.build())
+    }
+
+    private fun configJob() {
+        if (pref.hasNotification()) {
+            job.create(
+                Constants.Tag.NOTIFY_SERVICE,
+                NotifyService::class,
+                Constants.Delay.Notify.toInt(),
+                Constants.Period.Notify.toInt()
+            )
+        } else {
+            job.cancel(Constants.Tag.NOTIFY_SERVICE)
+        }
+    }
+
+    private fun isVersionUpgraded(): Boolean {
+        val exists = pref.getVersionCode()
+        val current = AndroidUtil.getVersionCode(this)
+        if (current != exists) {
+            return true
+        }
+        return false
+    }
+
+    private fun clean() {
+        if (isVersionUpgraded()) {
+            val exists = pref.getVersionCode()
+            val current = AndroidUtil.getVersionCode(this)
+
+            when (current) {
+                45 -> {
+                    if (exists < 44) {
+
+                    }
+                }
+
+            }
+            pref.setVersionCode(current)
+        }
     }
 }

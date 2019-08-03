@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import android.content.Context;
@@ -12,11 +13,13 @@ import com.dreampany.lca.data.source.dao.*;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
+*/
 /**
  * Created by Hawladar Roman on 3/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 @Database(
         entities = {
                 Coin.class,
@@ -31,7 +34,7 @@ import com.google.common.collect.Iterables;
         },
         version = 16
 )
-@TypeConverters(Converters.class)
+@TypeConverters({Converters.class})
 public abstract class DatabaseManager extends RoomDatabase {
     private static final String DATABASE = Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(BuildConfig.APPLICATION_ID)).concat("-db");
     private static volatile DatabaseManager instance;
@@ -73,4 +76,4 @@ public abstract class DatabaseManager extends RoomDatabase {
 
     public abstract CoinAlertDao coinAlertDao();
 
-}
+}*/

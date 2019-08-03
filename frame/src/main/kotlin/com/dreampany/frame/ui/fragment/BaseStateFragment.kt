@@ -86,17 +86,17 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
             if (hasColor() && applyColor()) {
                 tabLayout.setBackgroundColor(
                     ColorUtil.getColor(
-                        getContext(),
-                        color!!.getPrimaryId()
+                        context!!,
+                        color!!.primaryId
                     )
                 )
                 tabLayout.setSelectedTabIndicatorColor(
-                    ColorUtil.getColor(getContext(), R.color.material_white)
+                    ColorUtil.getColor(context!!, R.color.material_white)
                 )
 
                 tabLayout.setTabTextColors(
-                    ColorUtil.getColor(context, R.color.material_grey200),
-                    ColorUtil.getColor(context, R.color.material_white)
+                    ColorUtil.getColor(context!!, R.color.material_grey200),
+                    ColorUtil.getColor(context!!, R.color.material_white)
                 )
             }
         }

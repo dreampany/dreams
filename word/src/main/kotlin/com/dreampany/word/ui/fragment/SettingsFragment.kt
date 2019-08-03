@@ -1,6 +1,7 @@
 package com.dreampany.word.ui.fragment
 
 import android.os.Bundle
+import com.dreampany.frame.api.service.JobManager
 import com.dreampany.frame.api.service.ServiceManager
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.misc.RxMapper
@@ -24,7 +25,7 @@ class SettingsFragment @Inject constructor() : BaseMenuFragment() {
     @Inject
     internal lateinit var rx: RxMapper
     @Inject
-    internal lateinit var service: ServiceManager
+    internal lateinit var job: JobManager
     @Inject
     internal lateinit var pref: Pref
     private val disposables: CompositeDisposable
@@ -63,9 +64,14 @@ class SettingsFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun configJob() {
         if (pref.hasNotification()) {
-            service.schedulePowerService(NotifyService::class.java, Constants.Time.NotifyPeriod.toInt())
+            job.create(
+                Constants.Tag.NOTIFY_SERVICE,
+                NotifyService::class,
+                Constants.Delay.Notify.toInt(),
+                Constants.Period.Notify.toInt()
+            )
         } else {
-            service.cancel(NotifyService::class.java)
+            job.cancel(Constants.Tag.NOTIFY_SERVICE)
         }
     }
 

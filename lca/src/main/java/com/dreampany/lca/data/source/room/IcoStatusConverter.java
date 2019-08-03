@@ -1,14 +1,17 @@
+/*
 package com.dreampany.lca.data.source.room;
 
 import androidx.room.TypeConverter;
 
 import com.dreampany.lca.data.enums.IcoStatus;
 
+*/
 /**
  * Created by Hawladar Roman on 15/6/18.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class IcoStatusConverter {
     @TypeConverter
     public static IcoStatus toStatus(String name) {
@@ -20,3 +23,4 @@ public class IcoStatusConverter {
         return status.name();
     }
 }
+*/

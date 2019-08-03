@@ -9,7 +9,6 @@ import android.os.StrictMode
 import com.dreampany.frame.BuildConfig
 import com.dreampany.frame.R
 import com.dreampany.frame.api.service.JobManager
-import com.dreampany.frame.api.service.ServiceManager
 import com.dreampany.frame.api.worker.WorkerManager
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.misc.AppExecutors
@@ -55,8 +54,8 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     @Inject
     protected lateinit var ad: SmartAd
-    @Inject
-    protected lateinit var service: ServiceManager
+/*    @Inject
+    protected lateinit var service: ServiceManager*/
     @Inject
     protected lateinit var job: JobManager
     @Inject
@@ -218,9 +217,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
             }
         }
         if (hasColor()) {
-            color = ColorUtil.createColor(
-                R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent
-            )
+            color = ColorUtil.createColor(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
         }
 
         registerActivityLifecycleCallbacks(this)

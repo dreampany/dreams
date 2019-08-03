@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseParcelKt
+import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.lca.misc.Constants
-import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -17,71 +17,25 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 @Entity(
-    indices = [Index(value = [Constants.SourceInfo.ID], unique = true)],
+    indices = [Index(
+        value = [Constants.SourceInfo.ID],
+        unique = true
+    )],
     primaryKeys = [Constants.SourceInfo.ID]
 )
 data class SourceInfo(
-
-    @ColumnInfo(name = Constants.SourceInfo.ID)
-    private var id: String,
-    @ColumnInfo(name = Constants.SourceInfo.NAME)
-    private var name: String,
-    @ColumnInfo(name = Constants.SourceInfo.LANGUAGE)
-    private var language: String,
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    private var name: String = Constants.Default.STRING,
+    private var language: String = Constants.Default.STRING,
     @ColumnInfo(name = Constants.SourceInfo.IMAGE_URL)
-    private var imageUrl: String
+    private var imageUrl: String = Constants.Default.STRING
 
-) : BaseParcelKt() {
+) : Base() {
 
     @Ignore
-    constructor() : this ("") {
-
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
     }
 
-    constructor(id: String): this(id, "", "", "") {
-
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        val item = other as SourceInfo
-        return Objects.equal(item.id, id)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
-    }
-
-    fun setId(id : String) {
-        this.id = id
-    }
-
-    fun getId() : String {
-        return id
-    }
-
-    fun setName(name: String) {
-        this.name = name
-    }
-
-    fun getName() : String {
-        return name
-    }
-
-    fun setLanguage(language: String) {
-        this.language = language
-    }
-
-    fun getLanguage() : String {
-        return language
-    }
-
-    fun setImageUrl(imageUrl: String) {
-        this.imageUrl = imageUrl
-    }
-
-    fun getImageUrl() : String {
-        return imageUrl
-    }
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {}
 }

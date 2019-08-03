@@ -6,13 +6,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableArrayList;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-//import com.dreampany.frame.data.enums.EventType;
+
 import com.dreampany.frame.data.enums.UiState;
 import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.misc.ActivityScope;
@@ -31,26 +32,29 @@ import com.dreampany.lca.data.model.News;
 import com.dreampany.lca.databinding.FragmentNewsBinding;
 import com.dreampany.lca.misc.Constants;
 import com.dreampany.lca.ui.activity.ToolsActivity;
-import com.dreampany.lca.ui.activity.WebActivity;
 import com.dreampany.lca.ui.adapter.NewsAdapter;
 import com.dreampany.lca.ui.enums.UiSubtype;
 import com.dreampany.lca.ui.enums.UiType;
 import com.dreampany.lca.ui.model.NewsItem;
 import com.dreampany.lca.ui.model.UiTask;
 import com.dreampany.lca.vm.NewsViewModel;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+
+import javax.inject.Inject;
+
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
 
-import im.delight.android.webview.AdvancedWebView;
-import net.cachapa.expandablelayout.ExpandableLayout;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.inject.Inject;
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+//import com.dreampany.frame.data.enums.EventType;
 
 /**
  * Created by Hawladar Roman on 6/22/2018.
@@ -119,7 +123,7 @@ public class NewsFragment
     @Override
     public void onMenuCreated(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         MenuItem searchItem = findMenuItemById(R.id.item_search);
-        MenuTint.colorMenuItem(searchItem, ColorUtil.getColor(getContext(), R.color.material_white), null);
+        MenuTint.colorMenuItem(searchItem, ColorUtil.Companion.getColor(getContext(), R.color.material_white), null);
     }
 
     @Override
@@ -314,11 +318,7 @@ public class NewsFragment
     }
 
     private void openNewsUi(News news) {
-        UiTask<News> task = new UiTask<>(true);
-        task.setComment(news.getUrl());
-        task.setInput(news);
-        task.setUiType(UiType.NEWS);
-        task.setSubtype(UiSubtype.VIEW);
+        UiTask<News> task = new UiTask<>(true, UiType.NEWS, UiSubtype.VIEW, news, news.getUrl());
         openActivity(ToolsActivity.class, task);
     }
 }

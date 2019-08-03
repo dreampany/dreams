@@ -3,7 +3,7 @@ package com.dreampany.history.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Link
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.history.data.enums.HistorySource
@@ -40,7 +40,7 @@ data class History(
     var url: String? = Constants.Default.NULL,
     var links: MutableList<Link>? = Constants.Default.NULL
 
-) : BaseKt() {
+) : Base() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

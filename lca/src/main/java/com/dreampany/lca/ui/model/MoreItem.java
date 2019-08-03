@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.ui.model;
 
 import androidx.annotation.LayoutRes;
@@ -17,9 +18,11 @@ import java.util.List;
 import eu.davidea.flexibleadapter.FlexibleAdapter;
 import eu.davidea.flexibleadapter.items.IFlexible;
 
+*/
 /**
  * Created by air on 10/18/17.
- */
+ *//*
+
 
 public class MoreItem extends BaseItem<More, MoreItem.ViewHolder> implements IFlexible<MoreItem.ViewHolder> {
 
@@ -99,3 +102,4 @@ public class MoreItem extends BaseItem<More, MoreItem.ViewHolder> implements IFl
     }
 
 }
+*/

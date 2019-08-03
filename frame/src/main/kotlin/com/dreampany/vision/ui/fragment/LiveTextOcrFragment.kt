@@ -58,8 +58,7 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
         val clearItem = menu.findItem(R.id.item_clear)
         val doneItem = menu.findItem(R.id.item_done)
         MenuTint.colorMenuItem(
-            ColorUtil.getColor(context, R.color.material_white),
-            null,
+            ColorUtil.getColor(context!!, R.color.material_white), null,
             clearItem, doneItem
         )
 

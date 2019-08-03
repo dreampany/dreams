@@ -376,7 +376,7 @@ public class GraphFragment
         String timeTypeValue = vm.getTimeTypeValue(timeType);
         String change = String.format(TextUtil.getString(getContext(), format), timeTypeValue, changeInPercent, Math.abs(differencePrice));
         binding.textChange.setText(change);
-        binding.textChange.setTextColor(ColorUtil.getColor(getContext(), color));
+        binding.textChange.setTextColor(ColorUtil.Companion.getColor(getContext(), color));
     }
 
     public void openMoreGraphSite() {
@@ -386,10 +386,7 @@ public class GraphFragment
         String webUrl = Constants.Api.CoinMarketCapSiteUrl;
         String url = String.format(webUrl, coin.getSlug());
 
-        UiTask<Graph> outTask = new UiTask<>(true);
-        outTask.setComment(url);
-        outTask.setUiType(UiType.GRAPH);
-        outTask.setSubtype(UiSubtype.VIEW);
+        UiTask<Graph> outTask = new UiTask<>(true, UiType.GRAPH, UiSubtype.VIEW, null, url);
         openActivity(ToolsActivity.class, outTask);
     }
 }

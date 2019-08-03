@@ -4,7 +4,7 @@ import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.lca.ui.activity.LaunchActivity
 import com.dreampany.lca.ui.activity.NavigationActivity
 import com.dreampany.lca.ui.activity.ToolsActivity
-import com.dreampany.lca.ui.activity.WebActivity
+import com.dreampany.frame.ui.activity.WebActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

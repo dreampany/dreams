@@ -1,11 +1,14 @@
+/*
 package com.dreampany.frame.data.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+*/
 /**
  * Created by nuc on 1/24/2016.
- */
+ *//*
+
 public class Color extends BaseParcel {
 
     private int primaryId;
@@ -72,3 +75,4 @@ public class Color extends BaseParcel {
         return this;
     }
 }
+*/

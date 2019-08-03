@@ -1,12 +1,10 @@
 package com.dreampany.lca.data.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.lca.data.enums.CoinSource
 import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.misc.Constants
@@ -14,7 +12,7 @@ import com.google.common.collect.Maps
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
 /**
@@ -23,6 +21,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
@@ -31,44 +30,48 @@ import java.util.*
     )],
     primaryKeys = [Constants.Coin.ID]
 )
-class Coin(
-    override var time: Long,
-    override var id: String
-) : BaseKt() {
+data class Coin(
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    var source: CoinSource? = Constants.Default.NULL,
+    var name: String? = Constants.Default.NULL,
+    var symbol: String? = Constants.Default.NULL,
+    var slug: String? = Constants.Default.NULL,
+    var rank: Int = Constants.Default.INT,
 
-    var source: CoinSource? = null
-    var name: String? = null
-    var symbol: String? = null
-    var slug: String? = null
-    var rank: Int = 0
     @PropertyName(Constants.Coin.MARKET_PAIRS)
-    private var marketPairs: Int = 0
+    private var marketPairs: Int = Constants.Default.INT,
+
     @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
-    private var circulatingSupply: Double = 0.0
+    private var circulatingSupply: Double = Constants.Default.DOUBLE,
+
     @PropertyName(Constants.Coin.TOTAL_SUPPLY)
-    private var totalSupply: Double = 0.0
+    private var totalSupply: Double = Constants.Default.DOUBLE,
+
     @PropertyName(Constants.Coin.MAX_SUPPLY)
-    private var maxSupply: Double = 0.0
+    private var maxSupply: Double = Constants.Default.DOUBLE,
+
     @PropertyName(Constants.Coin.LAST_UPDATED)
-    private var lastUpdated: Long = 0
+    private var lastUpdated: Long = Constants.Default.LONG,
+
     @PropertyName(Constants.Coin.DATE_ADDED)
-    private var dateAdded: Long = 0
-    var tags: MutableList<String>? = null
+    private var dateAdded: Long = Constants.Default.LONG,
+
+    var tags: MutableList<String>? = Constants.Default.NULL,
+
     @Ignore
     @Exclude
-    private var quotes: MutableMap<Currency, Quote>? = null
+    private var quotes: MutableMap<Currency, Quote>? =  Constants.Default.NULL
+
+) : Base() {
 
     @Ignore
-    constructor() : this("") {
+    constructor() : this(time = TimeUtilKt.currentMillis()) {}
 
-    }
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {}
 
-    constructor(id: String) : this(TimeUtil.currentTime(), id) {
-
-    }
-
-    @Ignore
-    private constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
+/*    @Ignore
+    private constructor (parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
         source = parcel.readParcelable(CoinSource::class.java.classLoader)
         name = parcel.readString()
         symbol = parcel.readString()
@@ -101,9 +104,9 @@ class Coin(
         dest.writeLong(dateAdded)
         dest.writeStringList(tags)
         dest.writeSerializable(quotes as Serializable)
-    }
+    }*/
 
-    companion object CREATOR : Parcelable.Creator<Coin> {
+/*    companion object CREATOR : Parcelable.Creator<Coin> {
         override fun createFromParcel(parcel: Parcel): Coin {
             return Coin(parcel)
         }
@@ -111,7 +114,7 @@ class Coin(
         override fun newArray(size: Int): Array<Coin?> {
             return arrayOfNulls(size)
         }
-    }
+    }*/
 
     override fun toString(): String {
         return "Coin ($id) == $id"

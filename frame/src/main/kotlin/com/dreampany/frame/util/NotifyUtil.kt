@@ -1,12 +1,10 @@
 package com.dreampany.frame.util
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.view.Gravity
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -16,6 +14,7 @@ import com.dreampany.frame.R
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.AppExecutors
 import com.muddzdev.styleabletoast.StyleableToast
+import com.onurkaganaldemir.ktoastlib.KToast
 
 /**
  * Created by roman on 2019-07-19
@@ -48,6 +47,10 @@ class NotifyUtil {
             } else {
                 ex.postToUi { toast.show() }
             }
+        }
+
+        fun showInfo(activity: Activity, info: String) {
+            KToast.successToast(activity, info, Gravity.BOTTOM, KToast.LENGTH_AUTO);
         }
 
         fun showInfo(context: Context, @StringRes resId: Int) {

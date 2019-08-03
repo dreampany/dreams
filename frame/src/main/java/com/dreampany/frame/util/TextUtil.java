@@ -304,8 +304,8 @@ public final class TextUtil {
             }
             link = new Link(item)
                     .setUnderlined(false)
-                    .setTextColor(ColorUtil.getColor(view.getContext(), R.color.material_grey700))
-                    .setTextColorOfHighlightedLink(ColorUtil.getColor(view.getContext(), R.color.colorAccent));
+                    .setTextColor(ColorUtil.Companion.getColor(view.getContext(), R.color.material_grey700))
+                    .setTextColorOfHighlightedLink(ColorUtil.Companion.getColor(view.getContext(), R.color.colorAccent));
             if (clickListener != null) {
                 link.setOnClickListener(clickListener);
             }
@@ -319,8 +319,8 @@ public final class TextUtil {
             link = new Link(bold)
                     .setUnderlined(false)
                     .setBold(true)
-                    .setTextColor(ColorUtil.getColor(view.getContext(), R.color.material_grey900))
-                    .setTextColorOfHighlightedLink(ColorUtil.getColor(view.getContext(), R.color.colorAccent));
+                    .setTextColor(ColorUtil.Companion.getColor(view.getContext(), R.color.material_grey900))
+                    .setTextColorOfHighlightedLink(ColorUtil.Companion.getColor(view.getContext(), R.color.colorAccent));
             links.add(link);
         }
 
@@ -344,8 +344,8 @@ public final class TextUtil {
             }
             link = new Link(item)
                     .setUnderlined(false)
-                    .setTextColor(ColorUtil.getColor(view.getContext(), textColor))
-                    .setTextColorOfHighlightedLink(ColorUtil.getColor(view.getContext(), textColorOfLink));
+                    .setTextColor(ColorUtil.Companion.getColor(view.getContext(), textColor))
+                    .setTextColorOfHighlightedLink(ColorUtil.Companion.getColor(view.getContext(), textColorOfLink));
             if (clickListener != null) {
                 link.setOnClickListener(clickListener);
             }

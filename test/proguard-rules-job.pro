@@ -1,2 +1,0 @@
--keep class com.dreampany.lca.service.** { *; }
--keepclassmembers class com.dreampany.lca.service.** { *; }

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.lca.data.model;
 
 import androidx.room.Entity;
@@ -14,11 +15,13 @@ import com.dreampany.lca.misc.Constants;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+*/
 /**
  * Created by Hawladar Roman on 6/22/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 
 @Entity(indices = {@Index(value = {Constants.Ico.ID}, unique = true)},
         primaryKeys = {Constants.Ico.ID})
@@ -47,11 +50,13 @@ public class Ico extends Base {
         this.id = id;
     }
 
+*/
 /*    public Ico(String name, String imageUrl, String description) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.description = description;
-    }*/
+    }*//*
+
 
     @Ignore
     private Ico(Parcel in) {
@@ -201,3 +206,4 @@ public class Ico extends Base {
         return status;
     }
 }
+*/

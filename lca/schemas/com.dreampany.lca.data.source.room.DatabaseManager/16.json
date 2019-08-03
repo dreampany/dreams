@@ -2,22 +2,22 @@
   "formatVersion": 1,
   "database": {
     "version": 16,
-    "identityHash": "59964f3a9b1b25d953ffd21a6fa2b725",
+    "identityHash": "ba2899451a2ed0786cea5a4cce791d9c",
     "entities": [
       {
         "tableName": "Coin",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `source` TEXT, `name` TEXT, `symbol` TEXT, `slug` TEXT, `rank` INTEGER NOT NULL, `marketPairs` INTEGER NOT NULL, `circulatingSupply` REAL NOT NULL, `totalSupply` REAL NOT NULL, `maxSupply` REAL NOT NULL, `lastUpdated` INTEGER NOT NULL, `dateAdded` INTEGER NOT NULL, `tags` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `source` TEXT, `name` TEXT, `symbol` TEXT, `slug` TEXT, `rank` INTEGER NOT NULL, `marketPairs` INTEGER NOT NULL, `circulatingSupply` REAL NOT NULL, `totalSupply` REAL NOT NULL, `maxSupply` REAL NOT NULL, `lastUpdated` INTEGER NOT NULL, `dateAdded` INTEGER NOT NULL, `tags` TEXT, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -113,18 +113,18 @@
       },
       {
         "tableName": "Quote",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` INTEGER NOT NULL, PRIMARY KEY(`id`, `currency`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `currency` TEXT NOT NULL, `price` REAL NOT NULL, `dayVolume` REAL NOT NULL, `marketCap` REAL NOT NULL, `hourChange` REAL NOT NULL, `dayChange` REAL NOT NULL, `weekChange` REAL NOT NULL, `lastUpdated` INTEGER NOT NULL, PRIMARY KEY(`id`, `currency`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -198,18 +198,18 @@
       },
       {
         "tableName": "Price",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `price` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `price` REAL NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -239,14 +239,8 @@
       },
       {
         "tableName": "Exchange",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `exchange` TEXT, `fromSymbol` TEXT, `toSymbol` TEXT, `volume24h` REAL NOT NULL, `volume24hTo` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `exchange` TEXT NOT NULL, `fromSymbol` TEXT NOT NULL, `toSymbol` TEXT NOT NULL, `volume24h` REAL NOT NULL, `volume24hTo` REAL NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
@@ -254,22 +248,28 @@
             "notNull": true
           },
           {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "exchange",
             "columnName": "exchange",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "fromSymbol",
             "columnName": "fromSymbol",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "toSymbol",
             "columnName": "toSymbol",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "volume24h",
@@ -304,18 +304,18 @@
       },
       {
         "tableName": "Market",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `market` TEXT, `fromSymbol` TEXT, `toSymbol` TEXT, `price` REAL NOT NULL, `volume24h` REAL NOT NULL, `changePct24h` REAL NOT NULL, `change24h` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `market` TEXT, `fromSymbol` TEXT, `toSymbol` TEXT, `price` REAL NOT NULL, `volume24h` REAL NOT NULL, `changePct24h` REAL NOT NULL, `change24h` REAL NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -381,14 +381,8 @@
       },
       {
         "tableName": "Graph",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `slug` TEXT, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `priceBtc` TEXT, `priceUsd` TEXT, `volumeUsd` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `slug` TEXT NOT NULL, `startTime` INTEGER NOT NULL, `endTime` INTEGER NOT NULL, `priceBtc` TEXT, `priceUsd` TEXT, `volumeUsd` TEXT, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
@@ -396,10 +390,16 @@
             "notNull": true
           },
           {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "slug",
             "columnName": "slug",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "startTime",
@@ -452,18 +452,18 @@
       },
       {
         "tableName": "Ico",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `name` TEXT, `imageUrl` TEXT, `description` TEXT, `websiteLink` TEXT, `icoWatchListUrl` TEXT, `startTime` TEXT, `endTime` TEXT, `timezone` TEXT, `coinSymbol` TEXT, `priceUSD` TEXT, `allTimeRoi` TEXT, `status` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `name` TEXT, `imageUrl` TEXT, `description` TEXT, `websiteLink` TEXT, `icoWatchListUrl` TEXT, `startTime` TEXT, `endTime` TEXT, `timezone` TEXT, `coinSymbol` TEXT, `priceUSD` TEXT, `allTimeRoi` TEXT, `status` TEXT, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -559,18 +559,18 @@
       },
       {
         "tableName": "News",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `newsId` INTEGER NOT NULL, `guid` TEXT, `publishedOn` INTEGER NOT NULL, `imageUrl` TEXT, `title` TEXT, `url` TEXT, `source` TEXT, `body` TEXT, `tags` TEXT, `categories` TEXT, `upVotes` INTEGER NOT NULL, `downVotes` INTEGER NOT NULL, `language` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `newsId` INTEGER NOT NULL, `guid` TEXT, `publishedOn` INTEGER NOT NULL, `imageUrl` TEXT, `title` TEXT, `url` TEXT, `source` TEXT, `body` TEXT, `tags` TEXT, `categories` TEXT, `upVotes` INTEGER NOT NULL, `downVotes` INTEGER NOT NULL, `language` TEXT, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -672,14 +672,8 @@
       },
       {
         "tableName": "CoinAlert",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `time` INTEGER NOT NULL, `title` TEXT, `description` TEXT, `priceUp` REAL NOT NULL, `priceDown` REAL NOT NULL, `dayChange` REAL NOT NULL, `periodicTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `priceUp` REAL NOT NULL, `priceDown` REAL NOT NULL, `dayChange` REAL NOT NULL, `periodicTime` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "TEXT",
-            "notNull": true
-          },
           {
             "fieldPath": "time",
             "columnName": "time",
@@ -687,16 +681,10 @@
             "notNull": true
           },
           {
-            "fieldPath": "title",
-            "columnName": "title",
+            "fieldPath": "id",
+            "columnName": "id",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "priceUp",
@@ -745,7 +733,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"59964f3a9b1b25d953ffd21a6fa2b725\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ba2899451a2ed0786cea5a4cce791d9c')"
     ]
   }
 }

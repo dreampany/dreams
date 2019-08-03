@@ -297,7 +297,7 @@ class WordsVisionFragment @Inject constructor() : BaseMenuFragment() {
         )
         val activity = getParent() as Activity?
         if (activity != null && result != null) {
-            NotifyUtilKt.showInfo(activity, result)
+            NotifyUtil.showInfo(activity, result)
         }
     }
 

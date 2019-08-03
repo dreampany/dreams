@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.util;
 
 import android.content.Context;
@@ -12,11 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+*/
 /**
  * Created by Hawladar Roman on 5/24/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
- */
+ *//*
+
 public class ColorUtil {
     private ColorUtil() {
     }
@@ -29,14 +32,12 @@ public class ColorUtil {
     }
 
     public static Color createColor(int primary, int primaryDark, int accent) {
-        Color color = new Color(primary, primaryDark);
-        color.setAccentId(accent);
+        Color color = new Color(primary, primaryDark, accent);
         return color;
     }
 
     public static Color createRedColor() {
-        Color color = new Color(R.color.material_red500, R.color.material_red700);
-        color.setAccentId(R.color.material_redA700);
+        Color color = new Color(R.color.material_red500, R.color.material_red700, R.color.material_redA700);
         return color;
     }
 
@@ -48,7 +49,8 @@ public class ColorUtil {
 
     public static Color getRandColor(int position) {
         if (colors.isEmpty()) {
-  /*          Color redColor = new Color(R.color.colorRed500, R.color.colorRed700).setAccentId(R.color.colorRed900);
+  */
+/*          Color redColor = new Color(R.color.colorRed500, R.color.colorRed700).setAccentId(R.color.colorRed900);
             Color pinkColor = new Color(R.color.colorPink500, R.color.colorPink700).setAccentId(R.color.colorPink900);
             Color purpleColor = new Color(R.color.colorPurple500, R.color.colorPurple700).setAccentId(R.color.colorPurple900);
 
@@ -98,7 +100,8 @@ public class ColorUtil {
             colors.add(brownColor);
             colors.add(greyColor);
 
-            colors.add(blueGreyColor);*/
+            colors.add(blueGreyColor);*//*
+
         }
 
         if (position == -1) {
@@ -139,11 +142,13 @@ public class ColorUtil {
 
     public static int[] getParticleColors(Context context) {
         if (particleColors == null) {
+*/
 /*            int goldDark = ColorUtil.getColor(context, R.color.gold_dark);
             int goldMed = ColorUtil.getColor(context, R.color.gold_med);
             int gold = ColorUtil.getColor(context, R.color.gold);
             int goldLight = ColorUtil.getColor(context, R.color.gold_light);
-            particleColors = new int[]{goldDark, goldMed, gold, goldLight};*/
+            particleColors = new int[]{goldDark, goldMed, gold, goldLight};*//*
+
         }
         return particleColors;
     }
@@ -174,3 +179,4 @@ public class ColorUtil {
         return value.data;
     }
 }
+*/

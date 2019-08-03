@@ -5,13 +5,14 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Link
-import com.dreampany.frame.ui.model.BaseItemKt
+import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.ui.view.TextViewClickMovement
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.model.History
+import com.dreampany.history.misc.Constants
 import com.dreampany.history.ui.adapter.HistoryAdapter
 import com.google.common.collect.Maps
 import com.like.LikeButton
@@ -27,9 +28,9 @@ import java.io.Serializable
  * Last modified $file.lastModified
  */
 class HistoryItem private constructor(
-    item: History, @LayoutRes layoutId: Int = 0,
+    item: History, @LayoutRes layoutId: Int = Constants.Default.INT,
     var clickListener: OnClickListener? = null
-) : BaseItemKt<History, HistoryItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem<History, HistoryItem.ViewHolder, String>(item, layoutId) {
 
     interface OnClickListener {
         fun onFavoriteClicked(history: History)
@@ -92,7 +93,7 @@ class HistoryItem private constructor(
         adapter: FlexibleAdapter<*>,
         var clickListener: OnClickListener? = null
     ) :
-        BaseItemKt.ViewHolder(view, adapter),
+        BaseItem.ViewHolder(view, adapter),
         TextViewClickMovement.OnTextViewClickMovementListener {
 
         private var adapter: HistoryAdapter
@@ -121,7 +122,7 @@ class HistoryItem private constructor(
             }
         }
 
-        override fun <VH : BaseItemKt.ViewHolder, T : BaseKt, S : Serializable, I : BaseItemKt<T, VH, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as HistoryItem
             val history = uiItem.item

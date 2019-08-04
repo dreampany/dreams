@@ -18,8 +18,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_icon"
-                android:layout_width="@dimen/_60sdp"
-                android:layout_height="@dimen/_60sdp"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
                 auto:layout_constraintBottom_toBottomOf="parent"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"

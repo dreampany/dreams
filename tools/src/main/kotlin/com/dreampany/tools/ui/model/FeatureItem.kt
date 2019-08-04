@@ -62,16 +62,16 @@ class FeatureItem private constructor(
 
         init {
             this.adapter = adapter as FeatureAdapter
-            height = DisplayUtil.getScreenWidthInPx(getContext()) / this.adapter.getSpanCount()
+            height = getSpanHeight(this.adapter.getSpanCount(), this.adapter.getItemOffset())
             imageIcon = view.findViewById(R.id.image_icon)
 
 
             view.layoutParams.height = height
             view.setOnClickListener { view ->
-                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition))
             }
             view.setOnLongClickListener { view ->
-                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition))
                 true
             }
         }

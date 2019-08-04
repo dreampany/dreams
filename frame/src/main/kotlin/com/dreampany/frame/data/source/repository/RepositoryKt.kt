@@ -19,10 +19,10 @@ import java.util.ArrayList
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class RepositoryKt<K, T>(val rx: RxMapper, val rm: ResponseMapper) {
+abstract class RepositoryKt<K, T>(protected val rx: RxMapper, protected val rm: ResponseMapper) {
 
-    val subject: PublishSubject<Response<T>> = PublishSubject.create()
-    val subjects: PublishSubject<Response<List<T>>> = PublishSubject.create()
+    protected val subject: PublishSubject<Response<T>> = PublishSubject.create()
+    protected val subjects: PublishSubject<Response<List<T>>> = PublishSubject.create()
 
     @SafeVarargs
     protected fun concatSingleFirstRx(vararg sources: Maybe<T>): Maybe<T> {
@@ -139,8 +139,8 @@ abstract class RepositoryKt<K, T>(val rx: RxMapper, val rm: ResponseMapper) {
                     emitter.onComplete()
                 }
             } else {
-                items?.let {
-                    emitter.onSuccess(it)
+                items?.run {
+                    emitter.onSuccess(this)
                 }
             }
         }

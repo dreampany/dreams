@@ -17,12 +17,12 @@ import kotlin.collections.ArrayList
 open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
     BindingFlexibleAdapter<T>(listener) {
 
-    interface OnClickListener<T> {
-        fun onClick(t: T)
-        fun onLongClick(t: T)
+    interface OnClickListener<T, R> {
+        fun onClick(item: T? = null, action: R? = null)
+        fun onLongClick(item: T? = null, action: R? = null)
     }
 
-    var click: OnClickListener<Any>? = null
+    var click: OnClickListener<Any, Any>? = null
         private set
 
     var clickListener: View.OnClickListener? = null
@@ -31,8 +31,8 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
         private set
 
     init {
-        if (listener is OnClickListener<*>) {
-            click = listener as OnClickListener<Any>?
+        if (listener is OnClickListener<*, *>) {
+            click = listener as OnClickListener<Any, Any>?
         }
 
         if (listener is View.OnClickListener) {

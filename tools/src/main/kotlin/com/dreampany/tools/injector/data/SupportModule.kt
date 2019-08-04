@@ -22,28 +22,28 @@ class SupportModule {
     @Singleton
     @Provides
     @DemoAnnote
-    fun provideDemoSmartMap(): SmartMap<Long, Demo> {
+    fun provideDemoSmartMap(): SmartMap<String, Demo> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @DemoAnnote
-    fun provideDemoSmartCache(): SmartCache<Long, Demo> {
+    fun provideDemoSmartCache(): SmartCache<String, Demo> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @ApkAnnote
-    fun provideApkSmartMap(): SmartMap<Long, Apk> {
+    fun provideApkSmartMap(): SmartMap<String, Apk> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @ApkAnnote
-    fun provideApkSmartCache(): SmartCache<Long, Apk> {
+    fun provideApkSmartCache(): SmartCache<String, Apk> {
         return SmartCache.newCache()
     }
 }

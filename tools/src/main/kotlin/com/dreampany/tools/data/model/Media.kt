@@ -11,10 +11,10 @@ import com.dreampany.tools.data.enums.MediaType
  */
 abstract class Media : Base() {
     abstract var mediaType: MediaType
-    abstract var name: String
-    abstract var uri: String
+    abstract var name: String?
+    abstract var uri: String?
     abstract var thumbUri: String?
-    abstract var mimeType: String
+    abstract var mimeType: String?
     abstract var size: Long
     abstract var dateAdded: Long
     abstract var dateModified: Long

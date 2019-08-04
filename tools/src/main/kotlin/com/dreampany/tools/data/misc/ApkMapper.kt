@@ -1,11 +1,14 @@
 package com.dreampany.tools.data.misc
 
+import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.FileUtil
+import com.dreampany.tools.data.enums.ApkType
 import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.misc.ApkAnnote
 import javax.inject.Inject
@@ -18,10 +21,12 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class ApkMapper @Inject constructor(
+class ApkMapper
+@Inject constructor(
+    val context: Context,
     @ApkAnnote val map: SmartMap<String, Apk>,
     @ApkAnnote val cache: SmartCache<String, Apk>
-)  : MediaMapper {
+) : MediaMapper {
 
     override fun getUri(): Uri? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -60,8 +65,20 @@ class ApkMapper @Inject constructor(
         out.id = id
         out.name = input.loadLabel(pm).toString()
         out.uri = input.publicSourceDir
+
+        AndroidUtil.getApplicationIconUri(context, id)?.run {
+            out.thumbUri = this.toString()
+        }
         out.mimeType = FileUtil.getMimeType(input.publicSourceDir)
         out.size = FileUtil.getFileSize(input.publicSourceDir)
+
+        if (AndroidUtil.isSystemApp(input)) {
+            out.apkType = ApkType.SYSTEM
+        } else {
+            out.apkType = ApkType.USER
+        }
+        out.versionCode = AndroidUtil.getApplicationVersionCode(context, id)
+        out.versionName = AndroidUtil.getApplicationVersionName(context, id)
         return out
     }
 }

@@ -6,6 +6,7 @@ import com.dreampany.tools.vm.DemoViewModel
 import com.dreampany.tools.vm.MoreViewModel
 import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
+import com.dreampany.tools.vm.ApkViewModel
 import com.dreampany.tools.vm.FeatureViewModel
 import dagger.Binds
 import dagger.Module
@@ -35,6 +36,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FeatureViewModel::class)
     abstract fun bindFeatureViewModel(vm: FeatureViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ApkViewModel::class)
+    abstract fun bindApkViewModel(vm: ApkViewModel): ViewModel
 
     @Singleton
     @Binds

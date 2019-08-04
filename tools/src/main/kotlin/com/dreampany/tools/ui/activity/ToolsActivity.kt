@@ -10,6 +10,7 @@ import com.dreampany.tools.ui.fragment.LicenseFragment
 import com.dreampany.tools.ui.fragment.SettingsFragment
 import com.dreampany.tools.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
+import com.dreampany.tools.ui.fragment.ApkFragment
 import dagger.Lazy
 import timber.log.Timber
 import javax.inject.Inject
@@ -22,13 +23,15 @@ import javax.inject.Inject
 class ToolsActivity : BaseActivity() {
 
     @Inject
+    lateinit var ad: SmartAd
+    @Inject
     lateinit var settingsProvider: Lazy<SettingsFragment>
     @Inject
     lateinit var licenseProvider: Lazy<LicenseFragment>
     @Inject
     lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
-    lateinit var ad: SmartAd
+    lateinit var apkProvider: Lazy<ApkFragment>
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
@@ -59,6 +62,13 @@ class ToolsActivity : BaseActivity() {
                         commitFragment(AboutFragment::class.java, aboutProvider, R.id.layout, uiTask)
                     }
                     else -> {
+                    }
+                }
+            }
+            UiType.APK -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        commitFragment(ApkFragment::class.java, apkProvider, R.id.layout, uiTask)
                     }
                 }
             }

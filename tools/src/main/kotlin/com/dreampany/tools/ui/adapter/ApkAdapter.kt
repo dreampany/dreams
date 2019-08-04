@@ -1,8 +1,7 @@
 package com.dreampany.tools.ui.adapter
 
 import com.dreampany.frame.ui.adapter.SmartAdapter
-import com.dreampany.tools.ui.model.FeatureItem
-import eu.davidea.flexibleadapter.items.IFlexible
+import com.dreampany.tools.ui.model.ApkItem
 
 /**
  * Created by roman on 2019-08-03
@@ -10,12 +9,12 @@ import eu.davidea.flexibleadapter.items.IFlexible
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FeatureAdapter(listener: Any?) : SmartAdapter<FeatureItem>(listener) {
+class ApkAdapter(listener: Any?) : SmartAdapter<ApkItem>(listener) {
 
-    private val orderComparator: Comparator<IFlexible<*>>
+    //private val orderComparator: Comparator<IFlexible<*>>
 
     init {
-        orderComparator = OrderComparator()
+      //  orderComparator = OrderComparator()
     }
 
     companion object {
@@ -31,16 +30,21 @@ class FeatureAdapter(listener: Any?) : SmartAdapter<FeatureItem>(listener) {
         return ITEM_OFFSET
     }
 
-    fun setItems(items: List<FeatureItem>) {
-        super.setItems(items, orderComparator)
-    }
+/*    fun setItems(items: List<ApkItem>) {
+        clear()
+        addItems(0, items)
+    }*/
 
-    class OrderComparator : Comparator<IFlexible<*>> {
+/*    fun setItems(items: List<ApkItem>) {
+        super.setItems(items, orderComparator)
+    }*/
+
+/*    class OrderComparator : Comparator<IFlexible<*>> {
         override fun compare(left: IFlexible<*>, right: IFlexible<*>): Int {
             val leftItem = left as FeatureItem
             val rightItem = right as FeatureItem
             return (leftItem.order() - rightItem.order())
         }
-    }
+    }*/
 
 }

@@ -16,7 +16,7 @@ import io.reactivex.Maybe
 abstract class MediaRepository<T : Media>(
     rx: RxMapper,
     rm: ResponseMapper,
-    memory : MediaDataSource<T>
+    val memory: MediaDataSource<T>
 ) : RepositoryKt<String, T>(rx, rm), MediaDataSource<T> {
 
     override fun isEmpty(): Boolean {
@@ -88,7 +88,8 @@ abstract class MediaRepository<T : Media>(
     }
 
     override fun getItemsRx(): Maybe<List<T>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val memory = this.memory.getItemsRx()
+        return concatFirstRx(true, memory)
     }
 
     override fun getItems(limit: Int): List<T>? {

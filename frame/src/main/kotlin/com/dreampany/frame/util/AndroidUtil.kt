@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.*
 import android.provider.Settings
 import android.speech.tts.TextToSpeech
@@ -119,19 +120,41 @@ class AndroidUtil {
         }
 
         fun getPackageInfo(context: Context, flags: Int): PackageInfo? {
-            try {
-                val appContext = context.getApplicationContext()
-                return appContext.getPackageManager()
-                    .getPackageInfo(appContext.getPackageName(), flags)
-            } catch (nameException: PackageManager.NameNotFoundException) {
-                return null
-            }
-
+            return getPackageInfo(context, context.packageName, flags)
         }
 
-        fun getInstalledApps(context: Context): List<ApplicationInfo> {
-            val pm = context.getApplicationContext().getPackageManager()
-            return pm.getInstalledApplications(PackageManager.GET_META_DATA)
+        fun getPackageInfo(context: Context, packageName: String, flags: Int): PackageInfo? {
+            try {
+                return getPackageManager(context)?.getPackageInfo(packageName, flags)
+            } catch (error: PackageManager.NameNotFoundException) {
+                Timber.e(error)
+            }
+            return null
+        }
+
+        fun getApplicationInfo(
+            context: Context,
+            packageName: String,
+            flags: Int
+        ): ApplicationInfo? {
+            try {
+                return getPackageManager(context)?.getApplicationInfo(packageName, flags)
+            } catch (error: PackageManager.NameNotFoundException) {
+                Timber.e(error)
+            }
+            return null
+        }
+
+        fun getPackageManager(context: Context): PackageManager? {
+            return context.applicationContext.packageManager
+        }
+
+        fun getInstalledApps(context: Context): List<ApplicationInfo>? {
+            return getInstalledApps(context, getPackageManager(context))
+        }
+
+        fun getInstalledApps(context: Context, pm: PackageManager?): List<ApplicationInfo>? {
+            return pm?.getInstalledApplications(PackageManager.GET_META_DATA)
         }
 
         fun isSystemApp(info: ApplicationInfo): Boolean {
@@ -144,13 +167,69 @@ class AndroidUtil {
 
         fun getApplicationIcon(context: Context, packageName: String): Drawable? {
             try {
-                return context.getApplicationContext().getPackageManager()
-                    .getApplicationIcon(packageName)
-            } catch (ignored: PackageManager.NameNotFoundException) {
-
+                return getPackageManager(context)?.getApplicationIcon(packageName)
+            } catch (error: PackageManager.NameNotFoundException) {
+                Timber.e(error)
             }
-
             return null
+        }
+
+        fun getApplicationIconUri(context: Context, packageName: String): Uri? {
+            var result = Uri.EMPTY
+            try {
+                val info = getApplicationInfo(context, packageName, 0)
+                if (info != null && info.icon != 0) {
+                    result = Uri.parse("android.resource://" + packageName + "/" + info.icon)
+                }
+            } catch (error: PackageManager.NameNotFoundException) {
+                Timber.e(error)
+            }
+            return result
+        }
+
+        fun getApplicationVersionCode(context: Context, packageName: String): Int {
+            var result = 0
+            try {
+                val info = getPackageInfo(context, packageName, 0)
+                if (info != null) {
+                    result = info.versionCode
+                }
+            } catch (error: PackageManager.NameNotFoundException) {
+                Timber.e(error)
+            }
+            return result
+        }
+
+        fun getApplicationVersionName(context: Context, packageName: String): String? {
+            try {
+                val info = getPackageInfo(context, packageName, 0)
+                if (info != null) {
+                    return info.versionName
+                }
+            } catch (error: PackageManager.NameNotFoundException) {
+                Timber.e(error)
+            }
+            return null
+        }
+
+        fun openApplication(context: Context, packageName: String) {
+            try {
+                getPackageManager(context)?.getLaunchIntentForPackage(packageName)?.run {
+                    context.startActivity(this)
+                }
+            } catch (error: Throwable) {
+                Timber.e(error)
+            }
+        }
+
+        fun openApplicationDetails(context: Context, packageName: String) {
+            try {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:" + packageName)
+                context.startActivity(intent)
+            } catch (error: Throwable) {
+                Timber.e(error)
+            }
         }
 
         fun isDebug(context: Context): Boolean {

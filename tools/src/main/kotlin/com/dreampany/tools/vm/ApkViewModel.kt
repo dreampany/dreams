@@ -9,11 +9,13 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.enums.FeatureType
-import com.dreampany.tools.data.model.Feature
-import com.dreampany.tools.data.misc.FeatureRequest
+import com.dreampany.tools.data.enums.ApkType
+import com.dreampany.tools.data.misc.ApkMapper
+import com.dreampany.tools.data.misc.ApkRequest
+import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.data.source.pref.Pref
-import com.dreampany.tools.ui.model.FeatureItem
+import com.dreampany.tools.data.source.repository.ApkRepository
+import com.dreampany.tools.ui.model.ApkItem
 import com.dreampany.tools.ui.model.UiTask
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -25,7 +27,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FeatureViewModel @Inject constructor(
+class ApkViewModel @Inject constructor(
     application: Application,
     rx: RxMapper,
     ex: AppExecutors,
@@ -34,18 +36,20 @@ class FeatureViewModel @Inject constructor(
     private val pref: Pref,
     private val stateMapper: StateMapper,
     private val stateRepo: StateRepository,
+    private val mapper: ApkMapper,
+    private val repo: ApkRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Feature, FeatureItem, UiTask<Feature>>(application, rx, ex, rm) {
+) : BaseViewModel<Apk, ApkItem, UiTask<Apk>>(application, rx, ex, rm) {
 
-    fun load(request: FeatureRequest) {
-        if (request.type == FeatureType.DEFAULT) {
+    fun load(request: ApkRequest) {
+        if (request.type == ApkType.DEFAULT) {
             loadMultiple(request)
         } else {
             loadSingle(request)
         }
     }
 
-    private fun loadSingle(request: FeatureRequest) {
+    private fun loadSingle(request: ApkRequest) {
         if (!takeAction(request.important, singleDisposable)) {
             return
         }
@@ -71,7 +75,7 @@ class FeatureViewModel @Inject constructor(
         addSingleSubscription(disposable)
     }
 
-    private fun loadMultiple(request: FeatureRequest) {
+    private fun loadMultiple(request: ApkRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
@@ -97,40 +101,36 @@ class FeatureViewModel @Inject constructor(
         addMultipleSubscription(disposable)
     }
 
-    private fun loadUiItemRx(request: FeatureRequest): Maybe<FeatureItem> {
+    private fun loadUiItemRx(request: ApkRequest): Maybe<ApkItem> {
         return getItemRx(request).flatMap { getUiItemRx(it) }
     }
 
-    private fun loadUiItemsRx(request: FeatureRequest): Maybe<List<FeatureItem>> {
-        return getItemsRx(request).flatMap { getUiItemsRx(it) }
+    private fun loadUiItemsRx(request: ApkRequest): Maybe<List<ApkItem>> {
+        return repo.getItemsRx().flatMap { getUiItemsRx(it) }
     }
 
-    private fun getItemRx(request: FeatureRequest): Maybe<Feature> {
+    private fun getItemRx(request: ApkRequest): Maybe<Apk> {
         return Maybe.create { emitter ->
-            val item = Feature(request.type.name, request.type)
-            emitter.onSuccess(item)
         }
     }
 
-    private fun getItemsRx(request: FeatureRequest): Maybe<List<Feature>> {
+    private fun getItemsRx(request: ApkRequest): Maybe<List<Apk>> {
         return Maybe.create { emitter ->
-            val items = mutableListOf<Feature>()
-            items.add(Feature(FeatureType.APK.name, FeatureType.APK))
-            emitter.onSuccess(items)
+
         }
     }
 
-    private fun getUiItem(item: Feature): FeatureItem {
-        return FeatureItem.getItem(item)
+    private fun getUiItem(item: Apk): ApkItem {
+        return ApkItem.getItem(item)
     }
 
-    private fun getUiItemRx(item: Feature): Maybe<FeatureItem> {
+    private fun getUiItemRx(item: Apk): Maybe<ApkItem> {
         return Maybe.create { emitter ->
             emitter.onSuccess(getUiItem(item))
         }
     }
 
-    private fun getUiItemsRx(items: List<Feature>): Maybe<List<FeatureItem>> {
+    private fun getUiItemsRx(items: List<Apk>): Maybe<List<ApkItem>> {
         return Flowable.fromIterable(items)
             .map { getUiItem(it) }
             .toList()

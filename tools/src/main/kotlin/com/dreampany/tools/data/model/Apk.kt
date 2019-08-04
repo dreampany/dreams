@@ -28,16 +28,16 @@ data class Apk(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING, // package
     override var mediaType: MediaType = MediaType.DEFAULT,
-    override var name: String = Constants.Default.STRING,
-    override var uri: String = Constants.Default.STRING,
+    override var name: String? = Constants.Default.NULL,
+    override var uri: String? = Constants.Default.NULL,
     override var thumbUri: String? = Constants.Default.NULL,
-    override var mimeType: String = Constants.Default.STRING,
+    override var mimeType: String? = Constants.Default.NULL,
     override var size: Long = Constants.Default.LONG,
     override var dateAdded: Long = Constants.Default.LONG,
     override var dateModified: Long = Constants.Default.LONG,
     var apkType: ApkType = ApkType.DEFAULT,
     var versionCode: Int = Constants.Default.INT,
-    var versionName: String = Constants.Default.STRING
+    var versionName: String? = Constants.Default.NULL
 ) : Media() {
 
     @Ignore
@@ -51,16 +51,16 @@ data class Apk(
 
     constructor(
         id: String = Constants.Default.STRING,
-        name: String = Constants.Default.STRING,
-        uri: String = Constants.Default.STRING,
+        name: String? = Constants.Default.NULL,
+        uri: String? = Constants.Default.NULL,
         thumbUri: String? = Constants.Default.NULL,
-        mimeType: String = Constants.Default.STRING,
+        mimeType: String? = Constants.Default.NULL,
         size: Long = Constants.Default.LONG,
         dateAdded: Long = Constants.Default.LONG,
         dateModified: Long = Constants.Default.LONG,
         apkType: ApkType = ApkType.DEFAULT,
         versionCode: Int = Constants.Default.INT,
-        versionName: String = Constants.Default.STRING
+        versionName: String? = Constants.Default.NULL
     ) : this(
         time = TimeUtilKt.currentMillis(),
         id = id,

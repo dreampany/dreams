@@ -8,7 +8,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Response
+import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
@@ -16,13 +18,17 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.FeatureType
-import com.dreampany.tools.data.model.FeatureRequest
+import com.dreampany.tools.data.misc.FeatureRequest
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentHomeBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.FeatureAdapter
+import com.dreampany.tools.ui.enums.UiSubtype
+import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.model.FeatureItem
+import com.dreampany.tools.ui.model.UiTask
 import com.dreampany.tools.vm.FeatureViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -38,7 +44,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class HomeFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnClickListener<FeatureItem> {
+    BaseMenuFragment(), SmartAdapter.OnClickListener<FeatureItem?, Any?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -69,7 +75,7 @@ class HomeFragment @Inject constructor() :
         initRecycler()
 
         session.track()
-        request(progress = true, favorite = false)
+        request(progress = true)
         initTitleSubtitle()
     }
 
@@ -77,12 +83,19 @@ class HomeFragment @Inject constructor() :
 
     }
 
-    override fun onClick(t: FeatureItem) {
-        Timber.v("%s", t.item.type.name)
+    override fun onClick(item: FeatureItem?, action: Any?) {
+        item?.run {
+            Timber.v("%s", this.item.type.name)
+            openUi(this)
+        }
+
     }
 
-    override fun onLongClick(t: FeatureItem) {
-        Timber.v("%s", t.item.type.name)
+    override fun onLongClick(item: FeatureItem?, action: Any?) {
+        item?.run {
+            Timber.v("%s", this.item.type.name)
+        }
+
     }
 
     private fun initTitleSubtitle() {
@@ -106,7 +119,6 @@ class HomeFragment @Inject constructor() :
         vm = ViewModelProviders.of(this, factory).get(FeatureViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
-        //vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
     private fun initRecycler() {
@@ -129,10 +141,13 @@ class HomeFragment @Inject constructor() :
 
     private fun request(
         important: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN,
-        favorite: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN
     ) {
-        val request = FeatureRequest(FeatureType.DEFAULT, important, progress, favorite)
+        val request = FeatureRequest(
+            type = FeatureType.DEFAULT,
+            important = important,
+            progress = progress
+        )
         vm.load(request)
     }
 
@@ -171,4 +186,16 @@ class HomeFragment @Inject constructor() :
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }
 
+
+    private fun openUi(uiItem: FeatureItem) {
+        var task: UiTask<Base>? = null
+        when (uiItem.item.type) {
+            FeatureType.APK -> {
+                task = UiTask<Base>(false, UiType.APK, UiSubtype.VIEW, uiItem.item)
+            }
+        }
+        task?.run {
+            openActivity(ToolsActivity::class.java, this)
+        }
+    }
 }

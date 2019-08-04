@@ -1,7 +1,8 @@
-package com.dreampany.tools.data.model
+package com.dreampany.tools.data.misc
 
 import com.dreampany.frame.data.model.Request
 import com.dreampany.tools.data.enums.FeatureType
+import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.misc.Constants
 
 /**
@@ -12,8 +13,9 @@ import com.dreampany.tools.misc.Constants
  */
 class FeatureRequest(
     val type: FeatureType = FeatureType.DEFAULT,
+    input: Feature? = Constants.Default.NULL,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
     favorite: Boolean = Constants.Default.BOOLEAN
-) : Request<Feature>() {
+) : Request<Feature>(input = input, important = important, progress = progress, favorite = favorite) {
 }

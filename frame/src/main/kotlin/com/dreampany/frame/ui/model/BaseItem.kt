@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.util.DisplayUtil
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
@@ -52,18 +53,25 @@ abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(va
         holder.bind(position, this)
     }
 
-    abstract class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
+    abstract class ViewHolder(val view: View, adapter: FlexibleAdapter<*>) :
         FlexibleViewHolder(view, adapter) {
+
         open fun getContext(): Context {
-            return itemView.context
+            return view.context
         }
 
-        open fun <T : Base> setTag(tag : T) {
-            itemView.setTag(tag)
+        open fun <T : Base> setTag(tag: T) {
+            view.setTag(tag)
         }
 
-        open fun <T : Base> getTag() : T? {
-            return itemView.tag as T?
+        open fun <T : Base> getTag(): T? {
+            return view.tag as T?
+        }
+
+        open fun getSpanHeight(spanCount: Int, itemOffset: Int): Int {
+            return (DisplayUtil.getScreenWidthInPx(getContext()) / spanCount) - (DisplayUtil.dpToPixels(
+                itemOffset.toFloat()
+            ) * spanCount)
         }
 
         abstract fun <VH : ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(

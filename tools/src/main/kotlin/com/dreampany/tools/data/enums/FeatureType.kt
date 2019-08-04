@@ -12,5 +12,5 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 enum class FeatureType : Parcelable {
-    DEFAULT, APK
+    DEFAULT, APK, SCAN, NOTE, HISTORY
 }

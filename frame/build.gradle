@@ -251,4 +251,5 @@ dependencies {
     api 'com.github.ybq:Android-SpinKit:1.2.0'
     api 'org.jsoup:jsoup:1.12.1'
     api 'de.hdodenhof:circleimageview:3.0.0'
+    api 'com.github.shts:TriangleLabelView:1.1.2'
 }

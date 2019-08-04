@@ -52,9 +52,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup, android:label">
 
-        <!--        <meta-data
-                    android:name="io.fabric.ApiKey"
-                    android:value="44aff980a5246897e9776e2bb83ef822b80afbfa" />-->
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="ocr, barcode" />
 
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"

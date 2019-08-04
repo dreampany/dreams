@@ -15,6 +15,7 @@ import com.dreampany.frame.util.DataUtilKt
 import com.dreampany.frame.util.DisplayUtil
 import com.dreampany.frame.util.FrescoUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.ApkType
 import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ApkAdapter
@@ -23,6 +24,7 @@ import com.github.nikartm.button.FitButton
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import jp.shts.android.library.TriangleLabelView
 import java.io.Serializable
 import java.lang.ref.WeakReference
 
@@ -84,6 +86,7 @@ class ApkItem private constructor(
         private var textSize: AppCompatTextView
         private var buttonOpen: FitButton
         private var buttonDetails: FitButton
+        private var labelType: TriangleLabelView
 
         init {
             this.adapter = adapter as ApkAdapter
@@ -94,6 +97,7 @@ class ApkItem private constructor(
             textSize = view.findViewById(R.id.text_size)
             buttonOpen = view.findViewById(R.id.button_open)
             buttonDetails = view.findViewById(R.id.button_details)
+            labelType = view.findViewById(R.id.label_type)
 
             view.layoutParams.height = height
 
@@ -130,7 +134,16 @@ class ApkItem private constructor(
 
             textName.text = item.name
             textSize.text = DataUtilKt.formatReadableSize(item.size)
+            labelType.primaryText = item.apkType.name
 
+            when(item.apkType) {
+                ApkType.SYSTEM->{
+                    labelType.setTriangleBackgroundColorResource(R.color.material_red500)
+                }
+                ApkType.USER->{
+                    labelType.setTriangleBackgroundColorResource(R.color.material_green500)
+                }
+            }
         }
     }
 }

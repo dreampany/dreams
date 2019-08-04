@@ -95,8 +95,11 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
-
     object Apk {
+        const val ID = Constants.Key.ID
+    }
+
+    object Barcode {
         const val ID = Constants.Key.ID
     }
 }

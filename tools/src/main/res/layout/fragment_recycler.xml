@@ -63,7 +63,6 @@
                 android:layout_margin="@dimen/fab_margin"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:tint="@color/material_white"
-                android:visibility="gone"
                 auto:elevation="6dp"
                 auto:rippleColor="@color/material_white"
                 auto:srcCompat="@drawable/ic_search_black_24dp"

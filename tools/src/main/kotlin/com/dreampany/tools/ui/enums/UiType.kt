@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class UiType : Parcelable {
-    MORE, SITE, FEATURE, APK
+    MORE, SITE, FEATURE, APK, SCAN
 }

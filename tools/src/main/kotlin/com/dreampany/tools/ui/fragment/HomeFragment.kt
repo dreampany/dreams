@@ -193,6 +193,9 @@ class HomeFragment @Inject constructor() :
             FeatureType.APK -> {
                 task = UiTask<Base>(false, UiType.APK, UiSubtype.VIEW, uiItem.item)
             }
+            FeatureType.SCAN -> {
+                task = UiTask<Base>(false, UiType.SCAN, UiSubtype.VIEW, uiItem.item)
+            }
         }
         task?.run {
             openActivity(ToolsActivity::class.java, this)

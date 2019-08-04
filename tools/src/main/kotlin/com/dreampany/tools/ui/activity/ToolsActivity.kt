@@ -5,12 +5,9 @@ import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
-import com.dreampany.tools.ui.fragment.AboutFragment
-import com.dreampany.tools.ui.fragment.LicenseFragment
-import com.dreampany.tools.ui.fragment.SettingsFragment
 import com.dreampany.tools.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
-import com.dreampany.tools.ui.fragment.ApkFragment
+import com.dreampany.tools.ui.fragment.*
 import dagger.Lazy
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,6 +29,8 @@ class ToolsActivity : BaseActivity() {
     lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
     lateinit var apkProvider: Lazy<ApkFragment>
+    @Inject
+    lateinit var scanProvider: Lazy<ScanFragment>
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
@@ -69,6 +68,13 @@ class ToolsActivity : BaseActivity() {
                 when (subtype) {
                     UiSubtype.VIEW -> {
                         commitFragment(ApkFragment::class.java, apkProvider, R.id.layout, uiTask)
+                    }
+                }
+            }
+            UiType.SCAN -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        commitFragment(ScanFragment::class.java, scanProvider, R.id.layout, uiTask)
                     }
                 }
             }

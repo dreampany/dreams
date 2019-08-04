@@ -98,7 +98,6 @@ class ApkFragment @Inject constructor() :
     }
 
     private fun initView() {
-
         bind = super.binding as FragmentRecyclerBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler

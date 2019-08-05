@@ -9,6 +9,8 @@
     <string name="live">Live</string>
     <string name="share">Share</string>
     <string name="favorites">Favorites</string>
+    <string name="open">Open</string>
+    <string name="details">Details</string>
 
     <string name="new_items">New Items</string>
 

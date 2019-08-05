@@ -18,6 +18,18 @@ public final class FrescoUtil {
 
     private FrescoUtil() {}
 
+    public static void loadImage(SimpleDraweeView view, int size, String uri) {
+        Uri result = Uri.parse(uri);
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(result)
+                .setResizeOptions(new ResizeOptions(size, size))
+                .build();
+        view.setController(
+                Fresco.newDraweeControllerBuilder()
+                        .setOldController(view.getController())
+                        .setImageRequest(request)
+                        .build());
+    }
+
     public static void loadResource(SimpleDraweeView view, int resourceId) {
         Uri uri = new Uri.Builder()
                 .scheme(UriUtil.LOCAL_RESOURCE_SCHEME) // "res"

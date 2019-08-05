@@ -403,20 +403,6 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         updateUiState(if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
     }
 
-/*    fun processFailure(error: Throwable) {
-        if (error is IOException || error.cause is IOException) {
-            updateUiState(UiState.OFFLINE)
-        } else if (error is EmptyException) {
-            updateUiState(UiState.EMPTY)
-        } else if (error is ExtraException) {
-            updateUiState(UiState.EXTRA)
-        } else if (error is MultiException) {
-            for (e in error.errors) {
-                processFailure(e)
-            }
-        }
-    }*/
-
     fun postFailure(error: Throwable) {
         if (!hasSingleDisposable()) {
         }

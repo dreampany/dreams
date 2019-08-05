@@ -18,8 +18,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class RoomHistoryDataSource(
-    val mapper: HistoryMapper,
-    val dao: HistoryDao
+    private val mapper: HistoryMapper,
+    private val dao: HistoryDao
 ) : HistoryDataSource {
 
     override fun getItems(

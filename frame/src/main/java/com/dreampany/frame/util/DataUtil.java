@@ -233,13 +233,13 @@ public final class DataUtil {
         return String.format(Locale.ENGLISH, "%.1f %sB", value / Math.pow(unit, exp), pre);
     }
 
-    public static String formatReadableCount(long value, boolean si) {
+/*    public static String formatReadableCount(long value, boolean si) {
         int unit = si ? 1000 : 1024;
         if (value < unit) return String.valueOf(value);
         int exp = (int) (Math.log(value) / Math.log(unit));
         String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
         return String.format(Locale.ENGLISH, "%.1f %s", value / Math.pow(unit, exp), pre);
-    }
+    }*/
 
     public static byte[] copy(byte[] src, int from) {
         return Arrays.copyOfRange(src, from, src.length);

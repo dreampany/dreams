@@ -14,21 +14,6 @@ import java.util.regex.Pattern
  */
 class Constants {
 
-    object Tag {
-        const val MORE = "more"
-        const val ABOUT = "about"
-        const val SETTINGS = "settings"
-        const val LICENSE = "license"
-        const val LAUNCH = "launch"
-        const val NAVIGATION = "navigation"
-        const val TOOLS = "tools"
-        const val WEB = "web"
-
-        const val NOTIFY_SERVICE = "notify_service"
-        const val MORE_APPS = "more_apps"
-        const val RATE_US = "rate_us"
-    }
-
     companion object {
         fun database(name: String): String {
             return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + Database.POST_FIX
@@ -64,6 +49,21 @@ class Constants {
         const val SCREEN = "screen"
         const val ERROR_MESSAGE = "error_message"
         const val ERROR_DETAILS = "error_details"
+    }
+
+    object Tag {
+        const val MORE = "more"
+        const val ABOUT = "about"
+        const val SETTINGS = "settings"
+        const val LICENSE = "license"
+        const val LAUNCH = "launch"
+        const val NAVIGATION = "navigation"
+        const val TOOLS = "tools"
+        const val WEB = "web"
+
+        const val NOTIFY_SERVICE = "notify_service"
+        const val MORE_APPS = "more_apps"
+        const val RATE_US = "rate_us"
     }
 
     object Ad {
@@ -129,8 +129,10 @@ class Constants {
 
     object Default {
         val NULL = null
+        const val BOOLEAN = false
         const val INT = 0
         const val LONG = 0L
+        const val FLOAT = 0f
         const val DOUBLE = 0.0
         const val STRING = ""
     }

@@ -2,6 +2,7 @@ package com.dreampany.frame.util
 
 import androidx.core.util.PatternsCompat
 import com.dreampany.frame.misc.Constants
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -44,5 +45,35 @@ class DataUtilKt {
         fun joinPrefixIf(url: String, prefix: String): String {
             return if (!url.startsWith(prefix)) prefix.plus(url) else url
         }
+
+        fun formatReadableSize(value: Long): String {
+            return formatReadableSize(value, false)
+        }
+
+        fun formatReadableSize(value: Long, si: Boolean): String {
+            val unit = if (si) 1000 else 1024
+            if (value < unit) return "$value B"
+            val exp = (Math.log(value.toDouble()) / Math.log(unit.toDouble())).toInt()
+            val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else ""
+            return String.format(
+                Locale.ENGLISH,
+                "%.1f %sB",
+                value / Math.pow(unit.toDouble(), exp.toDouble()),
+                pre
+            )
+        }
+
+/*        fun formatReadableSize(value: Long, si: Boolean): String {
+            val unit = if (si) 1000 else 1024
+            if (value < unit) return value.toString()
+            val exp = (Math.log(value.toDouble()) / Math.log(unit.toDouble())).toInt()
+            val pre = (if (si) "kMGTPE" else "KMGTPE")[exp - 1] + if (si) "" else "i"
+            return String.format(
+                Locale.ENGLISH,
+                "%.1f %s",
+                value / Math.pow(unit.toDouble(), exp.toDouble()),
+                pre
+            )
+        }*/
     }
 }

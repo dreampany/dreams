@@ -61,6 +61,7 @@ android {
             shrinkResources true
             crunchPngs false
             signingConfig signingConfigs.release
+            //multiDexKeepFile file('multidex-config.txt')
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'

@@ -10,7 +10,9 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class NoteType : Parcelable {
+enum class NoteState : Parcelable {
     DEFAULT,
-    NOTEBOOK
+    TRASH,
+    FAVOURITE,
+    ARCHIVED
 }

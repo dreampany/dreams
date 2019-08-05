@@ -18,6 +18,7 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.NoteState
 import com.dreampany.tools.data.enums.NoteType
 import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.databinding.ContentRecyclerBinding
@@ -149,7 +150,8 @@ class NotesFragment @Inject constructor() :
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = NoteRequest(
-            type = NoteType.MULTIPLE,
+            type = NoteType.DEFAULT,
+            state = NoteState.DEFAULT,
             important = important,
             progress = progress
         )

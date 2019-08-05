@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.misc
 
 import com.dreampany.frame.data.model.Request
+import com.dreampany.tools.data.enums.NoteState
 import com.dreampany.tools.data.enums.NoteType
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
@@ -13,10 +14,12 @@ import com.dreampany.tools.misc.Constants
  */
 class NoteRequest(
     val type: NoteType = NoteType.DEFAULT,
-    id: String? = Constants.Default.NULL,
+    val state: NoteState = NoteState.DEFAULT,
+    val id: String? = Constants.Default.NULL,
     input: Note? = Constants.Default.NULL,
+    single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
     favorite: Boolean = Constants.Default.BOOLEAN
-) : Request<Note>(input = input, important = important, progress = progress, favorite = favorite) {
+) : Request<Note>(input = input, single = single, important = important, progress = progress, favorite = favorite) {
 }

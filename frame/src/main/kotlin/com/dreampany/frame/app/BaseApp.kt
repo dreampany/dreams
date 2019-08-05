@@ -21,7 +21,6 @@ import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.common.internal.Supplier
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
-import com.facebook.soloader.SoLoader
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -350,7 +349,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     private fun initSoLoader() {
-        SoLoader.init(this, false)
+       // SoLoader.init(this, false)
     }
 
     private fun configRx() {

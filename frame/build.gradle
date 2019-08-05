@@ -211,7 +211,14 @@ dependencies {
     api 'eu.davidea:flexible-adapter-databinding:1.0.0'
 
     /* facebook */
-    api 'com.facebook.soloader:soloader:0.6.0'
+    //api 'com.facebook.soloader:soloader:0.6.0'
+    //api 'com.facebook.litho:litho-core:0.29.0'
+    //api 'com.facebook.litho:litho-widget:0.29.0'
+    //kapt 'com.facebook.litho:litho-processor:0.29.0'
+    //api 'com.facebook.litho:litho-sections-core:0.29.0'
+    //api 'com.facebook.litho:litho-sections-widget:0.29.0'
+    //compileOnly 'com.facebook.litho:litho-sections-annotations:0.29.0'
+    //kapt 'com.facebook.litho:litho-sections-processor:0.29.0'
     api 'com.facebook.fresco:fresco:2.0.0'
 
     /* android-iconics */
@@ -255,4 +262,6 @@ dependencies {
     api 'org.jsoup:jsoup:1.12.1'
     api 'de.hdodenhof:circleimageview:3.0.0'
     api 'com.github.shts:TriangleLabelView:1.1.2'
+    api 'com.github.skydoves:submarine:1.0.1'
+    api 'com.aurelhubert:ahbottomnavigation:2.3.4'
 }

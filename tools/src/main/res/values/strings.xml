@@ -3,4 +3,5 @@
 
     <string name="title_apk">All Apps</string>
     <string name="subtitle_apk" translatable="false">Total: %d</string>
+    <string name="title_note" translatable="false">Note</string>
 </resources>

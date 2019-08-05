@@ -123,6 +123,7 @@ dependencies {
     /* kotlin */
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     api 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.1.0'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
 
     /* test */
@@ -150,7 +151,7 @@ dependencies {
     api 'androidx.work:work-rxjava2:2.1.0'
 
     /* google */
-    api 'com.google.android.material:material:1.1.0-alpha08'
+    api 'com.google.android.material:material:1.1.0-alpha09'
 
     /* androidx arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02'
@@ -210,6 +211,7 @@ dependencies {
     api 'eu.davidea:flexible-adapter-databinding:1.0.0'
 
     /* facebook */
+    api 'com.facebook.soloader:soloader:0.6.0'
     api 'com.facebook.fresco:fresco:2.0.0'
 
     /* android-iconics */

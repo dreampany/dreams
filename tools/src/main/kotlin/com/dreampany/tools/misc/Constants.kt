@@ -1,11 +1,9 @@
 package com.dreampany.tools.misc
 
 import android.content.Context
-import com.dreampany.tools.R
 import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.TextUtil
-import com.google.common.base.Splitter
-import com.google.common.collect.Iterables
+import com.dreampany.tools.R
 import java.util.concurrent.TimeUnit
 
 
@@ -17,13 +15,8 @@ import java.util.concurrent.TimeUnit
 class Constants {
 
     companion object Screen {
-        fun database(name: String): String {
-            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + Constants.Database.POST_FIX
-        }
-
-        fun database(name: String, type: String): String {
-            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + type + Constants.Database.POST_FIX
-        }
+        fun database(name: String): String = Constants.database(name)
+        fun database(name: String, type: String): String = Constants.database(name, type)
 
         fun lastAppId(context: Context): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
@@ -81,12 +74,6 @@ class Constants {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
     }
 
-    object UiState {
-        enum class State {
-            NONE, EMPTY, SEARCH
-        }
-    }
-
     object Demo {
         const val ID = Constants.Key.ID
     }
@@ -100,6 +87,10 @@ class Constants {
     }
 
     object Barcode {
+        const val ID = Constants.Key.ID
+    }
+
+    object Note {
         const val ID = Constants.Key.ID
     }
 }

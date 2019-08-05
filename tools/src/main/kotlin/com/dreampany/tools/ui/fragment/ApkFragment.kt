@@ -49,9 +49,9 @@ class ApkFragment @Inject constructor() :
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
-    private lateinit var scroller: OnVerticalScrollListener
     private lateinit var vm: ApkViewModel
     private lateinit var adapter: ApkAdapter
+    private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_recycler
@@ -103,7 +103,7 @@ class ApkFragment @Inject constructor() :
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            Constants.UiState.State.NONE.name,
+            UiState.NONE.name,
             LayoutInflater.from(context).inflate(R.layout.item_none, null)
         )
 
@@ -148,7 +148,7 @@ class ApkFragment @Inject constructor() :
     private fun processUiState(state: UiState) {
         Timber.v("UiState %s", state.name)
         when (state) {
-            UiState.NONE -> bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.NONE -> bind.stateful.setState(UiState.NONE.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }

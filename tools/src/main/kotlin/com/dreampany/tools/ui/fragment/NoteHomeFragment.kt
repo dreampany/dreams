@@ -2,16 +2,21 @@ package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
+import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.UiState
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
+import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import javax.inject.Inject
 
 /**
@@ -21,7 +26,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class ScanFragment @Inject constructor() :
+class NoteHomeFragment @Inject constructor() :
     BaseMenuFragment() {
 
     @Inject
@@ -31,6 +36,9 @@ class ScanFragment @Inject constructor() :
     private lateinit var bind: FragmentRecyclerBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
+
+    private lateinit var adapter: NoteAdapter
+    private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_recycler
@@ -73,20 +81,20 @@ class ScanFragment @Inject constructor() :
     }
 
     private fun initRecycler() {
-        /* bind.setItems(ObservableArrayList<Any>())
-         adapter = ApkAdapter(this)
+         bind.setItems(ObservableArrayList<Any>())
+         adapter = NoteAdapter(this)
          adapter.setStickyHeaders(false)
          scroller = object : OnVerticalScrollListener() {}
          ViewUtil.setRecycler(
              adapter,
              bindRecycler.recycler,
-             SmoothScrollGridLayoutManager(context!!, adapter.getSpanCount()),
+             SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
              FlexibleItemDecoration(context!!)
-                 .addItemViewType(R.layout.item_apk, adapter.getItemOffset())
+                 .addItemViewType(R.layout.item_note, adapter.getItemOffset())
                  .withEdge(true),
              null,
              scroller,
              null
-         )*/
+         )
     }
 }

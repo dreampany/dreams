@@ -5,6 +5,7 @@ import com.dreampany.tools.misc.DemoAnnote
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.tools.data.model.Apk
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.ApkAnnote
 import dagger.Module
 import dagger.Provides
@@ -44,6 +45,20 @@ class SupportModule {
     @Provides
     @ApkAnnote
     fun provideApkSmartCache(): SmartCache<String, Apk> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ApkAnnote
+    fun provideNoteSmartMap(): SmartMap<String, Note> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ApkAnnote
+    fun provideNoteSmartCache(): SmartCache<String, Note> {
         return SmartCache.newCache()
     }
 }

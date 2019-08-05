@@ -1,13 +1,14 @@
 package com.dreampany.tools.ui.activity
 
 import android.os.Bundle
+import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
-import com.dreampany.tools.ui.model.UiTask
-import com.dreampany.frame.misc.SmartAd
 import com.dreampany.tools.ui.fragment.*
+import com.dreampany.tools.ui.model.UiTask
+import com.google.android.gms.ads.AdView
 import dagger.Lazy
 import timber.log.Timber
 import javax.inject.Inject
@@ -31,6 +32,8 @@ class ToolsActivity : BaseActivity() {
     lateinit var apkProvider: Lazy<ApkFragment>
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
+    @Inject
+    lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
@@ -48,6 +51,15 @@ class ToolsActivity : BaseActivity() {
         if (type == null || subtype == null) {
             return
         }
+        ad.initAd(
+            this,
+            getScreen(),
+            findViewById<AdView>(R.id.adview),
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
+        )
+        ad.loadAd(getScreen())
+
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
@@ -78,15 +90,33 @@ class ToolsActivity : BaseActivity() {
                     }
                 }
             }
+            UiType.NOTE -> {
+                when (subtype) {
+                    UiSubtype.VIEW -> {
+                        commitFragment(NoteHomeFragment::class.java, noteHomeProvider, R.id.layout, uiTask)
+                    }
+                }
+            }
             else -> {
             }
         }
     }
 
     override fun onStopUi() {
+        ad.destroyBanner(getScreen())
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        ad.resumeBanner(getScreen())
+    }
+
+    override fun onPause() {
+        ad.pauseBanner(getScreen())
+        super.onPause()
+    }
+
+/*    override fun onDestroy() {
         try {
             super.onDestroy()
         } catch (e: Exception) {
@@ -101,5 +131,5 @@ class ToolsActivity : BaseActivity() {
             return
         }
         finish()
-    }
+    }*/
 }

@@ -10,7 +10,6 @@ import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Response
-import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
@@ -54,9 +53,9 @@ class HomeFragment @Inject constructor() :
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
-    private lateinit var scroller: OnVerticalScrollListener
     private lateinit var vm: FeatureViewModel
     private lateinit var adapter: FeatureAdapter
+    private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -109,7 +108,7 @@ class HomeFragment @Inject constructor() :
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            Constants.UiState.State.NONE.name,
+            UiState.NONE.name,
             LayoutInflater.from(context).inflate(R.layout.item_none, null)
         )
 
@@ -153,7 +152,7 @@ class HomeFragment @Inject constructor() :
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.NONE -> bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.NONE -> bind.stateful.setState(UiState.NONE.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -195,6 +194,9 @@ class HomeFragment @Inject constructor() :
             }
             FeatureType.SCAN -> {
                 task = UiTask<Base>(false, UiType.SCAN, UiSubtype.VIEW, uiItem.item)
+            }
+            FeatureType.NOTE -> {
+                task = UiTask<Base>(false, UiType.NOTE, UiSubtype.VIEW, uiItem.item)
             }
         }
         task?.run {

@@ -1,6 +1,11 @@
 package com.dreampany.tools.injector.data
 
+import android.app.Application
+import com.dreampany.tools.data.source.dao.NoteDao
+import com.dreampany.tools.data.source.room.DatabaseManager
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 
 /**
@@ -10,5 +15,15 @@ import dagger.Module
  */
 @Module
 class DatabaseModule {
+    @Singleton
+    @Provides
+    fun provideDatabase(application: Application): DatabaseManager {
+        return DatabaseManager.getInstance(application.applicationContext)
+    }
 
+    @Singleton
+    @Provides
+    fun provideNoteDao(database: DatabaseManager): NoteDao {
+        return database.noteDao()
+    }
 }

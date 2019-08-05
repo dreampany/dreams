@@ -21,6 +21,7 @@ import com.facebook.cache.disk.DiskCacheConfig
 import com.facebook.common.internal.Supplier
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
+import com.facebook.soloader.SoLoader
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -74,6 +75,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     open fun hasLeakCanary(): Boolean {
+        return false
+    }
+
+    open fun hasSoLoader():Boolean {
         return false
     }
 
@@ -182,6 +187,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
             if (!initLeakCanary()) {
                 return
             }
+        }
+
+        if (hasSoLoader()) {
+            initSoLoader()
         }
 
         if (isDebug() && hasStetho()) {
@@ -338,6 +347,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         //}
         //LeakCanary.install(this)
         return true
+    }
+
+    private fun initSoLoader() {
+        SoLoader.init(this, false)
     }
 
     private fun configRx() {

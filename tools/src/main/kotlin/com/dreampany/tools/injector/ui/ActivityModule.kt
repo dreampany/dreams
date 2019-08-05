@@ -31,7 +31,8 @@ abstract class ActivityModule {
             LicenseModule::class,
             AboutModule::class,
             ApkModule::class,
-            ScanModule::class
+            ScanModule::class,
+            NoteHomeModule::class
         ]
     )
     abstract fun toolsActivity(): ToolsActivity

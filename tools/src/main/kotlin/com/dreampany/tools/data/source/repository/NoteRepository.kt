@@ -2,23 +2,27 @@ package com.dreampany.tools.data.source.repository
 
 import com.dreampany.frame.data.source.repository.Repository
 import com.dreampany.frame.misc.ResponseMapper
+import com.dreampany.frame.misc.Room
 import com.dreampany.frame.misc.RxMapper
-import com.dreampany.tools.data.model.Media
-import com.dreampany.tools.data.source.api.MediaDataSource
+import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.source.api.NoteDataSource
 import io.reactivex.Maybe
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
- * Created by roman on 2019-08-03
+ * Created by roman on 2019-08-05
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class MediaRepository<T : Media>(
+@Singleton
+class NoteRepository
+@Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    val memory: MediaDataSource<T>
-) : Repository<String, T>(rx, rm), MediaDataSource<T> {
-
+    @Room private val room: NoteDataSource
+) : Repository<String, Note>(rx, rm), NoteDataSource {
     override fun isEmpty(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -35,68 +39,68 @@ abstract class MediaRepository<T : Media>(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isExists(t: T): Boolean {
+    override fun isExists(t: Note): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun isExistsRx(t: T): Maybe<Boolean> {
+    override fun isExistsRx(t: Note): Maybe<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItem(t: T): Long {
+    override fun putItem(t: Note): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItemRx(t: T): Maybe<Long> {
+    override fun putItemRx(t: Note): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItems(ts: List<T>): List<Long>? {
+    override fun putItems(ts: List<Note>): List<Long>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun putItemsRx(ts: List<T>): Maybe<List<Long>> {
+    override fun putItemsRx(ts: List<Note>): Maybe<List<Long>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(t: T): Int {
+    override fun delete(t: Note): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteRx(t: T): Maybe<Int> {
+    override fun deleteRx(t: Note): Maybe<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(ts: List<T>): List<Long>? {
+    override fun delete(ts: List<Note>): List<Long>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun deleteRx(ts: List<T>): Maybe<List<Long>> {
+    override fun deleteRx(ts: List<Note>): Maybe<List<Long>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItem(id: String): T? {
+    override fun getItem(id: String): Note? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(id: String): Maybe<T> {
+    override fun getItemRx(id: String): Maybe<Note> {
+        return room.getItemRx(id)
+    }
+
+    override fun getItems(): List<Note>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(): List<T>? {
+    override fun getItemsRx(): Maybe<List<Note>> {
+        return this.room.getItemsRx()
+        //return concatFirstRx(true, room)
+    }
+
+    override fun getItems(limit: Int): List<Note>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(): Maybe<List<T>> {
-        return this.memory.getItemsRx()
-        //return concatFirstRx(true, memory)
-    }
-
-    override fun getItems(limit: Int): List<T>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getItemsRx(limit: Int): Maybe<List<T>> {
+    override fun getItemsRx(limit: Int): Maybe<List<Note>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

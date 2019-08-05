@@ -10,7 +10,6 @@ import com.dreampany.tools.ui.fragment.*
 import com.dreampany.tools.ui.model.UiTask
 import com.google.android.gms.ads.AdView
 import dagger.Lazy
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -33,7 +32,7 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
-    lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
+    lateinit var notesProvider: Lazy<NotesFragment>
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
@@ -93,7 +92,7 @@ class ToolsActivity : BaseActivity() {
             UiType.NOTE -> {
                 when (subtype) {
                     UiSubtype.VIEW -> {
-                        commitFragment(NoteHomeFragment::class.java, noteHomeProvider, R.id.layout, uiTask)
+                        commitFragment(NotesFragment::class.java, notesProvider, R.id.layout, uiTask)
                     }
                 }
             }

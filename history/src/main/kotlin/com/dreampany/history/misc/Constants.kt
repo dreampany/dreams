@@ -142,12 +142,6 @@ class Constants {
         const val IMAGE_MIN_HEIGHT = 100
     }
 
-    object UiState {
-        enum class State {
-            NONE, EMPTY, SEARCH
-        }
-    }
-
     object Pattern {
         const val PATTERN_IMAGE = Constants.Pattern.PATTERN_IMAGE
     }

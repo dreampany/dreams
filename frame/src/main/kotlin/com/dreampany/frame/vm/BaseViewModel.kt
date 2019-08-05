@@ -118,7 +118,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
         networkEvent = NetworkState.NONE
         uiMode.value = UiMode.MAIN
-        uiState.value = UiState.NONE
+        uiState.value = UiState.DEFAULT
         uiMap.clear()
         uiCache.clear()
     }
@@ -177,7 +177,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     open fun clearUiState() {
-        updateUiState(UiState.NONE)
+        updateUiState(UiState.DEFAULT)
     }
 
     open fun clearInput() {

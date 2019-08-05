@@ -16,7 +16,6 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
 class RoomHistoryDataSource(
     private val mapper: HistoryMapper,
     private val dao: HistoryDao

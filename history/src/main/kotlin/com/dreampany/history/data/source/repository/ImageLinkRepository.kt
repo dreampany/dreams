@@ -1,12 +1,11 @@
 package com.dreampany.history.data.source.repository
 
 import com.dreampany.history.data.model.ImageLink
-import com.dreampany.frame.data.source.repository.RepositoryKt
+import com.dreampany.frame.data.source.repository.Repository
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.Room
 import com.dreampany.frame.misc.RxMapper
-import com.dreampany.history.data.enums.HistorySource
 import com.dreampany.history.data.enums.LinkSource
 import com.dreampany.history.data.source.api.ImageLinkDataSource
 import io.reactivex.Maybe
@@ -27,7 +26,7 @@ class ImageLinkRepository
     rm: ResponseMapper,
     @Room private val room: ImageLinkDataSource,
     @Remote private val remote: ImageLinkDataSource
-) : RepositoryKt<String, ImageLink>(rx, rm), ImageLinkDataSource {
+) : Repository<String, ImageLink>(rx, rm), ImageLinkDataSource {
 
     override fun getItem(source: LinkSource, id: String): ImageLink? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

@@ -88,7 +88,7 @@ class FavoriteFragment
         initRecycler()
         session.track()
         initTitleSubtitle()
-        processUiState(UiState.NONE)
+        processUiState(UiState.DEFAULT)
     }
 
     override fun onStopUi() {
@@ -199,7 +199,7 @@ class FavoriteFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.NONE -> bind.stateful.setState(NONE)
+            UiState.DEFAULT -> bind.stateful.setState(NONE)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }

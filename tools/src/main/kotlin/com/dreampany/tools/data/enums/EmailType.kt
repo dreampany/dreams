@@ -4,15 +4,15 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by Roman-372 on 8/5/2019
+ * Created by roman on 2019-08-05
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class NoteState : Parcelable {
+enum class EmailType : Parcelable {
     DEFAULT,
-    TRASH,
-    FAVOURITE,
-    ARCHIVED
+    UNKNOWN,
+    WORK,
+    HOME
 }

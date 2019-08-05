@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
-import com.dreampany.tools.ui.enums.UiState
 import javax.inject.Inject
 
 /**
@@ -60,8 +61,8 @@ class ScanFragment @Inject constructor() :
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            UiState.NONE.name,
-            LayoutInflater.from(context).inflate(R.layout.item_none, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)

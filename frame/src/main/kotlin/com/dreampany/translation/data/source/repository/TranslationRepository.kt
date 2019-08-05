@@ -1,6 +1,6 @@
 package com.dreampany.translation.data.source.repository
 
-import com.dreampany.frame.data.source.repository.RepositoryKt
+import com.dreampany.frame.data.source.repository.Repository
 import com.dreampany.frame.misc.*
 import com.dreampany.translation.data.model.TextTranslation
 import com.dreampany.translation.data.source.api.TranslationDataSource
@@ -26,7 +26,7 @@ class TranslationRepository
     @Machine val machine: TranslationDataSource,
     @Firestore val firestore: TranslationDataSource,
     @Remote val remote: TranslationDataSource
-) : RepositoryKt<String, TextTranslation>(rx, rm), TranslationDataSource {
+) : Repository<String, TextTranslation>(rx, rm), TranslationDataSource {
 
     override fun isReady(target: String): Boolean {
         return machine.isReady(target)

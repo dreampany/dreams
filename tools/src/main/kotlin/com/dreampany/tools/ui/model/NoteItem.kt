@@ -1,35 +1,19 @@
 package com.dreampany.tools.ui.model
 
-import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
-import com.dreampany.frame.util.AndroidUtil
-import com.dreampany.frame.util.DataUtilKt
-import com.dreampany.frame.util.DisplayUtil
-import com.dreampany.frame.util.FrescoUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.ApkType
-import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.ApkAdapter
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.UiAction
-import com.facebook.drawee.view.SimpleDraweeView
-import com.github.nikartm.button.FitButton
-import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import jp.shts.android.library.TriangleLabelView
 import java.io.Serializable
-import java.lang.ref.WeakReference
 
 
 /**
@@ -44,7 +28,7 @@ class NoteItem private constructor(
 
     companion object {
         fun getItem(item: Note): NoteItem {
-            return NoteItem(item, R.layout.item_none)
+            return NoteItem(item, R.layout.item_default)
         }
     }
 

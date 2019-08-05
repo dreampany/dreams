@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.repository;
 
 import com.dreampany.frame.data.model.Response;
@@ -16,11 +17,13 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.subjects.PublishSubject;
 import timber.log.Timber;
 
+*/
 /**
  * Created by Hawladar Roman on 5/30/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public abstract class Repository<K, V> {
 
     protected final RxMapper rx;
@@ -349,3 +352,4 @@ public abstract class Repository<K, V> {
         return maybe;
     }
 }
+*/

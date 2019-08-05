@@ -111,9 +111,9 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
         uiFavorites = Collections.synchronizedSet<T>(HashSet<T>())
         uiSelects = Collections.synchronizedSet<T>(HashSet<T>())
 
-        networkEvent = NetworkState.NONE
+        networkEvent = NetworkState.DEFAULT
         uiMode.value = UiMode.MAIN
-        uiState.value = UiState.NONE
+        uiState.value = UiState.DEFAULT
         uiMap.clear()
         uiCache.clear()
     }
@@ -203,7 +203,7 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
     }
 
     open fun clearUiState() {
-        updateUiState(UiState.NONE)
+        updateUiState(UiState.DEFAULT)
     }
 
     open fun clearInput() {
@@ -460,7 +460,7 @@ abstract class BaseViewModelKt<T, X, Y> protected constructor(
 
     fun updateUiState(state: UiState?) {
         state?.let {
-            //if (it != UiState.NONE) {
+            //if (it != UiState.DEFAULT) {
             uiState.value = it
             //}
         }

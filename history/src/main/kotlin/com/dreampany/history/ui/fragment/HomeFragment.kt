@@ -322,7 +322,7 @@ class HomeFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.NONE -> bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.DEFAULT -> bind.stateful.setState(Constants.UiState.State.NONE.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }

@@ -59,35 +59,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true" />
 
-            <!--   <com.skydoves.submarine.SubmarineView
-                   android:id="@+id/submarine_view"
-                   android:layout_width="@dimen/_30sdp"
-                   android:layout_height="@dimen/_30sdp"
-                   android:layout_alignParentEnd="true"
-                   android:layout_alignParentBottom="true"
-                   android:layout_margin="@dimen/_15sdp"
-                   auto:submarine_autoDip="false"
-                   auto:submarine_autoNavigate="false"
-                   auto:submarine_circleAnchor="right"
-                   auto:submarine_circleDrawable="@drawable/ic_more_black_24dp"
-                   auto:submarine_color="@color/material_white"
-                   auto:submarine_circleSize="@dimen/_30sdp"
-                   auto:submarine_orientation="horizontal">
-
-
-               </com.skydoves.submarine.SubmarineView>-->
-
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_above="@id/bottom_nav"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:tint="@color/material_white"
-                android:visibility="gone"
+                android:visibility="visible"
                 auto:backgroundTint="@color/colorPrimaryDark"
                 auto:elevation="6dp"
                 auto:rippleColor="@color/material_white"

@@ -19,7 +19,7 @@ import java.util.ArrayList
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class RepositoryKt<K, T>(protected val rx: RxMapper, protected val rm: ResponseMapper) {
+abstract class Repository<K, T>(protected val rx: RxMapper, protected val rm: ResponseMapper) {
 
     protected val subject: PublishSubject<Response<T>> = PublishSubject.create()
     protected val subjects: PublishSubject<Response<List<T>>> = PublishSubject.create()

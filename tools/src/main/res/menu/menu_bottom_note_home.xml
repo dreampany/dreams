@@ -7,6 +7,11 @@
         android:title="@string/home" />
 
     <item
+        android:id="@+id/item_favorite"
+        android:icon="@drawable/ic_favorite_black_24dp"
+        android:title="@string/favorite" />
+
+    <item
         android:id="@+id/item_more"
         android:icon="@drawable/ic_more_black_24dp"
         android:title="@string/more" />

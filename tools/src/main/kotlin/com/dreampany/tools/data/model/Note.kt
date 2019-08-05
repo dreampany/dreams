@@ -23,8 +23,10 @@ import kotlinx.android.parcel.Parcelize
 data class Note(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var title : String = Constants.Default.STRING,
-    var description : String = Constants.Default.STRING,
+    var title: String = Constants.Default.STRING,
+    var description: String = Constants.Default.STRING,
     var tags: MutableList<String>? = Constants.Default.NULL
-) : Base(){
+) : Base() {
+
+
 }

@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.misc
 
 import com.dreampany.frame.data.model.Request
-import com.dreampany.tools.data.enums.NoteState
+import com.dreampany.tools.data.enums.NoteType
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
 
@@ -12,7 +12,8 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class NoteRequest(
-    val state: NoteState = NoteState.DEFAULT,
+    val type: NoteType = NoteType.DEFAULT,
+    id: String? = Constants.Default.NULL,
     input: Note? = Constants.Default.NULL,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,

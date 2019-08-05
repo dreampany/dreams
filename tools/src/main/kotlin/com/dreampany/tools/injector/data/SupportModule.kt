@@ -7,6 +7,7 @@ import com.dreampany.frame.misc.SmartMap
 import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.ApkAnnote
+import com.dreampany.tools.misc.NoteAnnote
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -50,14 +51,14 @@ class SupportModule {
 
     @Singleton
     @Provides
-    @ApkAnnote
+    @NoteAnnote
     fun provideNoteSmartMap(): SmartMap<String, Note> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
-    @ApkAnnote
+    @NoteAnnote
     fun provideNoteSmartCache(): SmartCache<String, Note> {
         return SmartCache.newCache()
     }

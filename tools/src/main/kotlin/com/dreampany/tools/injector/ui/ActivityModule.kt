@@ -32,7 +32,7 @@ abstract class ActivityModule {
             AboutModule::class,
             ApkModule::class,
             ScanModule::class,
-            NoteHomeModule::class
+            NotesModule::class
         ]
     )
     abstract fun toolsActivity(): ToolsActivity

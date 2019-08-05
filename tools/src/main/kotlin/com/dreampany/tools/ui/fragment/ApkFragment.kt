@@ -103,8 +103,8 @@ class ApkFragment @Inject constructor() :
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            UiState.NONE.name,
-            LayoutInflater.from(context).inflate(R.layout.item_none, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
@@ -148,7 +148,7 @@ class ApkFragment @Inject constructor() :
     private fun processUiState(state: UiState) {
         Timber.v("UiState %s", state.name)
         when (state) {
-            UiState.NONE -> bind.stateful.setState(UiState.NONE.name)
+            UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }

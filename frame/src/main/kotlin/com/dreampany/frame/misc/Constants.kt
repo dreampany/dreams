@@ -141,12 +141,6 @@ class Constants {
         const val HTTPS = "https:"
     }
 
-    object UiState {
-        enum class State {
-            NONE, EMPTY, SEARCH
-        }
-    }
-
     object Pattern {
         const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
         const val PATTERN_IMAGE_URL = "^https?://(?:[a-z0-9\\-]+\\.)+[a-z0-9]{2,6}(?:/[^/#?]+)+\\.(?:jpg|gif|png)\$"

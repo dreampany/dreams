@@ -1,5 +1,6 @@
 package com.dreampany.frame.misc
 
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.model.Response
 import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
@@ -19,8 +20,8 @@ class ResponseMapper @Inject constructor() {
         subject.onNext(Response.Failure(error))
     }
 
-    fun <T> response(subject: PublishSubject<Response<T>>, type: Response.Type, data: T) {
-        subject.onNext(Response.Result(type, data))
+    fun <T> response(subject: PublishSubject<Response<T>>, action: Action, data: T) {
+        subject.onNext(Response.Result(action, data))
     }
 
     fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, error: Throwable) {
@@ -28,9 +29,9 @@ class ResponseMapper @Inject constructor() {
         subject.onNext(Response.Failure(error))
     }
 
-    fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, type: Response.Type, data: T) {
+    fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, action: Action, data: T) {
         response(subject, false)
-        subject.onNext(Response.Result(type, data))
+        subject.onNext(Response.Result(action, data))
     }
 
     fun <T> responseEmpty(subject: PublishSubject<Response<T>>, data: T?) {

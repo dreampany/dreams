@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -79,15 +80,17 @@ class EditNoteFragment @Inject constructor() :
             bind.inputEditDescription.error = getString(R.string.error_description_note)
             return
         }
-        request(title = title.toString(), description = description.toString(), progress = true)
+        request(action = Action.ADD, title = title.toString(), description = description.toString(), progress = true)
     }
 
     private fun request(
+        action: Action = Action.DEFAULT,
         title: String = Constants.Default.STRING,
         description: String = Constants.Default.STRING,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = NoteRequest(
+            action = action,
             title = title,
             description = description,
             single = true,
@@ -127,11 +130,11 @@ class EditNoteFragment @Inject constructor() :
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<NoteItem>
-            processSuccess(result.type, result.data)
+            processSuccess(result.action, result.data)
         }
     }
 
-    private fun processSuccess(type: Response.Type, items: NoteItem) {
+    private fun processSuccess(action: Action, items: NoteItem) {
 
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }

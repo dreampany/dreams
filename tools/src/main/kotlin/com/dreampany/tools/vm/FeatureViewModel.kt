@@ -1,6 +1,7 @@
 package com.dreampany.tools.vm
 
 import android.app.Application
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.source.repository.StateRepository
@@ -38,10 +39,13 @@ class FeatureViewModel @Inject constructor(
 ) : BaseViewModel<Feature, FeatureItem, UiTask<Feature>>(application, rx, ex, rm) {
 
     fun load(request: FeatureRequest) {
-        if (request.type == FeatureType.DEFAULT) {
-            loadMultiple(request)
-        } else {
-            loadSingle(request)
+        if (request.action == Action.GET) {
+            if (request.single) {
+                loadSingle(request)
+            } else {
+                loadMultiple(request)
+            }
+            return
         }
     }
 
@@ -61,7 +65,7 @@ class FeatureViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Response.Type.GET, result)
+                postResult(Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -87,7 +91,7 @@ class FeatureViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Response.Type.GET, result)
+                postResult(Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)

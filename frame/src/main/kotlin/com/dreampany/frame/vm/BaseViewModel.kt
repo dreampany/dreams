@@ -3,6 +3,7 @@ package com.dreampany.frame.vm
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.NetworkState
 import com.dreampany.frame.data.enums.UiMode
 import com.dreampany.frame.data.enums.UiState
@@ -435,31 +436,31 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }
 
-    fun postResult(type: Response.Type, data: X) {
-        rm.response(input, type, data)
+    fun postResult(action: Action, data: X) {
+        rm.response(input, action, data)
     }
 
-    fun postResult(type: Response.Type, data: X, withProgress: Boolean) {
+    fun postResult(action: Action, data: X, withProgress: Boolean) {
         if (withProgress) {
-            rm.responseWithProgress(input, type, data)
+            rm.responseWithProgress(input, action, data)
         } else {
-            rm.response(input, type, data)
+            rm.response(input, action, data)
         }
     }
 
-    fun postResult(type: Response.Type, data: List<X>) {
-        rm.response(inputs, type, data)
+    fun postResult(action: Action, data: List<X>) {
+        rm.response(inputs, action, data)
     }
 
-    fun postResultOfString(type: Response.Type, data: List<String>) {
-        rm.response(inputsOfString, type, data)
+    fun postResultOfString(action: Action, data: List<String>) {
+        rm.response(inputsOfString, action, data)
     }
 
-    fun postResult(type: Response.Type, data: List<X>, withProgress: Boolean) {
+    fun postResult(action: Action, data: List<X>, withProgress: Boolean) {
         if (withProgress) {
-            rm.responseWithProgress(inputs, type, data)
+            rm.responseWithProgress(inputs, action, data)
         } else {
-            rm.response(inputs, type, data)
+            rm.response(inputs, action, data)
         }
     }
 

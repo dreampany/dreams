@@ -41,7 +41,7 @@ class RoomNoteDataSource(
     }
 
     override fun putItem(t: Note): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun putItemRx(t: Note): Maybe<Long> {

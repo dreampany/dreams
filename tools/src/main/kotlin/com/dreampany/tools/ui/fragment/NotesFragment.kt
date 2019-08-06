@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -155,6 +156,7 @@ class NotesFragment @Inject constructor() :
 
     private fun request(progress: Boolean = Constants.Default.BOOLEAN) {
         val request = NoteRequest(
+            action = Action.GET,
             single = false,
             progress = progress
         )
@@ -202,12 +204,12 @@ class NotesFragment @Inject constructor() :
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<NoteItem>>
-            processSuccess(result.type, result.data)
+            processSuccess(result.action, result.data)
         }
     }
 
-    private fun processSuccess(type: Response.Type, items: List<NoteItem>) {
-        Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
+    private fun processSuccess(action: Action, items: List<NoteItem>) {
+        Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }

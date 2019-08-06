@@ -1,6 +1,7 @@
 package com.dreampany.tools.vm
 
 import android.app.Application
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.source.repository.StateRepository
@@ -65,7 +66,7 @@ class ApkViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Response.Type.GET, result)
+                postResult(Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -91,7 +92,7 @@ class ApkViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Response.Type.GET, result)
+                postResult(Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)

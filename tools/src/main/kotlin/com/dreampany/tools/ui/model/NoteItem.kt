@@ -28,7 +28,7 @@ class NoteItem private constructor(
 
     companion object {
         fun getItem(item: Note): NoteItem {
-            return NoteItem(item, R.layout.item_default)
+            return NoteItem(item, R.layout.item_note)
         }
     }
 
@@ -58,8 +58,8 @@ class NoteItem private constructor(
             this.adapter = adapter as NoteAdapter
             height = getSpanHeight(this.adapter.getSpanCount(), this.adapter.getItemOffset())
 
-            textTitle = view.findViewById(R.id.text_name)
-            textDescription = view.findViewById(R.id.text_size)
+            textTitle = view.findViewById(R.id.text_title)
+            textDescription = view.findViewById(R.id.text_description)
 
 
 

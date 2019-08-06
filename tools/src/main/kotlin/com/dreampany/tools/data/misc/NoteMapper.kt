@@ -3,6 +3,9 @@ package com.dreampany.tools.data.misc
 import android.content.Context
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
+import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.frame.util.DataUtilKt
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.NoteAnnote
 import javax.inject.Inject
@@ -26,7 +29,18 @@ class NoteMapper
         return map.contains(item.id)
     }
 
-/*    fun createNote(title: String, desciption: String): Note {
-
-    }*/
+    fun toItem(title: String?, description: String?): Note? {
+        if (title.isNullOrEmpty() || description.isNullOrEmpty()) {
+            return null
+        }
+        val id = DataUtilKt.getRandId()
+        val note = Note(
+            time = TimeUtilKt.currentMillis(),
+            id = id,
+            title = title,
+            description = description
+        )
+        map.put(id, note)
+        return note
+    }
 }

@@ -2,6 +2,7 @@ package com.dreampany.tools.vm
 
 import android.app.Activity
 import android.app.Application
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.tools.data.model.More
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.enums.MoreType
@@ -47,7 +48,7 @@ class MoreViewModel @Inject constructor(
             .doOnSubscribe { subscription -> postProgress(true) }
             .subscribe(
                 { result ->
-                    postResult(Response.Type.GET, result)
+                    postResult(Action.GET, result)
                 },
                 { error ->
                     postFailures(MultiException(error, ExtraException()))

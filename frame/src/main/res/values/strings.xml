@@ -23,7 +23,7 @@
     <string name="clear_all">Clear All</string>
     <string name="add_all">Add All</string>
 
-    <string name="empty">Empty</string>
+    <string name="empty">""</string>
     <string name="loading">Loading…</string>
     <string name="try_again">Try Again</string>
     <string name="offline">Oops… You are offline.</string>

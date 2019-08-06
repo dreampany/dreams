@@ -67,8 +67,7 @@
         <activity
             android:name="com.dreampany.tools.ui.activity.LaunchActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:launchMode="singleTask"
-            android:noHistory="true">
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -80,7 +79,6 @@
             android:name="com.dreampany.tools.ui.activity.NavigationActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:label="@string/empty"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.searchable"

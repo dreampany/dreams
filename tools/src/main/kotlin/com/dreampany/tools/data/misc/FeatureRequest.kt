@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.misc
 
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.model.Request
 import com.dreampany.tools.data.enums.FeatureType
 import com.dreampany.tools.data.model.Feature
@@ -13,9 +14,16 @@ import com.dreampany.tools.misc.Constants
  */
 class FeatureRequest(
     val type: FeatureType = FeatureType.DEFAULT,
+    action: Action = Action.DEFAULT,
     input: Feature? = Constants.Default.NULL,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
     favorite: Boolean = Constants.Default.BOOLEAN
-) : Request<Feature>(input = input, important = important, progress = progress, favorite = favorite) {
+) : Request<Feature>(
+    action = action,
+    input = input,
+    important = important,
+    progress = progress,
+    favorite = favorite
+) {
 }

@@ -1,10 +1,12 @@
 package com.dreampany.tools.vm
 
 import android.app.Application
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.source.repository.StateRepository
 import com.dreampany.frame.misc.*
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.vm.BaseViewModel
@@ -48,11 +50,44 @@ class NoteViewModel @Inject constructor(
 ) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm) {
 
     fun request(request: NoteRequest) {
-        if (request.single) {
-            loadSingle(request)
-        } else {
-            loadMultiple(request)
+        if (request.action == Action.ADD) {
+            addSingle(request)
+            return
         }
+        if (request.action == Action.GET) {
+            if (request.single) {
+                loadSingle(request)
+            } else {
+                loadMultiple(request)
+            }
+            return
+        }
+
+    }
+
+    private fun addSingle(request: NoteRequest) {
+        if (!takeAction(request.important, singleDisposable)) {
+            return
+        }
+        val disposable = rx
+            .backToMain(saveUiItemRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postResult(Action.GET, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
+        addSingleSubscription(disposable)
     }
 
     private fun loadSingle(request: NoteRequest) {
@@ -71,7 +106,7 @@ class NoteViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Response.Type.GET, result)
+                postResult(Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -97,7 +132,7 @@ class NoteViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Response.Type.GET, result)
+                postResult(Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -107,12 +142,28 @@ class NoteViewModel @Inject constructor(
         addMultipleSubscription(disposable)
     }
 
+    private fun saveUiItemRx(request: NoteRequest): Maybe<NoteItem> {
+        return saveItemRx(request).flatMap { getUiItemRx(it) }
+    }
+
     private fun loadUiItemRx(request: NoteRequest): Maybe<NoteItem> {
         return getItemRx(request).flatMap { getUiItemRx(it) }
     }
 
     private fun loadUiItemsRx(request: NoteRequest): Maybe<List<NoteItem>> {
         return repo.getItemsRx().flatMap { getUiItemsRx(it) }
+    }
+
+    private fun saveItemRx(request: NoteRequest): Maybe<Note> {
+        return Maybe.create { emitter ->
+            val note = mapper.toItem(request.title, request.description)
+            if (note == null) {
+                emitter.onError(EmptyException())
+            } else {
+                repo.putItem(note)
+                emitter.onSuccess(note)
+            }
+        }
     }
 
     private fun getItemRx(request: NoteRequest): Maybe<Note> {

@@ -7,8 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
-import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.adapter.SmartAdapter
@@ -18,6 +18,7 @@ import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.FeatureType
 import com.dreampany.tools.data.misc.FeatureRequest
+import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentHomeBinding
@@ -143,6 +144,7 @@ class HomeFragment @Inject constructor() :
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = FeatureRequest(
+            action = Action.GET,
             type = FeatureType.DEFAULT,
             important = important,
             progress = progress
@@ -175,28 +177,27 @@ class HomeFragment @Inject constructor() :
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<FeatureItem>>
-            processSuccess(result.type, result.data)
+            processSuccess(result.action, result.data)
         }
     }
 
-    private fun processSuccess(type: Response.Type, items: List<FeatureItem>) {
-        Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
+    private fun processSuccess(action: Action, items: List<FeatureItem>) {
         adapter.setItems(items)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }
 
 
     private fun openUi(uiItem: FeatureItem) {
-        var task: UiTask<Base>? = null
+        var task: UiTask<Feature>? = null
         when (uiItem.item.type) {
             FeatureType.APK -> {
-                task = UiTask<Base>(false, UiType.APK, UiSubtype.HOME, uiItem.item)
+                task = UiTask<Feature>(false, UiType.APK, UiSubtype.HOME, uiItem.item)
             }
             FeatureType.SCAN -> {
-                task = UiTask<Base>(false, UiType.SCAN, UiSubtype.HOME, uiItem.item)
+                task = UiTask<Feature>(false, UiType.SCAN, UiSubtype.HOME, uiItem.item)
             }
             FeatureType.NOTE -> {
-                task = UiTask<Base>(false, UiType.NOTE, UiSubtype.HOME, uiItem.item)
+                task = UiTask<Feature>(false, UiType.NOTE, UiSubtype.HOME, uiItem.item)
             }
         }
         task?.run {

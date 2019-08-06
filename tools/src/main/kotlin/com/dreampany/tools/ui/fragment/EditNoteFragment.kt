@@ -21,9 +21,13 @@ class EditNoteFragment @Inject constructor() :
     }
 
     override fun onStartUi(state: Bundle?) {
-
+initUi()
     }
 
     override fun onStopUi() {
+    }
+
+    private fun initUi() {
+        setTitle(R.string.title_edit_note)
     }
 }

@@ -11,5 +11,7 @@
     <string name="hint_title_edit_note" translatable="false">Add Title...</string>
     <string name="hint_description_edit_note" translatable="false">Add Description...</string>
 
+    <string name="title_edit_note" translatable="false">Edit Note</string>
+
 
 </resources>

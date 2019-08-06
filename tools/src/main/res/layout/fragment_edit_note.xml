@@ -39,10 +39,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/layout_input_title"
-                auto:layout_constraintTop_toTopOf="parent">
+                auto:layout_constraintTop_toBottomOf="@id/layout_input_title">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/input_edit_description"

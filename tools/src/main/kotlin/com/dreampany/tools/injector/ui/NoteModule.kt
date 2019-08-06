@@ -1,5 +1,6 @@
 package com.dreampany.tools.injector.ui
 import com.dreampany.frame.misc.FragmentScope
+import com.dreampany.tools.ui.fragment.EditNoteFragment
 import com.dreampany.tools.ui.fragment.NotesFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,8 +13,12 @@ import dagger.android.ContributesAndroidInjector
  */
 
 @Module
-abstract class NotesModule {
+abstract class NoteModule {
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun fragment(): NotesFragment;
+    abstract fun notesFragment(): NotesFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun editNoteFragment(): EditNoteFragment
 }

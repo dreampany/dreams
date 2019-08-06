@@ -48,7 +48,7 @@ class NoteViewModel @Inject constructor(
 ) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm) {
 
     fun load(request: NoteRequest) {
-        if (request.type == NoteType.SINGLE) {
+        if (request.single) {
             loadSingle(request)
         } else {
             loadMultiple(request)

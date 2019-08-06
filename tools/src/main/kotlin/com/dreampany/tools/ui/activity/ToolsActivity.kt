@@ -33,6 +33,8 @@ class ToolsActivity : BaseActivity() {
     lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
     lateinit var notesProvider: Lazy<NotesFragment>
+    @Inject
+    lateinit var editNoteProvider: Lazy<EditNoteFragment>
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
@@ -63,13 +65,28 @@ class ToolsActivity : BaseActivity() {
             UiType.MORE -> {
                 when (subtype) {
                     UiSubtype.SETTINGS -> {
-                        commitFragment(SettingsFragment::class.java, settingsProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            SettingsFragment::class.java,
+                            settingsProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     UiSubtype.LICENSE -> {
-                        commitFragment(LicenseFragment::class.java, licenseProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            LicenseFragment::class.java,
+                            licenseProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     UiSubtype.ABOUT -> {
-                        commitFragment(AboutFragment::class.java, aboutProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            AboutFragment::class.java,
+                            aboutProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     else -> {
                     }
@@ -77,22 +94,36 @@ class ToolsActivity : BaseActivity() {
             }
             UiType.APK -> {
                 when (subtype) {
-                    UiSubtype.VIEW -> {
+                    UiSubtype.HOME -> {
                         commitFragment(ApkFragment::class.java, apkProvider, R.id.layout, uiTask)
                     }
                 }
             }
             UiType.SCAN -> {
                 when (subtype) {
-                    UiSubtype.VIEW -> {
+                    UiSubtype.HOME -> {
                         commitFragment(ScanFragment::class.java, scanProvider, R.id.layout, uiTask)
                     }
                 }
             }
             UiType.NOTE -> {
                 when (subtype) {
-                    UiSubtype.VIEW -> {
-                        commitFragment(NotesFragment::class.java, notesProvider, R.id.layout, uiTask)
+                    UiSubtype.HOME -> {
+                        commitFragment(
+                            NotesFragment::class.java,
+                            notesProvider,
+                            R.id.layout,
+                            uiTask
+                        )
+                    }
+                    UiSubtype.ADD,
+                    UiSubtype.EDIT -> {
+                        commitFragment(
+                            EditNoteFragment::class.java,
+                            editNoteProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                 }
             }

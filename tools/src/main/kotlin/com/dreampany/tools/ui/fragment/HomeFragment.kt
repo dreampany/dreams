@@ -190,13 +190,13 @@ class HomeFragment @Inject constructor() :
         var task: UiTask<Base>? = null
         when (uiItem.item.type) {
             FeatureType.APK -> {
-                task = UiTask<Base>(false, UiType.APK, UiSubtype.VIEW, uiItem.item)
+                task = UiTask<Base>(false, UiType.APK, UiSubtype.HOME, uiItem.item)
             }
             FeatureType.SCAN -> {
-                task = UiTask<Base>(false, UiType.SCAN, UiSubtype.VIEW, uiItem.item)
+                task = UiTask<Base>(false, UiType.SCAN, UiSubtype.HOME, uiItem.item)
             }
             FeatureType.NOTE -> {
-                task = UiTask<Base>(false, UiType.NOTE, UiSubtype.VIEW, uiItem.item)
+                task = UiTask<Base>(false, UiType.NOTE, UiSubtype.HOME, uiItem.item)
             }
         }
         task?.run {

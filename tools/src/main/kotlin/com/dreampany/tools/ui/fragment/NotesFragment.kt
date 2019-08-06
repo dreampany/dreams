@@ -18,15 +18,18 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.NoteState
-import com.dreampany.tools.data.enums.NoteType
 import com.dreampany.tools.data.misc.NoteRequest
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentNotesBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
+import com.dreampany.tools.ui.enums.UiSubtype
+import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.model.NoteItem
+import com.dreampany.tools.ui.model.UiTask
 import com.dreampany.tools.vm.NoteViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -83,8 +86,12 @@ class NotesFragment @Inject constructor() :
             R.id.fab -> {
                 openAddNoteUi()
             }
+            R.id.layout_empty -> {
+                openAddNoteUi()
+            }
         }
     }
+
 
     private fun initTitleSubtitle() {
         setTitle(R.string.title_note)
@@ -102,7 +109,9 @@ class NotesFragment @Inject constructor() :
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty_note, null)
+            LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
+                setOnClickListener(this@NotesFragment)
+            }
         )
 
         processUiState(UiState.DEFAULT)
@@ -145,21 +154,22 @@ class NotesFragment @Inject constructor() :
         )
     }
 
-    private fun request(
-        important: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
-    ) {
+    private fun request(progress: Boolean = Constants.Default.BOOLEAN) {
         val request = NoteRequest(
-            type = NoteType.DEFAULT,
-            state = NoteState.DEFAULT,
-            important = important,
+            single = false,
             progress = progress
         )
         vm.load(request)
     }
 
     private fun openAddNoteUi() {
+        val task = UiTask<Note>(false, UiType.NOTE, UiSubtype.ADD)
+        openActivity(ToolsActivity::class.java, task)
+    }
 
+    private fun openEditNoteUi(note: Note) {
+        val task = UiTask<Note>(false, UiType.NOTE, UiSubtype.EDIT, note)
+        openActivity(ToolsActivity::class.java, task)
     }
 
     private fun processUiState(state: UiState) {

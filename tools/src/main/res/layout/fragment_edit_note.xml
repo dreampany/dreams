@@ -13,7 +13,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_5sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_edit"
@@ -32,6 +33,7 @@
                     android:id="@+id/input_edit_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
                     android:hint="@string/hint_title_edit_note" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -48,7 +50,11 @@
                     android:id="@+id/input_edit_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_description_edit_note" />
+                    android:background="@android:color/transparent"
+                    android:gravity="top|left"
+                    android:hint="@string/hint_description_edit_note"
+                    android:inputType="textMultiLine"
+                    android:minLines="9" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

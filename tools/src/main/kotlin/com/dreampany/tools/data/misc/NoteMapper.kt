@@ -20,9 +20,13 @@ class NoteMapper
     val context: Context,
     @NoteAnnote val map: SmartMap<String, Note>,
     @NoteAnnote val cache: SmartCache<String, Note>
-)  {
+) {
 
     fun isExists(item: Note): Boolean {
         return map.contains(item.id)
     }
+
+/*    fun createNote(title: String, desciption: String): Note {
+
+    }*/
 }

@@ -11,7 +11,9 @@
     <string name="hint_title_edit_note" translatable="false">Add Title...</string>
     <string name="hint_description_edit_note" translatable="false">Add Description...</string>
 
+    <string name="title_add_note" translatable="false">Add Note</string>
     <string name="title_edit_note" translatable="false">Edit Note</string>
-
+    <string name="error_title_note" translatable="false">Empty title</string>
+    <string name="error_description_note" translatable="false">Empty description</string>
 
 </resources>

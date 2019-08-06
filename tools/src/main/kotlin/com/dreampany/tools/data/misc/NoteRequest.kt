@@ -16,10 +16,18 @@ class NoteRequest(
     val type: NoteType = NoteType.DEFAULT,
     val state: NoteState = NoteState.DEFAULT,
     val id: String? = Constants.Default.NULL,
+    val title: String? = Constants.Default.NULL,
+    val description: String? = Constants.Default.NULL,
     input: Note? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
     favorite: Boolean = Constants.Default.BOOLEAN
-) : Request<Note>(input = input, single = single, important = important, progress = progress, favorite = favorite) {
+) : Request<Note>(
+    input = input,
+    single = single,
+    important = important,
+    progress = progress,
+    favorite = favorite
+) {
 }

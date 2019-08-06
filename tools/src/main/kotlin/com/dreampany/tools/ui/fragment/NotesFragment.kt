@@ -130,7 +130,6 @@ class NotesFragment @Inject constructor() :
             titleState = AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE
         }
 
-
         vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
@@ -159,7 +158,7 @@ class NotesFragment @Inject constructor() :
             single = false,
             progress = progress
         )
-        vm.load(request)
+        vm.request(request)
     }
 
     private fun openAddNoteUi() {

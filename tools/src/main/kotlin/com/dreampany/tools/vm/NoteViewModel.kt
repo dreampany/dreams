@@ -47,7 +47,7 @@ class NoteViewModel @Inject constructor(
     @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm) {
 
-    fun load(request: NoteRequest) {
+    fun request(request: NoteRequest) {
         if (request.single) {
             loadSingle(request)
         } else {

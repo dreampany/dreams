@@ -53,7 +53,8 @@ class EditNoteFragment @Inject constructor() :
 
     override fun hasBackPressed(): Boolean {
         saveNote()
-        return false
+        forResult()
+        return true
     }
 
     private fun initUi() {
@@ -67,6 +68,10 @@ class EditNoteFragment @Inject constructor() :
         vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+
+        if (uiTask.subtype == UiSubtype.EDIT) {
+            request(action = Action.GET, id = uiTask.input!!.id, progress = true)
+        }
     }
 
     private fun saveNote() {
@@ -99,25 +104,30 @@ class EditNoteFragment @Inject constructor() :
         vm.request(request)
     }
 
+    private fun request(
+        action: Action = Action.DEFAULT,
+        id: String = Constants.Default.STRING,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = NoteRequest(
+            action = action,
+            id = id,
+            single = true,
+            progress = progress
+        )
+        vm.request(request)
+    }
+
     private fun processUiState(state: UiState) {
         Timber.v("UiState %s", state.name)
-/*        when (state) {
-            UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
-            UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
-            UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
+        when (state) {
+             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
             UiState.HIDE_PROGRESS -> if (bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(false)
             }
-            UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
-            UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
-            UiState.CONTENT -> {
-                bind.stateful.setState(StatefulLayout.State.CONTENT)
-                initTitleSubtitle()
-            }
-        }*/
+        }
     }
 
     fun processSingleResponse(response: Response<NoteItem>) {

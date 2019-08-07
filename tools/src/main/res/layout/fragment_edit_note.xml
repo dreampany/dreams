@@ -11,10 +11,12 @@
             type="androidx.databinding.ObservableArrayList" />
     </data>
 
-    <FrameLayout
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_5sdp">
+        android:layout_height="match_parent"
+        android:padding="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_edit"
@@ -60,7 +62,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </layout>

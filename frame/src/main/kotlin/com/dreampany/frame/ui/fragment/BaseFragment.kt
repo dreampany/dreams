@@ -505,7 +505,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         parent?.hideAlert()
     }
 
-    protected fun forResult() {
+    protected fun forResult(okay: Boolean = true) {
         if (!isParentAlive()) {
             return
         }
@@ -513,8 +513,16 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         val task = getCurrentTask<Task<*>>(false)
         val intent = Intent()
         intent.putExtra(Constants.Task.TASK, task as Parcelable)
-        parent?.setResult(Activity.RESULT_OK, intent)
+        if (okay) {
+            parent?.setResult(Activity.RESULT_OK, intent)
+        } else {
+            parent?.setResult(Activity.RESULT_CANCELED, intent)
+        }
         parent?.finish()
+    }
+
+    protected fun isOkay(resultCode: Int): Boolean {
+        return resultCode == Activity.RESULT_OK
     }
 
 /*    protected fun showProgress(message: String) {

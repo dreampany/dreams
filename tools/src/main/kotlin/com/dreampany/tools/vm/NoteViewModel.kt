@@ -167,8 +167,7 @@ class NoteViewModel @Inject constructor(
     }
 
     private fun getItemRx(request: NoteRequest): Maybe<Note> {
-        return Maybe.create { emitter ->
-        }
+        return repo.getItemRx(request.id!!)
     }
 
     private fun getItemsRx(request: NoteRequest): Maybe<List<Note>> {

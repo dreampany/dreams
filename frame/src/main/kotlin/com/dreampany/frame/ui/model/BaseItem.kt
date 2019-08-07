@@ -33,7 +33,7 @@ abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(va
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as BaseItem<T, VH, S>
-        return Objects.equal(this.item, item)
+        return Objects.equal(this.item, item.item)
     }
 
     override fun hashCode(): Int {

@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -102,6 +103,14 @@ class NotesFragment @Inject constructor() :
         request(progress = true)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == Constants.RequestCode.ADD_NOTE) {
+            if (isOkay(resultCode)) {
+                ex.postToUi({ request(true) }, 1000L)
+            }
+        }
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.fab -> {
@@ -125,7 +134,9 @@ class NotesFragment @Inject constructor() :
         powerMenu?.dismiss()
         val option: NoteOption = item.tag as NoteOption
         Timber.v("Option fired %s", option.toTitle())
+        processOption(option, currentItem!!)
     }
+
 
     private fun initTitleSubtitle() {
         setTitle(R.string.title_note)
@@ -246,6 +257,14 @@ class NotesFragment @Inject constructor() :
         powerMenu?.showAsAnchorRightBottom(view)
     }
 
+    private fun processOption(option: NoteOption, item: NoteItem) {
+        when (option) {
+            NoteOption.EDIT -> {
+                openEditNoteUi(item.item)
+            }
+        }
+    }
+
     private fun request(progress: Boolean = Constants.Default.BOOLEAN) {
         val request = NoteRequest(
             action = Action.GET,
@@ -257,12 +276,12 @@ class NotesFragment @Inject constructor() :
 
     private fun openAddNoteUi() {
         val task = UiTask<Note>(false, UiType.NOTE, UiSubtype.ADD)
-        openActivity(ToolsActivity::class.java, task)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
     }
 
     private fun openEditNoteUi(note: Note) {
         val task = UiTask<Note>(false, UiType.NOTE, UiSubtype.EDIT, note)
-        openActivity(ToolsActivity::class.java, task)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
     }
 
     private fun processUiState(state: UiState) {
@@ -305,4 +324,5 @@ class NotesFragment @Inject constructor() :
         adapter.addItems(items)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }
+
 }

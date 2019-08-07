@@ -104,11 +104,19 @@ class ApkItem private constructor(
             }*/
 
             buttonOpen.setOnClickListener {
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action = UiAction.OPEN)
+                this.adapter.click?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = UiAction.OPEN
+                )
             }
 
             buttonDetails.setOnClickListener {
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action = UiAction.DETAILS)
+                this.adapter.click?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = UiAction.DETAILS
+                )
             }
         }
 

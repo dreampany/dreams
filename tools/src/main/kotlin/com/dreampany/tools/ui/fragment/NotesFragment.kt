@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
+import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ColorUtil
@@ -27,11 +29,18 @@ import com.dreampany.tools.databinding.FragmentNotesBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
+import com.dreampany.tools.ui.enums.NoteOption
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
+import com.dreampany.tools.ui.model.ApkItem
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.UiTask
 import com.dreampany.tools.vm.NoteViewModel
+import com.skydoves.powermenu.MenuAnimation
+import com.skydoves.powermenu.OnMenuItemClickListener
+import com.skydoves.powermenu.PowerMenu
+import com.skydoves.powermenu.PowerMenuItem
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
@@ -47,7 +56,9 @@ import javax.inject.Inject
  */
 @ActivityScope
 class NotesFragment @Inject constructor() :
-    BaseMenuFragment() {
+    BaseMenuFragment(),
+    SmartAdapter.OnClickListener<NoteItem?, UiAction?>,
+    OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -61,6 +72,9 @@ class NotesFragment @Inject constructor() :
     private lateinit var vm: NoteViewModel
     private lateinit var scroller: OnVerticalScrollListener
 
+    private val powerItems = mutableListOf<PowerMenuItem>()
+    private var powerMenu: PowerMenu? = null
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_notes
     }
@@ -68,6 +82,7 @@ class NotesFragment @Inject constructor() :
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
+        createMenuItems()
         session.track()
         request(progress = true)
         initTitleSubtitle()
@@ -75,6 +90,11 @@ class NotesFragment @Inject constructor() :
 
     override fun onStopUi() {
         processUiState(UiState.HIDE_PROGRESS)
+        powerMenu?.run {
+            if (isShowing) {
+                dismiss()
+            }
+        }
     }
 
     override fun onRefresh() {
@@ -93,6 +113,17 @@ class NotesFragment @Inject constructor() :
         }
     }
 
+    override fun onClick(view: View, item: NoteItem?, action: UiAction?) {
+
+    }
+
+    override fun onLongClick(view: View, item: NoteItem?, action: UiAction?) {
+        openOptionsMenu(view)
+    }
+
+    override fun onItemClick(position: Int, item: PowerMenuItem) {
+        powerMenu?.dismiss()
+    }
 
     private fun initTitleSubtitle() {
         setTitle(R.string.title_note)
@@ -152,6 +183,61 @@ class NotesFragment @Inject constructor() :
             scroller,
             null
         )
+    }
+
+    private fun createMenuItems() {
+        if (powerItems.isEmpty()) {
+
+            powerItems.add(
+                PowerMenuItem(
+                    NoteOption.EDIT.toTitle(),
+                    R.drawable.ic_edit_black_24dp,
+                    NoteOption.EDIT
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    NoteOption.FAVORITE.toTitle(),
+                    R.drawable.ic_favorite_black_24dp,
+                    NoteOption.FAVORITE
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    NoteOption.ARCHIVE.toTitle(),
+                    R.drawable.ic_archive_black_24dp,
+                    NoteOption.ARCHIVE
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    NoteOption.TRASH.toTitle(),
+                    R.drawable.ic_delete_black_24dp,
+                    NoteOption.TRASH
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    NoteOption.DELETE.toTitle(),
+                    R.drawable.ic_delete_forever_black_24dp,
+                    NoteOption.DELETE
+                )
+            )
+        }
+    }
+
+    private fun openOptionsMenu(view: View) {
+        powerMenu = PowerMenu.Builder(context)
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(powerItems)
+            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .setDividerHeight(1)
+            .setTextSize(16)
+            .build()
+        powerMenu?.showAsAnchorRightBottom(view)
     }
 
     private fun request(progress: Boolean = Constants.Default.BOOLEAN) {

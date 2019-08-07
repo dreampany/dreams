@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -83,7 +84,7 @@ class HomeFragment @Inject constructor() :
 
     }
 
-    override fun onClick(item: FeatureItem?, action: Any?) {
+    override fun onClick(view: View, item: FeatureItem?, action: Any?) {
         item?.run {
             Timber.v("%s", this.item.type.name)
             openUi(this)
@@ -91,7 +92,7 @@ class HomeFragment @Inject constructor() :
 
     }
 
-    override fun onLongClick(item: FeatureItem?, action: Any?) {
+    override fun onLongClick(view: View, item: FeatureItem?, action: Any?) {
         item?.run {
             Timber.v("%s", this.item.type.name)
         }

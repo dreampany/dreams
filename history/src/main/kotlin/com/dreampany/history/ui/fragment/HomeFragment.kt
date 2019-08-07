@@ -9,15 +9,18 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.callback.SearchViewCallback
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
-import com.dreampany.frame.util.*
+import com.dreampany.frame.util.ColorUtil
+import com.dreampany.frame.util.MenuTint
+import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.frame.util.ViewUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.model.History
@@ -74,7 +77,7 @@ class HomeFragment
     private lateinit var vm: HistoryViewModel
     private lateinit var adapter: HistoryAdapter
 
-    private val typeItems = mutableListOf<PowerMenuItem>()
+    private val powerItems = mutableListOf<PowerMenuItem>()
     private var powerMenu: PowerMenu? = null
 
     override fun getLayoutId(): Int {
@@ -92,6 +95,7 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+        createMenuItems()
 
         session.track()
         initTitleSubtitle()
@@ -151,14 +155,14 @@ class HomeFragment
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onItemClick(view: View?, position: Int): Boolean {
+/*    override fun onItemClick(view: View?, position: Int): Boolean {
         if (position != RecyclerView.NO_POSITION) {
             val item = adapter.getItem(position) as HistoryItem
             openUi(item.item);
             return true
         }
         return false
-    }
+    }*/
 
     override fun hasBackPressed(): Boolean {
         if (searchView != null) {
@@ -234,8 +238,8 @@ class HomeFragment
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            Constants.UiState.State.NONE.name,
-            LayoutInflater.from(context).inflate(R.layout.item_none, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
@@ -247,31 +251,6 @@ class HomeFragment
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
         vm.setOnLinkClickListener(this)
-
-        if (typeItems.isEmpty()) {
-
-            typeItems.add(
-                PowerMenuItem(
-                    HistoryType.EVENT.toTitle(),
-                    HistoryType.EVENT == vm.getHistoryType(),
-                    HistoryType.EVENT
-                )
-            )
-            typeItems.add(
-                PowerMenuItem(
-                    HistoryType.BIRTH.toTitle(),
-                    HistoryType.BIRTH == vm.getHistoryType(),
-                    HistoryType.BIRTH
-                )
-            )
-            typeItems.add(
-                PowerMenuItem(
-                    HistoryType.DEATH.toTitle(),
-                    HistoryType.DEATH == vm.getHistoryType(),
-                    HistoryType.DEATH
-                )
-            )
-        }
 
         if (session.isExpired()) {
             vm.setCurrentDate()
@@ -300,10 +279,37 @@ class HomeFragment
         )
     }
 
+    private fun createMenuItems() {
+        if (powerItems.isEmpty()) {
+
+            powerItems.add(
+                PowerMenuItem(
+                    HistoryType.EVENT.toTitle(),
+                    HistoryType.EVENT == vm.getHistoryType(),
+                    HistoryType.EVENT
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    HistoryType.BIRTH.toTitle(),
+                    HistoryType.BIRTH == vm.getHistoryType(),
+                    HistoryType.BIRTH
+                )
+            )
+            powerItems.add(
+                PowerMenuItem(
+                    HistoryType.DEATH.toTitle(),
+                    HistoryType.DEATH == vm.getHistoryType(),
+                    HistoryType.DEATH
+                )
+            )
+        }
+    }
+
     private fun openTypePicker(view: View) {
         powerMenu = PowerMenu.Builder(context)
             .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
-            .addItemList(typeItems)
+            .addItemList(powerItems)
             .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
             .setSelectedTextColor(Color.WHITE)
             .setOnMenuItemClickListener(this)
@@ -322,7 +328,7 @@ class HomeFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.DEFAULT -> bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -345,7 +351,7 @@ class HomeFragment
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<HistoryItem>>
-            processSuccess(result.type, result.data)
+            processSuccess(result.action, result.data)
         }
     }
 
@@ -362,8 +368,8 @@ class HomeFragment
         }
     }
 
-    private fun processSuccess(type: Response.Type, items: List<HistoryItem>) {
-        Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
+    private fun processSuccess(action: Action, items: List<HistoryItem>) {
+        Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.setItems(items)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
         initTitleSubtitle()

@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -77,7 +78,7 @@ class ApkFragment @Inject constructor() :
         request(progress = true)
     }
 
-    override fun onClick(item: ApkItem?, action: UiAction?) {
+    override fun onClick(view: View, item: ApkItem?, action: UiAction?) {
         if (item != null && action != null) {
             when (action) {
                 UiAction.OPEN -> {
@@ -90,7 +91,7 @@ class ApkFragment @Inject constructor() :
         }
     }
 
-    override fun onLongClick(item: ApkItem?, action: UiAction?) {
+    override fun onLongClick(view: View, item: ApkItem?, action: UiAction?) {
     }
 
     private fun initTitleSubtitle() {

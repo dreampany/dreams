@@ -10,6 +10,10 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class UiAction : Parcelable {
-     EDIT, OPEN, DETAILS, OPTIONS
+enum class NoteOption : Parcelable {
+    EDIT, FAVORITE, ARCHIVE, TRASH, DELETE;
+
+    fun toTitle(): String {
+        return name
+    }
 }

@@ -68,15 +68,21 @@ class NoteItem private constructor(
             textDescription = view.findViewById(R.id.text_description)
             textDate = view.findViewById(R.id.text_date)
 
-
-
             view.setOnClickListener {
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action =  UiAction.OPEN)
+                this.adapter.click?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = UiAction.OPEN
+                )
             }
-/*            view.setOnLongClickListener {
-                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+            view.setOnLongClickListener { view ->
+                this.adapter.click?.onLongClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = UiAction.OPTIONS
+                )
                 true
-            }*/
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(

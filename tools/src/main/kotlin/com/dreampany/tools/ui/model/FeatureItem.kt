@@ -8,7 +8,6 @@ import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.ui.widget.TextDrawable
 import com.dreampany.frame.util.ColorUtil
-import com.dreampany.frame.util.DisplayUtil
 import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Feature
@@ -68,10 +67,16 @@ class FeatureItem private constructor(
 
             view.layoutParams.height = height
             view.setOnClickListener { view ->
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition))
+                this.adapter.click?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)
+                )
             }
             view.setOnLongClickListener { view ->
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition))
+                this.adapter.click?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)
+                )
                 true
             }
         }

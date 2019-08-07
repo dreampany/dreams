@@ -14,6 +14,7 @@ import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.ViewUtil
@@ -42,7 +43,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class ApkFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnClickListener<ApkItem?, UiAction?> {
+    BaseMenuFragment(), OnUiItemClickListener<ApkItem?, UiAction?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory

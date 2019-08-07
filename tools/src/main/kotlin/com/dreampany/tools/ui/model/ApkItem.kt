@@ -96,15 +96,15 @@ class ApkItem private constructor(
 
 
 /*            view.setOnClickListener {
-                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.uiItemClick?.onClick(this.adapter.getItem(adapterPosition)!!)
             }
             view.setOnLongClickListener {
-                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.uiItemClick?.onClick(this.adapter.getItem(adapterPosition)!!)
                 true
             }*/
 
             buttonOpen.setOnClickListener {
-                this.adapter.click?.onClick(
+                this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = UiAction.OPEN
@@ -112,7 +112,7 @@ class ApkItem private constructor(
             }
 
             buttonDetails.setOnClickListener {
-                this.adapter.click?.onClick(
+                this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = UiAction.DETAILS

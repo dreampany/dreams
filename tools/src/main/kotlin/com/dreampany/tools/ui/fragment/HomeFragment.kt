@@ -14,6 +14,7 @@ import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
@@ -45,7 +46,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class HomeFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnClickListener<FeatureItem?, Any?> {
+    BaseMenuFragment(), OnUiItemClickListener<FeatureItem?, Any?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory

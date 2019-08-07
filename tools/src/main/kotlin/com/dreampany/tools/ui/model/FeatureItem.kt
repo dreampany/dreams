@@ -67,13 +67,13 @@ class FeatureItem private constructor(
 
             view.layoutParams.height = height
             view.setOnClickListener { view ->
-                this.adapter.click?.onClick(
+                this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition)
                 )
             }
             view.setOnLongClickListener { view ->
-                this.adapter.click?.onClick(
+                this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition)
                 )

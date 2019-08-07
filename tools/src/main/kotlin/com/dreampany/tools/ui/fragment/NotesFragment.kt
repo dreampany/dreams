@@ -15,8 +15,8 @@ import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.ViewUtil
@@ -33,7 +33,6 @@ import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
-import com.dreampany.tools.ui.model.ApkItem
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.UiTask
 import com.dreampany.tools.vm.NoteViewModel
@@ -57,7 +56,7 @@ import javax.inject.Inject
 @ActivityScope
 class NotesFragment @Inject constructor() :
     BaseMenuFragment(),
-    SmartAdapter.OnClickListener<NoteItem?, UiAction?>,
+    OnUiItemClickListener<NoteItem?, UiAction?>,
     OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
@@ -74,6 +73,7 @@ class NotesFragment @Inject constructor() :
 
     private val powerItems = mutableListOf<PowerMenuItem>()
     private var powerMenu: PowerMenu? = null
+    private var currentItem: NoteItem? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_notes
@@ -118,11 +118,13 @@ class NotesFragment @Inject constructor() :
     }
 
     override fun onLongClick(view: View, item: NoteItem?, action: UiAction?) {
-        openOptionsMenu(view)
+        openOptionsMenu(view, item)
     }
 
     override fun onItemClick(position: Int, item: PowerMenuItem) {
         powerMenu?.dismiss()
+        val option: NoteOption = item.tag as NoteOption
+        Timber.v("Option fired %s", option.toTitle())
     }
 
     private fun initTitleSubtitle() {
@@ -226,7 +228,11 @@ class NotesFragment @Inject constructor() :
         }
     }
 
-    private fun openOptionsMenu(view: View) {
+    private fun openOptionsMenu(view: View, item: NoteItem?) {
+        if (item == null) {
+            return
+        }
+        currentItem = item
         powerMenu = PowerMenu.Builder(context)
             .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
             .addItemList(powerItems)

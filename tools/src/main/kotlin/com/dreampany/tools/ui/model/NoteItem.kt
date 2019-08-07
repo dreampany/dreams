@@ -69,14 +69,14 @@ class NoteItem private constructor(
             textDate = view.findViewById(R.id.text_date)
 
             view.setOnClickListener {
-                this.adapter.click?.onClick(
+                this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = UiAction.OPEN
                 )
             }
             view.setOnLongClickListener { view ->
-                this.adapter.click?.onLongClick(
+                this.adapter.uiItemClick?.onLongClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = UiAction.OPTIONS

@@ -1,6 +1,7 @@
 package com.dreampany.frame.ui.adapter
 
 import android.view.View
+import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.util.DataUtil
 import eu.davidea.flexibleadapter.databinding.BindingFlexibleAdapter
@@ -17,12 +18,12 @@ import kotlin.collections.ArrayList
 open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
     BindingFlexibleAdapter<T>(listener) {
 
-    interface OnClickListener<T, R> {
+/*    interface OnUiItemClickListener<T, R> {
         fun onClick(view: View, item: T? = null, action: R? = null)
         fun onLongClick(view: View, item: T? = null, action: R? = null)
-    }
+    }*/
 
-    var click: OnClickListener<Any, Any>? = null
+    var uiItemClick: OnUiItemClickListener<Any, Any>? = null
         private set
 
     var clickListener: View.OnClickListener? = null
@@ -31,8 +32,8 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
         private set
 
     init {
-        if (listener is OnClickListener<*, *>) {
-            click = listener as OnClickListener<Any, Any>?
+        if (listener is OnUiItemClickListener<*, *>) {
+            uiItemClick = listener as OnUiItemClickListener<Any, Any>?
         }
 
         if (listener is View.OnClickListener) {

@@ -16,6 +16,7 @@ import com.dreampany.tools.data.enums.ApkType
 import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ApkAdapter
+import com.dreampany.tools.ui.enums.UiAction
 import com.github.nikartm.button.FitButton
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -39,10 +40,6 @@ class ApkItem private constructor(
         fun getItem(item: Apk): ApkItem {
             return ApkItem(item, R.layout.item_apk)
         }
-    }
-
-    enum class Action {
-        OPEN, DETAILS
     }
 
     private var icon: WeakReference<Drawable>? = null
@@ -107,11 +104,11 @@ class ApkItem private constructor(
             }*/
 
             buttonOpen.setOnClickListener {
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action = ApkItem.Action.OPEN)
+                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action = UiAction.OPEN)
             }
 
             buttonDetails.setOnClickListener {
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action = ApkItem.Action.DETAILS)
+                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action = UiAction.DETAILS)
             }
         }
 

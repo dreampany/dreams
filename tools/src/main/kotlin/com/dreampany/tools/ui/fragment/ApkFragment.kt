@@ -24,6 +24,7 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ApkAdapter
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.model.ApkItem
 import com.dreampany.tools.vm.ApkViewModel
 import cz.kinst.jakub.view.StatefulLayout
@@ -40,7 +41,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class ApkFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnClickListener<ApkItem?, ApkItem.Action?> {
+    BaseMenuFragment(), SmartAdapter.OnClickListener<ApkItem?, UiAction?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -76,20 +77,20 @@ class ApkFragment @Inject constructor() :
         request(progress = true)
     }
 
-    override fun onClick(item: ApkItem?, action: ApkItem.Action?) {
+    override fun onClick(item: ApkItem?, action: UiAction?) {
         if (item != null && action != null) {
             when (action) {
-                ApkItem.Action.OPEN -> {
+                UiAction.OPEN -> {
                     AndroidUtil.openApplication(context!!, item.item.id)
                 }
-                ApkItem.Action.DETAILS -> {
+                UiAction.DETAILS -> {
                     AndroidUtil.openApplicationDetails(context!!, item.item.id)
                 }
             }
         }
     }
 
-    override fun onLongClick(item: ApkItem?, action: ApkItem.Action?) {
+    override fun onLongClick(item: ApkItem?, action: UiAction?) {
     }
 
     private fun initTitleSubtitle() {

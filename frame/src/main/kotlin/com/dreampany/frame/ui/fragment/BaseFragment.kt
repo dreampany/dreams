@@ -40,8 +40,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.HasSupportFragmentInjector
-import eu.davidea.flexibleadapter.FlexibleAdapter
-import eu.davidea.flexibleadapter.helpers.EmptyViewHelper
 import javax.inject.Inject
 
 
@@ -55,9 +53,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     ViewTreeObserver.OnWindowFocusChangeListener,
     UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
     View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, PermissionListener,
-    MultiplePermissionsListener, PermissionRequestErrorListener, SearchView.OnQueryTextListener,
-    FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener,
-    FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener {
+    MultiplePermissionsListener, PermissionRequestErrorListener, SearchView.OnQueryTextListener
+/*, FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener,
+    FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener*/ {
 
     @Inject
     protected lateinit var ex: AppExecutors
@@ -276,7 +274,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     override fun onClick(v: View) {
     }
 
-    override fun onItemClick(view: View?, position: Int): Boolean {
+/*    override fun onItemClick(view: View?, position: Int): Boolean {
         return false
     }
 
@@ -293,7 +291,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     }
 
     override fun onUpdateEmptyFilterView(size: Int) {
-    }
+    }*/
 
     override fun onRefresh() {
     }
@@ -432,7 +430,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
     }
 
-    protected fun setSubtitle(subtitle: String?= null) {
+    protected fun setSubtitle(subtitle: String? = null) {
         val activity = activity
         if (BaseActivity::class.java.isInstance(activity)) {
             (activity as BaseActivity).setSubtitle(subtitle)

@@ -3,9 +3,12 @@ package com.dreampany.tools.ui.model
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.frame.util.ColorUtil
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
@@ -51,15 +54,19 @@ class NoteItem private constructor(
         private val height: Int
 
         private var adapter: NoteAdapter
+        private var layoutRoot: CardView
         private var textTitle: AppCompatTextView
         private var textDescription: AppCompatTextView
+        private var textDate: AppCompatTextView
 
         init {
             this.adapter = adapter as NoteAdapter
             height = getSpanHeight(this.adapter.getSpanCount(), this.adapter.getItemOffset())
 
+            layoutRoot = view.findViewById(R.id.layout_root)
             textTitle = view.findViewById(R.id.text_title)
             textDescription = view.findViewById(R.id.text_description)
+            textDate = view.findViewById(R.id.text_date)
 
 
 
@@ -81,6 +88,11 @@ class NoteItem private constructor(
 
             textTitle.text = item.title
             textDescription.text = item.description
+            textDate.text = TimeUtilKt.getDate(item.time, Constants.Date.FORMAT_MONTH_DAY)
+
+
+            val randColor = ColorUtil.getRandCompatColor(getContext())
+            layoutRoot.setCardBackgroundColor(randColor)
         }
     }
 }

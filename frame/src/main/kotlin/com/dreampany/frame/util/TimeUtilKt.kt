@@ -55,5 +55,11 @@ class TimeUtilKt {
             val fmt = DateTimeFormat.forPattern(pattern)
             return dateTime.toString(fmt)
         }
+
+        fun getDate(millis: Long, pattern: String): String {
+            val dateTime = DateTime(millis)
+            val fmt = DateTimeFormat.forPattern(pattern)
+            return dateTime.toString(fmt)
+        }
     }
 }

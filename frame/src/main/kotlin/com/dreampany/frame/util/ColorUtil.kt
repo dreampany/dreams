@@ -99,57 +99,125 @@ class ColorUtil {
 
         fun getRandColor(position: Int): Color {
             if (colors.isEmpty()) {
-                /*          Color redColor = new Color(R.color.colorRed500, R.color.colorRed700).setAccentId(R.color.colorRed900);
-            Color pinkColor = new Color(R.color.colorPink500, R.color.colorPink700).setAccentId(R.color.colorPink900);
-            Color purpleColor = new Color(R.color.colorPurple500, R.color.colorPurple700).setAccentId(R.color.colorPurple900);
+                val redColor =
+                    Color(R.color.material_red500, R.color.material_red700, R.color.material_red900)
+                val pinkColor = Color(
+                    R.color.material_pink500,
+                    R.color.material_pink700,
+                    R.color.material_pink900
+                )
+                val purpleColor = Color(
+                    R.color.material_purple500,
+                    R.color.material_purple700,
+                    R.color.material_purple900
+                );
 
-            Color deepPurpleColor = new Color(R.color.colorDeepPurple500, R.color.colorDeepPurple700).setAccentId(R.color.colorDeepPurple900);
-            Color indigoColor = new Color(R.color.colorIndigo500, R.color.colorIndigo700).setAccentId(R.color.colorIndigo900);
-            Color blueColor = new Color(R.color.colorBlue500, R.color.colorBlue700).setAccentId(R.color.colorBlue900);
+                val deepPurpleColor = Color(
+                    R.color.material_deeppurple500,
+                    R.color.material_deeppurple700
+                    , R.color.material_deeppurple900
+                )
+                val indigoColor = Color(
+                    R.color.material_indigo500,
+                    R.color.material_indigo700
+                    , R.color.material_indigo900
+                )
+                val blueColor = Color(
+                    R.color.material_blue500,
+                    R.color.material_blue700,
+                    R.color.material_blue900
+                )
 
-            Color lightBlueColor = new Color(R.color.colorLightBlue600, R.color.colorLightBlue700).setAccentId(R.color.colorLightBlue900);
-            Color cyanColor = new Color(R.color.colorCyan600, R.color.colorCyan700).setAccentId(R.color.colorCyan900);
-            Color tealColor = new Color(R.color.colorTeal500, R.color.colorTeal700).setAccentId(R.color.colorTeal900);
+                val lightBlueColor = Color(
+                    R.color.material_lightblue600,
+                    R.color.material_lightblue700, R.color.material_lightblue900
+                )
+                val cyanColor = Color(
+                    R.color.material_cyan600,
+                    R.color.material_cyan700,
+                    R.color.material_cyan900
+                )
+                val tealColor = Color(
+                    R.color.material_teal500,
+                    R.color.material_teal700,
+                    R.color.material_teal900
+                )
 
-            Color greenColor = new Color(R.color.colorGreen600, R.color.colorGreen700).setAccentId(R.color.colorGreen900);
-            Color lightGreenColor = new Color(R.color.colorLightGreen600, R.color.colorLightGreen700).setAccentId(R.color.colorLightGreen900);
-            Color limeColor = new Color(R.color.colorLime800, R.color.colorLime900).setAccentId(R.color.colorAccent);
+                val greenColor = Color(
+                    R.color.material_green600,
+                    R.color.material_green700, R.color.material_green900
+                )
+                val lightGreenColor = Color(
+                    R.color.material_lightgreen600,
+                    R.color.material_lightgreen700, R.color.material_lightgreen900
+                )
+                val limeColor = Color(
+                    R.color.material_lime800, R.color.material_lime900,
+                    R.color.colorAccent
+                )
 
-            Color yellowColor = new Color(R.color.colorYellow600, R.color.colorYellow800).setAccentId(R.color.colorYellow900);
-            Color amberColor = new Color(R.color.colorAmber600, R.color.colorAmber800).setAccentId(R.color.colorAmber900);
-            Color orangeColor = new Color(R.color.colorOrange600, R.color.colorOrange800).setAccentId(R.color.colorOrange900);
+                val yellowColor = Color(
+                    R.color.material_yellow600,
+                    R.color.material_yellow800
+                    , R.color.material_yellow900
+                )
+                val amberColor = Color(
+                    R.color.material_amber600,
+                    R.color.material_amber800
+                    , R.color.material_amber900
+                )
+                val orangeColor = Color(
+                    R.color.material_orange600,
+                    R.color.material_orange800,
+                    R.color.material_orange900
+                )
 
-            Color deepOrangeColor = new Color(R.color.colorDeepOrange600, R.color.colorDeepOrange800).setAccentId(R.color.colorDeepOrange900);
-            Color brownColor = new Color(R.color.colorBrown600, R.color.colorBrown800).setAccentId(R.color.colorBrown900);
-            Color greyColor = new Color(R.color.colorGrey600, R.color.colorGrey800).setAccentId(R.color.colorGrey900);
+                val deepOrangeColor = Color(
+                    R.color.material_deeporange600,
+                    R.color.material_deeporange800,
+                    R.color.material_deeporange900
+                )
+                val brownColor = Color(
+                    R.color.material_brown600,
+                    R.color.material_brown800,
+                    R.color.material_brown900
+                )
+                val greyColor = Color(
+                    R.color.material_grey600,
+                    R.color.material_grey800,
+                    R.color.material_grey900
+                )
 
-            Color blueGreyColor = new Color(R.color.colorBlueGrey600, R.color.colorBlueGrey800).setAccentId(R.color.colorBlueGrey900);
+                val blueGreyColor = Color(
+                    R.color.material_bluegrey600,
+                    R.color.material_bluegrey800, R.color.material_bluegrey900
+                )
 
-            colors.add(redColor);
-            colors.add(pinkColor);
-            colors.add(purpleColor);
+                colors.add(redColor);
+                colors.add(pinkColor);
+                colors.add(purpleColor);
 
-            colors.add(deepPurpleColor);
-            colors.add(indigoColor);
-            colors.add(blueColor);
+                colors.add(deepPurpleColor);
+                colors.add(indigoColor);
+                colors.add(blueColor);
 
-            colors.add(lightBlueColor);
-            colors.add(cyanColor);
-            colors.add(tealColor);
+                colors.add(lightBlueColor);
+                colors.add(cyanColor);
+                colors.add(tealColor);
 
-            colors.add(greenColor);
-            colors.add(lightGreenColor);
-            colors.add(limeColor);
+                colors.add(greenColor);
+                colors.add(lightGreenColor);
+                colors.add(limeColor);
 
-            colors.add(yellowColor);
-            colors.add(amberColor);
-            colors.add(orangeColor);
+                colors.add(yellowColor);
+                colors.add(amberColor);
+                colors.add(orangeColor);
 
-            colors.add(deepOrangeColor);
-            colors.add(brownColor);
-            colors.add(greyColor);
+                colors.add(deepOrangeColor);
+                colors.add(brownColor);
+                colors.add(greyColor);
 
-            colors.add(blueGreyColor);*/
+                colors.add(blueGreyColor);
             }
 
             if (position == -1) {
@@ -180,8 +248,8 @@ class ColorUtil {
 
 
         fun getRandColor(context: Context, position: Int): Int {
-            val (_, primaryDarkId) = getRandColor(position)
-            return ContextCompat.getColor(context, primaryDarkId)
+            val color = getRandColor(position)
+            return ContextCompat.getColor(context, color.primaryDarkId)
         }
 
         private val particleColors: IntArray? = null

@@ -74,6 +74,14 @@ class Constants {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
     }
 
+    object Date {
+        const val FORMAT_MONTH_DAY = "dd MMMM"
+    }
+
+/*    object Database {
+        const val NOTE = "note"
+    }*/
+
     object Demo {
         const val ID = Constants.Key.ID
     }

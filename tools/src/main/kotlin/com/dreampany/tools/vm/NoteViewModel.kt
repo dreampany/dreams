@@ -50,7 +50,7 @@ class NoteViewModel @Inject constructor(
 ) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm) {
 
     fun request(request: NoteRequest) {
-        if (request.action == Action.ADD) {
+        if (request.action == Action.ADD || request.action == Action.UPDATE) {
             addSingle(request)
             return
         }

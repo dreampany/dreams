@@ -280,7 +280,7 @@ class NotesFragment @Inject constructor() :
     }
 
     private fun openEditNoteUi(note: Note) {
-        val task = UiTask<Note>(false, UiType.NOTE, UiSubtype.EDIT, note)
+        val task = UiTask<Note>(type =  UiType.NOTE, subtype =  UiSubtype.DEFAULT, action = UiAction.EDIT, input =  note)
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
     }
 

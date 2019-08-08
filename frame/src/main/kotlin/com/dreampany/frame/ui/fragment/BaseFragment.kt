@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.frame.app.BaseApp
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.AppExecutors
@@ -365,21 +366,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         return AndroidUtil.isAlive(getParent())
     }
 
-    protected fun <T : Task<*>> getCurrentTask(intent: Intent): T? {
-        val task = getIntentValue<T>(Constants.Task.TASK, intent.extras)
-        return task
-    }
-
-    protected fun <T : Task<*>> getCurrentTask(): T? {
-        return getCurrentTask(false)
-    }
-
-    protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {
-        if (task == null || freshTask) {
-            task = getIntentValue<T>(Constants.Task.TASK)
-        }
-        return task as T?
-    }
 
     protected fun <T> getIntentValue(key: String): T? {
         val bundle = getBundle()
@@ -399,6 +385,27 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
 
     protected fun getBundle(): Bundle? {
         return arguments
+    }
+
+    protected fun <T : Task<*>> getCurrentTask(intent: Intent): T? {
+        val task = getIntentValue<T>(Constants.Task.TASK, intent.extras)
+        return task
+    }
+
+    protected fun <T : Task<*>> getCurrentTask(): T? {
+        return getCurrentTask(false)
+    }
+
+    protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {
+        if (task == null || freshTask) {
+            task = getIntentValue<T>(Constants.Task.TASK)
+        }
+        return task as T?
+    }
+
+    protected fun <T : Base> getInput(): T? {
+        val task: Task<*>? = getCurrentTask()
+        return task?.input as T?
     }
 
     fun <T : View> findViewById(@IdRes id: Int): T? {

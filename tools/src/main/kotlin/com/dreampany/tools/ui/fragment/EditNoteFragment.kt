@@ -70,8 +70,13 @@ class EditNoteFragment @Inject constructor() :
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
         if (uiTask.subtype == UiSubtype.EDIT) {
-            request(action = Action.GET, id = uiTask.input!!.id, progress = true)
+            val note = getInput<Note>()
+            request(action = Action.GET, id = note!!.id, progress = true)
         }
+    }
+
+    private fun isEditMode() {
+        val uiTask = getCurrentTask<UiTask<Note>>() ?: return
     }
 
     private fun saveNote() {
@@ -85,6 +90,8 @@ class EditNoteFragment @Inject constructor() :
             bind.inputEditDescription.error = getString(R.string.error_description_note)
             return
         }
+
+
         request(action = Action.ADD, title = title.toString(), description = description.toString(), progress = true)
     }
 
@@ -144,8 +151,9 @@ class EditNoteFragment @Inject constructor() :
         }
     }
 
-    private fun processSuccess(action: Action, items: NoteItem) {
-
+    private fun processSuccess(action: Action, item: NoteItem) {
+        bind.inputEditTitle.setText(item.item.title)
+        bind.inputEditDescription.setText(item.item.description)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }
 }

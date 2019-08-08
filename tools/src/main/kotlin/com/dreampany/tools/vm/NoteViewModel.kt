@@ -80,7 +80,7 @@ class NoteViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Action.GET, result)
+                postResult(request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -106,7 +106,7 @@ class NoteViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Action.GET, result)
+                postResult(request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -132,7 +132,7 @@ class NoteViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Action.GET, result)
+                postResult(request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)

@@ -223,8 +223,8 @@ class EditNoteFragment @Inject constructor() :
     private fun processSuccess(action: Action, item: NoteItem) {
         if (action == Action.UPDATE) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
-            // ex.postToUi({ forResult() }, 500L)
             AndroidUtil.hideSoftInput(getParent()!!)
+            ex.postToUi({ forResult() }, 500L)
             return
         }
         bind.inputEditTitle.setText(item.item.title)

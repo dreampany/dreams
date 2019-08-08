@@ -1,8 +1,10 @@
 package com.dreampany.tools.data.model
 
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
 import kotlinx.android.parcel.Parcelize
 
@@ -28,5 +30,12 @@ data class Note(
     var tags: MutableList<String>? = Constants.Default.NULL
 ) : Base() {
 
+    @Ignore
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
 
+    }
+
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+
+    }
 }

@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class UiAction : Parcelable {
-    DEFAULT, ADD, EDIT, OPEN, DETAILS, OPTIONS
+    DEFAULT, ADD, EDIT, OPEN, DETAILS, OPTIONS, HOME
 }

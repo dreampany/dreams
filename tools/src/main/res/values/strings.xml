@@ -16,4 +16,7 @@
     <string name="error_title_note" translatable="false">Empty title</string>
     <string name="error_description_note" translatable="false">Empty description</string>
 
+    <string name="dialog_title_save_note" translatable="false">Do you want to save note?</string>
+    <string name="dialog_saved_note" translatable="false">Note saved successfully.</string>
+
 </resources>

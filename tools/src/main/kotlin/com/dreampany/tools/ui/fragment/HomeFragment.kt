@@ -27,6 +27,7 @@ import com.dreampany.tools.databinding.FragmentHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.FeatureAdapter
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.model.FeatureItem
@@ -193,13 +194,28 @@ class HomeFragment @Inject constructor() :
         var task: UiTask<Feature>? = null
         when (uiItem.item.type) {
             FeatureType.APK -> {
-                task = UiTask<Feature>(false, UiType.APK, UiSubtype.HOME, uiItem.item)
+                task = UiTask<Feature>(
+                    type = UiType.HOME,
+                    subtype = UiSubtype.APK,
+                    action = UiAction.OPEN,
+                    input = uiItem.item
+                )
             }
             FeatureType.SCAN -> {
-                task = UiTask<Feature>(false, UiType.SCAN, UiSubtype.HOME, uiItem.item)
+                task = UiTask<Feature>(
+                    type = UiType.HOME,
+                    subtype = UiSubtype.SCAN,
+                    action = UiAction.OPEN,
+                    input = uiItem.item
+                )
             }
             FeatureType.NOTE -> {
-                task = UiTask<Feature>(false, UiType.NOTE, UiSubtype.HOME, uiItem.item)
+                task = UiTask<Feature>(
+                    type = UiType.HOME,
+                    subtype = UiSubtype.NOTE,
+                    action = UiAction.OPEN,
+                    input = uiItem.item
+                )
             }
         }
         task?.run {

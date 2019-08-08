@@ -104,9 +104,12 @@ class NotesFragment @Inject constructor() :
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == Constants.RequestCode.ADD_NOTE) {
-            if (isOkay(resultCode)) {
-                ex.postToUi({ request(true) }, 1000L)
+        when (requestCode) {
+            Constants.RequestCode.ADD_NOTE,
+            Constants.RequestCode.EDIT_NOTE -> {
+                if (isOkay(resultCode)) {
+                    //ex.postToUi({ request(true) }, 1000L)
+                }
             }
         }
     }
@@ -178,6 +181,7 @@ class NotesFragment @Inject constructor() :
         vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
+        vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
     private fun initRecycler() {
@@ -275,12 +279,12 @@ class NotesFragment @Inject constructor() :
     }
 
     private fun openAddNoteUi() {
-        val task = UiTask<Note>(false, UiType.NOTE, UiSubtype.ADD)
+        val task = UiTask<Note>(type = UiType.NOTE, action = UiAction.ADD)
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
     }
 
     private fun openEditNoteUi(note: Note) {
-        val task = UiTask<Note>(type =  UiType.NOTE, subtype =  UiSubtype.DEFAULT, action = UiAction.EDIT, input =  note)
+        val task = UiTask<Note>(type = UiType.NOTE, action = UiAction.EDIT, input = note)
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
     }
 
@@ -322,6 +326,25 @@ class NotesFragment @Inject constructor() :
     private fun processSuccess(action: Action, items: List<NoteItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
+        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+    }
+
+    fun processSingleResponse(response: Response<NoteItem>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            Timber.v("processSingleResponse %s", result.loading)
+            vm.processProgress(result.loading)
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            vm.processFailure(result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<NoteItem>
+            processSuccess(result.action, result.data)
+        }
+    }
+
+    private fun processSuccess(action: Action, item: NoteItem) {
+        adapter.addItem(item)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }
 

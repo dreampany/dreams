@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.tools.R
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.fragment.*
@@ -49,7 +50,8 @@ class ToolsActivity : BaseActivity() {
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype
-        if (type == null || subtype == null) {
+        val action = uiTask.action
+        if (type == null || subtype == null || action == null) {
             return
         }
         ad.initAd(
@@ -92,23 +94,15 @@ class ToolsActivity : BaseActivity() {
                     }
                 }
             }
-            UiType.APK -> {
+            UiType.HOME -> {
                 when (subtype) {
-                    UiSubtype.HOME -> {
+                    UiSubtype.APK -> {
                         commitFragment(ApkFragment::class.java, apkProvider, R.id.layout, uiTask)
                     }
-                }
-            }
-            UiType.SCAN -> {
-                when (subtype) {
-                    UiSubtype.HOME -> {
+                    UiSubtype.SCAN -> {
                         commitFragment(ScanFragment::class.java, scanProvider, R.id.layout, uiTask)
                     }
-                }
-            }
-            UiType.NOTE -> {
-                when (subtype) {
-                    UiSubtype.HOME -> {
+                    UiSubtype.NOTE -> {
                         commitFragment(
                             NotesFragment::class.java,
                             notesProvider,
@@ -116,8 +110,12 @@ class ToolsActivity : BaseActivity() {
                             uiTask
                         )
                     }
-                    UiSubtype.ADD,
-                    UiSubtype.EDIT -> {
+                }
+            }
+            UiType.NOTE -> {
+                when (action) {
+                    UiAction.ADD,
+                    UiAction.EDIT -> {
                         commitFragment(
                             EditNoteFragment::class.java,
                             editNoteProvider,

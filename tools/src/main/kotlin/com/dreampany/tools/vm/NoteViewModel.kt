@@ -156,7 +156,7 @@ class NoteViewModel @Inject constructor(
 
     private fun saveItemRx(request: NoteRequest): Maybe<Note> {
         return Maybe.create { emitter ->
-            val note = mapper.toItem(request.title, request.description)
+            val note = mapper.toItem(request.id, request.title, request.description)
             if (note == null) {
                 emitter.onError(EmptyException())
             } else {

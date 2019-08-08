@@ -29,18 +29,18 @@ class NoteMapper
         return map.contains(item.id)
     }
 
-    fun toItem(title: String?, description: String?): Note? {
+    fun toItem(id: String?, title: String?, description: String?): Note? {
         if (title.isNullOrEmpty() || description.isNullOrEmpty()) {
             return null
         }
-        val id = DataUtilKt.getRandId()
-        val note = Note(
-            time = TimeUtilKt.currentMillis(),
-            id = id,
-            title = title,
-            description = description
-        )
-        map.put(id, note)
+        val id = id ?: DataUtilKt.getRandId()
+        var note = map.get(id)
+        if (note == null) {
+            note = Note(id)
+            map.put(id, note)
+        }
+        note.title = title
+        note.description = description
         return note
     }
 }

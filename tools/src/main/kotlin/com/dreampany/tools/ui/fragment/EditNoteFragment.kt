@@ -1,20 +1,26 @@
 package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.frame.util.NotifyUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.FragmentEditNoteBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.UiTask
@@ -39,6 +45,7 @@ class EditNoteFragment @Inject constructor() :
     private lateinit var bind: FragmentEditNoteBinding
 
     private lateinit var vm: NoteViewModel
+    private var edited: Boolean = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_edit_note
@@ -46,13 +53,17 @@ class EditNoteFragment @Inject constructor() :
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        processUiState(UiState.HIDE_PROGRESS)
     }
 
     override fun onStopUi() {
     }
 
     override fun hasBackPressed(): Boolean {
-        saveNote()
+        if (edited) {
+            saveDialog()
+            return true
+        }
         forResult()
         return true
     }
@@ -60,7 +71,7 @@ class EditNoteFragment @Inject constructor() :
     private fun initUi() {
         val uiTask = getCurrentTask<UiTask<Note>>() ?: return
         val titleRes =
-            if (uiTask.subtype == UiSubtype.ADD) R.string.title_add_note else R.string.title_edit_note
+            if (uiTask.action == UiAction.ADD) R.string.title_add_note else R.string.title_edit_note
 
         setTitle(titleRes)
         bind = super.binding as FragmentEditNoteBinding
@@ -69,40 +80,86 @@ class EditNoteFragment @Inject constructor() :
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
-        if (uiTask.subtype == UiSubtype.EDIT) {
+        if (uiTask.action == UiAction.EDIT) {
             val note = getInput<Note>()
+            bind.inputEditTitle.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+
+                }
+
+                override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (!note!!.title.equals(s)) {
+                        edited = true
+                    }
+                }
+
+            })
+            bind.inputEditDescription.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
+
+                }
+
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    if (!note!!.description.equals(s)) {
+                        edited = true
+                    }
+                }
+
+            })
             request(action = Action.GET, id = note!!.id, progress = true)
         }
     }
 
-    private fun isEditMode() {
-        val uiTask = getCurrentTask<UiTask<Note>>() ?: return
-    }
 
-    private fun saveNote() {
+    private fun saveNote(): Boolean {
         val title = bind.inputEditTitle.text
         if (title.isNullOrEmpty()) {
             bind.inputEditTitle.error = getString(R.string.error_title_note)
-            return
+            return false
         }
         val description = bind.inputEditDescription.text
         if (description.isNullOrEmpty()) {
             bind.inputEditDescription.error = getString(R.string.error_description_note)
-            return
+            return false
         }
-
-
-        request(action = Action.ADD, title = title.toString(), description = description.toString(), progress = true)
+        edited = false
+        val uiTask = getCurrentTask<UiTask<Note>>()!!
+        val note = getInput<Note>()
+        if (uiTask.action == UiAction.EDIT) {
+            request(
+                action = Action.UPDATE,
+                id = note?.id,
+                title = title.toString(),
+                description = description.toString(),
+                progress = true
+            )
+        } else {
+            request(
+                action = Action.ADD,
+                title = title.toString(),
+                description = description.toString(),
+                progress = true
+            )
+        }
+        return true
     }
 
     private fun request(
         action: Action = Action.DEFAULT,
+        id: String? = Constants.Default.NULL,
         title: String = Constants.Default.STRING,
         description: String = Constants.Default.STRING,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = NoteRequest(
             action = action,
+            id = id,
             title = title,
             description = description,
             single = true,
@@ -125,10 +182,22 @@ class EditNoteFragment @Inject constructor() :
         vm.request(request)
     }
 
+    private fun saveDialog() {
+        MaterialDialog(context!!).show {
+            title(R.string.dialog_title_save_note)
+            positiveButton(res = R.string.yes, click = {
+                saveNote()
+            })
+            negativeButton(res = R.string.no, click = {
+                edited = false
+            })
+        }
+    }
+
     private fun processUiState(state: UiState) {
         Timber.v("UiState %s", state.name)
         when (state) {
-             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
+            UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
             UiState.HIDE_PROGRESS -> if (bind.layoutRefresh.isRefreshing()) {
@@ -152,6 +221,12 @@ class EditNoteFragment @Inject constructor() :
     }
 
     private fun processSuccess(action: Action, item: NoteItem) {
+        if (action == Action.UPDATE) {
+            NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
+            // ex.postToUi({ forResult() }, 500L)
+            AndroidUtil.hideSoftInput(getParent()!!)
+            return
+        }
         bind.inputEditTitle.setText(item.item.title)
         bind.inputEditDescription.setText(item.item.description)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)

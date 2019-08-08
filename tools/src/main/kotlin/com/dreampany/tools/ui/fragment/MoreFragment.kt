@@ -13,6 +13,7 @@ import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.More
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
@@ -140,19 +141,19 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
             MoreType.RATE_US -> vm.rateUs(getParent()!!)
             MoreType.FEEDBACK -> vm.sendFeedback(getParent()!!)
             MoreType.SETTINGS -> {
-                val task = UiTask(false, UiType.MORE, UiSubtype.SETTINGS, null)
+                val task = UiTask<More>(type =UiType.MORE, subtype =  UiSubtype.SETTINGS)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.LICENSE -> {
-                val task = UiTask(false, UiType.MORE, UiSubtype.LICENSE, null)
+                val task = UiTask<More>( type =UiType.MORE,subtype = UiSubtype.LICENSE)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.ABOUT -> {
-                val task = UiTask(false, UiType.MORE, UiSubtype.ABOUT, null)
+                val task = UiTask<More>(type = UiType.MORE, subtype =UiSubtype.ABOUT)
                 openActivity(ToolsActivity::class.java, task)
             }
             else -> {
-                val task = UiTask(false, UiType.MORE, UiSubtype.ABOUT, null)
+                val task = UiTask<More>(type = UiType.MORE,subtype = UiSubtype.ABOUT)
                 openActivity(ToolsActivity::class.java, task)
             }
         }

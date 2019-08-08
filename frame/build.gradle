@@ -231,6 +231,7 @@ dependencies {
     implementation 'com.jaredrummler:android-device-names:1.1.9'
     implementation 'com.otaliastudios:cameraview:1.6.0'
     implementation 'com.github.onurkagan:ktoast:1.0.3'
+    api 'com.afollestad.material-dialogs:core:3.1.0'
     api 'com.intuit.ssp:ssp-android:1.0.6'
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.github.pwittchen:reactivenetwork-rx2:3.0.3'

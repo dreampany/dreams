@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +60,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, PermissionListener,
     MultiplePermissionsListener, PermissionRequestErrorListener, SearchView.OnQueryTextListener,
     FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener,
-    FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener {
+    FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener,
+    TextWatcher {
 
     @Inject
     protected lateinit var ex: AppExecutors
@@ -331,6 +334,15 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
 
     override fun onQueryTextChange(newText: String): Boolean {
         return false
+    }
+
+    override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun afterTextChanged(s: Editable?) {
     }
 
     fun onVisible() {

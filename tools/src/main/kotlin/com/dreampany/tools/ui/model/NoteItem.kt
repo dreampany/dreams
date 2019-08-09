@@ -14,6 +14,7 @@ import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.UiAction
+import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
@@ -33,6 +34,17 @@ class NoteItem private constructor(
         fun getItem(item: Note): NoteItem {
             return NoteItem(item, R.layout.item_note)
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as NoteItem
+        return Objects.equal(this.item, item.item)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(item)
     }
 
     override fun createViewHolder(

@@ -32,7 +32,6 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.enums.UiAction
-import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.UiTask
@@ -108,7 +107,7 @@ class NotesFragment @Inject constructor() :
             Constants.RequestCode.ADD_NOTE,
             Constants.RequestCode.EDIT_NOTE -> {
                 if (isOkay(resultCode)) {
-                    //ex.postToUi({ request(true) }, 1000L)
+                    ex.postToUi({ request(true) }, 1000L)
                 }
             }
         }
@@ -208,35 +207,35 @@ class NotesFragment @Inject constructor() :
             powerItems.add(
                 PowerMenuItem(
                     NoteOption.EDIT.toTitle(),
-                    R.drawable.ic_edit_black_24dp,
+                    // R.drawable.ic_edit_black_24dp,
                     NoteOption.EDIT
                 )
             )
             powerItems.add(
                 PowerMenuItem(
                     NoteOption.FAVORITE.toTitle(),
-                    R.drawable.ic_favorite_black_24dp,
+                    // R.drawable.ic_favorite_black_24dp,
                     NoteOption.FAVORITE
                 )
             )
             powerItems.add(
                 PowerMenuItem(
                     NoteOption.ARCHIVE.toTitle(),
-                    R.drawable.ic_archive_black_24dp,
+                    // R.drawable.ic_archive_black_24dp,
                     NoteOption.ARCHIVE
                 )
             )
             powerItems.add(
                 PowerMenuItem(
                     NoteOption.TRASH.toTitle(),
-                    R.drawable.ic_delete_black_24dp,
+                    //R.drawable.ic_delete_black_24dp,
                     NoteOption.TRASH
                 )
             )
             powerItems.add(
                 PowerMenuItem(
                     NoteOption.DELETE.toTitle(),
-                    R.drawable.ic_delete_forever_black_24dp,
+                    //R.drawable.ic_delete_forever_black_24dp,
                     NoteOption.DELETE
                 )
             )
@@ -256,7 +255,7 @@ class NotesFragment @Inject constructor() :
             .setOnMenuItemClickListener(this)
             .setLifecycleOwner(this)
             .setDividerHeight(1)
-            .setTextSize(16)
+            .setTextSize(14)
             .build()
         powerMenu?.showAsAnchorRightBottom(view)
     }

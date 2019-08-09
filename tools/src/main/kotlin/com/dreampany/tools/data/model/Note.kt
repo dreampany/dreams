@@ -6,6 +6,7 @@ import androidx.room.Index
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
+import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -37,5 +38,16 @@ data class Note(
 
     constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
 
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as Note
+        return Objects.equal(this.id, item.id)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
     }
 }

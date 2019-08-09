@@ -46,6 +46,7 @@ class EditNoteFragment @Inject constructor() :
 
     private lateinit var vm: NoteViewModel
     private var edited: Boolean = false
+    private var saved: Boolean = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_edit_note
@@ -64,7 +65,7 @@ class EditNoteFragment @Inject constructor() :
             saveDialog()
             return true
         }
-        forResult()
+        forResult(saved)
         return true
     }
 
@@ -221,6 +222,7 @@ class EditNoteFragment @Inject constructor() :
     }
 
     private fun processSuccess(action: Action, item: NoteItem) {
+        saved = true
         if (action == Action.UPDATE) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
             AndroidUtil.hideSoftInput(getParent()!!)

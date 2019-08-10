@@ -1,6 +1,6 @@
 package com.dreampany.history.data.source.repository
 
-import com.dreampany.frame.data.source.repository.RepositoryKt
+import com.dreampany.frame.data.source.repository.Repository
 import com.dreampany.frame.misc.Remote
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.Room
@@ -27,7 +27,7 @@ class HistoryRepository
     rm: ResponseMapper,
     @Room private val room: HistoryDataSource,
     @Remote private val remote: HistoryDataSource
-) : RepositoryKt<String, History>(rx, rm), HistoryDataSource {
+) : Repository<String, History>(rx, rm), HistoryDataSource {
 
     override fun getItems(source: HistorySource, type: HistoryType, day: Int, month: Int): List<History>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

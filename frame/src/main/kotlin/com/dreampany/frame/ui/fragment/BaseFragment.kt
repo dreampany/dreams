@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.frame.app.BaseApp
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.AppExecutors
@@ -57,7 +60,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, PermissionListener,
     MultiplePermissionsListener, PermissionRequestErrorListener, SearchView.OnQueryTextListener,
     FlexibleAdapter.OnItemClickListener, FlexibleAdapter.OnItemLongClickListener,
-    FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener {
+    FlexibleAdapter.EndlessScrollListener, EmptyViewHelper.OnEmptyViewListener,
+    TextWatcher {
 
     @Inject
     protected lateinit var ex: AppExecutors
@@ -332,6 +336,15 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         return false
     }
 
+    override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+    }
+
+    override fun afterTextChanged(s: Editable?) {
+    }
+
     fun onVisible() {
 
     }
@@ -365,21 +378,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         return AndroidUtil.isAlive(getParent())
     }
 
-    protected fun <T : Task<*>> getCurrentTask(intent: Intent): T? {
-        val task = getIntentValue<T>(Constants.Task.TASK, intent.extras)
-        return task
-    }
-
-    protected fun <T : Task<*>> getCurrentTask(): T? {
-        return getCurrentTask(false)
-    }
-
-    protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {
-        if (task == null || freshTask) {
-            task = getIntentValue<T>(Constants.Task.TASK)
-        }
-        return task as T?
-    }
 
     protected fun <T> getIntentValue(key: String): T? {
         val bundle = getBundle()
@@ -399,6 +397,27 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
 
     protected fun getBundle(): Bundle? {
         return arguments
+    }
+
+    protected fun <T : Task<*>> getCurrentTask(intent: Intent): T? {
+        val task = getIntentValue<T>(Constants.Task.TASK, intent.extras)
+        return task
+    }
+
+    protected fun <T : Task<*>> getCurrentTask(): T? {
+        return getCurrentTask(false)
+    }
+
+    protected fun <T : Task<*>> getCurrentTask(freshTask: Boolean): T? {
+        if (task == null || freshTask) {
+            task = getIntentValue<T>(Constants.Task.TASK)
+        }
+        return task as T?
+    }
+
+    protected fun <T : Base> getInput(): T? {
+        val task: Task<*>? = getCurrentTask()
+        return task?.input as T?
     }
 
     fun <T : View> findViewById(@IdRes id: Int): T? {
@@ -432,7 +451,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         }
     }
 
-    protected fun setSubtitle(subtitle: String?= null) {
+    protected fun setSubtitle(subtitle: String? = null) {
         val activity = activity
         if (BaseActivity::class.java.isInstance(activity)) {
             (activity as BaseActivity).setSubtitle(subtitle)
@@ -505,7 +524,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         parent?.hideAlert()
     }
 
-    protected fun forResult() {
+    protected fun forResult(okay: Boolean = true) {
         if (!isParentAlive()) {
             return
         }
@@ -513,8 +532,16 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         val task = getCurrentTask<Task<*>>(false)
         val intent = Intent()
         intent.putExtra(Constants.Task.TASK, task as Parcelable)
-        parent?.setResult(Activity.RESULT_OK, intent)
+        if (okay) {
+            parent?.setResult(Activity.RESULT_OK, intent)
+        } else {
+            parent?.setResult(Activity.RESULT_CANCELED, intent)
+        }
         parent?.finish()
+    }
+
+    protected fun isOkay(resultCode: Int): Boolean {
+        return resultCode == Activity.RESULT_OK
     }
 
 /*    protected fun showProgress(message: String) {

@@ -6,8 +6,6 @@ import com.dreampany.frame.util.TextUtil
 import com.dreampany.history.R
 import com.dreampany.history.data.enums.HistoryType
 import com.dreampany.history.data.enums.LinkSource
-import com.google.common.base.Splitter
-import com.google.common.collect.Iterables
 import java.util.concurrent.TimeUnit
 
 
@@ -19,13 +17,8 @@ import java.util.concurrent.TimeUnit
 class Constants {
 
     companion object {
-        fun database(name: String): String {
-            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + Constants.Database.POST_FIX
-        }
-
-        fun database(name: String, type: String): String {
-            return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(name)) + type + Constants.Database.POST_FIX
-        }
+        fun database(name: String): String = Constants.database(name)
+        fun database(name: String, type: String): String = Constants.database(name, type)
 
         fun lastAppId(context: Context): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
@@ -125,11 +118,6 @@ class Constants {
         const val HISTORY_MUFFIN_LABS_DAY_MONTH = "/date/{month}/{day}"
     }
 
-    object Database {
-        const val TYPE_HISTORY = "history"
-        const val POST_FIX = Constants.Sep.HYPHEN + "db"
-    }
-
     object Pref {
         const val NOTIFY_HISTORY = "notify_history"
     }
@@ -152,12 +140,6 @@ class Constants {
     object Threshold {
         const val IMAGE_MIN_WIDTH = 100
         const val IMAGE_MIN_HEIGHT = 100
-    }
-
-    object UiState {
-        enum class State {
-            NONE, EMPTY, SEARCH
-        }
     }
 
     object Pattern {

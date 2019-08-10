@@ -5,7 +5,6 @@ import com.dreampany.frame.util.AndroidUtil
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
 /**
  * Created by Hawladar Roman on 24/2/19.
@@ -140,12 +139,6 @@ class Constants {
     object Network {
         const val HTTP = "http:"
         const val HTTPS = "https:"
-    }
-
-    object UiState {
-        enum class State {
-            NONE, EMPTY, SEARCH
-        }
     }
 
     object Pattern {

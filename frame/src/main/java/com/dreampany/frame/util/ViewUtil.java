@@ -79,11 +79,11 @@ public final class ViewUtil {
         }
     }
 
-    public static void setClickListener(View parentView, int viewId, View.OnClickListener clickListener) {
+    public static void setClickListener(View parentView, int viewId, View.OnUiItemClickListener clickListener) {
         setClickListener(getViewById(parentView, viewId), clickListener);
     }
 
-    public static void setClickListener(View view, View.OnClickListener clickListener) {
+    public static void setClickListener(View view, View.OnUiItemClickListener clickListener) {
         if (view != null) {
             view.setOnClickListener(clickListener);
         }
@@ -91,7 +91,7 @@ public final class ViewUtil {
 
 
     public static void setClickListener(Fragment fragment, @IdRes int viewId) {
-        setClickListener(getViewById(fragment.getView(), viewId), (View.OnClickListener) fragment);
+        setClickListener(getViewById(fragment.getView(), viewId), (View.OnUiItemClickListener) fragment);
     }
 
     public static void setText(Fragment fragment, @IdRes int viewId, @StringRes int textId) {

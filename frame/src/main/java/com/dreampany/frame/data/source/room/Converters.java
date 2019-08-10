@@ -13,7 +13,7 @@ import java.util.List;
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-public final class Converters {
+public class Converters {
 
     private static Gson gson = new Gson();
     private static Type typeOfListString = new TypeToken<List<String>>() {}.getType();

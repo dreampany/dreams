@@ -77,6 +77,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         return false
     }
 
+    open fun hasSoLoader():Boolean {
+        return false
+    }
+
     open fun hasStetho(): Boolean {
         return false
     }
@@ -182,6 +186,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
             if (!initLeakCanary()) {
                 return
             }
+        }
+
+        if (hasSoLoader()) {
+            initSoLoader()
         }
 
         if (isDebug() && hasStetho()) {
@@ -338,6 +346,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         //}
         //LeakCanary.install(this)
         return true
+    }
+
+    private fun initSoLoader() {
+       // SoLoader.init(this, false)
     }
 
     private fun configRx() {

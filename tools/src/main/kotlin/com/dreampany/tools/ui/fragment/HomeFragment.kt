@@ -2,29 +2,32 @@ package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
-import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Response
-import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.FeatureType
 import com.dreampany.tools.data.misc.FeatureRequest
+import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.FeatureAdapter
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.model.FeatureItem
@@ -44,7 +47,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class HomeFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnClickListener<FeatureItem?, Any?> {
+    BaseMenuFragment(), OnUiItemClickListener<FeatureItem?, Any?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -54,9 +57,9 @@ class HomeFragment @Inject constructor() :
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
-    private lateinit var scroller: OnVerticalScrollListener
     private lateinit var vm: FeatureViewModel
     private lateinit var adapter: FeatureAdapter
+    private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
@@ -83,7 +86,7 @@ class HomeFragment @Inject constructor() :
 
     }
 
-    override fun onClick(item: FeatureItem?, action: Any?) {
+    override fun onClick(view: View, item: FeatureItem?, action: Any?) {
         item?.run {
             Timber.v("%s", this.item.type.name)
             openUi(this)
@@ -91,7 +94,7 @@ class HomeFragment @Inject constructor() :
 
     }
 
-    override fun onLongClick(item: FeatureItem?, action: Any?) {
+    override fun onLongClick(view: View, item: FeatureItem?, action: Any?) {
         item?.run {
             Timber.v("%s", this.item.type.name)
         }
@@ -109,8 +112,8 @@ class HomeFragment @Inject constructor() :
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            Constants.UiState.State.NONE.name,
-            LayoutInflater.from(context).inflate(R.layout.item_none, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
@@ -144,6 +147,7 @@ class HomeFragment @Inject constructor() :
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = FeatureRequest(
+            action = Action.GET,
             type = FeatureType.DEFAULT,
             important = important,
             progress = progress
@@ -153,7 +157,7 @@ class HomeFragment @Inject constructor() :
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.NONE -> bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -176,25 +180,42 @@ class HomeFragment @Inject constructor() :
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<FeatureItem>>
-            processSuccess(result.type, result.data)
+            processSuccess(result.action, result.data)
         }
     }
 
-    private fun processSuccess(type: Response.Type, items: List<FeatureItem>) {
-        Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
+    private fun processSuccess(action: Action, items: List<FeatureItem>) {
         adapter.setItems(items)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }
 
 
     private fun openUi(uiItem: FeatureItem) {
-        var task: UiTask<Base>? = null
+        var task: UiTask<Feature>? = null
         when (uiItem.item.type) {
             FeatureType.APK -> {
-                task = UiTask<Base>(false, UiType.APK, UiSubtype.VIEW, uiItem.item)
+                task = UiTask<Feature>(
+                    type = UiType.HOME,
+                    subtype = UiSubtype.APK,
+                    action = UiAction.OPEN,
+                    input = uiItem.item
+                )
             }
             FeatureType.SCAN -> {
-                task = UiTask<Base>(false, UiType.SCAN, UiSubtype.VIEW, uiItem.item)
+                task = UiTask<Feature>(
+                    type = UiType.HOME,
+                    subtype = UiSubtype.SCAN,
+                    action = UiAction.OPEN,
+                    input = uiItem.item
+                )
+            }
+            FeatureType.NOTE -> {
+                task = UiTask<Feature>(
+                    type = UiType.HOME,
+                    subtype = UiSubtype.NOTE,
+                    action = UiAction.OPEN,
+                    input = uiItem.item
+                )
             }
         }
         task?.run {

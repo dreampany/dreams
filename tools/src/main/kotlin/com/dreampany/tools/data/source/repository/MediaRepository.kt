@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.repository
 
-import com.dreampany.frame.data.source.repository.RepositoryKt
+import com.dreampany.frame.data.source.repository.Repository
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
 import com.dreampany.tools.data.model.Media
@@ -17,7 +17,7 @@ abstract class MediaRepository<T : Media>(
     rx: RxMapper,
     rm: ResponseMapper,
     val memory: MediaDataSource<T>
-) : RepositoryKt<String, T>(rx, rm), MediaDataSource<T> {
+) : Repository<String, T>(rx, rm), MediaDataSource<T> {
 
     override fun isEmpty(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -88,8 +88,8 @@ abstract class MediaRepository<T : Media>(
     }
 
     override fun getItemsRx(): Maybe<List<T>> {
-        val memory = this.memory.getItemsRx()
-        return concatFirstRx(true, memory)
+        return this.memory.getItemsRx()
+        //return concatFirstRx(true, memory)
     }
 
     override fun getItems(limit: Int): List<T>? {

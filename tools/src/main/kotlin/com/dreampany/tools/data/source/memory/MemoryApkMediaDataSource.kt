@@ -14,7 +14,6 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
 class MemoryApkMediaDataSource(
     private val context: Context,
     private val mapper: ApkMapper,

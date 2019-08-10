@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class UiSubtype : Parcelable {
-    SETTINGS, LICENSE, ABOUT, EDIT, VIEW
+    DEFAULT, SETTINGS, LICENSE, ABOUT, APK, SCAN, NOTE
 }

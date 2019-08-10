@@ -12,6 +12,15 @@ import dagger.Module
  * dreampanymail@gmail.com
  */
 
-@Module(includes = [FrameModule::class, TranslationModule::class, MediaModule::class, DatabaseModule::class, SupportModule::class, ViewModelModule::class])
+@Module(
+    includes = [
+        FrameModule::class,
+        TranslationModule::class,
+        MediaModule::class,
+        NoteModule::class,
+        DatabaseModule::class,
+        SupportModule::class,
+        ViewModelModule::class]
+)
 class BuildersModule {
 }

@@ -2,16 +2,19 @@ package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.ViewUtil
@@ -23,6 +26,7 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ApkAdapter
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.model.ApkItem
 import com.dreampany.tools.vm.ApkViewModel
 import cz.kinst.jakub.view.StatefulLayout
@@ -39,7 +43,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class ApkFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnClickListener<ApkItem?, ApkItem.Action?> {
+    BaseMenuFragment(), OnUiItemClickListener<ApkItem?, UiAction?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -49,9 +53,9 @@ class ApkFragment @Inject constructor() :
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
-    private lateinit var scroller: OnVerticalScrollListener
     private lateinit var vm: ApkViewModel
     private lateinit var adapter: ApkAdapter
+    private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_recycler
@@ -75,20 +79,20 @@ class ApkFragment @Inject constructor() :
         request(progress = true)
     }
 
-    override fun onClick(item: ApkItem?, action: ApkItem.Action?) {
+    override fun onClick(view: View, item: ApkItem?, action: UiAction?) {
         if (item != null && action != null) {
             when (action) {
-                ApkItem.Action.OPEN -> {
+                UiAction.OPEN -> {
                     AndroidUtil.openApplication(context!!, item.item.id)
                 }
-                ApkItem.Action.DETAILS -> {
+                UiAction.DETAILS -> {
                     AndroidUtil.openApplicationDetails(context!!, item.item.id)
                 }
             }
         }
     }
 
-    override fun onLongClick(item: ApkItem?, action: ApkItem.Action?) {
+    override fun onLongClick(view: View, item: ApkItem?, action: UiAction?) {
     }
 
     private fun initTitleSubtitle() {
@@ -103,8 +107,8 @@ class ApkFragment @Inject constructor() :
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            Constants.UiState.State.NONE.name,
-            LayoutInflater.from(context).inflate(R.layout.item_none, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
@@ -148,7 +152,7 @@ class ApkFragment @Inject constructor() :
     private fun processUiState(state: UiState) {
         Timber.v("UiState %s", state.name)
         when (state) {
-            UiState.NONE -> bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -175,12 +179,12 @@ class ApkFragment @Inject constructor() :
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<ApkItem>>
-            processSuccess(result.type, result.data)
+            processSuccess(result.action, result.data)
         }
     }
 
-    private fun processSuccess(type: Response.Type, items: List<ApkItem>) {
-        Timber.v("Result Type[%s] Size[%s]", type.name, items.size)
+    private fun processSuccess(action: Action, items: List<ApkItem>) {
+        Timber.v("Result Type[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
     }

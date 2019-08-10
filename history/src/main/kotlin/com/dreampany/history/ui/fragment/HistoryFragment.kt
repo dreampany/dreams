@@ -34,7 +34,6 @@ import com.dreampany.history.vm.HistoryViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
-import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -126,10 +125,10 @@ class HistoryFragment
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            Constants.UiState.State.NONE.name,
-            LayoutInflater.from(context).inflate(R.layout.item_none, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
-        processUiState(UiState.NONE)
+        processUiState(UiState.DEFAULT)
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindHistory.buttonFavorite.setOnClickListener(this)
         bindHistory.textHtml.movementMethod = TextViewClickMovement(this, getContext())
@@ -170,8 +169,8 @@ class HistoryFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.NONE -> {
-                bind.stateful.setState(Constants.UiState.State.NONE.name)
+            UiState.DEFAULT -> {
+                bind.stateful.setState(UiState.DEFAULT.name)
             }
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)

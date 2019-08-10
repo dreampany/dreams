@@ -13,6 +13,11 @@ import java.util.regex.Pattern
  */
 class DataUtilKt {
     companion object {
+
+        fun getRandId() :String {
+            return UUID.randomUUID().toString()
+        }
+
         fun join(vararg items: Int): String {
             val builder = StringBuilder()
             for (item in items) {

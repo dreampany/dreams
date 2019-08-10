@@ -2,12 +2,9 @@ package com.dreampany.tools.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.tools.vm.DemoViewModel
-import com.dreampany.tools.vm.MoreViewModel
 import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
-import com.dreampany.tools.vm.ApkViewModel
-import com.dreampany.tools.vm.FeatureViewModel
+import com.dreampany.tools.vm.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -41,6 +38,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ApkViewModel::class)
     abstract fun bindApkViewModel(vm: ApkViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NoteViewModel::class)
+    abstract fun bindNoteViewModel(vm: NoteViewModel): ViewModel
 
     @Singleton
     @Binds

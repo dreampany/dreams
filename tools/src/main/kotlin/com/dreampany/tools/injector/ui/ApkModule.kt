@@ -15,5 +15,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class ApkModule {
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun apkFragment(): ApkFragment;
+    abstract fun fragment(): ApkFragment
 }

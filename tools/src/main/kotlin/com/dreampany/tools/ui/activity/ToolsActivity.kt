@@ -1,15 +1,16 @@
 package com.dreampany.tools.ui.activity
 
 import android.os.Bundle
+import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.tools.R
+import com.dreampany.tools.ui.enums.UiAction
 import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.enums.UiType
-import com.dreampany.tools.ui.model.UiTask
-import com.dreampany.frame.misc.SmartAd
 import com.dreampany.tools.ui.fragment.*
+import com.dreampany.tools.ui.model.UiTask
+import com.google.android.gms.ads.AdView
 import dagger.Lazy
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -31,6 +32,10 @@ class ToolsActivity : BaseActivity() {
     lateinit var apkProvider: Lazy<ApkFragment>
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
+    @Inject
+    lateinit var notesProvider: Lazy<NotesFragment>
+    @Inject
+    lateinit var editNoteProvider: Lazy<EditNoteFragment>
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
@@ -45,36 +50,78 @@ class ToolsActivity : BaseActivity() {
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype
-        if (type == null || subtype == null) {
+        val action = uiTask.action
+        if (type == null || subtype == null || action == null) {
             return
         }
+        ad.initAd(
+            this,
+            getScreen(),
+            findViewById<AdView>(R.id.adview),
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
+        )
+        ad.loadAd(getScreen())
+
         when (type) {
             UiType.MORE -> {
                 when (subtype) {
                     UiSubtype.SETTINGS -> {
-                        commitFragment(SettingsFragment::class.java, settingsProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            SettingsFragment::class.java,
+                            settingsProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     UiSubtype.LICENSE -> {
-                        commitFragment(LicenseFragment::class.java, licenseProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            LicenseFragment::class.java,
+                            licenseProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     UiSubtype.ABOUT -> {
-                        commitFragment(AboutFragment::class.java, aboutProvider, R.id.layout, uiTask)
+                        commitFragment(
+                            AboutFragment::class.java,
+                            aboutProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                     else -> {
                     }
                 }
             }
-            UiType.APK -> {
+            UiType.HOME -> {
                 when (subtype) {
-                    UiSubtype.VIEW -> {
+                    UiSubtype.APK -> {
                         commitFragment(ApkFragment::class.java, apkProvider, R.id.layout, uiTask)
+                    }
+                    UiSubtype.SCAN -> {
+                        commitFragment(ScanFragment::class.java, scanProvider, R.id.layout, uiTask)
+                    }
+                    UiSubtype.NOTE -> {
+                        commitFragment(
+                            NotesFragment::class.java,
+                            notesProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                 }
             }
-            UiType.SCAN -> {
-                when (subtype) {
-                    UiSubtype.VIEW -> {
-                        commitFragment(ScanFragment::class.java, scanProvider, R.id.layout, uiTask)
+            UiType.NOTE -> {
+                when (action) {
+                    UiAction.ADD,
+                    UiAction.EDIT -> {
+                        commitFragment(
+                            EditNoteFragment::class.java,
+                            editNoteProvider,
+                            R.id.layout,
+                            uiTask
+                        )
                     }
                 }
             }
@@ -84,9 +131,20 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStopUi() {
+        ad.destroyBanner(getScreen())
     }
 
-    override fun onDestroy() {
+    override fun onResume() {
+        super.onResume()
+        ad.resumeBanner(getScreen())
+    }
+
+    override fun onPause() {
+        ad.pauseBanner(getScreen())
+        super.onPause()
+    }
+
+/*    override fun onDestroy() {
         try {
             super.onDestroy()
         } catch (e: Exception) {
@@ -101,5 +159,5 @@ class ToolsActivity : BaseActivity() {
             return
         }
         finish()
-    }
+    }*/
 }

@@ -20,7 +20,7 @@ class StoreRepository @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
     @Room val room: StoreDataSource
-): RepositoryKt<String, Store>(rx, rm), StoreDataSource {
+): Repository<String, Store>(rx, rm), StoreDataSource {
     override fun getItemsOf(type: String, subtype: String, state: String): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

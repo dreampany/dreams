@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -12,14 +11,12 @@ import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtilKt
-import com.dreampany.frame.util.DisplayUtil
-import com.dreampany.frame.util.FrescoUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.ApkType
 import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ApkAdapter
-import com.facebook.drawee.view.SimpleDraweeView
+import com.dreampany.tools.ui.enums.UiAction
 import com.github.nikartm.button.FitButton
 import de.hdodenhof.circleimageview.CircleImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -43,10 +40,6 @@ class ApkItem private constructor(
         fun getItem(item: Apk): ApkItem {
             return ApkItem(item, R.layout.item_apk)
         }
-    }
-
-    enum class Action {
-        OPEN, DETAILS
     }
 
     private var icon: WeakReference<Drawable>? = null
@@ -103,19 +96,27 @@ class ApkItem private constructor(
 
 
 /*            view.setOnClickListener {
-                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.uiItemClick?.onClick(this.adapter.getItem(adapterPosition)!!)
             }
             view.setOnLongClickListener {
-                this.adapter.click?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.uiItemClick?.onClick(this.adapter.getItem(adapterPosition)!!)
                 true
             }*/
 
             buttonOpen.setOnClickListener {
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action =  ApkItem.Action.OPEN)
+                this.adapter.uiItemClick?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = UiAction.OPEN
+                )
             }
 
             buttonDetails.setOnClickListener {
-                this.adapter.click?.onClick(item = this.adapter.getItem(adapterPosition), action =  ApkItem.Action.DETAILS)
+                this.adapter.uiItemClick?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = UiAction.DETAILS
+                )
             }
         }
 
@@ -136,11 +137,11 @@ class ApkItem private constructor(
             textSize.text = DataUtilKt.formatReadableSize(item.size)
             labelType.primaryText = item.apkType.name
 
-            when(item.apkType) {
-                ApkType.SYSTEM->{
+            when (item.apkType) {
+                ApkType.SYSTEM -> {
                     labelType.setTriangleBackgroundColorResource(R.color.material_red500)
                 }
-                ApkType.USER->{
+                ApkType.USER -> {
                     labelType.setTriangleBackgroundColorResource(R.color.material_green500)
                 }
             }

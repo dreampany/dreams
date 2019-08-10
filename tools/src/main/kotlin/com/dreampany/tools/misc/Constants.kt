@@ -106,4 +106,9 @@ class Constants {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2
     }
+
+    object Service {
+        const val VPN_ADDRESS = "10.0.0.2"
+        const val VPN_ROUTE = "0.0.0.0"
+    }
 }

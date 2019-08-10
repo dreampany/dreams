@@ -122,6 +122,7 @@ class FeatureViewModel @Inject constructor(
             items.add(Feature(FeatureType.APK.name, FeatureType.APK))
             items.add(Feature(FeatureType.SCAN.name, FeatureType.SCAN))
             items.add(Feature(FeatureType.NOTE.name, FeatureType.NOTE))
+            items.add(Feature(FeatureType.WORD.name, FeatureType.WORD))
             items.add(Feature(FeatureType.HISTORY.name, FeatureType.HISTORY))
             emitter.onSuccess(items)
         }

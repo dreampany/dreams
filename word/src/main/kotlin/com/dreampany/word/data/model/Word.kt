@@ -6,7 +6,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.word.misc.Constants
@@ -30,10 +30,9 @@ import com.google.firebase.firestore.PropertyName
 class Word(
     override var time: Long,
     override var id: String
-) : BaseKt() {
+) : Base() {
 
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
-    @PropertyName(Constants.Word.PART_OF_SPEECH)
     private var partOfSpeech: String? = null
     var pronunciation: String? = null
     var definitions: MutableList<Definition>? = null

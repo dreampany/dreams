@@ -102,6 +102,11 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
+    object Word {
+        const val ID = Constants.Key.ID
+        const val PART_OF_SPEECH = "part_of_speech"
+    }
+
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2

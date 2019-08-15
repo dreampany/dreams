@@ -5,9 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.dreampany.frame.BuildConfig
-import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.model.Store
-import com.dreampany.frame.data.source.dao.StateDao
 import com.dreampany.frame.data.source.dao.StoreDao
 import com.dreampany.frame.misc.Constants
 
@@ -17,7 +15,7 @@ import com.dreampany.frame.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [State::class, Store::class], version = 10)
+@Database(entities = [Store::class], version = 11)
 abstract class FrameDatabase : RoomDatabase() {
 
     companion object {
@@ -49,8 +47,6 @@ abstract class FrameDatabase : RoomDatabase() {
             return instance!!
         }
     }
-
-    abstract fun stateDao(): StateDao
 
     abstract fun storeDao(): StoreDao
 }

@@ -5,8 +5,8 @@ import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.dreampany.frame.data.enums.NetworkState
-import com.dreampany.frame.data.enums.UiMode
-import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.ui.enums.UiMode
+import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.data.model.Event
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.*

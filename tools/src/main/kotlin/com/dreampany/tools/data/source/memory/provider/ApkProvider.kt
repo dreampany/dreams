@@ -2,8 +2,8 @@ package com.dreampany.tools.data.source.memory.provider
 
 import android.content.Context
 import com.dreampany.frame.util.AndroidUtil
-import com.dreampany.tools.data.misc.ApkMapper
-import com.dreampany.tools.data.model.Apk
+import com.dreampany.tools.data.misc.AppMapper
+import com.dreampany.tools.data.model.App
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,13 +17,13 @@ import javax.inject.Singleton
 class ApkProvider
 @Inject constructor(
     val context: Context,
-    val mapper: ApkMapper
-) : MediaProvider<Apk>() {
+    val mapper: AppMapper
+) : MediaProvider<App>() {
 
-    override fun getItems(limit: Int): List<Apk>? {
+    override fun getItems(limit: Int): List<App>? {
         val pm = AndroidUtil.getPackageManager(context)
         val infos = AndroidUtil.getInstalledApps(context, pm)
-        val result = mutableListOf<Apk>()
+        val result = mutableListOf<App>()
         infos?.forEach { info ->
             if (result.size >= limit) {
                 return@forEach

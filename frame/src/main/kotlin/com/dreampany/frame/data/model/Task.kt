@@ -8,15 +8,15 @@ import android.os.Parcelable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Task<T : Parcelable>(open var input: T?, open var comment: String?) :
+abstract class Task<T : Parcelable>(open var input: T?, open var extra: String?) :
     BaseParcel() {
 
 /*    var input: T? = null
-    var comment: String? = null*/
+    var extra: String? = null*/
 /*    */
 
 /*     constructor(`in`: Parcel) {
-        comment = `in`.readString()
+        extra = `in`.readString()
         if (`in`.readByte().toInt() == 0) {
             input = null
         } else {
@@ -26,7 +26,7 @@ abstract class Task<T : Parcelable>(open var input: T?, open var comment: String
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(comment)
+        dest.writeString(extra)
         if (input == null) {
             dest.writeByte(0.toByte())
         } else {

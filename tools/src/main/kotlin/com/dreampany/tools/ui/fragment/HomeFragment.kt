@@ -9,16 +9,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
+import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.FeatureType
 import com.dreampany.tools.data.misc.FeatureRequest
 import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.databinding.ContentRecyclerBinding
@@ -27,11 +28,8 @@ import com.dreampany.tools.databinding.FragmentHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.FeatureAdapter
-import com.dreampany.tools.ui.enums.UiAction
-import com.dreampany.tools.ui.enums.UiSubtype
-import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.model.FeatureItem
-import com.dreampany.tools.ui.model.UiTask
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.tools.vm.FeatureViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -147,8 +145,8 @@ class HomeFragment @Inject constructor() :
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = FeatureRequest(
+            type = Type.DEFAULT,
             action = Action.GET,
-            type = FeatureType.DEFAULT,
             important = important,
             progress = progress
         )
@@ -193,27 +191,30 @@ class HomeFragment @Inject constructor() :
     private fun openUi(uiItem: FeatureItem) {
         var task: UiTask<Feature>? = null
         when (uiItem.item.type) {
-            FeatureType.APK -> {
+            Type.APP -> {
                 task = UiTask<Feature>(
-                    type = UiType.HOME,
-                    subtype = UiSubtype.APK,
-                    action = UiAction.OPEN,
+                    type = Type.APP,
+                    subtype = Subtype.DEFAULT,
+                    state = State.HOME,
+                    action = Action.OPEN,
                     input = uiItem.item
                 )
             }
-            FeatureType.SCAN -> {
+            Type.WORD -> {
                 task = UiTask<Feature>(
-                    type = UiType.HOME,
-                    subtype = UiSubtype.SCAN,
-                    action = UiAction.OPEN,
+                    type = Type.WORD,
+                    subtype = Subtype.DEFAULT,
+                    state = State.HOME,
+                    action = Action.OPEN,
                     input = uiItem.item
                 )
             }
-            FeatureType.NOTE -> {
+            Type.NOTE -> {
                 task = UiTask<Feature>(
-                    type = UiType.HOME,
-                    subtype = UiSubtype.NOTE,
-                    action = UiAction.OPEN,
+                    type = Type.NOTE,
+                    subtype = Subtype.DEFAULT,
+                    state = State.HOME,
+                    action = Action.OPEN,
                     input = uiItem.item
                 )
             }

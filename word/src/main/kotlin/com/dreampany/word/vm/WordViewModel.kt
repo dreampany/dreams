@@ -12,6 +12,7 @@ import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.adapter.SmartAdapter
+import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtil
@@ -43,7 +44,8 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class WordViewModel @Inject constructor(
+class WordViewModel
+@Inject constructor(
     application: Application,
     rx: RxMapper,
     ex: AppExecutors,
@@ -79,7 +81,7 @@ class WordViewModel @Inject constructor(
             .backToMain(loadItemRx(request))
             .doOnSubscribe { subscription ->
                 if (!pref.isLoaded()) {
-                    updateUiState(UiState.NONE)
+                    updateUiState(UiState.DEFAULT)
                 }
                 if (request.progress) {
                     postProgress(true)

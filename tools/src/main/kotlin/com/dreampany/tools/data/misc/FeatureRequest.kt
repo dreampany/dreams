@@ -1,8 +1,10 @@
 package com.dreampany.tools.data.misc
 
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Request
-import com.dreampany.tools.data.enums.FeatureType
 import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.misc.Constants
 
@@ -13,7 +15,9 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class FeatureRequest(
-    val type: FeatureType = FeatureType.DEFAULT,
+    type: Type = Type.DEFAULT,
+    subtype: Subtype = Subtype.DEFAULT,
+    state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
     input: Feature? = Constants.Default.NULL,
     important: Boolean = Constants.Default.BOOLEAN,

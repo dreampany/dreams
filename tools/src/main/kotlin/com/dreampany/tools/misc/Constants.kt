@@ -60,6 +60,7 @@ class Constants {
 
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
+        const val LANGUAGE_PICKER = "language-picker"
     }
 
     object Time {
@@ -90,7 +91,7 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
-    object Apk {
+    object App {
         const val ID = Constants.Key.ID
     }
 
@@ -105,6 +106,13 @@ class Constants {
     object Word {
         const val ID = Constants.Key.ID
         const val PART_OF_SPEECH = "part_of_speech"
+        const val LEFTER = "lefter"
+        const val RIGHTER = "righter"
+        const val RECENT_WORD = "recent_word"
+    }
+
+    object Language {
+        const val LANGUAGE = "language"
     }
 
     object RequestCode {
@@ -115,5 +123,9 @@ class Constants {
     object Service {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
+    }
+
+    object Translation {
+        const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
     }
 }

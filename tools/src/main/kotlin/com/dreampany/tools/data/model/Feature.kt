@@ -3,9 +3,9 @@ package com.dreampany.tools.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.util.TimeUtilKt
-import com.dreampany.tools.data.enums.FeatureType
 import com.dreampany.tools.misc.Constants
 import kotlinx.android.parcel.Parcelize
 
@@ -26,7 +26,7 @@ import kotlinx.android.parcel.Parcelize
 data class Feature(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING, // package
-    var type: FeatureType = FeatureType.DEFAULT
+    var type: Type = Type.DEFAULT
 ) : Base() {
 
     @Ignore
@@ -38,9 +38,16 @@ data class Feature(
 
     }
 
-    constructor(id: String, type: FeatureType) : this(
+    constructor(id: String, type: Type) : this(
         time = TimeUtilKt.currentMillis(),
         id = id,
+        type = type
+    ) {
+
+    }
+
+    constructor(type: Type) : this(
+        id = type.name,
         type = type
     ) {
 

@@ -2,8 +2,8 @@ package com.dreampany.tools.injector.data
 
 import android.content.Context
 import com.dreampany.frame.misc.Memory
-import com.dreampany.tools.data.misc.ApkMapper
-import com.dreampany.tools.data.model.Apk
+import com.dreampany.tools.data.misc.AppMapper
+import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.api.MediaDataSource
 import com.dreampany.tools.data.source.memory.MemoryApkMediaDataSource
 import com.dreampany.tools.data.source.memory.provider.ApkProvider
@@ -25,9 +25,9 @@ class MediaModule {
     @Memory
     fun provideMemoryApkMediaDataSource(
         context: Context,
-        mapper: ApkMapper,
+        mapper: AppMapper,
         provider: ApkProvider
-    ): MediaDataSource<Apk> {
+    ): MediaDataSource<App> {
         return MemoryApkMediaDataSource(context, mapper, provider)
     }
 }

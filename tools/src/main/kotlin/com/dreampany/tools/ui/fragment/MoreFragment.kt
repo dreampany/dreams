@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
@@ -20,10 +22,8 @@ import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.MoreAdapter
 import com.dreampany.tools.ui.enums.MoreType
-import com.dreampany.tools.ui.enums.UiSubtype
-import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.model.MoreItem
-import com.dreampany.tools.ui.model.UiTask
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.tools.vm.MoreViewModel
 import eu.davidea.flexibleadapter.common.FlexibleItemAnimator
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -141,19 +141,15 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
             MoreType.RATE_US -> vm.rateUs(getParent()!!)
             MoreType.FEEDBACK -> vm.sendFeedback(getParent()!!)
             MoreType.SETTINGS -> {
-                val task = UiTask<More>(type =UiType.MORE, subtype =  UiSubtype.SETTINGS)
+                val task = UiTask<More>(type = Type.MORE, subtype = Subtype.SETTINGS)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.LICENSE -> {
-                val task = UiTask<More>( type =UiType.MORE,subtype = UiSubtype.LICENSE)
+                val task = UiTask<More>(type = Type.MORE, subtype = Subtype.LICENSE)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.ABOUT -> {
-                val task = UiTask<More>(type = UiType.MORE, subtype =UiSubtype.ABOUT)
-                openActivity(ToolsActivity::class.java, task)
-            }
-            else -> {
-                val task = UiTask<More>(type = UiType.MORE,subtype = UiSubtype.ABOUT)
+                val task = UiTask<More>(type = Type.MORE, subtype = Subtype.ABOUT)
                 openActivity(ToolsActivity::class.java, task)
             }
         }

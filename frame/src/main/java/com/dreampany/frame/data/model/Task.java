@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 
 public abstract class Task<T extends Parcelable> extends Base {
     
-    protected String comment;
+    protected String extra;
     protected T input;
 
     protected Task() {
@@ -22,7 +22,7 @@ public abstract class Task<T extends Parcelable> extends Base {
 
     protected Task(Parcel in) {
         super(in);
-        comment = in.readString();
+        extra = in.readString();
         if (in.readByte() == 0) {
             input = null;
         } else {
@@ -34,7 +34,7 @@ public abstract class Task<T extends Parcelable> extends Base {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(comment);
+        dest.writeString(extra);
         if (input == null) {
             dest.writeByte((byte) 0);
         } else {
@@ -45,16 +45,16 @@ public abstract class Task<T extends Parcelable> extends Base {
         }
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setExtra(String extra) {
+        this.extra = extra;
     }
 
     public void setInput(T input) {
         this.input = input;
     }
 
-    public String getComment() {
-        return comment;
+    public String getExtra() {
+        return extra;
     }
 
     public T getInput() {

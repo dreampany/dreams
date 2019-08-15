@@ -33,15 +33,15 @@ data class Word(
     @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
     private var partOfSpeech: String? = Constants.Default.NULL,
     var pronunciation: String? = Constants.Default.NULL,
-    var definitions: MutableList<String>? = Constants.Default.NULL,
-    var examples: MutableList<String>? = Constants.Default.NULL,
+    var definitions: ArrayList<Definition>? = Constants.Default.NULL,
+    var examples: ArrayList<String>? = Constants.Default.NULL,
     @Ignore
-    var synonyms: MutableList<String>? = Constants.Default.NULL,
+    var synonyms: ArrayList<String>? = Constants.Default.NULL,
     @Ignore
-    var antonyms: MutableList<String>? = Constants.Default.NULL,
-    var categories: MutableList<String>? = Constants.Default.NULL,
-    var tags: MutableList<String>? = Constants.Default.NULL,
-    var notes: MutableList<String>? = Constants.Default.NULL,
+    var antonyms: ArrayList<String>? = Constants.Default.NULL,
+    var categories: ArrayList<String>? = Constants.Default.NULL,
+    var tags: ArrayList<String>? = Constants.Default.NULL,
+    var notes: ArrayList<String>? = Constants.Default.NULL,
     var popularity: Int = Constants.Default.INT
 
 ) : Base() {
@@ -94,12 +94,7 @@ data class Word(
     }
 
     fun hasPartial(): Boolean {
-        return if (DataUtil.isEmpty(
-                partOfSpeech,
-                pronunciation
-            ) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)
-        ) {
-            false
+        return if (DataUtil.isEmpty(partOfSpeech, pronunciation) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)) { false
         } else true
     }
 

@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.frame.api.session.SessionManager
-import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
@@ -68,14 +67,14 @@ class ScanFragment @Inject constructor() :
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bind.fab.setOnClickListener(this)
 
-        // vm = ViewModelProviders.of(this, factory).get(ApkViewModel::class.java)
+        // vm = ViewModelProviders.of(this, factory).get(AppViewModel::class.java)
         // vm.observeUiState(this, Observer { this.processUiState(it) })
         // vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
     }
 
     private fun initRecycler() {
         /* bind.setItems(ObservableArrayList<Any>())
-         adapter = ApkAdapter(this)
+         adapter = AppAdapter(this)
          adapter.setStickyHeaders(false)
          scroller = object : OnVerticalScrollListener() {}
          ViewUtil.setRecycler(

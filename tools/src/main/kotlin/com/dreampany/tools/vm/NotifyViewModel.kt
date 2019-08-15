@@ -5,8 +5,8 @@ import com.dreampany.tools.app.App
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.model.DemoItem
 import com.dreampany.frame.api.notify.NotifyManager
-import com.dreampany.frame.data.misc.StateMapper
-import com.dreampany.frame.data.source.repository.StateRepository
+import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
@@ -32,8 +32,8 @@ class NotifyViewModel
     private val network: NetworkManager,
     private val pref: Pref,
     private val notify: NotifyManager,
-    private val stateMapper: StateMapper,
-    private val stateRepo: StateRepository
+    private val storeMapper: StoreMapper,
+    private val storeRepo: StoreRepository
 ) {
 
     private val disposables: CompositeDisposable

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.frame.misc.Constants
+import com.dreampany.frame.util.TimeUtilKt
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
@@ -29,21 +30,22 @@ data class Store(
     var type: String = Constants.Default.STRING,
     var subtype: String = Constants.Default.STRING,
     var state: String = Constants.Default.STRING,
-    var data: String = Constants.Default.STRING
+    var data: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = 0L) {
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
+
     }
 
-/*    constructor(id: String, type: String, subtype: String, state: String, data: String?)
-            : this(TimeUtil.currentTime(), id, type, subtype, state, data) {
-    }*/
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as State
+        val item = other as Store
         return Objects.equal(item.id, id) &&
                 Objects.equal(item.type, type) &&
                 Objects.equal(item.subtype, subtype) &&

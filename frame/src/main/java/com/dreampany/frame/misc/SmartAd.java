@@ -2,32 +2,28 @@ package com.dreampany.frame.misc;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.StringRes;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+
 import com.dreampany.frame.data.source.pref.AdPref;
-import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.TimeUtil;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.rewarded.RewardedAd;
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.common.collect.Maps;
+
+import org.apache.commons.lang3.tuple.MutablePair;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import com.google.android.gms.ads.rewarded.RewardedAd;
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
-import com.google.common.collect.Maps;
-import org.apache.commons.lang3.tuple.MutablePair;
 
 /**
  * Created by Hawladar Roman on 2/7/18.
@@ -37,7 +33,7 @@ import org.apache.commons.lang3.tuple.MutablePair;
 @Singleton
 public class SmartAd {
 
-    private enum State {NONE, FAILED, LOADED, OPENED, STARTED, RESUMED, PAUSED, CLICKED, LEFT, COMPLETED, CLOSED}
+    private enum State {DEFAULT, FAILED, LOADED, OPENED, STARTED, RESUMED, PAUSED, CLICKED, LEFT, COMPLETED, CLOSED}
 
     private static final long defaultAdDelay = TimeUnit.SECONDS.toMillis(3);
 
@@ -46,8 +42,8 @@ public class SmartAd {
     private final Map<String, MutablePair<InterstitialAd, State>> interstitials;
     private final Map<String, MutablePair<RewardedAd, State>> rewardeds;
 
-    private State interstitialState = State.NONE;
-    private State rewardedState = State.NONE;
+    private State interstitialState = State.DEFAULT;
+    private State rewardedState = State.DEFAULT;
 
     private static final int BANNER_MULTIPLIER = 1;
     private static final int INTERSTITIAL_MULTIPLIER = 2;
@@ -87,7 +83,7 @@ public class SmartAd {
 
     public void initBanner(@NonNull String screenId,
                            @NonNull AdView banner) {
-        banners.put(screenId, MutablePair.of(banner, State.NONE));
+        banners.put(screenId, MutablePair.of(banner, State.DEFAULT));
         if (banner.getAdListener() == null) {
             banner.setAdListener(new BannerListener(screenId) {
                 @Override
@@ -207,7 +203,7 @@ public class SmartAd {
                                  @StringRes int adUnitId) {
         InterstitialAd interstitial = new InterstitialAd(context);
         interstitial.setAdUnitId(context.getString(adUnitId));
-        interstitials.put(screenId, MutablePair.of(interstitial, State.NONE));
+        interstitials.put(screenId, MutablePair.of(interstitial, State.DEFAULT));
 
         if (interstitial.getAdListener() == null) {
             interstitial.setAdListener(new BannerListener(screenId) {
@@ -303,7 +299,7 @@ public class SmartAd {
                              @StringRes int adUnitId) {
 
         RewardedAd rewarded = new RewardedAd(context, context.getString(adUnitId));
-        rewardeds.put(screenId, MutablePair.of(rewarded, State.NONE));
+        rewardeds.put(screenId, MutablePair.of(rewarded, State.DEFAULT));
     }
 
 
@@ -370,93 +366,6 @@ public class SmartAd {
         }
         RewardedAd rewarded = rewardeds.get(screenId).left;
     }
-
-    /*
-    public boolean loadRewarded(@NonNull Context context, @StringRes int adUnitId) {
-        if (!config.enabled) {
-            return false;
-        }
-
-        if (!pref.isRewardedTimeExpired(config.interstitialExpireDelay)) {
-            return false;
-        }
-
-        //if (rewardedVideoAd == null) {
-        rewardedVideoAd = MobileAds.getRewardedVideoAdInstance(context);
-        rewardedVideoAd.setRewardedVideoAdListener(new RewardedListener());
-        //}
-        return initAd(rewardedVideoAd, context.getString(adUnitId));
-    }
-
-
-    @SuppressLint("MissingPermission")
-    private boolean initAd(final AdView adView) {
-
-        return true;
-    }
-
-
-    private boolean initAd(RewardedVideoAd rewardedVideoAd, String unitId) {
-        if (rewardedVideoAd.getRewardedVideoAdListener() == null) {
-            rewardedVideoAd.setRewardedVideoAdListener(new RewardedListener());
-        }
-        AndroidUtil.getUiHandler().postDelayed(() -> rewardedVideoAd.loadAd(unitId, new AdRequest.Builder().build()), defaultAdDelay);
-        return true;
-    }
-
-    private final class RewardedListener implements RewardedVideoAdListener {
-
-        @Override
-        public void onRewardedVideoAdLoaded() {
-            rewardedState = State.LOADED;
-            rewardedVideoAd.show();
-            pref.setRewardedTime(TimeUtil.currentTime());
-        }
-
-        @Override
-        public void onRewardedVideoAdOpened() {
-            rewardedState = State.OPENED;
-        }
-
-        @Override
-        public void onRewardedVideoStarted() {
-            rewardedState = State.STARTED;
-        }
-
-        @Override
-        public void onRewardedVideoAdClosed() {
-            rewardedState = State.CLOSED;
-
-        }
-
-        @Override
-        public void onRewarded(RewardItem rewardItem) {
-*//*            earnPoints(
-                    String.valueOf(DataUtil.getSha256()),
-                    AdType.REWARDED,
-                    PointSubtype.ADD,
-                    points * REWARDED_MULTIPLIER,
-                    "Rewarded points"
-            );*//*
-        }
-
-        @Override
-        public void onRewardedVideoAdLeftApplication() {
-            rewardedState = State.LEFT;
-
-        }
-
-        @Override
-        public void onRewardedVideoAdFailedToLoad(int errorCode) {
-            rewardedState = State.FAILED;
-
-        }
-
-        @Override
-        public void onRewardedVideoCompleted() {
-
-        }
-    }*/
 
 
     public static class Config {
@@ -540,114 +449,4 @@ public class SmartAd {
             this.screenId = screenId;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-    private void earnPoints(String id, AdType type, PointSubtype subtype, int points, String comment) {
-        FrameManager.onInstance(context).trackPoints(id, type.value(), subtype.value(), points, comment);
-
-        AdEvent eventType = new AdEvent();
-        eventType.points = points;
-        eventType.setType(type);
-        eventType.setSubtype(subtype);
-
-        EventManager.post(eventType);
-    }
-*/
-
-    /*private final AdListener bannerListener = new AdListener() {
-
-        @Override
-        public void onAdClosed() {
-            super.onAdClosed();
-            bannerState = State.CLOSED;
-        }
-
-        @Override
-        public void onAdFailedToLoad(int errorCode) {
-            super.onAdFailedToLoad(errorCode);
-            bannerState = State.LOADED;
-        }
-
-        @Override
-        public void onAdLeftApplication() {
-            super.onAdLeftApplication();
-            bannerState = State.LEFT;
-
-*//*            earnPoints(
-                    String.valueOf(DataUtil.getSha256()),
-                    AdType.BANNER,
-                    PointSubtype.ADD,
-                    points * BANNER_MULTIPLIER,
-                    "Banner points"
-            );*//*
-        }
-
-        @Override
-        public void onAdOpened() {
-            super.onAdOpened();
-            bannerState = State.OPENED;
-        }
-
-        @Override
-        public void onAdLoaded() {
-            super.onAdLoaded();
-            bannerState = State.LOADED;
-            View view = (View) bannerAdView.getParent();
-            view.setVisibility(View.VISIBLE);
-            pref.setBannerTime(TimeUtil.currentTime());
-        }
-    };*/
-
-/*    private final AdListener interstitialListener = new AdListener() {
-        @Override
-        public void onAdClosed() {
-            super.onAdClosed();
-            interstitialState = State.CLOSED;
-        }
-
-        @Override
-        public void onAdFailedToLoad(int errorCode) {
-            super.onAdFailedToLoad(errorCode);
-            interstitialState = State.LOADED;
-        }
-
-        @Override
-        public void onAdLeftApplication() {
-            super.onAdLeftApplication();
-            interstitialState = State.LEFT;
-            //lastInterstitialAdTime = TimeUtil.currentTime();
-*//*            earnPoints(
-                    String.valueOf(DataUtil.getSha256()),
-                    AdType.INTERSTITIAL,
-                    PointSubtype.ADD,
-                    points * INTERSTITIAL_MULTIPLIER,
-                    "Interstitial points"
-            );*//*
-        }
-
-        @Override
-        public void onAdOpened() {
-            super.onAdOpened();
-            interstitialState = State.OPENED;
-        }
-
-        @Override
-        public void onAdLoaded() {
-            super.onAdLoaded();
-            interstitialState = State.LOADED;
-            interstitialAd.show();
-            pref.setInterstitialTime(TimeUtil.currentTime());
-        }
-    };*/
 }

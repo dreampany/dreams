@@ -198,11 +198,13 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:3.14.1'
     api 'com.squareup.okhttp3:okhttp:3.14.1'
 
-    /* retrofit */
+    /* squareup */
     api 'com.squareup.retrofit2:retrofit:2.6.0'
     api 'com.squareup.retrofit2:converter-gson:2.6.0'
     api 'com.squareup.retrofit2:converter-jackson:2.6.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.6.0'
+    api 'com.squareup.moshi:moshi-kotlin:1.8.0'
+    api 'com.squareup.moshi:moshi-adapters:1.8.0'
 
     /* flexible adapter */
     api 'eu.davidea:flexible-adapter:5.1.0'

@@ -11,18 +11,16 @@ import io.reactivex.Maybe
  */
 interface StoreDataSource : DataSource<Store> {
 
-     fun getItemsOf(type: String, subtype: String, state: String): List<String>?
+    fun getCount(id: String, type: String, subtype: String): Int
 
-     fun getItemsOfRx(type: String, subtype: String, state: String): Maybe<List<String>>
+    fun getCountRx(id: String, type: String, subtype: String): Maybe<Int>
 
-     fun getItemsOfRx(
-        type: String,
-        subtype: String,
-        state: String,
-        limit: Int
-    ): Maybe<List<String>>
+    fun getCountByType(type: String, subtype: String, state: String): Int
 
-     fun getItems(type: String, subtype: String, state: String): List<Store>?
+    fun getCountByTypeRx(type: String, subtype: String, state: String): Maybe<Int>
 
-     fun getItemsRx(type: String, subtype: String, state: String): Maybe<List<Store>>
+    fun getItem(id: String, type: String, subtype: String, state: String): Store?
+
+    fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<Store>
+
 }

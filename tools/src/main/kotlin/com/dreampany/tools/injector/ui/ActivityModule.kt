@@ -30,7 +30,7 @@ abstract class ActivityModule {
             SettingsModule::class,
             LicenseModule::class,
             AboutModule::class,
-            ApkModule::class,
+            AppModule::class,
             ScanModule::class,
             NoteModule::class
         ]

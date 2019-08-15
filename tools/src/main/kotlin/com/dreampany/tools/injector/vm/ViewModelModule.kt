@@ -36,8 +36,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ApkViewModel::class)
-    abstract fun bindApkViewModel(vm: ApkViewModel): ViewModel
+    @ViewModelKey(AppViewModel::class)
+    abstract fun bindApkViewModel(vm: AppViewModel): ViewModel
 
     @Binds
     @IntoMap

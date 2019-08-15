@@ -7,13 +7,12 @@ import com.dreampany.tools.data.model.More
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.enums.MoreType
 import com.dreampany.tools.ui.model.MoreItem
-import com.dreampany.tools.ui.model.UiTask
-import com.dreampany.frame.data.misc.StateMapper
-import com.dreampany.frame.data.model.Response
-import com.dreampany.frame.data.source.repository.StateRepository
+import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.SettingsUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
@@ -34,8 +33,8 @@ class MoreViewModel @Inject constructor(
     rm: ResponseMapper,
     val network: NetworkManager,
     val pref: Pref,
-    val stateMapper: StateMapper,
-    val stateRepo: StateRepository,
+    private val storeMapper: StoreMapper,
+    private val storeRepo: StoreRepository,
     @Favorite val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<More, MoreItem, UiTask<More>>(application, rx, ex, rm) {
 

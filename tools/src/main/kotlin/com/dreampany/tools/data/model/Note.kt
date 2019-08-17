@@ -28,7 +28,7 @@ data class Note(
     override var id: String = Constants.Default.STRING,
     var title: String = Constants.Default.STRING,
     var description: String = Constants.Default.STRING,
-    var tags: MutableList<String>? = Constants.Default.NULL
+    var tags: ArrayList<String>? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore

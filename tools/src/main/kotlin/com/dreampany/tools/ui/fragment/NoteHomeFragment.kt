@@ -138,7 +138,6 @@ class NoteHomeFragment @Inject constructor() :
         processOption(option, currentItem!!)
     }
 
-
     private fun initTitleSubtitle() {
         setTitle(R.string.title_note)
     }

@@ -4,7 +4,7 @@ import android.content.Context
 import com.dreampany.tools.data.misc.AppMapper
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.api.MediaDataSource
-import com.dreampany.tools.data.source.memory.provider.ApkProvider
+import com.dreampany.tools.data.source.memory.provider.AppProvider
 import io.reactivex.Maybe
 
 /**
@@ -13,10 +13,10 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class MemoryApkMediaDataSource(
+class MemoryAppMediaDataSource(
     private val context: Context,
     private val mapper: AppMapper,
-    private val provider: ApkProvider
+    private val provider: AppProvider
 ) : MediaDataSource<App> {
 
     override fun isEmpty(): Boolean {

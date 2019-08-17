@@ -14,7 +14,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class ApkProvider
+class AppProvider
 @Inject constructor(
     val context: Context,
     val mapper: AppMapper

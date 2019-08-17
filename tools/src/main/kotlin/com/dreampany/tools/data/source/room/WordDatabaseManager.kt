@@ -1,4 +1,3 @@
-/*
 package com.dreampany.tools.data.source.room
 
 import android.content.Context
@@ -7,36 +6,32 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.frame.BuildConfig
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Word
-import com.dreampany.tools.data.source.dao.NoteDao
 import com.dreampany.tools.data.source.dao.WordDao
 import com.dreampany.tools.misc.Constants
 
-*/
 /**
  * Created by Roman-372 on 8/5/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- *//*
-
-@Database(entities = [Note::class, Word::class], version = 1)
+ */
+@Database(entities = [Word::class], version = 1)
 @TypeConverters(WordConverters::class)
-abstract class DatabaseManager : RoomDatabase() {
+abstract class WordDatabaseManager : RoomDatabase() {
 
     companion object {
-        private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID)
-        private var instance: DatabaseManager? = null
+        private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.WORD)
+        private var instance: WordDatabaseManager? = null
 
         @Synchronized
-        fun newInstance(context: Context, memoryOnly: Boolean): DatabaseManager {
-            val builder: RoomDatabase.Builder<DatabaseManager>
+        fun newInstance(context: Context, memoryOnly: Boolean): WordDatabaseManager {
+            val builder: RoomDatabase.Builder<WordDatabaseManager>
 
             if (memoryOnly) {
-                builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
+                builder = Room.inMemoryDatabaseBuilder(context, WordDatabaseManager::class.java)
             } else {
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                builder = Room.databaseBuilder(context, WordDatabaseManager::class.java, DATABASE)
             }
 
             return builder
@@ -45,7 +40,7 @@ abstract class DatabaseManager : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context): DatabaseManager {
+        fun getInstance(context: Context): WordDatabaseManager {
             if (instance == null) {
                 instance = newInstance(context, false)
             }
@@ -53,6 +48,5 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
-    abstract fun noteDao(): NoteDao
     abstract fun wordDao(): WordDao
-}*/
+}

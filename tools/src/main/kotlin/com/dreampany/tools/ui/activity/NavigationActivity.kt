@@ -86,8 +86,8 @@ class NavigationActivity : BaseBottomNavigationActivity() {
     private fun initView() {
         bind = super.binding as ActivityNavigationBinding
         val uiTask = getCurrentTask<UiTask<*>>(false)
-        if (uiTask != null && uiTask!!.type != null && uiTask!!.subtype != null) {
-            openActivity(ToolsActivity::class.java, uiTask!!)
+        if (uiTask != null && uiTask.notify) {
+            openActivity(ToolsActivity::class.java, uiTask)
             return
         }
         ad.initAd(

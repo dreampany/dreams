@@ -32,9 +32,11 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var appHomeProvider: Lazy<AppHomeFragment>
     @Inject
-    lateinit var scanProvider: Lazy<ScanFragment>
-    @Inject
     lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
+    @Inject
+    lateinit var wordHomeProvider: Lazy<WordHomeFragment>
+    @Inject
+    lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
     lateinit var editNoteProvider: Lazy<EditNoteFragment>
 
@@ -122,6 +124,27 @@ class ToolsActivity : BaseActivity() {
                                 R.id.layout,
                                 uiTask
                             )
+                        }
+                    }
+                }
+            }
+            Type.WORD -> {
+                if (subtype == Subtype.DEFAULT) {
+                    if (state == State.HOME) {
+                        commitFragment(
+                            WordHomeFragment::class.java,
+                            wordHomeProvider,
+                            R.id.layout,
+                            uiTask
+                        )
+                    } else if (state == State.DEFAULT) {
+                        if (action == Action.ADD || action == Action.EDIT) {
+                            /*commitFragment(
+                                EditNoteFragment::class.java,
+                                editNoteProvider,
+                                R.id.layout,
+                                uiTask
+                            )*/
                         }
                     }
                 }

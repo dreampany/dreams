@@ -1,31 +1,22 @@
-package com.dreampany.tools.data.source.repository
+package com.dreampany.tools.data.source.assets
 
+import android.content.Context
 import android.graphics.Bitmap
-import com.dreampany.frame.data.source.repository.Repository
-import com.dreampany.frame.misc.*
+import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import io.reactivex.Maybe
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * Created by roman on 2019-08-15
+ * Created by roman on 2019-08-16
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
-class WordRepository
-@Inject constructor(
-    rx: RxMapper,
-    rm: ResponseMapper,
-    @Assets private val assets: WordDataSource,
-    @Room private val room: WordDataSource,
-    @Firestore private val firestore: WordDataSource,
-    @Remote private val remote: WordDataSource,
-    @Vision private val vision: WordDataSource
-) : Repository<String, Word>(rx, rm), WordDataSource {
+class AssetsWordDataSource(
+    private val context: Context,
+    private val mapper: WordMapper
+) : WordDataSource {
     override fun isExists(id: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

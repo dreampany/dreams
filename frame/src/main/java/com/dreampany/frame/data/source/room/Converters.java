@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.room;
 
 import androidx.room.TypeConverter;
@@ -8,11 +9,13 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
+*/
 /**
  * Created by Hawladar Roman on 1/9/2019.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class Converters {
 
     private static Gson gson = new Gson();
@@ -34,3 +37,4 @@ public class Converters {
         return gson.fromJson(json, typeOfListString);
     }
 }
+*/

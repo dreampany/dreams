@@ -15,7 +15,7 @@ import com.dreampany.frame.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Store::class], version = 11)
+@Database(entities = [Store::class], version = 1)
 abstract class FrameDatabase : RoomDatabase() {
 
     companion object {

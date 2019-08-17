@@ -79,9 +79,10 @@ class Constants {
         const val FORMAT_MONTH_DAY = "dd MMMM"
     }
 
-/*    object Database {
+    object Database {
         const val NOTE = "note"
-    }*/
+        const val WORD = "word"
+    }
 
     object Demo {
         const val ID = Constants.Key.ID

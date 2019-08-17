@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
@@ -24,20 +25,25 @@ import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.*
 import com.dreampany.language.Language
-import com.dreampany.language.LanguagePicker
 import com.dreampany.tools.R
+import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
 import com.dreampany.tools.data.model.Word
-import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.WordAdapter
+import com.dreampany.tools.ui.enums.NoteOption
+import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.vm.WordViewModel
 import com.klinker.android.link_builder.Link
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.skydoves.powermenu.MenuAnimation
+import com.skydoves.powermenu.OnMenuItemClickListener
+import com.skydoves.powermenu.PowerMenu
+import com.skydoves.powermenu.PowerMenuItem
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -57,7 +63,8 @@ class WordHomeFragment
     BaseMenuFragment(),
     SmartAdapter.Callback<WordItem>,
     MaterialSearchView.OnQueryTextListener,
-    MaterialSearchView.SearchViewListener {
+    MaterialSearchView.SearchViewListener,
+    OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -79,6 +86,9 @@ class WordHomeFragment
     private lateinit var adapter: WordAdapter
     private var recentWord: String? = null
 
+    private val langItems = ArrayList<PowerMenuItem>()
+    private var langMenu: PowerMenu? = null
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_word_home
     }
@@ -92,6 +102,7 @@ class WordHomeFragment
     }
 
     override fun onStartUi(state: Bundle?) {
+        buildLangItems()
         initView()
         initRecycler()
         toScanMode()
@@ -109,11 +120,17 @@ class WordHomeFragment
     override fun onResume() {
         super.onResume()
         initLanguageMenuItem()
-        request(null, true, true, true, false)
+        request(id = recentWord, recent = true, progress = true)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
+        MenuTint.colorMenuItem(
+            getSearchMenuItem(),
+            ColorUtil.getColor(context!!, R.color.material_white),
+            null
+        )
+
         val activity = getParent()
 
         if (activity is SearchViewCallback) {
@@ -130,10 +147,11 @@ class WordHomeFragment
             R.id.item_search ->
                 //searchView.open(item);
                 return true
-/*            R.id.item_language -> {
-                openLanguagePicker()
+            R.id.item_language -> {
+                openOptionsMenu()
+                //openLanguagePicker()
                 return true
-            }*/
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -182,7 +200,7 @@ class WordHomeFragment
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
         recentWord = query
-        request(recentWord, false, true, true, true)
+        // request(recentWord, false, true, true, true)
         return super.onQueryTextSubmit(query)
     }
 
@@ -190,6 +208,13 @@ class WordHomeFragment
         Timber.v("onQueryTextChange %s", newText)
         recentWord = newText
         return super.onQueryTextChange(newText)
+    }
+
+    override fun onItemClick(position: Int, item: PowerMenuItem) {
+        langMenu?.dismiss()
+        val language: Language = item.tag as Language
+        Timber.v("Language fired %s", language.toString())
+        processOption(language)
     }
 
     override val empty: Boolean
@@ -207,6 +232,17 @@ class WordHomeFragment
             return true
         }
         return super.hasBackPressed()
+    }
+
+    private fun buildLangItems() {
+        if (langItems.isNotEmpty()) {
+            return
+        }
+        val current = pref.getLanguage(Language.ENGLISH)
+        val langs = Language.getAll()
+        for (lang in langs) {
+            langItems.add(PowerMenuItem(lang.toString(), lang.equals(current), lang))
+        }
     }
 
     private fun initView() {
@@ -247,6 +283,7 @@ class WordHomeFragment
         vm.observeOutputsOfString(this, Observer { this.processResponseOfString(it) })
         vm.observeOutputs(this, Observer { this.processResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+
     }
 
     private fun initRecycler() {
@@ -270,12 +307,12 @@ class WordHomeFragment
         )
     }
 
+    private fun processOption(language: Language) {
+
+    }
+
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
-        MenuTint.colorMenuItem(
-            searchItem,
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null
-        )
+
         searchView.setMenuItem(searchItem)
         searchView.setSubmitOnClick(true)
 
@@ -293,10 +330,25 @@ class WordHomeFragment
         }
     }
 
+    private fun openOptionsMenu() {
+        //currentItem = item
+        langMenu = PowerMenu.Builder(context)
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(langItems)
+            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .setDividerHeight(1)
+            .setTextSize(14)
+            .build()
+        langMenu?.showAsAnchorRightTop(view)
+    }
+
     private fun openLanguagePicker() {
         val languages = Language.getAll()
 
-        val picker = LanguagePicker.newInstance(getString(R.string.select_language), languages)
+        /*val picker = LanguagePicker.newInstance(getString(R.string.select_language), languages)
         picker.setCallback { language ->
             pref.setLanguage(language)
             initLanguageMenuItem()
@@ -304,12 +356,12 @@ class WordHomeFragment
             val language = pref.getLanguage(Language.ENGLISH)
             val english = Language.ENGLISH.equals(language)
             if (!english) {
-                request(recentWord, false, true, true, false)
+                request(id = recentWord, recent = true, progress = false)
             }
             picker.dismissAllowingStateLoss()
-            Unit
+            //Unit
         }
-        picker.show(fragmentManager!!, Constants.Tag.LANGUAGE_PICKER)
+        picker.show(fragmentManager!!, Constants.Tag.LANGUAGE_PICKER)*/
     }
 
     private fun processUiState(state: UiState) {
@@ -382,7 +434,7 @@ class WordHomeFragment
     private fun processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
-            request(recentWord, false, true, true, true)
+            request(recentWord, recent = true, progress = true)
             return
         }
         openOcr()
@@ -565,7 +617,7 @@ class WordHomeFragment
     private fun searchWord(word: String) {
         recentWord = word
         searchView.clearFocus()
-        request(recentWord, false, true, true, true)
+        //request(recent = true)
         AndroidUtil.speak(recentWord)
     }
 
@@ -577,27 +629,21 @@ class WordHomeFragment
     }
 
     private fun request(
-        word: String?,
-        recentWord: Boolean,
-        important: Boolean,
-        progress: Boolean,
-        history: Boolean
+        id: String? = Constants.Default.NULL,
+        recent: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN
     ) {
-        Timber.v("Request Word %s", word)
         val language = pref.getLanguage(Language.ENGLISH)
         val translate = !Language.ENGLISH.equals(language)
 
-        val request = WordRequest()
-        word?.run {
-            request.id = toLowerCase()
-        }
-        request.source = Language.ENGLISH.code
-        request.target = language.code
-        request.translate = translate
-        request.recent = recentWord
-        request.important = important
-        request.progress = progress
-        request.history = history
+        val request = WordRequest(
+            id = id,
+            source = Language.ENGLISH.code,
+            target = language.code,
+            recent = recent,
+            translate = translate,
+            progress = progress
+        )
         vm.request(request)
     }
 

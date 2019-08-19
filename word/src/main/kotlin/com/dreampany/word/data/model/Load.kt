@@ -1,6 +1,6 @@
 package com.dreampany.word.data.model
 
-import com.dreampany.frame.data.model.BaseKt
+import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.translation.data.model.TextTranslation
 import com.google.common.base.Objects
@@ -13,12 +13,12 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
- data class Load(
+data class Load(
     override var time: Long,
     override var id: String,
     var current: Int,
     var total: Int
-) : BaseKt() {
+) : Base() {
 
     constructor(current: Int, total: Int) : this(TimeUtil.currentTime(), "", current, total) {
 

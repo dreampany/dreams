@@ -84,6 +84,10 @@ class Constants {
         const val WORD = "word"
     }
 
+    object Pref {
+        const val WORD = "word"
+    }
+
     object Demo {
         const val ID = Constants.Key.ID
     }
@@ -129,4 +133,6 @@ class Constants {
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
     }
+
+
 }

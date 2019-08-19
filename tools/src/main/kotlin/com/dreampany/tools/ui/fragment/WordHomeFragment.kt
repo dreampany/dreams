@@ -30,6 +30,7 @@ import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
+import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
@@ -68,6 +69,8 @@ class WordHomeFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var pref: Pref
+    @Inject
+    internal lateinit var wordPref: WordPref
     private lateinit var bind: FragmentWordHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
@@ -495,7 +498,7 @@ class WordHomeFragment
         }
         adapter.clear()
         adapter.addItems(items)
-        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(kotlinx.coroutines.Runnable{ processUiState(UiState.EXTRA) }, 500L)
     }
 
     private fun processSingleSuccess(item: WordItem) {

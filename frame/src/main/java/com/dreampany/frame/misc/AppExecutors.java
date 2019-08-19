@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.misc;
 
 import android.os.Handler;
@@ -12,11 +13,13 @@ import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+*/
 /**
  * Created by Hawladar Roman on 26/4/18.
  * Dreampany
  * dreampanymail@gmail.com
- */
+ *//*
+
 
 @Singleton
 public class AppExecutors {
@@ -72,6 +75,11 @@ public class AppExecutors {
         }
     }
 
+    public boolean postToIO(Runnable run) {
+        diskIO.execute(run);
+        return true;
+    }
+
     public boolean postToNetwork(Runnable run) {
         networkIO.execute(run);
         return true;
@@ -82,20 +90,24 @@ public class AppExecutors {
 
         @Override
         public void execute(@NonNull Runnable command) {
+*/
 /*            if (AndroidUtil.isOnUiThread()) {
                 command.run();
             } else {
                 handler.post(command);
-            }*/
+            }*//*
+
             handler.post(command);
         }
 
         public void executeUniquely(@NonNull Runnable command) {
+*/
 /*            if (AndroidUtil.isOnUiThread()) {
                 command.run();
             } else {
                 handler.post(command);
-            }*/
+            }*//*
+
             handler.removeCallbacks(command);
             handler.post(command);
         }
@@ -136,3 +148,4 @@ public class AppExecutors {
         }
     }
 }
+*/

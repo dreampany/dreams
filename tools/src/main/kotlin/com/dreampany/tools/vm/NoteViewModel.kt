@@ -55,7 +55,6 @@ class NoteViewModel
             }
             return
         }
-
     }
 
     private fun addSingle(request: NoteRequest) {

@@ -7,10 +7,14 @@ import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.callback.SearchViewCallback
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.fragment.*
 import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.tools.databinding.ActivityToolsBinding
+import com.dreampany.tools.databinding.FragmentWordHomeBinding
 import com.google.android.gms.ads.AdView
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -19,7 +23,7 @@ import javax.inject.Inject
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class ToolsActivity : BaseActivity() {
+class ToolsActivity : BaseActivity(), SearchViewCallback {
 
     @Inject
     lateinit var ad: SmartAd
@@ -40,6 +44,8 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var editNoteProvider: Lazy<EditNoteFragment>
 
+    private lateinit var bind: ActivityToolsBinding
+
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
     }
@@ -50,6 +56,7 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStartUi(state: Bundle?) {
+        initView()
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype
@@ -166,6 +173,10 @@ class ToolsActivity : BaseActivity() {
         super.onPause()
     }
 
+    override fun getSearchView(): MaterialSearchView {
+        return bind.searchView
+    }
+
 /*    override fun onDestroy() {
         try {
             super.onDestroy()
@@ -182,4 +193,8 @@ class ToolsActivity : BaseActivity() {
         }
         finish()
     }*/
+
+    private fun initView() {
+        bind = super.binding as ActivityToolsBinding
+    }
 }

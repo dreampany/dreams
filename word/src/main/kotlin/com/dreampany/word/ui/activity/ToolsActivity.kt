@@ -53,7 +53,7 @@ class ToolsActivity : BaseActivity() {
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype
-        if (type == null || subtype == null) {
+        if (type.equals(null) || subtype.equals(null)) {
             return
         }
 

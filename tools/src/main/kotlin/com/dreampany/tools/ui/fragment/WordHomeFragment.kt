@@ -34,8 +34,6 @@ import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.WordAdapter
-import com.dreampany.tools.ui.enums.NoteOption
-import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.vm.WordViewModel
 import com.klinker.android.link_builder.Link
@@ -70,7 +68,7 @@ class WordHomeFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var pref: Pref
-    private lateinit var bindHome: FragmentWordHomeBinding
+    private lateinit var bind: FragmentWordHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
     private lateinit var bindFullWord: ContentFullWordBinding
@@ -120,11 +118,12 @@ class WordHomeFragment
     override fun onResume() {
         super.onResume()
         initLanguageMenuItem()
-        request(id = recentWord, recent = true, progress = true)
+        request(id = recentWord, recent = true, translate = true, progress = true)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
+
         MenuTint.colorMenuItem(
             getSearchMenuItem(),
             ColorUtil.getColor(context!!, R.color.material_white),
@@ -165,14 +164,14 @@ class WordHomeFragment
         when (v.id) {
             R.id.toggle_definition -> toggleDefinition()
             R.id.button_favorite -> {
-/*                bindHome.getItem()?.let {
+/*                bind.getItem()?.let {
                     vm.toggleFavorite(it.item)
                 }*/
             }
             R.id.fab -> processFabAction()
             R.id.image_speak -> speak()
             R.id.text_word -> {
-/*                bindHome.getItem()?.let {
+/*                bind.getItem()?.let {
                     openUi(it.item)
                 }*/
             }
@@ -234,7 +233,10 @@ class WordHomeFragment
         return super.hasBackPressed()
     }
 
-    private fun buildLangItems() {
+    private fun buildLangItems(fresh: Boolean = false) {
+        if (fresh) {
+            langItems.clear()
+        }
         if (langItems.isNotEmpty()) {
             return
         }
@@ -247,34 +249,34 @@ class WordHomeFragment
 
     private fun initView() {
         setTitle(R.string.home)
-        bindHome = super.binding as FragmentWordHomeBinding
-        bindStatus = bindHome.layoutTopStatus
-        bindRecycler = bindHome.layoutRecycler
-        bindFullWord = bindHome.layoutFullWord
+        bind = super.binding as FragmentWordHomeBinding
+        bindStatus = bind.layoutTopStatus
+        bindRecycler = bind.layoutRecycler
+        bindFullWord = bind.layoutFullWord
         bindWord = bindFullWord.layoutWord
         bindRelated = bindFullWord.layoutRelated
         bindDef = bindFullWord.layoutDefinition
         bindYandex = bindFullWord.layoutYandex
 
-        bindHome.stateful.setStateView(
+        bind.stateful.setStateView(
             UiState.DEFAULT.name,
             LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
-        bindHome.stateful.setStateView(
+        bind.stateful.setStateView(
             UiState.SEARCH.name,
             LayoutInflater.from(context).inflate(R.layout.item_search, null)
         )
-        bindHome.stateful.setStateView(
+        bind.stateful.setStateView(
             UiState.EMPTY.name,
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
 
-        ViewUtil.setSwipe(bindHome.layoutRefresh, this)
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindDef.toggleDefinition.setOnClickListener(this)
         bindWord.buttonFavorite.setOnClickListener(this)
         bindWord.textWord.setOnClickListener(this)
         bindWord.imageSpeak.setOnClickListener(this)
-        bindHome.fab.setOnClickListener(this)
+        bind.fab.setOnClickListener(this)
         bindYandex.textYandexPowered.setOnClickListener(this)
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
@@ -287,7 +289,7 @@ class WordHomeFragment
     }
 
     private fun initRecycler() {
-        bindHome.setItems(ObservableArrayList<Any>())
+        bind.setItems(ObservableArrayList<Any>())
         adapter = WordAdapter(this)
         adapter.setStickyHeaders(false)
         scroller = object : OnVerticalScrollListener() {
@@ -308,7 +310,13 @@ class WordHomeFragment
     }
 
     private fun processOption(language: Language) {
-
+        pref.setLanguage(language)
+        initLanguageMenuItem()
+        adjustTranslationUi()
+        buildLangItems(fresh = true)
+        if (!language.equals(Language.ENGLISH)) {
+            request(id = recentWord, translate = true, progress = true)
+        }
     }
 
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
@@ -366,21 +374,21 @@ class WordHomeFragment
 
     private fun processUiState(state: UiState) {
         when (state) {
-            UiState.DEFAULT -> bindHome.stateful.setState(UiState.DEFAULT.name)
-            UiState.SHOW_PROGRESS -> if (!bindHome.layoutRefresh.isRefreshing()) {
-                bindHome.layoutRefresh.setRefreshing(true)
+            UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
+            UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(true)
             }
-            UiState.HIDE_PROGRESS -> if (bindHome.layoutRefresh.isRefreshing()) {
-                bindHome.layoutRefresh.setRefreshing(false)
+            UiState.HIDE_PROGRESS -> if (bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(false)
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
             UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
-            UiState.SEARCH -> bindHome.stateful.setState(UiState.SEARCH.name)
-            UiState.EMPTY -> bindHome.stateful.setState(UiState.SEARCH.name)
+            UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
+            UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.ERROR -> {
             }
-            UiState.CONTENT -> bindHome.stateful.setState(StatefulLayout.State.CONTENT)
+            UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 
@@ -424,11 +432,11 @@ class WordHomeFragment
     }
 
     private fun toScanMode() {
-        bindHome.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp)
+        bind.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp)
     }
 
     private fun toSearchMode() {
-        bindHome.fab.setImageResource(R.drawable.ic_search_black_24dp)
+        bind.fab.setImageResource(R.drawable.ic_search_black_24dp)
     }
 
     private fun processFabAction() {
@@ -493,7 +501,7 @@ class WordHomeFragment
     private fun processSingleSuccess(item: WordItem) {
         Timber.v("Result Single Word[%s]", item.item.id)
         recentWord = item.item.id
-        bindHome.setItem(item)
+        bind.setItem(item)
         bindWord.layoutWord.visibility = View.VISIBLE
         //processRelated(item.getItem().getSynonyms(), item.getItem().getAntonyms());
         processDefinitions(item.item.definitions)
@@ -631,10 +639,11 @@ class WordHomeFragment
     private fun request(
         id: String? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
+        translate: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
-        val translate = !Language.ENGLISH.equals(language)
+/*        val translate = !Language.ENGLISH.equals(language)*/
 
         val request = WordRequest(
             id = id,

@@ -25,6 +25,34 @@ class WordPref
         return Constants.Pref.WORD
     }
 
+    fun commitCommonLoaded() {
+        setPrivately(Constants.Pref.WORD_COMMON_LOADED, true)
+    }
+
+    fun commitAlphaLoaded() {
+        setPrivately(Constants.Pref.WORD_ALPHA_LOADED, true)
+    }
+
+    fun isCommonLoaded(): Boolean {
+        return getPrivately(Constants.Pref.WORD_COMMON_LOADED, false)
+    }
+
+    fun isAlphaLoaded(): Boolean {
+        return getPrivately(Constants.Pref.WORD_ALPHA_LOADED, false)
+    }
+
+    fun setLastWord(item: Word) {
+        setPrivately(Constants.Pref.WORD_LAST, item)
+    }
+
+    fun clearLastWord() {
+        removePrivately(Constants.Pref.WORD_LAST)
+    }
+
+    fun getLastWord(): Word? {
+        return getPrivately(Constants.Pref.WORD_LAST, Word::class.java, null)
+    }
+
     fun setRecentWord(word: Word) {
         setPrivately(Constants.Word.RECENT_WORD, word)
     }

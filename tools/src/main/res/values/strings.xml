@@ -24,4 +24,6 @@
     <string name="synonyms_bold">Synonyms:</string>
     <string name="antonyms_bold">Antonyms:</string>
     <string name="select_language">Select Language</string>
+
+    <string name="title_word">Word</string>
 </resources>

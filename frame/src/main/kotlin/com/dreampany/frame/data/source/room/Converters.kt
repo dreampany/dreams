@@ -1,6 +1,10 @@
 package com.dreampany.frame.data.source.room
 
 import androidx.room.TypeConverter
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
+import com.dreampany.language.Language
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
@@ -16,6 +20,42 @@ open class Converters {
 
     @TypeConverter
     @Synchronized
+    fun toTypeValue(type: Type?): String? {
+        return if (type == null) null else type.name
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toType(value: String?): Type? {
+        return if (value.isNullOrEmpty()) null else Type.valueOf(value)
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toSubtypeValue(subtype: Subtype?): String? {
+        return if (subtype == null) null else subtype.name
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toSubtype(value: String?): Subtype? {
+        return if (value.isNullOrEmpty()) null else Subtype.valueOf(value)
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toStateValue(state: State?): String? {
+        return if (state == null) null else state.name
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toState(value: String?): State? {
+        return if (value.isNullOrEmpty()) null else State.valueOf(value)
+    }
+
+    @TypeConverter
+    @Synchronized
     fun toString(values: ArrayList<String>?): String? {
         return if (values.isNullOrEmpty()) {
             null
@@ -26,5 +66,17 @@ open class Converters {
     @Synchronized
     fun toList(json: String?): ArrayList<String>? {
         return if (json.isNullOrEmpty()) { null } else gson.fromJson<ArrayList<String>>(json, type)
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toLanguageValue(language: Language?): String? {
+        return if (language == null) null else language.name
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toLanguage(value: String?): Language? {
+        return if (value.isNullOrEmpty()) null else Language.valueOf(value)
     }
 }

@@ -86,6 +86,15 @@ class Constants {
 
     object Pref {
         const val WORD = "word"
+        const val WORD_COMMON_LOADED = "word_common_loaded"
+        const val WORD_ALPHA_LOADED = "word_alpha_loaded"
+        const val WORD_LAST = "word_last"
+    }
+
+    object Count {
+        const val WORD_COMMON = 1000
+        const val WORD_ALPHA = 370099
+        const val WORD_PAGE = 1000
     }
 
     object Demo {

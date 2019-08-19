@@ -1,5 +1,8 @@
 package com.dreampany.frame.data.source.repository
 
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.api.StoreDataSource
 import com.dreampany.frame.misc.ResponseMapper
@@ -21,7 +24,7 @@ class StoreRepository @Inject constructor(
     rm: ResponseMapper,
     @Room val room: StoreDataSource
 ): Repository<String, Store>(rx, rm), StoreDataSource {
-    override fun getCount(id: String, type: String, subtype: String): Int {
+    override fun getCount(id: String, type: Type, subtype: Subtype): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -29,7 +32,7 @@ class StoreRepository @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCountRx(id: String, type: String, subtype: String): Maybe<Int> {
+    override fun getCountRx(id: String, type: Type, subtype: Subtype): Maybe<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -37,15 +40,15 @@ class StoreRepository @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCountByType(type: String, subtype: String, state: String): Int {
+    override fun getCountByType(type: Type, subtype: Subtype, state: State): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCountByTypeRx(type: String, subtype: String, state: String): Maybe<Int> {
+    override fun getCountByTypeRx(type: Type, subtype: Subtype, state: State): Maybe<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItem(id: String, type: String, subtype: String, state: String): Store? {
+    override fun getItem(id: String, type: Type, subtype: Subtype, state: State): Store? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -69,7 +72,7 @@ class StoreRepository @Inject constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<Store> {
+    override fun getItemRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Store> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -124,5 +127,6 @@ class StoreRepository @Inject constructor(
     override fun getItemsRx(limit: Int): Maybe<List<Store>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 
 }

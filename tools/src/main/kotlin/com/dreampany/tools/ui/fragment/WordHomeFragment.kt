@@ -102,6 +102,10 @@ class WordHomeFragment
         return R.id.item_search
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.title_word
+    }
+
     override fun onStartUi(state: Bundle?) {
         buildLangItems()
         initView()

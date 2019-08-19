@@ -1,5 +1,8 @@
 package com.dreampany.frame.data.source.api
 
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Store
 import io.reactivex.Maybe
 
@@ -11,16 +14,16 @@ import io.reactivex.Maybe
  */
 interface StoreDataSource : DataSource<Store> {
 
-    fun getCount(id: String, type: String, subtype: String): Int
+    fun getCount(id: String, type: Type, subtype: Subtype): Int
 
-    fun getCountRx(id: String, type: String, subtype: String): Maybe<Int>
+    fun getCountRx(id: String, type: Type, subtype: Subtype): Maybe<Int>
 
-    fun getCountByType(type: String, subtype: String, state: String): Int
+    fun getCountByType(type: Type, subtype: Subtype, state: State): Int
 
-    fun getCountByTypeRx(type: String, subtype: String, state: String): Maybe<Int>
+    fun getCountByTypeRx(type: Type, subtype: Subtype, state: State): Maybe<Int>
 
-    fun getItem(id: String, type: String, subtype: String, state: String): Store?
+    fun getItem(id: String, type: Type, subtype: Subtype, state: State): Store?
 
-    fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<Store>
+    fun getItemRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Store>
 
 }

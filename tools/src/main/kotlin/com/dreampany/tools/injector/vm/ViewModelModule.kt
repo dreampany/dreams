@@ -49,6 +49,11 @@ abstract class ViewModelModule {
     @ViewModelKey(WordViewModel::class)
     abstract fun bindWordViewModel(vm: WordViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoaderViewModel::class)
+    abstract fun bindLoaderViewModel(vm: LoaderViewModel): ViewModel
+
     @Singleton
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

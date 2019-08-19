@@ -302,7 +302,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         if (AndroidUtil.isDebug(applicationContext)) {
             return
         }
-        ex.postToNetwork({
+        ex.postToNetwork(Runnable{
             val packageName = AndroidUtil.getPackageName(applicationContext)
             val versionCode = AndroidUtil.getVersionCode(applicationContext)
             val versionName = AndroidUtil.getVersionName(applicationContext)

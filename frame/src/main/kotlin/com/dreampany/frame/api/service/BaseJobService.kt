@@ -35,7 +35,7 @@ abstract class BaseJobService : JobService(), HasServiceInjector {
     }
 
     override fun onStartJob(job: JobParameters): Boolean {
-        ex.postToNetwork({ completeJob(job) })
+        ex.postToNetwork(Runnable{ completeJob(job) })
         return true // need a good implementation to return true / false
     }
 

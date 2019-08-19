@@ -218,7 +218,7 @@ abstract class BaseActivity :
             }
             doubleBackToExitPressedOnce = true
             NotifyUtil.shortToast(this, R.string.back_pressed)
-            ex.postToUi({ doubleBackToExitPressedOnce = false }, 2000)
+            ex.postToUi(Runnable{ doubleBackToExitPressedOnce = false }, 2000)
         } else {
             finish()
             Animato.animateSlideRight(this)

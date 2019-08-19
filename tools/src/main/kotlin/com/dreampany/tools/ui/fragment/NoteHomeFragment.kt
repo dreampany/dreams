@@ -106,7 +106,7 @@ class NoteHomeFragment @Inject constructor() :
             Constants.RequestCode.ADD_NOTE,
             Constants.RequestCode.EDIT_NOTE -> {
                 if (isOkay(resultCode)) {
-                    ex.postToUi({ request(true) }, 1000L)
+                    ex.postToUi(Runnable{ request(true) }, 1000L)
                 }
             }
         }
@@ -313,7 +313,7 @@ class NoteHomeFragment @Inject constructor() :
     private fun processSuccess(action: Action, items: List<NoteItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
-        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
     }
 
     fun processSingleResponse(response: Response<NoteItem>) {
@@ -332,7 +332,7 @@ class NoteHomeFragment @Inject constructor() :
 
     private fun processSuccess(action: Action, item: NoteItem) {
         adapter.addItem(item)
-        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
     }
 
     private fun openAddNoteUi() {

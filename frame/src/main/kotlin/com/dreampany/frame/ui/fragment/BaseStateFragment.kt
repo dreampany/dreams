@@ -126,6 +126,6 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
                 adapter?.addPage(pageTitles[index], pageClasses[index], task)
             }
         }
-        ex.postToUi(pagerRunnable)
+        ex.postToUi(Runnable{pagerRunnable})
     }
 }

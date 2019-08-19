@@ -16,6 +16,7 @@ import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
+import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Flowable
@@ -36,6 +37,7 @@ class WordViewModel
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
+    private val wordPref: WordPref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
     private val mapper: WordMapper,
@@ -129,7 +131,7 @@ class WordViewModel
 
     private fun getItemRx(request: WordRequest): Maybe<Word> {
         if (request.recent) {
-            return pref.getRecentWordRx()
+            return wordPref.getRecentWordRx()
         }
         return repo.getItemRx(request.id!!)
     }

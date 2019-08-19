@@ -184,6 +184,6 @@ class AppHomeFragment @Inject constructor() :
     private fun processSuccess(action: Action, items: List<AppItem>) {
         Timber.v("Result Type[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
-        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
     }
 }

@@ -23,7 +23,7 @@ class StoreRepository @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
     @Room val room: StoreDataSource
-): Repository<String, Store>(rx, rm), StoreDataSource {
+) : Repository<String, Store>(rx, rm), StoreDataSource {
     override fun getCount(id: String, type: Type, subtype: Subtype): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -41,7 +41,7 @@ class StoreRepository @Inject constructor(
     }
 
     override fun getCountByType(type: Type, subtype: Subtype, state: State): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.getCountByType(type, subtype, state)
     }
 
     override fun getCountByTypeRx(type: Type, subtype: Subtype, state: State): Maybe<Int> {
@@ -57,7 +57,7 @@ class StoreRepository @Inject constructor(
     }
 
     override fun putItems(ts: List<Store>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.putItems(ts)
     }
 
     override fun delete(t: Store): Int {
@@ -97,7 +97,7 @@ class StoreRepository @Inject constructor(
     }
 
     override fun putItemsRx(ts: List<Store>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.putItemsRx(ts)
     }
 
     override fun delete(ts: List<Store>): List<Long>? {

@@ -7,6 +7,7 @@ import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.api.StoreDataSource
 import com.dreampany.frame.data.source.dao.StoreDao
+import com.dreampany.frame.misc.exception.EmptyException
 import io.reactivex.Maybe
 import javax.inject.Singleton
 
@@ -35,7 +36,7 @@ class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDat
     }
 
     override fun getCountByType(type: Type, subtype: Subtype, state: State): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getCountByType(type.name, subtype.name, state.name)
     }
 
     override fun getCountByTypeRx(type: Type, subtype: Subtype, state: State): Maybe<Int> {
@@ -51,7 +52,7 @@ class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDat
     }
 
     override fun putItems(ts: List<Store>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(ts)
     }
 
     override fun delete(t: Store): Int {
@@ -91,7 +92,17 @@ class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDat
     }
 
     override fun putItemsRx(ts: List<Store>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItems(ts)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun delete(ts: List<Store>): List<Long>? {

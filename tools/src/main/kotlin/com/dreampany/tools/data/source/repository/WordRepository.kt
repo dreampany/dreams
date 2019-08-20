@@ -27,11 +27,11 @@ class WordRepository
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
     override fun isExists(id: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.isExists(id)
     }
 
     override fun isExists(t: Word): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.isExists(t)
     }
 
     override fun getItems(ids: List<String>): List<Word>? {
@@ -67,11 +67,11 @@ class WordRepository
     }
 
     override fun getCommonItems(): List<Word>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return assets.getCommonItems()
     }
 
     override fun getAlphaItems(): List<Word>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return assets.getAlphaItems()
     }
 
     override fun getRawWords(): List<String>? {
@@ -111,7 +111,7 @@ class WordRepository
     }
 
     override fun putItems(ts: List<Word>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.putItems(ts)
     }
 
     override fun putItemsRx(ts: List<Word>): Maybe<List<Long>> {

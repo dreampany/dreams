@@ -27,22 +27,25 @@ interface StoreDao : BaseDao<Store> {
     val itemsRx: Maybe<List<Store>>
 
     @Query("select count(*) from store where id = :id and type = :type and subtype = :subtype")
-    fun getCount(id: Long, type: String, subtype: String): Int
+    fun getCount(id: String, type: String, subtype: String): Int
+
+    @Query("select count(*) from store where type = :type and subtype = :subtype and state = :state")
+    fun getCountByType(type: String, subtype: String, state: String): Int
 
     @Query("select count(*) from store where id = :id and type = :type and subtype = :subtype")
-    fun getCountRx(id: Long, type: String, subtype: String): Maybe<Int>
+    fun getCountRx(id: String, type: String, subtype: String): Maybe<Int>
 
     @Query("select * from store where id = :id limit 1")
-    fun getItem(id: Long): Store?
+    fun getItem(id: String): Store?
 
     @Query("select * from store where id = :id limit 1")
-    fun getItemRx(id: Long): Maybe<Store>
+    fun getItemRx(id: String): Maybe<Store>
 
     @Query("select * from store where id = :id and type = :type and subtype = :subtype limit 1")
-    fun getItem(id: Long, type: String, subtype: String): Store?
+    fun getItem(id: String, type: String, subtype: String): Store?
 
     @Query("select * from store where id = :id and type = :type and subtype = :subtype limit 1")
-    fun getItemRx(id: Long, type: String, subtype: String): Maybe<Store>
+    fun getItemRx(id: String, type: String, subtype: String): Maybe<Store>
 
     @Query("select * from store limit :limit")
     fun getItems(limit: Int): List<Store>?

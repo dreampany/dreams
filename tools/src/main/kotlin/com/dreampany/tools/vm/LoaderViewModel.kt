@@ -12,6 +12,7 @@ import com.dreampany.frame.misc.*
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtil
+import com.dreampany.frame.util.DataUtilKt
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
@@ -62,6 +63,7 @@ class LoaderViewModel
                 commonLoading = true
                 loadCommons(request)
                 commonLoading = false
+                request(request)
             })
             return
         }
@@ -91,7 +93,10 @@ class LoaderViewModel
         }
 
         while (!commonWords.isEmpty()) {
-            val words = DataUtil.takeFirst(commonWords, Constants.Count.WORD_PAGE)
+            val words = DataUtilKt.takeFirst(commonWords, Constants.Count.WORD_PAGE)
+            if (words.isNullOrEmpty()) {
+                continue
+            }
             var resultOf = repo.putItems(words)
             if (DataUtil.isEqual(words, resultOf)) {
                 val states = ArrayList<Store>()
@@ -135,7 +140,10 @@ class LoaderViewModel
         }
 
         while (!alphaWords.isEmpty()) {
-            val words = DataUtil.takeFirst(alphaWords, Constants.Count.WORD_PAGE)
+            val words = DataUtilKt.takeFirst(alphaWords, Constants.Count.WORD_PAGE)
+            if (words.isNullOrEmpty()) {
+                continue
+            }
             var resultOf = repo.putItems(words)
             if (DataUtil.isEqual(words, resultOf)) {
                 val states = ArrayList<Store>()
@@ -153,7 +161,7 @@ class LoaderViewModel
                 load.current = current
                 load.total = current
 
-                Timber.v("%d Last Common Word = %s", current, lastWord!!.toString())
+                Timber.v("%d Last Alpha Word = %s", current, lastWord!!.toString())
                 ex.postToUi(Runnable { postResult(request.action, item) })
                 AndroidUtil.sleep(100)
             }

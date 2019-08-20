@@ -3,7 +3,7 @@ package com.dreampany.frame.util
 import androidx.core.util.PatternsCompat
 import com.dreampany.frame.misc.Constants
 import java.util.*
-import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 /**
  * Created by Roman-372 on 7/25/2019
@@ -66,6 +66,36 @@ class DataUtilKt {
                 value / Math.pow(unit.toDouble(), exp.toDouble()),
                 pre
             )
+        }
+
+/*        fun isEmpty(collection: Collection<*>?): Boolean {
+            return collection == null || collection.isEmpty()
+        }*/
+
+        fun <T> sub(list: MutableList<T>?, count: Int): MutableList<T>? {
+            var count = count
+            if (list.isNullOrEmpty()) {
+                return null
+            }
+            count = if (list.size < count) list.size else count
+            return ArrayList(list.subList(0, count))
+        }
+
+        fun <T> takeFirst(list: MutableList<T>?, count: Int): MutableList<T>? {
+            if (list.isNullOrEmpty()) {
+                return null
+            }
+
+            val result = sub(list, count)
+            removeAll(list, result)
+            return result
+        }
+
+        fun <T> removeAll(list: MutableList<T>, sub: MutableList<T>?): MutableList<T>? {
+            sub?.run {
+                list.removeAll(this)
+            }
+            return list
         }
 
 /*        fun formatReadableSize(value: Long, si: Boolean): String {

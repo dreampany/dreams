@@ -2,10 +2,15 @@ package com.dreampany.tools.data.source.assets
 
 import android.content.Context
 import android.graphics.Bitmap
+import com.dreampany.frame.util.DataUtil
+import com.dreampany.frame.util.FileUtil
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
+import com.dreampany.tools.misc.Constants
 import io.reactivex.Maybe
+import timber.log.Timber
+import java.util.*
 
 /**
  * Created by roman on 2019-08-16
@@ -17,6 +22,9 @@ class AssetsWordDataSource(
     private val context: Context,
     private val mapper: WordMapper
 ) : WordDataSource {
+
+    private val alphaWords = mutableListOf<String>()
+
     override fun isExists(id: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -58,11 +66,25 @@ class AssetsWordDataSource(
     }
 
     override fun getCommonItems(): List<Word>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val items = getCommonRawWords()
+        val result = mutableListOf<Word>()
+        items?.forEach { item ->
+            mapper.toItem(item)?.run {
+                result.add(this)
+            }
+        }
+        return result
     }
 
     override fun getAlphaItems(): List<Word>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val items = getAlphaRawWords()
+        val result = mutableListOf<Word>()
+        items?.forEach { item ->
+            mapper.toItem(item)?.run {
+                result.add(this)
+            }
+        }
+        return result
     }
 
     override fun getRawWords(): List<String>? {
@@ -131,6 +153,24 @@ class AssetsWordDataSource(
 
     override fun getItemRx(id: String): Maybe<Word> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    @Synchronized
+    private fun getCommonRawWords(): List<String>? {
+        val items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_COMMON)
+        if (items == null) {
+            Timber.v("Assets common words empty")
+        }
+        return items
+    }
+
+    @Synchronized
+    private fun getAlphaRawWords(): List<String>? {
+        if (DataUtil.isEmpty(alphaWords)) {
+            val items = FileUtil.readAssetsAsStrings(context, Constants.Assets.WORDS_ALPHA)
+            alphaWords.addAll(items!!)
+        }
+        return ArrayList(alphaWords)
     }
 
 }

@@ -91,6 +91,11 @@ class Constants {
         const val WORD_LAST = "word_last"
     }
 
+    object Assets {
+        const val WORDS_COMMON = "common.txt"
+        const val WORDS_ALPHA = "alpha.txt"
+    }
+
     object Count {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099

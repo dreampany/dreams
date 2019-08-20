@@ -102,7 +102,8 @@ class RoomWordDataSource(
     }
 
     override fun putItems(ts: List<Word>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = dao.insertOrIgnore(ts)
+        return result
     }
 
     override fun putItemsRx(ts: List<Word>): Maybe<List<Long>> {

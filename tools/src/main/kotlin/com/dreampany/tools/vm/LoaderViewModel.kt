@@ -53,17 +53,23 @@ class LoaderViewModel
 
     private val commonWords = mutableListOf<Word>()
     private val alphaWords = mutableListOf<Word>()
+    private var commonLoading = false
+    private var alphaLoading = false
 
     fun request(request: LoadRequest) {
-        if (!wordPref.isCommonLoaded()) {
+        if (!wordPref.isCommonLoaded() && !commonLoading) {
             ex.postToIO(Runnable {
+                commonLoading = true
                 loadCommons(request)
+                commonLoading = false
             })
             return
         }
-        if (!wordPref.isAlphaLoaded()) {
+        if (!wordPref.isAlphaLoaded() && !alphaLoading) {
             ex.postToIO(Runnable {
+                alphaLoading = true
                 loadAlphas(request)
+                alphaLoading = false
             })
         }
     }

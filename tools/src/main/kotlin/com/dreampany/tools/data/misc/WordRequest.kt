@@ -21,6 +21,7 @@ class WordRequest(
     var translate: Boolean = Constants.Default.BOOLEAN,
     var recent: Boolean = Constants.Default.BOOLEAN,
     var history: Boolean = Constants.Default.BOOLEAN,
+    var suggests: Boolean = Constants.Default.BOOLEAN,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,

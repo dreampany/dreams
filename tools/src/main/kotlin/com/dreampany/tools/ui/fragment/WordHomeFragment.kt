@@ -26,6 +26,7 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
+import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
 import com.dreampany.tools.data.model.Word
@@ -36,6 +37,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.vm.LoaderViewModel
 import com.dreampany.tools.vm.WordViewModel
 import com.klinker.android.link_builder.Link
 import com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -84,6 +86,7 @@ class WordHomeFragment
     private lateinit var searchView: MaterialSearchView
 
     private lateinit var vm: WordViewModel
+    private lateinit var loaderVm: LoaderViewModel
     private lateinit var adapter: WordAdapter
     private var recentWord: String? = null
 
@@ -113,6 +116,8 @@ class WordHomeFragment
         toScanMode()
         processUiState(UiState.SEARCH)
         adjustTranslationUi()
+        loadRequest()
+        request(suggests = true, action = Action.GET, single = false)
     }
 
     override fun onStopUi() {
@@ -125,7 +130,14 @@ class WordHomeFragment
     override fun onResume() {
         super.onResume()
         initLanguageMenuItem()
-        request(id = recentWord, recent = true, translate = true, progress = true)
+        request(
+            id = recentWord,
+            recent = true,
+            translate = true,
+            action = Action.GET,
+            single = true,
+            progress = true
+        )
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
@@ -287,6 +299,7 @@ class WordHomeFragment
         bindYandex.textYandexPowered.setOnClickListener(this)
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
+        loaderVm = ViewModelProviders.of(this, factory).get(LoaderViewModel::class.java)
         vm.setUiCallback(this)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputsOfString(this, Observer { this.processResponseOfString(it) })
@@ -502,7 +515,7 @@ class WordHomeFragment
         }
         adapter.clear()
         adapter.addItems(items)
-        ex.postToUi(kotlinx.coroutines.Runnable{ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(kotlinx.coroutines.Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
     private fun processSingleSuccess(item: WordItem) {
@@ -643,10 +656,18 @@ class WordHomeFragment
         }
     }
 
+    private fun loadRequest() {
+        val request = LoadRequest(action = Action.LOAD)
+        loaderVm.request(request)
+    }
+
     private fun request(
         id: String? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
         translate: Boolean = Constants.Default.BOOLEAN,
+        suggests: Boolean = Constants.Default.BOOLEAN,
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
@@ -658,6 +679,8 @@ class WordHomeFragment
             target = language.code,
             recent = recent,
             translate = translate,
+            suggests = suggests,
+            single = single,
             progress = progress
         )
         vm.request(request)

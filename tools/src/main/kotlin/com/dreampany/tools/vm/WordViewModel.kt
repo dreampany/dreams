@@ -63,7 +63,11 @@ class WordViewModel
             if (request.single) {
                 loadSingle(request)
             } else {
-                loadMultiple(request)
+                if (request.suggests) {
+                    loadMultipleOfString(request)
+                } else {
+                    loadMultiple(request)
+                }
             }
             return
         }
@@ -121,12 +125,42 @@ class WordViewModel
         addMultipleSubscription(disposable)
     }
 
+    private fun loadMultipleOfString(request: WordRequest) {
+        if (!takeAction(request.important, multipleDisposable)) {
+            return
+        }
+
+        val disposable = rx
+            .backToMain(loadItemsOfStringRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postResultOfString(request.action, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
+        addMultipleSubscription(disposable)
+    }
+
     private fun loadUiItemRx(request: WordRequest): Maybe<WordItem> {
         return getItemRx(request).flatMap { getUiItemRx(it) }
     }
 
     private fun loadUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
         return repo.getItemsRx().flatMap { getUiItemsRx(it) }
+    }
+
+    private fun loadItemsOfStringRx(request: WordRequest): Maybe<List<String>> {
+        return repo.getRawWordsRx()
     }
 
     private fun getItemRx(request: WordRequest): Maybe<Word> {

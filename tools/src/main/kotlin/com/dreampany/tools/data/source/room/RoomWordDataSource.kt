@@ -70,7 +70,7 @@ class RoomWordDataSource(
     }
 
     override fun getRawWordsRx(): Maybe<List<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getRawItemsRx()
     }
 
     override fun isEmpty(): Boolean {

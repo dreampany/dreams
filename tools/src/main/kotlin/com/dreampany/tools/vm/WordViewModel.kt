@@ -59,17 +59,14 @@ class WordViewModel
     }
 
     fun request(request: WordRequest) {
-        if (request.action == Action.GET) {
-            if (request.single) {
-                loadSingle(request)
+        if (request.single) {
+            loadSingle(request)
+        } else {
+            if (request.suggests) {
+                loadMultipleOfString(request)
             } else {
-                if (request.suggests) {
-                    loadMultipleOfString(request)
-                } else {
-                    loadMultiple(request)
-                }
+                loadMultiple(request)
             }
-            return
         }
     }
 
@@ -156,6 +153,10 @@ class WordViewModel
     }
 
     private fun loadUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
+        if ()
+
+
+
         return repo.getItemsRx().flatMap { getUiItemsRx(it) }
     }
 

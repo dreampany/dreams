@@ -218,7 +218,7 @@ class WordHomeFragment
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
         recentWord = query
-        // request(recentWord, false, true, true, true)
+        request(id = recentWord, action = Action.SEARCH, progress = true)
         return super.onQueryTextSubmit(query)
     }
 
@@ -267,7 +267,7 @@ class WordHomeFragment
     }
 
     private fun initView() {
-        setTitle(R.string.home)
+        //setTitle(R.string.home)
         bind = super.binding as FragmentWordHomeBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
@@ -412,7 +412,7 @@ class WordHomeFragment
         }
     }
 
-    fun processResponseOfString(response: Response<List<String>>) {
+    private fun processResponseOfString(response: Response<List<String>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
             processProgress(result.loading)
@@ -425,7 +425,7 @@ class WordHomeFragment
         }
     }
 
-    fun processResponse(response: Response<List<WordItem>>) {
+    private fun processResponse(response: Response<List<WordItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
             processProgress(result.loading)
@@ -462,7 +462,7 @@ class WordHomeFragment
     private fun processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
-            request(recentWord, recent = true, progress = true)
+            request(recentWord, action = Action.SEARCH, progress = true)
             return
         }
         openOcr()
@@ -493,7 +493,7 @@ class WordHomeFragment
     private fun processSuccessOfString(action: Action, items: List<String>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
 
-        if (action === Action.SUGGESTS) {
+        if (action === Action.GET) {
             val result = DataUtil.toStringArray(items)
             searchView.setSuggestions(result)
             return
@@ -503,7 +503,7 @@ class WordHomeFragment
     private fun processSuccess(action: Action, items: List<WordItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
 
-        if (action === Action.SUGGESTS) {
+        if (action === Action.GET) {
             if (!DataUtil.isEmpty(items)) {
                 val suggests = arrayOfNulls<String>(items.size)
                 for (index in items.indices) {
@@ -680,6 +680,7 @@ class WordHomeFragment
             recent = recent,
             translate = translate,
             suggests = suggests,
+            action = action,
             single = single,
             progress = progress
         )

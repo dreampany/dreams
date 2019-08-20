@@ -37,7 +37,7 @@ already
 also
 although
 always
-American
+american
 among
 amount
 analysis
@@ -398,7 +398,7 @@ huge
 human
 hundred
 husband
-I
+i
 idea
 identify
 if
@@ -533,8 +533,8 @@ mouth
 move
 movement
 movie
-Mr
-Mrs
+mr
+mrs
 much
 music
 must
@@ -635,7 +635,7 @@ plan
 plant
 play
 player
-PM
+pm
 point
 police
 policy
@@ -711,7 +711,7 @@ remember
 remove
 report
 represent
-Republican
+republican
 require
 research
 resource
@@ -918,7 +918,7 @@ true
 truth
 try
 turn
-TV
+tv
 two
 type
 under

@@ -19,11 +19,25 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class StoreRepository @Inject constructor(
+class StoreRepository
+@Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    @Room val room: StoreDataSource
+    @Room private val room: StoreDataSource
 ) : Repository<String, Store>(rx, rm), StoreDataSource {
+    override fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+        return room.isExists(id, type, subtype, state)
+    }
+
+    override fun isExistsRx(
+        id: String,
+        type: Type,
+        subtype: Subtype,
+        state: State
+    ): Maybe<Boolean> {
+        return room.isExistsRx(id, type, subtype, state)
+    }
+
     override fun getCount(id: String, type: Type, subtype: Subtype): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

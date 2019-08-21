@@ -1,7 +1,10 @@
 package com.dreampany.tools.injector.data
 
 import android.content.Context
+import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.frame.misc.*
+import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.data.source.assets.AssetsWordDataSource
@@ -47,20 +50,21 @@ class WordModule {
     @Provides
     @Firestore
     fun provideFirestoreWordDataSource(
-        mapper: WordMapper,
-        dao: WordDao
+        network: NetworkManager,
+        firestore: RxFirebaseFirestore
     ): WordDataSource {
-        return FirestoreWordDataSource(mapper, dao)
+        return FirestoreWordDataSource(network, firestore)
     }
 
     @Singleton
     @Provides
     @Remote
     fun provideRemoteWordDataSource(
-        mapper: WordMapper,
-        dao: WordDao
+         network: NetworkManager,
+         mapper: WordMapper,
+         wordnik: WordnikManager
     ): WordDataSource {
-        return RemoteWordDataSource(mapper, dao)
+        return RemoteWordDataSource(network, mapper, wordnik)
     }
 
     @Singleton

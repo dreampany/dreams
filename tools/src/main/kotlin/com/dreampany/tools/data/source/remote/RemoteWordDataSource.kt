@@ -1,11 +1,15 @@
 package com.dreampany.tools.data.source.remote
 
 import android.graphics.Bitmap
+import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
-import com.dreampany.tools.data.source.dao.WordDao
+import com.dreampany.tools.misc.Constants
 import io.reactivex.Maybe
+import timber.log.Timber
 
 /**
  * Created by roman on 2019-08-16
@@ -14,8 +18,9 @@ import io.reactivex.Maybe
  * Last modified $file.lastModified
  */
 class RemoteWordDataSource(
+    private val network: NetworkManager,
     private val mapper: WordMapper,
-    private val dao: WordDao
+    private val wordnik: WordnikManager
 ) : WordDataSource {
     override fun isExists(id: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -126,11 +131,23 @@ class RemoteWordDataSource(
     }
 
     override fun getItem(id: String): Word? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val item = wordnik.getWord(id, Constants.Limit.WORD_RESOLVE)
+        Timber.v("Wordnik Result %s", item!!.word)
+        return mapper.getItem(id, item, true)
     }
 
     override fun getItemRx(id: String): Maybe<Word> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = getItem(id)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
 }

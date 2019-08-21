@@ -29,6 +29,9 @@ interface StoreDao : BaseDao<Store> {
     @Query("select count(*) from store where id = :id and type = :type and subtype = :subtype")
     fun getCount(id: String, type: String, subtype: String): Int
 
+    @Query("select count(*) from store where id = :id and type = :type and subtype = :subtype and state = :state")
+    fun getCount(id: String, type: String, subtype: String, state: String): Int
+
     @Query("select count(*) from store where type = :type and subtype = :subtype and state = :state")
     fun getCountByType(type: String, subtype: String, state: String): Int
 

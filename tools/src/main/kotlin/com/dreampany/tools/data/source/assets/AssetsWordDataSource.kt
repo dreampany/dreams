@@ -69,7 +69,7 @@ class AssetsWordDataSource(
         val items = getCommonRawWords()
         val result = mutableListOf<Word>()
         items?.forEach { item ->
-            mapper.toItem(item)?.run {
+            mapper.getItem(item)?.run {
                 result.add(this)
             }
         }
@@ -80,7 +80,7 @@ class AssetsWordDataSource(
         val items = getAlphaRawWords()
         val result = mutableListOf<Word>()
         items?.forEach { item ->
-            mapper.toItem(item)?.run {
+            mapper.getItem(item)?.run {
                 result.add(this)
             }
         }

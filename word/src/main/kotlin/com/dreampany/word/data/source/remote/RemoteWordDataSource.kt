@@ -42,7 +42,8 @@ class RemoteWordDataSource(
     override fun getItem(word: String, full: Boolean): Word? {
         val item = wordnik.getWord(word, Constants.Limit.WORD_RESOLVE)
         Timber.v("Wordnik Result %s", item!!.word)
-        return mapper.toItem(word, item, true)    }
+        return mapper.toItem(word, item, true)
+    }
 
     override fun deleteRx(t: Word): Maybe<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

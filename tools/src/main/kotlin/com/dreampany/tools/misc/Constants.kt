@@ -96,10 +96,22 @@ class Constants {
         const val WORDS_ALPHA = "alpha.txt"
     }
 
+    object Firebase {
+        const val WORDS = "words"
+    }
+
     object Count {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
+    }
+
+    object Limit {
+        const val WORD_RESOLVE = 10
+        const val WORD_RECENT = 100
+        const val WORD_SEARCH = 1000
+        const val WORD_SUGGESTION = 10
+        const val WORD_OCR = 1000
     }
 
     object Demo {

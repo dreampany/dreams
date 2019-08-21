@@ -18,7 +18,29 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDataSource {
+class RoomStoreDataSource
+    (
+    val mapper: StoreMapper, val dao: StoreDao
+) : StoreDataSource {
+    override fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+        return dao.getCount(id, type.name, subtype.name, state.name) > 0
+    }
+
+    override fun isExistsRx(
+        id: String,
+        type: Type,
+        subtype: Subtype,
+        state: State
+    ): Maybe<Boolean> {
+        return Maybe.create { emitter ->
+            val result = isExists(id, type, subtype, state)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            emitter.onSuccess(result)
+        }
+    }
+
     override fun getCount(id: String, type: Type, subtype: Subtype): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

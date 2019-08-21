@@ -1,12 +1,10 @@
 package com.dreampany.tools.data.misc
 
-import com.annimon.stream.Stream
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
-import com.dreampany.frame.util.DataUtil
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.util.TextUtil
-import com.dreampany.frame.util.TimeUtil
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.Antonym
 import com.dreampany.tools.data.model.Definition
@@ -16,7 +14,7 @@ import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.WordAnnote
 import com.dreampany.tools.misc.WordItemAnnote
 import com.dreampany.tools.ui.model.WordItem
-import timber.log.Timber
+import io.reactivex.Maybe
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -39,7 +37,22 @@ class WordMapper
         return map.contains(item.id)
     }
 
-    fun toItem(word: String?): Word? {
+    fun putItem(word: Word): Long {
+        map.put(word.id, word)
+        return 1L
+    }
+
+    fun putItemRx(word: Word): Maybe<Long> {
+        return Maybe.create { emitter ->
+            val result = putItem(word)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            emitter.onSuccess(result)
+        }
+    }
+
+    fun getItem(word: String?): Word? {
         if (word.isNullOrEmpty()) {
             return null
         }
@@ -50,7 +63,21 @@ class WordMapper
         return out
     }
 
-    fun toItem(input: WordnikWord?, full: Boolean): Word? {
+    fun getItemRx(word: String?): Maybe<Word> {
+        return Maybe.create { emitter ->
+            val result = getItem(word)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
+    }
+
+    fun getItem(input: WordnikWord?, full: Boolean): Word? {
         if (input == null) {
             return null
         }
@@ -80,7 +107,7 @@ class WordMapper
         return out
     }
 
-    fun toItem(word: String, input: WordnikWord?, full: Boolean): Word? {
+    fun getItem(word: String, input: WordnikWord?, full: Boolean): Word? {
         if (input == null) {
             return null
         }
@@ -131,9 +158,9 @@ class WordMapper
 
     fun getSynonyms(word: Word, input: List<Synonym>?): ArrayList<String>? {
         var result: ArrayList<String>? = null
-        if(!input.isNullOrEmpty()) {
+        if (!input.isNullOrEmpty()) {
             result = ArrayList()
-            input.forEach {item->
+            input.forEach { item ->
                 if (word.id.equals(item.left)) {
                     result.add(item.right)
                 } else {
@@ -157,9 +184,9 @@ class WordMapper
 
     fun getAntonyms(word: Word, input: List<Antonym>?): List<String>? {
         var result: ArrayList<String>? = null
-        if(!input.isNullOrEmpty()) {
+        if (!input.isNullOrEmpty()) {
             result = ArrayList()
-            input.forEach {item->
+            input.forEach { item ->
                 if (word.id.equals(item.left)) {
                     result.add(item.right)
                 } else {

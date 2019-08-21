@@ -156,7 +156,7 @@ class TranslationRepository
     ): Maybe<TextTranslation> {
         val maybe = machine.getItemRx(source, target, input)
             //if (machine.isReady(target)) machine.getItemRx(source, target, input) else Maybe.empty()
-        return contactSingleSuccess(maybe, Consumer {
+        return concatSingleSuccess(maybe, Consumer {
             rx.compute(room.putItemRx(it))
                 .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
         })
@@ -166,7 +166,7 @@ class TranslationRepository
         source: String, target: String, input: String
     ): Maybe<TextTranslation> {
         val maybe = firestore.getItemRx(source, target, input)
-        return contactSingleSuccess(maybe, Consumer {
+        return concatSingleSuccess(maybe, Consumer {
             rx.compute(room.putItemRx(it))
                 .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
         })
@@ -176,7 +176,7 @@ class TranslationRepository
         source: String, target: String, input: String
     ): Maybe<TextTranslation> {
         val maybe = remote.getItemRx(source, target, input)
-        return contactSingleSuccess(maybe, Consumer {
+        return concatSingleSuccess(maybe, Consumer {
             rx.compute(room.putItemRx(it))
                 .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
             rx.compute(firestore.putItemRx(it))

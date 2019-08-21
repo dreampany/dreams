@@ -27,13 +27,13 @@ abstract class Repository<K, T>(protected val rx: RxMapper, protected val rm: Re
     @SafeVarargs
     protected fun concatSingleFirstRx(vararg sources: Maybe<T>): Maybe<T> {
         return Maybe.create<T> { emitter ->
-            var error: Exception? = null
+            var error: Throwable? = null
             var item: T? = null
 
             for (source in sources) {
                 try {
                     item = source.blockingGet()
-                } catch (ex: Exception) {
+                } catch (ex: Throwable) {
                     error = ex
                 }
 
@@ -49,15 +49,14 @@ abstract class Repository<K, T>(protected val rx: RxMapper, protected val rm: Re
                 error = null
             }
 
-            if (!emitter.isDisposed()) {
-                if (error != null) {
-                    emitter.onError(error)
-                } else {
-                    item?.let {
-                        emitter.onSuccess(it)
-                    }
-
-                }
+            if (emitter.isDisposed()) {
+                return@create
+            }
+            if (error != null) {
+                emitter.onError(error)
+            }
+            item?.run {
+                emitter.onSuccess(this)
             }
         }
     }
@@ -76,11 +75,11 @@ abstract class Repository<K, T>(protected val rx: RxMapper, protected val rm: Re
                     error = ex
                 }
 
-                if (!DataUtil.isEmpty(items)) {
+                if (!items.isNullOrEmpty()) {
                     break
                 }
             }
-            if (DataUtil.isEmpty(items)) {
+            if (items.isNullOrEmpty()) {
                 if (error == null) {
                     error = EmptyException()
                 }
@@ -88,14 +87,15 @@ abstract class Repository<K, T>(protected val rx: RxMapper, protected val rm: Re
                 error = null
             }
 
-            if (!emitter.isDisposed) {
-                if (error != null) {
-                    emitter.onError(error)
-                } else {
-                    items?.let {
-                        emitter.onSuccess(it)
-                    }
-                }
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (error != null) {
+                emitter.onError(error)
+                return@create
+            }
+            items?.run {
+                emitter.onSuccess(this)
             }
         }
     }
@@ -343,21 +343,20 @@ abstract class Repository<K, T>(protected val rx: RxMapper, protected val rm: Re
         }
     }
 
-    protected fun contactSingleSuccess(source: Maybe<T>, onSuccess: Consumer<T>?): Maybe<T> {
-        var maybe = source
-            .filter { v -> !DataUtil.isEmpty(v) }
+    protected fun concatSingleSuccess(source: Maybe<T>, onSuccess: Consumer<T>?): Maybe<T> {
+        var maybe = source.filter { v -> v != null }
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess)
         }
         return maybe
     }
 
-    protected fun contactSuccess(
+    protected fun concatSuccess(
         source: Maybe<List<T>>,
         onSuccess: Consumer<List<T>>?
     ): Maybe<List<T>> {
         var maybe = source
-            .filter { vs -> !DataUtil.isEmpty(vs) }
+            .filter { vs -> !vs.isNullOrEmpty() }
         if (onSuccess != null) {
             maybe = maybe.doOnSuccess(onSuccess)
         }

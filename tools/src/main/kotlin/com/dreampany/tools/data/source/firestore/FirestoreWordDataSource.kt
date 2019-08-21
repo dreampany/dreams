@@ -1,10 +1,13 @@
 package com.dreampany.tools.data.source.firestore
 
 import android.graphics.Bitmap
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.firebase.RxFirebaseFirestore
+import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.frame.misc.exception.WriteException
+import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
-import com.dreampany.tools.data.source.dao.WordDao
+import com.dreampany.tools.misc.Constants
 import io.reactivex.Maybe
 
 /**
@@ -14,8 +17,8 @@ import io.reactivex.Maybe
  * Last modified $file.lastModified
  */
 class FirestoreWordDataSource(
-    private val mapper: WordMapper,
-    private val dao: WordDao
+    private val network: NetworkManager,
+    private val firestore: RxFirebaseFirestore
 ) : WordDataSource {
     override fun isExists(id: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -94,11 +97,22 @@ class FirestoreWordDataSource(
     }
 
     override fun putItem(t: Word): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val error = firestore.setItemRx<Word>(Constants.Firebase.WORDS, t.id, t).blockingGet()
+        return if (error == null) 0L else -1L
     }
 
     override fun putItemRx(t: Word): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItem(t)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result == -1L) {
+                emitter.onError(WriteException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun putItems(ts: List<Word>): List<Long>? {
@@ -130,7 +144,7 @@ class FirestoreWordDataSource(
     }
 
     override fun getItemRx(id: String): Maybe<Word> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return firestore.getItemRx(Constants.Firebase.WORDS, id, Word::class.java)
     }
 
 }

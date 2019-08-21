@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.room
 
 import com.dreampany.frame.data.misc.StateMapper
@@ -7,12 +8,14 @@ import com.dreampany.frame.data.source.dao.StateDao
 import io.reactivex.Maybe
 import javax.inject.Singleton
 
+*/
 /**
  * Created by Roman-372 on 7/19/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Singleton
 class RoomStateDataSource(val mapper: StateMapper, val dao: StateDao) : StateDataSource {
 
@@ -261,4 +264,4 @@ class RoomStateDataSource(val mapper: StateMapper, val dao: StateDao) : StateDat
     override fun getItemsRx(limit: Int): Maybe<List<State>> {
         return dao.getItemsRx(limit)
     }
-}
+}*/

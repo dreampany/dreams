@@ -60,6 +60,7 @@ class Constants {
 
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
+        const val LANGUAGE_PICKER = "language-picker"
     }
 
     object Time {
@@ -78,9 +79,40 @@ class Constants {
         const val FORMAT_MONTH_DAY = "dd MMMM"
     }
 
-/*    object Database {
+    object Database {
         const val NOTE = "note"
-    }*/
+        const val WORD = "word"
+    }
+
+    object Pref {
+        const val WORD = "word"
+        const val WORD_COMMON_LOADED = "word_common_loaded"
+        const val WORD_ALPHA_LOADED = "word_alpha_loaded"
+        const val WORD_LAST = "word_last"
+    }
+
+    object Assets {
+        const val WORDS_COMMON = "common.txt"
+        const val WORDS_ALPHA = "alpha.txt"
+    }
+
+    object Firebase {
+        const val WORDS = "words"
+    }
+
+    object Count {
+        const val WORD_COMMON = 1000
+        const val WORD_ALPHA = 370099
+        const val WORD_PAGE = 1000
+    }
+
+    object Limit {
+        const val WORD_RESOLVE = 10
+        const val WORD_RECENT = 100
+        const val WORD_SEARCH = 1000
+        const val WORD_SUGGESTION = 10
+        const val WORD_OCR = 1000
+    }
 
     object Demo {
         const val ID = Constants.Key.ID
@@ -90,7 +122,7 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
-    object Apk {
+    object App {
         const val ID = Constants.Key.ID
     }
 
@@ -102,6 +134,18 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
+    object Word {
+        const val ID = Constants.Key.ID
+        const val PART_OF_SPEECH = "part_of_speech"
+        const val LEFTER = "lefter"
+        const val RIGHTER = "righter"
+        const val RECENT_WORD = "recent_word"
+    }
+
+    object Language {
+        const val LANGUAGE = "language"
+    }
+
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2
@@ -111,4 +155,10 @@ class Constants {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
     }
+
+    object Translation {
+        const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
+    }
+
+
 }

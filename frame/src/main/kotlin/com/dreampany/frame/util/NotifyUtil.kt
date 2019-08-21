@@ -45,7 +45,7 @@ class NotifyUtil {
             if (AndroidUtil.isOnUiThread()) {
                 toast.show()
             } else {
-                ex.postToUi { toast.show() }
+                ex.postToUi(Runnable { toast.show() })
             }
         }
 

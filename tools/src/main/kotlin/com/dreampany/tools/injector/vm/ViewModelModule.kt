@@ -36,13 +36,23 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(ApkViewModel::class)
-    abstract fun bindApkViewModel(vm: ApkViewModel): ViewModel
+    @ViewModelKey(AppViewModel::class)
+    abstract fun bindAppViewModel(vm: AppViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(NoteViewModel::class)
     abstract fun bindNoteViewModel(vm: NoteViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WordViewModel::class)
+    abstract fun bindWordViewModel(vm: WordViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoaderViewModel::class)
+    abstract fun bindLoaderViewModel(vm: LoaderViewModel): ViewModel
 
     @Singleton
     @Binds

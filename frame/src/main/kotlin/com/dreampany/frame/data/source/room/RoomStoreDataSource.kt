@@ -1,11 +1,13 @@
 package com.dreampany.frame.data.source.room
 
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.model.Store
-import com.dreampany.frame.data.source.api.StateDataSource
 import com.dreampany.frame.data.source.api.StoreDataSource
 import com.dreampany.frame.data.source.dao.StoreDao
+import com.dreampany.frame.misc.exception.EmptyException
 import io.reactivex.Maybe
 import javax.inject.Singleton
 
@@ -16,25 +18,78 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDataSource {
-    override fun getItemsOf(type: String, subtype: String, state: String): List<String>? {
+class RoomStoreDataSource
+    (
+    val mapper: StoreMapper, val dao: StoreDao
+) : StoreDataSource {
+    override fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+        return dao.getCount(id, type.name, subtype.name, state.name) > 0
+    }
+
+    override fun isExistsRx(
+        id: String,
+        type: Type,
+        subtype: Subtype,
+        state: State
+    ): Maybe<Boolean> {
+        return Maybe.create { emitter ->
+            val result = isExists(id, type, subtype, state)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            emitter.onSuccess(result)
+        }
+    }
+
+    override fun getCount(id: String, type: Type, subtype: Subtype): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsOfRx(type: String, subtype: String, state: String): Maybe<List<String>> {
+    override fun getCount(): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsOfRx(
-        type: String,
-        subtype: String,
-        state: String,
-        limit: Int
-    ): Maybe<List<String>> {
+    override fun getCountRx(id: String, type: Type, subtype: Subtype): Maybe<Int> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(type: String, subtype: String, state: String): List<Store>? {
+    override fun getCountRx(): Maybe<Int> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getCountByType(type: Type, subtype: Subtype, state: State): Int {
+        return dao.getCountByType(type.name, subtype.name, state.name)
+    }
+
+    override fun getCountByTypeRx(type: Type, subtype: Subtype, state: State): Maybe<Int> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItem(id: String, type: Type, subtype: Subtype, state: State): Store? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun putItem(t: Store): Long {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun putItems(ts: List<Store>): List<Long>? {
+        return dao.insertOrReplace(ts)
+    }
+
+    override fun delete(t: Store): Int {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deleteRx(t: Store): Maybe<Int> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItem(id: String): Store? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Store> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -46,7 +101,7 @@ class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDat
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getCountRx(): Maybe<Int> {
+    override fun isExists(t: Store): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -59,14 +114,24 @@ class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDat
     }
 
     override fun putItemsRx(ts: List<Store>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun deleteRx(t: Store): Maybe<Int> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItems(ts)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun delete(ts: List<Store>): List<Long>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun deleteRx(ts: List<Store>): Maybe<List<Long>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -78,43 +143,11 @@ class RoomStoreDataSource(val mapper: StoreMapper, val dao: StoreDao) : StoreDat
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Store>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getItemsRx(type: String, subtype: String, state: String): Maybe<List<Store>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun isExists(t: Store): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun putItem(t: Store): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun putItems(ts: List<Store>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun delete(t: Store): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun deleteRx(ts: List<Store>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getItem(id: String): Store? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun getItemsRx(): Maybe<List<Store>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItems(limit: Int): List<Store>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

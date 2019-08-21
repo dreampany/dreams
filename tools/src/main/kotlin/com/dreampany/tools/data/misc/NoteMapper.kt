@@ -3,9 +3,7 @@ package com.dreampany.tools.data.misc
 import android.content.Context
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
-import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtilKt
-import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.NoteAnnote
 import javax.inject.Inject

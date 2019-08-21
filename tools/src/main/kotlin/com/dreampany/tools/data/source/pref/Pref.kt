@@ -1,7 +1,9 @@
 package com.dreampany.tools.data.source.pref
 
 import android.content.Context
-import com.dreampany.frame.data.source.pref.FramePrefKt
+import com.dreampany.frame.data.source.pref.FramePref
+import com.dreampany.language.Language
+import com.dreampany.tools.misc.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,7 +14,10 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
+class Pref
+@Inject constructor(
+    context: Context
+) : FramePref(context) {
 
     init {
     }
@@ -21,4 +26,11 @@ class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
         return true
     }
 
+    fun setLanguage(language: Language) {
+        setPrivately(Constants.Language.LANGUAGE, language)
+    }
+
+    fun getLanguage(language: Language): Language {
+        return getPrivately(Constants.Language.LANGUAGE, Language::class.java, language)
+    }
 }

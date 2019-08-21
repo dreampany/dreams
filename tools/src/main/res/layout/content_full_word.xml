@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.dreampany.tools.ui.model.WordItem" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_green50">
+
+        <include
+            android:id="@+id/layout_word"
+            layout="@layout/content_word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
+            android:layout_marginTop="@dimen/dp_4"
+            android:layout_marginEnd="@dimen/dp_4"
+            android:visibility="gone"
+            auto:item="@{item}"
+            tools:visibility="visible" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_word"
+            android:scrollbars="none"
+            auto:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include
+                    android:id="@+id/layout_related"
+                    layout="@layout/content_related"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/layout_definition"
+                    layout="@layout/content_definition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/layout_example"
+                    layout="@layout/content_example"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp_4"
+                    android:layout_marginTop="@dimen/dp_4"
+                    android:layout_marginEnd="@dimen/dp_4"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <include
+                    android:id="@+id/layout_yandex"
+                    layout="@layout/content_yandex_translation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="20dp"
+                    android:visibility="visible"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</layout>

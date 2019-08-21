@@ -2,11 +2,11 @@ package com.dreampany.tools.injector.data
 
 import android.content.Context
 import com.dreampany.frame.misc.Memory
-import com.dreampany.tools.data.misc.ApkMapper
-import com.dreampany.tools.data.model.Apk
+import com.dreampany.tools.data.misc.AppMapper
+import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.api.MediaDataSource
-import com.dreampany.tools.data.source.memory.MemoryApkMediaDataSource
-import com.dreampany.tools.data.source.memory.provider.ApkProvider
+import com.dreampany.tools.data.source.memory.MemoryAppMediaDataSource
+import com.dreampany.tools.data.source.memory.provider.AppProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,9 +25,9 @@ class MediaModule {
     @Memory
     fun provideMemoryApkMediaDataSource(
         context: Context,
-        mapper: ApkMapper,
-        provider: ApkProvider
-    ): MediaDataSource<Apk> {
-        return MemoryApkMediaDataSource(context, mapper, provider)
+        mapper: AppMapper,
+        provider: AppProvider
+    ): MediaDataSource<App> {
+        return MemoryAppMediaDataSource(context, mapper, provider)
     }
 }

@@ -6,7 +6,7 @@ import com.dreampany.tools.databinding.ActivityNavigationBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.HomeFragment
 import com.dreampany.tools.ui.fragment.MoreFragment
-import com.dreampany.tools.ui.model.UiTask
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity
 import dagger.Lazy
@@ -86,8 +86,8 @@ class NavigationActivity : BaseBottomNavigationActivity() {
     private fun initView() {
         bind = super.binding as ActivityNavigationBinding
         val uiTask = getCurrentTask<UiTask<*>>(false)
-        if (uiTask != null && uiTask!!.type != null && uiTask!!.subtype != null) {
-            openActivity(ToolsActivity::class.java, uiTask!!)
+        if (uiTask != null && uiTask.notify) {
+            openActivity(ToolsActivity::class.java, uiTask)
             return
         }
         ad.initAd(

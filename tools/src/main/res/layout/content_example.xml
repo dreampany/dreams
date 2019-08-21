@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/layout_example"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:cardCornerRadius="4dp"
+        auto:cardElevation="3dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_6"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/title"
+                    android:textColor="@color/material_grey800"
+                    android:textSize="16sp"
+                    auto:fontFamily="@font/roboto_slab_bold" />
+
+                <ImageView
+                    android:id="@+id/toggle_example"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_gravity="end"
+                    android:visibility="gone"
+                    auto:srcCompat="@drawable/ic_arrow_drop_down_black_24dp"
+                    tools:ignore="ContentDescription"
+                    tools:visibility="visible" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/material_grey400"
+                android:visibility="gone" />
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/layout_single_expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                auto:el_duration="500"
+                auto:el_expanded="true"
+                auto:el_parallax="0.5">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_single_example"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/material_grey700"
+                    android:textSize="16sp"
+                    auto:fontFamily="@font/roboto_slab_regular"/>
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+            <net.cachapa.expandablelayout.ExpandableLayout
+                android:id="@+id/layout_multiple_expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                auto:el_duration="500"
+                auto:el_expanded="false"
+                auto:el_parallax="0.5">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_multiple_example"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/material_grey700"
+                    android:textSize="16sp"
+                    auto:fontFamily="@font/roboto_slab_regular" />
+
+            </net.cachapa.expandablelayout.ExpandableLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

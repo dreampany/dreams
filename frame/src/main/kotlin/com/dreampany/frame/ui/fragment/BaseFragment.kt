@@ -88,6 +88,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         return 0
     }
 
+    open fun getTitleResId() : Int {
+        return 0
+    }
+
     open fun hasColor(): Boolean {
         val activity = getParent()
         return if (activity != null) activity.hasColor() else false
@@ -176,6 +180,11 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
         ) {
             fragmentCallback =
                 parentFragment as UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
+        }
+
+        val titleResId = getTitleResId()
+        if (titleResId != 0) {
+            setTitle(titleResId)
         }
 
         if (hasColor()) {

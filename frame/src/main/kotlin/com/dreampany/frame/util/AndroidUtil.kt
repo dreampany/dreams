@@ -514,7 +514,6 @@ class AndroidUtil {
                 Thread.sleep(time)
             } catch (ignored: InterruptedException) {
             }
-
         }
 
         fun getAndroidId(context: Context): String {

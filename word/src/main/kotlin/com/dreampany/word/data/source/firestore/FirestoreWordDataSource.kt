@@ -126,13 +126,17 @@ class FirestoreWordDataSource(
 
     override fun putItem(t: Word): Long {
         val error = firestore.setItemRx<Word>(WORDS, t.id, t).blockingGet()
-        return if (error == null) {
-            0
-        } else -1
+        return if (error == null) { 0 } else -1
     }
 
     override fun putItemRx(t: Word): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItem(t)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            emitter.onSuccess(result)
+        }
     }
 
     override fun putItems(ts: List<Word>): List<Long> {

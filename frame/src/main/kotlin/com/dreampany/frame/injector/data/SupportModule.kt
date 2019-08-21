@@ -1,6 +1,5 @@
 package com.dreampany.frame.injector.data
 
-import com.dreampany.frame.data.model.State
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.misc.*
 import dagger.Module
@@ -18,23 +17,9 @@ class SupportModule {
 
     @Singleton
     @Provides
-    @StateAnnote
-    fun provideStateSmartMap(): SmartMap<String, State> {
-        return SmartMap.newMap()
-    }
-
-    @Singleton
-    @Provides
     @StoreAnnote
     fun provideStoreSmartMap(): SmartMap<String, Store> {
         return SmartMap.newMap()
-    }
-
-    @Singleton
-    @Provides
-    @StateAnnote
-    fun provideStateSmartCache(): SmartCache<String, State> {
-        return SmartCache.newCache()
     }
 
     @Singleton

@@ -203,7 +203,7 @@ class LiveTextOcrFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     private fun done() {
-        getCurrentTask<Task<*>>(false)!!.comment = texts.toString()
+        getCurrentTask<Task<*>>(false)!!.extra = texts.toString()
         forResult()
     }
 }

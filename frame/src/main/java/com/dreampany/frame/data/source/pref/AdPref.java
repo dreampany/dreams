@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.pref;
 
 import android.content.Context;
@@ -7,11 +8,13 @@ import com.dreampany.frame.util.TimeUtil;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+*/
 /**
  * Created by Hawladar Roman on 8/29/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 public class AdPref extends BasePref {
 
@@ -65,3 +68,4 @@ public class AdPref extends BasePref {
         }
     }
 }
+*/

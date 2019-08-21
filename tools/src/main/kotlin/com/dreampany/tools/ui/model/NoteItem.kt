@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.util.ColorUtil
@@ -13,7 +14,6 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.NoteAdapter
-import com.dreampany.tools.ui.enums.UiAction
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -26,8 +26,10 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NoteItem private constructor(
-    item: Note, @LayoutRes layoutId: Int = Constants.Default.INT
+class NoteItem
+private constructor(
+    item: Note,
+    @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<Note, NoteItem.ViewHolder, String>(item, layoutId) {
 
     companion object {
@@ -84,14 +86,14 @@ class NoteItem private constructor(
                 this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
-                    action = UiAction.OPEN
+                    action = Action.OPEN
                 )
             }
             view.setOnLongClickListener { view ->
                 this.adapter.uiItemClick?.onLongClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
-                    action = UiAction.OPTIONS
+                    action = Action.OPTIONS
                 )
                 true
             }

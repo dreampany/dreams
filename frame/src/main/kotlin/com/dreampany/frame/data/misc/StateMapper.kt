@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.misc
 
 import com.dreampany.frame.data.model.State
@@ -8,12 +9,14 @@ import com.dreampany.frame.misc.StoreAnnote
 import javax.inject.Inject
 import javax.inject.Singleton
 
+*/
 /**
  * Created by roman on 2019-07-25
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Singleton
 class StateMapper @Inject constructor(
     @StateAnnote val map: SmartMap<String, State>,
@@ -45,4 +48,4 @@ class StateMapper @Inject constructor(
             getItem(id)
         } else null
     }
-}
+}*/

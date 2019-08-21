@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.dao
 
 import androidx.room.Dao
@@ -6,11 +7,13 @@ import com.dreampany.frame.data.model.State
 import io.reactivex.Maybe
 
 
+*/
 /**
  * Created by Hawladar Roman on 6/25/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Dao
 interface StateDao : BaseDao<State> {
 
@@ -132,4 +135,4 @@ interface StateDao : BaseDao<State> {
 
     @Query("select * from state where type = :type and subtype = :subtype limit :limit")
     fun getItemsRx(type: String, subtype: String, limit: Int): Maybe<List<State>>
-}
+}*/

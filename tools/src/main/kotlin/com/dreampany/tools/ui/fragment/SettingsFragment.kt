@@ -42,7 +42,7 @@ class SettingsFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     override fun onStartUi(state: Bundle?) {
-        ex.postToUi { this.initView() }
+        ex.postToUi (Runnable{ this.initView() })
     }
 
     override fun onStopUi() {

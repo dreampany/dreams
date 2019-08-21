@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.model
 
 import androidx.room.Entity
@@ -9,12 +10,14 @@ import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
+*/
 /**
  * Created by Roman-372 on 7/19/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Parcelize
 @IgnoreExtraProperties
 @Entity(
@@ -59,4 +62,4 @@ data class State(
                 && Objects.equal(subtype, this.subtype)
                 && Objects.equal(state, this.state))
     }
-}
+}*/

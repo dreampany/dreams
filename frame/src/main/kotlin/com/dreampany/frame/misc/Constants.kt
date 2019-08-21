@@ -66,9 +66,16 @@ class Constants {
     }
 
     object Ad {
+        const val KEY = "ad-pref"
         const val BANNER = "banner"
         const val INTERSTITIAL = "interstitial"
         const val REWARDED = "rewarded"
+    }
+
+    object AdTime {
+        const val BANNER = "time-banner"
+        const val INTERSTITIAL = "time-interstitial"
+        const val REWARDED = "time-rewarded"
     }
 
     object Sep {

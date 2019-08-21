@@ -24,7 +24,7 @@ class LaunchActivity : BaseActivity() {
     override fun onStartUi(state: Bundle?) {
         val loader = findViewById<AVLoadingIndicatorView>(R.id.view_loading)
         loader.smoothToShow()
-        ex.postToUi({
+        ex.postToUi(Runnable{
             loader.smoothToHide()
             openActivity(NavigationActivity::class.java, true)
             finish()

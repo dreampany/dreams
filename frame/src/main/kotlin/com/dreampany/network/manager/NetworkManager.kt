@@ -40,7 +40,7 @@ class NetworkManager @Inject constructor(
         callbacks.add(callback)
         this.checkInternet = checkInternet
         if (isStarted()) {
-            ex.postToUi({
+            ex.postToUi(Runnable{
                 postNetworks(callback)
             })
             return

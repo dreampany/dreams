@@ -270,7 +270,7 @@ class HomeFragment @Inject constructor() : BaseMenuFragment(), SmartAdapter.Call
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
         MenuTint.colorMenuItem(
             searchItem,
-            ColorUtil.getColor(context, R.color.material_white),
+            ColorUtil.getColor(context!!, R.color.material_white),
             null
         )
         searchView.setMenuItem(searchItem)

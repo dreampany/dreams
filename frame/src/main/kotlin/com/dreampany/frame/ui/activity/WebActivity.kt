@@ -35,7 +35,7 @@ class WebActivity : BaseActivity(), AdvancedWebView.Listener {
             return
         }
         bind.webview.setListener(this, this)
-        val url = task!!.comment
+        val url = task!!.extra
         bind.webview.loadUrl(url)
     }
 

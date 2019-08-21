@@ -1,3 +1,4 @@
+/*
 package com.dreampany.tools.data.source.room
 
 import android.content.Context
@@ -7,17 +8,21 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.frame.BuildConfig
 import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.dao.NoteDao
+import com.dreampany.tools.data.source.dao.WordDao
 import com.dreampany.tools.misc.Constants
 
+*/
 /**
  * Created by Roman-372 on 8/5/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
-@Database(entities = [Note::class], version = 1)
-@TypeConverters(Converters::class)
+ *//*
+
+@Database(entities = [Note::class, Word::class], version = 1)
+@TypeConverters(WordConverters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
     companion object {
@@ -49,4 +54,5 @@ abstract class DatabaseManager : RoomDatabase() {
     }
 
     abstract fun noteDao(): NoteDao
-}
+    abstract fun wordDao(): WordDao
+}*/

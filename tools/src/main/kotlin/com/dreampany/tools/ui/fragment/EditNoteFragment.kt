@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.UiState
+import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
@@ -20,10 +20,8 @@ import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.FragmentEditNoteBinding
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.enums.UiAction
-import com.dreampany.tools.ui.enums.UiSubtype
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.ui.model.UiTask
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.tools.vm.NoteViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -72,7 +70,7 @@ class EditNoteFragment @Inject constructor() :
     private fun initUi() {
         val uiTask = getCurrentTask<UiTask<Note>>() ?: return
         val titleRes =
-            if (uiTask.action == UiAction.ADD) R.string.title_add_note else R.string.title_edit_note
+            if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
 
         setTitle(titleRes)
         bind = super.binding as FragmentEditNoteBinding
@@ -81,7 +79,7 @@ class EditNoteFragment @Inject constructor() :
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
-        if (uiTask.action == UiAction.EDIT) {
+        if (uiTask.action == Action.EDIT) {
             val note = getInput<Note>()
             bind.inputEditTitle.addTextChangedListener(object : TextWatcher {
                 override fun afterTextChanged(p0: Editable?) {
@@ -132,7 +130,7 @@ class EditNoteFragment @Inject constructor() :
         edited = false
         val uiTask = getCurrentTask<UiTask<Note>>()!!
         val note = getInput<Note>()
-        if (uiTask.action == UiAction.EDIT) {
+        if (uiTask.action == Action.EDIT) {
             request(
                 action = Action.UPDATE,
                 id = note?.id,
@@ -226,11 +224,11 @@ class EditNoteFragment @Inject constructor() :
         if (action == Action.UPDATE) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
             AndroidUtil.hideSoftInput(getParent()!!)
-            ex.postToUi({ forResult() }, 500L)
+            ex.postToUi(Runnable{ forResult() }, 500L)
             return
         }
         bind.inputEditTitle.setText(item.item.title)
         bind.inputEditDescription.setText(item.item.description)
-        ex.postToUi({ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
     }
 }

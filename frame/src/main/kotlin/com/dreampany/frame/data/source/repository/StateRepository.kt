@@ -1,3 +1,4 @@
+/*
 package com.dreampany.frame.data.source.repository
 
 import com.dreampany.frame.data.model.State
@@ -9,12 +10,14 @@ import io.reactivex.Maybe
 import javax.inject.Inject
 import javax.inject.Singleton
 
+*/
 /**
  * Created by Roman-372 on 7/19/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Singleton
 class StateRepository @Inject constructor(
     rx: RxMapper,
@@ -255,4 +258,4 @@ class StateRepository @Inject constructor(
     override fun getItemsRx(limit: Int): Maybe<List<State>> {
         return room.getItemsRx(limit)
     }
-}
+}*/

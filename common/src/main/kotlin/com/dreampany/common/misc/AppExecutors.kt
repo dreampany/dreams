@@ -25,6 +25,32 @@ class AppExecutors(
     ) {
     }
 
+    fun postToUi(run: Runnable) {
+        uiExecutor.execute(run)
+    }
+
+    fun postToUi(run: Runnable, delay: Long) {
+        uiExecutor.executeUniquely(run, delay)
+    }
+
+    fun postToUiSmartly(runnable: Runnable) {
+        if (AndroidUtil.isOnUiThread()) {
+            runnable.run()
+        } else {
+            uiExecutor.execute(runnable)
+        }
+    }
+
+    fun postToIO(run: Runnable): Boolean {
+        diskIO.execute(run)
+        return true
+    }
+
+    fun postToNetwork(run: Runnable): Boolean {
+        networkIO.execute(run)
+        return true
+    }
+
     /* Ui Executor */
     class UiThreadExecutor : Executor {
         private val handler = Handler(Looper.getMainLooper())

@@ -1,7 +1,7 @@
 package com.dreampany.word.data.source.pref
 
 import android.content.Context
-import com.dreampany.frame.data.source.pref.FramePrefKt
+import com.dreampany.frame.data.source.pref.FramePref
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.language.Language
@@ -18,7 +18,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class Pref @Inject constructor(context: Context) : FramePrefKt(context) {
+class Pref @Inject constructor(context: Context) : FramePref(context) {
 
     private val KEY_WORD_SYNC: String
 

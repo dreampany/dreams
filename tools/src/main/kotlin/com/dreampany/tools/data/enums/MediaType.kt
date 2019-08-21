@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class MediaType : Parcelable {
-    DEFAULT, APK, IMAGE, AUDIO, VIDEO, DOCUMENT, FILE, OTHER
+    DEFAULT, APP, IMAGE, AUDIO, VIDEO, DOCUMENT, FILE, OTHER
 }

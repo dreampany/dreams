@@ -1,15 +1,20 @@
 package com.dreampany.tools.ui.activity
 
 import android.os.Bundle
+import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.callback.SearchViewCallback
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.enums.UiAction
-import com.dreampany.tools.ui.enums.UiSubtype
-import com.dreampany.tools.ui.enums.UiType
 import com.dreampany.tools.ui.fragment.*
-import com.dreampany.tools.ui.model.UiTask
+import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.tools.databinding.ActivityToolsBinding
+import com.dreampany.tools.databinding.FragmentWordHomeBinding
 import com.google.android.gms.ads.AdView
+import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -18,7 +23,7 @@ import javax.inject.Inject
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-class ToolsActivity : BaseActivity() {
+class ToolsActivity : BaseActivity(), SearchViewCallback {
 
     @Inject
     lateinit var ad: SmartAd
@@ -29,13 +34,17 @@ class ToolsActivity : BaseActivity() {
     @Inject
     lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
-    lateinit var apkProvider: Lazy<ApkFragment>
+    lateinit var appHomeProvider: Lazy<AppHomeFragment>
+    @Inject
+    lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
+    @Inject
+    lateinit var wordHomeProvider: Lazy<WordHomeFragment>
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
-    lateinit var notesProvider: Lazy<NotesFragment>
-    @Inject
     lateinit var editNoteProvider: Lazy<EditNoteFragment>
+
+    private lateinit var bind: ActivityToolsBinding
 
     override fun getLayoutId(): Int {
         return R.layout.activity_tools
@@ -47,13 +56,12 @@ class ToolsActivity : BaseActivity() {
     }
 
     override fun onStartUi(state: Bundle?) {
+        initView()
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype
+        val state = uiTask.state
         val action = uiTask.action
-        if (type == null || subtype == null || action == null) {
-            return
-        }
         ad.initAd(
             this,
             getScreen(),
@@ -64,9 +72,9 @@ class ToolsActivity : BaseActivity() {
         ad.loadAd(getScreen())
 
         when (type) {
-            UiType.MORE -> {
+            Type.MORE -> {
                 when (subtype) {
-                    UiSubtype.SETTINGS -> {
+                    Subtype.SETTINGS -> {
                         commitFragment(
                             SettingsFragment::class.java,
                             settingsProvider,
@@ -74,7 +82,7 @@ class ToolsActivity : BaseActivity() {
                             uiTask
                         )
                     }
-                    UiSubtype.LICENSE -> {
+                    Subtype.LICENSE -> {
                         commitFragment(
                             LicenseFragment::class.java,
                             licenseProvider,
@@ -82,7 +90,7 @@ class ToolsActivity : BaseActivity() {
                             uiTask
                         )
                     }
-                    UiSubtype.ABOUT -> {
+                    Subtype.ABOUT -> {
                         commitFragment(
                             AboutFragment::class.java,
                             aboutProvider,
@@ -90,42 +98,63 @@ class ToolsActivity : BaseActivity() {
                             uiTask
                         )
                     }
-                    else -> {
-                    }
                 }
             }
-            UiType.HOME -> {
-                when (subtype) {
-                    UiSubtype.APK -> {
-                        commitFragment(ApkFragment::class.java, apkProvider, R.id.layout, uiTask)
-                    }
-                    UiSubtype.SCAN -> {
-                        commitFragment(ScanFragment::class.java, scanProvider, R.id.layout, uiTask)
-                    }
-                    UiSubtype.NOTE -> {
+            Type.APP -> {
+                if (subtype == Subtype.DEFAULT) {
+                    if (state == State.HOME) {
                         commitFragment(
-                            NotesFragment::class.java,
-                            notesProvider,
+                            AppHomeFragment::class.java,
+                            appHomeProvider,
                             R.id.layout,
                             uiTask
                         )
                     }
                 }
             }
-            UiType.NOTE -> {
-                when (action) {
-                    UiAction.ADD,
-                    UiAction.EDIT -> {
-                        commitFragment(
-                            EditNoteFragment::class.java,
-                            editNoteProvider,
-                            R.id.layout,
-                            uiTask
-                        )
+            Type.NOTE -> {
+                if (subtype == Subtype.DEFAULT) {
+                    if (state == State.HOME) {
+                        if (action == Action.OPEN) {
+                            commitFragment(
+                                AppHomeFragment::class.java,
+                                appHomeProvider,
+                                R.id.layout,
+                                uiTask
+                            )
+                        }
+                    } else if (state == State.DEFAULT) {
+                        if (action == Action.ADD || action == Action.EDIT) {
+                            commitFragment(
+                                EditNoteFragment::class.java,
+                                editNoteProvider,
+                                R.id.layout,
+                                uiTask
+                            )
+                        }
                     }
                 }
             }
-            else -> {
+            Type.WORD -> {
+                if (subtype == Subtype.DEFAULT) {
+                    if (state == State.HOME) {
+                        commitFragment(
+                            WordHomeFragment::class.java,
+                            wordHomeProvider,
+                            R.id.layout,
+                            uiTask
+                        )
+                    } else if (state == State.DEFAULT) {
+                        if (action == Action.ADD || action == Action.EDIT) {
+                            /*commitFragment(
+                                EditNoteFragment::class.java,
+                                editNoteProvider,
+                                R.id.layout,
+                                uiTask
+                            )*/
+                        }
+                    }
+                }
             }
         }
     }
@@ -144,6 +173,10 @@ class ToolsActivity : BaseActivity() {
         super.onPause()
     }
 
+    override fun getSearchView(): MaterialSearchView {
+        return bind.searchView
+    }
+
 /*    override fun onDestroy() {
         try {
             super.onDestroy()
@@ -160,4 +193,8 @@ class ToolsActivity : BaseActivity() {
         }
         finish()
     }*/
+
+    private fun initView() {
+        bind = super.binding as ActivityToolsBinding
+    }
 }

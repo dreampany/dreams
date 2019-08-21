@@ -2,20 +2,19 @@ package com.dreampany.tools.vm
 
 import android.app.Application
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.misc.StateMapper
-import com.dreampany.frame.data.model.Response
-import com.dreampany.frame.data.source.repository.StateRepository
+import com.dreampany.frame.data.enums.Type
+import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.enums.FeatureType
 import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.data.misc.FeatureRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.model.FeatureItem
-import com.dreampany.tools.ui.model.UiTask
+import com.dreampany.frame.ui.model.UiTask
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -33,8 +32,8 @@ class FeatureViewModel @Inject constructor(
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
-    private val stateMapper: StateMapper,
-    private val stateRepo: StateRepository,
+    private val storeMapper: StoreMapper,
+    private val storeRepo: StoreRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Feature, FeatureItem, UiTask<Feature>>(application, rx, ex, rm) {
 
@@ -119,10 +118,9 @@ class FeatureViewModel @Inject constructor(
     private fun getItemsRx(request: FeatureRequest): Maybe<List<Feature>> {
         return Maybe.create { emitter ->
             val items = mutableListOf<Feature>()
-            items.add(Feature(FeatureType.APK.name, FeatureType.APK))
-            items.add(Feature(FeatureType.SCAN.name, FeatureType.SCAN))
-            items.add(Feature(FeatureType.NOTE.name, FeatureType.NOTE))
-            items.add(Feature(FeatureType.HISTORY.name, FeatureType.HISTORY))
+            items.add(Feature( Type.APP))
+            items.add(Feature(Type.WORD))
+            items.add(Feature(Type.NOTE))
             emitter.onSuccess(items)
         }
     }

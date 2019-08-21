@@ -1,12 +1,8 @@
 package com.dreampany.frame.injector.data
 
-import com.dreampany.frame.data.misc.StateMapper
 import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.source.api.StateDataSource
 import com.dreampany.frame.data.source.api.StoreDataSource
-import com.dreampany.frame.data.source.dao.StateDao
 import com.dreampany.frame.data.source.dao.StoreDao
-import com.dreampany.frame.data.source.room.RoomStateDataSource
 import com.dreampany.frame.data.source.room.RoomStoreDataSource
 import com.dreampany.frame.injector.network.HttpModule
 import com.dreampany.frame.misc.Room
@@ -24,7 +20,7 @@ import javax.inject.Singleton
 @Module(includes = [SupportModule::class, DatabaseModule::class, HttpModule::class, FirebaseModule::class])
 class FrameModule {
 
-    @Singleton
+/*    @Singleton
     @Provides
     @Room
     fun provideRoomStateDataSource(
@@ -32,7 +28,7 @@ class FrameModule {
         dao: StateDao
     ): StateDataSource {
         return RoomStateDataSource(mapper, dao)
-    }
+    }*/
 
     @Singleton
     @Provides

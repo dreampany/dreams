@@ -2,29 +2,21 @@ package com.dreampany.tools.vm
 
 import android.app.Application
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.misc.StateMapper
-import com.dreampany.frame.data.model.Response
-import com.dreampany.frame.data.source.repository.StateRepository
+import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.enums.ApkType
-import com.dreampany.tools.data.enums.NoteType
-import com.dreampany.tools.data.misc.ApkMapper
-import com.dreampany.tools.data.misc.ApkRequest
 import com.dreampany.tools.data.misc.NoteMapper
 import com.dreampany.tools.data.misc.NoteRequest
-import com.dreampany.tools.data.model.Apk
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.pref.Pref
-import com.dreampany.tools.data.source.repository.ApkRepository
 import com.dreampany.tools.data.source.repository.NoteRepository
-import com.dreampany.tools.ui.model.ApkItem
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.ui.model.UiTask
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -35,15 +27,16 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NoteViewModel @Inject constructor(
+class NoteViewModel
+@Inject constructor(
     application: Application,
     rx: RxMapper,
     ex: AppExecutors,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
-    private val stateMapper: StateMapper,
-    private val stateRepo: StateRepository,
+    private val storeMapper: StoreMapper,
+    private val storeRepo: StoreRepository,
     private val mapper: NoteMapper,
     private val repo: NoteRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
@@ -62,7 +55,6 @@ class NoteViewModel @Inject constructor(
             }
             return
         }
-
     }
 
     private fun addSingle(request: NoteRequest) {

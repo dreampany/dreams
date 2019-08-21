@@ -153,11 +153,11 @@ class WordViewModel
     }
 
     private fun loadUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
-        if ()
+        var maybe = repo.getItemsRx()
+        if (request.action == Action.SEARCH) {
 
-
-
-        return repo.getItemsRx().flatMap { getUiItemsRx(it) }
+        }
+        return maybe.flatMap { getUiItemsRx(it) }
     }
 
     private fun loadItemsOfStringRx(request: WordRequest): Maybe<List<String>> {
@@ -167,6 +167,9 @@ class WordViewModel
     private fun getItemRx(request: WordRequest): Maybe<Word> {
         if (request.recent) {
             return wordPref.getRecentWordRx()
+        }
+        if (request.action == Action.SEARCH) {
+            return repo.getItemRx(request.id!!)
         }
         return repo.getItemRx(request.id!!)
     }

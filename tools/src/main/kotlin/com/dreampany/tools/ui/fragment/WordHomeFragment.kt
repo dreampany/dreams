@@ -218,7 +218,7 @@ class WordHomeFragment
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
         recentWord = query
-        request(id = recentWord, action = Action.SEARCH, progress = true)
+        request(id = recentWord, action = Action.SEARCH, single = true, progress = true)
         return super.onQueryTextSubmit(query)
     }
 
@@ -462,7 +462,7 @@ class WordHomeFragment
     private fun processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
-            request(recentWord, action = Action.SEARCH, progress = true)
+            request(recentWord, action = Action.SEARCH, single = true, progress = true)
             return
         }
         openOcr()
@@ -672,7 +672,7 @@ class WordHomeFragment
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
 /*        val translate = !Language.ENGLISH.equals(language)*/
-
+        val id = id?.toLowerCase()
         val request = WordRequest(
             id = id,
             source = Language.ENGLISH.code,

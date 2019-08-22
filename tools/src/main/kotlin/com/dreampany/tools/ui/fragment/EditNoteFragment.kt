@@ -45,6 +45,8 @@ class EditNoteFragment @Inject constructor() :
     private lateinit var vm: NoteViewModel
     private var edited: Boolean = false
     private var saved: Boolean = false
+    private var noteTitle: String = Constants.Default.STRING
+    private var noteDescription: String = Constants.Default.STRING
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_edit_note
@@ -79,38 +81,42 @@ class EditNoteFragment @Inject constructor() :
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
+        val note = getInput<Note>()
+        note?.title?.run { noteTitle = this }
+        note?.description?.run { noteDescription = this }
+        bind.inputEditTitle.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (!noteTitle.equals(s)) {
+                    edited = true
+                }
+                noteTitle = s.toString()
+            }
+
+        })
+        bind.inputEditDescription.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (!noteDescription.equals(s)) {
+                    edited = true
+                }
+                noteDescription = s.toString()
+            }
+
+        })
         if (uiTask.action == Action.EDIT) {
-            val note = getInput<Note>()
-            bind.inputEditTitle.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-
-                }
-
-                override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (!note!!.title.equals(s)) {
-                        edited = true
-                    }
-                }
-
-            })
-            bind.inputEditDescription.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (!note!!.description.equals(s)) {
-                        edited = true
-                    }
-                }
-
-            })
             request(action = Action.GET, id = note!!.id, progress = true)
         }
     }
@@ -224,11 +230,11 @@ class EditNoteFragment @Inject constructor() :
         if (action == Action.UPDATE) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
             AndroidUtil.hideSoftInput(getParent()!!)
-            ex.postToUi(Runnable{ forResult() }, 500L)
+            ex.postToUi(Runnable { forResult() }, 500L)
             return
         }
         bind.inputEditTitle.setText(item.item.title)
         bind.inputEditDescription.setText(item.item.description)
-        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 }

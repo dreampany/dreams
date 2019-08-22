@@ -21,6 +21,7 @@ import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -175,6 +176,7 @@ class WordViewModel
     }
 
     private fun getUiItemRx(item: Word): Maybe<WordItem> {
+        Timber.v("Word %s", item.toString())
         return Maybe.create { emitter ->
             emitter.onSuccess(getUiItem(item))
         }

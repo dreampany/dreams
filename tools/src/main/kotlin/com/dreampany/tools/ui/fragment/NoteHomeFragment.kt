@@ -13,6 +13,8 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -106,7 +108,7 @@ class NoteHomeFragment @Inject constructor() :
             Constants.RequestCode.ADD_NOTE,
             Constants.RequestCode.EDIT_NOTE -> {
                 if (isOkay(resultCode)) {
-                    ex.postToUi(Runnable{ request(true) }, 1000L)
+                    ex.postToUi(Runnable { request(true) }, 1000L)
                 }
             }
         }
@@ -313,7 +315,7 @@ class NoteHomeFragment @Inject constructor() :
     private fun processSuccess(action: Action, items: List<NoteItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
-        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
     fun processSingleResponse(response: Response<NoteItem>) {
@@ -332,16 +334,23 @@ class NoteHomeFragment @Inject constructor() :
 
     private fun processSuccess(action: Action, item: NoteItem) {
         adapter.addItem(item)
-        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
     private fun openAddNoteUi() {
-        val task = UiTask<Note>(type = Type.NOTE, action = Action.ADD)
+        val task = UiTask<Note>(
+            type = Type.NOTE,
+            action = Action.ADD
+        )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
     }
 
     private fun openEditNoteUi(note: Note) {
-        val task = UiTask<Note>(type = Type.NOTE, action = Action.EDIT, input = note)
+        val task = UiTask<Note>(
+            type = Type.NOTE,
+            action = Action.EDIT,
+            input = note
+        )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
     }
 }

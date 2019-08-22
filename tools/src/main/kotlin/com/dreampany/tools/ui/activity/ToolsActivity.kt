@@ -117,8 +117,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     if (state == State.HOME) {
                         if (action == Action.OPEN) {
                             commitFragment(
-                                AppHomeFragment::class.java,
-                                appHomeProvider,
+                                NoteHomeFragment::class.java,
+                                noteHomeProvider,
                                 R.id.layout,
                                 uiTask
                             )

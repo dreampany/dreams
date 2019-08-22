@@ -170,7 +170,7 @@ class WordRepository
             rx.compute(firestore.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
-        return concatSingleFirstRx(cacheAny, roomAny, firestoreAny, remoteAny)
+        return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
     }
 
     /* private */

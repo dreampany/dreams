@@ -8,6 +8,7 @@ import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.source.repository.Repository
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
@@ -151,7 +152,7 @@ class WordRepository
 
     override fun getItemRx(id: String): Maybe<Word> {
         val cacheAny = mapper.getItemRx(id)
-        val roomAny = concatSingleSuccess(room.getItemRx(id), Consumer { word ->
+        val roomAny = concatSingleSuccess(getRoomItemRx(id), Consumer { word ->
             rx.compute(mapper.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
@@ -174,9 +175,20 @@ class WordRepository
 
     /* private */
     private fun getRoomItemRx(id: String): Maybe<Word> {
-        return storeRepo.isExistsRx(id, Type.WORD, Subtype.DEFAULT, State.FULL)
-            .map {
-
+        return Maybe.create{emitter ->
+           val hasFull = storeRepo.isExists(id, Type.WORD, Subtype.DEFAULT, State.FULL)
+            var result : Word? = null
+            if (hasFull) {
+                result = room.getItem(id)
             }
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 }

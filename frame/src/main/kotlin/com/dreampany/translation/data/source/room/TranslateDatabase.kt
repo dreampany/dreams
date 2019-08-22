@@ -14,11 +14,11 @@ import com.dreampany.translation.data.model.TextTranslation
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [TextTranslation::class], version = 3)
+@Database(entities = [TextTranslation::class], version = 1)
 abstract class TranslateDatabase : RoomDatabase() {
 
     companion object {
-        private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.TYPE_TRANSLATION)
+        private val DATABASE = Constants.database(BuildConfig.LIBRARY_PACKAGE_NAME, Constants.Database.TYPE_TRANSLATION)
         private var instance: TranslateDatabase? = null
 
         @Synchronized

@@ -2,13 +2,18 @@ package com.dreampany.tools.vm
 
 import android.app.Application
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.language.Language
 import com.dreampany.network.manager.NetworkManager
@@ -19,6 +24,8 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.translation.data.misc.TextTranslationMapper
+import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -41,6 +48,7 @@ class WordViewModel
     private val wordPref: WordPref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
+    private val translationRepo: TranslationRepository,
     private val mapper: WordMapper,
     private val repo: WordRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
@@ -150,7 +158,7 @@ class WordViewModel
     }
 
     private fun loadUiItemRx(request: WordRequest): Maybe<WordItem> {
-        return getItemRx(request).flatMap { getUiItemRx(it) }
+        return getItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
     private fun loadUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
@@ -158,7 +166,7 @@ class WordViewModel
         if (request.action == Action.SEARCH) {
 
         }
-        return maybe.flatMap { getUiItemsRx(it) }
+        return maybe.flatMap { getUiItemsRx(request, it) }
     }
 
     private fun loadItemsOfStringRx(request: WordRequest): Maybe<List<String>> {
@@ -175,21 +183,80 @@ class WordViewModel
         return repo.getItemRx(request.id!!)
     }
 
-    private fun getUiItemRx(item: Word): Maybe<WordItem> {
+    private fun getUiItemRx(request: WordRequest, item: Word): Maybe<WordItem> {
         Timber.v("Word %s", item.toString())
         return Maybe.create { emitter ->
-            emitter.onSuccess(getUiItem(item))
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (request.history) {
+                wordPref.setRecentWord(item)
+                putState(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
+            }
+            emitter.onSuccess(getUiItem(request, item))
         }
     }
 
-    private fun getUiItemsRx(items: List<Word>): Maybe<List<WordItem>> {
+    private fun getUiItemsRx(request: WordRequest, items: List<Word>): Maybe<List<WordItem>> {
         return Flowable.fromIterable(items)
-            .map { getUiItem(it) }
+            .map { getUiItem(request, it) }
             .toList()
             .toMaybe()
     }
 
-    private fun getUiItem(item: Word): WordItem {
-        return WordItem.getItem(item)
+    private fun getUiItem(request: WordRequest, item: Word): WordItem {
+        var uiItem: WordItem? = mapper.getUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = WordItem.getItem(item)
+            mapper.putUiItem(item.id, uiItem)
+        }
+        uiItem.item = item
+        adjustFavorite(item, uiItem)
+        if (request.translate) {
+            adjustTranslate(request, uiItem)
+        }
+        return uiItem
+    }
+
+    private fun adjustFavorite(word: Word, item: WordItem) {
+        item.favorite = isFavorite(word)
+    }
+
+    private fun adjustTranslate(request: WordRequest, item: WordItem) {
+        var translation: String? = null
+        if (request.translate) {
+            if (item.hasTranslation(request.target)) {
+                translation = item.getTranslationBy(request.target)
+            } else {
+                val textTranslation =
+                    translationRepo.getItem(request.source!!, request.target!!, request.id!!)
+                textTranslation?.let {
+                    Timber.v("Translation %s - %s", request.id, it.output)
+                    item.addTranslation(request.target!!, it.output)
+                    translation = it.output
+                }
+            }
+        }
+        item.translation = translation
+    }
+
+    private fun isFavorite(word: Word): Boolean {
+        Timber.v("Checking favorite")
+        if (!favorites.contains(word.id)) {
+            val favorite = hasState(word.id, Type.WORD, Subtype.DEFAULT, State.FAVOURITE)
+            Timber.v("Favorite of %s %s", word.id, favorite)
+            favorites.put(word.id, favorite)
+        }
+        return favorites.get(word.id)
+    }
+
+
+    private fun hasState(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+        return storeRepo.isExists(id, type, subtype, state)
+    }
+
+    private fun putState(id: String, type: Type, subtype: Subtype, state: State): Long {
+        val store = Store(id, type, subtype, state)
+        return storeRepo.putItem(store)
     }
 }

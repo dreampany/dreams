@@ -21,7 +21,7 @@ import com.dreampany.frame.misc.Constants
 abstract class DatabaseManager : RoomDatabase() {
 
     companion object {
-        private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID)
+        private val DATABASE = Constants.database(BuildConfig.LIBRARY_PACKAGE_NAME)
         private var instance: DatabaseManager? = null
 
         @Synchronized

@@ -133,7 +133,6 @@ class WordHomeFragment
         request(
             id = recentWord,
             recent = true,
-            translate = true,
             action = Action.GET,
             single = true,
             progress = true
@@ -218,7 +217,7 @@ class WordHomeFragment
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
         recentWord = query
-        request(id = recentWord, action = Action.SEARCH, single = true, progress = true)
+        request(id = recentWord, action = Action.SEARCH, history = true, single = true, progress = true)
         return super.onQueryTextSubmit(query)
     }
 
@@ -335,7 +334,7 @@ class WordHomeFragment
         adjustTranslationUi()
         buildLangItems(fresh = true)
         if (!language.equals(Language.ENGLISH)) {
-            request(id = recentWord, translate = true, progress = true)
+            request(id = recentWord, history = true, single = true, progress = true)
         }
     }
 
@@ -462,7 +461,7 @@ class WordHomeFragment
     private fun processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
-            request(recentWord, action = Action.SEARCH, single = true, progress = true)
+            request(recentWord, action = Action.SEARCH, history = true, single = true, progress = true)
             return
         }
         openOcr()
@@ -664,20 +663,21 @@ class WordHomeFragment
     private fun request(
         id: String? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
-        translate: Boolean = Constants.Default.BOOLEAN,
+        history: Boolean = Constants.Default.BOOLEAN,
         suggests: Boolean = Constants.Default.BOOLEAN,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
-/*        val translate = !Language.ENGLISH.equals(language)*/
+        val translate = !Language.ENGLISH.equals(language)
         val id = id?.toLowerCase()
         val request = WordRequest(
             id = id,
             source = Language.ENGLISH.code,
             target = language.code,
             recent = recent,
+            history = history,
             translate = translate,
             suggests = suggests,
             action = action,

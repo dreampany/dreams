@@ -25,6 +25,10 @@ class StoreRepository
     rm: ResponseMapper,
     @Room private val room: StoreDataSource
 ) : Repository<String, Store>(rx, rm), StoreDataSource {
+    override fun getCount(id: String, type: Type, subtype: Subtype, state: State): Int {
+        return room.getCount(id, type, subtype, state)
+    }
+
     override fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         return room.isExists(id, type, subtype, state)
     }

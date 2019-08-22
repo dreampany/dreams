@@ -19,9 +19,14 @@ import javax.inject.Singleton
  */
 @Singleton
 class RoomStoreDataSource
-    (
-    val mapper: StoreMapper, val dao: StoreDao
+constructor(
+    private val mapper: StoreMapper,
+    private val dao: StoreDao
 ) : StoreDataSource {
+    override fun getCount(id: String, type: Type, subtype: Subtype, state: State): Int {
+        return dao.getCount(id, type.name, subtype.name, state.name)
+    }
+
     override fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         return dao.getCount(id, type.name, subtype.name, state.name) > 0
     }

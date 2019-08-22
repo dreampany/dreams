@@ -63,6 +63,14 @@ class WordMapper
         return out
     }
 
+    fun getUiItem(word: String): WordItem? {
+        return uiMap.get(word)
+    }
+
+    fun putUiItem(word: String, uiItem: WordItem) {
+        uiMap.put(word, uiItem)
+    }
+
     fun getItemRx(word: String?): Maybe<Word> {
         return Maybe.create { emitter ->
             val result = getItem(word)

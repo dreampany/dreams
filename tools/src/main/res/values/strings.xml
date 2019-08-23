@@ -26,4 +26,5 @@
     <string name="select_language">Select Language</string>
 
     <string name="title_word">Word</string>
+    <string name="title_definitions">Definitions</string>
 </resources>

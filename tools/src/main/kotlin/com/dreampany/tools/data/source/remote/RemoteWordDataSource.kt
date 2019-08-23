@@ -2,6 +2,7 @@ package com.dreampany.tools.data.source.remote
 
 import android.graphics.Bitmap
 import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.frame.misc.exception.NetworkException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.tools.data.misc.WordMapper
@@ -131,9 +132,12 @@ class RemoteWordDataSource(
     }
 
     override fun getItem(id: String): Word? {
-        val item = wordnik.getWord(id, Constants.Limit.WORD_RESOLVE)
-        Timber.v("Wordnik Result %s", item!!.word)
-        return mapper.getItem(id, item, true)
+        if (network.isObserving() && network.hasInternet()) {
+            val item = wordnik.getWord(id, Constants.Limit.WORD_RESOLVE)
+            Timber.v("Wordnik Result %s", item!!.word)
+            return mapper.getItem(id, item, true)
+        }
+        return null
     }
 
     override fun getItemRx(id: String): Maybe<Word> {

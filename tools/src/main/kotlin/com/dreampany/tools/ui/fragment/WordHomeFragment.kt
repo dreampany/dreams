@@ -522,6 +522,11 @@ class WordHomeFragment
         recentWord = item.item.id
         bind.setItem(item)
         bindWord.layoutWord.visibility = View.VISIBLE
+        if (item.translation.isNullOrEmpty()) {
+            bindWord.textTranslation.visibility = View.GONE
+        } else {
+            bindWord.textTranslation.visibility = View.VISIBLE
+        }
         //processRelated(item.getItem().getSynonyms(), item.getItem().getAntonyms());
         processDefinitions(item.item.definitions)
         processUiState(UiState.CONTENT)

@@ -16,6 +16,7 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.language.Language
+import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.misc.WordRequest
@@ -52,15 +53,25 @@ class WordViewModel
     private val mapper: WordMapper,
     private val repo: WordRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm) {
+) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm), NetworkManager.Callback {
 
     private lateinit var uiCallback: SmartAdapter.Callback<WordItem>
 
     init {
+        network.observe(this, checkInternet = true)
         val language = pref.getLanguage(Language.ENGLISH)
         if (!language.equals(Language.ENGLISH)) {
             //translationRepo.ready(language.code)
         }
+    }
+
+    override fun clear() {
+        network.deObserve(this)
+        super.clear()
+    }
+
+    override fun onNetworkResult(network: List<Network>) {
+
     }
 
     fun setUiCallback(callback: SmartAdapter.Callback<WordItem>) {
@@ -193,7 +204,8 @@ class WordViewModel
                 wordPref.setRecentWord(item)
                 putState(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
             }
-            emitter.onSuccess(getUiItem(request, item))
+            val uiItem = getUiItem(request, item)
+            emitter.onSuccess(uiItem)
         }
     }
 
@@ -212,9 +224,7 @@ class WordViewModel
         }
         uiItem.item = item
         adjustFavorite(item, uiItem)
-        if (request.translate) {
-            adjustTranslate(request, uiItem)
-        }
+        adjustTranslate(request, uiItem)
         return uiItem
     }
 
@@ -228,8 +238,7 @@ class WordViewModel
             if (item.hasTranslation(request.target)) {
                 translation = item.getTranslationBy(request.target)
             } else {
-                val textTranslation =
-                    translationRepo.getItem(request.source!!, request.target!!, request.id!!)
+                val textTranslation = translationRepo.getItem(request.source!!, request.target!!, item.item.id)
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", request.id, it.output)
                     item.addTranslation(request.target!!, it.output)

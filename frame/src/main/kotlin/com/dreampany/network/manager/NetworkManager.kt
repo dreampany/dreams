@@ -21,10 +21,10 @@ import javax.inject.Singleton
  */
 @Singleton
 class NetworkManager @Inject constructor(
-    val context: Context,
-    val rx: RxMapper,
-    val ex: AppExecutors,
-    val wifi: Wifi
+    private val context: Context,
+    private val rx: RxMapper,
+    private val ex: AppExecutors,
+    private val wifi: Wifi
 ) {
 
     interface Callback {
@@ -36,11 +36,11 @@ class NetworkManager @Inject constructor(
     private val networks = mutableListOf<Network>()
     private var checkInternet: Boolean = false
 
-    fun observe(callback: Callback, checkInternet: Boolean) {
+    fun observe(callback: Callback, checkInternet: Boolean = false) {
         callbacks.add(callback)
         this.checkInternet = checkInternet
         if (isStarted()) {
-            ex.postToUi(Runnable{
+            ex.postToUi(Runnable {
                 postNetworks(callback)
             })
             return

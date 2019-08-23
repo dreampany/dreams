@@ -22,10 +22,10 @@ class TranslationRepository
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    @Room val room: TranslationDataSource,
-    @Machine val machine: TranslationDataSource,
-    @Firestore val firestore: TranslationDataSource,
-    @Remote val remote: TranslationDataSource
+    @Room private val room: TranslationDataSource,
+    @Machine private val machine: TranslationDataSource,
+    @Firestore private val firestore: TranslationDataSource,
+    @Remote private val remote: TranslationDataSource
 ) : Repository<String, TextTranslation>(rx, rm), TranslationDataSource {
 
     override fun isReady(target: String): Boolean {

@@ -6,7 +6,6 @@ import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
@@ -38,19 +37,19 @@ import javax.inject.Inject
  */
 class WordViewModel
 @Inject constructor(
-    application: Application,
-    rx: RxMapper,
-    ex: AppExecutors,
-    rm: ResponseMapper,
-    private val network: NetworkManager,
-    private val pref: Pref,
-    private val wordPref: WordPref,
-    private val storeMapper: StoreMapper,
-    private val storeRepo: StoreRepository,
-    private val translationRepo: TranslationRepository,
-    private val mapper: WordMapper,
-    private val repo: WordRepository,
-    @Favorite private val favorites: SmartMap<String, Boolean>
+        application: Application,
+        rx: RxMapper,
+        ex: AppExecutors,
+        rm: ResponseMapper,
+        private val network: NetworkManager,
+        private val pref: Pref,
+        private val wordPref: WordPref,
+        private val storeMapper: StoreMapper,
+        private val storeRepo: StoreRepository,
+        private val translationRepo: TranslationRepository,
+        private val mapper: WordMapper,
+        private val repo: WordRepository,
+        @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm), NetworkManager.Callback {
 
     private lateinit var uiCallback: SmartAdapter.Callback<WordItem>
@@ -78,12 +77,12 @@ class WordViewModel
 
     fun request(request: WordRequest) {
         if (request.single) {
-            loadSingle(request)
+            requestSingle(request)
         } else {
             if (request.suggests) {
-                loadMultipleOfString(request)
+                requestMultipleOfString(request)
             } else {
-                loadMultiple(request)
+                requestMultiple(request)
             }
         }
     }
@@ -92,89 +91,89 @@ class WordViewModel
         return repo.isValid(word)
     }
 
-    private fun loadSingle(request: WordRequest) {
+    private fun requestSingle(request: WordRequest) {
         if (!takeAction(request.important, singleDisposable)) {
             return
         }
 
         val disposable = rx
-            .backToMain(loadUiItemRx(request))
-            .doOnSubscribe { subscription ->
-                if (request.progress) {
-                    postProgress(true)
+                .backToMain(requestUiItemRx(request))
+                .doOnSubscribe { subscription ->
+                    if (request.progress) {
+                        postProgress(true)
+                    }
                 }
-            }
-            .subscribe({ result ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postResult(request.action, result)
-            }, { error ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postFailures(MultiException(error, ExtraException()))
-            })
+                .subscribe({ result ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postResult(request.action, result)
+                }, { error ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postFailures(MultiException(error, ExtraException()))
+                })
         addSingleSubscription(disposable)
     }
 
-    private fun loadMultiple(request: WordRequest) {
+    private fun requestMultiple(request: WordRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
 
         val disposable = rx
-            .backToMain(loadUiItemsRx(request))
-            .doOnSubscribe { subscription ->
-                if (request.progress) {
-                    postProgress(true)
+                .backToMain(requestUiItemsRx(request))
+                .doOnSubscribe { subscription ->
+                    if (request.progress) {
+                        postProgress(true)
+                    }
                 }
-            }
-            .subscribe({ result ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postResult(request.action, result)
-            }, { error ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postFailures(MultiException(error, ExtraException()))
-            })
+                .subscribe({ result ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postResult(request.action, result)
+                }, { error ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postFailures(MultiException(error, ExtraException()))
+                })
         addMultipleSubscription(disposable)
     }
 
-    private fun loadMultipleOfString(request: WordRequest) {
+    private fun requestMultipleOfString(request: WordRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
 
         val disposable = rx
-            .backToMain(loadItemsOfStringRx(request))
-            .doOnSubscribe { subscription ->
-                if (request.progress) {
-                    postProgress(true)
+                .backToMain(requestItemsOfStringRx(request))
+                .doOnSubscribe { subscription ->
+                    if (request.progress) {
+                        postProgress(true)
+                    }
                 }
-            }
-            .subscribe({ result ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postResultOfString(request.action, result)
-            }, { error ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postFailures(MultiException(error, ExtraException()))
-            })
+                .subscribe({ result ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postResultOfString(request.action, result)
+                }, { error ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postFailures(MultiException(error, ExtraException()))
+                })
         addMultipleSubscription(disposable)
     }
 
-    private fun loadUiItemRx(request: WordRequest): Maybe<WordItem> {
-        return getItemRx(request).flatMap { getUiItemRx(request, it) }
+    private fun requestUiItemRx(request: WordRequest): Maybe<WordItem> {
+        return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
-    private fun loadUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
+    private fun requestUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
         var maybe = repo.getItemsRx()
         if (request.action == Action.SEARCH) {
 
@@ -182,11 +181,11 @@ class WordViewModel
         return maybe.flatMap { getUiItemsRx(request, it) }
     }
 
-    private fun loadItemsOfStringRx(request: WordRequest): Maybe<List<String>> {
+    private fun requestItemsOfStringRx(request: WordRequest): Maybe<List<String>> {
         return repo.getRawWordsRx()
     }
 
-    private fun getItemRx(request: WordRequest): Maybe<Word> {
+    private fun requestItemRx(request: WordRequest): Maybe<Word> {
         if (request.recent) {
             return wordPref.getRecentWordRx()
         }
@@ -206,7 +205,7 @@ class WordViewModel
                 wordPref.setRecentWord(item)
                 putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
             }
-            if (request.favorite) {
+            if (request.action == Action.FAVORITE) {
                 toggleFavorite(item.id)
             }
             val uiItem = getUiItem(request, item)
@@ -216,9 +215,9 @@ class WordViewModel
 
     private fun getUiItemsRx(request: WordRequest, items: List<Word>): Maybe<List<WordItem>> {
         return Flowable.fromIterable(items)
-            .map { getUiItem(request, it) }
-            .toList()
-            .toMaybe()
+                .map { getUiItem(request, it) }
+                .toList()
+                .toMaybe()
     }
 
     private fun getUiItem(request: WordRequest, item: Word): WordItem {
@@ -264,6 +263,17 @@ class WordViewModel
         return favorites.get(word.id)
     }
 
+    private fun toggleFavorite(id: String): Boolean {
+        val favorite = hasStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+        if (favorite) {
+            removeStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, false)
+        } else {
+            putStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, true)
+        }
+        return favorites.get(id)
+    }
 
     private fun hasStore(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         return storeRepo.isExists(id, type, subtype, state)
@@ -277,18 +287,6 @@ class WordViewModel
     private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
         val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.delete(store)
-    }
-
-    private fun toggleFavorite(id: String): Boolean {
-        val favorite = hasStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
-        if (favorite) {
-            removeStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
-            favorites.put(id, false)
-        } else {
-            putStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
-            favorites.put(id, true)
-        }
-        return favorites.get(id)
     }
 
 }

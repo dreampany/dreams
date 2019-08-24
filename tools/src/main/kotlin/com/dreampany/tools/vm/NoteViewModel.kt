@@ -2,6 +2,9 @@ package com.dreampany.tools.vm
 
 import android.app.Application
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
@@ -19,6 +22,7 @@ import com.dreampany.tools.data.source.repository.NoteRepository
 import com.dreampany.tools.ui.model.NoteItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -29,130 +33,149 @@ import javax.inject.Inject
  */
 class NoteViewModel
 @Inject constructor(
-    application: Application,
-    rx: RxMapper,
-    ex: AppExecutors,
-    rm: ResponseMapper,
-    private val network: NetworkManager,
-    private val pref: Pref,
-    private val storeMapper: StoreMapper,
-    private val storeRepo: StoreRepository,
-    private val mapper: NoteMapper,
-    private val repo: NoteRepository,
-    @Favorite private val favorites: SmartMap<String, Boolean>
+        application: Application,
+        rx: RxMapper,
+        ex: AppExecutors,
+        rm: ResponseMapper,
+        private val network: NetworkManager,
+        private val pref: Pref,
+        private val storeMapper: StoreMapper,
+        private val storeRepo: StoreRepository,
+        private val mapper: NoteMapper,
+        private val repo: NoteRepository,
+        @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm) {
 
     fun request(request: NoteRequest) {
-        if (request.action == Action.ADD || request.action == Action.UPDATE) {
-            addSingle(request)
-            return
-        }
-        if (request.action == Action.GET) {
-            if (request.single) {
-                loadSingle(request)
-            } else {
-                loadMultiple(request)
-            }
-            return
+        if (request.single) {
+            requestSingle(request)
+        } else {
+            requestMultiple(request)
         }
     }
 
-    private fun addSingle(request: NoteRequest) {
+    private fun requestSingle(request: NoteRequest) {
         if (!takeAction(request.important, singleDisposable)) {
             return
         }
         val disposable = rx
-            .backToMain(saveUiItemRx(request))
-            .doOnSubscribe { subscription ->
-                if (request.progress) {
-                    postProgress(true)
+                .backToMain(requestUiItemRx(request))
+                .doOnSubscribe { subscription ->
+                    if (request.progress) {
+                        postProgress(true)
+                    }
                 }
-            }
-            .subscribe({ result ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postResult(request.action, result)
-            }, { error ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postFailures(MultiException(error, ExtraException()))
-            })
+                .subscribe({ result ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postResult(request.action, result)
+                }, { error ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postFailures(MultiException(error, ExtraException()))
+                })
         addSingleSubscription(disposable)
     }
 
-    private fun loadSingle(request: NoteRequest) {
-        if (!takeAction(request.important, singleDisposable)) {
-            return
-        }
-
-        val disposable = rx
-            .backToMain(loadUiItemRx(request))
-            .doOnSubscribe { subscription ->
-                if (request.progress) {
-                    postProgress(true)
-                }
-            }
-            .subscribe({ result ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postResult(request.action, result)
-            }, { error ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postFailures(MultiException(error, ExtraException()))
-            })
-        addSingleSubscription(disposable)
-    }
-
-    private fun loadMultiple(request: NoteRequest) {
+    private fun requestMultiple(request: NoteRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
 
         val disposable = rx
-            .backToMain(loadUiItemsRx(request))
-            .doOnSubscribe { subscription ->
-                if (request.progress) {
-                    postProgress(true)
+                .backToMain(requestUiItemsRx(request))
+                .doOnSubscribe { subscription ->
+                    if (request.progress) {
+                        postProgress(true)
+                    }
                 }
-            }
-            .subscribe({ result ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postResult(request.action, result)
-            }, { error ->
-                if (request.progress) {
-                    postProgress(false)
-                }
-                postFailures(MultiException(error, ExtraException()))
-            })
+                .subscribe({ result ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postResult(request.action, result)
+                }, { error ->
+                    if (request.progress) {
+                        postProgress(false)
+                    }
+                    postFailures(MultiException(error, ExtraException()))
+                })
         addMultipleSubscription(disposable)
     }
 
-    private fun saveUiItemRx(request: NoteRequest): Maybe<NoteItem> {
-        return saveItemRx(request).flatMap { getUiItemRx(it) }
+    private fun requestUiItemRx(request: NoteRequest): Maybe<NoteItem> {
+        when (request.action) {
+            Action.ADD,
+            Action.UPDATE -> {
+                return addItemRx(request).flatMap { getUiItemRx(request, it) }
+            }
+            Action.ARCHIVE -> {
+                return archiveItemRx(request).flatMap { getUiItemRx(request, it) }
+            }
+            Action.TRASH -> {
+                return trashItemRx(request).flatMap { getUiItemRx(request, it) }
+            }
+            Action.DELETE -> {
+                return deleteItemRx(request).flatMap { getUiItemRx(request, it) }
+            }
+        }
+        return getItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
-    private fun loadUiItemRx(request: NoteRequest): Maybe<NoteItem> {
-        return getItemRx(request).flatMap { getUiItemRx(it) }
+    private fun requestUiItemsRx(request: NoteRequest): Maybe<List<NoteItem>> {
+        return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }
 
-    private fun loadUiItemsRx(request: NoteRequest): Maybe<List<NoteItem>> {
-        return repo.getItemsRx().flatMap { getUiItemsRx(it) }
-    }
-
-    private fun saveItemRx(request: NoteRequest): Maybe<Note> {
+    private fun addItemRx(request: NoteRequest): Maybe<Note> {
         return Maybe.create { emitter ->
             val note = mapper.toItem(request.id, request.title, request.description)
             if (note == null) {
                 emitter.onError(EmptyException())
             } else {
                 repo.putItem(note)
+                emitter.onSuccess(note)
+            }
+        }
+    }
+
+    private fun archiveItemRx(request: NoteRequest): Maybe<Note> {
+        return Maybe.create { emitter ->
+            val note = request.input
+            if (note == null) {
+                emitter.onError(EmptyException())
+            } else {
+                putStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.TRASH)
+                emitter.onSuccess(note)
+            }
+        }
+    }
+
+    private fun trashItemRx(request: NoteRequest): Maybe<Note> {
+        return Maybe.create { emitter ->
+            val note = request.input
+            if (note == null) {
+                emitter.onError(EmptyException())
+            } else {
+                putStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.TRASH)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
+                emitter.onSuccess(note)
+            }
+        }
+    }
+
+    private fun deleteItemRx(request: NoteRequest): Maybe<Note> {
+        return Maybe.create { emitter ->
+            val note = request.input
+            if (note == null) {
+                emitter.onError(EmptyException())
+            } else {
+                val result = repo.delete(note)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.TRASH)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
                 emitter.onSuccess(note)
             }
         }
@@ -168,20 +191,64 @@ class NoteViewModel
         }
     }
 
-    private fun getUiItem(item: Note): NoteItem {
+    private fun getUiItem(request: NoteRequest, item: Note): NoteItem {
         return NoteItem.getItem(item)
     }
 
-    private fun getUiItemRx(item: Note): Maybe<NoteItem> {
+    private fun getUiItemRx(request: NoteRequest, item: Note): Maybe<NoteItem> {
         return Maybe.create { emitter ->
-            emitter.onSuccess(getUiItem(item))
+            if (request.action == Action.FAVORITE) {
+                toggleFavorite(item.id)
+            }
+            val uiItem = getUiItem(request, item)
+            emitter.onSuccess(uiItem)
         }
     }
 
-    private fun getUiItemsRx(items: List<Note>): Maybe<List<NoteItem>> {
+    private fun getUiItemsRx(request: NoteRequest, items: List<Note>): Maybe<List<NoteItem>> {
         return Flowable.fromIterable(items)
-            .map { getUiItem(it) }
-            .toList()
-            .toMaybe()
+                .map { getUiItem(request, it) }
+                .toList()
+                .toMaybe()
+    }
+
+    private fun adjustFavorite(item: Note, uiItem: NoteItem) {
+        uiItem.favorite = isFavorite(item)
+    }
+
+    private fun isFavorite(item: Note): Boolean {
+        Timber.v("Checking favorite")
+        if (!favorites.contains(item.id)) {
+            val favorite = hasStore(item.id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+            Timber.v("Favorite of %s %s", item.id, favorite)
+            favorites.put(item.id, favorite)
+        }
+        return favorites.get(item.id)
+    }
+
+    private fun toggleFavorite(id: String): Boolean {
+        val favorite = hasStore(id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+        if (favorite) {
+            removeStore(id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, false)
+        } else {
+            putStore(id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, true)
+        }
+        return favorites.get(id)
+    }
+
+    private fun hasStore(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+        return storeRepo.isExists(id, type, subtype, state)
+    }
+
+    private fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.putItem(store)
+    }
+
+    private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.delete(store)
     }
 }

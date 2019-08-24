@@ -27,7 +27,6 @@ class WordRequest(
     state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
     input: Word? = Constants.Default.NULL,
-    favorite: Boolean = Constants.Default.BOOLEAN,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN
@@ -37,7 +36,6 @@ class WordRequest(
     state = state,
     action = action,
     input = input,
-    favorite = favorite,
     single = single,
     important = important,
     progress = progress

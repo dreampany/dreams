@@ -56,9 +56,9 @@ private constructor(
         return ViewHolder(view, adapter)
     }
 
-    override fun filter(constraint: String?): Boolean {
-        return false
-    }
+    override fun filter(constraint: String): Boolean {
+        val note: Note = item
+        return note.title.contains(constraint, true)    }
 
     class ViewHolder(
         view: View,

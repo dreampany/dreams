@@ -182,7 +182,7 @@ class WordHomeFragment
         when (v.id) {
             R.id.toggle_definition -> toggleDefinition()
             R.id.button_favorite -> {
-                request(id = bind.item?.item?.id, favorite = true, single = true)
+                request(id = bind.item?.item?.id, action = Action.FAVORITE, single = true)
             }
             R.id.fab -> processFabAction()
             R.id.image_speak -> speak()
@@ -669,7 +669,6 @@ class WordHomeFragment
         history: Boolean = Constants.Default.BOOLEAN,
         suggests: Boolean = Constants.Default.BOOLEAN,
         action: Action = Action.DEFAULT,
-        favorite: Boolean = Constants.Default.BOOLEAN,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
@@ -685,7 +684,6 @@ class WordHomeFragment
             translate = translate,
             suggests = suggests,
             action = action,
-            favorite = favorite,
             single = single,
             progress = progress
         )

@@ -16,4 +16,16 @@ enum class NoteOption : Parcelable {
     fun toTitle(): String {
         return name
     }
+
+    companion object {
+        fun getAll(): ArrayList<NoteOption> {
+            val result = ArrayList<NoteOption>()
+            result.add(NoteOption.EDIT)
+            result.add(NoteOption.FAVORITE)
+            result.add(NoteOption.ARCHIVE)
+            result.add(NoteOption.TRASH)
+            result.add(NoteOption.DELETE)
+            return result
+        }
+    }
 }

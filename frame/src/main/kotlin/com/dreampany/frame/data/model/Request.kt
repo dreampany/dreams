@@ -20,7 +20,6 @@ abstract class Request<T>(
     var input: T? = Constants.Default.NULL,
     val single: Boolean = Constants.Default.BOOLEAN,
     var important: Boolean = Constants.Default.BOOLEAN,
-    var progress: Boolean = Constants.Default.BOOLEAN,
-    var favorite: Boolean = Constants.Default.BOOLEAN
+    var progress: Boolean = Constants.Default.BOOLEAN
 ) {
 }

@@ -57,7 +57,7 @@ class RoomNoteDataSource(
     }
 
     override fun delete(t: Note): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.delete(t)
     }
 
     override fun deleteRx(t: Note): Maybe<Int> {

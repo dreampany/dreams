@@ -24,6 +24,7 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.MenuTint
 import com.dreampany.frame.util.ViewUtil
+import com.dreampany.language.Language
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
@@ -72,7 +73,7 @@ class NoteHomeFragment
     private lateinit var vm: NoteViewModel
     private lateinit var scroller: OnVerticalScrollListener
 
-    private val powerItems = mutableListOf<PowerMenuItem>()
+    private val optionItems = mutableListOf<PowerMenuItem>()
     private var powerMenu: PowerMenu? = null
     private var currentItem: NoteItem? = null
 
@@ -126,10 +127,18 @@ class NoteHomeFragment
             Constants.RequestCode.ADD_NOTE,
             Constants.RequestCode.EDIT_NOTE -> {
                 if (isOkay(resultCode)) {
-                    ex.postToUi(Runnable { request(true) }, 1000L)
+                    ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 1000L)
                 }
             }
         }
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        if (adapter.hasNewFilter(newText)) {
+            adapter.setFilter(newText)
+            adapter.filterItems()
+        }
+        return false
     }
 
     override fun onClick(v: View) {
@@ -157,6 +166,7 @@ class NoteHomeFragment
         Timber.v("Option fired %s", option.toTitle())
         processOption(option, currentItem!!)
     }
+
 
     private fun initTitleSubtitle() {
         setTitle(R.string.title_note)
@@ -220,43 +230,12 @@ class NoteHomeFragment
     }
 
     private fun createMenuItems() {
-        if (powerItems.isEmpty()) {
-
-            powerItems.add(
-                    PowerMenuItem(
-                            NoteOption.EDIT.toTitle(),
-                            // R.drawable.ic_edit_black_24dp,
-                            NoteOption.EDIT
-                    )
-            )
-            powerItems.add(
-                    PowerMenuItem(
-                            NoteOption.FAVORITE.toTitle(),
-                            // R.drawable.ic_favorite_black_24dp,
-                            NoteOption.FAVORITE
-                    )
-            )
-            powerItems.add(
-                    PowerMenuItem(
-                            NoteOption.ARCHIVE.toTitle(),
-                            // R.drawable.ic_archive_black_24dp,
-                            NoteOption.ARCHIVE
-                    )
-            )
-            powerItems.add(
-                    PowerMenuItem(
-                            NoteOption.TRASH.toTitle(),
-                            //R.drawable.ic_delete_black_24dp,
-                            NoteOption.TRASH
-                    )
-            )
-            powerItems.add(
-                    PowerMenuItem(
-                            NoteOption.DELETE.toTitle(),
-                            //R.drawable.ic_delete_forever_black_24dp,
-                            NoteOption.DELETE
-                    )
-            )
+        if (optionItems.isNotEmpty()) {
+            return
+        }
+        val options = NoteOption.getAll()
+        for (option in options) {
+            optionItems.add(PowerMenuItem(option.toString(), option))
         }
     }
 
@@ -267,13 +246,13 @@ class NoteHomeFragment
         currentItem = item
         powerMenu = PowerMenu.Builder(context)
                 .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
-                .addItemList(powerItems)
+                .addItemList(optionItems)
                 .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
                 .setSelectedTextColor(Color.WHITE)
                 .setOnMenuItemClickListener(this)
                 .setLifecycleOwner(this)
                 .setDividerHeight(1)
-                .setTextSize(14)
+                .setTextSize(12)
                 .build()
         powerMenu?.showAsAnchorRightBottom(view)
     }
@@ -283,13 +262,30 @@ class NoteHomeFragment
             NoteOption.EDIT -> {
                 openEditNoteUi(item.item)
             }
+            NoteOption.FAVORITE -> {
+                request(action = Action.FAVORITE, input = item.item, single = true)
+            }
+            NoteOption.ARCHIVE -> {
+                request(action = Action.ARCHIVE, input = item.item, single = true)
+            }
+            NoteOption.TRASH -> {
+                request(action = Action.TRASH, input = item.item, single = true)
+            }
+            NoteOption.DELETE -> {
+                request(action = Action.DELETE, input = item.item, single = true)
+            }
         }
     }
 
-    private fun request(progress: Boolean = Constants.Default.BOOLEAN) {
+    private fun request(
+            action: Action = Action.DEFAULT,
+            input: Note? = Constants.Default.NULL,
+            single: Boolean = Constants.Default.BOOLEAN,
+            progress: Boolean = Constants.Default.BOOLEAN) {
         val request = NoteRequest(
-                action = Action.GET,
-                single = false,
+                action = action,
+                input = input,
+                single = single,
                 progress = progress
         )
         vm.request(request)
@@ -351,7 +347,11 @@ class NoteHomeFragment
     }
 
     private fun processSuccess(action: Action, item: NoteItem) {
-        adapter.addItem(item)
+        if (action == Action.DELETE) {
+            adapter.removeItem(item)
+        } else {
+            adapter.addItem(item)
+        }
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 

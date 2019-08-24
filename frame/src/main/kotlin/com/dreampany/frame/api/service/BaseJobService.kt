@@ -4,10 +4,7 @@ import android.app.Service
 import com.dreampany.frame.misc.AppExecutors
 import com.firebase.jobdispatcher.JobParameters
 import com.firebase.jobdispatcher.JobService
-import dagger.android.AndroidInjection
-import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasServiceInjector
+import dagger.android.*
 import javax.inject.Inject
 
 /**
@@ -15,10 +12,10 @@ import javax.inject.Inject
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
-abstract class BaseJobService : JobService(), HasServiceInjector {
+abstract class BaseJobService : JobService(), HasAndroidInjector {
 
     @Inject
-    internal lateinit var serviceInjector: DispatchingAndroidInjector<Service>
+    internal lateinit var serviceInjector: DispatchingAndroidInjector<Any>
     @Inject
     internal lateinit var ex: AppExecutors
 
@@ -30,7 +27,7 @@ abstract class BaseJobService : JobService(), HasServiceInjector {
         super.onCreate()
     }
 
-    override fun serviceInjector(): AndroidInjector<Service> {
+    override fun androidInjector(): AndroidInjector<Any> {
         return serviceInjector
     }
 

@@ -1,9 +1,11 @@
 package com.dreampany.frame.api.service
 
-import android.app.Service
 import androidx.annotation.CallSuper
 import com.dreampany.frame.misc.AppExecutors
-import dagger.android.*
+import dagger.android.AndroidInjector
+import dagger.android.DaggerService
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
@@ -13,10 +15,10 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 
-abstract class BaseService : DaggerService(), HasServiceInjector {
+abstract class BaseService : DaggerService(), HasAndroidInjector {
 
     @Inject
-    internal lateinit var serviceInjector: DispatchingAndroidInjector<Service>
+    internal lateinit var serviceInjector: DispatchingAndroidInjector<Any>
     @Inject
     internal lateinit var ex: AppExecutors
 
@@ -25,7 +27,11 @@ abstract class BaseService : DaggerService(), HasServiceInjector {
         super.onCreate()
     }
 
-    override fun serviceInjector(): AndroidInjector<Service> {
+/*    override fun serviceInjector(): AndroidInjector<Service> {
+        return serviceInjector
+    }*/
+
+    override fun androidInjector(): AndroidInjector<Any> {
         return serviceInjector
     }
 

@@ -41,8 +41,8 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.helpers.EmptyViewHelper
 import javax.inject.Inject
@@ -54,7 +54,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  */
 @Suppress("UNCHECKED_CAST")
-abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInjector,
+abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
     ViewTreeObserver.OnWindowFocusChangeListener,
     UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>,
     View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, PermissionListener,
@@ -66,7 +66,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     @Inject
     protected lateinit var ex: AppExecutors
     @Inject
-    internal lateinit var childInjector: DispatchingAndroidInjector<Fragment>
+    internal lateinit var childInjector: DispatchingAndroidInjector<Any>
     protected lateinit var binding: ViewDataBinding
     protected var task: Task<*>? = null
     protected var childTask: Task<*>? = null
@@ -76,7 +76,11 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasSupportFragmentInje
     protected lateinit var activityCallback: UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
     protected lateinit var fragmentCallback: UiCallback<BaseActivity, BaseFragment, Task<*>, ViewModelProvider.Factory, ViewModel>
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+/*    override fun supportFragmentInjector(): AndroidInjector<Fragment> {
+        return childInjector
+    }*/
+
+    override fun androidInjector(): AndroidInjector<Any> {
         return childInjector
     }
 

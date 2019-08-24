@@ -5,7 +5,7 @@ import com.dreampany.frame.misc.AppExecutors
 import dagger.android.AndroidInjector
 import dagger.android.DaggerBroadcastReceiver
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasBroadcastReceiverInjector
+import dagger.android.HasAndroidInjector
 import javax.inject.Inject
 
 /**
@@ -14,16 +14,15 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseReceiver : DaggerBroadcastReceiver(), HasBroadcastReceiverInjector {
+abstract class BaseReceiver : DaggerBroadcastReceiver(), HasAndroidInjector {
 
     @Inject
-    internal lateinit var receiverInjector: DispatchingAndroidInjector<BroadcastReceiver>
+    internal lateinit var receiverInjector: DispatchingAndroidInjector<Any>
 
     @Inject
     protected lateinit var ex: AppExecutors
 
-    override fun broadcastReceiverInjector(): AndroidInjector<BroadcastReceiver> {
+    override fun androidInjector(): AndroidInjector<Any> {
         return receiverInjector
     }
-
 }

@@ -6,6 +6,7 @@ import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.EmptyException
@@ -13,6 +14,7 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.NoteMapper
 import com.dreampany.tools.data.misc.NoteRequest
@@ -20,6 +22,7 @@ import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.NoteRepository
 import com.dreampany.tools.ui.model.NoteItem
+import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -44,7 +47,16 @@ class NoteViewModel
         private val mapper: NoteMapper,
         private val repo: NoteRepository,
         @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm) {
+) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm), NetworkManager.Callback {
+
+    override fun clear() {
+        network.deObserve(this)
+        super.clear()
+    }
+
+    override fun onNetworkResult(network: List<Network>) {
+
+    }
 
     fun request(request: NoteRequest) {
         if (request.single) {
@@ -111,6 +123,9 @@ class NoteViewModel
             Action.UPDATE -> {
                 return addItemRx(request).flatMap { getUiItemRx(request, it) }
             }
+/*            Action.FAVORITE -> {
+                return (request).flatMap { getUiItemRx(request, it) }
+            }*/
             Action.ARCHIVE -> {
                 return archiveItemRx(request).flatMap { getUiItemRx(request, it) }
             }
@@ -125,12 +140,17 @@ class NoteViewModel
     }
 
     private fun requestUiItemsRx(request: NoteRequest): Maybe<List<NoteItem>> {
-        return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
+        if (request.action == Action.FAVORITE) {
+            return storeRepo
+                    .getItemsRx(Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+                    .flatMap { getUiItemsOfStoresRx(request, it) }
+        }
+        return getItemsRx(request).flatMap { getUiItemsRx(request, it) }
     }
 
     private fun addItemRx(request: NoteRequest): Maybe<Note> {
         return Maybe.create { emitter ->
-            val note = mapper.toItem(request.id, request.title, request.description)
+            val note = mapper.getItem(request.id, request.title, request.description)
             if (note == null) {
                 emitter.onError(EmptyException())
             } else {
@@ -186,13 +206,23 @@ class NoteViewModel
     }
 
     private fun getItemsRx(request: NoteRequest): Maybe<List<Note>> {
-        return Maybe.create { emitter ->
-
-        }
+        return repo.getItemsRx();
     }
 
     private fun getUiItem(request: NoteRequest, item: Note): NoteItem {
-        return NoteItem.getItem(item)
+        var uiItem: NoteItem? = mapper.getUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = NoteItem.getItem(item)
+            mapper.putUiItem(item.id, uiItem)
+        }
+        uiItem.item = item
+        adjustFavorite(item, uiItem)
+        return uiItem
+    }
+
+    private fun getUiItem(request: NoteRequest, store: Store): NoteItem {
+        val note = mapper.getItem(store, repo)
+        return getUiItem(request, note!!)
     }
 
     private fun getUiItemRx(request: NoteRequest, item: Note): Maybe<NoteItem> {
@@ -206,6 +236,13 @@ class NoteViewModel
     }
 
     private fun getUiItemsRx(request: NoteRequest, items: List<Note>): Maybe<List<NoteItem>> {
+        return Flowable.fromIterable(items)
+                .map { getUiItem(request, it) }
+                .toList()
+                .toMaybe()
+    }
+
+    private fun getUiItemsOfStoresRx(request: NoteRequest, items: List<Store>): Maybe<List<NoteItem>> {
         return Flowable.fromIterable(items)
                 .map { getUiItem(request, it) }
                 .toList()

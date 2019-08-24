@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.api.session.SessionManager
+import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
@@ -102,23 +103,23 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
         adapter = MoreAdapter(this)
         adapter.setStickyHeaders(false)
         ViewUtil.setRecycler(
-            adapter,
-            bindRecycler.recycler,
-            SmoothScrollLinearLayoutManager(Objects.requireNonNull(context)),
-            FlexibleItemDecoration(context!!)
-                .addItemViewType(
-                    R.layout.item_more,
-                    adapter.getItemOffsetEmpty(),
-                    adapter.getItemOffsetEmpty(),
-                    adapter.getItemOffsetEmpty(),
-                    adapter.getItemOffset()
-                )
-                //.withBottomEdge(false)
-                .withEdge(true),
-            FlexibleItemAnimator(),
+                adapter,
+                bindRecycler.recycler,
+                SmoothScrollLinearLayoutManager(Objects.requireNonNull(context)),
+                FlexibleItemDecoration(context!!)
+                        .addItemViewType(
+                                R.layout.item_more,
+                                adapter.getItemOffsetEmpty(),
+                                adapter.getItemOffsetEmpty(),
+                                adapter.getItemOffsetEmpty(),
+                                adapter.getItemOffset()
+                        )
+                        //.withBottomEdge(false)
+                        .withEdge(true),
+                FlexibleItemAnimator(),
 
 
-            null, null
+                null, null
         )
     }
 
@@ -141,15 +142,15 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
             MoreType.RATE_US -> vm.rateUs(getParent()!!)
             MoreType.FEEDBACK -> vm.sendFeedback(getParent()!!)
             MoreType.SETTINGS -> {
-                val task = UiTask<More>(type = Type.MORE, subtype = Subtype.SETTINGS)
+                val task = UiTask<More>(type = Type.MORE, state = State.SETTINGS)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.LICENSE -> {
-                val task = UiTask<More>(type = Type.MORE, subtype = Subtype.LICENSE)
+                val task = UiTask<More>(type = Type.MORE, state = State.LICENSE)
                 openActivity(ToolsActivity::class.java, task)
             }
             MoreType.ABOUT -> {
-                val task = UiTask<More>(type = Type.MORE, subtype = Subtype.ABOUT)
+                val task = UiTask<More>(type = Type.MORE, state = State.ABOUT)
                 openActivity(ToolsActivity::class.java, task)
             }
         }

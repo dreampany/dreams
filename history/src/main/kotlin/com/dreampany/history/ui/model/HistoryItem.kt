@@ -29,8 +29,9 @@ import java.io.Serializable
  */
 class HistoryItem
 private constructor(
-    item: History, @LayoutRes layoutId: Int = Constants.Default.INT,
-    var clickListener: OnClickListener? = null
+        item: History,
+        @LayoutRes layoutId: Int = Constants.Default.INT,
+        private var clickListener: OnClickListener? = null
 ) : BaseItem<History, HistoryItem.ViewHolder, String>(item, layoutId) {
 
     interface OnClickListener {
@@ -47,8 +48,8 @@ private constructor(
     }
 
     override fun createViewHolder(
-        view: View,
-        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
+            view: View,
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
         return ViewHolder(view, adapter, clickListener)
     }
@@ -90,11 +91,11 @@ private constructor(
     }
 
     class ViewHolder(
-        view: View,
-        adapter: FlexibleAdapter<*>,
-        var clickListener: OnClickListener? = null
+            view: View,
+            adapter: FlexibleAdapter<*>,
+            var clickListener: OnClickListener? = null
     ) : BaseItem.ViewHolder(view, adapter),
-        TextViewClickMovement.OnTextViewClickMovementListener {
+            TextViewClickMovement.OnTextViewClickMovementListener {
 
         private var adapter: HistoryAdapter
         private var textHtml: AppCompatTextView

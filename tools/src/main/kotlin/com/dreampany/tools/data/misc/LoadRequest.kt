@@ -22,8 +22,7 @@ class LoadRequest(
     input: Load? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN,
-    favorite: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN
 ) : Request<Load>(
     type = type,
     subtype = subtype,
@@ -32,8 +31,7 @@ class LoadRequest(
     input = input,
     single = single,
     important = important,
-    progress = progress,
-    favorite = favorite
+    progress = progress
 ) {
 
 }

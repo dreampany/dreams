@@ -176,7 +176,7 @@ class WordViewModel
     private fun requestUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
         var maybe = repo.getItemsRx()
         if (request.action == Action.SEARCH) {
-
+            //return storeRepo.getItemsRx(Type.WORD, Subtype.DEFAULT, State.FAVORITE).flatMap {  }
         }
         return maybe.flatMap { getUiItemsRx(request, it) }
     }

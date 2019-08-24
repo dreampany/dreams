@@ -27,10 +27,10 @@ import javax.inject.Singleton
 @Singleton
 class WordMapper
 @Inject constructor(
-    @WordAnnote val map: SmartMap<String, Word>,
-    @WordAnnote val cache: SmartCache<String, Word>,
-    @WordItemAnnote val uiMap: SmartMap<String, WordItem>,
-    @WordItemAnnote val uiCache: SmartCache<String, WordItem>
+        @WordAnnote private val map: SmartMap<String, Word>,
+        @WordAnnote private val cache: SmartCache<String, Word>,
+        @WordItemAnnote private val uiMap: SmartMap<String, WordItem>,
+        @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
 ) {
 
     fun isExists(id: String): Boolean {
@@ -67,12 +67,12 @@ class WordMapper
         return out
     }
 
-    fun getUiItem(word: String): WordItem? {
-        return uiMap.get(word)
+    fun getUiItem(id: String): WordItem? {
+        return uiMap.get(id)
     }
 
-    fun putUiItem(word: String, uiItem: WordItem) {
-        uiMap.put(word, uiItem)
+    fun putUiItem(id: String, uiItem: WordItem) {
+        uiMap.put(id, uiItem)
     }
 
     fun getItemRx(word: String?): Maybe<Word> {
@@ -148,7 +148,7 @@ class WordMapper
         return out
     }
 
-    fun toItemFromStore(input: Store, source: WordDataSource): Word? {
+    fun getItem(input: Store, source: WordDataSource): Word? {
         var out: Word? = map.get(input.id)
         if (out == null) {
             out = source.getItem(input.id)

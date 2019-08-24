@@ -149,6 +149,7 @@ class Constants {
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2
+        const val SETTINGS = 3
     }
 
     object Service {

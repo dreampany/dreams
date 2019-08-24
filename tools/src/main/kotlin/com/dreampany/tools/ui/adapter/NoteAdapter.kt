@@ -39,6 +39,21 @@ class NoteAdapter(listener: Any?) : SmartAdapter<NoteItem>(listener) {
         return super.addItem(item, timeComparator)
     }
 
+    fun addFavoriteItems(items: List<NoteItem>): Boolean {
+        for (item in items) {
+            addFavoriteItem(item)
+        }
+        return true
+    }
+
+    fun addFavoriteItem(item: NoteItem) {
+        if (item.favorite) {
+            addItem(item, timeComparator)
+        } else {
+            removeItem(item)
+        }
+    }
+
     class TimeComparator : Comparator<IFlexible<*>> {
         override fun compare(left: IFlexible<*>, right: IFlexible<*>): Int {
             val leftUiItem = left as NoteItem

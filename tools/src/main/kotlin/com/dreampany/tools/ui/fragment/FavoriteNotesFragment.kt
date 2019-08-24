@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -23,13 +22,12 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.MenuTint
 import com.dreampany.frame.util.ViewUtil
-import com.dreampany.language.Language
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
-import com.dreampany.tools.databinding.FragmentNoteHomeBinding
+import com.dreampany.tools.databinding.FragmentFavoriteNotesBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
@@ -54,7 +52,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class NoteHomeFragment
+class FavoriteNotesFragment
 @Inject constructor() :
         BaseMenuFragment(),
         OnUiItemClickListener<NoteItem?, Action?>,
@@ -64,7 +62,7 @@ class NoteHomeFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var session: SessionManager
-    private lateinit var bind: FragmentNoteHomeBinding
+    private lateinit var bind: FragmentFavoriteNotesBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
@@ -77,11 +75,11 @@ class NoteHomeFragment
     private var currentItem: NoteItem? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_note_home
+        return R.layout.fragment_favorite_notes
     }
 
     override fun getMenuId(): Int {
-        return R.menu.menu_note_home
+        return R.menu.menu_favorite_notes
     }
 
     override fun getSearchMenuItemId(): Int {
@@ -103,7 +101,7 @@ class NoteHomeFragment
         initRecycler()
         createMenuItems()
         session.track()
-        request(progress = true)
+        request(action = Action.FAVORITE, progress = true)
         initTitleSubtitle()
     }
 
@@ -158,10 +156,6 @@ class NoteHomeFragment
             R.id.fab -> {
                 openAddNoteUi()
             }
-            R.id.button_favorite -> {
-                val note = v.tag as Note?
-                request(action = Action.FAVORITE, input = note, single = true)
-            }
             R.id.layout_empty -> {
                 openAddNoteUi()
             }
@@ -189,7 +183,7 @@ class NoteHomeFragment
     }
 
     private fun initUi() {
-        bind = super.binding as FragmentNoteHomeBinding
+        bind = super.binding as FragmentFavoriteNotesBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
 
@@ -201,25 +195,13 @@ class NoteHomeFragment
         bind.stateful.setStateView(
                 UiState.EMPTY.name,
                 LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
-                    setOnClickListener(this@NoteHomeFragment)
+                    setOnClickListener(this@FavoriteNotesFragment)
                 }
         )
 
         processUiState(UiState.DEFAULT)
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
-        bind.fab.setOnClickListener(this)
-
-/*         val adapter = AHBottomNavigationAdapter(getParent(), R.menu.menu_bottom_note_home)
-        adapter.setupWithBottomNavigation(bind.bottomNav)
-       bind.bottomNav.apply {
-            isTranslucentNavigationEnabled = true
-            defaultBackgroundColor = ColorUtil.getColor(context, R.color.colorPrimary)
-            accentColor = ColorUtil.getColor(context, R.color.colorAccent)
-            inactiveColor = R.color.colorPrimaryDark
-            isForceTint = true
-            titleState = AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE
-        }*/
 
         vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })

@@ -76,8 +76,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
 
         when (type) {
             Type.MORE -> {
-                when (subtype) {
-                    Subtype.SETTINGS -> {
+                when (state) {
+                    State.SETTINGS -> {
                         commitFragment(
                             SettingsFragment::class.java,
                             settingsProvider,
@@ -85,7 +85,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                             uiTask
                         )
                     }
-                    Subtype.LICENSE -> {
+                    State.LICENSE -> {
                         commitFragment(
                             LicenseFragment::class.java,
                             licenseProvider,
@@ -93,7 +93,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                             uiTask
                         )
                     }
-                    Subtype.ABOUT -> {
+                    State.ABOUT -> {
                         commitFragment(
                             AboutFragment::class.java,
                             aboutProvider,

@@ -60,6 +60,17 @@
                 auto:layout_constraintBottom_toBottomOf="parent"
                 auto:layout_constraintStart_toStartOf="parent" />
 
+            <com.like.LikeButton
+                android:id="@+id/button_favorite"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                auto:icon_size="@dimen/_12sdp"
+                auto:icon_type="heart"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintEnd_toEndOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

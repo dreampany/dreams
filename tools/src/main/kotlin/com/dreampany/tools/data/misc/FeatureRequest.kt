@@ -21,13 +21,11 @@ class FeatureRequest(
     action: Action = Action.DEFAULT,
     input: Feature? = Constants.Default.NULL,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN,
-    favorite: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN
 ) : Request<Feature>(
     action = action,
     input = input,
     important = important,
-    progress = progress,
-    favorite = favorite
+    progress = progress
 ) {
 }

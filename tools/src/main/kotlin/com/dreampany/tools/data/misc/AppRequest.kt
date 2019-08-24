@@ -24,8 +24,7 @@ class AppRequest(
     input: App? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN,
-    favorite: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN
 ) : Request<App>(
     type = type,
     subtype = subtype,
@@ -34,7 +33,6 @@ class AppRequest(
     input = input,
     single = single,
     important = important,
-    progress = progress,
-    favorite = favorite
+    progress = progress
 ) {
 }

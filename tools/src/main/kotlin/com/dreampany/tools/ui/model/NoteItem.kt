@@ -15,6 +15,7 @@ import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.google.common.base.Objects
+import com.like.LikeButton
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
@@ -28,12 +29,18 @@ import java.io.Serializable
  */
 class NoteItem
 private constructor(
-    item: Note,
-    @LayoutRes layoutId: Int = Constants.Default.INT
+        item: Note,
+        @LayoutRes layoutId: Int = Constants.Default.INT,
+        private var clickListener: OnClickListener? = null
 ) : BaseItem<Note, NoteItem.ViewHolder, String>(item, layoutId) {
 
+    interface OnClickListener {
+        fun onItemClicked(item: Note)
+        fun onFavoriteClicked(item: Note)
+    }
+
     companion object {
-        fun getItem(item: Note): NoteItem {
+        fun getItem(item: Note, clickListener: OnClickListener? = null): NoteItem {
             return NoteItem(item, R.layout.item_note)
         }
     }
@@ -50,19 +57,20 @@ private constructor(
     }
 
     override fun createViewHolder(
-        view: View,
-        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
+            view: View,
+            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
         return ViewHolder(view, adapter)
     }
 
     override fun filter(constraint: String): Boolean {
         val note: Note = item
-        return note.title.contains(constraint, true)    }
+        return note.title.contains(constraint, true)
+    }
 
     class ViewHolder(
-        view: View,
-        adapter: FlexibleAdapter<*>
+            view: View,
+            adapter: FlexibleAdapter<*>
     ) : BaseItem.ViewHolder(view, adapter) {
 
         private val height: Int
@@ -72,6 +80,7 @@ private constructor(
         private var textTitle: AppCompatTextView
         private var textDescription: AppCompatTextView
         private var textDate: AppCompatTextView
+        private var buttonFavorite: LikeButton
 
         init {
             this.adapter = adapter as NoteAdapter
@@ -81,27 +90,29 @@ private constructor(
             textTitle = view.findViewById(R.id.text_title)
             textDescription = view.findViewById(R.id.text_description)
             textDate = view.findViewById(R.id.text_date)
+            buttonFavorite = view.findViewById(R.id.button_favorite)
 
             view.setOnClickListener {
                 this.adapter.uiItemClick?.onClick(
-                    view = view,
-                    item = this.adapter.getItem(adapterPosition),
-                    action = Action.OPEN
+                        view = view,
+                        item = this.adapter.getItem(adapterPosition),
+                        action = Action.OPEN
                 )
             }
             view.setOnLongClickListener { view ->
                 this.adapter.uiItemClick?.onLongClick(
-                    view = view,
-                    item = this.adapter.getItem(adapterPosition),
-                    action = Action.OPTIONS
+                        view = view,
+                        item = this.adapter.getItem(adapterPosition),
+                        action = Action.OPTIONS
                 )
                 true
             }
+            buttonFavorite.setOnClickListener(this.adapter.clickListener)
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
-            position: Int,
-            item: I
+                position: Int,
+                item: I
         ) {
             val uiItem = item as NoteItem
             val item = uiItem.item
@@ -109,10 +120,13 @@ private constructor(
             textTitle.text = item.title
             textDescription.text = item.description
             textDate.text = TimeUtilKt.getDate(item.time, Constants.Date.FORMAT_MONTH_DAY)
+            buttonFavorite.isLiked = uiItem.favorite
 
 
             val randColor = ColorUtil.getRandCompatColor(getContext())
             layoutRoot.setCardBackgroundColor(randColor)
+
+            buttonFavorite.setTag(item)
         }
     }
 }

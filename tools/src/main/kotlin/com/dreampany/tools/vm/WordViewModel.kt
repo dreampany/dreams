@@ -13,7 +13,6 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.language.Language
 import com.dreampany.network.data.model.Network
@@ -25,7 +24,6 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.ui.model.WordItem
-import com.dreampany.translation.data.misc.TextTranslationMapper
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -88,6 +86,10 @@ class WordViewModel
                 loadMultiple(request)
             }
         }
+    }
+
+    fun isValid(word: String): Boolean {
+        return repo.isValid(word)
     }
 
     private fun loadSingle(request: WordRequest) {
@@ -202,7 +204,10 @@ class WordViewModel
             }
             if (request.history) {
                 wordPref.setRecentWord(item)
-                putState(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
+                putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
+            }
+            if (request.favorite) {
+                toggleFavorite(item.id)
             }
             val uiItem = getUiItem(request, item)
             emitter.onSuccess(uiItem)
@@ -252,7 +257,7 @@ class WordViewModel
     private fun isFavorite(word: Word): Boolean {
         Timber.v("Checking favorite")
         if (!favorites.contains(word.id)) {
-            val favorite = hasState(word.id, Type.WORD, Subtype.DEFAULT, State.FAVOURITE)
+            val favorite = hasStore(word.id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
             Timber.v("Favorite of %s %s", word.id, favorite)
             favorites.put(word.id, favorite)
         }
@@ -260,12 +265,30 @@ class WordViewModel
     }
 
 
-    private fun hasState(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+    private fun hasStore(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         return storeRepo.isExists(id, type, subtype, state)
     }
 
-    private fun putState(id: String, type: Type, subtype: Subtype, state: State): Long {
-        val store = Store(id, type, subtype, state)
+    private fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
+        val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.putItem(store)
     }
+
+    private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.delete(store)
+    }
+
+    private fun toggleFavorite(id: String): Boolean {
+        val favorite = hasStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+        if (favorite) {
+            removeStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, false)
+        } else {
+            putStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, true)
+        }
+        return favorites.get(id)
+    }
+
 }

@@ -7,15 +7,16 @@ import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.frame.ui.activity.WebActivity
 import com.dreampany.frame.ui.callback.SearchViewCallback
-import com.dreampany.tools.R
-import com.dreampany.tools.ui.fragment.*
 import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ActivityToolsBinding
-import com.dreampany.tools.databinding.FragmentWordHomeBinding
+import com.dreampany.tools.ui.fragment.*
 import com.google.android.gms.ads.AdView
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
+import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
 
 /**
@@ -39,6 +40,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
     @Inject
     lateinit var wordHomeProvider: Lazy<WordHomeFragment>
+    @Inject
+    lateinit var wordVisionProvider: Lazy<WordVisionFragment>
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
@@ -100,6 +103,11 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     }
                 }
             }
+            Type.SITE -> {
+                if (action == Action.OPEN) {
+                    openActivity(WebActivity::class.java, uiTask, true)
+                }
+            }
             Type.APP -> {
                 if (subtype == Subtype.DEFAULT) {
                     if (state == State.HOME) {
@@ -136,24 +144,34 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                 }
             }
             Type.WORD -> {
-                if (subtype == Subtype.DEFAULT) {
-                    if (state == State.HOME) {
-                        commitFragment(
-                            WordHomeFragment::class.java,
-                            wordHomeProvider,
-                            R.id.layout,
-                            uiTask
-                        )
-                    } else if (state == State.DEFAULT) {
-                        if (action == Action.ADD || action == Action.EDIT) {
-                            /*commitFragment(
-                                EditNoteFragment::class.java,
-                                editNoteProvider,
-                                R.id.layout,
-                                uiTask
-                            )*/
-                        }
-                    }
+                if (state == State.HOME) {
+                    commitFragment(
+                        WordHomeFragment::class.java,
+                        wordHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+
+                if (action == Action.ADD || action == Action.EDIT) {
+                    /*commitFragment(
+                        EditNoteFragment::class.java,
+                        editNoteProvider,
+                        R.id.layout,
+                        uiTask
+                    )*/
+                }
+            }
+            Type.OCR-> {
+                if (action == Action.OPEN) {
+                    commitFragment(
+                        WordVisionFragment::class.java,
+                        wordVisionProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
                 }
             }
         }

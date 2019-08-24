@@ -22,11 +22,15 @@ class AssetsWordDataSource(
     private val context: Context,
     private val mapper: WordMapper
 ) : WordDataSource {
+    override fun isValid(id: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val alphaWords = mutableListOf<String>()
 
     override fun isExists(id: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        getAlphaRawWords()
+        return alphaWords.contains(id)
     }
 
     override fun isExists(t: Word): Boolean {

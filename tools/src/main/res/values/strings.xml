@@ -27,4 +27,5 @@
 
     <string name="title_word">Word</string>
     <string name="title_definitions">Definitions</string>
+    <string name="word_vision">%s (%s)\n%s</string>
 </resources>

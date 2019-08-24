@@ -13,6 +13,8 @@ import io.reactivex.Maybe
  */
 interface WordDataSource : DataSource<Word> {
 
+    fun isValid(id: String): Boolean
+
     fun isExists(id: String): Boolean
 
     fun getItems(ids: List<String>): List<Word>?

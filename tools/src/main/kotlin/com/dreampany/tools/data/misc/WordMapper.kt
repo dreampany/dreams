@@ -33,6 +33,10 @@ class WordMapper
     @WordItemAnnote val uiCache: SmartCache<String, WordItem>
 ) {
 
+    fun isExists(id: String): Boolean {
+        return map.contains(id)
+    }
+
     fun isExists(item: Word): Boolean {
         return map.contains(item.id)
     }

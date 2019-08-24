@@ -75,7 +75,7 @@ constructor(
     }
 
     override fun putItem(t: Store): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun putItems(ts: List<Store>): List<Long>? {
@@ -83,7 +83,7 @@ constructor(
     }
 
     override fun delete(t: Store): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.delete(t)
     }
 
     override fun deleteRx(t: Store): Maybe<Int> {

@@ -1,5 +1,8 @@
 package com.dreampany.frame.data.misc
 
+import com.dreampany.frame.data.enums.State
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
@@ -14,16 +17,17 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class StoreMapper @Inject constructor(
-    @StoreAnnote val map: SmartMap<String, Store>,
-    @StoreAnnote val cache: SmartCache<String, Store>
+class StoreMapper
+@Inject constructor(
+    @StoreAnnote private val map: SmartMap<String, Store>,
+    @StoreAnnote private val cache: SmartCache<String, Store>
 ) {
 
     fun isExists(id: String): Boolean {
         return map.contains(id)
     }
 
-    fun isExists(id: String, type: String, subtype: String, state: String): Boolean {
+    fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         if (isExists(id)) {
             val item = getItem(id)
             return item.hasProperty(type, subtype, state)
@@ -39,9 +43,14 @@ class StoreMapper @Inject constructor(
         return map.get(id)
     }
 
-    fun getItem(id: String, type: String, subtype: String, state: String): Store? {
-        return if (isExists(id, type, subtype, state)) {
+    fun getItem(id: String, type: Type, subtype: Subtype, state: State): Store {
+        return if (isExists(id, type, subtype, state))
             getItem(id)
-        } else null
+        else Store(
+            id = id,
+            type = type,
+            subtype = subtype,
+            state = state
+        )
     }
 }

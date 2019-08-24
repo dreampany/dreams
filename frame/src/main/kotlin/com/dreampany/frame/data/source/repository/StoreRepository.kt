@@ -71,7 +71,7 @@ class StoreRepository
     }
 
     override fun putItem(t: Store): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.putItem(t)
     }
 
     override fun putItems(ts: List<Store>): List<Long>? {
@@ -79,7 +79,7 @@ class StoreRepository
     }
 
     override fun delete(t: Store): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.delete(t)
     }
 
     override fun deleteRx(t: Store): Maybe<Int> {

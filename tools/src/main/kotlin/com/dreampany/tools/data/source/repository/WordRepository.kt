@@ -38,6 +38,16 @@ class WordRepository
     @Remote private val remote: WordDataSource,
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
+
+    override fun isValid(id: String): Boolean {
+        if (mapper.isExists(id))
+            return true
+        if (room.isExists(id)) {
+            return true
+        }
+        return assets.isExists(id)
+    }
+
     override fun isExists(id: String): Boolean {
         return room.isExists(id)
     }

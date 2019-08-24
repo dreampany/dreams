@@ -74,7 +74,7 @@ data class Store(
         return Objects.hashCode(id, type, subtype, state)
     }
 
-    fun hasProperty(type: String, subtype: String, state: String): Boolean {
+    fun hasProperty(type: Type, subtype: Subtype, state: State): Boolean {
         return (Objects.equal(type, this.type)
             && Objects.equal(subtype, this.subtype)
             && Objects.equal(state, this.state))

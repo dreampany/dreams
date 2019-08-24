@@ -17,6 +17,11 @@ class RoomWordDataSource(
     private val mapper: WordMapper,
     private val dao: WordDao
 ) : WordDataSource {
+
+    override fun isValid(id: String): Boolean {
+        return isExists(id)
+    }
+
     override fun isExists(id: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

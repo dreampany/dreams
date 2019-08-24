@@ -1,8 +1,8 @@
 package com.dreampany.tools.injector.ui
+
 import com.dreampany.frame.misc.FragmentScope
-import com.dreampany.tools.ui.fragment.EditNoteFragment
-import com.dreampany.tools.ui.fragment.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.WordHomeFragment
+import com.dreampany.tools.ui.fragment.WordVisionFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -17,5 +17,9 @@ import dagger.android.ContributesAndroidInjector
 abstract class WordModule {
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun wordHomeFragment(): WordHomeFragment
+    abstract fun homeFragment(): WordHomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun visionFragment(): WordVisionFragment
 }

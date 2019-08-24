@@ -4,17 +4,15 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -22,7 +20,9 @@ import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.ColorUtil
+import com.dreampany.frame.util.MenuTint
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.NoteRequest
@@ -35,7 +35,6 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.tools.vm.NoteViewModel
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
@@ -55,10 +54,11 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class NoteHomeFragment @Inject constructor() :
-    BaseMenuFragment(),
-    OnUiItemClickListener<NoteItem?, Action?>,
-    OnMenuItemClickListener<PowerMenuItem> {
+class NoteHomeFragment
+@Inject constructor() :
+        BaseMenuFragment(),
+        OnUiItemClickListener<NoteItem?, Action?>,
+        OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -78,6 +78,24 @@ class NoteHomeFragment @Inject constructor() :
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_note_home
+    }
+
+    override fun getMenuId(): Int {
+        return R.menu.menu_note_home
+    }
+
+    override fun getSearchMenuItemId(): Int {
+        return R.id.item_search
+    }
+
+    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
+        super.onMenuCreated(menu, inflater)
+
+        MenuTint.colorMenuItem(
+                getSearchMenuItem(),
+                ColorUtil.getColor(context!!, R.color.material_white),
+                null
+        )
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -150,15 +168,15 @@ class NoteHomeFragment @Inject constructor() :
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-            UiState.DEFAULT.name,
-            LayoutInflater.from(context).inflate(R.layout.item_default, null)
+                UiState.DEFAULT.name,
+                LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         bind.stateful.setStateView(
-            UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
-                setOnClickListener(this@NoteHomeFragment)
-            }
+                UiState.EMPTY.name,
+                LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
+                    setOnClickListener(this@NoteHomeFragment)
+                }
         )
 
         processUiState(UiState.DEFAULT)
@@ -166,16 +184,16 @@ class NoteHomeFragment @Inject constructor() :
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bind.fab.setOnClickListener(this)
 
-        val adapter = AHBottomNavigationAdapter(getParent(), R.menu.menu_bottom_note_home)
+/*         val adapter = AHBottomNavigationAdapter(getParent(), R.menu.menu_bottom_note_home)
         adapter.setupWithBottomNavigation(bind.bottomNav)
-        bind.bottomNav.apply {
+       bind.bottomNav.apply {
             isTranslucentNavigationEnabled = true
             defaultBackgroundColor = ColorUtil.getColor(context, R.color.colorPrimary)
             accentColor = ColorUtil.getColor(context, R.color.colorAccent)
             inactiveColor = R.color.colorPrimaryDark
             isForceTint = true
             titleState = AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE
-        }
+        }*/
 
         vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -189,15 +207,15 @@ class NoteHomeFragment @Inject constructor() :
         adapter.setStickyHeaders(false)
         scroller = object : OnVerticalScrollListener() {}
         ViewUtil.setRecycler(
-            adapter,
-            bindRecycler.recycler,
-            SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
-            FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_note, adapter.getItemOffset())
-                .withEdge(true),
-            null,
-            scroller,
-            null
+                adapter,
+                bindRecycler.recycler,
+                SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
+                FlexibleItemDecoration(context!!)
+                        .addItemViewType(R.layout.item_note, adapter.getItemOffset())
+                        .withEdge(true),
+                null,
+                scroller,
+                null
         )
     }
 
@@ -205,39 +223,39 @@ class NoteHomeFragment @Inject constructor() :
         if (powerItems.isEmpty()) {
 
             powerItems.add(
-                PowerMenuItem(
-                    NoteOption.EDIT.toTitle(),
-                    // R.drawable.ic_edit_black_24dp,
-                    NoteOption.EDIT
-                )
+                    PowerMenuItem(
+                            NoteOption.EDIT.toTitle(),
+                            // R.drawable.ic_edit_black_24dp,
+                            NoteOption.EDIT
+                    )
             )
             powerItems.add(
-                PowerMenuItem(
-                    NoteOption.FAVORITE.toTitle(),
-                    // R.drawable.ic_favorite_black_24dp,
-                    NoteOption.FAVORITE
-                )
+                    PowerMenuItem(
+                            NoteOption.FAVORITE.toTitle(),
+                            // R.drawable.ic_favorite_black_24dp,
+                            NoteOption.FAVORITE
+                    )
             )
             powerItems.add(
-                PowerMenuItem(
-                    NoteOption.ARCHIVE.toTitle(),
-                    // R.drawable.ic_archive_black_24dp,
-                    NoteOption.ARCHIVE
-                )
+                    PowerMenuItem(
+                            NoteOption.ARCHIVE.toTitle(),
+                            // R.drawable.ic_archive_black_24dp,
+                            NoteOption.ARCHIVE
+                    )
             )
             powerItems.add(
-                PowerMenuItem(
-                    NoteOption.TRASH.toTitle(),
-                    //R.drawable.ic_delete_black_24dp,
-                    NoteOption.TRASH
-                )
+                    PowerMenuItem(
+                            NoteOption.TRASH.toTitle(),
+                            //R.drawable.ic_delete_black_24dp,
+                            NoteOption.TRASH
+                    )
             )
             powerItems.add(
-                PowerMenuItem(
-                    NoteOption.DELETE.toTitle(),
-                    //R.drawable.ic_delete_forever_black_24dp,
-                    NoteOption.DELETE
-                )
+                    PowerMenuItem(
+                            NoteOption.DELETE.toTitle(),
+                            //R.drawable.ic_delete_forever_black_24dp,
+                            NoteOption.DELETE
+                    )
             )
         }
     }
@@ -248,15 +266,15 @@ class NoteHomeFragment @Inject constructor() :
         }
         currentItem = item
         powerMenu = PowerMenu.Builder(context)
-            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
-            .addItemList(powerItems)
-            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
-            .setSelectedTextColor(Color.WHITE)
-            .setOnMenuItemClickListener(this)
-            .setLifecycleOwner(this)
-            .setDividerHeight(1)
-            .setTextSize(14)
-            .build()
+                .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+                .addItemList(powerItems)
+                .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+                .setSelectedTextColor(Color.WHITE)
+                .setOnMenuItemClickListener(this)
+                .setLifecycleOwner(this)
+                .setDividerHeight(1)
+                .setTextSize(14)
+                .build()
         powerMenu?.showAsAnchorRightBottom(view)
     }
 
@@ -270,9 +288,9 @@ class NoteHomeFragment @Inject constructor() :
 
     private fun request(progress: Boolean = Constants.Default.BOOLEAN) {
         val request = NoteRequest(
-            action = Action.GET,
-            single = false,
-            progress = progress
+                action = Action.GET,
+                single = false,
+                progress = progress
         )
         vm.request(request)
     }
@@ -339,17 +357,17 @@ class NoteHomeFragment @Inject constructor() :
 
     private fun openAddNoteUi() {
         val task = UiTask<Note>(
-            type = Type.NOTE,
-            action = Action.ADD
+                type = Type.NOTE,
+                action = Action.ADD
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
     }
 
     private fun openEditNoteUi(note: Note) {
         val task = UiTask<Note>(
-            type = Type.NOTE,
-            action = Action.EDIT,
-            input = note
+                type = Type.NOTE,
+                action = Action.EDIT,
+                input = note
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
     }

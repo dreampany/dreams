@@ -33,8 +33,9 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class EditNoteFragment @Inject constructor() :
-    BaseMenuFragment() {
+class EditNoteFragment
+@Inject constructor() :
+        BaseMenuFragment() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -54,10 +55,10 @@ class EditNoteFragment @Inject constructor() :
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        processUiState(UiState.HIDE_PROGRESS)
     }
 
     override fun onStopUi() {
+        processUiState(UiState.HIDE_PROGRESS)
     }
 
     override fun hasBackPressed(): Boolean {
@@ -72,7 +73,7 @@ class EditNoteFragment @Inject constructor() :
     private fun initUi() {
         val uiTask = getCurrentTask<UiTask<Note>>() ?: return
         val titleRes =
-            if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
+                if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
 
         setTitle(titleRes)
         bind = super.binding as FragmentEditNoteBinding
@@ -123,66 +124,55 @@ class EditNoteFragment @Inject constructor() :
 
 
     private fun saveNote(): Boolean {
-        val title = bind.inputEditTitle.text
-        if (title.isNullOrEmpty()) {
+        if (noteTitle.isEmpty()) {
             bind.inputEditTitle.error = getString(R.string.error_title_note)
             return false
         }
-        val description = bind.inputEditDescription.text
-        if (description.isNullOrEmpty()) {
+        if (noteDescription.isEmpty()) {
             bind.inputEditDescription.error = getString(R.string.error_description_note)
             return false
         }
         edited = false
         val uiTask = getCurrentTask<UiTask<Note>>()!!
         val note = getInput<Note>()
-        if (uiTask.action == Action.EDIT) {
-            request(
-                action = Action.UPDATE,
+        request(
+                action = if (uiTask.action == Action.EDIT) Action.UPDATE else Action.ADD,
                 id = note?.id,
-                title = title.toString(),
-                description = description.toString(),
+                title = noteTitle,
+                description = noteDescription,
                 progress = true
-            )
-        } else {
-            request(
-                action = Action.ADD,
-                title = title.toString(),
-                description = description.toString(),
-                progress = true
-            )
-        }
+        )
         return true
     }
 
     private fun request(
-        action: Action = Action.DEFAULT,
-        id: String? = Constants.Default.NULL,
-        title: String = Constants.Default.STRING,
-        description: String = Constants.Default.STRING,
-        progress: Boolean = Constants.Default.BOOLEAN
+            action: Action = Action.DEFAULT,
+            id: String? = Constants.Default.NULL,
+            title: String = Constants.Default.STRING,
+            description: String = Constants.Default.STRING,
+            progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = NoteRequest(
-            action = action,
-            id = id,
-            title = title,
-            description = description,
-            single = true,
-            progress = progress
+                action = action,
+                id = id,
+                title = title,
+                description = description,
+                single = true,
+                progress = progress
         )
         vm.request(request)
     }
 
     private fun request(
-        action: Action = Action.DEFAULT,
-        id: String = Constants.Default.STRING,
-        progress: Boolean = Constants.Default.BOOLEAN
+            action: Action = Action.DEFAULT,
+            id: String = Constants.Default.STRING,
+            progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val request = NoteRequest(
-            action = action,
-            id = id,
-            single = true,
-            progress = progress
+                action = action,
+                id = id,
+                single = true,
+                progress = progress
         )
         vm.request(request)
     }
@@ -195,6 +185,7 @@ class EditNoteFragment @Inject constructor() :
             })
             negativeButton(res = R.string.no, click = {
                 edited = false
+                forResult(saved)
             })
         }
     }

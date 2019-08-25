@@ -43,6 +43,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     lateinit var wordHomeProvider: Lazy<WordHomeFragment>
     @Inject
+    lateinit var favoriteWordsProvider: Lazy<FavoriteWordsFragment>
+    @Inject
     lateinit var wordVisionProvider: Lazy<WordVisionFragment>
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
@@ -161,7 +163,15 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     )
                     return
                 }
-
+                if (state == State.FAVORITE) {
+                    commitFragment(
+                        FavoriteWordsFragment::class.java,
+                        favoriteWordsProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
                 if (action == Action.ADD || action == Action.EDIT) {
                     /*commitFragment(
                         EditNoteFragment::class.java,

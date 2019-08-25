@@ -12,18 +12,4 @@
         auto:actionViewClass="androidx.appcompat.widget.SearchView"
         auto:showAsAction="collapseActionView|always" />
 
-    <item
-        android:id="@+id/item_favorite"
-        android:icon="@drawable/ic_favorite_black_24dp"
-        android:iconTint="@color/material_white"
-        android:title="@string/title_favorite_notes"
-        auto:showAsAction="always" />
-
-    <item
-        android:id="@+id/item_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:iconTint="@color/material_white"
-        android:title="@string/settings"
-        auto:showAsAction="always" />
-
 </menu>

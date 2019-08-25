@@ -6,6 +6,7 @@ import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
@@ -16,12 +17,14 @@ import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.language.Language
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
+import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable
@@ -174,11 +177,15 @@ class WordViewModel
     }
 
     private fun requestUiItemsRx(request: WordRequest): Maybe<List<WordItem>> {
-        var maybe = repo.getItemsRx()
         if (request.action == Action.SEARCH) {
             //return storeRepo.getItemsRx(Type.WORD, Subtype.DEFAULT, State.FAVORITE).flatMap {  }
         }
-        return maybe.flatMap { getUiItemsRx(request, it) }
+        if (request.action == Action.FAVORITE) {
+            return storeRepo
+                .getItemsRx(Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+                .flatMap { getUiItemsOfStoresRx(request, it) }
+        }
+        return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }
 
     private fun requestItemsOfStringRx(request: WordRequest): Maybe<List<String>> {
@@ -220,6 +227,13 @@ class WordViewModel
                 .toMaybe()
     }
 
+    private fun getUiItemsOfStoresRx(request: WordRequest, items: List<Store>): Maybe<List<WordItem>> {
+        return Flowable.fromIterable(items)
+            .map { getUiItem(request, it) }
+            .toList()
+            .toMaybe()
+    }
+
     private fun getUiItem(request: WordRequest, item: Word): WordItem {
         var uiItem: WordItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
@@ -230,6 +244,11 @@ class WordViewModel
         adjustFavorite(item, uiItem)
         adjustTranslate(request, uiItem)
         return uiItem
+    }
+
+    private fun getUiItem(request: WordRequest, store: Store): WordItem {
+        val word = mapper.getItem(store, repo)
+        return getUiItem(request, word!!)
     }
 
     private fun adjustFavorite(word: Word, item: WordItem) {

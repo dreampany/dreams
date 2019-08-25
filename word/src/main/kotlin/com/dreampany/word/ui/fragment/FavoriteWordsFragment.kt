@@ -50,7 +50,8 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class FavoriteWordsFragment @Inject constructor() : BaseMenuFragment(),
+class FavoriteWordsFragment
+@Inject constructor() : BaseMenuFragment(),
     SmartAdapter.Callback<WordItem> {
 
     private val NONE = "none"

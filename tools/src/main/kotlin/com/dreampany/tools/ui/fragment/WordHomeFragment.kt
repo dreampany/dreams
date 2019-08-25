@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
@@ -29,6 +30,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
@@ -129,7 +131,7 @@ class WordHomeFragment
 
     override fun onResume() {
         super.onResume()
-        initLanguageMenuItem()
+        initLanguageUi()
         request(
             id = recentWord,
             recent = true,
@@ -142,10 +144,12 @@ class WordHomeFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
+        val searchItem = getSearchMenuItem()
+        val favoriteItem = menu.findItem(R.id.item_favorite)
+        val settingsItem = menu.findItem(R.id.item_settings)
         MenuTint.colorMenuItem(
-            getSearchMenuItem(),
             ColorUtil.getColor(context!!, R.color.material_white),
-            null
+            null, searchItem, favoriteItem, settingsItem
         )
 
         val activity = getParent()
@@ -156,17 +160,17 @@ class WordHomeFragment
             val searchItem = getSearchMenuItem()
             initSearchView(searchView, searchItem)
         }
-        initLanguageMenuItem()
+        initLanguageUi()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_search ->
-                //searchView.open(item);
+            R.id.item_favorite -> {
+                openFavoriteUi()
                 return true
-            R.id.item_language -> {
-                openOptionsMenu()
-                //openLanguagePicker()
+            }
+            R.id.item_settings -> {
+
                 return true
             }
         }
@@ -190,6 +194,9 @@ class WordHomeFragment
 /*                bind.getItem()?.let {
                     openUi(it.item)
                 }*/
+            }
+            R.id.button_language -> {
+                openOptionsMenu(v)
             }
             R.id.layout_yandex -> openYandexSite()
         }
@@ -215,7 +222,13 @@ class WordHomeFragment
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
         recentWord = query
-        request(id = recentWord, action = Action.SEARCH, history = true, single = true, progress = true)
+        request(
+            id = recentWord,
+            action = Action.SEARCH,
+            history = true,
+            single = true,
+            progress = true
+        )
         return super.onQueryTextSubmit(query)
     }
 
@@ -292,6 +305,7 @@ class WordHomeFragment
         bindWord.buttonFavorite.setOnClickListener(this)
         bindWord.textWord.setOnClickListener(this)
         bindWord.imageSpeak.setOnClickListener(this)
+        bindWord.buttonLanguage.setOnClickListener(this)
         bind.fab.setOnClickListener(this)
         bindYandex.textYandexPowered.setOnClickListener(this)
 
@@ -328,7 +342,7 @@ class WordHomeFragment
 
     private fun processOption(language: Language) {
         pref.setLanguage(language)
-        initLanguageMenuItem()
+        initLanguageUi()
         adjustTranslationUi()
         buildLangItems(fresh = true)
         if (!language.equals(Language.ENGLISH)) {
@@ -347,15 +361,12 @@ class WordHomeFragment
         //vm.suggests(false)
     }
 
-    private fun initLanguageMenuItem() {
+    private fun initLanguageUi() {
         val language = pref.getLanguage(Language.ENGLISH)
-        val item = findMenuItemById(R.id.item_language)
-        if (item != null) {
-            item.title = language.code
-        }
+        bindWord.buttonLanguage.text = language.code
     }
 
-    private fun openOptionsMenu() {
+    private fun openOptionsMenu(v: View) {
         //currentItem = item
         langMenu = PowerMenu.Builder(context)
             .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
@@ -367,7 +378,7 @@ class WordHomeFragment
             .setDividerHeight(1)
             .setTextSize(14)
             .build()
-        langMenu?.showAsAnchorRightTop(view)
+        langMenu?.showAsAnchorRightTop(v)
     }
 
     private fun openLanguagePicker() {
@@ -376,7 +387,7 @@ class WordHomeFragment
         /*val picker = LanguagePicker.newInstance(getString(R.string.select_language), languages)
         picker.setCallback { language ->
             pref.setLanguage(language)
-            initLanguageMenuItem()
+            initLanguageUi()
             adjustTranslationUi()
             val language = pref.getLanguage(Language.ENGLISH)
             val english = Language.ENGLISH.equals(language)
@@ -459,7 +470,13 @@ class WordHomeFragment
     private fun processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
-            request(recentWord, action = Action.SEARCH, history = true, single = true, progress = true)
+            request(
+                recentWord,
+                action = Action.SEARCH,
+                history = true,
+                single = true,
+                progress = true
+            )
             return
         }
         openOcr()
@@ -703,6 +720,24 @@ class WordHomeFragment
     private fun openOcr() {
         val task = UiTask<Word>(type = Type.OCR, subtype = Subtype.DEFAULT, action = Action.OPEN)
         openActivity(ToolsActivity::class.java, task)
+    }
+
+    private fun openFavoriteUi() {
+        val task = UiTask<Word>(
+            type = Type.WORD,
+            state = State.FAVORITE,
+            action = Action.OPEN
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.FAVORITE)
+    }
+
+    private fun openSettingsUi() {
+        val task = UiTask<Note>(
+            type = Type.NOTE,
+            state = State.SETTINGS,
+            action = Action.OPEN
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
     }
 
     private fun openYandexSite() {

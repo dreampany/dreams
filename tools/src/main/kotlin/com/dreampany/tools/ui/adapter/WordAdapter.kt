@@ -20,6 +20,19 @@ class WordAdapter(listener: Any?) : SmartAdapter<WordItem>(listener) {
         alphaComparator = AlphaComparator()
     }
 
+    companion object {
+        private val SPAN_COUNT = 2
+        private val ITEM_OFFSET = 4
+    }
+
+    fun getSpanCount(): Int {
+        return SPAN_COUNT
+    }
+
+    fun getItemOffset(): Int {
+        return ITEM_OFFSET
+    }
+
     fun addItemsByRecent(items: List<WordItem>): Boolean {
         if (isEmpty) {
             return super.addItems(items)

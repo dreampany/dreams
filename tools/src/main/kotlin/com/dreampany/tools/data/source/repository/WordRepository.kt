@@ -77,7 +77,7 @@ class WordRepository
     }
 
     override fun getItemsRx(): Maybe<List<Word>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.getItemsRx()
     }
 
     override fun getItemsRx(limit: Int): Maybe<List<Word>> {
@@ -157,7 +157,7 @@ class WordRepository
     }
 
     override fun getItem(id: String): Word? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return getItemRx(id).blockingGet()
     }
 
     override fun getItemRx(id: String): Maybe<Word> {

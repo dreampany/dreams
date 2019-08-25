@@ -87,19 +87,30 @@
 
                 <ImageView
                     android:id="@+id/image_speak"
-                    android:layout_width="@dimen/_22sdp"
-                    android:layout_height="@dimen/_22sdp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
                     android:tint="@color/colorAccent"
                     auto:srcCompat="@drawable/ic_keyboard_voice_black_24dp" />
 
                 <com.like.LikeButton
                     android:id="@+id/button_favorite"
-                    android:layout_width="@dimen/_18sdp"
-                    android:layout_height="@dimen/_18sdp"
-                    android:layout_marginTop="@dimen/_8sdp"
-                    auto:icon_size="@dimen/_16sdp"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    auto:icon_size="@dimen/_14sdp"
                     auto:icon_type="heart"
                     auto:liked="@{item.favorite}" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/button_language"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/language_en"
+                    android:textColor="@color/material_grey700"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold"
+                    auto:fontFamily="@font/roboto_slab_bold" />
 
             </LinearLayout>
         </RelativeLayout>

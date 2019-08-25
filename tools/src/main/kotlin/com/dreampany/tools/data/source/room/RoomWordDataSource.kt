@@ -51,7 +51,7 @@ class RoomWordDataSource(
     }
 
     override fun getItemsRx(): Maybe<List<Word>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItemsRx()
     }
 
     override fun getItemsRx(limit: Int): Maybe<List<Word>> {

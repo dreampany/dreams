@@ -21,6 +21,9 @@ interface WordDao: BaseDao<Word> {
     @Query("select * from word where id = :id limit 1")
     fun getItemRx(id: String): Maybe<Word>
 
+    @Query("select * from word")
+    fun getItemsRx(): Maybe<List<Word>>
+
     @Query("select id from word order by id asc")
     fun getRawItemsRx(): Maybe<List<String>>
 }

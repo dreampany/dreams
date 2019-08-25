@@ -3,44 +3,44 @@ package com.dreampany.tools.ui.fragment
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
-import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.MenuTint
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.NoteRequest
-import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
-import com.dreampany.tools.databinding.FragmentFavoriteNotesBinding
+import com.dreampany.tools.databinding.FragmentFavoriteWordsBinding
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.activity.ToolsActivity
-import com.dreampany.tools.ui.adapter.NoteAdapter
+import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.vm.NoteViewModel
+import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.vm.WordViewModel
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -52,22 +52,22 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class FavoriteNotesFragment
+class FavoriteWordsFragment
 @Inject constructor() :
         BaseMenuFragment(),
-        OnUiItemClickListener<NoteItem?, Action?>,
+        OnUiItemClickListener<WordItem?, Action?>,
         OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var session: SessionManager
-    private lateinit var bind: FragmentFavoriteNotesBinding
+    private lateinit var bind: FragmentFavoriteWordsBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
-    private lateinit var adapter: NoteAdapter
-    private lateinit var vm: NoteViewModel
+    private lateinit var adapter: WordAdapter
+    private lateinit var vm: WordViewModel
     private lateinit var scroller: OnVerticalScrollListener
 
     private val optionItems = mutableListOf<PowerMenuItem>()
@@ -75,11 +75,11 @@ class FavoriteNotesFragment
     private var currentItem: NoteItem? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_favorite_notes
+        return R.layout.fragment_favorite_words
     }
 
     override fun getMenuId(): Int {
-        return R.menu.menu_favorite_notes
+        return R.menu.menu_favorite_words
     }
 
     override fun getSearchMenuItemId(): Int {
@@ -90,7 +90,7 @@ class FavoriteNotesFragment
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-        MenuTint.colorMenuItem(
+              MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
             null, searchItem
         )
@@ -121,12 +121,12 @@ class FavoriteNotesFragment
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            Constants.RequestCode.ADD_NOTE,
+/*            Constants.RequestCode.ADD_NOTE,
             Constants.RequestCode.EDIT_NOTE -> {
                 if (isOkay(resultCode)) {
                     ex.postToUi(Runnable { request(action = Action.FAVORITE, progress = true) }, 1000L)
                 }
-            }
+            }*/
         }
     }
 
@@ -138,44 +138,28 @@ class FavoriteNotesFragment
         return false
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_favorite ->
-
-                return true
-            R.id.item_settings -> {
-
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onClick(v: View) {
         when (v.id) {
             R.id.button_favorite -> {
-                val note = v.tag as Note?
-                request(id = note?.id, action = Action.FAVORITE, input = note, single = true)
-            }
-            R.id.layout_empty -> {
-                openAddNoteUi()
+                val word = v.tag as Word?
+                request(id = word?.id, action = Action.FAVORITE, input = word, single = true)
             }
         }
     }
 
-    override fun onClick(view: View, item: NoteItem?, action: Action?) {
-
+    override fun onClick(view: View, item: WordItem?, action: Action?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onLongClick(view: View, item: NoteItem?, action: Action?) {
-        openOptionsMenu(view, item)
+    override fun onLongClick(view: View, item: WordItem?, action: Action?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onItemClick(position: Int, item: PowerMenuItem) {
         powerMenu?.dismiss()
         val option: NoteOption = item.tag as NoteOption
         Timber.v("Option fired %s", option.toTitle())
-        processOption(option, currentItem!!)
+      //  processOption(option, currentItem!!)
     }
 
 
@@ -186,7 +170,7 @@ class FavoriteNotesFragment
     }
 
     private fun initUi() {
-        bind = super.binding as FragmentFavoriteNotesBinding
+        bind = super.binding as FragmentFavoriteWordsBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
 
@@ -197,8 +181,8 @@ class FavoriteNotesFragment
 
         bind.stateful.setStateView(
                 UiState.EMPTY.name,
-                LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
-                    setOnClickListener(this@FavoriteNotesFragment)
+                LayoutInflater.from(context).inflate(R.layout.item_empty, null).apply {
+                    setOnClickListener(this@FavoriteWordsFragment)
                 }
         )
 
@@ -206,7 +190,7 @@ class FavoriteNotesFragment
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
 
-        vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
+        vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
@@ -214,15 +198,15 @@ class FavoriteNotesFragment
 
     private fun initRecycler() {
         bind.setItems(ObservableArrayList<Any>())
-        adapter = NoteAdapter(this)
+        adapter = WordAdapter(this)
         adapter.setStickyHeaders(false)
         scroller = object : OnVerticalScrollListener() {}
         ViewUtil.setRecycler(
                 adapter,
                 bindRecycler.recycler,
-                SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
+                SmoothScrollLinearLayoutManager(context!!),
                 FlexibleItemDecoration(context!!)
-                        .addItemViewType(R.layout.item_note, adapter.getItemOffset())
+                        .addItemViewType(R.layout.item_word, adapter.getItemOffset())
                         .withEdge(true),
                 null,
                 scroller,
@@ -258,8 +242,8 @@ class FavoriteNotesFragment
         powerMenu?.showAsAnchorRightBottom(view)
     }
 
-    private fun processOption(option: NoteOption, item: NoteItem) {
-        when (option) {
+    private fun processOption(option: NoteOption, item: WordItem) {
+/*        when (option) {
             NoteOption.EDIT -> {
                 openEditNoteUi(item.item)
             }
@@ -275,17 +259,17 @@ class FavoriteNotesFragment
             NoteOption.DELETE -> {
                 request(action = Action.DELETE, input = item.item, single = true)
             }
-        }
+        }*/
     }
 
     private fun request(
         id: String? = Constants.Default.NULL,
         action: Action = Action.DEFAULT,
-        input: Note? = Constants.Default.NULL,
+        input: Word? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
-        val request = NoteRequest(
+        val request = WordRequest(
             id = id,
             action = action,
             input = input,
@@ -316,7 +300,7 @@ class FavoriteNotesFragment
         }
     }
 
-    fun processMultipleResponse(response: Response<List<NoteItem>>) {
+    fun processMultipleResponse(response: Response<List<WordItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
             Timber.v("processMultipleResponse %s", result.loading)
@@ -325,18 +309,18 @@ class FavoriteNotesFragment
             val result = response as Response.Failure<*>
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
-            val result = response as Response.Result<List<NoteItem>>
+            val result = response as Response.Result<List<WordItem>>
             processSuccess(result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, items: List<NoteItem>) {
+    private fun processSuccess(action: Action, items: List<WordItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
-    fun processSingleResponse(response: Response<NoteItem>) {
+    fun processSingleResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
             Timber.v("processSingleResponse %s", result.loading)
@@ -345,52 +329,17 @@ class FavoriteNotesFragment
             val result = response as Response.Failure<*>
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
-            val result = response as Response.Result<NoteItem>
+            val result = response as Response.Result<WordItem>
             processSuccess(result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, item: NoteItem) {
+    private fun processSuccess(action: Action, item: WordItem) {
         if (action == Action.DELETE) {
             adapter.removeItem(item)
         } else {
             adapter.addItem(item)
         }
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
-    }
-
-    private fun openAddNoteUi() {
-        val task = UiTask<Note>(
-                type = Type.NOTE,
-                action = Action.ADD
-        )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
-    }
-
-    private fun openEditNoteUi(note: Note) {
-        val task = UiTask<Note>(
-                type = Type.NOTE,
-                action = Action.EDIT,
-                input = note
-        )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
-    }
-
-    private fun openFavoriteUi() {
-        val task = UiTask<Note>(
-                type = Type.NOTE,
-                state = State.FAVORITE,
-                action = Action.OPEN
-        )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
-    }
-
-    private fun openSettingsUi() {
-        val task = UiTask<Note>(
-                type = Type.NOTE,
-                state = State.SETTINGS,
-                action = Action.OPEN
-        )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
     }
 }

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Smart Tools</string>
 
-    <string name="title_apk">All Apps</string>
-    <string name="subtitle_apk" translatable="false">Total: %d</string>
+    <string name="title_app">All Apps</string>
+    <string name="subtitle_app" translatable="false">Total: %d</string>
     <string name="title_note" translatable="false">Note</string>
 
     <string name="title_empty_note" translatable="false">No Notes</string>
@@ -28,4 +28,7 @@
     <string name="title_word">Word</string>
     <string name="title_definitions">Definitions</string>
     <string name="word_vision">%s (%s)\n%s</string>
+
+    <string name="title_favorite_notes">Favorite Notes</string>
+    <string name="subtitle_favorite_notes" translatable="false">Total: %d</string>
 </resources>

@@ -116,7 +116,7 @@ class FavoriteNotesFragment
 
     override fun onRefresh() {
         super.onRefresh()
-        request(progress = true)
+        request(action = Action.FAVORITE, progress = true)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -124,7 +124,7 @@ class FavoriteNotesFragment
             Constants.RequestCode.ADD_NOTE,
             Constants.RequestCode.EDIT_NOTE -> {
                 if (isOkay(resultCode)) {
-                    ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 1000L)
+                    ex.postToUi(Runnable { request(action = Action.FAVORITE, progress = true) }, 1000L)
                 }
             }
         }
@@ -153,8 +153,9 @@ class FavoriteNotesFragment
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.fab -> {
-                openAddNoteUi()
+            R.id.button_favorite -> {
+                val note = v.tag as Note?
+                request(id = note?.id, action = Action.FAVORITE, input = note, single = true)
             }
             R.id.layout_empty -> {
                 openAddNoteUi()
@@ -179,7 +180,9 @@ class FavoriteNotesFragment
 
 
     private fun initTitleSubtitle() {
-        setTitle(R.string.title_note)
+        setTitle(R.string.title_favorite_notes)
+        val subtitle = getString(R.string.subtitle_favorite_notes, adapter.itemCount)
+        setSubtitle(subtitle)
     }
 
     private fun initUi() {
@@ -276,15 +279,18 @@ class FavoriteNotesFragment
     }
 
     private fun request(
-            action: Action = Action.DEFAULT,
-            input: Note? = Constants.Default.NULL,
-            single: Boolean = Constants.Default.BOOLEAN,
-            progress: Boolean = Constants.Default.BOOLEAN) {
+        id: String? = Constants.Default.NULL,
+        action: Action = Action.DEFAULT,
+        input: Note? = Constants.Default.NULL,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
         val request = NoteRequest(
-                action = action,
-                input = input,
-                single = single,
-                progress = progress
+            id = id,
+            action = action,
+            input = input,
+            single = single,
+            progress = progress
         )
         vm.request(request)
     }

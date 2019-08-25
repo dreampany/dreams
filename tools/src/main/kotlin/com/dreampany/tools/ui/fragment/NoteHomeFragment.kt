@@ -143,9 +143,10 @@ class NoteHomeFragment
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_favorite ->
-
+            R.id.item_favorite -> {
+                openFavoriteUi()
                 return true
+            }
             R.id.item_settings -> {
 
                 return true
@@ -398,7 +399,7 @@ class NoteHomeFragment
             state = State.FAVORITE,
             action = Action.OPEN
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.FAVORITE)
     }
 
     private fun openSettingsUi() {

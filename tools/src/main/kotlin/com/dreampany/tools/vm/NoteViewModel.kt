@@ -142,7 +142,7 @@ class NoteViewModel
     private fun requestUiItemsRx(request: NoteRequest): Maybe<List<NoteItem>> {
         if (request.action == Action.FAVORITE) {
             return storeRepo
-                    .getItemsRx(Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+                    .getItemsRx(Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
                     .flatMap { getUiItemsOfStoresRx(request, it) }
         }
         return getItemsRx(request).flatMap { getUiItemsRx(request, it) }

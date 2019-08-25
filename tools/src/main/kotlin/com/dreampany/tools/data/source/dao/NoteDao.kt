@@ -16,6 +16,9 @@ import io.reactivex.Maybe
 interface NoteDao : BaseDao<Note> {
 
     @Query("select * from note where id = :id limit 1")
+    fun getItem(id: String): Note?
+
+    @Query("select * from note where id = :id limit 1")
     fun getItemRx(id: String): Maybe<Note>
 
     @Query("select * from note")

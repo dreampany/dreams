@@ -39,6 +39,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
     @Inject
+    lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
+    @Inject
     lateinit var wordHomeProvider: Lazy<WordHomeFragment>
     @Inject
     lateinit var wordVisionProvider: Lazy<WordVisionFragment>
@@ -121,26 +123,32 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                 }
             }
             Type.NOTE -> {
-                if (subtype == Subtype.DEFAULT) {
-                    if (state == State.HOME) {
-                        if (action == Action.OPEN) {
-                            commitFragment(
-                                NoteHomeFragment::class.java,
-                                noteHomeProvider,
-                                R.id.layout,
-                                uiTask
-                            )
-                        }
-                    } else if (state == State.DEFAULT) {
-                        if (action == Action.ADD || action == Action.EDIT) {
-                            commitFragment(
-                                EditNoteFragment::class.java,
-                                editNoteProvider,
-                                R.id.layout,
-                                uiTask
-                            )
-                        }
-                    }
+                if (state == State.HOME) {
+                    commitFragment(
+                        NoteHomeFragment::class.java,
+                        noteHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+                if (state == State.FAVORITE) {
+                    commitFragment(
+                        FavoriteNotesFragment::class.java,
+                        favoriteNotesProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+                if (action == Action.ADD || action == Action.EDIT) {
+                    commitFragment(
+                        EditNoteFragment::class.java,
+                        editNoteProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
                 }
             }
             Type.WORD -> {

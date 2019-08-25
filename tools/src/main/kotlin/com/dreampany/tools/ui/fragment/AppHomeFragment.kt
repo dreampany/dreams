@@ -94,8 +94,8 @@ class AppHomeFragment @Inject constructor() :
     }
 
     private fun initTitleSubtitle() {
-        setTitle(R.string.title_apk)
-        val subtitle = getString(R.string.subtitle_apk, adapter.itemCount)
+        setTitle(R.string.title_app)
+        val subtitle = getString(R.string.subtitle_app, adapter.itemCount)
         setSubtitle(subtitle)
     }
 

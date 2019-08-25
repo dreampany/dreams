@@ -150,6 +150,7 @@ class Constants {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2
         const val SETTINGS = 3
+        const val FAVORITE = 4
     }
 
     object Service {

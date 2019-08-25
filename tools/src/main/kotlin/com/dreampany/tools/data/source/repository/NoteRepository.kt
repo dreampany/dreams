@@ -80,7 +80,7 @@ class NoteRepository
     }
 
     override fun getItem(id: String): Note? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.getItem(id)
     }
 
     override fun getItemRx(id: String): Maybe<Note> {

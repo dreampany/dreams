@@ -7,6 +7,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.TimeUtilKt
@@ -29,14 +30,20 @@ import java.io.Serializable
  */
 class NoteItem
 private constructor(
-        item: Note,
-        @LayoutRes layoutId: Int = Constants.Default.INT,
-        private var clickListener: OnClickListener? = null
+    item: Note,
+    @LayoutRes layoutId: Int = Constants.Default.INT,
+    private var clickListener: OnClickListener? = null
 ) : BaseItem<Note, NoteItem.ViewHolder, String>(item, layoutId) {
 
     interface OnClickListener {
         fun onItemClicked(item: Note)
         fun onFavoriteClicked(item: Note)
+    }
+
+    val color: Color
+
+    init {
+        color = ColorUtil.getRandColor()
     }
 
     companion object {
@@ -57,8 +64,8 @@ private constructor(
     }
 
     override fun createViewHolder(
-            view: View,
-            adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
+        view: View,
+        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
         return ViewHolder(view, adapter)
     }
@@ -69,8 +76,8 @@ private constructor(
     }
 
     class ViewHolder(
-            view: View,
-            adapter: FlexibleAdapter<*>
+        view: View,
+        adapter: FlexibleAdapter<*>
     ) : BaseItem.ViewHolder(view, adapter) {
 
         private val height: Int
@@ -94,16 +101,16 @@ private constructor(
 
             view.setOnClickListener {
                 this.adapter.uiItemClick?.onClick(
-                        view = view,
-                        item = this.adapter.getItem(adapterPosition),
-                        action = Action.OPEN
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = Action.OPEN
                 )
             }
             view.setOnLongClickListener { view ->
                 this.adapter.uiItemClick?.onLongClick(
-                        view = view,
-                        item = this.adapter.getItem(adapterPosition),
-                        action = Action.OPTIONS
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = Action.OPTIONS
                 )
                 true
             }
@@ -111,8 +118,8 @@ private constructor(
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
-                position: Int,
-                item: I
+            position: Int,
+            item: I
         ) {
             val uiItem = item as NoteItem
             val item = uiItem.item
@@ -122,9 +129,7 @@ private constructor(
             textDate.text = TimeUtilKt.getDate(item.time, Constants.Date.FORMAT_MONTH_DAY)
             buttonFavorite.isLiked = uiItem.favorite
 
-
-            val randColor = ColorUtil.getRandCompatColor(getContext())
-            layoutRoot.setCardBackgroundColor(randColor)
+            layoutRoot.setCardBackgroundColor(ColorUtil.getColor(getContext(), uiItem.color.primaryId))
 
             buttonFavorite.setTag(item)
         }

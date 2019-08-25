@@ -28,6 +28,12 @@ class FeatureItem private constructor(
     item: Feature, @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<Feature, FeatureItem.ViewHolder, String>(item, layoutId) {
 
+    var color: Int = 0
+
+    init {
+        color = ColorUtil.getMaterialRandomColor()
+    }
+
     companion object {
         fun getItem(item: Feature): FeatureItem {
             return FeatureItem(item, R.layout.item_feature)
@@ -87,8 +93,7 @@ class FeatureItem private constructor(
         ) {
             val feature = (item as FeatureItem).item
             val type = feature.type
-            val drawable = TextDrawable.builder()
-                .buildRound(TextUtilKt.getFirst(type.name), ColorUtil.getMaterialRandomColor())
+            val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(type.name), item.color)
             imageIcon.setImageDrawable(drawable)
         }
     }

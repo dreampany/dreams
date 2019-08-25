@@ -56,9 +56,9 @@ import javax.inject.Inject
 @ActivityScope
 class NoteHomeFragment
 @Inject constructor() :
-        BaseMenuFragment(),
-        OnUiItemClickListener<NoteItem?, Action?>,
-        OnMenuItemClickListener<PowerMenuItem> {
+    BaseMenuFragment(),
+    OnUiItemClickListener<NoteItem?, Action?>,
+    OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -90,11 +90,12 @@ class NoteHomeFragment
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
-
+        val searchItem = getSearchMenuItem()
+        val favoriteItem = menu.findItem(R.id.item_favorite)
+        val settingsItem = menu.findItem(R.id.item_settings)
         MenuTint.colorMenuItem(
-                getSearchMenuItem(),
-                ColorUtil.getColor(context!!, R.color.material_white),
-                null
+            ColorUtil.getColor(context!!, R.color.material_white),
+            null, searchItem, favoriteItem, settingsItem
         )
     }
 
@@ -160,7 +161,7 @@ class NoteHomeFragment
             }
             R.id.button_favorite -> {
                 val note = v.tag as Note?
-                request(action = Action.FAVORITE, input = note, single = true)
+                request(id = note?.id, action = Action.FAVORITE, input = note, single = true)
             }
             R.id.layout_empty -> {
                 openAddNoteUi()
@@ -194,15 +195,15 @@ class NoteHomeFragment
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-                UiState.DEFAULT.name,
-                LayoutInflater.from(context).inflate(R.layout.item_default, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         bind.stateful.setStateView(
-                UiState.EMPTY.name,
-                LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
-                    setOnClickListener(this@NoteHomeFragment)
-                }
+            UiState.EMPTY.name,
+            LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
+                setOnClickListener(this@NoteHomeFragment)
+            }
         )
 
         processUiState(UiState.DEFAULT)
@@ -233,15 +234,15 @@ class NoteHomeFragment
         adapter.setStickyHeaders(false)
         scroller = object : OnVerticalScrollListener() {}
         ViewUtil.setRecycler(
-                adapter,
-                bindRecycler.recycler,
-                SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
-                FlexibleItemDecoration(context!!)
-                        .addItemViewType(R.layout.item_note, adapter.getItemOffset())
-                        .withEdge(true),
-                null,
-                scroller,
-                null
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_note, adapter.getItemOffset())
+                .withEdge(true),
+            null,
+            scroller,
+            null
         )
     }
 
@@ -261,15 +262,15 @@ class NoteHomeFragment
         }
         currentItem = item
         powerMenu = PowerMenu.Builder(context)
-                .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
-                .addItemList(optionItems)
-                .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
-                .setSelectedTextColor(Color.WHITE)
-                .setOnMenuItemClickListener(this)
-                .setLifecycleOwner(this)
-                .setDividerHeight(1)
-                .setTextSize(12)
-                .build()
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(optionItems)
+            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .setDividerHeight(1)
+            .setTextSize(12)
+            .build()
         powerMenu?.showAsAnchorRightBottom(view)
     }
 
@@ -294,15 +295,18 @@ class NoteHomeFragment
     }
 
     private fun request(
-            action: Action = Action.DEFAULT,
-            input: Note? = Constants.Default.NULL,
-            single: Boolean = Constants.Default.BOOLEAN,
-            progress: Boolean = Constants.Default.BOOLEAN) {
+        id: String? = Constants.Default.NULL,
+        action: Action = Action.DEFAULT,
+        input: Note? = Constants.Default.NULL,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
         val request = NoteRequest(
-                action = action,
-                input = input,
-                single = single,
-                progress = progress
+            id = id,
+            action = action,
+            input = input,
+            single = single,
+            progress = progress
         )
         vm.request(request)
     }
@@ -373,35 +377,35 @@ class NoteHomeFragment
 
     private fun openAddNoteUi() {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                action = Action.ADD
+            type = Type.NOTE,
+            action = Action.ADD
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
     }
 
     private fun openEditNoteUi(note: Note) {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                action = Action.EDIT,
-                input = note
+            type = Type.NOTE,
+            action = Action.EDIT,
+            input = note
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
     }
 
     private fun openFavoriteUi() {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                state = State.FAVORITE,
-                action = Action.OPEN
+            type = Type.NOTE,
+            state = State.FAVORITE,
+            action = Action.OPEN
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
     }
 
     private fun openSettingsUi() {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                state = State.SETTINGS,
-                action = Action.OPEN
+            type = Type.NOTE,
+            state = State.SETTINGS,
+            action = Action.OPEN
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
     }

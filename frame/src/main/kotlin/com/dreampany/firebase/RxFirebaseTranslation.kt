@@ -64,13 +64,13 @@ class RxFirebaseTranslation @Inject constructor() {
     }
 
     fun translateRx(source: String, target: String, input: String): Maybe<String> {
-        Timber.v("Machine Translation Fired")
+        Timber.v("Firebase Translation Fired")
         return Maybe.create { emitter ->
             val task = toTask(source, target, input)
             task.addOnSuccessListener { output ->
                 if (!emitter.isDisposed) {
                     if (output != null) {
-                        Timber.v("Machine Translation Result %s %s", input, output)
+                        Timber.v("Firebase Translation Result %s %s", input, output)
                         emitter.onSuccess(output)
                     } else {
                         emitter.onComplete()

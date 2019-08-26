@@ -662,7 +662,7 @@ class WordHomeFragment
     private fun searchWord(word: String) {
         recentWord = word
         searchView.clearFocus()
-        //request(recent = true)
+        request(id = recentWord, single = true, progress = true)
         AndroidUtil.speak(recentWord)
     }
 

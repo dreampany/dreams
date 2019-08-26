@@ -60,8 +60,8 @@ class WordnikManager
             try {
                 val wordOfTheDay = api.getWordOfTheDay(date)
                 return getWord(wordOfTheDay, limit)
-            } catch (e: Exception) {
-                Timber.e(e)
+            } catch (error: Throwable) {
+                Timber.e(error)
                 iterateQueue()
             }
 
@@ -77,8 +77,8 @@ class WordnikManager
                 val includeSuggestions = "false"
                 //val word = api.getWord(word, useCanonical, includeSuggestions);
                 return getWordImpl(word, limit)
-            } catch (e: Exception) {
-                Timber.e(e)
+            } catch (error: Throwable) {
+                Timber.e(error)
                 iterateQueue()
             }
 
@@ -333,8 +333,8 @@ class WordnikManager
                     pronunciation = pronunciation.replace("(?s)<i>.*?</i>".toRegex(), "")
                     return pronunciation
                 }*/
-            } catch (e: Exception) {
-                Timber.e(e)
+            } catch (error: Throwable) {
+                Timber.e(error)
                 iterateQueue()
             }
 

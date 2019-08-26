@@ -366,6 +366,7 @@ class WordFragment
     private fun processSingleSuccess(uiItem: WordItem) {
         Timber.v("Result Single Word[%s]", uiItem.item.id)
         recentWord = uiItem.item.id
+        setTitle(recentWord)
         bind.setItem(uiItem)
         bindWord.layoutWord.visibility = View.VISIBLE
         if (uiItem.translation.isNullOrEmpty()) {

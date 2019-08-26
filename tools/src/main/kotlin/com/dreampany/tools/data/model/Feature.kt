@@ -26,7 +26,9 @@ import kotlinx.android.parcel.Parcelize
 data class Feature(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING, // package
-    var type: Type = Type.DEFAULT
+    var type: Type = Type.DEFAULT,
+    var title: String? = Constants.Default.NULL,
+    var subtitle: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -46,9 +48,10 @@ data class Feature(
 
     }
 
-    constructor(type: Type) : this(
+    constructor(type: Type = Type.DEFAULT, title: String? = Constants.Default.NULL) : this(
         id = type.name,
-        type = type
+        type = type,
+        title = title
     ) {
 
     }

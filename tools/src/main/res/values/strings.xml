@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Smart Tools</string>
 
+    <string name="title_feature_app">App Manager</string>
+    <string name="title_feature_word">Learn Words</string>
+    <string name="title_feature_note">Keep Notes</string>
+
+
+
     <string name="title_app">All Apps</string>
     <string name="subtitle_app" translatable="false">Total: %d</string>
     <string name="title_note" translatable="false">Note</string>

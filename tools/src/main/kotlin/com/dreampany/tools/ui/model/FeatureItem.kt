@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.model
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
@@ -25,7 +26,8 @@ import java.io.Serializable
  * Last modified $file.lastModified
  */
 class FeatureItem private constructor(
-    item: Feature, @LayoutRes layoutId: Int = Constants.Default.INT
+    item: Feature,
+    @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<Feature, FeatureItem.ViewHolder, String>(item, layoutId) {
 
     var color: Int = 0
@@ -64,12 +66,13 @@ class FeatureItem private constructor(
 
         private var adapter: FeatureAdapter
         private var imageIcon: AppCompatImageView
+        private var textTitle: AppCompatTextView
 
         init {
             this.adapter = adapter as FeatureAdapter
             height = getSpanHeight(this.adapter.getSpanCount(), this.adapter.getItemOffset())
             imageIcon = view.findViewById(R.id.image_icon)
-
+            textTitle = view.findViewById(R.id.text_title)
 
             view.layoutParams.height = height
             view.setOnClickListener { view ->
@@ -95,6 +98,7 @@ class FeatureItem private constructor(
             val type = feature.type
             val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(type.name), item.color)
             imageIcon.setImageDrawable(drawable)
+            textTitle.text = feature.title
         }
     }
 }

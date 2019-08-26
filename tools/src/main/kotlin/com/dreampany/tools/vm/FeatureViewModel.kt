@@ -15,6 +15,8 @@ import com.dreampany.tools.data.misc.FeatureRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.model.FeatureItem
 import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.frame.util.TextUtil
+import com.dreampany.tools.R
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -118,9 +120,9 @@ class FeatureViewModel @Inject constructor(
     private fun getItemsRx(request: FeatureRequest): Maybe<List<Feature>> {
         return Maybe.create { emitter ->
             val items = mutableListOf<Feature>()
-            items.add(Feature( Type.APP))
-            items.add(Feature(Type.WORD))
-            items.add(Feature(Type.NOTE))
+            items.add(Feature(type = Type.APP, title = TextUtil.getString(getApplication(), R.string.title_feature_app)))
+            items.add(Feature(type = Type.WORD, title = TextUtil.getString(getApplication(), R.string.title_feature_word)))
+            items.add(Feature(type = Type.NOTE, title = TextUtil.getString(getApplication(), R.string.title_feature_note)))
             emitter.onSuccess(items)
         }
     }

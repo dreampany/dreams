@@ -1,70 +1,53 @@
 package com.dreampany.tools.ui.fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
-import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
-import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.callback.SearchViewCallback
 import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
-import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.activity.ToolsActivity
-import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.model.WordItem
-import com.dreampany.tools.vm.LoaderViewModel
 import com.dreampany.tools.vm.WordViewModel
 import com.klinker.android.link_builder.Link
 import com.miguelcatalan.materialsearchview.MaterialSearchView
-import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
 import cz.kinst.jakub.view.StatefulLayout
-import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
 /**
- * Created by Roman-372 on 7/17/2019
+ * Created by Roman-372 on 8/26/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @ActivityScope
-class WordHomeFragment
+class WordFragment
 @Inject constructor() :
     BaseMenuFragment(),
-    SmartAdapter.Callback<WordItem>,
     MaterialSearchView.OnQueryTextListener,
     MaterialSearchView.SearchViewListener,
     OnMenuItemClickListener<PowerMenuItem> {
@@ -75,81 +58,46 @@ class WordHomeFragment
     internal lateinit var pref: Pref
     @Inject
     internal lateinit var wordPref: WordPref
-    private lateinit var bind: FragmentWordHomeBinding
+    private lateinit var bind: FragmentWordBinding
     private lateinit var bindStatus: ContentTopStatusBinding
-    private lateinit var bindRecycler: ContentRecyclerBinding
     private lateinit var bindFullWord: ContentFullWordBinding
     private lateinit var bindWord: ContentWordBinding
     private lateinit var bindRelated: ContentRelatedBinding
     private lateinit var bindDef: ContentDefinitionBinding
     private lateinit var bindYandex: ContentYandexTranslationBinding
 
-    private lateinit var scroller: OnVerticalScrollListener
     private lateinit var searchView: MaterialSearchView
 
     private lateinit var vm: WordViewModel
-    private lateinit var loaderVm: LoaderViewModel
-    private lateinit var adapter: WordAdapter
     private var recentWord: String? = null
 
     private val langItems = ArrayList<PowerMenuItem>()
     private var langMenu: PowerMenu? = null
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_word_home
+        return R.layout.fragment_word
     }
 
     override fun getMenuId(): Int {
-        return R.menu.menu_word_home
+        return R.menu.menu_word
     }
 
     override fun getSearchMenuItemId(): Int {
         return R.id.item_search
     }
 
-    override fun getTitleResId(): Int {
-        return R.string.home
-    }
-
-    override fun onStartUi(state: Bundle?) {
-        buildLangItems()
-        initUi()
-        initRecycler()
-        toScanMode()
-        processUiState(UiState.SEARCH)
-        adjustTranslationUi()
-        loadRequest()
-        request(suggests = true, action = Action.GET, single = false)
-    }
-
-    override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initLanguageUi()
-        request(
-            id = recentWord,
-            recent = true,
-            action = Action.GET,
-            single = true,
-            progress = true
-        )
-    }
+/*    override fun getTitleResId(): Int {
+        return R.string.title_word
+    }*/
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-        val favoriteItem = menu.findItem(R.id.item_favorite)
-        val settingsItem = menu.findItem(R.id.item_settings)
+        val shareItem = menu.findItem(R.id.item_share)
         MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem, favoriteItem, settingsItem
+            null, searchItem, shareItem
         )
 
         val activity = getParent()
@@ -163,60 +111,37 @@ class WordHomeFragment
         initLanguageUi()
     }
 
+    override fun onStartUi(state: Bundle?) {
+        buildLangItems()
+        initUi()
+        adjustTranslationUi()
+        request(id = recentWord, single = true, progress = true)
+    }
+
+    override fun onStopUi() {
+        processUiState(UiState.HIDE_PROGRESS)
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch()
+        }
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_favorite -> {
-                openFavoriteUi()
+            R.id.item_share -> {
+                vm.share(this)
                 return true
             }
-            R.id.item_settings -> {
 
-                return true
-            }
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onRefresh() {
-        super.onRefresh()
-        //processUiState(UiState.HIDE_PROGRESS);
-    }
-
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.toggle_definition -> toggleDefinition()
-            R.id.button_favorite -> {
-                request(id = bind.item?.item?.id, action = Action.FAVORITE, single = true)
-            }
-            R.id.fab -> processFabAction()
-            R.id.image_speak -> speak()
-            R.id.text_word -> {
-                bindWord.getItem()?.run {
-                    openWordUi(this.item)
-                }
-            }
-            R.id.button_language -> {
-                openOptionsMenu(v)
-            }
-            R.id.layout_yandex -> openYandexSite()
-        }
-    }
-
-    override fun onItemClick(view: View?, position: Int): Boolean {
-        if (position != RecyclerView.NO_POSITION) {
-            val item = adapter.getItem(position)
-            // openWordUi(item.getItem());
-            return true
-        }
-        return false
-    }
-
     override fun onSearchViewShown() {
-        toSearchMode()
+        //toSearchMode()
     }
 
     override fun onSearchViewClosed() {
-        toScanMode()
+        //toScanMode()
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
@@ -245,23 +170,6 @@ class WordHomeFragment
         processOption(language)
     }
 
-    override val empty: Boolean
-        get() = false
-    override val items: List<WordItem>?
-        get() = adapter.currentItems
-    override val visibleItems: List<WordItem>?
-        get() = adapter.getVisibleItems()
-    override val visibleItem: WordItem?
-        get() = adapter.getVisibleItem()
-
-    override fun hasBackPressed(): Boolean {
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch()
-            return true
-        }
-        return super.hasBackPressed()
-    }
-
     private fun buildLangItems(fresh: Boolean = false) {
         if (fresh) {
             langItems.clear()
@@ -277,10 +185,11 @@ class WordHomeFragment
     }
 
     private fun initUi() {
-        //setTitle(R.string.home)
-        bind = super.binding as FragmentWordHomeBinding
+        val uiTask = getCurrentTask<UiTask<Word>>(true)
+        recentWord = uiTask!!.input!!.id
+        setTitle(recentWord)
+        bind = super.binding as FragmentWordBinding
         bindStatus = bind.layoutTopStatus
-        bindRecycler = bind.layoutRecycler
         bindFullWord = bind.layoutFullWord
         bindWord = bindFullWord.layoutWord
         bindRelated = bindFullWord.layoutRelated
@@ -306,48 +215,12 @@ class WordHomeFragment
         bindWord.textWord.setOnClickListener(this)
         bindWord.imageSpeak.setOnClickListener(this)
         bindWord.buttonLanguage.setOnClickListener(this)
-        bind.fab.setOnClickListener(this)
         bindYandex.textYandexPowered.setOnClickListener(this)
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
-        loaderVm = ViewModelProviders.of(this, factory).get(LoaderViewModel::class.java)
-        vm.setUiCallback(this)
+        vm.task = uiTask
         vm.observeUiState(this, Observer { this.processUiState(it) })
-        vm.observeOutputsOfString(this, Observer { this.processResponseOfString(it) })
-        vm.observeOutputs(this, Observer { this.processResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-
-    }
-
-    private fun initRecycler() {
-        bind.setItems(ObservableArrayList<Any>())
-        adapter = WordAdapter(this)
-        adapter.setStickyHeaders(false)
-        scroller = object : OnVerticalScrollListener() {
-            override fun onScrollingAtEnd() {
-
-            }
-        }
-        ViewUtil.setRecycler(
-            adapter,
-            bindRecycler.recycler,
-            SmoothScrollLinearLayoutManager(context!!),
-            FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_word, vm.itemOffset)
-                .withEdge(true),
-            null,
-            scroller, null
-        )
-    }
-
-    private fun processOption(language: Language) {
-        pref.setLanguage(language)
-        initLanguageUi()
-        adjustTranslationUi()
-        buildLangItems(fresh = true)
-        if (!language.equals(Language.ENGLISH)) {
-            request(id = recentWord, history = true, single = true, progress = true)
-        }
     }
 
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
@@ -363,39 +236,14 @@ class WordHomeFragment
         val language = pref.getLanguage(Language.ENGLISH)
         bindWord.buttonLanguage.text = language.code
     }
-
-    private fun openOptionsMenu(v: View) {
-        //currentItem = item
-        langMenu = PowerMenu.Builder(context)
-            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
-            .addItemList(langItems)
-            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
-            .setSelectedTextColor(Color.WHITE)
-            .setOnMenuItemClickListener(this)
-            .setLifecycleOwner(this)
-            .setDividerHeight(1)
-            .setTextSize(14)
-            .build()
-        langMenu?.showAsAnchorRightTop(v)
-    }
-
-    private fun openLanguagePicker() {
-        val languages = Language.getAll()
-
-        /*val picker = LanguagePicker.newInstance(getString(R.string.select_language), languages)
-        picker.setCallback { language ->
-            pref.setLanguage(language)
-            initLanguageUi()
-            adjustTranslationUi()
-            val language = pref.getLanguage(Language.ENGLISH)
-            val english = Language.ENGLISH.equals(language)
-            if (!english) {
-                request(id = recentWord, recent = true, progress = false)
-            }
-            picker.dismissAllowingStateLoss()
-            //Unit
+    private fun processOption(language: Language) {
+        pref.setLanguage(language)
+        initLanguageUi()
+        adjustTranslationUi()
+        buildLangItems(fresh = true)
+        if (!language.equals(Language.ENGLISH)) {
+            request(id = recentWord, history = true, single = true, progress = true)
         }
-        picker.show(fragmentManager!!, Constants.Tag.LANGUAGE_PICKER)*/
     }
 
     private fun processUiState(state: UiState) {
@@ -409,38 +257,12 @@ class WordHomeFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            //UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.ERROR -> {
             }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
-        }
-    }
-
-    private fun processResponseOfString(response: Response<List<String>>) {
-        if (response is Response.Progress<*>) {
-            val result = response as Response.Progress<*>
-            vm.processProgress(result.loading)
-        } else if (response is Response.Failure<*>) {
-            val result = response as Response.Failure<*>
-            processFailure(result.error)
-        } else if (response is Response.Result<*>) {
-            val result = response as Response.Result<List<String>>
-            processSuccessOfString(result.action, result.data)
-        }
-    }
-
-    private fun processResponse(response: Response<List<WordItem>>) {
-        if (response is Response.Progress<*>) {
-            val result = response as Response.Progress<*>
-            vm.processProgress(result.loading)
-        } else if (response is Response.Failure<*>) {
-            val result = response as Response.Failure<*>
-            processFailure(result.error)
-        } else if (response is Response.Result<*>) {
-            val result = response as Response.Result<List<WordItem>>
-            processSuccess(result.action, result.data)
         }
     }
 
@@ -456,37 +278,6 @@ class WordHomeFragment
             processSingleSuccess(result.data)
         }
     }
-
-    private fun toScanMode() {
-        bind.fab.setImageResource(R.drawable.ic_filter_center_focus_black_24dp)
-    }
-
-    private fun toSearchMode() {
-        bind.fab.setImageResource(R.drawable.ic_search_black_24dp)
-    }
-
-    private fun processFabAction() {
-        if (searchView.isSearchOpen()) {
-            searchView.clearFocus()
-            request(
-                recentWord,
-                action = Action.SEARCH,
-                history = true,
-                single = true,
-                progress = true
-            )
-            return
-        }
-        openOcr()
-    }
-
-/*    private fun processProgress(loading: Boolean) {
-        if (loading) {
-            vm.updateUiState(UiState.SHOW_PROGRESS)
-        } else {
-            vm.updateUiState(UiState.HIDE_PROGRESS)
-        }
-    }*/
 
     private fun processFailure(error: Throwable) {
         if (error is IOException || error.cause is IOException) {
@@ -525,27 +316,25 @@ class WordHomeFragment
             }
             return
         }
-        adapter.clear()
-        adapter.addItems(items)
         ex.postToUi(kotlinx.coroutines.Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
-    private fun processSingleSuccess(item: WordItem) {
-        Timber.v("Result Single Word[%s]", item.item.id)
-        recentWord = item.item.id
-        bind.setItem(item)
+    private fun processSingleSuccess(uiItem: WordItem) {
+        Timber.v("Result Single Word[%s]", uiItem.item.id)
+        recentWord = uiItem.item.id
+        bind.setItem(uiItem)
         bindWord.layoutWord.visibility = View.VISIBLE
-        if (item.translation.isNullOrEmpty()) {
+        if (uiItem.translation.isNullOrEmpty()) {
             bindWord.textTranslation.visibility = View.GONE
         } else {
             bindWord.textTranslation.visibility = View.VISIBLE
         }
-        //processRelated(item.getItem().getSynonyms(), item.getItem().getAntonyms());
-        processDefinitions(item.item.definitions)
+        processRelated(uiItem.item.synonyms, uiItem.item.antonyms);
+        processDefinitions(uiItem.item.definitions)
         processUiState(UiState.CONTENT)
     }
 
-    private fun processRelated(synonyms: List<String>, antonyms: List<String>) {
+    private fun processRelated(synonyms: List<String>?, antonyms: List<String>?) {
         val synonym = DataUtil.joinString(synonyms, Constants.Sep.COMMA_SPACE)
         val antonym = DataUtil.joinString(antonyms, Constants.Sep.COMMA_SPACE)
 
@@ -673,11 +462,6 @@ class WordHomeFragment
         }
     }
 
-    private fun loadRequest() {
-        val request = LoadRequest(action = Action.LOAD)
-        loaderVm.request(request)
-    }
-
     private fun request(
         id: String? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
@@ -703,47 +487,5 @@ class WordHomeFragment
             progress = progress
         )
         vm.request(request)
-    }
-
-    private fun openWordUi(item: Word) {
-        val task = UiTask<Word>(
-            type = Type.WORD,
-            action = Action.OPEN,
-            input = item
-        )
-        openActivity(ToolsActivity::class.java, task)
-    }
-
-    private fun openOcr() {
-        val task = UiTask<Word>(type = Type.OCR, subtype = Subtype.DEFAULT, action = Action.OPEN)
-        openActivity(ToolsActivity::class.java, task)
-    }
-
-    private fun openFavoriteUi() {
-        val task = UiTask<Word>(
-            type = Type.WORD,
-            state = State.FAVORITE,
-            action = Action.OPEN
-        )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.FAVORITE)
-    }
-
-    private fun openSettingsUi() {
-        val task = UiTask<Note>(
-            type = Type.NOTE,
-            state = State.SETTINGS,
-            action = Action.OPEN
-        )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
-    }
-
-    private fun openYandexSite() {
-        val outTask = UiTask<Word>(
-            type = Type.SITE,
-            subtype = Subtype.DEFAULT,
-            action = Action.OPEN,
-            extra = Constants.Translation.YANDEX_URL
-        )
-        openActivity(ToolsActivity::class.java, outTask)
     }
 }

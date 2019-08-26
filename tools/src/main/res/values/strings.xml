@@ -27,6 +27,8 @@
 
     <string name="title_word">Word</string>
     <string name="title_favorite_words">Favorite Words</string>
+    <string name="subtitle_favorite_words" translatable="false">Total: %d</string>
+
     <string name="title_definitions">Definitions</string>
     <string name="word_vision">%s (%s)\n%s</string>
 

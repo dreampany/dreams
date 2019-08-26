@@ -13,7 +13,14 @@ import com.dreampany.tools.api.wordnik.model.WordSearchResults
  * Last modified $file.lastModified
  */
 
-class WordsApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(basePath) {
+class WordsApi(
+    basePath: String = "https://api.wordnik.com/v4",
+    keyOfApi: String = ""
+) : ApiClient(basePath) {
+
+    init {
+        this.keyOfApi = keyOfApi
+    }
 
     /**
      * Returns a single random WordObject

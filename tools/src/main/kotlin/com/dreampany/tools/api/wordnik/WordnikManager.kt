@@ -1,11 +1,12 @@
 package com.dreampany.tools.api.wordnik
 
-import com.dreampany.frame.util.DataUtil
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.frame.util.*
 import com.dreampany.tools.api.wordnik.core.ClientException
 import com.dreampany.tools.api.wordnik.misc.Constants
 import com.dreampany.tools.api.wordnik.model.*
+import com.google.common.collect.Maps
 import org.apache.commons.collections4.queue.CircularFifoQueue
+import org.apache.commons.lang3.tuple.MutablePair
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 class WordnikManager
 @Inject constructor() {
 
-    private val KEYS = arrayOf(
+    private val keys = arrayOf(
         Constants.ApiKey.WORDNIK_API_KEY_ROMANBJIT,
         Constants.ApiKey.WORDNIK_API_KEY_DREAMPANY,
         Constants.ApiKey.WORDNIK_API_KEY_IFTENET
@@ -30,30 +31,31 @@ class WordnikManager
     private val wordsApis: MutableList<WordsApi>
     private val wordApis: MutableList<WordApi>
 
-    private val queue: CircularFifoQueue<Int>
-
+    private val indexQueue: CircularFifoQueue<Int>
+    private val indexStatus: MutableMap<Int, MutablePair<Long, Int>>
 
     init {
         wordsApis = Collections.synchronizedList(ArrayList<WordsApi>())
         wordApis = Collections.synchronizedList(ArrayList<WordApi>())
-        queue = CircularFifoQueue(KEYS.size)
+        indexQueue = CircularFifoQueue(keys.size)
+        indexStatus = Maps.newConcurrentMap()
 
-        for (index in KEYS.indices) {
-            val key = KEYS[index]
-            queue.add(index)
-
-            val wordsApi = WordsApi()
-            wordsApi.keyOfApi = key
-            wordsApis.add(wordsApi)
-
-            val wordApi = WordApi()
-            wordApi.keyOfApi = key
-            wordApis.add(wordApi)
+        for (index in keys.indices) {
+            val key = keys[index]
+            indexQueue.add(index)
+            wordsApis.add(WordsApi(keyOfApi = key))
+            wordApis.add(WordApi(keyOfApi = key))
+            indexStatus[index] = MutablePair.of(TimeUtilKt.currentMillis(), 0)
+        }
+        var randIndex = NumberUtil.nextRand(keys.size)
+        while (randIndex > 0) {
+            iterateQueue()
+            randIndex--
         }
     }
 
     fun getWordOfTheDay(date: String, limit: Int): WordnikWord? {
-        for (index in KEYS.indices) {
+        for (index in keys.indices) {
             val api = getWordsApi()
             try {
                 val wordOfTheDay = api.getWordOfTheDay(date)
@@ -68,12 +70,12 @@ class WordnikManager
     }
 
     fun getWord(word: String, limit: Int): WordnikWord? {
-        for (index in KEYS.indices) {
+        for (index in keys.indices) {
             val api = getWordApi()
             try {
                 val useCanonical = "true"
                 val includeSuggestions = "false"
-                //WordObject wordObject = api.getWord(word, useCanonical, includeSuggestions);
+                //val word = api.getWord(word, useCanonical, includeSuggestions);
                 return getWordImpl(word, limit)
             } catch (e: Exception) {
                 Timber.e(e)
@@ -98,7 +100,7 @@ class WordnikManager
         val maxLength = -1
         val skip = 0
 
-        for (index in KEYS.indices) {
+        for (index in keys.indices) {
             val api = getWordsApi()
             /*            try {
                 WordSearchResults results = api.searchWords(query,
@@ -134,15 +136,32 @@ class WordnikManager
     }
 
     private fun iterateQueue() {
-        queue.add(queue.peek())
+        indexQueue.add(indexQueue.peek())
+    }
+
+    private fun adjustIndexStatus() {
+        val index = indexQueue.peek()!!
+        val pair = indexStatus[index]
+        pair?.let {
+            if (TimeUtil.isExpired(it.left, Constants.Delay.WordnikKey)) {
+                it.setLeft(TimeUtilKt.currentMillis())
+                it.setRight(0)
+            }
+            if (it.right > Constants.Limit.WORDNIK_KEY) {
+                iterateQueue()
+            }
+            it.right++
+        }
     }
 
     private fun getWordApi(): WordApi {
-        return wordApis[queue.peek()!!]
+        adjustIndexStatus()
+        return wordApis[indexQueue.peek()!!]
     }
 
     private fun getWordsApi(): WordsApi {
-        return wordsApis[queue.peek()!!]
+        adjustIndexStatus()
+        return wordsApis[indexQueue.peek()!!]
     }
 
     private fun getWord(from: WordOfTheDay, limit: Int): WordnikWord {
@@ -164,9 +183,9 @@ class WordnikManager
         val definitions = getDefinitions(from, limit)
 
         word.partOfSpeech = getPartOfSpeech(definitions)
-        word.pronunciation = getPronunciation(from, limit)
         word.definitions = getDefinitions(definitions)
         word.examples = getExamplesBy(definitions)
+        word.pronunciation = getPronunciation(from, limit)
 
         //List<String> examples = getExamples(from, limit);
         //word.setExamples(examples);
@@ -267,9 +286,9 @@ class WordnikManager
                 if (DataUtil.isEmpty(def.exampleUses))
                     continue
                 def.exampleUses?.forEach {
-                   it.text?.run{
-                       examples.add(this)
-                   }
+                    it.text?.run {
+                        examples.add(this)
+                    }
                 }
             }
             return examples
@@ -289,7 +308,7 @@ class WordnikManager
 
 
     private fun getPronunciation(word: String, limit: Int): String? {
-        for (index in KEYS.indices) {
+        for (index in keys.indices) {
             val api = getWordApi()
             try {
                 val sourceDictionary: String? = null
@@ -326,7 +345,7 @@ class WordnikManager
     private fun getDefinitions(word: String, limit: Int): List<Definition>? {
         var word = word
         var index = 0
-        while (index < KEYS.size) {
+        while (index < keys.size) {
             val api = getWordApi()
             try {
                 val partOfSpeech: String? = null
@@ -363,7 +382,7 @@ class WordnikManager
     }
 
     fun getExamples(word: String, limit: Int): List<String>? {
-        for (index in KEYS.indices) {
+        for (index in keys.indices) {
             val api = getWordApi()
             try {
                 val includeDuplicates = "true"
@@ -393,7 +412,7 @@ class WordnikManager
         val maxLength = -1
         val skip = 0
 
-        for (index in KEYS.indices) {
+        for (index in keys.indices) {
             val api = getWordsApi()
 
             /*            try {
@@ -422,7 +441,7 @@ class WordnikManager
     private fun getRelateds(word: String, relationshipTypes: String, limit: Int): List<Related>? {
         var word = word
         var index = 0
-        while (index < KEYS.size) {
+        while (index < keys.size) {
             val api = getWordApi()
             try {
                 val useCanonical = "true"

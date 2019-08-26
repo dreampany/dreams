@@ -16,7 +16,6 @@ import com.dreampany.tools.ui.fragment.*
 import com.google.android.gms.ads.AdView
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
-import im.delight.android.webview.AdvancedWebView
 import javax.inject.Inject
 
 /**
@@ -42,6 +41,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
     @Inject
     lateinit var wordHomeProvider: Lazy<WordHomeFragment>
+    @Inject
+    lateinit var wordProvider: Lazy<WordFragment>
     @Inject
     lateinit var favoriteWordsProvider: Lazy<FavoriteWordsFragment>
     @Inject
@@ -172,13 +173,14 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     )
                     return
                 }
-                if (action == Action.ADD || action == Action.EDIT) {
-                    /*commitFragment(
-                        EditNoteFragment::class.java,
-                        editNoteProvider,
+                if (action == Action.OPEN) {
+                    commitFragment(
+                        WordFragment::class.java,
+                        wordProvider,
                         R.id.layout,
                         uiTask
-                    )*/
+                    )
+                    return
                 }
             }
             Type.OCR-> {

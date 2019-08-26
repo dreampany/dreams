@@ -10,7 +10,14 @@ import com.dreampany.tools.api.wordnik.model.*
  * Last modified $file.lastModified
  */
 
-class WordApi(basePath: String = "https://api.wordnik.com/v4") : ApiClient(basePath) {
+class WordApi(
+    basePath: String = "https://api.wordnik.com/v4",
+    keyOfApi: String = ""
+) : ApiClient(basePath) {
+
+    init {
+        this.keyOfApi = keyOfApi
+    }
 
     /**
      * Fetches audio metadata for a word.

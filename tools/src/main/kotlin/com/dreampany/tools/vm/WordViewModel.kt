@@ -1,6 +1,7 @@
 package com.dreampany.tools.vm
 
 import android.app.Application
+import androidx.fragment.app.Fragment
 import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
@@ -13,6 +14,7 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.adapter.SmartAdapter
 import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.language.Language
 import com.dreampany.network.data.model.Network
@@ -26,6 +28,7 @@ import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.util.Util
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -92,6 +95,13 @@ class WordViewModel
 
     fun isValid(word: String): Boolean {
         return repo.isValid(word)
+    }
+
+    fun share(fragment: Fragment) {
+        val word = task!!.input
+        val subject = word!!.id
+        val text = Util.getText(word)
+        AndroidUtil.share(fragment, subject, text)
     }
 
     private fun requestSingle(request: WordRequest) {

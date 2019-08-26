@@ -24,30 +24,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_8sdp">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_word"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="@{item.item.id}"
-                android:textColor="@color/material_black"
-                android:textSize="@dimen/_18ssp"
-                android:textStyle="bold"
-                auto:fontFamily="@font/roboto_slab_bold" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_translation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_word"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text='@{item.translation}'
-                android:textColor="@color/material_grey700"
-                android:textSize="@dimen/_12ssp"
-                auto:fontFamily="@font/roboto_slab_bold" />
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <ImageView
@@ -108,11 +85,35 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="@string/language_en"
                     android:textColor="@color/material_grey700"
-                    android:textSize="@dimen/_16ssp"
+                    android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
                     auto:fontFamily="@font/roboto_slab_bold" />
 
             </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_word"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@{item.item.id}"
+                android:textColor="@color/material_black"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold"
+                auto:fontFamily="@font/roboto_slab_bold" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_translation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_word"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text='@{item.translation}'
+                android:textColor="@color/material_grey700"
+                android:textSize="@dimen/_12ssp"
+                auto:fontFamily="@font/roboto_slab_bold" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

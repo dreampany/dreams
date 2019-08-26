@@ -164,8 +164,8 @@ class FavoriteWordsFragment
 
 
     private fun initTitleSubtitle() {
-        setTitle(R.string.title_favorite_notes)
-        val subtitle = getString(R.string.subtitle_favorite_notes, adapter.itemCount)
+        setTitle(R.string.title_favorite_words)
+        val subtitle = getString(R.string.subtitle_favorite_words, adapter.itemCount)
         setSubtitle(subtitle)
     }
 

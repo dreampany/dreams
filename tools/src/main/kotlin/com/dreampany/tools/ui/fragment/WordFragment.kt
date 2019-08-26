@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
@@ -7,6 +8,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.misc.exception.EmptyException
@@ -26,10 +29,12 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.vm.WordViewModel
 import com.klinker.android.link_builder.Link
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
 import com.skydoves.powermenu.PowerMenuItem
@@ -125,6 +130,11 @@ class WordFragment
         }
     }
 
+    override fun onRefresh() {
+        super.onRefresh()
+        processUiState(UiState.HIDE_PROGRESS)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_share -> {
@@ -134,6 +144,22 @@ class WordFragment
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.toggle_definition -> toggleDefinition()
+            R.id.button_favorite -> {
+                request(id = bind.item?.item?.id, action = Action.FAVORITE, single = true)
+            }
+
+            R.id.image_speak -> speak()
+
+            R.id.button_language -> {
+                openOptionsMenu(v)
+            }
+            R.id.layout_yandex -> openYandexSite()
+        }
     }
 
     override fun onSearchViewShown() {
@@ -209,6 +235,8 @@ class WordFragment
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
 
+        processUiState(UiState.DEFAULT)
+
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindDef.toggleDefinition.setOnClickListener(this)
         bindWord.buttonFavorite.setOnClickListener(this)
@@ -236,6 +264,22 @@ class WordFragment
         val language = pref.getLanguage(Language.ENGLISH)
         bindWord.buttonLanguage.text = language.code
     }
+
+    private fun openOptionsMenu(v: View) {
+        //currentItem = item
+        langMenu = PowerMenu.Builder(context)
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(langItems)
+            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .setDividerHeight(1)
+            .setTextSize(14)
+            .build()
+        langMenu?.showAsAnchorRightTop(v)
+    }
+
     private fun processOption(language: Language) {
         pref.setLanguage(language)
         initLanguageUi()
@@ -451,7 +495,7 @@ class WordFragment
     private fun searchWord(word: String) {
         recentWord = word
         searchView.clearFocus()
-        //request(recent = true)
+        request(id = recentWord, single = true, progress = true)
         AndroidUtil.speak(recentWord)
     }
 
@@ -460,6 +504,16 @@ class WordFragment
         item?.let {
             AndroidUtil.speak(it.item.id)
         }
+    }
+
+    private fun openYandexSite() {
+        val outTask = UiTask<Word>(
+            type = Type.SITE,
+            subtype = Subtype.DEFAULT,
+            action = Action.OPEN,
+            extra = Constants.Translation.YANDEX_URL
+        )
+        openActivity(ToolsActivity::class.java, outTask)
     }
 
     private fun request(

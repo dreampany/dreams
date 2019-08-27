@@ -138,7 +138,7 @@ class RemoteWordDataSource(
     override fun getItem(id: String): Word? {
         if (network.isObserving() && network.hasInternet()) {
             val item = wordnik.getWord(id, Constants.Limit.WORD_RESOLVE)
-            Timber.v("Wordnik Result %s", item!!.word)
+            Timber.v("Wordnik Result %s", item!!.toString())
             return mapper.getItem(id, item, true)
         }
         return null

@@ -2,6 +2,7 @@ package com.dreampany.frame.util
 
 import androidx.core.util.PatternsCompat
 import com.dreampany.frame.misc.Constants
+import com.google.common.base.Strings
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -16,6 +17,30 @@ class DataUtilKt {
 
         fun getRandId() :String {
             return UUID.randomUUID().toString()
+        }
+
+        fun isEmpty(vararg items: String): Boolean {
+            if (items.isEmpty()) {
+                return true
+            }
+            for (item in items) {
+                if (!Strings.isNullOrEmpty(item)) {
+                    return false
+                }
+            }
+            return true
+        }
+
+        fun isAnyEmpty(vararg items: String?): Boolean {
+            if (items.isEmpty()) {
+                return true
+            }
+            for (item in items) {
+                if (Strings.isNullOrEmpty(item)) {
+                    return true
+                }
+            }
+            return false
         }
 
         fun join(vararg items: Int): String {

@@ -4,6 +4,7 @@ import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.frame.util.DataUtilKt
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.Antonym
@@ -213,10 +214,12 @@ class WordMapper
         if (input.hasDefinition()) {
             val result = ArrayList<Definition>()
             input.definitions?.forEach { item ->
-                val def = Definition()
-                def.setPartOfSpeech(item.partOfSpeech)
-                def.text = TextUtil.stripHtml(item.text)
-                result.add(def)
+                if (!DataUtilKt.isAnyEmpty(item.partOfSpeech, item.text)) {
+                    val def = Definition()
+                    def.setPartOfSpeech(item.partOfSpeech)
+                    def.text = TextUtil.stripHtml(item.text)
+                    result.add(def)
+                }
             }
             return result
         }

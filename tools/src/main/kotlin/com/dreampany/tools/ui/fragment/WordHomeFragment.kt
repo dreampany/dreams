@@ -9,6 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BasicGridItem
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.bottomsheets.gridItems
 import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
@@ -94,6 +99,12 @@ class WordHomeFragment
 
     private val langItems = ArrayList<PowerMenuItem>()
     private var langMenu: PowerMenu? = null
+    val sheetItems = listOf(
+        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "One"),
+        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "Two"),
+        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "Three"),
+        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "Four")
+    )
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_word_home
@@ -199,6 +210,9 @@ class WordHomeFragment
                 openOptionsMenu(v)
             }
             R.id.layout_yandex -> openYandexSite()
+            R.id.image_upper -> {
+                openOptionSheet()
+            }
         }
     }
 
@@ -308,6 +322,7 @@ class WordHomeFragment
         bindWord.buttonLanguage.setOnClickListener(this)
         bind.fab.setOnClickListener(this)
         bindYandex.textYandexPowered.setOnClickListener(this)
+        bind.imageUpper.setOnClickListener(this)
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
         loaderVm = ViewModelProviders.of(this, factory).get(LoaderViewModel::class.java)
@@ -662,7 +677,7 @@ class WordHomeFragment
     private fun searchWord(word: String) {
         recentWord = word
         searchView.clearFocus()
-        request(id = recentWord, single = true, progress = true)
+        request(id = recentWord, history = true, single = true, progress = true)
         AndroidUtil.speak(recentWord)
     }
 
@@ -673,36 +688,12 @@ class WordHomeFragment
         }
     }
 
-    private fun loadRequest() {
-        val request = LoadRequest(action = Action.LOAD)
-        loaderVm.request(request)
-    }
-
-    private fun request(
-        id: String? = Constants.Default.NULL,
-        recent: Boolean = Constants.Default.BOOLEAN,
-        history: Boolean = Constants.Default.BOOLEAN,
-        suggests: Boolean = Constants.Default.BOOLEAN,
-        action: Action = Action.DEFAULT,
-        single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
-    ) {
-        val language = pref.getLanguage(Language.ENGLISH)
-        val translate = !Language.ENGLISH.equals(language)
-        val id = id?.toLowerCase()
-        val request = WordRequest(
-            id = id,
-            source = Language.ENGLISH.code,
-            target = language.code,
-            recent = recent,
-            history = history,
-            translate = translate,
-            suggests = suggests,
-            action = action,
-            single = single,
-            progress = progress
-        )
-        vm.request(request)
+    private fun openOptionSheet() {
+        MaterialDialog(context!!, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            gridItems(sheetItems) { _, index, item ->
+                Timber.v("Selected item ${item.title} at index $index")
+            }
+        }
     }
 
     private fun openWordUi(item: Word) {
@@ -745,5 +736,37 @@ class WordHomeFragment
             extra = Constants.Translation.YANDEX_URL
         )
         openActivity(ToolsActivity::class.java, outTask)
+    }
+
+    private fun loadRequest() {
+        val request = LoadRequest(action = Action.LOAD)
+        loaderVm.request(request)
+    }
+
+    private fun request(
+        id: String? = Constants.Default.NULL,
+        recent: Boolean = Constants.Default.BOOLEAN,
+        history: Boolean = Constants.Default.BOOLEAN,
+        suggests: Boolean = Constants.Default.BOOLEAN,
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val language = pref.getLanguage(Language.ENGLISH)
+        val translate = !Language.ENGLISH.equals(language)
+        val id = id?.toLowerCase()
+        val request = WordRequest(
+            id = id,
+            source = Language.ENGLISH.code,
+            target = language.code,
+            recent = recent,
+            history = history,
+            translate = translate,
+            suggests = suggests,
+            action = action,
+            single = single,
+            progress = progress
+        )
+        vm.request(request)
     }
 }

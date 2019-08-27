@@ -496,7 +496,7 @@ class WordFragment
     private fun searchWord(word: String) {
         recentWord = word
         searchView.clearFocus()
-        request(id = recentWord, single = true, progress = true)
+        request(id = recentWord, history = true, single = true, progress = true)
         AndroidUtil.speak(recentWord)
     }
 

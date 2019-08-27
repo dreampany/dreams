@@ -81,6 +81,17 @@
                 auto:srcCompat="@drawable/ic_search_black_24dp"
                 auto:tint="@color/material_white" />
 
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/image_upper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="null"
+                android:backgroundTint="@color/material_black"
+                android:tint="@color/material_black"
+                auto:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
+
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

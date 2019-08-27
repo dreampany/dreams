@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:textColor="@color/material_grey900"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_bold"
                 tools:text="@string/title" />
 

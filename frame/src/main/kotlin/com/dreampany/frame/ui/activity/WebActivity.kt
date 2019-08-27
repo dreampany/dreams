@@ -3,6 +3,7 @@ package com.dreampany.frame.ui.activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.View
 import com.dreampany.frame.R
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.databinding.ActivityWebBinding
@@ -34,27 +35,27 @@ class WebActivity : BaseActivity(), AdvancedWebView.Listener {
             finish()
             return
         }
-        bind.webview.setListener(this, this)
+        bind.webView.setListener(this, this)
         val url = task!!.extra
-        bind.webview.loadUrl(url)
+        bind.webView.loadUrl(url)
     }
 
     override fun onStopUi() {
-        bind.webview.onDestroy()
+        bind.webView.onDestroy()
     }
 
     override fun onResume() {
         super.onResume()
-        bind.webview.onResume()
+        bind.webView.onResume()
     }
 
     override fun onPause() {
-        bind.webview.onPause()
+        bind.webView.onPause()
         super.onPause()
     }
 
     override fun onBackPressed() {
-        if (!bind.webview.onBackPressed()) {
+        if (!bind.webView.onBackPressed()) {
             return
         }
         super.onBackPressed()
@@ -62,19 +63,19 @@ class WebActivity : BaseActivity(), AdvancedWebView.Listener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        bind.webview.onActivityResult(requestCode, resultCode, intent)
+        bind.webView.onActivityResult(requestCode, resultCode, intent)
     }
 
     override fun onPageStarted(url: String, favicon: Bitmap?) {
-
+        bind.viewSpin.visibility = View.VISIBLE
     }
 
     override fun onPageFinished(url: String) {
-
+        bind.viewSpin.visibility = View.GONE
     }
 
     override fun onPageError(errorCode: Int, description: String?, failingUrl: String?) {
-
+        bind.viewSpin.visibility = View.GONE
     }
 
     override fun onDownloadRequested(
@@ -89,6 +90,5 @@ class WebActivity : BaseActivity(), AdvancedWebView.Listener {
     }
 
     override fun onExternalPageRequest(url: String) {
-
     }
 }

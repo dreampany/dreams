@@ -11,6 +11,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.NotifyService
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.tools.worker.NotifyWorker
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -70,7 +71,8 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
-        configJob()
+        //configJob()
+        configWork()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -115,6 +117,19 @@ class App : BaseApp() {
             job.cancel(Constants.Tag.NOTIFY_SERVICE)
         }
     }
+
+    /**
+     * java.lang.IllegalArgumentException: could not find worker: androidx.work.impl.workers.ConstraintTrackingWorker
+     * at com.dreampany.frame.worker.factory.WorkerInjectorFactory.createWorker(WorkerInjectorFactory.kt:26)
+     */
+    private fun configWork() {
+        if (pref.hasNotification()) {
+            worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.SECONDS)
+        } else {
+            worker.cancel(NotifyWorker::class)
+        }
+    }
+
 
     private fun isVersionUpgraded(): Boolean {
         val exists = pref.getVersionCode()

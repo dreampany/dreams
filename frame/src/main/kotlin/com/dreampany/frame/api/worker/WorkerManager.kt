@@ -2,7 +2,6 @@ package com.dreampany.frame.api.worker
 
 import android.content.Context
 import androidx.work.*
-import com.dreampany.frame.api.service.BaseJobService
 import com.dreampany.frame.util.WorkerUtil
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -17,15 +16,15 @@ import kotlin.reflect.KClass
  * Last modified $file.lastModified
  */
 @Singleton
-class WorkerManager @Inject constructor(val context: Context) {
+class WorkerManager
+@Inject constructor(
+    private val context: Context
+) {
     @Inject
     internal lateinit var factory: WorkerFactory
 
     fun init() {
-        WorkManager.initialize(
-            context,
-            Configuration.Builder().setWorkerFactory(factory).build()
-        )
+        WorkManager.initialize(context, Configuration.Builder().setWorkerFactory(factory).build())
     }
 
     fun <W : BaseWorker> createPeriodic(classOfWorker: KClass<W>, period: Long, unit: TimeUnit) {

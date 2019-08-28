@@ -73,6 +73,7 @@ class Constants {
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
+        val WordSyncTimeMS = TimeUnit.MINUTES.toMillis(3)
     }
 
     object Date {
@@ -89,6 +90,7 @@ class Constants {
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"
         const val WORD_LAST = "word_last"
+        const val WORD_LAST_SYNC_TIME = "word_last_sync_time"
     }
 
     object Assets {

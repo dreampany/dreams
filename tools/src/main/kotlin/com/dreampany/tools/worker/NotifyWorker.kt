@@ -4,7 +4,12 @@ import android.content.Context
 import androidx.work.WorkerParameters
 import com.dreampany.tools.vm.NotifyViewModel
 import com.dreampany.frame.api.worker.BaseWorker
+import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.worker.factory.IWorkerFactory
+import com.dreampany.language.Language
+import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.data.source.pref.Pref
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -18,24 +23,39 @@ import javax.inject.Provider
 class NotifyWorker(
     context: Context,
     params: WorkerParameters,
+    private val pref: Pref,
     private val vm: NotifyViewModel
 ) : BaseWorker(context, params) {
 
     override fun onStart(): Result {
         Timber.v("NotifyWorker Started")
-        vm.notifyIf()
+        val language = pref.getLanguage(Language.ENGLISH)
+        val translate = !Language.ENGLISH.equals(language)
+        val request = WordRequest(
+            source = Language.ENGLISH.code,
+            target = language.code,
+            history = true,
+            translate = translate,
+            type = Type.WORD,
+            action = Action.SYNC,
+            single = true
+        )
+        vm.request(request)
         return Result.retry()
     }
 
     override fun onStop() {
         Timber.v("NotifyWorker Stopped")
-        vm.clearIf()
+
     }
 
     class Factory
-    @Inject constructor(private val vm: Provider<NotifyViewModel>) : IWorkerFactory<NotifyWorker> {
+    @Inject constructor(
+        private val pref: Pref,
+        private val vm: Provider<NotifyViewModel>
+    ) : IWorkerFactory<NotifyWorker> {
         override fun create(context: Context, params: WorkerParameters): NotifyWorker {
-            return NotifyWorker(context, params, vm.get())
+            return NotifyWorker(context, params, pref, vm.get())
         }
 
     }

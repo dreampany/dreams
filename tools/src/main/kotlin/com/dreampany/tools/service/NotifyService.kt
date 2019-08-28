@@ -17,12 +17,12 @@ class NotifyService : BaseJobService() {
     internal lateinit var vm: NotifyViewModel
 
     override fun doJob(job: JobParameters): Boolean {
-        vm.notifyIf()
+       // vm.notifyIf()
         return true
     }
 
     override fun done(job: JobParameters): Boolean {
-        vm.clearIf()
+        //vm.clearIf()
         return true
     }
 }

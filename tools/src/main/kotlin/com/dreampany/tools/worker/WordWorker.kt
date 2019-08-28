@@ -20,6 +20,7 @@ class WordWorker(
     params: WorkerParameters
 ) : BaseWorker(context, params) {
 
+
     override fun onStart(): Result {
         Timber.v("WordWorker Started")
         //vm.notifyIf()
@@ -32,9 +33,9 @@ class WordWorker(
     }
 
     class Factory
-    @Inject constructor(private val vm: Provider<NotifyViewModel>) : IWorkerFactory<NotifyWorker> {
-        override fun create(context: Context, params: WorkerParameters): NotifyWorker {
-            return NotifyWorker(context, params, vm.get())
+    @Inject constructor(private val vm: Provider<NotifyViewModel>) : IWorkerFactory<WordWorker> {
+        override fun create(context: Context, params: WorkerParameters): WordWorker {
+            return WordWorker(context, params)
         }
 
     }

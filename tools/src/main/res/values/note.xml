@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_note" translatable="false">Note</string>
+
+    <string name="title_empty_note" translatable="false">No Notes</string>
+    <string name="description_empty_note" translatable="false">It seems you have not added any notes. Click to add a note.</string>
+
+    <string name="hint_title_edit_note" translatable="false">Add Title...</string>
+    <string name="hint_description_edit_note" translatable="false">Add Description...</string>
+
+    <string name="title_add_note" translatable="false">Add Note</string>
+    <string name="title_edit_note" translatable="false">Edit Note</string>
+    <string name="error_title_note" translatable="false">Empty title</string>
+    <string name="error_description_note" translatable="false">Empty description</string>
+
+    <string name="dialog_title_save_note" translatable="false">Do you want to save note?</string>
+    <string name="dialog_saved_note" translatable="false">Note saved successfully.</string>
+
+    <string name="title_favorite_notes">Favorite Notes</string>
+    <string name="subtitle_favorite_notes" translatable="false">Total: %d</string>
+</resources>

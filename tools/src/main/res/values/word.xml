@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_word">Word</string>
+    <string name="title_favorite_words">Favorite Words</string>
+    <string name="subtitle_favorite_words" translatable="false">Total: %d</string>
+
+    <string name="title_definitions">Definitions</string>
+    <string name="word_vision">%s (%s)\n%s</string>
+
+    <string name="synonyms">Synonyms: %s</string>
+    <string name="antonyms">Antonyms: %s</string>
+    <string name="synonyms_bold">Synonyms:</string>
+    <string name="antonyms_bold">Antonyms:</string>
+
+    <string name="synonym_quiz">Synonym Quiz</string>
+    <string name="antonym_quiz">Antonym Quiz</string>
+
+</resources>

@@ -11,6 +11,7 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 2019-08-12
@@ -322,17 +323,17 @@ class WordnikManager
                     typeFormat,
                     limit
                 )
-                val pronunciations = Arrays.asList(result)
-/*                if (!DataUtil.isEmpty(pronunciations)) {
+                val pronunciations:List<TextPron> = result.toList()
+                if (!DataUtil.isEmpty(pronunciations)) {
                     var pronunciation = pronunciations[0].raw
                     for (indexX in 1 until pronunciations.size) {
-                        if (pronunciation.length > pronunciations[indexX].raw.length()) {
+                        if (pronunciation!!.length > pronunciations[indexX].raw!!.length) {
                             pronunciation = pronunciations[indexX].raw
                         }
                     }
-                    pronunciation = pronunciation.replace("(?s)<i>.*?</i>".toRegex(), "")
+                    pronunciation = pronunciation!!.replace("(?s)<i>.*?</i>".toRegex(), "")
                     return pronunciation
-                }*/
+                }
             } catch (error: Throwable) {
                 Timber.e(error)
                 iterateQueue()

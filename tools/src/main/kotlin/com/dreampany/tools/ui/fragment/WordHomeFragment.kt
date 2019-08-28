@@ -99,12 +99,7 @@ class WordHomeFragment
 
     private val langItems = ArrayList<PowerMenuItem>()
     private var langMenu: PowerMenu? = null
-    val sheetItems = listOf(
-        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "One"),
-        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "Two"),
-        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "Three"),
-        BasicGridItem(R.drawable.ic_play_arrow_black_24dp, "Four")
-    )
+    private val sheetItems = ArrayList<BasicGridItem>()
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_word_home
@@ -124,6 +119,7 @@ class WordHomeFragment
 
     override fun onStartUi(state: Bundle?) {
         buildLangItems()
+        buildSheetItems()
         initUi()
         initRecycler()
         toScanMode()
@@ -288,6 +284,24 @@ class WordHomeFragment
         for (lang in langs) {
             langItems.add(PowerMenuItem(lang.toString(), lang.equals(current), lang))
         }
+    }
+
+    private fun buildSheetItems() {
+        if (sheetItems.isNotEmpty()) {
+            return
+        }
+        sheetItems.add(
+            BasicGridItem(
+                R.drawable.ic_play_arrow_black_24dp,
+                getString(R.string.synonym_quiz)
+            )
+        )
+        sheetItems.add(
+            BasicGridItem(
+                R.drawable.ic_play_arrow_black_24dp,
+                getString(R.string.antonym_quiz)
+            )
+        )
     }
 
     private fun initUi() {
@@ -495,14 +509,6 @@ class WordHomeFragment
         openOcr()
     }
 
-/*    private fun processProgress(loading: Boolean) {
-        if (loading) {
-            vm.updateUiState(UiState.SHOW_PROGRESS)
-        } else {
-            vm.updateUiState(UiState.HIDE_PROGRESS)
-        }
-    }*/
-
     private fun processFailure(error: Throwable) {
         if (error is IOException || error.cause is IOException) {
             vm.updateUiState(UiState.OFFLINE)
@@ -689,9 +695,21 @@ class WordHomeFragment
     }
 
     private fun openOptionSheet() {
-        MaterialDialog(context!!, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+        MaterialDialog(context!!, BottomSheet()).show {
             gridItems(sheetItems) { _, index, item ->
-                Timber.v("Selected item ${item.title} at index $index")
+                processSheetOption(index, item)
+            }
+
+        }
+    }
+
+    private fun processSheetOption(index: Int, item: BasicGridItem) {
+        when (index) {
+            0 -> {
+                openPlayUi(Subtype.SYNONYM, Action.PLAY)
+            }
+            1 -> {
+                openPlayUi(Subtype.ANTONYM, Action.PLAY)
             }
         }
     }
@@ -736,6 +754,15 @@ class WordHomeFragment
             extra = Constants.Translation.YANDEX_URL
         )
         openActivity(ToolsActivity::class.java, outTask)
+    }
+
+    private fun openPlayUi(subtype: Subtype, action: Action) {
+        val task = UiTask<Word>(
+            type = Type.WORD,
+            subtype = subtype,
+            action = action
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.PLAY)
     }
 
     private fun loadRequest() {

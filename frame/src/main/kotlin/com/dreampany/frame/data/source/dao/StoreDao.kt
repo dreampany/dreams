@@ -44,11 +44,17 @@ interface StoreDao : BaseDao<Store> {
     @Query("select * from store where id = :id limit 1")
     fun getItemRx(id: String): Maybe<Store>
 
-    @Query("select * from store where id = :id and type = :type and subtype = :subtype limit 1")
-    fun getItem(id: String, type: String, subtype: String): Store?
+    @Query("select * from store where type = :type and subtype = :subtype and state = :state limit 1")
+    fun getItem(type: String, subtype: String, state: String): Store?
 
-    @Query("select * from store where id = :id and type = :type and subtype = :subtype limit 1")
-    fun getItemRx(id: String, type: String, subtype: String): Maybe<Store>
+    @Query("select * from store where type = :type and subtype = :subtype and state = :state limit 1")
+    fun getItemRx(type: String, subtype: String, state: String): Maybe<Store>
+
+    @Query("select * from store where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
+    fun getItem(id: String, type: String, subtype: String, state: String): Store?
+
+    @Query("select * from store where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
+    fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<Store>
 
     @Query("select * from store limit :limit")
     fun getItems(limit: Int): List<Store>?

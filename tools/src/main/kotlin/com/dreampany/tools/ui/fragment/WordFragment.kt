@@ -404,8 +404,10 @@ class WordFragment
 
     private fun processDefinitions(definitions: MutableList<Definition>?) {
         if (definitions == null) {
+            bindDef.layoutDefinition.visibility = View.GONE
             return
         }
+        bindDef.layoutDefinition.visibility = View.VISIBLE
         val singleBuilder = StringBuilder()
         val multipleBuilder = StringBuilder()
 

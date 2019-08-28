@@ -52,9 +52,9 @@ class WordViewModel
         private val wordPref: WordPref,
         private val storeMapper: StoreMapper,
         private val storeRepo: StoreRepository,
-        private val translationRepo: TranslationRepository,
         private val mapper: WordMapper,
         private val repo: WordRepository,
+        private val translationRepo: TranslationRepository,
         @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm), NetworkManager.Callback {
 

@@ -11,7 +11,8 @@ import androidx.work.WorkerParameters
  * Last modified $file.lastModified
  */
 abstract class BaseWorker constructor(
-    context: Context, params: WorkerParameters
+    context: Context,
+    params: WorkerParameters
 ) : Worker(context, params) {
 
     override fun doWork(): Result {

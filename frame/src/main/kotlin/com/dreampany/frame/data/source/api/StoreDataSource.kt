@@ -28,6 +28,8 @@ interface StoreDataSource : DataSource<Store> {
 
     fun getCountByTypeRx(type: Type, subtype: Subtype, state: State): Maybe<Int>
 
+    fun getItem(type: Type, subtype: Subtype, state: State): Store?
+
     fun getItem(id: String, type: Type, subtype: Subtype, state: State): Store?
 
     fun getItemRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Store>

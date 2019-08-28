@@ -23,6 +23,11 @@ constructor(
     private val mapper: StoreMapper,
     private val dao: StoreDao
 ) : StoreDataSource {
+
+    override fun getItem(type: Type, subtype: Subtype, state: State): Store? {
+        return dao.getItem(type.name, subtype.name, state.name)
+    }
+
     override fun getItems(type: Type, subtype: Subtype, state: State): List<Store>? {
         return dao.getItems(type.name, subtype.name, state.name)
     }

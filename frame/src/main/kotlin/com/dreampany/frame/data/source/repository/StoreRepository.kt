@@ -21,10 +21,15 @@ import javax.inject.Singleton
 @Singleton
 class StoreRepository
 @Inject constructor(
-        rx: RxMapper,
-        rm: ResponseMapper,
-        @Room private val room: StoreDataSource
+    rx: RxMapper,
+    rm: ResponseMapper,
+    @Room private val room: StoreDataSource
 ) : Repository<String, Store>(rx, rm), StoreDataSource {
+
+    override fun getItem(type: Type, subtype: Subtype, state: State): Store? {
+        return room.getItem(type, subtype, state)
+    }
+
     override fun getItems(type: Type, subtype: Subtype, state: State): List<Store>? {
         return room.getItems(type, subtype, state)
     }
@@ -42,10 +47,10 @@ class StoreRepository
     }
 
     override fun isExistsRx(
-            id: String,
-            type: Type,
-            subtype: Subtype,
-            state: State
+        id: String,
+        type: Type,
+        subtype: Subtype,
+        state: State
     ): Maybe<Boolean> {
         return room.isExistsRx(id, type, subtype, state)
     }

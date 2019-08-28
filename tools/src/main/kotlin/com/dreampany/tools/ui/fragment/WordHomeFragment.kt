@@ -345,7 +345,6 @@ class WordHomeFragment
         vm.observeOutputsOfString(this, Observer { this.processResponseOfString(it) })
         vm.observeOutputs(this, Observer { this.processResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-
     }
 
     private fun initRecycler() {
@@ -380,7 +379,6 @@ class WordHomeFragment
     }
 
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
-
         searchView.setMenuItem(searchItem)
         searchView.setSubmitOnClick(true)
 
@@ -591,8 +589,10 @@ class WordHomeFragment
 
     private fun processDefinitions(definitions: MutableList<Definition>?) {
         if (definitions == null) {
+            bindDef.layoutDefinition.visibility = View.GONE
             return
         }
+        bindDef.layoutDefinition.visibility = View.VISIBLE
         val singleBuilder = StringBuilder()
         val multipleBuilder = StringBuilder()
 
@@ -766,7 +766,7 @@ class WordHomeFragment
     }
 
     private fun loadRequest() {
-        val request = LoadRequest(action = Action.LOAD)
+        val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
         loaderVm.request(request)
     }
 

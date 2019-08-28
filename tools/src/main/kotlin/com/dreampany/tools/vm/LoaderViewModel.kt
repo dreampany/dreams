@@ -1,11 +1,11 @@
 package com.dreampany.tools.vm
 
 import android.app.Application
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
@@ -13,11 +13,11 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.DataUtilKt
-import com.dreampany.frame.util.TimeUtil
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Load
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
@@ -25,9 +25,11 @@ import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.LoadItem
+import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.translation.data.source.repository.TranslationRepository
 import kotlinx.coroutines.Runnable
 import timber.log.Timber
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -49,6 +51,7 @@ class LoaderViewModel
     private val storeRepo: StoreRepository,
     private val mapper: WordMapper,
     private val repo: WordRepository,
+    private val translationRepo: TranslationRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Load, LoadItem, UiTask<Load>>(application, rx, ex, rm) {
 
@@ -58,6 +61,30 @@ class LoaderViewModel
     private var alphaLoading = false
 
     fun request(request: LoadRequest) {
+        when (request.type) {
+            Type.WORD -> {
+                requestWord(request)
+            }
+        }
+
+    }
+
+    private fun requestWord(request: LoadRequest) {
+        when (request.action) {
+            Action.LOAD -> {
+                loadWords(request)
+            }
+            Action.SYNC -> {
+                ex.postToNetwork(Runnable {
+                    syncWord(request)
+                })
+            }
+        }
+    }
+
+
+    /*First Layer*/
+    private fun loadWords(request: LoadRequest) {
         if (!wordPref.isCommonLoaded() && !commonLoading) {
             ex.postToIO(Runnable {
                 commonLoading = true
@@ -76,8 +103,20 @@ class LoaderViewModel
         }
     }
 
+    private fun syncWord(request: LoadRequest) {
+        val rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
+        rawStore?.run {
+            Timber.v("Sync Word/.. %s", this.toString())
+            var item = mapper.getItem(this, repo)
+            item?.run {
+                val uiItem = getUiItem(request, this)
+            }
+        }
+    }
 
-    fun loadCommons(request: LoadRequest) {
+
+    /*Second Layer*/
+    private fun loadCommons(request: LoadRequest) {
         buildCommonWords()
 
         var current = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.RAW)
@@ -125,7 +164,7 @@ class LoaderViewModel
         }
     }
 
-    fun loadAlphas(request: LoadRequest) {
+    private fun loadAlphas(request: LoadRequest) {
         buildAlphaWords()
         var current = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.RAW)
         val load = Load(current = current, total = current)
@@ -188,4 +227,31 @@ class LoaderViewModel
         }
     }
 
+    private fun getUiItem(request: LoadRequest, item: Word): WordItem {
+        var uiItem: WordItem? = mapper.getUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = WordItem.getItem(item)
+        }
+        uiItem.item = item
+        adjustTranslate(request, uiItem)
+        return uiItem
+    }
+
+    private fun adjustTranslate(request: LoadRequest, item: WordItem) {
+        var translation: String? = null
+        if (request.translate) {
+            if (item.hasTranslation(request.target)) {
+                translation = item.getTranslationBy(request.target)
+            } else {
+                val textTranslation =
+                    translationRepo.getItem(request.source!!, request.target!!, item.item.id)
+                textTranslation?.let {
+                    Timber.v("Translation %s - %s", request.id, it.output)
+                    item.addTranslation(request.target!!, it.output)
+                    translation = it.output
+                }
+            }
+        }
+        item.translation = translation
+    }
 }

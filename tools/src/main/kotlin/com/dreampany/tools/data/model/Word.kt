@@ -55,10 +55,6 @@ data class Word(
 
     }
 
-/*    override fun toString(): String {
-        return "Word - " + id + " part_of_speech"
-    }*/
-
     @PropertyName(Constants.Word.PART_OF_SPEECH)
     fun setPartOfSpeech(partOfSpeech: String?) {
         this.partOfSpeech = partOfSpeech

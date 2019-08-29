@@ -17,7 +17,7 @@ import kotlinx.android.parcel.Parcelize
 data class Level(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var type : LevelType = LevelType.DEFAULT
+    var type: LevelType = LevelType.DEFAULT
 ) : Base() {
 
     @Ignore
@@ -31,5 +31,11 @@ data class Level(
 
     constructor(type: LevelType) : this(type.name) {
         this.type = type
+    }
+
+    companion object {
+        fun default(): Level {
+            return Level(LevelType.DEFAULT)
+        }
     }
 }

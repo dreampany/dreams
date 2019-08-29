@@ -186,9 +186,8 @@ class FavoriteWordsFragment
                 }
         )
 
-        processUiState(UiState.DEFAULT)
-
         ViewUtil.setSwipe(bind.layoutRefresh, this)
+        processUiState(UiState.DEFAULT)
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -262,23 +261,6 @@ class FavoriteWordsFragment
         }*/
     }
 
-    private fun request(
-        id: String? = Constants.Default.NULL,
-        action: Action = Action.DEFAULT,
-        input: Word? = Constants.Default.NULL,
-        single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
-    ) {
-        val request = WordRequest(
-            id = id,
-            action = action,
-            input = input,
-            single = single,
-            progress = progress
-        )
-        vm.request(request)
-    }
-
     private fun processUiState(state: UiState) {
         Timber.v("UiState %s", state.name)
         when (state) {
@@ -341,5 +323,22 @@ class FavoriteWordsFragment
             adapter.addItem(item)
         }
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+    }
+
+    private fun request(
+        id: String? = Constants.Default.NULL,
+        action: Action = Action.DEFAULT,
+        input: Word? = Constants.Default.NULL,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = WordRequest(
+            id = id,
+            action = action,
+            input = input,
+            single = single,
+            progress = progress
+        )
+        vm.request(request)
     }
 }

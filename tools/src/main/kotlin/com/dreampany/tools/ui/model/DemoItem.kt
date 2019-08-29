@@ -18,8 +18,10 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class DemoItem private constructor(
-    item: Demo, @LayoutRes layoutId: Int = Constants.Default.INT
+class DemoItem
+private constructor(
+    item: Demo,
+    @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<Demo, DemoItem.ViewHolder, String>(item, layoutId) {
 
     companion object {

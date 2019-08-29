@@ -8,6 +8,7 @@ import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.WordAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -22,7 +23,7 @@ import java.io.Serializable
 class WordItem
 private constructor(
     item: Word,
-    @LayoutRes layoutId: Int = 0
+    @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<Word, WordItem.ViewHolder, String>(item, layoutId) {
 
     var recent: Boolean = false
@@ -43,7 +44,7 @@ private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.id.startsWith(constraint, true);
+        return item.id.startsWith(constraint, true)
     }
 
     fun hasTranslation(language: String?): Boolean {
@@ -81,12 +82,12 @@ private constructor(
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
                 bind(position: Int, item: I) {
-            val wordItem = item as WordItem
-            val word = wordItem.item
+            val uiItem = item as WordItem
+            val item = uiItem.item
 
-            viewWord.text = word.id
-            viewPartOfSpeech.setText(word.getPartOfSpeech())
-            viewPronunciation.setText(word.pronunciation)
+            viewWord.text = item.id
+            viewPartOfSpeech.setText(item.getPartOfSpeech())
+            viewPronunciation.setText(item.pronunciation)
         }
     }
 }

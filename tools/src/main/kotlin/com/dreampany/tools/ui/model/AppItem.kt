@@ -32,8 +32,10 @@ import java.lang.ref.WeakReference
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AppItem private constructor(
-    item: App, @LayoutRes layoutId: Int = Constants.Default.INT
+class AppItem
+private constructor(
+    item: App,
+    @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<App, AppItem.ViewHolder, String>(item, layoutId) {
 
     companion object {

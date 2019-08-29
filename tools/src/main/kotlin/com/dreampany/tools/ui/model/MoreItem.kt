@@ -10,6 +10,7 @@ import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.MoreAdapter
 import com.dreampany.tools.ui.enums.MoreType
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -22,8 +23,11 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class MoreItem private constructor(item: More, @LayoutRes layoutId: Int = 0) :
-    BaseItem<More, MoreItem.ViewHolder, String>(item, layoutId) {
+class MoreItem
+private constructor(
+    item: More,
+    @LayoutRes layoutId: Int = Constants.Default.INT
+) : BaseItem<More, MoreItem.ViewHolder, String>(item, layoutId) {
 
     companion object {
         fun getItem(item: More): MoreItem {

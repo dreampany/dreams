@@ -32,7 +32,7 @@ class NoteItem
 private constructor(
     item: Note,
     @LayoutRes layoutId: Int = Constants.Default.INT,
-    private var clickListener: OnClickListener? = null
+    private var clickListener: OnClickListener? = Constants.Default.NULL
 ) : BaseItem<Note, NoteItem.ViewHolder, String>(item, layoutId) {
 
     interface OnClickListener {

@@ -1,6 +1,9 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.Index
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Base
@@ -16,13 +19,22 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-data class Quiz(
+@Entity(
+    indices = [Index(
+        value = [Constants.Quiz.ID, Constants.Level.LEVEL_ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE],
+        unique = true
+    )],
+    primaryKeys = [Constants.Quiz.ID, Constants.Level.LEVEL_ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE]
+)
+data class RelatedQuiz(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
+    @ColumnInfo(name = Constants.Level.LEVEL_ID)
+    var levelId: String = Constants.Default.STRING,
     var type: Type = Type.DEFAULT,
     var subtype: Subtype = Subtype.DEFAULT,
-    var level: Level = Level.default(),
-    var title: String = Constants.Default.STRING
+    var options: ArrayList<String>? = Constants.Default.NULL,
+    var answer: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -37,14 +49,14 @@ data class Quiz(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Quiz
+        val item = other as RelatedQuiz
         return Objects.equal(item.id, id) &&
+                Objects.equal(item.levelId, levelId) &&
                 Objects.equal(item.type, type) &&
-                Objects.equal(item.subtype, subtype) &&
-                Objects.equal(item.level.id, level.id)
+                Objects.equal(item.subtype, subtype)
     }
 
     override fun hashCode(): Int {
-        return Objects.hashCode(id, type, subtype, level.id)
+        return Objects.hashCode(id, levelId, type, subtype)
     }
 }

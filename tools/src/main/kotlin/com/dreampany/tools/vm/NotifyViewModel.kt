@@ -11,8 +11,13 @@ import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
+import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.frame.util.DataUtil
+import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.R
+import com.dreampany.tools.app.App
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Word
@@ -20,6 +25,7 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.NavigationActivity
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.disposables.CompositeDisposable
@@ -130,6 +136,28 @@ class NotifyViewModel
     private fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
         val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.putItem(store)
+    }
+
+    private fun notify(item: WordItem) {
+        val app = application as App
+        if (app.isVisible()) {
+            //return;
+        }
+
+/*        val title = TextUtil.getString(app, R.string.notify_title_word_sync)
+        var message: String? = if (!DataUtil.isEmpty(item.translation))
+            app.getString(R.string.notify_word_translation_format, item.item.id, item.translation)
+        else app.getString(R.string.notify_word_format, item.item.id, item.item.getPartOfSpeech())
+        var targetClass: Class<*> = NavigationActivity::class.java
+
+        val task = UiTask<Word>(
+            type = Type.WORD, UiSubtype.VIEW, item.item, null)
+
+        notify.showNotification(title!!, message!!, R.drawable.ic_notification, targetClass, task)
+        app.throwAnalytics(
+            Constants.Event.NOTIFICATION,
+            Constants.notifyWordSync(application)
+        )*/
     }
 
 

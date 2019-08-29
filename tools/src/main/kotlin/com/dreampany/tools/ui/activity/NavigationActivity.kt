@@ -1,6 +1,10 @@
 package com.dreampany.tools.ui.activity
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
+import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ActivityNavigationBinding
 import com.dreampany.tools.misc.Constants
@@ -9,6 +13,8 @@ import com.dreampany.tools.ui.fragment.MoreFragment
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity
+import com.dreampany.tools.data.misc.LoadRequest
+import com.dreampany.tools.vm.LoaderViewModel
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -21,6 +27,8 @@ import javax.inject.Inject
 class NavigationActivity : BaseBottomNavigationActivity() {
 
     @Inject
+    internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
     internal lateinit var homeFragment: Lazy<HomeFragment>
     @Inject
     internal lateinit var moreFragment: Lazy<MoreFragment>
@@ -28,6 +36,7 @@ class NavigationActivity : BaseBottomNavigationActivity() {
     internal lateinit var ad: SmartAd
 
     private lateinit var bind: ActivityNavigationBinding
+    private lateinit var loaderVm: LoaderViewModel
 
     override fun getLayoutId(): Int {
         return R.layout.activity_navigation
@@ -58,7 +67,8 @@ class NavigationActivity : BaseBottomNavigationActivity() {
     }
 
     override fun onStartUi(state: Bundle?) {
-        initView()
+        initUi()
+        loadRequest()
         ad.loadBanner(getScreen())
     }
 
@@ -83,13 +93,16 @@ class NavigationActivity : BaseBottomNavigationActivity() {
         }
     }
 
-    private fun initView() {
+    private fun initUi() {
         bind = super.binding as ActivityNavigationBinding
         val uiTask = getCurrentTask<UiTask<*>>(false)
         if (uiTask != null && uiTask.notify) {
             openActivity(ToolsActivity::class.java, uiTask)
             return
         }
+
+        loaderVm = ViewModelProviders.of(this, factory).get(LoaderViewModel::class.java)
+
         ad.initAd(
             this,
             getScreen(),
@@ -97,5 +110,10 @@ class NavigationActivity : BaseBottomNavigationActivity() {
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
         )
+    }
+
+    private fun loadRequest() {
+        val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
+        loaderVm.request(request)
     }
 }

@@ -86,7 +86,7 @@ class LoaderViewModel
     /*First Layer*/
     private fun loadWords(request: LoadRequest) {
         if (!wordPref.isCommonLoaded() && !commonLoading) {
-            ex.postToIO(Runnable {
+            ex.postToNetwork(Runnable {
                 commonLoading = true
                 loadCommons(request)
                 commonLoading = false
@@ -95,7 +95,7 @@ class LoaderViewModel
             return
         }
         if (!wordPref.isAlphaLoaded() && !alphaLoading) {
-            ex.postToIO(Runnable {
+            ex.postToNetwork(Runnable {
                 alphaLoading = true
                 loadAlphas(request)
                 alphaLoading = false

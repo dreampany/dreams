@@ -17,9 +17,9 @@ import javax.inject.Singleton
  */
 @Singleton
 class AppExecutors(
-    val uiExecutor: UiThreadExecutor,
-    val diskIO: DiskIOThreadExecutor,
-    val networkIO: NetworkIOThreadExecutor
+    private val uiExecutor: UiThreadExecutor,
+    private val diskIO: DiskIOThreadExecutor,
+    private val networkIO: NetworkIOThreadExecutor
 ) {
     @Inject
     constructor() : this(

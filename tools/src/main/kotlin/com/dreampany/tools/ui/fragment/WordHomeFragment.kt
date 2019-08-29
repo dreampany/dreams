@@ -125,7 +125,6 @@ class WordHomeFragment
         toScanMode()
         processUiState(UiState.SEARCH)
         adjustTranslationUi()
-        loadRequest()
         request(suggests = true, action = Action.GET, single = false)
     }
 
@@ -763,11 +762,6 @@ class WordHomeFragment
             action = action
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.PLAY)
-    }
-
-    private fun loadRequest() {
-        val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
-        loaderVm.request(request)
     }
 
     private fun request(

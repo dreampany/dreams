@@ -11,12 +11,8 @@ import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
-import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.frame.util.DataUtil
-import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtil
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.R
 import com.dreampany.tools.app.App
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.misc.WordRequest
@@ -25,7 +21,6 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.activity.NavigationActivity
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.disposables.CompositeDisposable

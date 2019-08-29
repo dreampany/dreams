@@ -46,6 +46,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     lateinit var favoriteWordsProvider: Lazy<FavoriteWordsFragment>
     @Inject
+    lateinit var wordQuizProvider: Lazy<WordQuizFragment>
+    @Inject
     lateinit var wordVisionProvider: Lazy<WordVisionFragment>
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
@@ -168,6 +170,15 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         FavoriteWordsFragment::class.java,
                         favoriteWordsProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+                if (state == State.QUIZ) {
+                    commitFragment(
+                        WordQuizFragment::class.java,
+                        wordQuizProvider,
                         R.id.layout,
                         uiTask
                     )

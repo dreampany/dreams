@@ -1,9 +1,6 @@
 package com.dreampany.frame.ui.model
 
-import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
+import com.dreampany.frame.data.enums.*
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.Constants

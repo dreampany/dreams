@@ -120,6 +120,24 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
+    object Point {
+        const val ID = Constants.Key.ID
+        const val TYPE = Constants.Key.TYPE
+        const val SUBTYPE = Constants.Key.SUBTYPE
+        const val POINT_ID = "point_id"
+    }
+
+    object Level {
+        const val ID = Constants.Key.ID
+        const val LEVEL_ID = "level_id"
+    }
+
+    object Quiz {
+        const val ID = Constants.Key.ID
+        const val TYPE = Constants.Key.TYPE
+        const val SUBTYPE = Constants.Key.SUBTYPE
+    }
+
     object Feature {
         const val ID = Constants.Key.ID
     }
@@ -153,7 +171,7 @@ class Constants {
         const val EDIT_NOTE = 2
         const val SETTINGS = 3
         const val FAVORITE = 4
-        const val PLAY = 5
+        const val QUIZ = 5
     }
 
     object Service {

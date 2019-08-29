@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class State : Parcelable {
-    DEFAULT, SETTINGS, LICENSE, ABOUT, RAW, FULL, HOME, TRASH, FAVORITE, ARCHIVED, RECENT, HISTORY
+    DEFAULT, SETTINGS, LICENSE, ABOUT, RAW, FULL, HOME, TRASH, FAVORITE, ARCHIVED, RECENT, HISTORY, QUIZ
 }

@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class MoreType : Parcelable {
-    SETTINGS, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT
+   DEFAULT, SETTINGS, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT
 }

@@ -1,8 +1,10 @@
 package com.dreampany.tools.data.model
 
-import com.dreampany.tools.ui.enums.MoreType
+import androidx.room.Ignore
 import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.enums.MoreType
 import kotlinx.android.parcel.Parcelize
 
 
@@ -13,12 +15,21 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class More(
-    override var time: Long,
-    override var id: String,
-    var type : MoreType
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    var type : MoreType = MoreType.DEFAULT
 ) : Base() {
 
-    constructor(type: MoreType) : this(TimeUtil.currentTime(), type.name, type) {
+    @Ignore
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
+
+    }
+
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+
+    }
+
+    constructor(type: MoreType) : this(type.name) {
         this.type = type
     }
 

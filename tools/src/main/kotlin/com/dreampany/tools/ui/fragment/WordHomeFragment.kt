@@ -9,15 +9,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
-import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BasicGridItem
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.bottomsheets.gridItems
-import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
+import com.dreampany.frame.data.enums.*
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.misc.exception.EmptyException
@@ -32,7 +28,6 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
 import com.dreampany.tools.data.model.Note
@@ -292,15 +287,15 @@ class WordHomeFragment
         sheetItems.add(
             BasicGridItem(
                 R.drawable.ic_play_arrow_black_24dp,
-                getString(R.string.synonym_quiz)
+                getString(R.string.play_quiz)
             )
         )
-        sheetItems.add(
+/*        sheetItems.add(
             BasicGridItem(
                 R.drawable.ic_play_arrow_black_24dp,
                 getString(R.string.antonym_quiz)
             )
-        )
+        )*/
     }
 
     private fun initUi() {
@@ -403,25 +398,6 @@ class WordHomeFragment
             .setTextSize(14)
             .build()
         langMenu?.showAsAnchorRightTop(v)
-    }
-
-    private fun openLanguagePicker() {
-        val languages = Language.getAll()
-
-        /*val picker = LanguagePicker.newInstance(getString(R.string.select_language), languages)
-        picker.setCallback { language ->
-            pref.setLanguage(language)
-            initLanguageUi()
-            adjustTranslationUi()
-            val language = pref.getLanguage(Language.ENGLISH)
-            val english = Language.ENGLISH.equals(language)
-            if (!english) {
-                request(id = recentWord, recent = true, progress = false)
-            }
-            picker.dismissAllowingStateLoss()
-            //Unit
-        }
-        picker.show(fragmentManager!!, Constants.Tag.LANGUAGE_PICKER)*/
     }
 
     private fun processUiState(state: UiState) {
@@ -705,10 +681,7 @@ class WordHomeFragment
     private fun processSheetOption(index: Int, item: BasicGridItem) {
         when (index) {
             0 -> {
-                openPlayUi(Subtype.SYNONYM, Action.PLAY)
-            }
-            1 -> {
-                openPlayUi(Subtype.ANTONYM, Action.PLAY)
+                openPlayUi(State.QUIZ)
             }
         }
     }
@@ -755,13 +728,12 @@ class WordHomeFragment
         openActivity(ToolsActivity::class.java, outTask)
     }
 
-    private fun openPlayUi(subtype: Subtype, action: Action) {
+    private fun openPlayUi(state: State) {
         val task = UiTask<Word>(
             type = Type.WORD,
-            subtype = subtype,
-            action = action
+            state = state
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.PLAY)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.QUIZ)
     }
 
     private fun request(

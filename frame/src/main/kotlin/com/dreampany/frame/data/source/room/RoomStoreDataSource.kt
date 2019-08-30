@@ -100,7 +100,13 @@ constructor(
     }
 
     override fun deleteRx(t: Store): Maybe<Int> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = delete(t)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            emitter.onSuccess(result)
+        }
     }
 
     override fun getItem(id: String): Store? {

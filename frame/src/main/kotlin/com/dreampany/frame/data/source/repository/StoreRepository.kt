@@ -96,7 +96,7 @@ class StoreRepository
     }
 
     override fun deleteRx(t: Store): Maybe<Int> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.deleteRx(t)
     }
 
     override fun getItem(id: String): Store? {

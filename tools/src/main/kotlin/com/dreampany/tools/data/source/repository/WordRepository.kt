@@ -171,6 +171,8 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(room.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, State.FULL))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
             rx.compute(mapper.putItemRx(word))
@@ -178,6 +180,8 @@ class WordRepository
             rx.compute(room.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(firestore.putItemRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
@@ -200,5 +204,10 @@ class WordRepository
                 emitter.onSuccess(result)
             }
         }
+    }
+
+    fun putStoreRx(word: Word, state: State): Maybe<Long> {
+        val store = storeMapper.getItem(word.id, Type.WORD, Subtype.DEFAULT, state)
+        return storeRepo.putItemRx(store)
     }
 }

@@ -124,7 +124,7 @@ class StoreRepository
     }
 
     override fun putItemRx(t: Store): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.putItemRx(t)
     }
 
     override fun putItemsRx(ts: List<Store>): Maybe<List<Long>> {

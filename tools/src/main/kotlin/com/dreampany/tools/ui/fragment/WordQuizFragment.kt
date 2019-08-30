@@ -59,7 +59,12 @@ class WordQuizFragment
         return R.layout.fragment_word_quiz
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.play_quiz
+    }
+
     override fun onStartUi(state: Bundle?) {
+        initTitleSubtitle()
         initUi()
         initRecycler()
     }
@@ -77,7 +82,6 @@ class WordQuizFragment
     }
 
     private fun initTitleSubtitle() {
-        setTitle(R.string.play_quiz)
         val subtitle = getString(R.string.subtitle_favorite_words, adapter.itemCount)
         setSubtitle(subtitle)
     }

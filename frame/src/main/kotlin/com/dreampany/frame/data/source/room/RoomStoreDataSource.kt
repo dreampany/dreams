@@ -128,7 +128,7 @@ constructor(
     }
 
     override fun putItemRx(t: Store): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplaceRx(t)
     }
 
     override fun putItemsRx(ts: List<Store>): Maybe<List<Long>> {

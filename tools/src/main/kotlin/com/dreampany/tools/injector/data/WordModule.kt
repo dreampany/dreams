@@ -8,6 +8,8 @@ import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.data.source.assets.AssetsWordDataSource
+import com.dreampany.tools.data.source.dao.AntonymDao
+import com.dreampany.tools.data.source.dao.SynonymDao
 import com.dreampany.tools.data.source.dao.WordDao
 import com.dreampany.tools.data.source.firestore.FirestoreWordDataSource
 import com.dreampany.tools.data.source.remote.RemoteWordDataSource
@@ -41,9 +43,11 @@ class WordModule {
     @Room
     fun provideRoomWordDataSource(
         mapper: WordMapper,
-        dao: WordDao
+        dao: WordDao,
+        synonymDao: SynonymDao,
+        antonymDao: AntonymDao
     ): WordDataSource {
-        return RoomWordDataSource(mapper, dao)
+        return RoomWordDataSource(mapper, dao, synonymDao, antonymDao)
     }
 
     @Singleton

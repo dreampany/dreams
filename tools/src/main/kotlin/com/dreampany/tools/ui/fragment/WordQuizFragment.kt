@@ -78,7 +78,7 @@ class WordQuizFragment
     }
 
     override fun onClick(view: View, item: QuizItem?, action: Action?) {
-
+        openQuizUi(item)
     }
 
     override fun onLongClick(view: View, item: QuizItem?, action: Action?) {
@@ -128,7 +128,7 @@ class WordQuizFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_word, adapter.getItemOffset())
+                .addItemViewType(R.layout.item_quiz, adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller,
@@ -191,5 +191,17 @@ class WordQuizFragment
             progress = progress
         )
         vm.request(request)
+    }
+
+    private fun openQuizUi(uiItem: QuizItem?) {
+        uiItem?.run {
+            when (item.subtype) {
+                Subtype.SYNONYM,
+                Subtype.ANTONYM -> {
+
+                }
+            }
+
+        }
     }
 }

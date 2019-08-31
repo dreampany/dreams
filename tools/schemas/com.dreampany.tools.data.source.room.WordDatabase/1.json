@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d8a250b011807ebb29f9a1a95d04158f",
+    "identityHash": "d2c94cd7f4846e8a5b6d79ae333e42cb",
     "entities": [
       {
         "tableName": "Word",
@@ -86,12 +86,86 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Synonym",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lefter` TEXT NOT NULL, `righter` TEXT NOT NULL, PRIMARY KEY(`lefter`, `righter`))",
+        "fields": [
+          {
+            "fieldPath": "left",
+            "columnName": "lefter",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "right",
+            "columnName": "righter",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "lefter",
+            "righter"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Synonym_lefter_righter",
+            "unique": true,
+            "columnNames": [
+              "lefter",
+              "righter"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Synonym_lefter_righter` ON `${TABLE_NAME}` (`lefter`, `righter`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Antonym",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`lefter` TEXT NOT NULL, `righter` TEXT NOT NULL, PRIMARY KEY(`lefter`, `righter`))",
+        "fields": [
+          {
+            "fieldPath": "left",
+            "columnName": "lefter",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "right",
+            "columnName": "righter",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "lefter",
+            "righter"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Antonym_lefter_righter",
+            "unique": true,
+            "columnNames": [
+              "lefter",
+              "righter"
+            ],
+            "createSql": "CREATE UNIQUE INDEX `index_Antonym_lefter_righter` ON `${TABLE_NAME}` (`lefter`, `righter`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd8a250b011807ebb29f9a1a95d04158f')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd2c94cd7f4846e8a5b6d79ae333e42cb')"
     ]
   }
 }

@@ -1,13 +1,11 @@
 package com.dreampany.tools.data.model
 
-import androidx.room.Entity
 import androidx.room.Ignore
-import androidx.room.Index
+import com.dreampany.frame.data.enums.Level
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.util.TimeUtilKt
-import com.dreampany.frame.data.enums.Level
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -33,7 +31,8 @@ data class RelatedQuiz(
     var subtype: Subtype = Subtype.DEFAULT,
     var level: Level = Level.DEFAULT,
     var options: ArrayList<String>? = Constants.Default.NULL,
-    var answer: String? = Constants.Default.NULL
+    var answer: String? = Constants.Default.NULL,
+    var point: Point? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -52,10 +51,10 @@ data class RelatedQuiz(
         return Objects.equal(item.id, id) &&
                 Objects.equal(item.type, type) &&
                 Objects.equal(item.subtype, subtype) &&
-                Objects.equal(item.level.name, level.name)
+                Objects.equal(item.level, level)
     }
 
     override fun hashCode(): Int {
-        return Objects.hashCode(id, type, subtype, level.name)
+        return Objects.hashCode(id, type, subtype, level)
     }
 }

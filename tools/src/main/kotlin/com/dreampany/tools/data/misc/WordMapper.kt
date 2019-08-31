@@ -195,7 +195,7 @@ class WordMapper
         return result
     }
 
-    fun getAntonyms(word: Word, input: List<Antonym>?): List<String>? {
+    fun getAntonyms(word: Word, input: List<Antonym>?): ArrayList<String>? {
         var result: ArrayList<String>? = null
         if (!input.isNullOrEmpty()) {
             result = ArrayList()

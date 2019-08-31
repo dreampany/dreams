@@ -28,9 +28,13 @@ abstract class WordModule {
 
     @FragmentScope
     @ContributesAndroidInjector
+    abstract fun visionFragment(): WordVisionFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
     abstract fun wordQuizFragment(): WordQuizFragment
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun visionFragment(): WordVisionFragment
+    abstract fun relatedQuizFragment(): RelatedQuizFragment
 }

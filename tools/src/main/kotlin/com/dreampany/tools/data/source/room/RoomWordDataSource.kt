@@ -1,9 +1,13 @@
 package com.dreampany.tools.data.source.room
 
 import android.graphics.Bitmap
+import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.frame.misc.exception.WriteException
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
+import com.dreampany.tools.data.source.dao.AntonymDao
+import com.dreampany.tools.data.source.dao.SynonymDao
 import com.dreampany.tools.data.source.dao.WordDao
 import io.reactivex.Maybe
 
@@ -15,7 +19,9 @@ import io.reactivex.Maybe
  */
 class RoomWordDataSource(
     private val mapper: WordMapper,
-    private val dao: WordDao
+    private val dao: WordDao,
+    private val synonymDao: SynonymDao,
+    private val antonymDao: AntonymDao
 ) : WordDataSource {
 
     override fun isValid(id: String): Boolean {
@@ -99,11 +105,26 @@ class RoomWordDataSource(
     }
 
     override fun putItem(t: Word): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = dao.insertOrReplace(t)
+        if (result != -1L) {
+            val synonyms = mapper.getSynonyms(t)
+            val antonyms = mapper.getAntonyms(t)
+            if (!synonyms.isNullOrEmpty()) {
+                synonymDao.insertOrReplace(synonyms)
+            }
+            if (!antonyms.isNullOrEmpty()) {
+                antonymDao.insertOrReplace(antonyms)
+            }
+        }
+        return result
     }
 
     override fun putItemRx(t: Word): Maybe<Long> {
-        return dao.insertOrReplaceRx(t)
+        return Maybe.create { emitter ->
+            val result = putItem(t)
+            if (emitter.isDisposed) return@create
+            emitter.onSuccess(result)
+        }
     }
 
     override fun putItems(ts: List<Word>): List<Long>? {
@@ -112,7 +133,15 @@ class RoomWordDataSource(
     }
 
     override fun putItemsRx(ts: List<Word>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItems(ts)
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(WriteException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun delete(t: Word): Int {
@@ -132,11 +161,26 @@ class RoomWordDataSource(
     }
 
     override fun getItem(id: String): Word? {
-        return dao.getItem(id)
+        val result = dao.getItem(id)
+        result?.run {
+            val synonyms = synonymDao.getItems(this.id)
+            val antonyms = antonymDao.getItems(this.id)
+            result.synonyms = mapper.getSynonyms(this, synonyms)
+            result.antonyms = mapper.getAntonyms(this, antonyms)
+        }
+        return result
     }
 
     override fun getItemRx(id: String): Maybe<Word> {
-        return dao.getItemRx(id)
+        return Maybe.create { emitter ->
+            val result = getItem(id)
+            if (emitter.isDisposed) return@create
+            if (result == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
 }

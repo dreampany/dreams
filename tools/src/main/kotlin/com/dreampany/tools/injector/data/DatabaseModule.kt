@@ -1,7 +1,9 @@
 package com.dreampany.tools.injector.data
 
 import android.app.Application
+import com.dreampany.tools.data.source.dao.AntonymDao
 import com.dreampany.tools.data.source.dao.NoteDao
+import com.dreampany.tools.data.source.dao.SynonymDao
 import com.dreampany.tools.data.source.dao.WordDao
 import com.dreampany.tools.data.source.room.NoteDatabase
 import com.dreampany.tools.data.source.room.WordDatabase
@@ -39,5 +41,17 @@ class DatabaseModule {
     @Provides
     fun provideWordDao(database: WordDatabase): WordDao {
         return database.wordDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSynonymDao(database: WordDatabase): SynonymDao {
+        return database.synonymDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAntonymDao(database: WordDatabase): AntonymDao {
+        return database.antonymDao()
     }
 }

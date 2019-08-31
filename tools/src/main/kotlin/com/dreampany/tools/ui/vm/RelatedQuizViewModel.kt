@@ -33,7 +33,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class QuizViewModel
+class RelatedQuizViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,

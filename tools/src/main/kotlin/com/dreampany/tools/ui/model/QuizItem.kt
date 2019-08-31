@@ -13,6 +13,7 @@ import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.QuizAdapter
 import com.dreampany.tools.ui.adapter.WordAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -56,12 +57,12 @@ private constructor(
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {
 
-        private var adapter: WordAdapter
+        private var adapter: QuizAdapter
         private var imageIcon: AppCompatImageView
         private var textTitle: AppCompatTextView
 
         init {
-            this.adapter = adapter as WordAdapter
+            this.adapter = adapter as QuizAdapter
             imageIcon = view.findViewById(R.id.image_icon)
             textTitle = view.findViewById(R.id.text_title)
 
@@ -78,7 +79,7 @@ private constructor(
             val uiItem = item as QuizItem
             val item = uiItem.item
             val subtype = item.subtype
-            val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(subtype.name), uiItem.color)
+            val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
             imageIcon.setImageDrawable(drawable)
             textTitle.text = item.title
         }

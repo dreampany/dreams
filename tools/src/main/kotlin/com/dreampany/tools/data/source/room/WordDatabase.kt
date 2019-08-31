@@ -5,8 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dreampany.frame.BuildConfig
+import com.dreampany.tools.BuildConfig
+import com.dreampany.tools.data.model.Antonym
+import com.dreampany.tools.data.model.Synonym
 import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.source.dao.AntonymDao
+import com.dreampany.tools.data.source.dao.SynonymDao
 import com.dreampany.tools.data.source.dao.WordDao
 import com.dreampany.tools.data.source.room.converters.WordConverters
 import com.dreampany.tools.misc.Constants
@@ -17,12 +21,13 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Word::class], version = 1)
+@Database(entities = [Word::class, Synonym::class, Antonym::class], version = 1)
 @TypeConverters(WordConverters::class)
 abstract class WordDatabase : RoomDatabase() {
 
     companion object {
-        private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.WORD)
+        private val DATABASE =
+            Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.WORD)
         private var instance: WordDatabase? = null
 
         @Synchronized
@@ -50,4 +55,6 @@ abstract class WordDatabase : RoomDatabase() {
     }
 
     abstract fun wordDao(): WordDao
+    abstract fun synonymDao(): SynonymDao
+    abstract fun antonymDao(): AntonymDao
 }

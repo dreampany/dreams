@@ -6,6 +6,7 @@ import androidx.room.Index
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.data.model.BaseParcel
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
 import kotlinx.android.parcel.Parcelize

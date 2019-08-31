@@ -68,12 +68,12 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toMillis(3)
+        val Notify = TimeUnit.MINUTES.toMillis(2)
     }
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
-        val WordSyncTimeMS = TimeUnit.MINUTES.toMillis(2)
+        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(100)
     }
 
     object Date {

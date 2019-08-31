@@ -1,22 +1,21 @@
-package com.dreampany.tools.vm
+package com.dreampany.tools.ui.vm
 
 import android.app.Application
 import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.model.Feature
-import com.dreampany.tools.data.misc.FeatureRequest
+import com.dreampany.tools.data.misc.AppMapper
+import com.dreampany.tools.data.misc.AppRequest
+import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.pref.Pref
-import com.dreampany.tools.ui.model.FeatureItem
-import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.frame.util.TextUtil
-import com.dreampany.tools.R
+import com.dreampany.tools.data.source.repository.AppRepository
+import com.dreampany.tools.ui.model.AppItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -27,7 +26,8 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FeatureViewModel @Inject constructor(
+class AppViewModel
+@Inject constructor(
     application: Application,
     rx: RxMapper,
     ex: AppExecutors,
@@ -36,21 +36,20 @@ class FeatureViewModel @Inject constructor(
     private val pref: Pref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
+    private val mapper: AppMapper,
+    private val repo: AppRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Feature, FeatureItem, UiTask<Feature>>(application, rx, ex, rm) {
+) : BaseViewModel<App, AppItem, UiTask<App>>(application, rx, ex, rm) {
 
-    fun load(request: FeatureRequest) {
-        if (request.action == Action.GET) {
-            if (request.single) {
-                loadSingle(request)
-            } else {
-                loadMultiple(request)
-            }
-            return
+    fun request(request: AppRequest) {
+        if (request.single) {
+            loadSingle(request)
+        } else {
+            loadMultiple(request)
         }
     }
 
-    private fun loadSingle(request: FeatureRequest) {
+    private fun loadSingle(request: AppRequest) {
         if (!takeAction(request.important, singleDisposable)) {
             return
         }
@@ -76,11 +75,10 @@ class FeatureViewModel @Inject constructor(
         addSingleSubscription(disposable)
     }
 
-    private fun loadMultiple(request: FeatureRequest) {
+    private fun loadMultiple(request: AppRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
-
         val disposable = rx
             .backToMain(loadUiItemsRx(request))
             .doOnSubscribe { subscription ->
@@ -102,42 +100,36 @@ class FeatureViewModel @Inject constructor(
         addMultipleSubscription(disposable)
     }
 
-    private fun loadUiItemRx(request: FeatureRequest): Maybe<FeatureItem> {
+    private fun loadUiItemRx(request: AppRequest): Maybe<AppItem> {
         return getItemRx(request).flatMap { getUiItemRx(it) }
     }
 
-    private fun loadUiItemsRx(request: FeatureRequest): Maybe<List<FeatureItem>> {
-        return getItemsRx(request).flatMap { getUiItemsRx(it) }
+    private fun loadUiItemsRx(request: AppRequest): Maybe<List<AppItem>> {
+        return repo.getItemsRx().flatMap { getUiItemsRx(it) }
     }
 
-    private fun getItemRx(request: FeatureRequest): Maybe<Feature> {
+    private fun getItemRx(request: AppRequest): Maybe<App> {
         return Maybe.create { emitter ->
-            val item = Feature(request.type.name, request.type)
-            emitter.onSuccess(item)
         }
     }
 
-    private fun getItemsRx(request: FeatureRequest): Maybe<List<Feature>> {
+    private fun getItemsRx(request: AppRequest): Maybe<List<App>> {
         return Maybe.create { emitter ->
-            val items = mutableListOf<Feature>()
-            items.add(Feature(type = Type.APP, title = TextUtil.getString(getApplication(), R.string.title_feature_app)))
-            items.add(Feature(type = Type.WORD, title = TextUtil.getString(getApplication(), R.string.title_feature_word)))
-            items.add(Feature(type = Type.NOTE, title = TextUtil.getString(getApplication(), R.string.title_feature_note)))
-            emitter.onSuccess(items)
+
         }
     }
 
-    private fun getUiItem(item: Feature): FeatureItem {
-        return FeatureItem.getItem(item)
+    private fun getUiItem(item: App): AppItem {
+        return AppItem.getItem(item)
     }
 
-    private fun getUiItemRx(item: Feature): Maybe<FeatureItem> {
+    private fun getUiItemRx(item: App): Maybe<AppItem> {
         return Maybe.create { emitter ->
             emitter.onSuccess(getUiItem(item))
         }
     }
 
-    private fun getUiItemsRx(items: List<Feature>): Maybe<List<FeatureItem>> {
+    private fun getUiItemsRx(items: List<App>): Maybe<List<AppItem>> {
         return Flowable.fromIterable(items)
             .map { getUiItem(it) }
             .toList()

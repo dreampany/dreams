@@ -1,4 +1,4 @@
-package com.dreampany.tools.vm
+package com.dreampany.tools.ui.vm
 
 import android.app.Activity
 import android.app.Application

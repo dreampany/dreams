@@ -1,4 +1,4 @@
-package com.dreampany.tools.vm
+package com.dreampany.tools.ui.vm
 
 import android.app.Application
 import androidx.fragment.app.Fragment
@@ -19,14 +19,12 @@ import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.language.Language
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
-import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.util.Util
 import com.dreampany.translation.data.source.repository.TranslationRepository
@@ -136,23 +134,23 @@ class WordViewModel
         }
 
         val disposable = rx
-                .backToMain(requestUiItemsRx(request))
-                .doOnSubscribe { subscription ->
-                    if (request.progress) {
-                        postProgress(true)
-                    }
+            .backToMain(requestUiItemsRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(true)
                 }
-                .subscribe({ result ->
-                    if (request.progress) {
-                        postProgress(false)
-                    }
-                    postResult(request.action, result)
-                }, { error ->
-                    if (request.progress) {
-                        postProgress(false)
-                    }
-                    postFailures(MultiException(error, ExtraException()))
-                })
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postResult(request.action, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
         addMultipleSubscription(disposable)
     }
 

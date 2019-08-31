@@ -9,6 +9,7 @@ import com.dreampany.frame.data.source.api.StoreDataSource
 import com.dreampany.frame.data.source.dao.StoreDao
 import com.dreampany.frame.misc.exception.EmptyException
 import io.reactivex.Maybe
+import timber.log.Timber
 import javax.inject.Singleton
 
 /**
@@ -102,6 +103,7 @@ constructor(
     override fun deleteRx(t: Store): Maybe<Int> {
         return Maybe.create { emitter ->
             val result = delete(t)
+            Timber.v("%s deleted %d", t.id, result)
             if (emitter.isDisposed) {
                 return@create
             }

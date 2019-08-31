@@ -2,7 +2,7 @@ package com.dreampany.tools.worker
 
 import android.content.Context
 import androidx.work.WorkerParameters
-import com.dreampany.tools.vm.NotifyViewModel
+import com.dreampany.tools.ui.vm.NotifyViewModel
 import com.dreampany.frame.api.worker.BaseWorker
 import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.Type
@@ -46,7 +46,7 @@ class NotifyWorker(
 
     override fun onStop() {
         Timber.v("NotifyWorker Stopped")
-
+        vm.clear()
     }
 
     class Factory

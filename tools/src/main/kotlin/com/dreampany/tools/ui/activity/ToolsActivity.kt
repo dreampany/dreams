@@ -175,15 +175,6 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     )
                     return
                 }
-                if (state == State.QUIZ) {
-                    commitFragment(
-                        WordQuizFragment::class.java,
-                        wordQuizProvider,
-                        R.id.layout,
-                        uiTask
-                    )
-                    return
-                }
                 if (action == Action.OPEN) {
                     commitFragment(
                         WordFragment::class.java,
@@ -194,7 +185,20 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     return
                 }
             }
-            Type.OCR-> {
+            Type.QUIZ -> {
+                when (subtype) {
+                    Subtype.RELATED -> {
+                        commitFragment(
+                            WordQuizFragment::class.java,
+                            wordQuizProvider,
+                            R.id.layout,
+                            uiTask
+                        )
+                        return
+                    }
+                }
+            }
+            Type.OCR -> {
                 if (action == Action.OPEN) {
                     commitFragment(
                         WordVisionFragment::class.java,

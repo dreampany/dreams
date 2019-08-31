@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -25,7 +24,7 @@ import com.dreampany.tools.ui.adapter.MoreAdapter
 import com.dreampany.tools.ui.enums.MoreType
 import com.dreampany.tools.ui.model.MoreItem
 import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.tools.vm.MoreViewModel
+import com.dreampany.tools.ui.vm.MoreViewModel
 import eu.davidea.flexibleadapter.common.FlexibleItemAnimator
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager

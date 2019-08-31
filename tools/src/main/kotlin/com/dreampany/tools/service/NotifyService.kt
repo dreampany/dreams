@@ -1,6 +1,6 @@
 package com.dreampany.tools.service
 
-import com.dreampany.tools.vm.NotifyViewModel
+import com.dreampany.tools.ui.vm.NotifyViewModel
 import com.dreampany.frame.api.service.BaseJobService
 import com.firebase.jobdispatcher.JobParameters
 import javax.inject.Inject

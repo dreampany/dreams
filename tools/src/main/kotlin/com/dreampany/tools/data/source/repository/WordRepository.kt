@@ -15,6 +15,7 @@ import com.dreampany.tools.data.source.api.WordDataSource
 import io.reactivex.Maybe
 import io.reactivex.functions.Consumer
 import io.reactivex.internal.functions.Functions
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -217,6 +218,7 @@ class WordRepository
 
     fun removeStoreRx(word: Word, state: State): Maybe<Int> {
         val store = storeMapper.getItem(word.id, Type.WORD, Subtype.DEFAULT, state)
-        return storeRepo.deleteRx(store)
+        val result = storeRepo.deleteRx(store)
+        return result
     }
 }

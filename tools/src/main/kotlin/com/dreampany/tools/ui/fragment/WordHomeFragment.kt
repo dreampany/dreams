@@ -39,8 +39,8 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.model.WordItem
-import com.dreampany.tools.vm.LoaderViewModel
-import com.dreampany.tools.vm.WordViewModel
+import com.dreampany.tools.ui.vm.LoaderViewModel
+import com.dreampany.tools.ui.vm.WordViewModel
 import com.klinker.android.link_builder.Link
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.skydoves.powermenu.MenuAnimation
@@ -576,12 +576,12 @@ class WordHomeFragment
                 val def = definitions[index]
                 if (index == 0) {
                     singleBuilder
-                        .append(def.getPartOfSpeech())
+                        .append(def.partOfSpeech)
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
                     multipleBuilder
-                        .append(def.getPartOfSpeech())
+                        .append(def.partOfSpeech)
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
@@ -589,7 +589,7 @@ class WordHomeFragment
                 }
                 multipleBuilder
                     .append(DataUtil.NewLine2)
-                    .append(def.getPartOfSpeech())
+                    .append(def.partOfSpeech)
                     .append(DataUtil.SEMI)
                     .append(DataUtil.SPACE)
                     .append(def.text)
@@ -681,7 +681,7 @@ class WordHomeFragment
     private fun processSheetOption(index: Int, item: BasicGridItem) {
         when (index) {
             0 -> {
-                openPlayUi(State.QUIZ)
+                openPlayUi(Subtype.RELATED)
             }
         }
     }
@@ -728,10 +728,10 @@ class WordHomeFragment
         openActivity(ToolsActivity::class.java, outTask)
     }
 
-    private fun openPlayUi(state: State) {
+    private fun openPlayUi(subtype: Subtype) {
         val task = UiTask<Word>(
-            type = Type.WORD,
-            state = state
+            type = Type.QUIZ,
+            subtype = subtype
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.QUIZ)
     }

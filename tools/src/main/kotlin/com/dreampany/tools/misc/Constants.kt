@@ -68,12 +68,12 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toSeconds(1)
+        val Notify = TimeUnit.MINUTES.toMillis(3)
     }
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
-        val WordSyncTimeMS = TimeUnit.MINUTES.toMillis(1)
+        val WordSyncTimeMS = TimeUnit.MINUTES.toMillis(2)
     }
 
     object Date {
@@ -129,7 +129,7 @@ class Constants {
 
     object Level {
         const val ID = Constants.Key.ID
-        const val LEVEL_ID = "level_id"
+        const val LEVEL = "level"
     }
 
     object Quiz {
@@ -156,7 +156,6 @@ class Constants {
 
     object Word {
         const val ID = Constants.Key.ID
-        const val PART_OF_SPEECH = "part_of_speech"
         const val LEFTER = "lefter"
         const val RIGHTER = "righter"
         const val RECENT_WORD = "recent_word"

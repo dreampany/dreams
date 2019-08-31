@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import com.dreampany.frame.BuildConfig
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.dao.WordDao
+import com.dreampany.tools.data.source.room.converters.WordConverters
 import com.dreampany.tools.misc.Constants
 
 /**
@@ -18,20 +19,20 @@ import com.dreampany.tools.misc.Constants
  */
 @Database(entities = [Word::class], version = 1)
 @TypeConverters(WordConverters::class)
-abstract class WordDatabaseManager : RoomDatabase() {
+abstract class WordDatabase : RoomDatabase() {
 
     companion object {
         private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.WORD)
-        private var instance: WordDatabaseManager? = null
+        private var instance: WordDatabase? = null
 
         @Synchronized
-        fun newInstance(context: Context, memoryOnly: Boolean): WordDatabaseManager {
-            val builder: RoomDatabase.Builder<WordDatabaseManager>
+        fun newInstance(context: Context, memoryOnly: Boolean): WordDatabase {
+            val builder: RoomDatabase.Builder<WordDatabase>
 
             if (memoryOnly) {
-                builder = Room.inMemoryDatabaseBuilder(context, WordDatabaseManager::class.java)
+                builder = Room.inMemoryDatabaseBuilder(context, WordDatabase::class.java)
             } else {
-                builder = Room.databaseBuilder(context, WordDatabaseManager::class.java, DATABASE)
+                builder = Room.databaseBuilder(context, WordDatabase::class.java, DATABASE)
             }
 
             return builder
@@ -40,7 +41,7 @@ abstract class WordDatabaseManager : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context): WordDatabaseManager {
+        fun getInstance(context: Context): WordDatabase {
             if (instance == null) {
                 instance = newInstance(context, false)
             }

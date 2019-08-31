@@ -124,7 +124,7 @@ class App : BaseApp() {
      */
     private fun configWork() {
         if (pref.hasNotification()) {
-            worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.SECONDS)
+            worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.MILLISECONDS)
         } else {
             worker.cancel(NotifyWorker::class)
         }

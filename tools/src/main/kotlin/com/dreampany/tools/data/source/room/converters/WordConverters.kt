@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.source.room
+package com.dreampany.tools.data.source.room.converters
 
 import androidx.room.TypeConverter
 import com.dreampany.frame.data.source.room.Converters
@@ -18,14 +18,14 @@ class WordConverters : Converters() {
     @TypeConverter
     @Synchronized
     fun toDefString(definitions: ArrayList<Definition>?): String? {
-        return if (definitions.isNullOrEmpty()) {
-            null
-        } else  gson.toJson(definitions, defType)
+        return if (definitions.isNullOrEmpty()) null
+        else gson.toJson(definitions, defType)
     }
 
     @TypeConverter
     @Synchronized
     fun toDefList(json: String?): ArrayList<Definition>? {
-        return if (json.isNullOrEmpty()) { null } else gson.fromJson(json, defType)
+        return if (json.isNullOrEmpty()) null
+        else gson.fromJson(json, defType)
     }
 }

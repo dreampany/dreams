@@ -1,4 +1,4 @@
-package com.dreampany.tools.vm
+package com.dreampany.tools.ui.vm
 
 import android.app.Application
 import com.dreampany.frame.api.notify.NotifyManager
@@ -12,6 +12,7 @@ import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
 import com.dreampany.frame.util.TimeUtil
+import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.app.App
 import com.dreampany.tools.data.misc.WordMapper
@@ -51,12 +52,21 @@ class NotifyViewModel
     private val mapper: WordMapper,
     private val repo: WordRepository,
     private val translationRepo: TranslationRepository
-) {
+) : NetworkManager.Callback {
 
     private val disposables: CompositeDisposable
 
     init {
         disposables = CompositeDisposable()
+        network.observe(this, checkInternet = true)
+    }
+
+    override fun onNetworkResult(networks: List<Network>) {
+        Timber.v(networks.toString())
+    }
+
+    fun clear() {
+        //network.deObserve(this)
     }
 
     fun request(request: WordRequest) {
@@ -70,7 +80,7 @@ class NotifyViewModel
     private fun requestWord(request: WordRequest) {
         when (request.action) {
             Action.SYNC -> {
-                ex.postToNetwork(Runnable {
+                ex.postToIO(Runnable {
                     syncWord(request)
                 })
             }
@@ -78,6 +88,7 @@ class NotifyViewModel
     }
 
     private fun syncWord(request: WordRequest) {
+        Timber.v("Syncing.. %s", this.toString())
         if (!TimeUtil.isExpired(wordPref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
             return
         }
@@ -94,8 +105,8 @@ class NotifyViewModel
                     val uiItem = getUiItem(request, this)
                     wordPref.commitLastWordSyncTime()
                 }
-            } catch (error : Throwable) {
-
+            } catch (error: Throwable) {
+                Timber.e(error)
             }
         }
     }

@@ -14,7 +14,7 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.misc.SmartAd
 import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity
 import com.dreampany.tools.data.misc.LoadRequest
-import com.dreampany.tools.vm.LoaderViewModel
+import com.dreampany.tools.ui.vm.LoaderViewModel
 import dagger.Lazy
 import javax.inject.Inject
 

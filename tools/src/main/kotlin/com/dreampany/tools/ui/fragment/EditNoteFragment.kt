@@ -22,7 +22,7 @@ import com.dreampany.tools.databinding.FragmentEditNoteBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.tools.vm.NoteViewModel
+import com.dreampany.tools.ui.vm.NoteViewModel
 import timber.log.Timber
 import javax.inject.Inject
 

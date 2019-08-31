@@ -30,7 +30,7 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.FragmentWordVisionBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.WordItem
-import com.dreampany.tools.vm.WordViewModel
+import com.dreampany.tools.ui.vm.WordViewModel
 import com.dreampany.vision.ml.CameraSource
 import com.dreampany.vision.ml.CameraSourcePreview
 import com.dreampany.vision.ml.GraphicOverlay
@@ -280,7 +280,7 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
             context!!,
             R.string.word_vision,
             item.item.id,
-            item.item.getPartOfSpeech(),
+            item.item.partOfSpeech,
             item.translation
         )
         val activity = getParent() as Activity?

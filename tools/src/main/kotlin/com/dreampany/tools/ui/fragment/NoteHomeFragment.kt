@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -23,7 +22,6 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.MenuTint
 import com.dreampany.frame.util.ViewUtil
-import com.dreampany.language.Language
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
@@ -35,7 +33,7 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.vm.NoteViewModel
+import com.dreampany.tools.ui.vm.NoteViewModel
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu

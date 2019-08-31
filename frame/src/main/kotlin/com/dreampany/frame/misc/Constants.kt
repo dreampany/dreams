@@ -72,6 +72,12 @@ class Constants {
         const val REWARDED = "rewarded"
     }
 
+    object Pref {
+       const val VERSION_CODE = "version_code"
+       const val RANK = "rank"
+       const val LEVEL = "level"
+    }
+
     object AdTime {
         const val BANNER = "time-banner"
         const val INTERSTITIAL = "time-interstitial"

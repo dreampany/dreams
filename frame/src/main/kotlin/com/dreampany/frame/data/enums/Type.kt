@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Type : Parcelable {
-    DEFAULT, MORE, SITE, APP, SCAN, NOTE, CRYPTO, HISTORY, WORD, NOTEBOOK, OCR
+    DEFAULT, MORE, SITE, APP, SCAN, NOTE, CRYPTO, HISTORY, WORD, NOTEBOOK, OCR, QUIZ
 }

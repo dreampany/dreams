@@ -1,9 +1,7 @@
 package com.dreampany.frame.data.source.room
 
 import androidx.room.TypeConverter
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
+import com.dreampany.frame.data.enums.*
 import com.dreampany.language.Language
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -65,7 +63,9 @@ open class Converters {
     @TypeConverter
     @Synchronized
     fun toList(json: String?): ArrayList<String>? {
-        return if (json.isNullOrEmpty()) { null } else gson.fromJson<ArrayList<String>>(json, type)
+        return if (json.isNullOrEmpty()) {
+            null
+        } else gson.fromJson<ArrayList<String>>(json, type)
     }
 
     @TypeConverter
@@ -78,5 +78,29 @@ open class Converters {
     @Synchronized
     fun toLanguage(value: String?): Language? {
         return if (value.isNullOrEmpty()) null else Language.valueOf(value)
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toRankValue(rank: Rank?): String? {
+        return if (rank == null) null else rank.name
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toRank(value: String?): Rank? {
+        return if (value.isNullOrEmpty()) null else Rank.valueOf(value)
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toLevelValue(level: Level?): String? {
+        return if (level == null) null else level.name
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toLevel(value: String?): Level? {
+        return if (value.isNullOrEmpty()) null else Level.valueOf(value)
     }
 }

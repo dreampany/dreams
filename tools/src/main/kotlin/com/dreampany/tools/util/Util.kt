@@ -1,5 +1,7 @@
 package com.dreampany.tools.util
 
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.tools.data.model.Word
 
@@ -11,6 +13,11 @@ import com.dreampany.tools.data.model.Word
  */
 class Util {
     companion object {
+
+        fun concat(type: Type, subtype: Subtype): String {
+            return type.name + subtype.name
+        }
+
         fun getText(word: Word): String {
             val builder = StringBuilder()
             if (word.hasDefinitions()) {

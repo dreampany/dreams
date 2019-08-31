@@ -1,11 +1,9 @@
 package com.dreampany.tools.data.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Ignore
 import com.dreampany.frame.data.model.BaseParcel
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
-import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -16,8 +14,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Definition(
-    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
-    private var partOfSpeech: String? = Constants.Default.NULL,
+    var partOfSpeech: String? = Constants.Default.NULL,
     var text: String? = Constants.Default.NULL
 ) : BaseParcel() {
 
@@ -36,13 +33,4 @@ data class Definition(
         return Objects.hashCode(partOfSpeech, text)
     }
 
-    @PropertyName(Constants.Word.PART_OF_SPEECH)
-    fun setPartOfSpeech(partOfSpeech: String?) {
-        this.partOfSpeech = partOfSpeech
-    }
-
-    @PropertyName(Constants.Word.PART_OF_SPEECH)
-    fun getPartOfSpeech(): String? {
-        return partOfSpeech
-    }
 }

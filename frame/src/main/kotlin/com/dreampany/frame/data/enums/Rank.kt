@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.enums
+package com.dreampany.frame.data.enums
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class LevelType : Parcelable {
+enum class Rank : Parcelable {
     DEFAULT,
     PRIVATE,
     PRIVATE_FIRST_CLASS,

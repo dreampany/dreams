@@ -3,8 +3,8 @@ package com.dreampany.tools.injector.data
 import android.app.Application
 import com.dreampany.tools.data.source.dao.NoteDao
 import com.dreampany.tools.data.source.dao.WordDao
-import com.dreampany.tools.data.source.room.NoteDatabaseManager
-import com.dreampany.tools.data.source.room.WordDatabaseManager
+import com.dreampany.tools.data.source.room.NoteDatabase
+import com.dreampany.tools.data.source.room.WordDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,25 +19,25 @@ import javax.inject.Singleton
 class DatabaseModule {
     @Singleton
     @Provides
-    fun provideNoteDatabase(application: Application): NoteDatabaseManager {
-        return NoteDatabaseManager.getInstance(application.applicationContext)
+    fun provideNoteDatabase(application: Application): NoteDatabase {
+        return NoteDatabase.getInstance(application.applicationContext)
     }
 
     @Singleton
     @Provides
-    fun provideNoteDao(database: NoteDatabaseManager): NoteDao {
+    fun provideNoteDao(database: NoteDatabase): NoteDao {
         return database.noteDao()
     }
 
     @Singleton
     @Provides
-    fun provideWordDatabase(application: Application): WordDatabaseManager {
-        return WordDatabaseManager.getInstance(application.applicationContext)
+    fun provideWordDatabase(application: Application): WordDatabase {
+        return WordDatabase.getInstance(application.applicationContext)
     }
 
     @Singleton
     @Provides
-    fun provideWordDao(database: WordDatabaseManager): WordDao {
+    fun provideWordDao(database: WordDatabase): WordDao {
         return database.wordDao()
     }
 }

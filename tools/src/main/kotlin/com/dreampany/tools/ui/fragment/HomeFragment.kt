@@ -30,7 +30,7 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.FeatureAdapter
 import com.dreampany.tools.ui.model.FeatureItem
 import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.tools.vm.FeatureViewModel
+import com.dreampany.tools.ui.vm.FeatureViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager

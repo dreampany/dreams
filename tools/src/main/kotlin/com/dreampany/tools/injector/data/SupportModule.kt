@@ -1,14 +1,12 @@
 package com.dreampany.tools.injector.data
 
-import com.dreampany.tools.data.model.Demo
 import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
-import com.dreampany.tools.data.model.App
-import com.dreampany.tools.data.model.Note
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.*
 import com.dreampany.tools.misc.*
 import com.dreampany.tools.ui.model.AppItem
 import com.dreampany.tools.ui.model.NoteItem
+import com.dreampany.tools.ui.model.QuizItem
 import com.dreampany.tools.ui.model.WordItem
 import dagger.Module
 import dagger.Provides
@@ -118,6 +116,34 @@ class SupportModule {
     @Provides
     @WordItemAnnote
     fun provideWordItemSmartCache(): SmartCache<String, WordItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @QuizAnnote
+    fun provideQuizSmartMap(): SmartMap<String, Quiz> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @QuizAnnote
+    fun provideQuizSmartCache(): SmartCache<String, Quiz> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @QuizItemAnnote
+    fun provideQuizItemSmartMap(): SmartMap<String, QuizItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @QuizItemAnnote
+    fun provideQuizItemSmartCache(): SmartCache<String, QuizItem> {
         return SmartCache.newCache()
     }
 }

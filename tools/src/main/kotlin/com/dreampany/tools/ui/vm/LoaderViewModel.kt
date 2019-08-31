@@ -1,4 +1,4 @@
-package com.dreampany.tools.vm
+package com.dreampany.tools.ui.vm
 
 import android.app.Application
 import com.dreampany.frame.data.enums.Action
@@ -17,7 +17,6 @@ import com.dreampany.frame.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordMapper
-import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Load
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref

@@ -26,7 +26,7 @@ import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.AppAdapter
 import com.dreampany.tools.ui.model.AppItem
-import com.dreampany.tools.vm.AppViewModel
+import com.dreampany.tools.ui.vm.AppViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager

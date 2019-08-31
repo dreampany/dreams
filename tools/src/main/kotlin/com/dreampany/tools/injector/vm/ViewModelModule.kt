@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.frame.misc.ViewModelKey
 import com.dreampany.frame.vm.factory.ViewModelFactory
-import com.dreampany.tools.vm.*
+import com.dreampany.tools.ui.vm.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -53,6 +53,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(LoaderViewModel::class)
     abstract fun bindLoaderViewModel(vm: LoaderViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(QuizViewModel::class)
+    abstract fun bindQuizViewModel(vm: QuizViewModel): ViewModel
 
     @Singleton
     @Binds

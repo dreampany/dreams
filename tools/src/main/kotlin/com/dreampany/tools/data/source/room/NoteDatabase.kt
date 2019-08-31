@@ -19,20 +19,20 @@ import com.dreampany.tools.misc.Constants
  */
 @Database(entities = [Note::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class NoteDatabaseManager : RoomDatabase() {
+abstract class NoteDatabase : RoomDatabase() {
 
     companion object {
         private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.NOTE)
-        private var instance: NoteDatabaseManager? = null
+        private var instance: NoteDatabase? = null
 
         @Synchronized
-        fun newInstance(context: Context, memoryOnly: Boolean): NoteDatabaseManager {
-            val builder: RoomDatabase.Builder<NoteDatabaseManager>
+        fun newInstance(context: Context, memoryOnly: Boolean): NoteDatabase {
+            val builder: RoomDatabase.Builder<NoteDatabase>
 
             if (memoryOnly) {
-                builder = Room.inMemoryDatabaseBuilder(context, NoteDatabaseManager::class.java)
+                builder = Room.inMemoryDatabaseBuilder(context, NoteDatabase::class.java)
             } else {
-                builder = Room.databaseBuilder(context, NoteDatabaseManager::class.java, DATABASE)
+                builder = Room.databaseBuilder(context, NoteDatabase::class.java, DATABASE)
             }
 
             return builder
@@ -41,7 +41,7 @@ abstract class NoteDatabaseManager : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context): NoteDatabaseManager {
+        fun getInstance(context: Context): NoteDatabase {
             if (instance == null) {
                 instance = newInstance(context, false)
             }

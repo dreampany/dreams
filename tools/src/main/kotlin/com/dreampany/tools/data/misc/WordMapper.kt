@@ -28,10 +28,10 @@ import javax.inject.Singleton
 @Singleton
 class WordMapper
 @Inject constructor(
-        @WordAnnote private val map: SmartMap<String, Word>,
-        @WordAnnote private val cache: SmartCache<String, Word>,
-        @WordItemAnnote private val uiMap: SmartMap<String, WordItem>,
-        @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
+    @WordAnnote private val map: SmartMap<String, Word>,
+    @WordAnnote private val cache: SmartCache<String, Word>,
+    @WordItemAnnote private val uiMap: SmartMap<String, WordItem>,
+    @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
 ) {
 
     fun isExists(id: String): Boolean {
@@ -103,7 +103,7 @@ class WordMapper
                 map.put(id, out)
             }
         }
-        out.setPartOfSpeech(input.partOfSpeech)
+        out.partOfSpeech = input.partOfSpeech
         out.pronunciation = input.pronunciation
         if (full) {
             out.definitions = getDefinitions(input)
@@ -132,7 +132,7 @@ class WordMapper
                 map.put(word, out)
             }
         }
-        out.setPartOfSpeech(input.partOfSpeech)
+        out.partOfSpeech = input.partOfSpeech
         out.pronunciation = input.pronunciation
         if (full) {
             out.definitions = getDefinitions(input)
@@ -216,7 +216,7 @@ class WordMapper
             input.definitions?.forEach { item ->
                 if (!DataUtilKt.isAnyEmpty(item.partOfSpeech, item.text)) {
                     val def = Definition()
-                    def.setPartOfSpeech(item.partOfSpeech)
+                    def.partOfSpeech = item.partOfSpeech
                     def.text = TextUtil.stripHtml(item.text)
                     result.add(def)
                 }

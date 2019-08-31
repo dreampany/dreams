@@ -9,6 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.api.session.SessionManager
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.Subtype
+import com.dreampany.frame.data.enums.Type
+import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
@@ -16,15 +19,14 @@ import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.WordRequest
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.misc.QuizRequest
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentWordQuizBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizAdapter
 import com.dreampany.tools.ui.model.QuizItem
-import com.dreampany.tools.vm.WordViewModel
+import com.dreampany.tools.ui.vm.QuizViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -52,7 +54,7 @@ class WordQuizFragment
     private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var adapter: QuizAdapter
-    private lateinit var vm: WordViewModel
+    private lateinit var vm: QuizViewModel
     private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
@@ -67,6 +69,8 @@ class WordQuizFragment
         initTitleSubtitle()
         initUi()
         initRecycler()
+        session.track()
+        request(type = Type.QUIZ, subtype = Subtype.RELATED, action = Action.GET, progress = true)
     }
 
     override fun onStopUi() {
@@ -82,8 +86,8 @@ class WordQuizFragment
     }
 
     private fun initTitleSubtitle() {
-        val subtitle = getString(R.string.subtitle_favorite_words, adapter.itemCount)
-        setSubtitle(subtitle)
+        //val subtitle = getString(R.string.subtitle_favorite_words, adapter.itemCount)
+        // setSubtitle(subtitle)
     }
 
     private fun initUi() {
@@ -108,9 +112,9 @@ class WordQuizFragment
 
         processUiState(UiState.DEFAULT)
 
-        vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
+        vm = ViewModelProviders.of(this, factory).get(QuizViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
-        //vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
+        vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         //vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
@@ -153,17 +157,36 @@ class WordQuizFragment
         }
     }
 
+    fun processMultipleResponse(response: Response<List<QuizItem>>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            Timber.v("processMultipleResponse %s", result.loading)
+            vm.processProgress(result.loading)
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            vm.processFailure(result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<List<QuizItem>>
+            processSuccess(result.action, result.data)
+        }
+    }
+
+    private fun processSuccess(action: Action, items: List<QuizItem>) {
+        Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
+        adapter.addItems(items)
+        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+    }
+
     private fun request(
-        id: String? = Constants.Default.NULL,
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         action: Action = Action.DEFAULT,
-        input: Word? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
-        val request = WordRequest(
-            id = id,
-            action = action,
-            input = input,
+        val request = QuizRequest(
+            type = type,
+            subtype = subtype,
             single = single,
             progress = progress
         )

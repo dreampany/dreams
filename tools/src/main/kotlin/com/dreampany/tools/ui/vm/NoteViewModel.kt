@@ -1,4 +1,4 @@
-package com.dreampany.tools.vm
+package com.dreampany.tools.ui.vm
 
 import android.app.Application
 import com.dreampany.frame.data.enums.Action
@@ -22,7 +22,6 @@ import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.NoteRepository
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber

@@ -31,7 +31,7 @@ import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.model.WordItem
-import com.dreampany.tools.vm.WordViewModel
+import com.dreampany.tools.ui.vm.WordViewModel
 import com.klinker.android.link_builder.Link
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.skydoves.powermenu.MenuAnimation
@@ -416,12 +416,12 @@ class WordFragment
                 val def = definitions[index]
                 if (index == 0) {
                     singleBuilder
-                        .append(def.getPartOfSpeech())
+                        .append(def.partOfSpeech)
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
                     multipleBuilder
-                        .append(def.getPartOfSpeech())
+                        .append(def.partOfSpeech)
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
@@ -429,7 +429,7 @@ class WordFragment
                 }
                 multipleBuilder
                     .append(DataUtil.NewLine2)
-                    .append(def.getPartOfSpeech())
+                    .append(def.partOfSpeech)
                     .append(DataUtil.SEMI)
                     .append(DataUtil.SPACE)
                     .append(def.text)

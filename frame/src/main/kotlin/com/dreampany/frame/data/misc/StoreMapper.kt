@@ -44,8 +44,7 @@ class StoreMapper
     }
 
     fun getItem(id: String, type: Type, subtype: Subtype, state: State): Store {
-        return if (isExists(id, type, subtype, state))
-            getItem(id)
+        return if (isExists(id, type, subtype, state)) getItem(id)
         else Store(
             id = id,
             type = type,

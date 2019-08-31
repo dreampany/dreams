@@ -33,7 +33,7 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.vm.NoteViewModel
+import com.dreampany.tools.ui.vm.NoteViewModel
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu

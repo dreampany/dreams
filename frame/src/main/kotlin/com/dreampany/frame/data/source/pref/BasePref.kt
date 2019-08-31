@@ -68,10 +68,6 @@ abstract class BasePref(val context: Context) {
         return privatePref.preferences.getLong(key, defaultValue)
     }
 
-    fun <T> setPublicly(key: String, value: T) {
-        publicPref.put(key, value)
-    }
-
     fun setPublicly(key: String, value: String) {
         publicPref.put(key, value)
     }
@@ -80,12 +76,16 @@ abstract class BasePref(val context: Context) {
         return publicPref.get(key, String::class.java, defaultValue)
     }
 
-    fun <T> setPrivately(key: String, value: T) {
-        privatePref.put(key, value)
+    fun <T> setPublicly(key: String, value: T) {
+        publicPref.put(key, value)
     }
 
     fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T?): T {
         return publicPref.get(key, classOfT, defaultValue)
+    }
+
+    fun <T> setPrivately(key: String, value: T) {
+        privatePref.put(key, value)
     }
 
     fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T?): T {

@@ -28,7 +28,7 @@ class NetworkManager @Inject constructor(
 ) {
 
     interface Callback {
-        fun onNetworkResult(network: List<Network>)
+        fun onNetworkResult(networks: List<Network>)
     }
 
     private var disposable: Disposable? = null

@@ -22,11 +22,11 @@ import javax.inject.Singleton
 @Singleton
 class NoteMapper
 @Inject constructor(
-        val context: Context,
-        @NoteAnnote private val map: SmartMap<String, Note>,
-        @NoteAnnote private val cache: SmartCache<String, Note>,
-        @NoteItemAnnote private val uiMap: SmartMap<String, NoteItem>,
-        @NoteItemAnnote private val uiCache: SmartCache<String, NoteItem>
+    private val context: Context,
+    @NoteAnnote private val map: SmartMap<String, Note>,
+    @NoteAnnote private val cache: SmartCache<String, Note>,
+    @NoteItemAnnote private val uiMap: SmartMap<String, NoteItem>,
+    @NoteItemAnnote private val uiCache: SmartCache<String, NoteItem>
 ) {
 
     fun isExists(item: Note): Boolean {

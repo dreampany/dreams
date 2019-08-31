@@ -8,7 +8,7 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.*
-import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.frame.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import javax.inject.Inject

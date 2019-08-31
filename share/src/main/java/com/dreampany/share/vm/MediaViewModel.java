@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.media.data.enums.MediaType;
 import com.dreampany.media.data.model.Media;
 import com.dreampany.share.data.model.SelectEvent;

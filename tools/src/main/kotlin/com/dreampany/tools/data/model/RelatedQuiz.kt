@@ -1,6 +1,8 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.Index
 import com.dreampany.frame.data.enums.Level
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
@@ -17,13 +19,13 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-/*@Entity(
+@Entity(
     indices = [Index(
-        value = [Constants.Quiz.ID, Constants.Level.LEVEL_ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE],
+        value = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Level.LEVEL],
         unique = true
     )],
-    primaryKeys = [Constants.Quiz.ID, Constants.Level.LEVEL_ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE]
-)*/
+    primaryKeys = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Level.LEVEL]
+)
 data class RelatedQuiz(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
@@ -32,6 +34,7 @@ data class RelatedQuiz(
     var level: Level = Level.DEFAULT,
     var options: ArrayList<String>? = Constants.Default.NULL,
     var answer: String? = Constants.Default.NULL,
+    @Ignore
     var point: Point? = Constants.Default.NULL
 ) : Base() {
 

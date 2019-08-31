@@ -13,7 +13,7 @@ import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.AndroidUtil
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.DataUtilKt
-import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.frame.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordMapper

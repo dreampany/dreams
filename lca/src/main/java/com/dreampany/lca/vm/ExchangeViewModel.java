@@ -12,7 +12,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.data.model.Exchange;

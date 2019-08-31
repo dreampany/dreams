@@ -9,7 +9,7 @@ import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.util.SettingsUtil;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.lca.data.model.More;
 import com.dreampany.lca.ui.enums.MoreType;
 import com.dreampany.lca.ui.model.MoreItem;

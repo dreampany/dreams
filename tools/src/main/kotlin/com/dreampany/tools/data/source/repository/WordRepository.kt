@@ -15,7 +15,6 @@ import com.dreampany.tools.data.source.api.WordDataSource
 import io.reactivex.Maybe
 import io.reactivex.functions.Consumer
 import io.reactivex.internal.functions.Functions
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,9 +29,9 @@ class WordRepository
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
-    private val mapper: WordMapper,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
+    private val mapper: WordMapper,
     @Assets private val assets: WordDataSource,
     @Room private val room: WordDataSource,
     @Firestore private val firestore: WordDataSource,

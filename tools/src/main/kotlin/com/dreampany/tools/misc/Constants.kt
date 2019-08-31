@@ -81,6 +81,7 @@ class Constants {
     }
 
     object Database {
+        const val POINT = "point"
         const val NOTE = "note"
         const val WORD = "word"
     }
@@ -124,7 +125,6 @@ class Constants {
         const val ID = Constants.Key.ID
         const val TYPE = Constants.Key.TYPE
         const val SUBTYPE = Constants.Key.SUBTYPE
-        const val POINT_ID = "point_id"
     }
 
     object Level {

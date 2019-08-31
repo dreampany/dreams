@@ -4,12 +4,11 @@ import com.dreampany.frame.data.source.api.DataSource
 import com.dreampany.tools.data.model.Point
 
 /**
- * Created by roman on 2019-08-29
+ * Created by roman on 2019-09-01
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 interface PointDataSource : DataSource<Point> {
 
-    fun getTotalCredit(): Int
 }

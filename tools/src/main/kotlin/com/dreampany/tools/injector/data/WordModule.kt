@@ -8,9 +8,9 @@ import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.data.source.assets.AssetsWordDataSource
-import com.dreampany.tools.data.source.dao.AntonymDao
-import com.dreampany.tools.data.source.dao.SynonymDao
-import com.dreampany.tools.data.source.dao.WordDao
+import com.dreampany.tools.data.source.room.dao.AntonymDao
+import com.dreampany.tools.data.source.room.dao.SynonymDao
+import com.dreampany.tools.data.source.room.dao.WordDao
 import com.dreampany.tools.data.source.firestore.FirestoreWordDataSource
 import com.dreampany.tools.data.source.remote.RemoteWordDataSource
 import com.dreampany.tools.data.source.room.RoomWordDataSource

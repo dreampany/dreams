@@ -8,7 +8,7 @@ import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;

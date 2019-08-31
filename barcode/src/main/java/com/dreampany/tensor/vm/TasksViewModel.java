@@ -13,7 +13,7 @@ import com.dreampany.frame.data.model.Response;
 import com.dreampany.frame.ld.SingleLiveEvent;
 import com.dreampany.frame.rx.RxFacade;
 import com.dreampany.frame.util.TextUtil;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.data.enums.Filter;
 import com.dreampany.tensor.data.model.Task;

@@ -18,7 +18,7 @@ import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.Currency;

@@ -6,7 +6,7 @@ import android.app.Application;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.cast.data.model.Demo;
 import com.dreampany.cast.ui.model.DemoItem;

@@ -2,24 +2,18 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
-import com.annimon.stream.Stream;
 import com.dreampany.frame.data.model.State;
 import com.dreampany.frame.misc.AppExecutors;
 import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
-import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;
 import com.dreampany.word.data.source.repository.WordRepository;
 import com.dreampany.word.ui.model.UiTask;
 import com.dreampany.word.ui.model.WordItem;
-
-import java.util.List;
 
 import javax.inject.Inject;
 

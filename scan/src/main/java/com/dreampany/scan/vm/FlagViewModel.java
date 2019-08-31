@@ -7,7 +7,7 @@ import com.dreampany.frame.misc.ResponseMapper;
 import com.dreampany.frame.misc.RxMapper;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.scan.data.model.Scan;
 import com.dreampany.scan.data.source.repository.ScanRepository;

@@ -6,9 +6,9 @@ import androidx.room.Index
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.data.model.BaseParcel
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
+import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -40,5 +40,18 @@ data class Point(
 
     constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
 
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as Point
+        return Objects.equal(item.id, id) &&
+                Objects.equal(item.type, type) &&
+                Objects.equal(item.subtype, subtype)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id, type, subtype)
     }
 }

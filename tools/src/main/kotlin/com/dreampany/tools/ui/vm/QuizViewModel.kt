@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.frame.data.enums.Level
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
@@ -13,7 +12,7 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.TextUtil
-import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.frame.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.QuizMapper
 import com.dreampany.tools.data.misc.QuizRequest
@@ -21,7 +20,6 @@ import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.ui.model.QuizItem
-import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.util.Util
 import io.reactivex.Flowable
 import io.reactivex.Maybe

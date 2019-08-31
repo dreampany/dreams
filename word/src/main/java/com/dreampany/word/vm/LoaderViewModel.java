@@ -15,7 +15,7 @@ import com.dreampany.frame.util.AndroidUtil;
 import com.dreampany.frame.util.DataUtil;
 import com.dreampany.frame.util.TextUtil;
 import com.dreampany.frame.util.TimeUtil;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.word.R;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubtype;

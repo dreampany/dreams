@@ -6,7 +6,7 @@ import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
 import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.api.StoreDataSource
-import com.dreampany.frame.data.source.dao.StoreDao
+import com.dreampany.frame.data.source.room.dao.StoreDao
 import com.dreampany.frame.misc.exception.EmptyException
 import io.reactivex.Maybe
 import timber.log.Timber

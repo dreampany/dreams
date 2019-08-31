@@ -2,7 +2,7 @@ package com.dreampany.translation.data.source.room
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.dreampany.frame.data.source.dao.BaseDao
+import com.dreampany.frame.data.source.room.dao.BaseDao
 import com.dreampany.translation.data.model.TextTranslation
 import io.reactivex.Maybe
 

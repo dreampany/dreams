@@ -1,12 +1,13 @@
 package com.dreampany.tools.injector.data
 
 import android.app.Application
-import com.dreampany.tools.data.source.dao.AntonymDao
-import com.dreampany.tools.data.source.dao.NoteDao
-import com.dreampany.tools.data.source.dao.SynonymDao
-import com.dreampany.tools.data.source.dao.WordDao
-import com.dreampany.tools.data.source.room.NoteDatabase
-import com.dreampany.tools.data.source.room.WordDatabase
+import com.dreampany.tools.data.source.room.dao.AntonymDao
+import com.dreampany.tools.data.source.room.dao.NoteDao
+import com.dreampany.tools.data.source.room.dao.SynonymDao
+import com.dreampany.tools.data.source.room.dao.WordDao
+import com.dreampany.tools.data.source.room.database.NoteDatabase
+import com.dreampany.tools.data.source.room.database.PointDatabase
+import com.dreampany.tools.data.source.room.database.WordDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,8 +22,14 @@ import javax.inject.Singleton
 class DatabaseModule {
     @Singleton
     @Provides
+    fun providePointDatabase(application: Application): PointDatabase {
+        return PointDatabase.getInstance(application)
+    }
+
+    @Singleton
+    @Provides
     fun provideNoteDatabase(application: Application): NoteDatabase {
-        return NoteDatabase.getInstance(application.applicationContext)
+        return NoteDatabase.getInstance(application)
     }
 
     @Singleton
@@ -34,7 +41,7 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun provideWordDatabase(application: Application): WordDatabase {
-        return WordDatabase.getInstance(application.applicationContext)
+        return WordDatabase.getInstance(application)
     }
 
     @Singleton

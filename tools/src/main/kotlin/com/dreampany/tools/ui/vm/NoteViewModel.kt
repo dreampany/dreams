@@ -13,7 +13,7 @@ import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.frame.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.NoteMapper

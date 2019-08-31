@@ -17,7 +17,7 @@ import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
 import com.dreampany.frame.ui.adapter.SmartAdapter;
 import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.enums.ItemState;
 import com.dreampany.word.data.enums.ItemSubtype;

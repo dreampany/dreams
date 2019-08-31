@@ -14,7 +14,7 @@ import com.dreampany.frame.misc.SmartMap;
 import com.dreampany.frame.misc.exception.EmptyException;
 import com.dreampany.frame.misc.exception.ExtraException;
 import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.vm.BaseViewModel;
+import com.dreampany.frame.ui.vm.BaseViewModel;
 import com.dreampany.media.data.enums.MediaType;
 import com.dreampany.media.data.model.Apk;
 import com.dreampany.media.data.source.repository.ApkRepository;

@@ -14,7 +14,7 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.SettingsUtil
-import com.dreampany.frame.vm.BaseViewModel
+import com.dreampany.frame.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import io.reactivex.Maybe
 import java.util.*

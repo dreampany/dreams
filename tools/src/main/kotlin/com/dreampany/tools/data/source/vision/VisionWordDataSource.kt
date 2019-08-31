@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
-import com.dreampany.tools.data.source.dao.WordDao
+import com.dreampany.tools.data.source.room.dao.WordDao
 import io.reactivex.Maybe
 
 /**

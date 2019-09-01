@@ -7,6 +7,7 @@ import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
+import com.dreampany.frame.data.model.Store
 import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
@@ -92,7 +93,7 @@ class NotifyViewModel
         if (!TimeUtil.isExpired(wordPref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
             return
         }
-        val rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
+        val rawStore = nextRawStore()
         rawStore?.run {
             Timber.v("Sync Word/.. %s", this.toString())
             try {
@@ -109,6 +110,21 @@ class NotifyViewModel
                 Timber.e(error)
             }
         }
+    }
+
+    private fun nextRawStore(): Store? {
+        var rawStore: Store? = null
+        while (true) {
+            rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
+            if (rawStore == null) {
+                break
+            }
+            if (!storeRepo.isExists(rawStore.id, Type.WORD, Subtype.DEFAULT, State.FULL)) {
+                break
+            }
+            storeRepo.delete(rawStore)
+        }
+        return rawStore
     }
 
     private fun getUiItem(request: WordRequest, item: Word): WordItem {

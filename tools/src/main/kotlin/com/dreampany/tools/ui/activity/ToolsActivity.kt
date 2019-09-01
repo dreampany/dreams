@@ -46,9 +46,11 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     lateinit var favoriteWordsProvider: Lazy<FavoriteWordsFragment>
     @Inject
+    lateinit var wordVisionProvider: Lazy<WordVisionFragment>
+    @Inject
     lateinit var wordQuizProvider: Lazy<WordQuizFragment>
     @Inject
-    lateinit var wordVisionProvider: Lazy<WordVisionFragment>
+    lateinit var relatedQuizProvider: Lazy<RelatedQuizFragment>
     @Inject
     lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
@@ -186,8 +188,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                 }
             }
             Type.QUIZ -> {
-                when (subtype) {
-                    Subtype.RELATED -> {
+                when (state) {
+                    State.HOME -> {
                         commitFragment(
                             WordQuizFragment::class.java,
                             wordQuizProvider,
@@ -197,6 +199,19 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                         return
                     }
                 }
+                when (subtype) {
+                    Subtype.SYNONYM,
+                    Subtype.ANTONYM -> {
+                        commitFragment(
+                            RelatedQuizFragment::class.java,
+                            relatedQuizProvider,
+                            R.id.layout,
+                            uiTask
+                        )
+                        return
+                    }
+                }
+
             }
             Type.OCR -> {
                 if (action == Action.OPEN) {

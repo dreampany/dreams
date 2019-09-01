@@ -731,7 +731,8 @@ class WordHomeFragment
     private fun openPlayUi(subtype: Subtype) {
         val task = UiTask<Word>(
             type = Type.QUIZ,
-            subtype = subtype
+            subtype = subtype,
+            state = State.HOME
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.QUIZ)
     }

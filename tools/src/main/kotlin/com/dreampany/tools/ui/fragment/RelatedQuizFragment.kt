@@ -1,12 +1,13 @@
 package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
-import android.view.View
-import com.dreampany.frame.data.enums.Action
+import androidx.lifecycle.ViewModelProvider
 import com.dreampany.frame.misc.ActivityScope
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
-import com.dreampany.frame.ui.listener.OnUiItemClickListener
-import com.dreampany.tools.ui.model.QuizItem
+import com.dreampany.tools.R
+import com.dreampany.tools.databinding.ContentRelatedQuizBinding
+import com.dreampany.tools.databinding.ContentTopStatusBinding
+import com.dreampany.tools.databinding.FragmentRelatedQuizBinding
 import javax.inject.Inject
 
 /**
@@ -17,22 +18,24 @@ import javax.inject.Inject
  */
 @ActivityScope
 class RelatedQuizFragment
-@Inject constructor() :
-    BaseMenuFragment(),
-    OnUiItemClickListener<QuizItem?, Action?> {
-    override fun onClick(view: View, item: QuizItem?, action: Action?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+@Inject constructor(
 
-    override fun onLongClick(view: View, item: QuizItem?, action: Action?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+) : BaseMenuFragment() {
+
+    @Inject
+    internal lateinit var factory: ViewModelProvider.Factory
+    private lateinit var bind: FragmentRelatedQuizBinding
+    private lateinit var bindStatus: ContentTopStatusBinding
+    private lateinit var bindRelated: ContentRelatedQuizBinding
+
+    override fun getLayoutId(): Int {
+        return R.layout.fragment_related_quiz
     }
 
     override fun onStartUi(state: Bundle?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onStopUi() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

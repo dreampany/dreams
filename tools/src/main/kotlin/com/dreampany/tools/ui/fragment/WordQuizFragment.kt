@@ -17,13 +17,17 @@ import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.listener.OnUiItemClickListener
 import com.dreampany.frame.ui.listener.OnVerticalScrollListener
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.QuizRequest
+import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentWordQuizBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.QuizAdapter
 import com.dreampany.tools.ui.model.QuizItem
 import com.dreampany.tools.ui.vm.QuizViewModel
@@ -194,14 +198,21 @@ class WordQuizFragment
     }
 
     private fun openQuizUi(uiItem: QuizItem?) {
+        var task: UiTask<Quiz>? = null
         uiItem?.run {
             when (item.subtype) {
                 Subtype.SYNONYM,
                 Subtype.ANTONYM -> {
-
+                    task = UiTask<Quiz>(
+                        type = Type.QUIZ,
+                        subtype = item.subtype,
+                        input = item
+                    )
                 }
             }
-
+        }
+        task?.run {
+            openActivity(ToolsActivity::class.java, this)
         }
     }
 }

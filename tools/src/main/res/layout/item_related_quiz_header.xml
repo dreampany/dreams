@@ -4,36 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_3sdp"
+        auto:cardCornerRadius="@dimen/_5sdp"
         auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/_2sdp">
+        auto:elevation="@dimen/_5sdp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/_52sdp"
+            android:orientation="horizontal"
             android:padding="@dimen/_5sdp">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_icon"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
-                tools:src="@drawable/ic_favorite_black_24dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:textColor="@color/material_grey900"
-                android:textSize="@dimen/_12ssp"
+                android:text="@{title}"
+                android:textColor="@color/material_grey800"
+                android:textSize="@dimen/_20ssp"
                 auto:fontFamily="@font/roboto_slab_bold"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/title" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

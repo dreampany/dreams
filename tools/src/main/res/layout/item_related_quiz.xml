@@ -4,35 +4,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
+    <data>
+
+        <variable
+            name="option"
+            type="String" />
+    </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_3sdp"
+        auto:cardCornerRadius="@dimen/_25sdp"
         auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/_2sdp">
+        auto:elevation="@dimen/_5sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="@dimen/_5sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_icon"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 tools:src="@drawable/ic_favorite_black_24dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:textColor="@color/material_grey900"
-                android:textSize="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/material_grey800"
+                android:textSize="@dimen/_16ssp"
                 auto:fontFamily="@font/roboto_slab_bold"
                 tools:text="@string/title" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_status"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                auto:srcCompat="@drawable/ic_check_black_24dp"
+                auto:tint="@color/material_green800" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

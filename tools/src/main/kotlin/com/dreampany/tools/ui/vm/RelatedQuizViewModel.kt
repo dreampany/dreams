@@ -1,6 +1,8 @@
 package com.dreampany.tools.ui.vm
 
-import android.app.Application
+import com.dreampany.tools.data.misc.RelatedQuizRequest
+
+limport android.app.Application
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
@@ -11,15 +13,17 @@ import com.dreampany.frame.misc.RxMapper
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.ui.vm.BaseViewModel
+import com.dreampany.frame.util.TextUtil
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.QuizMapper
 import com.dreampany.tools.data.misc.QuizRequest
 import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.ui.model.QuizItem
+import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.util.Util
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -43,17 +47,17 @@ class RelatedQuizViewModel
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
     private val mapper: QuizMapper
-) : BaseViewModel<Quiz, QuizItem, UiTask<Quiz>>(application, rx, ex, rm) {
+) : BaseViewModel<RelatedQuiz, RelatedQuizItem, UiTask<RelatedQuiz>>(application, rx, ex, rm) {
 
-    fun request(request: QuizRequest) {
+    fun request(request: RelatedQuizRequest) {
         if (request.single) {
             requestSingle(request)
         } else {
-            requestMultiple(request)
+            //requestMultiple(request)
         }
     }
 
-    private fun requestSingle(request: QuizRequest) {
+    private fun requestSingle(request: RelatedQuizRequest) {
         if (!takeAction(request.important, singleDisposable)) {
             return
         }
@@ -95,7 +99,7 @@ class RelatedQuizViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(request.action, result)
+                //postResult(request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -105,8 +109,8 @@ class RelatedQuizViewModel
         addMultipleSubscription(disposable)
     }
 
-    private fun requestUiItemRx(request: QuizRequest): Maybe<QuizItem> {
-        return Maybe.empty()
+    private fun requestUiItemRx(request: RelatedQuizRequest): Maybe<RelatedQuizItem> {
+        return requestItemRx(request).flatMap { }
     }
 
     private fun requestUiItemsRx(request: QuizRequest): Maybe<List<QuizItem>> {
@@ -114,6 +118,10 @@ class RelatedQuizViewModel
             .flatMap { getUiItemsOfStoresRx(request, it) }*/
 
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
+    }
+
+    private fun requestItemRx(request: RelatedQuizRequest): Maybe<RelatedQuiz> {
+
     }
 
     private fun requestItemsRx(request: QuizRequest): Maybe<List<Quiz>> {
@@ -140,6 +148,10 @@ class RelatedQuizViewModel
             }
             emitter.onSuccess(result)
         }
+    }
+
+    private fun getUiItemRx(request: QuizRequest, item: RelatedQuiz): Maybe<RelatedQuizItem> {
+
     }
 
     private fun getUiItemsRx(request: QuizRequest, items: List<Quiz>): Maybe<List<QuizItem>> {

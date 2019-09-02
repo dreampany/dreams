@@ -197,9 +197,8 @@ class WordRepository
             if (hasFull) {
                 result = room.getItem(id)
             }
-            if (emitter.isDisposed) {
-                return@create
-            }
+            if (emitter.isDisposed) return@create
+
             if (result == null) {
                 emitter.onError(EmptyException())
             } else {

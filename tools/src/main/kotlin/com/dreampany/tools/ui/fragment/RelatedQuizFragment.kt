@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.model.Response
 import com.dreampany.frame.misc.ActivityScope
@@ -15,10 +16,13 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.language.Language
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.RelatedQuizRequest
+import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.databinding.ContentRelatedQuizBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRelatedQuizBinding
@@ -59,7 +63,9 @@ class RelatedQuizFragment
     }
 
     override fun onStartUi(state: Bundle?) {
+        val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return
         initUi()
+        request(subtype = uiTask.subtype, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -143,18 +149,19 @@ class RelatedQuizFragment
     }
 
     private fun request(
-        type: Type = Type.QUIZ,
+        subtype: Subtype = Subtype.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
 
         val request = RelatedQuizRequest(
-            type = type,
+            type = Type.QUIZ,
+            subtype = subtype,
             action = action,
             single = single,
             progress = progress
         )
-        //vm.request(request)
+        vm.request(request)
     }
 }

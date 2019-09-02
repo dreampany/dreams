@@ -10,11 +10,8 @@ import com.dreampany.frame.misc.SmartMap
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.api.QuizDataSource
-import com.dreampany.tools.misc.QuizAnnote
-import com.dreampany.tools.misc.QuizItemAnnote
 import com.dreampany.tools.misc.RelatedQuizAnnote
 import com.dreampany.tools.misc.RelatedQuizItemAnnote
-import com.dreampany.tools.ui.model.QuizItem
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,7 +27,7 @@ class RelatedQuizMapper
 @Inject constructor(
     private val context: Context,
     @RelatedQuizAnnote private val map: SmartMap<String, RelatedQuiz>,
-    @QuizAnnote private val cache: SmartCache<String, RelatedQuiz>,
+    @RelatedQuizAnnote private val cache: SmartCache<String, RelatedQuiz>,
     @RelatedQuizItemAnnote private val uiMap: SmartMap<String, RelatedQuizItem>,
     @RelatedQuizItemAnnote private val uiCache: SmartCache<String, RelatedQuizItem>
 ) {

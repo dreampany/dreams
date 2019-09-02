@@ -17,7 +17,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceFragmentCompat
@@ -28,7 +27,6 @@ import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.data.model.Task
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.Constants
-import com.dreampany.frame.misc.Events
 import com.dreampany.frame.ui.activity.BaseActivity
 import com.dreampany.frame.ui.callback.UiCallback
 import com.dreampany.frame.util.AndroidUtil
@@ -110,9 +108,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         return false
     }
 
-    open fun hasBus(): Boolean {
+/*    open fun hasBus(): Boolean {
         return false
-    }
+    }*/
 
     open fun getCurrentFragment(): BaseFragment? {
         return this
@@ -201,7 +199,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         }
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+/*    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         val needUpdate = isResumed && isVisibleToUser != userVisibleHint
         super.setUserVisibleHint(isVisibleToUser)
         if (needUpdate) {
@@ -211,19 +209,19 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
                 this.onInvisible()
             }
         }
-    }
+    }*/
 
     override fun onStart() {
         super.onStart()
-        if (hasBus()) {
+/*        if (hasBus()) {
             Events.register(this)
-        }
+        }*/
     }
 
     override fun onStop() {
-        if (hasBus()) {
+/*        if (hasBus()) {
             Events.unregister(this)
-        }
+        }*/
         super.onStop()
     }
 

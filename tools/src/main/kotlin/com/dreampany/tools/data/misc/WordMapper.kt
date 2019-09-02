@@ -149,12 +149,21 @@ class WordMapper
         return out
     }
 
-    fun getItem(input: Store, source: WordDataSource): Word? {
+    fun getItem(input: Store, source: WordDataSource, full: Boolean = false): Word? {
         var out: Word? = map.get(input.id)
         if (out == null) {
             out = source.getItem(input.id)
-            map.put(input.id, out)
+            if (full) {
+                map.put(input.id, out)
+            }
         }
+        if (out == null) return null
+/*        if (full) {
+            out.definitions = getDefinitions(input)
+            out.examples = getExamples(input)
+            out.synonyms = getSynonyms(input)
+            out.antonyms = getAntonyms(input)
+        }*/
         return out
     }
 

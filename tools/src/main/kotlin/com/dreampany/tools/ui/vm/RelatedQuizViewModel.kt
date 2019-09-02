@@ -200,7 +200,7 @@ class RelatedQuizViewModel
     private fun nextRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
         var quiz: RelatedQuiz? = null
         do {
-            val store = storeRepo.getRandomItem(Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)
+            val store = storeRepo.getRandomItem(request.type, request.subtype, request.state)
             if (store != null) {
                 val word = wordMapper.getItem(store, wordRepo)
                 if (word != null) {

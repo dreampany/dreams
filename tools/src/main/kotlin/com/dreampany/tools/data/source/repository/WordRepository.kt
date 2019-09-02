@@ -171,9 +171,13 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(room.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, State.FULL))
+            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(removeStoreRx(word, State.RAW))
+            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
@@ -183,9 +187,13 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(firestore.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, State.FULL))
+            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(removeStoreRx(word, State.RAW))
+            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
@@ -193,9 +201,9 @@ class WordRepository
 
     /* private */
     private fun getRoomItemRx(id: String): Maybe<Word> {
-        return Maybe.create{emitter ->
-           val hasFull = storeRepo.isExists(id, Type.WORD, Subtype.DEFAULT, State.FULL)
-            var result : Word? = null
+        return Maybe.create { emitter ->
+            val hasFull = storeRepo.isExists(id, Type.WORD, Subtype.DEFAULT, State.FULL)
+            var result: Word? = null
             if (hasFull) {
                 result = room.getItem(id)
             }
@@ -210,13 +218,13 @@ class WordRepository
         }
     }
 
-    fun putStoreRx(word: Word, state: State): Maybe<Long> {
-        val store = storeMapper.getItem(word.id, Type.WORD, Subtype.DEFAULT, state)
+    fun putStoreRx(word: Word, type: Type, subtype: Subtype, state: State): Maybe<Long> {
+        val store = storeMapper.getItem(word.id, type, subtype, state)
         return storeRepo.putItemRx(store)
     }
 
-    fun removeStoreRx(word: Word, state: State): Maybe<Int> {
-        val store = storeMapper.getItem(word.id, Type.WORD, Subtype.DEFAULT, state)
+    fun removeStoreRx(word: Word, type: Type, subtype: Subtype, state: State): Maybe<Int> {
+        val store = storeMapper.getItem(word.id, type, subtype, state)
         val result = storeRepo.deleteRx(store)
         return result
     }

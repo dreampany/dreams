@@ -9,6 +9,7 @@ import com.dreampany.frame.data.source.repository.StoreRepository
 import com.dreampany.frame.misc.AppExecutors
 import com.dreampany.frame.misc.ResponseMapper
 import com.dreampany.frame.misc.RxMapper
+import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
@@ -121,7 +122,15 @@ class RelatedQuizViewModel
     }
 
     private fun requestItemRx(request: RelatedQuizRequest): Maybe<RelatedQuiz> {
-return Maybe.empty()
+        return Maybe.create { emitter ->
+            val quiz = nextRelatedQuiz(request)
+            if (emitter.isDisposed) return@create
+            if (quiz == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(quiz)
+            }
+        }
     }
 
     private fun requestItemsRx(request: RelatedQuizRequest): Maybe<List<RelatedQuiz>> {
@@ -146,7 +155,7 @@ return Maybe.empty()
             if (emitter.isDisposed) {
                 return@create
             }
-           // emitter.onSuccess(result)
+            // emitter.onSuccess(result)
         }
     }
 
@@ -160,7 +169,10 @@ return Maybe.empty()
         }
     }
 
-    private fun getUiItemsRx(request: RelatedQuizRequest, items: List<RelatedQuiz>): Maybe<List<RelatedQuizItem>> {
+    private fun getUiItemsRx(
+        request: RelatedQuizRequest,
+        items: List<RelatedQuiz>
+    ): Maybe<List<RelatedQuizItem>> {
         return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
             .toList()
@@ -176,5 +188,13 @@ return Maybe.empty()
         uiItem.item = item
         return uiItem*/
         return RelatedQuizItem.getItem(item)
+    }
+
+    private fun nextRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
+        var quiz: RelatedQuiz? = null
+        do {
+            //val store = storeRepo.getS
+        } while (quiz == null)
+        return quiz
     }
 }

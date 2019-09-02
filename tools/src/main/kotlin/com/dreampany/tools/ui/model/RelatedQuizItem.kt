@@ -7,11 +7,9 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.ui.model.BaseItem
-import com.dreampany.frame.ui.widget.TextDrawable
 import com.dreampany.frame.util.ColorUtil
-import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -26,9 +24,9 @@ import java.io.Serializable
  */
 class RelatedQuizItem
 private constructor(
-    item: Quiz,
+    item: RelatedQuiz,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<Quiz, RelatedQuizItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem<RelatedQuiz, RelatedQuizItem.ViewHolder, String>(item, layoutId) {
 
     var color: Int = 0
 
@@ -37,7 +35,7 @@ private constructor(
     }
 
     companion object {
-        fun getItem(item: Quiz): RelatedQuizItem {
+        fun getItem(item: RelatedQuiz): RelatedQuizItem {
             return RelatedQuizItem(item)
         }
     }
@@ -78,9 +76,9 @@ private constructor(
             val uiItem = item as RelatedQuizItem
             val item = uiItem.item
             val subtype = item.subtype
-            val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
+  /*          val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
             imageIcon.setImageDrawable(drawable)
-            textTitle.text = item.title
+            textTitle.text = item.title*/
         }
     }
 }

@@ -1,8 +1,7 @@
 package com.dreampany.tools.ui.vm
 
-import com.dreampany.tools.data.misc.RelatedQuizRequest
-
-limport android.app.Application
+import android.app.Application
+import com.dreampany.frame.data.enums.Action
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
@@ -18,6 +17,7 @@ import com.dreampany.frame.util.TextUtil
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.QuizMapper
 import com.dreampany.tools.data.misc.QuizRequest
+import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
@@ -83,7 +83,7 @@ class RelatedQuizViewModel
         addSingleSubscription(disposable)
     }
 
-    private fun requestMultiple(request: QuizRequest) {
+    private fun requestMultiple(request: RelatedQuizRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
@@ -110,10 +110,10 @@ class RelatedQuizViewModel
     }
 
     private fun requestUiItemRx(request: RelatedQuizRequest): Maybe<RelatedQuizItem> {
-        return requestItemRx(request).flatMap { }
+        return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
-    private fun requestUiItemsRx(request: QuizRequest): Maybe<List<QuizItem>> {
+    private fun requestUiItemsRx(request: RelatedQuizRequest): Maybe<List<RelatedQuizItem>> {
         /*return Maybe.empty() *//*storeRepo.getItemsRx(Type.QUIZ, Subtype.RELATED, State.DEFAULT)
             .flatMap { getUiItemsOfStoresRx(request, it) }*/
 
@@ -121,10 +121,10 @@ class RelatedQuizViewModel
     }
 
     private fun requestItemRx(request: RelatedQuizRequest): Maybe<RelatedQuiz> {
-
+return Maybe.empty()
     }
 
-    private fun requestItemsRx(request: QuizRequest): Maybe<List<Quiz>> {
+    private fun requestItemsRx(request: RelatedQuizRequest): Maybe<List<RelatedQuiz>> {
         return Maybe.create { emitter ->
             val result = mutableListOf<Quiz>()
             result.add(
@@ -146,28 +146,35 @@ class RelatedQuizViewModel
             if (emitter.isDisposed) {
                 return@create
             }
-            emitter.onSuccess(result)
+           // emitter.onSuccess(result)
         }
     }
 
-    private fun getUiItemRx(request: QuizRequest, item: RelatedQuiz): Maybe<RelatedQuizItem> {
-
+    private fun getUiItemRx(
+        request: RelatedQuizRequest,
+        item: RelatedQuiz
+    ): Maybe<RelatedQuizItem> {
+        return Maybe.create { emitter ->
+            val uiItem = getUiItem(request, item)
+            emitter.onSuccess(uiItem)
+        }
     }
 
-    private fun getUiItemsRx(request: QuizRequest, items: List<Quiz>): Maybe<List<QuizItem>> {
+    private fun getUiItemsRx(request: RelatedQuizRequest, items: List<RelatedQuiz>): Maybe<List<RelatedQuizItem>> {
         return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
             .toList()
             .toMaybe()
     }
 
-    private fun getUiItem(request: QuizRequest, item: Quiz): QuizItem {
-        var uiItem: QuizItem? = mapper.getUiItem(item.id)
+    private fun getUiItem(request: RelatedQuizRequest, item: RelatedQuiz): RelatedQuizItem {
+/*        var uiItem: QuizItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
             uiItem = QuizItem.getItem(item)
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
-        return uiItem
+        return uiItem*/
+        return RelatedQuizItem.getItem(item)
     }
 }

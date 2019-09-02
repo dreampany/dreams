@@ -139,8 +139,7 @@ class LoaderViewModel
             if (DataUtil.isEqual(words, resultOf)) {
                 val states = ArrayList<Store>()
                 words.forEach { word ->
-                    val s = Store(word.id, Type.WORD, Subtype.DEFAULT, State.RAW)
-                    states.add(s)
+                    states.add(Store(word.id, Type.WORD, Subtype.DEFAULT, State.RAW))
                 }
                 resultOf = storeRepo.putItems(states)
             }
@@ -152,7 +151,7 @@ class LoaderViewModel
                 load.current = current
                 load.total = current
 
-                Timber.v("%d Last Common Word = %s", current, lastWord!!.toString())
+                Timber.v("%d Last Common Word = %s", current, lastWord!!.id)
                 ex.postToUi(Runnable { postResult(request.action, item) })
                 AndroidUtil.sleep(100)
             }
@@ -186,8 +185,7 @@ class LoaderViewModel
             if (DataUtil.isEqual(words, resultOf)) {
                 val states = ArrayList<Store>()
                 words.forEach { word ->
-                    val s = Store(word.id, Type.WORD, Subtype.DEFAULT, State.RAW)
-                    states.add(s)
+                    states.add(Store(word.id, Type.WORD, Subtype.DEFAULT, State.RAW))
                 }
                 resultOf = storeRepo.putItems(states)
             }
@@ -199,7 +197,7 @@ class LoaderViewModel
                 load.current = current
                 load.total = current
 
-                Timber.v("%d Last Alpha Word = %s", current, lastWord!!.toString())
+                Timber.v("%d Last Alpha Word = %s", current, lastWord!!.id)
                 ex.postToUi(Runnable { postResult(request.action, item) })
                 AndroidUtil.sleep(100)
             }

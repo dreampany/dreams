@@ -68,12 +68,12 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.MINUTES.toMillis(2)
+        val Notify = TimeUnit.SECONDS.toMillis(80)
     }
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
-        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(80)
+        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(40)
     }
 
     object Date {
@@ -87,6 +87,7 @@ class Constants {
     }
 
     object Pref {
+        const val LOAD = "load"
         const val WORD = "word"
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"

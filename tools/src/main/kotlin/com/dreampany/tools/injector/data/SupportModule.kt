@@ -4,10 +4,7 @@ import com.dreampany.frame.misc.SmartCache
 import com.dreampany.frame.misc.SmartMap
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.misc.*
-import com.dreampany.tools.ui.model.AppItem
-import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.ui.model.QuizItem
-import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.ui.model.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -144,6 +141,34 @@ class SupportModule {
     @Provides
     @QuizItemAnnote
     fun provideQuizItemSmartCache(): SmartCache<String, QuizItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @RelatedQuizAnnote
+    fun provideRelatedQuizSmartMap(): SmartMap<String,RelatedQuiz> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @RelatedQuizAnnote
+    fun provideRelatedQuizSmartCache(): SmartCache<String, RelatedQuiz> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @RelatedQuizItemAnnote
+    fun provideRelatedQuizItemSmartMap(): SmartMap<String, RelatedQuizItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @RelatedQuizItemAnnote
+    fun provideRelatedQuizItemSmartCache(): SmartCache<String, RelatedQuizItem> {
         return SmartCache.newCache()
     }
 }

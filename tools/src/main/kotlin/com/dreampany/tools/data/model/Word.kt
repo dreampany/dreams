@@ -65,7 +65,7 @@ data class Word(
     }
 
     fun hasDefinitions(): Boolean {
-        return definitions?.isEmpty() ?: false
+        return !definitions.isNullOrEmpty()
     }
 
     fun hasExamples(): Boolean {
@@ -73,23 +73,23 @@ data class Word(
     }
 
     fun hasSynonyms(): Boolean {
-        return synonyms?.isEmpty() ?: false
+        return !synonyms.isNullOrEmpty()
     }
 
     fun hasAntonyms(): Boolean {
-        return antonyms?.isEmpty() ?: false
+        return !antonyms.isNullOrEmpty()
     }
 
     fun hasCategories(): Boolean {
-        return categories?.isEmpty() ?: false
+        return !categories.isNullOrEmpty()
     }
 
     fun hasTags(): Boolean {
-        return tags?.isEmpty() ?: false
+        return !tags.isNullOrEmpty()
     }
 
     fun hasNotes(): Boolean {
-        return notes?.isEmpty() ?: false
+        return !notes.isNullOrEmpty()
     }
 
     fun hasPartial(): Boolean {

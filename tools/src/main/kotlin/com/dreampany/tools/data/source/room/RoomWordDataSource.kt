@@ -10,6 +10,7 @@ import com.dreampany.tools.data.source.room.dao.AntonymDao
 import com.dreampany.tools.data.source.room.dao.SynonymDao
 import com.dreampany.tools.data.source.room.dao.WordDao
 import io.reactivex.Maybe
+import timber.log.Timber
 
 /**
  * Created by roman on 2019-08-16
@@ -114,10 +115,12 @@ class RoomWordDataSource(
             val synonyms = mapper.getSynonyms(t)
             val antonyms = mapper.getAntonyms(t)
             if (!synonyms.isNullOrEmpty()) {
-                synonymDao.insertOrReplace(synonyms)
+                val synonymResults = synonymDao.insertOrReplace(synonyms)
+                Timber.v("Synonym Stored %d", synonymResults.size)
             }
             if (!antonyms.isNullOrEmpty()) {
-                antonymDao.insertOrReplace(antonyms)
+                val antonymResults = antonymDao.insertOrReplace(antonyms)
+                Timber.v("Antonym Stored %d", antonymResults.size)
             }
         }
         return result

@@ -250,7 +250,7 @@ class WordMapper
         if (input.hasSynonyms()) {
             val result = ArrayList<String>()
             input.synonyms?.forEach {
-                result.add(it)
+                result.add(it.toLowerCase())
             }
             return result
         }
@@ -261,7 +261,7 @@ class WordMapper
         if (input.hasAntonyms()) {
             val result = ArrayList<String>()
             input.antonyms?.forEach {
-                result.add(it)
+                result.add(it.toLowerCase())
             }
             return result
         }

@@ -25,6 +25,9 @@ class StoreRepository
     rm: ResponseMapper,
     @Room private val room: StoreDataSource
 ) : Repository<String, Store>(rx, rm), StoreDataSource {
+    override fun getRandomItem(type: Type, subtype: Subtype, state: State): Store? {
+        return room.getRandomItem(type, subtype, state)
+    }
 
     override fun getItem(type: Type, subtype: Subtype, state: State): Store? {
         return room.getItem(type, subtype, state)

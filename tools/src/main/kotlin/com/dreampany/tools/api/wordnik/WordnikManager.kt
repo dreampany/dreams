@@ -450,7 +450,7 @@ class WordnikManager
                 val relateds = api.getRelatedWords(word, useCanonical, relationshipTypes, limit)
                 return Arrays.asList(*relateds)
 
-            } catch (error: Exception) {
+            } catch (error: Throwable) {
                 Timber.e(error)
                 if (error is ClientException) {
                     if (error.toString().contains("404")) {

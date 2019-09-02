@@ -29,6 +29,10 @@ constructor(
         return dao.getItem(type.name, subtype.name, state.name)
     }
 
+    override fun getRandomItem(type: Type, subtype: Subtype, state: State): Store? {
+        return dao.getRandomItem(type.name, subtype.name, state.name)
+    }
+
     override fun getItems(type: Type, subtype: Subtype, state: State): List<Store>? {
         return dao.getItems(type.name, subtype.name, state.name)
     }

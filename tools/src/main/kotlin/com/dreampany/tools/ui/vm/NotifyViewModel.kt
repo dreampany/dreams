@@ -114,7 +114,18 @@ class NotifyViewModel
 
     private fun nextRawStore(): Store? {
         var rawStore: Store? = null
-        while (true) {
+        do {
+            rawStore = storeRepo.getRandomItem(Type.WORD, Subtype.DEFAULT, State.RAW)
+            if (rawStore != null) {
+                if (storeRepo.isExists(rawStore.id, Type.WORD, Subtype.DEFAULT, State.FULL)) {
+                    storeRepo.delete(rawStore)
+                    rawStore = null
+                }
+            }
+        } while (rawStore == null)
+
+
+/*        while (true) {
             rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
             if (rawStore == null) {
                 break
@@ -123,7 +134,7 @@ class NotifyViewModel
                 break
             }
             storeRepo.delete(rawStore)
-        }
+        }*/
         return rawStore
     }
 

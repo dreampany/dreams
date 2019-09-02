@@ -30,6 +30,8 @@ interface StoreDataSource : DataSource<Store> {
 
     fun getItem(type: Type, subtype: Subtype, state: State): Store?
 
+    fun getRandomItem(type: Type, subtype: Subtype, state: State): Store?
+
     fun getItem(id: String, type: Type, subtype: Subtype, state: State): Store?
 
     fun getItemRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Store>

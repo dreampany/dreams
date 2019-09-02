@@ -116,6 +116,14 @@ class DataUtilKt {
             return result
         }
 
+        fun <T> takeFirst(list: ArrayList<String>?) : String? {
+            return list?.first()
+        }
+
+        fun <T> takeRandom(list: ArrayList<String>?) : String? {
+            return list?.random()
+        }
+
         fun <T> removeAll(list: MutableList<T>, sub: MutableList<T>?): MutableList<T>? {
             sub?.run {
                 list.removeAll(this)

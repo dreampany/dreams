@@ -36,34 +36,40 @@ class RelatedQuizMapper
 ) {
 
     fun isExists(item: RelatedQuiz): Boolean {
-        return map.contains(item.id)
+        return map.contains(item.id + item.type.name + item.subtype.name + item.level.name)
     }
 
-    fun getUiItem(id: String): RelatedQuizItem? {
-        return uiMap.get(id)
+    fun getUiItem(id: String, type: Type, subtype: Subtype, level: Level): RelatedQuizItem? {
+        return uiMap.get(id + type.name + subtype.name + level.name)
     }
 
-    fun putUiItem(id: String, uiItem: RelatedQuizItem) {
-        uiMap.put(id, uiItem)
+    fun putUiItem(uiItem: RelatedQuizItem) {
+        val item = uiItem.item
+        uiMap.put(item.id + item.type.name + item.subtype.name + item.level.name, uiItem)
     }
 
-    fun getItem(id: String, type: Type, subtype: Subtype, level: Level, title: String): RelatedQuiz? {
+    fun getItem(
+        id: String,
+        type: Type,
+        subtype: Subtype,
+        level: Level,
+        options: String
+    ): RelatedQuiz? {
         var item = map.get(id)
         if (item == null) {
-          //  item = Quiz(id = id)
+            item = RelatedQuiz(id = id)
             map.put(id, item)
         }
         item.type = type
         item.subtype = subtype
         item.level = level
-     //   item.title = title
         return item
     }
 
     fun getItem(input: Store, source: QuizDataSource): Quiz? {
         var out: RelatedQuiz? = map.get(input.id)
         if (out == null) {
-           // out = source.getItem(input.id)
+            // out = source.getItem(input.id)
             map.put(input.id, out)
         }
         return null

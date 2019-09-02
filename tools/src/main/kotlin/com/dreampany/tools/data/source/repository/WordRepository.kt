@@ -56,6 +56,10 @@ class WordRepository
         return room.isExists(t)
     }
 
+    override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
+        return room.getRawItemsByLength(id, limit)
+    }
+
     override fun getItems(ids: List<String>): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -163,38 +167,24 @@ class WordRepository
     override fun getItemRx(id: String): Maybe<Word> {
         val cacheAny = mapper.getItemRx(id)
         val roomAny = concatSingleSuccess(getRoomItemRx(id), Consumer { word ->
-            rx.compute(mapper.putItemRx(word))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(mapper.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val firestoreAny = concatSingleSuccess(firestore.getItemRx(id), Consumer { word ->
-            rx.compute(mapper.putItemRx(word))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(room.putItemRx(word))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(mapper.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(room.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
-            rx.compute(mapper.putItemRx(word))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(room.putItemRx(word))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(firestore.putItemRx(word))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(mapper.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(room.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(firestore.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
     }

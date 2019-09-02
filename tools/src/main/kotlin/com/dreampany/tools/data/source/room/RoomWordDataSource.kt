@@ -24,6 +24,10 @@ class RoomWordDataSource(
     private val antonymDao: AntonymDao
 ) : WordDataSource {
 
+    override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
+        return dao.getRawItemsByLength(id, limit)
+    }
+
     override fun isValid(id: String): Boolean {
         return isExists(id)
     }

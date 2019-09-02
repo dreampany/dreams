@@ -13,7 +13,7 @@ import io.reactivex.Maybe
  * Last modified $file.lastModified
  */
 @Dao
-interface WordDao: BaseDao<Word> {
+interface WordDao : BaseDao<Word> {
 
     @Query("select * from word where id = :id limit 1")
     fun getItem(id: String): Word?
@@ -26,4 +26,7 @@ interface WordDao: BaseDao<Word> {
 
     @Query("select id from word order by id asc")
     fun getRawItemsRx(): Maybe<List<String>>
+
+    @Query("select id from word where length(id) == length(:id) order by random() limit :limit")
+    fun getRawItemsByLength(id: String, limit : Int): List<String>?
 }

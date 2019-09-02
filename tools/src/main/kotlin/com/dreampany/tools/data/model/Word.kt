@@ -93,16 +93,11 @@ data class Word(
     }
 
     fun hasPartial(): Boolean {
-        return if (DataUtil.isEmpty(partOfSpeech, pronunciation) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)) { false
-        } else true
+        return if (DataUtil.isEmpty(partOfSpeech, pronunciation) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)) false else true
     }
 
     fun hasFull(): Boolean {
-        if (!hasPartial()) {
-            return false
-        }
-        return if (DataUtil.isEmpty(synonyms) && DataUtil.isEmpty(antonyms)) {
-            false
-        } else true
+        if (!hasPartial()) return false
+        return !(DataUtil.isEmpty(synonyms) && DataUtil.isEmpty(antonyms))
     }
 }

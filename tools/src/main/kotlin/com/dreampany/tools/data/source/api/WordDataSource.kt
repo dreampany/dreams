@@ -32,4 +32,6 @@ interface WordDataSource : DataSource<Word> {
     fun getRawWords(): List<String>?
 
     fun getRawWordsRx(): Maybe<List<String>>
+
+    fun getRawItemsByLength(id: String, limit : Int): List<String>?
 }

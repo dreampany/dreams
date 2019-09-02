@@ -23,6 +23,11 @@ class RemoteWordDataSource(
     private val mapper: WordMapper,
     private val wordnik: WordnikManager
 ) : WordDataSource {
+
+    override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun isValid(id: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

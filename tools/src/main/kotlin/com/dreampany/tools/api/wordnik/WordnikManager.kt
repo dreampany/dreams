@@ -323,7 +323,7 @@ class WordnikManager
                     typeFormat,
                     limit
                 )
-                val pronunciations:List<TextPron> = result.toList()
+                val pronunciations: List<TextPron> = result.toList()
                 if (!DataUtil.isEmpty(pronunciations)) {
                     var pronunciation = pronunciations[0].raw
                     for (indexX in 1 until pronunciations.size) {
@@ -346,6 +346,7 @@ class WordnikManager
     private fun getDefinitions(word: String, limit: Int): List<Definition>? {
         var word = word
         var index = 0
+        var notFound = false
         while (index < keys.size) {
             val api = getWordApi()
             try {
@@ -368,16 +369,17 @@ class WordnikManager
                 Timber.e(error)
                 if (error is ClientException) {
                     if (error.toString().contains("404")) {
+                        if (notFound) {
+                            break
+                        }
+                        notFound = true
                         word = TextUtil.toTitleCase(word)
                         index--
-                        index++
                         continue
                     }
                 }
                 iterateQueue()
             }
-
-            index++
         }
         return null
     }
@@ -442,7 +444,8 @@ class WordnikManager
     private fun getRelateds(word: String, relationshipTypes: String, limit: Int): List<Related>? {
         var word = word
         var index = 0
-        while (index < keys.size) {
+        var notFound = false
+        while (index++ < keys.size) {
             val api = getWordApi()
             try {
                 val useCanonical = "true"
@@ -454,16 +457,17 @@ class WordnikManager
                 Timber.e(error)
                 if (error is ClientException) {
                     if (error.toString().contains("404")) {
+                        if (notFound) {
+                            break
+                        }
+                        notFound = true
                         word = TextUtil.toTitleCase(word)
                         index--
-                        index++
                         continue
                     }
                 }
                 iterateQueue()
             }
-
-            index++
         }
         return null
     }

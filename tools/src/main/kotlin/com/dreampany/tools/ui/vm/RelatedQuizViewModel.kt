@@ -1,7 +1,8 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.frame.data.enums.Action
+import com.dreampany.frame.data.enums.Level
+import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.enums.Subtype
 import com.dreampany.frame.data.enums.Type
 import com.dreampany.frame.data.misc.StoreMapper
@@ -14,16 +15,19 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.ui.vm.BaseViewModel
+import com.dreampany.frame.util.DataUtilKt
 import com.dreampany.frame.util.TextUtil
+import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.QuizMapper
-import com.dreampany.tools.data.misc.QuizRequest
+import com.dreampany.tools.data.misc.RelatedQuizMapper
 import com.dreampany.tools.data.misc.RelatedQuizRequest
+import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
-import com.dreampany.tools.ui.model.QuizItem
+import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.util.Util
 import io.reactivex.Flowable
@@ -47,7 +51,9 @@ class RelatedQuizViewModel
     private val wordPref: WordPref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
-    private val mapper: QuizMapper
+    private val wordMapper: WordMapper,
+    private val wordRepo: WordRepository,
+    private val mapper: RelatedQuizMapper
 ) : BaseViewModel<RelatedQuiz, RelatedQuizItem, UiTask<RelatedQuiz>>(application, rx, ex, rm) {
 
     fun request(request: RelatedQuizRequest) {
@@ -165,6 +171,7 @@ class RelatedQuizViewModel
     ): Maybe<RelatedQuizItem> {
         return Maybe.create { emitter ->
             val uiItem = getUiItem(request, item)
+            if (emitter.isDisposed) return@create
             emitter.onSuccess(uiItem)
         }
     }
@@ -180,20 +187,50 @@ class RelatedQuizViewModel
     }
 
     private fun getUiItem(request: RelatedQuizRequest, item: RelatedQuiz): RelatedQuizItem {
-/*        var uiItem: QuizItem? = mapper.getUiItem(item.id)
+        var uiItem: RelatedQuizItem? = mapper.getUiItem(item.id, item.type, item.subtype, item.level)
         if (uiItem == null) {
-            uiItem = QuizItem.getItem(item)
-            mapper.putUiItem(item.id, uiItem)
+            uiItem = RelatedQuizItem.getItem(item)
+            mapper.putUiItem(uiItem)
         }
         uiItem.item = item
-        return uiItem*/
+        return uiItem
         return RelatedQuizItem.getItem(item)
     }
 
     private fun nextRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
         var quiz: RelatedQuiz? = null
         do {
-            //val store = storeRepo.getS
+            val store = storeRepo.getRandomItem(Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)
+            if (store != null) {
+                val word = wordMapper.getItem(store, wordRepo)
+                if (word != null) {
+                    var answer: String? = null
+                    var options: ArrayList<String>? = null
+                    if (request.subtype == Subtype.SYNONYM) {
+                        if (word.hasSynonyms()) {
+                            answer = DataUtilKt.takeRandom<String?>(word.synonyms)
+                        }
+                    } else if (request.subtype == Subtype.ANTONYM) {
+                        if (word.hasAntonyms()) {
+                            answer = DataUtilKt.takeRandom<String?>(word.antonyms)
+                        }
+                    }
+                    if (answer != null) {
+                        options = wordRepo.getRawItemsByLength(answer, 3) as ArrayList<String>?
+                    }
+                    if (!options.isNullOrEmpty()) {
+                        quiz = RelatedQuiz(
+                            time = TimeUtilKt.currentMillis(),
+                            id = word.id,
+                            type = request.type,
+                            subtype = request.subtype,
+                            level = Level.A1,
+                            options = options,
+                            answer = answer
+                        )
+                    }
+                }
+            }
         } while (quiz == null)
         return quiz
     }

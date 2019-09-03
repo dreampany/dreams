@@ -162,6 +162,10 @@ class Constants {
         const val RECENT_WORD = "recent_word"
     }
 
+    object Contact {
+        const val ID = Constants.Key.ID
+    }
+
     object Language {
         const val LANGUAGE = "language"
     }

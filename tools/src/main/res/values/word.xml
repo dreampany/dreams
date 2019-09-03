@@ -19,4 +19,6 @@
     <string name="notify_title_word_sync">New Word</string>
     <string name="notify_word_translation_format">%s (%s)</string>
     <string name="notify_word_format">%s (%s)</string>
+
+    <string name="title_quiz_header">Select %s of (%s)</string>
 </resources>

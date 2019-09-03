@@ -25,7 +25,7 @@
             android:padding="@dimen/_10sdp">
 
 
-            <include
+            <include android:id="@+id/layout_header"
                 layout="@layout/item_related_quiz_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

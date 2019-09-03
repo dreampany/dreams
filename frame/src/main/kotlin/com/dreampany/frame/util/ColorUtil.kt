@@ -87,6 +87,10 @@ class ColorUtil {
             return Color(primary, primaryDark, accent)
         }
 
+        fun createGreyColor(): Color {
+            return Color(R.color.material_grey600, R.color.material_grey800, R.color.material_grey500)
+        }
+
         fun createRedColor(): Color {
             return Color(R.color.material_red500, R.color.material_red700, R.color.material_redA700)
         }

@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{title}"
                 android:textColor="@color/material_grey800"
-                android:textSize="@dimen/_20ssp"
+                android:textSize="@dimen/_14ssp"
                 auto:fontFamily="@font/roboto_slab_bold"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"

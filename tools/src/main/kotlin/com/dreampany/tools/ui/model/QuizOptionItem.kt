@@ -12,24 +12,24 @@ import com.dreampany.frame.ui.widget.TextDrawable
 import com.dreampany.frame.util.ColorUtil
 import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.RelatedQuiz
+import com.dreampany.tools.data.model.QuizOption
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.QuizAdapter
+import com.dreampany.tools.ui.adapter.QuizOptionAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
 
 /**
- * Created by roman on 2019-08-29
+ * Created by roman on 2019-09-03
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RelatedQuizItem
+class QuizOptionItem
 private constructor(
-    item: RelatedQuiz,
+    item: QuizOption,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<RelatedQuiz, RelatedQuizItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem<QuizOption, QuizOptionItem.ViewHolder, String>(item, layoutId) {
 
     var color: Color
 
@@ -38,38 +38,35 @@ private constructor(
     }
 
     companion object {
-        fun getItem(item: RelatedQuiz): RelatedQuizItem {
-            return RelatedQuizItem(item)
+        fun getItem(item: QuizOption): QuizOptionItem {
+            return QuizOptionItem(item, R.layout.item_quiz_option)
         }
     }
 
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): RelatedQuizItem.ViewHolder {
-        return RelatedQuizItem.ViewHolder(view, adapter)
+    ): QuizOptionItem.ViewHolder {
+        return QuizOptionItem.ViewHolder(view, adapter)
     }
 
     override fun filter(constraint: String): Boolean {
         return false
     }
 
-    fun drawLetter(image: AppCompatImageView, text: String) {
-        val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(text), ColorUtil.getColor(image.context, color.primaryId))
-        image.setImageDrawable(drawable)
-    }
-
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {
 
-        private var adapter: QuizAdapter
+        private var adapter: QuizOptionAdapter
         private var imageIcon: AppCompatImageView
         private var textTitle: AppCompatTextView
+        private var imageStatus: AppCompatImageView
 
         init {
-            this.adapter = adapter as QuizAdapter
+            this.adapter = adapter as QuizOptionAdapter
             imageIcon = view.findViewById(R.id.image_icon)
             textTitle = view.findViewById(R.id.text_title)
+            imageStatus = view.findViewById(R.id.image_status)
 
             view.setOnClickListener { view ->
                 this.adapter.uiItemClick?.onClick(
@@ -81,12 +78,11 @@ private constructor(
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
                 bind(position: Int, item: I) {
-            val uiItem = item as RelatedQuizItem
+            val uiItem = item as QuizOptionItem
             val item = uiItem.item
-            val subtype = item.subtype
-            /*          val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
-                      imageIcon.setImageDrawable(drawable)
-                      textTitle.text = item.title*/
+           // val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
+           // imageIcon.setImageDrawable(drawable)
+            //textTitle.text = item.title
         }
     }
 }

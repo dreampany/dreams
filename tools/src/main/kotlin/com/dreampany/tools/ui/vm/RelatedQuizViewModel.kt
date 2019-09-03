@@ -16,6 +16,7 @@ import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.ui.vm.BaseViewModel
 import com.dreampany.frame.util.DataUtilKt
+import com.dreampany.frame.util.NumberUtil
 import com.dreampany.frame.util.TextUtil
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
@@ -219,6 +220,9 @@ class RelatedQuizViewModel
                         options = wordRepo.getRawItemsByLength(answer, 3) as ArrayList<String>?
                     }
                     if (!options.isNullOrEmpty()) {
+                        val randIndex = NumberUtil.nextRand(options.size)
+                        options.add(randIndex, answer!!)
+
                         quiz = RelatedQuiz(
                             time = TimeUtilKt.currentMillis(),
                             id = word.id,

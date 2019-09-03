@@ -17,16 +17,15 @@ import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
 import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.frame.util.TextUtil
+import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.frame.util.ViewUtil
 import com.dreampany.language.Language
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Quiz
-import com.dreampany.tools.databinding.ContentRelatedQuizBinding
-import com.dreampany.tools.databinding.ContentTopStatusBinding
-import com.dreampany.tools.databinding.FragmentRelatedQuizBinding
-import com.dreampany.tools.databinding.FragmentWordHomeBinding
+import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.ui.model.WordItem
@@ -54,9 +53,16 @@ class RelatedQuizFragment
     internal lateinit var factory: ViewModelProvider.Factory
     private lateinit var bind: FragmentRelatedQuizBinding
     private lateinit var bindStatus: ContentTopStatusBinding
-    private lateinit var bindRelated: ContentRelatedQuizBinding
+    private lateinit var bindQuiz: ContentRelatedQuizBinding
+    private lateinit var bindQuizHeader: ItemRelatedQuizHeaderBinding
+    private lateinit var bindQuizOptionOne: ItemRelatedQuizBinding
+    private lateinit var bindQuizOptionTwo: ItemRelatedQuizBinding
+    private lateinit var bindQuizOptionThree: ItemRelatedQuizBinding
+    private lateinit var bindQuizOptionFour: ItemRelatedQuizBinding
 
     private lateinit var vm: RelatedQuizViewModel
+
+    private var quizItem: RelatedQuizItem? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_related_quiz
@@ -72,11 +78,60 @@ class RelatedQuizFragment
         processUiState(UiState.HIDE_PROGRESS)
     }
 
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.layout_parent -> {
+                val tag = v.tag as Int
+                val answer = quizItem!!.item.options!!.get(tag)
+                when (tag) {
+                    0 -> {
+                        if (answer.equals(quizItem!!.item.answer)) {
+
+                        } else {
+
+                        }
+                    }
+                    1 -> {
+                        if (answer.equals(quizItem!!.item.answer)) {
+
+                        }
+                    }
+                    2 -> {
+                        if (answer.equals(quizItem!!.item.answer)) {
+
+                        }
+                    }
+                    3 -> {
+                        if (answer.equals(quizItem!!.item.answer)) {
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun initUi() {
         //setTitle(R.string.home)
         bind = super.binding as FragmentRelatedQuizBinding
         bindStatus = bind.layoutTopStatus
-        bindRelated = bind.layoutRelatedQuiz
+        bindQuiz = bind.layoutRelatedQuiz
+        bindQuizHeader = bindQuiz.layoutHeader
+        bindQuizOptionOne = bindQuiz.layoutOne
+        bindQuizOptionTwo = bindQuiz.layoutTwo
+        bindQuizOptionThree = bindQuiz.layoutThree
+        bindQuizOptionFour = bindQuiz.layoutFour
+
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bindQuizOptionOne.layoutParent.setOnClickListener(this)
+        bindQuizOptionTwo.layoutParent.setOnClickListener(this)
+        bindQuizOptionThree.layoutParent.setOnClickListener(this)
+        bindQuizOptionFour.layoutParent.setOnClickListener(this)
+
+        bindQuizOptionOne.layoutParent.setTag(0)
+        bindQuizOptionTwo.layoutParent.setTag(1)
+        bindQuizOptionThree.layoutParent.setTag(2)
+        bindQuizOptionFour.layoutParent.setTag(3)
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
@@ -86,8 +141,6 @@ class RelatedQuizFragment
             UiState.EMPTY.name,
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
-
-        ViewUtil.setSwipe(bind.layoutRefresh, this)
 
         vm = ViewModelProviders.of(this, factory).get(RelatedQuizViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -105,7 +158,7 @@ class RelatedQuizFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            //UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            UiState.EXTRA -> processUiState(if (quizItem == null) UiState.EMPTY else UiState.CONTENT)
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.ERROR -> {
@@ -144,8 +197,40 @@ class RelatedQuizFragment
     private fun processSingleSuccess(action: Action, item: RelatedQuizItem) {
         Timber.v("Result Related Quiz[%s]", item.item.id)
         bind.setItem(item)
-
+        quizItem = item
+        showQuiz()
         processUiState(UiState.CONTENT)
+    }
+
+
+    private fun showQuiz() {
+        val quiz = quizItem!!.item!!
+        val title = TextUtil.getString(
+            context,
+            R.string.title_quiz_header,
+            TextUtil.toTitleCase(quiz.subtype.name),
+            quiz.id
+        )
+        bindQuizHeader.textTitle.text = title
+
+
+        quizItem!!.drawLetter(bindQuizOptionOne.imageIcon, "A")
+        quizItem!!.drawLetter(bindQuizOptionTwo.imageIcon, "B")
+        quizItem!!.drawLetter(bindQuizOptionThree.imageIcon, "C")
+        quizItem!!.drawLetter(bindQuizOptionFour.imageIcon, "D")
+
+        if (quiz.options!!.size >= 1) {
+            bindQuizOptionOne.textTitle.text = quiz.options!!.first()
+        }
+        if (quiz.options!!.size >= 2) {
+            bindQuizOptionTwo.textTitle.text = quiz.options!!.get(1)
+        }
+        if (quiz.options!!.size >= 3) {
+            bindQuizOptionThree.textTitle.text = quiz.options!!.get(2)
+        }
+        if (quiz.options!!.size >= 4) {
+            bindQuizOptionFour.textTitle.text = quiz.options!!.get(3)
+        }
     }
 
     private fun request(

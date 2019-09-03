@@ -19,6 +19,10 @@ class DataUtilKt {
             return UUID.randomUUID().toString()
         }
 
+        fun isEmpty(item: String?): Boolean {
+            return item.isNullOrEmpty()
+        }
+
         fun isEmpty(vararg items: String): Boolean {
             if (items.isEmpty()) {
                 return true

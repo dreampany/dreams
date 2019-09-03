@@ -82,7 +82,7 @@ class NotifyViewModel
         when (request.action) {
             Action.SYNC -> {
                 ex.postToIO(Runnable {
-                    syncWord(request)
+                    //syncWord(request)
                 })
             }
         }

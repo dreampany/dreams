@@ -223,7 +223,7 @@ class WordMapper
         if (input.hasDefinition()) {
             val result = ArrayList<Definition>()
             input.definitions?.forEach { item ->
-                if (!DataUtilKt.isAnyEmpty(item.partOfSpeech, item.text)) {
+                if (!DataUtilKt.isEmpty(item.text)) {
                     val def = Definition()
                     def.partOfSpeech = item.partOfSpeech
                     def.text = TextUtil.stripHtml(item.text)
@@ -239,7 +239,7 @@ class WordMapper
         if (input.hasExample()) {
             val result = ArrayList<String>()
             input.examples?.forEach {
-                result.add(it)
+                result.add(TextUtil.stripHtml(it))
             }
             return result
         }

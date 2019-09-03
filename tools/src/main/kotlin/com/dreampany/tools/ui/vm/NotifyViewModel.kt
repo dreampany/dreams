@@ -93,6 +93,7 @@ class NotifyViewModel
         if (!TimeUtil.isExpired(wordPref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
             return
         }
+        wordPref.commitLastWordSyncTime()
         val rawStore = nextRawStore()
         rawStore?.run {
             Timber.v("Sync Word/.. %s", this.toString())
@@ -104,7 +105,6 @@ class NotifyViewModel
                         putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
                     }
                     val uiItem = getUiItem(request, this)
-                    wordPref.commitLastWordSyncTime()
                 }
             } catch (error: Throwable) {
                 Timber.e(error)

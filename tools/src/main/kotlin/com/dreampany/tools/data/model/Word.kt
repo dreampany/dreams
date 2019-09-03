@@ -92,8 +92,20 @@ data class Word(
         return !notes.isNullOrEmpty()
     }
 
+    fun isEmpty(): Boolean {
+        return DataUtil.isEmpty(partOfSpeech, pronunciation) &&
+                DataUtil.isEmpty(definitions) &&
+                DataUtil.isEmpty(examples) &&
+                DataUtil.isEmpty(synonyms) &&
+                DataUtil.isEmpty(antonyms)
+    }
+
     fun hasPartial(): Boolean {
-        return if (DataUtil.isEmpty(partOfSpeech, pronunciation) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)) false else true
+        return if (DataUtil.isEmpty(
+                partOfSpeech,
+                pronunciation
+            ) && DataUtil.isEmpty(definitions) && DataUtil.isEmpty(examples)
+        ) false else true
     }
 
     fun hasFull(): Boolean {

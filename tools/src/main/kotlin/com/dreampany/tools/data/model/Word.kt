@@ -8,6 +8,7 @@ import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 
@@ -92,6 +93,7 @@ data class Word(
         return !notes.isNullOrEmpty()
     }
 
+    @Exclude
     fun isEmpty(): Boolean {
         return DataUtil.isEmpty(partOfSpeech, pronunciation) &&
                 DataUtil.isEmpty(definitions) &&

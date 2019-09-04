@@ -39,6 +39,7 @@ private constructor(
 
     companion object {
         fun getItem(item: QuizOption): QuizOptionItem {
+            if (item.header) return QuizOptionItem(item, R.layout.item_quiz_option_header)
             return QuizOptionItem(item, R.layout.item_quiz_option)
         }
     }
@@ -46,24 +47,68 @@ private constructor(
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): QuizOptionItem.ViewHolder {
-        return QuizOptionItem.ViewHolder(view, adapter)
+    ): ViewHolder {
+        if (item.header) return HeaderViewHolder(view, adapter)
+        return ItemViewHolder(view, adapter)
     }
 
     override fun filter(constraint: String): Boolean {
         return false
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
-        BaseItem.ViewHolder(view, adapter) {
+    abstract class ViewHolder(
+        view: View,
+        adapter: FlexibleAdapter<*>
+    ) : BaseItem.ViewHolder(view, adapter) {
 
-        private var adapter: QuizOptionAdapter
+        protected var adapter: QuizOptionAdapter
+        protected lateinit var uiItem: QuizOptionItem
+        protected lateinit var item: QuizOption
+
+        init {
+            this.adapter = adapter as QuizOptionAdapter
+        }
+
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
+                bind(position: Int, item: I) {
+            uiItem = item as QuizOptionItem
+            this.item = uiItem.item
+        }
+
+        fun drawLetter(image: AppCompatImageView, text: String) {
+            val drawable = TextDrawable.builder().buildRound(
+                TextUtilKt.getFirst(text),
+                ColorUtil.getColor(image.context, uiItem.color.primaryId)
+            )
+            image.setImageDrawable(drawable)
+        }
+    }
+
+
+    class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter) {
+
+        private var textTitle: AppCompatTextView
+
+        init {
+            textTitle = view.findViewById(R.id.text_title)
+        }
+
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+            position: Int,
+            item: I
+        ) {
+            super.bind(position, item)
+            textTitle.text = this.item.id
+        }
+    }
+
+    class ItemViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter) {
+
         private var imageIcon: AppCompatImageView
         private var textTitle: AppCompatTextView
         private var imageStatus: AppCompatImageView
 
         init {
-            this.adapter = adapter as QuizOptionAdapter
             imageIcon = view.findViewById(R.id.image_icon)
             textTitle = view.findViewById(R.id.text_title)
             imageStatus = view.findViewById(R.id.image_status)
@@ -76,13 +121,12 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
-                bind(position: Int, item: I) {
-            val uiItem = item as QuizOptionItem
-            val item = uiItem.item
-           // val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
-           // imageIcon.setImageDrawable(drawable)
-            //textTitle.text = item.title
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+            position: Int,
+            item: I
+        ) {
+            super.bind(position, item)
+
         }
     }
 }

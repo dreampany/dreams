@@ -51,6 +51,7 @@ class Constants {
     object Default {
         val NULL = Constants.Default.NULL
         const val BOOLEAN = Constants.Default.BOOLEAN
+        const val CHARACTER = Constants.Default.CHARACTER
         const val INT = Constants.Default.INT
         const val LONG = Constants.Default.LONG
         const val FLOAT = Constants.Default.FLOAT

@@ -142,6 +142,7 @@ class Constants {
     object Default {
         val NULL = null
         const val BOOLEAN = false
+        const val CHARACTER = 0.toChar()
         const val INT = 0
         const val LONG = 0L
         const val FLOAT = 0f

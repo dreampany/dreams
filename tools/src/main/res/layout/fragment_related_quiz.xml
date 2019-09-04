@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="item"
-            type="com.dreampany.tools.ui.model.RelatedQuizItem" />
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -45,12 +45,20 @@
                     android:layout_height="match_parent">
 
                     <include
+                        android:id="@+id/layout_recycler"
+                        layout="@layout/content_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        auto:items="@{items}" />
+
+<!--                    <include
                         android:id="@+id/layout_related_quiz"
                         layout="@layout/content_related_quiz"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="visible"
-                        auto:item="@{item}" />
+                        auto:item="@{item}" />-->
+
                 </FrameLayout>
             </cz.kinst.jakub.view.StatefulLayout>
 

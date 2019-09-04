@@ -54,10 +54,11 @@ private constructor(
         return false
     }
 
-    fun drawLetter(image: AppCompatImageView, text: String) {
-        val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(text), ColorUtil.getColor(image.context, color.primaryId))
-        image.setImageDrawable(drawable)
-    }
+/*    fun getOptionItems() : List<QuizOptionItem> {
+
+    }*/
+
+
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {

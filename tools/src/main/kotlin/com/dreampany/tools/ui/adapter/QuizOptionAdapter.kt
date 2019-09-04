@@ -23,4 +23,8 @@ class QuizOptionAdapter(listener: Any?) : SmartAdapter<QuizOptionItem>(listener)
     fun getItemOffset(): Int {
         return ITEM_OFFSET
     }
+
+/*    fun select(item: QuizOptionItem) {
+        for (it in getItems)
+    }*/
 }

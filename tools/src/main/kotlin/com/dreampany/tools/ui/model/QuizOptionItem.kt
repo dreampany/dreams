@@ -75,11 +75,8 @@ private constructor(
             this.item = uiItem.item
         }
 
-        fun drawLetter(image: AppCompatImageView, text: String) {
-            val drawable = TextDrawable.builder().buildRound(
-                TextUtilKt.getFirst(text),
-                ColorUtil.getColor(image.context, uiItem.color.primaryId)
-            )
+        fun drawLetter(image: AppCompatImageView, text: Char) {
+            val drawable = TextDrawable.builder().buildRound(text.toString(), ColorUtil.getColor(image.context, uiItem.color.primaryId))
             image.setImageDrawable(drawable)
         }
     }
@@ -126,7 +123,9 @@ private constructor(
             item: I
         ) {
             super.bind(position, item)
-
+            drawLetter(imageIcon, this.item.letter)
+            textTitle.text = this.item.id
+            textTitle.text = this.item.id
         }
     }
 }

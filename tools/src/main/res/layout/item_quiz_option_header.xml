@@ -24,7 +24,6 @@
                 android:id="@+id/text_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{title}"
                 android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_14ssp"
                 auto:fontFamily="@font/roboto_slab_bold"

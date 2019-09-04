@@ -5,12 +5,14 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
+import com.dreampany.frame.misc.Constants
 import com.dreampany.frame.util.DisplayUtil
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.AbstractFlexibleItem
 import eu.davidea.flexibleadapter.items.IFilterable
 import eu.davidea.flexibleadapter.items.IFlexible
+import eu.davidea.flexibleadapter.items.IHeader
 import eu.davidea.viewholders.FlexibleViewHolder
 import java.io.Serializable
 
@@ -20,8 +22,10 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(var item: T, @LayoutRes var layoutId: Int = 0) :
-    AbstractFlexibleItem<VH>(), IFilterable<S>, Serializable {
+abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(
+    var item: T,
+    @LayoutRes var layoutId: Int = Constants.Default.INT
+) : AbstractFlexibleItem<VH>(), IFilterable<S>, Serializable {
 
     var success: Boolean = false
     var favorite: Boolean = false

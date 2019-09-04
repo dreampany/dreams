@@ -66,8 +66,8 @@ class FavoriteWordsFragment
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
-    private lateinit var adapter: WordAdapter
     private lateinit var vm: WordViewModel
+    private lateinit var adapter: WordAdapter
     private lateinit var scroller: OnVerticalScrollListener
 
     private val optionItems = mutableListOf<PowerMenuItem>()
@@ -197,9 +197,9 @@ class FavoriteWordsFragment
 
     private fun initRecycler() {
         bind.setItems(ObservableArrayList<Any>())
+        scroller = object : OnVerticalScrollListener() {}
         adapter = WordAdapter(this)
         adapter.setStickyHeaders(false)
-        scroller = object : OnVerticalScrollListener() {}
         ViewUtil.setRecycler(
                 adapter,
                 bindRecycler.recycler,

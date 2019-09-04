@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -16,23 +17,22 @@ import com.dreampany.frame.misc.exception.ExtraException
 import com.dreampany.frame.misc.exception.MultiException
 import com.dreampany.frame.ui.enums.UiState
 import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.frame.ui.listener.OnVerticalScrollListener
 import com.dreampany.frame.ui.model.UiTask
 import com.dreampany.frame.util.TextUtil
-import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.frame.util.ViewUtil
-import com.dreampany.language.Language
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.RelatedQuizRequest
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.QuizOptionAdapter
+import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.model.RelatedQuizItem
-import com.dreampany.tools.ui.model.WordItem
-import com.dreampany.tools.ui.vm.LoaderViewModel
 import com.dreampany.tools.ui.vm.RelatedQuizViewModel
-import com.dreampany.tools.ui.vm.WordViewModel
 import cz.kinst.jakub.view.StatefulLayout
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -53,14 +53,11 @@ class RelatedQuizFragment
     internal lateinit var factory: ViewModelProvider.Factory
     private lateinit var bind: FragmentRelatedQuizBinding
     private lateinit var bindStatus: ContentTopStatusBinding
-    private lateinit var bindQuiz: ContentRelatedQuizBinding
-    private lateinit var bindQuizHeader: ItemRelatedQuizHeaderBinding
-    private lateinit var bindQuizOptionOne: ItemRelatedQuizBinding
-    private lateinit var bindQuizOptionTwo: ItemRelatedQuizBinding
-    private lateinit var bindQuizOptionThree: ItemRelatedQuizBinding
-    private lateinit var bindQuizOptionFour: ItemRelatedQuizBinding
+    private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var vm: RelatedQuizViewModel
+    private lateinit var adapter: QuizOptionAdapter
+    private lateinit var scroller: OnVerticalScrollListener
 
     private var quizItem: RelatedQuizItem? = null
 
@@ -71,6 +68,7 @@ class RelatedQuizFragment
     override fun onStartUi(state: Bundle?) {
         val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return
         initUi()
+        initRecycler()
         request(subtype = uiTask.subtype, single = true, progress = true)
     }
 
@@ -115,23 +113,9 @@ class RelatedQuizFragment
         //setTitle(R.string.home)
         bind = super.binding as FragmentRelatedQuizBinding
         bindStatus = bind.layoutTopStatus
-        bindQuiz = bind.layoutRelatedQuiz
-        bindQuizHeader = bindQuiz.layoutHeader
-        bindQuizOptionOne = bindQuiz.layoutOne
-        bindQuizOptionTwo = bindQuiz.layoutTwo
-        bindQuizOptionThree = bindQuiz.layoutThree
-        bindQuizOptionFour = bindQuiz.layoutFour
+        bindRecycler = bind.layoutRecycler
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
-        bindQuizOptionOne.layoutParent.setOnClickListener(this)
-        bindQuizOptionTwo.layoutParent.setOnClickListener(this)
-        bindQuizOptionThree.layoutParent.setOnClickListener(this)
-        bindQuizOptionFour.layoutParent.setOnClickListener(this)
-
-        bindQuizOptionOne.layoutParent.setTag(0)
-        bindQuizOptionTwo.layoutParent.setTag(1)
-        bindQuizOptionThree.layoutParent.setTag(2)
-        bindQuizOptionFour.layoutParent.setTag(3)
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
@@ -145,6 +129,24 @@ class RelatedQuizFragment
         vm = ViewModelProviders.of(this, factory).get(RelatedQuizViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+    }
+
+    private fun initRecycler() {
+        bind.setItems(ObservableArrayList<Any>())
+        scroller = object : OnVerticalScrollListener() {}
+        adapter = QuizOptionAdapter(this)
+        adapter.setStickyHeaders(true)
+        ViewUtil.setRecycler(
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollLinearLayoutManager(context!!),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_quiz_option, adapter.getItemOffset())
+                .withEdge(true),
+            null,
+            scroller,
+            null
+        )
     }
 
     private fun processUiState(state: UiState) {
@@ -196,7 +198,7 @@ class RelatedQuizFragment
 
     private fun processSingleSuccess(action: Action, item: RelatedQuizItem) {
         Timber.v("Result Related Quiz[%s]", item.item.id)
-        bind.setItem(item)
+       // bind.setItem(item)
         quizItem = item
         showQuiz()
         processUiState(UiState.CONTENT)
@@ -211,10 +213,10 @@ class RelatedQuizFragment
             TextUtil.toTitleCase(quiz.subtype.name),
             quiz.id
         )
-        bindQuizHeader.textTitle.text = title
+      //  bindQuizHeader.textTitle.text = title
 
 
-        quizItem!!.drawLetter(bindQuizOptionOne.imageIcon, "A")
+/*        quizItem!!.drawLetter(bindQuizOptionOne.imageIcon, "A")
         quizItem!!.drawLetter(bindQuizOptionTwo.imageIcon, "B")
         quizItem!!.drawLetter(bindQuizOptionThree.imageIcon, "C")
         quizItem!!.drawLetter(bindQuizOptionFour.imageIcon, "D")
@@ -230,7 +232,7 @@ class RelatedQuizFragment
         }
         if (quiz.options!!.size >= 4) {
             bindQuizOptionFour.textTitle.text = quiz.options!!.get(3)
-        }
+        }*/
     }
 
     private fun request(

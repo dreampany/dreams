@@ -132,7 +132,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     /* library */
-    implementation 'com.dreampany.framework:frame:0.0.1'
+    implementation project(':frame')
 
     /* android arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha04'

@@ -1,3 +1,4 @@
+rootProject.name='android'
 include ':frame'
 //include ':common'
 //include ':firebase'

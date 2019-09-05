@@ -132,15 +132,15 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     /* library */
-    implementation project(':frame')
+    implementation 'com.dreampany.framework:frame:0.0.1'
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha02'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha04'
     kapt 'androidx.room:room-compiler:2.1.0'
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.22.1'
-    kapt 'com.google.dagger:dagger-android-processor:2.22.1'
+    kapt 'com.google.dagger:dagger-compiler:2.24'
+    kapt 'com.google.dagger:dagger-android-processor:2.24'
 
     /* squareup */
     implementation 'com.squareup.moshi:moshi-kotlin:1.8.0'

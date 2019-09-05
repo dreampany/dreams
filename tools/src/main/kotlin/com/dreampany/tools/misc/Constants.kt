@@ -138,6 +138,13 @@ class Constants {
         const val ID = Constants.Key.ID
         const val TYPE = Constants.Key.TYPE
         const val SUBTYPE = Constants.Key.SUBTYPE
+
+        val OptionCharArray: CharArray = CharArray(4).apply {
+            set(0, 'A')
+            set(1, 'B')
+            set(2, 'C')
+            set(3, 'D')
+        }
     }
 
     object Feature {
@@ -187,6 +194,4 @@ class Constants {
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
     }
-
-
 }

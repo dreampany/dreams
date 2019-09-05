@@ -141,6 +141,7 @@ class RelatedQuizFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_quiz_option_header, adapter.getItemOffset())
                 .addItemViewType(R.layout.item_quiz_option, adapter.getItemOffset())
                 .withEdge(true),
             null,
@@ -198,9 +199,10 @@ class RelatedQuizFragment
 
     private fun processSingleSuccess(action: Action, item: RelatedQuizItem) {
         Timber.v("Result Related Quiz[%s]", item.item.id)
-       // bind.setItem(item)
         quizItem = item
-        showQuiz()
+        val result = item.getOptionItems(context!!)
+        adapter.addItems(result)
+        //showQuiz()
         processUiState(UiState.CONTENT)
     }
 
@@ -213,7 +215,7 @@ class RelatedQuizFragment
             TextUtil.toTitleCase(quiz.subtype.name),
             quiz.id
         )
-      //  bindQuizHeader.textTitle.text = title
+        //  bindQuizHeader.textTitle.text = title
 
 
 /*        quizItem!!.drawLetter(bindQuizOptionOne.imageIcon, "A")

@@ -57,8 +57,11 @@ abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(
         holder.bind(position, this)
     }
 
-    abstract class ViewHolder(val view: View, adapter: FlexibleAdapter<*>) :
-        FlexibleViewHolder(view, adapter) {
+    abstract class ViewHolder(
+        val view: View,
+        adapter: FlexibleAdapter<*>,
+        stickyHeader : Boolean = Constants.Default.BOOLEAN
+    ) : FlexibleViewHolder(view, adapter, stickyHeader) {
 
         open fun getContext(): Context {
             return view.context

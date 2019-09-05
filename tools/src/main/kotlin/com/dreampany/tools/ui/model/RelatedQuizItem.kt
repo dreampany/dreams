@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.model
 
+import android.content.Context
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
@@ -8,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.ui.model.BaseItem
-import com.dreampany.frame.ui.widget.TextDrawable
 import com.dreampany.frame.util.ColorUtil
-import com.dreampany.frame.util.TextUtilKt
+import com.dreampany.frame.util.TextUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.QuizOption
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizAdapter
@@ -46,19 +47,38 @@ private constructor(
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): RelatedQuizItem.ViewHolder {
-        return RelatedQuizItem.ViewHolder(view, adapter)
+    ): ViewHolder {
+        return ViewHolder(view, adapter)
     }
 
     override fun filter(constraint: String): Boolean {
         return false
     }
 
-/*    fun getOptionItems() : List<QuizOptionItem> {
+    fun getOptionItems(context: Context): List<QuizOptionItem> {
+        val result = ArrayList<QuizOptionItem>()
+        result.add(getHeaderOptionItem(context))
+        for (index in 0..item.options!!.size-1) {
+            result.add(getOptionItem(item.options!!.get(index), Constants.Quiz.OptionCharArray.get(index)))
+        }
+        return result
+    }
 
-    }*/
+    fun getHeaderOptionItem(context: Context): QuizOptionItem {
+        val id = TextUtil.getString(
+            context,
+            R.string.title_quiz_header,
+            TextUtil.toTitleCase(item.subtype.name),
+            item.id
+        )
+        val header = QuizOption(id = id!!, header = true)
+        return QuizOptionItem.getItem(header)
+    }
 
-
+    fun getOptionItem(option: String, letter: Char): QuizOptionItem {
+        val item = QuizOption(id = option, letter = letter)
+        return QuizOptionItem.getItem(item)
+    }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {

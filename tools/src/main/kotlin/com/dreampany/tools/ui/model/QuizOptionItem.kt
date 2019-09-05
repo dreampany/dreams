@@ -5,12 +5,12 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.frame.data.enums.State
 import com.dreampany.frame.data.model.Base
 import com.dreampany.frame.data.model.Color
 import com.dreampany.frame.ui.model.BaseItem
 import com.dreampany.frame.ui.widget.TextDrawable
 import com.dreampany.frame.util.ColorUtil
-import com.dreampany.frame.util.TextUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.QuizOption
 import com.dreampany.tools.misc.Constants
@@ -28,7 +28,8 @@ import java.io.Serializable
 class QuizOptionItem
 private constructor(
     item: QuizOption,
-    @LayoutRes layoutId: Int = Constants.Default.INT
+    @LayoutRes layoutId: Int = Constants.Default.INT,
+    state : State = State.DEFAULT
 ) : BaseItem<QuizOption, QuizOptionItem.ViewHolder, String>(item, layoutId) {
 
     var color: Color
@@ -58,8 +59,9 @@ private constructor(
 
     abstract class ViewHolder(
         view: View,
-        adapter: FlexibleAdapter<*>
-    ) : BaseItem.ViewHolder(view, adapter) {
+        adapter: FlexibleAdapter<*>,
+        stickyHeader: Boolean = Constants.Default.BOOLEAN
+    ) : BaseItem.ViewHolder(view, adapter, stickyHeader) {
 
         protected var adapter: QuizOptionAdapter
         protected lateinit var uiItem: QuizOptionItem
@@ -76,13 +78,16 @@ private constructor(
         }
 
         fun drawLetter(image: AppCompatImageView, text: Char) {
-            val drawable = TextDrawable.builder().buildRound(text.toString(), ColorUtil.getColor(image.context, uiItem.color.primaryId))
+            val drawable = TextDrawable.builder().buildRound(
+                text.toString(),
+                ColorUtil.getColor(image.context, uiItem.color.primaryId)
+            )
             image.setImageDrawable(drawable)
         }
     }
 
 
-    class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter) {
+    class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter, stickyHeader = true) {
 
         private var textTitle: AppCompatTextView
 
@@ -125,7 +130,7 @@ private constructor(
             super.bind(position, item)
             drawLetter(imageIcon, this.item.letter)
             textTitle.text = this.item.id
-            textTitle.text = this.item.id
+            imageStatus.setImageResource(this.item.stausRes)
         }
     }
 }

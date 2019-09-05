@@ -32,7 +32,6 @@ data class RelatedQuiz(
     var type: Type = Type.DEFAULT,
     var subtype: Subtype = Subtype.DEFAULT,
     var level: Level = Level.DEFAULT,
-    //var word: String? = Constants.Default.NULL,
     var options: ArrayList<String>? = Constants.Default.NULL,
     var answer: String? = Constants.Default.NULL
     //@Ignore

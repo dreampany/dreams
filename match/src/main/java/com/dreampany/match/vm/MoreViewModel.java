@@ -3,12 +3,12 @@ package com.dreampany.match.vm;
 import android.app.Activity;
 import android.app.Application;
 
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.util.SettingsUtil;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.util.SettingsUtil;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.match.data.model.More;
 import com.dreampany.match.ui.enums.MoreType;
 import com.dreampany.match.ui.model.MoreItem;

@@ -5,7 +5,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import android.content.Context;
-import com.dreampany.frame.data.source.room.Converters;
+import com.dreampany.framework.data.source.room.Converters;
 import com.dreampany.radio.BuildConfig;
 import com.dreampany.radio.data.model.Station;
 import com.google.common.base.Splitter;

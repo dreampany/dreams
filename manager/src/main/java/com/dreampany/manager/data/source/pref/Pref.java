@@ -2,7 +2,7 @@ package com.dreampany.manager.data.source.pref;
 
 import android.content.Context;
 
-import com.dreampany.frame.data.source.pref.FramePref;
+import com.dreampany.framework.data.source.pref.FramePref;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

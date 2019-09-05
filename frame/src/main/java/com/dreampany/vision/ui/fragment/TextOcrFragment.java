@@ -9,19 +9,18 @@ import android.content.IntentFilter;
 import android.hardware.Camera;
 import android.os.Bundle;
 
-import com.dreampany.frame.R;
-import com.dreampany.frame.databinding.FragmentTextOcrBinding;
+import com.dreampany.framework.R;
+import com.dreampany.framework.databinding.FragmentTextOcrBinding;
 import com.google.android.material.snackbar.Snackbar;
 import android.view.GestureDetector;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.util.AndroidUtil;
-import com.dreampany.frame.util.TextUtil;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.util.AndroidUtil;
+import com.dreampany.framework.util.TextUtil;
 import com.dreampany.vision.OcrDetectorProcessor;
 import com.dreampany.vision.OcrGraphic;
 import com.dreampany.vision.ui.activity.TextOcrActivity;
@@ -38,7 +37,6 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;

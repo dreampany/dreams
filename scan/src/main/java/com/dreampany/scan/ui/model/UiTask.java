@@ -2,8 +2,8 @@ package com.dreampany.scan.ui.model;
 
 import android.os.Parcel;
 
-import com.dreampany.frame.data.model.BaseParcel;
-import com.dreampany.frame.data.model.Task;
+import com.dreampany.framework.data.model.BaseParcel;
+import com.dreampany.framework.data.model.Task;
 import com.dreampany.scan.ui.enums.UiSubtype;
 import com.dreampany.scan.ui.enums.UiType;
 

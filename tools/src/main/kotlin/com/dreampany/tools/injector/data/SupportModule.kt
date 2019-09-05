@@ -1,7 +1,7 @@
 package com.dreampany.tools.injector.data
 
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
+import com.dreampany.framework.misc.SmartCache
+import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.misc.*
 import com.dreampany.tools.ui.model.*

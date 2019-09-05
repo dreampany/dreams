@@ -1,6 +1,6 @@
 package com.dreampany.tensor.injector;
 
-import com.dreampany.frame.injector.ActivityScoped;
+import com.dreampany.framework.injector.ActivityScoped;
 import com.dreampany.tensor.ui.activity.LaunchActivityKt;
 import com.dreampany.tensor.ui.activity.NavigationActivity;
 import com.dreampany.tensor.ui.activity.ToolsActivity;

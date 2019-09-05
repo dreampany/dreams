@@ -5,7 +5,7 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
-import com.dreampany.frame.data.model.Base;
+import com.dreampany.framework.data.model.Base;
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 

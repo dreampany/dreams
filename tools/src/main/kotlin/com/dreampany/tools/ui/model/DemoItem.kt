@@ -6,8 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.tools.data.model.Demo
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.DemoAdapter
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.ui.model.BaseItem
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable

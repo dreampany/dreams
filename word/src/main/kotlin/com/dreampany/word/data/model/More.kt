@@ -1,7 +1,7 @@
 package com.dreampany.word.data.model
 
-import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.framework.data.model.BaseKt
+import com.dreampany.framework.util.TimeUtil
 import com.dreampany.word.ui.enums.MoreType
 import kotlinx.android.parcel.Parcelize
 

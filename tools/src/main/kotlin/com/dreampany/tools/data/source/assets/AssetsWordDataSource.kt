@@ -2,8 +2,8 @@ package com.dreampany.tools.data.source.assets
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.dreampany.frame.util.DataUtil
-import com.dreampany.frame.util.FileUtil
+import com.dreampany.framework.util.DataUtil
+import com.dreampany.framework.util.FileUtil
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource

@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.frame.util.AndroidUtil;
-import com.dreampany.frame.util.TextUtil;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
+import com.dreampany.framework.util.AndroidUtil;
+import com.dreampany.framework.util.TextUtil;
 import com.dreampany.share.R;
 
 import org.jetbrains.annotations.Nullable;

@@ -1,7 +1,7 @@
 package com.dreampany.word.data.source.api
 
 import android.graphics.Bitmap
-import com.dreampany.frame.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.word.data.model.Word
 import io.reactivex.Maybe
 

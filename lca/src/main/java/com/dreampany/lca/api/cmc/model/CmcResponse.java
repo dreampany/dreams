@@ -1,6 +1,6 @@
 package com.dreampany.lca.api.cmc.model;
 
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.lca.api.misc.Response;
 
 /**

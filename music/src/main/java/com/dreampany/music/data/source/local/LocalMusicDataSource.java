@@ -1,7 +1,7 @@
 package com.dreampany.music.data.source.local;
 
-import com.dreampany.frame.data.source.local.FlagDao;
-import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.framework.data.source.local.FlagDao;
+import com.dreampany.framework.misc.SmartMap;
 import com.dreampany.music.data.model.Song;
 import com.dreampany.music.data.source.MusicDataSource;
 import com.dreampany.music.misc.SortOrder;

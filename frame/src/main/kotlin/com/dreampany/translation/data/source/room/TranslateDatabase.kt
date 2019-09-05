@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.dreampany.frame.BuildConfig
-import com.dreampany.frame.misc.Constants
+import com.dreampany.framework.BuildConfig
+import com.dreampany.framework.misc.Constants
 import com.dreampany.translation.data.model.TextTranslation
 
 /**

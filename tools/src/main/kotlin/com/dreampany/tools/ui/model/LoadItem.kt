@@ -3,8 +3,8 @@ package com.dreampany.tools.ui.model
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.data.model.Load
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects

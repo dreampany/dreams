@@ -7,11 +7,11 @@ import com.dreampany.play2048.data.model.More;
 import com.dreampany.play2048.ui.enums.MoreType;
 import com.dreampany.play2048.ui.model.MoreItem;
 import com.dreampany.play2048.ui.model.UiTask;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.util.SettingsUtil;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.util.SettingsUtil;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 
 import java.util.ArrayList;

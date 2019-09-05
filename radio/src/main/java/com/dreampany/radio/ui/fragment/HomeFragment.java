@@ -5,10 +5,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.dreampany.frame.data.model.Task;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.frame.ui.fragment.BaseStateFragment;
+import com.dreampany.framework.data.model.Task;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
+import com.dreampany.framework.ui.fragment.BaseStateFragment;
 import com.dreampany.radio.R;
 import com.dreampany.radio.ui.model.UiTask;
 

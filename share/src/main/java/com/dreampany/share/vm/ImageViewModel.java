@@ -5,12 +5,12 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.EmptyException;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.misc.exception.EmptyException;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.media.data.enums.MediaType;
 import com.dreampany.media.data.model.Apk;
 import com.dreampany.media.data.model.Image;

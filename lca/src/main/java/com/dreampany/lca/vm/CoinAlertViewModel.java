@@ -2,15 +2,15 @@ package com.dreampany.lca.vm;
 
 import android.app.Application;
 
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.ui.adapter.SmartAdapter;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.misc.exception.ExtraException;
+import com.dreampany.framework.misc.exception.MultiException;
+import com.dreampany.framework.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.misc.CoinAlertMapper;
 import com.dreampany.lca.data.model.Coin;

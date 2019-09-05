@@ -1,6 +1,6 @@
 package com.dreampany.translation.data.source.api
 
-import com.dreampany.frame.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.translation.data.model.TextTranslation
 import io.reactivex.Maybe
 

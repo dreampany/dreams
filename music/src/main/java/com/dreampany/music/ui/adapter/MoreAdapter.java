@@ -1,7 +1,7 @@
 package com.dreampany.music.ui.adapter;
 
 
-import com.dreampany.frame.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.adapter.SmartAdapter;
 import com.dreampany.music.ui.enums.MoreType;
 import com.dreampany.music.ui.model.MoreItem;
 

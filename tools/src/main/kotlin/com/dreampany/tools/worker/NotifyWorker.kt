@@ -3,10 +3,10 @@ package com.dreampany.tools.worker
 import android.content.Context
 import androidx.work.WorkerParameters
 import com.dreampany.tools.ui.vm.NotifyViewModel
-import com.dreampany.frame.api.worker.BaseWorker
-import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.Type
-import com.dreampany.frame.worker.factory.IWorkerFactory
+import com.dreampany.framework.api.worker.BaseWorker
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.language.Language
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref

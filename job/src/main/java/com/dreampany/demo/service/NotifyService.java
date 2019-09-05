@@ -1,7 +1,7 @@
 package com.dreampany.quran.service;
 
 import com.dreampany.quran.vm.NotifyViewModel;
-import com.dreampany.frame.api.service.BaseJobService;
+import com.dreampany.framework.api.service.BaseJobService;
 import com.firebase.jobdispatcher.JobParameters;
 
 import javax.inject.Inject;

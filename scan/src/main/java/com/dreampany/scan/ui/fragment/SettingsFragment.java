@@ -3,8 +3,8 @@ package com.dreampany.scan.ui.fragment;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.dreampany.frame.data.enums.UiState
-import com.dreampany.frame.data.model.Response
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.misc.exception.ExtraException
-import com.dreampany.frame.misc.exception.MultiException
-import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.framework.data.enums.UiState
+import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exception.ExtraException
+import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.ui.activity.BaseActivity
 import com.dreampany.word.R
 import com.dreampany.word.databinding.ActivityLoaderBinding
 import com.dreampany.word.misc.Constants
@@ -17,7 +17,6 @@ import com.dreampany.word.ui.model.LoadItem
 import com.dreampany.word.vm.LoaderViewModel
 import com.github.nikartm.button.FitButton
 
-import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 

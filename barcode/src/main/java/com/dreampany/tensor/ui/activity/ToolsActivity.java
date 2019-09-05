@@ -2,7 +2,7 @@ package com.dreampany.tensor.ui.activity;
 
 import android.os.Bundle;
 
-import com.dreampany.frame.ui.activity.BaseMenuActivity;
+import com.dreampany.framework.ui.activity.BaseMenuActivity;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.ui.enums.UiSubtype;
 import com.dreampany.tensor.ui.enums.UiType;

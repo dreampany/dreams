@@ -1,7 +1,7 @@
 package com.dreampany.share.service;
 
-import com.dreampany.frame.api.service.BaseJobService;
-import com.dreampany.frame.misc.AppExecutors;
+import com.dreampany.framework.api.service.BaseJobService;
+import com.dreampany.framework.misc.AppExecutors;
 import com.firebase.jobdispatcher.JobParameters;
 
 import javax.inject.Inject;

@@ -8,11 +8,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.databinding.FragmentRecyclerBinding;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.databinding.FragmentRecyclerBinding;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.util.ViewUtil;
 import com.dreampany.match.R;
 import com.dreampany.match.ui.activity.ToolsActivity;
 import com.dreampany.match.ui.adapter.MoreAdapter;

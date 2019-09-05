@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.room.converters
 
-import com.dreampany.frame.data.source.room.converters.Converters
+import com.dreampany.framework.data.source.room.converters.Converters
 
 /**
  * Created by Roman-372 on 8/5/2019

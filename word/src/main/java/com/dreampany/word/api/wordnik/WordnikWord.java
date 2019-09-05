@@ -1,6 +1,6 @@
 package com.dreampany.word.api.wordnik;
 
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.util.DataUtil;
 
 import java.util.List;
 

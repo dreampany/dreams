@@ -10,11 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
-import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.ui.listener.OnVerticalScrollListener;
+import com.dreampany.framework.util.ViewUtil;
 import com.dreampany.network.data.enums.NetworkType;
 import com.dreampany.network.data.model.Network;
 import com.dreampany.share.R;

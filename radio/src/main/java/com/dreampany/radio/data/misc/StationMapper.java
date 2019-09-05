@@ -1,7 +1,7 @@
 package com.dreampany.radio.data.misc;
 
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
 import com.dreampany.radio.data.model.Station;
 import com.dreampany.radio.misc.StationAnnote;
 

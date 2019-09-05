@@ -1,12 +1,12 @@
 package com.dreampany.word.data.misc;
 
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.TextUtil;
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.data.model.State;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.util.DataUtil;
+import com.dreampany.framework.util.TextUtil;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.word.api.wordnik.WordnikWord;
 import com.dreampany.word.data.model.Antonym;
 import com.dreampany.word.data.model.Definition;

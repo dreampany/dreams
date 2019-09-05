@@ -7,7 +7,7 @@ import android.provider.MediaStore.Audio.AudioColumns;
 import android.provider.MediaStore.Audio.Media;
 import android.text.TextUtils;
 
-import com.dreampany.frame.data.source.local.StateDao;
+import com.dreampany.framework.data.source.local.StateDao;
 import com.dreampany.music.data.enums.ItemState;
 import com.dreampany.music.data.enums.ItemSubtype;
 import com.dreampany.music.data.enums.ItemType;

@@ -1,6 +1,6 @@
 package com.dreampany.tools.injector.data
 
-import com.dreampany.frame.misc.Room
+import com.dreampany.framework.misc.Room
 import com.dreampany.tools.data.misc.NoteMapper
 import com.dreampany.tools.data.source.api.NoteDataSource
 import com.dreampany.tools.data.source.room.dao.NoteDao

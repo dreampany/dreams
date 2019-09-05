@@ -3,9 +3,9 @@ package com.dreampany.word.data.source.assets
 import android.content.Context
 import android.graphics.Bitmap
 import com.annimon.stream.Stream
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.util.DataUtil
-import com.dreampany.frame.util.FileUtil
+import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.util.DataUtil
+import com.dreampany.framework.util.FileUtil
 import com.dreampany.word.data.misc.WordMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.source.api.WordDataSource

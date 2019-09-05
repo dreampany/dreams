@@ -2,11 +2,11 @@ package com.dreampany.translation.injector
 
 import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.firebase.RxFirebaseTranslation
-import com.dreampany.frame.api.key.KeyManager
-import com.dreampany.frame.misc.Firestore
-import com.dreampany.frame.misc.Machine
-import com.dreampany.frame.misc.Remote
-import com.dreampany.frame.misc.Room
+import com.dreampany.framework.api.key.KeyManager
+import com.dreampany.framework.misc.Firestore
+import com.dreampany.framework.misc.Machine
+import com.dreampany.framework.misc.Remote
+import com.dreampany.framework.misc.Room
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.misc.TextTranslationMapper
 import com.dreampany.translation.data.source.api.TranslationDataSource

@@ -1,10 +1,10 @@
 package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
-import com.dreampany.frame.api.service.JobManager
-import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.misc.RxMapper
-import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.api.service.JobManager
+import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.misc.Constants

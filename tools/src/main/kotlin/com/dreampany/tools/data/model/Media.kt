@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.model
 
-import com.dreampany.frame.data.model.Base
+import com.dreampany.framework.data.model.Base
 import com.dreampany.tools.data.enums.MediaType
 
 /**

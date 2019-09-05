@@ -5,11 +5,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 
-import com.dreampany.frame.data.model.Task;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.frame.ui.fragment.BaseStateFragment;
-import com.dreampany.frame.util.TextUtil;
+import com.dreampany.framework.data.model.Task;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
+import com.dreampany.framework.ui.fragment.BaseStateFragment;
+import com.dreampany.framework.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.model.Coin;
 import com.dreampany.lca.misc.Constants;

@@ -2,13 +2,13 @@ package com.dreampany.scan.data.source.repository;
 
 import android.graphics.Bitmap;
 
-import com.dreampany.frame.data.model.Flag;
-import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.Local;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.framework.data.model.Flag;
+import com.dreampany.framework.data.source.repository.Repository;
+import com.dreampany.framework.misc.Local;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
 import com.dreampany.scan.data.enums.ScanType;
 import com.dreampany.scan.data.model.Scan;
 import com.dreampany.scan.data.source.ScanDataSource;

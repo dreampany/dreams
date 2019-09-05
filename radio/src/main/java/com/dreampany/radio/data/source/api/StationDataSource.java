@@ -1,6 +1,6 @@
 package com.dreampany.radio.data.source.api;
 
-import com.dreampany.frame.data.source.api.DataSource;
+import com.dreampany.framework.data.source.api.DataSource;
 import com.dreampany.radio.data.model.Station;
 
 /**

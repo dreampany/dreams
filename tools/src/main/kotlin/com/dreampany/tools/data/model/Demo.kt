@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.tools.misc.Constants
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.util.TimeUtilKt
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
 

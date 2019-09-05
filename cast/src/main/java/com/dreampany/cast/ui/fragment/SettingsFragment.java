@@ -5,11 +5,11 @@ import android.os.Bundle;
 import com.dreampany.cast.R;
 import com.dreampany.cast.data.source.pref.Pref;
 import com.dreampany.cast.service.NotifyService;
-import com.dreampany.frame.api.service.ServiceManager;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.api.service.ServiceManager;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
 
 import org.jetbrains.annotations.Nullable;
 

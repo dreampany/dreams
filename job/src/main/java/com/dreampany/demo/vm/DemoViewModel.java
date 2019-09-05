@@ -2,10 +2,10 @@ package com.dreampany.quran.vm;
 
 import android.app.Application;
 
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.quran.data.model.Demo;
 import com.dreampany.quran.ui.model.DemoItem;

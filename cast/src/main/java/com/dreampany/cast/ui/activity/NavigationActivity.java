@@ -8,9 +8,9 @@ import com.dreampany.cast.misc.Constants;
 import com.dreampany.cast.ui.fragment.HomeFragment;
 import com.dreampany.cast.ui.fragment.MoreFragment;
 import com.dreampany.cast.ui.model.UiTask;
-import com.dreampany.frame.misc.SmartAd;
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.misc.SmartAd;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 
 import org.jetbrains.annotations.NotNull;
 

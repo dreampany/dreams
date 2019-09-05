@@ -8,12 +8,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-import com.dreampany.frame.data.enums.Kind;
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.ld.SingleLiveEvent;
-import com.dreampany.frame.rx.RxFacade;
-import com.dreampany.frame.util.TextUtil;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.data.enums.Kind;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.ld.SingleLiveEvent;
+import com.dreampany.framework.rx.RxFacade;
+import com.dreampany.framework.util.TextUtil;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.data.enums.Filter;
 import com.dreampany.tensor.data.model.Task;

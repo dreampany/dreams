@@ -2,9 +2,9 @@ package com.dreampany.lca.ui.activity;
 
 import android.os.Bundle;
 
-import com.dreampany.frame.data.model.Task;
-import com.dreampany.frame.misc.SmartAd;
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.data.model.Task;
+import com.dreampany.framework.misc.SmartAd;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.lca.R;
 import com.dreampany.lca.databinding.ActivityNavigationBinding;
 import com.dreampany.lca.misc.Constants;

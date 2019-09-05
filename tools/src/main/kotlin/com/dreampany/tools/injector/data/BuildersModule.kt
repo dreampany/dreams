@@ -1,6 +1,6 @@
 package com.dreampany.tools.injector.data
 
-import com.dreampany.frame.injector.data.FrameModule
+import com.dreampany.framework.injector.data.FrameModule
 import com.dreampany.tools.injector.vm.ViewModelModule
 import com.dreampany.translation.injector.TranslationModule
 import dagger.Module

@@ -1,7 +1,7 @@
 package com.dreampany.word.api.wordnik;
 
-import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.TextUtil;
+import com.dreampany.framework.util.DataUtil;
+import com.dreampany.framework.util.TextUtil;
 import com.dreampany.word.api.wordnik.core.ClientException;
 import com.dreampany.word.api.wordnik.model.Definition;
 import com.dreampany.word.api.wordnik.model.Example;

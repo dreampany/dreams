@@ -1,11 +1,11 @@
 package com.dreampany.tools.data.misc
 
-import com.dreampany.frame.data.model.Store
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.util.DataUtilKt
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.misc.SmartCache
+import com.dreampany.framework.misc.SmartMap
+import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.util.DataUtilKt
+import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.Antonym
 import com.dreampany.tools.data.model.Definition

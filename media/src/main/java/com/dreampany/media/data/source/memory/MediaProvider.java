@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
 
-import com.dreampany.frame.util.CursorUtil;
+import com.dreampany.framework.util.CursorUtil;
 
 import java.util.ArrayList;
 import java.util.List;

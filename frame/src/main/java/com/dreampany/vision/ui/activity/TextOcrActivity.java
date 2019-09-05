@@ -3,8 +3,8 @@ package com.dreampany.vision.ui.activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
-import com.dreampany.frame.R;
-import com.dreampany.frame.ui.activity.BaseMenuActivity;
+import com.dreampany.framework.R;
+import com.dreampany.framework.ui.activity.BaseMenuActivity;
 import com.dreampany.vision.ui.fragment.TextOcrFragment;
 import dagger.Lazy;
 import org.jetbrains.annotations.Nullable;

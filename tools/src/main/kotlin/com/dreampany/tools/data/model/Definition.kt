@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.model
 
 import androidx.room.Ignore
-import com.dreampany.frame.data.model.BaseParcel
+import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize

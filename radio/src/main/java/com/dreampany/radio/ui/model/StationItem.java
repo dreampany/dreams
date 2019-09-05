@@ -4,7 +4,7 @@ import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.dreampany.radio.data.model.Demo;
-import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.framework.ui.model.BaseItem;
 
 import com.dreampany.radio.data.model.Station;
 import org.jetbrains.annotations.NotNull;

@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 import android.view.View;
 
-import com.dreampany.frame.databinding.FragmentItemsBinding;
-import com.dreampany.frame.injector.ActivityScoped;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.util.SettingsUtil;
-import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.framework.databinding.FragmentItemsBinding;
+import com.dreampany.framework.injector.ActivityScoped;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.util.SettingsUtil;
+import com.dreampany.framework.util.ViewUtil;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.ui.adapter.MoreAdapter;
 import com.dreampany.tensor.ui.model.MoreItem;

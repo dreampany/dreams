@@ -3,8 +3,8 @@ package com.dreampany.tensor.ui.activity;
 import android.os.Bundle;
 import android.widget.RelativeLayout;
 
-import com.dreampany.frame.ui.activity.BaseActivity;
-import com.dreampany.frame.util.AndroidUtil;
+import com.dreampany.framework.ui.activity.BaseActivity;
+import com.dreampany.framework.util.AndroidUtil;
 import com.dreampany.tensor.R;
 import com.dynamitechetan.flowinggradient.FlowingGradientClass;
 

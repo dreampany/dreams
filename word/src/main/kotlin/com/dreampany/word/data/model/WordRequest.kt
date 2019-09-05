@@ -1,6 +1,6 @@
 package com.dreampany.word.data.model
 
-import com.dreampany.frame.data.model.Request
+import com.dreampany.framework.data.model.Request
 
 /**
  * Created by Roman-372 on 7/5/2019

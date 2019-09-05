@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.api
 
-import com.dreampany.frame.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.tools.data.model.Media
 
 /**

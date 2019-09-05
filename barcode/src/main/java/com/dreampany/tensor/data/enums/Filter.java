@@ -3,7 +3,7 @@ package com.dreampany.tensor.data.enums;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.dreampany.frame.data.enums.Type;
+import com.dreampany.framework.data.enums.Type;
 
 public enum Filter implements Type {
     ALL, ACTIVE, COMPLETED;

@@ -15,11 +15,11 @@ import com.dreampany.radio.ui.enums.UiType;
 import com.dreampany.radio.ui.model.MoreItem;
 import com.dreampany.radio.ui.model.UiTask;
 import com.dreampany.radio.vm.MoreViewModel;
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.databinding.FragmentRecyclerBinding;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.databinding.FragmentRecyclerBinding;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.util.ViewUtil;
 
 import java.util.List;
 import java.util.Objects;

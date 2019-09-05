@@ -7,9 +7,9 @@ import androidx.annotation.StringRes;
 import android.view.Menu;
 import android.view.View;
 
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.injector.ActivityScoped;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.injector.ActivityScoped;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.ui.model.TaskItem;
 import com.dreampany.tensor.vm.TasksViewModel;

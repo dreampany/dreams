@@ -1,15 +1,15 @@
 package com.dreampany.tools.ui.activity
 
 import android.os.Bundle
-import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
-import com.dreampany.frame.misc.SmartAd
-import com.dreampany.frame.ui.activity.BaseActivity
-import com.dreampany.frame.ui.activity.WebActivity
-import com.dreampany.frame.ui.callback.SearchViewCallback
-import com.dreampany.frame.ui.model.UiTask
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.misc.SmartAd
+import com.dreampany.framework.ui.activity.BaseActivity
+import com.dreampany.framework.ui.activity.WebActivity
+import com.dreampany.framework.ui.callback.SearchViewCallback
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ActivityToolsBinding
 import com.dreampany.tools.ui.fragment.*

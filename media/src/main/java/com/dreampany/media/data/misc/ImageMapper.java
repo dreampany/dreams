@@ -5,12 +5,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.util.CursorUtil;
-import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.FileUtil;
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.util.CursorUtil;
+import com.dreampany.framework.util.DataUtil;
+import com.dreampany.framework.util.FileUtil;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.media.data.model.Image;
 import com.dreampany.media.misc.ImageAnnote;
 

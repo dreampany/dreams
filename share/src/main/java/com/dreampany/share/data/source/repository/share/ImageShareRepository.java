@@ -1,8 +1,8 @@
 package com.dreampany.share.data.source.repository.share;
 
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.Room;
-import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.Room;
+import com.dreampany.framework.misc.RxMapper;
 import com.dreampany.media.data.model.Image;
 import com.dreampany.share.data.source.api.ShareDataSource;
 

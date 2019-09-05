@@ -4,7 +4,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import android.view.View;
 
-import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.framework.ui.model.BaseItem;
 import com.dreampany.network.data.model.Network;
 import com.google.common.base.Objects;
 

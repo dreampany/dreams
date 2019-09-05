@@ -1,10 +1,9 @@
 package com.dreampany.tools.data.source.pref
 
 import android.content.Context
-import com.dreampany.frame.data.source.pref.FramePref
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.util.TimeUtil
-import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.framework.data.source.pref.FramePref
+import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.misc.Constants
 import io.reactivex.Maybe

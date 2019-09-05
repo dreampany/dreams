@@ -1,6 +1,6 @@
 package com.dreampany.share.data.source.api;
 
-import com.dreampany.frame.data.source.api.DataSource;
+import com.dreampany.framework.data.source.api.DataSource;
 import com.dreampany.media.data.model.Media;
 import com.dreampany.media.data.source.api.MediaDataSource;
 

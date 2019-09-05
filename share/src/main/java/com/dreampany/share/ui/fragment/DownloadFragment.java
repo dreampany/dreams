@@ -8,12 +8,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.Menu;
 
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.misc.FragmentScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.ui.listener.OnVerticalScrollListener;
-import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.misc.FragmentScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.ui.listener.OnVerticalScrollListener;
+import com.dreampany.framework.util.ViewUtil;
 import com.dreampany.media.data.model.Media;
 import com.dreampany.share.R;
 import com.dreampany.share.databinding.FragmentDownloadBinding;

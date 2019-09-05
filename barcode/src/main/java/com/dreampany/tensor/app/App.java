@@ -1,6 +1,6 @@
 package com.dreampany.tensor.app;
 
-import com.dreampany.frame.app.BaseApp;
+import com.dreampany.framework.app.BaseApp;
 import com.dreampany.tensor.BuildConfig;
 
 import dagger.android.AndroidInjector;

@@ -2,7 +2,7 @@ package com.dreampany.tensor.ui.activity;
 
 import android.os.Bundle;
 
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.ui.fragment.MoreFragment;
 import com.dreampany.tensor.ui.fragment.TasksFragment;

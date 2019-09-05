@@ -50,7 +50,7 @@
             <include layout="@layout/fast_scroller" />
         </FrameLayout>
 
-        <com.dreampany.frame.ui.widget.SmartFab
+        <com.dreampany.framework.ui.widget.SmartFab
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

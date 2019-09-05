@@ -1,6 +1,6 @@
 package com.dreampany.vision.injector.ui
 
-import com.dreampany.frame.misc.FragmentScope
+import com.dreampany.framework.misc.FragmentScope
 import com.dreampany.vision.ui.fragment.TextOcrFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

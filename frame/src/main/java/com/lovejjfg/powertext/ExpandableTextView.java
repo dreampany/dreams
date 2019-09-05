@@ -15,7 +15,7 @@ import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.dreampany.frame.R;
+import com.dreampany.framework.R;
 
 /**
  * Created by Hawladar Roman on 7/6/2018.

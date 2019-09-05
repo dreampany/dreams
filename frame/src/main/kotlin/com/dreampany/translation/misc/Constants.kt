@@ -1,6 +1,6 @@
 package com.dreampany.translation.misc
 
-import com.dreampany.frame.misc.Constants
+import com.dreampany.framework.misc.Constants
 
 /**
  * Created by roman on 2019-07-03

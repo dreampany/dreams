@@ -2,7 +2,7 @@ package com.dreampany.share.ui.enums;
 
 import android.os.Parcel;
 
-import com.dreampany.frame.data.enums.Type;
+import com.dreampany.framework.data.enums.Type;
 
 public enum MoreType implements Type {
     APPS, RATE_US, FEEDBACK, INVITE, SETTINGS, LICENSE, ABOUT;

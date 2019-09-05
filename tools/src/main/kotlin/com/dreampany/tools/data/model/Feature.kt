@@ -3,9 +3,9 @@ package com.dreampany.tools.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.enums.Type
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
 import kotlinx.android.parcel.Parcelize
 

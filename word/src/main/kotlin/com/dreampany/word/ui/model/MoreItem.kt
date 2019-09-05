@@ -5,9 +5,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.ui.model.BaseItem
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.framework.data.model.BaseKt
+import com.dreampany.framework.ui.model.BaseItem
+import com.dreampany.framework.util.TextUtil
 import com.dreampany.word.R
 import com.dreampany.word.data.model.More
 import com.dreampany.word.ui.adapter.MoreAdapter

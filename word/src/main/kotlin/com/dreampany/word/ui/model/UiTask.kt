@@ -1,7 +1,7 @@
 package com.dreampany.word.ui.model
 
-import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.data.model.Task
+import com.dreampany.framework.data.model.BaseKt
+import com.dreampany.framework.data.model.Task
 import com.dreampany.word.ui.enums.UiSubtype
 import com.dreampany.word.ui.enums.UiType
 import kotlinx.android.parcel.Parcelize

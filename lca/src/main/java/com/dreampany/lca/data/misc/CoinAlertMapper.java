@@ -1,9 +1,9 @@
 package com.dreampany.lca.data.misc;
 
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.util.DataUtil;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.lca.data.model.CoinAlert;
 import com.dreampany.lca.misc.CoinAlertAnnote;
 import com.google.common.collect.Maps;

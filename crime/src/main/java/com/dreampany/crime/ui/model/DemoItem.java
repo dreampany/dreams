@@ -4,8 +4,8 @@ import androidx.annotation.LayoutRes;
 import android.view.View;
 
 import com.dreampany.crime.data.model.Crime;
-import com.dreampany.frame.ui.adapter.SmartAdapter;
-import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.framework.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.model.BaseItem;
 
 import org.jetbrains.annotations.NotNull;
 

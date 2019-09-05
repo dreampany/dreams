@@ -3,7 +3,7 @@ package com.dreampany.tensor.injector;
 
 import android.app.Application;
 
-import com.dreampany.frame.injector.AppModule;
+import com.dreampany.framework.injector.AppModule;
 import com.dreampany.tensor.app.App;
 
 import javax.inject.Singleton;

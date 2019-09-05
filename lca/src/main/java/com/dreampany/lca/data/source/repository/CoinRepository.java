@@ -1,14 +1,14 @@
 package com.dreampany.lca.data.source.repository;
 
-import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.Database;
-import com.dreampany.frame.misc.Firestore;
-import com.dreampany.frame.misc.Remote;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.Room;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.exception.EmptyException;
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.data.source.repository.Repository;
+import com.dreampany.framework.misc.Database;
+import com.dreampany.framework.misc.Firestore;
+import com.dreampany.framework.misc.Remote;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.Room;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.misc.exception.EmptyException;
+import com.dreampany.framework.util.DataUtil;
 import com.dreampany.lca.data.enums.CoinSource;
 import com.dreampany.lca.data.enums.Currency;
 import com.dreampany.lca.data.misc.CoinMapper;

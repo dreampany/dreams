@@ -2,10 +2,10 @@ package com.dreampany.fit.vm;
 
 import android.app.Application;
 
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.fit.data.model.Demo;
 import com.dreampany.fit.ui.model.DemoItem;

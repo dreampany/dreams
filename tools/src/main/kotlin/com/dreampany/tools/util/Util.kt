@@ -1,8 +1,8 @@
 package com.dreampany.tools.util
 
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
-import com.dreampany.frame.util.DataUtil
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.util.DataUtil
 import com.dreampany.tools.data.model.Word
 
 /**

@@ -6,7 +6,7 @@ import com.dreampany.tools.injector.data.BuildersModule
 import com.dreampany.tools.injector.service.ServiceModule
 import com.dreampany.tools.injector.ui.ActivityModule
 import com.dreampany.tools.injector.worker.WorkerModule
-import com.dreampany.frame.injector.app.AppModule
+import com.dreampany.framework.injector.app.AppModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector

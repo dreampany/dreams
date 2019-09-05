@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.net.Uri
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
-import com.dreampany.frame.util.AndroidUtil
-import com.dreampany.frame.util.FileUtil
+import com.dreampany.framework.misc.SmartCache
+import com.dreampany.framework.misc.SmartMap
+import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.FileUtil
 import com.dreampany.tools.data.enums.AppType
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.misc.AppAnnote

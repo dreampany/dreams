@@ -6,9 +6,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.util.DataUtil
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.util.DataUtil
+import com.dreampany.framework.util.TimeUtil
 import com.dreampany.word.misc.Constants
 import com.google.firebase.firestore.IgnoreExtraProperties
 import com.google.firebase.firestore.PropertyName

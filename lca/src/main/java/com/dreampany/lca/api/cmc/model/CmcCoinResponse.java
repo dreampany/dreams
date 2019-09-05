@@ -1,6 +1,6 @@
 package com.dreampany.lca.api.cmc.model;
 
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.util.DataUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

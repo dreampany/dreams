@@ -1,8 +1,8 @@
 package com.dreampany.tools.data.source.repository
 
-import com.dreampany.frame.misc.Memory
-import com.dreampany.frame.misc.ResponseMapper
-import com.dreampany.frame.misc.RxMapper
+import com.dreampany.framework.misc.Memory
+import com.dreampany.framework.misc.ResponseMapper
+import com.dreampany.framework.misc.RxMapper
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.api.MediaDataSource
 import javax.inject.Inject

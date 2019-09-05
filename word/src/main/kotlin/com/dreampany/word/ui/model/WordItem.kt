@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.BaseKt
-import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.framework.data.model.BaseKt
+import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.word.R
 import com.dreampany.word.data.enums.ItemState
 import com.dreampany.word.data.model.Word

@@ -1,11 +1,11 @@
 package com.dreampany.word.ui.fragment
 
 import android.os.Bundle
-import com.dreampany.frame.api.service.JobManager
-import com.dreampany.frame.api.service.ServiceManager
-import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.misc.RxMapper
-import com.dreampany.frame.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.api.service.JobManager
+import com.dreampany.framework.api.service.ServiceManager
+import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.word.R
 import com.dreampany.word.data.source.pref.Pref
 import com.dreampany.word.misc.Constants

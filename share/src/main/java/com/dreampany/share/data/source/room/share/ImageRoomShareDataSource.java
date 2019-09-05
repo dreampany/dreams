@@ -1,8 +1,8 @@
 package com.dreampany.share.data.source.room.share;
 
 import com.annimon.stream.Stream;
-import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.data.source.repository.StateRepository;
+import com.dreampany.framework.data.model.State;
+import com.dreampany.framework.data.source.repository.StateRepository;
 import com.dreampany.media.data.enums.ItemSubtype;
 import com.dreampany.media.data.enums.ItemType;
 import com.dreampany.media.data.model.Image;

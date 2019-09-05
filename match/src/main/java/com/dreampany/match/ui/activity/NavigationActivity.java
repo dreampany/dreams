@@ -3,9 +3,9 @@ package com.dreampany.match.ui.activity;
 import android.os.Bundle;
 
 import com.dreampany.match.ui.fragment.HomeFragment;
-import com.dreampany.frame.misc.SmartAd;
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.misc.SmartAd;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 import com.dreampany.match.R;
 import com.dreampany.match.ui.fragment.MoreFragment;
 

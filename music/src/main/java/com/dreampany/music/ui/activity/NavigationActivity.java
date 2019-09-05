@@ -2,8 +2,8 @@ package com.dreampany.music.ui.activity;
 
 import android.os.Bundle;
 
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 import com.dreampany.music.R;
 import com.dreampany.music.ui.fragment.MoreFragment;
 

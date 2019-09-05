@@ -1,14 +1,14 @@
 package com.dreampany.tools.data.source.repository
 
 import android.graphics.Bitmap
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
-import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.source.repository.Repository
-import com.dreampany.frame.data.source.repository.StoreRepository
-import com.dreampany.frame.misc.*
-import com.dreampany.frame.misc.exception.EmptyException
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.source.repository.Repository
+import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.misc.*
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource

@@ -3,7 +3,7 @@ package com.dreampany.tensor.injector;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.dreampany.frame.injector.ViewModelKey;
+import com.dreampany.framework.injector.ViewModelKey;
 import com.dreampany.tensor.factory.TaskViewModelFactory;
 import com.dreampany.tensor.vm.EditTaskViewModel;
 import com.dreampany.tensor.vm.TaskViewModel;

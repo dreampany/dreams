@@ -3,11 +3,11 @@ package com.dreampany.tools.ui.fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.frame.api.session.SessionManager
-import com.dreampany.frame.ui.enums.UiState
-import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.ui.fragment.BaseMenuFragment
-import com.dreampany.frame.util.ViewUtil
+import com.dreampany.framework.api.session.SessionManager
+import com.dreampany.framework.ui.enums.UiState
+import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding

@@ -1,12 +1,12 @@
 package com.dreampany.tools.data.misc
 
 import android.content.Context
-import com.dreampany.frame.data.enums.Level
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
-import com.dreampany.frame.data.model.Store
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
+import com.dreampany.framework.data.enums.Level
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.misc.SmartCache
+import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.api.QuizDataSource

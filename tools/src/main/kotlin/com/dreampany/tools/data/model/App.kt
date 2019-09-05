@@ -3,7 +3,7 @@ package com.dreampany.tools.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.enums.AppType
 import com.dreampany.tools.data.enums.MediaType
 import com.dreampany.tools.misc.Constants

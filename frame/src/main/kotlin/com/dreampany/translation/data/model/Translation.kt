@@ -1,6 +1,6 @@
 package com.dreampany.translation.data.model
 
-import com.dreampany.frame.data.model.Base
+import com.dreampany.framework.data.model.Base
 
 /**
  * Created by Roman-372 on 7/11/2019

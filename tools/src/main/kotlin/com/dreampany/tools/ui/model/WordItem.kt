@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.misc.Constants

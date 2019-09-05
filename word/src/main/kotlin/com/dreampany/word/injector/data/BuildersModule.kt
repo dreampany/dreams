@@ -2,8 +2,8 @@ package com.dreampany.word.injector.data
 
 import android.content.Context
 import com.dreampany.firebase.RxFirebaseFirestore
-import com.dreampany.frame.injector.data.FrameModule
-import com.dreampany.frame.misc.*
+import com.dreampany.framework.injector.data.FrameModule
+import com.dreampany.framework.misc.*
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.injector.TranslationModule
 import com.dreampany.vision.VisionApi

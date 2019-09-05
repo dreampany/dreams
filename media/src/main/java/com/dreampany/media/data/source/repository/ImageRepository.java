@@ -1,9 +1,9 @@
 package com.dreampany.media.data.source.repository;
 
-import com.dreampany.frame.misc.Memory;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.Room;
-import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.framework.misc.Memory;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.Room;
+import com.dreampany.framework.misc.RxMapper;
 import com.dreampany.media.data.model.Image;
 import com.dreampany.media.data.source.api.MediaDataSource;
 

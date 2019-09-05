@@ -1,6 +1,6 @@
 package com.dreampany.tensor.injector;
 
-import com.dreampany.frame.injector.FragmentScoped;
+import com.dreampany.framework.injector.FragmentScoped;
 import com.dreampany.tensor.ui.fragment.EditTaskFragment;
 
 import dagger.Module;

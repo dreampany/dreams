@@ -6,7 +6,7 @@ import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 
-import com.dreampany.frame.data.model.Base;
+import com.dreampany.framework.data.model.Base;
 
 /**
  * Created by Hawladar Roman on 20/8/18.

@@ -2,10 +2,10 @@ package com.dreampany.match.vm;
 
 import android.app.Application;
 
-import com.dreampany.frame.api.notify.NotifyManager;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.framework.api.notify.NotifyManager;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
 import com.dreampany.match.app.App;
 import com.dreampany.match.ui.model.DemoItem;
 import com.dreampany.network.manager.NetworkManager;

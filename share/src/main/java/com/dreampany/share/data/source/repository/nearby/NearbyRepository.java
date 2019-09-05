@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.annimon.stream.Stream;
 import com.annimon.stream.function.Consumer;
-import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.util.AndroidUtil;
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.data.source.repository.Repository;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.util.AndroidUtil;
+import com.dreampany.framework.util.DataUtil;
 import com.dreampany.nearby.NearbyApi;
 import com.dreampany.nearby.model.Peer;
 import com.dreampany.share.data.model.User;

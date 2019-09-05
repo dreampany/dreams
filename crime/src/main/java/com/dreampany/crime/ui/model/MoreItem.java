@@ -4,10 +4,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dreampany.frame.data.model.Base;
-import com.dreampany.frame.ui.adapter.SmartAdapter;
-import com.dreampany.frame.ui.model.BaseItem;
-import com.dreampany.frame.util.TextUtil;
+import com.dreampany.framework.data.model.Base;
+import com.dreampany.framework.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.model.BaseItem;
+import com.dreampany.framework.util.TextUtil;
 import com.dreampany.crime.R;
 import com.dreampany.crime.ui.enums.MoreType;
 import com.google.common.base.Objects;

@@ -1,9 +1,9 @@
 package com.dreampany.translation.data.misc
 
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
-import com.dreampany.frame.util.DataUtil
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.framework.misc.SmartCache
+import com.dreampany.framework.misc.SmartMap
+import com.dreampany.framework.util.DataUtil
+import com.dreampany.framework.util.TimeUtil
 import com.dreampany.translation.data.model.TextTranslation
 import com.dreampany.translation.data.model.TextTranslationResponse
 import com.dreampany.translation.misc.Constants

@@ -3,7 +3,7 @@ package com.dreampany.play2048.service;
 import androidx.annotation.NonNull;
 
 import com.dreampany.play2048.vm.NotifyViewModel;
-import com.dreampany.frame.api.service.BaseJobService;
+import com.dreampany.framework.api.service.BaseJobService;
 import com.firebase.jobdispatcher.JobParameters;
 
 import javax.inject.Inject;

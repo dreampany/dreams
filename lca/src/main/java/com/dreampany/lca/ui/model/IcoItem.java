@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.dreampany.frame.data.model.Base;
-import com.dreampany.frame.ui.model.BaseItem;
-import com.dreampany.frame.util.FrescoUtil;
-import com.dreampany.frame.util.TextUtil;
+import com.dreampany.framework.data.model.Base;
+import com.dreampany.framework.ui.model.BaseItem;
+import com.dreampany.framework.util.FrescoUtil;
+import com.dreampany.framework.util.TextUtil;
 import com.dreampany.lca.R;
 import com.dreampany.lca.data.enums.IcoStatus;
 import com.dreampany.lca.data.model.Ico;

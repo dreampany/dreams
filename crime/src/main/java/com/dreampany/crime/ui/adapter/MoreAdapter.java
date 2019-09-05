@@ -1,7 +1,7 @@
 package com.dreampany.crime.ui.adapter;
 
 
-import com.dreampany.frame.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.adapter.SmartAdapter;
 import com.dreampany.crime.ui.enums.MoreType;
 import com.dreampany.crime.ui.model.MoreItem;
 

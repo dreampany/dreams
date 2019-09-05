@@ -4,11 +4,11 @@ import android.app.Application
 import com.dreampany.tools.data.model.Demo
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.model.DemoItem
-import com.dreampany.frame.ui.model.UiTask
-import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.source.repository.StoreRepository
-import com.dreampany.frame.misc.*
-import com.dreampany.frame.ui.vm.BaseViewModel
+import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.misc.*
+import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import javax.inject.Inject

@@ -3,7 +3,7 @@ package com.dreampany.quran.ui.model;
 import android.view.View;
 
 import com.dreampany.quran.data.model.Demo;
-import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.framework.ui.model.BaseItem;
 
 import org.jetbrains.annotations.NotNull;
 

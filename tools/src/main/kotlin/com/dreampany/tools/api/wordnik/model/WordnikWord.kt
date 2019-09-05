@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.wordnik.model
 
-import com.dreampany.frame.util.DataUtil
+import com.dreampany.framework.util.DataUtil
 
 /**
  * Created by roman on 2019-08-12

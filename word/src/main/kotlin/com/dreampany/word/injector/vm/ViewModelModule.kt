@@ -2,8 +2,8 @@ package com.dreampany.word.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.frame.misc.ViewModelKey
-import com.dreampany.frame.ui.vm.factory.ViewModelFactory
+import com.dreampany.framework.misc.ViewModelKey
+import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.word.vm.*
 import dagger.Binds
 import dagger.Module

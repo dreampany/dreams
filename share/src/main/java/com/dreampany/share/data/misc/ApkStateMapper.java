@@ -2,9 +2,9 @@ package com.dreampany.share.data.misc;
 
 import android.net.Uri;
 
-import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.framework.data.model.State;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
 import com.dreampany.media.data.misc.MediaMapper;
 import com.dreampany.media.data.model.Apk;
 import com.dreampany.media.data.source.api.MediaDataSource;

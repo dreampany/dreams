@@ -2,7 +2,7 @@ package com.dreampany.word.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Ignore
-import com.dreampany.frame.data.model.BaseParcelKt
+import com.dreampany.framework.data.model.BaseParcelKt
 import com.dreampany.word.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.firestore.PropertyName

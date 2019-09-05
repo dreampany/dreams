@@ -1,7 +1,7 @@
 package com.dreampany.lca.data.misc;
 
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
 import com.dreampany.lca.data.model.Price;
 import com.dreampany.lca.misc.PriceAnnote;
 

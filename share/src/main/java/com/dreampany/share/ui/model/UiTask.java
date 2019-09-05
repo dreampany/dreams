@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
-import com.dreampany.frame.data.model.Task;
+import com.dreampany.framework.data.model.Task;
 import com.dreampany.share.ui.enums.UiSubtype;
 import com.dreampany.share.ui.enums.UiType;
 

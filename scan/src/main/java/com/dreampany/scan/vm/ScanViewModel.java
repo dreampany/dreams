@@ -2,13 +2,13 @@ package com.dreampany.scan.vm;
 
 import android.app.Application;
 
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.misc.exception.ExtraException;
-import com.dreampany.frame.misc.exception.MultiException;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.misc.exception.ExtraException;
+import com.dreampany.framework.misc.exception.MultiException;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.network.NetworkManager;
 import com.dreampany.scan.data.enums.ScanType;
 import com.dreampany.scan.data.model.Scan;

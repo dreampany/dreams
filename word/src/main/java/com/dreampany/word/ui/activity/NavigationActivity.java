@@ -5,10 +5,10 @@ import android.os.Bundle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.dreampany.frame.data.model.Task;
-import com.dreampany.frame.misc.SmartAd;
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.callback.SearchViewCallback;
+import com.dreampany.framework.data.model.Task;
+import com.dreampany.framework.misc.SmartAd;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.ui.callback.SearchViewCallback;
 import com.dreampany.word.R;
 import com.dreampany.word.databinding.ActivityNavigationBinding;
 import com.dreampany.word.misc.Constants;

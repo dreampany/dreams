@@ -3,7 +3,7 @@ package com.dreampany.tensor.data.enums;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.dreampany.frame.data.enums.Type;
+import com.dreampany.framework.data.enums.Type;
 
 public enum MoreType implements Type {
     APPS, RATE_US, ABOUT_US, FEEDBACK, SETTINGS;

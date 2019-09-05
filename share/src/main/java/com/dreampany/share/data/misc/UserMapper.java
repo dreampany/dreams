@@ -1,8 +1,8 @@
 package com.dreampany.share.data.misc;
 
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.nearby.model.Peer;
 import com.dreampany.share.data.model.User;
 import com.dreampany.share.misc.UserAnnote;

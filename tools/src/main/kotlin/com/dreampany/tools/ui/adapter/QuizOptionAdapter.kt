@@ -1,6 +1,6 @@
 package com.dreampany.tools.ui.adapter
 
-import com.dreampany.frame.ui.adapter.SmartAdapter
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.tools.ui.model.QuizOptionItem
 
 

@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.dreampany.frame.ui.adapter.SmartAdapter;
-import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.framework.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.model.BaseItem;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.data.model.Task;
 

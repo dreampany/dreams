@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.framework.ui.model.BaseItem;
 import com.dreampany.media.data.model.Media;
 import com.dreampany.share.R;
 import com.dreampany.share.data.model.User;

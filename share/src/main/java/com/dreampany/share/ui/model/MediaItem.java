@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
-import com.dreampany.frame.ui.model.BaseItem;
-import com.dreampany.frame.util.AndroidUtil;
-import com.dreampany.frame.util.DisplayUtil;
-import com.dreampany.frame.util.FrescoUtil;
-import com.dreampany.frame.util.NumberUtil;
+import com.dreampany.framework.ui.model.BaseItem;
+import com.dreampany.framework.util.AndroidUtil;
+import com.dreampany.framework.util.DisplayUtil;
+import com.dreampany.framework.util.FrescoUtil;
+import com.dreampany.framework.util.NumberUtil;
 import com.dreampany.media.data.enums.MediaType;
 import com.dreampany.media.data.model.Apk;
 import com.dreampany.media.data.model.Image;

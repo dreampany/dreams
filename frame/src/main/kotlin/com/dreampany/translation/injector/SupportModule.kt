@@ -1,7 +1,7 @@
 package com.dreampany.translation.injector
 
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
+import com.dreampany.framework.misc.SmartCache
+import com.dreampany.framework.misc.SmartMap
 import com.dreampany.translation.data.model.TextTranslation
 import com.dreampany.translation.misc.TextTranslateAnnote
 import dagger.Module

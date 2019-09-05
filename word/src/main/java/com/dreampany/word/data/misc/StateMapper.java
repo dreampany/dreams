@@ -1,6 +1,6 @@
 package com.dreampany.word.data.misc;
 
-import com.dreampany.frame.misc.SmartMap;
+import com.dreampany.framework.misc.SmartMap;
 import com.dreampany.word.data.enums.ItemState;
 
 import javax.inject.Inject;

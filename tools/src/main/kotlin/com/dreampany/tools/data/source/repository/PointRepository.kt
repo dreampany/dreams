@@ -1,11 +1,11 @@
 package com.dreampany.tools.data.source.repository
 
-import com.dreampany.frame.data.misc.StoreMapper
-import com.dreampany.frame.data.source.repository.Repository
-import com.dreampany.frame.data.source.repository.StoreRepository
-import com.dreampany.frame.misc.ResponseMapper
-import com.dreampany.frame.misc.Room
-import com.dreampany.frame.misc.RxMapper
+import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.source.repository.Repository
+import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.misc.ResponseMapper
+import com.dreampany.framework.misc.Room
+import com.dreampany.framework.misc.RxMapper
 import com.dreampany.tools.data.misc.PointMapper
 import com.dreampany.tools.data.model.Point
 import com.dreampany.tools.data.source.api.PointDataSource

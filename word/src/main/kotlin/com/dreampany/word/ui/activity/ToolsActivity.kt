@@ -1,9 +1,9 @@
 package com.dreampany.word.ui.activity
 
 import android.os.Bundle
-import com.dreampany.frame.misc.SmartAd
-import com.dreampany.frame.ui.activity.BaseActivity
-import com.dreampany.frame.ui.activity.WebActivity
+import com.dreampany.framework.misc.SmartAd
+import com.dreampany.framework.ui.activity.BaseActivity
+import com.dreampany.framework.ui.activity.WebActivity
 import com.dreampany.word.R
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.enums.UiSubtype

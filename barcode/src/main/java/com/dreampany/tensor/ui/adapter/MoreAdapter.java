@@ -1,7 +1,7 @@
 package com.dreampany.tensor.ui.adapter;
 
 
-import com.dreampany.frame.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.adapter.SmartAdapter;
 import com.dreampany.tensor.data.enums.MoreType;
 import com.dreampany.tensor.ui.model.MoreItem;
 

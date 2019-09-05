@@ -1,6 +1,6 @@
 package com.dreampany.lca.api.cmc.model;
 
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.misc.Constants;
 import com.fasterxml.jackson.annotation.JsonCreator;

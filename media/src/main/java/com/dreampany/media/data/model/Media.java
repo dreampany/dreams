@@ -3,7 +3,7 @@ package com.dreampany.media.data.model;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 
-import com.dreampany.frame.data.model.Base;
+import com.dreampany.framework.data.model.Base;
 import com.dreampany.media.data.enums.MediaType;
 
 /**

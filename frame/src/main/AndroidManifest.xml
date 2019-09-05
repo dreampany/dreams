@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.dreampany.frame">
+    package="com.dreampany.framework">
 
     <uses-sdk tools:overrideLibrary="timber.log" />
 

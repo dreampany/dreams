@@ -3,7 +3,7 @@ package com.dreampany.crime.data.model;
 import androidx.room.Ignore;
 import android.os.Parcel;
 
-import com.dreampany.frame.data.model.Base;
+import com.dreampany.framework.data.model.Base;
 
 /**
  * Created by Hawladar Roman on 6/29/2018.

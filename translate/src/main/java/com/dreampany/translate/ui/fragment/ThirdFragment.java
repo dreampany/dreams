@@ -3,8 +3,8 @@ package com.dreampany.translate.ui.fragment;
 import android.os.Bundle;
 
 import com.dreampany.translate.R;
-import com.dreampany.frame.misc.FragmentScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.misc.FragmentScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -2,7 +2,7 @@ package com.dreampany.tools.injector.data
 
 import android.content.Context
 import com.dreampany.firebase.RxFirebaseFirestore
-import com.dreampany.frame.misc.*
+import com.dreampany.framework.misc.*
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.tools.data.misc.WordMapper

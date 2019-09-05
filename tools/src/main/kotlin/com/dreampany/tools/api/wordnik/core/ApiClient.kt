@@ -1,9 +1,6 @@
 package com.dreampany.tools.api.wordnik.core
 
-import com.dreampany.frame.util.Json
-import com.dreampany.frame.util.JsonUtil
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Types
+import com.dreampany.framework.util.Json
 import okhttp3.*
 import timber.log.Timber
 import java.io.File

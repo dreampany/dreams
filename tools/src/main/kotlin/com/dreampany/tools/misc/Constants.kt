@@ -1,8 +1,8 @@
 package com.dreampany.tools.misc
 
 import android.content.Context
-import com.dreampany.frame.misc.Constants
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.framework.misc.Constants
+import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
 import java.util.concurrent.TimeUnit
 

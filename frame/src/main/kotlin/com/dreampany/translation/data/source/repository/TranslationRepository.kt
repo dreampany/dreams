@@ -1,7 +1,7 @@
 package com.dreampany.translation.data.source.repository
 
-import com.dreampany.frame.data.source.repository.Repository
-import com.dreampany.frame.misc.*
+import com.dreampany.framework.data.source.repository.Repository
+import com.dreampany.framework.misc.*
 import com.dreampany.translation.data.model.TextTranslation
 import com.dreampany.translation.data.source.api.TranslationDataSource
 import io.reactivex.Maybe

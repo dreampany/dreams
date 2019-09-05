@@ -2,7 +2,7 @@ package com.dreampany.scan.data.source;
 
 import android.graphics.Bitmap;
 
-import com.dreampany.frame.data.model.Flag;
+import com.dreampany.framework.data.model.Flag;
 import com.dreampany.scan.data.enums.ScanType;
 import com.dreampany.scan.data.model.Scan;
 

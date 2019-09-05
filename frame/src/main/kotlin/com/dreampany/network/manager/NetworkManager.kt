@@ -1,8 +1,8 @@
 package com.dreampany.network.manager
 
 import android.content.Context
-import com.dreampany.frame.misc.AppExecutors
-import com.dreampany.frame.misc.RxMapper
+import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.RxMapper
 import com.dreampany.network.api.Wifi
 import com.dreampany.network.data.model.Network
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity

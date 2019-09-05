@@ -3,8 +3,8 @@ package com.dreampany.play2048.ui.fragment;
 import android.os.Bundle;
 
 import com.dreampany.play2048.R;
-import com.dreampany.frame.misc.FragmentScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.misc.FragmentScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 
 import org.jetbrains.annotations.Nullable;
 

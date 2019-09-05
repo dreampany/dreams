@@ -4,9 +4,9 @@ import android.Manifest;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import com.dreampany.frame.R;
-import com.dreampany.frame.databinding.ActivityLivePreviewBinding;
-import com.dreampany.frame.ui.activity.BaseActivity;
+import com.dreampany.framework.R;
+import com.dreampany.framework.databinding.ActivityLivePreviewBinding;
+import com.dreampany.framework.ui.activity.BaseActivity;
 import com.dreampany.vision.ml.CameraSource;
 import com.dreampany.vision.ml.CameraSourcePreview;
 import com.dreampany.vision.ml.GraphicOverlay;

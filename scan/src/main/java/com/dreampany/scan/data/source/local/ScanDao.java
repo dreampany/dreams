@@ -3,7 +3,7 @@ package com.dreampany.scan.data.source.local;
 import androidx.room.Dao;
 import androidx.room.Query;
 
-import com.dreampany.frame.data.source.room.dao.BaseDao;
+import com.dreampany.framework.data.source.room.dao.BaseDao;
 import com.dreampany.scan.data.model.Scan;
 
 import java.util.List;

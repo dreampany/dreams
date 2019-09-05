@@ -1,7 +1,7 @@
 package com.dreampany.word.injector.data
 
-import com.dreampany.frame.misc.SmartCache
-import com.dreampany.frame.misc.SmartMap
+import com.dreampany.framework.misc.SmartCache
+import com.dreampany.framework.misc.SmartMap
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.misc.WordAnnote
 import dagger.Module

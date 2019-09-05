@@ -2,8 +2,8 @@ package com.dreampany.radio.ui.fragment;
 
 import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 import com.dreampany.radio.R;
 import com.dreampany.radio.databinding.FragmentStationBinding;
 import org.jetbrains.annotations.Nullable;

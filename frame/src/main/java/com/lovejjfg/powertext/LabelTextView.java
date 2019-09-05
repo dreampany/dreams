@@ -21,7 +21,7 @@ import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 
-import com.dreampany.frame.R;
+import com.dreampany.framework.R;
 
 import java.lang.ref.WeakReference;
 

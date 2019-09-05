@@ -1,7 +1,7 @@
 package com.dreampany.word.injector.ui
 
-import com.dreampany.frame.misc.ActivityScope
-import com.dreampany.frame.ui.activity.WebActivity
+import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.activity.WebActivity
 import com.dreampany.word.ui.activity.LaunchActivity
 import com.dreampany.word.ui.activity.LoaderActivity
 import com.dreampany.word.ui.activity.NavigationActivity

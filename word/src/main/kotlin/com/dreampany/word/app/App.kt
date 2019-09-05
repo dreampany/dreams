@@ -2,9 +2,9 @@ package com.dreampany.word.app
 
 import android.app.Activity
 import com.crashlytics.android.Crashlytics
-import com.dreampany.frame.app.BaseApp
-import com.dreampany.frame.misc.SmartAd
-import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.framework.app.BaseApp
+import com.dreampany.framework.misc.SmartAd
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.word.BuildConfig
 import com.dreampany.word.R
 import com.dreampany.word.data.source.pref.Pref

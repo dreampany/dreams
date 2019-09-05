@@ -3,7 +3,7 @@ package com.dreampany.cast.ui.model;
 import android.view.View;
 
 import com.dreampany.cast.data.model.Demo;
-import com.dreampany.frame.ui.model.BaseItem;
+import com.dreampany.framework.ui.model.BaseItem;
 
 import org.jetbrains.annotations.NotNull;
 

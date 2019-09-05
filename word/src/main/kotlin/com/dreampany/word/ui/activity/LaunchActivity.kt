@@ -1,8 +1,8 @@
 package com.dreampany.word.ui.activity
 
 import android.os.Bundle
-import com.dreampany.frame.data.model.Task
-import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.framework.data.model.Task
+import com.dreampany.framework.ui.activity.BaseActivity
 import com.dreampany.word.R
 import com.dreampany.word.misc.Constants
 import com.dreampany.word.ui.model.UiTask

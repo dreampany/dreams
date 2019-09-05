@@ -2,7 +2,7 @@ package com.dreampany.word.data.source.remote
 
 import android.graphics.Bitmap
 import com.annimon.stream.Stream
-import com.dreampany.frame.util.DataUtil
+import com.dreampany.framework.util.DataUtil
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.word.api.wordnik.WordnikManager
 import com.dreampany.word.data.misc.WordMapper

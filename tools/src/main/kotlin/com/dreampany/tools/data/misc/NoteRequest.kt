@@ -1,10 +1,10 @@
 package com.dreampany.tools.data.misc
 
-import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.enums.State
-import com.dreampany.frame.data.enums.Subtype
-import com.dreampany.frame.data.enums.Type
-import com.dreampany.frame.data.model.Request
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.model.Request
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
 

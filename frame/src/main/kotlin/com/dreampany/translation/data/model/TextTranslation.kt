@@ -3,8 +3,8 @@ package com.dreampany.translation.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.util.TimeUtil
-import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.framework.util.TimeUtil
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.translation.misc.Constants
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize

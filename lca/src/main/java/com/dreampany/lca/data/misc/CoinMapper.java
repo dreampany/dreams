@@ -4,12 +4,12 @@ import android.text.TextUtils;
 
 import androidx.core.util.Pair;
 
-import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.util.DataUtil;
-import com.dreampany.frame.util.NumberUtil;
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.data.model.State;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.util.DataUtil;
+import com.dreampany.framework.util.NumberUtil;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.lca.api.cmc.enums.CmcCurrency;
 import com.dreampany.lca.api.cmc.model.CmcCoin;
 import com.dreampany.lca.api.cmc.model.CmcQuote;

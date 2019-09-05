@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.pref
 
 import android.content.Context
-import com.dreampany.frame.data.source.pref.FramePref
+import com.dreampany.framework.data.source.pref.FramePref
 import com.dreampany.language.Language
 import com.dreampany.tools.misc.Constants
 import javax.inject.Inject

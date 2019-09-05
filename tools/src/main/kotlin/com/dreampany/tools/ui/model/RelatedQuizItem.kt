@@ -6,11 +6,11 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.data.model.Color
-import com.dreampany.frame.ui.model.BaseItem
-import com.dreampany.frame.util.ColorUtil
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.data.model.Color
+import com.dreampany.framework.ui.model.BaseItem
+import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.QuizOption
 import com.dreampany.tools.data.model.RelatedQuiz

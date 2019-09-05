@@ -13,10 +13,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 
-import com.dreampany.frame.data.model.Task;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.frame.ui.fragment.BaseStateFragment;
+import com.dreampany.framework.data.model.Task;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
+import com.dreampany.framework.ui.fragment.BaseStateFragment;
 import com.dreampany.crime.R;
 import com.dreampany.crime.ui.model.UiTask;
 

@@ -1,6 +1,6 @@
 package com.dreampany.word.api.wordnik;
 
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.util.DataUtil;
 
 /**
  * Created by Hawladar Roman on 9/3/2018.

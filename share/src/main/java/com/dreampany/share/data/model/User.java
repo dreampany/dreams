@@ -6,7 +6,7 @@ import androidx.room.Index;
 import android.os.Parcel;
 import androidx.annotation.NonNull;
 
-import com.dreampany.frame.data.model.Base;
+import com.dreampany.framework.data.model.Base;
 import com.google.gson.annotations.Expose;
 
 /**

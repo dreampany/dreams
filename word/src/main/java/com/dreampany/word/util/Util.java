@@ -2,7 +2,7 @@ package com.dreampany.word.util;
 
 import androidx.annotation.NonNull;
 
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.util.DataUtil;
 import com.dreampany.word.data.model.Definition;
 import com.dreampany.word.data.model.Word;
 

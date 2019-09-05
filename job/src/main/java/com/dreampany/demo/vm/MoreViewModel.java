@@ -7,11 +7,11 @@ import com.dreampany.quran.data.model.More;
 import com.dreampany.quran.ui.enums.MoreType;
 import com.dreampany.quran.ui.model.MoreItem;
 import com.dreampany.quran.ui.model.UiTask;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.util.SettingsUtil;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.util.SettingsUtil;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
 
 import java.util.ArrayList;

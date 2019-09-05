@@ -2,8 +2,8 @@ package com.dreampany.scan.data.source.local;
 
 import android.graphics.Bitmap;
 
-import com.dreampany.frame.data.model.Flag;
-import com.dreampany.frame.data.source.local.FlagDao;
+import com.dreampany.framework.data.model.Flag;
+import com.dreampany.framework.data.source.local.FlagDao;
 import com.dreampany.scan.data.enums.ScanType;
 import com.dreampany.scan.data.model.Scan;
 import com.dreampany.scan.data.source.ScanDataSource;

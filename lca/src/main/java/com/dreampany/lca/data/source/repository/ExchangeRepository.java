@@ -1,10 +1,10 @@
 package com.dreampany.lca.data.source.repository;
 
-import com.dreampany.frame.data.source.repository.Repository;
-import com.dreampany.frame.misc.Remote;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.Room;
-import com.dreampany.frame.misc.RxMapper;
+import com.dreampany.framework.data.source.repository.Repository;
+import com.dreampany.framework.misc.Remote;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.Room;
+import com.dreampany.framework.misc.RxMapper;
 import com.dreampany.lca.data.model.Exchange;
 import com.dreampany.lca.data.source.api.ExchangeDataSource;
 

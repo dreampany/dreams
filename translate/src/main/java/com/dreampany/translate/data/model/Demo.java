@@ -2,7 +2,7 @@ package com.dreampany.translate.data.model;
 
 import android.os.Parcel;
 
-import com.dreampany.frame.data.model.Base;
+import com.dreampany.framework.data.model.Base;
 
 import org.jetbrains.annotations.NotNull;
 

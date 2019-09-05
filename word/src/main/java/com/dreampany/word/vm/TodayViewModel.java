@@ -2,12 +2,12 @@ package com.dreampany.word.vm;
 
 import android.app.Application;
 
-import com.dreampany.frame.data.model.State;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.data.model.State;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.network.manager.NetworkManager;
 import com.dreampany.word.data.misc.StateMapper;
 import com.dreampany.word.data.model.Word;

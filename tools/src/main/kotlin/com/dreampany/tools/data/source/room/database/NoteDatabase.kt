@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dreampany.frame.BuildConfig
-import com.dreampany.frame.data.source.room.converters.Converters
+import com.dreampany.framework.BuildConfig
+import com.dreampany.framework.data.source.room.converters.Converters
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.room.dao.NoteDao
 import com.dreampany.tools.misc.Constants

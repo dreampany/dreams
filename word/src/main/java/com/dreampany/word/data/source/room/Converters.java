@@ -2,7 +2,7 @@ package com.dreampany.word.data.source.room;
 
 import androidx.room.TypeConverter;
 
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.util.DataUtil;
 import com.dreampany.word.data.model.Definition;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

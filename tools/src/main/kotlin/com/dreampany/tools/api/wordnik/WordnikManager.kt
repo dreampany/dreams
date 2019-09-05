@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.wordnik
 
-import com.dreampany.frame.util.*
+import com.dreampany.framework.util.*
 import com.dreampany.tools.api.wordnik.core.ClientException
 import com.dreampany.tools.api.wordnik.misc.Constants
 import com.dreampany.tools.api.wordnik.model.*

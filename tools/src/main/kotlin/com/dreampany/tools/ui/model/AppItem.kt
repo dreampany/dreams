@@ -7,11 +7,11 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.enums.Action
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.ui.model.BaseItem
-import com.dreampany.frame.util.AndroidUtil
-import com.dreampany.frame.util.DataUtilKt
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.ui.model.BaseItem
+import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.AppType
 import com.dreampany.tools.data.model.App

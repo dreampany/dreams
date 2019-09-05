@@ -2,7 +2,7 @@ package com.dreampany.media.data.enums;
 
 import android.os.Parcel;
 
-import com.dreampany.frame.data.enums.Type;
+import com.dreampany.framework.data.enums.Type;
 
 public enum MediaType implements Type {
     APK(0), IMAGE(1), AUDIO(2), VIDEO(3), DOCUMENT(4), FILE(5), NONE(6);

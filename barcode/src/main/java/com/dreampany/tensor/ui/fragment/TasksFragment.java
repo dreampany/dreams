@@ -12,10 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.injector.ActivityScoped;
-import com.dreampany.frame.ui.fragment.BaseMenuFragment;
-import com.dreampany.frame.util.ViewUtil;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.injector.ActivityScoped;
+import com.dreampany.framework.ui.fragment.BaseMenuFragment;
+import com.dreampany.framework.util.ViewUtil;
 import com.dreampany.tensor.R;
 import com.dreampany.tensor.data.model.Task;
 import com.dreampany.tensor.databinding.FragmentTasksBinding;

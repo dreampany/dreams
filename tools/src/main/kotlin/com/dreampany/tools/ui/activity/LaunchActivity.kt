@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.activity
 
 import android.os.Bundle
 import com.dreampany.tools.R
-import com.dreampany.frame.ui.activity.BaseActivity
+import com.dreampany.framework.ui.activity.BaseActivity
 import com.wang.avi.AVLoadingIndicatorView
 
 

@@ -5,13 +5,13 @@ import android.app.Application;
 import com.dreampany.crime.data.model.Crime;
 import com.dreampany.crime.ui.model.DemoItem;
 import com.dreampany.crime.ui.model.UiTask;
-import com.dreampany.frame.api.network.NetworkManager;
-import com.dreampany.frame.data.enums.NetworkEvent;
-import com.dreampany.frame.data.model.Response;
-import com.dreampany.frame.misc.AppExecutors;
-import com.dreampany.frame.misc.ResponseMapper;
-import com.dreampany.frame.misc.RxMapper;
-import com.dreampany.frame.ui.vm.BaseViewModel;
+import com.dreampany.framework.api.network.NetworkManager;
+import com.dreampany.framework.data.enums.NetworkEvent;
+import com.dreampany.framework.data.model.Response;
+import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.ResponseMapper;
+import com.dreampany.framework.misc.RxMapper;
+import com.dreampany.framework.ui.vm.BaseViewModel;
 
 import org.jetbrains.annotations.NotNull;
 

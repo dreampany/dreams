@@ -7,7 +7,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 
-import com.dreampany.frame.data.model.BaseParcel;
+import com.dreampany.framework.data.model.BaseParcel;
 import com.dreampany.word.misc.Constants;
 import com.google.common.base.Objects;
 

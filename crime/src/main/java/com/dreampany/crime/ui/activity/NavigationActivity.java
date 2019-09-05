@@ -3,8 +3,8 @@ package com.dreampany.crime.ui.activity;
 import android.os.Bundle;
 
 import com.dreampany.crime.ui.fragment.HomeFragment;
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 import com.dreampany.crime.R;
 import com.dreampany.crime.ui.fragment.MoreFragment;
 

@@ -3,8 +3,8 @@ package com.dreampany.scan.ui.activity;
 import android.os.Bundle;
 
 import com.dreampany.scan.ui.fragment.HomeFragment;
-import com.dreampany.frame.ui.activity.BaseBottomNavigationActivity;
-import com.dreampany.frame.ui.fragment.BaseFragment;
+import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity;
+import com.dreampany.framework.ui.fragment.BaseFragment;
 import com.dreampany.scan.R;
 import com.dreampany.scan.ui.fragment.MoreFragment;
 

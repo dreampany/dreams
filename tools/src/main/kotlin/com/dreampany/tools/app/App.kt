@@ -2,15 +2,15 @@ package com.dreampany.tools.app
 
 import android.app.Activity
 import com.crashlytics.android.Crashlytics
-import com.dreampany.frame.app.BaseApp
+import com.dreampany.framework.app.BaseApp
 import com.dreampany.tools.BuildConfig
 import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.injector.app.DaggerAppComponent
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.NotifyService
-import com.dreampany.frame.misc.SmartAd
-import com.dreampany.frame.util.AndroidUtil
+import com.dreampany.framework.misc.SmartAd
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.tools.worker.NotifyWorker
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication

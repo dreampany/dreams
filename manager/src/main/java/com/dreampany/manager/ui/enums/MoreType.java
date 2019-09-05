@@ -2,7 +2,7 @@ package com.dreampany.manager.ui.enums;
 
 import android.os.Parcel;
 
-import com.dreampany.frame.data.enums.Type;
+import com.dreampany.framework.data.enums.Type;
 
 /**
  * Created by Hawladar Roman on 7/24/2018.

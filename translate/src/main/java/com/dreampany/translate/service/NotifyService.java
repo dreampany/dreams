@@ -1,7 +1,7 @@
 package com.dreampany.translate.service;
 
 import com.dreampany.translate.vm.NotifyViewModel;
-import com.dreampany.frame.api.service.BaseJobService;
+import com.dreampany.framework.api.service.BaseJobService;
 import com.firebase.jobdispatcher.JobParameters;
 
 import javax.inject.Inject;

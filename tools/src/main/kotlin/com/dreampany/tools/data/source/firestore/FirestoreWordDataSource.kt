@@ -2,8 +2,7 @@ package com.dreampany.tools.data.source.firestore
 
 import android.graphics.Bitmap
 import com.dreampany.firebase.RxFirebaseFirestore
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.misc.exception.WriteException
+import com.dreampany.framework.misc.exception.WriteException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource

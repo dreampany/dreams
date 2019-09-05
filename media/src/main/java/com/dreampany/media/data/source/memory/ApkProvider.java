@@ -5,8 +5,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import com.annimon.stream.Stream;
-import com.dreampany.frame.util.AndroidUtil;
-import com.dreampany.frame.util.DataUtil;
+import com.dreampany.framework.util.AndroidUtil;
+import com.dreampany.framework.util.DataUtil;
 import com.dreampany.media.data.misc.ApkMapper;
 import com.dreampany.media.data.model.Apk;
 

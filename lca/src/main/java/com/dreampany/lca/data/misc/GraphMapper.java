@@ -1,8 +1,8 @@
 package com.dreampany.lca.data.misc;
 
-import com.dreampany.frame.misc.SmartCache;
-import com.dreampany.frame.misc.SmartMap;
-import com.dreampany.frame.util.TimeUtil;
+import com.dreampany.framework.misc.SmartCache;
+import com.dreampany.framework.misc.SmartMap;
+import com.dreampany.framework.util.TimeUtil;
 import com.dreampany.lca.api.cmc.model.CmcGraph;
 import com.dreampany.lca.data.model.Graph;
 import com.dreampany.lca.misc.GraphAnnote;

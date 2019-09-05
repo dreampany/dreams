@@ -1,9 +1,9 @@
 package com.dreampany.word.data.source.repository
 
 import android.graphics.Bitmap
-import com.dreampany.frame.data.source.repository.RepositoryKt
-import com.dreampany.frame.misc.*
-import com.dreampany.frame.util.DataUtil
+import com.dreampany.framework.data.source.repository.RepositoryKt
+import com.dreampany.framework.misc.*
+import com.dreampany.framework.util.DataUtil
 import com.dreampany.word.data.misc.WordMapper
 import com.dreampany.word.data.model.Word
 import com.dreampany.word.data.source.api.WordDataSource

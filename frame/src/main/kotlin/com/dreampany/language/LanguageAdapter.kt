@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.R
-import com.dreampany.frame.util.TextUtil
+import com.dreampany.framework.R
+import com.dreampany.framework.util.TextUtil
 
 /**
  * Created by Roman-372 on 7/5/2019

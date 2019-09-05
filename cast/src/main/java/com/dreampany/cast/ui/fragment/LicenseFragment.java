@@ -4,9 +4,9 @@ import android.os.Bundle;
 
 import com.artitk.licensefragment.model.LicenseID;
 import com.artitk.licensefragment.support.v4.RecyclerViewLicenseFragment;
-import com.dreampany.frame.misc.ActivityScope;
-import com.dreampany.frame.ui.fragment.BaseFragment;
-import com.dreampany.frame.util.FragmentUtil;
+import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.ui.fragment.BaseFragment;
+import com.dreampany.framework.util.FragmentUtil;
 import com.dreampany.cast.R;
 
 import org.jetbrains.annotations.Nullable;

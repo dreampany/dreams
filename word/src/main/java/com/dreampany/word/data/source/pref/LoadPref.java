@@ -2,7 +2,7 @@ package com.dreampany.word.data.source.pref;
 
 import android.content.Context;
 
-import com.dreampany.frame.data.source.pref.BasePref;
+import com.dreampany.framework.data.source.pref.BasePref;
 import com.dreampany.word.data.model.Word;
 
 import javax.inject.Inject;

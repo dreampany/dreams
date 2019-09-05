@@ -1,5 +1,5 @@
 package com.dreampany.tools.injector.ui
-import com.dreampany.frame.misc.FragmentScope
+import com.dreampany.framework.misc.FragmentScope
 import com.dreampany.tools.ui.fragment.ScanFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

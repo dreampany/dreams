@@ -2,8 +2,8 @@ package com.dreampany.tools.worker
 
 import android.content.Context
 import androidx.work.WorkerParameters
-import com.dreampany.frame.api.worker.BaseWorker
-import com.dreampany.frame.worker.factory.IWorkerFactory
+import com.dreampany.framework.api.worker.BaseWorker
+import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.tools.ui.vm.NotifyViewModel
 import timber.log.Timber
 import javax.inject.Inject

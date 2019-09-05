@@ -1,9 +1,9 @@
 package com.dreampany.word.data.source.pref
 
 import android.content.Context
-import com.dreampany.frame.data.source.pref.FramePref
-import com.dreampany.frame.util.TextUtil
-import com.dreampany.frame.util.TimeUtil
+import com.dreampany.framework.data.source.pref.FramePref
+import com.dreampany.framework.util.TextUtil
+import com.dreampany.framework.util.TimeUtil
 import com.dreampany.language.Language
 import com.dreampany.word.R
 import com.dreampany.word.data.model.Word

@@ -125,7 +125,6 @@ private constructor(
             super.bind(position, item)
             drawLetter(imageIcon, this.item.letter)
             textTitle.text = this.item.id
-            textTitle.text = this.item.id
         }
     }
 }

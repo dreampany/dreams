@@ -1,3 +1,4 @@
+/*
 package com.dreampany.firebase;
 
 import androidx.annotation.NonNull;
@@ -24,11 +25,13 @@ import javax.inject.Singleton;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 
+*/
 /**
  * Created by Hawladar Roman on 9/3/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 @Singleton
 public final class RxFirebaseFirestore {
 
@@ -41,27 +44,31 @@ public final class RxFirebaseFirestore {
         firestore.setFirestoreSettings(settings);
     }
 
-    /**
+    */
+/**
      * @param collection
      * @param document
      * @param item
      * @param <T>
      * @return
-     */
+     *//*
+
     public <T> Completable setItemRx(@NonNull String collection,
                                      @NonNull String document,
                                      @NonNull T item) {
         return setItemRx(collection, null, document, item);
     }
 
-    /**
+    */
+/**
      * @param collection
      * @param internalPaths collection of internal paths containing MutablePair<Document, Collection>
      * @param document
      * @param item
      * @param <T>
      * @return
-     */
+     *//*
+
     public <T> Completable setItemRx(@NonNull String collection,
                                      @Nullable TreeSet<MutablePair<String, String>> internalPaths,
                                      @NonNull String document,
@@ -239,3 +246,4 @@ public final class RxFirebaseFirestore {
         );
     }
 }
+*/

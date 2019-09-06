@@ -22,6 +22,22 @@ class AssetsWordDataSource(
     private val context: Context,
     private val mapper: WordMapper
 ) : WordDataSource {
+    override fun track(word: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun trackRx(word: String): Maybe<Boolean> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getTracks(startAt: Int, limit: Int): List<String>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

@@ -128,8 +128,7 @@ class LoaderViewModel
     private fun loadTracks(request: LoadRequest) {
         do {
             val startAt = wordPref.getTrackStartAt()
-            val result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
-
+            var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
             if (result != null) {
                 val states = ArrayList<Store>()
                 result.forEach { word ->
@@ -137,13 +136,13 @@ class LoaderViewModel
                 }
                 val resultOf = storeRepo.putItems(states)
                 if (DataUtil.isEqual(result, resultOf)) {
-                    wordPref.setTrackStartAt(startAt + result.size)
+                    wordPref.setTrackStartAt(result.last())
                 }
             }
 
             if (result == null) {
                 if (network.hasInternet()) {
-                    //wordPref.commitTrackLoaded()
+                    wordPref.commitTrackLoaded()
                 }
             }
         } while (network.hasInternet() && !wordPref.isTrackLoaded())

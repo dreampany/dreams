@@ -50,14 +50,13 @@ class WordPref
         return getPrivately(Constants.Pref.WORD_ALPHA_LOADED, Constants.Default.BOOLEAN)
     }
 
-    fun setTrackStartAt(startAt: Long) {
+    fun setTrackStartAt(startAt: String) {
         return setPrivately(Constants.Pref.WORD_TRACK_START_AT, startAt)
     }
 
-    fun getTrackStartAt(): Long {
-        return getPrivately(Constants.Pref.WORD_TRACK_START_AT, Constants.Default.LONG)
+    fun getTrackStartAt(): String {
+        return getPrivately(Constants.Pref.WORD_TRACK_START_AT, Constants.Default.STRING)
     }
-
 
     fun setLastWord(item: Word) {
         setPrivately(Constants.Pref.WORD_LAST, item)

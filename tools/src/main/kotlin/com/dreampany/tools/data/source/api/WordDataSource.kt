@@ -39,7 +39,7 @@ interface WordDataSource : DataSource<Word> {
 
     fun trackRx(word: Word): Maybe<Long>
 
-    fun getTracks(startAt: Long, limit: Long): List<String>?
+    fun getTracks(startAt: String, limit: Long): List<String>?
 
-    fun getTracksRx(startAt: Long, limit: Long): Maybe<List<String>>
+    fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>>
 }

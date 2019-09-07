@@ -46,11 +46,11 @@ class WordRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: Long, limit: Long): List<String>? {
+    override fun getTracks(startAt: String, limit: Long): List<String>? {
         return firestore.getTracks(startAt, limit)
     }
 
-    override fun getTracksRx(startAt: Long, limit: Long): Maybe<List<String>> {
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
         return firestore.getTracksRx(startAt, limit)
     }
 

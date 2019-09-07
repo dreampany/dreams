@@ -7,6 +7,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
+import com.google.firebase.firestore.FieldPath
 import io.reactivex.Maybe
 
 /**
@@ -47,14 +48,14 @@ class FirestoreWordDataSource(
         }
     }
 
-    override fun getTracks(startAt: Long, limit: Long): List<String>? {
+    override fun getTracks(startAt: String, limit: Long): List<String>? {
         return getTracksRx(startAt, limit).blockingGet()
     }
 
-    override fun getTracksRx(startAt: Long, limit: Long): Maybe<List<String>> {
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
         return firestore.getDocumentIdsRx(
             Constants.Firebase.TRACK_WORDS,
-            orderBy = Constants.Firebase.WEIGHT,
+            orderBy = FieldPath.documentId(),
             ascending = true,
             startAt = startAt,
             limit = limit

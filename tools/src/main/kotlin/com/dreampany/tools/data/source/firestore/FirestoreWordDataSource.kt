@@ -19,17 +19,20 @@ class FirestoreWordDataSource(
     private val network: NetworkManager,
     private val firestore: RxFirebaseFirestore
 ) : WordDataSource {
-    override fun track(word: String): Long {
-        val error = firestore.setArrayItemRx<String>(
+    override fun track(word: Word): Long {
+/*        val error = firestore.setArrayItemRx<String>(
             Constants.Firebase.EXTRA,
             Constants.Firebase.WORDS,
             Constants.Firebase.TRACK,
             word
-        ).blockingGet()
+        ).blockingGet()*/
+
+        val data = hashMapOf(Constants.Firebase.WEIGHT to word.weight())
+        val error = firestore.setItemRx<Map<String, Int>>(Constants.Firebase.TRACK_WORDS, word.id, data).blockingGet()
         return if (error == null) 0L else -1L
     }
 
-    override fun trackRx(word: String): Maybe<Long> {
+    override fun trackRx(word: Word): Maybe<Long> {
         return Maybe.create { emitter ->
             val result = track(word)
             if (emitter.isDisposed) return@create
@@ -42,11 +45,11 @@ class FirestoreWordDataSource(
         }
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<Long>? {
+    override fun getTracks(startAt: Int, limit: Int): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<Long>> {
+    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

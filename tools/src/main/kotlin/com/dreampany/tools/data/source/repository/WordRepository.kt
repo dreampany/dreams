@@ -38,20 +38,20 @@ class WordRepository
     @Remote private val remote: WordDataSource,
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
-    override fun track(word: String): Long {
+    override fun track(word: Word): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: String): Maybe<Long> {
+    override fun trackRx(word: Word): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getTracks(startAt: Int, limit: Int): List<String>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return firestore.getTracks(startAt,limit)
     }
 
     override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return firestore.getTracksRx(startAt,limit)
     }
 
     override fun isValid(id: String): Boolean {
@@ -197,7 +197,7 @@ class WordRepository
                 rx.compute(mapper.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                 rx.compute(room.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                 rx.compute(firestore.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(firestore.trackRx(word.id)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                rx.compute(firestore.trackRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                 rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                 rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                 if (word.hasSynonyms()) rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())

@@ -17,19 +17,19 @@ class VisionWordDataSource(
     private val mapper: WordMapper,
     private val dao: WordDao
 ) : WordDataSource {
-    override fun track(word: String): Long {
+    override fun track(word: Word): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: String): Maybe<Long> {
+    override fun trackRx(word: Word): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<Long>? {
+    override fun getTracks(startAt: Int, limit: Int): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<Long>> {
+    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

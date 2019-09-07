@@ -35,9 +35,9 @@ interface WordDataSource : DataSource<Word> {
 
     fun getRawItemsByLength(id: String, limit: Int): List<String>?
 
-    fun track(word: String): Long
+    fun track(word: Word): Long
 
-    fun trackRx(word: String): Maybe<Long>
+    fun trackRx(word: Word): Maybe<Long>
 
     fun getTracks(startAt: Int, limit: Int): List<String>?
 

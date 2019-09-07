@@ -104,9 +104,11 @@ class Constants {
     }
 
     object Firebase {
+        const val WEIGHT = "weight"
         const val EXTRA = "extra"
         const val WORDS = "words"
         const val TRACK = "track"
+        const val TRACK_WORDS = "track-words"
     }
 
     object Count {

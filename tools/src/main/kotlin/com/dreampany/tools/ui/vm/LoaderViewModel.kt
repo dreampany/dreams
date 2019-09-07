@@ -88,7 +88,7 @@ class LoaderViewModel
         if (!wordPref.isTrackLoaded() && !trackLoading) {
             ex.postToNetwork(Runnable {
                 trackLoading = true
-                loadTracks(request)
+                //loadTracks(request)
                 trackLoading = false
                 request(request)
             })

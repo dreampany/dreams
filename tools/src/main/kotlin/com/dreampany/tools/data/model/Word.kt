@@ -114,4 +114,16 @@ data class Word(
         if (!hasPartial()) return false
         return !(DataUtil.isEmpty(synonyms) && DataUtil.isEmpty(antonyms))
     }
+
+    @Exclude
+    fun weight() : Int {
+        var weight = 0
+        if (!partOfSpeech.isNullOrEmpty()) weight++
+        if (!pronunciation.isNullOrEmpty()) weight++
+        if (!definitions.isNullOrEmpty()) weight++
+        if (!examples.isNullOrEmpty()) weight++
+        if (!synonyms.isNullOrEmpty()) weight++
+        if (!antonyms.isNullOrEmpty()) weight++
+        return weight
+    }
 }

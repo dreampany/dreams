@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d1dc5e98c0bda5837605907a96f1adae",
+    "identityHash": "cba9c17626cab3b10372f263f44de20d",
     "entities": [
       {
-        "tableName": "Note",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `tags` TEXT, PRIMARY KEY(`id`))",
+        "tableName": "TextTranslation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`time` INTEGER NOT NULL, `id` TEXT NOT NULL, `source` TEXT NOT NULL, `target` TEXT NOT NULL, `input` TEXT NOT NULL, `output` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "time",
@@ -21,22 +21,28 @@
             "notNull": true
           },
           {
-            "fieldPath": "title",
-            "columnName": "title",
+            "fieldPath": "source",
+            "columnName": "source",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "description",
-            "columnName": "description",
+            "fieldPath": "target",
+            "columnName": "target",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "tags",
-            "columnName": "tags",
+            "fieldPath": "input",
+            "columnName": "input",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
+          },
+          {
+            "fieldPath": "output",
+            "columnName": "output",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -47,12 +53,12 @@
         },
         "indices": [
           {
-            "name": "index_Note_id",
+            "name": "index_TextTranslation_id",
             "unique": true,
             "columnNames": [
               "id"
             ],
-            "createSql": "CREATE UNIQUE INDEX `index_Note_id` ON `${TABLE_NAME}` (`id`)"
+            "createSql": "CREATE UNIQUE INDEX `index_TextTranslation_id` ON `${TABLE_NAME}` (`id`)"
           }
         ],
         "foreignKeys": []
@@ -61,7 +67,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd1dc5e98c0bda5837605907a96f1adae')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cba9c17626cab3b10372f263f44de20d')"
     ]
   }
 }

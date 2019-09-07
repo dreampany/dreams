@@ -60,10 +60,10 @@ interface StoreDao : BaseDao<Store> {
     fun getItemRx(id: String, type: String, subtype: String, state: String): Maybe<Store>
 
     @Query("select * from store limit :limit")
-    fun getItems(limit: Int): List<Store>?
+    fun getItems(limit: Long): List<Store>?
 
     @Query("select * from store limit :limit")
-    fun getItemsRx(limit: Int): Maybe<List<Store>>
+    fun getItemsRx(limit: Long): Maybe<List<Store>>
 
     @Query("select data from store where type = :type and subtype = :subtype and state = :state order by time desc")
     fun getItemsOf(type: String, subtype: String, state: String): List<String>?
@@ -72,7 +72,7 @@ interface StoreDao : BaseDao<Store> {
     fun getItemsOfRx(type: String, subtype: String, state: String): Maybe<List<String>>
 
     @Query("select data from store where type = :type and subtype = :subtype and state = :state order by time desc limit :limit")
-    fun getItemsOfRx(type: String, subtype: String, state: String, limit: Int): Maybe<List<String>>
+    fun getItemsOfRx(type: String, subtype: String, state: String, limit: Long): Maybe<List<String>>
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state")
     fun getItems(type: String, subtype: String, state: String): List<Store>?
@@ -81,8 +81,8 @@ interface StoreDao : BaseDao<Store> {
     fun getItemsRx(type: String, subtype: String, state: String): Maybe<List<Store>>
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state limit :limit")
-    fun getItems(type: String, subtype: String, state: String, limit: Int): List<Store>?
+    fun getItems(type: String, subtype: String, state: String, limit: Long): List<Store>?
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state limit :limit")
-    fun getItemsRx(type: String, subtype: String, state: String, limit: Int): Maybe<List<Store>>
+    fun getItemsRx(type: String, subtype: String, state: String, limit: Long): Maybe<List<Store>>
 }

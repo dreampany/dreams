@@ -92,11 +92,11 @@ abstract class MediaRepository<T : Media>(
         //return concatFirstRx(true, memory)
     }
 
-    override fun getItems(limit: Int): List<T>? {
+    override fun getItems(limit: Long): List<T>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<T>> {
+    override fun getItemsRx(limit: Long): Maybe<List<T>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

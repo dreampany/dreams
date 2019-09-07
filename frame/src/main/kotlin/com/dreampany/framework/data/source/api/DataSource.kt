@@ -46,7 +46,7 @@ interface DataSource<T> {
 
     fun getItemsRx(): Maybe<List<T>>
 
-    fun getItems(limit: Int): List<T>?
+    fun getItems(limit: Long): List<T>?
 
-    fun getItemsRx(limit: Int): Maybe<List<T>>
+    fun getItemsRx(limit: Long): Maybe<List<T>>
 }

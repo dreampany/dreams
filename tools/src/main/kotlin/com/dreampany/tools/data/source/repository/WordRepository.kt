@@ -46,11 +46,11 @@ class WordRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<String>? {
+    override fun getTracks(startAt: Long, limit: Long): List<String>? {
         return firestore.getTracks(startAt,limit)
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>> {
+    override fun getTracksRx(startAt: Long, limit: Long): Maybe<List<String>> {
         return firestore.getTracksRx(startAt,limit)
     }
 
@@ -71,7 +71,7 @@ class WordRepository
         return room.isExists(t)
     }
 
-    override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
+    override fun getRawItemsByLength(id: String, limit: Long): List<String>? {
         return room.getRawItemsByLength(id, limit)
     }
 
@@ -83,7 +83,7 @@ class WordRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Word>? {
+    override fun getItems(limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -99,11 +99,11 @@ class WordRepository
         return room.getItemsRx()
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<Word>> {
+    override fun getItemsRx(limit: Long): Maybe<List<Word>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getSearchItems(query: String, limit: Int): List<Word>? {
+    override fun getSearchItems(query: String, limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

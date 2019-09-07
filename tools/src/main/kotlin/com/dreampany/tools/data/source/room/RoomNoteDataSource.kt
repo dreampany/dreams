@@ -88,11 +88,11 @@ class RoomNoteDataSource(
         return dao.getItemsRx()
     }
 
-    override fun getItems(limit: Int): List<Note>? {
+    override fun getItems(limit: Long): List<Note>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<Note>> {
+    override fun getItemsRx(limit: Long): Maybe<List<Note>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

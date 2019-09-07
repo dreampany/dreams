@@ -28,5 +28,5 @@ interface WordDao : BaseDao<Word> {
     fun getRawItemsRx(): Maybe<List<String>>
 
     @Query("select id from word where length(id) == length(:id) order by random() limit :limit")
-    fun getRawItemsByLength(id: String, limit : Int): List<String>?
+    fun getRawItemsByLength(id: String, limit : Long): List<String>?
 }

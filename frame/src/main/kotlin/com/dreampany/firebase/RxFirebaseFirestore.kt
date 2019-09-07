@@ -8,6 +8,7 @@ import org.apache.commons.lang3.tuple.MutableTriple
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 2019-09-06
@@ -154,10 +155,10 @@ class RxFirebaseFirestore @Inject constructor() {
 
     fun <T> getItemRx(
         collection: String,
-        internalPaths: TreeSet<MutablePair<String, String>>?,
-        equalTo: List<MutablePair<String, Any>>?,
-        lessThanOrEqualTo: List<MutablePair<String, Any>>?,
-        greaterThanOrEqualTo: List<MutablePair<String, Any>>?,
+        internalPaths: TreeSet<MutablePair<String, String>>? = null,
+        equalTo: List<MutablePair<String, Any>>? = null,
+        lessThanOrEqualTo: List<MutablePair<String, Any>>? = null,
+        greaterThanOrEqualTo: List<MutablePair<String, Any>>? = null,
         clazz: Class<T>
     ): Maybe<T> {
 
@@ -186,7 +187,7 @@ class RxFirebaseFirestore @Inject constructor() {
                 query = query.whereGreaterThanOrEqualTo(key, value)
             }
         }
-        return getItemRx(ref, clazz)
+        return getItemRx(query, clazz)
     }
 
     fun <T> getItemsRx(
@@ -223,7 +224,46 @@ class RxFirebaseFirestore @Inject constructor() {
                 query = query.whereGreaterThanOrEqualTo(key, value)
             }
         }
-        return getItemsRx(ref, clazz)
+        return getItemsRx(query, clazz)
+    }
+
+    fun getDocumentIdsRx(
+        collection: String,
+        internalPaths: TreeSet<MutablePair<String, String>>? = null,
+        equalTo: List<MutablePair<String, Any>>? = null,
+        lessThanOrEqualTo: List<MutablePair<String, Any>>? = null,
+        greaterThanOrEqualTo: List<MutablePair<String, Any>>? = null,
+        startAt: Long = 0L,
+        limit: Long = 0L
+    ): Maybe<List<String>> {
+
+        var ref = firestore.collection(collection)
+        if (internalPaths != null && !internalPaths.isEmpty()) {
+            for (path in internalPaths) {
+                if (path.left != null && path.right != null) {
+                    ref = ref.document(path.left).collection(path.right)
+                }
+            }
+        }
+
+        var query: Query = ref
+        if (equalTo != null) {
+            for ((key, value) in equalTo) {
+                query = query.whereEqualTo(key, value)
+            }
+        }
+        if (lessThanOrEqualTo != null) {
+            for ((key, value) in lessThanOrEqualTo) {
+                query = query.whereLessThanOrEqualTo(key, value)
+            }
+        }
+        if (greaterThanOrEqualTo != null) {
+            for ((key, value) in greaterThanOrEqualTo) {
+                query = query.whereGreaterThanOrEqualTo(key, value)
+            }
+        }
+        query = query.startAt(startAt).limit(limit)
+        return getDocumentIdsRx(query)
     }
 
     fun <T> getItemRx(ref: DocumentReference, clazz: Class<T>): Maybe<T> {
@@ -272,6 +312,30 @@ class RxFirebaseFirestore @Inject constructor() {
                     emitter.onComplete()
                 } else {
                     emitter.onSuccess(snapshot.toObjects(clazz))
+                }
+            }.addOnFailureListener { error ->
+                if (emitter.isDisposed()) {
+                    return@addOnFailureListener
+                }
+                emitter.onError(error)
+            }
+        }
+    }
+
+    fun getDocumentIdsRx(ref: Query): Maybe<List<String>> {
+        return Maybe.create { emitter ->
+            ref.get().addOnSuccessListener { snapshot ->
+                if (emitter.isDisposed)
+                    return@addOnSuccessListener
+
+                if (snapshot.isEmpty) {
+                    emitter.onComplete()
+                } else {
+                    val result = ArrayList<String>()
+                    snapshot.documents.forEach { doc ->
+                        result.add(doc.id)
+                    }
+                    emitter.onSuccess(result)
                 }
             }.addOnFailureListener { error ->
                 if (emitter.isDisposed()) {

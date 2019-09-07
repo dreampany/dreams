@@ -118,11 +118,11 @@ class MachineTranslationDataSource constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): ArrayList<TextTranslation> {
+    override fun getItems(limit: Long): ArrayList<TextTranslation> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<TextTranslation>> {
+    override fun getItemsRx(limit: Long): Maybe<List<TextTranslation>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -21,7 +21,7 @@ interface WordDataSource : DataSource<Word> {
 
     fun getItemsRx(ids: List<String>): Maybe<List<Word>>
 
-    fun getSearchItems(query: String, limit: Int): List<Word>?
+    fun getSearchItems(query: String, limit: Long): List<Word>?
 
     fun getCommonItems(): List<Word>?
 
@@ -33,13 +33,13 @@ interface WordDataSource : DataSource<Word> {
 
     fun getRawWordsRx(): Maybe<List<String>>
 
-    fun getRawItemsByLength(id: String, limit: Int): List<String>?
+    fun getRawItemsByLength(id: String, limit: Long): List<String>?
 
     fun track(word: Word): Long
 
     fun trackRx(word: Word): Maybe<Long>
 
-    fun getTracks(startAt: Int, limit: Int): List<String>?
+    fun getTracks(startAt: Long, limit: Long): List<String>?
 
-    fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>>
+    fun getTracksRx(startAt: Long, limit: Long): Maybe<List<String>>
 }

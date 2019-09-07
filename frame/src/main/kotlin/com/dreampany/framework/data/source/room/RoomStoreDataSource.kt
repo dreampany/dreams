@@ -177,11 +177,11 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Store>? {
+    override fun getItems(limit: Long): List<Store>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<Store>> {
+    override fun getItemsRx(limit: Long): Maybe<List<Store>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -130,11 +130,11 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<TextTranslation> {
+    override fun getItems(limit: Long): List<TextTranslation> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<TextTranslation>> {
+    override fun getItemsRx(limit: Long): Maybe<List<TextTranslation>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

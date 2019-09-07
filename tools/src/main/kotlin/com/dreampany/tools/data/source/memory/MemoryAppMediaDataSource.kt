@@ -91,11 +91,11 @@ class MemoryAppMediaDataSource(
         return provider.getItemsRx()
     }
 
-    override fun getItems(limit: Int): List<App>? {
+    override fun getItems(limit: Long): List<App>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<App>> {
+    override fun getItemsRx(limit: Long): Maybe<List<App>> {
         return provider.getItemsRx(limit)
     }
 }

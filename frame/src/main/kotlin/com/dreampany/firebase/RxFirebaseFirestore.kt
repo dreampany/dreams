@@ -26,6 +26,46 @@ class RxFirebaseFirestore @Inject constructor() {
         firestore.firestoreSettings = settings
     }
 
+    fun <T> setArrayItemRx(
+        collection: String,
+        document: String,
+        field: String,
+        item: T
+    ): Completable {
+        val doc = firestore.collection(collection).document(document)
+        return setArrayItemRx(doc, field, item)
+    }
+
+    fun <T> setArrayItemRx(
+        ref: DocumentReference,
+        field: String,
+        item: T
+    ): Completable {
+        return Completable.create { emitter ->
+            val task = ref.update(field, FieldValue.arrayUnion(item))
+            RxCompletableHandler.assignOnTask(emitter, task)
+        }
+    }
+
+/*    fun <T> setArrayItemRx(
+        collection: String,
+        document: String,
+        item: T
+    ): Completable {
+        var ref = firestore.collection(collection)
+        var doc = ref.document(document)
+        return setArrayItemRx(doc, item)
+    }
+
+    fun <T> setArrayItemRx(
+        ref: DocumentReference,
+        item: T
+    ): Completable {
+        return Completable.create { emitter ->
+            RxCompletableHandler.assignOnTask(emitter, ref.set(item!!, SetOptions.merge()))
+        }
+    }*/
+
     /**
      * @param collection
      * @param document

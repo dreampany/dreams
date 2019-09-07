@@ -38,19 +38,19 @@ class WordRepository
     @Remote private val remote: WordDataSource,
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
-    override fun track(word: String): Boolean {
+    override fun track(word: String): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: String): Maybe<Boolean> {
+    override fun trackRx(word: String): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<String>? {
+    override fun getTracks(startAt: Int, limit: Int): List<Long>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>> {
+    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<Long>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

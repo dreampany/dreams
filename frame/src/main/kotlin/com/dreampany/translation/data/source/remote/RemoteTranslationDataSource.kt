@@ -45,7 +45,8 @@ constructor(
     init {
         keyM.setKeys(
             Constants.Yandex.TRANSLATE_API_KEY_ROMAN_BJIT_QURAN,
-            Constants.Yandex.TRANSLATE_API_KEY_ROMAN_BJIT_WORD
+            Constants.Yandex.TRANSLATE_API_KEY_ROMAN_BJIT_WORD,
+            Constants.Yandex.TRANSLATE_API_KEY_DREAMPANY
         )
     }
 

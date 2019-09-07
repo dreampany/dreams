@@ -30,8 +30,6 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private val TRANSLATIONS = Constants.FirebaseKey.TRANSLATIONS
-
     override fun isExistsRx(source: String, target: String, input: String): Maybe<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -74,7 +72,7 @@ constructor(
         input: String
     ): Maybe<TextTranslation> {
         return firestore.getItemRx(
-            TRANSLATIONS,
+            Constants.FirebaseKey.TRANSLATIONS,
             mapper.toId(source, target, input),
             TextTranslation::class.java
         )
@@ -86,7 +84,7 @@ constructor(
 
     override fun putItem(t: TextTranslation): Long {
         val id = mapper.toId(t)
-        val error = firestore.setItemRx(TRANSLATIONS, id, t).blockingGet()
+        val error = firestore.setItemRx(Constants.FirebaseKey.TRANSLATIONS, id, t).blockingGet()
         return if (error == null) {
             0L
         } else -1L

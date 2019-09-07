@@ -233,6 +233,8 @@ class RxFirebaseFirestore @Inject constructor() {
         equalTo: List<MutablePair<String, Any>>? = null,
         lessThanOrEqualTo: List<MutablePair<String, Any>>? = null,
         greaterThanOrEqualTo: List<MutablePair<String, Any>>? = null,
+        orderBy: String? = null,
+        ascending: Boolean = true,
         startAt: Long = 0L,
         limit: Long = 0L
     ): Maybe<List<String>> {
@@ -262,7 +264,10 @@ class RxFirebaseFirestore @Inject constructor() {
                 query = query.whereGreaterThanOrEqualTo(key, value)
             }
         }
-        query = query.startAt(startAt).limit(limit)
+        if (!orderBy.isNullOrEmpty()) {
+            query = query.orderBy(FieldPath.documentId(), if (ascending) Query.Direction.ASCENDING else Query.Direction.DESCENDING)
+        }
+        query = query.startAfter("acanthopod").limit(limit)
         return getDocumentIdsRx(query)
     }
 

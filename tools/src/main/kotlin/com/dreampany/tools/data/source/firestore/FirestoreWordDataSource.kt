@@ -28,7 +28,9 @@ class FirestoreWordDataSource(
         ).blockingGet()*/
 
         val data = hashMapOf(Constants.Firebase.WEIGHT to word.weight())
-        val error = firestore.setItemRx<Map<String, Int>>(Constants.Firebase.TRACK_WORDS, word.id, data).blockingGet()
+        val error =
+            firestore.setItemRx<Map<String, Int>>(Constants.Firebase.TRACK_WORDS, word.id, data)
+                .blockingGet()
         return if (error == null) 0L else -1L
     }
 
@@ -50,7 +52,13 @@ class FirestoreWordDataSource(
     }
 
     override fun getTracksRx(startAt: Long, limit: Long): Maybe<List<String>> {
-        return firestore.getDocumentIdsRx(Constants.Firebase.TRACK_WORDS, startAt = startAt, limit = limit)
+        return firestore.getDocumentIdsRx(
+            Constants.Firebase.TRACK_WORDS,
+            orderBy = Constants.Firebase.WEIGHT,
+            ascending = true,
+            startAt = startAt,
+            limit = limit
+        )
     }
 
     override fun getRawItemsByLength(id: String, limit: Long): List<String>? {

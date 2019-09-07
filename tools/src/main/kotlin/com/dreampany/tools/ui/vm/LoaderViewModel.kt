@@ -143,7 +143,7 @@ class LoaderViewModel
 
             if (result == null) {
                 if (network.hasInternet()) {
-                    wordPref.commitTrackLoaded()
+                    //wordPref.commitTrackLoaded()
                 }
             }
         } while (network.hasInternet() && !wordPref.isTrackLoaded())

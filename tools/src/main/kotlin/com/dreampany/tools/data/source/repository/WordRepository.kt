@@ -46,11 +46,11 @@ class WordRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<Long>? {
+    override fun getTracks(startAt: Int, limit: Int): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<Long>> {
+    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

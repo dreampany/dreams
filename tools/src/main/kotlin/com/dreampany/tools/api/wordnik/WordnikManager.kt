@@ -180,23 +180,22 @@ class WordnikManager
     }
 
     private fun getWord(from: WordObject, limit: Int): WordnikWord? {
-        var result: WordnikWord? = null
+        //var result: WordnikWord? = null
         from.word?.run {
-
-            val word = WordnikWord(this)
+            val result = WordnikWord(this)
             val pronunciations = getPronunciation(this, limit)
             val definitions = getDefinitions(this, limit)
             val examples = getExamples(this, limit)
             val relateds = getRelateds(this, Constants.Word.SYNONYM_ANTONYM, limit)
 
-            word.partOfSpeech = getPartOfSpeech(definitions)
-            word.pronunciation = pronunciations
-            word.definitions = definitions
-            word.examples = examples
-            word.synonyms = getSynonyms(relateds)
-            word.antonyms = getAntonyms(relateds)
+            result.partOfSpeech = getPartOfSpeech(definitions)
+            result.pronunciation = pronunciations
+            result.definitions = definitions
+            result.examples = examples
+            result.synonyms = getSynonyms(relateds)
+            result.antonyms = getAntonyms(relateds)
         }
-        return result
+        return null
     }
 
 

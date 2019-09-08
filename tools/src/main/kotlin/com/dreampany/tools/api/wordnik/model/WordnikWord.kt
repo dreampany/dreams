@@ -13,7 +13,7 @@ data class WordnikWord(
     var partOfSpeech: String? = null,
     var pronunciation: String? = null,
     var definitions: List<Definition>? = null,
-    var examples: List<String>? = null,
+    var examples: List<Example>? = null,
     var synonyms: List<String>? = null,
     var antonyms: List<String>? = null
 ) {

@@ -76,7 +76,7 @@ class WordnikManager
     }
 
     fun getWord(word: String, limit: Int): WordnikWord? {
-        val wordObj = getWord(word)
+        val wordObj = WordObject(id = Long(), word = word) //getWord(word) SocketTimeoutException
         if (wordObj == null) return null
         return getWord(wordObj, limit)
     }
@@ -117,7 +117,7 @@ class WordnikManager
         word.partOfSpeech = getPartOfSpeech(from)
         //word.setPronunciation(getPronunciation(from));
         word.definitions = getDefinitions(from)
-        word.examples = getExamples(from)
+        //word.examples = getExamples(from)
 
         val relateds = getRelateds(from.word, Constants.Word.SYNONYM_ANTONYM, limit)
         word.synonyms = getSynonyms(relateds)
@@ -164,7 +164,7 @@ class WordnikManager
 
         word.partOfSpeech = getPartOfSpeech(definitions)
         word.definitions = definitions
-        word.examples = getExamplesBy(definitions)
+        //word.examples = getExamplesBy(definitions)
         word.pronunciation = getPronunciation(from, limit)
 
         //List<String> examples = getExamples(from, limit);
@@ -382,7 +382,7 @@ class WordnikManager
         return null
     }
 
-    private fun getExamples(word: String, limit: Int): List<String>? {
+    private fun getExamples(word: String, limit: Int): List<Example>? {
         var word = word
         var index = 0
         var notFound = false

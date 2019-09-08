@@ -18,7 +18,7 @@ package com.dreampany.tools.api.wordnik.model
  * @param source
  */
 data class Citation(
-        val cite: String? = null,
-        val source: String? = null
+    val cite: String? = null,
+    val source: String? = null
 )
 

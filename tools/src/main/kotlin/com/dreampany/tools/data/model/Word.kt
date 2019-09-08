@@ -33,7 +33,7 @@ data class Word(
     var partOfSpeech: String? = Constants.Default.NULL,
     var pronunciation: String? = Constants.Default.NULL,
     var definitions: ArrayList<Definition>? = Constants.Default.NULL,
-    var examples: ArrayList<String>? = Constants.Default.NULL,
+    var examples: ArrayList<Example>? = Constants.Default.NULL,
     @Ignore
     var synonyms: ArrayList<String>? = Constants.Default.NULL,
     @Ignore

@@ -19,8 +19,8 @@ package com.dreampany.tools.api.wordnik.model
  * @param userSignature
  */
 data class AuthenticationToken(
-        val token: String? = null,
-        val userId: Long? = null,
-        val userSignature: String? = null
+    val token: String? = null,
+    val userId: Long? = null,
+    val userSignature: String? = null
 )
 

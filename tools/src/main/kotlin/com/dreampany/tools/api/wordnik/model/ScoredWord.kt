@@ -27,16 +27,16 @@ package com.dreampany.tools.api.wordnik.model
  * @param wordType
  */
 data class ScoredWord(
-        val baseWordScore: Double? = null,
-        val docTermCount: Int? = null,
-        val id: Long? = null,
-        val lemma: String? = null,
-        val partOfSpeech: String? = null,
-        val position: Int? = null,
-        val score: Float? = null,
-        val sentenceId: Long? = null,
-        val stopword: Boolean? = null,
-        val word: String? = null,
-        val wordType: String? = null
+    val baseWordScore: Double? = null,
+    val docTermCount: Int? = null,
+    val id: Long? = null,
+    val lemma: String? = null,
+    val partOfSpeech: String? = null,
+    val position: Int? = null,
+    val score: Float? = null,
+    val sentenceId: Long? = null,
+    val stopword: Boolean? = null,
+    val word: String? = null,
+    val wordType: String? = null
 )
 

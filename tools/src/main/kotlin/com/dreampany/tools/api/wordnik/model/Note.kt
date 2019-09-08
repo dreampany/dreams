@@ -20,9 +20,9 @@ package com.dreampany.tools.api.wordnik.model
  * @param value
  */
 data class Note(
-        val appliesTo: Array<String>? = null,
-        val noteType: String? = null,
-        val pos: Int? = null,
-        val value: String? = null
+    val appliesTo: Array<String>? = null,
+    val noteType: String? = null,
+    val pos: Int? = null,
+    val value: String? = null
 )
 

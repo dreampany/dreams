@@ -22,11 +22,11 @@ package com.dreampany.tools.api.wordnik.model
  * @param scoredWords
  */
 data class Sentence(
-        val display: String? = null,
-        val documentMetadataId: Long? = null,
-        val hasScoredWords: Boolean? = null,
-        val id: Long? = null,
-        val rating: Int? = null,
-        val scoredWords: Array<String>? = null
+    val display: String? = null,
+    val documentMetadataId: Long? = null,
+    val hasScoredWords: Boolean? = null,
+    val id: Long? = null,
+    val rating: Int? = null,
+    val scoredWords: Array<String>? = null
 )
 

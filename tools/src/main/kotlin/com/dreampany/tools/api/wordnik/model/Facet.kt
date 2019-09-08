@@ -18,7 +18,7 @@ package com.dreampany.tools.api.wordnik.model
  * @param name
  */
 data class Facet(
-        val facetValues: Array<String>? = null,
-        val name: String? = null
+    val facetValues: Array<String>? = null,
+    val name: String? = null
 )
 

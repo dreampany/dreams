@@ -30,19 +30,19 @@ package com.dreampany.tools.api.wordnik.model
  * @param word
  */
 data class AudioFile(
-        val id: Long,
-        val attributionText: String? = null,
-        val attributionUrl: String? = null,
-        val audioType: String? = null,
-        val commentCount: Int? = null,
-        val createdAt: java.time.LocalDateTime? = null,
-        val createdBy: String? = null,
-        val description: String? = null,
-        val duration: Double? = null,
-        val fileUrl: String? = null,
-        val voteAverage: Float? = null,
-        val voteCount: Int? = null,
-        val voteWeightedAverage: Float? = null,
-        val word: String? = null
+    val id: Long,
+    val attributionText: String? = null,
+    val attributionUrl: String? = null,
+    val audioType: String? = null,
+    val commentCount: Int? = null,
+    val createdAt: java.time.LocalDateTime? = null,
+    val createdBy: String? = null,
+    val description: String? = null,
+    val duration: Double? = null,
+    val fileUrl: String? = null,
+    val voteAverage: Float? = null,
+    val voteCount: Int? = null,
+    val voteWeightedAverage: Float? = null,
+    val word: String? = null
 )
 

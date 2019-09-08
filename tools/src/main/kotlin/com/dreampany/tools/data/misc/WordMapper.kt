@@ -7,10 +7,7 @@ import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.api.wordnik.model.WordnikWord
-import com.dreampany.tools.data.model.Antonym
-import com.dreampany.tools.data.model.Definition
-import com.dreampany.tools.data.model.Synonym
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.*
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.WordAnnote
 import com.dreampany.tools.misc.WordItemAnnote
@@ -95,7 +92,7 @@ class WordMapper
             return null
         }
 
-        val id = input.word!!
+        val id = input.word
         var out: Word? = map.get(id)
         if (out == null) {
             out = Word(id)
@@ -235,11 +232,22 @@ class WordMapper
         return null
     }
 
-    private fun getExamples(input: WordnikWord): ArrayList<String>? {
+    private fun getExamples(input: WordnikWord): ArrayList<Example>? {
         if (input.hasExample()) {
-            val result = ArrayList<String>()
-            input.examples?.forEach {
-                result.add(TextUtil.stripHtml(it))
+            val result = ArrayList<Example>()
+            input.examples?.forEach { exm ->
+                result.add(
+                    Example(
+                        documentId = exm.documentId,
+                        exampleId = exm.exampleId,
+                        author = exm.author,
+                        title = exm.title,
+                        text = exm.text,
+                        url = exm.url,
+                        year = exm.year,
+                        rating = exm.rating
+                    )
+                )
             }
             return result
         }

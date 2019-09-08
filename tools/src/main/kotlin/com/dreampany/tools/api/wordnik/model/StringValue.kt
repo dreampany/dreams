@@ -17,6 +17,6 @@ package com.dreampany.tools.api.wordnik.model
  * @param word
  */
 data class StringValue(
-        val word: String? = null
+    val word: String? = null
 )
 

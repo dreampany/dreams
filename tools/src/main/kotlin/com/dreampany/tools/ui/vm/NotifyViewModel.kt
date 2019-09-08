@@ -90,13 +90,14 @@ class NotifyViewModel
     }
 
     private fun syncWord(request: WordRequest) {
-        Timber.v("Syncing.. %s", this.toString())
+        Timber.v("SyncWord fired")
         if (!TimeUtil.isExpired(wordPref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
             return
         }
         wordPref.commitLastWordSyncTime()
-
+        Timber.v("Getting... Store")
         do {
+            Timber.v("Getting... TRACK Store")
             var store = nextStore(State.TRACK, State.FULL)
             store?.run {
                 Timber.v("Track Next sync word %s", id)
@@ -105,6 +106,7 @@ class NotifyViewModel
             AndroidUtil.sleep(100)
         } while (store != null)
 
+        Timber.v("Getting... FAW Store")
         val store = nextStore(State.RAW, State.FULL)
         store?.run {
             Timber.v("RAW Next sync word %s", id)

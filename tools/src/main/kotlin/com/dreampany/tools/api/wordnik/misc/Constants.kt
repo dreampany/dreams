@@ -36,4 +36,8 @@ class Constants {
     object ResponseCode {
         const val NOT_FOUND = Constants.ResponseCode.NOT_FOUND
     }
+
+    object Decision {
+        const val RETRY_ON_NOT_FOUND = false
+    }
 }

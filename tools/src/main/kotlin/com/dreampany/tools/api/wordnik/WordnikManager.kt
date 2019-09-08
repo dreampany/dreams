@@ -180,22 +180,24 @@ class WordnikManager
     }
 
     private fun getWord(from: WordObject, limit: Int): WordnikWord? {
-        //var result: WordnikWord? = null
+        var result: WordnikWord? = null
         from.word?.run {
-            val result = WordnikWord(this)
+            result = WordnikWord(this)
             val pronunciations = getPronunciation(this, limit)
             val definitions = getDefinitions(this, limit)
             val examples = getExamples(this, limit)
             val relateds = getRelateds(this, Constants.Word.SYNONYM_ANTONYM, limit)
 
-            result.partOfSpeech = getPartOfSpeech(definitions)
-            result.pronunciation = pronunciations
-            result.definitions = definitions
-            result.examples = examples
-            result.synonyms = getSynonyms(relateds)
-            result.antonyms = getAntonyms(relateds)
+            result?.apply {
+                this.partOfSpeech = getPartOfSpeech(definitions)
+                this.pronunciation = pronunciations
+                this.definitions = definitions
+                this.examples = examples
+                this.synonyms = getSynonyms(relateds)
+                this.antonyms = getAntonyms(relateds)
+            }
         }
-        return null
+        return result
     }
 
 
@@ -286,7 +288,6 @@ class WordnikManager
         return related?.words?.toList()
     }
 
-
     private fun getPronunciation(word: String, limit: Int): String? {
         var word = word
         var index = 0
@@ -321,19 +322,19 @@ class WordnikManager
             } catch (error: Throwable) {
                 Timber.e(error)
                 if (error is ClientException) {
-                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
-                        if (notFound) {
-                            break
+                    val message = error.message
+                    if (!message.isNullOrEmpty()) {
+                        if (message.contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                            if (!Constants.Decision.RETRY_ON_NOT_FOUND || notFound) break
+                            notFound = true
+                            word = TextUtil.toTitleCase(word)
+                            index--
+                            continue
                         }
-                        notFound = true
-                        word = TextUtil.toTitleCase(word)
-                        index--
-                        continue
                     }
                 }
                 iterateQueue()
             }
-
         }
         return null
     }
@@ -365,14 +366,15 @@ class WordnikManager
             } catch (error: Exception) {
                 Timber.e(error)
                 if (error is ClientException) {
-                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
-                        if (notFound) {
-                            break
+                    val message = error.message
+                    if (!message.isNullOrEmpty()) {
+                        if (message.contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                            if (!Constants.Decision.RETRY_ON_NOT_FOUND || notFound) break
+                            notFound = true
+                            word = TextUtil.toTitleCase(word)
+                            index--
+                            continue
                         }
-                        notFound = true
-                        word = TextUtil.toTitleCase(word)
-                        index--
-                        continue
                     }
                 }
                 iterateQueue()
@@ -402,14 +404,15 @@ class WordnikManager
             } catch (error: Throwable) {
                 Timber.e(error)
                 if (error is ClientException) {
-                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
-                        if (notFound) {
-                            break
+                    val message = error.message
+                    if (!message.isNullOrEmpty()) {
+                        if (message.contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                            if (!Constants.Decision.RETRY_ON_NOT_FOUND || notFound) break
+                            notFound = true
+                            word = TextUtil.toTitleCase(word)
+                            index--
+                            continue
                         }
-                        notFound = true
-                        word = TextUtil.toTitleCase(word)
-                        index--
-                        continue
                     }
                 }
                 iterateQueue()
@@ -435,14 +438,15 @@ class WordnikManager
             } catch (error: Throwable) {
                 Timber.e(error)
                 if (error is ClientException) {
-                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
-                        if (notFound) {
-                            break
+                    val message = error.message
+                    if (!message.isNullOrEmpty()) {
+                        if (message.contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                            if (!Constants.Decision.RETRY_ON_NOT_FOUND || notFound) break
+                            notFound = true
+                            word = TextUtil.toTitleCase(word)
+                            index--
+                            continue
                         }
-                        notFound = true
-                        word = TextUtil.toTitleCase(word)
-                        index--
-                        continue
                     }
                 }
                 iterateQueue()

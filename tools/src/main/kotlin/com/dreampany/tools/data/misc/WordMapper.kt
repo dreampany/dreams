@@ -223,7 +223,7 @@ class WordMapper
                 if (!DataUtilKt.isEmpty(item.text)) {
                     val def = Definition()
                     def.partOfSpeech = item.partOfSpeech
-                    def.text = TextUtil.stripHtml(item.text)
+                    def.text = item.text/*TextUtil.stripHtml(item.text)*/
                     result.add(def)
                 }
             }

@@ -186,13 +186,13 @@ class WordnikManager
             val word = WordnikWord(this)
             val pronunciations = getPronunciation(this, limit)
             val definitions = getDefinitions(this, limit)
+            val examples = getExamples(this, limit)
             val relateds = getRelateds(this, Constants.Word.SYNONYM_ANTONYM, limit)
 
             word.partOfSpeech = getPartOfSpeech(definitions)
             word.pronunciation = pronunciations
             word.definitions = definitions
-            word.examples = getExamplesBy(definitions)
-
+            word.examples = examples
             word.synonyms = getSynonyms(relateds)
             word.antonyms = getAntonyms(relateds)
         }
@@ -233,17 +233,6 @@ class WordnikManager
         }
         return null
     }
-
-/*    private fun getDefinitions(items: List<Definition>?): List<Definition>? {
-        if (!DataUtil.isEmpty(items)) {
-            val definitions = ArrayList<Definition>(items!!.size)
-            for (item in items) {
-                definitions.add(Definition(partOfSpeech = item.partOfSpeech, text = item.text))
-            }
-            return definitions
-        }
-        return null
-    }*/
 
     private fun getExamples(word: WordOfTheDay): List<String>? {
         val items = word.examples
@@ -393,6 +382,44 @@ class WordnikManager
         return null
     }
 
+    private fun getExamples(word: String, limit: Int): List<String>? {
+        var word = word
+        var index = 0
+        var notFound = false
+        while (index++ < keys.size) {
+            val api = getWordApi()
+            try {
+                if (network.hasInternet()) {
+                    val result = api.getExamples(
+                        word = word,
+                        includeDuplicates = "false",
+                        useCanonical = "true",
+                        skip = 0,
+                        limit = limit
+                    )
+                    return result.examples?.toList()
+                }
+
+            } catch (error: Throwable) {
+                Timber.e(error)
+                if (error is ClientException) {
+                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                        if (notFound) {
+                            break
+                        }
+                        notFound = true
+                        word = TextUtil.toTitleCase(word)
+                        index--
+                        continue
+                    }
+                }
+                iterateQueue()
+            }
+        }
+
+        return null
+    }
+
     private fun getRelateds(word: String, relationshipTypes: String, limit: Int): List<Related>? {
         var word = word
         var index = 0
@@ -425,6 +452,38 @@ class WordnikManager
         return null
     }
 
+
+    private fun getPhrases(word: String, limit: Int): List<String>? {
+        var word = word
+        var index = 0
+        var notFound = false
+        while (index++ < keys.size) {
+            val api = getWordApi()
+            try {
+                val useCanonical = "true"
+                if (network.hasInternet()) {
+                    //val relateds = api.getPhrases()
+                    //return relateds.toList()
+                }
+
+            } catch (error: Throwable) {
+                Timber.e(error)
+                if (error is ClientException) {
+                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                        if (notFound) {
+                            break
+                        }
+                        notFound = true
+                        word = TextUtil.toTitleCase(word)
+                        index--
+                        continue
+                    }
+                }
+                iterateQueue()
+            }
+        }
+        return null
+    }
 
     private fun getRelated(relateds: List<Related>?, relationshipType: String): Related? {
         var related: Related? = null

@@ -74,7 +74,7 @@ class Constants {
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
-        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(60)
+        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(50)
     }
 
     object Date {

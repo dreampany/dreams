@@ -18,7 +18,8 @@ data class Definition(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
     var partOfSpeech: String? = Constants.Default.NULL,
-    var text: String? = Constants.Default.NULL
+    var text: String? = Constants.Default.NULL,
+    var url: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore

@@ -265,13 +265,13 @@ class WordnikManager
         if (!DataUtil.isEmpty(definitions)) {
             val examples = ArrayList<String>()
             for (def in definitions!!) {
-                if (DataUtil.isEmpty(def.exampleUses))
+/*                if (DataUtil.isEmpty(def.exampleUses))
                     continue
                 def.exampleUses?.forEach {
                     it.text?.run {
                         examples.add(this)
                     }
-                }
+                }*/
             }
             return examples
         }

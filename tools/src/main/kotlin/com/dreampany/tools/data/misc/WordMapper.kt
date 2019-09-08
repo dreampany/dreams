@@ -4,6 +4,7 @@ import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
@@ -224,9 +225,10 @@ class WordMapper
                 if (!item.text.isNullOrEmpty()) {
                     result.add(Definition(
                         time = TimeUtilKt.currentMillis(),
-                        id = item.id,
+                        id = if (item.id.isNullOrEmpty()) DataUtilKt.getRandId() else item.id,
                         partOfSpeech = item.partOfSpeech,
-                        text = item.text
+                        text = item.text,
+                        url = item.wordnikUrl
                     ))
                 }
             }

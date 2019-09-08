@@ -6,6 +6,7 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TextUtil
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.data.source.api.WordDataSource
@@ -220,11 +221,13 @@ class WordMapper
         if (input.hasDefinition()) {
             val result = ArrayList<Definition>()
             input.definitions?.forEach { item ->
-                if (!DataUtilKt.isEmpty(item.text)) {
-                    val def = Definition()
-                    def.partOfSpeech = item.partOfSpeech
-                    def.text = item.text/*TextUtil.stripHtml(item.text)*/
-                    result.add(def)
+                if (!item.text.isNullOrEmpty()) {
+                    result.add(Definition(
+                        time = TimeUtilKt.currentMillis(),
+                        id = item.id,
+                        partOfSpeech = item.partOfSpeech,
+                        text = item.text
+                    ))
                 }
             }
             return result

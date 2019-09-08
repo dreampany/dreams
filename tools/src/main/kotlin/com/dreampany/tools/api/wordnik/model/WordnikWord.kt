@@ -9,7 +9,7 @@ import com.dreampany.framework.util.DataUtil
  * Last modified $file.lastModified
  */
 data class WordnikWord(
-    var word: String? = null,
+    var word: String,
     var partOfSpeech: String? = null,
     var pronunciation: String? = null,
     var definitions: List<Definition>? = null,

@@ -1,5 +1,6 @@
 package com.dreampany.tools.api.wordnik.misc
 
+import com.dreampany.framework.misc.Constants
 import java.util.concurrent.TimeUnit
 
 /**
@@ -10,6 +11,8 @@ import java.util.concurrent.TimeUnit
  */
 class Constants {
     object ApiKey {
+
+        const val WORDNIK_API_KEY_DREAM_DEBUG_1 = "hdjdlr7cbloaa523t8zku86e4mi9k41nat22z3s3krtycq9ep"
         const val WORDNIK_API_KEY_ROMANBJIT = "5c9a53f4c0e012d4cf5a66115420c073d7da523b9081dff1f"
         const val WORDNIK_API_KEY_IFTENET = "a6714f04f26b9f14e29a920702e0f03dde4b84e98f94fe6fe"
         const val WORDNIK_API_KEY_DREAMPANY = "464b0c5a35f469103f3610840dc061f1c768aa1c223ffa447"
@@ -28,5 +31,9 @@ class Constants {
 
     object Limit {
         const val WORDNIK_KEY = 10
+    }
+
+    object ResponseCode {
+        const val NOT_FOUND = Constants.ResponseCode.NOT_FOUND
     }
 }

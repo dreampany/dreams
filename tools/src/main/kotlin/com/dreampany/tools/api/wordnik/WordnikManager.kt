@@ -1,6 +1,7 @@
 package com.dreampany.tools.api.wordnik
 
 import com.dreampany.framework.util.*
+import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.wordnik.core.ClientException
 import com.dreampany.tools.api.wordnik.misc.Constants
 import com.dreampany.tools.api.wordnik.model.*
@@ -21,12 +22,15 @@ import kotlin.collections.ArrayList
  */
 @Singleton
 class WordnikManager
-@Inject constructor() {
+@Inject constructor(
+    private val network: NetworkManager
+) {
 
     private val keys = arrayOf(
+        Constants.ApiKey.WORDNIK_API_KEY_DREAM_DEBUG_1,
         Constants.ApiKey.WORDNIK_API_KEY_ROMANBJIT,
-        Constants.ApiKey.WORDNIK_API_KEY_DREAMPANY,
-        Constants.ApiKey.WORDNIK_API_KEY_IFTENET
+        Constants.ApiKey.WORDNIK_API_KEY_IFTENET,
+        Constants.ApiKey.WORDNIK_API_KEY_DREAMPANY
     )
 
     private val wordsApis: MutableList<WordsApi>
@@ -55,6 +59,7 @@ class WordnikManager
         }
     }
 
+    //region Public
     fun getWordOfTheDay(date: String, limit: Int): WordnikWord? {
         for (index in keys.indices) {
             val api = getWordsApi()
@@ -71,71 +76,13 @@ class WordnikManager
     }
 
     fun getWord(word: String, limit: Int): WordnikWord? {
-        for (index in keys.indices) {
-            val api = getWordApi()
-            try {
-                val useCanonical = "true"
-                val includeSuggestions = "false"
-                //val word = api.getWord(word, useCanonical, includeSuggestions);
-                return getWordImpl(word, limit)
-            } catch (error: Throwable) {
-                Timber.e(error)
-                iterateQueue()
-            }
-
-        }
-
-        return null
+        val wordObj = getWord(word)
+        if (wordObj == null) return null
+        return getWord(wordObj, limit)
     }
+    //endregion
 
-    fun search(query: String, limit: Int): List<WordnikWord>? {
-
-        val includePartOfSpeech: String? = null
-        val excludePartOfSpeech: String? = null
-        val caseSensitive = "false"
-        val minCorpusCount = 5
-        val maxCorpusCount = -1
-        val minDictionaryCount = 1
-        val maxDictionaryCount = -1
-        val minLength = 1
-        val maxLength = -1
-        val skip = 0
-
-        for (index in keys.indices) {
-            val api = getWordsApi()
-            /*            try {
-                WordSearchResults results = api.searchWords(query,
-                        includePartOfSpeech,
-                        excludePartOfSpeech,
-                        caseSensitive,
-                        minCorpusCount,
-                        maxCorpusCount,
-                        minDictionaryCount,
-                        maxDictionaryCount,
-                        minLength,
-                        maxLength,
-                        skip,
-                        limit
-                );
-                if (results != null) {
-                    List<WordSearchResult> searches = results.getSearchResults();
-                    if (!DataUtil.isEmpty(searches)) {
-                        List<WordnikWord> words = new ArrayList<>(searches.size());
-                        for (WordSearchResult result : searches) {
-                            words.add(new WordnikWord(result.getWord().toLowerCase()));
-                        }
-                        return words;
-                    }
-                }
-
-            } catch (Exception e) {
-                Timber.e(e);
-                iterateQueue();
-            }*/
-        }
-        return null
-    }
-
+    //region Private
     private fun iterateQueue() {
         indexQueue.add(indexQueue.peek())
     }
@@ -178,13 +125,45 @@ class WordnikManager
         return word
     }
 
+    private fun getWord(word: String): WordObject? {
+        var word = word
+        var index = 0
+        var notFound = false
+        while (index++ < keys.size) {
+            val api = getWordApi()
+            try {
+                val useCanonical = "true"
+                val includeSuggestions = "false"
+                if (network.hasInternet()) {
+                    val result = api.getWord(word, useCanonical, includeSuggestions)
+                    return result
+                }
+            } catch (error: Throwable) {
+                Timber.e(error)
+                if (error is ClientException) {
+                    if (error.toString().contains("404")) {
+                        if (notFound) {
+                            break
+                        }
+                        notFound = true
+                        word = TextUtil.toTitleCase(word)
+                        index--
+                        continue
+                    }
+                }
+                iterateQueue()
+            }
+        }
+        return null
+    }
+
     private fun getWordImpl(from: String, limit: Int): WordnikWord {
         val word = WordnikWord(from)
 
         val definitions = getDefinitions(from, limit)
 
         word.partOfSpeech = getPartOfSpeech(definitions)
-        word.definitions = getDefinitions(definitions)
+        word.definitions = definitions
         word.examples = getExamplesBy(definitions)
         word.pronunciation = getPronunciation(from, limit)
 
@@ -200,6 +179,27 @@ class WordnikManager
         return word
     }
 
+    private fun getWord(from: WordObject, limit: Int): WordnikWord? {
+        var result: WordnikWord? = null
+        from.word?.run {
+
+            val word = WordnikWord(this)
+            val pronunciations = getPronunciation(this, limit)
+            val definitions = getDefinitions(this, limit)
+            val relateds = getRelateds(this, Constants.Word.SYNONYM_ANTONYM, limit)
+
+            word.partOfSpeech = getPartOfSpeech(definitions)
+            word.pronunciation = pronunciations
+            word.definitions = definitions
+            word.examples = getExamplesBy(definitions)
+
+            word.synonyms = getSynonyms(relateds)
+            word.antonyms = getAntonyms(relateds)
+        }
+        return result
+    }
+
+
     private fun getPartOfSpeech(word: WordOfTheDay): String? {
         val items = word.definitions
         if (!DataUtil.isEmpty(items)) {
@@ -213,23 +213,14 @@ class WordnikManager
     }
 
     private fun getPartOfSpeech(items: List<Definition>?): String? {
-        if (!DataUtil.isEmpty(items)) {
-            for (item in items!!) {
-                if (!DataUtil.isEmpty(item.partOfSpeech)) {
-                    return item.partOfSpeech
-                }
-            }
+        var partOfSpeech: String? = null
+        items?.forEach { def ->
+            if (!def.partOfSpeech.isNullOrEmpty())
+                partOfSpeech = def.partOfSpeech
+            return@forEach
         }
-        return null
+        return partOfSpeech
     }
-
-/*    private String getPronunciation(WordOfTheDay word) {
-        return getPronunciation(word.getWord());
-    }
-
-    private String getPronunciation(WordObject word) {
-        return getPronunciation(word.getWord());
-    }*/
 
     private fun getDefinitions(word: WordOfTheDay): List<Definition>? {
         val items = word.definitions
@@ -243,7 +234,7 @@ class WordnikManager
         return null
     }
 
-    private fun getDefinitions(items: List<Definition>?): List<Definition>? {
+/*    private fun getDefinitions(items: List<Definition>?): List<Definition>? {
         if (!DataUtil.isEmpty(items)) {
             val definitions = ArrayList<Definition>(items!!.size)
             for (item in items) {
@@ -252,7 +243,7 @@ class WordnikManager
             return definitions
         }
         return null
-    }
+    }*/
 
     private fun getExamples(word: WordOfTheDay): List<String>? {
         val items = word.examples
@@ -309,33 +300,49 @@ class WordnikManager
 
 
     private fun getPronunciation(word: String, limit: Int): String? {
-        for (index in keys.indices) {
+        var word = word
+        var index = 0
+        var notFound = false
+        while (index++ < keys.size) {
             val api = getWordApi()
             try {
                 val sourceDictionary: String? = null
                 val typeFormat: String? = null
                 val useCanonical = "true"
 
-                val result = api.getTextPronunciations(
-                    word,
-                    useCanonical,
-                    sourceDictionary,
-                    typeFormat,
-                    limit
-                )
-                val pronunciations: List<TextPron> = result.toList()
-                if (!DataUtil.isEmpty(pronunciations)) {
-                    var pronunciation = pronunciations[0].raw
-                    for (indexX in 1 until pronunciations.size) {
-                        if (pronunciation!!.length > pronunciations[indexX].raw!!.length) {
-                            pronunciation = pronunciations[indexX].raw
+                if (network.hasInternet()) {
+                    val result = api.getTextPronunciations(
+                        word,
+                        useCanonical,
+                        sourceDictionary,
+                        typeFormat,
+                        limit
+                    )
+
+                    if (!result.isNullOrEmpty()) {
+                        var pronunciation = result[0].raw
+                        for (ind in 1 until result.size) {
+                            if (pronunciation!!.length > result[ind].raw!!.length) {
+                                pronunciation = result[ind].raw
+                            }
                         }
+                        pronunciation = pronunciation!!.replace("(?s)<i>.*?</i>".toRegex(), "")
+                        return pronunciation
                     }
-                    pronunciation = pronunciation!!.replace("(?s)<i>.*?</i>".toRegex(), "")
-                    return pronunciation
                 }
             } catch (error: Throwable) {
                 Timber.e(error)
+                if (error is ClientException) {
+                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                        if (notFound) {
+                            break
+                        }
+                        notFound = true
+                        word = TextUtil.toTitleCase(word)
+                        index--
+                        continue
+                    }
+                }
                 iterateQueue()
             }
 
@@ -347,7 +354,7 @@ class WordnikManager
         var word = word
         var index = 0
         var notFound = false
-        while (index < keys.size) {
+        while (index++ < keys.size) {
             val api = getWordApi()
             try {
                 val partOfSpeech: String? = null
@@ -355,20 +362,22 @@ class WordnikManager
                 val sourceDictionaries: Array<String>? = null
                 val useCanonical = "true"
                 val includeTags = "false"
-                val definitions = api.getDefinitions(
-                    word,
-                    limit,
-                    partOfSpeech,
-                    includeRelated,
-                    sourceDictionaries,
-                    useCanonical,
-                    includeTags
-                )
-                return Arrays.asList(*definitions)
+                if (network.hasInternet()) {
+                    val definitions = api.getDefinitions(
+                        word,
+                        limit,
+                        partOfSpeech,
+                        includeRelated,
+                        sourceDictionaries,
+                        useCanonical,
+                        includeTags
+                    )
+                    return definitions.toList()
+                }
             } catch (error: Exception) {
                 Timber.e(error)
                 if (error is ClientException) {
-                    if (error.toString().contains("404")) {
+                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
                         if (notFound) {
                             break
                         }
@@ -384,7 +393,53 @@ class WordnikManager
         return null
     }
 
-    fun getExamples(word: String, limit: Int): List<String>? {
+    private fun getRelateds(word: String, relationshipTypes: String, limit: Int): List<Related>? {
+        var word = word
+        var index = 0
+        var notFound = false
+        while (index++ < keys.size) {
+            val api = getWordApi()
+            try {
+                val useCanonical = "true"
+                if (network.hasInternet()) {
+                    val relateds = api.getRelatedWords(word, useCanonical, relationshipTypes, limit)
+                    return relateds.toList()
+                }
+
+            } catch (error: Throwable) {
+                Timber.e(error)
+                if (error is ClientException) {
+                    if (error.toString().contains(Constants.ResponseCode.NOT_FOUND.toString())) {
+                        if (notFound) {
+                            break
+                        }
+                        notFound = true
+                        word = TextUtil.toTitleCase(word)
+                        index--
+                        continue
+                    }
+                }
+                iterateQueue()
+            }
+        }
+        return null
+    }
+
+
+    private fun getRelated(relateds: List<Related>?, relationshipType: String): Related? {
+        var related: Related? = null
+        relateds?.forEach { rel ->
+            if (relationshipType == rel.relationshipType) {
+                related = rel
+                return@forEach
+            }
+        }
+        return related
+    }
+    //endregion
+
+    //region Blocked
+    /*   fun getExamples(word: String, limit: Int): List<String>? {
         for (index in keys.indices) {
             val api = getWordApi()
             try {
@@ -418,7 +473,7 @@ class WordnikManager
         for (index in keys.indices) {
             val api = getWordsApi()
 
-            /*            try {
+            *//*            try {
                 WordSearchResults results = api.searchWords(query, includePartOfSpeech, excludePartOfSpeech,
                         caseSensitive, minCorpusCount, maxCorpusCount, minDictionaryCount, maxDictionaryCount, minLength, maxLength, skip, limit
                 );
@@ -436,51 +491,58 @@ class WordnikManager
             } catch (Exception e) {
                 Timber.e(e);
                 iterateQueue();
+            }*//*
+        }
+        return null
+    }
+
+        fun search(query: String, limit: Int): List<WordnikWord>? {
+
+        val includePartOfSpeech: String? = null
+        val excludePartOfSpeech: String? = null
+        val caseSensitive = "false"
+        val minCorpusCount = 5
+        val maxCorpusCount = -1
+        val minDictionaryCount = 1
+        val maxDictionaryCount = -1
+        val minLength = 1
+        val maxLength = -1
+        val skip = 0
+
+        for (index in keys.indices) {
+            val api = getWordsApi()
+            /*            try {
+                WordSearchResults results = api.searchWords(query,
+                        includePartOfSpeech,
+                        excludePartOfSpeech,
+                        caseSensitive,
+                        minCorpusCount,
+                        maxCorpusCount,
+                        minDictionaryCount,
+                        maxDictionaryCount,
+                        minLength,
+                        maxLength,
+                        skip,
+                        limit
+                );
+                if (results != null) {
+                    List<WordSearchResult> searches = results.getSearchResults();
+                    if (!DataUtil.isEmpty(searches)) {
+                        List<WordnikWord> words = new ArrayList<>(searches.size());
+                        for (WordSearchResult result : searches) {
+                            words.add(new WordnikWord(result.getWord().toLowerCase()));
+                        }
+                        return words;
+                    }
+                }
+
+            } catch (Exception e) {
+                Timber.e(e);
+                iterateQueue();
             }*/
         }
         return null
     }
-
-    private fun getRelateds(word: String, relationshipTypes: String, limit: Int): List<Related>? {
-        var word = word
-        var index = 0
-        var notFound = false
-        while (index++ < keys.size) {
-            val api = getWordApi()
-            try {
-                val useCanonical = "true"
-
-                val relateds = api.getRelatedWords(word, useCanonical, relationshipTypes, limit)
-                return Arrays.asList(*relateds)
-
-            } catch (error: Throwable) {
-                Timber.e(error)
-                if (error is ClientException) {
-                    if (error.toString().contains("404")) {
-                        if (notFound) {
-                            break
-                        }
-                        notFound = true
-                        word = TextUtil.toTitleCase(word)
-                        index--
-                        continue
-                    }
-                }
-                iterateQueue()
-            }
-        }
-        return null
-    }
-
-
-    private fun getRelated(relateds: List<Related>?, relationshipType: String): Related? {
-        if (!DataUtil.isEmpty(relateds)) {
-            for (related in relateds!!) {
-                if (relationshipType == related.relationshipType) {
-                    return related
-                }
-            }
-        }
-        return null
-    }
+    */
+    //endregion
 }

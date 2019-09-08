@@ -162,6 +162,6 @@ class Constants {
     }
 
     object ResponseCode {
-        const val NOT_FOUND = 403
+        const val NOT_FOUND = 404
     }
 }

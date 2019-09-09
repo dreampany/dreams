@@ -26,6 +26,10 @@ class WordPref
         return Constants.Pref.WORD
     }
 
+    fun commitTrackLoaded() {
+        setPrivately(Constants.Pref.WORD_TRACK_LOADED, true)
+    }
+
     fun commitCommonLoaded() {
         setPrivately(Constants.Pref.WORD_COMMON_LOADED, true)
     }
@@ -34,12 +38,24 @@ class WordPref
         setPrivately(Constants.Pref.WORD_ALPHA_LOADED, true)
     }
 
+    fun isTrackLoaded(): Boolean {
+        return getPrivately(Constants.Pref.WORD_TRACK_LOADED, Constants.Default.BOOLEAN)
+    }
+
     fun isCommonLoaded(): Boolean {
-        return getPrivately(Constants.Pref.WORD_COMMON_LOADED, false)
+        return getPrivately(Constants.Pref.WORD_COMMON_LOADED, Constants.Default.BOOLEAN)
     }
 
     fun isAlphaLoaded(): Boolean {
-        return getPrivately(Constants.Pref.WORD_ALPHA_LOADED, false)
+        return getPrivately(Constants.Pref.WORD_ALPHA_LOADED, Constants.Default.BOOLEAN)
+    }
+
+    fun setTrackStartAt(startAt: String) {
+        return setPrivately(Constants.Pref.WORD_TRACK_START_AT, startAt)
+    }
+
+    fun getTrackStartAt(): String {
+        return getPrivately(Constants.Pref.WORD_TRACK_START_AT, Constants.Default.STRING)
     }
 
     fun setLastWord(item: Word) {
@@ -51,7 +67,7 @@ class WordPref
     }
 
     fun getLastWord(): Word? {
-        return getPrivately(Constants.Pref.WORD_LAST, Word::class.java, null)
+        return getPrivately(Constants.Pref.WORD_LAST, Word::class.java, Constants.Default.NULL)
     }
 
     fun setRecentWord(word: Word) {
@@ -59,7 +75,7 @@ class WordPref
     }
 
     fun getRecentWord(): Word? {
-        return getPrivately(Constants.Word.RECENT_WORD, Word::class.java, null)
+        return getPrivately(Constants.Word.RECENT_WORD, Word::class.java, Constants.Default.NULL)
     }
 
     fun getRecentWordRx(): Maybe<Word> {
@@ -81,6 +97,6 @@ class WordPref
     }
 
     fun getLastWordSyncTime(): Long {
-        return getPrivately(Constants.Pref.WORD_LAST_SYNC_TIME, 0L)
+        return getPrivately(Constants.Pref.WORD_LAST_SYNC_TIME, Constants.Default.LONG)
     }
 }

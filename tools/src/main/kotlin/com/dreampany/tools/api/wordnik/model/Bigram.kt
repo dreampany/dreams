@@ -21,10 +21,10 @@ package com.dreampany.tools.api.wordnik.model
  * @param wlmi
  */
 data class Bigram(
-        val count: Long? = null,
-        val gram1: String? = null,
-        val gram2: String? = null,
-        val mi: Double? = null,
-        val wlmi: Double? = null
+    val count: Long? = null,
+    val gram1: String? = null,
+    val gram2: String? = null,
+    val mi: Double? = null,
+    val wlmi: Double? = null
 )
 

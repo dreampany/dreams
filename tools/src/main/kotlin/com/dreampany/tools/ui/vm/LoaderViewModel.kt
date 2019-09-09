@@ -56,6 +56,7 @@ class LoaderViewModel
 
     private val commonWords = mutableListOf<Word>()
     private val alphaWords = mutableListOf<Word>()
+    private var trackLoading = false
     private var commonLoading = false
     private var alphaLoading = false
 
@@ -84,6 +85,15 @@ class LoaderViewModel
 
     /*First Layer*/
     private fun loadWords(request: LoadRequest) {
+        if (!wordPref.isTrackLoaded() && !trackLoading) {
+            ex.postToNetwork(Runnable {
+                trackLoading = true
+                loadTracks(request)
+                trackLoading = false
+                request(request)
+            })
+            return
+        }
         if (!wordPref.isCommonLoaded() && !commonLoading) {
             ex.postToNetwork(Runnable {
                 commonLoading = true
@@ -115,6 +125,31 @@ class LoaderViewModel
 
 
     /*Second Layer*/
+    private fun loadTracks(request: LoadRequest) {
+        do {
+            val startAt = wordPref.getTrackStartAt()
+            var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
+            if (result != null) {
+                val states = ArrayList<Store>()
+                result.forEach { word ->
+                    states.add(Store(word, Type.WORD, Subtype.DEFAULT, State.TRACK))
+                }
+                val resultOf = storeRepo.putItems(states)
+                if (DataUtil.isEqual(result, resultOf)) {
+                    wordPref.setTrackStartAt(result.last())
+                }
+            }
+
+            if (result == null) {
+                if (network.hasInternet()) {
+                    wordPref.commitTrackLoaded()
+                }
+            }
+        } while (network.hasInternet() && !wordPref.isTrackLoaded())
+
+    }
+
+
     private fun loadCommons(request: LoadRequest) {
         buildCommonWords()
 

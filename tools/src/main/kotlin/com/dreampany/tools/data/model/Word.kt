@@ -33,7 +33,7 @@ data class Word(
     var partOfSpeech: String? = Constants.Default.NULL,
     var pronunciation: String? = Constants.Default.NULL,
     var definitions: ArrayList<Definition>? = Constants.Default.NULL,
-    var examples: ArrayList<String>? = Constants.Default.NULL,
+    var examples: ArrayList<Example>? = Constants.Default.NULL,
     @Ignore
     var synonyms: ArrayList<String>? = Constants.Default.NULL,
     @Ignore
@@ -113,5 +113,17 @@ data class Word(
     fun hasFull(): Boolean {
         if (!hasPartial()) return false
         return !(DataUtil.isEmpty(synonyms) && DataUtil.isEmpty(antonyms))
+    }
+
+    @Exclude
+    fun weight() : Int {
+        var weight = 0
+        if (!partOfSpeech.isNullOrEmpty()) weight++
+        if (!pronunciation.isNullOrEmpty()) weight++
+        if (!definitions.isNullOrEmpty()) weight++
+        if (!examples.isNullOrEmpty()) weight++
+        if (!synonyms.isNullOrEmpty()) weight++
+        if (!antonyms.isNullOrEmpty()) weight++
+        return weight
     }
 }

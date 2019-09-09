@@ -22,23 +22,23 @@ class RemoteWordDataSource(
     private val mapper: WordMapper,
     private val wordnik: WordnikManager
 ) : WordDataSource {
-    override fun track(word: String): Long {
+    override fun track(word: Word): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: String): Maybe<Long> {
+    override fun trackRx(word: Word): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<Long>? {
+    override fun getTracks(startAt: String, limit: Long): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<Long>> {
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
+    override fun getRawItemsByLength(id: String, limit: Long): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -62,7 +62,7 @@ class RemoteWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Word>? {
+    override fun getItems(limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -78,11 +78,11 @@ class RemoteWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<Word>> {
+    override fun getItemsRx(limit: Long): Maybe<List<Word>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getSearchItems(query: String, limit: Int): List<Word>? {
+    override fun getSearchItems(query: String, limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -155,9 +155,9 @@ class RemoteWordDataSource(
     }
 
     override fun getItem(id: String): Word? {
-        if (network.isObserving() && network.hasInternet()) {
+        if (network.hasInternet()) {
             val item = wordnik.getWord(id, Constants.Limit.WORD_RESOLVE)
-            Timber.v("Wordnik Result %s", item!!.toString())
+            Timber.v("Wordnik Result %s", if (item == null) "EMPTY" else item.word)
             return mapper.getItem(id, item, true)
         }
         return null

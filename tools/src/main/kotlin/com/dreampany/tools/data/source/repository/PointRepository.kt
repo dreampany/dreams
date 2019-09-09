@@ -101,11 +101,11 @@ class PointRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Point>? {
+    override fun getItems(limit: Long): List<Point>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<Point>> {
+    override fun getItemsRx(limit: Long): Maybe<List<Point>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

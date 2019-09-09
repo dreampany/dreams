@@ -12,6 +12,7 @@ import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.AppExecutors
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.TimeUtil
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
@@ -89,53 +90,57 @@ class NotifyViewModel
     }
 
     private fun syncWord(request: WordRequest) {
-        Timber.v("Syncing.. %s", this.toString())
+        Timber.v("SyncWord fired")
         if (!TimeUtil.isExpired(wordPref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
             return
         }
         wordPref.commitLastWordSyncTime()
-        val rawStore = nextRawStore()
-        rawStore?.run {
-            Timber.v("Sync Word/.. %s", this.toString())
-            try {
-                var item = mapper.getItem(this, repo)
-                item?.run {
-                    if (request.history) {
-                        wordPref.setRecentWord(item)
-                        putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
-                    }
-                    val uiItem = getUiItem(request, this)
-                }
-            } catch (error: Throwable) {
-                Timber.e(error)
+        Timber.v("Getting... Store")
+        do {
+            Timber.v("Getting... TRACK Store")
+            var store = nextStore(State.TRACK, State.FULL)
+            store?.run {
+                Timber.v("Track Next sync word %s", id)
+                syncStore(request, this)
             }
+            AndroidUtil.sleep(100)
+        } while (store != null)
+
+        Timber.v("Getting... FAW Store")
+        val store = nextStore(State.RAW, State.FULL)
+        store?.run {
+            Timber.v("RAW Next sync word %s", id)
+            syncStore(request, this)
         }
     }
 
-    private fun nextRawStore(): Store? {
-        var rawStore: Store? = null
+    private fun nextStore(from: State, to: State): Store? {
+        var store: Store? = null
         do {
-            rawStore = storeRepo.getRandomItem(Type.WORD, Subtype.DEFAULT, State.RAW)
-            if (rawStore != null) {
-                if (storeRepo.isExists(rawStore.id, Type.WORD, Subtype.DEFAULT, State.FULL)) {
-                    storeRepo.delete(rawStore)
-                    rawStore = null
+            store = storeRepo.getRandomItem(Type.WORD, Subtype.DEFAULT, from)
+            if (store == null) break
+            if (storeRepo.isExists(store.id, Type.WORD, Subtype.DEFAULT, to)) {
+                storeRepo.delete(store)
+                store = null
+            }
+        } while (store == null)
+        return store
+    }
+
+    private fun syncStore(request: WordRequest, store: Store) {
+        Timber.v("Sync Word/.. %s", this.toString())
+        try {
+            var item = mapper.getItem(store, repo)
+            item?.run {
+                if (request.history) {
+                    wordPref.setRecentWord(item)
+                    putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
                 }
+                val uiItem = getUiItem(request, this)
             }
-        } while (rawStore == null)
-
-
-/*        while (true) {
-            rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
-            if (rawStore == null) {
-                break
-            }
-            if (!storeRepo.isExists(rawStore.id, Type.WORD, Subtype.DEFAULT, State.FULL)) {
-                break
-            }
-            storeRepo.delete(rawStore)
-        }*/
-        return rawStore
+        } catch (error: Throwable) {
+            Timber.e(error)
+        }
     }
 
     private fun getUiItem(request: WordRequest, item: Word): WordItem {

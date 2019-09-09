@@ -20,7 +20,7 @@ class AppProvider
     val mapper: AppMapper
 ) : MediaProvider<App>() {
 
-    override fun getItems(limit: Int): List<App>? {
+    override fun getItems(limit: Long): List<App>? {
         val pm = AndroidUtil.getPackageManager(context)
         val infos = AndroidUtil.getInstalledApps(context, pm)
         val result = mutableListOf<App>()

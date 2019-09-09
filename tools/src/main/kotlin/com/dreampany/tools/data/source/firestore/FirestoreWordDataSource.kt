@@ -7,6 +7,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
+import com.google.firebase.firestore.FieldPath
 import io.reactivex.Maybe
 
 /**
@@ -19,17 +20,22 @@ class FirestoreWordDataSource(
     private val network: NetworkManager,
     private val firestore: RxFirebaseFirestore
 ) : WordDataSource {
-    override fun track(word: String): Long {
-        val error = firestore.setArrayItemRx<String>(
+    override fun track(word: Word): Long {
+/*        val error = firestore.setArrayItemRx<String>(
             Constants.Firebase.EXTRA,
             Constants.Firebase.WORDS,
             Constants.Firebase.TRACK,
             word
-        ).blockingGet()
+        ).blockingGet()*/
+
+        val data = hashMapOf(Constants.Firebase.WEIGHT to word.weight())
+        val error =
+            firestore.setItemRx<Map<String, Int>>(Constants.Firebase.TRACK_WORDS, word.id, data)
+                .blockingGet()
         return if (error == null) 0L else -1L
     }
 
-    override fun trackRx(word: String): Maybe<Long> {
+    override fun trackRx(word: Word): Maybe<Long> {
         return Maybe.create { emitter ->
             val result = track(word)
             if (emitter.isDisposed) return@create
@@ -42,15 +48,21 @@ class FirestoreWordDataSource(
         }
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getTracks(startAt: String, limit: Long): List<String>? {
+        return getTracksRx(startAt, limit).blockingGet()
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
+        return firestore.getDocumentIdsRx(
+            Constants.Firebase.TRACK_WORDS,
+            orderBy = FieldPath.documentId(),
+            ascending = true,
+            startAt = startAt,
+            limit = limit
+        )
     }
 
-    override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
+    override fun getRawItemsByLength(id: String, limit: Long): List<String>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -74,7 +86,7 @@ class FirestoreWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Word>? {
+    override fun getItems(limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -90,11 +102,11 @@ class FirestoreWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<Word>> {
+    override fun getItemsRx(limit: Long): Maybe<List<Word>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getSearchItems(query: String, limit: Int): List<Word>? {
+    override fun getSearchItems(query: String, limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

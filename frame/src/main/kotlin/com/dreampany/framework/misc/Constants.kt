@@ -160,4 +160,8 @@ class Constants {
         const val PATTERN_IMAGE_URL = "^https?://(?:[a-z0-9\\-]+\\.)+[a-z0-9]{2,6}(?:/[^/#?]+)+\\.(?:jpg|gif|png)\$"
         val IMAGE_PATTERN = java.util.regex.Pattern.compile(PATTERN_IMAGE_URL)
     }
+
+    object ResponseCode {
+        const val NOT_FOUND = 404
+    }
 }

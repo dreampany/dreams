@@ -22,11 +22,11 @@ package com.dreampany.tools.api.wordnik.model
  * @param valid
  */
 data class ApiTokenStatus(
-        val expiresInMillis: Long? = null,
-        val remainingCalls: Long? = null,
-        val resetsInMillis: Long? = null,
-        val token: String? = null,
-        val totalRequests: Long? = null,
-        val valid: Boolean? = null
+    val expiresInMillis: Long? = null,
+    val remainingCalls: Long? = null,
+    val resetsInMillis: Long? = null,
+    val token: String? = null,
+    val totalRequests: Long? = null,
+    val valid: Boolean? = null
 )
 

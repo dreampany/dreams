@@ -18,7 +18,7 @@ package com.dreampany.tools.api.wordnik.model
  * @param name
  */
 data class Category(
-        val id: Long,
-        val name: String? = null
+    val id: Long,
+    val name: String? = null
 )
 

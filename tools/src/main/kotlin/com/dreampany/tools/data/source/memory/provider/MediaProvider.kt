@@ -44,14 +44,14 @@ abstract class MediaProvider<T : Media> {
     }
 
     open fun getItems(): List<T>? {
-        return getItems(Integer.MAX_VALUE)
+        return getItems(Long.MAX_VALUE)
     }
 
     open fun getItemsRx(): Maybe<List<T>> {
-        return getItemsRx(Integer.MAX_VALUE)
+        return getItemsRx(Long.MAX_VALUE)
     }
 
-    open fun getItems(limit: Int): List<T>? {
+    open fun getItems(limit: Long): List<T>? {
         val cursor = getCursor()
         if (!CursorUtil.hasCursor(cursor)) {
             return null
@@ -70,7 +70,7 @@ abstract class MediaProvider<T : Media> {
         return result
     }
 
-    open fun getItemsRx(limit: Int): Maybe<List<T>> {
+    open fun getItemsRx(limit: Long): Maybe<List<T>> {
         return Maybe.create { emitter ->
             val result = getItems(limit)
             if (emitter.isDisposed) {

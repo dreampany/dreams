@@ -19,8 +19,8 @@ package com.dreampany.tools.api.wordnik.model
  * @param storageAbbr
  */
 data class PartOfSpeech(
-        val allCategories: Array<String>? = null,
-        val roots: Array<String>? = null,
-        val storageAbbr: Array<String>? = null
+    val allCategories: Array<String>? = null,
+    val roots: Array<String>? = null,
+    val storageAbbr: Array<String>? = null
 )
 

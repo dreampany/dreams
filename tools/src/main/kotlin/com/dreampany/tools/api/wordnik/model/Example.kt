@@ -11,6 +11,8 @@
  */
 package com.dreampany.tools.api.wordnik.model
 
+import kotlin.Long
+
 /**
  *
  * @param documentId
@@ -27,17 +29,18 @@ package com.dreampany.tools.api.wordnik.model
  * @param year
  */
 data class Example(
-        val documentId: Long? = null,
-        val exampleId: Long? = null,
-        val id: Long? = null,
-        val provider: ContentProvider? = null,
-        val rating: Float? = null,
-        val score: ScoredWord? = null,
-        val sentence: Sentence? = null,
-        val text: String? = null,
-        val title: String? = null,
-        val url: String? = null,
-        val word: String? = null,
-        val year: Int? = null
+    val documentId: Long = 0L,
+    val exampleId: Long = 0L,
+    val id: Long = 0L,
+    val provider: ContentProvider? = null,
+    val rating: Float? = null,
+    val score: ScoredWord? = null,
+    val sentence: Sentence? = null,
+    val text: String? = null,
+    val title: String? = null,
+    val url: String? = null,
+    val word: String? = null,
+    val author: String? = null,
+    val year: Int? = null
 )
 

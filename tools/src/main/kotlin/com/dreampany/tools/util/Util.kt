@@ -27,8 +27,8 @@ class Util {
             }
 
             if (word.hasExamples()) {
-                for (item in word.examples!!) {
-                    DataUtil.joinString(builder, item)
+                for (example in word.examples!!) {
+                    DataUtil.joinString(builder, example.text)
                 }
             }
 

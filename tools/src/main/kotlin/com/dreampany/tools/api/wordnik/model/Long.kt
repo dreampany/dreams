@@ -11,12 +11,12 @@
  */
 package com.dreampany.tools.api.wordnik.model
 
-
+import kotlin.Long
 /**
  *
  * @param value
  */
 data class Long(
-        val value: Long? = null
+    val value: Long? = null
 )
 

@@ -18,7 +18,7 @@ package com.dreampany.tools.api.wordnik.model
  * @param name
  */
 data class ContentProvider(
-        val id: Int? = null,
-        val name: String? = null
+    val id: Int? = null,
+    val name: String? = null
 )
 

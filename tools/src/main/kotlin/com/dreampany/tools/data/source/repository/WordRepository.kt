@@ -38,20 +38,20 @@ class WordRepository
     @Remote private val remote: WordDataSource,
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
-    override fun track(word: String): Long {
+    override fun track(word: Word): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: String): Maybe<Long> {
+    override fun trackRx(word: Word): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: Int, limit: Int): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getTracks(startAt: String, limit: Long): List<String>? {
+        return firestore.getTracks(startAt, limit)
     }
 
-    override fun getTracksRx(startAt: Int, limit: Int): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
+        return firestore.getTracksRx(startAt, limit)
     }
 
     override fun isValid(id: String): Boolean {
@@ -71,7 +71,7 @@ class WordRepository
         return room.isExists(t)
     }
 
-    override fun getRawItemsByLength(id: String, limit: Int): List<String>? {
+    override fun getRawItemsByLength(id: String, limit: Long): List<String>? {
         return room.getRawItemsByLength(id, limit)
     }
 
@@ -83,7 +83,7 @@ class WordRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Word>? {
+    override fun getItems(limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -99,11 +99,11 @@ class WordRepository
         return room.getItemsRx()
     }
 
-    override fun getItemsRx(limit: Int): Maybe<List<Word>> {
+    override fun getItemsRx(limit: Long): Maybe<List<Word>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getSearchItems(query: String, limit: Int): List<Word>? {
+    override fun getSearchItems(query: String, limit: Long): List<Word>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -182,26 +182,65 @@ class WordRepository
     override fun getItemRx(id: String): Maybe<Word> {
         val cacheAny = mapper.getItemRx(id)
         val roomAny = concatSingleSuccess(getRoomItemRx(id), Consumer { word ->
-            rx.compute(mapper.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(mapper.putItemRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val firestoreAny = concatSingleSuccess(firestore.getItemRx(id), Consumer { word ->
-            rx.compute(mapper.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(room.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            if (word.hasSynonyms())  rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            if (word.hasAntonyms()) rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(mapper.putItemRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(room.putItemRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            if (word.hasSynonyms()) rx.compute(
+                putStoreRx(
+                    word,
+                    Type.QUIZ,
+                    Subtype.SYNONYM,
+                    State.DEFAULT
+                )
+            ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            if (word.hasAntonyms()) rx.compute(
+                putStoreRx(
+                    word,
+                    Type.QUIZ,
+                    Subtype.ANTONYM,
+                    State.DEFAULT
+                )
+            ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
             if (!word.isEmpty()) {
-                rx.compute(mapper.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(room.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(firestore.putItemRx(word)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(firestore.trackRx(word.id)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                if (word.hasSynonyms()) rx.compute(putStoreRx(word, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                if (word.hasAntonyms()) rx.compute(putStoreRx(word, Type.QUIZ, Subtype.ANTONYM, State.DEFAULT)).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                rx.compute(mapper.putItemRx(word))
+                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                rx.compute(room.putItemRx(word))
+                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                rx.compute(firestore.putItemRx(word))
+                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                rx.compute(firestore.trackRx(word))
+                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
+                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                if (word.hasSynonyms()) rx.compute(
+                    putStoreRx(
+                        word,
+                        Type.QUIZ,
+                        Subtype.SYNONYM,
+                        State.DEFAULT
+                    )
+                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                if (word.hasAntonyms()) rx.compute(
+                    putStoreRx(
+                        word,
+                        Type.QUIZ,
+                        Subtype.ANTONYM,
+                        State.DEFAULT
+                    )
+                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             }
         })
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)

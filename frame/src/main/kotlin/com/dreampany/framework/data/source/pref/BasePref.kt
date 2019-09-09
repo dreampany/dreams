@@ -36,56 +36,66 @@ abstract class BasePref(val context: Context) {
         return privatePref.contains(key)
     }
 
-    fun getPublicly(key: String, defaultValue: Boolean): Boolean {
-        return publicPref.preferences.getBoolean(key, defaultValue)
-    }
-
+    /* setter */
     fun setPublicly(key: String, value: Int) {
         publicPref.put(key, value)
-    }
-
-    fun getPublicly(key: String, defaultValue: Int): Int {
-        return publicPref.preferences.getInt(key, defaultValue)
-    }
-
-    fun getPrivately(key: String, defaultValue: Boolean): Boolean {
-        return privatePref.preferences.getBoolean(key, defaultValue)
-    }
-
-    fun setPrivately(key: String, value: Int) {
-        privatePref.put(key, value)
-    }
-
-    fun getPrivately(key: String, defaultValue: Int): Int {
-        return privatePref.preferences.getInt(key, defaultValue)
-    }
-
-    fun setPrivately(key: String, value: Long) {
-        privatePref.put(key, value)
-    }
-
-    fun getPrivately(key: String, defaultValue: Long): Long {
-        return privatePref.preferences.getLong(key, defaultValue)
     }
 
     fun setPublicly(key: String, value: String) {
         publicPref.put(key, value)
     }
 
-    fun getPublicly(key: String, defaultValue: String): String {
-        return publicPref.get(key, String::class.java, defaultValue)
-    }
-
     fun <T> setPublicly(key: String, value: T) {
         publicPref.put(key, value)
     }
 
-    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T?): T {
-        return publicPref.get(key, classOfT, defaultValue)
+    fun setPrivately(key: String, value: Int) {
+        privatePref.put(key, value)
+    }
+
+    fun setPrivately(key: String, value: Long) {
+        privatePref.put(key, value)
+    }
+
+    fun setPrivately(key: String, value: String) {
+        privatePref.put(key, value)
     }
 
     fun <T> setPrivately(key: String, value: T) {
         privatePref.put(key, value)
+    }
+
+    fun getPublicly(key: String, defaultValue: Int): Int {
+        return publicPref.preferences.getInt(key, defaultValue)
+    }
+
+    fun getPublicly(key: String, defaultValue: Boolean): Boolean {
+        return publicPref.preferences.getBoolean(key, defaultValue)
+    }
+
+    fun getPrivately(key: String, defaultValue: Boolean): Boolean {
+        return privatePref.preferences.getBoolean(key, defaultValue)
+    }
+
+    fun getPrivately(key: String, defaultValue: Int): Int {
+        return privatePref.preferences.getInt(key, defaultValue)
+    }
+
+
+    fun getPrivately(key: String, defaultValue: String): String {
+        return privatePref.get(key, String::class.java, defaultValue)
+    }
+
+    fun getPrivately(key: String, defaultValue: Long): Long {
+        return privatePref.preferences.getLong(key, defaultValue)
+    }
+
+    fun getPublicly(key: String, defaultValue: String): String {
+        return publicPref.get(key, String::class.java, defaultValue)
+    }
+
+    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T?): T {
+        return publicPref.get(key, classOfT, defaultValue)
     }
 
     fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T?): T {

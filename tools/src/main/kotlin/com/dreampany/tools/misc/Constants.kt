@@ -74,7 +74,7 @@ class Constants {
 
     object Delay {
         val Notify = TimeUnit.MINUTES.toSeconds(1)
-        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(60)
+        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(50)
     }
 
     object Date {
@@ -90,10 +90,12 @@ class Constants {
     object Pref {
         const val LOAD = "load"
         const val WORD = "word"
+        const val WORD_TRACK_LOADED = "word_track_loaded"
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"
         const val WORD_LAST = "word_last"
         const val WORD_LAST_SYNC_TIME = "word_last_sync_time"
+        const val WORD_TRACK_START_AT = "word_track_start_at"
     }
 
     object Assets {
@@ -102,9 +104,11 @@ class Constants {
     }
 
     object Firebase {
+        const val WEIGHT = "weight"
         const val EXTRA = "extra"
         const val WORDS = "words"
         const val TRACK = "track"
+        const val TRACK_WORDS = "track-words"
     }
 
     object Count {
@@ -119,6 +123,7 @@ class Constants {
         const val WORD_SEARCH = 1000
         const val WORD_SUGGESTION = 10
         const val WORD_OCR = 1000
+        const val WORD_TRACK = 1000L
     }
 
     object Demo {

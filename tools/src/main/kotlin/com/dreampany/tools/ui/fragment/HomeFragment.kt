@@ -15,8 +15,8 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
-import com.dreampany.framework.ui.listener.OnUiItemClickListener
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
@@ -46,7 +46,7 @@ import javax.inject.Inject
 @ActivityScope
 class HomeFragment
 @Inject constructor(
-) : BaseMenuFragment(), OnUiItemClickListener<FeatureItem?, Any?> {
+) : BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<FeatureItem?, Any?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory

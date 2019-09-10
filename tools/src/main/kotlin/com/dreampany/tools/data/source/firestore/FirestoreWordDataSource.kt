@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.framework.misc.exception.WriteException
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.data.enums.Source
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
@@ -20,24 +21,18 @@ class FirestoreWordDataSource(
     private val network: NetworkManager,
     private val firestore: RxFirebaseFirestore
 ) : WordDataSource {
-    override fun track(word: Word): Long {
-/*        val error = firestore.setArrayItemRx<String>(
-            Constants.Firebase.EXTRA,
-            Constants.Firebase.WORDS,
-            Constants.Firebase.TRACK,
-            word
-        ).blockingGet()*/
-
-        val data = hashMapOf(Constants.Firebase.WEIGHT to word.weight())
+    override fun track(id: String, weight: Int, source: Source): Long {
+        val data =
+            hashMapOf(Constants.Firebase.WEIGHT to weight, Constants.Firebase.WEIGHT to source)
         val error =
-            firestore.setItemRx<Map<String, Int>>(Constants.Firebase.TRACK_WORDS, word.id, data)
+            firestore.setItemRx<Map<String, Any>>(Constants.Firebase.TRACK_WORDS, id, data)
                 .blockingGet()
         return if (error == null) 0L else -1L
     }
 
-    override fun trackRx(word: Word): Maybe<Long> {
+    override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
         return Maybe.create { emitter ->
-            val result = track(word)
+            val result = track(id, weight, source)
             if (emitter.isDisposed) return@create
 
             if (result == -1L) {

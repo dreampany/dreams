@@ -10,6 +10,7 @@ import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.data.enums.Source
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
@@ -41,11 +42,11 @@ class WordRepository
     @Remote private val remote: WordDataSource,
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
-    override fun track(word: Word): Long {
+    override fun track(id: String, weight: Int, source: Source): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: Word): Maybe<Long> {
+    override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -219,6 +220,8 @@ class WordRepository
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
             if (word.isEmpty()) {
                 if (network.hasInternet()) {
+                    rx.compute(firestore.trackRx(word.id, word.weight(), Source.DEFAULT))
+                        .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                     rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.ERROR))
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                     rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
@@ -234,7 +237,7 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(firestore.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(firestore.trackRx(word))
+            rx.compute(firestore.trackRx(word.id, word.weight(), Source.WORDNIK))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())

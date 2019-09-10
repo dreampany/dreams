@@ -15,6 +15,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
@@ -27,6 +28,8 @@ import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
+import com.dreampany.tools.ui.model.QuizItem
+import com.dreampany.tools.ui.model.QuizOptionItem
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.ui.vm.RelatedQuizViewModel
 import cz.kinst.jakub.view.StatefulLayout
@@ -46,7 +49,8 @@ import javax.inject.Inject
 class RelatedQuizFragment
 @Inject constructor(
 
-) : BaseMenuFragment() {
+) : BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<QuizOptionItem?, Action?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -82,34 +86,19 @@ class RelatedQuizFragment
     override fun onClick(v: View) {
         when (v.id) {
             R.id.layout_parent -> {
-                val tag = v.tag as Int
-                val answer = quizItem!!.item.options!!.get(tag)
-                when (tag) {
-                    0 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
 
-                        } else {
-
-                        }
-                    }
-                    1 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
-
-                        }
-                    }
-                    2 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
-
-                        }
-                    }
-                    3 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
-
-                        }
-                    }
-                }
             }
         }
+    }
+
+    override fun onClick(view: View, item: QuizOptionItem?, action: Action?) {
+       item?.run {
+           performAnswer(this)
+       }
+    }
+
+    override fun onLongClick(view: View, item: QuizOptionItem?, action: Action?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun initUi() {
@@ -238,6 +227,10 @@ class RelatedQuizFragment
         if (quiz.options!!.size >= 4) {
             bindQuizOptionFour.textTitle.text = quiz.options!!.get(3)
         }*/
+    }
+
+    private fun performAnswer(item: QuizOptionItem) {
+        Timber.v("Select %s", item.item.id)
     }
 
     private fun request(

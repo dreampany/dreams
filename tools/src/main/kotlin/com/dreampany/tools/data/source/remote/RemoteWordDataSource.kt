@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.wordnik.WordnikManager
+import com.dreampany.tools.data.enums.Source
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
@@ -22,11 +23,11 @@ class RemoteWordDataSource(
     private val mapper: WordMapper,
     private val wordnik: WordnikManager
 ) : WordDataSource {
-    override fun track(word: Word): Long {
+    override fun track(id: String, weight: Int, source: Source): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: Word): Maybe<Long> {
+    override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

@@ -13,9 +13,9 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
-import com.dreampany.framework.ui.listener.OnUiItemClickListener
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
@@ -46,7 +46,7 @@ import javax.inject.Inject
 class WordQuizFragment
 @Inject constructor() :
     BaseMenuFragment(),
-    OnUiItemClickListener<QuizItem?, Action?> {
+    SmartAdapter.OnUiItemClickListener<QuizItem?, Action?> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory

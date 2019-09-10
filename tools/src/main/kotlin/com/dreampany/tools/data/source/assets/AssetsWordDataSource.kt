@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.dreampany.framework.util.DataUtil
 import com.dreampany.framework.util.FileUtil
+import com.dreampany.tools.data.enums.Source
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
@@ -22,11 +23,11 @@ class AssetsWordDataSource(
     private val context: Context,
     private val mapper: WordMapper
 ) : WordDataSource {
-    override fun track(word: Word): Long {
+    override fun track(id: String, weight: Int, source: Source): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: Word): Maybe<Long> {
+    override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

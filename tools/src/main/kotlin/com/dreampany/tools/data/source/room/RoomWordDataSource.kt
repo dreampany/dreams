@@ -3,6 +3,7 @@ package com.dreampany.tools.data.source.room
 import android.graphics.Bitmap
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.WriteException
+import com.dreampany.tools.data.enums.Source
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
@@ -24,11 +25,11 @@ class RoomWordDataSource(
     private val synonymDao: SynonymDao,
     private val antonymDao: AntonymDao
 ) : WordDataSource {
-    override fun track(word: Word): Long {
+    override fun track(id: String, weight: Int, source: Source): Long {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun trackRx(word: Word): Maybe<Long> {
+    override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

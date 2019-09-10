@@ -162,7 +162,7 @@ class NotifyViewModel
                 val textTranslation =
                     translationRepo.getItem(request.source!!, request.target!!, item.item.id)
                 textTranslation?.let {
-                    Timber.v("Translation %s - %s", request.id, it.output)
+                    Timber.v("Translation %s - %s", item.item.id, it.output)
                     item.addTranslation(request.target!!, it.output)
                     translation = it.output
                 }

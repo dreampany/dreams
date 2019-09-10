@@ -14,9 +14,9 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
-import com.dreampany.framework.ui.listener.OnUiItemClickListener
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
@@ -55,7 +55,7 @@ import javax.inject.Inject
 class NoteHomeFragment
 @Inject constructor() :
     BaseMenuFragment(),
-    OnUiItemClickListener<NoteItem?, Action?>,
+    SmartAdapter.OnUiItemClickListener<NoteItem?, Action?>,
     OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject

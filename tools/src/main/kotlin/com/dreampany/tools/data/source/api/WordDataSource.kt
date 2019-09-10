@@ -2,6 +2,7 @@ package com.dreampany.tools.data.source.api
 
 import android.graphics.Bitmap
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.tools.data.enums.Source
 import com.dreampany.tools.data.model.Word
 import io.reactivex.Maybe
 
@@ -35,9 +36,9 @@ interface WordDataSource : DataSource<Word> {
 
     fun getRawItemsByLength(id: String, limit: Long): List<String>?
 
-    fun track(word: Word): Long
+    fun track(id: String, weight: Int, source: Source): Long
 
-    fun trackRx(word: Word): Maybe<Long>
+    fun trackRx(id: String, weight: Int, source: Source): Maybe<Long>
 
     fun getTracks(startAt: String, limit: Long): List<String>?
 

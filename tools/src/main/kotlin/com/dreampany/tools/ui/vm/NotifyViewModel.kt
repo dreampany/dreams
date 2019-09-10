@@ -26,6 +26,7 @@ import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
+import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Runnable
 import timber.log.Timber
@@ -109,11 +110,13 @@ class NotifyViewModel
         val store = nextStore(State.RAW, State.FULL)
         store?.run {
             Timber.v("RAW Next sync word %s", id)
-            if (!hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
-                Timber.v("RAW Next sync word %s", id)
-                syncStore(request, this)
-                wordPref.commitLastWordSyncTime()
+            if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
+                removeStoreRx(this.id, this.type, this.subtype, State.RAW)
+                return@run
             }
+            Timber.v("RAW Next sync word %s", id)
+            syncStore(request, this)
+            wordPref.commitLastWordSyncTime()
         }
     }
 
@@ -185,6 +188,12 @@ class NotifyViewModel
             result.plusElement(it)
         }
         return storeRepo.isExists(id, type, subtype, result)
+    }
+
+    private fun removeStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Int> {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        val result = storeRepo.deleteRx(store)
+        return result
     }
 
     private fun notify(item: WordItem) {

@@ -194,14 +194,14 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(room.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
+            rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             /*rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
             if (word.hasSynonyms())
                 rx.compute(
                     putStoreRx(
-                        word,
+                        word.id,
                         Type.QUIZ,
                         Subtype.SYNONYM,
                         State.DEFAULT
@@ -210,7 +210,7 @@ class WordRepository
             if (word.hasAntonyms())
                 rx.compute(
                     putStoreRx(
-                        word,
+                        word.id,
                         Type.QUIZ,
                         Subtype.ANTONYM,
                         State.DEFAULT
@@ -222,7 +222,7 @@ class WordRepository
                 if (network.hasInternet()) {
                     rx.compute(firestore.trackRx(word.id, word.weight(), Source.WORDNIK))
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                    rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.ERROR))
+                    rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.ERROR))
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                     /*rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
@@ -239,13 +239,13 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(firestore.trackRx(word.id, word.weight(), Source.WORDNIK))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
+            rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
 /*            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
             if (word.hasSynonyms()) rx.compute(
                 putStoreRx(
-                    word,
+                    word.id,
                     Type.QUIZ,
                     Subtype.SYNONYM,
                     State.DEFAULT
@@ -253,7 +253,7 @@ class WordRepository
             ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             if (word.hasAntonyms()) rx.compute(
                 putStoreRx(
-                    word,
+                    word.id,
                     Type.QUIZ,
                     Subtype.ANTONYM,
                     State.DEFAULT
@@ -282,13 +282,13 @@ class WordRepository
         }
     }
 
-    fun putStoreRx(word: Word, type: Type, subtype: Subtype, state: State): Maybe<Long> {
-        val store = storeMapper.getItem(word.id, type, subtype, state)
+   private fun putStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Long> {
+        val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.putItemRx(store)
     }
 
-    fun removeStoreRx(word: Word, type: Type, subtype: Subtype, state: State): Maybe<Int> {
-        val store = storeMapper.getItem(word.id, type, subtype, state)
+    private fun removeStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Int> {
+        val store = storeMapper.getItem(id, type, subtype, state)
         val result = storeRepo.deleteRx(store)
         return result
     }

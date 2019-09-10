@@ -31,11 +31,11 @@ class AssetsWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: String, limit: Long): List<String>? {
+    override fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

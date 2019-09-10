@@ -16,6 +16,8 @@ interface StoreDataSource : DataSource<Store> {
 
     fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean
 
+    fun isExists(id: String, type: Type, subtype: Subtype, states: Array<State>): Boolean
+
     fun isExistsRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Boolean>
 
     fun getCount(id: String, type: Type, subtype: Subtype): Int

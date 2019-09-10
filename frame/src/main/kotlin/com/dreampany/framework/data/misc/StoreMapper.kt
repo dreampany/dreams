@@ -21,7 +21,7 @@ class StoreMapper
 @Inject constructor(
     @StoreAnnote private val map: SmartMap<String, Store>,
     @StoreAnnote private val cache: SmartCache<String, Store>
-) {
+) : Mapper() {
 
     fun isExists(id: String): Boolean {
         return map.contains(id)

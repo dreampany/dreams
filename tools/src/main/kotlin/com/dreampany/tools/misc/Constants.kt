@@ -173,6 +173,7 @@ class Constants {
 
     object Word {
         const val ID = Constants.Key.ID
+        const val PART_OF_SPEECH = "part_of_speech"
         const val LEFTER = "lefter"
         const val RIGHTER = "righter"
         const val RECENT_WORD = "recent_word"

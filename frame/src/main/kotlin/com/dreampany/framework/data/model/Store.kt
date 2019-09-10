@@ -33,7 +33,7 @@ data class Store(
     var type: Type = Type.DEFAULT,
     var subtype: Subtype = Subtype.DEFAULT,
     var state: State = State.DEFAULT,
-    var data: String? = Constants.Default.NULL
+    var extra: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore

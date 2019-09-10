@@ -1,12 +1,11 @@
 package com.dreampany.tools.data.misc
 
+import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.DataUtilKt
-import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.*
@@ -31,7 +30,8 @@ class WordMapper
     @WordAnnote private val cache: SmartCache<String, Word>,
     @WordItemAnnote private val uiMap: SmartMap<String, WordItem>,
     @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
-) {
+) : Mapper() {
+
 
     fun isExists(id: String): Boolean {
         return map.contains(id)
@@ -102,7 +102,7 @@ class WordMapper
                 map.put(id, out)
             }
         }
-        out.partOfSpeech = input.partOfSpeech
+        out.setPartOfSpeech(input.partOfSpeech)
         out.pronunciation = input.pronunciation
         if (full) {
             out.definitions = getDefinitions(input)
@@ -131,7 +131,7 @@ class WordMapper
                 map.put(word, out)
             }
         }
-        out.partOfSpeech = input.partOfSpeech
+        out.setPartOfSpeech(input.partOfSpeech)
         out.pronunciation = input.pronunciation
         if (full) {
             out.definitions = getDefinitions(input)

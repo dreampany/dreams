@@ -49,6 +49,14 @@ constructor(
         return dao.getCount(id, type.name, subtype.name, state.name) > 0
     }
 
+    override fun isExists(id: String, type: Type, subtype: Subtype, states: Array<State>): Boolean {
+        val result = arrayOf<String>()
+        states.forEach {
+            result.plusElement(it.name)
+        }
+        return dao.getCount(id, type.name, subtype.name, result) > 0
+    }
+
     override fun isExistsRx(
         id: String,
         type: Type,

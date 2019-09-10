@@ -416,12 +416,12 @@ class WordFragment
                 val def = definitions[index]
                 if (index == 0) {
                     singleBuilder
-                        .append(def.partOfSpeech)
+                        .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
                     multipleBuilder
-                        .append(def.partOfSpeech)
+                        .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
                         .append(def.text)
@@ -429,7 +429,7 @@ class WordFragment
                 }
                 multipleBuilder
                     .append(DataUtil.NewLine2)
-                    .append(def.partOfSpeech)
+                    .append(def.getPartOfSpeech())
                     .append(DataUtil.SEMI)
                     .append(DataUtil.SPACE)
                     .append(def.text)

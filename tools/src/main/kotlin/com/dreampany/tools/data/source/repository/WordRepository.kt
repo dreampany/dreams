@@ -50,11 +50,11 @@ class WordRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getTracks(startAt: String, limit: Long): List<String>? {
+    override fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>? {
         return firestore.getTracks(startAt, limit)
     }
 
-    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>> {
         return firestore.getTracksRx(startAt, limit)
     }
 
@@ -196,8 +196,8 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            /*rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
             if (word.hasSynonyms())
                 rx.compute(
                     putStoreRx(
@@ -220,12 +220,12 @@ class WordRepository
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
             if (word.isEmpty()) {
                 if (network.hasInternet()) {
-                    rx.compute(firestore.trackRx(word.id, word.weight(), Source.DEFAULT))
+                    rx.compute(firestore.trackRx(word.id, word.weight(), Source.WORDNIK))
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                     rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.ERROR))
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                    rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                        .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                    /*rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                        .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
                 }
                 return@Consumer
             }
@@ -241,8 +241,8 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+/*            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
             if (word.hasSynonyms()) rx.compute(
                 putStoreRx(
                     word,

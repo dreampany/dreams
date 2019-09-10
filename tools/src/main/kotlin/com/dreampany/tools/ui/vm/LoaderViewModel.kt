@@ -14,6 +14,7 @@ import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.DataUtil
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.ui.vm.BaseViewModel
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordMapper
@@ -129,14 +130,27 @@ class LoaderViewModel
         do {
             val startAt = wordPref.getTrackStartAt()
             var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
-            if (result != null) {
-                val states = ArrayList<Store>()
-                result.forEach { word ->
-                    states.add(Store(word, Type.WORD, Subtype.DEFAULT, State.TRACK))
+            if (!result.isNullOrEmpty()) {
+                val stores = ArrayList<Store>()
+                result.forEach { tuple ->
+                    val id = tuple.first
+                    val extra = mapper.toJson(tuple.second)
+                    val weight: Int = tuple.second.get(Constants.Firebase.WEIGHT) as Int
+                    val state = if (weight > 0) State.TRACK else State.ERROR
+                    stores.add(
+                        Store(
+                            time = TimeUtilKt.currentMillis(),
+                            id = id,
+                            type = Type.WORD,
+                            subtype = Subtype.DEFAULT,
+                            state = state,
+                            extra = extra
+                        )
+                    )
                 }
-                val resultOf = storeRepo.putItems(states)
+                val resultOf = storeRepo.putItems(stores)
                 if (DataUtil.isEqual(result, resultOf)) {
-                    wordPref.setTrackStartAt(result.last())
+                    wordPref.setTrackStartAt(stores.last().id)
                 }
             }
 

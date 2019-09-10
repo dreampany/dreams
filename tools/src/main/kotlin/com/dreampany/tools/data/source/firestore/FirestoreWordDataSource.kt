@@ -23,7 +23,7 @@ class FirestoreWordDataSource(
 ) : WordDataSource {
     override fun track(id: String, weight: Int, source: Source): Long {
         val data =
-            hashMapOf(Constants.Firebase.WEIGHT to weight, Constants.Firebase.WEIGHT to source)
+            hashMapOf(Constants.Firebase.WEIGHT to weight, Constants.Firebase.SOURCE to source)
         val error =
             firestore.setItemRx<Map<String, Any>>(Constants.Firebase.TRACK_WORDS, id, data)
                 .blockingGet()
@@ -43,12 +43,12 @@ class FirestoreWordDataSource(
         }
     }
 
-    override fun getTracks(startAt: String, limit: Long): List<String>? {
+    override fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>? {
         return getTracksRx(startAt, limit).blockingGet()
     }
 
-    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<String>> {
-        return firestore.getDocumentIdsRx(
+    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>> {
+        return firestore.getDocumentMapsRx(
             Constants.Firebase.TRACK_WORDS,
             orderBy = FieldPath.documentId(),
             ascending = true,

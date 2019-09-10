@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -10,6 +11,7 @@ import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.IgnoreExtraProperties
+import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -30,7 +32,8 @@ import kotlinx.android.parcel.Parcelize
 data class Word(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var partOfSpeech: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
+    private var partOfSpeech: String? = Constants.Default.NULL,
     var pronunciation: String? = Constants.Default.NULL,
     var definitions: ArrayList<Definition>? = Constants.Default.NULL,
     var examples: ArrayList<Example>? = Constants.Default.NULL,
@@ -63,6 +66,16 @@ data class Word(
 
     override fun hashCode(): Int {
         return Objects.hashCode(id)
+    }
+
+    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    fun setPartOfSpeech(partOfSpeech: String?) {
+        this.partOfSpeech = partOfSpeech
+    }
+
+    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    fun getPartOfSpeech(): String? {
+        return partOfSpeech
     }
 
     fun hasDefinitions(): Boolean {
@@ -116,7 +129,7 @@ data class Word(
     }
 
     @Exclude
-    fun weight() : Int {
+    fun weight(): Int {
         var weight = 0
         if (!partOfSpeech.isNullOrEmpty()) weight++
         if (!pronunciation.isNullOrEmpty()) weight++

@@ -86,7 +86,7 @@ private constructor(
             val item = uiItem.item
 
             viewWord.text = item.id
-            viewPartOfSpeech.setText(item.partOfSpeech)
+            viewPartOfSpeech.setText(item.getPartOfSpeech())
             viewPronunciation.setText(item.pronunciation)
         }
     }

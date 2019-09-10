@@ -49,6 +49,10 @@ class StoreRepository
         return room.isExists(id, type, subtype, state)
     }
 
+    override fun isExists(id: String, type: Type, subtype: Subtype, states: Array<State>): Boolean {
+        return room.isExists(id, type, subtype, states)
+    }
+
     override fun isExistsRx(
         id: String,
         type: Type,

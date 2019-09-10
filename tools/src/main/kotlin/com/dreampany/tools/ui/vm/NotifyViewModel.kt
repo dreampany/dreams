@@ -94,7 +94,6 @@ class NotifyViewModel
         if (!TimeUtil.isExpired(wordPref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
             return
         }
-        wordPref.commitLastWordSyncTime()
         Timber.v("Getting... Store")
         do {
             Timber.v("Getting... TRACK Store")
@@ -110,7 +109,11 @@ class NotifyViewModel
         val store = nextStore(State.RAW, State.FULL)
         store?.run {
             Timber.v("RAW Next sync word %s", id)
-            syncStore(request, this)
+            if (!hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
+                Timber.v("RAW Next sync word %s", id)
+                syncStore(request, this)
+                wordPref.commitLastWordSyncTime()
+            }
         }
     }
 
@@ -174,6 +177,14 @@ class NotifyViewModel
     private fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
         val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.putItem(store)
+    }
+
+    private fun hasStore(id: String, type: Type, subtype: Subtype, vararg states: State) : Boolean {
+        val result = arrayOf<State>()
+        states?.forEach {
+            result.plusElement(it)
+        }
+        return storeRepo.isExists(id, type, subtype, result)
     }
 
     private fun notify(item: WordItem) {

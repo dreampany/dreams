@@ -267,6 +267,7 @@ dependencies {
     api 'com.github.shts:TriangleLabelView:1.1.2'
     api 'com.github.skydoves:submarine:1.0.1'
     api 'com.aurelhubert:ahbottomnavigation:2.3.4'
+    api 'nl.dionsegijn:konfetti:1.1.3'
 }
 
 ext {

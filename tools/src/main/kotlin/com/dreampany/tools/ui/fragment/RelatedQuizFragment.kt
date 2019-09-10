@@ -64,6 +64,10 @@ class RelatedQuizFragment
         return R.layout.fragment_related_quiz
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.play_quiz
+    }
+
     override fun onStartUi(state: Bundle?) {
         val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return
         initUi()
@@ -207,7 +211,7 @@ class RelatedQuizFragment
 
 
     private fun showQuiz() {
-        val quiz = quizItem!!.item!!
+        val quiz = quizItem!!.item
         val title = TextUtil.getString(
             context,
             R.string.title_quiz_header,

@@ -69,7 +69,7 @@ class RemoteWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(limit: Int): List<Word> {
+    override fun getItems(limit: Long): List<Word> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

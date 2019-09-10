@@ -9,12 +9,14 @@ import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import io.reactivex.Maybe
 import io.reactivex.functions.Consumer
 import io.reactivex.internal.functions.Functions
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,6 +31,7 @@ class WordRepository
 @Inject constructor(
     rx: RxMapper,
     rm: ResponseMapper,
+    private val network: NetworkManager,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
     private val mapper: WordMapper,
@@ -194,6 +197,49 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            if (word.hasSynonyms())
+                rx.compute(
+                    putStoreRx(
+                        word,
+                        Type.QUIZ,
+                        Subtype.SYNONYM,
+                        State.DEFAULT
+                    )
+                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            if (word.hasAntonyms())
+                rx.compute(
+                    putStoreRx(
+                        word,
+                        Type.QUIZ,
+                        Subtype.ANTONYM,
+                        State.DEFAULT
+                    )
+                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+        })
+        val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
+            if (word.isEmpty()) {
+                if (network.hasInternet()) {
+                    rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.ERROR))
+                        .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                    rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                        .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+                }
+                return@Consumer
+            }
+
+            Timber.v("Remote resolved word %s [%d]", word.id, word.weight())
+            rx.compute(mapper.putItemRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(room.putItemRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(firestore.putItemRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(firestore.trackRx(word))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
+                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             if (word.hasSynonyms()) rx.compute(
                 putStoreRx(
                     word,
@@ -210,38 +256,7 @@ class WordRepository
                     State.DEFAULT
                 )
             ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-        })
-        val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
-            if (!word.isEmpty()) {
-                rx.compute(mapper.putItemRx(word))
-                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(room.putItemRx(word))
-                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(firestore.putItemRx(word))
-                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(firestore.trackRx(word))
-                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(putStoreRx(word, Type.WORD, Subtype.DEFAULT, State.FULL))
-                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                    .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                if (word.hasSynonyms()) rx.compute(
-                    putStoreRx(
-                        word,
-                        Type.QUIZ,
-                        Subtype.SYNONYM,
-                        State.DEFAULT
-                    )
-                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                if (word.hasAntonyms()) rx.compute(
-                    putStoreRx(
-                        word,
-                        Type.QUIZ,
-                        Subtype.ANTONYM,
-                        State.DEFAULT
-                    )
-                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            }
+
         })
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
     }

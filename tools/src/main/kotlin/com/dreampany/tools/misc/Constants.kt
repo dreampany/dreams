@@ -179,6 +179,11 @@ class Constants {
         const val RECENT_WORD = "recent_word"
     }
 
+    object Example {
+        const val DOCUMENT_ID = "document_id"
+        const val EXAMPLE_ID = "example_id"
+    }
+
     object Contact {
         const val ID = Constants.Key.ID
     }

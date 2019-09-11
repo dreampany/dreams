@@ -135,7 +135,7 @@ class LoaderViewModel
                 result.forEach { tuple ->
                     val id = tuple.first
                     val extra = mapper.toJson(tuple.second)
-                    val weight: Int = tuple.second.get(Constants.Firebase.WEIGHT) as Int
+                    val weight: Int = (tuple.second.get(Constants.Firebase.WEIGHT) as Long).toInt()
                     val state = if (weight > 0) State.TRACK else State.ERROR
                     stores.add(
                         Store(

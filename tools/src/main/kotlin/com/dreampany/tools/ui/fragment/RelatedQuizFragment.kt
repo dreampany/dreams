@@ -25,6 +25,7 @@ import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
@@ -62,21 +63,29 @@ class RelatedQuizFragment
     private lateinit var adapter: QuizOptionAdapter
     private lateinit var scroller: OnVerticalScrollListener
 
+    private lateinit var subtype: Subtype
     private var quizItem: RelatedQuizItem? = null
+
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_related_quiz
     }
 
     override fun getTitleResId(): Int {
-        return R.string.play_quiz
+        val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return R.string.play_quiz
+        when (uiTask.subtype) {
+            Subtype.SYNONYM -> return R.string.play_synonym_quiz
+            Subtype.ANTONYM -> return R.string.play_antonym_quiz
+            else -> return R.string.play_quiz
+        }
     }
 
     override fun onStartUi(state: Bundle?) {
         val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return
+        subtype = uiTask.subtype
         initUi()
         initRecycler()
-        request(subtype = uiTask.subtype, single = true, progress = true)
+        request(action = Action.GET, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -92,9 +101,9 @@ class RelatedQuizFragment
     }
 
     override fun onClick(view: View, item: QuizOptionItem?, action: Action?) {
-       item?.run {
-           performAnswer(this)
-       }
+        item?.run {
+            performAnswer(this)
+        }
     }
 
     override fun onLongClick(view: View, item: QuizOptionItem?, action: Action?) {
@@ -194,58 +203,32 @@ class RelatedQuizFragment
         quizItem = item
         val result = item.getOptionItems(context!!)
         adapter.addItems(result)
-        //showQuiz()
         processUiState(UiState.CONTENT)
-    }
-
-
-    private fun showQuiz() {
-        val quiz = quizItem!!.item
-        val title = TextUtil.getString(
-            context,
-            R.string.title_quiz_header,
-            TextUtil.toTitleCase(quiz.subtype.name),
-            quiz.id
-        )
-        //  bindQuizHeader.textTitle.text = title
-
-
-/*        quizItem!!.drawLetter(bindQuizOptionOne.imageIcon, "A")
-        quizItem!!.drawLetter(bindQuizOptionTwo.imageIcon, "B")
-        quizItem!!.drawLetter(bindQuizOptionThree.imageIcon, "C")
-        quizItem!!.drawLetter(bindQuizOptionFour.imageIcon, "D")
-
-        if (quiz.options!!.size >= 1) {
-            bindQuizOptionOne.textTitle.text = quiz.options!!.first()
-        }
-        if (quiz.options!!.size >= 2) {
-            bindQuizOptionTwo.textTitle.text = quiz.options!!.get(1)
-        }
-        if (quiz.options!!.size >= 3) {
-            bindQuizOptionThree.textTitle.text = quiz.options!!.get(2)
-        }
-        if (quiz.options!!.size >= 4) {
-            bindQuizOptionFour.textTitle.text = quiz.options!!.get(3)
-        }*/
     }
 
     private fun performAnswer(item: QuizOptionItem) {
         Timber.v("Select %s", item.item.id)
+        val quiz = quizItem!!.item
+        val given = item.item.id
+        request(action = Action.SOLVE, input = quiz, single = true, progress = true, given = given)
     }
 
     private fun request(
-        subtype: Subtype = Subtype.DEFAULT,
         action: Action = Action.DEFAULT,
+        input: RelatedQuiz? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN,
+        given: String? = Constants.Default.NULL
     ) {
 
         val request = RelatedQuizRequest(
             type = Type.QUIZ,
             subtype = subtype,
             action = action,
+            input = input,
             single = single,
-            progress = progress
+            progress = progress,
+            given = given
         )
         vm.request(request)
     }

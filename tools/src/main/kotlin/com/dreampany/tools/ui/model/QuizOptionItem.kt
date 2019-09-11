@@ -28,8 +28,7 @@ import java.io.Serializable
 class QuizOptionItem
 private constructor(
     item: QuizOption,
-    @LayoutRes layoutId: Int = Constants.Default.INT,
-    state : State = State.DEFAULT
+    @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<QuizOption, QuizOptionItem.ViewHolder, String>(item, layoutId) {
 
     var color: Color
@@ -130,7 +129,7 @@ private constructor(
             super.bind(position, item)
             drawLetter(imageIcon, this.item.letter)
             textTitle.text = this.item.id
-            imageStatus.setImageResource(this.item.stausRes)
+            //imageStatus.setImageResource(this.item.stausRes)
         }
     }
 }

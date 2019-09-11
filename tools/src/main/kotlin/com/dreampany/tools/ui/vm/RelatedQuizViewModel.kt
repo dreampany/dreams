@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
@@ -27,6 +28,7 @@ import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.util.Util
 import io.reactivex.Flowable
@@ -116,6 +118,10 @@ class RelatedQuizViewModel
     }
 
     private fun requestUiItemRx(request: RelatedQuizRequest): Maybe<RelatedQuizItem> {
+        when (request.action) {
+            Action.GET -> return requestItemRx(request).flatMap { getUiItemRx(request, it) }
+            Action.SOLVE -> return requestItemRx(request).flatMap { getUiItemRx(request, it) }
+        }
         return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
@@ -186,7 +192,8 @@ class RelatedQuizViewModel
     }
 
     private fun getUiItem(request: RelatedQuizRequest, item: RelatedQuiz): RelatedQuizItem {
-        var uiItem: RelatedQuizItem? = mapper.getUiItem(item.id, item.type, item.subtype, item.level)
+        var uiItem: RelatedQuizItem? =
+            mapper.getUiItem(item.id, item.type, item.subtype, item.level)
         if (uiItem == null) {
             uiItem = RelatedQuizItem.getItem(item)
             mapper.putUiItem(uiItem)
@@ -215,7 +222,7 @@ class RelatedQuizViewModel
                         }
                     }
                     if (answer != null) {
-                        options = wordRepo.getRawItemsByLength(answer, 3) as ArrayList<String>?
+                        options = wordRepo.getRawItemsByLength(answer, (Constants.Limit.QUIZ_OPTIONS-1).toLong()) as ArrayList<String>?
                     }
                     if (!options.isNullOrEmpty()) {
                         val randIndex = NumberUtil.nextRand(options.size)
@@ -234,6 +241,12 @@ class RelatedQuizViewModel
                 }
             }
         } while (quiz == null)
+        return quiz
+    }
+
+    private fun solveRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
+        var quiz: RelatedQuiz? = request.input
+        quiz?.given = request.given
         return quiz
     }
 }

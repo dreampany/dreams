@@ -33,9 +33,9 @@ data class RelatedQuiz(
     var subtype: Subtype = Subtype.DEFAULT,
     var level: Level = Level.DEFAULT,
     var options: ArrayList<String>? = Constants.Default.NULL,
-    var answer: String? = Constants.Default.NULL
-    //@Ignore
-    //var point: Point? = Constants.Default.NULL
+    var answer: String? = Constants.Default.NULL,
+    var given: String? = Constants.Default.NULL,
+    var point: Int = Constants.Default.INT
 ) : Base() {
 
     @Ignore

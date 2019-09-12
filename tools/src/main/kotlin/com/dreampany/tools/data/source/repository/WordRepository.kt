@@ -218,6 +218,7 @@ class WordRepository
                 ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
+            Timber.v("remoteAny [%s] [%d]", word.id, word.weight())
             if (word.isEmpty()) {
                 if (network.hasInternet()) {
                     rx.compute(firestore.trackRx(word.id, word.weight(), Source.WORDNIK))
@@ -229,8 +230,6 @@ class WordRepository
                 }
                 return@Consumer
             }
-
-            Timber.v("Remote resolved word %s [%d]", word.id, word.weight())
             rx.compute(mapper.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(room.putItemRx(word))

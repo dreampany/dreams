@@ -43,7 +43,7 @@ android {
         release {
             minifyEnabled true
             useProguard false
-            shrinkResources true
+            shrinkResources false
             crunchPngs true
             //multiDexKeepFile file('multidex-config.txt')
 

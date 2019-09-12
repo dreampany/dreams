@@ -33,6 +33,7 @@ private constructor(
 ) : BaseItem<RelatedQuiz, RelatedQuizItem.ViewHolder, String>(item, layoutId) {
 
     var color: Color
+    var optionItems: ArrayList<QuizOptionItem>? = null
 
     init {
         color = ColorUtil.createGreyColor()

@@ -71,4 +71,14 @@ class RelatedQuizMapper
         }
         return null
     }
+
+    fun calculatePoint(quiz: RelatedQuiz): Int {
+        if (quiz.answer.isNullOrEmpty() || quiz.given.isNullOrEmpty()) {
+            return 0
+        }
+        if (quiz.answer.equals(quiz.given)) {
+            return quiz.id.length + quiz.answer!!.length
+        }
+        return -quiz.id.length
+    }
 }

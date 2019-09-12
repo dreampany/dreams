@@ -118,10 +118,10 @@ class RelatedQuizViewModel
     }
 
     private fun requestUiItemRx(request: RelatedQuizRequest): Maybe<RelatedQuizItem> {
-        when (request.action) {
+/*        when (request.action) {
             Action.GET -> return requestItemRx(request).flatMap { getUiItemRx(request, it) }
-            Action.SOLVE -> return requestItemRx(request).flatMap { getUiItemRx(request, it) }
-        }
+            Action.SOLVE -> return solveRelatedQuiz(request).flatMap { getUiItemRx(request, it) }
+        }*/
         return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
@@ -246,7 +246,10 @@ class RelatedQuizViewModel
 
     private fun solveRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
         var quiz: RelatedQuiz? = request.input
-        quiz?.given = request.given
+        quiz?.run {
+            given = request.given
+            point = mapper.calculatePoint(this)
+        }
         return quiz
     }
 }

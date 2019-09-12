@@ -40,6 +40,12 @@ class Constants {
         const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
+    object Id {
+        const val NOTIFY_FOREGROUND = Constants.Id.NOTIFY_FOREGROUND
+        const val NOTIFY_GENERAL = Constants.Id.NOTIFY_GENERAL
+        const val NOTIFY_FOREGROUND_CHANNEL_ID = Constants.Id.NOTIFY_FOREGROUND_CHANNEL_ID
+    }
+
     object Sep {
         const val DOT = Constants.Sep.DOT
         const val COMMA = Constants.Sep.COMMA
@@ -62,6 +68,11 @@ class Constants {
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val LANGUAGE_PICKER = "language-picker"
+    }
+
+    object Action {
+        const val START_SERVICE = Constants.Action.START_SERVICE
+        const val STOP_SERVICE = Constants.Action.STOP_SERVICE
     }
 
     object Time {
@@ -109,7 +120,7 @@ class Constants {
         const val EXTRA = "extra"
         const val WORDS = "words"
         const val TRACK = "track"
-        const val TRACK_WORDS = "track-words"
+        const val TRACK_WORDS = "track_words"
     }
 
     object Count {
@@ -205,6 +216,8 @@ class Constants {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
     }
+
+
 
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL

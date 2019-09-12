@@ -65,6 +65,12 @@ class Constants {
         const val RATE_US = "rate_us"
     }
 
+    object Id {
+        const val NOTIFY_FOREGROUND = 101
+        const val NOTIFY_GENERAL = 102
+        const val NOTIFY_FOREGROUND_CHANNEL_ID = "channel_101"
+    }
+
     object Ad {
         const val KEY = "ad-pref"
         const val BANNER = "banner"
@@ -109,6 +115,11 @@ class Constants {
     object Notify {
         const val DEFAULT_ID = 101
         const val DEFAULT_CHANNEL_ID = "default_channel_id"
+    }
+
+    object Action {
+        const val START_SERVICE = "start_service"
+        const val STOP_SERVICE = "stop_service"
     }
 
     object Task {

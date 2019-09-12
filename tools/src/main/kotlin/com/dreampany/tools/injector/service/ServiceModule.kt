@@ -1,5 +1,6 @@
 package com.dreampany.tools.injector.service
 
+import com.dreampany.tools.service.AppService
 import com.dreampany.tools.service.NotifyService
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -14,4 +15,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ServiceModule {
     @ContributesAndroidInjector
     abstract fun notifyService(): NotifyService
+
+    @ContributesAndroidInjector
+    abstract fun appService(): AppService
 }

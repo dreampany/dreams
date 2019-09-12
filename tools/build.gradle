@@ -57,7 +57,7 @@ android {
 
         release {
             minifyEnabled true
-            useProguard true
+            useProguard false
             shrinkResources true
             crunchPngs true
             signingConfig signingConfigs.release

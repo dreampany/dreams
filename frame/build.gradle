@@ -28,7 +28,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            //useProguard false
+            useProguard false
             shrinkResources false
             crunchPngs false
             ext.enableCrashlytics = false
@@ -42,9 +42,9 @@ android {
 
         release {
             minifyEnabled true
-            useProguard true
-            shrinkResources false
-            crunchPngs false
+            useProguard false
+            shrinkResources true
+            crunchPngs true
             //multiDexKeepFile file('multidex-config.txt')
 
 /*            consumerProguardFiles 'proguard-rules-webview.pro'

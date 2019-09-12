@@ -120,7 +120,7 @@ class Constants {
         const val EXTRA = "extra"
         const val WORDS = "words"
         const val TRACK = "track"
-        const val TRACK_WORDS = "track_words"
+        const val TRACK_WORDS = "track-words"
     }
 
     object Count {

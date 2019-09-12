@@ -6,6 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.ui.model.BaseItem
@@ -33,7 +34,7 @@ private constructor(
 ) : BaseItem<RelatedQuiz, RelatedQuizItem.ViewHolder, String>(item, layoutId) {
 
     var color: Color
-    var optionItems: ArrayList<QuizOptionItem>? = null
+    private var optionItems: ArrayList<QuizOptionItem>? = null
 
     init {
         color = ColorUtil.createGreyColor()
@@ -57,15 +58,32 @@ private constructor(
     }
 
     fun getOptionItems(context: Context): List<QuizOptionItem> {
-        val result = ArrayList<QuizOptionItem>()
-        result.add(getHeaderOptionItem(context))
-        for (index in 0..item.options!!.size-1) {
-            result.add(getOptionItem(item.options!!.get(index), Constants.Quiz.OptionCharArray.get(index)))
+        if (optionItems.isNullOrEmpty()) {
+            optionItems = ArrayList<QuizOptionItem>()
+            optionItems!!.add(getHeaderOptionItem(context))
+            for (index in 0..item.options!!.size - 1) {
+                optionItems!!.add(
+                    getOptionItem(
+                        item.options!!.get(index),
+                        Constants.Quiz.OptionCharArray.get(index)
+                    )
+                )
+            }
         }
-        return result
+        item.given?.run {
+            val wrong = if (item.answer!!.equals(this)) false else true
+                optionItems?.forEach { option ->
+                    if (option.item.id.equals(item.answer)) {
+                        option.state = State.RIGHT
+                    } else if (wrong && option.item.id.equals(item.given)) {
+                        option.state = State.WRONG
+                    }
+                }
+        }
+        return optionItems!!
     }
 
-    fun getHeaderOptionItem(context: Context): QuizOptionItem {
+    private fun getHeaderOptionItem(context: Context): QuizOptionItem {
         val id = TextUtil.getString(
             context,
             R.string.title_quiz_header,
@@ -76,7 +94,7 @@ private constructor(
         return QuizOptionItem.getItem(header)
     }
 
-    fun getOptionItem(option: String, letter: Char): QuizOptionItem {
+    private fun getOptionItem(option: String, letter: Char): QuizOptionItem {
         val item = QuizOption(id = option, letter = letter)
         return QuizOptionItem.getItem(item)
     }

@@ -28,7 +28,8 @@ import java.io.Serializable
 class QuizOptionItem
 private constructor(
     item: QuizOption,
-    @LayoutRes layoutId: Int = Constants.Default.INT
+    @LayoutRes layoutId: Int = Constants.Default.INT,
+    var state: State = State.DEFAULT
 ) : BaseItem<QuizOption, QuizOptionItem.ViewHolder, String>(item, layoutId) {
 
     var color: Color

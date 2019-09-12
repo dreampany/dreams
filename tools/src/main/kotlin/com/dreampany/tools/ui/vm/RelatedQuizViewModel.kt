@@ -134,7 +134,15 @@ class RelatedQuizViewModel
 
     private fun requestItemRx(request: RelatedQuizRequest): Maybe<RelatedQuiz> {
         return Maybe.create { emitter ->
-            val quiz = nextRelatedQuiz(request)
+            var quiz: RelatedQuiz? = null
+            when (request.action) {
+                Action.GET -> {
+                    quiz = nextRelatedQuiz(request)
+                }
+                Action.SOLVE -> {
+                    quiz = solveRelatedQuiz(request)
+                }
+            }
             if (emitter.isDisposed) return@create
             if (quiz == null) {
                 emitter.onError(EmptyException())
@@ -222,7 +230,10 @@ class RelatedQuizViewModel
                         }
                     }
                     if (answer != null) {
-                        options = wordRepo.getRawItemsByLength(answer, (Constants.Limit.QUIZ_OPTIONS-1).toLong()) as ArrayList<String>?
+                        options = wordRepo.getRawItemsByLength(
+                            answer,
+                            (Constants.Limit.QUIZ_OPTIONS - 1).toLong()
+                        ) as ArrayList<String>?
                     }
                     if (!options.isNullOrEmpty()) {
                         val randIndex = NumberUtil.nextRand(options.size)

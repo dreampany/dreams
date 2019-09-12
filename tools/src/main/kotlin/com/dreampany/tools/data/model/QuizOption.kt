@@ -1,6 +1,5 @@
 package com.dreampany.tools.data.model
 
-import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Base
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
@@ -17,8 +16,7 @@ data class QuizOption(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
     var header: Boolean = Constants.Default.BOOLEAN,
-    var letter: Char = Constants.Default.CHARACTER,
-    var state: State = State.DEFAULT
+    var letter: Char = Constants.Default.CHARACTER
 ) : Base() {
 
     override fun equals(other: Any?): Boolean {

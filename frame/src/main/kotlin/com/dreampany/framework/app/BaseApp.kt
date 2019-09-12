@@ -9,6 +9,7 @@ import android.os.StrictMode
 import com.dreampany.framework.BuildConfig
 import com.dreampany.framework.R
 import com.dreampany.framework.api.service.JobManager
+import com.dreampany.framework.api.service.ServiceManager
 import com.dreampany.framework.api.worker.WorkerManager
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.misc.AppExecutors
@@ -54,8 +55,8 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     @Inject
     protected lateinit var ad: SmartAd
-/*    @Inject
-    protected lateinit var service: ServiceManager*/
+    @Inject
+    protected lateinit var service: ServiceManager
     @Inject
     protected lateinit var job: JobManager
     @Inject

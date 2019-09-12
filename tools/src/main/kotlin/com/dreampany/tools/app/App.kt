@@ -1,6 +1,8 @@
 package com.dreampany.tools.app
 
 import android.app.Activity
+import com.afollestad.assent.Permission
+import com.afollestad.assent.runWithPermissions
 import com.crashlytics.android.Crashlytics
 import com.dreampany.framework.app.BaseApp
 import com.dreampany.tools.BuildConfig
@@ -11,6 +13,9 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.NotifyService
 import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.tools.service.AppService
+import com.dreampany.tools.ui.activity.LaunchActivity
+import com.dreampany.tools.ui.activity.NavigationActivity
 import com.dreampany.tools.worker.NotifyWorker
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -71,6 +76,7 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
+        //configService()
         //configJob()
         configWork()
     }
@@ -81,6 +87,11 @@ class App : BaseApp() {
 
     override fun onActivityOpen(activity: Activity) {
         super.onActivityOpen(activity)
+        if (activity is NavigationActivity) {
+/*            activity.runWithPermissions(Permission) {
+                createCameraSource()
+            }*/
+        }
     }
 
     override fun onActivityClose(activity: Activity) {
@@ -103,6 +114,10 @@ class App : BaseApp() {
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
             .enabled(!isDebug())
         ad.setConfig(config.build())
+    }
+
+    private fun configService() {
+        service.openService(AppService::class.java)
     }
 
     private fun configJob() {

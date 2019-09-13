@@ -76,6 +76,9 @@ class AndroidUtil {
 
         fun hasPie(): Boolean {
             return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+            if (hasMarshmallow()) {
+                return Looper.getMainLooper().isCurrentThread()
+            }
         }
 
         fun getUiHandler(): Handler {
@@ -86,9 +89,6 @@ class AndroidUtil {
         }
 
         fun isOnUiThread(): Boolean {
-            if (hasMarshmallow()) {
-                return Looper.getMainLooper().isCurrentThread()
-            }
             return Thread.currentThread() === Looper.getMainLooper().getThread()
         }
 

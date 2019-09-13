@@ -245,15 +245,30 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         super.onTerminate()
     }
 
-    override fun onActivityPaused(activity: Activity) {
-        visible = false
+    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
+        onActivityOpen(activity)
+        refs = WeakReference(activity)
+        goToRemoteUi()
+        if (hasUpdate()) {
+            startUpdate()
+        }
+    }
+
+    override fun onActivityStarted(activity: Activity) {
     }
 
     override fun onActivityResumed(activity: Activity) {
         visible = true
     }
 
-    override fun onActivityStarted(activity: Activity) {
+    override fun onActivityPaused(activity: Activity) {
+        visible = false
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
@@ -261,21 +276,6 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         refs?.clear()
         if (hasUpdate()) {
             stopUpdate()
-        }
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
-    }
-
-    override fun onActivityStopped(activity: Activity) {
-    }
-
-    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
-        onActivityClose(activity)
-        refs = WeakReference(activity)
-        goToRemoteUi()
-        if (hasUpdate()) {
-            startUpdate()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.dreampany.tools.app
 
+import android.Manifest
 import android.app.Activity
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
@@ -17,6 +18,12 @@ import com.dreampany.tools.service.AppService
 import com.dreampany.tools.ui.activity.LaunchActivity
 import com.dreampany.tools.ui.activity.NavigationActivity
 import com.dreampany.tools.worker.NotifyWorker
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -91,6 +98,26 @@ class App : BaseApp() {
 /*            activity.runWithPermissions(Permission) {
                 createCameraSource()
             }*/
+            if (AndroidUtil.hasPie()) {
+                Dexter.withActivity(activity)
+                    .withPermission(Manifest.permission.FOREGROUND_SERVICE)
+                    .withListener(object : PermissionListener {
+                        override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                            configService()
+                        }
+                        override fun onPermissionRationaleShouldBeShown(
+                            permission: PermissionRequest?,
+                            token: PermissionToken?
+                        ) {
+                        }
+                        override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        }
+
+                    })
+                    .check()
+            } else {
+                configService()
+            }
         }
     }
 

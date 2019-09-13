@@ -66,12 +66,16 @@ class AndroidUtil {
             return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         }
 
+        fun hasNougat(): Boolean {
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+        }
+
         fun hasOreo(): Boolean {
             return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
         }
 
-        fun hasNougat(): Boolean {
-            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+        fun hasPie(): Boolean {
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
         }
 
         fun getUiHandler(): Handler {

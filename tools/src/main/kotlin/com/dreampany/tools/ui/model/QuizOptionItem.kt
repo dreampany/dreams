@@ -11,6 +11,7 @@ import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.ui.widget.TextDrawable
 import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.util.TintUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.QuizOption
 import com.dreampany.tools.misc.Constants
@@ -87,7 +88,8 @@ private constructor(
     }
 
 
-    class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter, stickyHeader = true) {
+    class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) :
+        ViewHolder(view, adapter, stickyHeader = true) {
 
         private var textTitle: AppCompatTextView
 
@@ -130,7 +132,22 @@ private constructor(
             super.bind(position, item)
             drawLetter(imageIcon, this.item.letter)
             textTitle.text = this.item.id
-            //imageStatus.setImageResource(this.item.stausRes)
+            when (uiItem.state) {
+                State.DEFAULT -> {
+                    imageStatus.visibility = View.INVISIBLE
+                }
+                State.RIGHT -> {
+                    imageStatus.setImageResource(R.drawable.ic_done_black_24dp)
+                    TintUtil.tintImageView(imageStatus, R.color.material_green700)
+                    imageStatus.visibility = View.VISIBLE
+                }
+                State.WRONG -> {
+                    imageStatus.setImageResource(R.drawable.ic_close_black_24dp)
+                    TintUtil.tintImageView(imageStatus, R.color.material_red700)
+                    imageStatus.visibility = View.VISIBLE
+                }
+            }
+
         }
     }
 }

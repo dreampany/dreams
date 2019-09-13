@@ -26,7 +26,7 @@ class AppService : BaseService() {
     internal val notifyId = Constants.Id.NOTIFY_FOREGROUND
     internal lateinit var notifyTitle: String
     internal lateinit var contentText: String
-    internal val smallIcon = R.mipmap.ic_launcher
+    internal val smallIcon = R.drawable.ic_notification
     internal val targetClass = NavigationActivity::class.java
 
     internal val channelId = Constants.Id.NOTIFY_FOREGROUND_CHANNEL_ID

@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,8 @@ import com.dreampany.tools.ui.vm.RelatedQuizViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -204,13 +207,46 @@ class RelatedQuizFragment
         val result = item.getOptionItems(context!!)
         adapter.addItems(result)
         processUiState(UiState.CONTENT)
+
+        quizItem?.run {
+            if (played()) {
+                if (isWinner()) {
+                    rightAnswer()
+                } else {
+                    wrongAnswer()
+                }
+            }
+        }
     }
 
     private fun performAnswer(item: QuizOptionItem) {
         Timber.v("Select %s", item.item.id)
+        if (quizItem!!.played()) {
+            return
+        }
         val quiz = quizItem!!.item
         val given = item.item.id
         request(action = Action.SOLVE, input = quiz, single = true, progress = true, given = given)
+    }
+
+    private fun rightAnswer() {
+        bind.viewKonfetti.run {
+            build()
+            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+            .setDirection(0.0, 359.0)
+            .setSpeed(1f, 5f)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(1000L)
+            .addShapes(Shape.RECT, Shape.CIRCLE)
+            .addSizes(Size(10))
+            .setPosition(-50f, width + 50f, -50f, -50f)
+            .streamFor(300, 3000L)
+        }
+
+    }
+
+    private fun wrongAnswer() {
+
     }
 
     private fun request(

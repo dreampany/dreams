@@ -46,6 +46,14 @@ private constructor(
         }
     }
 
+    fun played(): Boolean {
+        return item.point != 0
+    }
+
+    fun isWinner() : Boolean {
+        return item.point > 0
+    }
+
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
@@ -72,13 +80,13 @@ private constructor(
         }
         item.given?.run {
             val wrong = if (item.answer!!.equals(this)) false else true
-                optionItems?.forEach { option ->
-                    if (option.item.id.equals(item.answer)) {
-                        option.state = State.RIGHT
-                    } else if (wrong && option.item.id.equals(item.given)) {
-                        option.state = State.WRONG
-                    }
+            optionItems?.forEach { option ->
+                if (option.item.id.equals(item.answer)) {
+                    option.state = State.RIGHT
+                } else if (wrong && option.item.id.equals(item.given)) {
+                    option.state = State.WRONG
                 }
+            }
         }
         return optionItems!!
     }

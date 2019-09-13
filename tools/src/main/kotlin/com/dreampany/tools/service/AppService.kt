@@ -4,8 +4,11 @@ import android.content.Intent
 import com.dreampany.framework.api.notify.NotifyManager
 import com.dreampany.framework.api.service.BaseService
 import com.dreampany.tools.R
+import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.NavigationActivity
+import com.dreampany.tools.worker.NotifyWorker
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -16,6 +19,8 @@ import javax.inject.Inject
  */
 class AppService : BaseService() {
 
+    @Inject
+    internal lateinit var pref: Pref
     @Inject
     internal lateinit var notify: NotifyManager
     internal val notifyId = Constants.Id.NOTIFY_FOREGROUND
@@ -47,6 +52,7 @@ class AppService : BaseService() {
 
     override fun onStart() {
         showNotify()
+        configWork()
     }
 
     override fun onStop() {
@@ -74,5 +80,17 @@ class AppService : BaseService() {
 
     private fun hideNotify() {
         stopForeground(true)
+    }
+
+    /**
+     * java.lang.IllegalArgumentException: could not find worker: androidx.work.impl.workers.ConstraintTrackingWorker
+     * at com.dreampany.frame.worker.factory.WorkerInjectorFactory.createWorker(WorkerInjectorFactory.kt:26)
+     */
+    private fun configWork() {
+        if (pref.hasNotification()) {
+            worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.MILLISECONDS)
+        } else {
+            worker.cancel(NotifyWorker::class)
+        }
     }
 }

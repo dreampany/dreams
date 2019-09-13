@@ -39,7 +39,7 @@ import javax.inject.Inject
 class App : BaseApp() {
 
     @Inject
-    lateinit var pref: Pref
+    internal lateinit var pref: Pref
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG;
@@ -85,7 +85,7 @@ class App : BaseApp() {
         configAd()
         //configService()
         //configJob()
-        configWork()
+        //configWork()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {

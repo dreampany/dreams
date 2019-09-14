@@ -7,6 +7,7 @@ import com.dreampany.translation.data.source.api.TranslationDataSource
 import io.reactivex.Maybe
 import io.reactivex.functions.Consumer
 import io.reactivex.internal.functions.Functions
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -94,9 +95,19 @@ class TranslationRepository
     override fun getItemRx(source: String, target: String, input: String): Maybe<TextTranslation> {
         val roomIf = getRoomItemIfRx(source, target, input)
         val machineIf = getMachineItemIfRx(source, target, input)
-        val firestoreIf = getFirestoreItemIfRx(source, target, input)
-        val remoteIf = getRemoteItemIfRx(source, target, input)
-        return concatSingleFirstRx(roomIf, firestoreIf, remoteIf)
+        val firestoreAny = concatSingleSuccess(firestore.getItemRx(source, target, input), Consumer {translation->
+            Timber.v("firestoreAny [%s] [%s]", translation.input, translation.output)
+            rx.compute(room.putItemRx(translation))
+                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
+        })
+        val remoteAny = concatSingleSuccess(remote.getItemRx(source, target, input), Consumer {translation->
+            Timber.v("remoteAny [%s] [%s]", translation.input, translation.output)
+            rx.compute(room.putItemRx(translation))
+                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
+            rx.compute(firestore.putItemRx(translation))
+                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
+        })
+        return concatSingleFirstRx(roomIf, firestoreAny, remoteAny)
     }
 
     override fun isExistsRx(t: TextTranslation): Maybe<Boolean> {
@@ -161,27 +172,4 @@ class TranslationRepository
                 .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
         })
     }
-
-    private fun getFirestoreItemIfRx(
-        source: String, target: String, input: String
-    ): Maybe<TextTranslation> {
-        val maybe = firestore.getItemRx(source, target, input)
-        return concatSingleSuccess(maybe, Consumer {
-            rx.compute(room.putItemRx(it))
-                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
-        })
-    }
-
-    private fun getRemoteItemIfRx(
-        source: String, target: String, input: String
-    ): Maybe<TextTranslation> {
-        val maybe = remote.getItemRx(source, target, input)
-        return concatSingleSuccess(maybe, Consumer {
-            rx.compute(room.putItemRx(it))
-                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
-            rx.compute(firestore.putItemRx(it))
-                .subscribe(Functions.emptyConsumer<Any>(), Functions.emptyConsumer<Any>())
-        })
-    }
-
 }

@@ -414,17 +414,18 @@ class WordFragment
         if (!DataUtil.isEmpty(definitions)) {
             for (index in definitions.indices) {
                 val def = definitions[index]
+                val text = TextUtil.stripHtml(def.text)
                 if (index == 0) {
                     singleBuilder
                         .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
-                        .append(def.text)
+                        .append(text)
                     multipleBuilder
                         .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
-                        .append(def.text)
+                        .append(text)
                     continue
                 }
                 multipleBuilder
@@ -432,7 +433,7 @@ class WordFragment
                     .append(def.getPartOfSpeech())
                     .append(DataUtil.SEMI)
                     .append(DataUtil.SPACE)
-                    .append(def.text)
+                    .append(text)
             }
         }
 

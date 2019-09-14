@@ -15,5 +15,5 @@ enum class Action : Parcelable {
     DELETE, GET, LOAD, SEARCH,
     SYNC, OPEN, PLAY, DETAILS,
     OPTIONS, TRASH, FAVORITE, ARCHIVE,
-    SOLVE
+    SOLVE, NEXT
 }

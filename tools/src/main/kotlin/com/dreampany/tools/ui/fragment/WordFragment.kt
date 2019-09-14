@@ -91,10 +91,6 @@ class WordFragment
         return R.id.item_search
     }
 
-/*    override fun getTitleResId(): Int {
-        return R.string.title_word
-    }*/
-
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
@@ -212,7 +208,7 @@ class WordFragment
 
     private fun initUi() {
         val uiTask = getCurrentTask<UiTask<Word>>(true)
-        recentWord = uiTask!!.input!!.id
+        recentWord = uiTask!!.id
         setTitle(recentWord)
         bind = super.binding as FragmentWordBinding
         bindStatus = bind.layoutTopStatus

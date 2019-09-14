@@ -490,6 +490,20 @@ class AndroidUtil {
             }
         }
 
+        fun <T : Activity, X : Parcelable> openActivity(
+            source: T?,
+            target: Class<*>,
+            task: Task<X>,
+            requestCode: Int
+        ) {
+            source?.run {
+                val intent = Intent(this, target)
+                intent.putExtra(Constants.Task.TASK, task as Parcelable)
+                startActivityForResult(intent, requestCode)
+                Animato.animateSlideLeft(this)
+            }
+        }
+
         fun <T : Fragment, X : Parcelable> openActivity(
             source: T?,
             target: Class<*>,
@@ -497,10 +511,10 @@ class AndroidUtil {
             requestCode: Int
         ) {
             source?.run {
-                val intent = Intent(getActivity(), target)
+                val intent = Intent(this.getActivity(), target)
                 intent.putExtra(Constants.Task.TASK, task as Parcelable)
                 startActivityForResult(intent, requestCode)
-                Animato.animateSlideLeft(getActivity())
+                Animato.animateSlideLeft(this.getActivity())
             }
         }
 

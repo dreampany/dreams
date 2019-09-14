@@ -95,7 +95,7 @@ private constructor(
         val id = TextUtil.getString(
             context,
             R.string.title_quiz_header,
-            TextUtil.toTitleCase(item.subtype.name),
+            item.subtype.name.toLowerCase(),
             item.id
         )
         val header = QuizOption(id = id!!, header = true)

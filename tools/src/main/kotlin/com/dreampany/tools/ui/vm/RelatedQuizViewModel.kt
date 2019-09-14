@@ -136,7 +136,8 @@ class RelatedQuizViewModel
         return Maybe.create { emitter ->
             var quiz: RelatedQuiz? = null
             when (request.action) {
-                Action.GET -> {
+                Action.GET,
+                Action.NEXT -> {
                     quiz = nextRelatedQuiz(request)
                 }
                 Action.SOLVE -> {

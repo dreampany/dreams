@@ -21,16 +21,19 @@ import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
-import com.dreampany.tools.databinding.*
+import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.databinding.ContentRecyclerBinding
+import com.dreampany.tools.databinding.ContentRelatedQuizBinding
+import com.dreampany.tools.databinding.ContentTopStatusBinding
+import com.dreampany.tools.databinding.FragmentRelatedQuizBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
-import com.dreampany.tools.ui.model.QuizItem
 import com.dreampany.tools.ui.model.QuizOptionItem
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.ui.vm.RelatedQuizViewModel
@@ -60,6 +63,7 @@ class RelatedQuizFragment
     internal lateinit var factory: ViewModelProvider.Factory
     private lateinit var bind: FragmentRelatedQuizBinding
     private lateinit var bindStatus: ContentTopStatusBinding
+    private lateinit var bindRelated: ContentRelatedQuizBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var vm: RelatedQuizViewModel
@@ -100,6 +104,14 @@ class RelatedQuizFragment
             R.id.layout_parent -> {
 
             }
+            R.id.button_view -> {
+                quizItem?.run {
+                    openWordUi(item.id)
+                }
+            }
+            R.id.button_next -> {
+                request(action = Action.NEXT, single = true, progress = true)
+            }
         }
     }
 
@@ -117,9 +129,13 @@ class RelatedQuizFragment
         //setTitle(R.string.home)
         bind = super.binding as FragmentRelatedQuizBinding
         bindStatus = bind.layoutTopStatus
-        bindRecycler = bind.layoutRecycler
+        bindRelated = bind.layoutRelatedQuiz
+        bindRecycler = bindRelated.layoutRecycler
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bindRelated.buttonView.setOnClickListener(this)
+        bindRelated.buttonNext.setOnClickListener(this)
+
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
@@ -140,6 +156,8 @@ class RelatedQuizFragment
         scroller = object : OnVerticalScrollListener() {}
         adapter = QuizOptionAdapter(this)
         adapter.setStickyHeaders(true)
+        /*adapter.setAnimationInterpolator( DecelerateInterpolator())
+            .setAnimationDuration(300L)*/
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
@@ -203,6 +221,9 @@ class RelatedQuizFragment
 
     private fun processSingleSuccess(action: Action, item: RelatedQuizItem) {
         Timber.v("Result Related Quiz[%s]", item.item.id)
+        if (action == Action.NEXT) {
+            adapter.clear()
+        }
         quizItem = item
         val result = item.getOptionItems(context!!)
         adapter.addItems(result)
@@ -226,27 +247,36 @@ class RelatedQuizFragment
         }
         val quiz = quizItem!!.item
         val given = item.item.id
-        request(action = Action.SOLVE, input = quiz, single = true, progress = true, given = given)
+        request(action = Action.SOLVE, input = quiz, single = true, progress = false, given = given)
     }
 
     private fun rightAnswer() {
         bind.viewKonfetti.run {
             build()
-            .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-            .setDirection(0.0, 359.0)
-            .setSpeed(1f, 5f)
-            .setFadeOutEnabled(true)
-            .setTimeToLive(1000L)
-            .addShapes(Shape.RECT, Shape.CIRCLE)
-            .addSizes(Size(10))
-            .setPosition(-50f, width + 50f, -50f, -50f)
-            .streamFor(300, 3000L)
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(1000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(Size(10))
+                .setPosition(-50f, width + 50f, -50f, -50f)
+                .streamFor(300, 3000L)
         }
 
     }
 
     private fun wrongAnswer() {
 
+    }
+
+    private fun openWordUi(id: String) {
+        val task = UiTask<Word>(
+            type = Type.WORD,
+            action = Action.OPEN,
+            id = id
+        )
+        openActivity(ToolsActivity::class.java, task)
     }
 
     private fun request(

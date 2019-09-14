@@ -1,6 +1,7 @@
 package com.dreampany.framework.data.model
 
 import android.os.Parcelable
+import com.dreampany.framework.misc.Constants
 
 /**
  * Created by roman on 2019-07-13
@@ -8,36 +9,10 @@ import android.os.Parcelable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Task<T : Parcelable>(open var input: T?, open var extra: String?) :
-    BaseParcel() {
+abstract class Task<T : Parcelable>(
+    open var id : String? = Constants.Default.NULL,
+    open var input: T? = Constants.Default.NULL,
+    open var extra: String? = Constants.Default.NULL
+) : BaseParcel() {
 
-/*    var input: T? = null
-    var extra: String? = null*/
-/*    */
-
-/*     constructor(`in`: Parcel) {
-        extra = `in`.readString()
-        if (`in`.readByte().toInt() == 0) {
-            input = null
-        } else {
-            val itemClazz = `in`.readSerializable() as Class<*>
-            input = `in`.readParcelable(itemClazz.classLoader)
-        }
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(extra)
-        if (input == null) {
-            dest.writeByte(0.toByte())
-        } else {
-            dest.writeByte(1.toByte())
-            val itemClazz = input!!.javaClass
-            dest.writeSerializable(itemClazz)
-            dest.writeParcelable(input, flags)
-        }
-    }
-
-    override fun describeContents(): Int {
-        return 0
-    }*/
 }

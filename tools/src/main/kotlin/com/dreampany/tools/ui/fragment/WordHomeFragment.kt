@@ -691,6 +691,7 @@ class WordHomeFragment
         val task = UiTask<Word>(
             type = Type.WORD,
             action = Action.OPEN,
+            id = item.id,
             input = item
         )
         openActivity(ToolsActivity::class.java, task)

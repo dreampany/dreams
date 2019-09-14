@@ -16,7 +16,7 @@ import retrofit2.http.POST
  */
 interface YandexTranslationService {
     @FormUrlEncoded
-    @Headers(Constants.Network.HEADER_CONNECTION_CLOSE)
+    //@Headers(Constants.Network.HEADER_CONNECTION_CLOSE)
     @POST(Constants.Yandex.TRANSLATION_END_POINT)
     fun getTranslation(
         @Field(Constants.Yandex.KEY) key: String,

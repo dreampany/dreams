@@ -190,6 +190,7 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
         })
         val firestoreAny = concatSingleSuccess(firestore.getItemRx(id), Consumer { word ->
+            Timber.v("firestoreAny [%s] [%d]", word.id, word.weight())
             rx.compute(mapper.putItemRx(word))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(room.putItemRx(word))

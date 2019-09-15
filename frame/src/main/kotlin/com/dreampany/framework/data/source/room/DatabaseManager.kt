@@ -6,8 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.BuildConfig
+import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.room.converters.Converters
+import com.dreampany.framework.data.source.room.dao.PointDao
 import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.misc.Constants
 
@@ -17,7 +19,7 @@ import com.dreampany.framework.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Store::class], version = 1)
+@Database(entities = [Store::class, Point::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -32,7 +34,9 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
+                builder = Room.databaseBuilder(context, DatabaseManager::class.java,
+                    DATABASE
+                )
             }
 
             return builder
@@ -43,11 +47,17 @@ abstract class DatabaseManager : RoomDatabase() {
         @Synchronized
         fun getInstance(context: Context): DatabaseManager {
             if (instance == null) {
-                instance = newInstance(context, false)
+                instance =
+                    newInstance(
+                        context,
+                        false
+                    )
             }
             return instance!!
         }
     }
 
     abstract fun storeDao(): StoreDao
+
+    abstract fun pointDao(): PointDao
 }

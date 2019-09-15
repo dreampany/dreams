@@ -110,6 +110,7 @@ class Constants {
         const val TYPE = "type"
         const val SUBTYPE = "subtype"
         const val STATE = "state"
+        const val LEVEL = "level"
     }
 
     object Notify {
@@ -138,6 +139,13 @@ class Constants {
         const val ID = Key.ID
         const val REF = "ref"
         const val URL = "url"
+    }
+
+    object Point {
+        const val ID = Key.ID
+        const val TYPE = Key.TYPE
+        const val SUBTYPE = Key.SUBTYPE
+        const val LEVEL = Key.LEVEL
     }
 
     object Parser {

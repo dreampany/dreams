@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.api
 
 import com.dreampany.framework.data.source.api.DataSource
-import com.dreampany.tools.data.model.Point
+import com.dreampany.framework.data.model.Point
 
 /**
  * Created by roman on 2019-09-01

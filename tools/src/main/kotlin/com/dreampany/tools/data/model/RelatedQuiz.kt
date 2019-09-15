@@ -21,10 +21,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Level.LEVEL],
+        value = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Quiz.LEVEL],
         unique = true
     )],
-    primaryKeys = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Level.LEVEL]
+    primaryKeys = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Quiz.LEVEL]
 )
 data class RelatedQuiz(
     override var time: Long = Constants.Default.LONG,
@@ -35,7 +35,7 @@ data class RelatedQuiz(
     var options: ArrayList<String>? = Constants.Default.NULL,
     var answer: String? = Constants.Default.NULL,
     var given: String? = Constants.Default.NULL,
-    var point: Int = Constants.Default.INT
+    var pointId: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -47,6 +47,10 @@ data class RelatedQuiz(
 
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(id, type, subtype, level)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -55,9 +59,5 @@ data class RelatedQuiz(
                 Objects.equal(item.type, type) &&
                 Objects.equal(item.subtype, subtype) &&
                 Objects.equal(item.level, level)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id, type, subtype, level)
     }
 }

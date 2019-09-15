@@ -1,5 +1,6 @@
 package com.dreampany.framework.injector.data
 
+import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.*
 import dagger.Module
@@ -17,6 +18,13 @@ class SupportModule {
 
     @Singleton
     @Provides
+    @Favorite
+    fun provideFavoriteSmartMap(): SmartMap<String, Boolean> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
     @StoreAnnote
     fun provideStoreSmartMap(): SmartMap<String, Store> {
         return SmartMap.newMap()
@@ -31,8 +39,15 @@ class SupportModule {
 
     @Singleton
     @Provides
-    @Favorite
-    fun provideFavoriteSmartMap(): SmartMap<String, Boolean> {
+    @PointAnnote
+    fun providePointSmartMap(): SmartMap<String, Point> {
         return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @StoreAnnote
+    fun providePointSmartCache(): SmartCache<String, Point> {
+        return SmartCache.newCache()
     }
 }

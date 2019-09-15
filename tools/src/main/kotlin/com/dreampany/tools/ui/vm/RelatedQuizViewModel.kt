@@ -6,6 +6,7 @@ import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.AppExecutors
 import com.dreampany.framework.misc.ResponseMapper
@@ -20,6 +21,7 @@ import com.dreampany.framework.util.NumberUtil
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.data.misc.PointMapper
 import com.dreampany.tools.data.misc.RelatedQuizMapper
 import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.misc.WordMapper
@@ -52,6 +54,8 @@ class RelatedQuizViewModel
     private val wordPref: WordPref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
+    private val pointMapper: PointMapper,
+    private val pointRepo: PointRepository,
     private val wordMapper: WordMapper,
     private val wordRepo: WordRepository,
     private val mapper: RelatedQuizMapper
@@ -118,17 +122,10 @@ class RelatedQuizViewModel
     }
 
     private fun requestUiItemRx(request: RelatedQuizRequest): Maybe<RelatedQuizItem> {
-/*        when (request.action) {
-            Action.GET -> return requestItemRx(request).flatMap { getUiItemRx(request, it) }
-            Action.SOLVE -> return solveRelatedQuiz(request).flatMap { getUiItemRx(request, it) }
-        }*/
         return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
     private fun requestUiItemsRx(request: RelatedQuizRequest): Maybe<List<RelatedQuizItem>> {
-        /*return Maybe.empty() *//*storeRepo.getItemsRx(Type.QUIZ, Subtype.RELATED, State.DEFAULT)
-            .flatMap { getUiItemsOfStoresRx(request, it) }*/
-
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
     }
 
@@ -260,7 +257,7 @@ class RelatedQuizViewModel
         var quiz: RelatedQuiz? = request.input
         quiz?.run {
             given = request.given
-            point = mapper.calculatePoint(this)
+            // point = mapper.calculatePoint(this)
         }
         return quiz
     }

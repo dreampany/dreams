@@ -143,22 +143,11 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
-    object Point {
-        const val ID = Constants.Key.ID
-        const val TYPE = Constants.Key.TYPE
-        const val SUBTYPE = Constants.Key.SUBTYPE
-    }
-
-    object Level {
-        const val ID = Constants.Key.ID
-        const val LEVEL = "level"
-    }
-
     object Quiz {
         const val ID = Constants.Key.ID
         const val TYPE = Constants.Key.TYPE
         const val SUBTYPE = Constants.Key.SUBTYPE
-
+        const val LEVEL = Constants.Key.LEVEL
         val OptionCharArray: CharArray = CharArray(4).apply {
             set(0, 'A')
             set(1, 'B')

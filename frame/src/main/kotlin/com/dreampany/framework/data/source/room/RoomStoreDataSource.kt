@@ -18,7 +18,6 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
 class RoomStoreDataSource
 constructor(
     private val mapper: StoreMapper,

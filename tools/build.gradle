@@ -57,36 +57,36 @@ android {
 
         release {
             minifyEnabled true
-            useProguard false
+            useProguard true
             shrinkResources true
             crunchPngs true
             signingConfig signingConfigs.release
             //multiDexKeepFile file('multidex-config.txt')
-            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //proguardFiles 'proguard-rules-crashlytics.pro'
-            //proguardFiles 'proguard-rules-webview.pro'
-            //proguardFiles 'proguard-rules-data-model.pro'
-            //proguardFiles 'proguard-rules-jni.pro'
-            //proguardFiles 'proguard-rules-firebase.pro'
-            //proguardFiles 'proguard-rules-play-service.pro'
-            //proguardFiles 'proguard-rules-data-binding.pro'
-            //proguardFiles 'proguard-rules-joda-time.pro'
-            //proguardFiles 'proguard-rules-joda-time-android.pro'
-            //proguardFiles 'proguard-rules-eventbus.pro'
-            //proguardFiles 'proguard-rules-about.pro'
-            //proguardFiles 'proguard-rules-support.pro'
-            //proguardFiles 'proguard-rules-guava.pro'
-            //proguardFiles 'proguard-rules-fresco.pro'
-            //proguardFiles 'proguard-rules-flexible-adapter.pro'
-            //proguardFiles 'proguard-rules-condom.pro'
-            //proguardFiles 'proguard-rules-retrofit.pro'
-            //proguardFiles 'proguard-rules-okhttp.pro'
-            //proguardFiles 'proguard-rules-okio.pro'
-            //proguardFiles 'proguard-rules-dagger.pro'
-            //proguardFiles 'proguard-rules-reactive-network.pro'
-            //proguardFiles 'proguard-rules-jackson.pro'
-            //proguardFiles 'proguard-rules-butterknife.pro'
-            //proguardFiles 'proguard-rules-kotlin.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules-crashlytics.pro'
+            proguardFiles 'proguard-rules-webview.pro'
+            proguardFiles 'proguard-rules-data-model.pro'
+            proguardFiles 'proguard-rules-jni.pro'
+            proguardFiles 'proguard-rules-firebase.pro'
+            proguardFiles 'proguard-rules-play-service.pro'
+            proguardFiles 'proguard-rules-data-binding.pro'
+            proguardFiles 'proguard-rules-joda-time.pro'
+            proguardFiles 'proguard-rules-joda-time-android.pro'
+            proguardFiles 'proguard-rules-eventbus.pro'
+            proguardFiles 'proguard-rules-about.pro'
+            proguardFiles 'proguard-rules-support.pro'
+            proguardFiles 'proguard-rules-guava.pro'
+            proguardFiles 'proguard-rules-fresco.pro'
+            proguardFiles 'proguard-rules-flexible-adapter.pro'
+            proguardFiles 'proguard-rules-condom.pro'
+            proguardFiles 'proguard-rules-retrofit.pro'
+            proguardFiles 'proguard-rules-okhttp.pro'
+            proguardFiles 'proguard-rules-okio.pro'
+            proguardFiles 'proguard-rules-dagger.pro'
+            proguardFiles 'proguard-rules-reactive-network.pro'
+            proguardFiles 'proguard-rules-jackson.pro'
+            proguardFiles 'proguard-rules-butterknife.pro'
+            proguardFiles 'proguard-rules-kotlin.pro'
         }
     }
 

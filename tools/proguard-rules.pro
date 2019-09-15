@@ -7,6 +7,26 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 #-renamesourcefileattribute SourceFile
 
+#framework
+-keep class com.dreampany.framework.data.model.** { *; }
+-keepclassmembers class com.dreampany.framework.data.model.** { *; }
+
+-keep class com.dreampany.framework.ui.model.** { *; }
+-keepclassmembers class com.dreampany.framework.ui.model.** { *; }
+
+-keep class com.dreampany.framework.misc.** { *; }
+-keepclassmembers class com.dreampany.framework.misc.** { *; }
+
+-keep class com.dreampany.translation.data.model.** { *; }
+-keepclassmembers class com.dreampany.translation.data.model.** { *; }
+
+-keep class com.dreampany.language.data.model.** { *; }
+-keepclassmembers class com.dreampany.language.data.model.** { *; }
+
+-keep class com.dreampany.firebase.data.model.** { *; }
+-keepclassmembers class com.dreampany.firebase.data.model.** { *; }
+
+#app
 -keep class com.dreampany.tools.data.model.** { *; }
 -keepclassmembers class com.dreampany.tools.data.model.** { *; }
 
@@ -18,15 +38,3 @@
 
 -keep class com.dreampany.tools.api.** { *; }
 -keepclassmembers class com.dreampany.tools.api.** { *; }
-
--keep class com.dreampany.frame.data.model.** { *; }
--keepclassmembers class com.dreampany.frame.data.model.** { *; }
-
--keep class com.dreampany.frame.ui.model.** { *; }
--keepclassmembers class com.dreampany.frame.ui.model.** { *; }
-
--keep class com.dreampany.frame.misc.** { *; }
--keepclassmembers class com.dreampany.frame.misc.** { *; }
-
--keep class com.dreampany.translation.data.model.** { *; }
--keepclassmembers class com.dreampany.translation.data.model.** { *; }

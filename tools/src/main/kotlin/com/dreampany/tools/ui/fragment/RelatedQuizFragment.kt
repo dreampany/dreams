@@ -79,11 +79,11 @@ class RelatedQuizFragment
     }
 
     override fun getTitleResId(): Int {
-        val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return R.string.play_quiz
+        val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return R.string.quiz
         when (uiTask.subtype) {
-            Subtype.SYNONYM -> return R.string.play_synonym_quiz
-            Subtype.ANTONYM -> return R.string.play_antonym_quiz
-            else -> return R.string.play_quiz
+            Subtype.SYNONYM -> return R.string.synonym_quiz
+            Subtype.ANTONYM -> return R.string.antonym_quiz
+            else -> return R.string.quiz
         }
     }
 

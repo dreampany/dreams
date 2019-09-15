@@ -12,6 +12,7 @@
     <string name="synonyms_bold">Synonyms:</string>
     <string name="antonyms_bold">Antonyms:</string>
 
+    <string name="quiz">Quiz</string>
     <string name="play_quiz">Play Quiz</string>
     <string name="play_synonym_quiz">Play Synonym Quiz</string>
     <string name="play_antonym_quiz">Play Antonym Quiz</string>

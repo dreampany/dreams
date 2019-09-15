@@ -65,7 +65,7 @@ class WordQuizFragment
     }
 
     override fun getTitleResId(): Int {
-        return R.string.play_quiz
+        return R.string.quiz
     }
 
     override fun onStartUi(state: Bundle?) {

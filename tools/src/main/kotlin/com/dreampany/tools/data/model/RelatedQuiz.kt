@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -35,6 +36,7 @@ data class RelatedQuiz(
     var options: ArrayList<String>? = Constants.Default.NULL,
     var answer: String? = Constants.Default.NULL,
     var given: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Quiz.POINT_ID)
     var pointId: String? = Constants.Default.NULL
 ) : Base() {
 

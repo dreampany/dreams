@@ -43,6 +43,19 @@ data class Point(
 
     }
 
+    constructor(
+        id: String,
+        type: Type,
+        subtype: Subtype,
+        level: Level
+    ) : this(
+        time = TimeUtilKt.currentMillis(),
+        id = id,
+        type = type,
+        subtype = subtype,
+        level = level) {
+    }
+
     override fun hashCode(): Int {
         return Objects.hashCode(id, type, subtype, level)
     }

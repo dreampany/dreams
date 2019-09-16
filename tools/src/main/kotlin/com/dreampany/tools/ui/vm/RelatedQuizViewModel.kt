@@ -257,7 +257,7 @@ class RelatedQuizViewModel
         var quiz: RelatedQuiz? = request.input
         quiz?.run {
             given = request.given
-            // point = mapper.calculatePoint(this)
+            pointId = mapper.getPoint(this, pointMapper, pointRepo)
         }
         return quiz
     }

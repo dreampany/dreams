@@ -4,6 +4,7 @@ import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Point
+import com.dreampany.framework.data.source.api.PointDataSource
 import com.dreampany.framework.misc.PointAnnote
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
@@ -39,7 +40,30 @@ class PointMapper
         map.put(item.id, item)
     }
 
-    fun getItem(id: String): Point {
+    private fun getItem(id: String): Point {
         return map.get(id)
     }
+
+    fun getItem(
+        id: String, type: Type, subtype: Subtype, level: Level, credit: Int
+        ,source: PointDataSource
+    ): Point? {
+        var item: Point? = null
+        if (isExists(id, type, subtype, level)) {
+            item = map.get(id)
+        }
+        if (item == null) {
+            item = source.getItem(id, type, subtype, level)
+            if (item != null) {
+                map.put(id, item)
+            }
+        }
+        if (item == null) {
+            item = Point(id = id, type = type, subtype = subtype, level = level)
+            map.put(id, item)
+        }
+        item.credit = credit
+        return item
+    }
+
 }

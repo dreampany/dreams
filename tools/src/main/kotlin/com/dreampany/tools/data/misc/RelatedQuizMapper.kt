@@ -4,7 +4,9 @@ import android.content.Context
 import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.data.source.api.PointDataSource
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.Quiz
@@ -72,13 +74,14 @@ class RelatedQuizMapper
         return null
     }
 
-    fun calculatePoint(quiz: RelatedQuiz): Int {
+    fun getPoint(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): String? {
         if (quiz.answer.isNullOrEmpty() || quiz.given.isNullOrEmpty()) {
-            return 0
+            return null
         }
-        if (quiz.answer.equals(quiz.given)) {
-            return quiz.id.length + quiz.answer!!.length
-        }
-        return -quiz.id.length
+        val credit = if (quiz.answer.equals(quiz.given))
+            quiz.id.length + quiz.answer!!.length
+        else -quiz.id.length
+        val point = pointMapper.getItem(quiz.id, quiz.type, quiz.subtype, quiz.level, credit, source)
+        return point?.id
     }
 }

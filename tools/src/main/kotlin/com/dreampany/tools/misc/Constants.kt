@@ -148,6 +148,7 @@ class Constants {
         const val TYPE = Constants.Key.TYPE
         const val SUBTYPE = Constants.Key.SUBTYPE
         const val LEVEL = Constants.Key.LEVEL
+        const val POINT_ID = "point_id"
         val OptionCharArray: CharArray = CharArray(4).apply {
             set(0, 'A')
             set(1, 'B')

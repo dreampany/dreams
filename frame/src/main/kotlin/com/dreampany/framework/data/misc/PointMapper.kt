@@ -45,24 +45,28 @@ class PointMapper
     }
 
     fun getItem(
-        id: String, type: Type, subtype: Subtype, level: Level, credit: Int
-        ,source: PointDataSource
+        id: String,
+        type: Type,
+        subtype: Subtype,
+        level: Level,
+        credit: Int,
+        source: PointDataSource
     ): Point? {
         var item: Point? = null
         if (isExists(id, type, subtype, level)) {
+            item?.credit = credit
             item = map.get(id)
         }
         if (item == null) {
             item = source.getItem(id, type, subtype, level)
-            if (item != null) {
-                map.put(id, item)
-            }
+            item?.credit = credit
+            map.put(id, item)
         }
         if (item == null) {
             item = Point(id = id, type = type, subtype = subtype, level = level)
+            item.credit = credit
             map.put(id, item)
         }
-        item.credit = credit
         return item
     }
 

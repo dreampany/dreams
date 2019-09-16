@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
+import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TextUtil
@@ -33,8 +34,9 @@ private constructor(
     @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<RelatedQuiz, RelatedQuizItem.ViewHolder, String>(item, layoutId) {
 
-    var color: Color
-    private var optionItems: ArrayList<QuizOptionItem>? = null
+    private var color: Color
+    private var optionItems: ArrayList<QuizOptionItem>? = Constants.Default.NULL
+    var point: Point? = Constants.Default.NULL
 
     init {
         color = ColorUtil.createGreyColor()
@@ -47,13 +49,13 @@ private constructor(
     }
 
     fun played(): Boolean {
-        //return item.point != 0
-        return false
+        if (point == null) return false
+        return point!!.credit != 0
     }
 
-    fun isWinner() : Boolean {
-        //return item.point > 0
-        return false
+    fun isWinner(): Boolean {
+        if (point == null) return false
+        return point!!.credit > 0
     }
 
     override fun createViewHolder(

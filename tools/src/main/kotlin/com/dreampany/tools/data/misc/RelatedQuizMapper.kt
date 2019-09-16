@@ -5,6 +5,7 @@ import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.PointMapper
+import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.api.PointDataSource
 import com.dreampany.framework.misc.SmartCache
@@ -74,7 +75,7 @@ class RelatedQuizMapper
         return null
     }
 
-    fun getPoint(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): String? {
+    fun getPoint(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): Point? {
         if (quiz.answer.isNullOrEmpty() || quiz.given.isNullOrEmpty()) {
             return null
         }
@@ -82,6 +83,6 @@ class RelatedQuizMapper
             quiz.id.length + quiz.answer!!.length
         else -quiz.id.length
         val point = pointMapper.getItem(quiz.id, quiz.type, quiz.subtype, quiz.level, credit, source)
-        return point?.id
+        return point
     }
 }

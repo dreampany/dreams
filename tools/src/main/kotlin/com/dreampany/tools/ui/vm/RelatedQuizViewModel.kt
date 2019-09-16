@@ -198,15 +198,14 @@ class RelatedQuizViewModel
     }
 
     private fun getUiItem(request: RelatedQuizRequest, item: RelatedQuiz): RelatedQuizItem {
-        var uiItem: RelatedQuizItem? =
-            mapper.getUiItem(item.id, item.type, item.subtype, item.level)
+        var uiItem: RelatedQuizItem? = mapper.getUiItem(item.id, item.type, item.subtype, item.level)
         if (uiItem == null) {
             uiItem = RelatedQuizItem.getItem(item)
             mapper.putUiItem(uiItem)
         }
         uiItem.item = item
+        uiItem.point = mapper.getPoint(item, pointMapper, pointRepo)
         return uiItem
-        return RelatedQuizItem.getItem(item)
     }
 
     private fun nextRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
@@ -257,7 +256,7 @@ class RelatedQuizViewModel
         var quiz: RelatedQuiz? = request.input
         quiz?.run {
             given = request.given
-            pointId = mapper.getPoint(this, pointMapper, pointRepo)
+            pointId = mapper.getPoint(this, pointMapper, pointRepo)?.id
         }
         return quiz
     }

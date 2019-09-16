@@ -132,6 +132,7 @@ class LoaderViewModel
             val startAt = wordPref.getTrackStartAt()
             var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
             if (!result.isNullOrEmpty()) {
+                Timber.v("firestoreAny Track downloaded [%d]", result.size)
                 val stores = ArrayList<Store>()
                 result.forEach { tuple ->
                     val id = tuple.first
@@ -152,14 +153,19 @@ class LoaderViewModel
                 val resultOf = storeRepo.putItems(stores)
                 if (DataUtil.isEqual(result, resultOf)) {
                     wordPref.setTrackStartAt(stores.last().id)
+                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    Timber.v("firestoreAny Track downloading semi completed [%d]", totalTrack)
                 }
             }
 
             if (result == null) {
                 if (network.hasInternet()) {
                     wordPref.commitTrackLoaded()
+                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    Timber.v("firestoreAny Track download completed [%d]", totalTrack)
                 }
             }
+            AndroidUtil.sleep(100L)
         } while (network.hasInternet() && !wordPref.isTrackLoaded())
 
     }

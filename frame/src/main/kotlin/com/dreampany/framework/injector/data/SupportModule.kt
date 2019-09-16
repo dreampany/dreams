@@ -46,7 +46,7 @@ class SupportModule {
 
     @Singleton
     @Provides
-    @StoreAnnote
+    @PointAnnote
     fun providePointSmartCache(): SmartCache<String, Point> {
         return SmartCache.newCache()
     }

@@ -5,6 +5,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -21,7 +22,6 @@ import com.dreampany.framework.util.NumberUtil
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.PointMapper
 import com.dreampany.tools.data.misc.RelatedQuizMapper
 import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.misc.WordMapper

@@ -47,11 +47,13 @@ private constructor(
     }
 
     fun played(): Boolean {
-        return item.point != 0
+        //return item.point != 0
+        return false
     }
 
     fun isWinner() : Boolean {
-        return item.point > 0
+        //return item.point > 0
+        return false
     }
 
     override fun createViewHolder(

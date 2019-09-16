@@ -197,8 +197,6 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            /*rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
             if (word.hasSynonyms())
                 rx.compute(
                     putStoreRx(
@@ -226,8 +224,6 @@ class WordRepository
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
                     rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.ERROR))
                         .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-                    /*rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                        .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
                 }
                 return@Consumer
             }
@@ -241,8 +237,6 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-/*            rx.compute(removeStoreRx(word, Type.WORD, Subtype.DEFAULT, State.RAW))
-                .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())*/
             if (word.hasSynonyms()) rx.compute(
                 putStoreRx(
                     word.id,

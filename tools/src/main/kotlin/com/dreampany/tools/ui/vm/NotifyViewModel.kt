@@ -96,22 +96,32 @@ class NotifyViewModel
             return
         }
         Timber.v("Getting... Store")
+        var trackCount = 0
         do {
             Timber.v("Getting... TRACK Store")
-            var store = nextStore(State.TRACK, State.FULL)
+            var store = nextStore(Type.WORD, Subtype.DEFAULT, State.TRACK)
             store?.run {
-                Timber.v("Track Next sync word %s", id)
-                syncStore(request, this)
+                Timber.v("TRACK Next sync word %s", id)
+                if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
+                    removeStore(this.id, this.type, this.subtype, State.RAW)
+                    removeStore(this.id, this.type, this.subtype, State.TRACK)
+                    return@run
+                }
+                val result = syncStore(request, this)
+                if (result) {
+                    trackCount++
+                }
             }
-            AndroidUtil.sleep(100)
-        } while (store != null)
+            AndroidUtil.sleep(10)
+        } while (store != null && trackCount < Constants.Count.WORD_PER_TRACK)
 
         Timber.v("Getting... FAW Store")
-        val store = nextStore(State.RAW, State.FULL)
+        val store = nextStore(Type.WORD, Subtype.DEFAULT, State.RAW, exclude = State.TRACK)
         store?.run {
             Timber.v("RAW Next sync word %s", id)
             if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
-                removeStoreRx(this.id, this.type, this.subtype, State.RAW)
+                removeStore(this.id, this.type, this.subtype, State.RAW)
+                removeStore(this.id, this.type, this.subtype, State.TRACK)
                 return@run
             }
             Timber.v("RAW Next sync word %s", id)
@@ -120,20 +130,25 @@ class NotifyViewModel
         }
     }
 
-    private fun nextStore(from: State, to: State): Store? {
+    private fun nextStore(type:Type,
+                          subtype: Subtype,
+                          target: State,
+                          exclude: State? = null): Store? {
         var store: Store? = null
         do {
-            store = storeRepo.getRandomItem(Type.WORD, Subtype.DEFAULT, from)
+            store = if (exclude == null) storeRepo.getRandomItem(type, subtype, target)
+            else storeRepo.getRandomItem(type, subtype, target, exclude)
+
             if (store == null) break
-            if (storeRepo.isExists(store.id, Type.WORD, Subtype.DEFAULT, to)) {
+            /*if (storeRepo.isExists(store.id, Type.WORD, Subtype.DEFAULT, fallback)) {
                 storeRepo.delete(store)
                 store = null
-            }
+            }*/
         } while (store == null)
         return store
     }
 
-    private fun syncStore(request: WordRequest, store: Store) {
+    private fun syncStore(request: WordRequest, store: Store) : Boolean {
         Timber.v("Sync Word/.. %s", this.toString())
         try {
             var item = mapper.getItem(store, repo)
@@ -143,10 +158,12 @@ class NotifyViewModel
                     putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
                 }
                 val uiItem = getUiItem(request, this)
+                return true
             }
         } catch (error: Throwable) {
             Timber.e(error)
         }
+        return false
     }
 
     private fun getUiItem(request: WordRequest, item: Word): WordItem {
@@ -182,7 +199,7 @@ class NotifyViewModel
         return storeRepo.putItem(store)
     }
 
-    private fun hasStore(id: String, type: Type, subtype: Subtype, vararg states: State) : Boolean {
+    private fun hasStore(id: String, type: Type, subtype: Subtype, vararg states: State): Boolean {
         val result = arrayOf<State>()
         states?.forEach {
             result.plusElement(it)
@@ -190,9 +207,9 @@ class NotifyViewModel
         return storeRepo.isExists(id, type, subtype, result)
     }
 
-    private fun removeStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Int> {
+    private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
         val store = storeMapper.getItem(id, type, subtype, state)
-        val result = storeRepo.deleteRx(store)
+        val result = storeRepo.delete(store)
         return result
     }
 

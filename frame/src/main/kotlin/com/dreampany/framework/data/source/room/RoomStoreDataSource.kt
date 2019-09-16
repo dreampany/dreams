@@ -23,6 +23,9 @@ constructor(
     private val mapper: StoreMapper,
     private val dao: StoreDao
 ) : StoreDataSource {
+    override fun getRandomItem(type: Type, subtype: Subtype, state: State, exclude: State): Store? {
+        return dao.getRandomItem(type.name, subtype.name, state.name, exclude.name)
+    }
 
     override fun getItem(type: Type, subtype: Subtype, state: State): Store? {
         return dao.getItem(type.name, subtype.name, state.name)

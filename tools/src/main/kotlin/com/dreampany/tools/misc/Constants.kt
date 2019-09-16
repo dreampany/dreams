@@ -127,6 +127,7 @@ class Constants {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
+        const val WORD_PER_TRACK = 2
     }
 
     object Limit {

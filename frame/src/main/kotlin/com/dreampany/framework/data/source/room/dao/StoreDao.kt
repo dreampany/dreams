@@ -50,9 +50,6 @@ interface StoreDao : BaseDao<Store> {
     @Query("select * from store where type = :type and subtype = :subtype and state = :state limit 1")
     fun getItem(type: String, subtype: String, state: String): Store?
 
-    @Query("select * from store where type = :type and subtype = :subtype and state = :state order by random() limit 1")
-    fun getRandomItem(type: String, subtype: String, state: String): Store?
-
     @Query("select * from store where type = :type and subtype = :subtype and state = :state limit 1")
     fun getItemRx(type: String, subtype: String, state: String): Maybe<Store>
 
@@ -88,4 +85,10 @@ interface StoreDao : BaseDao<Store> {
 
     @Query("select * from store where type = :type and subtype = :subtype and state = :state limit :limit")
     fun getItemsRx(type: String, subtype: String, state: String, limit: Long): Maybe<List<Store>>
+
+    @Query("select * from store where type = :type and subtype = :subtype and state = :state order by random() limit 1")
+    fun getRandomItem(type: String, subtype: String, state: String): Store?
+
+    @Query("select * from store where type = :type and subtype = :subtype and state = :state and state != :exclude order by random() limit 1")
+    fun getRandomItem(type: String, subtype: String, state: String, exclude: String): Store?
 }

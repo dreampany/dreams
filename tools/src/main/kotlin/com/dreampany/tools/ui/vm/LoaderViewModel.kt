@@ -109,6 +109,7 @@ class LoaderViewModel
                 alphaLoading = true
                 loadAlphas(request)
                 alphaLoading = false
+                request(request)
             })
         }
     }

@@ -44,6 +44,9 @@ import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import timber.log.Timber
 import java.io.IOException
+import java.math.BigDecimal
+import java.text.NumberFormat
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -126,7 +129,6 @@ class RelatedQuizFragment
     }
 
     private fun initUi() {
-        //setTitle(R.string.home)
         bind = super.binding as FragmentRelatedQuizBinding
         bindStatus = bind.layoutTopStatus
         bindRelated = bind.layoutRelatedQuiz
@@ -221,8 +223,15 @@ class RelatedQuizFragment
 
     private fun processSingleSuccess(action: Action, item: RelatedQuizItem) {
         Timber.v("Result Related Quiz[%s]", item.item.id)
+        if (action == Action.GET) {
+            bindRelated.buttonView.isEnabled = false
+        }
         if (action == Action.NEXT) {
             adapter.clear()
+            bindRelated.buttonView.isEnabled = false
+        }
+        if (action == Action.SOLVE) {
+            bindRelated.buttonView.isEnabled = true
         }
         quizItem = item
         val result = item.getOptionItems(context!!)

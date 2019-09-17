@@ -54,19 +54,16 @@ class PointMapper
     ): Point? {
         var item: Point? = null
         if (isExists(id, type, subtype, level)) {
-            item?.credit = credit
             item = map.get(id)
         }
         if (item == null) {
             item = source.getItem(id, type, subtype, level)
-            item?.credit = credit
-            map.put(id, item)
         }
         if (item == null) {
             item = Point(id = id, type = type, subtype = subtype, level = level)
-            item.credit = credit
-            map.put(id, item)
         }
+        item.credit = credit
+        map.put(id, item)
         return item
     }
 

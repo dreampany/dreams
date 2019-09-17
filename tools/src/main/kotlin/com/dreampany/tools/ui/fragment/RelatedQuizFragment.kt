@@ -40,13 +40,11 @@ import com.dreampany.tools.ui.vm.RelatedQuizViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import nl.dionsegijn.konfetti.ParticleSystem
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import timber.log.Timber
 import java.io.IOException
-import java.math.BigDecimal
-import java.text.NumberFormat
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -75,6 +73,7 @@ class RelatedQuizFragment
 
     private lateinit var subtype: Subtype
     private var quizItem: RelatedQuizItem? = null
+    private var particle: ParticleSystem? = null
 
 
     override fun getLayoutId(): Int {
@@ -113,6 +112,7 @@ class RelatedQuizFragment
                 }
             }
             R.id.button_next -> {
+                bind.konfetti.stop(particle!!)
                 request(action = Action.NEXT, single = true, progress = true)
             }
         }
@@ -260,17 +260,19 @@ class RelatedQuizFragment
     }
 
     private fun rightAnswer() {
-        bind.viewKonfetti.run {
-            build()
-                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+        if (particle == null) {
+            particle = bind.konfetti.build()
+            particle!!.addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
                 .setDirection(0.0, 359.0)
                 .setSpeed(1f, 5f)
                 .setFadeOutEnabled(true)
                 .setTimeToLive(1000L)
                 .addShapes(Shape.RECT, Shape.CIRCLE)
                 .addSizes(Size(10))
-                .setPosition(-50f, width + 50f, -50f, -50f)
+                .setPosition(-50f, bind.konfetti.width + 50f, -50f, -50f)
                 .streamFor(300, 3000L)
+        } else {
+            bind.konfetti.start(particle!!)
         }
 
     }

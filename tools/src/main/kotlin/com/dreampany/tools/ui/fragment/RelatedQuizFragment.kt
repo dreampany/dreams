@@ -3,12 +3,15 @@ package com.dreampany.tools.ui.fragment
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
@@ -27,6 +30,7 @@ import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentRelatedQuizBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -61,6 +65,8 @@ class RelatedQuizFragment
     SmartAdapter.OnUiItemClickListener<QuizOptionItem?, Action?> {
 
     @Inject
+    internal lateinit var pref: Pref
+    @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     private lateinit var bind: FragmentRelatedQuizBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -80,12 +86,23 @@ class RelatedQuizFragment
         return R.layout.fragment_related_quiz
     }
 
+    override fun getMenuId(): Int {
+        return R.menu.menu_related_quiz
+    }
+
     override fun getTitleResId(): Int {
         val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return R.string.quiz
         when (uiTask.subtype) {
             Subtype.SYNONYM -> return R.string.synonym_quiz
             Subtype.ANTONYM -> return R.string.antonym_quiz
             else -> return R.string.quiz
+        }
+    }
+
+    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
+        val level = pref.getLevel(Level.A1)
+        findMenuItemById(R.id.item_level)?.apply {
+            title = getString(R.string.format_level, level.name)
         }
     }
 

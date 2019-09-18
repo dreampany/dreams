@@ -1,6 +1,6 @@
 package com.dreampany.framework.data.enums
 
-import android.os.Parcelable
+import   android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 /**

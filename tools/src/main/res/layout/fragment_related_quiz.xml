@@ -44,12 +44,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-<!--                    <include
-                        android:id="@+id/layout_recycler"
-                        layout="@layout/content_recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        auto:items="@{items}" />-->
+                    <!--                    <include
+                                            android:id="@+id/layout_recycler"
+                                            layout="@layout/content_recycler"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            auto:items="@{items}" />-->
 
                     <include
                         android:id="@+id/layout_related_quiz"
@@ -65,7 +65,7 @@
             <nl.dionsegijn.konfetti.KonfettiView
                 android:id="@+id/konfetti"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -99,6 +99,8 @@ class Constants {
     }
 
     object Pref {
+        const val LEVEL = "level"
+        const val LANGUAGE = "language"
         const val LOAD = "load"
         const val WORD = "word"
         const val WORD_TRACK_LOADED = "word_track_loaded"
@@ -189,10 +191,6 @@ class Constants {
 
     object Contact {
         const val ID = Constants.Key.ID
-    }
-
-    object Language {
-        const val LANGUAGE = "language"
     }
 
     object RequestCode {

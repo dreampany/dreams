@@ -14,6 +14,12 @@ import io.reactivex.Maybe
  */
 interface PointDataSource : DataSource<Point> {
 
+    fun getCredits() : Int
+
+    fun getCredits(type: Type) : Int
+
+    fun getCredits(type: Type, subtype: Subtype) : Int
+
     fun getItem(id: String, type: Type, subtype: Subtype, level: Level): Point?
 
     fun getItemRx(id: String, type: Type, subtype: Subtype, level: Level): Maybe<Point>

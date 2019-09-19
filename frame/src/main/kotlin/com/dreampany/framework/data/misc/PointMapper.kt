@@ -67,4 +67,22 @@ class PointMapper
         return item
     }
 
+    fun getItem(
+        type: Type,
+        subtype: Subtype,
+        source: PointDataSource
+    ): Point? {
+        val credit = source.getCredits(type, subtype)
+        var point = Point(type = type, subtype = subtype, credit = credit)
+        return point
+    }
+
+    fun getItem(
+        source: PointDataSource
+    ): Point? {
+        val credit = source.getCredits()
+        var point = Point(credit = credit)
+        return point
+    }
+
 }

@@ -37,6 +37,8 @@ private constructor(
     private var color: Color
     private var optionItems: ArrayList<QuizOptionItem>? = Constants.Default.NULL
     var point: Point? = Constants.Default.NULL
+    var typePoint: Point? = Constants.Default.NULL
+    var totalPoint: Point? = Constants.Default.NULL
 
     init {
         color = ColorUtil.createGreyColor()
@@ -71,8 +73,8 @@ private constructor(
 
     fun getOptionItems(context: Context): List<QuizOptionItem> {
         if (optionItems.isNullOrEmpty()) {
-            optionItems = ArrayList<QuizOptionItem>()
-            optionItems!!.add(getHeaderOptionItem(context))
+            optionItems = ArrayList()
+            //optionItems!!.add(getHeaderOptionItem(context))
             for (index in 0..item.options!!.size - 1) {
                 optionItems!!.add(
                     getOptionItem(
@@ -95,15 +97,21 @@ private constructor(
         return optionItems!!
     }
 
-    private fun getHeaderOptionItem(context: Context): QuizOptionItem {
+    fun getHeaderOptionItem(context: Context): QuizOptionItem {
         val id = TextUtil.getString(
             context,
             R.string.title_quiz_header,
             item.subtype.name.toLowerCase(),
             item.id
         )
-        val header = QuizOption(id = id!!, header = true)
-        return QuizOptionItem.getItem(header)
+        val credit = typePoint!!.credit
+        val totalCredit = totalPoint!!.credit
+        val header =
+            QuizOption(id = id!!, header = true)
+        val item = QuizOptionItem.getItem(header)
+        item.credit = credit
+        item.totalCredit = totalCredit
+        return item
     }
 
     private fun getOptionItem(option: String, letter: Char): QuizOptionItem {

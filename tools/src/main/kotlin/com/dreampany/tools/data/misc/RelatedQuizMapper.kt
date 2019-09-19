@@ -85,4 +85,14 @@ class RelatedQuizMapper
         val point = pointMapper.getItem(quiz.id, quiz.type, quiz.subtype, quiz.level, credit, source)
         return point
     }
+
+    fun getPointByType(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): Point? {
+        val point = pointMapper.getItem(quiz.type, quiz.subtype, source)
+        return point
+    }
+
+    fun getTotalPoint(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): Point? {
+        val point = pointMapper.getItem(source)
+        return point
+    }
 }

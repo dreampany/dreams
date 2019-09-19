@@ -31,10 +31,7 @@ import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
-import com.dreampany.tools.databinding.ContentRecyclerBinding
-import com.dreampany.tools.databinding.ContentRelatedQuizBinding
-import com.dreampany.tools.databinding.ContentTopStatusBinding
-import com.dreampany.tools.databinding.FragmentRelatedQuizBinding
+import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
@@ -71,6 +68,7 @@ class RelatedQuizFragment
     private lateinit var bind: FragmentRelatedQuizBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRelated: ContentRelatedQuizBinding
+    private lateinit var bindRelatedHeader: ContentRelatedQuizHeaderBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var vm: RelatedQuizViewModel
@@ -129,7 +127,11 @@ class RelatedQuizFragment
                 }
             }
             R.id.button_next -> {
-                bind.konfetti.stop(particle!!)
+                particle?.run {
+                    bind.konfetti.stop(this)
+                }
+                processUiState(UiState.DEFAULT)
+                adapter.clear()
                 request(action = Action.NEXT, single = true, progress = true)
             }
         }
@@ -149,7 +151,9 @@ class RelatedQuizFragment
         bind = super.binding as FragmentRelatedQuizBinding
         bindStatus = bind.layoutTopStatus
         bindRelated = bind.layoutRelatedQuiz
+        bindRelatedHeader = bindRelated.layoutHeader
         bindRecycler = bindRelated.layoutRecycler
+
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindRelated.buttonView.setOnClickListener(this)
@@ -168,6 +172,8 @@ class RelatedQuizFragment
         vm = ViewModelProviders.of(this, factory).get(RelatedQuizViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+
+        processUiState(UiState.DEFAULT)
     }
 
     private fun initRecycler() {
@@ -207,7 +213,9 @@ class RelatedQuizFragment
             UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.ERROR -> {
             }
-            UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
+            UiState.CONTENT -> {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+            }
         }
     }
 
@@ -251,7 +259,11 @@ class RelatedQuizFragment
             bindRelated.buttonView.isEnabled = true
         }
         quizItem = item
+        val headerItem = item.getHeaderOptionItem(context!!)
         val result = item.getOptionItems(context!!)
+
+        bindRelatedHeader.textPoint.text = getString(R.string.format_double_point, headerItem.credit, headerItem.totalCredit)
+        bindRelatedHeader.textTitle.text = headerItem.item.id
         adapter.addItems(result)
         processUiState(UiState.CONTENT)
 

@@ -7,5 +7,6 @@
 
     <string name="select_language">Select Language</string>
     <string name="format_level">L: %s</string>
+    <string name="format_double_point">%d / %d</string>
 
 </resources>

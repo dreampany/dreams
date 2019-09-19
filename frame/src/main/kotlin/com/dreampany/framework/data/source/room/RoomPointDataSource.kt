@@ -20,6 +20,18 @@ constructor(
     private val mapper: PointMapper,
     private val dao: PointDao
 ) : PointDataSource {
+    override fun getCredits(): Int {
+        return dao.getCredits()
+    }
+
+    override fun getCredits(type: Type): Int {
+        return dao.getCredits(type)
+    }
+
+    override fun getCredits(type: Type, subtype: Subtype): Int {
+        return dao.getCredits(type, subtype)
+    }
+
     override fun getItem(id: String, type: Type, subtype: Subtype, level: Level): Point? {
         return dao.getItem(id, type.name, subtype.name, level.name)
     }

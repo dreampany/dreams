@@ -7,7 +7,7 @@ import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
-import com.dreampany.framework.util.TimeUtilKt
+import com.dreampany.framework.util.*
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -42,6 +42,18 @@ data class Point(
     constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
 
     }
+
+/*    constructor(
+        type: Type,
+        subtype: Subtype,
+        credit: Int
+    ) : this(
+        time = TimeUtilKt.currentMillis(),
+        id = DataUtilKt.getRandId(),
+        type = type,
+        subtype = subtype,
+        credit = credit) {
+    }*/
 
     constructor(
         id: String,

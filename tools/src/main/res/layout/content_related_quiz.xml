@@ -7,6 +7,10 @@
     <data>
 
         <variable
+            name="header"
+            type="com.dreampany.tools.ui.model.QuizOptionItem" />
+
+        <variable
             name="items"
             type="androidx.databinding.ObservableArrayList" />
     </data>
@@ -17,13 +21,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/_10sdp">
+            android:paddingStart="@dimen/_10sdp"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <include
+                android:id="@+id/layout_header"
+                layout="@layout/content_related_quiz_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/layout_recycler"
                 layout="@layout/content_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@id/layout_header"
+                android:layout_marginTop="@dimen/_20sdp"
                 auto:items="@{items}" />
 
             <LinearLayout
@@ -40,7 +55,7 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:minHeight="@dimen/_50sdp"
+                    android:minHeight="@dimen/_40sdp"
                     android:paddingStart="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_5sdp"
                     auto:fb_backgroundColor="@color/material_grey200"
@@ -59,7 +74,7 @@
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:minHeight="@dimen/_50sdp"
+                    android:minHeight="@dimen/_40sdp"
                     android:paddingStart="@dimen/_5sdp"
                     android:paddingEnd="@dimen/_5sdp"
                     auto:fb_backgroundColor="@color/material_grey200"

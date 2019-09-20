@@ -206,7 +206,7 @@ class RelatedQuizViewModel
         uiItem.item = item
         uiItem.point = mapper.getPoint(item, pointMapper, pointRepo)
         uiItem.run {
-            point = mapper.getPointByType(this.item, pointMapper, pointRepo)
+            typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
             totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
         }
         return uiItem

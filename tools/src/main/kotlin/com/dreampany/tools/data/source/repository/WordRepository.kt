@@ -54,7 +54,10 @@ class WordRepository
         return firestore.getTracks(startAt, limit)
     }
 
-    override fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>> {
+    override fun getTracksRx(
+        startAt: String,
+        limit: Long
+    ): Maybe<List<Pair<String, Map<String, Any>>>> {
         return firestore.getTracksRx(startAt, limit)
     }
 
@@ -258,7 +261,13 @@ class WordRepository
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
     }
 
-    /* private */
+    fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        val result = storeRepo.delete(store)
+        return result
+    }
+
+    //region private
     private fun getRoomItemRx(id: String): Maybe<Word> {
         return Maybe.create { emitter ->
             val hasFull = storeRepo.isExists(id, Type.WORD, Subtype.DEFAULT, State.FULL)
@@ -276,7 +285,7 @@ class WordRepository
         }
     }
 
-   private fun putStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Long> {
+    private fun putStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Long> {
         val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.putItemRx(store)
     }
@@ -286,4 +295,5 @@ class WordRepository
         val result = storeRepo.deleteRx(store)
         return result
     }
+    //endregion
 }

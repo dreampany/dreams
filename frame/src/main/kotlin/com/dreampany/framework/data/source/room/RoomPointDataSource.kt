@@ -65,7 +65,7 @@ constructor(
     }
 
     override fun putItem(t: Point): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun putItemRx(t: Point): Maybe<Long> {

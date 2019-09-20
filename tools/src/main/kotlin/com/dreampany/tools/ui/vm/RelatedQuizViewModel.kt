@@ -260,7 +260,13 @@ class RelatedQuizViewModel
         var quiz: RelatedQuiz? = request.input
         quiz?.run {
             given = request.given
-            pointId = mapper.getPoint(this, pointMapper, pointRepo)?.id
+            val point = mapper.getPoint(this, pointMapper, pointRepo)
+            point?.run {
+                pointId = id
+                pointRepo.putItem(point)
+            }
+
+            wordRepo.removeStore(id, request.type, request.subtype, request.state)
         }
         return quiz
     }

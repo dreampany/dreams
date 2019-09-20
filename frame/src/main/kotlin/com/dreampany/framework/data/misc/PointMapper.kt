@@ -52,19 +52,19 @@ class PointMapper
         credit: Int,
         source: PointDataSource
     ): Point? {
-        var item: Point? = null
+        var point: Point? = null
         if (isExists(id, type, subtype, level)) {
-            item = map.get(id)
+            point = map.get(id)
         }
-        if (item == null) {
-            item = source.getItem(id, type, subtype, level)
+        if (point == null) {
+            point = source.getItem(id, type, subtype, level)
         }
-        if (item == null) {
-            item = Point(id = id, type = type, subtype = subtype, level = level)
+        if (point == null) {
+            point = Point(id = id, type = type, subtype = subtype, level = level)
         }
-        item.credit = credit
-        map.put(id, item)
-        return item
+        point.credit = credit
+        map.put(id, point)
+        return point
     }
 
     fun getItem(

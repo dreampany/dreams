@@ -200,7 +200,7 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            if (word.hasSynonyms())
+            if (word.hasSynonyms()) {
                 rx.compute(
                     putStoreRx(
                         word.id,
@@ -209,7 +209,8 @@ class WordRepository
                         State.DEFAULT
                     )
                 ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            if (word.hasAntonyms())
+            }
+            if (word.hasAntonyms()) {
                 rx.compute(
                     putStoreRx(
                         word.id,
@@ -218,6 +219,7 @@ class WordRepository
                         State.DEFAULT
                     )
                 ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            }
         })
         val remoteAny = concatSingleSuccess(remote.getItemRx(id), Consumer { word ->
             Timber.v("remoteAny [%s] [%d]", word.id, word.weight())
@@ -240,23 +242,21 @@ class WordRepository
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
             rx.compute(putStoreRx(word.id, Type.WORD, Subtype.DEFAULT, State.FULL))
                 .subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            if (word.hasSynonyms()) rx.compute(
-                putStoreRx(
-                    word.id,
-                    Type.QUIZ,
-                    Subtype.SYNONYM,
-                    State.DEFAULT
-                )
-            ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-            if (word.hasAntonyms()) rx.compute(
-                putStoreRx(
-                    word.id,
-                    Type.QUIZ,
-                    Subtype.ANTONYM,
-                    State.DEFAULT
-                )
-            ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
-
+            if (word.hasSynonyms()) {
+                rx.compute(
+                    putStoreRx(word.id, Type.QUIZ, Subtype.SYNONYM, State.DEFAULT)
+                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            }
+            if (word.hasAntonyms()) {
+                rx.compute(
+                    putStoreRx(
+                        word.id,
+                        Type.QUIZ,
+                        Subtype.ANTONYM,
+                        State.DEFAULT
+                    )
+                ).subscribe(Functions.emptyConsumer(), Functions.emptyConsumer())
+            }
         })
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
     }

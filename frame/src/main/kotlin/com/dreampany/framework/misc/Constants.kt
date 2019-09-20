@@ -15,11 +15,13 @@ class Constants {
 
     companion object {
         fun database(name: String): String {
-            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + Database.POST_FIX
+            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name))
+                .plus(Sep.HYPHEN).plus(Database.POST_FIX)
         }
 
         fun database(name: String, type: String): String {
-            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + type + Database.POST_FIX
+            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name))
+                .plus(Sep.HYPHEN).plus(type).plus(Database.POST_FIX)
         }
 
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)!!
@@ -79,9 +81,9 @@ class Constants {
     }
 
     object Pref {
-       const val VERSION_CODE = "version_code"
-       const val RANK = "rank"
-       const val LEVEL = "level"
+        const val VERSION_CODE = "version_code"
+        const val RANK = "rank"
+        const val LEVEL = "level"
     }
 
     object AdTime {
@@ -101,7 +103,7 @@ class Constants {
     object Database {
         const val TYPE_FRAME = "frame"
         const val TYPE_TRANSLATION = "translation"
-        const val POST_FIX = Sep.HYPHEN + "db"
+        const val POST_FIX = Sep.DOT + "db"
     }
 
     object Key {
@@ -176,7 +178,8 @@ class Constants {
 
     object Pattern {
         const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
-        const val PATTERN_IMAGE_URL = "^https?://(?:[a-z0-9\\-]+\\.)+[a-z0-9]{2,6}(?:/[^/#?]+)+\\.(?:jpg|gif|png)\$"
+        const val PATTERN_IMAGE_URL =
+            "^https?://(?:[a-z0-9\\-]+\\.)+[a-z0-9]{2,6}(?:/[^/#?]+)+\\.(?:jpg|gif|png)\$"
         val IMAGE_PATTERN = java.util.regex.Pattern.compile(PATTERN_IMAGE_URL)
     }
 

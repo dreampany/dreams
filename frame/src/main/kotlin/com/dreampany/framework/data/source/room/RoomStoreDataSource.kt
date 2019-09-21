@@ -10,7 +10,6 @@ import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.misc.exception.EmptyException
 import io.reactivex.Maybe
 import timber.log.Timber
-import javax.inject.Singleton
 
 /**
  * Created by roman on 2019-07-25

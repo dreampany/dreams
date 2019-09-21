@@ -16,12 +16,12 @@ class Constants {
     companion object {
         fun database(name: String): String {
             return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name))
-                .plus(Sep.HYPHEN).plus(Database.POST_FIX)
+                .plus(Sep.DOT).plus(Database.POST_FIX_DB)
         }
 
         fun database(name: String, type: String): String {
             return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name))
-                .plus(Sep.HYPHEN).plus(type).plus(Database.POST_FIX)
+                .plus(Sep.DOT).plus(type).plus(Sep.DOT).plus(Database.POST_FIX_DB)
         }
 
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)!!
@@ -103,7 +103,7 @@ class Constants {
     object Database {
         const val TYPE_FRAME = "frame"
         const val TYPE_TRANSLATION = "translation"
-        const val POST_FIX = Sep.DOT + "db"
+        const val POST_FIX_DB = "db"
     }
 
     object Key {

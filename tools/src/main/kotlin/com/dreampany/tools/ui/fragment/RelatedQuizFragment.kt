@@ -10,10 +10,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.Level
-import com.dreampany.framework.data.enums.Subtype
-import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.exception.EmptyException
@@ -109,7 +106,7 @@ class RelatedQuizFragment
         subtype = uiTask.subtype
         initUi()
         initRecycler()
-        request(action = Action.GET, single = true, progress = true)
+        request(state = State.DEFAULT, exclude = State.PLAYED, action = Action.GET, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -132,7 +129,7 @@ class RelatedQuizFragment
                 }
                 processUiState(UiState.DEFAULT)
                 adapter.clear()
-                request(action = Action.NEXT, single = true, progress = true)
+                request(state = State.DEFAULT, exclude = State.PLAYED, action = Action.NEXT, single = true, progress = true)
             }
         }
     }
@@ -262,7 +259,13 @@ class RelatedQuizFragment
         val headerItem = item.getHeaderOptionItem(context!!)
         val result = item.getOptionItems(context!!)
 
-        bindRelatedHeader.textPoint.text = getString(R.string.format_double_point, headerItem.credit, headerItem.totalCredit)
+        bindRelatedHeader.textPoint.text =
+            getString(R.string.format_quiz_point, headerItem.credit, headerItem.totalCredit)
+
+        bindRelatedHeader.textCount.text =
+            getString(R.string.format_quiz_count, headerItem.count, headerItem.totalCount)
+
+
         bindRelatedHeader.textTitle.text = headerItem.item.id
         adapter.addItems(result)
         processUiState(UiState.CONTENT)
@@ -285,20 +288,23 @@ class RelatedQuizFragment
         }
         val quiz = quizItem!!.item
         val given = item.item.id
-        request(action = Action.SOLVE, input = quiz, single = true, progress = false, given = given)
+        request(state = State.DEFAULT, exclude = State.PLAYED, action = Action.SOLVE, input = quiz, single = true, progress = false, given = given)
     }
 
     private fun rightAnswer() {
         particle = bind.konfetti.build()
-        particle!!.addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-            .setDirection(0.0, 359.0)
-            .setSpeed(1f, 5f)
-            .setFadeOutEnabled(true)
-            .setTimeToLive(1000L)
-            .addShapes(Shape.RECT, Shape.CIRCLE)
-            .addSizes(Size(10))
-            .setPosition(-50f, bind.konfetti.width + 50f, -50f, -50f)
-            .streamFor(300, 3000L)
+        particle?.apply {
+            addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(1000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(Size(10))
+                .setPosition(-50f, bind.konfetti.width + 50f, -50f, -50f)
+                .streamFor(300, 3000L)
+        }
+        bind.konfetti.start(particle!!)
     }
 
     private fun wrongAnswer() {
@@ -315,6 +321,8 @@ class RelatedQuizFragment
     }
 
     private fun request(
+        state: State = State.DEFAULT,
+        exclude: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         input: RelatedQuiz? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
@@ -325,6 +333,8 @@ class RelatedQuizFragment
         val request = RelatedQuizRequest(
             type = Type.QUIZ,
             subtype = subtype,
+            state = state,
+            exclude = exclude,
             action = action,
             input = input,
             single = single,

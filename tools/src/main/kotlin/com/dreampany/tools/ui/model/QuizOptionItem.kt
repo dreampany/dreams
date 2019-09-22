@@ -38,6 +38,9 @@ private constructor(
     var credit: Int = Constants.Default.INT
     var totalCredit: Int = Constants.Default.INT
 
+    var count: Int = Constants.Default.INT
+    var totalCount: Int = Constants.Default.INT
+
 
     init {
         color = ColorUtil.createGreyColor()

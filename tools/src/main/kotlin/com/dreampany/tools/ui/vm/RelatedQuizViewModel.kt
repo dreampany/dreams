@@ -209,7 +209,7 @@ class RelatedQuizViewModel
         uiItem.run {
             typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
             totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
-            typeCount = storeRepo.getCountByType(request.type, request.subtype, request.exclude)
+            typeCount = storeRepo.getCountByType(request.type, request.subtype, request.state)
             totalCount = storeRepo.getCountByType(request.type, request.subtype, request.state)
         }
         return uiItem
@@ -218,7 +218,7 @@ class RelatedQuizViewModel
     private fun nextRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
         var quiz: RelatedQuiz? = null
         do {
-            val store = storeRepo.getRandomItem(request.type, request.subtype, request.state, request.exclude)
+            val store = storeRepo.getRandomItem(request.type, request.subtype, request.state)
             if (store == null) {
                 return null
             }
@@ -269,7 +269,7 @@ class RelatedQuizViewModel
                 pointId = id
                 pointRepo.putItem(point)
             }
-            wordRepo.putStore(id, request.type, request.subtype, request.exclude)
+            wordRepo.putStore(id, request.type, request.subtype, request.state)
         }
         return quiz
     }

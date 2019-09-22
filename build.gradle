@@ -8,13 +8,14 @@ buildscript {
         mavenCentral()
         maven { url 'https://jitpack.io' }
         maven { url 'https://maven.fabric.io/public' }
-        maven { url 'https://plugins.gradle.org/m2/' }
-        maven { url "https://kotlin.bintray.com/kotlinx/" }
+        maven { url 'https://plugins.gradle.org/m2' }
+        maven { url 'https://kotlin.bintray.com/kotlinx' }
+        maven { url 'https://dl.bintray.com/dreampanymail/android' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.gms:google-services:4.3.1'
+        classpath 'com.google.gms:google-services:4.3.2'
         //classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0-beta02'
         //classpath 'com.google.firebase:firebase-plugins:1.1.5'
         //classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'

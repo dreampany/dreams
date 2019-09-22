@@ -106,7 +106,7 @@ class RelatedQuizFragment
         subtype = uiTask.subtype
         initUi()
         initRecycler()
-        request(state = State.DEFAULT, exclude = State.PLAYED, action = Action.GET, single = true, progress = true)
+        request(state = State.DEFAULT, action = Action.GET, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -129,7 +129,7 @@ class RelatedQuizFragment
                 }
                 processUiState(UiState.DEFAULT)
                 adapter.clear()
-                request(state = State.DEFAULT, exclude = State.PLAYED, action = Action.NEXT, single = true, progress = true)
+                request(state = State.DEFAULT, action = Action.NEXT, single = true, progress = true)
             }
         }
     }
@@ -288,7 +288,7 @@ class RelatedQuizFragment
         }
         val quiz = quizItem!!.item
         val given = item.item.id
-        request(state = State.DEFAULT, exclude = State.PLAYED, action = Action.SOLVE, input = quiz, single = true, progress = false, given = given)
+        request(state = State.PLAYED, action = Action.SOLVE, input = quiz, single = true, progress = false, given = given)
     }
 
     private fun rightAnswer() {
@@ -322,7 +322,6 @@ class RelatedQuizFragment
 
     private fun request(
         state: State = State.DEFAULT,
-        exclude: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         input: RelatedQuiz? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
@@ -334,7 +333,6 @@ class RelatedQuizFragment
             type = Type.QUIZ,
             subtype = subtype,
             state = state,
-            exclude = exclude,
             action = action,
             input = input,
             single = single,

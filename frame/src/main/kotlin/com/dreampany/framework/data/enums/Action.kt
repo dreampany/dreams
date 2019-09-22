@@ -11,5 +11,9 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Action : Parcelable {
-    DEFAULT, ADD, EDIT, UPDATE, DELETE, GET, LOAD, SEARCH, SYNC, OPEN, PLAY, DETAILS, OPTIONS, TRASH, FAVORITE, ARCHIVE
+    DEFAULT, ADD, EDIT, UPDATE,
+    DELETE, GET, LOAD, SEARCH,
+    SYNC, OPEN, PLAY, DETAILS,
+    OPTIONS, TRASH, FAVORITE, ARCHIVE,
+    SOLVE, NEXT
 }

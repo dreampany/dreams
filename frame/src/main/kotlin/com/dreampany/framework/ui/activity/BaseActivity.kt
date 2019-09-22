@@ -424,6 +424,10 @@ abstract class BaseActivity :
         AndroidUtil.openActivity(this, target, task)
     }
 
+    fun openActivity(target: Class<*>, task: Task<*>, requestCode: Int) {
+        AndroidUtil.openActivity(this, target, task, requestCode)
+    }
+
     fun openActivity(target: Class<*>, task: Task<*>, finish: Boolean) {
         AndroidUtil.openActivity(this, target, task, finish)
     }

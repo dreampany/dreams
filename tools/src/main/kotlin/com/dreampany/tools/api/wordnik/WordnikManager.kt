@@ -28,6 +28,7 @@ class WordnikManager
 
     private val keys = arrayOf(
         Constants.ApiKey.WORDNIK_API_KEY_DREAM_DEBUG_1,
+        Constants.ApiKey.WORDNIK_API_KEY_DREAM_DEBUG_2,
         Constants.ApiKey.WORDNIK_API_KEY_ROMANBJIT,
         Constants.ApiKey.WORDNIK_API_KEY_IFTENET,
         Constants.ApiKey.WORDNIK_API_KEY_DREAMPANY

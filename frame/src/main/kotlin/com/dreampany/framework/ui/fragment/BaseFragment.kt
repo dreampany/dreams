@@ -389,7 +389,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         return AndroidUtil.isAlive(getParent())
     }
 
-
     protected fun <T> getIntentValue(key: String): T? {
         val bundle = getBundle()
         return getIntentValue<T>(key, bundle)

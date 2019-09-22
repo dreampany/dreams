@@ -1,10 +1,14 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -17,7 +21,8 @@ import kotlinx.android.parcel.Parcelize
 data class Definition(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var partOfSpeech: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
+    private var partOfSpeech: String? = Constants.Default.NULL,
     var text: String? = Constants.Default.NULL,
     var url: String? = Constants.Default.NULL
 ) : Base() {
@@ -41,6 +46,21 @@ data class Definition(
     override fun hashCode(): Int {
         return Objects.hashCode(id)
     }
+
+    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    fun setPartOfSpeech(partOfSpeech: String?) {
+        this.partOfSpeech = partOfSpeech
+    }
+
+    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    fun getPartOfSpeech(): String? {
+        return partOfSpeech
+    }
+
+/*    @Exclude
+    fun getCleanText(): String? {
+        return TextUtil.stripHtml(text)
+    }*/
 
 /*    override fun equals(other: Any?): Boolean {
         if (this === other) return true

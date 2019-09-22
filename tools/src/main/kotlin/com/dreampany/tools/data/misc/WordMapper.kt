@@ -1,12 +1,11 @@
 package com.dreampany.tools.data.misc
 
+import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.DataUtilKt
-import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.*
@@ -31,7 +30,8 @@ class WordMapper
     @WordAnnote private val cache: SmartCache<String, Word>,
     @WordItemAnnote private val uiMap: SmartMap<String, WordItem>,
     @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
-) {
+) : Mapper() {
+
 
     fun isExists(id: String): Boolean {
         return map.contains(id)
@@ -102,7 +102,7 @@ class WordMapper
                 map.put(id, out)
             }
         }
-        out.partOfSpeech = input.partOfSpeech
+        out.setPartOfSpeech(input.partOfSpeech)
         out.pronunciation = input.pronunciation
         if (full) {
             out.definitions = getDefinitions(input)
@@ -131,7 +131,7 @@ class WordMapper
                 map.put(word, out)
             }
         }
-        out.partOfSpeech = input.partOfSpeech
+        out.setPartOfSpeech(input.partOfSpeech)
         out.pronunciation = input.pronunciation
         if (full) {
             out.definitions = getDefinitions(input)
@@ -223,13 +223,15 @@ class WordMapper
             val result = ArrayList<Definition>()
             input.definitions?.forEach { item ->
                 if (!item.text.isNullOrEmpty()) {
-                    result.add(Definition(
-                        time = TimeUtilKt.currentMillis(),
-                        id = if (item.id.isNullOrEmpty()) DataUtilKt.getRandId() else item.id,
-                        partOfSpeech = item.partOfSpeech,
-                        text = item.text,
-                        url = item.wordnikUrl
-                    ))
+                    result.add(
+                        Definition(
+                            time = TimeUtilKt.currentMillis(),
+                            id = if (item.id.isNullOrEmpty()) DataUtilKt.getRandId() else item.id,
+                            partOfSpeech = item.partOfSpeech,
+                            text = item.text,
+                            url = item.wordnikUrl
+                        )
+                    )
                 }
             }
             return result
@@ -262,8 +264,11 @@ class WordMapper
     private fun getSynonyms(input: WordnikWord): ArrayList<String>? {
         if (input.hasSynonyms()) {
             val result = ArrayList<String>()
-            input.synonyms?.forEach {
-                result.add(it.toLowerCase())
+            input.synonyms?.forEach { synonym ->
+                val synonym = synonym.toLowerCase()
+                if (!result.contains(synonym)) {
+                    result.add(synonym)
+                }
             }
             return result
         }
@@ -273,8 +278,11 @@ class WordMapper
     private fun getAntonyms(input: WordnikWord): ArrayList<String>? {
         if (input.hasAntonyms()) {
             val result = ArrayList<String>()
-            input.antonyms?.forEach {
-                result.add(it.toLowerCase())
+            input.antonyms?.forEach { antonym ->
+                val antonym = antonym.toLowerCase()
+                if (!result.contains(antonym)) {
+                    result.add(antonym)
+                }
             }
             return result
         }

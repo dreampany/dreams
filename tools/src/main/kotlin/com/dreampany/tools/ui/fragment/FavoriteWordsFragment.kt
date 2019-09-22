@@ -15,9 +15,9 @@ import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
-import com.dreampany.framework.ui.listener.OnUiItemClickListener
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
@@ -54,9 +54,9 @@ import javax.inject.Inject
 @ActivityScope
 class FavoriteWordsFragment
 @Inject constructor() :
-        BaseMenuFragment(),
-        OnUiItemClickListener<WordItem?, Action?>,
-        OnMenuItemClickListener<PowerMenuItem> {
+    BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<WordItem?, Action?>,
+    OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -90,7 +90,7 @@ class FavoriteWordsFragment
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-              MenuTint.colorMenuItem(
+        MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
             null, searchItem
         )
@@ -159,7 +159,7 @@ class FavoriteWordsFragment
         powerMenu?.dismiss()
         val option: NoteOption = item.tag as NoteOption
         Timber.v("Option fired %s", option.toTitle())
-      //  processOption(option, currentItem!!)
+        //  processOption(option, currentItem!!)
     }
 
 
@@ -175,15 +175,15 @@ class FavoriteWordsFragment
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-                UiState.DEFAULT.name,
-                LayoutInflater.from(context).inflate(R.layout.item_default, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         bind.stateful.setStateView(
-                UiState.EMPTY.name,
-                LayoutInflater.from(context).inflate(R.layout.item_empty, null).apply {
-                    setOnClickListener(this@FavoriteWordsFragment)
-                }
+            UiState.EMPTY.name,
+            LayoutInflater.from(context).inflate(R.layout.item_empty, null).apply {
+                setOnClickListener(this@FavoriteWordsFragment)
+            }
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
@@ -201,15 +201,15 @@ class FavoriteWordsFragment
         adapter = WordAdapter(this)
         adapter.setStickyHeaders(false)
         ViewUtil.setRecycler(
-                adapter,
-                bindRecycler.recycler,
-                SmoothScrollLinearLayoutManager(context!!),
-                FlexibleItemDecoration(context!!)
-                        .addItemViewType(R.layout.item_word, adapter.getItemOffset())
-                        .withEdge(true),
-                null,
-                scroller,
-                null
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollLinearLayoutManager(context!!),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_word, adapter.getItemOffset())
+                .withEdge(true),
+            null,
+            scroller,
+            null
         )
     }
 
@@ -229,15 +229,15 @@ class FavoriteWordsFragment
         }
         currentItem = item
         powerMenu = PowerMenu.Builder(context)
-                .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
-                .addItemList(optionItems)
-                .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
-                .setSelectedTextColor(Color.WHITE)
-                .setOnMenuItemClickListener(this)
-                .setLifecycleOwner(this)
-                .setDividerHeight(1)
-                .setTextSize(12)
-                .build()
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(optionItems)
+            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .setDividerHeight(1)
+            .setTextSize(12)
+            .build()
         powerMenu?.showAsAnchorRightBottom(view)
     }
 

@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.pref
 
 import android.content.Context
+import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.source.pref.FramePref
 import com.dreampany.language.Language
 import com.dreampany.tools.misc.Constants
@@ -27,10 +28,18 @@ class Pref
     }
 
     fun setLanguage(language: Language) {
-        setPrivately(Constants.Language.LANGUAGE, language)
+        setPublicly(Constants.Pref.LANGUAGE, language)
     }
 
     fun getLanguage(language: Language): Language {
-        return getPrivately(Constants.Language.LANGUAGE, Language::class.java, language)
+        return getPublicly(Constants.Pref.LANGUAGE, Language::class.java, language)
+    }
+
+    fun setLevel(level: Level) {
+        setPublicly(Constants.Pref.LEVEL, level)
+    }
+
+    fun getLevel(level: Level): Level {
+        return getPublicly(Constants.Pref.LEVEL, Level::class.java, level)
     }
 }

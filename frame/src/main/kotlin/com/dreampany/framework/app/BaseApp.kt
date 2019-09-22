@@ -9,6 +9,7 @@ import android.os.StrictMode
 import com.dreampany.framework.BuildConfig
 import com.dreampany.framework.R
 import com.dreampany.framework.api.service.JobManager
+import com.dreampany.framework.api.service.ServiceManager
 import com.dreampany.framework.api.worker.WorkerManager
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.misc.AppExecutors
@@ -54,8 +55,8 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     @Inject
     protected lateinit var ad: SmartAd
-/*    @Inject
-    protected lateinit var service: ServiceManager*/
+    @Inject
+    protected lateinit var service: ServiceManager
     @Inject
     protected lateinit var job: JobManager
     @Inject
@@ -244,15 +245,30 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         super.onTerminate()
     }
 
-    override fun onActivityPaused(activity: Activity) {
-        visible = false
+    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
+        onActivityOpen(activity)
+        refs = WeakReference(activity)
+        goToRemoteUi()
+        if (hasUpdate()) {
+            startUpdate()
+        }
+    }
+
+    override fun onActivityStarted(activity: Activity) {
     }
 
     override fun onActivityResumed(activity: Activity) {
         visible = true
     }
 
-    override fun onActivityStarted(activity: Activity) {
+    override fun onActivityPaused(activity: Activity) {
+        visible = false
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
     }
 
     override fun onActivityDestroyed(activity: Activity) {
@@ -260,21 +276,6 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         refs?.clear()
         if (hasUpdate()) {
             stopUpdate()
-        }
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity?, bundle: Bundle?) {
-    }
-
-    override fun onActivityStopped(activity: Activity) {
-    }
-
-    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
-        onActivityClose(activity)
-        refs = WeakReference(activity)
-        goToRemoteUi()
-        if (hasUpdate()) {
-            startUpdate()
         }
     }
 

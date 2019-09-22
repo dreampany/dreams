@@ -12,6 +12,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
  */
 class NoteAdapter(listener: Any?) : SmartAdapter<NoteItem>(listener) {
 
+
     private val timeComparator: Comparator<IFlexible<*>>
 
     init {

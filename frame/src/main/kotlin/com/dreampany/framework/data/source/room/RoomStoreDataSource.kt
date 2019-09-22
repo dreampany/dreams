@@ -10,7 +10,6 @@ import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.misc.exception.EmptyException
 import io.reactivex.Maybe
 import timber.log.Timber
-import javax.inject.Singleton
 
 /**
  * Created by roman on 2019-07-25
@@ -18,12 +17,14 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
 class RoomStoreDataSource
 constructor(
     private val mapper: StoreMapper,
     private val dao: StoreDao
 ) : StoreDataSource {
+    override fun getRandomItem(type: Type, subtype: Subtype, state: State, exclude: State): Store? {
+        return dao.getRandomItem(type.name, subtype.name, state.name, exclude.name)
+    }
 
     override fun getItem(type: Type, subtype: Subtype, state: State): Store? {
         return dao.getItem(type.name, subtype.name, state.name)
@@ -47,6 +48,14 @@ constructor(
 
     override fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         return dao.getCount(id, type.name, subtype.name, state.name) > 0
+    }
+
+    override fun isExists(id: String, type: Type, subtype: Subtype, states: Array<State>): Boolean {
+        val result = arrayOf<String>()
+        states.forEach {
+            result.plusElement(it.name)
+        }
+        return dao.getCount(id, type.name, subtype.name, result) > 0
     }
 
     override fun isExistsRx(

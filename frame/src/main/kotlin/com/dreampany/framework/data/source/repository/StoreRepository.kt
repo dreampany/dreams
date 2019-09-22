@@ -25,6 +25,10 @@ class StoreRepository
     rm: ResponseMapper,
     @Room private val room: StoreDataSource
 ) : Repository<String, Store>(rx, rm), StoreDataSource {
+    override fun getRandomItem(type: Type, subtype: Subtype, state: State, exclude: State): Store? {
+        return room.getRandomItem(type, subtype, state, exclude)
+    }
+
     override fun getRandomItem(type: Type, subtype: Subtype, state: State): Store? {
         return room.getRandomItem(type, subtype, state)
     }
@@ -47,6 +51,10 @@ class StoreRepository
 
     override fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         return room.isExists(id, type, subtype, state)
+    }
+
+    override fun isExists(id: String, type: Type, subtype: Subtype, states: Array<State>): Boolean {
+        return room.isExists(id, type, subtype, states)
     }
 
     override fun isExistsRx(

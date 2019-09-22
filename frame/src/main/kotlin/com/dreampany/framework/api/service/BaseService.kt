@@ -1,6 +1,9 @@
 package com.dreampany.framework.api.service
 
+import android.content.Intent
+import android.os.IBinder
 import androidx.annotation.CallSuper
+import com.dreampany.framework.api.worker.WorkerManager
 import com.dreampany.framework.misc.AppExecutors
 import dagger.android.AndroidInjector
 import dagger.android.DaggerService
@@ -21,15 +24,27 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
     internal lateinit var serviceInjector: DispatchingAndroidInjector<Any>
     @Inject
     internal lateinit var ex: AppExecutors
+    @Inject
+    protected lateinit var worker: WorkerManager
+
+    protected abstract fun onStart()
+
+    protected abstract fun onStop()
 
     @CallSuper
     override fun onCreate() {
         super.onCreate()
+        onStart()
     }
 
-/*    override fun serviceInjector(): AndroidInjector<Service> {
-        return serviceInjector
-    }*/
+    override fun onDestroy() {
+        onStop()
+        super.onDestroy()
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
+    }
 
     override fun androidInjector(): AndroidInjector<Any> {
         return serviceInjector

@@ -574,25 +574,26 @@ class WordHomeFragment
         if (!DataUtil.isEmpty(definitions)) {
             for (index in definitions.indices) {
                 val def = definitions[index]
+                val text = TextUtil.stripHtml(def.text)
                 if (index == 0) {
                     singleBuilder
-                        .append(def.partOfSpeech)
+                        .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
-                        .append(def.text)
+                        .append(text)
                     multipleBuilder
-                        .append(def.partOfSpeech)
+                        .append(def.getPartOfSpeech())
                         .append(DataUtil.SEMI)
                         .append(DataUtil.SPACE)
-                        .append(def.text)
+                        .append(text)
                     continue
                 }
                 multipleBuilder
                     .append(DataUtil.NewLine2)
-                    .append(def.partOfSpeech)
+                    .append(def.getPartOfSpeech())
                     .append(DataUtil.SEMI)
                     .append(DataUtil.SPACE)
-                    .append(def.text)
+                    .append(text)
             }
         }
 
@@ -690,6 +691,7 @@ class WordHomeFragment
         val task = UiTask<Word>(
             type = Type.WORD,
             action = Action.OPEN,
+            id = item.id,
             input = item
         )
         openActivity(ToolsActivity::class.java, task)

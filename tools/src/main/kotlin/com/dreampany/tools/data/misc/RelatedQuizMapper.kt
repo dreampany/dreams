@@ -4,7 +4,10 @@ import android.content.Context
 import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.PointMapper
+import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.data.source.api.PointDataSource
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.Quiz
@@ -70,5 +73,26 @@ class RelatedQuizMapper
             map.put(input.id, out)
         }
         return null
+    }
+
+    fun getPoint(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): Point? {
+        if (quiz.answer.isNullOrEmpty() || quiz.given.isNullOrEmpty()) {
+            return null
+        }
+        val credit = if (quiz.answer.equals(quiz.given))
+            quiz.id.length + quiz.answer!!.length
+        else -quiz.id.length
+        val point = pointMapper.getItem(quiz.id, quiz.type, quiz.subtype, quiz.level, credit, source)
+        return point
+    }
+
+    fun getPointByType(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): Point? {
+        val point = pointMapper.getItem(quiz.type, quiz.subtype, source)
+        return point
+    }
+
+    fun getTotalPoint(quiz: RelatedQuiz, pointMapper: PointMapper, source: PointDataSource): Point? {
+        val point = pointMapper.getItem(source)
+        return point
     }
 }

@@ -1,6 +1,9 @@
 package com.dreampany.tools.app
 
+import android.Manifest
 import android.app.Activity
+import com.afollestad.assent.Permission
+import com.afollestad.assent.runWithPermissions
 import com.crashlytics.android.Crashlytics
 import com.dreampany.framework.app.BaseApp
 import com.dreampany.tools.BuildConfig
@@ -11,7 +14,16 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.NotifyService
 import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.tools.service.AppService
+import com.dreampany.tools.ui.activity.LaunchActivity
+import com.dreampany.tools.ui.activity.NavigationActivity
 import com.dreampany.tools.worker.NotifyWorker
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -27,7 +39,7 @@ import javax.inject.Inject
 class App : BaseApp() {
 
     @Inject
-    lateinit var pref: Pref
+    internal lateinit var pref: Pref
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG;
@@ -71,8 +83,9 @@ class App : BaseApp() {
             configFabric()
         }
         configAd()
+        //configService()
         //configJob()
-        configWork()
+        //configWork()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -81,6 +94,31 @@ class App : BaseApp() {
 
     override fun onActivityOpen(activity: Activity) {
         super.onActivityOpen(activity)
+        if (activity is NavigationActivity) {
+/*            activity.runWithPermissions(Permission) {
+                createCameraSource()
+            }*/
+            if (AndroidUtil.hasPie()) {
+                Dexter.withActivity(activity)
+                    .withPermission(Manifest.permission.FOREGROUND_SERVICE)
+                    .withListener(object : PermissionListener {
+                        override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                            configService()
+                        }
+                        override fun onPermissionRationaleShouldBeShown(
+                            permission: PermissionRequest?,
+                            token: PermissionToken?
+                        ) {
+                        }
+                        override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                        }
+
+                    })
+                    .check()
+            } else {
+                configService()
+            }
+        }
     }
 
     override fun onActivityClose(activity: Activity) {
@@ -103,6 +141,10 @@ class App : BaseApp() {
             .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
             .enabled(!isDebug())
         ad.setConfig(config.build())
+    }
+
+    private fun configService() {
+        service.openService(AppService::class.java)
     }
 
     private fun configJob() {

@@ -15,20 +15,20 @@ import com.dreampany.translation.data.model.TextTranslation
  * Last modified $file.lastModified
  */
 @Database(entities = [TextTranslation::class], version = 1)
-abstract class TranslateDatabase : RoomDatabase() {
+abstract class TranslationDatabase : RoomDatabase() {
 
     companion object {
         private val DATABASE = Constants.database(BuildConfig.LIBRARY_PACKAGE_NAME, Constants.Database.TYPE_TRANSLATION)
-        private var instance: TranslateDatabase? = null
+        private var instance: TranslationDatabase? = null
 
         @Synchronized
-        fun newInstance(context: Context, memoryOnly: Boolean): TranslateDatabase {
-            val builder: Builder<TranslateDatabase>
+        fun newInstance(context: Context, memoryOnly: Boolean): TranslationDatabase {
+            val builder: Builder<TranslationDatabase>
 
             if (memoryOnly) {
-                builder = Room.inMemoryDatabaseBuilder(context, TranslateDatabase::class.java)
+                builder = Room.inMemoryDatabaseBuilder(context, TranslationDatabase::class.java)
             } else {
-                builder = Room.databaseBuilder(context, TranslateDatabase::class.java, DATABASE)
+                builder = Room.databaseBuilder(context, TranslationDatabase::class.java, DATABASE)
             }
 
             return builder
@@ -37,7 +37,7 @@ abstract class TranslateDatabase : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context): TranslateDatabase {
+        fun getInstance(context: Context): TranslationDatabase {
             if (instance == null) {
                 instance = newInstance(context, false)
             }

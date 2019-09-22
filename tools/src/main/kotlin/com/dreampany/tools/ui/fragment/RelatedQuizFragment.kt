@@ -1,13 +1,17 @@
 package com.dreampany.tools.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
@@ -15,23 +19,31 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.RelatedQuizRequest
 import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.RelatedQuiz
+import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
+import com.dreampany.tools.ui.model.QuizOptionItem
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.ui.vm.RelatedQuizViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import nl.dionsegijn.konfetti.ParticleSystem
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -46,29 +58,58 @@ import javax.inject.Inject
 class RelatedQuizFragment
 @Inject constructor(
 
-) : BaseMenuFragment() {
+) : BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<QuizOptionItem?, Action?> {
 
+    @Inject
+    internal lateinit var pref: Pref
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     private lateinit var bind: FragmentRelatedQuizBinding
     private lateinit var bindStatus: ContentTopStatusBinding
+    private lateinit var bindRelated: ContentRelatedQuizBinding
+    private lateinit var bindRelatedHeader: ContentRelatedQuizHeaderBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var vm: RelatedQuizViewModel
     private lateinit var adapter: QuizOptionAdapter
     private lateinit var scroller: OnVerticalScrollListener
 
+    private lateinit var subtype: Subtype
     private var quizItem: RelatedQuizItem? = null
+    private var particle: ParticleSystem? = null
+
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_related_quiz
     }
 
+    override fun getMenuId(): Int {
+        return R.menu.menu_related_quiz
+    }
+
+    override fun getTitleResId(): Int {
+        val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return R.string.quiz
+        when (uiTask.subtype) {
+            Subtype.SYNONYM -> return R.string.synonym_quiz
+            Subtype.ANTONYM -> return R.string.antonym_quiz
+            else -> return R.string.quiz
+        }
+    }
+
+    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
+        val level = pref.getLevel(Level.A1)
+        findMenuItemById(R.id.item_level)?.apply {
+            title = getString(R.string.format_level, level.name)
+        }
+    }
+
     override fun onStartUi(state: Bundle?) {
         val uiTask = getCurrentTask<UiTask<Quiz>>() ?: return
+        subtype = uiTask.subtype
         initUi()
         initRecycler()
-        request(subtype = uiTask.subtype, single = true, progress = true)
+        request(action = Action.GET, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -78,43 +119,46 @@ class RelatedQuizFragment
     override fun onClick(v: View) {
         when (v.id) {
             R.id.layout_parent -> {
-                val tag = v.tag as Int
-                val answer = quizItem!!.item.options!!.get(tag)
-                when (tag) {
-                    0 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
 
-                        } else {
-
-                        }
-                    }
-                    1 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
-
-                        }
-                    }
-                    2 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
-
-                        }
-                    }
-                    3 -> {
-                        if (answer.equals(quizItem!!.item.answer)) {
-
-                        }
-                    }
+            }
+            R.id.button_view -> {
+                quizItem?.run {
+                    openWordUi(item.id)
                 }
+            }
+            R.id.button_next -> {
+                particle?.run {
+                    bind.konfetti.stop(this)
+                }
+                processUiState(UiState.DEFAULT)
+                adapter.clear()
+                request(action = Action.NEXT, single = true, progress = true)
             }
         }
     }
 
+    override fun onClick(view: View, item: QuizOptionItem?, action: Action?) {
+        item?.run {
+            performAnswer(this)
+        }
+    }
+
+    override fun onLongClick(view: View, item: QuizOptionItem?, action: Action?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun initUi() {
-        //setTitle(R.string.home)
         bind = super.binding as FragmentRelatedQuizBinding
         bindStatus = bind.layoutTopStatus
-        bindRecycler = bind.layoutRecycler
+        bindRelated = bind.layoutRelatedQuiz
+        bindRelatedHeader = bindRelated.layoutHeader
+        bindRecycler = bindRelated.layoutRecycler
+
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bindRelated.buttonView.setOnClickListener(this)
+        bindRelated.buttonNext.setOnClickListener(this)
+
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
@@ -128,6 +172,8 @@ class RelatedQuizFragment
         vm = ViewModelProviders.of(this, factory).get(RelatedQuizViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+
+        processUiState(UiState.DEFAULT)
     }
 
     private fun initRecycler() {
@@ -135,6 +181,8 @@ class RelatedQuizFragment
         scroller = object : OnVerticalScrollListener() {}
         adapter = QuizOptionAdapter(this)
         adapter.setStickyHeaders(true)
+        /*adapter.setAnimationInterpolator( DecelerateInterpolator())
+            .setAnimationDuration(300L)*/
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
@@ -165,7 +213,9 @@ class RelatedQuizFragment
             UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.ERROR -> {
             }
-            UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
+            UiState.CONTENT -> {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+            }
         }
     }
 
@@ -198,57 +248,88 @@ class RelatedQuizFragment
 
     private fun processSingleSuccess(action: Action, item: RelatedQuizItem) {
         Timber.v("Result Related Quiz[%s]", item.item.id)
+        if (action == Action.GET) {
+            bindRelated.buttonView.isEnabled = false
+        }
+        if (action == Action.NEXT) {
+            adapter.clear()
+            bindRelated.buttonView.isEnabled = false
+        }
+        if (action == Action.SOLVE) {
+            bindRelated.buttonView.isEnabled = true
+        }
         quizItem = item
+        val headerItem = item.getHeaderOptionItem(context!!)
         val result = item.getOptionItems(context!!)
+
+        bindRelatedHeader.textPoint.text = getString(R.string.format_double_point, headerItem.credit, headerItem.totalCredit)
+        bindRelatedHeader.textTitle.text = headerItem.item.id
         adapter.addItems(result)
-        //showQuiz()
         processUiState(UiState.CONTENT)
+
+        quizItem?.run {
+            if (played()) {
+                if (isWinner()) {
+                    rightAnswer()
+                } else {
+                    wrongAnswer()
+                }
+            }
+        }
     }
 
+    private fun performAnswer(item: QuizOptionItem) {
+        Timber.v("Select %s", item.item.id)
+        if (quizItem!!.played()) {
+            return
+        }
+        val quiz = quizItem!!.item
+        val given = item.item.id
+        request(action = Action.SOLVE, input = quiz, single = true, progress = false, given = given)
+    }
 
-    private fun showQuiz() {
-        val quiz = quizItem!!.item!!
-        val title = TextUtil.getString(
-            context,
-            R.string.title_quiz_header,
-            TextUtil.toTitleCase(quiz.subtype.name),
-            quiz.id
+    private fun rightAnswer() {
+        particle = bind.konfetti.build()
+        particle!!.addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+            .setDirection(0.0, 359.0)
+            .setSpeed(1f, 5f)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(1000L)
+            .addShapes(Shape.RECT, Shape.CIRCLE)
+            .addSizes(Size(10))
+            .setPosition(-50f, bind.konfetti.width + 50f, -50f, -50f)
+            .streamFor(300, 3000L)
+    }
+
+    private fun wrongAnswer() {
+
+    }
+
+    private fun openWordUi(id: String) {
+        val task = UiTask<Word>(
+            type = Type.WORD,
+            action = Action.OPEN,
+            id = id
         )
-        //  bindQuizHeader.textTitle.text = title
-
-
-/*        quizItem!!.drawLetter(bindQuizOptionOne.imageIcon, "A")
-        quizItem!!.drawLetter(bindQuizOptionTwo.imageIcon, "B")
-        quizItem!!.drawLetter(bindQuizOptionThree.imageIcon, "C")
-        quizItem!!.drawLetter(bindQuizOptionFour.imageIcon, "D")
-
-        if (quiz.options!!.size >= 1) {
-            bindQuizOptionOne.textTitle.text = quiz.options!!.first()
-        }
-        if (quiz.options!!.size >= 2) {
-            bindQuizOptionTwo.textTitle.text = quiz.options!!.get(1)
-        }
-        if (quiz.options!!.size >= 3) {
-            bindQuizOptionThree.textTitle.text = quiz.options!!.get(2)
-        }
-        if (quiz.options!!.size >= 4) {
-            bindQuizOptionFour.textTitle.text = quiz.options!!.get(3)
-        }*/
+        openActivity(ToolsActivity::class.java, task)
     }
 
     private fun request(
-        subtype: Subtype = Subtype.DEFAULT,
         action: Action = Action.DEFAULT,
+        input: RelatedQuiz? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN,
+        given: String? = Constants.Default.NULL
     ) {
 
         val request = RelatedQuizRequest(
             type = Type.QUIZ,
             subtype = subtype,
             action = action,
+            input = input,
             single = single,
-            progress = progress
+            progress = progress,
+            given = given
         )
         vm.request(request)
     }

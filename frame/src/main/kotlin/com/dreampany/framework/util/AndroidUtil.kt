@@ -66,12 +66,19 @@ class AndroidUtil {
             return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
         }
 
+        fun hasNougat(): Boolean {
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+        }
+
         fun hasOreo(): Boolean {
             return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
         }
 
-        fun hasNougat(): Boolean {
-            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+        fun hasPie(): Boolean {
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+            if (hasMarshmallow()) {
+                return Looper.getMainLooper().isCurrentThread()
+            }
         }
 
         fun getUiHandler(): Handler {
@@ -82,9 +89,6 @@ class AndroidUtil {
         }
 
         fun isOnUiThread(): Boolean {
-            if (hasMarshmallow()) {
-                return Looper.getMainLooper().isCurrentThread()
-            }
             return Thread.currentThread() === Looper.getMainLooper().getThread()
         }
 
@@ -486,6 +490,20 @@ class AndroidUtil {
             }
         }
 
+        fun <T : Activity, X : Parcelable> openActivity(
+            source: T?,
+            target: Class<*>,
+            task: Task<X>,
+            requestCode: Int
+        ) {
+            source?.run {
+                val intent = Intent(this, target)
+                intent.putExtra(Constants.Task.TASK, task as Parcelable)
+                startActivityForResult(intent, requestCode)
+                Animato.animateSlideLeft(this)
+            }
+        }
+
         fun <T : Fragment, X : Parcelable> openActivity(
             source: T?,
             target: Class<*>,
@@ -493,10 +511,10 @@ class AndroidUtil {
             requestCode: Int
         ) {
             source?.run {
-                val intent = Intent(getActivity(), target)
+                val intent = Intent(this.getActivity(), target)
                 intent.putExtra(Constants.Task.TASK, task as Parcelable)
                 startActivityForResult(intent, requestCode)
-                Animato.animateSlideLeft(getActivity())
+                Animato.animateSlideLeft(this.getActivity())
             }
         }
 

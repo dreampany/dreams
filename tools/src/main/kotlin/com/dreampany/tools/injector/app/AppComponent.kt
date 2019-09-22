@@ -7,6 +7,7 @@ import com.dreampany.tools.injector.service.ServiceModule
 import com.dreampany.tools.injector.ui.ActivityModule
 import com.dreampany.tools.injector.worker.WorkerModule
 import com.dreampany.framework.injector.app.AppModule
+import com.dreampany.tools.injector.receiver.ReceiverModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -25,6 +26,7 @@ import javax.inject.Singleton
     AppModule::class,
     ActivityModule::class,
     ServiceModule::class,
+    ReceiverModule::class,
     WorkerModule::class,
     BuildersModule::class
 ])

@@ -1,10 +1,13 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.AppExecutors
 import com.dreampany.framework.misc.ResponseMapper
@@ -27,6 +30,7 @@ import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import com.dreampany.tools.util.Util
 import io.reactivex.Flowable
@@ -50,6 +54,8 @@ class RelatedQuizViewModel
     private val wordPref: WordPref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
+    private val pointMapper: PointMapper,
+    private val pointRepo: PointRepository,
     private val wordMapper: WordMapper,
     private val wordRepo: WordRepository,
     private val mapper: RelatedQuizMapper
@@ -120,15 +126,21 @@ class RelatedQuizViewModel
     }
 
     private fun requestUiItemsRx(request: RelatedQuizRequest): Maybe<List<RelatedQuizItem>> {
-        /*return Maybe.empty() *//*storeRepo.getItemsRx(Type.QUIZ, Subtype.RELATED, State.DEFAULT)
-            .flatMap { getUiItemsOfStoresRx(request, it) }*/
-
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
     }
 
     private fun requestItemRx(request: RelatedQuizRequest): Maybe<RelatedQuiz> {
         return Maybe.create { emitter ->
-            val quiz = nextRelatedQuiz(request)
+            var quiz: RelatedQuiz? = null
+            when (request.action) {
+                Action.GET,
+                Action.NEXT -> {
+                    quiz = nextRelatedQuiz(request)
+                }
+                Action.SOLVE -> {
+                    quiz = solveRelatedQuiz(request)
+                }
+            }
             if (emitter.isDisposed) return@create
             if (quiz == null) {
                 emitter.onError(EmptyException())
@@ -192,8 +204,12 @@ class RelatedQuizViewModel
             mapper.putUiItem(uiItem)
         }
         uiItem.item = item
+        uiItem.point = mapper.getPoint(item, pointMapper, pointRepo)
+        uiItem.run {
+            typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
+            totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
+        }
         return uiItem
-        return RelatedQuizItem.getItem(item)
     }
 
     private fun nextRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
@@ -215,7 +231,10 @@ class RelatedQuizViewModel
                         }
                     }
                     if (answer != null) {
-                        options = wordRepo.getRawItemsByLength(answer, 3) as ArrayList<String>?
+                        options = wordRepo.getRawItemsByLength(
+                            answer,
+                            (Constants.Limit.QUIZ_OPTIONS - 1).toLong()
+                        ) as ArrayList<String>?
                     }
                     if (!options.isNullOrEmpty()) {
                         val randIndex = NumberUtil.nextRand(options.size)
@@ -234,6 +253,21 @@ class RelatedQuizViewModel
                 }
             }
         } while (quiz == null)
+        return quiz
+    }
+
+    private fun solveRelatedQuiz(request: RelatedQuizRequest): RelatedQuiz? {
+        var quiz: RelatedQuiz? = request.input
+        quiz?.run {
+            given = request.given
+            val point = mapper.getPoint(this, pointMapper, pointRepo)
+            point?.run {
+                pointId = id
+                pointRepo.putItem(point)
+            }
+
+            wordRepo.removeStore(id, request.type, request.subtype, request.state)
+        }
         return quiz
     }
 }

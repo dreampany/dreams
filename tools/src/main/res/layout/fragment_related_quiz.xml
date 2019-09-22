@@ -44,23 +44,28 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <include
-                        android:id="@+id/layout_recycler"
-                        layout="@layout/content_recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        auto:items="@{items}" />
+                    <!--                    <include
+                                            android:id="@+id/layout_recycler"
+                                            layout="@layout/content_recycler"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            auto:items="@{items}" />-->
 
-<!--                    <include
+                    <include
                         android:id="@+id/layout_related_quiz"
                         layout="@layout/content_related_quiz"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="visible"
-                        auto:item="@{item}" />-->
+                        auto:items="@{items}" />
 
                 </FrameLayout>
             </cz.kinst.jakub.view.StatefulLayout>
+
+            <nl.dionsegijn.konfetti.KonfettiView
+                android:id="@+id/konfetti"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

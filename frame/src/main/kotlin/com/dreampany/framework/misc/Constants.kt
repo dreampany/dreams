@@ -15,11 +15,13 @@ class Constants {
 
     companion object {
         fun database(name: String): String {
-            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + Database.POST_FIX
+            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name))
+                .plus(Sep.DOT).plus(Database.POST_FIX_DB)
         }
 
         fun database(name: String, type: String): String {
-            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name)) + type + Database.POST_FIX
+            return Iterables.getLast(Splitter.on(Sep.DOT).trimResults().split(name))
+                .plus(Sep.DOT).plus(type).plus(Sep.DOT).plus(Database.POST_FIX_DB)
         }
 
         fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)!!
@@ -65,6 +67,12 @@ class Constants {
         const val RATE_US = "rate_us"
     }
 
+    object Id {
+        const val NOTIFY_FOREGROUND = 101
+        const val NOTIFY_GENERAL = 102
+        const val NOTIFY_FOREGROUND_CHANNEL_ID = "channel_101"
+    }
+
     object Ad {
         const val KEY = "ad-pref"
         const val BANNER = "banner"
@@ -73,9 +81,9 @@ class Constants {
     }
 
     object Pref {
-       const val VERSION_CODE = "version_code"
-       const val RANK = "rank"
-       const val LEVEL = "level"
+        const val VERSION_CODE = "version_code"
+        const val RANK = "rank"
+        const val LEVEL = "level"
     }
 
     object AdTime {
@@ -95,7 +103,7 @@ class Constants {
     object Database {
         const val TYPE_FRAME = "frame"
         const val TYPE_TRANSLATION = "translation"
-        const val POST_FIX = Sep.HYPHEN + "db"
+        const val POST_FIX_DB = "db"
     }
 
     object Key {
@@ -104,11 +112,17 @@ class Constants {
         const val TYPE = "type"
         const val SUBTYPE = "subtype"
         const val STATE = "state"
+        const val LEVEL = "level"
     }
 
     object Notify {
         const val DEFAULT_ID = 101
         const val DEFAULT_CHANNEL_ID = "default_channel_id"
+    }
+
+    object Action {
+        const val START_SERVICE = "start_service"
+        const val STOP_SERVICE = "stop_service"
     }
 
     object Task {
@@ -127,6 +141,13 @@ class Constants {
         const val ID = Key.ID
         const val REF = "ref"
         const val URL = "url"
+    }
+
+    object Point {
+        const val ID = Key.ID
+        const val TYPE = Key.TYPE
+        const val SUBTYPE = Key.SUBTYPE
+        const val LEVEL = Key.LEVEL
     }
 
     object Parser {
@@ -157,7 +178,8 @@ class Constants {
 
     object Pattern {
         const val PATTERN_IMAGE = "img[src~=(?i)\\\\.(png|jpe?g|gif)]"
-        const val PATTERN_IMAGE_URL = "^https?://(?:[a-z0-9\\-]+\\.)+[a-z0-9]{2,6}(?:/[^/#?]+)+\\.(?:jpg|gif|png)\$"
+        const val PATTERN_IMAGE_URL =
+            "^https?://(?:[a-z0-9\\-]+\\.)+[a-z0-9]{2,6}(?:/[^/#?]+)+\\.(?:jpg|gif|png)\$"
         val IMAGE_PATTERN = java.util.regex.Pattern.compile(PATTERN_IMAGE_URL)
     }
 

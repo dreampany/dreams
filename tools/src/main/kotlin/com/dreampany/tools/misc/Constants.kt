@@ -40,6 +40,12 @@ class Constants {
         const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
+    object Id {
+        const val NOTIFY_FOREGROUND = Constants.Id.NOTIFY_FOREGROUND
+        const val NOTIFY_GENERAL = Constants.Id.NOTIFY_GENERAL
+        const val NOTIFY_FOREGROUND_CHANNEL_ID = Constants.Id.NOTIFY_FOREGROUND_CHANNEL_ID
+    }
+
     object Sep {
         const val DOT = Constants.Sep.DOT
         const val COMMA = Constants.Sep.COMMA
@@ -62,6 +68,11 @@ class Constants {
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val LANGUAGE_PICKER = "language-picker"
+    }
+
+    object Action {
+        const val START_SERVICE = Constants.Action.START_SERVICE
+        const val STOP_SERVICE = Constants.Action.STOP_SERVICE
     }
 
     object Time {
@@ -88,6 +99,8 @@ class Constants {
     }
 
     object Pref {
+        const val LEVEL = "level"
+        const val LANGUAGE = "language"
         const val LOAD = "load"
         const val WORD = "word"
         const val WORD_TRACK_LOADED = "word_track_loaded"
@@ -105,6 +118,7 @@ class Constants {
 
     object Firebase {
         const val WEIGHT = "weight"
+        const val SOURCE = "source"
         const val EXTRA = "extra"
         const val WORDS = "words"
         const val TRACK = "track"
@@ -115,6 +129,7 @@ class Constants {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
+        const val WORD_PER_TRACK = 2
     }
 
     object Limit {
@@ -124,28 +139,19 @@ class Constants {
         const val WORD_SUGGESTION = 10
         const val WORD_OCR = 1000
         const val WORD_TRACK = 1000L
+        const val QUIZ_OPTIONS = 4
     }
 
     object Demo {
         const val ID = Constants.Key.ID
     }
 
-    object Point {
-        const val ID = Constants.Key.ID
-        const val TYPE = Constants.Key.TYPE
-        const val SUBTYPE = Constants.Key.SUBTYPE
-    }
-
-    object Level {
-        const val ID = Constants.Key.ID
-        const val LEVEL = "level"
-    }
-
     object Quiz {
         const val ID = Constants.Key.ID
         const val TYPE = Constants.Key.TYPE
         const val SUBTYPE = Constants.Key.SUBTYPE
-
+        const val LEVEL = Constants.Key.LEVEL
+        const val POINT_ID = "point_id"
         val OptionCharArray: CharArray = CharArray(4).apply {
             set(0, 'A')
             set(1, 'B')
@@ -172,17 +178,19 @@ class Constants {
 
     object Word {
         const val ID = Constants.Key.ID
+        const val PART_OF_SPEECH = "part_of_speech"
         const val LEFTER = "lefter"
         const val RIGHTER = "righter"
         const val RECENT_WORD = "recent_word"
     }
 
-    object Contact {
-        const val ID = Constants.Key.ID
+    object Example {
+        const val DOCUMENT_ID = "document_id"
+        const val EXAMPLE_ID = "example_id"
     }
 
-    object Language {
-        const val LANGUAGE = "language"
+    object Contact {
+        const val ID = Constants.Key.ID
     }
 
     object RequestCode {
@@ -197,6 +205,8 @@ class Constants {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
     }
+
+
 
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL

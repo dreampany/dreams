@@ -1,34 +1,45 @@
-package com.dreampany.tools.data.source.repository
+package com.dreampany.framework.data.source.room
 
-import com.dreampany.framework.data.misc.StoreMapper
-import com.dreampany.framework.data.source.repository.Repository
-import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.ResponseMapper
-import com.dreampany.framework.misc.Room
-import com.dreampany.framework.misc.RxMapper
-import com.dreampany.tools.data.misc.PointMapper
-import com.dreampany.tools.data.model.Point
-import com.dreampany.tools.data.source.api.PointDataSource
+import com.dreampany.framework.data.enums.Level
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.PointMapper
+import com.dreampany.framework.data.model.Point
+import com.dreampany.framework.data.source.api.PointDataSource
+import com.dreampany.framework.data.source.room.dao.PointDao
 import io.reactivex.Maybe
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
- * Created by roman on 2019-09-01
+ * Created by roman on 2019-09-15
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
-class PointRepository
-@Inject constructor(
-    rx: RxMapper,
-    rm: ResponseMapper,
-    private val storeMapper: StoreMapper,
-    private val storeRepo: StoreRepository,
+class RoomPointDataSource
+constructor(
     private val mapper: PointMapper,
-    @Room private val room: PointDataSource
-) : Repository<String, Point>(rx, rm), PointDataSource {
+    private val dao: PointDao
+) : PointDataSource {
+    override fun getCredits(): Int {
+        return dao.getCredits()
+    }
+
+    override fun getCredits(type: Type): Int {
+        return dao.getCredits(type)
+    }
+
+    override fun getCredits(type: Type, subtype: Subtype): Int {
+        return dao.getCredits(type, subtype)
+    }
+
+    override fun getItem(id: String, type: Type, subtype: Subtype, level: Level): Point? {
+        return dao.getItem(id, type.name, subtype.name, level.name)
+    }
+
+    override fun getItemRx(id: String, type: Type, subtype: Subtype, level: Level): Maybe<Point> {
+        return dao.getItemRx(id, type.name, subtype.name, level.name)
+    }
+
     override fun isEmpty(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -54,7 +65,7 @@ class PointRepository
     }
 
     override fun putItem(t: Point): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun putItemRx(t: Point): Maybe<Long> {

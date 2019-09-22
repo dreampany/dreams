@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">frame</string>
 
+    <string name="space">\u0020</string>
     <string name="title">Title</string>
     <string name="home">Home</string>
     <string name="more">More</string>
@@ -24,6 +25,8 @@
     <string name="add_all">Add All</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="view">View</string>
+    <string name="next">Next</string>
 
     <string name="empty">""</string>
     <string name="loading">Loading…</string>

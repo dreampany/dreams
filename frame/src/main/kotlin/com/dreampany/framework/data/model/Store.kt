@@ -33,7 +33,7 @@ data class Store(
     var type: Type = Type.DEFAULT,
     var subtype: Subtype = Subtype.DEFAULT,
     var state: State = State.DEFAULT,
-    var data: String? = Constants.Default.NULL
+    var extra: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -60,6 +60,10 @@ data class Store(
 
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(id, type, subtype, state)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -68,10 +72,6 @@ data class Store(
             Objects.equal(item.type, type) &&
             Objects.equal(item.subtype, subtype) &&
             Objects.equal(item.state, state)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id, type, subtype, state)
     }
 
     fun hasProperty(type: Type, subtype: Subtype, state: State): Boolean {

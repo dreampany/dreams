@@ -16,8 +16,7 @@ data class QuizOption(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
     var header: Boolean = Constants.Default.BOOLEAN,
-    var letter: Char = Constants.Default.CHARACTER,
-    var stausRes: Int = Constants.Default.INT
+    var letter: Char = Constants.Default.CHARACTER
 ) : Base() {
 
     override fun equals(other: Any?): Boolean {

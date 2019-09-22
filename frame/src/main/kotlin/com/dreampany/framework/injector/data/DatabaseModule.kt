@@ -3,6 +3,7 @@ package com.dreampany.framework.injector.data
 import android.app.Application
 import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.data.source.room.DatabaseManager
+import com.dreampany.framework.data.source.room.dao.PointDao
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,19 +19,19 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideFrameDatabase(application: Application): DatabaseManager {
+    fun provideDatabase(application: Application): DatabaseManager {
         return DatabaseManager.getInstance(application.applicationContext)
     }
-
-/*    @Singleton
-    @Provides
-    fun provideStateDao(database: DatabaseManager): StateDao {
-        return database.stateDao()
-    }*/
 
     @Singleton
     @Provides
     fun provideStoreDao(databaseManager: DatabaseManager): StoreDao {
         return databaseManager.storeDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providePointDao(databaseManager: DatabaseManager): PointDao {
+        return databaseManager.pointDao()
     }
 }

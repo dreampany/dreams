@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ActivityNavigationBinding
@@ -15,6 +16,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity
 import com.dreampany.tools.data.misc.LoadRequest
+import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.ui.vm.LoaderViewModel
 import dagger.Lazy
 import javax.inject.Inject
@@ -111,10 +113,21 @@ class NavigationActivity : BaseBottomNavigationActivity() {
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
         )
+
+        openPlayUi(Subtype.RELATED)
     }
 
     private fun loadRequest() {
         val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
         loaderVm.request(request)
+    }
+
+    private fun openPlayUi(subtype: Subtype) {
+        val task = UiTask<Word>(
+            type = Type.QUIZ,
+            subtype = subtype,
+            state = State.HOME
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.QUIZ)
     }
 }

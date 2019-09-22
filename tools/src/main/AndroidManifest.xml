@@ -18,6 +18,8 @@
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
 <!--    <uses-permission
         android:name="android.permission.READ_PHONE_STATE"
         tools:node="remove" />-->
@@ -112,6 +114,19 @@
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+
+        <service
+            android:name="com.dreampany.tools.service.AppService"
+            android:exported="false" >
+        </service >
+
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:exported="false" >
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter >
+        </receiver >
 
     </application>
 </manifest>

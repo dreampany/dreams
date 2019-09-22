@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -7,6 +8,7 @@ import com.dreampany.framework.data.enums.Level
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
@@ -21,10 +23,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Level.LEVEL],
+        value = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Quiz.LEVEL],
         unique = true
     )],
-    primaryKeys = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Level.LEVEL]
+    primaryKeys = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Quiz.LEVEL]
 )
 data class RelatedQuiz(
     override var time: Long = Constants.Default.LONG,
@@ -33,9 +35,10 @@ data class RelatedQuiz(
     var subtype: Subtype = Subtype.DEFAULT,
     var level: Level = Level.DEFAULT,
     var options: ArrayList<String>? = Constants.Default.NULL,
-    var answer: String? = Constants.Default.NULL
-    //@Ignore
-    //var point: Point? = Constants.Default.NULL
+    var answer: String? = Constants.Default.NULL,
+    var given: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Quiz.POINT_ID)
+    var pointId: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -47,6 +50,10 @@ data class RelatedQuiz(
 
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(id, type, subtype, level)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
@@ -55,9 +62,5 @@ data class RelatedQuiz(
                 Objects.equal(item.type, type) &&
                 Objects.equal(item.subtype, subtype) &&
                 Objects.equal(item.level, level)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id, type, subtype, level)
     }
 }

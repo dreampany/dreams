@@ -2,7 +2,7 @@ package com.dreampany.translation.injector
 
 import android.app.Application
 import com.dreampany.translation.data.source.room.TextTranslationDao
-import com.dreampany.translation.data.source.room.TranslateDatabase
+import com.dreampany.translation.data.source.room.TranslationDatabase
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,13 +18,13 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideTranslateDatabase(application: Application): TranslateDatabase {
-        return TranslateDatabase.getInstance(application)
+    fun provideTranslateDatabase(application: Application): TranslationDatabase {
+        return TranslationDatabase.getInstance(application)
     }
 
     @Singleton
     @Provides
-    fun provideTextTranslateDao(database: TranslateDatabase): TextTranslationDao{
+    fun provideTextTranslateDao(database: TranslationDatabase): TextTranslationDao{
         return database.textTranslateDao()
     }
 }

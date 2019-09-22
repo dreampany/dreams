@@ -9,6 +9,7 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * Created by roman on 2019-09-06
@@ -277,6 +278,56 @@ class RxFirebaseFirestore @Inject constructor() {
         return getDocumentIdsRx(query)
     }
 
+    fun getDocumentMapsRx(
+        collection: String,
+        internalPaths: TreeSet<MutablePair<String, String>>? = null,
+        equalTo: List<MutablePair<String, Any>>? = null,
+        lessThanOrEqualTo: List<MutablePair<String, Any>>? = null,
+        greaterThanOrEqualTo: List<MutablePair<String, Any>>? = null,
+        orderBy: FieldPath? = null,
+        ascending: Boolean = true,
+        startAt: String? = null,
+        limit: Long = 0L
+    ): Maybe<List<Pair<String, Map<String, Any>>>> {
+
+        var ref = firestore.collection(collection)
+        if (internalPaths != null && !internalPaths.isEmpty()) {
+            for (path in internalPaths) {
+                if (path.left != null && path.right != null) {
+                    ref = ref.document(path.left).collection(path.right)
+                }
+            }
+        }
+
+        var query: Query = ref
+        if (equalTo != null) {
+            for ((key, value) in equalTo) {
+                query = query.whereEqualTo(key, value)
+            }
+        }
+        if (lessThanOrEqualTo != null) {
+            for ((key, value) in lessThanOrEqualTo) {
+                query = query.whereLessThanOrEqualTo(key, value)
+            }
+        }
+        if (greaterThanOrEqualTo != null) {
+            for ((key, value) in greaterThanOrEqualTo) {
+                query = query.whereGreaterThanOrEqualTo(key, value)
+            }
+        }
+        if (orderBy != null) {
+            query = query.orderBy(
+                orderBy,
+                if (ascending) Query.Direction.ASCENDING else Query.Direction.DESCENDING
+            )
+        }
+        if (!startAt.isNullOrEmpty()) {
+            query = query.startAfter(startAt)
+        }
+        query = query.limit(limit)
+        return getDocumentMapsRx(query)
+    }
+
     fun <T> getItemRx(ref: DocumentReference, clazz: Class<T>): Maybe<T> {
         return Maybe.create { emitter ->
             ref.get().addOnSuccessListener { snapshot ->
@@ -345,6 +396,32 @@ class RxFirebaseFirestore @Inject constructor() {
                     val result = ArrayList<String>()
                     snapshot.documents.forEach { doc ->
                         result.add(doc.id)
+                    }
+                    emitter.onSuccess(result)
+                }
+            }.addOnFailureListener { error ->
+                if (emitter.isDisposed()) {
+                    return@addOnFailureListener
+                }
+                emitter.onError(error)
+            }
+        }
+    }
+
+    fun getDocumentMapsRx(ref: Query): Maybe<List<Pair<String, Map<String, Any>>>> {
+        return Maybe.create { emitter ->
+            ref.get().addOnSuccessListener { snapshot ->
+                if (emitter.isDisposed)
+                    return@addOnSuccessListener
+
+                if (snapshot.isEmpty) {
+                    emitter.onComplete()
+                } else {
+                    val result = ArrayList<Pair<String, Map<String, Any>>>()
+                    snapshot.documents.forEach { doc ->
+                        doc.data?.run {
+                            result.add(Pair(doc.id, this))
+                        }
                     }
                     emitter.onSuccess(result)
                 }

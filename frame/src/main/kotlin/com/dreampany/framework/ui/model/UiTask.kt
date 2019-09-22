@@ -14,13 +14,14 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class UiTask<T : Base>(
-    val notify:Boolean = Constants.Default.BOOLEAN,
-    val fullscreen: Boolean =  Constants.Default.BOOLEAN,
+    val notify: Boolean = Constants.Default.BOOLEAN,
+    val fullscreen: Boolean = Constants.Default.BOOLEAN,
     val type: Type = Type.DEFAULT,
     val subtype: Subtype = Subtype.DEFAULT,
     val state: State = State.DEFAULT,
     val action: Action = Action.DEFAULT,
+    override var id: String? = Constants.Default.NULL,
     override var input: T? = Constants.Default.NULL,
     override var extra: String? = Constants.Default.NULL
-) : Task<T>(input, extra) {
+) : Task<T>(id, input, extra) {
 }

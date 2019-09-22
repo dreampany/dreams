@@ -289,21 +289,16 @@ class RelatedQuizFragment
     }
 
     private fun rightAnswer() {
-        if (particle == null) {
-            particle = bind.konfetti.build()
-            particle!!.addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
-                .setDirection(0.0, 359.0)
-                .setSpeed(1f, 5f)
-                .setFadeOutEnabled(true)
-                .setTimeToLive(1000L)
-                .addShapes(Shape.RECT, Shape.CIRCLE)
-                .addSizes(Size(10))
-                .setPosition(-50f, bind.konfetti.width + 50f, -50f, -50f)
-                .streamFor(300, 3000L)
-        } else {
-            bind.konfetti.start(particle!!)
-        }
-
+        particle = bind.konfetti.build()
+        particle!!.addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+            .setDirection(0.0, 359.0)
+            .setSpeed(1f, 5f)
+            .setFadeOutEnabled(true)
+            .setTimeToLive(1000L)
+            .addShapes(Shape.RECT, Shape.CIRCLE)
+            .addSizes(Size(10))
+            .setPosition(-50f, bind.konfetti.width + 50f, -50f, -50f)
+            .streamFor(300, 3000L)
     }
 
     private fun wrongAnswer() {

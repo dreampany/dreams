@@ -8,6 +8,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.language.Language
+import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
 import timber.log.Timber
@@ -31,7 +32,7 @@ class NotifyWorker(
         Timber.v("NotifyWorker Started")
         val language = pref.getLanguage(Language.ENGLISH)
         val translate = !Language.ENGLISH.equals(language)
-        val request = WordRequest(
+        val syncRequest = WordRequest(
             source = Language.ENGLISH.code,
             target = language.code,
             history = true,
@@ -40,7 +41,9 @@ class NotifyWorker(
             action = Action.SYNC,
             single = true
         )
-        vm.request(request)
+        vm.request(syncRequest)
+/*        val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
+        vm.request(request)*/
         return Result.retry()
     }
 

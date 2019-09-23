@@ -209,8 +209,8 @@ class RelatedQuizViewModel
         uiItem.run {
             typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
             totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
-            typeCount = storeRepo.getCountByType(request.type, request.subtype, request.state)
-            totalCount = storeRepo.getCountByType(request.type, request.subtype, request.state)
+            typeCount = storeRepo.getCountByType(request.type, request.subtype, request.resolve)
+            totalCount = typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
         }
         return uiItem
     }
@@ -221,6 +221,10 @@ class RelatedQuizViewModel
             val store = storeRepo.getRandomItem(request.type, request.subtype, request.state)
             if (store == null) {
                 return null
+            }
+            if (storeRepo.isExists(store.id, request.type, request.subtype, request.resolve)) {
+                wordRepo.removeStore(store.id, request.type, request.subtype, request.state)
+                continue
             }
             val word = wordMapper.getItem(store, wordRepo)
             if (word != null) {
@@ -269,7 +273,8 @@ class RelatedQuizViewModel
                 pointId = id
                 pointRepo.putItem(point)
             }
-            wordRepo.putStore(id, request.type, request.subtype, request.state)
+            wordRepo.putStore(id, request.type, request.subtype, request.resolve)
+            wordRepo.removeStore(id, request.type, request.subtype, request.state)
         }
         return quiz
     }

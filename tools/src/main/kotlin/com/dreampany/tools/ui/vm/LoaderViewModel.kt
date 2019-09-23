@@ -156,6 +156,8 @@ class LoaderViewModel
                     val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
                     Timber.v("firestoreAny Track downloading semi completed [%d]", totalTrack)
                 }
+                //one time loading
+                break
             }
 
             if (result == null) {

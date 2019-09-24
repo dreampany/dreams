@@ -178,14 +178,14 @@ class NotifyViewModel
     private fun adjustTranslate(request: WordRequest, item: WordItem) {
         var translation: String? = null
         if (request.translate) {
-            if (item.hasTranslation(request.target)) {
-                translation = item.getTranslationBy(request.target)
+            if (item.hasTranslation(request.targetLang)) {
+                translation = item.getTranslationBy(request.targetLang)
             } else {
                 val textTranslation =
-                    translationRepo.getItem(request.source!!, request.target!!, item.item.id)
+                    translationRepo.getItem(request.sourceLang!!, request.targetLang!!, item.item.id)
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", item.item.id, it.output)
-                    item.addTranslation(request.target!!, it.output)
+                    item.addTranslation(request.targetLang!!, it.output)
                     translation = it.output
                 }
             }

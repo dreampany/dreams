@@ -33,8 +33,8 @@ class NotifyWorker(
         val language = pref.getLanguage(Language.ENGLISH)
         val translate = !Language.ENGLISH.equals(language)
         val syncRequest = WordRequest(
-            source = Language.ENGLISH.code,
-            target = language.code,
+            sourceLang = Language.ENGLISH.code,
+            targetLang = language.code,
             history = true,
             translate = translate,
             type = Type.WORD,

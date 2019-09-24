@@ -150,7 +150,7 @@ class App : BaseApp() {
             job.create(
                 Constants.Tag.NOTIFY_SERVICE,
                 NotifyService::class,
-                Constants.Delay.Notify.toInt(),
+                Constants.Delay.NOTIFY.toInt(),
                 Constants.Period.NOTIFY.toInt()
             )
         } else {

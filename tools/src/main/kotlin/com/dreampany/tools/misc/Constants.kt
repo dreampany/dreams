@@ -85,8 +85,9 @@ class Constants {
     }
 
     object Delay {
-        val Notify = TimeUnit.MINUTES.toSeconds(1)
-        val WordSyncTimeMS = TimeUnit.SECONDS.toMillis(30)
+        val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
+        val WORD_SYNC_TIME_MS = TimeUnit.SECONDS.toMillis(30)
+        val WORD_TRACK_TIME_MS = TimeUnit.MINUTES.toMillis(30)
     }
 
     object Date {
@@ -110,6 +111,8 @@ class Constants {
         const val WORD_LAST = "word_last"
         const val WORD_LAST_SYNC_TIME = "word_last_sync_time"
         const val WORD_TRACK_START_AT = "word_track_start_at"
+        const val WORD_TRACK_TIME = "word_track_time"
+        const val WORD_TRACK_COUNT = "word_track_count"
     }
 
     object Assets {
@@ -130,7 +133,9 @@ class Constants {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
-        const val WORD_PER_TRACK = 2
+        const val WORD_DEFAULT_PER_TRACK = 1
+        const val WORD_PER_TRACK = 50
+        const val WORD_TRACK = 1000
     }
 
     object Limit {

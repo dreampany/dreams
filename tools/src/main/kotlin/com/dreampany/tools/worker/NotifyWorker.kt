@@ -41,9 +41,7 @@ class NotifyWorker(
             action = Action.SYNC,
             single = true
         )
-        //vm.request(syncRequest)
-/*        val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
-        vm.request(request)*/
+        vm.request(syncRequest)
         return Result.retry()
     }
 

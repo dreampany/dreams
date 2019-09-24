@@ -82,7 +82,7 @@ class NotifyViewModel
     private fun requestWord(request: WordRequest) {
         when (request.action) {
             Action.SYNC -> {
-                ex.postToIO(Runnable {
+                ex.postToNetwork(Runnable {
                     syncWord(request)
                 })
             }
@@ -91,11 +91,18 @@ class NotifyViewModel
 
     private fun syncWord(request: WordRequest) {
         Timber.v("SyncWord fired")
-        if (!TimeUtil.isExpired(wordPref.getLastWordSyncTime(), Constants.Delay.WordSyncTimeMS)) {
+        if (!TimeUtil.isExpired(
+                wordPref.getLastWordSyncTime(),
+                Constants.Delay.WORD_SYNC_TIME_MS
+            )
+        ) {
             return
         }
         Timber.v("Getting... Store")
+        val fullState = storeRepo.getCountByType(request.type, request.subtype, State.FULL)
         var trackCount = 0
+        var trackPer = if (fullState < Constants.Count.WORD_TRACK)
+            Constants.Count.WORD_PER_TRACK else Constants.Count.WORD_DEFAULT_PER_TRACK
         do {
             Timber.v("Getting... TRACK Store")
             var store = nextStore(Type.WORD, Subtype.DEFAULT, State.TRACK)
@@ -112,7 +119,7 @@ class NotifyViewModel
                 }
             }
             AndroidUtil.sleep(10)
-        } while (store != null && trackCount < Constants.Count.WORD_PER_TRACK)
+        } while (store != null && trackCount < trackPer)
 
         Timber.v("Getting... FAW Store")
         val store = nextStore(Type.WORD, Subtype.DEFAULT, State.RAW, exclude = State.TRACK)
@@ -129,10 +136,12 @@ class NotifyViewModel
         }
     }
 
-    private fun nextStore(type:Type,
-                          subtype: Subtype,
-                          target: State,
-                          exclude: State? = null): Store? {
+    private fun nextStore(
+        type: Type,
+        subtype: Subtype,
+        target: State,
+        exclude: State? = null
+    ): Store? {
         var store: Store? = null
         do {
             store = if (exclude == null) storeRepo.getRandomItem(type, subtype, target)
@@ -147,7 +156,7 @@ class NotifyViewModel
         return store
     }
 
-    private fun syncStore(request: WordRequest, store: Store) : Boolean {
+    private fun syncStore(request: WordRequest, store: Store): Boolean {
         Timber.v("Sync Word/.. %s", this.toString())
         try {
             var item = mapper.getItem(store, repo)
@@ -182,7 +191,11 @@ class NotifyViewModel
                 translation = item.getTranslationBy(request.targetLang)
             } else {
                 val textTranslation =
-                    translationRepo.getItem(request.sourceLang!!, request.targetLang!!, item.item.id)
+                    translationRepo.getItem(
+                        request.sourceLang!!,
+                        request.targetLang!!,
+                        item.item.id
+                    )
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", item.item.id, it.output)
                     item.addTranslation(request.targetLang!!, it.output)

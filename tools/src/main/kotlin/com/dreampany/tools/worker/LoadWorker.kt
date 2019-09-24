@@ -7,9 +7,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Source
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.worker.factory.IWorkerFactory
-import com.dreampany.language.Language
 import com.dreampany.tools.data.misc.LoadRequest
-import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.vm.LoadViewModel
 import timber.log.Timber
@@ -37,6 +35,12 @@ class LoadWorker(
             action = Action.LOAD
         )
         vm.request(firestoreRequest)
+        val assetsRequest = LoadRequest(
+            type = Type.WORD,
+            source = Source.ASSETS,
+            action = Action.LOAD
+        )
+        vm.request(assetsRequest)
         return Result.retry()
     }
 

@@ -80,7 +80,8 @@ class Constants {
     }
 
     object Period {
-        val Notify = TimeUnit.SECONDS.toMillis(60)
+        val NOTIFY = TimeUnit.SECONDS.toMillis(60)
+        val LOAD = TimeUnit.SECONDS.toMillis(120)
     }
 
     object Delay {

@@ -1,9 +1,6 @@
 package com.dreampany.tools.data.misc
 
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Subtype
-import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
 import com.dreampany.tools.data.model.Load
 import com.dreampany.tools.misc.Constants
@@ -16,8 +13,8 @@ import com.dreampany.tools.misc.Constants
  */
 class LoadRequest(
     var id: String? = Constants.Default.NULL,
-    var source: String? = Constants.Default.NULL,
-    var target: String? = Constants.Default.NULL,
+    var sourceLang: String? = Constants.Default.NULL,
+    var targetLang: String? = Constants.Default.NULL,
     var translate: Boolean = Constants.Default.BOOLEAN,
     var recent: Boolean = Constants.Default.BOOLEAN,
     var history: Boolean = Constants.Default.BOOLEAN,
@@ -25,6 +22,7 @@ class LoadRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
+    source: Source = Source.DEFAULT,
     action: Action = Action.DEFAULT,
     input: Load? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
@@ -34,6 +32,7 @@ class LoadRequest(
     type = type,
     subtype = subtype,
     state = state,
+    source = source,
     action = action,
     input = input,
     single = single,

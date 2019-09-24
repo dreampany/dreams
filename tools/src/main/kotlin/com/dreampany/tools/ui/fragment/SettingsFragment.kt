@@ -67,7 +67,7 @@ class SettingsFragment @Inject constructor() : BaseMenuFragment() {
                 Constants.Tag.NOTIFY_SERVICE,
                 NotifyService::class,
                 Constants.Delay.Notify.toInt(),
-                Constants.Period.Notify.toInt()
+                Constants.Period.NOTIFY.toInt()
             )
         } else {
             job.cancel(Constants.Tag.NOTIFY_SERVICE)

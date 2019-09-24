@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.work.WorkerParameters
 import com.dreampany.framework.api.worker.BaseWorker
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Source
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.language.Language
+import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.vm.LoadViewModel
@@ -28,24 +30,18 @@ class LoadWorker(
 ) : BaseWorker(context, params) {
 
     override fun onStart(): Result {
-        Timber.v("NotifyWorker Started")
-        val language = pref.getLanguage(Language.ENGLISH)
-        val translate = !Language.ENGLISH.equals(language)
-        val syncRequest = WordRequest(
-            source = Language.ENGLISH.code,
-            target = language.code,
-            history = true,
-            translate = translate,
+        Timber.v("LoadWorker Started")
+        val firestoreRequest = LoadRequest(
             type = Type.WORD,
-            action = Action.SYNC,
-            single = true
+            source = Source.FIRESTORE,
+            action = Action.LOAD
         )
-        //vm.request(syncRequest)
+        vm.request(firestoreRequest)
         return Result.retry()
     }
 
     override fun onStop() {
-        Timber.v("NotifyWorker Stopped")
+        Timber.v("LoadWorker Stopped")
         vm.clear()
     }
 

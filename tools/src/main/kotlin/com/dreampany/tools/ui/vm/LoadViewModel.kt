@@ -1,11 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.framework.api.notify.NotifyManager
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Subtype
-import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -31,7 +27,8 @@ import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
-import java.util.ArrayList
+import java.util.*
+import kotlinx.coroutines.Runnable
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -102,18 +99,31 @@ class LoadViewModel
     }
 
 
-    /*First Layer*/
+    //region load
     private fun loadWords(request: LoadRequest) {
-        if (!wordPref.isTrackLoaded() && !trackLoading) {
-            ex.postToNetwork(kotlinx.coroutines.Runnable {
-                trackLoading = true
-                loadTracks(request)
-                trackLoading = false
-                request(request)
-            })
-            return
+        when (request.source) {
+            Source.FIRESTORE -> {
+                if (!wordPref.isTrackLoaded() && !trackLoading) {
+                    ex.postToNetwork(Runnable {
+                        trackLoading = true
+                        loadTracks(request)
+                        trackLoading = false
+                    })
+                    return
+                }
+            }
+            Source.ASSETS -> {
+                if (!wordPref.isAlphaLoaded() && !alphaLoading) {
+                    ex.postToNetwork(Runnable {
+                        alphaLoading = true
+                        loadAlphas(request)
+                        alphaLoading = false
+                    })
+                }
+            }
         }
-        if (!wordPref.isCommonLoaded() && !commonLoading) {
+
+/*        if (!wordPref.isCommonLoaded() && !commonLoading) {
             ex.postToNetwork(kotlinx.coroutines.Runnable {
                 commonLoading = true
                 loadCommons(request)
@@ -121,16 +131,10 @@ class LoadViewModel
                 request(request)
             })
             return
-        }
-        if (!wordPref.isAlphaLoaded() && !alphaLoading) {
-            ex.postToNetwork(kotlinx.coroutines.Runnable {
-                alphaLoading = true
-                loadAlphas(request)
-                alphaLoading = false
-                request(request)
-            })
-        }
+        }*/
+
     }
+    //endregion
 
     private fun syncWord(request: LoadRequest) {
         val rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
@@ -171,7 +175,8 @@ class LoadViewModel
                 val resultOf = storeRepo.putItems(stores)
                 if (DataUtil.isEqual(result, resultOf)) {
                     wordPref.setTrackStartAt(stores.last().id)
-                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    val totalTrack =
+                        storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
                     Timber.v("firestoreAny Track downloading semi completed [%d]", totalTrack)
                 }
                 //one time loading
@@ -181,7 +186,8 @@ class LoadViewModel
             if (result == null) {
                 if (network.hasInternet()) {
                     wordPref.commitTrackLoaded()
-                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    val totalTrack =
+                        storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
                     Timber.v("firestoreAny Track download completed [%d]", totalTrack)
                 }
             }
@@ -277,6 +283,7 @@ class LoadViewModel
                 //ex.postToUi(kotlinx.coroutines.Runnable { postResult(request.action, item) })
                 AndroidUtil.sleep(100)
             }
+            break
         }
         if (alphaWords.isEmpty()) {
             wordPref.commitAlphaLoaded()
@@ -313,14 +320,18 @@ class LoadViewModel
     private fun adjustTranslate(request: LoadRequest, item: WordItem) {
         var translation: String? = null
         if (request.translate) {
-            if (item.hasTranslation(request.target)) {
-                translation = item.getTranslationBy(request.target)
+            if (item.hasTranslation(request.targetLang)) {
+                translation = item.getTranslationBy(request.targetLang)
             } else {
                 val textTranslation =
-                    translationRepo.getItem(request.source!!, request.target!!, item.item.id)
+                    translationRepo.getItem(
+                        request.sourceLang!!,
+                        request.targetLang!!,
+                        item.item.id
+                    )
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", request.id, it.output)
-                    item.addTranslation(request.target!!, it.output)
+                    item.addTranslation(request.targetLang!!, it.output)
                     translation = it.output
                 }
             }

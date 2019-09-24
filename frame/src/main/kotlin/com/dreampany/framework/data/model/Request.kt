@@ -1,9 +1,6 @@
 package com.dreampany.framework.data.model
 
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Subtype
-import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.misc.Constants
 
 /**
@@ -16,6 +13,7 @@ abstract class Request<T>(
     var type: Type = Type.DEFAULT,
     var subtype: Subtype = Subtype.DEFAULT,
     var state: State = State.DEFAULT,
+    var source: Source = Source.DEFAULT,
     var action: Action = Action.DEFAULT,
     var input: T? = Constants.Default.NULL,
     val single: Boolean = Constants.Default.BOOLEAN,

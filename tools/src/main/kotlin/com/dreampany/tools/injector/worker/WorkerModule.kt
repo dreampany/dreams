@@ -5,6 +5,7 @@ import androidx.work.WorkerFactory
 import com.dreampany.framework.misc.WorkerKey
 import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.framework.worker.factory.WorkerInjectorFactory
+import com.dreampany.tools.worker.LoadWorker
 import com.dreampany.tools.worker.NotifyWorker
 import dagger.Binds
 import dagger.Module
@@ -19,6 +20,12 @@ import javax.inject.Singleton
  */
 @Module
 abstract class WorkerModule {
+
+    @Binds
+    @IntoMap
+    @WorkerKey(LoadWorker::class)
+    abstract fun bindLoadWorker(worker: LoadWorker.Factory): IWorkerFactory<out ListenableWorker>
+
     @Binds
     @IntoMap
     @WorkerKey(NotifyWorker::class)

@@ -26,7 +26,6 @@ import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
-import io.reactivex.Maybe
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.coroutines.Runnable
 import timber.log.Timber

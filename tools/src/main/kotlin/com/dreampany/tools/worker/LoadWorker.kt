@@ -2,15 +2,14 @@ package com.dreampany.tools.worker
 
 import android.content.Context
 import androidx.work.WorkerParameters
-import com.dreampany.tools.ui.vm.NotifyViewModel
 import com.dreampany.framework.api.worker.BaseWorker
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.language.Language
-import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
+import com.dreampany.tools.ui.vm.LoadViewModel
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
@@ -21,11 +20,11 @@ import javax.inject.Provider
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NotifyWorker(
+class LoadWorker(
     context: Context,
     params: WorkerParameters,
     private val pref: Pref,
-    private val vm: NotifyViewModel
+    private val vm: LoadViewModel
 ) : BaseWorker(context, params) {
 
     override fun onStart(): Result {
@@ -42,8 +41,6 @@ class NotifyWorker(
             single = true
         )
         //vm.request(syncRequest)
-/*        val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
-        vm.request(request)*/
         return Result.retry()
     }
 
@@ -55,10 +52,10 @@ class NotifyWorker(
     class Factory
     @Inject constructor(
         private val pref: Pref,
-        private val vm: Provider<NotifyViewModel>
-    ) : IWorkerFactory<NotifyWorker> {
-        override fun create(context: Context, params: WorkerParameters): NotifyWorker {
-            return NotifyWorker(context, params, pref, vm.get())
+        private val vm: Provider<LoadViewModel>
+    ) : IWorkerFactory<LoadWorker> {
+        override fun create(context: Context, params: WorkerParameters): LoadWorker {
+            return LoadWorker(context, params, pref, vm.get())
         }
 
     }

@@ -134,7 +134,7 @@ class Constants {
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
         const val WORD_DEFAULT_PER_TRACK = 1
-        const val WORD_PER_TRACK = 50
+        const val WORD_PER_TRACK = 30
         const val WORD_TRACK = 1000
     }
 

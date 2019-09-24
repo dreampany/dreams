@@ -154,7 +154,7 @@ class LoadViewModel
             val startAt = wordPref.getTrackStartAt()
             var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
             if (!result.isNullOrEmpty()) {
-                Timber.v("firestoreAny Track downloaded [%d]", result.size)
+                Timber.v("firestoreAny Track ERROR downloaded [%d]", result.size)
                 val stores = ArrayList<Store>()
                 result.forEach { tuple ->
                     val id = tuple.first
@@ -177,7 +177,7 @@ class LoadViewModel
                     wordPref.setTrackStartAt(stores.last().id)
                     val totalTrack =
                         storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
-                    Timber.v("firestoreAny Track downloading semi completed [%d]", totalTrack)
+                    Timber.v("firestoreAny Track downloading TRACK completed [%d]", totalTrack)
                 }
                 //one time loading
                 break

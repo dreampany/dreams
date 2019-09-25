@@ -231,6 +231,7 @@ class RelatedQuizFragment
     }
 
     private fun processFailure(error: Throwable) {
+        Timber.v("Result Related Failure[%s]", error.message)
         if (error is IOException || error.cause is IOException) {
             vm.updateUiState(UiState.OFFLINE)
         } else if (error is EmptyException) {

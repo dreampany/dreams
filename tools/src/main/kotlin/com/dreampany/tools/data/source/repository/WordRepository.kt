@@ -43,11 +43,11 @@ class WordRepository
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
     override fun track(id: String, weight: Int, source: Source): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return firestore.track(id, weight, source)
     }
 
     override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return firestore.trackRx(id, weight, source)
     }
 
     override fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>? {

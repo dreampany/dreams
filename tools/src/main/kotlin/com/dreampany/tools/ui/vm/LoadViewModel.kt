@@ -91,7 +91,7 @@ class LoadViewModel
                 loadWords(request)
             }
             Action.SYNC -> {
-                ex.postToNetwork(kotlinx.coroutines.Runnable {
+                ex.postToNetwork(Runnable {
                     syncWord(request)
                 })
             }

@@ -186,4 +186,8 @@ class Constants {
     object ResponseCode {
         const val NOT_FOUND = 404
     }
+
+    object Count {
+        const val THREAD_NETWORK = 5
+    }
 }

@@ -134,11 +134,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
 
     /* library */
+    //implementation 'com.dreampany.framework:frame:0.0.1.1'
     implementation project(':frame')
-    //implementation 'com.dreampany.framework:frame:0.0.1.0'
 
     /* androidx arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha04'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha05'
     kapt 'androidx.room:room-compiler:2.1.0'
 
     /* dagger */
@@ -152,8 +152,6 @@ dependencies {
     implementation 'com.camerakit:camerakit:1.0.0-beta3.11'
     implementation 'com.camerakit:jpegkit:0.1.0'
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.18'
-
-    //implementation 'com.dreampany.framework:frame:0.0.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 10
-        versionName '0.0.1.0'
+        versionCode 11
+        versionName '0.0.1.1'
 
         multiDexEnabled true
 
@@ -151,9 +151,9 @@ dependencies {
     api 'androidx.work:work-rxjava2:2.2.0'
 
     /* androidx arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha04'
-    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha04'
-    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-alpha04'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-alpha05'
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha05'
+    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-alpha05'
     kapt 'androidx.room:room-compiler:2.1.0'
     api 'androidx.room:room-runtime:2.1.0'
     api 'androidx.room:room-rxjava2:2.1.0'
@@ -174,7 +174,7 @@ dependencies {
     api 'com.google.firebase:firebase-messaging:20.0.0'
     api 'com.google.firebase:firebase-auth:19.0.0'
     api 'com.google.firebase:firebase-database:19.1.0'
-    api 'com.google.firebase:firebase-firestore:21.1.0'
+    api 'com.google.firebase:firebase-firestore:21.1.1'
     implementation 'com.google.firebase:firebase-ml-common:21.0.0'
     implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
     implementation 'com.google.firebase:firebase-ml-natural-language:21.0.2'
@@ -271,21 +271,21 @@ dependencies {
 }
 
 ext {
-    bintrayRepo = 'framework'
-    bintrayName = 'frame'   // Has to be same as your library module name
+    bintrayRepo = 'android'
+    bintrayName = 'framework'   // Has to be same as your library module name
 
-    publishedGroupId = 'com.dreampany.frame'
+    publishedGroupId = 'com.dreampany.framework'
     libraryName = 'framework'
     artifact = 'frame'     // Has to be same as your library module name
 
-    libraryDescription = 'Android Library to make any text into Toast with Awesome prepended to the text'
+    libraryDescription = 'Android Smart Framework to develop android.'
 
     // Your github repo link
     siteUrl = 'https://github.com/dreampany/framework'
     gitUrl = 'https://github.com/dreampany/framework.git'
     githubRepository= 'dreampanymail/framework'
 
-    libraryVersion = '0.0.1'
+    libraryVersion = '0.0.1.1'
 
     developerId = 'dreampanymail'
     developerName = 'Hawladar Roman'

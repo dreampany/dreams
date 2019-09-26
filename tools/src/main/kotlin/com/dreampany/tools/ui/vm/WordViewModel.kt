@@ -41,19 +41,19 @@ import javax.inject.Inject
  */
 class WordViewModel
 @Inject constructor(
-        application: Application,
-        rx: RxMapper,
-        ex: AppExecutors,
-        rm: ResponseMapper,
-        private val network: NetworkManager,
-        private val pref: Pref,
-        private val wordPref: WordPref,
-        private val storeMapper: StoreMapper,
-        private val storeRepo: StoreRepository,
-        private val mapper: WordMapper,
-        private val repo: WordRepository,
-        private val translationRepo: TranslationRepository,
-        @Favorite private val favorites: SmartMap<String, Boolean>
+    application: Application,
+    rx: RxMapper,
+    ex: AppExecutors,
+    rm: ResponseMapper,
+    private val network: NetworkManager,
+    private val pref: Pref,
+    private val wordPref: WordPref,
+    private val storeMapper: StoreMapper,
+    private val storeRepo: StoreRepository,
+    private val mapper: WordMapper,
+    private val repo: WordRepository,
+    private val translationRepo: TranslationRepository,
+    @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Word, WordItem, UiTask<Word>>(application, rx, ex, rm), NetworkManager.Callback {
 
     private lateinit var uiCallback: SmartAdapter.Callback<WordItem>
@@ -108,23 +108,23 @@ class WordViewModel
         }
 
         val disposable = rx
-                .backToMain(requestUiItemRx(request))
-                .doOnSubscribe { subscription ->
-                    if (request.progress) {
-                        postProgress(true)
-                    }
+            .backToMain(requestUiItemRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(true)
                 }
-                .subscribe({ result ->
-                    if (request.progress) {
-                        postProgress(false)
-                    }
-                    postResult(request.action, result)
-                }, { error ->
-                    if (request.progress) {
-                        postProgress(false)
-                    }
-                    postFailures(MultiException(error, ExtraException()))
-                })
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postResult(request.action, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
         addSingleSubscription(disposable)
     }
 
@@ -160,23 +160,23 @@ class WordViewModel
         }
 
         val disposable = rx
-                .backToMain(requestItemsOfStringRx(request))
-                .doOnSubscribe { subscription ->
-                    if (request.progress) {
-                        postProgress(true)
-                    }
+            .backToMain(requestItemsOfStringRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(true)
                 }
-                .subscribe({ result ->
-                    if (request.progress) {
-                        postProgress(false)
-                    }
-                    postResultOfString(request.action, result)
-                }, { error ->
-                    if (request.progress) {
-                        postProgress(false)
-                    }
-                    postFailures(MultiException(error, ExtraException()))
-                })
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postResultOfString(request.action, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(false)
+                }
+                postFailures(MultiException(error, ExtraException()))
+            })
         addMultipleSubscription(disposable)
     }
 
@@ -217,8 +217,10 @@ class WordViewModel
                 return@create
             }
             if (request.history) {
-                wordPref.setRecentWord(item)
-                putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
+                if (!item.isEmpty()) {
+                    wordPref.setRecentWord(item)
+                    putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
+                }
             }
             if (request.action == Action.FAVORITE) {
                 toggleFavorite(item.id)
@@ -230,12 +232,15 @@ class WordViewModel
 
     private fun getUiItemsRx(request: WordRequest, items: List<Word>): Maybe<List<WordItem>> {
         return Flowable.fromIterable(items)
-                .map { getUiItem(request, it) }
-                .toList()
-                .toMaybe()
+            .map { getUiItem(request, it) }
+            .toList()
+            .toMaybe()
     }
 
-    private fun getUiItemsOfStoresRx(request: WordRequest, items: List<Store>): Maybe<List<WordItem>> {
+    private fun getUiItemsOfStoresRx(
+        request: WordRequest,
+        items: List<Store>
+    ): Maybe<List<WordItem>> {
         return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
             .toList()
@@ -269,7 +274,11 @@ class WordViewModel
             if (item.hasTranslation(request.targetLang)) {
                 translation = item.getTranslationBy(request.targetLang)
             } else {
-                val textTranslation = translationRepo.getItem(request.sourceLang!!, request.targetLang!!, item.item.id)
+                val textTranslation = translationRepo.getItem(
+                    request.sourceLang!!,
+                    request.targetLang!!,
+                    item.item.id
+                )
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", request.id, it.output)
                     item.addTranslation(request.targetLang!!, it.output)

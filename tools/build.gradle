@@ -151,7 +151,7 @@ dependencies {
     /* misc */
     implementation 'com.camerakit:camerakit:1.0.0-beta3.11'
     implementation 'com.camerakit:jpegkit:0.1.0'
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.18'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.19'
 }
 
 apply plugin: 'com.google.gms.google-services'

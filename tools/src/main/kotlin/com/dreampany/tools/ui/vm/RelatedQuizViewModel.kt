@@ -90,7 +90,7 @@ class RelatedQuizViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postFailures(MultiException(error, ExtraException()))
+                postFailure(MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
     }

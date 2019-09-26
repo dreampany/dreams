@@ -208,7 +208,7 @@ class RelatedQuizFragment
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
             UiState.EXTRA -> processUiState(if (quizItem == null) UiState.EMPTY else UiState.CONTENT)
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
-            UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
+            UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
             }
             UiState.CONTENT -> {

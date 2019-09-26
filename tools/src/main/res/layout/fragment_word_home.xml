@@ -74,7 +74,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                android:backgroundTint="@color/colorPrimaryDark"
+                auto:backgroundTint="@color/colorPrimaryDark"
                 android:tint="@color/material_white"
                 auto:elevation="6dp"
                 auto:rippleColor="@color/material_white"

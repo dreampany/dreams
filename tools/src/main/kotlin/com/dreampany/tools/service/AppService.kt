@@ -88,7 +88,7 @@ class AppService : BaseService() {
      */
     private fun configWork() {
         if (pref.hasNotification()) {
-            worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.MILLISECONDS)
+            worker.createPeriodic(NotifyWorker::class, Constants.Period.NOTIFY, TimeUnit.MILLISECONDS)
         } else {
             worker.cancel(NotifyWorker::class)
         }

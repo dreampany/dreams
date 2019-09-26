@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.room
 import android.graphics.Bitmap
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.WriteException
-import com.dreampany.tools.data.enums.Source
+import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource

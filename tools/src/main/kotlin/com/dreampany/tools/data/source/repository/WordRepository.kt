@@ -10,7 +10,7 @@ import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.enums.Source
+import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.misc.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
@@ -43,11 +43,11 @@ class WordRepository
     @Vision private val vision: WordDataSource
 ) : Repository<String, Word>(rx, rm), WordDataSource {
     override fun track(id: String, weight: Int, source: Source): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return firestore.track(id, weight, source)
     }
 
     override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return firestore.trackRx(id, weight, source)
     }
 
     override fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>? {
@@ -261,6 +261,17 @@ class WordRepository
         return concatSingleFirstRx(/*cacheAny,*/ roomAny, firestoreAny, remoteAny)
     }
 
+
+    fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.putItem(store)
+    }
+
+    fun putStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Long> {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.putItemRx(store)
+    }
+
     fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
         val store = storeMapper.getItem(id, type, subtype, state)
         val result = storeRepo.delete(store)
@@ -283,11 +294,6 @@ class WordRepository
                 emitter.onSuccess(result)
             }
         }
-    }
-
-    private fun putStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Long> {
-        val store = storeMapper.getItem(id, type, subtype, state)
-        return storeRepo.putItemRx(store)
     }
 
     private fun removeStoreRx(id: String, type: Type, subtype: Subtype, state: State): Maybe<Int> {

@@ -1,20 +1,18 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Subtype
-import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.*
-import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.ResponseMapper
+import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.DataUtil
 import com.dreampany.framework.util.DataUtilKt
-import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.framework.util.TimeUtilKt
+import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.LoadRequest
 import com.dreampany.tools.data.misc.WordMapper
@@ -27,23 +25,26 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.LoadItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
-import kotlinx.coroutines.Runnable
+import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.*
+import kotlinx.coroutines.Runnable
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
- * Created by Roman-372 on 8/19/2019
+ * Created by roman on 2019-09-24
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class LoaderViewModel
+@Singleton
+class LoadViewModel
 @Inject constructor(
-    application: Application,
-    rx: RxMapper,
-    ex: AppExecutors,
-    rm: ResponseMapper,
+    private val application: Application,
+    private val rx: RxMapper,
+    private val ex: AppExecutors,
+    private val rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
     private val wordPref: WordPref,
@@ -51,15 +52,29 @@ class LoaderViewModel
     private val storeRepo: StoreRepository,
     private val mapper: WordMapper,
     private val repo: WordRepository,
-    private val translationRepo: TranslationRepository,
-    @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Load, LoadItem, UiTask<Load>>(application, rx, ex, rm) {
+    private val translationRepo: TranslationRepository
+) : NetworkManager.Callback {
+
+    private val disposables: CompositeDisposable
 
     private val commonWords = mutableListOf<Word>()
     private val alphaWords = mutableListOf<Word>()
     private var trackLoading = false
     private var commonLoading = false
     private var alphaLoading = false
+
+    init {
+        disposables = CompositeDisposable()
+        network.observe(this, checkInternet = true)
+    }
+
+    override fun onNetworkResult(networks: List<Network>) {
+        Timber.v(networks.toString())
+    }
+
+    fun clear() {
+        //network.deObserve(this)
+    }
 
     fun request(request: LoadRequest) {
         when (request.type) {
@@ -84,35 +99,42 @@ class LoaderViewModel
     }
 
 
-    /*First Layer*/
+    //region load
     private fun loadWords(request: LoadRequest) {
-        if (!wordPref.isTrackLoaded() && !trackLoading) {
-            ex.postToNetwork(Runnable {
-                trackLoading = true
-                loadTracks(request)
-                trackLoading = false
-                request(request)
-            })
-            return
+        when (request.source) {
+            Source.FIRESTORE -> {
+                if (!wordPref.isTrackLoaded() && !trackLoading) {
+                    ex.postToNetwork(Runnable {
+                        trackLoading = true
+                        loadTracks(request)
+                        trackLoading = false
+                    })
+                    return
+                }
+            }
+            Source.ASSETS -> {
+                if (!wordPref.isAlphaLoaded() && !alphaLoading) {
+                    ex.postToNetwork(Runnable {
+                        alphaLoading = true
+                        loadAlphas(request)
+                        alphaLoading = false
+                    })
+                }
+            }
         }
-        if (!wordPref.isCommonLoaded() && !commonLoading) {
-            ex.postToNetwork(Runnable {
+
+/*        if (!wordPref.isCommonLoaded() && !commonLoading) {
+            ex.postToNetwork(kotlinx.coroutines.Runnable {
                 commonLoading = true
                 loadCommons(request)
                 commonLoading = false
                 request(request)
             })
             return
-        }
-        if (!wordPref.isAlphaLoaded() && !alphaLoading) {
-            ex.postToNetwork(Runnable {
-                alphaLoading = true
-                loadAlphas(request)
-                alphaLoading = false
-                request(request)
-            })
-        }
+        }*/
+
     }
+    //endregion
 
     private fun syncWord(request: LoadRequest) {
         val rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
@@ -132,12 +154,17 @@ class LoaderViewModel
             val startAt = wordPref.getTrackStartAt()
             var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
             if (!result.isNullOrEmpty()) {
-                Timber.v("firestoreAny Track downloaded [%d]", result.size)
+                Timber.v("firestoreAny Track [TRACK, ERROR] downloaded [%d]", result.size)
                 val stores = ArrayList<Store>()
                 result.forEach { tuple ->
                     val id = tuple.first
                     val extra = mapper.toJson(tuple.second)
                     val weight: Int = (tuple.second.get(Constants.Firebase.WEIGHT) as Long).toInt()
+                    val sourceValue: String? = tuple.second.get(Constants.Firebase.SOURCE) as String?
+                    if (sourceValue.isNullOrEmpty()) {
+                        repo.track(id, weight, Source.WORDNIK)
+                    }
+                    //val source: Source = Source.valueOf(sourceValue)
                     val state = if (weight > 0) State.TRACK else State.ERROR
                     stores.add(
                         Store(
@@ -153,8 +180,9 @@ class LoaderViewModel
                 val resultOf = storeRepo.putItems(stores)
                 if (DataUtil.isEqual(result, resultOf)) {
                     wordPref.setTrackStartAt(stores.last().id)
-                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
-                    Timber.v("firestoreAny Track downloading semi completed [%d]", totalTrack)
+                    val totalTrack =
+                        storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    Timber.v("firestoreAny Track [TRACK] downloading completed [%d]", totalTrack)
                 }
                 //one time loading
                 break
@@ -163,7 +191,8 @@ class LoaderViewModel
             if (result == null) {
                 if (network.hasInternet()) {
                     wordPref.commitTrackLoaded()
-                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    val totalTrack =
+                        storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
                     Timber.v("firestoreAny Track download completed [%d]", totalTrack)
                 }
             }
@@ -179,7 +208,7 @@ class LoaderViewModel
         var current = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.RAW)
         val load = Load(current = current, total = current)
         val item = LoadItem.getItem(load)
-        ex.postToUi(Runnable { postResult(request.action, item) })
+        //ex.postToUi(kotlinx.coroutines.Runnable { postResult(request.action, item) })
 
         val last = wordPref.getLastWord()
         val lastIndex = if (last != null) commonWords.indexOf(last) else -1
@@ -210,7 +239,7 @@ class LoaderViewModel
                 load.total = current
 
                 Timber.v("%d Last Common Word = %s", current, lastWord!!.id)
-                ex.postToUi(Runnable { postResult(request.action, item) })
+                //ex.postToUi(kotlinx.coroutines.Runnable { postResult(request.action, item) })
                 AndroidUtil.sleep(100)
             }
         }
@@ -225,7 +254,7 @@ class LoaderViewModel
         var current = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.RAW)
         val load = Load(current = current, total = current)
         val item = LoadItem.getItem(load)
-        ex.postToUi(Runnable { postResult(request.action, item) })
+        //ex.postToUi(kotlinx.coroutines.Runnable { postResult(request.action, item) })
 
         val last = wordPref.getLastWord()
         val lastIndex = if (last != null) alphaWords.indexOf(last) else -1
@@ -256,9 +285,10 @@ class LoaderViewModel
                 load.total = current
 
                 Timber.v("%d Last Alpha Word = %s", current, lastWord!!.id)
-                ex.postToUi(Runnable { postResult(request.action, item) })
+                //ex.postToUi(kotlinx.coroutines.Runnable { postResult(request.action, item) })
                 AndroidUtil.sleep(100)
             }
+            break
         }
         if (alphaWords.isEmpty()) {
             wordPref.commitAlphaLoaded()
@@ -299,7 +329,11 @@ class LoaderViewModel
                 translation = item.getTranslationBy(request.targetLang)
             } else {
                 val textTranslation =
-                    translationRepo.getItem(request.sourceLang!!, request.targetLang!!, item.item.id)
+                    translationRepo.getItem(
+                        request.sourceLang!!,
+                        request.targetLang!!,
+                        item.item.id
+                    )
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", request.id, it.output)
                     item.addTranslation(request.targetLang!!, it.output)

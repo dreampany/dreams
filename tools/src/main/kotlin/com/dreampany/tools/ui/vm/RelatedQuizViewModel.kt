@@ -90,7 +90,7 @@ class RelatedQuizViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postFailures(MultiException(error, ExtraException()))
+                postFailure(MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
     }
@@ -198,7 +198,8 @@ class RelatedQuizViewModel
     }
 
     private fun getUiItem(request: RelatedQuizRequest, item: RelatedQuiz): RelatedQuizItem {
-        var uiItem: RelatedQuizItem? = mapper.getUiItem(item.id, item.type, item.subtype, item.level)
+        var uiItem: RelatedQuizItem? =
+            mapper.getUiItem(item.id, item.type, item.subtype, item.level)
         if (uiItem == null) {
             uiItem = RelatedQuizItem.getItem(item)
             mapper.putUiItem(uiItem)
@@ -208,6 +209,8 @@ class RelatedQuizViewModel
         uiItem.run {
             typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
             totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
+            typeCount = storeRepo.getCountByType(request.type, request.subtype, request.resolve)
+            totalCount = typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
         }
         return uiItem
     }
@@ -216,40 +219,45 @@ class RelatedQuizViewModel
         var quiz: RelatedQuiz? = null
         do {
             val store = storeRepo.getRandomItem(request.type, request.subtype, request.state)
-            if (store != null) {
-                val word = wordMapper.getItem(store, wordRepo)
-                if (word != null) {
-                    var answer: String? = null
-                    var options: ArrayList<String>? = null
-                    if (request.subtype == Subtype.SYNONYM) {
-                        if (word.hasSynonyms()) {
-                            answer = DataUtilKt.takeRandom<String?>(word.synonyms)
-                        }
-                    } else if (request.subtype == Subtype.ANTONYM) {
-                        if (word.hasAntonyms()) {
-                            answer = DataUtilKt.takeRandom<String?>(word.antonyms)
-                        }
+            if (store == null) {
+                return null
+            }
+            if (storeRepo.isExists(store.id, request.type, request.subtype, request.resolve)) {
+                wordRepo.removeStore(store.id, request.type, request.subtype, request.state)
+                continue
+            }
+            val word = wordMapper.getItem(store, wordRepo)
+            if (word != null) {
+                var answer: String? = null
+                var options: ArrayList<String>? = null
+                if (request.subtype == Subtype.SYNONYM) {
+                    if (word.hasSynonyms()) {
+                        answer = DataUtilKt.takeRandom<String?>(word.synonyms)
                     }
-                    if (answer != null) {
-                        options = wordRepo.getRawItemsByLength(
-                            answer,
-                            (Constants.Limit.QUIZ_OPTIONS - 1).toLong()
-                        ) as ArrayList<String>?
+                } else if (request.subtype == Subtype.ANTONYM) {
+                    if (word.hasAntonyms()) {
+                        answer = DataUtilKt.takeRandom<String?>(word.antonyms)
                     }
-                    if (!options.isNullOrEmpty()) {
-                        val randIndex = NumberUtil.nextRand(options.size)
-                        options.add(randIndex, answer!!)
+                }
+                if (answer != null) {
+                    options = wordRepo.getRawItemsByLength(
+                        answer,
+                        (Constants.Limit.QUIZ_OPTIONS - 1).toLong()
+                    ) as ArrayList<String>?
+                }
+                if (!options.isNullOrEmpty()) {
+                    val randIndex = NumberUtil.nextRand(options.size)
+                    options.add(randIndex, answer!!)
 
-                        quiz = RelatedQuiz(
-                            time = TimeUtilKt.currentMillis(),
-                            id = word.id,
-                            type = request.type,
-                            subtype = request.subtype,
-                            level = Level.A1,
-                            options = options,
-                            answer = answer
-                        )
-                    }
+                    quiz = RelatedQuiz(
+                        time = TimeUtilKt.currentMillis(),
+                        id = word.id,
+                        type = request.type,
+                        subtype = request.subtype,
+                        level = Level.A1,
+                        options = options,
+                        answer = answer
+                    )
                 }
             }
         } while (quiz == null)
@@ -265,7 +273,7 @@ class RelatedQuizViewModel
                 pointId = id
                 pointRepo.putItem(point)
             }
-
+            wordRepo.putStore(id, request.type, request.subtype, request.resolve)
             wordRepo.removeStore(id, request.type, request.subtype, request.state)
         }
         return quiz

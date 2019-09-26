@@ -2,8 +2,6 @@ package com.dreampany.tools.app
 
 import android.Manifest
 import android.app.Activity
-import com.afollestad.assent.Permission
-import com.afollestad.assent.runWithPermissions
 import com.crashlytics.android.Crashlytics
 import com.dreampany.framework.app.BaseApp
 import com.dreampany.tools.BuildConfig
@@ -15,8 +13,8 @@ import com.dreampany.tools.service.NotifyService
 import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.tools.service.AppService
-import com.dreampany.tools.ui.activity.LaunchActivity
 import com.dreampany.tools.ui.activity.NavigationActivity
+import com.dreampany.tools.worker.LoadWorker
 import com.dreampany.tools.worker.NotifyWorker
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -85,7 +83,7 @@ class App : BaseApp() {
         configAd()
         //configService()
         //configJob()
-        //configWork()
+        configWork()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -152,8 +150,8 @@ class App : BaseApp() {
             job.create(
                 Constants.Tag.NOTIFY_SERVICE,
                 NotifyService::class,
-                Constants.Delay.Notify.toInt(),
-                Constants.Period.Notify.toInt()
+                Constants.Delay.NOTIFY.toInt(),
+                Constants.Period.NOTIFY.toInt()
             )
         } else {
             job.cancel(Constants.Tag.NOTIFY_SERVICE)
@@ -165,8 +163,9 @@ class App : BaseApp() {
      * at com.dreampany.frame.worker.factory.WorkerInjectorFactory.createWorker(WorkerInjectorFactory.kt:26)
      */
     private fun configWork() {
+        worker.createPeriodic(LoadWorker::class, Constants.Period.LOAD, TimeUnit.MILLISECONDS)
         if (pref.hasNotification()) {
-            worker.createPeriodic(NotifyWorker::class, Constants.Period.Notify, TimeUnit.MILLISECONDS)
+            worker.createPeriodic(NotifyWorker::class, Constants.Period.NOTIFY, TimeUnit.MILLISECONDS)
         } else {
             worker.cancel(NotifyWorker::class)
         }

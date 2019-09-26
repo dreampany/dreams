@@ -71,7 +71,7 @@ class NavigationActivity : BaseBottomNavigationActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        loadRequest()
+        //loadRequest()
         ad.loadBanner(getScreen())
     }
 

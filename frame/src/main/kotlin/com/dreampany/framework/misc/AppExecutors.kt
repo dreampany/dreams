@@ -16,40 +16,44 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class AppExecutors(
-    private val uiExecutor: UiThreadExecutor,
-    private val diskIO: DiskIOThreadExecutor,
-    private val networkIO: NetworkIOThreadExecutor
+class AppExecutors
+private constructor(
+    private val ui: UiThreadExecutor,
+    private val disk: DiskThreadExecutor,
+    private val network: NetworkThreadExecutor
 ) {
+
     @Inject
     constructor() : this(
-        UiThreadExecutor(), DiskIOThreadExecutor(), NetworkIOThreadExecutor()
+        UiThreadExecutor(),
+        DiskThreadExecutor(),
+        NetworkThreadExecutor()
     ) {
     }
 
     fun postToUi(run: Runnable) {
-        uiExecutor.execute(run)
+        ui.execute(run)
     }
 
     fun postToUi(run: Runnable, delay: Long) {
-        uiExecutor.executeUniquely(run, delay)
+        ui.executeUniquely(run, delay)
     }
 
     fun postToUiSmartly(runnable: Runnable) {
         if (AndroidUtil.isOnUiThread()) {
             runnable.run()
         } else {
-            uiExecutor.execute(runnable)
+            ui.execute(runnable)
         }
     }
 
-    fun postToIO(run: Runnable): Boolean {
-        diskIO.execute(run)
+    fun postToDisk(run: Runnable): Boolean {
+        disk.execute(run)
         return true
     }
 
     fun postToNetwork(run: Runnable): Boolean {
-        networkIO.execute(run)
+        network.execute(run)
         return true
     }
 
@@ -76,30 +80,30 @@ class AppExecutors(
         }
     }
 
-    /* DiskIO Executor */
-    class DiskIOThreadExecutor : Executor {
-        private val diskIO: Executor
+    /* Disk Executor */
+    class DiskThreadExecutor : Executor {
+        private val disk: Executor
 
         init {
-            diskIO = Executors.newSingleThreadExecutor()
+            disk = Executors.newSingleThreadExecutor()
         }
 
         override fun execute(command: Runnable) {
-            diskIO.execute(command)
+            disk.execute(command)
         }
     }
 
-    /* NetworkIO Executor */
-    class NetworkIOThreadExecutor : Executor {
-        private val THREAD_COUNT = 3
-        private val networkIO: Executor
+    /* Network Executor */
+    class NetworkThreadExecutor : Executor {
+        private val THREAD_COUNT = Constants.Count.THREAD_NETWORK
+        private val network: Executor
 
         init {
-            networkIO = Executors.newFixedThreadPool(THREAD_COUNT)
+            network = Executors.newFixedThreadPool(THREAD_COUNT)
         }
 
         override fun execute(command: Runnable) {
-            networkIO.execute(command)
+            network.execute(command)
         }
     }
 }

@@ -62,7 +62,7 @@ class DefaultViewModel
     private fun requestQuiz(request: DefaultRequest) {
         when (request.subtype) {
             Subtype.RELATED -> {
-                ex.postToIO(Runnable {
+                ex.postToDisk(Runnable {
                     requestRelatedQuiz(request)
                 })
             }

@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.api
 
 import android.graphics.Bitmap
 import com.dreampany.framework.data.source.api.DataSource
-import com.dreampany.tools.data.enums.Source
+import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.model.Word
 import io.reactivex.Maybe
 

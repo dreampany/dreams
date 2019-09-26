@@ -24,11 +24,11 @@
             android:gravity="center_vertical"
             android:minHeight="@dimen/_100sdp"
             android:orientation="horizontal"
-            android:padding="@dimen/_5sdp">
+            android:padding="@dimen/_8sdp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_point"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_14ssp"
@@ -38,10 +38,22 @@
                 tools:text="@string/title" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/material_grey800"
+                android:textSize="@dimen/_14ssp"
+                auto:fontFamily="@font/roboto_slab_bold"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/title" />
+
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp" android:gravity="center"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:gravity="center"
                 android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_14ssp"
                 auto:fontFamily="@font/roboto_slab_bold"

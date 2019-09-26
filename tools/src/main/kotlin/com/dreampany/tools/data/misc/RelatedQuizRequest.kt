@@ -18,6 +18,7 @@ class RelatedQuizRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
+    var resolve: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
     input: RelatedQuiz? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,

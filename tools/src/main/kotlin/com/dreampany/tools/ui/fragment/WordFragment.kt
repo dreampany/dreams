@@ -530,8 +530,8 @@ class WordFragment
         val id = id?.toLowerCase()
         val request = WordRequest(
             id = id,
-            source = Language.ENGLISH.code,
-            target = language.code,
+            sourceLang = Language.ENGLISH.code,
+            targetLang = language.code,
             recent = recent,
             history = history,
             translate = translate,

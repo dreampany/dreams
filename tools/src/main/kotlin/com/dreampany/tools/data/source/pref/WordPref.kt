@@ -58,6 +58,26 @@ class WordPref
         return getPrivately(Constants.Pref.WORD_TRACK_START_AT, Constants.Default.STRING)
     }
 
+    fun commitTrackTime() {
+        return setTrackTime(TimeUtilKt.currentMillis())
+    }
+
+    fun setTrackTime(time: Long) {
+        return setPrivately(Constants.Pref.WORD_TRACK_TIME, time)
+    }
+
+    fun getTrackTime(): Long {
+        return getPrivately(Constants.Pref.WORD_TRACK_TIME, Constants.Default.LONG)
+    }
+
+    fun setTrackCount(count: Int) {
+        return setPrivately(Constants.Pref.WORD_TRACK_COUNT, count)
+    }
+
+    fun getTrackCount(): Int {
+        return getPrivately(Constants.Pref.WORD_TRACK_COUNT, Constants.Default.INT)
+    }
+
     fun setLastWord(item: Word) {
         setPrivately(Constants.Pref.WORD_LAST, item)
     }

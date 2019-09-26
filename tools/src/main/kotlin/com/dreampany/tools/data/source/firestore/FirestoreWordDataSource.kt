@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.framework.misc.exception.WriteException
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.enums.Source
+import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
@@ -23,7 +23,7 @@ class FirestoreWordDataSource(
 ) : WordDataSource {
     override fun track(id: String, weight: Int, source: Source): Long {
         val data =
-            hashMapOf(Constants.Firebase.WEIGHT to weight, Constants.Firebase.SOURCE to source)
+            hashMapOf(Constants.Firebase.WEIGHT to weight, Constants.Firebase.SOURCE to source.name)
         val error =
             firestore.setItemRx<Map<String, Any>>(Constants.Firebase.TRACK_WORDS, id, data)
                 .blockingGet()

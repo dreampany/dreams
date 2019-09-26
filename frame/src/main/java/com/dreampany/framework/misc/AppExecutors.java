@@ -36,8 +36,8 @@ public class AppExecutors {
     public AppExecutors() {
         this(
                 new UiThreadExecutor(),
-                new DiskIOThreadExecutor(),
-                new NetworkIOThreadExecutor()
+                new DiskThreadExecutor(),
+                new NetworkThreadExecutor()
         );
     }
 
@@ -75,7 +75,7 @@ public class AppExecutors {
         }
     }
 
-    public boolean postToIO(Runnable run) {
+    public boolean postToDisk(Runnable run) {
         diskIO.execute(run);
         return true;
     }
@@ -122,10 +122,10 @@ public class AppExecutors {
         }
     }
 
-    private static class DiskIOThreadExecutor implements Executor {
+    private static class DiskThreadExecutor implements Executor {
         private final Executor diskIO;
 
-        public DiskIOThreadExecutor() {
+        public DiskThreadExecutor() {
             diskIO = Executors.newSingleThreadExecutor();
         }
 
@@ -135,10 +135,10 @@ public class AppExecutors {
         }
     }
 
-    private static class NetworkIOThreadExecutor implements Executor {
+    private static class NetworkThreadExecutor implements Executor {
         private final Executor networkIO;
 
-        public NetworkIOThreadExecutor() {
+        public NetworkThreadExecutor() {
             networkIO = Executors.newFixedThreadPool(THREAD_COUNT);
         }
 

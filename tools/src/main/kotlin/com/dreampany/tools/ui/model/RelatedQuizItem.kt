@@ -39,6 +39,8 @@ private constructor(
     var point: Point? = Constants.Default.NULL
     var typePoint: Point? = Constants.Default.NULL
     var totalPoint: Point? = Constants.Default.NULL
+    var typeCount: Int = Constants.Default.INT
+    var totalCount: Int = Constants.Default.INT
 
     init {
         color = ColorUtil.createGreyColor()
@@ -111,6 +113,8 @@ private constructor(
         val item = QuizOptionItem.getItem(header)
         item.credit = credit
         item.totalCredit = totalCredit
+        item.count = typeCount
+        item.totalCount = totalCount
         return item
     }
 

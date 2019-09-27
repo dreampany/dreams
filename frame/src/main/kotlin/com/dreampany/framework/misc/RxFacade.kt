@@ -4,6 +4,7 @@ import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
+import javax.inject.Singleton
 
 
 /**
@@ -11,6 +12,7 @@ import javax.inject.Inject
  * BJIT Group
  * hawladar.roman@bjitgroup.com
  */
+@Singleton
 class RxFacade @Inject constructor() {
 
     fun io(): Scheduler {

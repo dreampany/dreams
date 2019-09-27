@@ -20,6 +20,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.misc.resolveText
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
@@ -548,7 +549,13 @@ class WordHomeFragment
     private fun processSingleSuccess(action: Action, item: WordItem) {
         Timber.v("Result Single Word[%s]", item.item.id)
         if (action == Action.CLICK) {
-            showBubble(clickView!!, item.item.id)
+            val text = getString(
+                R.string.format_word_balloon,
+                item.item.id,
+                resolveText(item.item.getPartOfSpeech()),
+                resolveText(item.translation)
+            )
+            showBubble(clickView!!, text)
             clickView = null
             return
         }
@@ -687,7 +694,8 @@ class WordHomeFragment
     private fun onClickWord(view: View, word: String) {
         clickView = view
         clickWord = word
-        request(id = word, history = false, action = Action.CLICK, single = true, progress = true)
+        showBubble(view, word)
+        request(id = word, history = true, action = Action.CLICK, single = true, progress = true)
         AndroidUtil.speak(word)
     }
 
@@ -730,23 +738,28 @@ class WordHomeFragment
     }
 
     private fun showBubble(view: View, text: String) {
+        balloon?.run {
+            if (isShowing) {
+                dismiss()
+            }
+        }
         balloon = createBalloon(context!!) {
             setArrowSize(10)
-            setWidthRatio(0.7f)
-            setHeight(60)
+            setWidthRatio(0.6f)
+            setHeight(70)
             setArrowPosition(0.5f)
             setCornerRadius(4f)
             setAlpha(0.9f)
             setTextTypeface(Typeface.BOLD)
             setText(text)
             setTextColorResource(R.color.material_white)
-            setTextSize(12.0f)
+            setTextSize(14.0f)
             // setIconDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_profile))
             setBackgroundColorResource(R.color.colorPrimary)
             setOnBalloonClickListener(this@WordHomeFragment)
             setOnBalloonOutsideTouchListener(this@WordHomeFragment)
             setArrowOrientation(ArrowOrientation.BOTTOM)
-            setBalloonAnimation(BalloonAnimation.ELASTIC)
+            setBalloonAnimation(BalloonAnimation.FADE)
             setLifecycleOwner(this@WordHomeFragment)
         }
         balloon?.run {

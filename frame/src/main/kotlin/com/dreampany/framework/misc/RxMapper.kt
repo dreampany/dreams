@@ -7,12 +7,14 @@ import io.reactivex.subjects.AsyncSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.ReplaySubject
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by Hawladar Roman on 5/26/2018.
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
+@Singleton
 class RxMapper @Inject constructor(var facade: RxFacade) {
 
     fun <T> toLiveData(subject: AsyncSubject<T>, disposables: CompositeDisposable): MutableLiveData<T> {

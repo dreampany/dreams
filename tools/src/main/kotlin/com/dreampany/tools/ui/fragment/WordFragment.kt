@@ -123,7 +123,8 @@ class WordFragment
         buildLangItems()
         initUi()
         adjustTranslationUi()
-        request(id = bind.item?.item?.id, single = true, progress = true)
+        val uiTask = getCurrentTask<UiTask<Word>>(true)
+        request(id = uiTask?.id, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -166,11 +167,11 @@ class WordFragment
     }
 
     override fun onSearchViewShown() {
-        //toSearchMode()
+//toSearchMode()
     }
 
     override fun onSearchViewClosed() {
-        //toScanMode()
+//toScanMode()
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
@@ -281,7 +282,7 @@ class WordFragment
     }
 
     private fun openOptionsMenu(v: View) {
-        //currentItem = item
+//currentItem = item
         langMenu = PowerMenu.Builder(context)
             .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
             .addItemList(langItems)
@@ -316,7 +317,7 @@ class WordFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            //UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+//UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
@@ -521,7 +522,7 @@ class WordFragment
     private fun onClickWord(view: View, word: String) {
         clickView = view
         clickWord = word
-        request(id = word, history = true, action = Action.CLICK, single = true, progress = true)
+        request(id = word, history = false, action = Action.CLICK, single = true, progress = true)
         AndroidUtil.speak(word)
     }
 
@@ -558,7 +559,7 @@ class WordFragment
             setText(text)
             setTextColorResource(R.color.material_white)
             setTextSize(12.0f)
-            // setIconDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_profile))
+// setIconDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_profile))
             setBackgroundColorResource(R.color.colorPrimary)
             setOnBalloonClickListener(this@WordFragment)
             setOnBalloonOutsideTouchListener(this@WordFragment)

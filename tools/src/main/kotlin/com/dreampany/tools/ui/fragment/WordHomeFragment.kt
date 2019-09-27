@@ -687,7 +687,7 @@ class WordHomeFragment
     private fun onClickWord(view: View, word: String) {
         clickView = view
         clickWord = word
-        request(id = word, history = true, action = Action.CLICK, single = true, progress = true)
+        request(id = word, history = false, action = Action.CLICK, single = true, progress = true)
         AndroidUtil.speak(word)
     }
 

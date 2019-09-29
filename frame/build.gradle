@@ -10,8 +10,8 @@ android {
     defaultConfig {
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 11
-        versionName '0.0.1.1'
+        versionCode 12
+        versionName '0.0.1.2'
 
         multiDexEnabled true
 
@@ -42,7 +42,7 @@ android {
 
         release {
             minifyEnabled true
-            useProguard true
+            //useProguard true
             shrinkResources false
             crunchPngs true
             //multiDexKeepFile file('multidex-config.txt')
@@ -172,13 +172,13 @@ dependencies {
     api 'com.google.firebase:firebase-appindexing:19.0.0'
     api 'com.google.firebase:firebase-ads:18.2.0'
     api 'com.google.firebase:firebase-messaging:20.0.0'
-    api 'com.google.firebase:firebase-auth:19.0.0'
+    api 'com.google.firebase:firebase-auth:19.1.0'
     api 'com.google.firebase:firebase-database:19.1.0'
     api 'com.google.firebase:firebase-firestore:21.1.1'
     implementation 'com.google.firebase:firebase-ml-common:21.0.0'
     implementation 'com.google.firebase:firebase-ml-vision:23.0.0'
-    implementation 'com.google.firebase:firebase-ml-natural-language:21.0.2'
-    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.5'
+    implementation 'com.google.firebase:firebase-ml-natural-language:21.0.3'
+    implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.6'
 
     /* dagger */
     api 'com.google.dagger:dagger:2.24'
@@ -287,7 +287,7 @@ ext {
     gitUrl = 'https://github.com/dreampany/framework.git'
     githubRepository= 'dreampanymail/framework'
 
-    libraryVersion = '0.0.1.1'
+    libraryVersion = '0.0.1.2'
 
     developerId = 'dreampanymail'
     developerName = 'Hawladar Roman'

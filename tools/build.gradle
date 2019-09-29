@@ -143,7 +143,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
 
     /* library */
-    //implementation 'com.dreampany.framework:frame:0.0.1.2'
+    //implementation 'com.dreampany.framework:frame:0.0.1.3'
     implementation project(':frame')
 
     /* androidx arch */

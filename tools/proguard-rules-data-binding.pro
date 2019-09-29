@@ -29,8 +29,8 @@
     java.lang.Object readResolve();
 }
 -keepattributes *Annotation*
--keepattributes javax.xml.bind.annotation.*
--keepattributes javax.annotation.processing.*
+#-keepattributes javax.xml.bind.annotation.*
+#-keepattributes javax.annotation.processing.*
 -keepclassmembers class * extends java.lang.Enum { *; }
 -keepclasseswithmembernames class android.**
 -keepclasseswithmembernames interface android.**

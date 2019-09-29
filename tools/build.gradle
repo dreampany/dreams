@@ -46,7 +46,7 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            useProguard false
+            //useProguard false
             shrinkResources false
             crunchPngs false
             ext.enableCrashlytics = false
@@ -57,7 +57,7 @@ android {
 
         release {
             minifyEnabled true
-            useProguard true
+            //useProguard true
             shrinkResources true
             crunchPngs true
             signingConfig signingConfigs.release
@@ -97,10 +97,19 @@ android {
     dataBinding {
         enabled = true
     }
-	
-	compileOptions {
+
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        //checkReleaseBuilds false
+        //abortOnError false
+        //warning 'MissingTranslation','GetLocales','VectorDrawableCompat'
+        //disable 'MissingTranslation'
+        //disable 'ExtraTranslation'
+        //disable 'InvalidPackage'
     }
 
     packagingOptions {
@@ -134,7 +143,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
 
     /* library */
-    //implementation 'com.dreampany.framework:frame:0.0.1.1'
+    //implementation 'com.dreampany.framework:frame:0.0.1.2'
     implementation project(':frame')
 
     /* androidx arch */

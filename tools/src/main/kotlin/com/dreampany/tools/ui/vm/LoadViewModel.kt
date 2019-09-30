@@ -91,7 +91,7 @@ class LoadViewModel
                 loadWords(request)
             }
             Action.SYNC -> {
-                ex.postToNetwork(kotlinx.coroutines.Runnable {
+                ex.postToNetwork(Runnable {
                     syncWord(request)
                 })
             }
@@ -154,12 +154,17 @@ class LoadViewModel
             val startAt = wordPref.getTrackStartAt()
             var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
             if (!result.isNullOrEmpty()) {
-                Timber.v("firestoreAny Track ERROR downloaded [%d]", result.size)
+                Timber.v("firestoreAny Track [TRACK, ERROR] downloaded [%d]", result.size)
                 val stores = ArrayList<Store>()
                 result.forEach { tuple ->
                     val id = tuple.first
                     val extra = mapper.toJson(tuple.second)
                     val weight: Int = (tuple.second.get(Constants.Firebase.WEIGHT) as Long).toInt()
+                    val sourceValue: String? = tuple.second.get(Constants.Firebase.SOURCE) as String?
+                    if (sourceValue.isNullOrEmpty()) {
+                        repo.track(id, weight, Source.WORDNIK)
+                    }
+                    //val source: Source = Source.valueOf(sourceValue)
                     val state = if (weight > 0) State.TRACK else State.ERROR
                     stores.add(
                         Store(
@@ -177,7 +182,7 @@ class LoadViewModel
                     wordPref.setTrackStartAt(stores.last().id)
                     val totalTrack =
                         storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
-                    Timber.v("firestoreAny Track downloading TRACK completed [%d]", totalTrack)
+                    Timber.v("firestoreAny Track [TRACK] downloading completed [%d]", totalTrack)
                 }
                 //one time loading
                 break

@@ -160,7 +160,8 @@ class LoadViewModel
                     val id = tuple.first
                     val extra = mapper.toJson(tuple.second)
                     val weight: Int = (tuple.second.get(Constants.Firebase.WEIGHT) as Long).toInt()
-                    val sourceValue: String? = tuple.second.get(Constants.Firebase.SOURCE) as String?
+                    val sourceValue: String? =
+                        tuple.second.get(Constants.Firebase.SOURCE) as String?
                     if (sourceValue.isNullOrEmpty()) {
                         repo.track(id, weight, Source.WORDNIK)
                     }

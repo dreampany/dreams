@@ -85,7 +85,7 @@ class RelatedQuizViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(request.action, result)
+                postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -210,7 +210,8 @@ class RelatedQuizViewModel
             typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
             totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
             typeCount = storeRepo.getCountByType(request.type, request.subtype, request.resolve)
-            totalCount = typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
+            totalCount =
+                typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
         }
         return uiItem
     }

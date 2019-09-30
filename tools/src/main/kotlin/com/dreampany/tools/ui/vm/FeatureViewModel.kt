@@ -66,7 +66,7 @@ class FeatureViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Action.GET, result)
+                postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -92,7 +92,7 @@ class FeatureViewModel @Inject constructor(
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Action.GET, result)
+                postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -120,9 +120,24 @@ class FeatureViewModel @Inject constructor(
     private fun getItemsRx(request: FeatureRequest): Maybe<List<Feature>> {
         return Maybe.create { emitter ->
             val items = mutableListOf<Feature>()
-            items.add(Feature(type = Type.APP, title = TextUtil.getString(getApplication(), R.string.title_feature_app)))
-            items.add(Feature(type = Type.WORD, title = TextUtil.getString(getApplication(), R.string.title_feature_word)))
-            items.add(Feature(type = Type.NOTE, title = TextUtil.getString(getApplication(), R.string.title_feature_note)))
+            items.add(
+                Feature(
+                    type = Type.APP,
+                    title = TextUtil.getString(getApplication(), R.string.title_feature_app)
+                )
+            )
+            items.add(
+                Feature(
+                    type = Type.WORD,
+                    title = TextUtil.getString(getApplication(), R.string.title_feature_word)
+                )
+            )
+            items.add(
+                Feature(
+                    type = Type.NOTE,
+                    title = TextUtil.getString(getApplication(), R.string.title_feature_note)
+                )
+            )
             emitter.onSuccess(items)
         }
     }

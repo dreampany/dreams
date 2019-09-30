@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.NetworkState
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.ui.enums.UiMode
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.data.model.Event
@@ -436,31 +437,31 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }
 
-    fun postResult(action: Action, data: X) {
-        rm.response(input, action, data)
+    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: X) {
+        rm.response(input, state, action, data)
     }
 
-    fun postResult(action: Action, data: X, withProgress: Boolean) {
+    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: X, withProgress: Boolean) {
         if (withProgress) {
-            rm.responseWithProgress(input, action, data)
+            rm.responseWithProgress(input,state, action, data)
         } else {
-            rm.response(input, action, data)
+            rm.response(input,state, action, data)
         }
     }
 
-    fun postResult(action: Action, data: List<X>) {
-        rm.response(inputs, action, data)
+    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>) {
+        rm.response(inputs,state, action, data)
     }
 
-    fun postResultOfString(action: Action, data: List<String>) {
-        rm.response(inputsOfString, action, data)
+    fun postResultOfString(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<String>) {
+        rm.response(inputsOfString,state, action, data)
     }
 
-    fun postResult(action: Action, data: List<X>, withProgress: Boolean) {
+    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>, withProgress: Boolean) {
         if (withProgress) {
-            rm.responseWithProgress(inputs, action, data)
+            rm.responseWithProgress(inputs, state,action, data)
         } else {
-            rm.response(inputs, action, data)
+            rm.response(inputs,state, action, data)
         }
     }
 

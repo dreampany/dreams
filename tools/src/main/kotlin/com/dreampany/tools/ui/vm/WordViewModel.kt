@@ -118,7 +118,7 @@ class WordViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(request.action, result)
+                postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -144,7 +144,7 @@ class WordViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(request.action, result)
+                postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -170,7 +170,7 @@ class WordViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResultOfString(request.action, result)
+                postResultOfString(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)

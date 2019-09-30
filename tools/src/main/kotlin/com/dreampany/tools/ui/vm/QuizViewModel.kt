@@ -69,7 +69,7 @@ class QuizViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(request.action, result)
+                postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -95,7 +95,7 @@ class QuizViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(request.action, result)
+                postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)

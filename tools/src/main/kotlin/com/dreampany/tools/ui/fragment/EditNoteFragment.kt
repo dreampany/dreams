@@ -182,13 +182,13 @@ class EditNoteFragment
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<NoteItem>
-            processSuccess(result.action, result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, item: NoteItem) {
+    private fun processSuccess(state: State, action: Action, item: NoteItem) {
         saved = true
-        if (action == Action.UPDATE) {
+        if (action == Action.ADD || action == Action.UPDATE) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
             AndroidUtil.hideSoftInput(getParent()!!)
             ex.postToUi(Runnable { forResult() }, 500L)
@@ -197,6 +197,10 @@ class EditNoteFragment
         bind.inputEditTitle.setText(item.item.title)
         bind.inputEditDescription.setText(item.item.description)
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+
+        if (state == State.DIALOG) {
+
+        }
     }
 
     private fun request(

@@ -73,6 +73,7 @@ class NavigationActivity : BaseBottomNavigationActivity() {
         initUi()
         //loadRequest()
         ad.loadBanner(getScreen())
+        // openPlayUi(Type.WORD, Subtype.DEFAULT)
     }
 
     override fun onStopUi() {
@@ -113,8 +114,6 @@ class NavigationActivity : BaseBottomNavigationActivity() {
             R.string.interstitial_ad_unit_id,
             R.string.rewarded_ad_unit_id
         )
-
-        openPlayUi(Type.WORD, Subtype.DEFAULT)
     }
 
     private fun loadRequest() {

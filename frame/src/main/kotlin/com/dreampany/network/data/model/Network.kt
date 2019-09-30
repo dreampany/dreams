@@ -28,7 +28,7 @@ data class Network(val type: Type) : Parcelable {
     }
 
     var bssid: String //only for hotspot
-     var ssid: String //only for hotspot
+    var ssid: String //only for hotspot
     var capabilities: String? = null
     var enabled: Boolean = false
     var connected: Boolean = false
@@ -43,7 +43,11 @@ data class Network(val type: Type) : Parcelable {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as Network
-        return Objects.equal(item.bssid, bssid) && Objects.equal(item.ssid, ssid)
+        return Objects.equal(bssid, item.bssid) && Objects.equal(ssid, item.ssid)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(bssid, ssid)
     }
 
     override fun toString(): String {

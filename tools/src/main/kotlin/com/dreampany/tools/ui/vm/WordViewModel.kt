@@ -71,7 +71,7 @@ class WordViewModel
         super.clear()
     }
 
-    override fun onNetworkResult(network: List<Network>) {
+    override fun onNetworks(network: List<Network>) {
 
     }
 

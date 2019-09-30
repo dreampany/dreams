@@ -6,6 +6,7 @@
 -ignorewarnings
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 #-renamesourcefileattribute SourceFile
+-keepattributes javax.xml.bind.annotation.*
 
 -keep class com.dreampany.frame.data.model.** { *; }
 -keepclassmembers class com.dreampany.frame.data.model.** { *; }

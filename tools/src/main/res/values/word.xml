@@ -24,4 +24,5 @@
     <string name="notify_word_format">%s (%s)</string>
 
     <string name="title_quiz_header">Select %s of (%s)</string>
+    <string name="format_word_balloon">%s [%s]\n%s</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.fragment
 
 import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
 import android.widget.TextView
@@ -15,6 +16,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.misc.resolveText
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -34,6 +36,7 @@ import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.ui.vm.WordViewModel
 import com.klinker.android.link_builder.Link
 import com.miguelcatalan.materialsearchview.MaterialSearchView
+import com.skydoves.balloon.*
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu
@@ -55,7 +58,9 @@ class WordFragment
     BaseMenuFragment(),
     MaterialSearchView.OnQueryTextListener,
     MaterialSearchView.SearchViewListener,
-    OnMenuItemClickListener<PowerMenuItem> {
+    OnMenuItemClickListener<PowerMenuItem>,
+    OnBalloonClickListener,
+    OnBalloonOutsideTouchListener {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -74,10 +79,13 @@ class WordFragment
     private lateinit var searchView: MaterialSearchView
 
     private lateinit var vm: WordViewModel
-    private var recentWord: String? = null
 
     private val langItems = ArrayList<PowerMenuItem>()
     private var langMenu: PowerMenu? = null
+
+    private var balloon: Balloon? = null
+    private var clickView: View? = null
+    private var clickWord: String? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_word
@@ -116,7 +124,8 @@ class WordFragment
         buildLangItems()
         initUi()
         adjustTranslationUi()
-        request(id = recentWord, single = true, progress = true)
+        val uiTask = getCurrentTask<UiTask<Word>>(true)
+        request(id = uiTask?.id, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -159,18 +168,17 @@ class WordFragment
     }
 
     override fun onSearchViewShown() {
-        //toSearchMode()
+//toSearchMode()
     }
 
     override fun onSearchViewClosed() {
-        //toScanMode()
+//toScanMode()
     }
 
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
-        recentWord = query
         request(
-            id = recentWord,
+            id = query,
             action = Action.SEARCH,
             history = true,
             single = true,
@@ -181,7 +189,13 @@ class WordFragment
 
     override fun onQueryTextChange(newText: String): Boolean {
         Timber.v("onQueryTextChange %s", newText)
-        recentWord = newText
+        request(
+            id = newText,
+            action = Action.SEARCH,
+            history = true,
+            single = true,
+            progress = false
+        )
         return super.onQueryTextChange(newText)
     }
 
@@ -190,6 +204,14 @@ class WordFragment
         val language: Language = item.tag as Language
         Timber.v("Language fired %s", language.toString())
         processOption(language)
+    }
+
+    override fun onBalloonClick(view: View) {
+        AndroidUtil.speak(clickWord)
+    }
+
+    override fun onBalloonOutsideTouch(view: View, event: MotionEvent) {
+        balloon?.dismiss()
     }
 
     private fun buildLangItems(fresh: Boolean = false) {
@@ -208,8 +230,7 @@ class WordFragment
 
     private fun initUi() {
         val uiTask = getCurrentTask<UiTask<Word>>(true)
-        recentWord = uiTask!!.id
-        setTitle(recentWord)
+        setTitle(uiTask!!.id)
         bind = super.binding as FragmentWordBinding
         bindStatus = bind.layoutTopStatus
         bindFullWord = bind.layoutFullWord
@@ -262,7 +283,7 @@ class WordFragment
     }
 
     private fun openOptionsMenu(v: View) {
-        //currentItem = item
+//currentItem = item
         langMenu = PowerMenu.Builder(context)
             .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
             .addItemList(langItems)
@@ -282,7 +303,7 @@ class WordFragment
         adjustTranslationUi()
         buildLangItems(fresh = true)
         if (!language.equals(Language.ENGLISH)) {
-            request(id = recentWord, history = true, single = true, progress = true)
+            request(id = bind.item?.item?.id, history = true, single = true, progress = true)
         }
     }
 
@@ -297,9 +318,9 @@ class WordFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            //UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+//UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
-            UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
+            UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
             }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
@@ -315,7 +336,7 @@ class WordFragment
             processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<WordItem>
-            processSingleSuccess(result.data)
+            processSingleSuccess(result.action, result.data)
         }
     }
 
@@ -359,20 +380,33 @@ class WordFragment
         ex.postToUi(kotlinx.coroutines.Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
-    private fun processSingleSuccess(uiItem: WordItem) {
+    private fun processSingleSuccess(action: Action, uiItem: WordItem) {
         Timber.v("Result Single Word[%s]", uiItem.item.id)
-        recentWord = uiItem.item.id
-        setTitle(recentWord)
-        bind.setItem(uiItem)
-        bindWord.layoutWord.visibility = View.VISIBLE
-        if (uiItem.translation.isNullOrEmpty()) {
-            bindWord.textTranslation.visibility = View.GONE
-        } else {
-            bindWord.textTranslation.visibility = View.VISIBLE
+        if (action == Action.CLICK) {
+            val text = getString(
+                R.string.format_word_balloon,
+                uiItem.item.id,
+                resolveText(uiItem.item.getPartOfSpeech()),
+                resolveText(uiItem.translation)
+            )
+            showBubble(clickView!!, text)
+            clickView = null
+            return
         }
-        processRelated(uiItem.item.synonyms, uiItem.item.antonyms);
-        processDefinitions(uiItem.item.definitions)
-        processUiState(UiState.CONTENT)
+
+        if (!uiItem.item.isEmpty()) {
+            setTitle(uiItem.item.id)
+            bind.setItem(uiItem)
+            bindWord.layoutWord.visibility = View.VISIBLE
+            if (uiItem.translation.isNullOrEmpty()) {
+                bindWord.textTranslation.visibility = View.GONE
+            } else {
+                bindWord.textTranslation.visibility = View.VISIBLE
+            }
+            processRelated(uiItem.item.synonyms, uiItem.item.antonyms);
+            processDefinitions(uiItem.item.definitions)
+            processUiState(UiState.CONTENT)
+        }
     }
 
     private fun processRelated(synonyms: List<String>?, antonyms: List<String>?) {
@@ -462,12 +496,12 @@ class WordFragment
             bold,
             object : Link.OnClickListener {
                 override fun onClick(clickedText: String) {
-                    searchWord(clickedText)
+                    onClickWord(view, clickedText)
                 }
             },
             object : Link.OnLongClickListener {
                 override fun onLongClick(clickedText: String) {
-                    searchWord(clickedText)
+                    onLongClickWord(view, clickedText)
                 }
             }
         )
@@ -492,17 +526,62 @@ class WordFragment
         }
     }
 
-    private fun searchWord(word: String) {
-        recentWord = word
+    private fun onClickWord(view: View, word: String) {
+        clickView = view
+        clickWord = word
+        showBubble(view, word)
+        request(id = word, history = true, action = Action.CLICK, single = true, progress = true)
+        AndroidUtil.speak(word)
+    }
+
+    private fun onLongClickWord(view: View, word: String) {
+        clickView = view
+        clickWord = word
         searchView.clearFocus()
-        request(id = recentWord, history = true, single = true, progress = true)
-        AndroidUtil.speak(recentWord)
+        request(
+            id = word,
+            history = true,
+            action = Action.LONG_CLICK,
+            single = true,
+            progress = true
+        )
+        AndroidUtil.speak(word)
     }
 
     private fun speak() {
         val item = bindWord.getItem()
         item?.let {
             AndroidUtil.speak(it.item.id)
+        }
+    }
+
+    private fun showBubble(view: View, text: String) {
+        balloon?.run {
+            if (isShowing) {
+                dismiss()
+            }
+        }
+        balloon = createBalloon(context!!) {
+            setArrowSize(10)
+            setWidthRatio(0.6f)
+            setHeight(70)
+            setArrowPosition(0.5f)
+            setCornerRadius(4f)
+            setAlpha(0.9f)
+            setTextTypeface(Typeface.BOLD)
+            setText(text)
+            setTextColorResource(R.color.material_white)
+            setTextSize(14.0f)
+            // setIconDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_profile))
+            setBackgroundColorResource(R.color.colorPrimary)
+            setOnBalloonClickListener(this@WordFragment)
+            setOnBalloonOutsideTouchListener(this@WordFragment)
+            setArrowOrientation(ArrowOrientation.BOTTOM)
+            setBalloonAnimation(BalloonAnimation.FADE)
+            setLifecycleOwner(this@WordFragment)
+        }
+        balloon?.run {
+            view.showAlignTop(this)
         }
     }
 

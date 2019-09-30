@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Source : Parcelable {
-    DEFAULT, ASSETS, FIRESTORE, REMOTE, WORDNIK
+    DEFAULT, ASSETS, FIRESTORE, REMOTE
 }

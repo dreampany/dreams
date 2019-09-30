@@ -114,7 +114,7 @@ class NavigationActivity : BaseBottomNavigationActivity() {
             R.string.rewarded_ad_unit_id
         )
 
-        openPlayUi(Subtype.RELATED)
+        openPlayUi(Type.WORD, Subtype.DEFAULT)
     }
 
     private fun loadRequest() {
@@ -122,9 +122,9 @@ class NavigationActivity : BaseBottomNavigationActivity() {
         loaderVm.request(request)
     }
 
-    private fun openPlayUi(subtype: Subtype) {
+    private fun openPlayUi(type: Type, subtype: Subtype) {
         val task = UiTask<Word>(
-            type = Type.QUIZ,
+            type = type,
             subtype = subtype,
             state = State.HOME
         )

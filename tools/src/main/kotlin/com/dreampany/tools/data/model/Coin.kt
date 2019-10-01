@@ -1,22 +1,25 @@
-package com.dreampany.lca.data.model
+package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.framework.util.TimeUtilKt
+import com.dreampany.framework.data.enums.Source
 import com.dreampany.framework.data.model.Base
-import com.dreampany.lca.data.enums.CoinSource
-import com.dreampany.lca.data.enums.Currency
-import com.dreampany.lca.misc.Constants
+import com.dreampany.framework.util.TimeUtilKt
+import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.misc.Constants
+import com.google.common.base.Objects
 import com.google.common.collect.Maps
 import com.google.firebase.database.Exclude
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
- * Created by roman on 2019-07-28
+ * Created by roman on 2019-10-01
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -33,88 +36,56 @@ import java.util.*
 data class Coin(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var source: CoinSource? = Constants.Default.NULL,
+    var source: Source? = Constants.Default.NULL,
     var name: String? = Constants.Default.NULL,
     var symbol: String? = Constants.Default.NULL,
     var slug: String? = Constants.Default.NULL,
     var rank: Int = Constants.Default.INT,
 
-    @PropertyName(Constants.Coin.MARKET_PAIRS)
+    @ColumnInfo(name = Constants.Coin.MARKET_PAIRS)
     private var marketPairs: Int = Constants.Default.INT,
 
-    @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
+    @ColumnInfo(name = Constants.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constants.Default.DOUBLE,
 
-    @PropertyName(Constants.Coin.TOTAL_SUPPLY)
+    @ColumnInfo(name = Constants.Coin.TOTAL_SUPPLY)
     private var totalSupply: Double = Constants.Default.DOUBLE,
 
-    @PropertyName(Constants.Coin.MAX_SUPPLY)
+    @ColumnInfo(name = Constants.Coin.MAX_SUPPLY)
     private var maxSupply: Double = Constants.Default.DOUBLE,
 
-    @PropertyName(Constants.Coin.LAST_UPDATED)
+    @ColumnInfo(name = Constants.Coin.LAST_UPDATED)
     private var lastUpdated: Long = Constants.Default.LONG,
 
-    @PropertyName(Constants.Coin.DATE_ADDED)
+    @ColumnInfo(name = Constants.Coin.DATE_ADDED)
     private var dateAdded: Long = Constants.Default.LONG,
 
     var tags: MutableList<String>? = Constants.Default.NULL,
 
     @Ignore
     @Exclude
-    private var quotes: MutableMap<Currency, Quote>? =  Constants.Default.NULL
-
+    private var quotes: MutableMap<Currency, Quote>? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = TimeUtilKt.currentMillis()) {}
-
-    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {}
-
-/*    @Ignore
-    private constructor (parcel: Parcel) : this(parcel.readLong(), parcel.readString()!!) {
-        source = parcel.readParcelable(CoinSource::class.java.classLoader)
-        name = parcel.readString()
-        symbol = parcel.readString()
-        slug = parcel.readString()
-        rank = parcel.readInt()
-        marketPairs = parcel.readInt()
-        circulatingSupply = parcel.readDouble()
-        totalSupply = parcel.readDouble()
-        maxSupply = parcel.readDouble()
-        lastUpdated = parcel.readLong()
-        dateAdded = parcel.readLong()
-        tags = parcel.createStringArrayList()
-        quotes = parcel.readSerializable() as MutableMap<Currency, Quote>?
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
 
     }
 
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeLong(time)
-        dest.writeString(id)
-        dest.writeParcelable(source, flags)
-        dest.writeString(name)
-        dest.writeString(symbol)
-        dest.writeString(slug)
-        dest.writeInt(rank)
-        dest.writeInt(marketPairs)
-        dest.writeDouble(circulatingSupply)
-        dest.writeDouble(totalSupply)
-        dest.writeDouble(maxSupply)
-        dest.writeLong(lastUpdated)
-        dest.writeLong(dateAdded)
-        dest.writeStringList(tags)
-        dest.writeSerializable(quotes as Serializable)
-    }*/
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
 
-/*    companion object CREATOR : Parcelable.Creator<Coin> {
-        override fun createFromParcel(parcel: Parcel): Coin {
-            return Coin(parcel)
-        }
+    }
 
-        override fun newArray(size: Int): Array<Coin?> {
-            return arrayOfNulls(size)
-        }
-    }*/
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as Word
+        return Objects.equal(this.id, item.id)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
 
     override fun toString(): String {
         return "Coin ($id) == $id"

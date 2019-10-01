@@ -13,6 +13,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class CoinSource : Parcelable {
-
     CMC, CC
 }

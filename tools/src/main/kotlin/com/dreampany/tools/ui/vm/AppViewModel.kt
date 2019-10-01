@@ -65,7 +65,7 @@ class AppViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Action.GET, result)
+                postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)
@@ -90,7 +90,7 @@ class AppViewModel
                 if (request.progress) {
                     postProgress(false)
                 }
-                postResult(Action.GET, result)
+                postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
                     postProgress(false)

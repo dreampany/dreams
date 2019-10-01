@@ -63,7 +63,7 @@ class NotifyViewModel
         network.observe(this, checkInternet = true)
     }
 
-    override fun onNetworkResult(networks: List<Network>) {
+    override fun onNetworks(networks: List<Network>) {
         Timber.v(networks.toString())
     }
 

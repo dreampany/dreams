@@ -20,7 +20,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class NetworkManager @Inject constructor(
+class NetworkManager
+@Inject constructor(
     private val context: Context,
     private val rx: RxMapper,
     private val ex: AppExecutors,
@@ -28,7 +29,7 @@ class NetworkManager @Inject constructor(
 ) {
 
     interface Callback {
-        fun onNetworkResult(networks: List<Network>)
+        fun onNetworks(networks: List<Network>)
     }
 
     private var disposable: Disposable? = null
@@ -86,7 +87,7 @@ class NetworkManager @Inject constructor(
 
     private fun postNetworks(callback: Callback) {
         if (!networks.isEmpty()) {
-            callback.onNetworkResult(networks)
+            callback.onNetworks(networks)
         }
     }
 

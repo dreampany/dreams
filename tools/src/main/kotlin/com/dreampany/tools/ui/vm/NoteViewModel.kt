@@ -53,7 +53,7 @@ class NoteViewModel
         super.clear()
     }
 
-    override fun onNetworkResult(network: List<Network>) {
+    override fun onNetworks(network: List<Network>) {
 
     }
 
@@ -80,7 +80,7 @@ class NoteViewModel
                     if (request.progress) {
                         postProgress(false)
                     }
-                    postResult(request.action, result)
+                    postResult(request.state, request.action, result)
                 }, { error ->
                     if (request.progress) {
                         postProgress(false)
@@ -106,7 +106,7 @@ class NoteViewModel
                     if (request.progress) {
                         postProgress(false)
                     }
-                    postResult(request.action, result)
+                    postResult(request.state, request.action, result)
                 }, { error ->
                     if (request.progress) {
                         postProgress(false)

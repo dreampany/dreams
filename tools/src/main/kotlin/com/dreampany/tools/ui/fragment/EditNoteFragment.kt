@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
@@ -35,7 +36,7 @@ import javax.inject.Inject
 @ActivityScope
 class EditNoteFragment
 @Inject constructor() :
-        BaseMenuFragment() {
+    BaseMenuFragment() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -73,7 +74,7 @@ class EditNoteFragment
     private fun initUi() {
         val uiTask = getCurrentTask<UiTask<Note>>() ?: return
         val titleRes =
-                if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
+            if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
 
         setTitle(titleRes)
         bind = super.binding as FragmentEditNoteBinding
@@ -136,45 +137,14 @@ class EditNoteFragment
         val uiTask = getCurrentTask<UiTask<Note>>()!!
         val note = getInput<Note>()
         request(
-                action = if (uiTask.action == Action.EDIT) Action.UPDATE else Action.ADD,
-                id = note?.id,
-                title = noteTitle,
-                description = noteDescription,
-                progress = true
+            state = State.DIALOG,
+            action = if (uiTask.action == Action.EDIT) Action.UPDATE else Action.ADD,
+            id = note?.id,
+            title = noteTitle,
+            description = noteDescription,
+            progress = true
         )
         return true
-    }
-
-    private fun request(
-            action: Action = Action.DEFAULT,
-            id: String? = Constants.Default.NULL,
-            title: String = Constants.Default.STRING,
-            description: String = Constants.Default.STRING,
-            progress: Boolean = Constants.Default.BOOLEAN
-    ) {
-        val request = NoteRequest(
-                action = action,
-                id = id,
-                title = title,
-                description = description,
-                single = true,
-                progress = progress
-        )
-        vm.request(request)
-    }
-
-    private fun request(
-            action: Action = Action.DEFAULT,
-            id: String = Constants.Default.STRING,
-            progress: Boolean = Constants.Default.BOOLEAN
-    ) {
-        val request = NoteRequest(
-                action = action,
-                id = id,
-                single = true,
-                progress = progress
-        )
-        vm.request(request)
     }
 
     private fun saveDialog() {
@@ -212,13 +182,13 @@ class EditNoteFragment
             vm.processFailure(result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<NoteItem>
-            processSuccess(result.action, result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, item: NoteItem) {
+    private fun processSuccess(state: State, action: Action, item: NoteItem) {
         saved = true
-        if (action == Action.UPDATE) {
+        if (action == Action.ADD || action == Action.UPDATE) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
             AndroidUtil.hideSoftInput(getParent()!!)
             ex.postToUi(Runnable { forResult() }, 500L)
@@ -227,5 +197,45 @@ class EditNoteFragment
         bind.inputEditTitle.setText(item.item.title)
         bind.inputEditDescription.setText(item.item.description)
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+
+        if (state == State.DIALOG) {
+
+        }
+    }
+
+    private fun request(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        id: String? = Constants.Default.NULL,
+        title: String = Constants.Default.STRING,
+        description: String = Constants.Default.STRING,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = NoteRequest(
+            state = state,
+            action = action,
+            id = id,
+            title = title,
+            description = description,
+            single = true,
+            progress = progress
+        )
+        vm.request(request)
+    }
+
+    private fun request(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        id: String = Constants.Default.STRING,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = NoteRequest(
+            state = state,
+            action = action,
+            id = id,
+            single = true,
+            progress = progress
+        )
+        vm.request(request)
     }
 }

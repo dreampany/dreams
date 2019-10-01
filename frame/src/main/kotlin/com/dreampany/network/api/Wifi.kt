@@ -11,7 +11,8 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class Wifi @Inject constructor(val context: Context) : NetworkApi() {
+class Wifi
+@Inject constructor(val context: Context) : NetworkApi() {
 
     private val wifi: WifiManager
     init {

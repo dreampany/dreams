@@ -153,7 +153,8 @@ class LoaderViewModel
                 val resultOf = storeRepo.putItems(stores)
                 if (DataUtil.isEqual(result, resultOf)) {
                     wordPref.setTrackStartAt(stores.last().id)
-                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    val totalTrack =
+                        storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
                     Timber.v("firestoreAny Track downloading semi completed [%d]", totalTrack)
                 }
                 //one time loading
@@ -163,7 +164,8 @@ class LoaderViewModel
             if (result == null) {
                 if (network.hasInternet()) {
                     wordPref.commitTrackLoaded()
-                    val totalTrack = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
+                    val totalTrack =
+                        storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.TRACK)
                     Timber.v("firestoreAny Track download completed [%d]", totalTrack)
                 }
             }
@@ -179,7 +181,7 @@ class LoaderViewModel
         var current = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.RAW)
         val load = Load(current = current, total = current)
         val item = LoadItem.getItem(load)
-        ex.postToUi(Runnable { postResult(request.action, item) })
+        ex.postToUi(Runnable { postResult(request.state, request.action, item) })
 
         val last = wordPref.getLastWord()
         val lastIndex = if (last != null) commonWords.indexOf(last) else -1
@@ -210,7 +212,7 @@ class LoaderViewModel
                 load.total = current
 
                 Timber.v("%d Last Common Word = %s", current, lastWord!!.id)
-                ex.postToUi(Runnable { postResult(request.action, item) })
+                ex.postToUi(Runnable { postResult(request.state, request.action, item) })
                 AndroidUtil.sleep(100)
             }
         }
@@ -225,7 +227,7 @@ class LoaderViewModel
         var current = storeRepo.getCountByType(Type.WORD, Subtype.DEFAULT, State.RAW)
         val load = Load(current = current, total = current)
         val item = LoadItem.getItem(load)
-        ex.postToUi(Runnable { postResult(request.action, item) })
+        ex.postToUi(Runnable { postResult(request.state, request.action, item) })
 
         val last = wordPref.getLastWord()
         val lastIndex = if (last != null) alphaWords.indexOf(last) else -1
@@ -256,7 +258,7 @@ class LoaderViewModel
                 load.total = current
 
                 Timber.v("%d Last Alpha Word = %s", current, lastWord!!.id)
-                ex.postToUi(Runnable { postResult(request.action, item) })
+                ex.postToUi(Runnable { postResult(request.state, request.action, item) })
                 AndroidUtil.sleep(100)
             }
         }
@@ -299,7 +301,11 @@ class LoaderViewModel
                 translation = item.getTranslationBy(request.targetLang)
             } else {
                 val textTranslation =
-                    translationRepo.getItem(request.sourceLang!!, request.targetLang!!, item.item.id)
+                    translationRepo.getItem(
+                        request.sourceLang!!,
+                        request.targetLang!!,
+                        item.item.id
+                    )
                 textTranslation?.let {
                     Timber.v("Translation %s - %s", request.id, it.output)
                     item.addTranslation(request.targetLang!!, it.output)

@@ -191,7 +191,7 @@ class EditNoteFragment
         if (action == Action.ADD || action == Action.UPDATE) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
             AndroidUtil.hideSoftInput(getParent()!!)
-            ex.postToUi(Runnable { forResult() }, 500L)
+            ex.postToUi(Runnable { forResult(saved) }, 500L)
             return
         }
         bind.inputEditTitle.setText(item.item.title)

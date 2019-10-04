@@ -199,6 +199,27 @@ class Constants {
         const val ID = Constants.Key.ID
     }
 
+    object Coin {
+        const val ID = Constants.Key.ID
+        const val MARKET_PAIRS = "market_pairs"
+        const val CIRCULATING_SUPPLY = "circulating_supply"
+        const val TOTAL_SUPPLY = "total_supply"
+        const val MAX_SUPPLY = "max_supply"
+        const val LAST_UPDATED = "last_updated"
+        const val DATE_ADDED = "date_added"
+    }
+
+    object Quote {
+        const val ID = Constants.Key.ID
+        const val CURRENCY = "currency"
+        const val DAY_VOLUME = "day_volume"
+        const val MARKET_CAP = "market_cap"
+        const val HOUR_CHANGE = "hour_change"
+        const val DAY_CHANGE = "day_change"
+        const val WEEK_CHANGE = "week_change"
+        const val LAST_UPDATED = "last_updated"
+    }
+
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2

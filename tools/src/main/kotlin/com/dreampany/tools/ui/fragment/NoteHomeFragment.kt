@@ -123,7 +123,8 @@ class NoteHomeFragment
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             Constants.RequestCode.ADD_NOTE,
-            Constants.RequestCode.EDIT_NOTE -> {
+            Constants.RequestCode.ADD_NOTE,
+            Constants.RequestCode.FAVORITE -> {
                 if (isOkay(resultCode)) {
                     ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 1000L)
                 }

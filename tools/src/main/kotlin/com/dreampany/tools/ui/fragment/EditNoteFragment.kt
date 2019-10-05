@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -54,6 +55,10 @@ class EditNoteFragment
         return R.layout.fragment_edit_note
     }
 
+    override fun getMenuId(): Int {
+        return R.menu.menu_edit_note
+    }
+
     override fun onStartUi(state: Bundle?) {
         initUi()
     }
@@ -69,6 +74,16 @@ class EditNoteFragment
         }
         forResult(saved)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_done -> {
+                saveNote()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initUi() {

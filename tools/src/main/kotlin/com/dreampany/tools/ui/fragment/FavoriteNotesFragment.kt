@@ -54,9 +54,9 @@ import javax.inject.Inject
 @ActivityScope
 class FavoriteNotesFragment
 @Inject constructor() :
-        BaseMenuFragment(),
-        SmartAdapter.OnUiItemClickListener<NoteItem?, Action?>,
-        OnMenuItemClickListener<PowerMenuItem> {
+    BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<NoteItem?, Action?>,
+    OnMenuItemClickListener<PowerMenuItem> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -73,6 +73,7 @@ class FavoriteNotesFragment
     private val optionItems = mutableListOf<PowerMenuItem>()
     private var powerMenu: PowerMenu? = null
     private var currentItem: NoteItem? = null
+    private var updated: Boolean = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_favorite_notes
@@ -124,7 +125,7 @@ class FavoriteNotesFragment
             Constants.RequestCode.ADD_NOTE,
             Constants.RequestCode.EDIT_NOTE -> {
                 if (isOkay(resultCode)) {
-                    ex.postToUi(Runnable { request(action = Action.FAVORITE, progress = true) }, 1000L)
+                    ex.postToUi(Runnable { request(action = Action.FAVORITE, progress = true) }, 500L)
                 }
             }
         }
@@ -178,6 +179,11 @@ class FavoriteNotesFragment
         processOption(option, currentItem!!)
     }
 
+    override fun hasBackPressed(): Boolean {
+        forResult(updated)
+        return true
+    }
+
 
     private fun initTitleSubtitle() {
         setTitle(R.string.title_favorite_notes)
@@ -191,15 +197,15 @@ class FavoriteNotesFragment
         bindRecycler = bind.layoutRecycler
 
         bind.stateful.setStateView(
-                UiState.DEFAULT.name,
-                LayoutInflater.from(context).inflate(R.layout.item_default, null)
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
         )
 
         bind.stateful.setStateView(
-                UiState.EMPTY.name,
-                LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
-                    setOnClickListener(this@FavoriteNotesFragment)
-                }
+            UiState.EMPTY.name,
+            LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
+                setOnClickListener(this@FavoriteNotesFragment)
+            }
         )
 
         processUiState(UiState.DEFAULT)
@@ -218,15 +224,15 @@ class FavoriteNotesFragment
         adapter.setStickyHeaders(false)
         scroller = object : OnVerticalScrollListener() {}
         ViewUtil.setRecycler(
-                adapter,
-                bindRecycler.recycler,
-                SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
-                FlexibleItemDecoration(context!!)
-                        .addItemViewType(R.layout.item_note, adapter.getItemOffset())
-                        .withEdge(true),
-                null,
-                scroller,
-                null
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_note, adapter.getItemOffset())
+                .withEdge(true),
+            null,
+            scroller,
+            null
         )
     }
 
@@ -246,15 +252,15 @@ class FavoriteNotesFragment
         }
         currentItem = item
         powerMenu = PowerMenu.Builder(context)
-                .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
-                .addItemList(optionItems)
-                .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
-                .setSelectedTextColor(Color.WHITE)
-                .setOnMenuItemClickListener(this)
-                .setLifecycleOwner(this)
-                .setDividerHeight(1)
-                .setTextSize(12)
-                .build()
+            .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
+            .addItemList(optionItems)
+            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
+            .setSelectedTextColor(Color.WHITE)
+            .setOnMenuItemClickListener(this)
+            .setLifecycleOwner(this)
+            .setDividerHeight(1)
+            .setTextSize(12)
+            .build()
         powerMenu?.showAsAnchorRightBottom(view)
     }
 
@@ -351,6 +357,7 @@ class FavoriteNotesFragment
     }
 
     private fun processSuccess(action: Action, item: NoteItem) {
+        updated = true
         if (action == Action.DELETE) {
             adapter.removeItem(item)
         } else {
@@ -361,35 +368,35 @@ class FavoriteNotesFragment
 
     private fun openAddNoteUi() {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                action = Action.ADD
+            type = Type.NOTE,
+            action = Action.ADD
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
     }
 
     private fun openEditNoteUi(note: Note) {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                action = Action.EDIT,
-                input = note
+            type = Type.NOTE,
+            action = Action.EDIT,
+            input = note
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
     }
 
     private fun openFavoriteUi() {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                state = State.FAVORITE,
-                action = Action.OPEN
+            type = Type.NOTE,
+            state = State.FAVORITE,
+            action = Action.OPEN
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
     }
 
     private fun openSettingsUi() {
         val task = UiTask<Note>(
-                type = Type.NOTE,
-                state = State.SETTINGS,
-                action = Action.OPEN
+            type = Type.NOTE,
+            state = State.SETTINGS,
+            action = Action.OPEN
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
     }

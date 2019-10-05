@@ -131,6 +131,7 @@ class Constants {
     }
 
     object Count {
+        const val DEFAULT_POINT = 999
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
@@ -233,8 +234,6 @@ class Constants {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
     }
-
-
 
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL

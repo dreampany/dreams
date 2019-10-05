@@ -4,6 +4,11 @@ import android.Manifest
 import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.dreampany.framework.app.BaseApp
+import com.dreampany.framework.data.enums.Level
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.PointMapper
+import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.tools.BuildConfig
 import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.Pref
@@ -27,6 +32,7 @@ import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Runnable
 import javax.inject.Inject
 
 
@@ -39,6 +45,10 @@ class App : BaseApp() {
 
     @Inject
     internal lateinit var pref: Pref
+    @Inject
+    internal lateinit var pointMapper: PointMapper
+    @Inject
+    internal lateinit var pointRepo: PointRepository
 
     override fun isDebug(): Boolean {
         return BuildConfig.DEBUG;
@@ -86,6 +96,7 @@ class App : BaseApp() {
         //configJob()
         configWork()
         configService()
+        configPoint()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -98,25 +109,24 @@ class App : BaseApp() {
 /*            activity.runWithPermissions(Permission) {
                 createCameraSource()
             }*/
-            if (AndroidUtil.hasPie()) {
-                Dexter.withActivity(activity)
-                    .withPermission(Manifest.permission.FOREGROUND_SERVICE)
-                    .withListener(object : PermissionListener {
-                        override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                            configService()
-                        }
-                        override fun onPermissionRationaleShouldBeShown(
-                            permission: PermissionRequest?,
-                            token: PermissionToken?
-                        ) {
-                        }
-                        override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-                        }
+            if (!configService()) {
+                if (AndroidUtil.hasPie()) {
+                    Dexter.withActivity(activity)
+                        .withPermission(Manifest.permission.FOREGROUND_SERVICE)
+                        .withListener(object : PermissionListener {
+                            override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+                                configService()
+                            }
+                            override fun onPermissionRationaleShouldBeShown(
+                                permission: PermissionRequest?,
+                                token: PermissionToken?
+                            ) {
+                            }
+                            override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+                            }
 
-                    })
-                    .check()
-            } else {
-                configService()
+                        }).check()
+                }
             }
         }
     }
@@ -143,13 +153,14 @@ class App : BaseApp() {
         ad.setConfig(config.build())
     }
 
-    private fun configService() {
+    private fun configService(): Boolean {
         if (!PermissionUtil.hasPermission(this, Manifest.permission.FOREGROUND_SERVICE)) {
-            return
+            return false
         }
         if (!AndroidUtil.isServiceRunning(this, AppService::class)) {
             service.openService(AppService::class.java)
         }
+        return true
     }
 
     private fun configJob() {
@@ -172,9 +183,25 @@ class App : BaseApp() {
     private fun configWork() {
         worker.createPeriodic(LoadWorker::class, Constants.Period.LOAD, TimeUnit.MILLISECONDS)
         if (pref.hasNotification()) {
-            worker.createPeriodic(NotifyWorker::class, Constants.Period.NOTIFY, TimeUnit.MILLISECONDS)
+            worker.createPeriodic(
+                NotifyWorker::class,
+                Constants.Period.NOTIFY,
+                TimeUnit.MILLISECONDS
+            )
         } else {
             worker.cancel(NotifyWorker::class)
+        }
+    }
+
+    private fun configPoint() {
+        if (!pref.hasDefaultPoint()) {
+            ex.postToDisk(Runnable {
+                val point = pointMapper.getItem(Constants.Default.STRING, Type.DEFAULT, Subtype.DEFAULT, Level.DEFAULT, Constants.Count.DEFAULT_POINT, pointRepo)
+                point?.run {
+                    pointRepo.putItem(this)
+                    pref.commitDefaultPoint()
+                }
+            })
         }
     }
 

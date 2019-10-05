@@ -27,7 +27,7 @@ buildscript {
     }
     configurations.all {
         resolutionStrategy {
-            force 'net.sf.proguard:proguard-gradle:6.+'
+            //force 'net.sf.proguard:proguard-gradle:6.+'
         }
     }
 }

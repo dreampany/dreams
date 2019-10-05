@@ -25,6 +25,7 @@ import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
 import com.jaredrummler.android.device.DeviceName
 import eu.davidea.flexibleadapter.utils.FlexibleUtils
+import kotlinx.coroutines.Runnable
 import timber.log.Timber
 import java.io.File
 import java.io.FileInputStream
@@ -300,14 +301,14 @@ class AndroidUtil {
          */
         fun hideSoftInput(activity: Activity) {
             if (activity.getCurrentFocus() != null) {
-                ({
+                Runnable {
                     val imm =
                         activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
                     imm?.hideSoftInputFromWindow(
                         activity.getCurrentFocus()!!.getWindowToken(),
                         0
                     )
-                } as Runnable).run()
+                }.run()
             }
         }
 

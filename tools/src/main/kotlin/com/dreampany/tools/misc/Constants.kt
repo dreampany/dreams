@@ -103,6 +103,7 @@ class Constants {
     object Pref {
         const val LEVEL = "level"
         const val LANGUAGE = "language"
+        const val DEFAULT_POINT = "default_point"
         const val LOAD = "load"
         const val WORD = "word"
         const val WORD_TRACK_LOADED = "word_track_loaded"

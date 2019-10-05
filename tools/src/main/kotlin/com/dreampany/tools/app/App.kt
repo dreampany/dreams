@@ -12,6 +12,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.NotifyService
 import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.PermissionUtil
 import com.dreampany.tools.service.AppService
 import com.dreampany.tools.ui.activity.NavigationActivity
 import com.dreampany.tools.worker.LoadWorker
@@ -84,6 +85,7 @@ class App : BaseApp() {
         //configService()
         //configJob()
         configWork()
+        configService()
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
@@ -142,7 +144,12 @@ class App : BaseApp() {
     }
 
     private fun configService() {
-        service.openService(AppService::class.java)
+        if (!PermissionUtil.hasPermission(this, Manifest.permission.FOREGROUND_SERVICE)) {
+            return
+        }
+        if (!AndroidUtil.isServiceRunning(this, AppService::class)) {
+            service.openService(AppService::class.java)
+        }
     }
 
     private fun configJob() {

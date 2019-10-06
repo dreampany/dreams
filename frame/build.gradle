@@ -169,7 +169,7 @@ dependencies {
     api 'com.google.android.material:material:1.1.0-beta01'
     api 'com.google.code.findbugs:jsr305:3.0.2'
     api 'com.google.guava:guava:28.1-android'
-    api 'com.google.code.gson:gson:2.8.5'
+    api 'com.google.code.gson:gson:2.8.6'
     api 'com.google.android.gms:play-services-location:17.0.0'
     api 'com.google.android.gms:play-services-nearby:17.0.0'
 
@@ -195,7 +195,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.24'
 
     /* reactivex */
-    api 'io.reactivex.rxjava2:rxjava:2.2.12'
+    api 'io.reactivex.rxjava2:rxjava:2.2.13'
     api 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     api 'io.reactivex.rxjava2:rxandroid:2.1.1'
 

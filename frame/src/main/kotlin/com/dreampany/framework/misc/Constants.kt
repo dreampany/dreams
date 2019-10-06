@@ -150,6 +150,10 @@ class Constants {
         const val LEVEL = Key.LEVEL
     }
 
+    object Country {
+        const val ID = Key.ID
+    }
+
     object Parser {
         const val PATTERN_IMAGE_TAG = "img"
         const val BASE_URL = "baseUrl"

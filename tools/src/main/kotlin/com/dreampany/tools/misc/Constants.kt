@@ -222,6 +222,10 @@ class Constants {
         const val LAST_UPDATED = "last_updated"
     }
 
+    object Server {
+        const val ID = Constants.Key.ID
+    }
+
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2

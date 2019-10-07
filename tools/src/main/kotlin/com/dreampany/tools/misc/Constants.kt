@@ -251,6 +251,8 @@ class Constants {
    }
 
     object VpnGate {
+        const val FILE_NAME = "vpngate.csv"
+        const val URL = "http://www.vpngate.net/api/iphone"
         const val SERVER_PARTS = 15
         const val INDEX_HOST = 0
         const val INDEX_IP = 1
@@ -267,5 +269,9 @@ class Constants {
         const val INDEX_OPERATOR = 12
         const val INDEX_MESSAGE = 13
         const val INDEX_CONFIG_DATA = 14
+    }
+
+    object File {
+        const val BYTE_ARRAY_SIZE = 4096
     }
 }

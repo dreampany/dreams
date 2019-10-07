@@ -6,10 +6,10 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.misc.TextTranslationMapper
 import com.dreampany.translation.data.model.TextTranslation
 import com.dreampany.translation.data.source.api.TranslationDataSource
+import com.dreampany.translation.data.source.api.YandexTranslationService
 import com.dreampany.translation.misc.Constants
 import io.reactivex.Maybe
 import timber.log.Timber
-import javax.inject.Singleton
 
 /**
  * Created by Roman-372 on 7/4/2019
@@ -17,8 +17,6 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-
-@Singleton
 class RemoteTranslationDataSource
 constructor(
     val network: NetworkManager,

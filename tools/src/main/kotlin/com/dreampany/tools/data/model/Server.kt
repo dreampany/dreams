@@ -72,4 +72,8 @@ data class Server(
     override fun hashCode(): Int {
         return Objects.hashCode(id)
     }
+
+    override fun toString(): String {
+        return "Server $id"
+    }
 }

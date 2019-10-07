@@ -13,7 +13,7 @@ import com.dreampany.translation.data.source.api.TranslationDataSource
 import com.dreampany.translation.data.source.firestore.FirestoreTranslationDataSource
 import com.dreampany.translation.data.source.machine.MachineTranslationDataSource
 import com.dreampany.translation.data.source.remote.RemoteTranslationDataSource
-import com.dreampany.translation.data.source.remote.YandexTranslationService
+import com.dreampany.translation.data.source.api.YandexTranslationService
 import com.dreampany.translation.data.source.room.RoomTranslationDataSource
 import com.dreampany.translation.data.source.room.TextTranslationDao
 import com.dreampany.translation.misc.Constants

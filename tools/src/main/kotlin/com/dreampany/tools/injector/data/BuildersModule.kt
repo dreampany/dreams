@@ -16,12 +16,14 @@ import dagger.Module
     includes = [
         FrameModule::class,
         TranslationModule::class,
+        DatabaseModule::class,
         MediaModule::class,
         NoteModule::class,
         WordModule::class,
-        DatabaseModule::class,
+        ServerModule::class,
         SupportModule::class,
-        ViewModelModule::class]
+        ViewModelModule::class
+    ]
 )
 class BuildersModule {
 }

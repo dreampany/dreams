@@ -8,7 +8,13 @@ import com.dreampany.framework.util.NetworkUtil
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.misc.ServerAnnote
+import okhttp3.ResponseBody
 import javax.inject.Singleton
+import android.R.attr.data
+import android.R.attr.data
+import timber.log.Timber
+import java.io.*
+
 
 /**
  * Created by roman on 2019-10-06
@@ -21,6 +27,22 @@ class ServerMapper(
     @ServerAnnote private val map: SmartMap<String, Server>,
     @ServerAnnote private val cache: SmartCache<String, Server>
 ) : Mapper() {
+
+    fun getItems(body: ResponseBody, tempUrl: String): List<Server>? {
+        val written = writeBody(body, tempUrl)
+        if (!written) {
+            return null
+        }
+        val result = readLines(tempUrl)
+        val servers = arrayListOf<Server>()
+        result?.forEach { data ->
+            getItem(data)?.run {
+               servers.add(this)
+                Timber.v("Server Parsing.. %s", this.toString())
+            }
+        }
+        return servers
+    }
 
     fun getItem(data: String?): Server? {
         if (data.isNullOrEmpty()) {
@@ -46,7 +68,7 @@ class ServerMapper(
         val message = parts.get(Constants.VpnGate.INDEX_MESSAGE)
         val config = parts.get(Constants.VpnGate.INDEX_CONFIG_DATA)
 
-        val quality : Quality = NetworkUtil.getConnectionQuality(ping, speed, sessions)
+        val quality: Quality = NetworkUtil.getConnectionQuality(ping, speed, sessions)
 
         var out: Server? = map.get(ip)
         if (out == null) {
@@ -81,5 +103,52 @@ class ServerMapper(
         } catch (error: NumberFormatException) {
             return 0
         }
+    }
+
+    private fun writeBody(body: ResponseBody, tempUrl: String): Boolean {
+        var success = false
+        var input: InputStream? = null
+        var output: OutputStream? = null
+        try {
+            val file = File(tempUrl)
+            input = body.byteStream()
+            output = FileOutputStream(file)
+            val array = ByteArray(Constants.File.BYTE_ARRAY_SIZE)
+
+            while (true) {
+                val read = input.read(array)
+                if (read == -1) {
+                    break;
+                }
+                output.write(array, 0, read);
+            }
+            output.flush()
+            success = true
+        } catch (error: Throwable) {
+            Timber.e(error)
+        } finally {
+            input?.run {
+                close()
+            }
+            output?.run {
+                close()
+            }
+        }
+        return success
+    }
+
+    private fun readLines(tempUrl: String): List<String>? {
+        var reader: BufferedReader? = null
+        try {
+            reader = BufferedReader(FileReader(tempUrl))
+            return reader.readLines()
+        } catch (error: Throwable) {
+            Timber.e(error)
+        } finally {
+            reader?.run {
+                close()
+            }
+        }
+        return null
     }
 }

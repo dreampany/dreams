@@ -194,4 +194,8 @@ class Constants {
     object Count {
         const val THREAD_NETWORK = 5
     }
+
+    object Delimiter {
+        const val COMMA = ","
+    }
 }

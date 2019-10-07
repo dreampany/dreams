@@ -224,6 +224,9 @@ class Constants {
 
     object Server {
         const val ID = Constants.Key.ID
+        const val COUNTRY_NAME = "country_name"
+        const val COUNTRY_CODE = "country_code"
+        const val LOG_TYPE = "log_type"
     }
 
     object RequestCode {
@@ -241,5 +244,28 @@ class Constants {
 
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
+    }
+
+   object Delimiter {
+       const val COMMA = Constants.Delimiter.COMMA
+   }
+
+    object VpnGate {
+        const val SERVER_PARTS = 15
+        const val INDEX_HOST = 0
+        const val INDEX_IP = 1
+        const val INDEX_SCORE = 2
+        const val INDEX_PING = 3
+        const val INDEX_SPEED = 4
+        const val INDEX_COUNTRY_NAME = 5
+        const val INDEX_COUNTRY_CODE = 6
+        const val INDEX_NUM_VPN_SESSIONS = 7
+        const val INDEX_UPTIME = 8
+        const val INDEX_TOTAL_USERS = 9
+        const val INDEX_TOTAL_TRAFFIC = 10
+        const val INDEX_LOG_TYPE = 11
+        const val INDEX_OPERATOR = 12
+        const val INDEX_MESSAGE = 13
+        const val INDEX_CONFIG_DATA = 14
     }
 }

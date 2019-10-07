@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -25,8 +26,32 @@ import kotlinx.android.parcel.Parcelize
 )
 data class Server(
     override var time: Long = Constants.Default.LONG,
-    override var id: String = Constants.Default.STRING
-) : Base() {
+    override var id: String = Constants.Default.STRING, //ip address
+    var host: String? = Constants.Default.NULL,
+    var score: Long = Constants.Default.LONG,
+    var ping: Int = Constants.Default.INT,
+    var speed: Long = Constants.Default.LONG,
+    @ColumnInfo(name = Constants.Server.COUNTRY_NAME)
+    var countryName: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Server.COUNTRY_CODE)
+    var countryCode: String? = Constants.Default.NULL,
+    var sessions: Long = Constants.Default.LONG,
+    var uptime: Long = Constants.Default.LONG,
+    var users: Long = Constants.Default.LONG,
+    var traffic: Long = Constants.Default.LONG,
+    var logType: String? = Constants.Default.NULL,
+    var operator: String? = Constants.Default.NULL,
+    var message: String? = Constants.Default.NULL,
+    var config: String? = Constants.Default.NULL,
+
+    var type: Int = Constants.Default.INT,
+    var quality: Int = Constants.Default.INT,
+    var region: String? = Constants.Default.NULL,
+    var city: String? = Constants.Default.NULL,
+    var latitude: Double = Constants.Default.DOUBLE,
+    var longitude: Double = Constants.Default.DOUBLE
+
+    ) : Base() {
 
     @Ignore
     constructor() : this(time = TimeUtilKt.currentMillis()) {

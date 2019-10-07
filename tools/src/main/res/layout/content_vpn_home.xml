@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.dreampany.tools.ui.model.ServerItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_grey200">
+
+
+        <com.github.nikartm.button.FitButton
+            android:id="@+id/button_action"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:gravity="center"
+            auto:fb_backgroundColor="@color/material_red700"
+            auto:fb_cornerRadius="@dimen/_2sdp"
+            auto:fb_shape="circle"
+            auto:fb_text="@string/start"
+            auto:fb_textColor="@color/material_white"
+            auto:fb_textSize="@dimen/_22ssp"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -65,8 +65,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class WordHomeFragment
-@Inject constructor() :
-    BaseMenuFragment(),
+@Inject constructor() : BaseMenuFragment(),
     SmartAdapter.Callback<WordItem>,
     MaterialSearchView.OnQueryTextListener,
     MaterialSearchView.SearchViewListener,

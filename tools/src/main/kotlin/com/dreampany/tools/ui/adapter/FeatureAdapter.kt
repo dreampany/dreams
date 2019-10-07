@@ -39,7 +39,7 @@ class FeatureAdapter(listener: Any?) : SmartAdapter<FeatureItem>(listener) {
         override fun compare(left: IFlexible<*>, right: IFlexible<*>): Int {
             val leftItem = left as FeatureItem
             val rightItem = right as FeatureItem
-            return (leftItem.order() - rightItem.order())
+            return (leftItem.order - rightItem.order)
         }
     }
 

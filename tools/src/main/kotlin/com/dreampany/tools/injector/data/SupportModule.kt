@@ -185,4 +185,18 @@ class SupportModule {
     fun provideServerSmartCache(): SmartCache<String, Server> {
         return SmartCache.newCache()
     }
+
+    @Singleton
+    @Provides
+    @ServerItemAnnote
+    fun provideServerItemSmartMap(): SmartMap<String, ServerItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ServerItemAnnote
+    fun provideServerItemSmartCache(): SmartCache<String, ServerItem> {
+        return SmartCache.newCache()
+    }
 }

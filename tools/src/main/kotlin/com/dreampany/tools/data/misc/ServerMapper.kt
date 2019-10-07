@@ -8,12 +8,13 @@ import com.dreampany.framework.util.NetworkUtil
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.misc.ServerAnnote
+import com.dreampany.tools.misc.ServerItemAnnote
+import com.dreampany.tools.ui.model.ServerItem
+import com.dreampany.tools.ui.model.WordItem
 import okhttp3.ResponseBody
-import javax.inject.Singleton
-import android.R.attr.data
-import android.R.attr.data
 import timber.log.Timber
 import java.io.*
+import javax.inject.Singleton
 
 
 /**
@@ -25,8 +26,18 @@ import java.io.*
 @Singleton
 class ServerMapper(
     @ServerAnnote private val map: SmartMap<String, Server>,
-    @ServerAnnote private val cache: SmartCache<String, Server>
+    @ServerAnnote private val cache: SmartCache<String, Server>,
+    @ServerItemAnnote private val uiMap: SmartMap<String, ServerItem>,
+    @ServerItemAnnote private val uiCache: SmartCache<String, ServerItem>
 ) : Mapper() {
+
+    fun getUiItem(id: String): ServerItem? {
+        return uiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: ServerItem) {
+        uiMap.put(id, uiItem)
+    }
 
     fun getItems(body: ResponseBody, tempUrl: String): List<Server>? {
         val written = writeBody(body, tempUrl)

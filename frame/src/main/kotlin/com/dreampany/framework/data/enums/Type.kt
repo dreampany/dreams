@@ -22,5 +22,6 @@ enum class Type : Parcelable {
     WORD,
     NOTEBOOK,
     OCR,
-    QUIZ
+    QUIZ,
+    VPN
 }

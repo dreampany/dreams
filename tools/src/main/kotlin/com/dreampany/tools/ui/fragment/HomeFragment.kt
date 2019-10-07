@@ -75,10 +75,10 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()
+        initTitleSubtitle()
 
         session.track()
         request(progress = true)
-        initTitleSubtitle()
     }
 
     override fun onStopUi() {
@@ -185,43 +185,18 @@ class HomeFragment
 
     private fun processSuccess(action: Action, items: List<FeatureItem>) {
         adapter.setItems(items)
-        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
 
     private fun openUi(uiItem: FeatureItem) {
-        var task: UiTask<Feature>? = null
-        when (uiItem.item.type) {
-            Type.APP -> {
-                task = UiTask<Feature>(
-                    type = Type.APP,
-                    subtype = Subtype.DEFAULT,
-                    state = State.HOME,
-                    action = Action.OPEN,
-                    input = uiItem.item
-                )
-            }
-            Type.WORD -> {
-                task = UiTask<Feature>(
-                    type = Type.WORD,
-                    subtype = Subtype.DEFAULT,
-                    state = State.HOME,
-                    action = Action.OPEN,
-                    input = uiItem.item
-                )
-            }
-            Type.NOTE -> {
-                task = UiTask<Feature>(
-                    type = Type.NOTE,
-                    subtype = Subtype.DEFAULT,
-                    state = State.HOME,
-                    action = Action.OPEN,
-                    input = uiItem.item
-                )
-            }
-        }
-        task?.run {
-            openActivity(ToolsActivity::class.java, this)
-        }
+        var task: UiTask<Feature> = UiTask<Feature>(
+            type = uiItem.item.type,
+            subtype = Subtype.DEFAULT,
+            state = State.HOME,
+            action = Action.OPEN,
+            input = uiItem.item
+        )
+        openActivity(ToolsActivity::class.java, task)
     }
 }

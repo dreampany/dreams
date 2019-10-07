@@ -1,6 +1,7 @@
 package com.dreampany.tools.misc
 
 import android.content.Context
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
@@ -246,9 +247,9 @@ class Constants {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
     }
 
-   object Delimiter {
-       const val COMMA = Constants.Delimiter.COMMA
-   }
+    object Delimiter {
+        const val COMMA = Constants.Delimiter.COMMA
+    }
 
     object VpnGate {
         const val FILE_NAME = "vpngate.csv"
@@ -273,5 +274,17 @@ class Constants {
 
     object File {
         const val BYTE_ARRAY_SIZE = 4096
+    }
+
+    object Order {
+        fun getOrder(type: Type): Int {
+            when (type) {
+                Type.APP -> return 1
+                Type.VPN -> return 2
+                Type.NOTE -> return 3
+                Type.WORD -> return 4
+                else -> return Int.MAX_VALUE
+            }
+        }
     }
 }

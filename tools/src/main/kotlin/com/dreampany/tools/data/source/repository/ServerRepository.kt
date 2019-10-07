@@ -31,6 +31,15 @@ class ServerRepository
     private val mapper: ServerMapper,
     @Remote private val remote: ServerDataSource
 ) : Repository<String, Server>(rx, rm), ServerDataSource {
+
+    override fun getRandomItem(): Server {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getRandomItemRx(): Maybe<Server> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun isEmpty(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

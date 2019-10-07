@@ -31,6 +31,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     lateinit var settingsProvider: Lazy<SettingsFragment>
     @Inject
     lateinit var licenseProvider: Lazy<LicenseFragment>
+
     @Inject
     lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
@@ -38,9 +39,12 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
     @Inject
-    lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
-    @Inject
     lateinit var wordHomeProvider: Lazy<WordHomeFragment>
+    @Inject
+    lateinit var vpnHomeProvider: Lazy<VpnHomeFragment>
+
+    @Inject
+    lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
     @Inject
     lateinit var wordProvider: Lazy<WordFragment>
     @Inject
@@ -118,15 +122,23 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                 }
             }
             Type.APP -> {
-                if (subtype == Subtype.DEFAULT) {
-                    if (state == State.HOME) {
-                        commitFragment(
-                            AppHomeFragment::class.java,
-                            appHomeProvider,
-                            R.id.layout,
-                            uiTask
-                        )
-                    }
+                if (state == State.HOME) {
+                    commitFragment(
+                        AppHomeFragment::class.java,
+                        appHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                }
+            }
+            Type.VPN -> {
+                if (state == State.HOME) {
+                    commitFragment(
+                        VpnHomeFragment::class.java,
+                        vpnHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
                 }
             }
             Type.NOTE -> {

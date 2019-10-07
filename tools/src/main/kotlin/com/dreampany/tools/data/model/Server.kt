@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
+import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
@@ -30,12 +31,12 @@ data class Server(
     var host: String? = Constants.Default.NULL,
     var score: Long = Constants.Default.LONG,
     var ping: Int = Constants.Default.INT,
-    var speed: Long = Constants.Default.LONG,
+    var speed: Int = Constants.Default.INT,
     @ColumnInfo(name = Constants.Server.COUNTRY_NAME)
     var countryName: String? = Constants.Default.NULL,
     @ColumnInfo(name = Constants.Server.COUNTRY_CODE)
     var countryCode: String? = Constants.Default.NULL,
-    var sessions: Long = Constants.Default.LONG,
+    var sessions: Int = Constants.Default.INT,
     var uptime: Long = Constants.Default.LONG,
     var users: Long = Constants.Default.LONG,
     var traffic: Long = Constants.Default.LONG,
@@ -44,8 +45,7 @@ data class Server(
     var message: String? = Constants.Default.NULL,
     var config: String? = Constants.Default.NULL,
 
-    var type: Int = Constants.Default.INT,
-    var quality: Int = Constants.Default.INT,
+    var quality: Quality? = Constants.Default.NULL,
     var region: String? = Constants.Default.NULL,
     var city: String? = Constants.Default.NULL,
     var latitude: Double = Constants.Default.DOUBLE,

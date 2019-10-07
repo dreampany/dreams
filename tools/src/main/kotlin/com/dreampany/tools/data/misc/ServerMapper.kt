@@ -1,10 +1,11 @@
 package com.dreampany.tools.data.misc
 
+import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
+import com.dreampany.framework.util.NetworkUtil
 import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.misc.ServerAnnote
 import javax.inject.Singleton
@@ -32,11 +33,11 @@ class ServerMapper(
         val host: String = parts.get(Constants.VpnGate.INDEX_HOST)
         val ip: String = parts.get(Constants.VpnGate.INDEX_IP)
         val score: Long = parts.get(Constants.VpnGate.INDEX_SCORE).toLong()
-        val ping: Int = parts.get(Constants.VpnGate.INDEX_PING).toInt()
-        val speed: Long = parts.get(Constants.VpnGate.INDEX_SPEED).toLong()
+        val ping: Int = getPingValue(parts.get(Constants.VpnGate.INDEX_PING))
+        val speed: Int = parts.get(Constants.VpnGate.INDEX_SPEED).toInt()
         val countryName: String = parts.get(Constants.VpnGate.INDEX_COUNTRY_NAME)
         val countryCode: String = parts.get(Constants.VpnGate.INDEX_COUNTRY_CODE)
-        val sessions: Long = parts.get(Constants.VpnGate.INDEX_NUM_VPN_SESSIONS).toLong()
+        val sessions: Int = parts.get(Constants.VpnGate.INDEX_NUM_VPN_SESSIONS).toInt()
         val uptime: Long = parts.get(Constants.VpnGate.INDEX_UPTIME).toLong()
         val users: Long = parts.get(Constants.VpnGate.INDEX_TOTAL_USERS).toLong()
         val traffic: Long = parts.get(Constants.VpnGate.INDEX_TOTAL_TRAFFIC).toLong()
@@ -44,6 +45,8 @@ class ServerMapper(
         val operator = parts.get(Constants.VpnGate.INDEX_OPERATOR)
         val message = parts.get(Constants.VpnGate.INDEX_MESSAGE)
         val config = parts.get(Constants.VpnGate.INDEX_CONFIG_DATA)
+
+        val quality : Quality = NetworkUtil.getConnectionQuality(ping, speed, sessions)
 
         var out: Server? = map.get(ip)
         if (out == null) {
@@ -66,7 +69,17 @@ class ServerMapper(
             this.operator = operator
             this.message = message
             this.config = config
+
+            this.quality = quality
         }
         return out
+    }
+
+    private fun getPingValue(ping: String): Int {
+        try {
+            return ping.toInt()
+        } catch (error: NumberFormatException) {
+            return 0
+        }
     }
 }

@@ -99,6 +99,7 @@ class Constants {
         const val POINT = "point"
         const val NOTE = "note"
         const val WORD = "word"
+        const val SERVER = "server"
     }
 
     object Pref {

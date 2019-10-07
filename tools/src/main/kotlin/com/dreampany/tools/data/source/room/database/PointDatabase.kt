@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.data.source.room.converters.WordConverters
+import com.dreampany.tools.data.source.room.converters.PointConverters
 import com.dreampany.tools.misc.Constants
 
 /**
@@ -14,7 +14,7 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@TypeConverters(WordConverters::class)
+@TypeConverters(PointConverters::class)
 abstract class PointDatabase : RoomDatabase() {
     companion object {
         private val DATABASE =

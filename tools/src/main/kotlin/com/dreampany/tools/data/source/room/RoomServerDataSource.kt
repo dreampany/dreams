@@ -1,36 +1,29 @@
-package com.dreampany.tools.data.source.remote
+package com.dreampany.tools.data.source.room
 
-import android.content.Context
-import com.dreampany.framework.data.source.api.RemoteService
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.network.manager.NetworkManager
+import com.dreampany.framework.misc.exception.WriteException
 import com.dreampany.tools.data.misc.ServerMapper
 import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.ServerDataSource
-import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.data.source.room.dao.ServerDao
 import io.reactivex.Maybe
-import timber.log.Timber
-import java.io.File
 
 /**
- * Created by roman on 2019-10-06
+ * Created by roman on 2019-10-08
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RemoteServerDataSource
-constructor(
-    private val context: Context,
-    private val network: NetworkManager,
+class RoomServerDataSource(
     private val mapper: ServerMapper,
-    private val service: RemoteService
+    private val dao: ServerDao
 ) : ServerDataSource {
     override fun getRandomItem(): Server? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getRandomItem()
     }
 
     override fun getRandomItemRx(): Maybe<Server> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getRandomItemRx()
     }
 
     override fun isEmpty(): Boolean {
@@ -62,15 +55,29 @@ constructor(
     }
 
     override fun putItemRx(t: Server): Maybe<Long> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItem(t)
+            if (emitter.isDisposed) return@create
+            emitter.onSuccess(result)
+        }
     }
 
     override fun putItems(ts: List<Server>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = dao.insertOrIgnore(ts)
+        return result
     }
 
+
     override fun putItemsRx(ts: List<Server>): Maybe<List<Long>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = putItems(ts)
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(WriteException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun delete(t: Server): Int {
@@ -98,38 +105,11 @@ constructor(
     }
 
     override fun getItems(): List<Server>? {
-        if (network.hasInternet()) {
-            try {
-                val response = service.get(Constants.VpnGate.URL).execute()
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        val tempUrl = context.cacheDir.path.plus(File.separator)
-                            .plus(Constants.VpnGate.FILE_NAME)
-                        val servers = mapper.getItems(body, tempUrl)
-                        return servers
-                    }
-                }
-            } catch (error: Throwable) {
-                Timber.e(error)
-            }
-        }
-
-        return null
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItemsRx(): Maybe<List<Server>> {
-        return Maybe.create { emitter ->
-            val result = getItems()
-            if (emitter.isDisposed) {
-                return@create
-            }
-            if (result.isNullOrEmpty()) {
-                emitter.onError(EmptyException())
-            } else {
-                emitter.onSuccess(result)
-            }
-        }
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItems(limit: Long): List<Server>? {
@@ -139,6 +119,4 @@ constructor(
     override fun getItemsRx(limit: Long): Maybe<List<Server>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-
 }

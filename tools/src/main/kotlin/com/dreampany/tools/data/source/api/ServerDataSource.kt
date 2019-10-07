@@ -12,7 +12,7 @@ import io.reactivex.Maybe
  */
 interface ServerDataSource : DataSource<Server> {
 
-    fun getRandomItem(): Server
+    fun getRandomItem(): Server?
 
     fun getRandomItemRx(): Maybe<Server>
 }

@@ -24,8 +24,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class WordMapper
-@Inject constructor(
+class WordMapper @Inject constructor(
     @WordAnnote private val map: SmartMap<String, Word>,
     @WordAnnote private val cache: SmartCache<String, Word>,
     @WordItemAnnote private val uiMap: SmartMap<String, WordItem>,

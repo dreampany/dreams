@@ -150,6 +150,10 @@ class Constants {
         const val LEVEL = Key.LEVEL
     }
 
+    object Country {
+        const val ID = Key.ID
+    }
+
     object Parser {
         const val PATTERN_IMAGE_TAG = "img"
         const val BASE_URL = "baseUrl"
@@ -189,5 +193,13 @@ class Constants {
 
     object Count {
         const val THREAD_NETWORK = 5
+    }
+
+    object Delimiter {
+        const val COMMA = ","
+    }
+
+    object Api {
+        const val BASE_URL = "https://google.com/"
     }
 }

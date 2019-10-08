@@ -17,6 +17,7 @@ import com.dreampany.tools.ui.model.FeatureItem
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.misc.Constants
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -128,6 +129,12 @@ class FeatureViewModel @Inject constructor(
             )
             items.add(
                 Feature(
+                    type = Type.VPN,
+                    title = TextUtil.getString(getApplication(), R.string.title_feature_vpn)
+                )
+            )
+            items.add(
+                Feature(
                     type = Type.WORD,
                     title = TextUtil.getString(getApplication(), R.string.title_feature_word)
                 )
@@ -143,7 +150,9 @@ class FeatureViewModel @Inject constructor(
     }
 
     private fun getUiItem(item: Feature): FeatureItem {
-        return FeatureItem.getItem(item)
+        return FeatureItem.getItem(item).apply {
+            order = Constants.Order.getOrder(this.item.type)
+        }
     }
 
     private fun getUiItemRx(item: Feature): Maybe<FeatureItem> {

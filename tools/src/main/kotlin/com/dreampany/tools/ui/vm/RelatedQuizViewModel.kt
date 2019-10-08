@@ -210,8 +210,7 @@ class RelatedQuizViewModel
             typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
             totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
             typeCount = storeRepo.getCountByType(request.type, request.subtype, request.resolve)
-            totalCount =
-                typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
+            totalCount = typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
         }
         return uiItem
     }

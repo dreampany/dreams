@@ -13,7 +13,7 @@ import com.dreampany.translation.data.source.api.TranslationDataSource
 import com.dreampany.translation.data.source.firestore.FirestoreTranslationDataSource
 import com.dreampany.translation.data.source.machine.MachineTranslationDataSource
 import com.dreampany.translation.data.source.remote.RemoteTranslationDataSource
-import com.dreampany.translation.data.source.remote.YandexTranslationService
+import com.dreampany.translation.data.source.api.YandexTranslationService
 import com.dreampany.translation.data.source.room.RoomTranslationDataSource
 import com.dreampany.translation.data.source.room.TextTranslationDao
 import com.dreampany.translation.misc.Constants
@@ -50,13 +50,14 @@ class TranslationModule {
     }
 
     @Provides
+    @Singleton
     fun provideYandexTranslationService(@YandexTranslation retrofit: Retrofit): YandexTranslationService {
         return retrofit.create(YandexTranslationService::class.java);
     }
 
-    @Singleton
-    @Provides
     @Room
+    @Provides
+    @Singleton
     fun provideRoomTranslationDataSource(
         network: NetworkManager,
         mapper: TextTranslationMapper,
@@ -65,9 +66,9 @@ class TranslationModule {
         return RoomTranslationDataSource(mapper, dao)
     }
 
-    @Singleton
-    @Provides
     @Machine
+    @Provides
+    @Singleton
     fun provideMachineTranslationDataSource(
         network: NetworkManager,
         mapper: TextTranslationMapper,

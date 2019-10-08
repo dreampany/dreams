@@ -283,9 +283,9 @@ class BuildersModule {
         return retrofit;
     }
 
-    @Singleton
-    @Provides
     @IcoWatchListAnnote
+    @Provides
+    @Singleton
     fun provideIcoWatchListRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .client(client)

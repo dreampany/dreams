@@ -1,12 +1,10 @@
 package com.dreampany.tools.injector.data
 
 import android.app.Application
-import com.dreampany.tools.data.source.room.dao.AntonymDao
-import com.dreampany.tools.data.source.room.dao.NoteDao
-import com.dreampany.tools.data.source.room.dao.SynonymDao
-import com.dreampany.tools.data.source.room.dao.WordDao
+import com.dreampany.tools.data.source.room.dao.*
 import com.dreampany.tools.data.source.room.database.NoteDatabase
 import com.dreampany.tools.data.source.room.database.PointDatabase
+import com.dreampany.tools.data.source.room.database.ServerDatabase
 import com.dreampany.tools.data.source.room.database.WordDatabase
 import dagger.Module
 import dagger.Provides
@@ -34,15 +32,22 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideNoteDao(database: NoteDatabase): NoteDao {
-        return database.noteDao()
+    fun provideWordDatabase(application: Application): WordDatabase {
+        return WordDatabase.getInstance(application)
     }
 
     @Singleton
     @Provides
-    fun provideWordDatabase(application: Application): WordDatabase {
-        return WordDatabase.getInstance(application)
+    fun provideServerDatabase(application: Application): ServerDatabase {
+        return ServerDatabase.getInstance(application)
     }
+
+    @Singleton
+    @Provides
+    fun provideNoteDao(database: NoteDatabase): NoteDao {
+        return database.noteDao()
+    }
+
 
     @Singleton
     @Provides
@@ -60,5 +65,11 @@ class DatabaseModule {
     @Provides
     fun provideAntonymDao(database: WordDatabase): AntonymDao {
         return database.antonymDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideServerDao(database: ServerDatabase): ServerDao {
+        return database.serverDao()
     }
 }

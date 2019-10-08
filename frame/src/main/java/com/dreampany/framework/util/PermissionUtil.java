@@ -1,3 +1,4 @@
+/*
 package com.dreampany.framework.util;
 
 import android.app.Activity;
@@ -13,11 +14,13 @@ import androidx.core.content.ContextCompat;
 
 import java.util.Arrays;
 
+*/
 /**
  * Created by Hawladar Roman on 6/12/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public final class PermissionUtil {
     private PermissionUtil() {
     }
@@ -92,3 +95,4 @@ public final class PermissionUtil {
         return false;
     }
 }
+*/

@@ -31,6 +31,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.util.*
+import kotlin.reflect.KClass
 
 /**
  * Created by roman on 2019-07-19
@@ -642,10 +643,10 @@ class AndroidUtil {
             activity.startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
 
-        fun isServiceRunning(context: Context, serviceClass: Class<*>): Boolean {
+        fun isServiceRunning(context: Context, serviceClass: KClass<*>): Boolean {
             val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
             for (service in manager!!.getRunningServices(Integer.MAX_VALUE)) {
-                if (serviceClass.getName() == service.service.getClassName()) {
+                if (serviceClass.java.name.equals(service.service.className)) {
                     return true
                 }
             }

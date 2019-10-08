@@ -1,11 +1,10 @@
-package com.dreampany.translation.data.source.remote
+package com.dreampany.translation.data.source.api
 
 import com.dreampany.translation.data.model.TextTranslationResponse
 import com.dreampany.translation.misc.Constants
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Headers
 import retrofit2.http.POST
 
 /**

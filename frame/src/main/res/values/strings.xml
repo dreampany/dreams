@@ -37,6 +37,9 @@
     <string name="alert">Alert</string>
     <string name="alerts">Alerts</string>
 
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+
 
     <string name="back_pressed">Please click BACK again to exit</string>
 

@@ -147,7 +147,7 @@ class SupportModule {
     @Singleton
     @Provides
     @RelatedQuizAnnote
-    fun provideRelatedQuizSmartMap(): SmartMap<String,RelatedQuiz> {
+    fun provideRelatedQuizSmartMap(): SmartMap<String, RelatedQuiz> {
         return SmartMap.newMap()
     }
 
@@ -169,6 +169,34 @@ class SupportModule {
     @Provides
     @RelatedQuizItemAnnote
     fun provideRelatedQuizItemSmartCache(): SmartCache<String, RelatedQuizItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ServerAnnote
+    fun provideServerSmartMap(): SmartMap<String, Server> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ServerAnnote
+    fun provideServerSmartCache(): SmartCache<String, Server> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ServerItemAnnote
+    fun provideServerItemSmartMap(): SmartMap<String, ServerItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ServerItemAnnote
+    fun provideServerItemSmartCache(): SmartCache<String, ServerItem> {
         return SmartCache.newCache()
     }
 }

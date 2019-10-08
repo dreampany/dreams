@@ -11,6 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Level(val code: Int) : Parcelable {
-    DEFAULT(0),
-    A1(1), A2(2), A3(3), A4(4), A5(5), A6(6), A7(7), A8(8), A9(9), A10(10)
+    DEFAULT(code = 0),
+    A1(code = 1), A2(code = 2), A3(code = 3), A4(code = 4), A5(code = 5),
+    A6(code = 6), A7(code = 7), A8(code = 8), A9(code = 9), A10(code = 10)
 }

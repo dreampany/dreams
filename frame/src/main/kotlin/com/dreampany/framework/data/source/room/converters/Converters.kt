@@ -103,4 +103,16 @@ open class Converters {
     fun toLevel(value: String?): Level? {
         return if (value.isNullOrEmpty()) null else Level.valueOf(value)
     }
+
+    @TypeConverter
+    @Synchronized
+    fun toQualityValue(quality: Quality?): String? {
+        return if (quality == null) null else quality.name
+    }
+
+    @TypeConverter
+    @Synchronized
+    fun toQuality(value: String?): Quality? {
+        return if (value.isNullOrEmpty()) null else Quality.valueOf(value)
+    }
 }

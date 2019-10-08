@@ -42,4 +42,12 @@ class Pref
     fun getLevel(level: Level): Level {
         return getPublicly(Constants.Pref.LEVEL, Level::class.java, level)
     }
+
+    fun commitDefaultPoint() {
+        return setPublicly(Constants.Pref.DEFAULT_POINT, true)
+    }
+
+    fun hasDefaultPoint(): Boolean {
+        return getPublicly(Constants.Pref.DEFAULT_POINT, false)
+    }
 }

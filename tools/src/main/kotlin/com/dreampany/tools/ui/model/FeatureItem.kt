@@ -31,6 +31,7 @@ class FeatureItem private constructor(
 ) : BaseItem<Feature, FeatureItem.ViewHolder, String>(item, layoutId) {
 
     var color: Int = 0
+    var order: Int = 0
 
     init {
         color = ColorUtil.getMaterialRandomColor()
@@ -53,9 +54,9 @@ class FeatureItem private constructor(
         return false
     }
 
-    fun order(): Int {
+/*    fun order(): Int {
         return item.type.ordinal
-    }
+    }*/
 
     class ViewHolder(
         view: View,

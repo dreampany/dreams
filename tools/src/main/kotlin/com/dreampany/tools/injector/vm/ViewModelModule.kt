@@ -64,6 +64,11 @@ abstract class ViewModelModule {
     @ViewModelKey(RelatedQuizViewModel::class)
     abstract fun bindRelatedQuizViewModel(vm: RelatedQuizViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ServerViewModel::class)
+    abstract fun bindServerViewModel(vm: ServerViewModel): ViewModel
+
     @Singleton
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

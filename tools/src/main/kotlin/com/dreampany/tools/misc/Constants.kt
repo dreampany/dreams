@@ -1,6 +1,7 @@
 package com.dreampany.tools.misc
 
 import android.content.Context
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
@@ -77,6 +78,7 @@ class Constants {
 
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
+        val SERVER = TimeUnit.DAYS.toMillis(1)
     }
 
     object Period {
@@ -98,13 +100,16 @@ class Constants {
         const val POINT = "point"
         const val NOTE = "note"
         const val WORD = "word"
+        const val SERVER = "server"
     }
 
     object Pref {
         const val LEVEL = "level"
         const val LANGUAGE = "language"
+        const val DEFAULT_POINT = "default_point"
         const val LOAD = "load"
         const val WORD = "word"
+        const val SERVER = "server"
         const val WORD_TRACK_LOADED = "word_track_loaded"
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"
@@ -113,6 +118,9 @@ class Constants {
         const val WORD_TRACK_START_AT = "word_track_start_at"
         const val WORD_TRACK_TIME = "word_track_time"
         const val WORD_TRACK_COUNT = "word_track_count"
+        const val SERVER_TIME = "server_time"
+        const val DOWNLOAD = "download"
+        const val UPLOAD = "upload"
     }
 
     object Assets {
@@ -130,6 +138,7 @@ class Constants {
     }
 
     object Count {
+        const val DEFAULT_POINT = 999
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
@@ -220,6 +229,13 @@ class Constants {
         const val LAST_UPDATED = "last_updated"
     }
 
+    object Server {
+        const val ID = Constants.Key.ID
+        const val COUNTRY_NAME = "country_name"
+        const val COUNTRY_CODE = "country_code"
+        const val LOG_TYPE = "log_type"
+    }
+
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2
@@ -233,9 +249,48 @@ class Constants {
         const val VPN_ROUTE = "0.0.0.0"
     }
 
-
-
     object Translation {
         const val YANDEX_URL = com.dreampany.translation.misc.Constants.Yandex.URL
+    }
+
+    object Delimiter {
+        const val COMMA = Constants.Delimiter.COMMA
+    }
+
+    object VpnGate {
+        const val FILE_NAME = "vpngate.csv"
+        const val URL = "http://www.vpngate.net/api/iphone"
+        const val SERVER_PARTS = 15
+        const val INDEX_HOST = 0
+        const val INDEX_IP = 1
+        const val INDEX_SCORE = 2
+        const val INDEX_PING = 3
+        const val INDEX_SPEED = 4
+        const val INDEX_COUNTRY_NAME = 5
+        const val INDEX_COUNTRY_CODE = 6
+        const val INDEX_NUM_VPN_SESSIONS = 7
+        const val INDEX_UPTIME = 8
+        const val INDEX_TOTAL_USERS = 9
+        const val INDEX_TOTAL_TRAFFIC = 10
+        const val INDEX_LOG_TYPE = 11
+        const val INDEX_OPERATOR = 12
+        const val INDEX_MESSAGE = 13
+        const val INDEX_CONFIG_DATA = 14
+    }
+
+    object File {
+        const val BYTE_ARRAY_SIZE = 4096
+    }
+
+    object Order {
+        fun getOrder(type: Type): Int {
+            when (type) {
+                Type.APP -> return 1
+                Type.VPN -> return 2
+                Type.NOTE -> return 3
+                Type.WORD -> return 4
+                else -> return Int.MAX_VALUE
+            }
+        }
     }
 }

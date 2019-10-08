@@ -78,6 +78,7 @@ class Constants {
 
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
+        val SERVER = TimeUnit.DAYS.toMillis(1)
     }
 
     object Period {
@@ -108,6 +109,7 @@ class Constants {
         const val DEFAULT_POINT = "default_point"
         const val LOAD = "load"
         const val WORD = "word"
+        const val SERVER = "server"
         const val WORD_TRACK_LOADED = "word_track_loaded"
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"
@@ -116,6 +118,7 @@ class Constants {
         const val WORD_TRACK_START_AT = "word_track_start_at"
         const val WORD_TRACK_TIME = "word_track_time"
         const val WORD_TRACK_COUNT = "word_track_count"
+        const val SERVER_TIME = "server_time"
     }
 
     object Assets {

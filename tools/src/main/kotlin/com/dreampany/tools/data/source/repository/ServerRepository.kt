@@ -6,11 +6,13 @@ import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.Remote
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ServerDataSource
 import io.reactivex.Maybe
+import io.reactivex.functions.Consumer
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,15 +31,18 @@ class ServerRepository
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
     private val mapper: ServerMapper,
+    @Remote private val room: ServerDataSource,
     @Remote private val remote: ServerDataSource
 ) : Repository<String, Server>(rx, rm), ServerDataSource {
 
-    override fun getRandomItem(): Server {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getRandomItem(): Server? {
+        return null
     }
 
     override fun getRandomItemRx(): Maybe<Server> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val remoteIf = getRemoteRandomItemIfRx()
+        val roomAny = room.getRandomItemRx()
+        return concatSingleFirstRx(remoteIf, roomAny)
     }
 
     override fun isEmpty(): Boolean {
@@ -119,4 +124,23 @@ class ServerRepository
     override fun getItemsRx(limit: Long): Maybe<List<Server>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    // region private
+    private fun getRemoteRandomItemIfRx(): Maybe<Server> {
+        return Maybe.create { emitter ->
+            var result: List<Server>? = null
+            if (mapper.isServerExpired()) {
+                result = remote.getItems()
+            }
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                //extra work to save result
+                room.putItems(result)
+                emitter.onSuccess(result.random())
+            }
+        }
+    }
+    // endregion
 }

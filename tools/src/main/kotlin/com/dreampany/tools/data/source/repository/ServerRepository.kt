@@ -138,6 +138,7 @@ class ServerRepository
             } else {
                 //extra work to save result
                 room.putItems(result)
+                mapper.commitServerExpiredTime()
                 emitter.onSuccess(result.random())
             }
         }

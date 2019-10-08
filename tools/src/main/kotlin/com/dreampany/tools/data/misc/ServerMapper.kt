@@ -39,6 +39,10 @@ class ServerMapper @Inject constructor(
         return TimeUtil.isExpired(lastTime, Constants.Time.SERVER)
     }
 
+    fun commitServerExpiredTime() {
+        pref.commitServerTime()
+    }
+
     fun getUiItem(id: String): ServerItem? {
         return uiMap.get(id)
     }

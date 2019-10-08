@@ -16,7 +16,6 @@
         android:layout_height="match_parent"
         android:background="@color/material_grey200">
 
-
         <com.github.nikartm.button.FitButton
             android:id="@+id/button_action"
             android:layout_width="@dimen/_100sdp"

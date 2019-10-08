@@ -1,8 +1,12 @@
 package com.dreampany.tools.ui.fragment
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.net.VpnService
 import android.os.Bundle
 import android.util.Base64
 import android.view.LayoutInflater
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +23,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.ServerRequest
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
+import com.dreampany.tools.databinding.ContentVpnHomeBinding
 import com.dreampany.tools.databinding.FragmentVpnHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ServerItem
@@ -26,6 +31,8 @@ import com.dreampany.tools.ui.vm.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.ConfigParser
+import de.blinkt.openvpn.core.ProfileManager
+import de.blinkt.openvpn.core.VpnStatus
 import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.IOException
@@ -42,11 +49,14 @@ import javax.inject.Inject
 class VpnHomeFragment
 @Inject constructor() : BaseMenuFragment() {
 
+    private val START_VPN_PROFILE = 70
+
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var bind: FragmentVpnHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
+    private lateinit var bindVpn: ContentVpnHomeBinding
 
     private lateinit var vm: ServerViewModel
 
@@ -67,9 +77,20 @@ class VpnHomeFragment
 
     }
 
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.button_action -> {
+                prepareVpn()
+            }
+        }
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentVpnHomeBinding
         bindStatus = bind.layoutTopStatus
+        bindVpn = bind.layoutVpnHome
+
+        bindVpn.buttonAction.setOnClickListener(this)
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
@@ -146,7 +167,10 @@ class VpnHomeFragment
 
     private fun prepareVpn() {
         val server = bind.item?.item ?: return
-
+        val profile: VpnProfile? = loadVpn(server)
+        if (profile != null) {
+            startVpn(server)
+        }
     }
 
     private fun loadVpn(server: Server): VpnProfile? {
@@ -162,11 +186,33 @@ class VpnHomeFragment
         try {
             parser.parseConfig(reader)
             val profile = parser.convertProfile()
-        } catch (error : Throwable) {
+            profile.mName = server.countryName
+            ProfileManager.getInstance(context).addProfile(profile)
+            return profile
+        } catch (error: Throwable) {
             Timber.e(error)
             return null
         }
-        return null
+    }
+
+    private fun startVpn(server: Server) {
+        val intent = VpnService.prepare(context)
+        if (intent != null) {
+            VpnStatus.updateStateString(
+                "USER_VPN_PERMISSION", "", R.string.state_user_vpn_permission,
+                VpnStatus.ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT
+            )
+            try {
+                startActivityForResult(intent, START_VPN_PROFILE)
+            } catch (ane: ActivityNotFoundException) {
+                // Shame on you Sony! At least one user reported that
+                // an official Sony Xperia Arc S image triggers this exception
+                VpnStatus.logError(R.string.no_vpn_support_image)
+            }
+
+        } else {
+            onActivityResult(START_VPN_PROFILE, Activity.RESULT_OK, null)
+        }
     }
 
     private fun request(

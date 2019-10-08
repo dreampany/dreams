@@ -11,13 +11,12 @@ import android.net.LocalSocket;
 import android.net.LocalSocketAddress;
 import android.os.Handler;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.vasilkoff.easyvpnfree.BuildConfig;
-import com.vasilkoff.easyvpnfree.R;
+import androidx.annotation.NonNull;
 
-import junit.framework.Assert;
+import com.dreampany.tools.BuildConfig;
+import com.dreampany.tools.R;
 
 import java.io.FileDescriptor;
 import java.io.IOException;
@@ -444,7 +443,7 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
             */
 
                 if (routeparts.length == 5) {
-                    if (BuildConfig.DEBUG) Assert.assertEquals("dev", routeparts[3]);
+                    //if (BuildConfig.DEBUG) Assert.assertEquals("dev", routeparts[3]);
                     mOpenVPNService.addRoute(routeparts[0], routeparts[1], routeparts[2], routeparts[4]);
                 } else if (routeparts.length >= 3) {
                     mOpenVPNService.addRoute(routeparts[0], routeparts[1], routeparts[2], null);

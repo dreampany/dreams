@@ -119,6 +119,8 @@ class Constants {
         const val WORD_TRACK_TIME = "word_track_time"
         const val WORD_TRACK_COUNT = "word_track_count"
         const val SERVER_TIME = "server_time"
+        const val DOWNLOAD = "download"
+        const val UPLOAD = "upload"
     }
 
     object Assets {

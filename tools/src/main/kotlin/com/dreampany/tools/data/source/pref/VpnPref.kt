@@ -2,11 +2,8 @@ package com.dreampany.tools.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.FramePref
-import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.util.TimeUtilKt
-import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.misc.Constants
-import io.reactivex.Maybe
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +14,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class ServerPref
+class VpnPref
 @Inject constructor(
     context: Context
 ) : FramePref(context) {
@@ -32,5 +29,21 @@ class ServerPref
 
     fun getServerTime() : Long {
         return getPrivately(Constants.Pref.SERVER_TIME, 0L)
+    }
+
+    fun getDownload() : Long {
+        return getPrivately(Constants.Pref.DOWNLOAD, 0L)
+    }
+
+    fun setDownload(download: Long) {
+        setPrivately(Constants.Pref.DOWNLOAD, download)
+    }
+
+    fun getUpload() : Long {
+        return getPrivately(Constants.Pref.UPLOAD, 0L)
+    }
+
+    fun setUpload(upload: Long) {
+        setPrivately(Constants.Pref.UPLOAD, upload)
     }
 }

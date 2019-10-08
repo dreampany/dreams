@@ -10,7 +10,7 @@ import android.os.Build;
 import android.os.HandlerThread;
 import android.os.Message;
 
-import com.vasilkoff.easyvpnfree.R;
+import com.dreampany.tools.R;
 
 import java.io.File;
 import java.io.PrintWriter;

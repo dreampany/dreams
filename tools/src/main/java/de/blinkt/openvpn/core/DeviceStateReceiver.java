@@ -15,13 +15,11 @@ import android.net.NetworkInfo.State;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 
-
-import com.vasilkoff.easyvpnfree.R;
-
-import de.blinkt.openvpn.core.VpnStatus.ByteCountListener;
+import com.dreampany.tools.R;
 
 import java.util.LinkedList;
-import java.util.Objects;
+
+import de.blinkt.openvpn.core.VpnStatus.ByteCountListener;
 
 import static de.blinkt.openvpn.core.OpenVPNManagement.pauseReason;
 

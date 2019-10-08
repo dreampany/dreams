@@ -13,8 +13,7 @@ import org.acra.annotation.ReportsCrashes;
 */
 
 
-
-import com.vasilkoff.easyvpnfree.BuildConfig;
+import com.dreampany.tools.BuildConfig;
 
 import de.blinkt.openvpn.core.PRNGFixes;
 

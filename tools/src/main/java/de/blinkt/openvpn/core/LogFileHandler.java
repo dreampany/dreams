@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.vasilkoff.easyvpnfree.R;
+import com.dreampany.tools.R;
 
 import java.io.BufferedInputStream;
 import java.io.File;

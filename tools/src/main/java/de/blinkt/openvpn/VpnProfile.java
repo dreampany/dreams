@@ -16,11 +16,13 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.security.KeyChain;
 import android.security.KeyChainException;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.vasilkoff.easyvpnfree.R;
+
+import androidx.annotation.NonNull;
+
+import com.dreampany.tools.R;
 
 import org.spongycastle.util.io.pem.PemObject;
 import org.spongycastle.util.io.pem.PemWriter;

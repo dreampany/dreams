@@ -33,12 +33,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.vasilkoff.easyvpnfree.BuildConfig;
+import com.dreampany.tools.BuildConfig;
 
 
-import com.vasilkoff.easyvpnfree.R;
-import com.vasilkoff.easyvpnfree.activity.ServerActivity;
-import com.vasilkoff.easyvpnfree.util.TotalTraffic;
+import com.dreampany.tools.R;
+import com.dreampany.tools.data.source.pref.VpnPref;
+import com.dreampany.tools.ui.activity.NavigationActivity;
+import com.dreampany.tools.util.TotalTraffic;
 
 
 import java.io.IOException;
@@ -92,6 +93,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     private Handler guiHandler;
     private Toast mlastToast;
     private Runnable mOpenVPNThread;
+    private VpnPref pref;
 
     // From: http://stackoverflow.com/questions/3758606/how-to-convert-byte-size-into-human-readable-format-in-java
     public static String humanReadableByteCount(long bytes, boolean mbit) {
@@ -154,7 +156,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
 
         //int icon = getIconByConnectionStatus(status);
-        int icon = R.drawable.ic_app_notif;
+        int icon = R.drawable.ic_notification;
         Notification.Builder nbuilder = new Notification.Builder(this);
 
         if (mProfile != null)
@@ -287,7 +289,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
     PendingIntent getLogPendingIntent() {
         // Let the configure Button show the Log
-        Intent intent = new Intent(getBaseContext(), ServerActivity.class);
+        Intent intent = new Intent(getBaseContext(), NavigationActivity.class);
         //intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent startLW = PendingIntent.getActivity(this, 0, intent, 0);
         return startLW;
@@ -333,7 +335,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        pref = new VpnPref(getApplicationContext());
         if (intent != null && intent.getBooleanExtra(ALWAYS_SHOW_NOTIFICATION, false))
             mNotificationAlwaysVisible = true;
 
@@ -980,7 +982,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
     @Override
     public void updateByteCount(long in, long out, long diffIn, long diffOut) {
-        TotalTraffic.calcTraffic(this, in, out, diffIn, diffOut);
+        TotalTraffic.calcTraffic(this, pref, in, out, diffIn, diffOut);
         if (mDisplayBytecount) {
             String netstat = String.format(getString(R.string.statusline_bytecount),
                     humanReadableByteCount(in, false),

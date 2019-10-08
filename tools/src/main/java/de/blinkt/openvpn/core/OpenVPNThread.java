@@ -8,7 +8,7 @@ package de.blinkt.openvpn.core;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.vasilkoff.easyvpnfree.R;
+import com.dreampany.tools.R;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

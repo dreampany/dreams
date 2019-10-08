@@ -7,12 +7,11 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.util.NetworkUtil
 import com.dreampany.framework.util.TimeUtil
 import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.source.pref.ServerPref
+import com.dreampany.tools.data.source.pref.VpnPref
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.misc.ServerAnnote
 import com.dreampany.tools.misc.ServerItemAnnote
 import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.tools.ui.model.WordItem
 import okhttp3.ResponseBody
 import timber.log.Timber
 import java.io.*
@@ -32,7 +31,7 @@ class ServerMapper @Inject constructor(
     @ServerAnnote private val cache: SmartCache<String, Server>,
     @ServerItemAnnote private val uiMap: SmartMap<String, ServerItem>,
     @ServerItemAnnote private val uiCache: SmartCache<String, ServerItem>,
-    private val pref: ServerPref
+    private val pref: VpnPref
 ) : Mapper() {
 
     fun isServerExpired(): Boolean {

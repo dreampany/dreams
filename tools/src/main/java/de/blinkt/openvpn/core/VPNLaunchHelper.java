@@ -10,7 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.vasilkoff.easyvpnfree.R;
+import com.dreampany.tools.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
+import android.util.Base64
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,14 +17,19 @@ import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.misc.ServerRequest
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentVpnHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
+import de.blinkt.openvpn.VpnProfile
+import de.blinkt.openvpn.core.ConfigParser
 import timber.log.Timber
+import java.io.ByteArrayInputStream
 import java.io.IOException
+import java.io.InputStreamReader
 import javax.inject.Inject
 
 /**
@@ -136,6 +142,31 @@ class VpnHomeFragment
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
         processUiState(UiState.CONTENT)
+    }
+
+    private fun prepareVpn() {
+        val server = bind.item?.item ?: return
+
+    }
+
+    private fun loadVpn(server: Server): VpnProfile? {
+        var data: ByteArray? = null
+        try {
+            data = Base64.decode(server.config, Base64.DEFAULT)
+        } catch (error: Throwable) {
+            Timber.e(error)
+            return null
+        }
+        val parser = ConfigParser()
+        val reader = InputStreamReader(ByteArrayInputStream(data))
+        try {
+            parser.parseConfig(reader)
+            val profile = parser.convertProfile()
+        } catch (error : Throwable) {
+            Timber.e(error)
+            return null
+        }
+        return null
     }
 
     private fun request(

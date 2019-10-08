@@ -16,6 +16,7 @@ import com.dreampany.tools.ui.model.WordItem
 import okhttp3.ResponseBody
 import timber.log.Timber
 import java.io.*
+import javax.inject.Inject
 import javax.inject.Singleton
 
 
@@ -26,7 +27,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class ServerMapper(
+class ServerMapper @Inject constructor(
     @ServerAnnote private val map: SmartMap<String, Server>,
     @ServerAnnote private val cache: SmartCache<String, Server>,
     @ServerItemAnnote private val uiMap: SmartMap<String, ServerItem>,
@@ -53,10 +54,13 @@ class ServerMapper(
             return null
         }
         val result = readLines(tempUrl)
+        result?.run {
+
+        }
         val servers = arrayListOf<Server>()
-        result?.forEach { data ->
+        result?.drop(2)?.forEach { data ->
             getItem(data)?.run {
-               servers.add(this)
+                servers.add(this)
                 Timber.v("Server Parsing.. %s", this.toString())
             }
         }

@@ -22,9 +22,20 @@ import javax.inject.Singleton
  */
 @Module
 class ServerModule {
-    @Singleton
+
+    @Room
     @Provides
+    @Singleton
+    fun provideRoomServerDataSource(
+        mapper: ServerMapper,
+        dao: ServerDao
+    ): ServerDataSource {
+        return RoomServerDataSource(mapper, dao)
+    }
+
     @Remote
+    @Provides
+    @Singleton
     fun provideRemoteServerDataSource(
         context: Context,
         network: NetworkManager,
@@ -32,15 +43,5 @@ class ServerModule {
         service: RemoteService
     ): ServerDataSource {
         return RemoteServerDataSource(context, network, mapper, service)
-    }
-
-    @Singleton
-    @Provides
-    @Room
-    fun provideRoomServerDataSource(
-        mapper: ServerMapper,
-        dao: ServerDao
-    ): ServerDataSource {
-        return RoomServerDataSource(mapper, dao)
     }
 }

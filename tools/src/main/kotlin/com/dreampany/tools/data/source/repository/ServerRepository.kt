@@ -5,6 +5,7 @@ import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.Remote
 import com.dreampany.framework.misc.ResponseMapper
+import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
@@ -12,7 +13,6 @@ import com.dreampany.tools.data.misc.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ServerDataSource
 import io.reactivex.Maybe
-import io.reactivex.functions.Consumer
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,7 +31,7 @@ class ServerRepository
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
     private val mapper: ServerMapper,
-    @Remote private val room: ServerDataSource,
+    @Room private val room: ServerDataSource,
     @Remote private val remote: ServerDataSource
 ) : Repository<String, Server>(rx, rm), ServerDataSource {
 

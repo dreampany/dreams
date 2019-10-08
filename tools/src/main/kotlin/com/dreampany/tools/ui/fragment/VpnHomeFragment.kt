@@ -15,8 +15,10 @@ import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.tools.R
+import com.dreampany.tools.data.misc.ServerRequest
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentVpnHomeBinding
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
@@ -51,7 +53,8 @@ class VpnHomeFragment
     }
 
     override fun onStartUi(state: Bundle?) {
-initUi()
+        initUi()
+        request(state = State.RANDOM, single = true)
     }
 
     override fun onStopUi() {
@@ -133,5 +136,22 @@ initUi()
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
         processUiState(UiState.CONTENT)
+    }
+
+    private fun request(
+        id: String? = Constants.Default.NULL,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = ServerRequest(
+            id = id,
+            state = state,
+            action = action,
+            single = single,
+            progress = progress
+        )
+        vm.request(request)
     }
 }

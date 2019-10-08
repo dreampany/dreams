@@ -198,4 +198,8 @@ class Constants {
     object Delimiter {
         const val COMMA = ","
     }
+
+    object Api {
+        const val BASE_URL = "https://google.com/"
+    }
 }

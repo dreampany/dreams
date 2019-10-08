@@ -50,13 +50,14 @@ class TranslationModule {
     }
 
     @Provides
+    @Singleton
     fun provideYandexTranslationService(@YandexTranslation retrofit: Retrofit): YandexTranslationService {
         return retrofit.create(YandexTranslationService::class.java);
     }
 
-    @Singleton
-    @Provides
     @Room
+    @Provides
+    @Singleton
     fun provideRoomTranslationDataSource(
         network: NetworkManager,
         mapper: TextTranslationMapper,
@@ -65,9 +66,9 @@ class TranslationModule {
         return RoomTranslationDataSource(mapper, dao)
     }
 
-    @Singleton
-    @Provides
     @Machine
+    @Provides
+    @Singleton
     fun provideMachineTranslationDataSource(
         network: NetworkManager,
         mapper: TextTranslationMapper,

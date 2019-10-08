@@ -17,6 +17,7 @@ import dagger.Module
         FrameModule::class,
         TranslationModule::class,
         DatabaseModule::class,
+        ApiModule::class,
         MediaModule::class,
         NoteModule::class,
         WordModule::class,

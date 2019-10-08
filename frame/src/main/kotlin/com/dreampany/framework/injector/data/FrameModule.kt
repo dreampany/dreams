@@ -8,7 +8,7 @@ import com.dreampany.framework.data.source.room.RoomPointDataSource
 import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.data.source.room.RoomStoreDataSource
 import com.dreampany.framework.data.source.room.dao.PointDao
-import com.dreampany.framework.injector.network.HttpModule
+import com.dreampany.framework.injector.network.NetworkModule
 import com.dreampany.framework.misc.Room
 import dagger.Module
 import dagger.Provides
@@ -21,7 +21,7 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  */
 
-@Module(includes = [SupportModule::class, DatabaseModule::class, HttpModule::class, FirebaseModule::class])
+@Module(includes = [SupportModule::class, DatabaseModule::class, NetworkModule::class, FirebaseModule::class])
 class FrameModule {
 
     @Singleton

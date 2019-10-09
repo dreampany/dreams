@@ -152,6 +152,7 @@ dependencies {
     api 'androidx.cardview:cardview:1.0.0'
     api 'androidx.recyclerview:recyclerview:1.1.0-beta04'
     api 'androidx.preference:preference:1.1.0'
+    api 'androidx.mediarouter:mediarouter:1.1.0'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     api 'androidx.work:work-runtime:2.2.0'
     api 'androidx.work:work-runtime-ktx:2.2.0'

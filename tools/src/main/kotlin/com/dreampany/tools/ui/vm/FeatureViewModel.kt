@@ -145,6 +145,12 @@ class FeatureViewModel @Inject constructor(
                     title = TextUtil.getString(getApplication(), R.string.title_feature_note)
                 )
             )
+            items.add(
+                Feature(
+                    type = Type.RADIO,
+                    title = TextUtil.getString(getApplication(), R.string.title_feature_radio)
+                )
+            )
             emitter.onSuccess(items)
         }
     }

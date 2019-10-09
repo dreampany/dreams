@@ -9,6 +9,7 @@ import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
+import com.google.firebase.firestore.PropertyName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -42,7 +43,8 @@ data class Station(
     var bitrate: Int = Constants.Default.INT,
     var tags: String? = Constants.Default.NULL,
     var country: String? = Constants.Default.NULL,
-    var countryCode: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Station.COUNTRY_CODE)
+    private var countryCode: String? = Constants.Default.NULL,
     var state: String? = Constants.Default.NULL,
     var language: String? = Constants.Default.NULL,
     var votes: Int = Constants.Default.INT,
@@ -56,13 +58,13 @@ data class Station(
     @ColumnInfo(name = Constants.Station.LAST_CHECK_OK)
     private var lastCheckOk: Boolean = Constants.Default.BOOLEAN,
     @ColumnInfo(name = Constants.Station.LAST_CHANGE_TIME)
-    private var lastChangeTime: String? = Constants.Default.NULL,
+    private var lastChangeTime: Long = Constants.Default.LONG,
     @ColumnInfo(name = Constants.Station.LAST_CHECK_TIME)
-    private var lastCheckTime: String? = Constants.Default.NULL,
+    private var lastCheckTime: Long = Constants.Default.LONG,
     @ColumnInfo(name = Constants.Station.LAST_CHECK_OK_TIME)
-    private var lastCheckOkTime: String? = Constants.Default.NULL,
+    private var lastCheckOkTime: Long = Constants.Default.LONG,
     @ColumnInfo(name = Constants.Station.CLICK_TIMESTAMP)
-    private var clickTimestamp: String? = Constants.Default.NULL
+    private var clickTimestamp: Long = Constants.Default.LONG
 
 
 ) : Base() {
@@ -85,5 +87,119 @@ data class Station(
 
     override fun hashCode(): Int {
         return Objects.hashCode(id)
+    }
+
+    override fun toString(): String {
+        return "Station [$id] [$url] [$countryCode]"
+    }
+
+    @PropertyName(Constants.Station.Remote.CHANGE_UUID)
+    fun setChangeUuid(changeUuid: String?) {
+        this.changeUuid = changeUuid
+    }
+
+    @PropertyName(Constants.Station.Remote.CHANGE_UUID)
+    fun getChangeUuid(): String? {
+        return changeUuid
+    }
+
+    @PropertyName(Constants.Station.Remote.STATION_UUID)
+    fun setStationUuid(stationUuid: String?) {
+        this.stationUuid = stationUuid
+    }
+
+    @PropertyName(Constants.Station.Remote.STATION_UUID)
+    fun getStationUuid(): String? {
+        return stationUuid
+    }
+
+    @PropertyName(Constants.Station.Remote.COUNTRY_CODE)
+    fun setCountryCode(countryCode: String?) {
+        this.countryCode = countryCode
+    }
+
+    @PropertyName(Constants.Station.Remote.COUNTRY_CODE)
+    fun getCountryCode(): String? {
+        return countryCode
+    }
+
+    @PropertyName(Constants.Station.Remote.NEGATIVE_VOTES)
+    fun setNegativeVotes(negativeVotes: Int) {
+        this.negativeVotes = negativeVotes
+    }
+
+    @PropertyName(Constants.Station.Remote.NEGATIVE_VOTES)
+    fun getNegativeVotes(): Int {
+        return negativeVotes
+    }
+
+    @PropertyName(Constants.Station.Remote.CLICK_COUNT)
+    fun setClickCount(clickCount: Int) {
+        this.clickCount = clickCount
+    }
+
+    @PropertyName(Constants.Station.Remote.CLICK_COUNT)
+    fun getClickCount(): Int {
+        return clickCount
+    }
+
+    @PropertyName(Constants.Station.Remote.CLICK_TREND)
+    fun setClickTrend(clickTrend: Int) {
+        this.clickTrend = clickTrend
+    }
+
+    @PropertyName(Constants.Station.Remote.CLICK_TREND)
+    fun getClickTrend(): Int {
+        return clickTrend
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHECK_OK)
+    fun setLastCheckOk(lastCheckOk: Boolean) {
+        this.lastCheckOk = lastCheckOk
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHECK_OK)
+    fun getLastCheckOk(): Boolean {
+        return lastCheckOk
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHANGE_TIME)
+    fun setLastChangeTime(lastChangeTime: Long) {
+        this.lastChangeTime = lastChangeTime
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHANGE_TIME)
+    fun getLastChangeTime(): Long {
+        return lastChangeTime
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHECK_TIME)
+    fun setLastCheckTime(lastCheckTime: Long) {
+        this.lastCheckTime = lastCheckTime
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHECK_TIME)
+    fun getLastCheckTime(): Long {
+        return lastCheckTime
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHECK_OK_TIME)
+    fun setLastCheckOkTime(lastCheckOkTime: Long) {
+        this.lastCheckOkTime = lastCheckOkTime
+    }
+
+    @PropertyName(Constants.Station.Remote.LAST_CHECK_OK_TIME)
+    fun getLastCheckOkTime(): Long {
+        return lastCheckOkTime
+    }
+
+    @PropertyName(Constants.Station.Remote.CLICK_TIMESTAMP)
+    fun setClickTimestamp(clickTimestamp: Long) {
+        this.clickTimestamp = clickTimestamp
+    }
+
+    @PropertyName(Constants.Station.Remote.CLICK_TIMESTAMP)
+    fun getClickTimestamp(): Long {
+        return clickTimestamp
     }
 }

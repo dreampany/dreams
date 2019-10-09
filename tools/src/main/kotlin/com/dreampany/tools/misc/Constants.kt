@@ -236,6 +236,35 @@ class Constants {
         const val LOG_TYPE = "log_type"
     }
 
+    object Station {
+        const val ID = Constants.Key.ID
+        const val CHANGE_UUID = "change_uuid"
+        const val STATION_UUID = "station_uuid"
+        const val COUNTRY_CODE = "country_code"
+        const val NEGATIVE_VOTES = "negative_votes"
+        const val LAST_CHANGE_TIME = "last_change_time"
+        const val LAST_CHECK_OK = "last_check_ok"
+        const val LAST_CHECK_TIME = "last_check_time"
+        const val LAST_CHECK_OK_TIME = "last_check_ok_time"
+        const val CLICK_TIMESTAMP = "click_timestamp"
+        const val CLICK_COUNT = "click_count"
+        const val CLICK_TREND = "click_trend"
+
+        object Remote {
+            const val CHANGE_UUID = "changeuuid"
+            const val STATION_UUID = "stationuuid"
+            const val COUNTRY_CODE = "countrycode"
+            const val NEGATIVE_VOTES = "negativevotes"
+            const val LAST_CHANGE_TIME = "lastchangetime"
+            const val LAST_CHECK_OK = "lastcheckok"
+            const val LAST_CHECK_TIME = "lastchecktime"
+            const val LAST_CHECK_OK_TIME = "lastcheckoktime"
+            const val CLICK_TIMESTAMP = "clicktimestamp"
+            const val CLICK_COUNT = "clickcount"
+            const val CLICK_TREND = "clicktrend"
+        }
+    }
+
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2

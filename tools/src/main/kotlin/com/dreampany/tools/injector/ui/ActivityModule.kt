@@ -34,7 +34,8 @@ abstract class ActivityModule {
             ScanModule::class,
             NoteModule::class,
             WordModule::class,
-            VpnModule::class
+            VpnModule::class,
+            RadioModule::class
         ]
     )
     abstract fun toolsActivity(): ToolsActivity

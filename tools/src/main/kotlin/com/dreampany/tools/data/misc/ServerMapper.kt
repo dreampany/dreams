@@ -57,9 +57,6 @@ class ServerMapper @Inject constructor(
             return null
         }
         val result = readLines(tempUrl)
-        result?.run {
-
-        }
         val servers = arrayListOf<Server>()
         result?.drop(2)?.forEach { data ->
             getItem(data)?.run {

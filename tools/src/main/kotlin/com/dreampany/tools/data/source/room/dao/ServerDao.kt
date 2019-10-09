@@ -15,6 +15,9 @@ import io.reactivex.Maybe
 @Dao
 interface ServerDao : BaseDao<Server> {
 
+    @Query("select * from server")
+    fun getItems(): List<Server>?
+
     @Query("select * from server order by random() limit 1")
     fun getRandomItem(): Server?
 

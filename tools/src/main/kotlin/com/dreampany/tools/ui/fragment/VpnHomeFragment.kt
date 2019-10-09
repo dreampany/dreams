@@ -236,6 +236,7 @@ class VpnHomeFragment
 
     private fun prepareVpn() {
         val server = bind.item?.item ?: return
+        Timber.v("Preparing vpn [%s]", server.id)
         profile = loadVpn(server)
         if (profile != null) {
             startVpn(server)
@@ -267,6 +268,7 @@ class VpnHomeFragment
     private fun startVpn(server: Server) {
         val intent = VpnService.prepare(context)
         if (intent != null) {
+            Timber.v("Starting vpn [%s]", server.id)
             VpnStatus.updateStateString(
                 "USER_VPN_PERMISSION", "", R.string.state_user_vpn_permission,
                 VpnStatus.ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT

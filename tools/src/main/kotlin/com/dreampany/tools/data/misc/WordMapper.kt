@@ -10,8 +10,8 @@ import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.data.source.api.WordDataSource
-import com.dreampany.tools.misc.WordAnnote
-import com.dreampany.tools.misc.WordItemAnnote
+import com.dreampany.tools.injector.annotation.WordAnnote
+import com.dreampany.tools.injector.annotation.WordItemAnnote
 import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Maybe
 import javax.inject.Inject

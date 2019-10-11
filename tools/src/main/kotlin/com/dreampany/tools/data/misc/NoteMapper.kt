@@ -7,8 +7,8 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.api.NoteDataSource
-import com.dreampany.tools.misc.NoteAnnote
-import com.dreampany.tools.misc.NoteItemAnnote
+import com.dreampany.tools.injector.annotation.NoteAnnote
+import com.dreampany.tools.injector.annotation.NoteItemAnnote
 import com.dreampany.tools.ui.model.NoteItem
 import javax.inject.Inject
 import javax.inject.Singleton

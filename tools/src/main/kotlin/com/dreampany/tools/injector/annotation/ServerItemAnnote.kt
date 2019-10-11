@@ -1,9 +1,9 @@
-package com.dreampany.tools.misc
+package com.dreampany.tools.injector.annotation
 
 import javax.inject.Qualifier
 
 /**
- * Created by Roman-372 on 7/25/2019
+ * Created by roman on 2019-10-06
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
@@ -11,4 +11,4 @@ import javax.inject.Qualifier
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DemoAnnote
+annotation class ServerItemAnnote

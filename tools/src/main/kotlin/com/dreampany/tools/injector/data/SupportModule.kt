@@ -3,7 +3,7 @@ package com.dreampany.tools.injector.data
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.*
-import com.dreampany.tools.misc.*
+import com.dreampany.tools.injector.annotation.*
 import com.dreampany.tools.ui.model.*
 import dagger.Module
 import dagger.Provides
@@ -169,34 +169,6 @@ class SupportModule {
     @Provides
     @RelatedQuizItemAnnote
     fun provideRelatedQuizItemSmartCache(): SmartCache<String, RelatedQuizItem> {
-        return SmartCache.newCache()
-    }
-
-    @Singleton
-    @Provides
-    @ServerAnnote
-    fun provideServerSmartMap(): SmartMap<String, Server> {
-        return SmartMap.newMap()
-    }
-
-    @Singleton
-    @Provides
-    @ServerAnnote
-    fun provideServerSmartCache(): SmartCache<String, Server> {
-        return SmartCache.newCache()
-    }
-
-    @Singleton
-    @Provides
-    @ServerItemAnnote
-    fun provideServerItemSmartMap(): SmartMap<String, ServerItem> {
-        return SmartMap.newMap()
-    }
-
-    @Singleton
-    @Provides
-    @ServerItemAnnote
-    fun provideServerItemSmartCache(): SmartCache<String, ServerItem> {
         return SmartCache.newCache()
     }
 }

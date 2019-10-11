@@ -9,8 +9,8 @@ import com.dreampany.framework.util.TimeUtil
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.pref.VpnPref
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.misc.ServerAnnote
-import com.dreampany.tools.misc.ServerItemAnnote
+import com.dreampany.tools.injector.annotation.ServerAnnote
+import com.dreampany.tools.injector.annotation.ServerItemAnnote
 import com.dreampany.tools.ui.model.ServerItem
 import okhttp3.ResponseBody
 import timber.log.Timber

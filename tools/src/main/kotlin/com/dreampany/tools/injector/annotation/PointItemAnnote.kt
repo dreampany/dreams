@@ -1,4 +1,4 @@
-package com.dreampany.tools.misc
+package com.dreampany.tools.injector.annotation
 
 import javax.inject.Qualifier
 

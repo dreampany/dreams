@@ -1,4 +1,4 @@
-package com.dreampany.tools.misc
+package com.dreampany.tools.injector.annotation
 
 import javax.inject.Qualifier
 
@@ -11,4 +11,4 @@ import javax.inject.Qualifier
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class RelatedQuizItemAnnote
+annotation class QuizAnnote

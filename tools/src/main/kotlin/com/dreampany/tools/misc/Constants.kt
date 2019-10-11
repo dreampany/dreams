@@ -157,6 +157,10 @@ class Constants {
         const val QUIZ_OPTIONS = 4
     }
 
+    object Api {
+        const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
+    }
+
     object Demo {
         const val ID = Constants.Key.ID
     }
@@ -322,4 +326,6 @@ class Constants {
             }
         }
     }
+
+
 }

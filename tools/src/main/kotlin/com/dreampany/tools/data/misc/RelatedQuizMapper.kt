@@ -13,8 +13,8 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.api.QuizDataSource
-import com.dreampany.tools.misc.RelatedQuizAnnote
-import com.dreampany.tools.misc.RelatedQuizItemAnnote
+import com.dreampany.tools.injector.annotation.RelatedQuizAnnote
+import com.dreampany.tools.injector.annotation.RelatedQuizItemAnnote
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import javax.inject.Inject
 import javax.inject.Singleton

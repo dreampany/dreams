@@ -4,7 +4,7 @@ import android.content.Context
 import com.dreampany.framework.data.source.api.RemoteService
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.ServerMapper
+import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.misc.Constants

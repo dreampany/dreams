@@ -2,7 +2,7 @@ package com.dreampany.tools.injector.data
 
 import android.content.Context
 import com.dreampany.framework.misc.Memory
-import com.dreampany.tools.data.misc.AppMapper
+import com.dreampany.tools.data.mapper.AppMapper
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.api.MediaDataSource
 import com.dreampany.tools.data.source.memory.MemoryAppMediaDataSource

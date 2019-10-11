@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.vision
 
 import android.graphics.Bitmap
 import com.dreampany.framework.data.enums.Source
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.data.source.room.dao.WordDao

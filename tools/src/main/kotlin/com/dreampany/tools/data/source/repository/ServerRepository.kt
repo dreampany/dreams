@@ -10,7 +10,7 @@ import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.ServerMapper
+import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ServerDataSource
 import io.reactivex.Maybe

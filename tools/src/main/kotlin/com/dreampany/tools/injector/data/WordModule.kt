@@ -5,7 +5,7 @@ import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.framework.misc.*
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.wordnik.WordnikManager
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.data.source.assets.AssetsWordDataSource
 import com.dreampany.tools.data.source.room.dao.AntonymDao
@@ -64,9 +64,9 @@ class WordModule {
     @Provides
     @Remote
     fun provideRemoteWordDataSource(
-         network: NetworkManager,
-         mapper: WordMapper,
-         wordnik: WordnikManager
+        network: NetworkManager,
+        mapper: WordMapper,
+        wordnik: WordnikManager
     ): WordDataSource {
         return RemoteWordDataSource(network, mapper, wordnik)
     }

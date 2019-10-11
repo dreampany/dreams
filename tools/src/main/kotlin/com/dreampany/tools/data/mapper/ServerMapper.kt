@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.data.mapper
 
 import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.misc.Mapper
@@ -26,7 +26,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class ServerMapper @Inject constructor(
+class ServerMapper
+@Inject constructor(
     @ServerAnnote private val map: SmartMap<String, Server>,
     @ServerAnnote private val cache: SmartCache<String, Server>,
     @ServerItemAnnote private val uiMap: SmartMap<String, ServerItem>,

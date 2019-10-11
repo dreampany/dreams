@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.data.mapper
 
 import android.net.Uri
 

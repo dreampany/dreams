@@ -1,9 +1,8 @@
 package com.dreampany.tools.data.source.room
 
 import com.dreampany.framework.misc.exception.WriteException
-import com.dreampany.tools.data.misc.ServerMapper
+import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.data.source.room.dao.ServerDao
 import io.reactivex.Maybe

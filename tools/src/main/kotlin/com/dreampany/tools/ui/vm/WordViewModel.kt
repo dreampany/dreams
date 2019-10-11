@@ -19,7 +19,7 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.language.Language
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.misc.WordRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref

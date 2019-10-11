@@ -11,7 +11,7 @@ import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.framework.data.enums.Source
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import io.reactivex.Maybe

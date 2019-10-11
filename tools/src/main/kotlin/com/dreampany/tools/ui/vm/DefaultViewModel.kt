@@ -11,7 +11,7 @@ import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.misc.DefaultRequest
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository

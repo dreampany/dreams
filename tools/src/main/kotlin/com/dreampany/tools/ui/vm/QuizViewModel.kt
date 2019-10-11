@@ -14,7 +14,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.QuizMapper
+import com.dreampany.tools.data.mapper.QuizMapper
 import com.dreampany.tools.data.misc.QuizRequest
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.source.pref.Pref

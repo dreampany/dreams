@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.data.mapper
 
 import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.data.model.Store

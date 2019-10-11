@@ -2,10 +2,7 @@ package com.dreampany.tools.injector.data
 
 import android.app.Application
 import com.dreampany.tools.data.source.room.dao.*
-import com.dreampany.tools.data.source.room.database.NoteDatabase
-import com.dreampany.tools.data.source.room.database.PointDatabase
-import com.dreampany.tools.data.source.room.database.ServerDatabase
-import com.dreampany.tools.data.source.room.database.WordDatabase
+import com.dreampany.tools.data.source.room.database.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -18,58 +15,70 @@ import javax.inject.Singleton
  */
 @Module
 class DatabaseModule {
-    @Singleton
+
     @Provides
+    @Singleton
     fun providePointDatabase(application: Application): PointDatabase {
         return PointDatabase.getInstance(application)
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideNoteDatabase(application: Application): NoteDatabase {
         return NoteDatabase.getInstance(application)
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideWordDatabase(application: Application): WordDatabase {
         return WordDatabase.getInstance(application)
     }
 
-    @Singleton
     @Provides
-    fun provideServerDatabase(application: Application): ServerDatabase {
-        return ServerDatabase.getInstance(application)
+    @Singleton
+    fun provideVpnDatabase(application: Application): VpnDatabase {
+        return VpnDatabase.getInstance(application)
     }
 
-    @Singleton
     @Provides
+    @Singleton
+    fun provideRadioDatabase(application: Application): RadioDatabase {
+        return RadioDatabase.getInstance(application)
+    }
+
+    @Provides
+    @Singleton
     fun provideNoteDao(database: NoteDatabase): NoteDao {
         return database.noteDao()
     }
 
-
-    @Singleton
     @Provides
+    @Singleton
     fun provideWordDao(database: WordDatabase): WordDao {
         return database.wordDao()
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideSynonymDao(database: WordDatabase): SynonymDao {
         return database.synonymDao()
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideAntonymDao(database: WordDatabase): AntonymDao {
         return database.antonymDao()
     }
 
-    @Singleton
     @Provides
-    fun provideServerDao(database: ServerDatabase): ServerDao {
+    @Singleton
+    fun provideServerDao(database: VpnDatabase): ServerDao {
         return database.serverDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideStationDao(database: RadioDatabase): StationDao {
+        return database.stationDao()
     }
 }

@@ -79,6 +79,7 @@ class Constants {
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
+        val STATION = TimeUnit.DAYS.toMillis(1)
     }
 
     object Period {
@@ -100,7 +101,8 @@ class Constants {
         const val POINT = "point"
         const val NOTE = "note"
         const val WORD = "word"
-        const val SERVER = "server"
+        const val VPN = "vpn"
+        const val RADIO = "radio"
     }
 
     object Pref {
@@ -109,7 +111,9 @@ class Constants {
         const val DEFAULT_POINT = "default_point"
         const val LOAD = "load"
         const val WORD = "word"
-        const val SERVER = "server"
+        const val VPN = "vpn"
+
+
         const val WORD_TRACK_LOADED = "word_track_loaded"
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"
@@ -119,8 +123,14 @@ class Constants {
         const val WORD_TRACK_TIME = "word_track_time"
         const val WORD_TRACK_COUNT = "word_track_count"
         const val SERVER_TIME = "server_time"
+
         const val DOWNLOAD = "download"
         const val UPLOAD = "upload"
+
+        object Radio {
+            const val RADIO = "radio"
+            const val STATION_TIME = "station_time"
+        }
     }
 
     object Assets {
@@ -159,6 +169,7 @@ class Constants {
 
     object Api {
         const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
+        const val RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE = "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
     }
 
     object Demo {

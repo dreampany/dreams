@@ -1,8 +1,17 @@
 package com.dreampany.tools.injector.data
 
+import com.dreampany.framework.misc.Remote
+import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
+import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.data.mapper.StationMapper
 import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.data.source.api.StationDataSource
+import com.dreampany.tools.data.source.api.StationService
+import com.dreampany.tools.data.source.remote.RemoteStationDataSource
+import com.dreampany.tools.data.source.room.RoomStationDataSource
+import com.dreampany.tools.data.source.room.dao.StationDao
 import com.dreampany.tools.injector.annotation.StationAnnote
 import com.dreampany.tools.injector.annotation.StationItemAnnote
 import com.dreampany.tools.misc.Constants
@@ -22,7 +31,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Module
-class StationModule {
+class RadioModule {
 
     @StationAnnote
     @Provides
@@ -63,5 +72,33 @@ class StationModule {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
         return retrofit;
+    }
+
+    @Provides
+    @Singleton
+    fun provideStationService(@StationAnnote retrofit: Retrofit): StationService {
+        return retrofit.create(StationService::class.java);
+    }
+
+
+    @Room
+    @Provides
+    @Singleton
+    fun provideRoomStationDataSource(
+        mapper: StationMapper,
+        dao: StationDao
+    ): StationDataSource {
+        return RoomStationDataSource(mapper, dao)
+    }
+
+    @Remote
+    @Provides
+    @Singleton
+    fun provideRemoteStationDataSource(
+        network: NetworkManager,
+        mapper: StationMapper,
+        service: StationService
+    ): StationDataSource {
+        return RemoteStationDataSource( network, mapper, service)
     }
 }

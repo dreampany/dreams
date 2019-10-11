@@ -22,7 +22,7 @@ import dagger.Module
         NoteModule::class,
         WordModule::class,
         VpnModule::class,
-        StationModule::class,
+        RadioModule::class,
         SupportModule::class,
         ViewModelModule::class
     ]

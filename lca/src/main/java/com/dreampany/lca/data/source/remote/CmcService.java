@@ -38,7 +38,6 @@ public interface CmcService {
     Maybe<CmcListingResponse> getListingRx(@Query("CMC_PRO_API_KEY") String apiKey,
                                            @Query("start") int start,
                                            @Query("limit") int limit);*/
-    @Headers("Connection:close")
     @GET("cryptocurrency/listings/latest")
     Call<CmcListingResponse> getListing(@Query("CMC_PRO_API_KEY") String apiKey,
                                         @Query("convert") String currencies,
@@ -67,7 +66,7 @@ public interface CmcService {
                                       @Query("symbol") String symbols,
                                       @Query("convert") String currencies);*/
 
-    @Headers("Connection:close")
+    //@Headers("Connection:close")
     @GET("cryptocurrency/quotes/latest")
     Call<CmcQuotesResponse> getQuotesByIds(@Query("CMC_PRO_API_KEY") String apiKey,
                                            @Query("convert") String currencies,

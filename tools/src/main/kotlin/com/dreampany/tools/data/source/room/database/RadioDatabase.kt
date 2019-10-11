@@ -6,9 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.source.room.converters.ServerConverters
-import com.dreampany.tools.data.source.room.dao.ServerDao
+import com.dreampany.tools.data.source.room.converters.RadioConverters
+import com.dreampany.tools.data.source.room.dao.StationDao
 import com.dreampany.tools.misc.Constants
 
 /**
@@ -17,23 +16,23 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Server::class], version = 1)
-@TypeConverters(ServerConverters::class)
-abstract class ServerDatabase : RoomDatabase() {
+@Database(entities = [StationDao::class], version = 1)
+@TypeConverters(RadioConverters::class)
+abstract class RadioDatabase : RoomDatabase() {
 
     companion object {
         private val DATABASE =
-            Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.SERVER)
-        private var instance: ServerDatabase? = null
+            Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.RADIO)
+        private var instance: RadioDatabase? = null
 
         @Synchronized
-        fun newInstance(context: Context, memoryOnly: Boolean): ServerDatabase {
-            val builder: RoomDatabase.Builder<ServerDatabase>
+        fun newInstance(context: Context, memoryOnly: Boolean): RadioDatabase {
+            val builder: RoomDatabase.Builder<RadioDatabase>
 
             if (memoryOnly) {
-                builder = Room.inMemoryDatabaseBuilder(context, ServerDatabase::class.java)
+                builder = Room.inMemoryDatabaseBuilder(context, RadioDatabase::class.java)
             } else {
-                builder = Room.databaseBuilder(context, ServerDatabase::class.java,
+                builder = Room.databaseBuilder(context, RadioDatabase::class.java,
                     DATABASE
                 )
             }
@@ -44,7 +43,7 @@ abstract class ServerDatabase : RoomDatabase() {
         }
 
         @Synchronized
-        fun getInstance(context: Context): ServerDatabase {
+        fun getInstance(context: Context): RadioDatabase {
             if (instance == null) {
                 instance =
                     newInstance(
@@ -56,5 +55,5 @@ abstract class ServerDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun serverDao(): ServerDao
+    abstract fun stationDao(): StationDao
 }

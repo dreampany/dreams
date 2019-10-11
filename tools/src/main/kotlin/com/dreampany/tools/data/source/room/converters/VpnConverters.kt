@@ -8,6 +8,6 @@ import com.dreampany.framework.data.source.room.converters.Converters
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ServerConverters : Converters() {
+class VpnConverters : Converters() {
 
 }

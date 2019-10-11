@@ -13,7 +13,7 @@ import retrofit2.http.Path
  * Last modified $file.lastModified
  */
 interface WikiHistoryService {
-    @Headers(Constants.Retrofit.CONNECTION_CLOSE)
+    //@Headers(Constants.Retrofit.CONNECTION_CLOSE)
     @GET(Constants.Api.HISTORY_MUFFIN_LABS_DAY_MONTH)
     fun getWikiHistory(@Path(Constants.History.DAY) day: Int, @Path(Constants.History.MONTH) month: Int): Call<WikiHistoryResponse>
 }

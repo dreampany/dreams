@@ -5,6 +5,7 @@ import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.util.TimeUtil
+import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.injector.annotation.StationAnnote
@@ -49,5 +50,42 @@ class StationMapper
 
     fun putUiItem(id: String, uiItem: StationItem) {
         uiMap.put(id, uiItem)
+    }
+
+    fun getItems(inputs: List<RadioStation>?): List<Station>? {
+        if (inputs.isNullOrEmpty()) return null
+        val result = arrayListOf<Station>()
+        inputs.forEach { rs ->
+            result.add(getItem(rs))
+        }
+        return result
+    }
+
+    fun getItem(input: RadioStation): Station {
+        var out: Station? = map.get(input.id)
+        if (out == null) {
+            out = Station(input.id)
+            map.put(input.id, out)
+        }
+        out.setChangeUuid(input.changeUuid)
+        out.setStationUuid(input.stationUuid)
+        out.name = input.name
+        out.url = input.url
+        out.homepage = input.homepage
+        out.favicon = input.favicon
+        out.ip = input.ip
+        out.codec = input.codec
+        out.bitrate = input.bitrate
+        out.tags = input.tags
+        out.country = input.country
+        out.setCountryCode(input.countryCode)
+        out.state = input.state
+        out.language = input.language
+        out.votes = input.votes
+        out.setNegativeVotes(input.negativeVotes)
+        out.setClickCount(input.clickCount)
+        out.setClickTrend(input.clickTrend)
+
+        return out
     }
 }

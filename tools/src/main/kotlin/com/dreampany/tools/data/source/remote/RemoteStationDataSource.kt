@@ -2,15 +2,13 @@ package com.dreampany.tools.data.source.remote
 
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.mapper.StationMapper
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.api.StationDataSource
-import com.dreampany.tools.data.source.api.StationService
-import com.dreampany.tools.injector.annotation.StationAnnote
-import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.api.radio.RadioStationService
 import io.reactivex.Maybe
 import timber.log.Timber
-import java.io.File
 
 /**
  * Created by roman on 2019-10-11
@@ -22,7 +20,7 @@ class RemoteStationDataSource
 constructor(
     private val network: NetworkManager,
     private val mapper: StationMapper,
-    private val service: StationService
+    private val service: RadioStationService
 ) : StationDataSource {
     override fun getItemsByCountryCode(countryCode: String): List<Station>? {
         if (!network.hasInternet()) {
@@ -31,14 +29,9 @@ constructor(
         try {
             val response = service.getItemsByCountryCode(countryCode).execute()
             if (response.isSuccessful) {
-                val result: List<Station>? = response.body()
+                val stations: List<RadioStation>? = response.body()
+                val result = mapper.getItems(stations)
                 return result
-                if (!result.isNullOrEmpty()) {
-          /*            val tempUrl = context.cacheDir.path.plus(File.separator)
-                        .plus(Constants.VpnGate.FILE_NAME)
-                    val servers = mapper.getItems(body, tempUrl)
-                    return servers*/
-                }
             }
         } catch (error: Throwable) {
             Timber.e(error)

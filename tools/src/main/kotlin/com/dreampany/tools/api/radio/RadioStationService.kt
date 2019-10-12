@@ -1,6 +1,5 @@
-package com.dreampany.tools.data.source.api
+package com.dreampany.tools.api.radio
 
-import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.misc.Constants
 import retrofit2.Call
 import retrofit2.http.GET
@@ -12,8 +11,8 @@ import retrofit2.http.Path
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface StationService {
+interface RadioStationService {
 
     @GET(value = Constants.Api.RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE)
-    fun getItemsByCountryCode(@Path(value = Constants.Station.COUNTRY_CODE) countryCode: String) : Call<List<Station>>
+    fun getItemsByCountryCode(@Path(value = Constants.Station.COUNTRY_CODE) countryCode: String) : Call<List<RadioStation>>
 }

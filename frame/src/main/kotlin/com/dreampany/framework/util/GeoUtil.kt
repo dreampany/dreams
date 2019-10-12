@@ -39,7 +39,7 @@ class GeoUtil {
                     code = context.getResources().getConfiguration().locale.getCountry();
                 }
             }
-            if (!code.isNullOrEmpty() && code.length == 2) return code.toLowerCase()
+            if (!code.isNullOrEmpty() && code.length == 2) return code
             return null
         }
 

@@ -106,7 +106,7 @@ class RadioHomeFragment
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
+            LayoutInflater.from(context).inflate(R.layout.item_empty, null).apply {
                 setOnClickListener(this@RadioHomeFragment)
             }
         )

@@ -59,7 +59,8 @@ constructor(
     }
 
     override fun putItems(ts: List<Station>): List<Long>? {
-        return dao.insertOrReplace(ts)
+        val result = dao.insertOrReplace(ts)
+        return result
     }
 
     override fun putItemsRx(ts: List<Station>): Maybe<List<Long>> {

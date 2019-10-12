@@ -8,7 +8,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.StationMapper
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.api.StationDataSource
-import com.dreampany.tools.data.source.api.StationService
+import com.dreampany.tools.api.radio.RadioStationService
 import com.dreampany.tools.data.source.remote.RemoteStationDataSource
 import com.dreampany.tools.data.source.room.RoomStationDataSource
 import com.dreampany.tools.data.source.room.dao.StationDao
@@ -76,8 +76,8 @@ class RadioModule {
 
     @Provides
     @Singleton
-    fun provideStationService(@StationAnnote retrofit: Retrofit): StationService {
-        return retrofit.create(StationService::class.java);
+    fun provideStationService(@StationAnnote retrofit: Retrofit): RadioStationService {
+        return retrofit.create(RadioStationService::class.java);
     }
 
 
@@ -97,7 +97,7 @@ class RadioModule {
     fun provideRemoteStationDataSource(
         network: NetworkManager,
         mapper: StationMapper,
-        service: StationService
+        service: RadioStationService
     ): StationDataSource {
         return RemoteStationDataSource( network, mapper, service)
     }

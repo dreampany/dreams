@@ -24,11 +24,19 @@ class RadioPref
         return Constants.Pref.Radio.RADIO
     }
 
+    fun setStationState(state: State) {
+        setPrivately(Constants.Pref.Radio.STATION_STATE, state)
+    }
+
+    fun getStationState(defaultState: State): State {
+        return getPrivately(Constants.Pref.Radio.STATION_STATE, State::class.java, defaultState)
+    }
+
     fun commitStationTime(state: State) {
         setPrivately(Constants.Pref.Radio.STATION_TIME.plus(state.name), TimeUtilKt.currentMillis())
     }
 
-    fun getStationTime(state: State) : Long {
+    fun getStationTime(state: State): Long {
         return getPrivately(Constants.Pref.Radio.STATION_TIME.plus(state.name), 0L)
     }
 }

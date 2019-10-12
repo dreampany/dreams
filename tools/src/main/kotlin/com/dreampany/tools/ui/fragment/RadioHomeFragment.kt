@@ -16,9 +16,11 @@ import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
+import com.dreampany.framework.util.GeoUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRadioHomeBinding
@@ -48,6 +50,8 @@ class RadioHomeFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var session: SessionManager
+    @Inject
+    internal lateinit var radioPref: RadioPref
 
     private lateinit var bind: FragmentRadioHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -195,8 +199,20 @@ class RadioHomeFragment
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
+        val state = radioPref.getStationState(State.LOCAL)
+        var countryCode: String = Constants.Default.STRING
+        when (state) {
+            State.LOCAL -> {
+                GeoUtil.getCountryCode(context!!)?.run {
+                    countryCode = this
+                }
+            }
+        }
+
         val request = StationRequest(
             id = id,
+            countryCode = countryCode,
+            state = state,
             action = action,
             input = input,
             single = single,

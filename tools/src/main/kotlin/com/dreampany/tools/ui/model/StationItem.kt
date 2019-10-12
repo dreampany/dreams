@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.model
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
@@ -46,11 +47,11 @@ private constructor(
         BaseItem.ViewHolder(view, adapter) {
 
         private val adapter: StationAdapter
-        //private val title: AppCompatTextView
+        private val title: AppCompatTextView
 
         init {
             this.adapter = adapter as StationAdapter
-            //title = view.findViewById(R.id.view_title)
+            title = view.findViewById(R.id.view_title)
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>

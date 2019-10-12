@@ -129,6 +129,7 @@ class Constants {
 
         object Radio {
             const val RADIO = "radio"
+            const val STATION_STATE = "station_state"
             const val STATION_TIME = "station_time"
         }
     }

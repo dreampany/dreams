@@ -2,12 +2,14 @@ package com.dreampany.tools.ui.model
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
-import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.StationAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
@@ -26,7 +28,7 @@ private constructor(
 
     companion object {
         fun getItem(item: Station): StationItem {
-            return StationItem(item, 0)
+            return StationItem(item, R.layout.item_station)
         }
     }
 
@@ -44,16 +46,19 @@ private constructor(
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {
 
+        private val adapter: StationAdapter
+        private val title: AppCompatTextView
 
         init {
-
+            this.adapter = adapter as StationAdapter
+            title = view.findViewById(R.id.view_title)
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as StationItem
             val item = uiItem.item
-
+            title.text = item.name
         }
     }
 }

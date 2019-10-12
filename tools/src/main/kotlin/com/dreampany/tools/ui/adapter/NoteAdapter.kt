@@ -10,8 +10,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class NoteAdapter(listener: Any?) : SmartAdapter<NoteItem>(listener) {
-
+class NoteAdapter(listener: Any? = null) : SmartAdapter<NoteItem>(listener) {
 
     private val timeComparator: Comparator<IFlexible<*>>
 

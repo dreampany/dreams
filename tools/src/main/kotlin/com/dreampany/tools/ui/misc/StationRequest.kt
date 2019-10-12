@@ -12,8 +12,8 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class StationRequest (
-    val id: String = Constants.Default.STRING,
-    val countryCode: String = Constants.Default.STRING,
+    val id: String? = Constants.Default.NULL,
+    val countryCode: String? = Constants.Default.NULL,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,

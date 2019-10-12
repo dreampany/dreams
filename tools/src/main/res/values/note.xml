@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_note" translatable="false">Note</string>
 
     <string name="title_empty_note" translatable="false">No Notes</string>
     <string name="description_empty_note" translatable="false">It seems you have not added any notes. Click to add a note.</string>

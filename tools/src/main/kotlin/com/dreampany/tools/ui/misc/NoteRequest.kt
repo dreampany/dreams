@@ -15,7 +15,7 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class NoteRequest(
-        val id: String = Constants.Default.STRING,
+        val id: String? = Constants.Default.STRING,
         val title: String? = Constants.Default.STRING,
         val description: String? = Constants.Default.STRING,
         type: Type = Type.DEFAULT,

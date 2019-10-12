@@ -86,6 +86,10 @@ class NoteHomeFragment
         return R.id.item_search
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.title_feature_note
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
         val searchItem = getSearchMenuItem()
@@ -103,7 +107,6 @@ class NoteHomeFragment
         createMenuItems()
         session.track()
         request(progress = true)
-        initTitleSubtitle()
     }
 
     override fun onStopUi() {
@@ -184,11 +187,6 @@ class NoteHomeFragment
         val option: NoteOption = item.tag as NoteOption
         Timber.v("Option fired %s", option.toTitle())
         processOption(option, currentItem!!)
-    }
-
-
-    private fun initTitleSubtitle() {
-        setTitle(R.string.title_note)
     }
 
     private fun initUi() {
@@ -312,7 +310,6 @@ class NoteHomeFragment
             UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
-                initTitleSubtitle()
             }
         }
     }

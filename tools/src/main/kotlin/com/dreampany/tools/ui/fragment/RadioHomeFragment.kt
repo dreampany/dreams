@@ -70,8 +70,10 @@ class RadioHomeFragment
     }
 
     override fun onStartUi(state: Bundle?) {
+        initTitleSubtitle()
         initUi()
         initRecycler()
+        request(progress = true)
     }
 
     override fun onStopUi() {
@@ -81,6 +83,12 @@ class RadioHomeFragment
     }
 
     override fun onLongClick(view: View, item: StationItem?, action: Action?) {
+    }
+
+    private fun initTitleSubtitle() {
+        setTitle(R.string.title_feature_radio)
+        val state = radioPref.getStationState(State.LOCAL)
+        setSubtitle(state.name.toLowerCase())
     }
 
     private fun initUi() {
@@ -193,19 +201,17 @@ class RadioHomeFragment
     }
 
     private fun request(
-        id: String = Constants.Default.STRING,
+        id: String? = Constants.Default.NULL,
         action: Action = Action.DEFAULT,
         input: Station? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
         val state = radioPref.getStationState(State.LOCAL)
-        var countryCode: String = Constants.Default.STRING
+        var countryCode: String? = null
         when (state) {
             State.LOCAL -> {
-                GeoUtil.getCountryCode(context!!)?.run {
-                    countryCode = this
-                }
+                countryCode = GeoUtil.getCountryCode(context!!)
             }
         }
 

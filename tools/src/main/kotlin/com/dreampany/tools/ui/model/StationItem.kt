@@ -58,7 +58,7 @@ private constructor(
                 bind(position: Int, item: I) {
             val uiItem = item as StationItem
             val item = uiItem.item
-            //title.text = item.name
+            title.text = item.name
         }
     }
 }

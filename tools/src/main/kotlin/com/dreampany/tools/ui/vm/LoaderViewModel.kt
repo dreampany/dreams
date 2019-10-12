@@ -16,7 +16,7 @@ import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.LoadRequest
+import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.Load
 import com.dreampany.tools.data.model.Word

@@ -1,29 +1,31 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.enums.AppType
+import com.dreampany.tools.data.model.App
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by Roman-372 on 7/5/2019
+ * Created by roman on 2019-08-03
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class DefaultRequest(
+class AppRequest(
+    var appType: AppType = AppType.DEFAULT,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: Quiz? = Constants.Default.NULL,
+    input: App? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN
-) : Request<Quiz>(
+) : Request<App>(
     type = type,
     subtype = subtype,
     state = state,
@@ -33,5 +35,4 @@ class DefaultRequest(
     important = important,
     progress = progress
 ) {
-
 }

@@ -30,7 +30,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Word

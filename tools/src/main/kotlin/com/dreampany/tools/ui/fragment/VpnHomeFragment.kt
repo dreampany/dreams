@@ -21,7 +21,7 @@ import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.ServerRequest
+import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.ContentVpnHomeBinding

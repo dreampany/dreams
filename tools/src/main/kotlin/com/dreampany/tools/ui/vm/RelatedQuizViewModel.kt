@@ -23,7 +23,7 @@ import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.RelatedQuizMapper
-import com.dreampany.tools.data.misc.RelatedQuizRequest
+import com.dreampany.tools.ui.misc.RelatedQuizRequest
 import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz

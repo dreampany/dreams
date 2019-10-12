@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -14,7 +14,7 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class QuizRequest(
+class DefaultRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,

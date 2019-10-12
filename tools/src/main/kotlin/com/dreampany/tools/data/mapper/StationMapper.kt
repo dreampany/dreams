@@ -38,4 +38,16 @@ class StationMapper
     fun commitStationExpiredTime(state: State) {
         pref.commitStationTime(state)
     }
+
+    fun isExists(item: Station): Boolean {
+        return map.contains(item.id)
+    }
+
+    fun getUiItem(id: String): StationItem? {
+        return uiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: StationItem) {
+        uiMap.put(id, uiItem)
+    }
 }

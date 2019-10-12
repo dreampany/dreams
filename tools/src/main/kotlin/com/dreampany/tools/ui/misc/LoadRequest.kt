@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request

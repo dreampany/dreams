@@ -15,7 +15,7 @@ import com.dreampany.tools.ui.fragment.MoreFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity
-import com.dreampany.tools.data.misc.LoadRequest
+import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.ui.vm.LoaderViewModel
 import dagger.Lazy

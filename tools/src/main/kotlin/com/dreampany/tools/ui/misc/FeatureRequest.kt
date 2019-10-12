@@ -1,12 +1,11 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.enums.AppType
-import com.dreampany.tools.data.model.App
+import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.misc.Constants
 
 /**
@@ -15,23 +14,17 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AppRequest(
-    var appType: AppType = AppType.DEFAULT,
+class FeatureRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: App? = Constants.Default.NULL,
-    single: Boolean = Constants.Default.BOOLEAN,
+    input: Feature? = Constants.Default.NULL,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN
-) : Request<App>(
-    type = type,
-    subtype = subtype,
-    state = state,
+) : Request<Feature>(
     action = action,
     input = input,
-    single = single,
     important = important,
     progress = progress
 ) {

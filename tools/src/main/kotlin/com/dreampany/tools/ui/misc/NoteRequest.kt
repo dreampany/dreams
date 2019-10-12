@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.misc
+package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -15,9 +15,9 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class NoteRequest(
-        val id: String? = Constants.Default.NULL,
-        val title: String? = Constants.Default.NULL,
-        val description: String? = Constants.Default.NULL,
+        val id: String = Constants.Default.STRING,
+        val title: String? = Constants.Default.STRING,
+        val description: String? = Constants.Default.STRING,
         type: Type = Type.DEFAULT,
         subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,

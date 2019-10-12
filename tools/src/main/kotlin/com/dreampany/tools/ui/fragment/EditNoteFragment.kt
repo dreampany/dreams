@@ -18,7 +18,7 @@ import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.NotifyUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.NoteRequest
+import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.FragmentEditNoteBinding
 import com.dreampany.tools.misc.Constants

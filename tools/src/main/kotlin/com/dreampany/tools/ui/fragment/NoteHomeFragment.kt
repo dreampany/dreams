@@ -23,7 +23,7 @@ import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.NoteRequest
+import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -123,7 +123,7 @@ class NoteHomeFragment
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
             Constants.RequestCode.ADD_NOTE,
-            Constants.RequestCode.ADD_NOTE,
+            Constants.RequestCode.EDIT_NOTE,
             Constants.RequestCode.FAVORITE -> {
                 if (isOkay(resultCode)) {
                     ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 1000L)
@@ -161,7 +161,9 @@ class NoteHomeFragment
             }
             R.id.button_favorite -> {
                 val note = v.tag as Note?
-                request(id = note?.id, action = Action.FAVORITE, input = note, single = true)
+                note?.run {
+                    request(id = id, action = Action.FAVORITE, input = this, single = true)
+                }
             }
             R.id.layout_empty -> {
                 openAddNoteUi()
@@ -294,23 +296,6 @@ class NoteHomeFragment
         }
     }
 
-    private fun request(
-        id: String? = Constants.Default.NULL,
-        action: Action = Action.DEFAULT,
-        input: Note? = Constants.Default.NULL,
-        single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
-    ) {
-        val request = NoteRequest(
-            id = id,
-            action = action,
-            input = input,
-            single = single,
-            progress = progress
-        )
-        vm.request(request)
-    }
-
     private fun processUiState(state: UiState) {
         Timber.v("UiState %s", state.name)
         when (state) {
@@ -346,12 +331,6 @@ class NoteHomeFragment
         }
     }
 
-    private fun processSuccess(action: Action, items: List<NoteItem>) {
-        Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
-        adapter.addItems(items)
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
-    }
-
     fun processSingleResponse(response: Response<NoteItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
@@ -364,6 +343,12 @@ class NoteHomeFragment
             val result = response as Response.Result<NoteItem>
             processSuccess(result.action, result.data)
         }
+    }
+
+    private fun processSuccess(action: Action, items: List<NoteItem>) {
+        Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
+        adapter.addItems(items)
+        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
     private fun processSuccess(action: Action, item: NoteItem) {
@@ -408,5 +393,22 @@ class NoteHomeFragment
             action = Action.OPEN
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
+    }
+
+    private fun request(
+        id: String = Constants.Default.STRING,
+        action: Action = Action.DEFAULT,
+        input: Note? = Constants.Default.NULL,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN
+    ) {
+        val request = NoteRequest(
+            id = id,
+            action = action,
+            input = input,
+            single = single,
+            progress = progress
+        )
+        vm.request(request)
     }
 }

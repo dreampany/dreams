@@ -69,6 +69,11 @@ abstract class ViewModelModule {
     @ViewModelKey(ServerViewModel::class)
     abstract fun bindServerViewModel(vm: ServerViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(StationViewModel::class)
+    abstract fun bindStationViewModel(vm: StationViewModel): ViewModel
+
     @Singleton
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

@@ -25,7 +25,7 @@ import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.FragmentWordVisionBinding
 import com.dreampany.tools.misc.Constants

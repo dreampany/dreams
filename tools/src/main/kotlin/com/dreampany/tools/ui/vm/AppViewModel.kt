@@ -11,7 +11,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.AppMapper
-import com.dreampany.tools.data.misc.AppRequest
+import com.dreampany.tools.ui.misc.AppRequest
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.AppRepository

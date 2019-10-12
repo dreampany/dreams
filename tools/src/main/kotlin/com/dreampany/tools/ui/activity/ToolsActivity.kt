@@ -42,6 +42,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     lateinit var wordHomeProvider: Lazy<WordHomeFragment>
     @Inject
     lateinit var vpnHomeProvider: Lazy<VpnHomeFragment>
+    @Inject
+    lateinit var radioHomeProvider: Lazy<RadioHomeFragment>
 
     @Inject
     lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
@@ -136,6 +138,16 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         VpnHomeFragment::class.java,
                         vpnHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                }
+            }
+            Type.RADIO -> {
+                if (state == State.HOME) {
+                    commitFragment(
+                        RadioHomeFragment::class.java,
+                        radioHomeProvider,
                         R.id.layout,
                         uiTask
                     )

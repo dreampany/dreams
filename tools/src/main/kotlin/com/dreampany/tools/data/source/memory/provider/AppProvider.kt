@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.memory.provider
 
 import android.content.Context
 import com.dreampany.framework.util.AndroidUtil
-import com.dreampany.tools.data.misc.AppMapper
+import com.dreampany.tools.data.mapper.AppMapper
 import com.dreampany.tools.data.model.App
 import javax.inject.Inject
 import javax.inject.Singleton

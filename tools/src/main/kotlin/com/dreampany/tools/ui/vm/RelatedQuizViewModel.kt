@@ -9,7 +9,7 @@ import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
@@ -22,9 +22,9 @@ import com.dreampany.framework.util.NumberUtil
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.RelatedQuizMapper
-import com.dreampany.tools.data.misc.RelatedQuizRequest
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.data.mapper.RelatedQuizMapper
+import com.dreampany.tools.ui.misc.RelatedQuizRequest
+import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.Quiz
 import com.dreampany.tools.data.model.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
@@ -47,7 +47,7 @@ class RelatedQuizViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

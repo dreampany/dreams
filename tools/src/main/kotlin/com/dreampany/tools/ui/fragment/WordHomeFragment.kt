@@ -30,7 +30,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Word
@@ -79,6 +79,7 @@ class WordHomeFragment
     internal lateinit var pref: Pref
     @Inject
     internal lateinit var wordPref: WordPref
+
     private lateinit var bind: FragmentWordHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
@@ -94,7 +95,6 @@ class WordHomeFragment
     private lateinit var vm: WordViewModel
     private lateinit var loaderVm: LoaderViewModel
     private lateinit var adapter: WordAdapter
-    //private var recentWord: String? = null
 
     private val langItems = ArrayList<PowerMenuItem>()
     private var langMenu: PowerMenu? = null
@@ -103,6 +103,8 @@ class WordHomeFragment
     private var balloon: Balloon? = null
     private var clickView: View? = null
     private var clickWord: String? = null
+
+    private var queryText: String? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_word_home
@@ -233,25 +235,22 @@ class WordHomeFragment
 
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
-        request(
-            id = query,
-            action = Action.SEARCH,
-            history = true,
-            single = true,
-            progress = true
-        )
+         if (!query.isNotEmpty()) {
+             request(
+                 id = query,
+                 action = Action.SEARCH,
+                 history = true,
+                 single = true,
+                 progress = true
+             )
+         }
         return super.onQueryTextSubmit(query)
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
         Timber.v("onQueryTextChange %s", newText)
-        request(
-            id = newText,
-            action = Action.SEARCH,
-            history = true,
-            single = true,
-            progress = false
-        )
+        queryText = newText
+        ex.postToUi(request, 1000L)
         return super.onQueryTextChange(newText)
     }
 
@@ -285,6 +284,20 @@ class WordHomeFragment
             return true
         }
         return super.hasBackPressed()
+    }
+
+    private val request: Runnable = object : Runnable {
+        override fun run() {
+            if (!queryText.isNullOrEmpty()) {
+                request(
+                    id = queryText,
+                    action = Action.SEARCH,
+                    history = true,
+                    single = true,
+                    progress = false
+                )
+            }
+        }
     }
 
     private fun buildLangItems(fresh: Boolean = false) {

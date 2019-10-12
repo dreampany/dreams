@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.room
 
-import com.dreampany.tools.data.misc.NoteMapper
+import com.dreampany.tools.data.mapper.NoteMapper
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.api.NoteDataSource
 import com.dreampany.tools.data.source.room.dao.NoteDao

@@ -1,7 +1,7 @@
 package com.dreampany.network.manager
 
 import android.content.Context
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.network.api.Wifi
 import com.dreampany.network.data.model.Network
@@ -24,7 +24,7 @@ class NetworkManager
 @Inject constructor(
     private val context: Context,
     private val rx: RxMapper,
-    private val ex: AppExecutors,
+    private val ex: AppExecutor,
     private val wifi: Wifi
 ) {
 

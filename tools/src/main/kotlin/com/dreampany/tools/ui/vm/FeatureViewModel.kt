@@ -11,7 +11,7 @@ import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.model.Feature
-import com.dreampany.tools.data.misc.FeatureRequest
+import com.dreampany.tools.ui.misc.FeatureRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.model.FeatureItem
 import com.dreampany.framework.ui.model.UiTask
@@ -31,7 +31,7 @@ import javax.inject.Inject
 class FeatureViewModel @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
@@ -120,32 +120,18 @@ class FeatureViewModel @Inject constructor(
 
     private fun getItemsRx(request: FeatureRequest): Maybe<List<Feature>> {
         return Maybe.create { emitter ->
-            val items = mutableListOf<Feature>()
-            items.add(
-                Feature(
-                    type = Type.APP,
-                    title = TextUtil.getString(getApplication(), R.string.title_feature_app)
-                )
-            )
-            items.add(
-                Feature(
-                    type = Type.VPN,
-                    title = TextUtil.getString(getApplication(), R.string.title_feature_vpn)
-                )
-            )
-            items.add(
-                Feature(
-                    type = Type.WORD,
-                    title = TextUtil.getString(getApplication(), R.string.title_feature_word)
-                )
-            )
-            items.add(
-                Feature(
-                    type = Type.NOTE,
-                    title = TextUtil.getString(getApplication(), R.string.title_feature_note)
-                )
-            )
-            emitter.onSuccess(items)
+            val pairs = arrayListOf<Pair<Type, Int>>()
+            pairs.add(Pair(Type.APP, R.string.title_feature_app))
+            pairs.add(Pair(Type.NOTE, R.string.title_feature_note))
+            pairs.add(Pair(Type.WORD, R.string.title_feature_word))
+            //pairs.add(Pair(Type.RADIO, R.string.title_feature_radio))
+
+            val result = arrayListOf<Feature>()
+            pairs.forEach { pair ->
+                result.add(Feature(pair.first, TextUtil.getString(getApplication(), pair.second)))
+            }
+            if (emitter.isDisposed) return@create
+            emitter.onSuccess(result)
         }
     }
 

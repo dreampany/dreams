@@ -4,7 +4,7 @@ import android.content.Context
 import com.dreampany.framework.data.source.api.RemoteService
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.ServerMapper
+import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.misc.Constants
@@ -98,32 +98,31 @@ constructor(
     }
 
     override fun getItems(): List<Server>? {
-        if (network.hasInternet()) {
-            try {
-                val response = service.get(Constants.VpnGate.URL).execute()
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    if (body != null) {
-                        val tempUrl = context.cacheDir.path.plus(File.separator)
-                            .plus(Constants.VpnGate.FILE_NAME)
-                        val servers = mapper.getItems(body, tempUrl)
-                        return servers
-                    }
-                }
-            } catch (error: Throwable) {
-                Timber.e(error)
-            }
+        if (!network.hasInternet()) {
+            return null
         }
-
+        try {
+            val response = service.get(Constants.VpnGate.URL).execute()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    val tempUrl = context.cacheDir.path.plus(File.separator)
+                        .plus(Constants.VpnGate.FILE_NAME)
+                    val servers = mapper.getItems(body, tempUrl)
+                    return servers
+                }
+            }
+        } catch (error: Throwable) {
+            Timber.e(error)
+        }
         return null
     }
 
     override fun getItemsRx(): Maybe<List<Server>> {
         return Maybe.create { emitter ->
             val result = getItems()
-            if (emitter.isDisposed) {
-                return@create
-            }
+            if (emitter.isDisposed) return@create
+
             if (result.isNullOrEmpty()) {
                 emitter.onError(EmptyException())
             } else {

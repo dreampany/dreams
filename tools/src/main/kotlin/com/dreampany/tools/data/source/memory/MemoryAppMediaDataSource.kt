@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.memory
 
 import android.content.Context
-import com.dreampany.tools.data.misc.AppMapper
+import com.dreampany.tools.data.mapper.AppMapper
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.api.MediaDataSource
 import com.dreampany.tools.data.source.memory.provider.AppProvider

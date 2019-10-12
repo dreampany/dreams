@@ -79,6 +79,7 @@ class Constants {
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
+        val STATION = TimeUnit.DAYS.toMillis(1)
     }
 
     object Period {
@@ -100,7 +101,8 @@ class Constants {
         const val POINT = "point"
         const val NOTE = "note"
         const val WORD = "word"
-        const val SERVER = "server"
+        const val VPN = "vpn"
+        const val RADIO = "radio"
     }
 
     object Pref {
@@ -109,7 +111,9 @@ class Constants {
         const val DEFAULT_POINT = "default_point"
         const val LOAD = "load"
         const val WORD = "word"
-        const val SERVER = "server"
+        const val VPN = "vpn"
+
+
         const val WORD_TRACK_LOADED = "word_track_loaded"
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"
@@ -119,8 +123,15 @@ class Constants {
         const val WORD_TRACK_TIME = "word_track_time"
         const val WORD_TRACK_COUNT = "word_track_count"
         const val SERVER_TIME = "server_time"
+
         const val DOWNLOAD = "download"
         const val UPLOAD = "upload"
+
+        object Radio {
+            const val RADIO = "radio"
+            const val STATION_STATE = "station_state"
+            const val STATION_TIME = "station_time"
+        }
     }
 
     object Assets {
@@ -155,6 +166,11 @@ class Constants {
         const val WORD_OCR = 1000
         const val WORD_TRACK = 1000L
         const val QUIZ_OPTIONS = 4
+    }
+
+    object Api {
+        const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
+        const val RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE = "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
     }
 
     object Demo {
@@ -236,6 +252,35 @@ class Constants {
         const val LOG_TYPE = "log_type"
     }
 
+    object Station {
+        const val ID = Constants.Key.ID
+        const val CHANGE_UUID = "change_uuid"
+        const val STATION_UUID = "station_uuid"
+        const val COUNTRY_CODE = "country_code"
+        const val NEGATIVE_VOTES = "negative_votes"
+        const val LAST_CHANGE_TIME = "last_change_time"
+        const val LAST_CHECK_OK = "last_check_ok"
+        const val LAST_CHECK_TIME = "last_check_time"
+        const val LAST_CHECK_OK_TIME = "last_check_ok_time"
+        const val CLICK_TIMESTAMP = "click_timestamp"
+        const val CLICK_COUNT = "click_count"
+        const val CLICK_TREND = "click_trend"
+
+        object Remote {
+            const val CHANGE_UUID = "changeuuid"
+            const val STATION_UUID = "stationuuid"
+            const val COUNTRY_CODE = "countrycode"
+            const val NEGATIVE_VOTES = "negativevotes"
+            const val LAST_CHANGE_TIME = "lastchangetime"
+            const val LAST_CHECK_OK = "lastcheckok"
+            const val LAST_CHECK_TIME = "lastchecktime"
+            const val LAST_CHECK_OK_TIME = "lastcheckoktime"
+            const val CLICK_TIMESTAMP = "clicktimestamp"
+            const val CLICK_COUNT = "clickcount"
+            const val CLICK_TREND = "clicktrend"
+        }
+    }
+
     object RequestCode {
         const val ADD_NOTE = 1
         const val EDIT_NOTE = 2
@@ -293,4 +338,6 @@ class Constants {
             }
         }
     }
+
+
 }

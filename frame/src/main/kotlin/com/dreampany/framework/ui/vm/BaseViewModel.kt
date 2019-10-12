@@ -40,7 +40,7 @@ import java.util.*
 abstract class BaseViewModel<T, X, Y> protected constructor(
     application: Application,
     protected val rx: RxMapper,
-    protected val ex: AppExecutors,
+    protected val ex: AppExecutor,
     protected val rm: ResponseMapper
 ) : AndroidViewModel(application), LifecycleOwner/*, Observer<X>*/ {
 

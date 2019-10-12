@@ -18,7 +18,7 @@ import com.dreampany.framework.R
 import com.dreampany.framework.app.BaseApp
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.ui.callback.UiCallback
 import com.dreampany.framework.ui.fragment.BaseFragment
@@ -52,7 +52,7 @@ abstract class BaseActivity :
     PermissionRequestErrorListener {
 
     @Inject
-    protected lateinit var ex: AppExecutors
+    protected lateinit var ex: AppExecutor
     protected lateinit var binding: ViewDataBinding
     protected var toolbar: Toolbar? = null
     protected var task: Task<*>? = null

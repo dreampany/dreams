@@ -1,9 +1,5 @@
 package com.dreampany.translation.data.model
 
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
-
-
 
 /**
  * Created by Roman-372 on 7/4/2019
@@ -12,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 class TextTranslationResponse {
-    @SerializedName("text")
-    @Expose
-    val text: MutableList<String>? = null
+    val code : Int = 0
+    val lang : String? = null
+    val text: List<String>? = null
 }

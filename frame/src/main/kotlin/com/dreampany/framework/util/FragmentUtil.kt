@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.ui.activity.BaseActivity
 
@@ -20,7 +20,7 @@ class FragmentUtil {
 
     companion object {
         fun <T : Fragment> commitFragment(
-            ex: AppExecutors,
+            ex: AppExecutor,
             activity: BaseActivity,
             fragment: T?,
             parentId: Int

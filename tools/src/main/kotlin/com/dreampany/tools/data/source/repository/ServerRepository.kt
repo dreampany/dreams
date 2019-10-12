@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.repository
 
+import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -9,7 +10,7 @@ import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.ServerMapper
+import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ServerDataSource
 import io.reactivex.Maybe
@@ -41,8 +42,8 @@ class ServerRepository
 
     override fun getRandomItemRx(): Maybe<Server> {
         val remoteIf = getRemoteRandomItemIfRx()
-        val roomAny = room.getRandomItemRx()
-        return concatSingleFirstRx(remoteIf, roomAny)
+        val roomIf = getRoomRandomItemIfRx()
+        return concatSingleFirstRx(remoteIf, roomIf)
     }
 
     override fun isEmpty(): Boolean {
@@ -139,9 +140,50 @@ class ServerRepository
                 //extra work to save result
                 room.putItems(result)
                 mapper.commitServerExpiredTime()
-                emitter.onSuccess(result.random())
+                val random = getHighRandomItem(result)
+                if (random == null) {
+                    emitter.onError(EmptyException())
+                } else {
+                    emitter.onSuccess(random)
+                }
             }
         }
+    }
+
+    private fun getRoomRandomItemIfRx(): Maybe<Server> {
+        return Maybe.create { emitter ->
+            var result: List<Server>? = room.getItems()
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                val random = getHighRandomItem(result)
+                if (random == null) {
+                    emitter.onError(EmptyException())
+                } else {
+                    emitter.onSuccess(random)
+                }
+            }
+        }
+    }
+
+    private fun getHighRandomItem(list: List<Server>): Server? {
+        val copy = mutableListOf<Server>()
+        copy.addAll(list)
+        val qualities = arrayListOf(Quality.HIGH, Quality.MEDIUM, Quality.LOW)
+        for (quality in qualities) {
+            val parts = arrayListOf<Server>()
+            for (server in copy) {
+                if (quality == server.quality) {
+                    parts.add(server)
+                }
+            }
+            if (!parts.isNullOrEmpty()) {
+                return parts.random()
+            }
+            copy.removeAll(parts)
+        }
+        return null
     }
     // endregion
 }

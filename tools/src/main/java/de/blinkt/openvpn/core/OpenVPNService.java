@@ -8,6 +8,7 @@ package de.blinkt.openvpn.core;
 import android.Manifest.permission;
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.UiModeManager;
@@ -33,6 +34,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.dreampany.framework.util.AndroidUtil;
 import com.dreampany.tools.BuildConfig;
 
 
@@ -69,6 +74,10 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     public static final String DISCONNECT_VPN = "de.blinkt.openvpn.DISCONNECT_VPN";
     private static final String PAUSE_VPN = "de.blinkt.openvpn.PAUSE_VPN";
     private static final String RESUME_VPN = "de.blinkt.openvpn.RESUME_VPN";
+
+    private static final String CHANNEL_ID = "vpn_channel";
+    private static final String CHANNEL_NAME = "Super VPN";
+
     private static final int OPENVPN_STATUS = 1;
     private static boolean mNotificationAlwaysVisible = false;
     private final Vector<String> mDnslist = new Vector<>();
@@ -150,50 +159,53 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         }
     }
 
-    private void showNotification(final String msg, String tickerText, boolean lowpriority, long when, ConnectionStatus status) {
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-
+    private void showNotification(final String msg, String tickerText, boolean lowPriority, long when, ConnectionStatus status) {
+        //String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManagerCompat manager = NotificationManagerCompat.from(this);
+        NotificationCompat.Builder builder = null;
+        if (AndroidUtil.Companion.hasOreo()) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            manager.createNotificationChannel(channel);
+            builder = new NotificationCompat.Builder(this, channel.getId());
+        } else {
+            builder = new NotificationCompat.Builder(this);
+        }
 
         //int icon = getIconByConnectionStatus(status);
         int icon = R.drawable.ic_notification;
-        Notification.Builder nbuilder = new Notification.Builder(this);
-
         if (mProfile != null)
-            nbuilder.setContentTitle(getString(R.string.notification_title, mProfile.mName));
+            builder.setContentTitle(getString(R.string.notification_title, mProfile.mName));
         else
-            nbuilder.setContentTitle(getString(R.string.notifcation_title_notconnect));
+            builder.setContentTitle(getString(R.string.notifcation_title_notconnect));
 
-        nbuilder.setContentText(msg);
-        nbuilder.setOnlyAlertOnce(true);
-        nbuilder.setOngoing(true);
-        nbuilder.setContentIntent(getLogPendingIntent());
-        nbuilder.setSmallIcon(icon);
-
+        builder.setContentText(msg);
+        builder.setOnlyAlertOnce(true);
+        builder.setOngoing(true);
+        builder.setContentIntent(getLogPendingIntent());
+        builder.setSmallIcon(icon);
 
         if (when != 0)
-            nbuilder.setWhen(when);
-
+            builder.setWhen(when);
 
         // Try to set the priority available since API 16 (Jellybean)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            jbNotificationExtras(lowpriority, nbuilder);
+            jbNotificationExtras(lowPriority, builder);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            lpNotificationExtras(nbuilder);
+            lpNotificationExtras(builder);
 
         if (tickerText != null && !tickerText.equals(""))
-            nbuilder.setTicker(tickerText);
+            builder.setTicker(tickerText);
 
         @SuppressWarnings("deprecation")
-        Notification notification = nbuilder.getNotification();
+        Notification notification = builder.getNotification();
 
 
-        mNotificationManager.notify(OPENVPN_STATUS, notification);
+        manager.notify(OPENVPN_STATUS, notification);
         startForeground(OPENVPN_STATUS, notification);
 
         // Check if running on a TV
-        if (runningOnAndroidTV() && !lowpriority)
+        if (runningOnAndroidTV() && !lowPriority)
             guiHandler.post(new Runnable() {
 
                 @Override
@@ -209,7 +221,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void lpNotificationExtras(Notification.Builder nbuilder) {
+    private void lpNotificationExtras(NotificationCompat.Builder nbuilder) {
         nbuilder.setCategory(Notification.CATEGORY_SERVICE);
         nbuilder.setLocalOnly(true);
 
@@ -244,7 +256,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void jbNotificationExtras(boolean lowpriority,
-                                      Notification.Builder nbuilder) {
+                                      NotificationCompat.Builder nbuilder) {
         try {
             if (lowpriority) {
                 Method setpriority = nbuilder.getClass().getMethod("setPriority", int.class);
@@ -336,7 +348,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         pref = new VpnPref(getApplicationContext());
-        if (intent != null && intent.getBooleanExtra(ALWAYS_SHOW_NOTIFICATION, false))
+        //if (intent != null && intent.getBooleanExtra(ALWAYS_SHOW_NOTIFICATION, false))
             mNotificationAlwaysVisible = true;
 
         VpnStatus.addStateListener(this);
@@ -966,8 +978,7 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
             }
 
 
-            showNotification(VpnStatus.getLastCleanLogMessage(this),
-                    msg, lowpriority, 0, level);
+            showNotification(VpnStatus.getLastCleanLogMessage(this), msg, lowpriority, 0, level);
 
         }
     }

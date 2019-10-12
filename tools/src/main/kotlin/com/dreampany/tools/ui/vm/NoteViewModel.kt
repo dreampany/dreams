@@ -16,8 +16,8 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.NoteMapper
-import com.dreampany.tools.data.misc.NoteRequest
+import com.dreampany.tools.data.mapper.NoteMapper
+import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.NoteRepository
@@ -35,17 +35,17 @@ import javax.inject.Inject
  */
 class NoteViewModel
 @Inject constructor(
-        application: Application,
-        rx: RxMapper,
-        ex: AppExecutors,
-        rm: ResponseMapper,
-        private val network: NetworkManager,
-        private val pref: Pref,
-        private val storeMapper: StoreMapper,
-        private val storeRepo: StoreRepository,
-        private val mapper: NoteMapper,
-        private val repo: NoteRepository,
-        @Favorite private val favorites: SmartMap<String, Boolean>
+    application: Application,
+    rx: RxMapper,
+    ex: AppExecutor,
+    rm: ResponseMapper,
+    private val network: NetworkManager,
+    private val pref: Pref,
+    private val storeMapper: StoreMapper,
+    private val storeRepo: StoreRepository,
+    private val mapper: NoteMapper,
+    private val repo: NoteRepository,
+    @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Note, NoteItem, UiTask<Note>>(application, rx, ex, rm), NetworkManager.Callback {
 
     override fun clear() {
@@ -53,7 +53,7 @@ class NoteViewModel
         super.clear()
     }
 
-    override fun onNetworks(network: List<Network>) {
+    override fun onNetworks(networks: List<Network>) {
 
     }
 

@@ -30,7 +30,7 @@ import javax.inject.Inject
 class MoreViewModel @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     val network: NetworkManager,
     val pref: Pref,

@@ -24,7 +24,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
-import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.model.Definition
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
@@ -86,6 +86,8 @@ class WordFragment
     private var balloon: Balloon? = null
     private var clickView: View? = null
     private var clickWord: String? = null
+
+    private var queryText: String? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_word
@@ -177,25 +179,22 @@ class WordFragment
 
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
-        request(
-            id = query,
-            action = Action.SEARCH,
-            history = true,
-            single = true,
-            progress = true
-        )
+        if (!query.isNotEmpty()) {
+            request(
+                id = query,
+                action = Action.SEARCH,
+                history = true,
+                single = true,
+                progress = true
+            )
+        }
         return super.onQueryTextSubmit(query)
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
         Timber.v("onQueryTextChange %s", newText)
-        request(
-            id = newText,
-            action = Action.SEARCH,
-            history = true,
-            single = true,
-            progress = false
-        )
+        queryText = newText
+        ex.postToUi(request, 1000L)
         return super.onQueryTextChange(newText)
     }
 
@@ -212,6 +211,20 @@ class WordFragment
 
     override fun onBalloonOutsideTouch(view: View, event: MotionEvent) {
         balloon?.dismiss()
+    }
+
+    private val request: Runnable = object : Runnable {
+        override fun run() {
+            if (!queryText.isNullOrEmpty()) {
+                request(
+                    id = queryText,
+                    action = Action.SEARCH,
+                    history = true,
+                    single = true,
+                    progress = false
+                )
+            }
+        }
     }
 
     private fun buildLangItems(fresh: Boolean = false) {

@@ -1,10 +1,6 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Subtype
-import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
@@ -13,18 +9,14 @@ import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.language.Language
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.ServerMapper
-import com.dreampany.tools.data.misc.ServerRequest
-import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.data.mapper.ServerMapper
+import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository
 import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -40,7 +32,7 @@ class ServerViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

@@ -19,8 +19,8 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.language.Language
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.WordMapper
-import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.data.mapper.WordMapper
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
@@ -43,7 +43,7 @@ class WordViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
@@ -71,7 +71,7 @@ class WordViewModel
         super.clear()
     }
 
-    override fun onNetworks(network: List<Network>) {
+    override fun onNetworks(networks: List<Network>) {
 
     }
 

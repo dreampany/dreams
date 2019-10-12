@@ -6,12 +6,12 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.misc.DefaultRequest
-import com.dreampany.tools.data.misc.WordMapper
+import com.dreampany.tools.ui.misc.DefaultRequest
+import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
@@ -32,7 +32,7 @@ class DefaultViewModel
 @Inject constructor(
     private val application: Application,
     private val rx: RxMapper,
-    private val ex: AppExecutors,
+    private val ex: AppExecutor,
     private val rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

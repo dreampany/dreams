@@ -1,9 +1,8 @@
 package com.dreampany.tools.data.source.room
 
 import com.dreampany.framework.misc.exception.WriteException
-import com.dreampany.tools.data.misc.ServerMapper
+import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.data.source.room.dao.ServerDao
 import io.reactivex.Maybe
@@ -14,7 +13,8 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RoomServerDataSource(
+class RoomServerDataSource
+constructor(
     private val mapper: ServerMapper,
     private val dao: ServerDao
 ) : ServerDataSource {
@@ -105,7 +105,7 @@ class RoomServerDataSource(
     }
 
     override fun getItems(): List<Server>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItems()
     }
 
     override fun getItemsRx(): Maybe<List<Server>> {

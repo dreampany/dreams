@@ -10,7 +10,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-class WordAdapter(listener: Any?) : SmartAdapter<WordItem>(listener) {
+class WordAdapter(listener: Any? = null) : SmartAdapter<WordItem>(listener) {
 
     private val recentComparator: Comparator<IFlexible<*>>
     private val alphaComparator: Comparator<IFlexible<*>>

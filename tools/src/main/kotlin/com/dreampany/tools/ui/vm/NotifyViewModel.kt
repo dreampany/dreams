@@ -9,7 +9,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.util.AndroidUtil
@@ -17,8 +17,8 @@ import com.dreampany.framework.util.TimeUtil
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.app.App
-import com.dreampany.tools.data.misc.WordMapper
-import com.dreampany.tools.data.misc.WordRequest
+import com.dreampany.tools.data.mapper.WordMapper
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
@@ -43,7 +43,7 @@ class NotifyViewModel
 @Inject constructor(
     private val application: Application,
     private val rx: RxMapper,
-    private val ex: AppExecutors,
+    private val ex: AppExecutor,
     private val rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

@@ -124,7 +124,7 @@ class FeatureViewModel @Inject constructor(
             pairs.add(Pair(Type.APP, R.string.title_feature_app))
             pairs.add(Pair(Type.NOTE, R.string.title_feature_note))
             pairs.add(Pair(Type.WORD, R.string.title_feature_word))
-            pairs.add(Pair(Type.RADIO, R.string.title_feature_radio))
+            //pairs.add(Pair(Type.RADIO, R.string.title_feature_radio))
 
             val result = arrayListOf<Feature>()
             pairs.forEach { pair ->

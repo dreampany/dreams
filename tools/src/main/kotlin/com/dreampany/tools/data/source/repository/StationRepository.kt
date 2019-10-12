@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.repository
 
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -7,8 +8,10 @@ import com.dreampany.framework.misc.Remote
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.StationMapper
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.api.StationDataSource
 import io.reactivex.Maybe
@@ -38,7 +41,9 @@ class StationRepository
     }
 
     override fun getItemsByCountryCodeRx(countryCode: String): Maybe<List<Station>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val remoteIf = getRemoteItemsByCountryCodeIfRx(countryCode)
+        val roomAny = room.getItemsByCountryCodeRx(countryCode)
+        return concatFirstRx(true, remoteIf, roomAny)
     }
 
     override fun isEmpty(): Boolean {
@@ -119,5 +124,24 @@ class StationRepository
 
     override fun getItemsRx(limit: Long): Maybe<List<Station>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    //region private
+    private fun getRemoteItemsByCountryCodeIfRx(countryCode: String): Maybe<List<Station>> {
+        return Maybe.create { emitter ->
+            var result: List<Station>? = null
+            if (mapper.isExpired(State.LOCAL)) {
+                result = remote.getItemsByCountryCode(countryCode)
+            }
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                //extra work to save result
+                room.putItems(result)
+                mapper.commitStationExpiredTime(State.LOCAL)
+                emitter.onSuccess(result)
+            }
+        }
     }
 }

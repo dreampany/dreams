@@ -31,8 +31,9 @@ constructor(
         try {
             val response = service.getItemsByCountryCode(countryCode).execute()
             if (response.isSuccessful) {
-                val body = response.body()
-                if (body != null) {
+                val result: List<Station>? = response.body()
+                return result
+                if (!result.isNullOrEmpty()) {
           /*            val tempUrl = context.cacheDir.path.plus(File.separator)
                         .plus(Constants.VpnGate.FILE_NAME)
                     val servers = mapper.getItems(body, tempUrl)

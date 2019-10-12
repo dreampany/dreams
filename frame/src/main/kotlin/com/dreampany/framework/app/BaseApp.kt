@@ -12,7 +12,7 @@ import com.dreampany.framework.api.service.JobManager
 import com.dreampany.framework.api.service.ServiceManager
 import com.dreampany.framework.api.worker.WorkerManager
 import com.dreampany.framework.data.model.Color
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.util.AndroidUtil
@@ -48,7 +48,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     //protected var context: CondomContext? = null
     @Inject
-    protected lateinit var ex: AppExecutors
+    protected lateinit var ex: AppExecutor
     protected var refs: WeakReference<Activity>? = null
     protected var action: Action? = null
     protected var indexable: Indexable? = null

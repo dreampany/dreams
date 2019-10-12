@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.annotation.CallSuper
 import com.dreampany.framework.api.worker.WorkerManager
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import dagger.android.AndroidInjector
 import dagger.android.DaggerService
 import dagger.android.DispatchingAndroidInjector
@@ -23,7 +23,7 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
     @Inject
     internal lateinit var serviceInjector: DispatchingAndroidInjector<Any>
     @Inject
-    internal lateinit var ex: AppExecutors
+    internal lateinit var ex: AppExecutor
     @Inject
     protected lateinit var worker: WorkerManager
 

@@ -1,6 +1,6 @@
 package com.dreampany.framework.api.service
 
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.firebase.jobdispatcher.JobParameters
 import com.firebase.jobdispatcher.JobService
 import dagger.android.*
@@ -16,7 +16,7 @@ abstract class BaseJobService : JobService(), HasAndroidInjector {
     @Inject
     internal lateinit var serviceInjector: DispatchingAndroidInjector<Any>
     @Inject
-    internal lateinit var ex: AppExecutors
+    internal lateinit var ex: AppExecutor
 
     protected abstract fun doJob(job: JobParameters): Boolean
     protected abstract fun done(job: JobParameters): Boolean

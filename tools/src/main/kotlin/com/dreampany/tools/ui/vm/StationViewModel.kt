@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
@@ -15,14 +14,11 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.StationMapper
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.data.source.repository.StationRepository
-import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.ui.misc.StationRequest
-import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.StationItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -39,7 +35,7 @@ class StationViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

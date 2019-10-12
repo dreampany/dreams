@@ -9,7 +9,7 @@ import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
@@ -47,7 +47,7 @@ class RelatedQuizViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

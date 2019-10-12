@@ -5,7 +5,7 @@ import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.util.AndroidUtil
@@ -43,7 +43,7 @@ class LoadViewModel
 @Inject constructor(
     private val application: Application,
     private val rx: RxMapper,
-    private val ex: AppExecutors,
+    private val ex: AppExecutor,
     private val rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

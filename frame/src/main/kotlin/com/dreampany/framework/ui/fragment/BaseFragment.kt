@@ -25,7 +25,7 @@ import com.dreampany.framework.app.BaseApp
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.ui.activity.BaseActivity
 import com.dreampany.framework.ui.callback.UiCallback
@@ -62,7 +62,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
     TextWatcher {
 
     @Inject
-    protected lateinit var ex: AppExecutors
+    protected lateinit var ex: AppExecutor
     @Inject
     internal lateinit var childInjector: DispatchingAndroidInjector<Any>
     protected lateinit var binding: ViewDataBinding

@@ -5,7 +5,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.ExtraException
@@ -35,7 +35,7 @@ class QuizViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

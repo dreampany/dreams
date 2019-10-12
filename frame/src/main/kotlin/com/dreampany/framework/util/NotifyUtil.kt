@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.dreampany.framework.R
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.AppExecutors
+import com.dreampany.framework.misc.AppExecutor
 import com.muddzdev.styleabletoast.StyleableToast
 import com.onurkaganaldemir.ktoastlib.KToast
 
@@ -36,11 +36,11 @@ class NotifyUtil {
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
         }
 
-        fun toast(context: Context, ex: AppExecutors, text: String) {
+        fun toast(context: Context, ex: AppExecutor, text: String) {
             toast(context, ex, text, Toast.LENGTH_SHORT)
         }
 
-        fun toast(context: Context, ex: AppExecutors, text: String, duration: Int) {
+        fun toast(context: Context, ex: AppExecutor, text: String, duration: Int) {
             val toast = Toast.makeText(context, text, duration)
             if (AndroidUtil.isOnUiThread()) {
                 toast.show()

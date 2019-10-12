@@ -32,7 +32,7 @@ class ServerViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
-    ex: AppExecutors,
+    ex: AppExecutor,
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,

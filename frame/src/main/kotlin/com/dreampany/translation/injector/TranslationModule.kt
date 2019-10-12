@@ -37,9 +37,9 @@ import javax.inject.Singleton
 @Module(includes = [SupportModule::class, DatabaseModule::class])
 class TranslationModule {
 
+    @YandexTranslation
     @Provides
     @Singleton
-    @YandexTranslation
     fun provideYandexTranslationRetrofit(gson: Gson, httpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -77,9 +77,9 @@ class TranslationModule {
         return MachineTranslationDataSource(network, mapper, tranlation)
     }
 
-    @Singleton
-    @Provides
     @Firestore
+    @Provides
+    @Singleton
     fun provideFirestoreTranslationDataSource(
         network: NetworkManager,
         mapper: TextTranslationMapper,

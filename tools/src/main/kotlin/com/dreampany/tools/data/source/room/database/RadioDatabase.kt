@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.tools.BuildConfig
+import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.room.converters.RadioConverters
 import com.dreampany.tools.data.source.room.dao.StationDao
 import com.dreampany.tools.misc.Constants
@@ -16,7 +17,7 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [StationDao::class], version = 1)
+@Database(entities = [Station::class], version = 1)
 @TypeConverters(RadioConverters::class)
 abstract class RadioDatabase : RoomDatabase() {
 

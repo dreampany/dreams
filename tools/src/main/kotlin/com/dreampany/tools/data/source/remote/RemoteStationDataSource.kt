@@ -33,10 +33,10 @@ constructor(
             if (response.isSuccessful) {
                 val body = response.body()
                 if (body != null) {
-                    val tempUrl = context.cacheDir.path.plus(File.separator)
+          /*            val tempUrl = context.cacheDir.path.plus(File.separator)
                         .plus(Constants.VpnGate.FILE_NAME)
                     val servers = mapper.getItems(body, tempUrl)
-                    return servers
+                    return servers*/
                 }
             }
         } catch (error: Throwable) {

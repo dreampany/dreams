@@ -161,7 +161,7 @@ dependencies {
     implementation 'com.camerakit:camerakit:1.0.0-beta3.11'
     implementation 'com.camerakit:jpegkit:0.1.0'
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.20'
-    implementation 'com.google.android.exoplayer:exoplayer:2.9.6'
+    implementation 'com.google.android.exoplayer:exoplayer:2.10.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

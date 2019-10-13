@@ -23,6 +23,7 @@ class PlayerManager
 ) : ServiceConnection {
 
     private var bound: Boolean = false
+  //  private var service: IPlayerService? = null
 
     override fun onServiceDisconnected(name: ComponentName) {
     }

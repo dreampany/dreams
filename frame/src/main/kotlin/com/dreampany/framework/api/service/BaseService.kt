@@ -23,7 +23,7 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
     @Inject
     internal lateinit var serviceInjector: DispatchingAndroidInjector<Any>
     @Inject
-    internal lateinit var ex: AppExecutor
+    protected lateinit var ex: AppExecutor
     @Inject
     protected lateinit var worker: WorkerManager
 

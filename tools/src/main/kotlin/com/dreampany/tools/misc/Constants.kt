@@ -113,6 +113,7 @@ class Constants {
         const val WORD = "word"
         const val VPN = "vpn"
 
+        const val PLAYER_RETRY_TIMEOUT = "player_retry_timeout"
 
         const val WORD_TRACK_LOADED = "word_track_loaded"
         const val WORD_COMMON_LOADED = "word_common_loaded"
@@ -339,5 +340,7 @@ class Constants {
         }
     }
 
-
+    object Extension {
+        const val M3U8 = ".m3u8"
+    }
 }

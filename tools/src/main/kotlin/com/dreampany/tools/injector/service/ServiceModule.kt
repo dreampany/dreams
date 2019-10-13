@@ -2,6 +2,7 @@ package com.dreampany.tools.injector.service
 
 import com.dreampany.tools.service.AppService
 import com.dreampany.tools.service.NotifyService
+import com.dreampany.tools.service.PlayerService
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -18,4 +19,7 @@ abstract class ServiceModule {
 
     @ContributesAndroidInjector
     abstract fun appService(): AppService
+
+    @ContributesAndroidInjector
+    abstract fun playerService(): PlayerService
 }

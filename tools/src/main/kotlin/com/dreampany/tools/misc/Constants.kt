@@ -80,6 +80,9 @@ class Constants {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
         val STATION = TimeUnit.DAYS.toMillis(1)
+        fun minuteToMillis(minutes: Long): Long {
+            return TimeUnit.MINUTES.toMillis(minutes)
+        }
     }
 
     object Period {
@@ -171,7 +174,8 @@ class Constants {
 
     object Api {
         const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
-        const val RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE = "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
+        const val RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE =
+            "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
     }
 
     object Demo {
@@ -342,5 +346,12 @@ class Constants {
 
     object Extension {
         const val M3U8 = ".m3u8"
+    }
+
+    object Header {
+        const val ICY_METADATA = "Icy-MetaData"
+        const val ICY_METADATA_OK = "1"
+        const val ACCEPT_ENCODING = "Accept-Encoding"
+        const val ACCEPT_ENCODING_IDENTITY = "identity"
     }
 }

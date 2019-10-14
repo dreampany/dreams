@@ -7,6 +7,7 @@ import com.google.android.exoplayer2.analytics.AnalyticsListener
 import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 
@@ -21,6 +22,8 @@ class ExoPlayer
 
     private var player: SimpleExoPlayer? = null
     private var listener: SmartPlayer.Listener? = null
+
+    private val meter: DefaultBandwidthMeter = DefaultBandwidthMeter()
 
     private var url: String? = null
 
@@ -63,6 +66,7 @@ class ExoPlayer
 
         }
         hls = url.endsWith(Constants.Extension.M3U8)
+        //val sourceFactory
     }
 
     override fun pause() {

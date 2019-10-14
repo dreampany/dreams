@@ -1,3 +1,4 @@
+/*
 package com.dreampany.framework.util;
 
 import java.math.BigDecimal;
@@ -9,11 +10,13 @@ import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 
+*/
 /**
  * Created by Hawladar Roman on 7/30/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public final class NumberUtil {
     private NumberUtil() {
     }
@@ -107,3 +110,4 @@ public final class NumberUtil {
         return percent;
     }
 }
+*/

@@ -2,6 +2,8 @@ package com.dreampany.tools.api.player
 
 import android.net.Uri
 import com.dreampany.framework.util.MediaUtil
+import com.dreampany.tools.api.radio.Mapper
+import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.misc.Constants
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
@@ -32,6 +34,7 @@ class IcyDataSource(
         fun onConnected()
         fun onConnectionLost()
         fun onConnectionLostIrrecoverably()
+        fun onShoutCast(cast: ShoutCast?)
         fun onBytesRead(buffer: ByteArray, offset: Int, length: Int)
     }
 
@@ -44,6 +47,8 @@ class IcyDataSource(
     private val readBuffer = ByteArray(256 * 16)
 
     private var opened: Boolean = false
+
+    private var cast: ShoutCast? = null
 
     override fun setRequestProperty(name: String?, value: String?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
@@ -142,10 +147,16 @@ class IcyDataSource(
         listener.onConnected()
         transferLister.onTransferStart(this, spec, true)
 
-        if (type == "application/vnd.apple.mpegurl" || type == "application/x-mpegurl") run {
+        if (type == Constants.ContentType.APPLE_MPEGURL || type == Constants.ContentType.X_MPEGURL) {
             return body!!.contentLength()
         } else {
+            cast = Mapper.decodeShoutCast(response)
+            listener.onShoutCast(cast)
 
+            remainingUntilMetadata = Integer.MAX_VALUE
+            cast?.run {
+                remainingUntilMetadata = metadataOffset
+            }
         }
 
         return body!!.contentLength()

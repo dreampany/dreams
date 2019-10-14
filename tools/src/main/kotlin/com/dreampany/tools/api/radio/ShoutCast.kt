@@ -22,13 +22,13 @@ data class ShoutCast(
     var bitrate: Int = Constants.Default.INT,
 
     var audioInfo: String? = Constants.Default.NULL,  // e.g.: ice-audio-info: ice-samplerate=44100;ice-bitrate=128;ice-channels=2
-    var audioDesc: String? = Constants.Default.NULL,
-    var audioGenre: String? = Constants.Default.NULL, // e.g.: icy-genre:Pop / Rock
-    var audioName: String? = Constants.Default.NULL,
-    var audioHomePage: String? = Constants.Default.NULL,
+    var desc: String? = Constants.Default.NULL,
+    var genre: String? = Constants.Default.NULL, // e.g.: icy-genre:Pop / Rock
+    var name: String? = Constants.Default.NULL,
+    var url: String? = Constants.Default.NULL,
 
-    var serverName: String? = Constants.Default.NULL,  // e.g.: Server: Icecast 2.3.2
-    var publicServer: Boolean = Constants.Default.BOOLEAN,
+    var server: String? = Constants.Default.NULL,  // e.g.: Server: Icecast 2.3.2
+    var public: Boolean = Constants.Default.BOOLEAN,
 
     var channels: Int = Constants.Default.INT,
     var sampleRate: Int = Constants.Default.INT
@@ -56,6 +56,6 @@ data class ShoutCast(
     }
 
     override fun toString(): String {
-        return "ShoutCast [$id] [$audioInfo] [$audioName]"
+        return "ShoutCast [$id] [$audioInfo] [$name]"
     }
 }

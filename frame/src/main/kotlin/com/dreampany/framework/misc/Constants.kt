@@ -98,6 +98,8 @@ class Constants {
         const val COMMA_SPACE = ", "
         const val SPACE = " "
         const val HYPHEN = "-"
+        const val SEMI_COLON = ";"
+        const val EQUAL = "="
     }
 
     object Database {

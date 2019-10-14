@@ -53,6 +53,8 @@ class Constants {
         const val COMMA_SPACE = Constants.Sep.COMMA_SPACE
         const val SPACE = Constants.Sep.SPACE
         const val HYPHEN = Constants.Sep.HYPHEN
+        const val SEMI_COLON = Constants.Sep.SEMI_COLON
+        const val EQUAL = Constants.Sep.EQUAL
     }
 
     object Default {
@@ -362,5 +364,23 @@ class Constants {
     object ContentType {
         const val APPLE_MPEGURL = "application/vnd.apple.mpegurl"
         const val X_MPEGURL = "application/x-mpegurl"
+    }
+
+    object ShoutCast {
+        const val ICY_META_INT = "icy-metaint"
+        const val ICY_BR = "icy-br"
+        const val ICY_AUDIO_INFO = "ice-audio-info"
+        const val ICY_DESCRIPTION = "icy-description"
+        const val ICY_GENRE = "icy-genre"
+        const val ICY_NAME = "icy-name"
+        const val ICY_URL = "icy-url"
+        const val SERVER = "Server"
+        const val PUBLIC = "icy-pub"
+        const val ICY_CHANNELS = "ice-channels"
+        const val CHANNELS = "channels"
+        const val ICY_SAMPLE_RATE = "ice-samplerate"
+        const val SAMPLE_RATE = "samplerate"
+        const val ICY_BIT_RATE = "ice-bitrate"
+        const val BIT_RATE = "bitrate"
     }
 }

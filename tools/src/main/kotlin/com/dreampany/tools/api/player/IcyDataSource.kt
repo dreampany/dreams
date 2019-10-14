@@ -27,10 +27,10 @@ import java.util.*
  */
 class IcyDataSource(
     val http: OkHttpClient,
-    val transferLister: TransferListener,
+    val transferListener: TransferListener,
     val listener: Listener,
-    val timeUntilStopReconnecting: Long = 0,
-    val delayBetweenReconnection: Long = 0
+    val retryTimeout: Long = 0,
+    val retryDelay: Long = 0
 ) : HttpDataSource {
 
     companion object {
@@ -107,7 +107,7 @@ class IcyDataSource(
     override fun close() {
         if (opened) {
             opened = false
-            transferLister.onTransferEnd(this, spec, true)
+            transferListener.onTransferEnd(this, spec, true)
         }
         if (body != null) {
             Util.closeQuietly(body)
@@ -123,7 +123,7 @@ class IcyDataSource(
     override fun read(buffer: ByteArray, offset: Int, readLength: Int): Int {
         try {
             val bytesTransferred = readInternal(buffer, offset, readLength)
-            transferLister.onBytesTransferred(this, spec, true, bytesTransferred)
+            transferListener.onBytesTransferred(this, spec, true, bytesTransferred)
             return bytesTransferred
         } catch (error: HttpDataSource.HttpDataSourceException) {
             Timber.e(error)
@@ -140,12 +140,12 @@ class IcyDataSource(
                     break
                 } catch (error: HttpDataSource.HttpDataSourceException) {
                     Timber.e(error)
-                    if (!AndroidUtil.sleep(delayBetweenReconnection)) {
+                    if (!AndroidUtil.sleep(retryDelay)) {
                         break
                     }
                 }
 
-                if (currentTime - reconnectStartTime > timeUntilStopReconnecting) {
+                if (currentTime - reconnectStartTime > retryTimeout) {
                     listener.onConnectionLostIrrecoverably()
                     throw HttpDataSource.HttpDataSourceException(
                         "Reconnection retry time ended.",
@@ -197,7 +197,7 @@ class IcyDataSource(
         opened = true
 
         listener.onConnected()
-        transferLister.onTransferStart(this, spec, true)
+        transferListener.onTransferStart(this, spec, true)
 
         if (type == Constants.ContentType.APPLE_MPEGURL || type == Constants.ContentType.X_MPEGURL) {
             return body!!.contentLength()

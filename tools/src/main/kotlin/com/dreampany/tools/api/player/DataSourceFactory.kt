@@ -1,6 +1,7 @@
 package com.dreampany.tools.api.player
 
 import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.TransferListener
 import okhttp3.OkHttpClient
 
 
@@ -11,13 +12,20 @@ import okhttp3.OkHttpClient
  * Last modified $file.lastModified
  */
 class DataSourceFactory(
-    val http: OkHttpClient
+    val http: OkHttpClient,
+    val transferListener: TransferListener,
+    val listener: IcyDataSource.Listener,
+    val retryTimeout: Long = 0,
+    val retryDelay: Long = 0
 ): DataSource.Factory {
 
-
-
-
     override fun createDataSource(): DataSource {
-
+        return IcyDataSource(
+            http,
+            transferListener,
+            listener,
+            retryTimeout,
+            retryDelay
+        )
     }
 }

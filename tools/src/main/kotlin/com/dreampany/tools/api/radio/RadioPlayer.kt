@@ -1,8 +1,7 @@
 package com.dreampany.tools.api.radio
 
 import android.content.Context
-import android.os.Handler
-import android.util.Log
+import androidx.annotation.StringRes
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.network.manager.NetworkManager
@@ -19,12 +18,22 @@ import javax.inject.Inject
  */
 class RadioPlayer
 @Inject constructor(
-    val context: Context,
-    val ex: AppExecutor,
-    val network: NetworkManager
+    private val context: Context,
+    private val ex: AppExecutor,
+    private val network: NetworkManager
 ) : SmartPlayer.Listener {
 
-    val player: SmartPlayer
+    interface Listener {
+        fun onState(state: SmartPlayer.State, audioSessionId: Int)
+        fun onError(@StringRes messageId: Int)
+        fun onBufferedTimeUpdate(bufferedMs: Long)
+        fun onShoutCast(cast: ShoutCast, hls: Boolean)
+        fun onStream(stream: Stream)
+    }
+
+
+    private val player: SmartPlayer
+    private lateinit var listener: Listener
 
     init {
         player = ExoPlayer(context, network, this)
@@ -46,6 +55,10 @@ class RadioPlayer
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    fun setListener(listener: Listener) {
+        this.listener = listener
+    }
+
     fun play(url: String, name: String) {
 
     }
@@ -55,9 +68,9 @@ class RadioPlayer
         if (AndroidUtil.isDebug(context)) {
             if (state == SmartPlayer.State.PLAYING) {
                 ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
-                playerThreadHandler.post(bufferCheckRunnable)
+                ex.getUiHandler().post(bufferCheckRunnable)
             } else {
-                playerThreadHandler.removeCallbacks(bufferCheckRunnable)
+                ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
             }
         }
     }
@@ -66,11 +79,10 @@ class RadioPlayer
         override fun run() {
             val bufferTimeMs = player.getBufferedMs()
 
-            playerListener.onBufferedTimeUpdate(bufferTimeMs)
+            listener.onBufferedTimeUpdate(bufferTimeMs)
 
-            if (BuildConfig.DEBUG) Log.d(TAG, String.format("buffered %d ms.", bufferTimeMs))
-
-            playerThreadHandler.postDelayed(this, 2000)
+            Timber.v("buffered %d ms.", bufferTimeMs)
+            ex.getUiHandler().postDelayed(this, 2000)
         }
     }
 

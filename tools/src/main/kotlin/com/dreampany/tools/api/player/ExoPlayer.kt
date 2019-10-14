@@ -1,14 +1,11 @@
 package com.dreampany.tools.api.player
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.util.Log
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.R
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
 import com.dreampany.tools.misc.Constants
@@ -24,6 +21,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import okhttp3.OkHttpClient
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -166,19 +164,62 @@ class ExoPlayer
     }
 
     override fun onConnectionLostIrrecoverably() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Timber.v("Connection lost irrecoverably.")
+
+        listener?.onState(SmartPlayer.State.IDLE)
+        listener?.onError(R.string.error_stream_reconnect_timeout)
+
+        val resumeWithin = 60
+        if (resumeWithin > 0) {
+            Timber.v("Trying to resume playback within %ds.", resumeWithin)
+            player?.playWhenReady = false
+            interruptedByConnectionLoss = true
+
+            Timer().schedule(object : TimerTask() {
+                override fun run() {
+                    if (interruptedByConnectionLoss) {
+                        interruptedByConnectionLoss = false
+                        stop()
+                        listener?.onError(R.string.giving_up_resume)
+                    }
+                }
+            }, (resumeWithin * 1000).toLong())
+        } else {
+            stop()
+        }
     }
 
     override fun onShoutCast(cast: ShoutCast) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listener?.onShoutCast(cast, false)
     }
 
     override fun onStream(stream: Stream) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listener?.onStream(stream)
     }
 
     override fun onBytesRead(buffer: ByteArray, offset: Int, length: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        totalBytes += length
+        playbackBytes += length
+    }
+
+    override fun onPlayerError(error: ExoPlaybackException) {
+        if (!interruptedByConnectionLoss) {
+            stop()
+            listener?.onState(SmartPlayer.State.IDLE)
+            listener?.onError(R.string.error_play_stream)
+        }
+    }
+
+    override fun onPlayerStateChanged(
+        eventTime: AnalyticsListener.EventTime,
+        playWhenReady: Boolean,
+        playbackState: Int
+    ) {
+        playingFlag = playWhenReady
+    }
+
+    override fun onAudioSessionId(eventTime: AnalyticsListener.EventTime, audioSessionId: Int) {
+        listener?.onState(SmartPlayer.State.PLAYING)
     }
 
     override fun onNetworks(networks: List<Network>) {

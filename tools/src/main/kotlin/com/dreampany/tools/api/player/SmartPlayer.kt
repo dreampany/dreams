@@ -1,6 +1,8 @@
 package com.dreampany.tools.api.player
 
 import androidx.annotation.StringRes
+import com.dreampany.tools.api.radio.ShoutCast
+import com.dreampany.tools.api.radio.Stream
 import okhttp3.OkHttpClient
 
 /**
@@ -17,8 +19,9 @@ interface SmartPlayer : Recorder {
 
     interface Listener {
         fun onState(state: SmartPlayer.State)
-
         fun onError(@StringRes messageId: Int)
+        fun onShoutCast(cast: ShoutCast, hls: Boolean)
+        fun onStream(stream: Stream)
     }
 
     fun setListener(listener: SmartPlayer.Listener)

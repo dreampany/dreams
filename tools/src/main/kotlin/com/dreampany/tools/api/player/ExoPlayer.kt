@@ -31,14 +31,14 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class ExoPlayer
-@Inject constructor(
+constructor(
     val context: Context,
-    val network: NetworkManager
+    val network: NetworkManager,
+    val listener: SmartPlayer.Listener
 ) : SmartPlayer, Player.EventListener, AnalyticsListener,
     IcyDataSource.Listener, NetworkManager.Callback {
 
     private var player: SimpleExoPlayer? = null
-    private var listener: SmartPlayer.Listener? = null
 
     private val meter: DefaultBandwidthMeter = DefaultBandwidthMeter()
 
@@ -53,9 +53,9 @@ class ExoPlayer
     private var source: MediaSource? = null
     private var interruptedByConnectionLoss = false
 
-    override fun setListener(listener: SmartPlayer.Listener) {
+/*    override fun setListener(listener: SmartPlayer.Listener) {
         this.listener = listener
-    }
+    }*/
 
     override fun setVolume(volume: Float) {
         player?.setVolume(volume)
@@ -66,7 +66,7 @@ class ExoPlayer
             playbackBytes = 0L
         }
         this.url = url
-        listener?.onState(SmartPlayer.State.PRE_PLAYING)
+        listener.onState(SmartPlayer.State.PRE_PLAYING)
         player?.stop()
         if (player == null) {
             val factory = AdaptiveTrackSelection.Factory()

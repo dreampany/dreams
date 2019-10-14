@@ -31,8 +31,12 @@ private constructor(
     ) {
     }
 
+    fun getUiHandler(): Handler {
+        return ui.handler
+    }
+
     fun postToUi(run: Runnable) {
-        ui.execute(run)
+        ui.executeUniquely(run)
     }
 
     fun postToUi(run: Runnable, delay: Long) {
@@ -59,7 +63,7 @@ private constructor(
 
     /* Ui Executor */
     class UiThreadExecutor : Executor {
-        private val handler = Handler(Looper.getMainLooper())
+        internal val handler = Handler(Looper.getMainLooper())
 
         override fun execute(command: Runnable) {
             handler.post(command)

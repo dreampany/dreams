@@ -1,6 +1,7 @@
 package com.dreampany.tools.api.player
 
 import android.net.Uri
+import android.util.Log
 import com.dreampany.framework.util.MediaUtil
 import com.dreampany.tools.api.radio.Mapper
 import com.dreampany.tools.api.radio.ShoutCast
@@ -9,7 +10,11 @@ import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener
 import okhttp3.*
+import okhttp3.internal.Util
+import timber.log.Timber
 import java.io.IOException
+import java.io.InputStream
+import java.util.*
 
 /**
  * Created by roman on 2019-10-14
@@ -95,16 +100,25 @@ class IcyDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    @Throws(HttpDataSource.HttpDataSourceException::class)
     override fun close() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (opened) {
+            opened = false
+            transferLister.onTransferEnd(this, spec, true)
+        }
+        if (body != null) {
+            Util.closeQuietly(body)
+            body = null
+        }
     }
 
     override fun addTransferListener(transferListener: TransferListener?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun read(buffer: ByteArray?, offset: Int, readLength: Int): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @Throws(HttpDataSource.HttpDataSourceException::class)
+    override fun read(buffer: ByteArray, offset: Int, readLength: Int): Int {
+
     }
 
     @Throws(HttpDataSource.HttpDataSourceException::class)
@@ -160,5 +174,88 @@ class IcyDataSource(
         }
 
         return body!!.contentLength()
+    }
+
+    @Throws(HttpDataSource.HttpDataSourceException::class)
+    private fun reconnect() {
+        close()
+        connect()
+        Timber.v("Reconnected successfully!");
+    }
+
+    @Throws(HttpDataSource.HttpDataSourceException::class)
+    private fun readInternal(buffer: ByteArray, offset: Int, readLength: Int): Int {
+        val stream = body!!.byteStream()
+        var result = 0
+        try {
+            val len =
+                if (remainingUntilMetadata < readLength) remainingUntilMetadata else readLength
+            result = stream.read(buffer, offset, len)
+        } catch (error: IOException) {
+            Timber.e(error)
+            throw HttpDataSource.HttpDataSourceException(
+                error,
+                spec,
+                HttpDataSource.HttpDataSourceException.TYPE_READ
+            )
+        }
+
+        if (result > 0) {
+            listener.onBytesRead(buffer, offset, result)
+        }
+
+        if (remainingUntilMetadata == result) {
+            try {
+                readMetaData(stream)
+                remainingUntilMetadata = cast!!.metadataOffset
+            } catch (error: IOException) {
+                throw HttpDataSource.HttpDataSourceException(
+                    error,
+                    spec,
+                    HttpDataSource.HttpDataSourceException.TYPE_READ
+                )
+            }
+
+        } else {
+            remainingUntilMetadata -= result
+        }
+
+        return result
+    }
+
+    @Throws(IOException::class)
+    private fun readMetaData(stream: InputStream): Int {
+        val metadataBytes = stream.read() * 16
+        var metadataBytesToRead = metadataBytes
+        var readBytesBufferMetadata = 0
+        var readBytes: Int
+
+        if (metadataBytes > 0) {
+            Arrays.fill(readBuffer, 0.toByte())
+            while (true) {
+                readBytes = stream.read(readBuffer, readBytesBufferMetadata, metadataBytesToRead)
+                if (readBytes == 0) {
+                    continue
+                }
+                if (readBytes < 0) {
+                    break
+                }
+                metadataBytesToRead -= readBytes
+                readBytesBufferMetadata += readBytes
+                if (metadataBytesToRead <= 0) {
+                    val meta = String(readBuffer, 0, metadataBytes, Charsets.UTF_8)
+
+                    Timber.v("METADATA:$meta")
+
+                    val rawMetadata = Mapper.decodeShoutCastMetadata(meta)
+                    //streamLiveInfo = StreamLiveInfo(rawMetadata)
+                    //dataSourceListener.onDataSourceStreamLiveInfo(streamLiveInfo)
+
+                   // Timber.v("META:" + streamLiveInfo.getTitle())
+                    break
+                }
+            }
+        }
+        return readBytesBufferMetadata + 1
     }
 }

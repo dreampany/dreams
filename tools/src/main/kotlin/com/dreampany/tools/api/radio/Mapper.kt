@@ -38,19 +38,47 @@ class Mapper {
                     cast.channels = NumberUtil.parseInt(params.get(Constants.ShoutCast.CHANNELS), 0)
                 }
 
-                cast.sampleRate = NumberUtil.parseInt(params.get(Constants.ShoutCast.ICY_SAMPLE_RATE), 0)
+                cast.sampleRate =
+                    NumberUtil.parseInt(params.get(Constants.ShoutCast.ICY_SAMPLE_RATE), 0)
                 if (cast.sampleRate == 0) {
-                    cast.sampleRate = NumberUtil.parseInt(params.get(Constants.ShoutCast.SAMPLE_RATE), 0)
+                    cast.sampleRate =
+                        NumberUtil.parseInt(params.get(Constants.ShoutCast.SAMPLE_RATE), 0)
                 }
 
                 if (cast.bitrate == 0) {
-                    cast.bitrate = NumberUtil.parseInt(params.get(Constants.ShoutCast.ICY_BIT_RATE), 0)
+                    cast.bitrate =
+                        NumberUtil.parseInt(params.get(Constants.ShoutCast.ICY_BIT_RATE), 0)
                     if (cast.bitrate == 0) {
-                        cast.bitrate = NumberUtil.parseInt(params.get(Constants.ShoutCast.BIT_RATE), 0)
+                        cast.bitrate =
+                            NumberUtil.parseInt(params.get(Constants.ShoutCast.BIT_RATE), 0)
                     }
                 }
             }
             return cast
+        }
+
+        fun decodeShoutCastMetadata(meta: String): Map<String, Any> {
+            val data = hashMapOf<String, Any>()
+            val parts = meta.split(Constants.Sep.SEMI_COLON)
+            for (part in parts) {
+                val dx = part.indexOf(Constants.Sep.EQUAL)
+                if (dx < 1) continue
+
+                val isString = (dx + 1 < part.length
+                        && part.get(part.length - 1) == '\''
+                        && part.get(dx + 1) == '\'')
+
+                val key = part.substring(0, dx)
+                val value = if (isString)
+                    part.substring(dx + 2, part.length - 1)
+                else if (dx + 1 < part.length)
+                    part.substring(dx + 1)
+                else
+                    Constants.Default.STRING
+
+                data.put(key, value)
+            }
+            return data
         }
 
         private fun getAudioParams(info: String): Map<String, Any> {

@@ -100,6 +100,7 @@ class Constants {
         const val HYPHEN = "-"
         const val SEMI_COLON = ";"
         const val EQUAL = "="
+        const val SPACE_HYPHEN_SPACE = " - "
     }
 
     object Database {

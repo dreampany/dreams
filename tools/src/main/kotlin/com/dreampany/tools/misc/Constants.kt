@@ -55,6 +55,7 @@ class Constants {
         const val HYPHEN = Constants.Sep.HYPHEN
         const val SEMI_COLON = Constants.Sep.SEMI_COLON
         const val EQUAL = Constants.Sep.EQUAL
+        const val SPACE_HYPHEN_SPACE = Constants.Sep.SPACE_HYPHEN_SPACE
     }
 
     object Default {
@@ -382,5 +383,9 @@ class Constants {
         const val SAMPLE_RATE = "samplerate"
         const val ICY_BIT_RATE = "ice-bitrate"
         const val BIT_RATE = "bitrate"
+    }
+
+    object Stream {
+        const val TITLE = "StreamTitle"
     }
 }

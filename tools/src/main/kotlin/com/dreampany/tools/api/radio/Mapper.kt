@@ -57,8 +57,24 @@ class Mapper {
             return cast
         }
 
-        fun decodeShoutCastMetadata(meta: String): Map<String, Any> {
-            val data = hashMapOf<String, Any>()
+        fun decodeStream(meta: Map<String, String>?): Stream? {
+            val stream = Stream()
+            stream.meta = meta
+            if (meta != null && meta.containsKey(Constants.Stream.TITLE)) {
+                stream.title = meta.get(Constants.Stream.TITLE)
+
+                if (!stream.title.isNullOrEmpty()) {
+                    val parts = stream.title!!.split(Constants.Sep.SPACE_HYPHEN_SPACE.toRegex(), 2)
+                    stream.artist = parts.first()
+                    stream.track = parts.last()
+                }
+            }
+
+            return stream
+        }
+
+        fun decodeShoutCastMetadata(meta: String): Map<String, String> {
+            val data = hashMapOf<String, String>()
             val parts = meta.split(Constants.Sep.SEMI_COLON)
             for (part in parts) {
                 val dx = part.indexOf(Constants.Sep.EQUAL)
@@ -81,8 +97,8 @@ class Mapper {
             return data
         }
 
-        private fun getAudioParams(info: String): Map<String, Any> {
-            val params = linkedMapOf<String, Any>()
+        private fun getAudioParams(info: String): Map<String, String> {
+            val params = linkedMapOf<String, String>()
             val pairs = info.split(Constants.Sep.SEMI_COLON)
             pairs.forEach {
                 val idx = it.indexOf(Constants.Sep.EQUAL)

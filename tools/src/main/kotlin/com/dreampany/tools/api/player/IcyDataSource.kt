@@ -2,15 +2,18 @@ package com.dreampany.tools.api.player
 
 import android.net.Uri
 import android.util.Log
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.MediaUtil
 import com.dreampany.tools.api.radio.Mapper
 import com.dreampany.tools.api.radio.ShoutCast
+import com.dreampany.tools.api.radio.Stream
 import com.dreampany.tools.misc.Constants
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener
 import okhttp3.*
 import okhttp3.internal.Util
+import org.apache.commons.lang3.ThreadUtils
 import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
@@ -39,7 +42,8 @@ class IcyDataSource(
         fun onConnected()
         fun onConnectionLost()
         fun onConnectionLostIrrecoverably()
-        fun onShoutCast(cast: ShoutCast?)
+        fun onShoutCast(cast: ShoutCast)
+        fun onStream(stream: Stream)
         fun onBytesRead(buffer: ByteArray, offset: Int, length: Int)
     }
 
@@ -54,13 +58,12 @@ class IcyDataSource(
     private var opened: Boolean = false
 
     private var cast: ShoutCast? = null
+    private var stream: Stream? = null
 
-    override fun setRequestProperty(name: String?, value: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun setRequestProperty(name: String, value: String) {
     }
 
     override fun clearAllRequestProperties() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun open(dataSpec: DataSpec): Long {
@@ -89,15 +92,15 @@ class IcyDataSource(
 
 
     override fun getUri(): Uri? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return spec.uri
     }
 
-    override fun getResponseHeaders(): MutableMap<String, MutableList<String>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getResponseHeaders(): Map<String, List<String>> {
+        return headers!!
     }
 
-    override fun clearRequestProperty(name: String?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun clearRequestProperty(name: String) {
+
     }
 
     @Throws(HttpDataSource.HttpDataSourceException::class)
@@ -118,7 +121,42 @@ class IcyDataSource(
 
     @Throws(HttpDataSource.HttpDataSourceException::class)
     override fun read(buffer: ByteArray, offset: Int, readLength: Int): Int {
+        try {
+            val bytesTransferred = readInternal(buffer, offset, readLength)
+            transferLister.onBytesTransferred(this, spec, true, bytesTransferred)
+            return bytesTransferred
+        } catch (error: HttpDataSource.HttpDataSourceException) {
+            Timber.e(error)
+            listener.onConnectionLost()
+            val reconnectStartTime = System.currentTimeMillis()
 
+            while (true) {
+                val currentTime = System.currentTimeMillis()
+
+                Timber.v("Reconnecting...")
+
+                try {
+                    reconnect()
+                    break
+                } catch (error: HttpDataSource.HttpDataSourceException) {
+                    Timber.e(error)
+                    if (!AndroidUtil.sleep(delayBetweenReconnection)) {
+                        break
+                    }
+                }
+
+                if (currentTime - reconnectStartTime > timeUntilStopReconnecting) {
+                    listener.onConnectionLostIrrecoverably()
+                    throw HttpDataSource.HttpDataSourceException(
+                        "Reconnection retry time ended.",
+                        spec,
+                        HttpDataSource.HttpDataSourceException.TYPE_READ
+                    )
+                }
+            }
+        }
+
+        return 0
     }
 
     @Throws(HttpDataSource.HttpDataSourceException::class)
@@ -165,7 +203,7 @@ class IcyDataSource(
             return body!!.contentLength()
         } else {
             cast = Mapper.decodeShoutCast(response)
-            listener.onShoutCast(cast)
+            listener.onShoutCast(cast!!)
 
             remainingUntilMetadata = Integer.MAX_VALUE
             cast?.run {
@@ -248,10 +286,10 @@ class IcyDataSource(
                     Timber.v("METADATA:$meta")
 
                     val rawMetadata = Mapper.decodeShoutCastMetadata(meta)
-                    //streamLiveInfo = StreamLiveInfo(rawMetadata)
-                    //dataSourceListener.onDataSourceStreamLiveInfo(streamLiveInfo)
+                    this.stream = Mapper.decodeStream(rawMetadata)
+                    listener.onStream(this.stream!!)
 
-                   // Timber.v("META:" + streamLiveInfo.getTitle())
+                    Timber.v("META:" + this.stream!!.title)
                     break
                 }
             }

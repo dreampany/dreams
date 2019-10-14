@@ -354,4 +354,13 @@ class Constants {
         const val ACCEPT_ENCODING = "Accept-Encoding"
         const val ACCEPT_ENCODING_IDENTITY = "identity"
     }
+
+    object MimeType {
+        const val AUDIO_MPEG = "audio/mpeg"
+    }
+
+    object ContentType {
+        const val APPLE_MPEGURL = "application/vnd.apple.mpegurl"
+        const val X_MPEGURL = "application/x-mpegurl"
+    }
 }

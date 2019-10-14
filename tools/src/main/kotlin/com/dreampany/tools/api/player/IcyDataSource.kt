@@ -1,6 +1,7 @@
 package com.dreampany.tools.api.player
 
 import android.net.Uri
+import com.dreampany.framework.util.MediaUtil
 import com.dreampany.tools.misc.Constants
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
@@ -120,11 +121,33 @@ class IcyDataSource(
 
         body = response.body()
 
-
         if (body == null)
             return -1
 
+        headers = request.headers().toMultimap()
+        val contentType = body!!.contentType()
+        val type =
+            contentType?.toString()?.toLowerCase() ?: MediaUtil.getMimeType(
+                spec.uri.toString(),
+                Constants.MimeType.AUDIO_MPEG
+            )
 
-        return body?.contentLength() ?: -1
+        if (!HttpDataSource.REJECT_PAYWALL_TYPES.evaluate(type)) {
+            close()
+            throw HttpDataSource.InvalidContentTypeException(type, spec)
+        }
+
+        opened = true
+
+        listener.onConnected()
+        transferLister.onTransferStart(this, spec, true)
+
+        if (type == "application/vnd.apple.mpegurl" || type == "application/x-mpegurl") run {
+            return body!!.contentLength()
+        } else {
+
+        }
+
+        return body!!.contentLength()
     }
 }

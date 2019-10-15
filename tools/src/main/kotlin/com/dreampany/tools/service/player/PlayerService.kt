@@ -1,17 +1,25 @@
-package com.dreampany.tools.service
+package com.dreampany.tools.service.player
 
 import android.annotation.SuppressLint
+import android.app.Service
 import android.content.Context
+import android.content.Intent
 import android.media.AudioManager
 import android.net.wifi.WifiManager
 import android.os.PowerManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
 import com.dreampany.framework.api.service.BaseService
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.NotifyUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.api.player.SmartPlayer
+import com.dreampany.tools.api.radio.RadioPlayer
+import com.dreampany.tools.api.radio.ShoutCast
+import com.dreampany.tools.api.radio.Stream
 import com.dreampany.tools.data.model.Station
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by roman on 2019-10-13
@@ -19,9 +27,10 @@ import timber.log.Timber
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class PlayerService : BaseService(), AudioManager.OnAudioFocusChangeListener {
-
-    //private var player: SimpleExoPlayer? = null
+class PlayerService
+    : BaseService(),
+    AudioManager.OnAudioFocusChangeListener,
+    RadioPlayer.Listener {
 
     private var powerManager: PowerManager? = null
     private var wifiManager: WifiManager? = null
@@ -32,22 +41,70 @@ class PlayerService : BaseService(), AudioManager.OnAudioFocusChangeListener {
     private var session: MediaSessionCompat? = null
 
     private var station: Station? = null
+    private var cast: ShoutCast? = null
+    private var stream: Stream? = null
+
+    @Inject
+    internal lateinit var player: RadioPlayer
+
+    private var hls = false
+    private var resumeOnFocusGain = false
 
     override fun onStart() {
         init()
     }
 
     override fun onStop() {
+        if (AndroidUtil.isDebug(this)) Timber.v("PlayService should be destroyed.")
+        destroy()
+        session?.release()
+        player.destroy()
+    }
+
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        return Service.START_STICKY
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
 
     }
 
+    override fun onState(state: SmartPlayer.State, audioSessionId: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onError(messageId: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onBufferedTimeUpdate(bufferedMs: Long) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onShoutCast(cast: ShoutCast, hls: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onStream(stream: Stream) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun isPlaying(): Boolean {
+        return player.isPlaying()
+    }
+
     private fun init() {
         powerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        player.setListener(this)
+    }
+
+    private fun destroy() {
+        if (AndroidUtil.isDebug(this)) Timber.v("stopping playback.")
+        resumeOnFocusGain = false
+
     }
 
     private fun play() {
@@ -65,9 +122,16 @@ class PlayerService : BaseService(), AudioManager.OnAudioFocusChangeListener {
         acquireLock()
     }
 
-    private fun pause() {
+    fun resume() {
 
     }
+
+    fun pause() {
+
+    }
+
+    fun stop() {}
+
 
     private fun acquireAudioFocus(): Int {
         Timber.v("acquireAudioFocus")

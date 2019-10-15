@@ -1,6 +1,7 @@
 package com.dreampany.tools.api.radio
 
 import android.content.Context
+import android.util.Log
 import androidx.annotation.StringRes
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.util.AndroidUtil
@@ -124,6 +125,10 @@ class RadioPlayer
 
             setState(SmartPlayer.State.IDLE, audioSessionId)
         })
+    }
+
+    fun destroy() {
+        stop()
     }
 
     private fun setState(state: SmartPlayer.State, audioSessionId: Int) {

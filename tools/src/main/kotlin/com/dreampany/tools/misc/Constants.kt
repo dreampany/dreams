@@ -77,6 +77,7 @@ class Constants {
     object Action {
         const val START_SERVICE = Constants.Action.START_SERVICE
         const val STOP_SERVICE = Constants.Action.STOP_SERVICE
+        const val PLAY = "play"
     }
 
     object Time {
@@ -388,4 +389,5 @@ class Constants {
     object Stream {
         const val TITLE = "StreamTitle"
     }
+
 }

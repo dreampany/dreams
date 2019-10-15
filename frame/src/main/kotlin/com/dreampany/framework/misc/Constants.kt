@@ -97,14 +97,15 @@ class Constants {
     }
 
     object Sep {
-        const val DOT = "."
-        const val COMMA = ","
+        const val DOT = '.'
+        const val COMMA = ','
         const val COMMA_SPACE = ", "
         const val SPACE = " "
-        const val HYPHEN = "-"
-        const val SEMI_COLON = ";"
-        const val EQUAL = "="
+        const val HYPHEN = '-'
+        const val SEMI_COLON = ';'
+        const val EQUAL = '='
         const val SPACE_HYPHEN_SPACE = " - "
+        const val LEAF_SEPARATOR = '|'
     }
 
     object Database {

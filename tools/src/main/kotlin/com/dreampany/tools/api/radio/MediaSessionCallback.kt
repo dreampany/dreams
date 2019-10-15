@@ -1,12 +1,13 @@
-package com.dreampany.tools.service.player
+package com.dreampany.tools.api.radio
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.RemoteException
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
-import timber.log.Timber
+import com.dreampany.framework.api.broadcast.CastManager
+import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.service.PlayerService
 
 /**
  * Created by roman on 2019-10-15
@@ -23,7 +24,7 @@ constructor(
     override fun onMediaButtonEvent(mediaButtonEvent: Intent): Boolean {
         val event = mediaButtonEvent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
         if (event != null && event.keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
-            if (event.action == KeyEvent.ACTION_UP && !event.isLongPress){
+            if (event.action == KeyEvent.ACTION_UP && !event.isLongPress) {
                 if (service.isPlaying()) {
                     service.pause()
                 } else {
@@ -51,6 +52,9 @@ constructor(
     }
 
     override fun onPlayFromMediaId(mediaId: String, extras: Bundle) {
-        super.onPlayFromMediaId(mediaId, extras)
+        val stationId = RadioDroidBrowser.getStationIdOfMediaId(mediaId)
+        if (stationId.isEmpty()) return
+        val extra = hashMapOf(Constants.Radio.STATION_ID to stationId)
+        CastManager.castLocally(context, Constants.Radio.PLAY_BY_STATION_ID, extra)
     }
 }

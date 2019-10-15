@@ -56,6 +56,7 @@ class Constants {
         const val SEMI_COLON = Constants.Sep.SEMI_COLON
         const val EQUAL = Constants.Sep.EQUAL
         const val SPACE_HYPHEN_SPACE = Constants.Sep.SPACE_HYPHEN_SPACE
+        const val LEAF_SEPARATOR = Constants.Sep.LEAF_SEPARATOR
     }
 
     object Default {
@@ -388,6 +389,12 @@ class Constants {
 
     object Stream {
         const val TITLE = "StreamTitle"
+    }
+
+    object Radio {
+        const val STATION_ID = "station_id"
+        const val PLAY_BY_STATION_ID = "play_by_station_id"
+        const val PLAY_BY_STATION_UUID = "play_by_station_uuid"
     }
 
 }

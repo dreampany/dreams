@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import com.dreampany.tools.service.player.PlayerService
+import com.dreampany.tools.service.PlayerService
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton

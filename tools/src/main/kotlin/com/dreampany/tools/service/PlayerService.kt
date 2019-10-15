@@ -1,4 +1,4 @@
-package com.dreampany.tools.service.player
+package com.dreampany.tools.service
 
 import android.annotation.SuppressLint
 import android.app.Service

@@ -1,6 +1,7 @@
 package com.dreampany.tools.service
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -14,10 +15,12 @@ import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.NotifyUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.api.player.SmartPlayer
+import com.dreampany.tools.api.radio.MediaSessionCallback
 import com.dreampany.tools.api.radio.RadioPlayer
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
 import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.ui.activity.NavigationActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,13 +35,13 @@ class PlayerService
     AudioManager.OnAudioFocusChangeListener,
     RadioPlayer.Listener {
 
-    private var powerManager: PowerManager? = null
-    private var wifiManager: WifiManager? = null
-    private var wakeLock: PowerManager.WakeLock? = null
-    private var wifiLock: WifiManager.WifiLock? = null
+    private lateinit var powerManager: PowerManager
+    private lateinit var wifiManager: WifiManager
+    private  var wakeLock: PowerManager.WakeLock? = null
+    private  var wifiLock: WifiManager.WifiLock? = null
 
-    private var audioManager: AudioManager? = null
-    private var session: MediaSessionCompat? = null
+    private lateinit var audioManager: AudioManager
+    private lateinit var session: MediaSessionCompat
 
     private var station: Station? = null
     private var cast: ShoutCast? = null
@@ -46,6 +49,8 @@ class PlayerService
 
     @Inject
     internal lateinit var player: RadioPlayer
+
+    private lateinit var sessionCallback: MediaSessionCallback
 
     private var hls = false
     private var resumeOnFocusGain = false
@@ -56,12 +61,19 @@ class PlayerService
 
     override fun onStop() {
         if (AndroidUtil.isDebug(this)) Timber.v("PlayService should be destroyed.")
-        destroy()
+        stop()
         session?.release()
         player.destroy()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent != null) {
+            if (intent.action != null) {
+                when(intent.action) {
+
+                }
+            }
+        }
         return Service.START_STICKY
     }
 
@@ -99,11 +111,15 @@ class PlayerService
         audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
         player.setListener(this)
-    }
+        sessionCallback = MediaSessionCallback(this, this)
+        session = MediaSessionCompat(baseContext, baseContext.packageName)
+        session.setCallback(sessionCallback)
 
-    private fun destroy() {
-        if (AndroidUtil.isDebug(this)) Timber.v("stopping playback.")
-        resumeOnFocusGain = false
+        val startIntent = Intent(applicationContext, NavigationActivity::class.java)
+        //todo keep ui task to define radio activity opening using fragment
+        val pendingIntent = PendingIntent.getActivity(applicationContext, 0, startIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+        session.setSessionActivity(pendingIntent)
+        session.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
 
     }
 
@@ -130,7 +146,17 @@ class PlayerService
 
     }
 
-    fun stop() {}
+    fun stop() {
+        if (AndroidUtil.isDebug(this)) Timber.v("stopping playback.")
+        resumeOnFocusGain = false
+        cast = null
+        stream = null
+        releaseAudioFocus()
+        disableSession()
+        player.stop()
+        releaseLock()
+        stopForeground(true)
+    }
 
 
     private fun acquireAudioFocus(): Int {
@@ -153,7 +179,7 @@ class PlayerService
         session?.isActive = true
     }
 
-    private fun disableMediaSession() {
+    private fun disableSession() {
         session?.run {
             if (isActive) {
                 isActive = false

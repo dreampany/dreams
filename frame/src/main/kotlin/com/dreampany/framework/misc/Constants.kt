@@ -74,7 +74,6 @@ class Constants {
     }
 
     object Ad {
-        const val KEY = "ad-pref"
         const val BANNER = "banner"
         const val INTERSTITIAL = "interstitial"
         const val REWARDED = "rewarded"
@@ -84,6 +83,9 @@ class Constants {
         const val VERSION_CODE = "version_code"
         const val RANK = "rank"
         const val LEVEL = "level"
+        const val PREF = "pref"
+        const val AD = "ad"
+        
     }
 
     object AdTime {
@@ -205,4 +207,6 @@ class Constants {
     object Api {
         const val BASE_URL = "https://google.com/"
     }
+
+
 }

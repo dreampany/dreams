@@ -11,10 +11,6 @@ import com.dreampany.framework.api.service.BaseService
 import com.dreampany.framework.util.NotifyUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Station
-import com.google.android.exoplayer2.C
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.LoadControl
-import com.google.android.exoplayer2.upstream.DefaultAllocator
 import timber.log.Timber
 
 /**
@@ -39,7 +35,6 @@ class PlayerService : BaseService(), AudioManager.OnAudioFocusChangeListener {
 
     override fun onStart() {
         init()
-        //initPlayer()
     }
 
     override fun onStop() {
@@ -72,30 +67,6 @@ class PlayerService : BaseService(), AudioManager.OnAudioFocusChangeListener {
 
     private fun pause() {
 
-    }
-
-    private fun initPlayer() {
-/*        releasePlayer()
-        val track = DefaultTrackSelector()
-        val load = createLoadControl(10)
-        player = ExoPlayerFactory.newSimpleInstance(
-            this,
-            DefaultRenderersFactory(applicationContext),
-            track,
-            load
-        )
-        player.addAnalyticsListener()*/
-    }
-
-    private fun releasePlayer() {
-        /*player?.release()
-        player = null*/
-    }
-
-    private fun createLoadControl(factor: Int): LoadControl {
-        return DefaultLoadControl.Builder().setAllocator(
-            DefaultAllocator(true, C.DEFAULT_BUFFER_SEGMENT_SIZE * factor)
-        ).createDefaultLoadControl()
     }
 
     private fun acquireAudioFocus(): Int {

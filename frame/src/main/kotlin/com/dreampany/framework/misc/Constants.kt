@@ -80,12 +80,14 @@ class Constants {
     }
 
     object Pref {
+        const val PREF = "pref"
+        const val AD = "ad"
+
         const val VERSION_CODE = "version_code"
         const val RANK = "rank"
         const val LEVEL = "level"
-        const val PREF = "pref"
-        const val AD = "ad"
-        
+
+        const val NIGHT_MODE = "night_mode"
     }
 
     object AdTime {

@@ -24,8 +24,6 @@ interface SmartPlayer : Recorder {
         fun onStream(stream: Stream)
     }
 
-    //fun setListener(listener: SmartPlayer.Listener)
-
     fun setVolume(volume: Float)
 
     fun play(http: OkHttpClient, url: String)

@@ -7,7 +7,11 @@ import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.player.ExoPlayer
 import com.dreampany.tools.api.player.SmartPlayer
+import com.dreampany.tools.data.source.pref.RadioPref
+import okhttp3.ConnectionPool
+import okhttp3.OkHttpClient
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -20,7 +24,9 @@ class RadioPlayer
 @Inject constructor(
     private val context: Context,
     private val ex: AppExecutor,
-    private val network: NetworkManager
+    private val radioPref: RadioPref,
+    private val network: NetworkManager,
+    private val pool: ConnectionPool
 ) : SmartPlayer.Listener {
 
     interface Listener {
@@ -31,36 +37,93 @@ class RadioPlayer
         fun onStream(stream: Stream)
     }
 
-
     private val player: SmartPlayer
     private lateinit var listener: Listener
 
+    private lateinit var name: String
+
+    private var state: SmartPlayer.State
+    private var stream: Stream? = null
+
     init {
         player = ExoPlayer(context, network, this)
+        state =  SmartPlayer.State.IDLE
     }
 
     override fun onState(state: SmartPlayer.State) {
-
+        setState(state, player.getAudioSessionId())
     }
 
     override fun onError(messageId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        stop()
+        listener.onError(messageId)
     }
 
     override fun onShoutCast(cast: ShoutCast, hls: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        listener.onShoutCast(cast, hls)
     }
 
     override fun onStream(stream: Stream) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        this.stream = stream
+        listener.onStream(stream)
     }
 
     fun setListener(listener: Listener) {
         this.listener = listener
     }
 
-    fun play(url: String, name: String) {
+    fun setVolume(volume: Float) {
+        player.setVolume(volume)
+    }
 
+    fun isPlaying(): Boolean {
+        return player.isPlaying()
+    }
+
+    fun getState() : SmartPlayer.State {
+        return state
+    }
+
+    fun play(url: String, name: String) {
+        setState(SmartPlayer.State.PRE_PLAYING, -1)
+
+        this.name = name
+
+        val connectTimeout = 4L
+        val readTimeout = 10L
+
+        val http = newHttpClient(connectTimeout, readTimeout)
+
+        ex.getUiHandler().post(kotlinx.coroutines.Runnable {
+            player.play(http, url)
+        })
+    }
+
+    fun pause() {
+        ex.getUiHandler().post(kotlinx.coroutines.Runnable {
+            val sessionId = player.getAudioSessionId()
+            player.pause()
+
+            if (AndroidUtil.isDebug(context)) {
+                ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
+            }
+
+            setState(SmartPlayer.State.PAUSED, sessionId)
+        })
+    }
+
+    fun stop () {
+        if (state == SmartPlayer.State.IDLE) return
+        ex.getUiHandler().post(kotlinx.coroutines.Runnable {
+            val audioSessionId = player.getAudioSessionId()
+            player.stop()
+
+            if (AndroidUtil.isDebug(context)) {
+                ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
+            }
+
+            setState(SmartPlayer.State.IDLE, audioSessionId)
+        })
     }
 
     private fun setState(state: SmartPlayer.State, audioSessionId: Int) {
@@ -73,6 +136,8 @@ class RadioPlayer
                 ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
             }
         }
+        this.state = state
+        listener.onState(state, audioSessionId)
     }
 
     private val bufferCheckRunnable = object : Runnable {
@@ -84,6 +149,13 @@ class RadioPlayer
             Timber.v("buffered %d ms.", bufferTimeMs)
             ex.getUiHandler().postDelayed(this, 2000)
         }
+    }
+
+    private fun newHttpClient(connectTimeout: Long, readTimeout: Long): OkHttpClient {
+        val builder = OkHttpClient.Builder().connectionPool(pool)
+        builder.connectTimeout(connectTimeout, TimeUnit.SECONDS)
+        builder.readTimeout(readTimeout, TimeUnit.SECONDS)
+        return builder.build()
     }
 
 }

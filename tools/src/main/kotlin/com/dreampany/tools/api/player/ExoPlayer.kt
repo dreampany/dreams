@@ -166,8 +166,8 @@ constructor(
     override fun onConnectionLostIrrecoverably() {
         Timber.v("Connection lost irrecoverably.")
 
-        listener?.onState(SmartPlayer.State.IDLE)
-        listener?.onError(R.string.error_stream_reconnect_timeout)
+        listener.onState(SmartPlayer.State.IDLE)
+        listener.onError(R.string.error_stream_reconnect_timeout)
 
         val resumeWithin = 60
         if (resumeWithin > 0) {
@@ -180,7 +180,7 @@ constructor(
                     if (interruptedByConnectionLoss) {
                         interruptedByConnectionLoss = false
                         stop()
-                        listener?.onError(R.string.giving_up_resume)
+                        listener.onError(R.string.giving_up_resume)
                     }
                 }
             }, (resumeWithin * 1000).toLong())
@@ -190,11 +190,11 @@ constructor(
     }
 
     override fun onShoutCast(cast: ShoutCast) {
-        listener?.onShoutCast(cast, false)
+        listener.onShoutCast(cast, false)
     }
 
     override fun onStream(stream: Stream) {
-        listener?.onStream(stream)
+        listener.onStream(stream)
     }
 
     override fun onBytesRead(buffer: ByteArray, offset: Int, length: Int) {
@@ -205,8 +205,8 @@ constructor(
     override fun onPlayerError(error: ExoPlaybackException) {
         if (!interruptedByConnectionLoss) {
             stop()
-            listener?.onState(SmartPlayer.State.IDLE)
-            listener?.onError(R.string.error_play_stream)
+            listener.onState(SmartPlayer.State.IDLE)
+            listener.onError(R.string.error_play_stream)
         }
     }
 
@@ -219,7 +219,7 @@ constructor(
     }
 
     override fun onAudioSessionId(eventTime: AnalyticsListener.EventTime, audioSessionId: Int) {
-        listener?.onState(SmartPlayer.State.PLAYING)
+        listener.onState(SmartPlayer.State.PLAYING)
     }
 
     override fun onNetworks(networks: List<Network>) {

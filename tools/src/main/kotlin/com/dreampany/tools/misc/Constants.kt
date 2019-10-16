@@ -1,6 +1,7 @@
 package com.dreampany.tools.misc
 
 import android.content.Context
+import android.content.Intent
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TextUtil
@@ -41,10 +42,11 @@ class Constants {
         const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
-    object Id {
-        const val NOTIFY_FOREGROUND = Constants.Id.NOTIFY_FOREGROUND
-        const val NOTIFY_GENERAL = Constants.Id.NOTIFY_GENERAL
-        const val NOTIFY_FOREGROUND_CHANNEL_ID = Constants.Id.NOTIFY_FOREGROUND_CHANNEL_ID
+    object Notify {
+        const val FOREGROUND_ID = Constants.Notify.FOREGROUND_ID
+        const val PLAYER_FOREGROUND_ID = 104
+        const val FOREGROUND_CHANNEL_ID = Constants.Notify.FOREGROUND_CHANNEL_ID
+        const val PLAYER_FOREGROUND_CHANNEL_ID = "player_" + Constants.Notify.FOREGROUND_CHANNEL_ID
     }
 
     object Sep {
@@ -78,7 +80,6 @@ class Constants {
     object Action {
         const val START_SERVICE = Constants.Action.START_SERVICE
         const val STOP_SERVICE = Constants.Action.STOP_SERVICE
-        const val PLAY = "play"
     }
 
     object Time {
@@ -302,6 +303,15 @@ class Constants {
     object Service {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
+
+        object Command {
+            const val RESUME = "resume"
+            const val PAUSE = "pause"
+            const val STOP = "stop"
+            const val NEXT = "next"
+            const val PREVIOUS = "previous"
+            const val MEDIA_BUTTON = Intent.ACTION_MEDIA_BUTTON
+        }
     }
 
     object Translation {

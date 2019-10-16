@@ -48,7 +48,7 @@ class RadioPlayer
 
     init {
         player = ExoPlayer(context, network, this)
-        state =  SmartPlayer.State.IDLE
+        state = SmartPlayer.State.IDLE
     }
 
     override fun onState(state: SmartPlayer.State) {
@@ -81,7 +81,7 @@ class RadioPlayer
         return player.isPlaying()
     }
 
-    fun getState() : SmartPlayer.State {
+    fun getState(): SmartPlayer.State {
         return state
     }
 
@@ -113,7 +113,7 @@ class RadioPlayer
         })
     }
 
-    fun stop () {
+    fun stop() {
         if (state == SmartPlayer.State.IDLE) return
         ex.getUiHandler().post(kotlinx.coroutines.Runnable {
             val audioSessionId = player.getAudioSessionId()

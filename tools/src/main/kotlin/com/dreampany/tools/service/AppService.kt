@@ -23,13 +23,13 @@ class AppService : BaseService() {
     internal lateinit var pref: Pref
     @Inject
     internal lateinit var notify: NotifyManager
-    internal val notifyId = Constants.Id.NOTIFY_FOREGROUND
+    internal val notifyId = Constants.Notify.FOREGROUND_ID
     internal lateinit var notifyTitle: String
     internal lateinit var contentText: String
     internal val smallIcon = R.drawable.ic_notification
     internal val targetClass = NavigationActivity::class.java
 
-    internal val channelId = Constants.Id.NOTIFY_FOREGROUND_CHANNEL_ID
+    internal val channelId = Constants.Notify.FOREGROUND_CHANNEL_ID
     internal lateinit var channelName: String
     internal lateinit var channelDescription: String
 

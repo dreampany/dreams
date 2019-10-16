@@ -42,7 +42,7 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
         super.onDestroy()
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
+    override fun onBind(intent: Intent): IBinder? {
         return null
     }
 

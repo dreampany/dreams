@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.net.wifi.WifiManager
+import android.os.Binder
+import android.os.IBinder
 import android.os.PowerManager
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
@@ -35,6 +37,8 @@ class PlayerService
     AudioManager.OnAudioFocusChangeListener,
     RadioPlayer.Listener {
 
+    private val binder: ServiceBinder = ServiceBinder()
+
     private lateinit var powerManager: PowerManager
     private lateinit var wifiManager: WifiManager
     private  var wakeLock: PowerManager.WakeLock? = null
@@ -54,6 +58,10 @@ class PlayerService
 
     private var hls = false
     private var resumeOnFocusGain = false
+
+    override fun onBind(intent: Intent): IBinder? {
+        return binder
+    }
 
     override fun onStart() {
         init()
@@ -246,5 +254,9 @@ class PlayerService
         }
         wakeLock = null
         wifiLock = null
+    }
+
+    inner class ServiceBinder : Binder() {
+        fun getService() : PlayerService = this@PlayerService
     }
 }

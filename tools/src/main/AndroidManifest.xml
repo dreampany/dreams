@@ -144,5 +144,12 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".service.PlayerService">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </service>
+
     </application>
 </manifest>

@@ -81,9 +81,22 @@ class RadioHomeFragment
     }
 
     override fun onStopUi() {
+        player.debind()
+    }
+
+    override fun onPause() {
+        if (!player.isPlaying()) {
+            player.destroy()
+        }
+        super.onPause()
     }
 
     override fun onClick(view: View, item: StationItem?, action: Action?) {
+        item?.run {
+            val station = item.item
+            Timber.v("Station [%s]", station.url)
+            player.play(station)
+        }
     }
 
     override fun onLongClick(view: View, item: StationItem?, action: Action?) {

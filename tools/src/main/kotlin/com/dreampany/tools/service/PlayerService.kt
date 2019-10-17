@@ -16,7 +16,6 @@ import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media.session.MediaButtonReceiver
@@ -71,10 +70,10 @@ class PlayerService
     private var hls = false
     private var resumeOnFocusGain = false
 
-    private val notifyManager: NotificationManagerCompat
+    private lateinit var notifyManager: NotificationManagerCompat
 
     init {
-        notifyManager = NotificationManagerCompat.from(this)
+
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -82,6 +81,7 @@ class PlayerService
     }
 
     override fun onStart() {
+        notifyManager = NotificationManagerCompat.from(this)
         init()
     }
 
@@ -117,23 +117,18 @@ class PlayerService
     }
 
     override fun onState(state: SmartPlayer.State, audioSessionId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onError(messageId: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onBufferedTimeUpdate(bufferedMs: Long) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onShoutCast(cast: ShoutCast, hls: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onStream(stream: Stream) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun isPlaying(): Boolean {

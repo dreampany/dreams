@@ -19,4 +19,8 @@ data class Stream(
     var track: String? = Constants.Default.NULL,
     var meta: Map<String, String>? = Constants.Default.NULL
 ) : Base() {
+
+    fun hasArtistAndTrack(): Boolean {
+        return !(artist.isNullOrEmpty() || track.isNullOrEmpty())
+    }
 }

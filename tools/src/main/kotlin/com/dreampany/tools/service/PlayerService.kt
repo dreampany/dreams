@@ -13,8 +13,10 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.media.session.MediaButtonReceiver
@@ -255,7 +257,7 @@ class PlayerService
     private fun acquireLock() {
         Timber.v("acquireLock")
         if (wakeLock == null)
-            wakeLock = powerManager?.newWakeLock(
+            wakeLock = powerManager.newWakeLock(
                 PowerManager.PARTIAL_WAKE_LOCK,
                 PlayerService::javaClass.name
             )
@@ -269,7 +271,7 @@ class PlayerService
         }
 
         if (wifiLock == null)
-            wifiLock = wifiManager?.createWifiLock(
+            wifiLock = wifiManager.createWifiLock(
                 WifiManager.WIFI_MODE_FULL_HIGH_PERF,
                 PlayerService::javaClass.name
             )
@@ -305,13 +307,43 @@ class PlayerService
                 notifyManager.cancel(Constants.Notify.PLAYER_FOREGROUND_ID)
             }
             SmartPlayer.State.PRE_PLAYING -> {
-                showNotify(station!!.name!!, getString(R.string.notify_pre_play), getString(R.string.notify_pre_play))
+                showNotify(
+                    station!!.name!!,
+                    getString(R.string.notify_pre_play),
+                    getString(R.string.notify_pre_play)
+                )
             }
             SmartPlayer.State.PLAYING -> {
-                notifyManager.cancel(Constants.Notify.PLAYER_FOREGROUND_ID)
+                val title: String? = stream?.title
+                if (!title.isNullOrEmpty()) {
+                    Timber.v("update message:$title")
+                    showNotify(station!!.name!!, title, title)
+                } else {
+                    showNotify(station!!.name!!, getString(R.string.notify_playing), station!!.name!!)
+                }
+
+                if (session != null) {
+                    val builder = MediaMetadataCompat.Builder()
+                    builder.putString(MediaMetadataCompat.METADATA_KEY_ALBUM, station?.name)
+                    builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, stream?.artist)
+                    builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, stream?.track)
+                    if (stream!!.hasArtistAndTrack()) {
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, stream?.artist)
+                        builder.putString(
+                            MediaMetadataCompat.METADATA_KEY_TITLE,
+                            stream?.track
+                        )
+                    } else {
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_TITLE, stream?.title)
+                        builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, station?.name)
+                    }
+                    //builder.putBitmap(MediaMetadataCompat.METADATA_KEY_DISPLAY_ICON, radioIcon.getBitmap())
+                    //builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, radioIcon.getBitmap())
+                    session?.setMetadata(builder.build())
+                }
             }
             SmartPlayer.State.PAUSED -> {
-                notifyManager.cancel(Constants.Notify.PLAYER_FOREGROUND_ID)
+                showNotify(station!!.name!!, getString(R.string.notify_paused), station!!.name!!)
             }
         }
     }

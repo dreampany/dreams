@@ -5,6 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
+import android.text.BoringLayout
+import android.util.Log
+import com.dreampany.tools.api.radio.ShoutCast
+import com.dreampany.tools.api.radio.Stream
+import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.service.PlayerService
 import timber.log.Timber
 import javax.inject.Inject
@@ -26,10 +31,13 @@ class PlayerManager
     private var service: PlayerService? = null
 
     override fun onServiceConnected(name: ComponentName, service: IBinder) {
+        Timber.v("Service came online")
        this.service = (service as PlayerService.ServiceBinder).getService()
     }
 
     override fun onServiceDisconnected(name: ComponentName) {
+        Timber.v("Service offline")
+        debind()
         service = null
     }
 
@@ -52,7 +60,7 @@ class PlayerManager
         Timber.v("Debind Player Service")
     }
 
-    fun stop() {
+    fun destroy() {
         debind()
         try {
             val intent = Intent(context, PlayerService::class.java)
@@ -61,5 +69,37 @@ class PlayerManager
             Timber.e(error)
         }
         Timber.v("Stopping Player Service")
+    }
+
+    fun isPlaying() : Boolean {
+        return service?.isPlaying() ?: false
+    }
+
+    fun stop () {
+        service?.stop()
+    }
+
+    fun play(station: Station) {
+        service?.play(station)
+    }
+
+    fun pause() {
+        service?.pause()
+    }
+
+    fun resume() {
+        service?.resume()
+    }
+
+    fun getStation() : Station ? {
+        return service?.getStation()
+    }
+
+    fun getCast() : ShoutCast? {
+        return service?.getCast()
+    }
+
+    fun getStream() : Stream? {
+        return service?.getStream()
     }
 }

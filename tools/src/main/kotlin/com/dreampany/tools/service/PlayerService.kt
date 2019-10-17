@@ -140,30 +140,10 @@ class PlayerService
         return player.isPlaying()
     }
 
-    private fun init() {
-        powerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
-        wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-
-        player.setListener(this)
-        sessionCallback = MediaSessionCallback(this, this)
-        session = MediaSessionCompat(baseContext, baseContext.packageName)
-        session?.setCallback(sessionCallback)
-
-        val startIntent = Intent(applicationContext, NavigationActivity::class.java)
-        //todo keep ui task to define radio activity opening using fragment
-        val pendingIntent = PendingIntent.getActivity(
-            applicationContext,
-            0,
-            startIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        session?.setSessionActivity(pendingIntent)
-        session?.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
-
-    }
-
-    private fun play() {
+    fun play(station: Station? = null) {
+        if (station != null) {
+            this.station = station
+        }
         val result = acquireAudioFocus()
         if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
             ex.postToUi(kotlinx.coroutines.Runnable {
@@ -175,7 +155,7 @@ class PlayerService
         replay()
     }
 
-    private fun replay() {
+    fun replay() {
         Timber.v("replaying current.")
         stream = Stream()
         cast = null
@@ -207,6 +187,40 @@ class PlayerService
         stopForeground(true)
     }
 
+    fun getStation() : Station? {
+        return station
+    }
+
+    fun getCast() : ShoutCast ? {
+        return cast
+    }
+
+    fun getStream() : Stream ? {
+        return stream
+    }
+
+    private fun init() {
+        powerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
+        wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+
+        player.setListener(this)
+        sessionCallback = MediaSessionCallback(this, this)
+        session = MediaSessionCompat(baseContext, baseContext.packageName)
+        session?.setCallback(sessionCallback)
+
+        val startIntent = Intent(applicationContext, NavigationActivity::class.java)
+        //todo keep ui task to define radio activity opening using fragment
+        val pendingIntent = PendingIntent.getActivity(
+            applicationContext,
+            0,
+            startIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        session?.setSessionActivity(pendingIntent)
+        session?.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+
+    }
 
     private fun acquireAudioFocus(): Int {
         Timber.v("acquireAudioFocus")
@@ -319,7 +333,11 @@ class PlayerService
                     Timber.v("update message:$title")
                     showNotify(station!!.name!!, title, title)
                 } else {
-                    showNotify(station!!.name!!, getString(R.string.notify_playing), station!!.name!!)
+                    showNotify(
+                        station!!.name!!,
+                        getString(R.string.notify_playing),
+                        station!!.name!!
+                    )
                 }
 
                 if (session != null) {

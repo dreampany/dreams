@@ -23,12 +23,14 @@ class PlayerManager
 ) : ServiceConnection {
 
     private var bound: Boolean = false
-  //  private var service: IPlayerService? = null
-
-    override fun onServiceDisconnected(name: ComponentName) {
-    }
+    private var service: PlayerService? = null
 
     override fun onServiceConnected(name: ComponentName, service: IBinder) {
+       this.service = (service as PlayerService.ServiceBinder).getService()
+    }
+
+    override fun onServiceDisconnected(name: ComponentName) {
+        service = null
     }
 
     fun bind() {

@@ -24,6 +24,7 @@ import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRadioHomeBinding
+import com.dreampany.tools.manager.PlayerManager
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.StationAdapter
 import com.dreampany.tools.ui.misc.StationRequest
@@ -52,6 +53,8 @@ class RadioHomeFragment
     internal lateinit var session: SessionManager
     @Inject
     internal lateinit var radioPref: RadioPref
+    @Inject
+    internal lateinit var player: PlayerManager
 
     private lateinit var bind: FragmentRadioHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -74,6 +77,7 @@ class RadioHomeFragment
         initUi()
         initRecycler()
         request(progress = true)
+        player.bind()
     }
 
     override fun onStopUi() {

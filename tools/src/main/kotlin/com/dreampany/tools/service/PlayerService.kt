@@ -72,10 +72,6 @@ class PlayerService
 
     private lateinit var notifyManager: NotificationManagerCompat
 
-    init {
-
-    }
-
     override fun onBind(intent: Intent): IBinder? {
         return binder
     }
@@ -117,6 +113,9 @@ class PlayerService
     }
 
     override fun onState(state: SmartPlayer.State, audioSessionId: Int) {
+
+
+
     }
 
     override fun onError(messageId: Int) {

@@ -113,9 +113,13 @@ class PlayerService
     }
 
     override fun onState(state: SmartPlayer.State, audioSessionId: Int) {
-
-
-
+        ex.postToUi(Runnable {
+            when (state) {
+                SmartPlayer.State.PAUSED -> {
+                    setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED)
+                }
+            }
+        })
     }
 
     override fun onError(messageId: Int) {
@@ -181,15 +185,15 @@ class PlayerService
         stopForeground(true)
     }
 
-    fun getStation() : Station? {
+    fun getStation(): Station? {
         return station
     }
 
-    fun getCast() : ShoutCast ? {
+    fun getCast(): ShoutCast? {
         return cast
     }
 
-    fun getStream() : Stream ? {
+    fun getStream(): Stream? {
         return stream
     }
 

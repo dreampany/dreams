@@ -18,6 +18,6 @@ interface StationDao : BaseDao<Station> {
     @Query(value = "select * from station where country_code = :countryCode")
     fun getItemsByCountryCode(countryCode: String): List<Station>?
 
-    @Query(value = "select * from station where country_code = :countryCode limit 10")
+    @Query(value = "select * from station where country_code = :countryCode")
     fun getItemsByCountryCodeRx(countryCode: String): Maybe<List<Station>>
 }

@@ -304,6 +304,9 @@ class Constants {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
 
+        const val PLAYER_SERVICE_STATE_CHANGE = "radio_player_state_change"
+        const val PLAYER_SERVICE_STATE = "radio_player_state"
+
         object Command {
             const val RESUME = "resume"
             const val PAUSE = "pause"
@@ -405,6 +408,9 @@ class Constants {
         const val STATION_ID = "station_id"
         const val PLAY_BY_STATION_ID = "play_by_station_id"
         const val PLAY_BY_STATION_UUID = "play_by_station_uuid"
+
+        const val FULL_VOLUME = 100f
+        const val DUCK_VOLUME = 40f
     }
 
 }

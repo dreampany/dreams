@@ -1,7 +1,6 @@
 package com.dreampany.tools.api.player
 
 import android.net.Uri
-import android.util.Log
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.MediaUtil
 import com.dreampany.tools.api.radio.Mapper
@@ -13,7 +12,6 @@ import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener
 import okhttp3.*
 import okhttp3.internal.Util
-import org.apache.commons.lang3.ThreadUtils
 import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream

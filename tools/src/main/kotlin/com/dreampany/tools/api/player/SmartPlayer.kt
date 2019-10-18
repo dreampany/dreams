@@ -1,8 +1,10 @@
 package com.dreampany.tools.api.player
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
+import kotlinx.android.parcel.Parcelize
 import okhttp3.OkHttpClient
 
 /**
@@ -13,7 +15,7 @@ import okhttp3.OkHttpClient
  */
 interface SmartPlayer : Recorder {
 
-    enum class State {
+    enum class State   {
         IDLE, PRE_PLAYING, PLAYING, PAUSED
     }
 

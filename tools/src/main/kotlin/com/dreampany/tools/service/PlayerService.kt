@@ -17,7 +17,6 @@ import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -140,17 +139,29 @@ class PlayerService
                     }
                     if (audioSessionId > 0) {
                         Timber.v("Close audio effect control session, session id=$audioSessionId")
-                        val i = Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION)
-                        i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
-                        i.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
-                        //itsContext.sendBroadcast(i)
+                        val intent = Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION)
+                        intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
+                        intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
+                        cast(intent)
+                    }
+                    if (state == SmartPlayer.State.IDLE) {
+                        stop()
                     }
                 }
             }
+
+            updateNotify(state)
+
+            val intent = Intent(Constants.Service.PLAYER_SERVICE_STATE_CHANGE)
+            intent.putExtra(Constants.Service.PLAYER_SERVICE_STATE, state)
+            cast(intent)
         })
     }
 
     override fun onError(messageId: Int) {
+        ex.postToUi(kotlinx.coroutines.Runnable {
+            NotifyUtil.shortToast(baseContext, messageId)
+        })
     }
 
     override fun onBufferedTimeUpdate(bufferedMs: Long) {

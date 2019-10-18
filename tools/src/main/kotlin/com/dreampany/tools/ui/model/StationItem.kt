@@ -4,6 +4,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
@@ -52,6 +53,14 @@ private constructor(
         init {
             this.adapter = adapter as StationAdapter
             title = view.findViewById(R.id.view_title)
+
+            view.setOnClickListener {
+                this.adapter.uiItemClick?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = Action.OPEN
+                )
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>

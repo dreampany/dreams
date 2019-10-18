@@ -10,6 +10,7 @@ import com.dreampany.framework.BuildConfig
 import com.dreampany.framework.R
 import com.dreampany.framework.api.service.JobManager
 import com.dreampany.framework.api.service.ServiceManager
+import com.dreampany.framework.api.theme.ThemeManager
 import com.dreampany.framework.api.worker.WorkerManager
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.misc.AppExecutor
@@ -49,6 +50,8 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     //protected var context: CondomContext? = null
     @Inject
     protected lateinit var ex: AppExecutor
+    @Inject
+    protected lateinit var theme: ThemeManager
     protected var refs: WeakReference<Activity>? = null
     protected var action: Action? = null
     protected var indexable: Indexable? = null
@@ -188,6 +191,8 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
                 return
             }
         }
+
+        theme.restoreSavedState(this)
 
         if (hasSoLoader()) {
             initSoLoader()

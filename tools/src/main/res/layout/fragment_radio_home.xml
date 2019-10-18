@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/layout_top">
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -55,7 +55,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         auto:items="@{items}" />
-                </FrameLayout>
+
+                    <include
+                        layout="@layout/content_player"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true" />
+                </RelativeLayout>
             </cz.kinst.jakub.view.StatefulLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -14,10 +14,10 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class AdPref @Inject constructor(context: Context) : BasePref(context) {
+class AdPref @Inject constructor(context: Context) : FramePref(context) {
 
     override fun getPrivatePrefName(context: Context): String? {
-        return Constants.Ad.KEY
+        return Constants.Pref.AD
     }
 
     fun setBannerTime(time: Long) {

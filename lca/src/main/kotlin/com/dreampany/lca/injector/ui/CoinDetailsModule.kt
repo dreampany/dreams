@@ -12,5 +12,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class CoinDetailsModule {
     @ContributesAndroidInjector
-    abstract fun coinDetailsFragment(): CoinDetailsFragment;
+    abstract fun coinDetailsFragment(): CoinDetailsFragment
 }

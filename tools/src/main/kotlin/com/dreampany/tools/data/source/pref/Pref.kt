@@ -50,4 +50,8 @@ class Pref
     fun hasDefaultPoint(): Boolean {
         return getPublicly(Constants.Pref.DEFAULT_POINT, false)
     }
+
+    fun getRetryTimeout(defaultTimeout: Long) : Long {
+        return getPublicly(Constants.Pref.PLAYER_RETRY_TIMEOUT, defaultTimeout)
+    }
 }

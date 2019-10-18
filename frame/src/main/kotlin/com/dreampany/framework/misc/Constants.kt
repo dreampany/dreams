@@ -67,23 +67,29 @@ class Constants {
         const val RATE_US = "rate_us"
     }
 
-    object Id {
-        const val NOTIFY_FOREGROUND = 101
-        const val NOTIFY_GENERAL = 102
-        const val NOTIFY_FOREGROUND_CHANNEL_ID = "channel_101"
+    object Notify {
+        const val DEFAULT_ID = 101
+        const val FOREGROUND_ID = 102
+        const val GENERAL_ID = 103
+        const val DEFAULT_CHANNEL_ID = "default_channel_id"
+        const val FOREGROUND_CHANNEL_ID = "foreground_channel_id"
     }
 
     object Ad {
-        const val KEY = "ad-pref"
         const val BANNER = "banner"
         const val INTERSTITIAL = "interstitial"
         const val REWARDED = "rewarded"
     }
 
     object Pref {
+        const val PREF = "pref"
+        const val AD = "ad"
+
         const val VERSION_CODE = "version_code"
         const val RANK = "rank"
         const val LEVEL = "level"
+
+        const val NIGHT_MODE = "night_mode"
     }
 
     object AdTime {
@@ -93,11 +99,15 @@ class Constants {
     }
 
     object Sep {
-        const val DOT = "."
-        const val COMMA = ","
+        const val DOT = '.'
+        const val COMMA = ','
         const val COMMA_SPACE = ", "
         const val SPACE = " "
-        const val HYPHEN = "-"
+        const val HYPHEN = '-'
+        const val SEMI_COLON = ';'
+        const val EQUAL = '='
+        const val SPACE_HYPHEN_SPACE = " - "
+        const val LEAF_SEPARATOR = '|'
     }
 
     object Database {
@@ -113,11 +123,6 @@ class Constants {
         const val SUBTYPE = "subtype"
         const val STATE = "state"
         const val LEVEL = "level"
-    }
-
-    object Notify {
-        const val DEFAULT_ID = 101
-        const val DEFAULT_CHANNEL_ID = "default_channel_id"
     }
 
     object Action {
@@ -202,4 +207,6 @@ class Constants {
     object Api {
         const val BASE_URL = "https://google.com/"
     }
+
+
 }

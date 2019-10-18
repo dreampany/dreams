@@ -211,7 +211,7 @@ public final class DataUtil {
         if (isEmpty(items)) {
             return null;
         }
-        return items.get(NumberUtil.nextRand(0, items.size() - 1));
+        return items.get(NumberUtil.Companion.nextRand(0, items.size() - 1));
     }
 
     public static String getReadableDuration(long duration) {

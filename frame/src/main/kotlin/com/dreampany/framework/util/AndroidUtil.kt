@@ -529,10 +529,12 @@ class AndroidUtil {
             Animato.animateSlideLeft(getActivity())
         }*/
 
-        fun sleep(time: Long) {
+        fun sleep(time: Long): Boolean {
             try {
                 Thread.sleep(time)
+                return true
             } catch (ignored: InterruptedException) {
+                return false
             }
         }
 

@@ -9,6 +9,7 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
+import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -36,9 +37,15 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideGson(): Gson {
-        val gsonBuilder = GsonBuilder()
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        return gsonBuilder.create()
+        val builder = GsonBuilder()
+        builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+        return builder.create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideConnectionPool() : ConnectionPool {
+        return ConnectionPool()
     }
 
     @Provides

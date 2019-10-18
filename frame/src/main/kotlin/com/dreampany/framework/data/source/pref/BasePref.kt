@@ -69,6 +69,10 @@ abstract class BasePref(val context: Context) {
         return publicPref.preferences.getInt(key, defaultValue)
     }
 
+    fun getPublicly(key: String, defaultValue: Long): Long {
+        return publicPref.preferences.getLong(key, defaultValue)
+    }
+
     fun getPublicly(key: String, defaultValue: Boolean): Boolean {
         return publicPref.preferences.getBoolean(key, defaultValue)
     }

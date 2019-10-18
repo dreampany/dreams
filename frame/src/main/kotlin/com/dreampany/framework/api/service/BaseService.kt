@@ -23,7 +23,7 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
     @Inject
     internal lateinit var serviceInjector: DispatchingAndroidInjector<Any>
     @Inject
-    internal lateinit var ex: AppExecutor
+    protected lateinit var ex: AppExecutor
     @Inject
     protected lateinit var worker: WorkerManager
 
@@ -42,7 +42,7 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
         super.onDestroy()
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
+    override fun onBind(intent: Intent): IBinder? {
         return null
     }
 

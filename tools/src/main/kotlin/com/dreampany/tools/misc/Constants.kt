@@ -1,6 +1,7 @@
 package com.dreampany.tools.misc
 
 import android.content.Context
+import android.content.Intent
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TextUtil
@@ -41,10 +42,11 @@ class Constants {
         const val NOTIFICATION = Constants.Event.NOTIFICATION
     }
 
-    object Id {
-        const val NOTIFY_FOREGROUND = Constants.Id.NOTIFY_FOREGROUND
-        const val NOTIFY_GENERAL = Constants.Id.NOTIFY_GENERAL
-        const val NOTIFY_FOREGROUND_CHANNEL_ID = Constants.Id.NOTIFY_FOREGROUND_CHANNEL_ID
+    object Notify {
+        const val FOREGROUND_ID = Constants.Notify.FOREGROUND_ID
+        const val PLAYER_FOREGROUND_ID = 104
+        const val FOREGROUND_CHANNEL_ID = Constants.Notify.FOREGROUND_CHANNEL_ID
+        const val PLAYER_FOREGROUND_CHANNEL_ID = "player_" + Constants.Notify.FOREGROUND_CHANNEL_ID
     }
 
     object Sep {
@@ -53,6 +55,10 @@ class Constants {
         const val COMMA_SPACE = Constants.Sep.COMMA_SPACE
         const val SPACE = Constants.Sep.SPACE
         const val HYPHEN = Constants.Sep.HYPHEN
+        const val SEMI_COLON = Constants.Sep.SEMI_COLON
+        const val EQUAL = Constants.Sep.EQUAL
+        const val SPACE_HYPHEN_SPACE = Constants.Sep.SPACE_HYPHEN_SPACE
+        const val LEAF_SEPARATOR = Constants.Sep.LEAF_SEPARATOR
     }
 
     object Default {
@@ -79,7 +85,10 @@ class Constants {
     object Time {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
-        val STATION = TimeUnit.DAYS.toMillis(1)
+        val STATION = TimeUnit.DAYS.toMillis(10)
+        fun minuteToMillis(minutes: Long): Long {
+            return TimeUnit.MINUTES.toMillis(minutes)
+        }
     }
 
     object Period {
@@ -113,6 +122,7 @@ class Constants {
         const val WORD = "word"
         const val VPN = "vpn"
 
+        const val PLAYER_RETRY_TIMEOUT = "player_retry_timeout"
 
         const val WORD_TRACK_LOADED = "word_track_loaded"
         const val WORD_COMMON_LOADED = "word_common_loaded"
@@ -170,7 +180,8 @@ class Constants {
 
     object Api {
         const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
-        const val RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE = "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
+        const val RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE =
+            "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
     }
 
     object Demo {
@@ -292,6 +303,15 @@ class Constants {
     object Service {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"
+
+        object Command {
+            const val RESUME = "resume"
+            const val PAUSE = "pause"
+            const val STOP = "stop"
+            const val NEXT = "next"
+            const val PREVIOUS = "previous"
+            const val MEDIA_BUTTON = Intent.ACTION_MEDIA_BUTTON
+        }
     }
 
     object Translation {
@@ -339,5 +359,52 @@ class Constants {
         }
     }
 
+    object Extension {
+        const val M3U8 = ".m3u8"
+    }
+
+    object Header {
+        const val ICY_METADATA = "Icy-MetaData"
+        const val ICY_METADATA_OK = "1"
+        const val ACCEPT_ENCODING = "Accept-Encoding"
+        const val ACCEPT_ENCODING_IDENTITY = "identity"
+    }
+
+    object MimeType {
+        const val AUDIO_MPEG = "audio/mpeg"
+    }
+
+    object ContentType {
+        const val APPLE_MPEGURL = "application/vnd.apple.mpegurl"
+        const val X_MPEGURL = "application/x-mpegurl"
+    }
+
+    object ShoutCast {
+        const val ICY_META_INT = "icy-metaint"
+        const val ICY_BR = "icy-br"
+        const val ICY_AUDIO_INFO = "ice-audio-info"
+        const val ICY_DESCRIPTION = "icy-description"
+        const val ICY_GENRE = "icy-genre"
+        const val ICY_NAME = "icy-name"
+        const val ICY_URL = "icy-url"
+        const val SERVER = "Server"
+        const val PUBLIC = "icy-pub"
+        const val ICY_CHANNELS = "ice-channels"
+        const val CHANNELS = "channels"
+        const val ICY_SAMPLE_RATE = "ice-samplerate"
+        const val SAMPLE_RATE = "samplerate"
+        const val ICY_BIT_RATE = "ice-bitrate"
+        const val BIT_RATE = "bitrate"
+    }
+
+    object Stream {
+        const val TITLE = "StreamTitle"
+    }
+
+    object Radio {
+        const val STATION_ID = "station_id"
+        const val PLAY_BY_STATION_ID = "play_by_station_id"
+        const val PLAY_BY_STATION_UUID = "play_by_station_uuid"
+    }
 
 }

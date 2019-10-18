@@ -8,6 +8,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
+import android.media.audiofx.AudioEffect
 import android.net.wifi.WifiManager
 import android.os.Binder
 import android.os.Build
@@ -16,8 +17,10 @@ import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media.session.MediaButtonReceiver
 import com.dreampany.framework.api.notify.NotifyManager
 import com.dreampany.framework.api.service.BaseService
@@ -51,6 +54,8 @@ class PlayerService
     @Inject
     internal lateinit var player: RadioPlayer
 
+    private lateinit var notifyManager: NotificationManagerCompat
+
     private val binder: ServiceBinder = ServiceBinder()
 
     private lateinit var powerManager: PowerManager
@@ -69,8 +74,7 @@ class PlayerService
 
     private var hls = false
     private var resumeOnFocusGain = false
-
-    private lateinit var notifyManager: NotificationManagerCompat
+    private var lastPlayStartTime: Long = 0
 
     override fun onBind(intent: Intent): IBinder? {
         return binder
@@ -117,6 +121,30 @@ class PlayerService
             when (state) {
                 SmartPlayer.State.PAUSED -> {
                     setMediaPlaybackState(PlaybackStateCompat.STATE_PAUSED)
+                }
+                SmartPlayer.State.PLAYING -> {
+                    enableSession()
+                    setMediaPlaybackState(PlaybackStateCompat.STATE_PLAYING)
+                    Timber.v("Open audio effect control session, session id=$audioSessionId")
+                    lastPlayStartTime = System.currentTimeMillis()
+
+                    val intent = Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION)
+                    intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
+                    intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
+                    cast(intent)
+                }
+                else -> {
+                    setMediaPlaybackState(PlaybackStateCompat.STATE_NONE)
+                    if (state != SmartPlayer.State.PAUSED) {
+                        disableSession()
+                    }
+                    if (audioSessionId > 0) {
+                        Timber.v("Close audio effect control session, session id=$audioSessionId")
+                        val i = Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION)
+                        i.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
+                        i.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
+                        //itsContext.sendBroadcast(i)
+                    }
                 }
             }
         })
@@ -458,6 +486,14 @@ class PlayerService
         if (state == SmartPlayer.State.PAUSED) {
             stopForeground(false) // necessary to make notification dismissible
         }
+    }
+
+    private fun cast(action: String) {
+        cast(Intent(action))
+    }
+
+    private fun cast(intent: Intent) {
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 
     inner class ServiceBinder : Binder() {

@@ -53,15 +53,27 @@ constructor(
     private var source: MediaSource? = null
     private var interruptedByConnectionLoss = false
 
-/*    override fun setListener(listener: SmartPlayer.Listener) {
-        this.listener = listener
-    }*/
+    override fun onNetworks(networks: List<Network>) {
+        if (!interruptedByConnectionLoss || player == null || source == null) {
+            return
+        }
+        for (network in networks) {
+            if (network.internet) {
+                //interruptedByConnectionLoss = false
+                //player?.prepare(source)
+                //player?.playWhenReady = true
+                break
+            }
+        }
+    }
 
     override fun setVolume(volume: Float) {
+        Timber.v("setVolume(%d)", volume)
         player?.setVolume(volume)
     }
 
     override fun play(http: OkHttpClient, url: String) {
+        Timber.v("play - %s", url)
         if (!url.equals(this.url)) {
             playbackBytes = 0L
         }
@@ -78,10 +90,8 @@ constructor(
                 track,
                 control
             )
-            player?.setAudioAttributes(
-                AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build()
-            )
-            player?.addListener(this)
+            player?.setAudioAttributes(AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build())
+            //player?.addListener(this)
             player?.addAnalyticsListener(this)
 
         }
@@ -92,14 +102,10 @@ constructor(
         val sourceFactory = DataSourceFactory(http, meter, this, retryTimeout, retryDelay)
         val extractorsFactory = DefaultExtractorsFactory()
 
-        if (!hls) {
-            source =
-                ExtractorMediaSource.Factory(sourceFactory).setExtractorsFactory(extractorsFactory)
-                    .createMediaSource(
-                        Uri.parse(url)
-                    )
-        } else {
+        if (hls) {
             source = HlsMediaSource.Factory(sourceFactory).createMediaSource(Uri.parse(url))
+        } else {
+            source = ExtractorMediaSource.Factory(sourceFactory).setExtractorsFactory(extractorsFactory).createMediaSource(Uri.parse(url))
         }
         player?.prepare(source)
         player?.playWhenReady = true
@@ -128,6 +134,7 @@ constructor(
     }
 
     override fun isPlaying(): Boolean {
+        Timber.v("Stopping exoplayer.")
         return player != null && playingFlag
     }
 
@@ -136,31 +143,37 @@ constructor(
     }
 
     override fun getBufferedMs(): Long {
-        return if (player != null) {
+        val bufferMs = if (player != null) {
             player!!.getBufferedPosition() - player!!.getCurrentPosition()
         } else 0
+        Timber.v("getBufferedMs %d", bufferMs)
+        return bufferMs
     }
 
     override fun getAudioSessionId(): Int {
-        return if (player != null) {
+        val sessionId = if (player != null) {
             player!!.getAudioSessionId()
         } else 0
+        Timber.v("getAudioSessionId %d", sessionId)
+        return sessionId
     }
 
     override fun getTotalTransferredBytes(): Long {
+        Timber.v("getTotalTransferredBytes %d", totalBytes)
         return totalBytes
     }
 
     override fun getCurrentPlaybackTransferredBytes(): Long {
+        Timber.v("getCurrentPlaybackTransferredBytes %d", playbackBytes)
         return playbackBytes
     }
 
     override fun onConnected() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Timber.v("onConnected.")
     }
 
     override fun onConnectionLost() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Timber.v("onConnectionLost.")
     }
 
     override fun onConnectionLostIrrecoverably() {
@@ -220,20 +233,6 @@ constructor(
 
     override fun onAudioSessionId(eventTime: AnalyticsListener.EventTime, audioSessionId: Int) {
         listener.onState(SmartPlayer.State.PLAYING)
-    }
-
-    override fun onNetworks(networks: List<Network>) {
-        if (!interruptedByConnectionLoss || player == null || source == null) {
-            return
-        }
-        for (network in networks) {
-            if (network.internet) {
-                interruptedByConnectionLoss = false
-                player?.prepare(source)
-                player?.playWhenReady = true
-                break
-            }
-        }
     }
 
 /*    private val networkReceiver = object : BroadcastReceiver() {

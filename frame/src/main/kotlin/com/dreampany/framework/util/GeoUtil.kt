@@ -22,7 +22,7 @@ class GeoUtil {
             var code: String? = null
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
             if (tm != null) {
-                var code = tm.simCountryIso
+                code = tm.simCountryIso
                 if (code.isNullOrEmpty()) {
                     if (tm.phoneType == TelephonyManager.PHONE_TYPE_CDMA) {
                         code = getCDMACountryIso()

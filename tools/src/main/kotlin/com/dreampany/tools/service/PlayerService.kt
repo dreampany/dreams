@@ -495,7 +495,7 @@ class PlayerService
             val pendingIntentResume = PendingIntent.getService(this, 0, resumeIntent, 0)
 
             builder.addAction(
-                R.drawable.ic_media_play_light,
+                R.drawable.ic_pause_black_24dp,
                 getString(R.string.resume),
                 pendingIntentResume
             )

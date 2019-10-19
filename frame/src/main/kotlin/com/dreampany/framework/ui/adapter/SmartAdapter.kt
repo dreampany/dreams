@@ -24,7 +24,6 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
 
     var uiItemClick: OnUiItemClickListener<Any, Any>? = null
         private set
-
     var clickListener: View.OnClickListener? = null
         private set
     var longClickListener: View.OnLongClickListener? = null

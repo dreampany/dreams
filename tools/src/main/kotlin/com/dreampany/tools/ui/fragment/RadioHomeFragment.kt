@@ -272,6 +272,8 @@ class RadioHomeFragment
                     adapter.setSelection(this, true)
                 }
             }
+        } else {
+            adapter.clearSelection()
         }
     }
 

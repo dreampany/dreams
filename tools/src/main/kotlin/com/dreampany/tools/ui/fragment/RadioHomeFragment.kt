@@ -1,5 +1,9 @@
 package com.dreampany.tools.ui.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -87,7 +91,14 @@ class RadioHomeFragment
         player.debind()
     }
 
+    override fun onResume() {
+        super.onResume()
+        val filter = IntentFilter(Constants.Service.PLAYER_SERVICE_UPDATE)
+        bindLocalCast(serviceUpdateReceiver, filter)
+    }
+
     override fun onPause() {
+        debindLocalCast(serviceUpdateReceiver)
         if (!player.isPlaying()) {
             player.destroy()
         }
@@ -208,13 +219,7 @@ class RadioHomeFragment
     private fun processSuccess(state: State, action: Action, items: List<StationItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
-        if (player.isPlaying()) {
-            player.getStation()?.run {
-                mapper.getUiItem(this.id)?.run {
-                    adapter.setSelection(this, true)
-                }
-            }
-        }
+        updatePlaying()
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
     }
 
@@ -226,6 +231,16 @@ class RadioHomeFragment
         }
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
 
+    }
+
+    private fun updatePlaying() {
+        if (player.isPlaying()) {
+            player.getStation()?.run {
+                mapper.getUiItem(this.id)?.run {
+                    adapter.setSelection(this, true)
+                }
+            }
+        }
     }
 
     private fun request(
@@ -253,5 +268,12 @@ class RadioHomeFragment
             progress = progress
         )
         vm.request(request)
+    }
+
+    private val serviceUpdateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updatePlaying()
+        }
+
     }
 }

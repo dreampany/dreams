@@ -2,8 +2,10 @@ package com.dreampany.framework.ui.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.Editable
@@ -19,6 +21,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.app.BaseApp
@@ -430,7 +433,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         return task?.input as T?
     }
 
-    fun <T : View> findViewById(@IdRes id: Int): T? {
+   protected fun <T : View> findViewById(@IdRes id: Int): T? {
         var current = currentView
         if (current == null) {
             current = view
@@ -466,6 +469,14 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         if (BaseActivity::class.java.isInstance(activity)) {
             (activity as BaseActivity).setSubtitle(subtitle)
         }
+    }
+
+    protected fun bindLocalCast(receiver: BroadcastReceiver, filter:IntentFilter) {
+        LocalBroadcastManager.getInstance(context!!).registerReceiver(receiver, filter)
+    }
+
+    protected fun debindLocalCast(receiver: BroadcastReceiver) {
+        LocalBroadcastManager.getInstance(context!!).unregisterReceiver(receiver)
     }
 
     fun openActivity(target: Class<*>) {

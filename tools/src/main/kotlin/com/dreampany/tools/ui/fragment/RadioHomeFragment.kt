@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
@@ -20,7 +22,9 @@ import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
+import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.GeoUtil
+import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.StationMapper
@@ -75,8 +79,26 @@ class RadioHomeFragment
         return R.layout.fragment_radio_home
     }
 
+    override fun getMenuId(): Int {
+        return R.menu.menu_radio
+    }
+
+    override fun getSearchMenuItemId(): Int {
+        return R.id.item_search
+    }
+
     override fun getTitleResId(): Int {
         return R.string.title_feature_radio
+    }
+
+    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
+        super.onMenuCreated(menu, inflater)
+
+        val searchItem = getSearchMenuItem()
+        MenuTint.colorMenuItem(
+            ColorUtil.getColor(context!!, R.color.material_white),
+            null, searchItem
+        )
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -103,6 +125,14 @@ class RadioHomeFragment
             player.destroy()
         }
         super.onPause()
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        if (adapter.hasNewFilter(newText)) {
+            adapter.setFilter(newText)
+            adapter.filterItems()
+        }
+        return false
     }
 
     override fun onClick(view: View, item: StationItem?, action: Action?) {

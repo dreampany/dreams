@@ -230,7 +230,10 @@ class PlayerService
     }
 
     fun pause() {
-
+        Timber.v("pausing playback.")
+        resumeOnFocusGain = false
+        releaseLock()
+        player.pause()
     }
 
     fun stop() {
@@ -381,8 +384,8 @@ class PlayerService
             SmartPlayer.State.PRE_PLAYING -> {
                 showNotify(
                     station!!.name!!,
-                    getString(R.string.notify_pre_play),
-                    getString(R.string.notify_pre_play)
+                    getString(R.string.connecting),
+                    getString(R.string.connecting)
                 )
             }
             SmartPlayer.State.PLAYING -> {
@@ -393,7 +396,7 @@ class PlayerService
                 } else {
                     showNotify(
                         station!!.name!!,
-                        getString(R.string.notify_playing),
+                        getString(R.string.playing),
                         station!!.name!!
                     )
                 }
@@ -419,14 +422,14 @@ class PlayerService
                 }
             }
             SmartPlayer.State.PAUSED -> {
-                showNotify(station!!.name!!, getString(R.string.notify_paused), station!!.name!!)
+                showNotify(station!!.name!!, getString(R.string.paused), station!!.name!!)
             }
         }
     }
 
     private fun showNotify(title: String, message: String, ticker: String) {
         val notifyIntent = Intent(this, NavigationActivity::class.java)
-        //notificationIntent.putExtra("stationid", currentStation.StationUuid)
+        notifyIntent.putExtra(Constants.Station.STATION_UUID, station?.getStationUuid())
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         val stopIntent = Intent(this, PlayerService::class.java)
@@ -462,7 +465,7 @@ class PlayerService
                 .setSmallIcon(R.drawable.ic_play_arrow_black_24dp)
                 //.setLargeIcon(radioIcon.getBitmap())
                 .addAction(
-                    R.drawable.ic_media_stop_light,
+                    R.drawable.ic_stop_black_24dp,
                     getString(R.string.stop),
                     pendingIntentStop
                 )

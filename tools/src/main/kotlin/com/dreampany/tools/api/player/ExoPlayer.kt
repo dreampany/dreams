@@ -2,7 +2,6 @@ package com.dreampany.tools.api.player
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.R
@@ -22,7 +21,6 @@ import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import okhttp3.OkHttpClient
 import timber.log.Timber
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Created by roman on 2019-10-13

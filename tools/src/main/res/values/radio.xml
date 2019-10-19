@@ -4,9 +4,6 @@
     <string name="error_play_stream">Unable to play stream</string>
     <string name="error_stream_reconnect_timeout">Unable to reconnect to the stream: timeout</string>
     <string name="giving_up_resume">Attempt to resume playback ignored</string>
-    <string name="notify_pre_play">Connecting</string>
-    <string name="notify_playing">Playing</string>
-    <string name="notify_paused">Paused</string>
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">BROKEN</string>
     <string name="subtitle_radio">%s [%d]</string>

@@ -13,6 +13,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.StationAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import jp.shts.android.library.TriangleLabelView
 import java.io.Serializable
 
 /**
@@ -41,7 +42,7 @@ private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.id.startsWith(constraint, true)
+        return item.name?.startsWith(constraint, true) ?: false
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
@@ -50,11 +51,13 @@ private constructor(
         private val adapter: StationAdapter
         private val title: AppCompatTextView
         private val subtitle: AppCompatTextView
+        private var label: TriangleLabelView
 
         init {
             this.adapter = adapter as StationAdapter
             title = view.findViewById(R.id.view_title)
             subtitle = view.findViewById(R.id.view_subtitle)
+            label = view.findViewById(R.id.label_type)
 
             view.setOnClickListener {
                 this.adapter.uiItemClick?.onClick(
@@ -71,6 +74,15 @@ private constructor(
             val item = uiItem.item
             title.text = item.name
             subtitle.text = getSubtitle(item)
+
+            if (item.getLastCheckOk()) {
+                label.primaryText = getString(R.string.online)
+                label.setTriangleBackgroundColorResource(R.color.material_green500)
+            } else {
+                label.primaryText = getString(R.string.offline)
+                label.setTriangleBackgroundColorResource(R.color.material_red500)
+            }
+
 
             if (adapter.isSelected(uiItem)) {
                 title.setTextColor(getColor(R.color.material_black))

@@ -85,6 +85,7 @@ class StationMapper
         out.setNegativeVotes(input.negativeVotes)
         out.setClickCount(input.clickCount)
         out.setClickTrend(input.clickTrend)
+        out.setLastCheckOk(input.lastCheckOk != 0)
 
         return out
     }

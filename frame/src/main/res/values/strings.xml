@@ -3,6 +3,7 @@
 
     <string name="space">\u0020</string>
     <string name="title">Title</string>
+    <string name="subtitle">Subtitle</string>
     <string name="home">Home</string>
     <string name="more">More</string>
     <string name="tools">Tools</string>

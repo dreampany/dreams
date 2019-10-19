@@ -49,10 +49,12 @@ private constructor(
 
         private val adapter: StationAdapter
         private val title: AppCompatTextView
+        private val subtitle: AppCompatTextView
 
         init {
             this.adapter = adapter as StationAdapter
             title = view.findViewById(R.id.view_title)
+            subtitle = view.findViewById(R.id.view_subtitle)
 
             view.setOnClickListener {
                 this.adapter.uiItemClick?.onClick(
@@ -68,6 +70,32 @@ private constructor(
             val uiItem = item as StationItem
             val item = uiItem.item
             title.text = item.name
+            subtitle.text = getSubtitle(item)
+
+            if (item.id.equals(adapter.playingStationId)) {
+                title.setTextColor(getColor(R.color.material_black))
+            } else {
+                title.setTextColor(getColor(R.color.material_grey600))
+            }
+        }
+
+        private fun getSubtitle(station: Station): String {
+            val subtitle = arrayListOf<String>()
+            if (!station.getLastCheckOk()) {
+                subtitle.add(getString(R.string.station_detail_broken))
+            }
+            if (station.bitrate > 0) {
+                //subtitle.add(getString(R.string.station_detail_bitrate, station.bitrate))
+            }
+            station.language?.run {
+                if (isNotEmpty()) {
+                    subtitle.add(this)
+                }
+            }
+            station.state?.run {
+                subtitle.add(this)
+            }
+            return subtitle.joinToString(separator = Constants.Sep.SPACE)
         }
     }
 }

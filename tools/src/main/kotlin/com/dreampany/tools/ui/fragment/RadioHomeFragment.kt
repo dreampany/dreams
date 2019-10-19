@@ -206,6 +206,7 @@ class RadioHomeFragment
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+
     }
 
     private fun processSuccess(state: State, action: Action, item: StationItem) {

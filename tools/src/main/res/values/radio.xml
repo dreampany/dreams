@@ -7,4 +7,6 @@
     <string name="notify_pre_play">Connecting</string>
     <string name="notify_playing">Playing</string>
     <string name="notify_paused">Paused</string>
+    <string name="station_detail_bitrate">%1$1d kbps</string>
+    <string name="station_detail_broken">BROKEN</string>
 </resources>

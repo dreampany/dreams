@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.adapter
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.StationItem
 import eu.davidea.flexibleadapter.items.IFlexible
 
@@ -10,7 +11,7 @@ import eu.davidea.flexibleadapter.items.IFlexible
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class StationAdapter (listener: Any? = null) : SmartAdapter<StationItem>(listener) {
+class StationAdapter(listener: Any? = null) : SmartAdapter<StationItem>(listener) {
 
     private val clickCountComparator: Comparator<IFlexible<*>>
 
@@ -22,6 +23,8 @@ class StationAdapter (listener: Any? = null) : SmartAdapter<StationItem>(listene
         private val SPAN_COUNT = 2
         private val ITEM_OFFSET = 4
     }
+
+    var playingStationId: String = Constants.Default.STRING
 
     fun getSpanCount(): Int {
         return StationAdapter.SPAN_COUNT

@@ -9,4 +9,5 @@
     <string name="notify_paused">Paused</string>
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">BROKEN</string>
+    <string name="subtitle_radio">%s [%d]</string>
 </resources>

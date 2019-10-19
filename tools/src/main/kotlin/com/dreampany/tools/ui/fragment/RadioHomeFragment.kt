@@ -80,9 +80,9 @@ class RadioHomeFragment
     }
 
     override fun onStartUi(state: Bundle?) {
-        initTitleSubtitle()
         initUi()
         initRecycler()
+        initTitleSubtitle()
         request(progress = true)
         player.bind()
     }
@@ -119,7 +119,8 @@ class RadioHomeFragment
     private fun initTitleSubtitle() {
         setTitle(R.string.title_feature_radio)
         val state = radioPref.getStationState(State.LOCAL)
-        setSubtitle(state.name.toLowerCase())
+        val subtitle = getString(R.string.subtitle_radio, state.name, adapter.itemCount)
+        setSubtitle(subtitle)
     }
 
     private fun initUi() {
@@ -184,6 +185,7 @@ class RadioHomeFragment
             UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
+                initTitleSubtitle()
             }
         }
     }

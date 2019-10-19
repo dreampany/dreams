@@ -11,6 +11,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.StationAdapter
+import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import jp.shts.android.library.TriangleLabelView
@@ -32,6 +33,17 @@ private constructor(
         fun getItem(item: Station): StationItem {
             return StationItem(item, R.layout.item_station)
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as StationItem
+        return Objects.equal(this.item.id, item.item.id)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(item.id)
     }
 
     override fun createViewHolder(

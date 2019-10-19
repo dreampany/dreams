@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.model.Word
+import com.google.firebase.firestore.FirebaseFirestoreException
 import io.reactivex.Maybe
 
 /**
@@ -40,7 +41,9 @@ interface WordDataSource : DataSource<Word> {
 
     fun trackRx(id: String, weight: Int, source: Source): Maybe<Long>
 
+    @Throws(Throwable::class)
     fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>?
 
+    @Throws(Throwable::class)
     fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>>
 }

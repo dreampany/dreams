@@ -9,6 +9,7 @@ import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
 import com.google.firebase.firestore.FieldPath
+import com.google.firebase.firestore.FirebaseFirestoreException
 import io.reactivex.Maybe
 
 /**
@@ -43,10 +44,12 @@ class FirestoreWordDataSource(
         }
     }
 
+    @Throws(Throwable::class)
     override fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>? {
         return getTracksRx(startAt, limit).blockingGet()
     }
 
+    @Throws(Throwable::class)
     override fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>> {
         return firestore.getDocumentMapsRx(
             Constants.Firebase.TRACK_WORDS,

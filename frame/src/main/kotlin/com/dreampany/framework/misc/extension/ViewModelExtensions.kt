@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc
+package com.dreampany.framework.misc.extension
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

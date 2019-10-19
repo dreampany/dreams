@@ -20,7 +20,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
-import com.dreampany.framework.misc.resolveText
+import com.dreampany.framework.misc.extension.resolveText
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState

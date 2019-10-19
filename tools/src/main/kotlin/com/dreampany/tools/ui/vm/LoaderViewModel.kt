@@ -130,7 +130,13 @@ class LoaderViewModel
     private fun loadTracks(request: LoadRequest) {
         do {
             val startAt = wordPref.getTrackStartAt()
-            var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
+            var result: List<Pair<String, Map<String, Any>>>? = null
+            try {
+                result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
+            } catch (error: Throwable) {
+                Timber.e(error)
+                break
+            }
             if (!result.isNullOrEmpty()) {
                 Timber.v("firestoreAny Track downloaded [%d]", result.size)
                 val stores = ArrayList<Store>()
@@ -169,11 +175,10 @@ class LoaderViewModel
                     Timber.v("firestoreAny Track download completed [%d]", totalTrack)
                 }
             }
-            AndroidUtil.sleep(100L)
+           // AndroidUtil.sleep(1000L)
+            break
         } while (network.hasInternet() && !wordPref.isTrackLoaded())
-
     }
-
 
     private fun loadCommons(request: LoadRequest) {
         buildCommonWords()

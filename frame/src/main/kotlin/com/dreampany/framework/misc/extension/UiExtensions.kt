@@ -1,6 +1,7 @@
-package com.dreampany.framework.misc
+package com.dreampany.framework.misc.extension
 
 import androidx.fragment.app.Fragment
+import com.dreampany.framework.misc.Constants
 
 /**
  * Created by roman on 2019-09-27

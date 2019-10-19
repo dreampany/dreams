@@ -14,6 +14,7 @@ import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.misc.extension.reObserve
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.network.data.model.Network
 import io.reactivex.Maybe

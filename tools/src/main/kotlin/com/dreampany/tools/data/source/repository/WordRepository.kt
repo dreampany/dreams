@@ -46,10 +46,12 @@ class WordRepository
         return firestore.track(id, weight, source)
     }
 
+    @Throws(Throwable::class)
     override fun trackRx(id: String, weight: Int, source: Source): Maybe<Long> {
         return firestore.trackRx(id, weight, source)
     }
 
+    @Throws(Throwable::class)
     override fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>? {
         return firestore.getTracks(startAt, limit)
     }

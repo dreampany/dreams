@@ -138,6 +138,11 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
         }
     }
 
+    fun setSelection(item: T, selected: Boolean) {
+        clearSelection()
+        addSelection(item, selected)
+    }
+
     fun selectAll() {
         super.selectAll()
         notifyDataSetChanged()

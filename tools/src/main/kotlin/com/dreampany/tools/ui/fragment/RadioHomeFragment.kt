@@ -19,6 +19,7 @@ import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.util.GeoUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.mapper.StationMapper
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
@@ -47,6 +48,8 @@ class RadioHomeFragment
 @Inject constructor() : BaseMenuFragment(),
     SmartAdapter.OnUiItemClickListener<StationItem?, Action?> {
 
+    @Inject
+    internal lateinit var mapper: StationMapper
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
@@ -205,8 +208,14 @@ class RadioHomeFragment
     private fun processSuccess(state: State, action: Action, items: List<StationItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
+        if (player.isPlaying()) {
+            player.getStation()?.run {
+                mapper.getUiItem(this.id)?.run {
+                    adapter.setSelection(this, true)
+                }
+            }
+        }
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
-
     }
 
     private fun processSuccess(state: State, action: Action, item: StationItem) {
@@ -216,6 +225,7 @@ class RadioHomeFragment
             adapter.addItem(item)
         }
         ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+
     }
 
     private fun request(

@@ -72,7 +72,7 @@ private constructor(
             title.text = item.name
             subtitle.text = getSubtitle(item)
 
-            if (item.id.equals(adapter.playingStationId)) {
+            if (adapter.isSelected(uiItem)) {
                 title.setTextColor(getColor(R.color.material_black))
             } else {
                 title.setTextColor(getColor(R.color.material_grey600))

@@ -134,8 +134,9 @@ constructor(
     }
 
     override fun isPlaying(): Boolean {
-        Timber.v("Stopping exoplayer.")
-        return player != null && playingFlag
+        val playing = player != null && playingFlag
+        Timber.v("isPlaying exoplayer. $playing")
+        return playing
     }
 
     override fun isLocal(): Boolean {
@@ -228,6 +229,7 @@ constructor(
         playWhenReady: Boolean,
         playbackState: Int
     ) {
+        Timber.v("onPlayerStateChanged $playWhenReady")
         playingFlag = playWhenReady
     }
 

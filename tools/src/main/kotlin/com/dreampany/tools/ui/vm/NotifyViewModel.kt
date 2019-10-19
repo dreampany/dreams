@@ -119,7 +119,7 @@ class NotifyViewModel
                     trackCount++
                 }
             }
-            AndroidUtil.sleep(10)
+            AndroidUtil.sleep(100L)
         } while (store != null && trackCount < trackPer)
 
         Timber.v("Getting... FAW Store")

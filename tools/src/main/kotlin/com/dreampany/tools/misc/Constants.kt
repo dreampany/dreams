@@ -98,7 +98,7 @@ class Constants {
 
     object Delay {
         val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
-        val WORD_SYNC_TIME_MS = TimeUnit.MINUTES.toMillis(3)
+        val WORD_SYNC_TIME_MS = TimeUnit.MINUTES.toMillis(1)
         val WORD_TRACK_TIME_MS = TimeUnit.MINUTES.toMillis(30)
     }
 
@@ -163,9 +163,9 @@ class Constants {
         const val WORD_COMMON = 1000
         const val WORD_ALPHA = 370099
         const val WORD_PAGE = 1000
-        const val WORD_DEFAULT_PER_TRACK = 10
-        const val WORD_PER_TRACK = 100
-        const val WORD_TRACK = 1000
+        const val WORD_DEFAULT_PER_TRACK = 1
+        const val WORD_PER_TRACK = 10
+        const val WORD_TRACK = 100
     }
 
     object Limit {

@@ -199,11 +199,10 @@ class IcyDataSource(
         if (type == Constants.ContentType.APPLE_MPEGURL || type == Constants.ContentType.X_MPEGURL) {
             return body!!.contentLength()
         } else {
-            cast = Mapper.decodeShoutCast(response)
-            listener.onShoutCast(cast!!)
-
             remainingUntilMetadata = Integer.MAX_VALUE
+            cast = Mapper.decodeShoutCast(response)
             cast?.run {
+                listener.onShoutCast(cast!!)
                 remainingUntilMetadata = metadataOffset
             }
         }
@@ -284,9 +283,10 @@ class IcyDataSource(
 
                     val rawMetadata = Mapper.decodeShoutCastMetadata(meta)
                     this.stream = Mapper.decodeStream(rawMetadata)
-                    listener.onStream(this.stream!!)
-
-                    Timber.v("META:" + this.stream!!.title)
+                    this.stream?.run {
+                        listener.onStream(this)
+                        Timber.v("Stream META:" + this.title)
+                    }
                     break
                 }
             }

@@ -279,7 +279,17 @@ class DataUtilKt {
             return collection?.size ?: 0
         }
 
-        fun isEqual(left: Collection<*>, right: Collection<*>): Boolean {
+        fun isEquals(left: String?, right: String?): Boolean {
+            if (!left.isNullOrEmpty()) {
+                return left.equals(right)
+            }
+            if (!right.isNullOrEmpty()) {
+                return right.equals(left)
+            }
+            return true
+        }
+
+        fun isEquals(left: Collection<*>, right: Collection<*>): Boolean {
             return getSize(left) == getSize(right)
         }
 

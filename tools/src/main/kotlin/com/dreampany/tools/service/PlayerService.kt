@@ -17,6 +17,7 @@ import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -24,6 +25,7 @@ import androidx.media.session.MediaButtonReceiver
 import com.dreampany.framework.api.notify.NotifyManager
 import com.dreampany.framework.api.service.BaseService
 import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.NotifyUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.api.player.SmartPlayer
@@ -130,7 +132,7 @@ class PlayerService
                     val intent = Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION)
                     intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
                     intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
-                    cast(intent)
+                    localCast(intent)
                 }
                 else -> {
                     setMediaPlaybackState(PlaybackStateCompat.STATE_NONE)
@@ -142,7 +144,7 @@ class PlayerService
                         val intent = Intent(AudioEffect.ACTION_CLOSE_AUDIO_EFFECT_CONTROL_SESSION)
                         intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
                         intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, packageName)
-                        cast(intent)
+                        localCast(intent)
                     }
                     if (state == SmartPlayer.State.IDLE) {
                         stop()
@@ -154,7 +156,7 @@ class PlayerService
 
             val intent = Intent(Constants.Service.PLAYER_SERVICE_STATE_CHANGE)
             intent.putExtra(Constants.Service.PLAYER_SERVICE_STATE, state)
-            cast(intent)
+            localCast(intent)
         })
     }
 
@@ -168,9 +170,28 @@ class PlayerService
     }
 
     override fun onShoutCast(cast: ShoutCast, hls: Boolean) {
+        this.cast = cast
+        this.hls = hls
+        Timber.v( "Metadata offset: $cast.metadataOffset")
+        Timber.v("Bitrate: $cast.bitrate")
+        Timber.v("Name: $cast.name")
+        Timber.v( "Hls:$hls")
+        Timber.v("Server: $cast.server")
+        Timber.v("AudioInfo: $cast.audioInfo")
+        localCast(Constants.Service.PLAYER_SERVICE_UPDATE)
     }
 
     override fun onStream(stream: Stream) {
+        val oldStream = this.stream
+        this.stream = stream
+        stream.meta?.forEach {
+            Timber.v("Stream INFO: ${it.key} - ${it.value}")
+        }
+
+        if (oldStream == null || !DataUtilKt.isEquals(oldStream.title, stream.title)) {
+            localCast(Constants.Service.PLAYER_SERVICE_UPDATE)
+            updateNotify()
+        }
     }
 
     fun isPlaying(): Boolean {
@@ -499,11 +520,11 @@ class PlayerService
         }
     }
 
-    private fun cast(action: String) {
-        cast(Intent(action))
+    private fun localCast(action: String) {
+        localCast(Intent(action))
     }
 
-    private fun cast(intent: Intent) {
+    private fun localCast(intent: Intent) {
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
     }
 

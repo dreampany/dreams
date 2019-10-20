@@ -18,9 +18,11 @@ import com.dreampany.framework.R
 import com.dreampany.framework.app.BaseApp
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.data.model.Task
+import com.dreampany.framework.data.source.pref.ConfigPref
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.ui.callback.UiCallback
+import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.framework.util.*
 import com.karumi.dexter.Dexter
@@ -51,6 +53,8 @@ abstract class BaseActivity :
     MultiplePermissionsListener,
     PermissionRequestErrorListener {
 
+    @Inject
+    protected lateinit var configPref: ConfigPref
     @Inject
     protected lateinit var ex: AppExecutor
     protected lateinit var binding: ViewDataBinding
@@ -150,7 +154,9 @@ abstract class BaseActivity :
         }
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
-            getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
+            val screen = getScreen()
+            configPref.setScreen(UiType.ACTIVITY, screen)
+            getApp()?.throwAnalytics(Constants.Event.ACTIVITY, screen)
         }
 
         if (app.hasRate() && hasRatePermitted()) {

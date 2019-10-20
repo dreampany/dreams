@@ -6,7 +6,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.view.View
 import androidx.appcompat.app.AppCompatDelegate
-import com.dreampany.framework.data.source.pref.Pref
+import com.dreampany.framework.data.source.pref.ConfigPref
 import com.dreampany.framework.misc.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,7 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class ThemeManager @Inject constructor(
     private val context: Context,
-    private val pref: Pref
+    private val pref: ConfigPref
 ) {
 
     fun switchMode(activity: Activity) {

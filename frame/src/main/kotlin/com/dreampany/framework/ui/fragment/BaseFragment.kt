@@ -28,10 +28,12 @@ import com.dreampany.framework.app.BaseApp
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.data.model.Task
+import com.dreampany.framework.data.source.pref.ConfigPref
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.ui.activity.BaseActivity
 import com.dreampany.framework.ui.callback.UiCallback
+import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.TextUtil
 import com.karumi.dexter.Dexter
@@ -65,6 +67,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
     TextWatcher {
 
     @Inject
+    protected lateinit var configPref: ConfigPref
+    @Inject
     protected lateinit var ex: AppExecutor
     @Inject
     internal lateinit var childInjector: DispatchingAndroidInjector<Any>
@@ -86,15 +90,15 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
     }
 
     open fun getLayoutId(): Int {
-        return 0
+        return Constants.Default.INT
     }
 
     open fun getPrefLayoutId(): Int {
-        return 0
+        return Constants.Default.INT
     }
 
     open fun getTitleResId() : Int {
-        return 0
+        return Constants.Default.INT
     }
 
     open fun hasColor(): Boolean {
@@ -198,7 +202,9 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
 
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
-            getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
+            val screen = getScreen()
+            configPref.setScreen(UiType.FRAGMENT, screen)
+            getApp()?.throwAnalytics(Constants.Event.FRAGMENT, screen)
         }
     }
 

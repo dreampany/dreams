@@ -63,14 +63,10 @@ class HomeFragment
     override fun getLayoutId(): Int {
         return R.layout.fragment_home
     }
-/*
-    override fun getMenuId(): Int {
-        return R.menu.menu_home
-    }
 
-    override fun getSearchMenuItemId(): Int {
-        return R.id.item_search
-    }*/
+    override fun getScreen(): String {
+        return Constants.home(context!!)
+    }
 
     override fun onStartUi(state: Bundle?) {
         initView()

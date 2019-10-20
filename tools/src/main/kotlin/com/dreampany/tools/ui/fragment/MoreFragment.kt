@@ -24,6 +24,7 @@ import com.dreampany.tools.ui.adapter.MoreAdapter
 import com.dreampany.tools.ui.enums.MoreType
 import com.dreampany.tools.ui.model.MoreItem
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.vm.MoreViewModel
 import eu.davidea.flexibleadapter.common.FlexibleItemAnimator
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -54,6 +55,10 @@ class MoreFragment @Inject constructor() : BaseMenuFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_recycler
+    }
+
+    override fun getScreen(): String {
+        return Constants.more(context!!)
     }
 
     override fun onStartUi(state: Bundle?) {

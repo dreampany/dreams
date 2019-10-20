@@ -7,6 +7,7 @@ import com.dreampany.framework.R
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.ui.adapter.SmartPagerAdapter
+import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.util.ColorUtil
 import timber.log.Timber
 
@@ -51,7 +52,9 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
         super.onActivityCreated(savedInstanceState)
         initPager()
         onStartUi(savedInstanceState)
-        getApp()?.throwAnalytics(Constants.Event.FRAGMENT, getScreen())
+        val screen = getScreen()
+        configPref.setScreen(UiType.FRAGMENT, screen)
+        getApp()?.throwAnalytics(Constants.Event.FRAGMENT, screen)
     }
 
     override fun getCurrentFragment(): BaseFragment? {

@@ -1,6 +1,7 @@
 package com.dreampany.framework.data.source.pref
 
 import android.content.Context
+import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.AndroidUtil
 import com.github.pwittchen.prefser.library.rx2.Prefser
 import io.reactivex.BackpressureStrategy
@@ -24,8 +25,8 @@ abstract class BasePref(val context: Context) {
         privatePref = Prefser(pref)
     }
 
-    open fun getPrivateName(context: Context): String? {
-        return AndroidUtil.getPackageName(context)
+    open fun getPrivateName(context: Context): String {
+        return Constants.Pref.DEFAULT
     }
 
     fun hasPublic(key: String): Boolean {

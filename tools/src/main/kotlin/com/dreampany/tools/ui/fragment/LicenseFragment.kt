@@ -7,6 +7,7 @@ import com.dreampany.tools.R
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.framework.util.FragmentUtil
+import com.dreampany.tools.misc.Constants
 import java.util.*
 import javax.inject.Inject
 
@@ -21,6 +22,10 @@ class LicenseFragment @Inject constructor() : BaseFragment() {
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_license
+    }
+
+    override fun getScreen(): String {
+        return Constants.license(context!!)
     }
 
     override fun onStartUi(state: Bundle?) {

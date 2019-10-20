@@ -32,6 +32,8 @@ class Constants {
         fun launch(context: Context): String = Constants.launch(context)
         fun navigation(context: Context): String = Constants.navigation(context)
         fun tools(context: Context): String = Constants.tools(context)
+
+        fun home(context: Context): String = lastAppId(context) + Sep.HYPHEN + "home"
     }
 
     object Event {

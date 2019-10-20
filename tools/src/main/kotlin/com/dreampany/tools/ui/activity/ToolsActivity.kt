@@ -12,6 +12,7 @@ import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ActivityToolsBinding
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.*
 import com.google.android.gms.ads.AdView
 import com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -26,41 +27,41 @@ import javax.inject.Inject
 class ToolsActivity : BaseActivity(), SearchViewCallback {
 
     @Inject
-    lateinit var ad: SmartAd
+    internal lateinit var ad: SmartAd
     @Inject
-    lateinit var settingsProvider: Lazy<SettingsFragment>
+    internal  lateinit var settingsProvider: Lazy<SettingsFragment>
     @Inject
-    lateinit var licenseProvider: Lazy<LicenseFragment>
+    internal lateinit var licenseProvider: Lazy<LicenseFragment>
 
     @Inject
-    lateinit var aboutProvider: Lazy<AboutFragment>
+    internal lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
-    lateinit var appHomeProvider: Lazy<AppHomeFragment>
+    internal  lateinit var appHomeProvider: Lazy<AppHomeFragment>
     @Inject
-    lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
+    internal  lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
     @Inject
-    lateinit var wordHomeProvider: Lazy<WordHomeFragment>
+    internal lateinit var wordHomeProvider: Lazy<WordHomeFragment>
     @Inject
-    lateinit var vpnHomeProvider: Lazy<VpnHomeFragment>
+    internal lateinit var vpnHomeProvider: Lazy<VpnHomeFragment>
     @Inject
-    lateinit var radioHomeProvider: Lazy<RadioHomeFragment>
+    internal lateinit var radioHomeProvider: Lazy<RadioHomeFragment>
 
     @Inject
-    lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
+    internal lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
     @Inject
-    lateinit var wordProvider: Lazy<WordFragment>
+    internal lateinit var wordProvider: Lazy<WordFragment>
     @Inject
-    lateinit var favoriteWordsProvider: Lazy<FavoriteWordsFragment>
+    internal lateinit var favoriteWordsProvider: Lazy<FavoriteWordsFragment>
     @Inject
-    lateinit var wordVisionProvider: Lazy<WordVisionFragment>
+    internal lateinit var wordVisionProvider: Lazy<WordVisionFragment>
     @Inject
-    lateinit var wordQuizProvider: Lazy<WordQuizFragment>
+    internal lateinit var wordQuizProvider: Lazy<WordQuizFragment>
     @Inject
-    lateinit var relatedQuizProvider: Lazy<RelatedQuizFragment>
+    internal lateinit var relatedQuizProvider: Lazy<RelatedQuizFragment>
     @Inject
-    lateinit var scanProvider: Lazy<ScanFragment>
+    internal lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
-    lateinit var editNoteProvider: Lazy<EditNoteFragment>
+    internal lateinit var editNoteProvider: Lazy<EditNoteFragment>
 
     private lateinit var bind: ActivityToolsBinding
 
@@ -71,6 +72,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     override fun isFullScreen(): Boolean {
         val uiTask = getCurrentTask<UiTask<*>>(true)
         return uiTask?.fullscreen ?: super.isFullScreen()
+    }
+
+    override fun getScreen(): String {
+        return Constants.tools(this)
     }
 
     override fun onStartUi(state: Bundle?) {

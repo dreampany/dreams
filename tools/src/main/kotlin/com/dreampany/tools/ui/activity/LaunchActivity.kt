@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.activity
 import android.os.Bundle
 import com.dreampany.tools.R
 import com.dreampany.framework.ui.activity.BaseActivity
+import com.dreampany.tools.misc.Constants
 import com.wang.avi.AVLoadingIndicatorView
 
 
@@ -19,6 +20,10 @@ class LaunchActivity : BaseActivity() {
 
     override fun isFullScreen(): Boolean {
         return true
+    }
+
+    override fun getScreen(): String {
+        return Constants.launch(this)
     }
 
     override fun onStartUi(state: Bundle?) {

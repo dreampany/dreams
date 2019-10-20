@@ -66,7 +66,7 @@ class NavigationActivity : BaseBottomNavigationActivity() {
     }
 
     override fun getScreen(): String {
-        return Constants.navigation(applicationContext)
+        return Constants.navigation(this)
     }
 
     override fun onStartUi(state: Bundle?) {

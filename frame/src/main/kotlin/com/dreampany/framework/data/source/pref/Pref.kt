@@ -14,7 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class Pref @Inject constructor(context: Context) : FramePref(context) {
 
-    override fun getPrivatePrefName(context: Context): String? {
+    override fun getPrivateName(context: Context): String? {
         return Constants.Pref.PREF
     }
 }

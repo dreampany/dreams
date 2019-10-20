@@ -49,7 +49,6 @@ class FirestoreWordDataSource(
         return getTracksRx(startAt, limit).blockingGet()
     }
 
-    @Throws(Throwable::class)
     override fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>> {
         return firestore.getDocumentMapsRx(
             Constants.Firebase.TRACK_WORDS,
@@ -187,6 +186,7 @@ class FirestoreWordDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    @Throws(Throwable::class)
     override fun getItem(id: String): Word? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

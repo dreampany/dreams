@@ -122,36 +122,6 @@ class WordHomeFragment
         return R.string.home
     }
 
-    override fun onStartUi(state: Bundle?) {
-        buildLangItems()
-        buildSheetItems()
-        initUi()
-        initRecycler()
-        toScanMode()
-        processUiState(UiState.SEARCH)
-        adjustTranslationUi()
-        request(suggests = true, action = Action.GET, single = false)
-    }
-
-    override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
-        if (searchView.isSearchOpen()) {
-            searchView.closeSearch()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        initLanguageUi()
-        request(
-            id = bind.item?.item?.id,
-            recent = true,
-            action = Action.GET,
-            single = true,
-            progress = true
-        )
-    }
-
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
@@ -174,6 +144,36 @@ class WordHomeFragment
         initLanguageUi()
     }
 
+    override fun onStartUi(state: Bundle?) {
+        buildLangItems()
+        buildSheetItems()
+        initUi()
+        initRecycler()
+        toScanMode()
+        adjustTranslationUi()
+        processUiState(UiState.SEARCH)
+        request(suggests = true, action = Action.GET, single = false)
+    }
+
+    override fun onStopUi() {
+        processUiState(UiState.HIDE_PROGRESS)
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initLanguageUi()
+        request(
+            id = bind.item?.item?.id,
+            recent = true,
+            action = Action.GET,
+            single = true,
+            progress = true
+        )
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_favorite -> {
@@ -190,7 +190,7 @@ class WordHomeFragment
 
     override fun onRefresh() {
         super.onRefresh()
-        //processUiState(UiState.HIDE_PROGRESS);
+
     }
 
     override fun onClick(v: View) {

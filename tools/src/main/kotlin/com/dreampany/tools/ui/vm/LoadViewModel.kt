@@ -14,6 +14,7 @@ import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.api.wordnik.core.ClientException
 import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.Load
@@ -25,6 +26,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.LoadItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
+import com.google.firebase.firestore.FirebaseFirestoreException
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 import java.util.*
@@ -152,7 +154,15 @@ class LoadViewModel
     private fun loadTracks(request: LoadRequest) {
         do {
             val startAt = wordPref.getTrackStartAt()
-            var result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
+            var result: List<Pair<String, Map<String, Any>>>? = null
+            try {
+                result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
+            } catch (error: Throwable) {
+                Timber.e(error)
+                if (error is FirebaseFirestoreException) {
+
+                }
+            }
             if (!result.isNullOrEmpty()) {
                 Timber.v("firestoreAny Track [TRACK, ERROR] downloaded [%d]", result.size)
                 val stores = ArrayList<Store>()

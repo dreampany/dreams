@@ -29,12 +29,12 @@ public abstract class BasePref {
 
     protected BasePref(@NonNull Context context) {
         publicPref = new Prefser(context);
-        String prefName = getPrivatePrefName(context);
+        String prefName = getPrivateName(context);
         SharedPreferences pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE);
         privatePref = new Prefser(pref);
     }
 
-    protected String getPrivatePrefName(Context context) {
+    protected String getPrivateName(Context context) {
         return AndroidUtil.Companion.getPackageName(context);
     }
 

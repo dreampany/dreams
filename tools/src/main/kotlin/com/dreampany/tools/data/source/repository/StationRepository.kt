@@ -130,7 +130,7 @@ class StationRepository
     private fun getRemoteItemsByCountryCodeIfRx(countryCode: String): Maybe<List<Station>> {
         return Maybe.create { emitter ->
             var result: List<Station>? = null
-            if (mapper.isExpired(State.LOCAL)) {
+            if (mapper.isExpired(State.LOCAL, countryCode)) {
                 result = remote.getItemsByCountryCode(countryCode)
             }
             if (emitter.isDisposed) return@create
@@ -139,7 +139,7 @@ class StationRepository
             } else {
                 //extra work to save result
                 room.putItems(result)
-                mapper.commitStationExpiredTime(State.LOCAL)
+                mapper.commitStationExpiredTime(State.LOCAL, countryCode)
                 emitter.onSuccess(result)
             }
         }

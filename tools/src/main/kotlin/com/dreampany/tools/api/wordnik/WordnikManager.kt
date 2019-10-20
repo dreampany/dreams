@@ -180,6 +180,7 @@ class WordnikManager
         return word
     }
 
+    @Throws(Throwable::class)
     private fun getWord(from: WordObject, limit: Int): WordnikWord? {
         var result: WordnikWord? = null
         from.word?.run {

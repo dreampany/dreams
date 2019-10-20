@@ -127,6 +127,15 @@ class RadioHomeFragment
         super.onPause()
     }
 
+    override fun onRefresh() {
+        super.onRefresh()
+        if (adapter.isEmpty) {
+            request(progress = true)
+        } else {
+            processUiState(UiState.HIDE_PROGRESS)
+        }
+    }
+
     override fun onQueryTextChange(newText: String): Boolean {
         if (adapter.hasNewFilter(newText)) {
             adapter.setFilter(newText)
@@ -294,7 +303,7 @@ class RadioHomeFragment
 
         val request = StationRequest(
             id = id,
-            countryCode = countryCode,
+            countryCode = "BD",
             state = state,
             action = action,
             input = input,

@@ -44,6 +44,5 @@ interface WordDataSource : DataSource<Word> {
     @Throws(Throwable::class)
     fun getTracks(startAt: String, limit: Long): List<Pair<String, Map<String, Any>>>?
 
-    @Throws(Throwable::class)
     fun getTracksRx(startAt: String, limit: Long): Maybe<List<Pair<String, Map<String, Any>>>>
 }

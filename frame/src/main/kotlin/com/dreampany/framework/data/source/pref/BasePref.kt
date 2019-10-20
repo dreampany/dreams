@@ -19,12 +19,12 @@ abstract class BasePref(val context: Context) {
 
     init {
         publicPref = Prefser(context)
-        val prefName = getPrivatePrefName(context)
+        val prefName = getPrivateName(context)
         val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
         privatePref = Prefser(pref)
     }
 
-    open fun getPrivatePrefName(context: Context): String? {
+    open fun getPrivateName(context: Context): String? {
         return AndroidUtil.getPackageName(context)
     }
 

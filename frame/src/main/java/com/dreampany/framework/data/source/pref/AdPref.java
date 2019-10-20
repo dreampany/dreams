@@ -28,7 +28,7 @@ public class AdPref extends BasePref {
     }
 
     @Override
-    protected String getPrivatePrefName(Context context) {
+    protected String getPrivateName(Context context) {
         return getClass().getSimpleName();
     }
 

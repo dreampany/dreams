@@ -1,17 +1,21 @@
 package com.dreampany.tools.data.mapper
 
+import com.dreampany.firebase.FirebasePref
 import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.util.DataUtilKt
+import com.dreampany.framework.util.TimeUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.data.source.api.WordDataSource
+import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.injector.annotation.WordAnnote
 import com.dreampany.tools.injector.annotation.WordItemAnnote
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -24,13 +28,24 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class WordMapper @Inject constructor(
+class WordMapper
+@Inject constructor(
+    private val firebasePref: FirebasePref,
+    private val pref: WordPref,
     @WordAnnote private val map: SmartMap<String, Word>,
     @WordAnnote private val cache: SmartCache<String, Word>,
     @WordItemAnnote private val uiMap: SmartMap<String, WordItem>,
     @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
 ) : Mapper() {
 
+    fun isFirebaseTrackExpired(): Boolean {
+        val lastTime = firebasePref.getExceptionTime()
+        return TimeUtil.isExpired(lastTime, Constants.Time.FIREBASE)
+    }
+
+    fun commitFirebaseTrackExpiredTime() {
+        firebasePref.commitExceptionTime()
+    }
 
     fun isExists(id: String): Boolean {
         return map.contains(id)
@@ -147,6 +162,7 @@ class WordMapper @Inject constructor(
         return out
     }
 
+    @Throws(Throwable::class)
     fun getItem(input: Store, source: WordDataSource, full: Boolean = false): Word? {
         var out: Word? = map.get(input.id)
         if (out == null) {

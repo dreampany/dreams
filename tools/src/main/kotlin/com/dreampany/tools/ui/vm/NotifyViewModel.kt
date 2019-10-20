@@ -113,6 +113,7 @@ class NotifyViewModel
                     removeStore(this.id, this.type, this.subtype, State.TRACK)
                     return@run
                 }
+
                 // TODO required batch read
                 val result = syncStore(request, this)
                 if (result) {

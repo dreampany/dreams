@@ -128,6 +128,9 @@ class LoaderViewModel
 
     /*Second Layer*/
     private fun loadTracks(request: LoadRequest) {
+        if (!mapper.isFirebaseTrackExpired()) {
+            return
+        }
         do {
             val startAt = wordPref.getTrackStartAt()
             var result: List<Pair<String, Map<String, Any>>>? = null
@@ -135,6 +138,7 @@ class LoaderViewModel
                 result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
             } catch (error: Throwable) {
                 Timber.e(error)
+                mapper.commitFirebaseTrackExpiredTime()
                 break
             }
             if (!result.isNullOrEmpty()) {

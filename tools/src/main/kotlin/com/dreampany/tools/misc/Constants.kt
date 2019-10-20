@@ -86,6 +86,7 @@ class Constants {
         val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
         val STATION = TimeUnit.DAYS.toMillis(10)
+        val FIREBASE = TimeUnit.HOURS.toMillis(1)
         fun minuteToMillis(minutes: Long): Long {
             return TimeUnit.MINUTES.toMillis(minutes)
         }

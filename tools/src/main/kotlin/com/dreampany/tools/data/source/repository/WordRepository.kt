@@ -184,6 +184,7 @@ class WordRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    @Throws(Throwable::class)
     override fun getItem(id: String): Word? {
         return getItemRx(id).blockingGet()
     }

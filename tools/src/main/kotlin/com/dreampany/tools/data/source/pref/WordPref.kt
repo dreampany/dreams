@@ -22,7 +22,7 @@ class WordPref
     context: Context
 ) : FramePref(context) {
 
-    override fun getPrivatePrefName(context: Context): String? {
+    override fun getPrivateName(context: Context): String? {
         return Constants.Pref.WORD
     }
 

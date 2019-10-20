@@ -144,6 +144,10 @@ class WordHomeFragment
         initLanguageUi()
     }
 
+    override fun getScreen(): String {
+        return Constants.wordHome(context!!)
+    }
+
     override fun onStartUi(state: Bundle?) {
         buildLangItems()
         buildSheetItems()

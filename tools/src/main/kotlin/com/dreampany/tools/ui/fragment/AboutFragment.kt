@@ -12,6 +12,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.TextUtil
+import com.dreampany.tools.misc.Constants
 import mehdi.sakout.aboutpage.AboutPage
 import mehdi.sakout.aboutpage.Element
 import javax.inject.Inject
@@ -24,6 +25,10 @@ import javax.inject.Inject
  */
 @ActivityScope
 class AboutFragment @Inject constructor() : BaseFragment() {
+
+    override fun getScreen(): String {
+        return Constants.about(context!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

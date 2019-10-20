@@ -90,6 +90,10 @@ class NoteHomeFragment
         return R.string.title_feature_note
     }
 
+    override fun getScreen(): String {
+        return Constants.noteHome(context!!)
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
         val searchItem = getSearchMenuItem()

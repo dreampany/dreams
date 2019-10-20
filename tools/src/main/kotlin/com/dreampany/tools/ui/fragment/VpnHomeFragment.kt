@@ -80,6 +80,10 @@ class VpnHomeFragment
         return R.string.title_feature_vpn
     }
 
+    override fun getScreen(): String {
+        return Constants.wordHome(context!!)
+    }
+
     override fun onStartUi(state: Bundle?) {
         initUi()
         request(state = State.RANDOM, single = true)

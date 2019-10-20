@@ -34,6 +34,20 @@ class Constants {
         fun tools(context: Context): String = Constants.tools(context)
 
         fun home(context: Context): String = lastAppId(context) + Sep.HYPHEN + "home"
+        fun appHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "app-home"
+        fun noteHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "note-home"
+        fun wordHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-home"
+        fun vpnHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "vpn-home"
+        fun radioHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "radio-home"
+
+        fun favoriteNotes(context: Context): String = lastAppId(context) + Sep.HYPHEN + "favorite-notes"
+        fun editNote(context: Context): String = lastAppId(context) + Sep.HYPHEN + "edit-note"
+
+        fun word(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word"
+        fun favoriteWords(context: Context): String = lastAppId(context) + Sep.HYPHEN + "favorite-words"
+        fun wordVision(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-vision"
+        fun wordQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-quiz"
+        fun relatedQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "related-quiz"
     }
 
     object Event {

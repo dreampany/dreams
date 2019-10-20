@@ -59,6 +59,10 @@ class EditNoteFragment
         return R.menu.menu_edit_note
     }
 
+    override fun getScreen(): String {
+        return Constants.editNote(context!!)
+    }
+
     override fun onStartUi(state: Bundle?) {
         initUi()
     }

@@ -68,6 +68,10 @@ class WordQuizFragment
         return R.string.quiz
     }
 
+    override fun getScreen(): String {
+        return Constants.wordQuiz(context!!)
+    }
+
     override fun onStartUi(state: Bundle?) {
         initTitleSubtitle()
         initUi()

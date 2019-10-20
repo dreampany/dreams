@@ -101,6 +101,10 @@ class WordFragment
         return R.id.item_search
     }
 
+    override fun getScreen(): String {
+        return Constants.word(context!!)
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 

@@ -94,6 +94,10 @@ class RelatedQuizFragment
         }
     }
 
+    override fun getScreen(): String {
+        return Constants.relatedQuiz(context!!)
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         val level = pref.getLevel(Level.A1)
         findMenuItemById(R.id.item_level)?.apply {

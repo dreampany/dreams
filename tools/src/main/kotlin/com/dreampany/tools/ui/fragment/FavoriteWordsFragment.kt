@@ -86,6 +86,10 @@ class FavoriteWordsFragment
         return R.id.item_search
     }
 
+    override fun getScreen(): String {
+        return Constants.favoriteWords(context!!)
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 

@@ -80,9 +80,12 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
         MenuTint.colorMenuItem(ColorUtil.getColor(context!!, R.color.material_white), null, clearItem, doneItem)
     }
 
-    override fun onStartUi(state: Bundle?) {
-        initView()
+    override fun getScreen(): String {
+        return Constants.wordVision(context!!)
+    }
 
+    override fun onStartUi(state: Bundle?) {
+        initUi()
         runWithPermissions(Permission.CAMERA, Permission.WRITE_EXTERNAL_STORAGE) {
             createCameraSource()
         }
@@ -125,7 +128,7 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
         processUiState(UiState.HIDE_PROGRESS)
     }
 
-    private fun initView() {
+    private fun initUi() {
         setTitle(TextUtil.getString(context, R.string.detected_words, 0))
         bind = super.binding as FragmentWordVisionBinding
         preview = bind.preview

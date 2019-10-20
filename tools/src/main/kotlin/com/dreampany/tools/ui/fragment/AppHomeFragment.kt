@@ -59,6 +59,10 @@ class AppHomeFragment @Inject constructor() :
         return R.layout.fragment_recycler
     }
 
+    override fun getScreen(): String {
+        return Constants.appHome(context!!)
+    }
+
     override fun onStartUi(state: Bundle?) {
         initView()
         initRecycler()

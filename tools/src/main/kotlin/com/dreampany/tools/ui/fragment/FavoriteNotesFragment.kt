@@ -87,6 +87,10 @@ class FavoriteNotesFragment
         return R.id.item_search
     }
 
+    override fun getScreen(): String {
+        return Constants.favoriteNotes(context!!)
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 

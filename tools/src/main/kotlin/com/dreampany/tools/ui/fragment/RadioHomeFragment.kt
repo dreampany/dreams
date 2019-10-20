@@ -91,6 +91,10 @@ class RadioHomeFragment
         return R.string.title_feature_radio
     }
 
+    override fun getScreen(): String {
+        return Constants.radioHome(context!!)
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 

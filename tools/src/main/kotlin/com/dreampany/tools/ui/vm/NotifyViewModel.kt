@@ -8,10 +8,12 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.data.source.pref.ConfigPref
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.TimeUtil
 import com.dreampany.network.data.model.Network
@@ -46,6 +48,7 @@ class NotifyViewModel
     private val ex: AppExecutor,
     private val rm: ResponseMapper,
     private val network: NetworkManager,
+    private val configPref: ConfigPref,
     private val pref: Pref,
     private val wordPref: WordPref,
     private val notify: NotifyManager,
@@ -92,19 +95,28 @@ class NotifyViewModel
 
     private fun syncWord(request: WordRequest) {
         Timber.v("SyncWord fired")
-
-        Timber.v("Getting... FAW Store")
-        val store = nextStore(request.type, request.subtype, State.RAW, exclude = State.TRACK)
-        store?.run {
-            Timber.v("RAW Next sync word %s", id)
-            if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
-                removeStore(this.id, this.type, this.subtype, State.RAW)
-                removeStore(this.id, this.type, this.subtype, State.TRACK)
-                return@run
+        if (!mapper.isTrackExpired()) {
+            return
+        }
+        val screen = configPref.getScreen(UiType.FRAGMENT)
+        val threshold = Constants.getThreshold(application, screen, request.type)
+        for (index in 1..threshold) {
+            Timber.v("Getting... FAW Store")
+            val store = nextStore(request.type, request.subtype, State.RAW, exclude = State.TRACK)
+            store?.run {
+                Timber.v("RAW Next sync word %s", id)
+                if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
+                    removeStore(this.id, this.type, this.subtype, State.RAW)
+                    removeStore(this.id, this.type, this.subtype, State.TRACK)
+                    return@run
+                }
+                Timber.v("RAW Next sync word %s", id)
+                syncStore(request, this)
+                //wordPref.commitSyncTime()
             }
-            Timber.v("RAW Next sync word %s", id)
-            syncStore(request, this)
-            wordPref.commitSyncTime()
+        }
+        if (network.hasInternet()) {
+            mapper.commitSyncExpiredTime()
         }
     }
 
@@ -112,12 +124,15 @@ class NotifyViewModel
         if (!mapper.isTrackExpired()) {
             return
         }
+        val screen = configPref.getScreen(UiType.FRAGMENT)
+        val threshold = Constants.getThreshold(application, screen, request.type)
         Timber.v("Getting... Store")
         val fullState = storeRepo.getCountByType(request.type, request.subtype, State.FULL)
         wordPref.setSyncedCount(fullState.toLong())
         var trackCount = 0
         var trackPer = if (fullState < Constants.Count.Word.TRACK)
             Constants.Count.Word.PER_TRACK else Constants.Count.Word.DEFAULT_PER_TRACK
+        trackPer *= threshold
         do {
             Timber.v("Getting... TRACK Store")
             var store = nextStore(request.type, request.subtype, State.TRACK)

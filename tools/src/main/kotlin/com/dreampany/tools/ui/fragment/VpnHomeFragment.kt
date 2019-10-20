@@ -81,7 +81,7 @@ class VpnHomeFragment
     }
 
     override fun getScreen(): String {
-        return Constants.wordHome(context!!)
+        return Constants.vpnHome(context!!)
     }
 
     override fun onStartUi(state: Bundle?) {

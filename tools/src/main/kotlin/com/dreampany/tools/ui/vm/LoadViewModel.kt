@@ -4,10 +4,12 @@ import android.app.Application
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.data.source.pref.ConfigPref
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.DataUtil
 import com.dreampany.framework.util.DataUtilKt
@@ -48,6 +50,7 @@ class LoadViewModel
     private val ex: AppExecutor,
     private val rm: ResponseMapper,
     private val network: NetworkManager,
+    private val configPref: ConfigPref,
     private val pref: Pref,
     private val wordPref: WordPref,
     private val storeMapper: StoreMapper,
@@ -153,10 +156,13 @@ class LoadViewModel
     /*Second Layer*/
     private fun loadTracks(request: LoadRequest) {
         do {
+            val screen = configPref.getScreen(UiType.FRAGMENT)
+            val threshold = Constants.getThreshold(application, screen, request.type)
+            val limit = threshold * Constants.Limit.WORD_TRACK
             val startAt = wordPref.getTrackStartAt()
             var result: List<Pair<String, Map<String, Any>>>? = null
             try {
-                result = repo.getTracks(startAt, Constants.Limit.WORD_TRACK)
+                result = repo.getTracks(startAt, limit)
             } catch (error: Throwable) {
                 Timber.e(error)
                 if (error is FirebaseFirestoreException) {

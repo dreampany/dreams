@@ -6,6 +6,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Feature
 import java.util.concurrent.TimeUnit
 
 
@@ -40,14 +41,43 @@ class Constants {
         fun vpnHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "vpn-home"
         fun radioHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "radio-home"
 
-        fun favoriteNotes(context: Context): String = lastAppId(context) + Sep.HYPHEN + "favorite-notes"
+        fun favoriteNotes(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "favorite-notes"
+
         fun editNote(context: Context): String = lastAppId(context) + Sep.HYPHEN + "edit-note"
 
         fun word(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word"
-        fun favoriteWords(context: Context): String = lastAppId(context) + Sep.HYPHEN + "favorite-words"
+        fun favoriteWords(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "favorite-words"
+
         fun wordVision(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-vision"
         fun wordQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-quiz"
         fun relatedQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "related-quiz"
+
+        fun isOn(context: Context, screen: String, type: Type): Boolean {
+            when (type) {
+                Type.WORD -> {
+                    when (screen) {
+                        wordHome(context), word(context), favoriteWords(context), wordVision(context),
+                        wordQuiz(context),
+                        relatedQuiz(context) -> {
+                            return true
+                        }
+
+                    }
+                }
+            }
+            return false
+        }
+
+        fun getThreshold(context: Context, screen: String, type: Type): Int {
+            when (type) {
+                Type.WORD -> {
+                    if (isOn(context, screen, type)) return Threshold.WORD
+                }
+            }
+            return Threshold.DEFAULT
+        }
     }
 
     object Event {
@@ -103,7 +133,6 @@ class Constants {
         val SERVER = TimeUnit.DAYS.toMillis(1)
         val STATION = TimeUnit.DAYS.toMillis(10)
         val FIREBASE = TimeUnit.HOURS.toMillis(1)
-
 
 
         object Word {
@@ -170,20 +199,6 @@ class Constants {
         }
     }
 
-    object Assets {
-        const val WORDS_COMMON = "common.txt"
-        const val WORDS_ALPHA = "alpha.txt"
-    }
-
-    object Firebase {
-        const val WEIGHT = "weight"
-        const val SOURCE = "source"
-        const val EXTRA = "extra"
-        const val WORDS = "words"
-        const val TRACK = "track"
-        const val TRACK_WORDS = "track-words"
-    }
-
     object Count {
         const val DEFAULT_POINT = 999
 
@@ -209,6 +224,25 @@ class Constants {
         const val WORD_OCR = 1000
         const val WORD_TRACK = 1000L
         const val QUIZ_OPTIONS = 4
+    }
+
+    object Threshold {
+        const val DEFAULT = 1
+        const val WORD = 3
+    }
+
+    object Assets {
+        const val WORDS_COMMON = "common.txt"
+        const val WORDS_ALPHA = "alpha.txt"
+    }
+
+    object Firebase {
+        const val WEIGHT = "weight"
+        const val SOURCE = "source"
+        const val EXTRA = "extra"
+        const val WORDS = "words"
+        const val TRACK = "track"
+        const val TRACK_WORDS = "track-words"
     }
 
     object Api {

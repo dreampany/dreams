@@ -3,7 +3,6 @@ package com.dreampany.framework.util
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import androidx.core.content.ContextCompat.getSystemService
 import android.telephony.TelephonyManager
 import com.dreampany.framework.misc.Constants
 import timber.log.Timber
@@ -18,7 +17,7 @@ import timber.log.Timber
 class GeoUtil {
     companion object {
 
-        fun getCountryCode(context: Context): String? {
+        fun getCountryCode(context: Context): String {
             var code: String? = null
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
             if (tm != null) {
@@ -40,7 +39,7 @@ class GeoUtil {
                 }
             }
             if (!code.isNullOrEmpty() && code.length == 2) return code.toUpperCase()
-            return null
+            return Constants.Country.CODE_US
         }
 
         @SuppressLint("PrivateApi")

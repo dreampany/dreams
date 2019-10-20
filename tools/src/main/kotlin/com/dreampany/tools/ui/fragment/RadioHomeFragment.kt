@@ -75,6 +75,9 @@ class RadioHomeFragment
     private lateinit var adapter: StationAdapter
     private lateinit var scroller: OnVerticalScrollListener
 
+    private lateinit var state: State
+    private lateinit var countryCode: String
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_radio_home
     }
@@ -160,9 +163,9 @@ class RadioHomeFragment
     }
 
     private fun initTitleSubtitle() {
+        if (context == null) return
         setTitle(R.string.title_feature_radio)
-        val state = radioPref.getStationState(State.LOCAL)
-        val subtitle = getString(R.string.subtitle_radio, state.name, adapter.itemCount)
+        val subtitle = getString(R.string.subtitle_radio, countryCode, adapter.itemCount)
         setSubtitle(subtitle)
     }
 
@@ -192,6 +195,13 @@ class RadioHomeFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+
+        state = radioPref.getStationState(State.LOCAL)
+        when (state) {
+            State.LOCAL -> {
+                countryCode = GeoUtil.getCountryCode(context!!)
+            }
+        }
     }
 
     private fun initRecycler() {
@@ -297,17 +307,10 @@ class RadioHomeFragment
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
-        val state = radioPref.getStationState(State.LOCAL)
-        var countryCode: String? = null
-        when (state) {
-            State.LOCAL -> {
-                countryCode = GeoUtil.getCountryCode(context!!)
-            }
-        }
 
         val request = StationRequest(
             id = id,
-            countryCode = "BD",
+            countryCode = countryCode,
             state = state,
             action = action,
             input = input,

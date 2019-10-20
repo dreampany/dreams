@@ -4,6 +4,7 @@ import android.content.Context
 import com.dreampany.framework.util.AndroidUtil
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -160,6 +161,7 @@ class Constants {
 
     object Country {
         const val ID = Key.ID
+         val CODE_US = Locale.ENGLISH.country
     }
 
     object Parser {

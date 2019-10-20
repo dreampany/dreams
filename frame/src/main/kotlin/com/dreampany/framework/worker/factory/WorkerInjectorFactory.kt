@@ -23,7 +23,7 @@ constructor(
 
     override fun createWorker(context: Context, workerClassName: String, params: WorkerParameters): ListenableWorker? {
         val entry = factories.entries.find { Class.forName(workerClassName).isAssignableFrom(it.key) }
-        val factory = entry?.value ?: throw IllegalArgumentException("could not find worker: $workerClassName")
+        val factory = entry?.value ?: factories.entries.first().value//throw IllegalArgumentException("could not find worker: $workerClassName")
         return factory.get().create(context, params)
     }
 }

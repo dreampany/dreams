@@ -200,7 +200,7 @@ class LoaderViewModel
         }
 
         while (!commonWords.isEmpty()) {
-            val words = DataUtilKt.takeFirst(commonWords, Constants.Count.WORD_PAGE)
+            val words = DataUtilKt.takeFirst(commonWords, Constants.Count.Word.PAGE)
             if (words.isNullOrEmpty()) {
                 continue
             }
@@ -246,7 +246,7 @@ class LoaderViewModel
         }
 
         while (!alphaWords.isEmpty()) {
-            val words = DataUtilKt.takeFirst(alphaWords, Constants.Count.WORD_PAGE)
+            val words = DataUtilKt.takeFirst(alphaWords, Constants.Count.Word.PAGE)
             if (words.isNullOrEmpty()) {
                 continue
             }
@@ -278,7 +278,7 @@ class LoaderViewModel
     }
 
     private fun buildCommonWords() {
-        if (commonWords.size != Constants.Count.WORD_COMMON) {
+        if (commonWords.size != Constants.Count.Word.COMMON) {
             val words = repo.getCommonItems()
             commonWords.clear()
             commonWords.addAll(words!!)
@@ -286,7 +286,7 @@ class LoaderViewModel
     }
 
     private fun buildAlphaWords() {
-        if (alphaWords.size != Constants.Count.WORD_ALPHA) {
+        if (alphaWords.size != Constants.Count.Word.ALPHA) {
             val words = repo.getAlphaItems()
             alphaWords.clear()
             alphaWords.addAll(words!!)

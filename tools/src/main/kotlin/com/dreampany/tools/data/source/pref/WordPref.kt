@@ -63,11 +63,11 @@ class WordPref
     }
 
     fun setTrackTime(time: Long) {
-        return setPrivately(Constants.Pref.WORD_TRACK_TIME, time)
+        return setPrivately(Constants.Pref.Word.TIME_TRACK, time)
     }
 
     fun getTrackTime(): Long {
-        return getPrivately(Constants.Pref.WORD_TRACK_TIME, Constants.Default.LONG)
+        return getPrivately(Constants.Pref.Word.TIME_TRACK, Constants.Default.LONG)
     }
 
     fun setTrackCount(count: Int) {
@@ -112,11 +112,19 @@ class WordPref
         }
     }
 
-    fun commitLastWordSyncTime() {
-        setPrivately(Constants.Pref.WORD_LAST_SYNC_TIME, TimeUtilKt.currentMillis())
+    fun commitSyncTime() {
+        setPrivately(Constants.Pref.Word.TIME_SYNC, TimeUtilKt.currentMillis())
     }
 
-    fun getLastWordSyncTime(): Long {
-        return getPrivately(Constants.Pref.WORD_LAST_SYNC_TIME, Constants.Default.LONG)
+    fun getSyncTime(): Long {
+        return getPrivately(Constants.Pref.Word.TIME_SYNC, Constants.Default.LONG)
+    }
+
+    fun setSyncedCount(count:Long) {
+        setPrivately(Constants.Pref.Word.COUNT_SYNCED, count)
+    }
+
+    fun getSyncedCount(defaultCount: Long = Constants.Default.LONG): Long {
+       return getPrivately(Constants.Pref.Word.COUNT_SYNCED, defaultCount)
     }
 }

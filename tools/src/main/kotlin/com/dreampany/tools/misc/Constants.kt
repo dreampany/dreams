@@ -83,24 +83,28 @@ class Constants {
     }
 
     object Time {
-        val NotifyPeriod = TimeUnit.HOURS.toSeconds(1)
+        val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
         val STATION = TimeUnit.DAYS.toMillis(10)
         val FIREBASE = TimeUnit.HOURS.toMillis(1)
+
+
+
+        object Word {
+            val SYNC_FREQUENT = TimeUnit.MINUTES.toMillis(1)
+            val SYNC_NORMAL = TimeUnit.MINUTES.toMillis(3)
+            val SYNC_LAZY = TimeUnit.MINUTES.toMillis(5)
+            val TRACK = TimeUnit.MINUTES.toMillis(30)
+        }
+
         fun minuteToMillis(minutes: Long): Long {
             return TimeUnit.MINUTES.toMillis(minutes)
         }
     }
 
     object Period {
-        val NOTIFY = TimeUnit.SECONDS.toMillis(60)
-        val LOAD = TimeUnit.SECONDS.toMillis(120)
-    }
-
-    object Delay {
-        val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
-        val WORD_SYNC_TIME_MS = TimeUnit.MINUTES.toMillis(1)
-        val WORD_TRACK_TIME_MS = TimeUnit.MINUTES.toMillis(30)
+        val NOTIFY = TimeUnit.MINUTES.toMillis(1)
+        val LOAD = TimeUnit.MINUTES.toMillis(3)
     }
 
     object Date {
@@ -129,14 +133,19 @@ class Constants {
         const val WORD_COMMON_LOADED = "word_common_loaded"
         const val WORD_ALPHA_LOADED = "word_alpha_loaded"
         const val WORD_LAST = "word_last"
-        const val WORD_LAST_SYNC_TIME = "word_last_sync_time"
         const val WORD_TRACK_START_AT = "word_track_start_at"
-        const val WORD_TRACK_TIME = "word_track_time"
+        //const val WORD_TRACK_TIME = "word_track_time"
         const val WORD_TRACK_COUNT = "word_track_count"
         const val SERVER_TIME = "server_time"
 
         const val DOWNLOAD = "download"
         const val UPLOAD = "upload"
+
+        object Word {
+            const val COUNT_SYNCED = "count_synced"
+            const val TIME_SYNC = "time_sync"
+            const val TIME_TRACK = "time_track"
+        }
 
         object Radio {
             const val RADIO = "radio"
@@ -161,12 +170,19 @@ class Constants {
 
     object Count {
         const val DEFAULT_POINT = 999
-        const val WORD_COMMON = 1000
-        const val WORD_ALPHA = 370099
-        const val WORD_PAGE = 1000
-        const val WORD_DEFAULT_PER_TRACK = 1
-        const val WORD_PER_TRACK = 10
-        const val WORD_TRACK = 100
+
+        object Word {
+            const val COMMON = 1000
+            const val ALPHA = 370099
+            const val PAGE = 1000
+            const val DEFAULT_PER_TRACK = 1
+            const val PER_TRACK = 10
+            const val TRACK = 100
+
+            const val SYNC_FREQUENT = 100
+            const val SYNC_NORMAL = 1000
+            const val SYNC_LAZY = 10000
+        }
     }
 
     object Limit {

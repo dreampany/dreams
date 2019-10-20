@@ -83,6 +83,7 @@ class NotifyViewModel
         when (request.action) {
             Action.SYNC -> {
                 ex.postToNetwork(Runnable {
+                    syncOfTrack(request)
                     syncWord(request)
                 })
             }
@@ -91,21 +92,35 @@ class NotifyViewModel
 
     private fun syncWord(request: WordRequest) {
         Timber.v("SyncWord fired")
-        if (!TimeUtil.isExpired(
-                wordPref.getLastWordSyncTime(),
-                Constants.Delay.WORD_SYNC_TIME_MS
-            )
-        ) {
+
+        Timber.v("Getting... FAW Store")
+        val store = nextStore(request.type, request.subtype, State.RAW, exclude = State.TRACK)
+        store?.run {
+            Timber.v("RAW Next sync word %s", id)
+            if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
+                removeStore(this.id, this.type, this.subtype, State.RAW)
+                removeStore(this.id, this.type, this.subtype, State.TRACK)
+                return@run
+            }
+            Timber.v("RAW Next sync word %s", id)
+            syncStore(request, this)
+            wordPref.commitSyncTime()
+        }
+    }
+
+    private fun syncOfTrack(request: WordRequest) {
+        if (!mapper.isTrackExpired()) {
             return
         }
         Timber.v("Getting... Store")
         val fullState = storeRepo.getCountByType(request.type, request.subtype, State.FULL)
+        wordPref.setSyncedCount(fullState.toLong())
         var trackCount = 0
-        var trackPer = if (fullState < Constants.Count.WORD_TRACK)
-            Constants.Count.WORD_PER_TRACK else Constants.Count.WORD_DEFAULT_PER_TRACK
+        var trackPer = if (fullState < Constants.Count.Word.TRACK)
+            Constants.Count.Word.PER_TRACK else Constants.Count.Word.DEFAULT_PER_TRACK
         do {
             Timber.v("Getting... TRACK Store")
-            var store = nextStore(Type.WORD, Subtype.DEFAULT, State.TRACK)
+            var store = nextStore(request.type, request.subtype, State.TRACK)
             store?.run {
                 Timber.v("TRACK Next sync word %s", id)
                 if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
@@ -120,22 +135,11 @@ class NotifyViewModel
                     trackCount++
                 }
             }
-            AndroidUtil.sleep(100L)
-        } while (store != null && trackCount < trackPer)
-
-        Timber.v("Getting... FAW Store")
-        val store = nextStore(Type.WORD, Subtype.DEFAULT, State.RAW, exclude = State.TRACK)
-        store?.run {
-            Timber.v("RAW Next sync word %s", id)
-            if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
-                removeStore(this.id, this.type, this.subtype, State.RAW)
-                removeStore(this.id, this.type, this.subtype, State.TRACK)
-                return@run
+            if ((store == null && network.hasInternet()) || trackCount == trackPer) {
+                mapper.commitTrackExpiredTime()
             }
-            Timber.v("RAW Next sync word %s", id)
-            syncStore(request, this)
-            wordPref.commitLastWordSyncTime()
-        }
+            AndroidUtil.sleep(500L)
+        } while (store != null && trackCount < trackPer)
     }
 
     private fun nextStore(

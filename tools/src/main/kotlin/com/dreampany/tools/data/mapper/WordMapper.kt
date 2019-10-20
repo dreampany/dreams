@@ -38,13 +38,32 @@ class WordMapper
     @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
 ) : Mapper() {
 
-    fun isFirebaseTrackExpired(): Boolean {
-        val lastTime = firebasePref.getExceptionTime()
-        return TimeUtil.isExpired(lastTime, Constants.Time.FIREBASE)
+    fun commitSyncExpiredTime() {
+        pref.commitSyncTime()
+    }
+
+    fun isSyncExpired(): Boolean {
+        val lastTime = pref.getSyncTime()
+        val syncTime = getSyncTime()
+        return TimeUtil.isExpired(lastTime, syncTime)
+    }
+
+    fun commitTrackExpiredTime() {
+        pref.commitTrackTime()
+    }
+
+    fun isTrackExpired(): Boolean {
+        val lastTime = pref.getTrackTime()
+        return TimeUtil.isExpired(lastTime, Constants.Time.Word.TRACK)
     }
 
     fun commitFirebaseTrackExpiredTime() {
         firebasePref.commitExceptionTime()
+    }
+
+    fun isFirebaseTrackExpired(): Boolean {
+        val lastTime = firebasePref.getExceptionTime()
+        return TimeUtil.isExpired(lastTime, Constants.Time.FIREBASE)
     }
 
     fun isExists(id: String): Boolean {
@@ -302,5 +321,12 @@ class WordMapper
             return result
         }
         return null
+    }
+
+    private fun getSyncTime(): Long {
+        val count = pref.getSyncedCount()
+        if (count < Constants.Count.Word.SYNC_FREQUENT) return Constants.Time.Word.SYNC_FREQUENT
+        if (count < Constants.Count.Word.SYNC_NORMAL) return Constants.Time.Word.SYNC_NORMAL
+         return Constants.Time.Word.SYNC_LAZY
     }
 }

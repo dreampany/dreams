@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">share-dialog</string>
+
     <string name="facebook_app_id">378979769310258</string>
+
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">mgs0EKkquAn4zCTD562zhY3Ou</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">P6gaHSanI0zCLFHLTkN226ezKhU7GP4HCLAss2epZmjEnXq4U7</string>
 </resources>

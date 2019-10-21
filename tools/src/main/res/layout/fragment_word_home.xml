@@ -82,16 +82,35 @@
                 auto:srcCompat="@drawable/ic_search_black_24dp"
                 auto:tint="@color/material_white" />
 
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/image_upper"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/layout_bottom_slide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:background="@android:color/transparent"
-                android:backgroundTint="@color/material_black"
-                android:tint="@color/material_black"
-                auto:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:backgroundTint="@color/material_black"
+                    android:tint="@color/material_black"
+                    auto:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/play_quiz"
+                    android:textColor="@color/material_grey800"
+                    android:textSize="@dimen/_10ssp"
+                    auto:fontFamily="@font/roboto_slab_bold" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

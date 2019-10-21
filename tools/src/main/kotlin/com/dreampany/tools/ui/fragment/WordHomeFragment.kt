@@ -214,7 +214,7 @@ class WordHomeFragment
                 openOptionsMenu(v)
             }
             R.id.layout_yandex -> openYandexSite()
-            R.id.image_upper -> {
+            R.id.layout_bottom_slide -> {
                 openOptionSheet()
             }
         }
@@ -368,7 +368,7 @@ class WordHomeFragment
         bindWord.buttonLanguage.setOnClickListener(this)
         bind.fab.setOnClickListener(this)
         bindYandex.textYandexPowered.setOnClickListener(this)
-        bind.imageUpper.setOnClickListener(this)
+        bind.layoutBottomSlide.setOnClickListener(this)
 
         vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
         loaderVm = ViewModelProviders.of(this, factory).get(LoaderViewModel::class.java)

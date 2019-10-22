@@ -102,11 +102,11 @@ class RadioHomeFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
-        val categoryItem = menu.findItem(R.id.item_category)
         val searchItem = getSearchMenuItem()
+        val categoryItem = menu.findItem(R.id.item_category)
         MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
-            null, categoryItem, searchItem
+            null, searchItem, categoryItem
         )
     }
 

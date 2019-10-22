@@ -54,7 +54,7 @@ private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.name?.startsWith(constraint, true) ?: false
+        return item.name?.contains(constraint, true) ?: false
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :

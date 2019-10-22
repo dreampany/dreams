@@ -44,7 +44,7 @@ private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.id.startsWith(constraint, true)
+        return item.id.contains(constraint, true)
     }
 
     fun hasTranslation(language: String?): Boolean {

@@ -18,6 +18,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.toTitle
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -101,10 +102,11 @@ class RadioHomeFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
+        val categoryItem = menu.findItem(R.id.item_category)
         val searchItem = getSearchMenuItem()
         MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem
+            null, categoryItem, searchItem
         )
     }
 
@@ -165,8 +167,13 @@ class RadioHomeFragment
     private fun initTitleSubtitle() {
         if (context == null) return
         setTitle(R.string.title_feature_radio)
-        val subtitle = getString(R.string.subtitle_radio, countryCode, adapter.itemCount)
-        setSubtitle(subtitle)
+        when(state) {
+            State.LOCAL->{
+                val subtitle = getString(R.string.subtitle_radio, state.name.toTitle(), countryCode, adapter.itemCount)
+                setSubtitle(subtitle)
+            }
+        }
+
     }
 
     private fun initUi() {

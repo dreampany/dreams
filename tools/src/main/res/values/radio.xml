@@ -6,5 +6,5 @@
     <string name="giving_up_resume">Attempt to resume playback ignored</string>
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">BROKEN</string>
-    <string name="subtitle_radio">%s: %d</string>
+    <string name="subtitle_radio">%s (%s): %d</string>
 </resources>

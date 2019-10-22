@@ -11,7 +11,7 @@ import com.dreampany.framework.ui.activity.WebActivity
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.databinding.ActivityToolsBinding
+import com.dreampany.tools.databinding.ActivityCollapseToolsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.*
 import com.google.android.gms.ads.AdView
@@ -63,10 +63,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     internal lateinit var editNoteProvider: Lazy<EditNoteFragment>
 
-    private lateinit var bind: ActivityToolsBinding
+    private lateinit var bind: ActivityCollapseToolsBinding
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_tools
+        return R.layout.activity_collapse_tools
     }
 
     override fun isFullScreen(): Boolean {
@@ -79,7 +79,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     }
 
     override fun onStartUi(state: Bundle?) {
-        initView()
+        initUi()
         val uiTask = getCurrentTask<UiTask<*>>(false) ?: return
         val type = uiTask.type
         val subtype = uiTask.subtype
@@ -291,7 +291,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
         finish()
     }*/
 
-    private fun initView() {
-        bind = super.binding as ActivityToolsBinding
+    private fun initUi() {
+        bind = super.binding as ActivityCollapseToolsBinding
     }
 }

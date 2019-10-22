@@ -16,6 +16,7 @@ import kotlinx.android.parcel.Parcelize
 data class UiTask<T : Base>(
     val notify: Boolean = Constants.Default.BOOLEAN,
     val fullscreen: Boolean = Constants.Default.BOOLEAN,
+    val collapseToolbar: Boolean = Constants.Default.BOOLEAN,
     val type: Type = Type.DEFAULT,
     val subtype: Subtype = Subtype.DEFAULT,
     val state: State = State.DEFAULT,

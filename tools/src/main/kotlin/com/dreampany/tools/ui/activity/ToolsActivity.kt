@@ -12,6 +12,7 @@ import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ActivityCollapseToolsBinding
+import com.dreampany.tools.databinding.ActivityToolsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.*
 import com.google.android.gms.ads.AdView
@@ -29,16 +30,16 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     internal lateinit var ad: SmartAd
     @Inject
-    internal  lateinit var settingsProvider: Lazy<SettingsFragment>
+    internal lateinit var settingsProvider: Lazy<SettingsFragment>
     @Inject
     internal lateinit var licenseProvider: Lazy<LicenseFragment>
 
     @Inject
     internal lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
-    internal  lateinit var appHomeProvider: Lazy<AppHomeFragment>
+    internal lateinit var appHomeProvider: Lazy<AppHomeFragment>
     @Inject
-    internal  lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
+    internal lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
     @Inject
     internal lateinit var wordHomeProvider: Lazy<WordHomeFragment>
     @Inject
@@ -63,10 +64,15 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     internal lateinit var editNoteProvider: Lazy<EditNoteFragment>
 
-    private lateinit var bind: ActivityCollapseToolsBinding
+    private lateinit var bind: ActivityToolsBinding
+    private lateinit var collapseBind: ActivityCollapseToolsBinding
 
     override fun getLayoutId(): Int {
-        return R.layout.activity_collapse_tools
+        val uiTask = getCurrentTask<UiTask<*>>(true)
+        if (uiTask != null && uiTask.collapseToolbar) {
+            return R.layout.activity_collapse_tools
+        }
+        return R.layout.activity_tools
     }
 
     override fun isFullScreen(): Boolean {
@@ -271,6 +277,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     }
 
     override fun getSearchView(): MaterialSearchView {
+        val uiTask = getCurrentTask<UiTask<*>>(true)
+        if (uiTask != null && uiTask.collapseToolbar) {
+            return collapseBind.searchView
+        }
         return bind.searchView
     }
 
@@ -292,6 +302,11 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     }*/
 
     private fun initUi() {
-        bind = super.binding as ActivityCollapseToolsBinding
+        val uiTask = getCurrentTask<UiTask<*>>(true)
+        if (uiTask != null && uiTask.collapseToolbar) {
+            collapseBind = super.binding as ActivityCollapseToolsBinding
+        } else {
+            bind = super.binding as ActivityToolsBinding
+        }
     }
 }

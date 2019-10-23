@@ -15,7 +15,8 @@ import com.dreampany.framework.util.FragmentUtil
  * Dreampany Ltd
  * dreampanymail@gmail.com
  */
-abstract class BaseStateAdapter<T : BaseFragment> internal constructor(internal val manager: FragmentManager) : FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+abstract class BaseStateAdapter<T : BaseFragment>
+internal constructor(internal val manager: FragmentManager) : FragmentStatePagerAdapter(manager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     internal val fragments: SparseArray<T>
     internal val pageTitles: SparseArray<String>
     internal val pageClasses: SparseArray<Class<T>>

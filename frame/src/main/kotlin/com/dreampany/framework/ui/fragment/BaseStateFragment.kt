@@ -2,13 +2,13 @@ package com.dreampany.framework.ui.fragment
 
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import com.google.android.material.tabs.TabLayout
 import com.dreampany.framework.R
-import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.ui.adapter.SmartPagerAdapter
 import com.dreampany.framework.ui.enums.UiType
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
+import com.google.android.material.tabs.TabLayout
 import timber.log.Timber
 
 
@@ -25,7 +25,7 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
 
     protected abstract fun pageClasses(): Array<Class<T>>
 
-    protected abstract fun pageTasks(): Array<Task<*>>?
+    protected abstract fun pageTasks(): Array<UiTask<*>>
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_tabpager
@@ -122,13 +122,13 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
 
         val pagerRunnable = {
             for (index in pageClasses.indices) {
-                var task: Task<*>? = null
-                pageTasks?.let {
+                var task: UiTask<*>? = null
+                pageTasks.let {
                     task = it[index]
                 }
                 adapter?.addPage(pageTitles[index], pageClasses[index], task)
             }
         }
-        ex.postToUi(Runnable{pagerRunnable})
+        ex.postToUi(Runnable{pagerRunnable}, 500L)
     }
 }

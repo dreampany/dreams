@@ -211,9 +211,6 @@ public final class TextUtil {
 
 
     public static String[] getStrings(Context context, int... resourceIds) {
-/*        if (Validator.isNullOrEmpty(resourceIds)) {
-            throw new NullPointerException("resources can't be be null or empty");
-        }*/
         String[] strings = new String[resourceIds.length];
         for (int index = 0; index < resourceIds.length; index++) {
             strings[index] = getString(context, resourceIds[index]);

@@ -14,6 +14,6 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class RadioModule {
     @FragmentScope
-    @ContributesAndroidInjector(modules = [SmallPlayerModule::class])
+    @ContributesAndroidInjector(modules = [StationsModule::class, SmallPlayerModule::class])
     abstract fun homeFragment(): RadioHomeFragment
 }

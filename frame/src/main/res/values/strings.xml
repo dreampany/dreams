@@ -51,6 +51,10 @@
     <string name="online">Online</string>
     <string name="offline">Offline</string>
 
+    <string name="local">Local</string>
+    <string name="trends">Trends</string>
+    <string name="popular">Popular</string>
+
 
     <string name="back_pressed">Please click BACK again to exit</string>
 

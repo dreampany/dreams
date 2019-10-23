@@ -2,6 +2,7 @@ package com.dreampany.tools.misc
 
 import android.content.Context
 import android.content.Intent
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TextUtil
@@ -53,6 +54,9 @@ class Constants {
         fun wordVision(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-vision"
         fun wordQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-quiz"
         fun relatedQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "related-quiz"
+
+        fun radioStations(context: Context, state: State): String =
+            lastAppId(context) + Sep.HYPHEN + "${state.name.toLowerCase()}-related-quiz"
 
         fun isOn(context: Context, screen: String, type: Type): Boolean {
             when (type) {

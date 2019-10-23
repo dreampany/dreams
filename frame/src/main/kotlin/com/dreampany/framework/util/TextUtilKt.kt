@@ -1,5 +1,7 @@
 package com.dreampany.framework.util
 
+import android.content.Context
+import androidx.annotation.StringRes
 import com.dreampany.framework.misc.Constants
 
 /**
@@ -18,6 +20,18 @@ class TextUtilKt {
         fun resolve(text: String? = null): String {
             if (text.isNullOrEmpty()) Constants.Default.STRING
             return text!!
+        }
+
+        fun getString(context: Context, @StringRes resId: Int): String {
+            return context.getString(resId)
+        }
+
+        fun getStrings(context: Context, vararg resourceIds: Int): Array<String> {
+            val list = arrayListOf<String>()
+            for (index in resourceIds.indices) {
+                list.add(getString(context, resourceIds[index]))
+            }
+            return list.toTypedArray()
         }
     }
 }

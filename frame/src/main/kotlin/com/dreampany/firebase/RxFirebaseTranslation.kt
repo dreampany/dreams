@@ -5,9 +5,9 @@ import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.FirebaseApp
 import com.google.firebase.ml.common.modeldownload.FirebaseModelDownloadConditions
+import com.google.firebase.ml.common.modeldownload.FirebaseModelManager
 import com.google.firebase.ml.naturallanguage.FirebaseNaturalLanguage
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateLanguage
-import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateModelManager
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslateRemoteModel
 import com.google.firebase.ml.naturallanguage.translate.FirebaseTranslatorOptions
 import io.reactivex.Maybe
@@ -25,16 +25,14 @@ import javax.inject.Singleton
 @Singleton
 class RxFirebaseTranslation @Inject constructor() {
 
-    private val firebase: FirebaseApp
-    private val manager: FirebaseTranslateModelManager
+    private val manager: FirebaseModelManager
     private val natural: FirebaseNaturalLanguage
 
     private val bucket: MutableMap<String, Boolean>
     private var inited: Boolean = false
 
     init {
-        firebase = FirebaseApp.getInstance()
-        manager = FirebaseTranslateModelManager.getInstance()
+        manager = FirebaseModelManager.getInstance()
         natural = FirebaseNaturalLanguage.getInstance()
         bucket = mutableMapOf()
         init()
@@ -51,10 +49,8 @@ class RxFirebaseTranslation @Inject constructor() {
         val languageCode = convertToFirebaseLanguage(language)
         val conditions = FirebaseModelDownloadConditions.Builder()
             .build()
-        val model = FirebaseTranslateRemoteModel.Builder(languageCode)
-            .setDownloadConditions(conditions)
-            .build()
-        manager.downloadRemoteModelIfNeeded(model)
+        val model = FirebaseTranslateRemoteModel.Builder(languageCode).build()
+        manager.download(model, conditions)
             .addOnSuccessListener {
                 bucket.put(language, true)
                 Timber.v("Firebase Translation Model Downloaded %s %s", language, true)
@@ -86,7 +82,7 @@ class RxFirebaseTranslation @Inject constructor() {
 
 
     fun init() {
-        manager.getAvailableModels(firebase)
+        manager.getDownloadedModels(FirebaseTranslateRemoteModel::class.java)
             .addOnSuccessListener { models ->
                 models.forEach { model ->
                     bucket.put(model.languageCode, true)

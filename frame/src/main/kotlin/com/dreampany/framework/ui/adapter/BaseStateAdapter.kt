@@ -72,7 +72,7 @@ internal constructor(internal val manager: FragmentManager) : FragmentStatePager
     }
 
     fun addPage(pageTitle: String, pageClass: Class<T>, pageTask: Task<*>?): BaseStateAdapter<T> {
-        if (contains(pageClass)) {
+        if (contains(pageTitle)) {
             return this
         }
         val index = count

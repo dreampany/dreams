@@ -9,6 +9,7 @@ import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.Runnable
 import timber.log.Timber
 
 
@@ -120,7 +121,7 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
             //viewPager.setOffscreenPageLimit(pageClasses.length);
         }
 
-        val pagerRunnable = {
+        val pagerRunnable: Runnable = Runnable {
             for (index in pageClasses.indices) {
                 var task: UiTask<*>? = null
                 pageTasks.let {
@@ -129,6 +130,6 @@ abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
                 adapter?.addPage(pageTitles[index], pageClasses[index], task)
             }
         }
-        ex.postToUi(Runnable{pagerRunnable}, 500L)
+        viewPager.post(pagerRunnable)
     }
 }

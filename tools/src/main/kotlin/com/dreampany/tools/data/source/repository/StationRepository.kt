@@ -11,7 +11,6 @@ import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.StationMapper
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.api.StationDataSource
 import io.reactivex.Maybe
@@ -36,13 +35,33 @@ class StationRepository
     @Room private val room: StationDataSource,
     @Remote private val remote: StationDataSource
 ) : Repository<String, Station>(rx, rm), StationDataSource {
-    override fun getItemsByCountryCode(countryCode: String): List<Station>? {
+    override fun getItemsOfTrends(limit: Long): List<Station>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsByCountryCodeRx(countryCode: String): Maybe<List<Station>> {
-        val remoteIf = getRemoteItemsByCountryCodeIfRx(countryCode)
-        val roomAny = room.getItemsByCountryCodeRx(countryCode)
+    override fun getItemsOfTrendsRx(limit: Long): Maybe<List<Station>> {
+        val remoteIf = getRemoteItemsOfTrendsIfRx(limit)
+        val roomAny = room.getItemsOfTrendsRx(limit)
+        return concatFirstRx(true, remoteIf, roomAny)
+    }
+
+    override fun getItemsOfPopular(limit: Long): List<Station>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsOfPopularRx(limit: Long): Maybe<List<Station>> {
+        val remoteIf = getRemoteItemsOfPopularIfRx(limit)
+        val roomAny = room.getItemsOfPopularRx(limit)
+        return concatFirstRx(true, remoteIf, roomAny)
+    }
+
+    override fun getItemsOfCountry(countryCode: String): List<Station>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>> {
+        val remoteIf = getRemoteItemsOfCountryIfRx(countryCode)
+        val roomAny = room.getItemsOfCountryRx(countryCode)
         return concatFirstRx(true, remoteIf, roomAny)
     }
 
@@ -127,11 +146,11 @@ class StationRepository
     }
 
     //region private
-    private fun getRemoteItemsByCountryCodeIfRx(countryCode: String): Maybe<List<Station>> {
+    private fun getRemoteItemsOfCountryIfRx(countryCode: String): Maybe<List<Station>> {
         return Maybe.create { emitter ->
             var result: List<Station>? = null
             if (mapper.isExpired(State.LOCAL, countryCode)) {
-                result = remote.getItemsByCountryCode(countryCode)
+                result = remote.getItemsOfCountry(countryCode)
             }
             if (emitter.isDisposed) return@create
             if (result.isNullOrEmpty()) {
@@ -140,6 +159,42 @@ class StationRepository
                 //extra work to save result
                 room.putItems(result)
                 mapper.commitStationExpiredTime(State.LOCAL, countryCode)
+                emitter.onSuccess(result)
+            }
+        }
+    }
+
+    private fun getRemoteItemsOfTrendsIfRx(limit: Long): Maybe<List<Station>> {
+        return Maybe.create { emitter ->
+            var result: List<Station>? = null
+            if (mapper.isExpired(State.TRENDS)) {
+                result = remote.getItemsOfTrends(limit)
+            }
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                //extra work to save result
+                room.putItems(result)
+                mapper.commitStationExpiredTime(State.TRENDS)
+                emitter.onSuccess(result)
+            }
+        }
+    }
+
+    private fun getRemoteItemsOfPopularIfRx(limit: Long): Maybe<List<Station>> {
+        return Maybe.create { emitter ->
+            var result: List<Station>? = null
+            if (mapper.isExpired(State.POPULAR)) {
+                result = remote.getItemsOfPopular(limit)
+            }
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                //extra work to save result
+                room.putItems(result)
+                mapper.commitStationExpiredTime(State.POPULAR)
                 emitter.onSuccess(result)
             }
         }

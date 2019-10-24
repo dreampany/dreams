@@ -18,12 +18,28 @@ constructor(
     private val mapper: StationMapper,
     private val dao: StationDao
 ) : StationDataSource {
-    override fun getItemsByCountryCode(countryCode: String): List<Station>? {
-        return dao.getItemsByCountryCode(countryCode)
+    override fun getItemsOfTrends(limit: Long): List<Station>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsByCountryCodeRx(countryCode: String): Maybe<List<Station>> {
-        return dao.getItemsByCountryCodeRx(countryCode)
+    override fun getItemsOfTrendsRx(limit: Long): Maybe<List<Station>> {
+        return dao.getItemsOfTrendsRx(limit)
+    }
+
+    override fun getItemsOfPopular(limit: Long): List<Station>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsOfPopularRx(limit: Long): Maybe<List<Station>> {
+        return dao.getItemsOfPopularRx(limit)
+    }
+
+    override fun getItemsOfCountry(countryCode: String): List<Station>? {
+        return dao.getItemsOfCountry(countryCode)
+    }
+
+    override fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>> {
+        return dao.getItemsOfCountryRx(countryCode)
     }
 
     override fun isEmpty(): Boolean {

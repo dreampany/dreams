@@ -6,7 +6,7 @@ import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.mapper.StationMapper
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.api.StationDataSource
-import com.dreampany.tools.api.radio.RadioStationService
+import com.dreampany.tools.api.radio.StationService
 import io.reactivex.Maybe
 import timber.log.Timber
 
@@ -20,14 +20,15 @@ class RemoteStationDataSource
 constructor(
     private val network: NetworkManager,
     private val mapper: StationMapper,
-    private val service: RadioStationService
+    private val service: StationService
 ) : StationDataSource {
-    override fun getItemsByCountryCode(countryCode: String): List<Station>? {
+
+    override fun getItemsOfTrends(limit: Long): List<Station>? {
         if (!network.hasInternet()) {
             return null
         }
         try {
-            val response = service.getItemsByCountryCode(countryCode).execute()
+            val response = service.getItemsOfTrends(limit).execute()
             if (response.isSuccessful) {
                 val stations: List<RadioStation>? = response.body()
                 val result = mapper.getItems(stations)
@@ -39,9 +40,51 @@ constructor(
         return null
     }
 
-    override fun getItemsByCountryCodeRx(countryCode: String): Maybe<List<Station>> {
+    override fun getItemsOfTrendsRx(limit: Long): Maybe<List<Station>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsOfPopular(limit: Long): List<Station>? {
+        if (!network.hasInternet()) {
+            return null
+        }
+        try {
+            val response = service.getItemsOfPopular(limit).execute()
+            if (response.isSuccessful) {
+                val stations: List<RadioStation>? = response.body()
+                val result = mapper.getItems(stations)
+                return result
+            }
+        } catch (error: Throwable) {
+            Timber.e(error)
+        }
+        return null
+    }
+
+    override fun getItemsOfPopularRx(limit: Long): Maybe<List<Station>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsOfCountry(countryCode: String): List<Station>? {
+        if (!network.hasInternet()) {
+            return null
+        }
+        try {
+            val response = service.getItemsOfCountry(countryCode).execute()
+            if (response.isSuccessful) {
+                val stations: List<RadioStation>? = response.body()
+                val result = mapper.getItems(stations)
+                return result
+            }
+        } catch (error: Throwable) {
+            Timber.e(error)
+        }
+        return null
+    }
+
+    override fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>> {
         return Maybe.create { emitter ->
-            val result = getItemsByCountryCode(countryCode)
+            val result = getItemsOfCountry(countryCode)
             if (emitter.isDisposed) return@create
 
             if (result.isNullOrEmpty()) {

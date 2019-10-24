@@ -250,9 +250,16 @@ class Constants {
     }
 
     object Api {
-        const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
-        const val RADIO_BROWSER_STATIONS_BY_COUNTRY_CODE =
-            "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
+
+        object Radio {
+            const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
+            const val RADIO_BROWSER_STATIONS_OF_COUNTRY =
+                "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
+            const val RADIO_BROWSER_STATIONS_OF_TRENDS =
+                "json/stations/topclick/{${Station.LIMIT}}"
+            const val RADIO_BROWSER_STATIONS_OF_POPULAR =
+                "json/stations/topvote/{${Station.LIMIT}}"
+        }
     }
 
     object Demo {
@@ -347,6 +354,7 @@ class Constants {
         const val CLICK_TIMESTAMP = "click_timestamp"
         const val CLICK_COUNT = "click_count"
         const val CLICK_TREND = "click_trend"
+        const val LIMIT = "limit"
 
         object Remote {
             const val CHANGE_UUID = "changeuuid"

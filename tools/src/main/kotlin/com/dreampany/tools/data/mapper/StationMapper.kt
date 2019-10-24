@@ -31,9 +31,18 @@ class StationMapper
     private val pref: RadioPref
 ) : Mapper() {
 
+    fun isExpired(state: State): Boolean {
+        val lastTime = pref.getStationTime(state)
+        return TimeUtil.isExpired(lastTime, Constants.Time.STATION)
+    }
+
     fun isExpired(state: State, countryCode: String): Boolean {
         val lastTime = pref.getStationTime(state, countryCode)
         return TimeUtil.isExpired(lastTime, Constants.Time.STATION)
+    }
+
+    fun commitStationExpiredTime(state: State) {
+        pref.commitStationTime(state)
     }
 
     fun commitStationExpiredTime(state: State, countryCode: String) {

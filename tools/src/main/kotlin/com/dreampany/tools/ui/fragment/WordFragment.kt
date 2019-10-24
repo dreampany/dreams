@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
@@ -135,7 +136,7 @@ class WordFragment
     }
 
     override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
         if (searchView.isSearchOpen()) {
             searchView.closeSearch()
         }
@@ -143,7 +144,7 @@ class WordFragment
 
     override fun onRefresh() {
         super.onRefresh()
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -269,8 +270,6 @@ class WordFragment
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
 
-        processUiState(UiState.DEFAULT)
-
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindDef.toggleDefinition.setOnClickListener(this)
         bindWord.buttonFavorite.setOnClickListener(this)
@@ -283,6 +282,7 @@ class WordFragment
         vm.task = uiTask
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+        vm.updateUiState(uiState = UiState.DEFAULT)
     }
 
     private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
@@ -324,8 +324,9 @@ class WordFragment
         }
     }
 
-    private fun processUiState(state: UiState) {
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
@@ -335,7 +336,6 @@ class WordFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-//UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
@@ -347,27 +347,13 @@ class WordFragment
     private fun processSingleResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<WordItem>
             processSingleSuccess(result.action, result.data)
-        }
-    }
-
-    private fun processFailure(error: Throwable) {
-        if (error is IOException || error.cause is IOException) {
-            vm.updateUiState(UiState.OFFLINE)
-        } else if (error is EmptyException) {
-            vm.updateUiState(UiState.EMPTY)
-        } else if (error is ExtraException) {
-            vm.updateUiState(UiState.EXTRA)
-        } else if (error is MultiException) {
-            for (e in error.errors) {
-                processFailure(e)
-            }
         }
     }
 
@@ -381,7 +367,7 @@ class WordFragment
         }
     }
 
-    private fun processSuccess(action: Action, items: List<WordItem>) {
+    private fun processSuccess(state: State, action: Action, items: List<WordItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
 
         if (action === Action.GET) {
@@ -394,7 +380,7 @@ class WordFragment
             }
             return
         }
-        ex.postToUi(kotlinx.coroutines.Runnable { processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable { vm.updateUiState(state, action, UiState.EXTRA) }, 500L)
     }
 
     private fun processSingleSuccess(action: Action, uiItem: WordItem) {
@@ -422,7 +408,7 @@ class WordFragment
             }
             processRelated(uiItem.item.synonyms, uiItem.item.antonyms);
             processDefinitions(uiItem.item.definitions)
-            processUiState(UiState.CONTENT)
+            vm.updateUiState(uiState = UiState.CONTENT)
         }
     }
 

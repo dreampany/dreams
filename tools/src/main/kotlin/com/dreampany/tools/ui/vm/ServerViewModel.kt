@@ -79,19 +79,19 @@ class ServerViewModel
             .backToMain(requestUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(true)
+                    postProgress(request.state, request.action,true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(false)
+                    postProgress(request.state, request.action,false)
                 }
                 postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(false)
+                    postProgress(request.state, request.action,false)
                 }
-                postFailures(MultiException(error, ExtraException()))
+                postFailures(request.state, request.action,MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
     }

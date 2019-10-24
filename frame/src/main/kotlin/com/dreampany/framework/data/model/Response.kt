@@ -2,6 +2,7 @@ package com.dreampany.framework.data.model
 
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.ui.enums.UiState
 
 
 /**
@@ -10,6 +11,12 @@ import com.dreampany.framework.data.enums.State
  * dreampanymail@gmail.com
  */
 sealed class Response<T> {
+
+    data class UiResponse(
+        val state: State = State.DEFAULT,
+        val action: Action = Action.DEFAULT,
+        var uiState: UiState = UiState.DEFAULT
+    )
 
     data class Progress<T>(
         val state: State = State.DEFAULT,
@@ -36,6 +43,8 @@ sealed class Response<T> {
     ) : Response<T>()
 
     companion object {
+        fun response(state: State, action: Action, uiState: UiState): UiResponse = UiResponse(state, action, uiState)
+
         fun <T> response(state: State, action: Action, loading: Boolean): Response<T> =
             Progress(state, action, loading)
 

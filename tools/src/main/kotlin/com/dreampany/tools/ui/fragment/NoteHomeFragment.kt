@@ -114,7 +114,7 @@ class NoteHomeFragment
     }
 
     override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
         powerMenu?.run {
             if (isShowing) {
                 dismiss()
@@ -210,8 +210,6 @@ class NoteHomeFragment
             }
         )
 
-        processUiState(UiState.DEFAULT)
-
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bind.fab.setOnClickListener(this)
 
@@ -230,6 +228,7 @@ class NoteHomeFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+        vm.updateUiState(uiState = UiState.DEFAULT)
     }
 
     private fun initRecycler() {
@@ -298,9 +297,9 @@ class NoteHomeFragment
         }
     }
 
-    private fun processUiState(state: UiState) {
-        Timber.v("UiState %s", state.name)
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
@@ -311,7 +310,10 @@ class NoteHomeFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            UiState.EXTRA -> {
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
+            }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
             }
@@ -321,44 +323,42 @@ class NoteHomeFragment
     fun processMultipleResponse(response: Response<List<NoteItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            Timber.v("processMultipleResponse %s", result.loading)
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<NoteItem>>
-            processSuccess(result.action, result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
     fun processSingleResponse(response: Response<NoteItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            Timber.v("processSingleResponse %s", result.loading)
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<NoteItem>
-            processSuccess(result.action, result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, items: List<NoteItem>) {
+    private fun processSuccess(state: State, action: Action, items: List<NoteItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable { vm.updateUiState(state, action, UiState.EXTRA) }, 500L)
     }
 
-    private fun processSuccess(action: Action, item: NoteItem) {
+    private fun processSuccess(state: State, action: Action, item: NoteItem) {
         if (action == Action.DELETE) {
             adapter.removeItem(item)
         } else {
             adapter.addItem(item)
         }
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable { vm.updateUiState(state, action, UiState.EXTRA) }, 500L)
     }
 
     private fun openAddNoteUi() {

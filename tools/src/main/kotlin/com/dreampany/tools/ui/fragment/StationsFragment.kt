@@ -137,7 +137,7 @@ class StationsFragment
         if (adapter.isEmpty) {
             request(progress = true)
         } else {
-            processUiState(UiState.HIDE_PROGRESS)
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
         }
     }
 
@@ -188,12 +188,11 @@ class StationsFragment
             }
         )
 
-        processUiState(UiState.DEFAULT)
-
         vm = ViewModelProviders.of(this, factory).get(StationViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+        vm.updateUiState(uiState =  UiState.DEFAULT)
 
         countryCode = GeoUtil.getCountryCode(context!!)
     }
@@ -216,9 +215,12 @@ class StationsFragment
         )
     }
 
-    private fun processUiState(state: UiState) {
-        Timber.v("UiState %s", state.name)
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        if (this.state != response.state) {
+            return
+        }
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
@@ -229,7 +231,10 @@ class StationsFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            UiState.EXTRA -> {
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
+            }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
                 //initTitleSubtitle()
@@ -240,11 +245,16 @@ class StationsFragment
     fun processMultipleResponse(response: Response<List<StationItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            Timber.v("processMultipleResponse %s", result.loading)
-            vm.processProgress(result.loading)
+            if (this.state != result.state) {
+                return
+            }
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            if (this.state != result.state) {
+                return
+            }
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<StationItem>>
             processSuccess(result.state, result.action, result.data)
@@ -254,11 +264,16 @@ class StationsFragment
     fun processSingleResponse(response: Response<StationItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            Timber.v("processSingleResponse %s", result.loading)
-            vm.processProgress(result.loading)
+            if (this.state != result.state) {
+                return
+            }
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            if (this.state != result.state) {
+                return
+            }
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<StationItem>
             processSuccess(result.state, result.action, result.data)
@@ -272,7 +287,9 @@ class StationsFragment
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         updatePlaying()
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
     }
 
     private fun processSuccess(state: State, action: Action, item: StationItem) {
@@ -284,8 +301,10 @@ class StationsFragment
         } else {
             adapter.addItem(item)
         }
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
 
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
     }
 
     private fun updatePlaying() {

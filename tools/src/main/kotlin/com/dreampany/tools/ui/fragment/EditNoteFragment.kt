@@ -3,6 +3,8 @@ package com.dreampany.tools.ui.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +26,8 @@ import com.dreampany.tools.databinding.FragmentEditNoteBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.ui.vm.NoteViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -63,12 +67,22 @@ class EditNoteFragment
         return Constants.editNote(context!!)
     }
 
+    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
+        super.onMenuCreated(menu, inflater)
+
+        val doneItem = findMenuItemById(R.id.item_done)
+        MenuTint.colorMenuItem(
+            ColorUtil.getColor(context!!, R.color.material_white),
+            null, doneItem
+        )
+    }
+
     override fun onStartUi(state: Bundle?) {
         initUi()
     }
 
     override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun hasBackPressed(): Boolean {
@@ -179,9 +193,9 @@ class EditNoteFragment
         }
     }
 
-    private fun processUiState(state: UiState) {
-        Timber.v("UiState %s", state.name)
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -194,11 +208,10 @@ class EditNoteFragment
     fun processSingleResponse(response: Response<NoteItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            Timber.v("processSingleResponse %s", result.loading)
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<NoteItem>
             processSuccess(result.state, result.action, result.data)
@@ -215,8 +228,9 @@ class EditNoteFragment
         }
         bind.inputEditTitle.setText(item.item.title)
         bind.inputEditDescription.setText(item.item.description)
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
-
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
         if (state == State.DIALOG) {
 
         }

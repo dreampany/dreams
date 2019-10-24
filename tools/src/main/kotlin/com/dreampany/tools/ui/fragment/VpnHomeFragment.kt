@@ -159,7 +159,7 @@ class VpnHomeFragment
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
 
-        processUiState(UiState.DEFAULT)
+        vm.updateUiState(uiState = UiState.DEFAULT)
 
         vm = ViewModelProviders.of(this, factory).get(ServerViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -185,8 +185,9 @@ class VpnHomeFragment
         }
     }
 
-    private fun processUiState(state: UiState) {
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
@@ -208,34 +209,20 @@ class VpnHomeFragment
     private fun processSingleResponse(response: Response<ServerItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<ServerItem>
             processSingleSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processFailure(error: Throwable) {
-        if (error is IOException || error.cause is IOException) {
-            vm.updateUiState(UiState.OFFLINE)
-        } else if (error is EmptyException) {
-            vm.updateUiState(UiState.EMPTY)
-        } else if (error is ExtraException) {
-            vm.updateUiState(UiState.EXTRA)
-        } else if (error is MultiException) {
-            for (e in error.errors) {
-                processFailure(e)
-            }
-        }
-    }
-
     private fun processSingleSuccess(state: State, action: Action, uiItem: ServerItem) {
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
-        processUiState(UiState.CONTENT)
+        vm.updateUiState(uiState = UiState.CONTENT)
     }
 
     private fun prepareVpn() {

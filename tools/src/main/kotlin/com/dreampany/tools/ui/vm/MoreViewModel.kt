@@ -45,13 +45,13 @@ class MoreViewModel @Inject constructor(
         }
         val disposable = rx
             .backToMain(getItems())
-            .doOnSubscribe { subscription -> postProgress(true) }
+            .doOnSubscribe { subscription -> postProgress(loading = true) }
             .subscribe(
                 { result ->
                     postResult(State.DEFAULT, Action.GET, result)
                 },
                 { error ->
-                    postFailures(MultiException(error, ExtraException()))
+                    postFailures(error = MultiException(error, ExtraException()))
                 })
         addMultipleSubscription(disposable)
     }

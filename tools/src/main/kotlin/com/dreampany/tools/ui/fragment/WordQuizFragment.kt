@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
@@ -81,7 +82,7 @@ class WordQuizFragment
     }
 
     override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onClick(view: View, item: QuizItem?, action: Action?) {
@@ -117,7 +118,7 @@ class WordQuizFragment
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
 
-        processUiState(UiState.DEFAULT)
+        vm.updateUiState(uiState = UiState.DEFAULT)
 
         vm = ViewModelProviders.of(this, factory).get(QuizViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -143,9 +144,9 @@ class WordQuizFragment
         )
     }
 
-    private fun processUiState(state: UiState) {
-        Timber.v("UiState %s", state.name)
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
@@ -156,7 +157,10 @@ class WordQuizFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            UiState.EXTRA -> {
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
+            }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
                 //initTitleSubtitle()
@@ -167,21 +171,23 @@ class WordQuizFragment
     fun processMultipleResponse(response: Response<List<QuizItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            Timber.v("processMultipleResponse %s", result.loading)
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<QuizItem>>
-            processSuccess(result.action, result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, items: List<QuizItem>) {
+    private fun processSuccess(state: State, action: Action, items: List<QuizItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
     }
 
     private fun request(

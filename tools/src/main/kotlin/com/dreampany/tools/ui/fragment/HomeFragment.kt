@@ -150,8 +150,9 @@ class HomeFragment
         vm.load(request)
     }
 
-    private fun processUiState(state: UiState) {
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
@@ -161,7 +162,10 @@ class HomeFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            UiState.EXTRA -> {
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
+            }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
@@ -169,19 +173,21 @@ class HomeFragment
     fun processMultipleResponse(response: Response<List<FeatureItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<FeatureItem>>
-            processSuccess(result.action, result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, items: List<FeatureItem>) {
+    private fun processSuccess(state: State, action: Action, items: List<FeatureItem>) {
         adapter.setItems(items)
-        ex.postToUi(Runnable { processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
     }
 
 

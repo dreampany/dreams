@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.data.model.Response
@@ -64,7 +65,7 @@ class AppHomeFragment @Inject constructor() :
     }
 
     override fun onStartUi(state: Bundle?) {
-        initView()
+        initUi()
         initRecycler()
 
         session.track()
@@ -73,7 +74,7 @@ class AppHomeFragment @Inject constructor() :
     }
 
     override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onRefresh() {
@@ -103,7 +104,7 @@ class AppHomeFragment @Inject constructor() :
         setSubtitle(subtitle)
     }
 
-    private fun initView() {
+    private fun initUi() {
         bind = super.binding as FragmentRecyclerBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
@@ -151,9 +152,9 @@ class AppHomeFragment @Inject constructor() :
         vm.request(request)
     }
 
-    private fun processUiState(state: UiState) {
-        Timber.v("UiState %s", state.name)
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
@@ -163,7 +164,10 @@ class AppHomeFragment @Inject constructor() :
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT)
+            UiState.EXTRA -> {
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
+            }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
                 initTitleSubtitle()
@@ -174,20 +178,21 @@ class AppHomeFragment @Inject constructor() :
     fun processMultipleResponse(response: Response<List<AppItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            Timber.v("processMultipleResponse %s", result.loading)
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<AppItem>>
-            processSuccess(result.action, result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(action: Action, items: List<AppItem>) {
+    private fun processSuccess(state: State, action: Action, items: List<AppItem>) {
         Timber.v("Result Type[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
-        ex.postToUi(Runnable{ processUiState(UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
     }
 }

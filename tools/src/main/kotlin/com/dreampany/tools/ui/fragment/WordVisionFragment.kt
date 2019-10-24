@@ -101,7 +101,7 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     override fun onPause() {
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
         preview.stop()
         super.onPause()
     }
@@ -125,7 +125,7 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
 
     override fun onRefresh() {
         super.onRefresh()
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     private fun initUi() {
@@ -232,8 +232,9 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
         forResult()
     }
 
-    private fun processUiState(state: UiState) {
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
             }
@@ -246,35 +247,13 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
     private fun processResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<WordItem>
             processSuccess(result.data)
-        }
-    }
-
-    private fun processProgress(loading: Boolean) {
-        if (loading) {
-            vm.updateUiState(UiState.SHOW_PROGRESS)
-        } else {
-            vm.updateUiState(UiState.HIDE_PROGRESS)
-        }
-    }
-
-    private fun processFailure(error: Throwable) {
-        if (error is IOException || error.cause is IOException) {
-            vm.updateUiState(UiState.OFFLINE)
-        } else if (error is EmptyException) {
-            vm.updateUiState(UiState.EMPTY)
-        } else if (error is ExtraException) {
-            vm.updateUiState(UiState.EXTRA)
-        } else if (error is MultiException) {
-            for (e in error.errors) {
-                processFailure(e)
-            }
         }
     }
 

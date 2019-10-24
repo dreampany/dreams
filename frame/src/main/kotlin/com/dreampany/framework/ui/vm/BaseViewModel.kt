@@ -75,7 +75,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     val liveTitle: SingleLiveEvent<String>
     val liveSubtitle: SingleLiveEvent<String>
     val uiMode: SingleLiveEvent<UiMode>
-    val uiState: SingleLiveEvent<UiState>
+    val uiResponse: SingleLiveEvent<Response.UiResponse>
     val event: SingleLiveEvent<Event>
     val favorite: MutableLiveData<X>
     val select: MutableLiveData<X>
@@ -100,12 +100,12 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         disposables = CompositeDisposable()
         ioDisposables = CompositeDisposable()
         uiMode = SingleLiveEvent()
-        uiState = SingleLiveEvent()
-        event = SingleLiveEvent()
-        liveTitle = SingleLiveEvent()
-        liveSubtitle = SingleLiveEvent()
-        favorite = MutableLiveData()
-        select = MutableLiveData()
+        uiResponse = SingleLiveEvent<Response.UiResponse>()
+        event = SingleLiveEvent<Event>()
+        liveTitle = SingleLiveEvent<String>()
+        liveSubtitle = SingleLiveEvent<String>()
+        favorite = MutableLiveData<X>()
+        select = MutableLiveData<X>()
         input = PublishSubject.create()
         inputs = PublishSubject.create()
         inputsOfString = PublishSubject.create()
@@ -121,7 +121,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
 
         networkEvent = NetworkState.NONE
         uiMode.value = UiMode.MAIN
-        uiState.value = UiState.DEFAULT
+        uiResponse.value = Response.response(State.DEFAULT, Action.DEFAULT, UiState.DEFAULT)
         uiMap.clear()
         uiCache.clear()
     }
@@ -149,7 +149,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         titleOwner?.let { liveTitle.removeObservers(it) }
         subtitleOwner?.let { liveSubtitle.removeObservers(it) }
         uiModeOwner?.let { uiMode.removeObservers(it) }
-        uiStateOwner?.let { uiState.removeObservers(it) }
+        uiStateOwner?.let { uiResponse.removeObservers(it) }
         eventOwner?.let { event.removeObservers(it) }
         favoriteOwner?.let { favorite.removeObservers(it) }
         selectOwner?.let { select.removeObservers(it) }
@@ -180,7 +180,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     open fun clearUiState() {
-        updateUiState(UiState.DEFAULT)
+        updateUiState()
     }
 
     open fun clearInput() {
@@ -232,9 +232,9 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         uiMode.reObserve(owner, observer)
     }
 
-    fun observeUiState(owner: LifecycleOwner, observer: Observer<UiState>) {
+    fun observeUiState(owner: LifecycleOwner, observer: Observer<Response.UiResponse>) {
         uiStateOwner = owner
-        uiState.reObserve(owner, observer)
+        uiResponse.reObserve(owner, observer)
     }
 
     fun observeEvent(owner: LifecycleOwner, observer: Observer<Event>) {
@@ -388,10 +388,12 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         }
     }
 
-    fun updateUiState(state: UiState?) {
-        state?.let {
-            uiState.value = it
-        }
+    fun updateUiState(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        uiState: UiState = UiState.DEFAULT
+    ) {
+        this.uiResponse.value = Response.response(state, action, uiState)
     }
 
     fun notifyUiMode() {
@@ -399,7 +401,9 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun notifyUiState() {
-        updateUiState(uiState.value)
+        uiResponse.value?.run {
+            updateUiState(state, action, uiState)
+        }
     }
 
     fun postProgress(
@@ -407,7 +411,7 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         action: Action = Action.DEFAULT,
         loading: Boolean
     ) {
-        updateUiState(if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
+        updateUiState(state, action, if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
     }
 
     fun postFailure(
@@ -540,24 +544,32 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         favorite.value = data
     }
 
-    fun processProgress(loading: Boolean) {
+    fun processProgress(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        loading: Boolean
+    ) {
         if (loading) {
-            updateUiState(UiState.SHOW_PROGRESS)
+            updateUiState(state, action, UiState.SHOW_PROGRESS)
         } else {
-            updateUiState(UiState.HIDE_PROGRESS)
+            updateUiState(state, action, UiState.HIDE_PROGRESS)
         }
     }
 
-    fun processFailure(error: Throwable) {
+    fun processFailure(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        error: Throwable
+    ) {
         if (error is IOException || error.cause is IOException) {
-            updateUiState(UiState.OFFLINE)
+            updateUiState(state, action, UiState.OFFLINE)
         } else if (error is EmptyException) {
-            updateUiState(UiState.EMPTY)
+            updateUiState(state, action, UiState.EMPTY)
         } else if (error is ExtraException) {
-            updateUiState(UiState.EXTRA)
+            updateUiState(state, action, UiState.EXTRA)
         } else if (error is MultiException) {
             for (e in error.errors) {
-                processFailure(e)
+                processFailure(state, action, e)
             }
         }
     }

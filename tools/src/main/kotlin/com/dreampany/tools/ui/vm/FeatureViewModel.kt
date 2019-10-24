@@ -60,19 +60,19 @@ class FeatureViewModel @Inject constructor(
             .backToMain(loadUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(true)
+                    postProgress(request.state, request.action,true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(false)
+                    postProgress(request.state, request.action,false)
                 }
                 postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(false)
+                    postProgress(request.state, request.action,false)
                 }
-                postFailures(MultiException(error, ExtraException()))
+                postFailures(request.state, request.action,MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
     }
@@ -86,19 +86,19 @@ class FeatureViewModel @Inject constructor(
             .backToMain(loadUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(true)
+                    postProgress(request.state, request.action,true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(false)
+                    postProgress(request.state, request.action,false)
                 }
                 postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(false)
+                    postProgress(request.state, request.action,false)
                 }
-                postFailures(MultiException(error, ExtraException()))
+                postFailures(request.state, request.action,MultiException(error, ExtraException()))
             })
         addMultipleSubscription(disposable)
     }

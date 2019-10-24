@@ -114,7 +114,7 @@ class RelatedQuizFragment
     }
 
     override fun onStopUi() {
-        processUiState(UiState.HIDE_PROGRESS)
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onClick(v: View) {
@@ -131,7 +131,7 @@ class RelatedQuizFragment
                 particle?.run {
                     bind.konfetti.stop(this)
                 }
-                processUiState(UiState.DEFAULT)
+                vm.updateUiState(uiState = UiState.DEFAULT)
                 adapter.clear()
                 request(state = State.DEFAULT, resolve = State.PLAYED, action = Action.NEXT, single = true, progress = true)
             }
@@ -174,7 +174,7 @@ class RelatedQuizFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
-        processUiState(UiState.DEFAULT)
+        vm.updateUiState(uiState = UiState.DEFAULT)
     }
 
     private fun initRecycler() {
@@ -198,8 +198,9 @@ class RelatedQuizFragment
         )
     }
 
-    private fun processUiState(state: UiState) {
-        when (state) {
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
                 bind.layoutRefresh.setRefreshing(true)
@@ -209,7 +210,10 @@ class RelatedQuizFragment
             }
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
-            UiState.EXTRA -> processUiState(if (quizItem == null) UiState.EMPTY else UiState.CONTENT)
+            UiState.EXTRA -> {
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
+            }
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
@@ -223,28 +227,13 @@ class RelatedQuizFragment
     private fun processSingleResponse(response: Response<RelatedQuizItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.loading)
+            vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            processFailure(result.error)
+            vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<RelatedQuizItem>
             processSingleSuccess(result.action, result.data)
-        }
-    }
-
-    private fun processFailure(error: Throwable) {
-        Timber.v("Result Related Failure[%s]", error.message)
-        if (error is IOException || error.cause is IOException) {
-            vm.updateUiState(UiState.OFFLINE)
-        } else if (error is EmptyException) {
-            vm.updateUiState(UiState.EMPTY)
-        } else if (error is ExtraException) {
-            vm.updateUiState(UiState.EXTRA)
-        } else if (error is MultiException) {
-            for (e in error.errors) {
-                processFailure(e)
-            }
         }
     }
 
@@ -273,7 +262,7 @@ class RelatedQuizFragment
 
         bindRelatedHeader.textTitle.text = headerItem.item.id
         adapter.addItems(result)
-        processUiState(UiState.CONTENT)
+        vm.updateUiState(uiState = UiState.CONTENT)
 
         quizItem?.run {
             if (played()) {

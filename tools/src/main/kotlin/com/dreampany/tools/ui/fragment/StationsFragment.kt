@@ -93,10 +93,7 @@ class StationsFragment
     }
 
     override fun getScreen(): String {
-        if (state == null) {
-            val uiTask = getCurrentTask<UiTask<*>>(true)
-            state = uiTask?.state ?: State.LOCAL
-        }
+        takeState()
         return Constants.radioStations(context!!, state!!)
     }
 
@@ -162,6 +159,13 @@ class StationsFragment
 
     override fun onLongClick(view: View, item: StationItem?, action: Action?) {
 
+    }
+
+    private fun takeState() {
+        if (state == null) {
+            val uiTask = getCurrentTask<UiTask<*>>(true)
+            state = uiTask?.state ?: State.LOCAL
+        }
     }
 
     private fun initUi() {
@@ -262,6 +266,9 @@ class StationsFragment
     }
 
     private fun processSuccess(state: State, action: Action, items: List<StationItem>) {
+        if (this.state != state) {
+            return
+        }
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         updatePlaying()
@@ -269,6 +276,9 @@ class StationsFragment
     }
 
     private fun processSuccess(state: State, action: Action, item: StationItem) {
+        if (this.state != state) {
+            return
+        }
         if (action == Action.DELETE) {
             adapter.removeItem(item)
         } else {
@@ -298,6 +308,8 @@ class StationsFragment
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
 
+        takeState()
+
         val request = StationRequest(
             id = id,
             countryCode = countryCode,
@@ -315,6 +327,5 @@ class StationsFragment
         override fun onReceive(context: Context, intent: Intent) {
             updatePlaying()
         }
-
     }
 }

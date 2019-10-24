@@ -230,7 +230,7 @@ class Constants {
         const val QUIZ_OPTIONS = 4
 
         object Radio {
-            const val STATIONS = 1000L
+            const val STATIONS = 100L
         }
     }
 

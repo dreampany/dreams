@@ -184,8 +184,8 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     open fun clearInput() {
-        input.onNext(Response.responseEmpty(null))
-        inputs.onNext(Response.responseEmpty(null))
+        input.onNext(Response.responseEmpty(data = null))
+        inputs.onNext(Response.responseEmpty(data = null))
     }
 
     open fun clearOutput() {
@@ -243,13 +243,13 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
     }
 
     fun observeOutput(owner: LifecycleOwner, observer: Observer<Response<X>>) {
-        postEmpty(null as X)
+        postEmpty(data = null as X)
         singleOwners.add(owner)
         output.reObserve(owner, observer)
     }
 
     fun observeOutputs(owner: LifecycleOwner, observer: Observer<Response<List<X>>>) {
-        postEmpty(null as List<X>?)
+        postEmpty(data = null as List<X>?)
         multipleOwners.add(owner)
         outputs.reObserve(owner, observer)
     }
@@ -402,91 +402,137 @@ abstract class BaseViewModel<T, X, Y> protected constructor(
         updateUiState(uiState.value)
     }
 
-    fun postProgress(loading: Boolean) {
+    fun postProgress(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        loading: Boolean
+    ) {
         updateUiState(if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
     }
 
-    fun postFailure(error: Throwable) {
+    fun postFailure(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        error: Throwable
+    ) {
         if (!hasSingleDisposable()) {
         }
-        rm.response(input, error)
+        rm.response(input, state, action, error)
     }
 
-    fun postFailure(error: Throwable, withProgress: Boolean) {
+    fun postFailure(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        error: Throwable,
+        withProgress: Boolean
+    ) {
         if (!hasSingleDisposable()) {
         }
         if (withProgress) {
-            rm.responseWithProgress(input, error)
+            rm.responseWithProgress(input, state, action, error)
         } else {
-            rm.response(input, error)
+            rm.response(input, state, action, error)
         }
     }
 
-    fun postFailures(error: Throwable) {
+    fun postFailures(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        error: Throwable
+    ) {
         if (!hasMultipleDisposable()) {
         }
-        rm.response(inputs, error)
+        rm.response(inputs, state, action, error)
     }
 
-    fun postFailures(error: Throwable, withProgress: Boolean) {
+    fun postFailures(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        error: Throwable,
+        withProgress: Boolean
+    ) {
         if (!hasMultipleDisposable()) {
         }
         if (withProgress) {
-            rm.responseWithProgress(inputs, error)
+            rm.responseWithProgress(inputs, state, action, error)
         } else {
-            rm.response(inputs, error)
+            rm.response(inputs, state, action, error)
         }
     }
 
-    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: X) {
+    fun postResult(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: X) {
         rm.response(input, state, action, data)
     }
 
-    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: X, withProgress: Boolean) {
+    fun postResult(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: X,
+        withProgress: Boolean
+    ) {
         if (withProgress) {
-            rm.responseWithProgress(input,state, action, data)
+            rm.responseWithProgress(input, state, action, data)
         } else {
-            rm.response(input,state, action, data)
+            rm.response(input, state, action, data)
         }
     }
 
-    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>) {
-        rm.response(inputs,state, action, data)
+    fun postResult(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>) {
+        rm.response(inputs, state, action, data)
     }
 
-    fun postResultOfString(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<String>) {
-        rm.response(inputsOfString,state, action, data)
+    fun postResultOfString(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: List<String>
+    ) {
+        rm.response(inputsOfString, state, action, data)
     }
 
-    fun postResult(state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>, withProgress: Boolean) {
+    fun postResult(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: List<X>,
+        withProgress: Boolean
+    ) {
         if (withProgress) {
-            rm.responseWithProgress(inputs, state,action, data)
+            rm.responseWithProgress(inputs, state, action, data)
         } else {
-            rm.response(inputs,state, action, data)
+            rm.response(inputs, state, action, data)
         }
     }
 
-    fun postEmpty(data: X?) {
-        rm.responseEmpty(input, data)
+    fun postEmpty(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: X?) {
+        rm.responseEmpty(input, state, action, data)
     }
 
-    fun postEmpty(data: X?, withProgress: Boolean) {
+    fun postEmpty(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: X?,
+        withProgress: Boolean
+    ) {
         if (withProgress) {
-            rm.responseEmptyWithProgress(input, data)
+            rm.responseEmptyWithProgress(input, state, action, data)
         } else {
-            rm.responseEmpty(input, data)
+            rm.responseEmpty(input, state, action, data)
         }
     }
 
-    fun postEmpty(data: List<X>?) {
-        rm.responseEmpty(inputs, data)
+    fun postEmpty(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>?) {
+        rm.responseEmpty(inputs, state, action, data)
     }
 
-    fun postEmpty(data: List<X>?, withProgress: Boolean) {
+    fun postEmpty(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: List<X>?,
+        withProgress: Boolean
+    ) {
         if (withProgress) {
-            rm.responseEmptyWithProgress(inputs, data)
+            rm.responseEmptyWithProgress(inputs, state, action, data)
         } else {
-            rm.responseEmpty(inputs, data)
+            rm.responseEmpty(inputs, state, action, data)
         }
     }
 

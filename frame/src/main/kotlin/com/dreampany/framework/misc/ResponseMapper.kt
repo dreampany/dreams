@@ -13,34 +13,69 @@ import javax.inject.Inject
  */
 class ResponseMapper @Inject constructor() {
 
-    fun <T> response(subject: PublishSubject<Response<T>>, loading: Boolean) {
-        subject.onNext(Response.Progress(loading))
+    fun <T> response(
+        subject: PublishSubject<Response<T>>,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        loading: Boolean
+    ) {
+        subject.onNext(Response.Progress(state, action, loading))
     }
 
-    fun <T> response(subject: PublishSubject<Response<T>>, error: Throwable) {
-        subject.onNext(Response.Failure(error))
+    fun <T> response(
+        subject: PublishSubject<Response<T>>,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        error: Throwable
+    ) {
+        subject.onNext(Response.Failure(state, action, error))
     }
 
-    fun <T> response(subject: PublishSubject<Response<T>>, state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: T) {
-        subject.onNext(Response.Result(state = state, action = action, data =  data))
+    fun <T> response(
+        subject: PublishSubject<Response<T>>,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: T
+    ) {
+        subject.onNext(Response.Result(state = state, action = action, data = data))
     }
 
-    fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, error: Throwable) {
-        response(subject, false)
-        subject.onNext(Response.Failure(error))
+    fun <T> responseWithProgress(
+        subject: PublishSubject<Response<T>>,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        error: Throwable
+    ) {
+        response(subject, state, action, false)
+        subject.onNext(Response.Failure(state, action, error))
     }
 
-    fun <T> responseWithProgress(subject: PublishSubject<Response<T>>, state : State = State.DEFAULT, action: Action = Action.DEFAULT, data: T) {
-        response(subject, false)
-        subject.onNext(Response.Result(state = state, action = action, data =  data))
+    fun <T> responseWithProgress(
+        subject: PublishSubject<Response<T>>,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: T
+    ) {
+        response(subject, state, action, false)
+        subject.onNext(Response.Result(state = state, action = action, data = data))
     }
 
-    fun <T> responseEmpty(subject: PublishSubject<Response<T>>, data: T?) {
-        subject.onNext(Response.Empty(data))
+    fun <T> responseEmpty(
+        subject: PublishSubject<Response<T>>,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: T?
+    ) {
+        subject.onNext(Response.Empty(state, action, data))
     }
 
-    fun <T> responseEmptyWithProgress(subject: PublishSubject<Response<T>>, data: T?) {
-        response(subject, false)
-        subject.onNext(Response.Empty(data))
+    fun <T> responseEmptyWithProgress(
+        subject: PublishSubject<Response<T>>,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        data: T?
+    ) {
+        response(subject, state, action, false)
+        subject.onNext(Response.Empty(state, action, data))
     }
 }

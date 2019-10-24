@@ -191,12 +191,7 @@ class StationsFragment
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
-        state = radioPref.getStationState(State.LOCAL)
-        when (state) {
-            State.LOCAL -> {
-                countryCode = GeoUtil.getCountryCode(context!!)
-            }
-        }
+        countryCode = GeoUtil.getCountryCode(context!!)
     }
 
     private fun initRecycler() {
@@ -308,9 +303,10 @@ class StationsFragment
             countryCode = countryCode,
             state = state!!,
             action = action,
-            input = input,
             single = single,
-            progress = progress
+            progress = progress,
+            input = input,
+            limit = Constants.Limit.Radio.STATIONS
         )
         vm.request(request)
     }

@@ -11,7 +11,7 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class StationRequest (
+class StationRequest(
     val id: String? = Constants.Default.NULL,
     val countryCode: String? = Constants.Default.NULL,
     type: Type = Type.DEFAULT,
@@ -19,20 +19,22 @@ class StationRequest (
     state: State = State.DEFAULT,
     source: Source = Source.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: Station? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN,
+    input: Station? = Constants.Default.NULL,
+    limit: Long = Constants.Default.LONG
 ) : Request<Station>(
     type = type,
     subtype = subtype,
     state = state,
     source = source,
     action = action,
-    input = input,
     single = single,
     important = important,
-    progress = progress
+    progress = progress,
+    input = input,
+    limit = limit
 ) {
 
 }

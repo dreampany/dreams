@@ -105,6 +105,12 @@ class StationViewModel
             State.LOCAL -> {
                 return repo.getItemsOfCountryRx(request.countryCode!!)
             }
+            State.TRENDS -> {
+                return repo.getItemsOfTrendsRx(request.limit)
+            }
+            State.POPULAR -> {
+                return repo.getItemsOfPopularRx(request.limit)
+            }
         }
         return repo.getItemsRx();
     }

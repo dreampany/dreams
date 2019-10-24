@@ -228,6 +228,10 @@ class Constants {
         const val WORD_OCR = 1000
         const val WORD_TRACK = 1000L
         const val QUIZ_OPTIONS = 4
+
+        object Radio {
+            const val STATIONS = 1000L
+        }
     }
 
     object Threshold {

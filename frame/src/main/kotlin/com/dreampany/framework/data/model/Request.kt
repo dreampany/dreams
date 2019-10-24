@@ -15,9 +15,10 @@ abstract class Request<T>(
     var state: State = State.DEFAULT,
     var source: Source = Source.DEFAULT,
     var action: Action = Action.DEFAULT,
-    var input: T? = Constants.Default.NULL,
     val single: Boolean = Constants.Default.BOOLEAN,
     var important: Boolean = Constants.Default.BOOLEAN,
-    var progress: Boolean = Constants.Default.BOOLEAN
+    var progress: Boolean = Constants.Default.BOOLEAN,
+    var input: T? = Constants.Default.NULL,
+    var limit: Long = Constants.Default.LONG
 ) {
 }

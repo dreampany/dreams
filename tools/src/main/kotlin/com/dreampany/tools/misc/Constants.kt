@@ -149,11 +149,10 @@ class Constants {
 
 
         object Word {
-            val SYNC_FREQUENT = TimeUnit.MINUTES.toMillis(1)
-            val SYNC_NORMAL = TimeUnit.MINUTES.toMillis(3)
-            val SYNC_LAZY = TimeUnit.MINUTES.toMillis(5)
-            val SYNC_DEAD = TimeUnit.HOURS.toMillis(1)
-            val TRACK = TimeUnit.MINUTES.toMillis(30)
+            val FREQUENT = TimeUnit.MINUTES.toMillis(1)
+            val NORMAL = TimeUnit.MINUTES.toMillis(3)
+            val LAZY = TimeUnit.MINUTES.toMillis(5)
+            val DEAD = TimeUnit.HOURS.toMillis(1)
         }
 
         fun minuteToMillis(minutes: Long): Long {
@@ -224,9 +223,9 @@ class Constants {
             const val PER_TRACK = 10
             const val TRACK = 100
 
-            const val SYNC_FREQUENT = 100
-            const val SYNC_NORMAL = 1000
-            const val SYNC_LAZY = 10000
+            const val FREQUENT = 100
+            const val NORMAL = 1000
+            const val LAZY = 10000
         }
     }
 
@@ -246,7 +245,7 @@ class Constants {
 
     object Threshold {
         const val DEFAULT = 1
-        const val WORD = 10
+        const val WORD = 3
     }
 
     object Assets {

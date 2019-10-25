@@ -15,6 +15,7 @@ import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.NumberUtil
 import com.dreampany.framework.util.TimeUtil
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
@@ -86,8 +87,11 @@ class NotifyViewModel
         when (request.action) {
             Action.SYNC -> {
                 ex.postToNetwork(Runnable {
-                    syncOfTrack(request)
-                    syncWord(request)
+                    if (NumberUtil.randomBool()) {
+                        syncOfTrack(request)
+                    } else {
+                        syncWord(request)
+                    }
                 })
             }
         }
@@ -115,24 +119,46 @@ class NotifyViewModel
                 syncStore(request, this)
             }
         }
+        val fullState = storeRepo.getCountByType(request.type, request.subtype, State.FULL)
+        wordPref.setSyncedCount(fullState.toLong())
         if (network.hasInternet()) {
             mapper.commitSyncExpiredTime()
         }
     }
 
     private fun syncOfTrack(request: WordRequest) {
-        if (!mapper.isTrackExpired()) {
+        val screen = configPref.getScreen(UiType.FRAGMENT)
+        val has = Constants.hasThreshold(application, screen, request.type)
+        if (!mapper.isTrackExpired(has)) {
             return
         }
-        val screen = configPref.getScreen(UiType.FRAGMENT)
         val threshold = Constants.getThreshold(application, screen, request.type)
         Timber.v("Getting... Store")
+        for (index in 1..threshold) {
+            Timber.v("Getting... TRACK Store")
+            var store = nextStore(request.type, request.subtype, State.TRACK)
+            store?.run {
+                Timber.v("TRACK Next sync word %s", id)
+                if (hasStore(this.id, this.type, this.subtype, State.ERROR, State.FULL)) {
+                    removeStore(this.id, this.type, this.subtype, State.RAW)
+                    removeStore(this.id, this.type, this.subtype, State.TRACK)
+                    return@run
+                }
+
+                // TODO required batch read
+                val result = syncStore(request, this)
+            }
+        }
+
         val fullState = storeRepo.getCountByType(request.type, request.subtype, State.FULL)
         wordPref.setSyncedCount(fullState.toLong())
-        var trackCount = 0
+        if (network.hasInternet()) {
+            mapper.commitTrackExpiredTime()
+        }
+
+        /*        var trackCount = 0
         var trackPer = if (fullState < Constants.Count.Word.TRACK)
             Constants.Count.Word.PER_TRACK else Constants.Count.Word.DEFAULT_PER_TRACK
-        trackPer *= threshold
         do {
             Timber.v("Getting... TRACK Store")
             var store = nextStore(request.type, request.subtype, State.TRACK)
@@ -154,7 +180,7 @@ class NotifyViewModel
                 mapper.commitTrackExpiredTime()
             }
             AndroidUtil.sleep(500L)
-        } while (store != null && trackCount < trackPer)
+        } while (store != null && trackCount < trackPer)*/
     }
 
     private fun nextStore(
@@ -183,8 +209,10 @@ class NotifyViewModel
             var item = mapper.getItem(store, repo)
             item?.run {
                 if (request.history) {
-                    wordPref.setRecentWord(item)
-                    putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
+                    if (!isEmpty()) {
+                        wordPref.setRecentWord(this)
+                        putStore(id, request.type, request.subtype, State.HISTORY)
+                    }
                 }
                 val uiItem = getUiItem(request, this)
                 return true

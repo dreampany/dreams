@@ -52,9 +52,10 @@ class WordMapper
         pref.commitTrackTime()
     }
 
-    fun isTrackExpired(): Boolean {
+    fun isTrackExpired(threshold: Boolean): Boolean {
         val lastTime = pref.getTrackTime()
-        return TimeUtil.isExpired(lastTime, Constants.Time.Word.TRACK)
+        val trackTime = getTrackTime(threshold)
+        return TimeUtil.isExpired(lastTime, trackTime)
     }
 
     fun commitFirebaseTrackExpiredTime() {
@@ -324,10 +325,18 @@ class WordMapper
     }
 
     private fun getSyncTime(threshold: Boolean): Long {
-        if (!threshold) return Constants.Time.Word.SYNC_DEAD
+        if (!threshold) return Constants.Time.Word.DEAD
         val count = pref.getSyncedCount()
-        if (count < Constants.Count.Word.SYNC_FREQUENT) return Constants.Time.Word.SYNC_FREQUENT
-        if (count < Constants.Count.Word.SYNC_NORMAL) return Constants.Time.Word.SYNC_NORMAL
-        return Constants.Time.Word.SYNC_LAZY
+        if (count < Constants.Count.Word.FREQUENT) return Constants.Time.Word.FREQUENT
+        if (count < Constants.Count.Word.NORMAL) return Constants.Time.Word.NORMAL
+        return Constants.Time.Word.LAZY
+    }
+
+    private fun getTrackTime(threshold: Boolean): Long {
+        if (!threshold) return Constants.Time.Word.DEAD
+        val count = pref.getSyncedCount()
+        if (count < Constants.Count.Word.FREQUENT) return Constants.Time.Word.FREQUENT
+        if (count < Constants.Count.Word.NORMAL) return Constants.Time.Word.NORMAL
+        return Constants.Time.Word.LAZY
     }
 }

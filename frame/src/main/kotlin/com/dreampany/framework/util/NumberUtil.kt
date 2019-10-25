@@ -116,5 +116,9 @@ class NumberUtil {
                 return defaultValue
             }
         }
+
+        fun randomBool() : Boolean {
+            return random.nextBoolean()
+        }
     }
 }

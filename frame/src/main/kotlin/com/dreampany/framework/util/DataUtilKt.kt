@@ -142,6 +142,7 @@ class DataUtilKt {
             return list?.random()
         }
 
+        @Synchronized
         fun <T> removeAll(list: MutableList<T>, sub: MutableList<T>?): MutableList<T>? {
             sub?.run {
                 list.removeAll(this)

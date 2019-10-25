@@ -95,10 +95,11 @@ class NotifyViewModel
 
     private fun syncWord(request: WordRequest) {
         Timber.v("SyncWord fired")
-        if (!mapper.isTrackExpired()) {
+        val screen = configPref.getScreen(UiType.FRAGMENT)
+        val has = Constants.hasThreshold(application, screen, request.type)
+        if (!mapper.isSyncExpired(has)) {
             return
         }
-        val screen = configPref.getScreen(UiType.FRAGMENT)
         val threshold = Constants.getThreshold(application, screen, request.type)
         for (index in 1..threshold) {
             Timber.v("Getting... FAW Store")
@@ -112,7 +113,6 @@ class NotifyViewModel
                 }
                 Timber.v("RAW Next sync word %s", id)
                 syncStore(request, this)
-                //wordPref.commitSyncTime()
             }
         }
         if (network.hasInternet()) {

@@ -42,9 +42,9 @@ class WordMapper
         pref.commitSyncTime()
     }
 
-    fun isSyncExpired(): Boolean {
+    fun isSyncExpired(threshold: Boolean): Boolean {
         val lastTime = pref.getSyncTime()
-        val syncTime = getSyncTime()
+        val syncTime = getSyncTime(threshold)
         return TimeUtil.isExpired(lastTime, syncTime)
     }
 
@@ -323,10 +323,11 @@ class WordMapper
         return null
     }
 
-    private fun getSyncTime(): Long {
+    private fun getSyncTime(threshold: Boolean): Long {
+        if (!threshold) return Constants.Time.Word.SYNC_DEAD
         val count = pref.getSyncedCount()
         if (count < Constants.Count.Word.SYNC_FREQUENT) return Constants.Time.Word.SYNC_FREQUENT
         if (count < Constants.Count.Word.SYNC_NORMAL) return Constants.Time.Word.SYNC_NORMAL
-         return Constants.Time.Word.SYNC_LAZY
+        return Constants.Time.Word.SYNC_LAZY
     }
 }

@@ -74,6 +74,15 @@ class Constants {
             return false
         }
 
+        fun hasThreshold(context: Context, screen: String, type: Type): Boolean {
+            when (type) {
+                Type.WORD -> {
+                    if (isOn(context, screen, type)) return true
+                }
+            }
+            return false
+        }
+
         fun getThreshold(context: Context, screen: String, type: Type): Int {
             when (type) {
                 Type.WORD -> {
@@ -143,6 +152,7 @@ class Constants {
             val SYNC_FREQUENT = TimeUnit.MINUTES.toMillis(1)
             val SYNC_NORMAL = TimeUnit.MINUTES.toMillis(3)
             val SYNC_LAZY = TimeUnit.MINUTES.toMillis(5)
+            val SYNC_DEAD = TimeUnit.HOURS.toMillis(1)
             val TRACK = TimeUnit.MINUTES.toMillis(30)
         }
 
@@ -236,7 +246,7 @@ class Constants {
 
     object Threshold {
         const val DEFAULT = 1
-        const val WORD = 3
+        const val WORD = 10
     }
 
     object Assets {

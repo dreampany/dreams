@@ -110,7 +110,6 @@ class StationsFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
-        request(progress = true)
         player.bind()
     }
 
@@ -122,6 +121,9 @@ class StationsFragment
         super.onResume()
         val filter = IntentFilter(Constants.Service.PLAYER_SERVICE_UPDATE)
         bindLocalCast(serviceUpdateReceiver, filter)
+        if (adapter.isEmpty) {
+            request(progress = true)
+        }
     }
 
     override fun onPause() {

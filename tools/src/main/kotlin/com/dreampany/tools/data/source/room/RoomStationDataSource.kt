@@ -34,12 +34,12 @@ constructor(
         return dao.getItemsOfPopularRx(limit)
     }
 
-    override fun getItemsOfCountry(countryCode: String): List<Station>? {
-        return dao.getItemsOfCountry(countryCode)
+    override fun getItemsOfCountry(countryCode: String, limit: Long): List<Station>? {
+        return dao.getItemsOfCountry(countryCode, limit)
     }
 
-    override fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>> {
-        return dao.getItemsOfCountryRx(countryCode)
+    override fun getItemsOfCountryRx(countryCode: String, limit: Long): Maybe<List<Station>> {
+        return dao.getItemsOfCountryRx(countryCode, limit)
     }
 
     override fun isEmpty(): Boolean {

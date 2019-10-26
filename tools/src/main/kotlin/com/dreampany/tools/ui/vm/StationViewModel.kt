@@ -103,7 +103,7 @@ class StationViewModel
     private fun getItemsRx(request: StationRequest): Maybe<List<Station>> {
         when (request.state) {
             State.LOCAL -> {
-                return repo.getItemsOfCountryRx(request.countryCode!!)
+                return repo.getItemsOfCountryRx(request.countryCode!!, request.limit)
             }
             State.TRENDS -> {
                 return repo.getItemsOfTrendsRx(request.limit)

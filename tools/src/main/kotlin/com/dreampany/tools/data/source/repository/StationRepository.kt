@@ -55,13 +55,13 @@ class StationRepository
         return concatFirstRx(true, remoteIf, roomAny)
     }
 
-    override fun getItemsOfCountry(countryCode: String): List<Station>? {
+    override fun getItemsOfCountry(countryCode: String, limit: Long): List<Station>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>> {
-        val remoteIf = getRemoteItemsOfCountryIfRx(countryCode)
-        val roomAny = room.getItemsOfCountryRx(countryCode)
+    override fun getItemsOfCountryRx(countryCode: String, limit: Long): Maybe<List<Station>> {
+        val remoteIf = getRemoteItemsOfCountryIfRx(countryCode, limit)
+        val roomAny = room.getItemsOfCountryRx(countryCode, limit)
         return concatFirstRx(true, remoteIf, roomAny)
     }
 
@@ -146,11 +146,11 @@ class StationRepository
     }
 
     //region private
-    private fun getRemoteItemsOfCountryIfRx(countryCode: String): Maybe<List<Station>> {
+    private fun getRemoteItemsOfCountryIfRx(countryCode: String, limit: Long): Maybe<List<Station>> {
         return Maybe.create { emitter ->
             var result: List<Station>? = null
             if (mapper.isExpired(State.LOCAL, countryCode)) {
-                result = remote.getItemsOfCountry(countryCode)
+                result = remote.getItemsOfCountry(countryCode, limit)
             }
             if (emitter.isDisposed) return@create
             if (result.isNullOrEmpty()) {

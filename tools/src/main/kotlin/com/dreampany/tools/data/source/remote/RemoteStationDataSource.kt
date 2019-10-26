@@ -65,12 +65,12 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItemsOfCountry(countryCode: String): List<Station>? {
+    override fun getItemsOfCountry(countryCode: String, limit: Long): List<Station>? {
         if (!network.hasInternet()) {
             return null
         }
         try {
-            val response = service.getItemsOfCountry(countryCode).execute()
+            val response = service.getItemsOfCountry(countryCode, limit).execute()
             if (response.isSuccessful) {
                 val stations: List<RadioStation>? = response.body()
                 val result = mapper.getItems(stations)
@@ -82,9 +82,9 @@ constructor(
         return null
     }
 
-    override fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>> {
+    override fun getItemsOfCountryRx(countryCode: String, limit: Long): Maybe<List<Station>> {
         return Maybe.create { emitter ->
-            val result = getItemsOfCountry(countryCode)
+            val result = getItemsOfCountry(countryCode, limit)
             if (emitter.isDisposed) return@create
 
             if (result.isNullOrEmpty()) {

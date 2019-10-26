@@ -12,9 +12,9 @@ import io.reactivex.Maybe
  */
 interface StationDataSource : DataSource<Station> {
 
-    fun getItemsOfCountry(countryCode: String): List<Station>?
+    fun getItemsOfCountry(countryCode: String, limit: Long): List<Station>?
 
-    fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>>
+    fun getItemsOfCountryRx(countryCode: String, limit: Long): Maybe<List<Station>>
 
     fun getItemsOfTrends(limit: Long): List<Station>?
 

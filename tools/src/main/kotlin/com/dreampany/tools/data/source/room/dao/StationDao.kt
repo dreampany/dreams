@@ -15,11 +15,11 @@ import io.reactivex.Maybe
 @Dao
 interface StationDao : BaseDao<Station> {
 
-    @Query(value = "select * from station where country_code = :countryCode")
-    fun getItemsOfCountry(countryCode: String): List<Station>?
+    @Query(value = "select * from station where country_code = :countryCode limit :limit")
+    fun getItemsOfCountry(countryCode: String, limit: Long): List<Station>?
 
-    @Query(value = "select * from station where country_code = :countryCode")
-    fun getItemsOfCountryRx(countryCode: String): Maybe<List<Station>>
+    @Query(value = "select * from station where country_code = :countryCode limit :limit")
+    fun getItemsOfCountryRx(countryCode: String, limit: Long): Maybe<List<Station>>
 
     @Query(value = "select * from station order by click_count desc limit :limit")
     fun getItemsOfTrends(limit: Long): List<Station>?

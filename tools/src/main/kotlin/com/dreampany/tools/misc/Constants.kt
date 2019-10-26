@@ -265,13 +265,14 @@ class Constants {
     object Api {
 
         object Radio {
-            const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
+            const val RADIO_BROWSER = "http://www.radio-browser.info/webservice"
             const val RADIO_BROWSER_STATIONS_OF_COUNTRY =
-                "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
+                "/json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
             const val RADIO_BROWSER_STATIONS_OF_TRENDS =
-                "json/stations/topclick/{${Station.LIMIT}}"
+                "/json/stations/topclick/{${Station.LIMIT}}"
             const val RADIO_BROWSER_STATIONS_OF_POPULAR =
-                "json/stations/topvote/{${Station.LIMIT}}"
+                "/json/stations/topvote/{${Station.LIMIT}}"
+            const val RADIO_BROWSER_STATIONS_SEARCH = "/json/stations/search"
         }
     }
 

@@ -25,6 +25,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.app.BaseApp
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.data.model.Task
@@ -98,7 +99,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         return Constants.Default.INT
     }
 
-    open fun getTitleResId() : Int {
+    open fun getTitleResId(): Int {
         return Constants.Default.INT
     }
 
@@ -440,7 +441,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         return task?.input as T?
     }
 
-   protected fun <T : View> findViewById(@IdRes id: Int): T? {
+    protected fun <T : View> findViewById(@IdRes id: Int): T? {
         var current = currentView
         if (current == null) {
             current = view
@@ -478,7 +479,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         }
     }
 
-    protected fun bindLocalCast(receiver: BroadcastReceiver, filter:IntentFilter) {
+    protected fun bindLocalCast(receiver: BroadcastReceiver, filter: IntentFilter) {
         LocalBroadcastManager.getInstance(context!!).registerReceiver(receiver, filter)
     }
 
@@ -553,11 +554,15 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
     }
 
     protected fun forResult(okay: Boolean = true) {
+        val task = getCurrentTask<Task<*>>(false)
+        forResult(task, okay)
+    }
+
+    protected fun forResult(task: Task<*>? = null, okay: Boolean = true) {
         if (!isParentAlive()) {
             return
         }
         val parent = getParent()
-        val task = getCurrentTask<Task<*>>(false)
         val intent = Intent()
         intent.putExtra(Constants.Task.TASK, task as Parcelable)
         if (okay) {

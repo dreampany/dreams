@@ -133,7 +133,14 @@ class NoteHomeFragment
             Constants.RequestCode.Note.VIEW,
             Constants.RequestCode.FAVORITE -> {
                 if (isOkay(resultCode)) {
-                    ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 1000L)
+                    data?.run {
+                        val task = getCurrentTask<UiTask<Note>>(this)
+                        task?.run {
+                            if (state == State.EDITED) {
+                                ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 500L)
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -166,12 +173,6 @@ class NoteHomeFragment
             R.id.fab -> {
                 openAddNoteUi()
             }
-            R.id.button_favorite -> {
-/*                val note = v.tag as Note?
-                note?.run {
-                    request(id = id, action = Action.FAVORITE, input = this, single = true)
-                }*/
-            }
             R.id.layout_empty -> {
                 openAddNoteUi()
             }
@@ -187,7 +188,7 @@ class NoteHomeFragment
                 openEditNoteUi(item.item)
             }
             Action.FAVORITE -> {
-                request(action = action, single = true, input = item.item)
+               performFavorite(item.item)
             }
         }
     }
@@ -374,7 +375,8 @@ class NoteHomeFragment
     private fun openNoteUi(note: Note) {
         val task = UiTask<Note>(
             type = Type.NOTE,
-            action = Action.EDIT
+            action = Action.VIEW,
+            input = note
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.VIEW)
     }
@@ -414,12 +416,16 @@ class NoteHomeFragment
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.SETTINGS)
     }
 
+    private fun performFavorite(note: Note) {
+        request(id = note.id, action = Action.FAVORITE, single = true, input = note)
+    }
+
     private fun request(
         id: String = Constants.Default.STRING,
         action: Action = Action.DEFAULT,
-        input: Note? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN,
+        input: Note? = Constants.Default.NULL
     ) {
         val request = NoteRequest(
             id = id,

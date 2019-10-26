@@ -6,22 +6,20 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.AndroidUtil
-import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
-import com.dreampany.framework.util.NotifyUtil
+import com.dreampany.framework.util.*
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.FragmentNoteBinding
@@ -70,7 +68,7 @@ class NoteFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
-        val editItem = findMenuItemById(R.id.item_done)
+        val editItem = findMenuItemById(R.id.item_edit)
         val doneItem = findMenuItemById(R.id.item_done)
         MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
@@ -90,23 +88,43 @@ class NoteFragment
         vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
-    override fun hasBackPressed(): Boolean {
-        if (edited) {
-            saveDialog()
-            return true
-        }
-        forResult(saved)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_edit -> {
+                switchToEdit()
+                return true
+            }
             R.id.item_done -> {
                 saveNote()
                 return true
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun hasBackPressed(): Boolean {
+        if (isEditing()) {
+            if (edited) {
+                saveDialog()
+                return true
+            }
+            var task: UiTask<Note>? = null
+            if (saved) {
+                val uiTask = getCurrentTask<UiTask<Note>>()
+                task = UiTask<Note>(
+                    type = uiTask?.type ?: Type.DEFAULT,
+                    state = State.EDITED,
+                    action = uiTask?.action ?: Action.DEFAULT,
+                    input = uiTask?.input
+                )
+                forResult(task, saved)
+            } else {
+                forResult(saved)
+            }
+
+            return true
+        }
+        return false
     }
 
     private fun initUi() {
@@ -122,8 +140,10 @@ class NoteFragment
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
         val note = getInput<Note>()
+
         note?.title?.run { noteTitle = this }
         note?.description?.run { noteDescription = this }
+
         bind.inputEditTitle.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
 
@@ -133,7 +153,7 @@ class NoteFragment
             }
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (!noteTitle.equals(s)) {
+                if (!DataUtilKt.isEquals(noteTitle, s?.toString())) {
                     edited = true
                 }
                 noteTitle = s.toString()
@@ -149,18 +169,35 @@ class NoteFragment
             }
 
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (!noteDescription.equals(s)) {
+                if (!DataUtilKt.isEquals(noteDescription, s?.toString())) {
                     edited = true
                 }
                 noteDescription = s.toString()
             }
-
         })
-        if (uiTask.action == Action.EDIT) {
-            request(action = Action.GET, id = note!!.id, progress = true)
+        resolveUi()
+        request(id = note!!.id, action = Action.GET, progress = true)
+    }
+
+    private fun resolveUi() {
+        if (isEditing()) {
+            bind.layoutView.visibility = View.GONE
+            bind.layoutEdit.visibility = View.VISIBLE
+        } else {
+            bind.layoutEdit.visibility = View.GONE
+            bind.layoutView.visibility = View.VISIBLE
         }
     }
 
+    private fun switchToEdit() {
+        val uiTask = getCurrentTask<UiTask<Note>>(false)
+        uiTask?.action = Action.EDIT
+        val note = getInput<Note>()
+
+        bind.inputEditTitle.setText(note?.title)
+        bind.inputEditDescription.setText( note?.description)
+        resolveUi()
+    }
 
     private fun saveNote(): Boolean {
         if (noteTitle.isEmpty()) {
@@ -175,9 +212,9 @@ class NoteFragment
         val uiTask = getCurrentTask<UiTask<Note>>()!!
         val note = getInput<Note>()
         request(
-            state = State.DIALOG,
-            action = if (uiTask.action == Action.EDIT) Action.UPDATE else Action.ADD,
             id = note?.id,
+            state = State.DIALOG,
+            action = uiTask.action,
             title = noteTitle,
             description = noteDescription,
             progress = true
@@ -224,15 +261,21 @@ class NoteFragment
     }
 
     private fun processSuccess(state: State, action: Action, item: NoteItem) {
-        saved = true
-        if (action == Action.ADD || action == Action.UPDATE) {
+        if (action == Action.ADD || action == Action.EDIT) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
             AndroidUtil.hideSoftInput(getParent()!!)
-            ex.postToUi(Runnable { forResult(saved) }, 500L)
+            saved = true
+            //ex.postToUi(Runnable { forResult(saved) }, 500L)
+            hasBackPressed()
             return
         }
-        bind.inputEditTitle.setText(item.item.title)
-        bind.inputEditDescription.setText(item.item.description)
+        if (isEditing()) {
+            bind.inputEditTitle.setText(item.item.title)
+            bind.inputEditDescription.setText(item.item.description)
+        } else {
+            bind.textTitle.setText(item.item.title)
+            bind.textDescription.setText(item.item.description)
+        }
         ex.postToUi(Runnable {
             vm.updateUiState(state, action, UiState.EXTRA)
         }, 500L)

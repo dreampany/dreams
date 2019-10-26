@@ -118,12 +118,14 @@ class NoteViewModel
 
     private fun requestUiItemRx(request: NoteRequest): Maybe<NoteItem> {
         when (request.action) {
-            Action.ADD,
-            Action.EDIT -> {
+            Action.ADD-> {
                 return addItemRx(request).flatMap { getUiItemRx(request, it) }
             }
+            Action.EDIT -> {
+                return editItemRx(request).flatMap { getUiItemRx(request, it) }
+            }
             Action.FAVORITE -> {
-                //return (request).flatMap { getUiItemRx(request, it) }
+                return favoriteItemRx(request).flatMap { getUiItemRx(request, it) }
             }
             Action.ARCHIVE -> {
                 return archiveItemRx(request).flatMap { getUiItemRx(request, it) }
@@ -159,6 +161,29 @@ class NoteViewModel
         }
     }
 
+    private fun editItemRx(request: NoteRequest): Maybe<Note> {
+        return Maybe.create { emitter ->
+            val note = mapper.getItem(request.id, request.title, request.description)
+            if (note == null) {
+                emitter.onError(EmptyException())
+            } else {
+                repo.putItem(note)
+                emitter.onSuccess(note)
+            }
+        }
+    }
+
+    private fun favoriteItemRx(request: NoteRequest): Maybe<Note> {
+        return Maybe.create { emitter ->
+            request.input?.run {
+                val toggle = toggleFavorite(request.id!!)
+                emitter.onSuccess(this)
+                return@create
+            }
+            emitter.onError(EmptyException())
+        }
+    }
+
     private fun archiveItemRx(request: NoteRequest): Maybe<Note> {
         return Maybe.create { emitter ->
             val note = request.input
@@ -179,7 +204,7 @@ class NoteViewModel
                 emitter.onError(EmptyException())
             } else {
                 putStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.TRASH)
-                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
+                removeStore(request.id, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
                 emitter.onSuccess(note)
             }
         }
@@ -193,8 +218,8 @@ class NoteViewModel
             } else {
                 val result = repo.delete(note)
                 removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.TRASH)
-                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
-                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
+                removeStore(request.id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+                removeStore(request.id, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
                 emitter.onSuccess(note)
             }
         }
@@ -226,9 +251,9 @@ class NoteViewModel
 
     private fun getUiItemRx(request: NoteRequest, item: Note): Maybe<NoteItem> {
         return Maybe.create { emitter ->
-            if (request.action == Action.FAVORITE) {
+/*            if (request.action == Action.FAVORITE) {
                 toggleFavorite(item.id)
-            }
+            }*/
             val uiItem = getUiItem(request, item)
             emitter.onSuccess(uiItem)
         }

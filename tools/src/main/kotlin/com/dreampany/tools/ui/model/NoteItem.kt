@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.model
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -89,7 +90,7 @@ private constructor(
         private val textTitle: AppCompatTextView
         private val textDescription: AppCompatTextView
         private val textDate: AppCompatTextView
-        private val buttonEdit: AppCompatButton
+        private val buttonEdit: AppCompatImageButton
         private val buttonFavorite: LikeButton
 
         init {
@@ -106,21 +107,21 @@ private constructor(
             view.setOnSafeClickListener {
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition),
+                    item = this.adapter.getItem(adapterPosition)!!,
                     action = Action.VIEW
                 )
             }
             buttonEdit.setOnSafeClickListener {
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition),
+                    item = this.adapter.getItem(adapterPosition)!!,
                     action = Action.EDIT
                 )
             }
             buttonFavorite.setOnSafeClickListener {
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition),
+                    item = this.adapter.getItem(adapterPosition)!!,
                     action = Action.FAVORITE
                 )
             }

@@ -42,7 +42,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class AppHomeFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<AppItem?, Action?> {
+    BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<AppItem, Action> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -82,20 +82,18 @@ class AppHomeFragment @Inject constructor() :
         request(progress = true)
     }
 
-    override fun onUiItemClick(view: View, item: AppItem?, action: Action?) {
-        if (item != null && action != null) {
-            when (action) {
-                Action.OPEN -> {
-                    AndroidUtil.openApplication(context!!, item.item.id)
-                }
-                Action.DETAILS -> {
-                    AndroidUtil.openApplicationDetails(context!!, item.item.id)
-                }
+    override fun onUiItemClick(view: View, item: AppItem, action: Action) {
+        when (action) {
+            Action.OPEN -> {
+                AndroidUtil.openApplication(context!!, item.item.id)
+            }
+            Action.DETAILS -> {
+                AndroidUtil.openApplicationDetails(context!!, item.item.id)
             }
         }
     }
 
-    override fun onUiItemLongClick(view: View, item: AppItem?, action: Action?) {
+    override fun onUiItemLongClick(view: View, item: AppItem, action: Action) {
     }
 
     private fun initTitleSubtitle() {

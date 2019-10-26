@@ -74,7 +74,7 @@ private constructor(
             view.setOnClickListener {
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition),
+                    item = this.adapter.getItem(adapterPosition)!!,
                     action = Action.OPEN
                 )
             }

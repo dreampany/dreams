@@ -5,7 +5,9 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.ui.widget.TextDrawable
 import com.dreampany.framework.util.ColorUtil
@@ -65,10 +67,11 @@ private constructor(
             imageIcon = view.findViewById(R.id.image_icon)
             textTitle = view.findViewById(R.id.text_title)
 
-            view.setOnClickListener { view ->
+            view.setOnSafeClickListener { view ->
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition)
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.DEFAULT
                 )
             }
         }

@@ -18,50 +18,86 @@
         android:layout_height="match_parent"
         android:padding="5dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_edit"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layout_input_title"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toTopOf="parent">
+                android:layout_height="match_parent">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_edit_title"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:text="@string/title"
+                    android:textColor="@color/material_grey900"
+                    android:textSize="@dimen/_16ssp"
+                    auto:fontFamily="@font/roboto_slab_bold"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/text_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:text="@string/title"
+                    android:textColor="@color/material_grey800"
+                    android:textSize="@dimen/_14ssp"
+                    auto:fontFamily="@font/roboto_slab_regular"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toBottomOf="@id/text_title" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_edit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layout_input_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:hint="@string/hint_title_edit_note" />
+                    auto:layout_constraintEnd_toEndOf="parent"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toTopOf="parent">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_edit_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/hint_title_edit_note" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/layout_input_title">
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_edit_description"
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:gravity="top|left"
-                    android:hint="@string/hint_description_edit_note"
-                    android:inputType="textMultiLine"
-                    android:minLines="9" />
+                    android:layout_marginTop="@dimen/_10sdp"
+                    auto:layout_constraintEnd_toEndOf="parent"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toBottomOf="@id/layout_input_title">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/input_edit_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:gravity="top|left"
+                        android:hint="@string/hint_description_edit_note"
+                        android:inputType="textMultiLine"
+                        android:minLines="9" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

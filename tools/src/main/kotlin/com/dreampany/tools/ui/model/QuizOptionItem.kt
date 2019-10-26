@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
@@ -127,7 +128,8 @@ private constructor(
             view.setOnClickListener { view ->
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition)
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.DEFAULT
                 )
             }
         }

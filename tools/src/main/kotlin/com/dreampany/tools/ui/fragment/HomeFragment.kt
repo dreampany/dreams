@@ -72,13 +72,21 @@ class HomeFragment
         initView()
         initRecycler()
         initTitleSubtitle()
-
-        session.track()
         request(progress = true)
+        session.track()
     }
 
     override fun onStopUi() {
 
+    }
+
+    override fun onRefresh() {
+        super.onRefresh()
+        if (adapter.isEmpty) {
+            request(progress = true)
+        } else {
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        }
     }
 
     override fun onUiItemClick(view: View, item: FeatureItem?, action: Any?) {

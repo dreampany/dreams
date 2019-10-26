@@ -5,6 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
@@ -86,13 +87,15 @@ class FeatureItem private constructor(
             view.setOnSafeClickListener { view ->
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition)
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.DEFAULT
                 )
             }
             view.setOnLongClickListener { view ->
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
-                    item = this.adapter.getItem(adapterPosition)
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.DEFAULT
                 )
                 true
             }

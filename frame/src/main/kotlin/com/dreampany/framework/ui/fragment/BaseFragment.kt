@@ -35,6 +35,7 @@ import com.dreampany.framework.ui.activity.BaseActivity
 import com.dreampany.framework.ui.callback.UiCallback
 import com.dreampany.framework.ui.enums.UiType
 import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.Animato
 import com.dreampany.framework.util.TextUtil
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -564,7 +565,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         } else {
             parent?.setResult(Activity.RESULT_CANCELED, intent)
         }
-        parent?.finish()
+        parent?.run {
+            finish()
+            Animato.animateSlideRight(this)
+        }
     }
 
     protected fun isOkay(resultCode: Int): Boolean {

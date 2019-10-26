@@ -6,6 +6,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
+import androidx.multidex.MultiDex
 import com.dreampany.framework.BuildConfig
 import com.dreampany.framework.R
 import com.dreampany.framework.api.service.JobManager
@@ -172,7 +173,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)
-        //MultiDex.install(this)
+        MultiDex.install(this)
     }
 
     @SuppressLint("MissingPermission")

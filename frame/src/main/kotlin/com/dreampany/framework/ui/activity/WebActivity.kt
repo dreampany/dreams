@@ -17,7 +17,7 @@ import im.delight.android.webview.AdvancedWebView
  */
 class WebActivity : BaseActivity(), AdvancedWebView.Listener {
 
-    internal lateinit var bind: ActivityWebBinding
+    private lateinit var bind: ActivityWebBinding
 
     override fun getLayoutId(): Int {
         return R.layout.activity_web
@@ -36,7 +36,7 @@ class WebActivity : BaseActivity(), AdvancedWebView.Listener {
             return
         }
         bind.webView.setListener(this, this)
-        val url = task!!.extra
+        val url = task.extra
         bind.webView.loadUrl(url)
     }
 

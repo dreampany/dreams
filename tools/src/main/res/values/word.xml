@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="title_word">Word</string>
     <string name="title_favorite_words">Favorite Words</string>
     <string name="subtitle_favorite_words" translatable="false">Total: %d</string>

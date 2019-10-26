@@ -224,7 +224,7 @@ class NoteHomeFragment
             titleState = AHBottomNavigation.TitleState.SHOW_WHEN_ACTIVE
         }*/
 
-        vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })

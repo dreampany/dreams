@@ -19,7 +19,7 @@ class NoteAdapter(listener: Any? = null) : SmartAdapter<NoteItem>(listener) {
     }
 
     companion object {
-        private val SPAN_COUNT = 2
+        private val SPAN_COUNT = 3
         private val ITEM_OFFSET = 4
     }
 

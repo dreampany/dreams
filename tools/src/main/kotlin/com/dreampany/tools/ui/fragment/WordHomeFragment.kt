@@ -119,7 +119,7 @@ class WordHomeFragment
     }
 
     override fun getTitleResId(): Int {
-        return R.string.home
+        return R.string.title_feature_word
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {

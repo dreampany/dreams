@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TimeUtilKt
@@ -43,7 +44,7 @@ private constructor(
     val color: Color
 
     init {
-        color = ColorUtil.getRandColor()
+        color = ColorUtil.createShadowWhiteColor()
     }
 
     companion object {
@@ -99,14 +100,14 @@ private constructor(
             textDate = view.findViewById(R.id.text_date)
             buttonFavorite = view.findViewById(R.id.button_favorite)
 
-            view.setOnClickListener {
+            view.setOnSafeClickListener {
                 this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = Action.OPEN
                 )
             }
-            view.setOnLongClickListener { view ->
+            view.setOnLongClickListener {
                 this.adapter.uiItemClick?.onLongClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),

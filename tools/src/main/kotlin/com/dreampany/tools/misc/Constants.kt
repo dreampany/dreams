@@ -265,14 +265,14 @@ class Constants {
     object Api {
 
         object Radio {
-            const val RADIO_BROWSER = "http://www.radio-browser.info/webservice"
+            const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
             const val RADIO_BROWSER_STATIONS_OF_COUNTRY =
-                "/json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
+                "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
             const val RADIO_BROWSER_STATIONS_OF_TRENDS =
-                "/json/stations/topclick/{${Station.LIMIT}}"
+                "json/stations/topclick/{${Station.LIMIT}}"
             const val RADIO_BROWSER_STATIONS_OF_POPULAR =
-                "/json/stations/topvote/{${Station.LIMIT}}"
-            const val RADIO_BROWSER_STATIONS_SEARCH = "/json/stations/search"
+                "json/stations/topvote/{${Station.LIMIT}}"
+            const val RADIO_BROWSER_STATIONS_SEARCH = "json/stations/search"
         }
     }
 
@@ -447,10 +447,10 @@ class Constants {
     object Order {
         fun getOrder(type: Type): Int {
             when (type) {
-                Type.APP -> return 1
-                Type.VPN -> return 2
-                Type.NOTE -> return 3
-                Type.WORD -> return 4
+                Type.RADIO -> return 1
+                Type.APP -> return 2
+                Type.WORD -> return 3
+                Type.NOTE -> return 4
                 else -> return Int.MAX_VALUE
             }
         }

@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.ui.widget.TextDrawable
 import com.dreampany.framework.util.ColorUtil
@@ -76,7 +77,13 @@ class FeatureItem private constructor(
             textTitle = view.findViewById(R.id.text_title)
 
             view.layoutParams.height = height
-            view.setOnClickListener { view ->
+/*            view.setOnClickListener { view ->
+                this.adapter.uiItemClick?.onClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)
+                )
+            }*/
+            view.setOnSafeClickListener { view ->
                 this.adapter.uiItemClick?.onClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition)

@@ -142,6 +142,7 @@ class StationsFragment
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
+        if (bind.layoutRefresh.isRefreshing) return false
         if (adapter.hasNewFilter(newText)) {
             adapter.setFilter(newText)
             adapter.filterItems()

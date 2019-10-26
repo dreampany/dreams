@@ -124,6 +124,7 @@ class DataUtilKt {
             return ArrayList(list.subList(0, count))
         }
 
+        @Synchronized
         fun <T> takeFirst(list: MutableList<T>?, count: Int): MutableList<T>? {
             if (list.isNullOrEmpty()) {
                 return null
@@ -144,8 +145,11 @@ class DataUtilKt {
 
         @Synchronized
         fun <T> removeAll(list: MutableList<T>, sub: MutableList<T>?): MutableList<T>? {
-            sub?.run {
+            /*sub?.run {
                 list.removeAll(this)
+            }*/
+            sub?.forEach {
+                list.remove(it)
             }
             return list
         }

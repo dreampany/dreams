@@ -12,8 +12,8 @@ android {
         applicationId 'com.dreampany.tools'
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 17
-        versionName '0.0.1.7'
+        versionCode 18
+        versionName '0.0.1.8'
 
         multiDexEnabled true
 
@@ -151,8 +151,8 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.0'
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.25'
-    kapt 'com.google.dagger:dagger-android-processor:2.25'
+    kapt 'com.google.dagger:dagger-compiler:2.25.2'
+    kapt 'com.google.dagger:dagger-android-processor:2.25.2'
 
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'

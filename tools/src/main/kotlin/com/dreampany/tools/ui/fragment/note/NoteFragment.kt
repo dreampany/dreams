@@ -139,7 +139,7 @@ class NoteFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
-        val note = getInput<Note>()
+        val note = uiTask.input
 
         note?.title?.run { noteTitle = this }
         note?.description?.run { noteDescription = this }
@@ -176,7 +176,11 @@ class NoteFragment
             }
         })
         resolveUi()
-        request(id = note!!.id, action = Action.GET, progress = true)
+        if (uiTask.action == Action.EDIT || uiTask.action == Action.VIEW) {
+            note?.run {
+                request(id = this.id, action = Action.GET, progress = true)
+            }
+        }
     }
 
     private fun resolveUi() {
@@ -287,7 +291,7 @@ class NoteFragment
     private fun isEditing(): Boolean {
         val uiTask = getCurrentTask<UiTask<Note>>(false)
         val action = uiTask?.action ?: Action.DEFAULT
-        return action == Action.EDIT
+        return action == Action.EDIT || action == Action.ADD
     }
 
     private fun request(

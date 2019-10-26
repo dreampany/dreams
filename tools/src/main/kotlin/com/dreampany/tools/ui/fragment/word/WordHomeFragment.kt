@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.word
 
 import android.graphics.Color
 import android.graphics.Typeface
@@ -17,9 +17,6 @@ import com.afollestad.materialdialogs.bottomsheets.gridItems
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.misc.exception.ExtraException
-import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.misc.extension.resolveText
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
@@ -54,7 +51,6 @@ import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 /**

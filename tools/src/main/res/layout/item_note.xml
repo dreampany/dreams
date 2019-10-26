@@ -8,7 +8,6 @@
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardBackgroundColor="@color/material_grey700"
         auto:cardCornerRadius="3dp"
         auto:cardPreventCornerOverlap="false"
         auto:elevation="@dimen/_2sdp">
@@ -27,12 +26,11 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@string/title"
-                android:textColor="@color/material_grey800"
+                android:textColor="@color/material_grey900"
                 android:textSize="@dimen/_10ssp"
                 auto:fontFamily="@font/roboto_slab_bold"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent" />
-
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_description"
@@ -40,13 +38,34 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:ellipsize="end"
-                android:maxLines="5"
+                android:maxLines="3"
                 android:text="@string/title"
-                android:textColor="@color/material_grey700"
+                android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_8ssp"
                 auto:fontFamily="@font/roboto_slab_regular"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@+id/text_title" />
+
+            <com.like.LikeButton
+                android:id="@+id/button_favorite"
+                android:layout_width="@dimen/_12sdp"
+                android:layout_height="@dimen/_12sdp"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                auto:icon_size="@dimen/_12sdp"
+                auto:icon_type="heart"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintEnd_toEndOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_edit"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:tint="@color/material_grey800"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintEnd_toStartOf="@id/button_favorite"
+                auto:srcCompat="@drawable/ic_edit_black_24dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/text_date"
@@ -54,22 +73,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:text="@string/title"
-                android:textColor="@color/material_grey700"
+                android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_8ssp"
                 auto:fontFamily="@font/roboto_slab_regular"
-                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintBottom_toTopOf="@id/button_favorite"
                 auto:layout_constraintStart_toStartOf="parent" />
-
-            <com.like.LikeButton
-                android:id="@+id/button_favorite"
-                android:layout_width="@dimen/_12sdp"
-                android:layout_height="@dimen/_12sdp"
-                android:layout_marginEnd="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                auto:icon_size="@dimen/_12sdp"
-                auto:icon_type=""
-                auto:layout_constraintBottom_toBottomOf="parent"
-                auto:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

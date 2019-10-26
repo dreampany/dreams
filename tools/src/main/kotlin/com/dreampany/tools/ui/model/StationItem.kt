@@ -72,7 +72,7 @@ private constructor(
             label = view.findViewById(R.id.label_type)
 
             view.setOnClickListener {
-                this.adapter.uiItemClick?.onClick(
+                this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = Action.OPEN

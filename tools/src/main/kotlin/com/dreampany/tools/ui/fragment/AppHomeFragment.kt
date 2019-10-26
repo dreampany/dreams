@@ -82,7 +82,7 @@ class AppHomeFragment @Inject constructor() :
         request(progress = true)
     }
 
-    override fun onClick(view: View, item: AppItem?, action: Action?) {
+    override fun onUiItemClick(view: View, item: AppItem?, action: Action?) {
         if (item != null && action != null) {
             when (action) {
                 Action.OPEN -> {
@@ -95,7 +95,7 @@ class AppHomeFragment @Inject constructor() :
         }
     }
 
-    override fun onLongClick(view: View, item: AppItem?, action: Action?) {
+    override fun onUiItemLongClick(view: View, item: AppItem?, action: Action?) {
     }
 
     private fun initTitleSubtitle() {

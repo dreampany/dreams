@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.word
 
 import android.graphics.Color
 import android.os.Bundle
@@ -13,9 +13,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.misc.exception.ExtraException
-import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -42,7 +39,6 @@ import nl.dionsegijn.konfetti.ParticleSystem
 import nl.dionsegijn.konfetti.models.Shape
 import nl.dionsegijn.konfetti.models.Size
 import timber.log.Timber
-import java.io.IOException
 import javax.inject.Inject
 
 /**
@@ -138,13 +134,13 @@ class RelatedQuizFragment
         }
     }
 
-    override fun onClick(view: View, item: QuizOptionItem?, action: Action?) {
+    override fun onUiItemClick(view: View, item: QuizOptionItem?, action: Action?) {
         item?.run {
             performAnswer(this)
         }
     }
 
-    override fun onLongClick(view: View, item: QuizOptionItem?, action: Action?) {
+    override fun onUiItemLongClick(view: View, item: QuizOptionItem?, action: Action?) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

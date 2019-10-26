@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.word
 
 import android.graphics.Color
 import android.graphics.Typeface

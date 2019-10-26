@@ -99,8 +99,8 @@ public final class TextUtil {
         int end = strBuilder.getSpanEnd(span);
         int flags = strBuilder.getSpanFlags(span);
         ClickableSpan clickable = new ClickableSpan() {
-            public void onClick(View view) {
-                // Do something with span.getURL() to handle the link uiItemClick...
+            public void onUiItemClick(View view) {
+                // Do something with span.getURL() to handle the link uiItemClickListener...
                 Util.log("Hello");
             }
         };

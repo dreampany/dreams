@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.model
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -83,12 +84,13 @@ private constructor(
 
         private val height: Int
 
-        private var adapter: NoteAdapter
-        private var layoutRoot: CardView
-        private var textTitle: AppCompatTextView
-        private var textDescription: AppCompatTextView
-        private var textDate: AppCompatTextView
-        private var buttonFavorite: LikeButton
+        private val adapter: NoteAdapter
+        private val layoutRoot: CardView
+        private val textTitle: AppCompatTextView
+        private val textDescription: AppCompatTextView
+        private val textDate: AppCompatTextView
+        private val buttonEdit: AppCompatButton
+        private val buttonFavorite: LikeButton
 
         init {
             this.adapter = adapter as NoteAdapter
@@ -98,24 +100,39 @@ private constructor(
             textTitle = view.findViewById(R.id.text_title)
             textDescription = view.findViewById(R.id.text_description)
             textDate = view.findViewById(R.id.text_date)
+            buttonEdit = view.findViewById(R.id.button_edit)
             buttonFavorite = view.findViewById(R.id.button_favorite)
 
             view.setOnSafeClickListener {
-                this.adapter.uiItemClick?.onClick(
+                this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
-                    action = Action.OPEN
+                    action = Action.VIEW
                 )
             }
-            view.setOnLongClickListener {
-                this.adapter.uiItemClick?.onLongClick(
+            buttonEdit.setOnSafeClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = Action.EDIT
+                )
+            }
+            buttonFavorite.setOnSafeClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition),
+                    action = Action.FAVORITE
+                )
+            }
+/*            view.setOnLongClickListener {
+                this.adapter.uiItemClickListener?.onUiItemLongClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = Action.OPTIONS
                 )
                 true
-            }
-            buttonFavorite.setOnClickListener(this.adapter.clickListener)
+            }*/
+            //buttonFavorite.setOnClickListener(this.adapter.clickListener)
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
@@ -132,7 +149,7 @@ private constructor(
 
             layoutRoot.setCardBackgroundColor(ColorUtil.getColor(getContext(), uiItem.color.primaryId))
 
-            buttonFavorite.setTag(item)
+            //buttonFavorite.setTag(item)
         }
     }
 }

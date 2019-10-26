@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.word
 
 import android.app.Activity
 import android.os.Bundle
@@ -17,9 +17,6 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.ActivityScope
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.misc.exception.ExtraException
-import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.*

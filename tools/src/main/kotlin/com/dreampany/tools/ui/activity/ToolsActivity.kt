@@ -15,6 +15,11 @@ import com.dreampany.tools.databinding.ActivityCollapseToolsBinding
 import com.dreampany.tools.databinding.ActivityToolsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.*
+import com.dreampany.tools.ui.fragment.note.NoteFragment
+import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
+import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
+import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
+import com.dreampany.tools.ui.fragment.word.*
 import com.google.android.gms.ads.AdView
 import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
@@ -62,7 +67,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     internal lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
-    internal lateinit var editNoteProvider: Lazy<EditNoteFragment>
+    internal lateinit var noteProvider: Lazy<NoteFragment>
 
     private lateinit var bind: ActivityToolsBinding
     private lateinit var collapseBind: ActivityCollapseToolsBinding
@@ -183,10 +188,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     )
                     return
                 }
-                if (action == Action.ADD || action == Action.EDIT) {
+                if (action == Action.VIEW || action == Action.ADD || action == Action.EDIT) {
                     commitFragment(
-                        EditNoteFragment::class.java,
-                        editNoteProvider,
+                        NoteFragment::class.java,
+                        noteProvider,
                         R.id.layout,
                         uiTask
                     )

@@ -119,12 +119,12 @@ class NoteViewModel
     private fun requestUiItemRx(request: NoteRequest): Maybe<NoteItem> {
         when (request.action) {
             Action.ADD,
-            Action.UPDATE -> {
+            Action.EDIT -> {
                 return addItemRx(request).flatMap { getUiItemRx(request, it) }
             }
-/*            Action.FAVORITE -> {
-                return (request).flatMap { getUiItemRx(request, it) }
-            }*/
+            Action.FAVORITE -> {
+                //return (request).flatMap { getUiItemRx(request, it) }
+            }
             Action.ARCHIVE -> {
                 return archiveItemRx(request).flatMap { getUiItemRx(request, it) }
             }

@@ -13,6 +13,6 @@ import android.view.View
 
 
 interface OnUiItemClickListener<T, R> {
-    fun onClick(view: View, item: T? = null, action: R? = null)
-    fun onLongClick(view: View, item: T? = null, action: R? = null)
+    fun onUiItemClick(view: View, item: T? = null, action: R? = null)
+    fun onUiItemLongClick(view: View, item: T? = null, action: R? = null)
 }*/

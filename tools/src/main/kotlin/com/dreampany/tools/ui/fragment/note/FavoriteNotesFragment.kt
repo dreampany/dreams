@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.note
 
 import android.content.Intent
 import android.graphics.Color
@@ -126,8 +126,9 @@ class FavoriteNotesFragment
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            Constants.RequestCode.ADD_NOTE,
-            Constants.RequestCode.EDIT_NOTE -> {
+            Constants.RequestCode.Note.VIEW,
+            Constants.RequestCode.Note.ADD,
+            Constants.RequestCode.Note.EDIT -> {
                 if (isOkay(resultCode)) {
                     ex.postToUi(
                         Runnable { request(action = Action.FAVORITE, progress = true) },
@@ -139,6 +140,7 @@ class FavoriteNotesFragment
     }
 
     override fun onQueryTextChange(newText: String): Boolean {
+        if (adapter.isEmpty) return false
         if (adapter.hasNewFilter(newText)) {
             adapter.setFilter(newText)
             adapter.filterItems()
@@ -171,11 +173,11 @@ class FavoriteNotesFragment
         }
     }
 
-    override fun onClick(view: View, item: NoteItem?, action: Action?) {
+    override fun onUiItemClick(view: View, item: NoteItem?, action: Action?) {
 
     }
 
-    override fun onLongClick(view: View, item: NoteItem?, action: Action?) {
+    override fun onUiItemLongClick(view: View, item: NoteItem?, action: Action?) {
         openOptionsMenu(view, item)
     }
 
@@ -380,7 +382,7 @@ class FavoriteNotesFragment
             type = Type.NOTE,
             action = Action.ADD
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD_NOTE)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.ADD)
     }
 
     private fun openEditNoteUi(note: Note) {
@@ -389,7 +391,7 @@ class FavoriteNotesFragment
             action = Action.EDIT,
             input = note
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT_NOTE)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.EDIT)
     }
 
     private fun openFavoriteUi() {

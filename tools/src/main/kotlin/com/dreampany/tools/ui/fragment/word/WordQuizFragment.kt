@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.word
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -85,11 +85,11 @@ class WordQuizFragment
         vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
-    override fun onClick(view: View, item: QuizItem?, action: Action?) {
+    override fun onUiItemClick(view: View, item: QuizItem?, action: Action?) {
         openQuizUi(item)
     }
 
-    override fun onLongClick(view: View, item: QuizItem?, action: Action?) {
+    override fun onUiItemLongClick(view: View, item: QuizItem?, action: Action?) {
 
     }
 

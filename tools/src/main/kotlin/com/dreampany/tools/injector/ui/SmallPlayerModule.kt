@@ -1,6 +1,6 @@
 package com.dreampany.tools.injector.ui
 
-import com.dreampany.tools.ui.fragment.SmallPlayerFragment
+import com.dreampany.tools.ui.fragment.radio.SmallPlayerFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -66,7 +66,7 @@ private constructor(
             textTitle = view.findViewById(R.id.text_title)
 
             view.setOnClickListener { view ->
-                this.adapter.uiItemClick?.onClick(
+                this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition)
                 )

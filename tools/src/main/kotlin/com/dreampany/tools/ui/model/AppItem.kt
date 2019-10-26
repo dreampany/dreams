@@ -98,15 +98,15 @@ private constructor(
 
 
 /*            view.setOnClickListener {
-                this.adapter.uiItemClick?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.uiItemClickListener?.onUiItemClick(this.adapter.getItem(adapterPosition)!!)
             }
             view.setOnLongClickListener {
-                this.adapter.uiItemClick?.onClick(this.adapter.getItem(adapterPosition)!!)
+                this.adapter.uiItemClickListener?.onUiItemClick(this.adapter.getItem(adapterPosition)!!)
                 true
             }*/
 
             buttonOpen.setOnClickListener {
-                this.adapter.uiItemClick?.onClick(
+                this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = Action.OPEN
@@ -114,7 +114,7 @@ private constructor(
             }
 
             buttonDetails.setOnClickListener {
-                this.adapter.uiItemClick?.onClick(
+                this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition),
                     action = Action.DETAILS

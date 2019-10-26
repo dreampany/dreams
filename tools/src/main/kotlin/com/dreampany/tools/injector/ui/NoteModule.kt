@@ -1,8 +1,8 @@
 package com.dreampany.tools.injector.ui
 import com.dreampany.framework.misc.FragmentScope
-import com.dreampany.tools.ui.fragment.EditNoteFragment
-import com.dreampany.tools.ui.fragment.FavoriteNotesFragment
-import com.dreampany.tools.ui.fragment.NoteHomeFragment
+import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
+import com.dreampany.tools.ui.fragment.note.NoteFragment
+import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,7 +21,7 @@ abstract class NoteModule {
 
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun editFragment(): EditNoteFragment
+    abstract fun noteFragment(): NoteFragment
 
     @FragmentScope
     @ContributesAndroidInjector

@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.note
 
 import android.os.Bundle
 import android.text.Editable
@@ -13,21 +13,21 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
-import com.dreampany.framework.util.AndroidUtil
-import com.dreampany.framework.util.NotifyUtil
-import com.dreampany.tools.R
-import com.dreampany.tools.ui.misc.NoteRequest
-import com.dreampany.tools.data.model.Note
-import com.dreampany.tools.databinding.FragmentEditNoteBinding
-import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
+import com.dreampany.framework.util.NotifyUtil
+import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.databinding.FragmentNoteBinding
+import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.misc.NoteRequest
+import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.vm.NoteViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,7 +39,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class EditNoteFragment
+class NoteFragment
 @Inject constructor() :
     BaseMenuFragment() {
 
@@ -47,7 +47,7 @@ class EditNoteFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var session: SessionManager
-    private lateinit var bind: FragmentEditNoteBinding
+    private lateinit var bind: FragmentNoteBinding
 
     private lateinit var vm: NoteViewModel
     private var edited: Boolean = false
@@ -56,11 +56,11 @@ class EditNoteFragment
     private var noteDescription: String = Constants.Default.STRING
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_edit_note
+        return R.layout.fragment_note
     }
 
     override fun getMenuId(): Int {
-        return R.menu.menu_edit_note
+        return R.menu.menu_note
     }
 
     override fun getScreen(): String {
@@ -70,11 +70,16 @@ class EditNoteFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
+        val editItem = findMenuItemById(R.id.item_done)
         val doneItem = findMenuItemById(R.id.item_done)
         MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
-            null, doneItem
+            null, editItem, doneItem
         )
+
+        val editing = isEditing()
+        editItem?.isVisible = !editing
+        doneItem?.isVisible = editing
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -110,9 +115,9 @@ class EditNoteFragment
             if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
 
         setTitle(titleRes)
-        bind = super.binding as FragmentEditNoteBinding
+        bind = super.binding as FragmentNoteBinding
 
-        vm = ViewModelProviders.of(this, factory).get(NoteViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
@@ -234,6 +239,12 @@ class EditNoteFragment
         if (state == State.DIALOG) {
 
         }
+    }
+
+    private fun isEditing(): Boolean {
+        val uiTask = getCurrentTask<UiTask<Note>>(false)
+        val action = uiTask?.action ?: Action.DEFAULT
+        return action == Action.EDIT
     }
 
     private fun request(

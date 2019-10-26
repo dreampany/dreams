@@ -18,11 +18,11 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
     BindingFlexibleAdapter<T>(listener) {
 
     interface OnUiItemClickListener<T, R> {
-        fun onClick(view: View, item: T? = null, action: R? = null)
-        fun onLongClick(view: View, item: T? = null, action: R? = null)
+        fun onUiItemClick(view: View, item: T, action: R)
+        fun onUiItemLongClick(view: View, item: T, action: R)
     }
 
-    var uiItemClick: OnUiItemClickListener<Any, Any>? = null
+    var uiItemClickListener: OnUiItemClickListener<Any, Any>? = null
         private set
     var clickListener: View.OnClickListener? = null
         private set
@@ -31,7 +31,7 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
 
     init {
         if (listener is OnUiItemClickListener<*, *>) {
-            uiItemClick = listener as OnUiItemClickListener<Any, Any>?
+            uiItemClickListener = listener as OnUiItemClickListener<Any, Any>?
         }
 
         if (listener is View.OnClickListener) {

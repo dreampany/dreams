@@ -125,7 +125,7 @@ private constructor(
             imageStatus = view.findViewById(R.id.image_status)
 
             view.setOnClickListener { view ->
-                this.adapter.uiItemClick?.onClick(
+                this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition)
                 )

@@ -386,10 +386,13 @@ class Constants {
     }
 
     object RequestCode {
-        const val ADD_NOTE = 1
-        const val EDIT_NOTE = 2
-        const val SETTINGS = 3
-        const val FAVORITE = 4
+        object Note {
+            const val ADD = 1
+            const val EDIT = 2
+            const val VIEW = 3
+        }
+        const val SETTINGS = 5
+        const val FAVORITE = 6
         const val QUIZ = 5
     }
 

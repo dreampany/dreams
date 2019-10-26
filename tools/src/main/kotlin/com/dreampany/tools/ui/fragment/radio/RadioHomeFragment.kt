@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.radio
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -9,25 +9,18 @@ import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
-import com.dreampany.framework.databinding.FragmentTabpagerBinding
 import com.dreampany.framework.databinding.FragmentTabpagerFixedBinding
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.framework.ui.fragment.BaseStateFragment
-import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.TextUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.StationMapper
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.RadioPref
-import com.dreampany.tools.databinding.ContentRecyclerBinding
-import com.dreampany.tools.databinding.ContentTopStatusBinding
-import com.dreampany.tools.databinding.FragmentRadioHomeBinding
 import com.dreampany.tools.manager.PlayerManager
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.StationAdapter
-import com.dreampany.tools.ui.vm.StationViewModel
 import javax.inject.Inject
 
 /**

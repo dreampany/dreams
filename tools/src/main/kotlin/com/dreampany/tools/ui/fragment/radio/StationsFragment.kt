@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.radio
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -152,7 +152,7 @@ class StationsFragment
         return false
     }
 
-    override fun onClick(view: View, item: StationItem?, action: Action?) {
+    override fun onUiItemClick(view: View, item: StationItem?, action: Action?) {
         item?.run {
             val station = item.item
             Timber.v("Station [%s]", station.url)
@@ -160,13 +160,13 @@ class StationsFragment
         }
     }
 
-    override fun onLongClick(view: View, item: StationItem?, action: Action?) {
+    override fun onUiItemLongClick(view: View, item: StationItem?, action: Action?) {
 
     }
 
     private fun takeState() {
         if (state == null) {
-            val uiTask = getCurrentTask<UiTask<*>>(true)
+            val uiTask = getCurrentTask<UiTask<Station>>(true)
             state = uiTask?.state ?: State.LOCAL
         }
     }

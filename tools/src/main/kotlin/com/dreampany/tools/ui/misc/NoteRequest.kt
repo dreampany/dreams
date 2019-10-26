@@ -15,25 +15,25 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class NoteRequest(
-        val id: String? = Constants.Default.STRING,
-        val title: String? = Constants.Default.STRING,
-        val description: String? = Constants.Default.STRING,
-        type: Type = Type.DEFAULT,
-        subtype: Subtype = Subtype.DEFAULT,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
-        input: Note? = Constants.Default.NULL,
-        single: Boolean = Constants.Default.BOOLEAN,
-        important: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+    val id: String? = Constants.Default.NULL,
+    val title: String? = Constants.Default.NULL,
+    val description: String? = Constants.Default.NULL,
+    type: Type = Type.DEFAULT,
+    subtype: Subtype = Subtype.DEFAULT,
+    state: State = State.DEFAULT,
+    action: Action = Action.DEFAULT,
+    single: Boolean = Constants.Default.BOOLEAN,
+    important: Boolean = Constants.Default.BOOLEAN,
+    progress: Boolean = Constants.Default.BOOLEAN,
+    input: Note? = Constants.Default.NULL
 ) : Request<Note>(
-        type = type,
-        subtype = subtype,
-        state = state,
-        action = action,
-        input = input,
-        single = single,
-        important = important,
-        progress = progress
+    type = type,
+    subtype = subtype,
+    state = state,
+    action = action,
+    single = single,
+    important = important,
+    progress = progress,
+    input = input
 ) {
 }

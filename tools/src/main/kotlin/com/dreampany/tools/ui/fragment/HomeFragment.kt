@@ -81,7 +81,7 @@ class HomeFragment
 
     }
 
-    override fun onClick(view: View, item: FeatureItem?, action: Any?) {
+    override fun onUiItemClick(view: View, item: FeatureItem?, action: Any?) {
         item?.run {
             Timber.v("%s", this.item.type.name)
             openUi(this)
@@ -89,7 +89,7 @@ class HomeFragment
 
     }
 
-    override fun onLongClick(view: View, item: FeatureItem?, action: Any?) {
+    override fun onUiItemLongClick(view: View, item: FeatureItem?, action: Any?) {
         item?.run {
             Timber.v("%s", this.item.type.name)
         }

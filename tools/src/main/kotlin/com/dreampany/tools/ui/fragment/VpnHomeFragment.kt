@@ -1,42 +1,33 @@
 package com.dreampany.tools.ui.fragment
 
 import android.app.Activity
-import android.content.*
-import android.net.VpnService
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
-import android.os.IBinder
-import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.misc.exception.ExtraException
-import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.misc.ServerRequest
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.ContentVpnHomeBinding
 import com.dreampany.tools.databinding.FragmentVpnHomeBinding
+import com.dreampany.tools.manager.VpnManager
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.ServerViewModel
 import com.dreampany.tools.util.TotalTraffic
 import cz.kinst.jakub.view.StatefulLayout
-import de.blinkt.openvpn.VpnProfile
-import de.blinkt.openvpn.core.*
 import timber.log.Timber
-import java.io.ByteArrayInputStream
-import java.io.IOException
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 /**
@@ -49,10 +40,10 @@ import javax.inject.Inject
 class VpnHomeFragment
 @Inject constructor() : BaseMenuFragment() {
 
-    private val START_VPN_PROFILE = 70
-
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var vpn: VpnManager
 
     private lateinit var bind: FragmentVpnHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -63,13 +54,13 @@ class VpnHomeFragment
     private lateinit var statusReceiver: BroadcastReceiver
     private lateinit var trafficReceiver: BroadcastReceiver
 
-    private var background: Boolean = false
-    private var boundService: Boolean = false
+    //private var background: Boolean = false
+    //private var boundService: Boolean = false
 
 
     companion object {
-        private var vpn: OpenVPNService? = null
-        private var profile: VpnProfile? = null
+        //private var vpn: OpenVPNService? = null
+        //private var profile: VpnProfile? = null
     }
 
     override fun getLayoutId(): Int {
@@ -98,7 +89,7 @@ class VpnHomeFragment
 
     override fun onResume() {
         super.onResume()
-        background = false
+/*        background = false
 
         val intent = Intent(context, OpenVPNService::class.java)
         intent.setAction(OpenVPNService.START_SERVICE)
@@ -106,17 +97,17 @@ class VpnHomeFragment
             getParent()?.bindService(intent, connection, Context.BIND_AUTO_CREATE) ?: false
 
         if (!VpnStatus.isVPNActive()) {
-            prepareVpn()
-        }
+            //prepareVpn()
+        }*/
     }
 
     override fun onPause() {
         super.onPause()
-        background = true
+/*        background = true
         if (boundService) {
             boundService = false
             getParent()?.unbindService(connection)
-        }
+        }*/
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -125,8 +116,8 @@ class VpnHomeFragment
             return
         }
         when (requestCode) {
-            START_VPN_PROFILE -> {
-                VPNLaunchHelper.startOpenVpn(profile, context!!)
+            Constants.RequestCode.Vpn.START_VPN_PROFILE -> {
+               vpn.startOpenVpn()
             }
         }
     }
@@ -159,11 +150,10 @@ class VpnHomeFragment
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
 
-        vm.updateUiState(uiState = UiState.DEFAULT)
-
-        vm = ViewModelProviders.of(this, factory).get(ServerViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(ServerViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+        vm.updateUiState(uiState = UiState.DEFAULT)
 
         statusReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -228,35 +218,13 @@ class VpnHomeFragment
     private fun prepareVpn() {
         val server = bind.item?.item ?: return
         Timber.v("Preparing vpn [%s]", server.id)
-        profile = loadVpn(server)
+/*        profile = loadVpn(server)
         if (profile != null) {
             startVpn(server)
-        }
+        }*/
     }
 
-    private fun loadVpn(server: Server): VpnProfile? {
-        var data: ByteArray? = null
-        try {
-            data = Base64.decode(server.config, Base64.DEFAULT)
-        } catch (error: Throwable) {
-            Timber.e(error)
-            return null
-        }
-        val parser = ConfigParser()
-        val reader = InputStreamReader(ByteArrayInputStream(data))
-        try {
-            parser.parseConfig(reader)
-            val profile = parser.convertProfile()
-            profile.mName = server.countryName
-            ProfileManager.getInstance(context).addProfile(profile)
-            return profile
-        } catch (error: Throwable) {
-            Timber.e(error)
-            return null
-        }
-    }
-
-    private fun startVpn(server: Server) {
+/*    private fun startVpn(server: Server) {
         val intent = VpnService.prepare(context)
         if (intent != null) {
             Timber.v("Starting vpn [%s]", server.id)
@@ -275,7 +243,7 @@ class VpnHomeFragment
         } else {
             onActivityResult(START_VPN_PROFILE, Activity.RESULT_OK, null)
         }
-    }
+    }*/
 
     private fun request(
         id: String? = Constants.Default.NULL,
@@ -292,17 +260,5 @@ class VpnHomeFragment
             progress = progress
         )
         vm.request(request)
-    }
-
-    private val connection: ServiceConnection = object : ServiceConnection {
-        override fun onServiceDisconnected(name: ComponentName) {
-            VpnHomeFragment.vpn = null
-        }
-
-        override fun onServiceConnected(name: ComponentName, service: IBinder) {
-            val binder = service as OpenVPNService.LocalBinder
-            VpnHomeFragment.vpn = binder.service
-        }
-
     }
 }

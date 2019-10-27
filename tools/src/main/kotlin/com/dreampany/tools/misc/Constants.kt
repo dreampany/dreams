@@ -386,6 +386,9 @@ class Constants {
     }
 
     object RequestCode {
+        object Vpn {
+            const val START_VPN_PROFILE = 70
+        }
         object Note {
             const val ADD = 1
             const val EDIT = 2
@@ -450,10 +453,11 @@ class Constants {
     object Order {
         fun getOrder(type: Type): Int {
             when (type) {
-                Type.RADIO -> return 1
-                Type.APP -> return 2
-                Type.WORD -> return 3
-                Type.NOTE -> return 4
+                Type.VPN -> return 1
+                Type.RADIO -> return 2
+                Type.APP -> return 3
+                Type.WORD -> return 4
+                Type.NOTE -> return 5
                 else -> return Int.MAX_VALUE
             }
         }

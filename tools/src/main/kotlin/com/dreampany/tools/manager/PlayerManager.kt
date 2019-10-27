@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.IBinder
-import android.text.BoringLayout
-import android.util.Log
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream
 import com.dreampany.tools.data.model.Station

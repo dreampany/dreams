@@ -69,7 +69,7 @@ class HomeFragment
     }
 
     override fun onStartUi(state: Bundle?) {
-        initView()
+        initUi()
         initRecycler()
         initTitleSubtitle()
         request(progress = true)
@@ -108,7 +108,7 @@ class HomeFragment
         setTitle(R.string.home)
     }
 
-    private fun initView() {
+    private fun initUi() {
 
         bind = super.binding as FragmentHomeBinding
         bindStatus = bind.layoutTopStatus

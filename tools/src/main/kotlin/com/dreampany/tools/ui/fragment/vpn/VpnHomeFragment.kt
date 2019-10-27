@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.vpn
 
 import android.app.Activity
 import android.content.BroadcastReceiver
@@ -6,22 +6,27 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.ContentVpnHomeBinding
 import com.dreampany.tools.databinding.FragmentVpnHomeBinding
 import com.dreampany.tools.manager.VpnManager
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.ServerViewModel
@@ -54,17 +59,12 @@ class VpnHomeFragment
     private lateinit var statusReceiver: BroadcastReceiver
     private lateinit var trafficReceiver: BroadcastReceiver
 
-    //private var background: Boolean = false
-    //private var boundService: Boolean = false
-
-
-    companion object {
-        //private var vpn: OpenVPNService? = null
-        //private var profile: VpnProfile? = null
-    }
-
     override fun getLayoutId(): Int {
         return R.layout.fragment_vpn_home
+    }
+
+    override fun getMenuId(): Int {
+        return R.menu.menu_vpn_home
     }
 
     override fun getTitleResId(): Int {
@@ -75,9 +75,19 @@ class VpnHomeFragment
         return Constants.vpnHome(context!!)
     }
 
+    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
+        super.onMenuCreated(menu, inflater)
+
+        val serverItem = findMenuItemById(R.id.item_servers)
+        MenuTint.colorMenuItem(
+            ColorUtil.getColor(context!!, R.color.material_white),
+            null, serverItem
+        )
+    }
+
     override fun onStartUi(state: Bundle?) {
         initUi()
-        request(state = State.RANDOM, single = true)
+        //request(state = State.RANDOM, single = true)
     }
 
     override fun onStopUi() {
@@ -117,15 +127,25 @@ class VpnHomeFragment
         }
         when (requestCode) {
             Constants.RequestCode.Vpn.START_VPN_PROFILE -> {
-               vpn.startOpenVpn()
+                vpn.startOpenVpn()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_servers -> {
+                openServersUi()
+                return true
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.button_action -> {
-                prepareVpn()
             }
         }
     }
@@ -215,35 +235,14 @@ class VpnHomeFragment
         vm.updateUiState(uiState = UiState.CONTENT)
     }
 
-    private fun prepareVpn() {
-        val server = bind.item?.item ?: return
-        Timber.v("Preparing vpn [%s]", server.id)
-/*        profile = loadVpn(server)
-        if (profile != null) {
-            startVpn(server)
-        }*/
+    private fun openServersUi() {
+        val task = UiTask<Server>(
+            type = Type.SERVER,
+            state = State.LIST,
+            action = Action.OPEN
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Vpn.OPEN_SERVER)
     }
-
-/*    private fun startVpn(server: Server) {
-        val intent = VpnService.prepare(context)
-        if (intent != null) {
-            Timber.v("Starting vpn [%s]", server.id)
-            VpnStatus.updateStateString(
-                "USER_VPN_PERMISSION", "", R.string.state_user_vpn_permission,
-                VpnStatus.ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT
-            )
-            try {
-                startActivityForResult(intent, START_VPN_PROFILE)
-            } catch (ane: ActivityNotFoundException) {
-                // Shame on you Sony! At least one user reported that
-                // an official Sony Xperia Arc S image triggers this exception
-                VpnStatus.logError(R.string.no_vpn_support_image)
-            }
-
-        } else {
-            onActivityResult(START_VPN_PROFILE, Activity.RESULT_OK, null)
-        }
-    }*/
 
     private fun request(
         id: String? = Constants.Default.NULL,

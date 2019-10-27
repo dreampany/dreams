@@ -19,6 +19,8 @@ import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
+import com.dreampany.tools.ui.fragment.vpn.ServersFragment
+import com.dreampany.tools.ui.fragment.vpn.VpnHomeFragment
 import com.dreampany.tools.ui.fragment.word.*
 import com.google.android.gms.ads.AdView
 import com.miguelcatalan.materialsearchview.MaterialSearchView
@@ -68,6 +70,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
     internal lateinit var noteProvider: Lazy<NoteFragment>
+    @Inject
+    internal lateinit var serversProvider: Lazy<ServersFragment>
 
     private lateinit var bind: ActivityToolsBinding
     private lateinit var collapseBind: ActivityCollapseToolsBinding
@@ -258,6 +262,17 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         WordVisionFragment::class.java,
                         wordVisionProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+            }
+            Type.SERVER -> {
+                if (state == State.LIST) {
+                    commitFragment(
+                        ServersFragment::class.java,
+                        serversProvider,
                         R.id.layout,
                         uiTask
                     )

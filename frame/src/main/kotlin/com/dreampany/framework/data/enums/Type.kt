@@ -25,5 +25,6 @@ enum class Type : Parcelable {
     QUIZ,
     VPN,
     RADIO,
-    STATION
+    STATION,
+    SERVER
 }

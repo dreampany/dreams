@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_servers"
+        android:icon="@drawable/ic_desktop_windows_black_24dp"
+        android:iconTint="@color/material_white"
+        android:animateLayoutChanges="true"
+        android:title="@string/servers"
+        auto:showAsAction="always" />
+
+</menu>

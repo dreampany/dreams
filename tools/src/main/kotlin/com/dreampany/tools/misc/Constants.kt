@@ -58,6 +58,9 @@ class Constants {
         fun radioStations(context: Context, state: State): String =
             lastAppId(context) + Sep.HYPHEN + "${state.name.toLowerCase()}-related-quiz"
 
+        fun vpnServers(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "vpn-servers"
+
         fun isOn(context: Context, screen: String, type: Type): Boolean {
             when (type) {
                 Type.WORD -> {
@@ -387,7 +390,8 @@ class Constants {
 
     object RequestCode {
         object Vpn {
-            const val START_VPN_PROFILE = 70
+            const val START_VPN_PROFILE = 1
+            const val OPEN_SERVER = 2
         }
         object Note {
             const val ADD = 1

@@ -18,6 +18,9 @@ interface ServerDao : BaseDao<Server> {
     @Query("select * from server")
     fun getItems(): List<Server>?
 
+    @Query("select * from server limit :limit")
+    fun getItemsRx(limit: Long): Maybe<List<Server>>
+
     @Query("select * from server order by random() limit 1")
     fun getRandomItem(): Server?
 

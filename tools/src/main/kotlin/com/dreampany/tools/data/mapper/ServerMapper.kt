@@ -35,12 +35,20 @@ class ServerMapper
     private val pref: VpnPref
 ) : Mapper() {
 
-    fun isServerExpired(): Boolean {
+    fun setServer(server: Server) {
+        pref.setServer(server)
+    }
+
+    fun getServer() : Server? {
+        return pref.getServer()
+    }
+
+    fun isExpired(): Boolean {
         val lastTime = pref.getServerTime()
         return TimeUtil.isExpired(lastTime, Constants.Time.SERVER)
     }
 
-    fun commitServerExpiredTime() {
+    fun commitExpireTime() {
         pref.commitServerTime()
     }
 
@@ -60,6 +68,25 @@ class ServerMapper
         val result = readLines(tempUrl)
         val servers = arrayListOf<Server>()
         result?.drop(2)?.forEach { data ->
+            getItem(data)?.run {
+                servers.add(this)
+                Timber.v("Server Parsing.. %s", this.toString())
+            }
+        }
+        return servers
+    }
+
+    fun getItems(body: ResponseBody, tempUrl: String, limit: Long): List<Server>? {
+        val written = writeBody(body, tempUrl)
+        if (!written) {
+            return null
+        }
+        val result = readLines(tempUrl)
+        val servers = arrayListOf<Server>()
+        result?.drop(2)?.forEach { data ->
+            if (servers.size == limit.toInt()) {
+                return@forEach
+            }
             getItem(data)?.run {
                 servers.add(this)
                 Timber.v("Server Parsing.. %s", this.toString())

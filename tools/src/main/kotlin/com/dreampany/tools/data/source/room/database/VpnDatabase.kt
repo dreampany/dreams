@@ -17,7 +17,7 @@ import com.dreampany.tools.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Server::class], version = 1)
+@Database(entities = [Server::class], version = 2)
 @TypeConverters(VpnConverters::class)
 abstract class VpnDatabase : RoomDatabase() {
 

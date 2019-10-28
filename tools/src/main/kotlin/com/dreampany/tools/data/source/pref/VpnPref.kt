@@ -3,6 +3,7 @@ package com.dreampany.tools.data.source.pref
 import android.content.Context
 import com.dreampany.framework.data.source.pref.FramePref
 import com.dreampany.framework.util.TimeUtilKt
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,11 +28,19 @@ class VpnPref
         setPrivately(Constants.Pref.SERVER_TIME, TimeUtilKt.currentMillis())
     }
 
-    fun getServerTime() : Long {
+    fun getServerTime(): Long {
         return getPrivately(Constants.Pref.SERVER_TIME, 0L)
     }
 
-    fun getDownload() : Long {
+    fun setServer(server: Server) {
+        setPrivately(Constants.Pref.Vpn.SERVER, server)
+    }
+
+    fun getServer(): Server? {
+        return getPrivately(Constants.Pref.Vpn.SERVER, Server::class.java, null)
+    }
+
+    fun getDownload(): Long {
         return getPrivately(Constants.Pref.DOWNLOAD, 0L)
     }
 
@@ -39,7 +48,7 @@ class VpnPref
         setPrivately(Constants.Pref.DOWNLOAD, download)
     }
 
-    fun getUpload() : Long {
+    fun getUpload(): Long {
         return getPrivately(Constants.Pref.UPLOAD, 0L)
     }
 

@@ -20,6 +20,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
+import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -50,6 +51,8 @@ class VpnHomeFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var vpn: VpnManager
+    @Inject
+    internal lateinit var mapper: ServerMapper
 
     private lateinit var bind: FragmentVpnHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -88,7 +91,7 @@ class VpnHomeFragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        //request(state = State.RANDOM, single = true)
+        request(state = State.RANDOM, single = true)
     }
 
     override fun onStopUi() {
@@ -137,6 +140,7 @@ class VpnHomeFragment
                         val server = task.input
                         server?.run {
                             Timber.v("Selected Server %s", this.id)
+                            mapper.setServer(this)
                             vpn.start(this)
                         }
 
@@ -160,6 +164,9 @@ class VpnHomeFragment
     override fun onClick(v: View) {
         when (v.id) {
             R.id.button_action -> {
+                mapper.getServer()?.run {
+                    vpn.start(this)
+                }
             }
         }
     }
@@ -187,7 +194,7 @@ class VpnHomeFragment
         vm = ViewModelProvider(this, factory).get(ServerViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-        vm.updateUiState(uiState = UiState.DEFAULT)
+        //vm.updateUiState(uiState = UiState.DEFAULT)
 
         statusReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
@@ -226,7 +233,9 @@ class VpnHomeFragment
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
             }
-            UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
+            UiState.CONTENT -> {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+            }
         }
     }
 
@@ -246,7 +255,16 @@ class VpnHomeFragment
     private fun processSingleSuccess(state: State, action: Action, uiItem: ServerItem) {
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
+        resolveUi(uiItem)
         vm.updateUiState(uiState = UiState.CONTENT)
+
+    }
+
+    private fun resolveUi(item: ServerItem) {
+        val cache = mapper.getServer()
+        bindVpn.buttonAction.isEnabled = cache != null
+        bindVpn.viewTitle.text = item.item.countryName
+        bindVpn.viewSubtitle.text = item.item.id
     }
 
     private fun openServersUi() {

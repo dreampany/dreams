@@ -213,6 +213,10 @@ class Constants {
             const val STATION_STATE = "station_state"
             const val STATION_TIME = "station_time"
         }
+
+        object Vpn {
+            const val SERVER = "server"
+        }
     }
 
     object Count {

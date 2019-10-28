@@ -22,6 +22,7 @@
             android:layout_height="@dimen/_100sdp"
             android:layout_marginTop="@dimen/_80sdp"
             android:layout_marginEnd="@dimen/_5sdp"
+            android:enabled="false"
             android:gravity="center"
             auto:fb_backgroundColor="@color/material_red700"
             auto:fb_cornerRadius="@dimen/_2sdp"
@@ -33,6 +34,35 @@
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/view_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:text="@string/title"
+            android:textColor="@color/material_grey800"
+            android:textSize="@dimen/_14ssp"
+            auto:fontFamily="@font/roboto_slab_bold"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toBottomOf="@id/button_action" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/view_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:drawablePadding="@dimen/_5sdp"
+            android:text="@string/subtitle"
+            android:textColor="@color/material_grey500"
+            android:textSize="@dimen/_12ssp"
+            auto:fontFamily="@font/roboto_slab_regular"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toBottomOf="@id/view_title" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

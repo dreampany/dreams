@@ -132,11 +132,37 @@ constructor(
     }
 
     override fun getItems(limit: Long): List<Server>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (!network.hasInternet()) {
+            return null
+        }
+        try {
+            val response = service.get(Constants.VpnGate.URL).execute()
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    val tempUrl = context.cacheDir.path.plus(File.separator)
+                        .plus(Constants.VpnGate.FILE_NAME)
+                    val servers = mapper.getItems(body, tempUrl, limit)
+                    return servers
+                }
+            }
+        } catch (error: Throwable) {
+            Timber.e(error)
+        }
+        return null
     }
 
     override fun getItemsRx(limit: Long): Maybe<List<Server>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = getItems(limit)
+            if (emitter.isDisposed) return@create
+
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
 

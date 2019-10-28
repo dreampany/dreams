@@ -40,6 +40,7 @@ data class Server(
     var uptime: Long = Constants.Default.LONG,
     var users: Long = Constants.Default.LONG,
     var traffic: Long = Constants.Default.LONG,
+    @ColumnInfo(name = Constants.Server.LOG_TYPE)
     var logType: String? = Constants.Default.NULL,
     var operator: String? = Constants.Default.NULL,
     var message: String? = Constants.Default.NULL,

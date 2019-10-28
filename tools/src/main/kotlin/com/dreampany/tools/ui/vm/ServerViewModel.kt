@@ -142,7 +142,7 @@ class ServerViewModel
     }
 
     private fun requestItemsRx(request: ServerRequest): Maybe<List<Server>> {
-        return repo.getItemsRx();
+        return repo.getItemsRx(request.limit);
     }
 
     private fun getUiItemRx(request: ServerRequest, item: Server): Maybe<ServerItem> {

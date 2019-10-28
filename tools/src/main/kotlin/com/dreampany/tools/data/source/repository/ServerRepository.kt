@@ -123,27 +123,32 @@ class ServerRepository
     }
 
     override fun getItemsRx(limit: Long): Maybe<List<Server>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val remoteIf = getRemoteItemsIfRx(limit)
+        val roomAny = room.getItemsRx(limit)
+        return concatFirstRx(true, remoteIf, roomAny)
     }
 
     // region private
     private fun getRemoteRandomItemIfRx(): Maybe<Server> {
         return Maybe.create { emitter ->
             var result: List<Server>? = null
-            if (mapper.isServerExpired()) {
+            var cache = mapper.getServer()
+            if (mapper.isExpired() || cache == null) {
                 result = remote.getItems()
             }
             if (emitter.isDisposed) return@create
-            if (result.isNullOrEmpty()) {
+            if (result.isNullOrEmpty() && cache == null) {
                 emitter.onError(EmptyException())
             } else {
                 //extra work to save result
-                room.putItems(result)
-                mapper.commitServerExpiredTime()
-                val random = getHighRandomItem(result)
+                room.putItems(result!!)
+                mapper.commitExpireTime()
+                val random =
+                    if (cache != null) cache else getHighRandomItem(result!!)
                 if (random == null) {
                     emitter.onError(EmptyException())
                 } else {
+                    mapper.setServer(random)
                     emitter.onSuccess(random)
                 }
             }
@@ -152,15 +157,21 @@ class ServerRepository
 
     private fun getRoomRandomItemIfRx(): Maybe<Server> {
         return Maybe.create { emitter ->
-            var result: List<Server>? = room.getItems()
+            var result: List<Server>? = null
+            val cache = mapper.getServer()
+            if (cache == null) {
+                result = room.getItems()
+            }
             if (emitter.isDisposed) return@create
-            if (result.isNullOrEmpty()) {
+            if (result.isNullOrEmpty() && cache == null) {
                 emitter.onError(EmptyException())
             } else {
-                val random = getHighRandomItem(result)
+                val random =
+                    if (cache != null) cache else getHighRandomItem(result!!)
                 if (random == null) {
                     emitter.onError(EmptyException())
                 } else {
+                    mapper.setServer(random)
                     emitter.onSuccess(random)
                 }
             }
@@ -185,5 +196,25 @@ class ServerRepository
         }
         return null
     }
+
+    //region private
+    private fun getRemoteItemsIfRx(limit: Long): Maybe<List<Server>> {
+        return Maybe.create { emitter ->
+            var result: List<Server>? = null
+            if (mapper.isExpired()) {
+                result = remote.getItems(limit)
+            }
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                //extra work to save result
+                room.putItems(result)
+                mapper.commitExpireTime()
+                emitter.onSuccess(result)
+            }
+        }
+    }
+
     // endregion
 }

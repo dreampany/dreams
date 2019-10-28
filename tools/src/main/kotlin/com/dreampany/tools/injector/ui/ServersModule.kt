@@ -1,5 +1,6 @@
 package com.dreampany.tools.injector.ui
 
+import com.dreampany.framework.misc.FragmentScope
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,6 +13,7 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module
 abstract class ServersModule {
+    @FragmentScope
     @ContributesAndroidInjector
     abstract fun serversFragment(): ServersFragment
 }

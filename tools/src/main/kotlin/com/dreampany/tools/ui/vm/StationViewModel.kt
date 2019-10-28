@@ -94,13 +94,13 @@ class StationViewModel
     private fun requestUiItemsRx(request: StationRequest): Maybe<List<StationItem>> {
 /*        if (request.action == Action.FAVORITE) {
             return storeRepo
-                .getItemsRx(Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+                .requestItemsRx(Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
                 .flatMap { getUiItemsOfStoresRx(request, it) }
         }*/
-        return getItemsRx(request).flatMap { getUiItemsRx(request, it) }
+        return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
     }
 
-    private fun getItemsRx(request: StationRequest): Maybe<List<Station>> {
+    private fun requestItemsRx(request: StationRequest): Maybe<List<Station>> {
         when (request.state) {
             State.LOCAL -> {
                 return repo.getItemsOfCountryRx(request.countryCode!!, request.limit)

@@ -244,6 +244,10 @@ class Constants {
         object Radio {
             const val STATIONS = 100L
         }
+
+        object Vpn {
+            const val SERVERS = 100L
+        }
     }
 
     object Threshold {

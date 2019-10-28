@@ -20,6 +20,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.ContentVpnHomeBinding
@@ -122,12 +123,25 @@ class VpnHomeFragment
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
+        if (!isOkay(resultCode)) {
             return
         }
         when (requestCode) {
             Constants.RequestCode.Vpn.START_VPN_PROFILE -> {
                 vpn.startOpenVpn()
+            }
+            Constants.RequestCode.Vpn.OPEN_SERVER -> {
+                data?.run {
+                    val task = getCurrentTask<UiTask<Server>>(this)
+                    task?.run {
+                        val server = task.input
+                        server?.run {
+                            Timber.v("Selected Server %s", this.id)
+                            vpn.start(this)
+                        }
+
+                    }
+                }
             }
         }
     }

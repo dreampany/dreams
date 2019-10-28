@@ -12,8 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -24,14 +25,15 @@ import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
-import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.pref.VpnPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentServersBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ServerAdapter
-import com.dreampany.tools.ui.misc.StationRequest
+import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
@@ -46,7 +48,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@FragmentScope
+@ActivityScope
 class ServersFragment
 @Inject constructor() : BaseMenuFragment(),
     SmartAdapter.OnUiItemClickListener<ServerItem, Action> {
@@ -68,10 +70,6 @@ class ServersFragment
     private lateinit var adapter: ServerAdapter
     private lateinit var scroller: OnVerticalScrollListener
 
-    private var state: State? = null
-    private lateinit var countryCode: String
-
-
     override fun getLayoutId(): Int {
         return R.layout.fragment_servers
     }
@@ -80,12 +78,15 @@ class ServersFragment
         return R.menu.menu_servers
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.servers
+    }
+
     override fun getSearchMenuItemId(): Int {
         return R.id.item_search
     }
 
     override fun getScreen(): String {
-        //takeState()
         return Constants.vpnServers(context!!)
     }
 
@@ -143,22 +144,16 @@ class ServersFragment
     }
 
     override fun onUiItemClick(view: View, item: ServerItem, action: Action) {
-        item?.run {
-            val station = item.item
-            //Timber.v("Station [%s]", station.url)
-            //player.play(station)
-        }
+        val uiTask = UiTask<Server>(
+            type = Type.SERVER,
+            action = Action.SELECTED,
+            input = item.item
+        )
+        forResult(uiTask, true)
     }
 
     override fun onUiItemLongClick(view: View, item: ServerItem, action: Action) {
 
-    }
-
-    private fun takeState() {
-        if (state == null) {
-            val uiTask = getCurrentTask<UiTask<Station>>(true)
-            state = uiTask?.state ?: State.LOCAL
-        }
     }
 
     private fun initUi() {
@@ -185,9 +180,9 @@ class ServersFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-        vm.updateUiState(uiState =  UiState.DEFAULT)
+        vm.updateUiState(uiState = UiState.DEFAULT)
 
-       // countryCode = GeoUtil.getCountryCode(context!!)
+        // countryCode = GeoUtil.getCountryCode(context!!)
     }
 
     private fun initRecycler() {
@@ -200,7 +195,7 @@ class ServersFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_station, adapter.getItemOffset())
+                .addItemViewType(R.layout.item_server, adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller,
@@ -210,9 +205,6 @@ class ServersFragment
 
     private fun processUiState(response: Response.UiResponse) {
         Timber.v("UiState %s", response.uiState.name)
-        if (this.state != response.state) {
-            return
-        }
         when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
@@ -238,15 +230,9 @@ class ServersFragment
     fun processMultipleResponse(response: Response<List<ServerItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<ServerItem>>
@@ -257,15 +243,9 @@ class ServersFragment
     fun processSingleResponse(response: Response<ServerItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processProgress(result.state, result.action, result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<ServerItem>
@@ -274,9 +254,6 @@ class ServersFragment
     }
 
     private fun processSuccess(state: State, action: Action, items: List<ServerItem>) {
-        if (this.state != state) {
-            return
-        }
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi(Runnable {
@@ -285,9 +262,6 @@ class ServersFragment
     }
 
     private fun processSuccess(state: State, action: Action, item: ServerItem) {
-        if (this.state != state) {
-            return
-        }
         if (action == Action.DELETE) {
             adapter.removeItem(item)
         } else {
@@ -303,24 +277,20 @@ class ServersFragment
     private fun request(
         id: String? = Constants.Default.NULL,
         action: Action = Action.DEFAULT,
-        input: Station? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN,
+        input: Server? = Constants.Default.NULL
     ) {
 
-        takeState()
-
-        val request = StationRequest(
+        val request = ServerRequest(
             id = id,
-            countryCode = countryCode,
-            state = state!!,
             action = action,
             single = single,
             progress = progress,
             input = input,
-            limit = Constants.Limit.Radio.STATIONS
+            limit = Constants.Limit.Vpn.SERVERS
         )
-        //vm.request(request)
+        vm.request(request)
     }
 
 /*    private val serviceUpdateReceiver = object : BroadcastReceiver() {

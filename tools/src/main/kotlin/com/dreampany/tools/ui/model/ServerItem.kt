@@ -2,13 +2,21 @@ package com.dreampany.tools.ui.model
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
+import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.ServerAdapter
+import com.dreampany.tools.ui.adapter.StationAdapter
+import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
+import jp.shts.android.library.TriangleLabelView
 import java.io.Serializable
 
 /**
@@ -25,8 +33,19 @@ private constructor(
 
     companion object {
         fun getItem(item: Server): ServerItem {
-            return ServerItem(item, 0)
+            return ServerItem(item, R.layout.item_server)
         }
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as ServerItem
+        return Objects.equal(this.item.id, item.item.id)
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(item.id)
     }
 
     override fun createViewHolder(
@@ -37,15 +56,30 @@ private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.id.startsWith(constraint, true)
+        return item.countryName?.contains(constraint, true) ?: false
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {
 
+        private val adapter: ServerAdapter
+        private val title: AppCompatTextView
+        private val subtitle: AppCompatTextView
+        private var label: TriangleLabelView
 
         init {
+            this.adapter = adapter as ServerAdapter
+            title = view.findViewById(R.id.view_title)
+            subtitle = view.findViewById(R.id.view_subtitle)
+            label = view.findViewById(R.id.label_type)
 
+            view.setOnClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.OPEN
+                )
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
@@ -53,6 +87,16 @@ private constructor(
             val uiItem = item as ServerItem
             val item = uiItem.item
 
+            title.text = item.countryName
+            subtitle.text = item.id
+
+            if (Quality.MEDIUM == item.quality || Quality.HIGH == item.quality) {
+                label.primaryText = getString(R.string.online)
+                label.setTriangleBackgroundColorResource(R.color.material_green500)
+            } else {
+                label.primaryText = getString(R.string.offline)
+                label.setTriangleBackgroundColorResource(R.color.material_red500)
+            }
         }
     }
 }

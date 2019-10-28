@@ -111,7 +111,7 @@ class NoteFragment
             var task: UiTask<Note>? = null
             if (saved) {
                 val uiTask = getCurrentTask<UiTask<Note>>()
-                task = UiTask<Note>(
+                val task = UiTask<Note>(
                     type = uiTask?.type ?: Type.DEFAULT,
                     state = State.EDITED,
                     action = uiTask?.action ?: Action.DEFAULT,
@@ -199,7 +199,7 @@ class NoteFragment
         val note = getInput<Note>()
 
         bind.inputEditTitle.setText(note?.title)
-        bind.inputEditDescription.setText( note?.description)
+        bind.inputEditDescription.setText(note?.description)
         resolveUi()
     }
 

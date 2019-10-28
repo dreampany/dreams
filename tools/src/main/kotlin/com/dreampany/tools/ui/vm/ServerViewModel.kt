@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
@@ -14,10 +15,14 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository
+import com.dreampany.tools.ui.misc.StationRequest
 import com.dreampany.tools.ui.model.ServerItem
+import com.dreampany.tools.ui.model.StationItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
+import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
 import javax.inject.Inject
@@ -67,6 +72,8 @@ class ServerViewModel
     fun request(request: ServerRequest) {
         if (request.single) {
             requestSingle(request)
+        } else {
+            requestMultiple(request)
         }
     }
 
@@ -96,12 +103,46 @@ class ServerViewModel
         addSingleSubscription(disposable)
     }
 
+    private fun requestMultiple(request: ServerRequest) {
+        if (!takeAction(request.important, multipleDisposable)) {
+            return
+        }
+
+        val disposable = rx
+            .backToMain(requestUiItemsRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(request.state, request.action,true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(request.state, request.action,false)
+                }
+                postResult(request.state, request.action, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(request.state, request.action,false)
+                }
+                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+            })
+        addMultipleSubscription(disposable)
+    }
+
     private fun requestUiItemRx(request: ServerRequest): Maybe<ServerItem> {
         return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
+    private fun requestUiItemsRx(request: ServerRequest): Maybe<List<ServerItem>> {
+        return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
+    }
+
     private fun requestItemRx(request: ServerRequest): Maybe<Server> {
         return repo.getRandomItemRx()
+    }
+
+    private fun requestItemsRx(request: ServerRequest): Maybe<List<Server>> {
+        return repo.getItemsRx();
     }
 
     private fun getUiItemRx(request: ServerRequest, item: Server): Maybe<ServerItem> {
@@ -113,6 +154,16 @@ class ServerViewModel
             val uiItem = getUiItem(request, item)
             emitter.onSuccess(uiItem)
         }
+    }
+
+    private fun getUiItemsRx(
+        request: ServerRequest,
+        items: List<Server>
+    ): Maybe<List<ServerItem>> {
+        return Flowable.fromIterable(items)
+            .map { getUiItem(request, it) }
+            .toList()
+            .toMaybe()
     }
 
     private fun getUiItem(request: ServerRequest, item: Server): ServerItem {

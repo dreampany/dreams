@@ -92,7 +92,7 @@ class VpnManager
         }
     }
 
-    fun startVpn(server: Server) {
+    private fun startVpn(server: Server) {
         val intent = VpnService.prepare(context)
         if (intent != null) {
             Timber.v("Starting vpn [%s]", server.id)
@@ -101,7 +101,7 @@ class VpnManager
                 VpnStatus.ConnectionStatus.LEVEL_WAITING_FOR_USER_INPUT
             )
             try {
-               callback?.checkVpnProfile(Constants.RequestCode.Vpn.START_VPN_PROFILE, intent)
+                callback?.checkVpnProfile(Constants.RequestCode.Vpn.START_VPN_PROFILE, intent)
             } catch (ane: ActivityNotFoundException) {
                 // Shame on you Sony! At least one user reported that
                 // an official Sony Xperia Arc S image triggers this exception
@@ -109,7 +109,11 @@ class VpnManager
             }
 
         } else {
-            callback?.resultOfVpn(Constants.RequestCode.Vpn.START_VPN_PROFILE,  Activity.RESULT_OK, intent)
+            callback?.resultOfVpn(
+                Constants.RequestCode.Vpn.START_VPN_PROFILE,
+                Activity.RESULT_OK,
+                intent
+            )
         }
     }
 

@@ -16,22 +16,24 @@ class ServerRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
-    source: Source = Source.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: Server? = Constants.Default.NULL,
+    source: Source = Source.DEFAULT,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN,
+    input: Server? = Constants.Default.NULL,
+    limit: Long = Constants.Default.LONG
 ) : Request<Server>(
     type = type,
     subtype = subtype,
     state = state,
-    source = source,
     action = action,
-    input = input,
+    source = source,
     single = single,
     important = important,
-    progress = progress
+    progress = progress,
+    input = input,
+    limit = limit
 ) {
 
 

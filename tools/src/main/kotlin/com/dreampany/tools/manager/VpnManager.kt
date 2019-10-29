@@ -9,6 +9,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.PlayerService
+import com.dreampany.tools.util.TotalTraffic
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.*
 import timber.log.Timber
@@ -31,10 +32,12 @@ class VpnManager
 
     interface Callback {
         fun checkVpnProfile(requestCode: Int, intent: Intent)
-        fun resultOfVpn(requestCode: Int, resultCode: Int, intent: Intent?)
+        fun resultOfVpn(requestCode: Int, resultCode: Int, data: Intent?)
     }
 
     private var bound: Boolean = false
+    private var currentServer: Server? = null
+    private var connectedServer: Server? = null
     private var profile: VpnProfile? = null
     private var service: OpenVPNService? = null
 
@@ -83,6 +86,15 @@ class VpnManager
 
     fun setCallback(callback: Callback? = null) {
         this.callback = callback
+
+        if (this.callback == null) {
+            context.unregisterReceiver(statusReceiver)
+            context.unregisterReceiver(trafficReceiver)
+        } else {
+            context.registerReceiver(statusReceiver, IntentFilter(Constants.Action.Vpn.VPN_STATUS))
+            context.registerReceiver(trafficReceiver, IntentFilter(TotalTraffic.TRAFFIC_ACTION))
+        }
+
     }
 
     fun start(server: Server) {
@@ -141,5 +153,34 @@ class VpnManager
             Timber.e(error)
             return null
         }
+    }
+
+    private fun checkStatus(): Boolean {
+        return if (connectedServer != null && connectedServer!!.host.equals(currentServer?.host)) {
+            VpnStatus.isVPNActive()
+        } else false
+
+    }
+
+    private fun receiveStatus(intent: Intent) {
+        if (checkStatus()) {
+
+        }
+    }
+
+    private val statusReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+            receiveStatus(intent)
+        }
+
+    }
+
+    private val trafficReceiver = object : BroadcastReceiver() {
+
+        override fun onReceive(context: Context, intent: Intent) {
+
+        }
+
     }
 }

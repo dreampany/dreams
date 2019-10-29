@@ -142,6 +142,10 @@ class Constants {
     object Action {
         const val START_SERVICE = Constants.Action.START_SERVICE
         const val STOP_SERVICE = Constants.Action.STOP_SERVICE
+
+        object Vpn {
+            const val VPN_STATUS = "de.blinkt.openvpn.VPN_STATUS"
+        }
     }
 
     object Time {

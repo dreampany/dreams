@@ -45,7 +45,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class VpnHomeFragment
-@Inject constructor() : BaseMenuFragment() {
+@Inject constructor() : BaseMenuFragment(), VpnManager.Callback {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -60,8 +60,8 @@ class VpnHomeFragment
 
     private lateinit var vm: ServerViewModel
 
-    private lateinit var statusReceiver: BroadcastReceiver
-    private lateinit var trafficReceiver: BroadcastReceiver
+/*    private lateinit var statusReceiver: BroadcastReceiver
+    private lateinit var trafficReceiver: BroadcastReceiver*/
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_vpn_home
@@ -91,14 +91,15 @@ class VpnHomeFragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        vpn.setCallback(this)
         request(state = State.RANDOM, single = true)
     }
 
     override fun onStopUi() {
-        getParent()?.run {
+/*        getParent()?.run {
             unregisterReceiver(statusReceiver)
             unregisterReceiver(trafficReceiver)
-        }
+        }*/
     }
 
     override fun onResume() {
@@ -141,6 +142,7 @@ class VpnHomeFragment
                         server?.run {
                             Timber.v("Selected Server %s", this.id)
                             mapper.setServer(this)
+                            resolveUi(this)
                             vpn.start(this)
                         }
 
@@ -171,6 +173,14 @@ class VpnHomeFragment
         }
     }
 
+    override fun checkVpnProfile(requestCode: Int, intent: Intent) {
+        startActivityForResult(intent, Constants.RequestCode.Vpn.START_VPN_PROFILE)
+    }
+
+    override fun resultOfVpn(requestCode: Int, resultCode: Int, data: Intent?) {
+        onActivityResult(requestCode, resultCode, data)
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentVpnHomeBinding
         bindStatus = bind.layoutTopStatus
@@ -196,7 +206,7 @@ class VpnHomeFragment
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
         //vm.updateUiState(uiState = UiState.DEFAULT)
 
-        statusReceiver = object : BroadcastReceiver() {
+/*        statusReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
 
             }
@@ -208,11 +218,11 @@ class VpnHomeFragment
 
             }
 
-        }
+        }*/
 
         getParent()?.run {
-            registerReceiver(statusReceiver, IntentFilter("de.blinkt.openvpn.VPN_STATUS"))
-            registerReceiver(trafficReceiver, IntentFilter(TotalTraffic.TRAFFIC_ACTION))
+/*            registerReceiver(statusReceiver, IntentFilter("de.blinkt.openvpn.VPN_STATUS"))
+            registerReceiver(trafficReceiver, IntentFilter(TotalTraffic.TRAFFIC_ACTION))*/
         }
     }
 
@@ -255,16 +265,16 @@ class VpnHomeFragment
     private fun processSingleSuccess(state: State, action: Action, uiItem: ServerItem) {
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
-        resolveUi(uiItem)
+        resolveUi(uiItem.item)
         vm.updateUiState(uiState = UiState.CONTENT)
 
     }
 
-    private fun resolveUi(item: ServerItem) {
+    private fun resolveUi(item: Server) {
         val cache = mapper.getServer()
         bindVpn.buttonAction.isEnabled = cache != null
-        bindVpn.viewTitle.text = item.item.countryName
-        bindVpn.viewSubtitle.text = item.item.id
+        bindVpn.viewTitle.text = item.countryName
+        bindVpn.viewSubtitle.text = item.id
     }
 
     private fun openServersUi() {

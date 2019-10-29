@@ -204,6 +204,7 @@ class Constants {
 
         object Word {
             const val COUNT_SYNCED = "count_synced"
+            const val TIME_LOAD = "time_load"
             const val TIME_SYNC = "time_sync"
             const val TIME_TRACK = "time_track"
         }

@@ -34,7 +34,7 @@ class LoadWorker(
             source = Source.FIRESTORE,
             action = Action.LOAD
         )
-        vm.request(firestoreRequest)
+        //vm.request(firestoreRequest)
         val assetsRequest = LoadRequest(
             type = Type.WORD,
             source = Source.ASSETS,

@@ -26,5 +26,6 @@ enum class Type : Parcelable {
     VPN,
     RADIO,
     STATION,
-    SERVER
+    SERVER,
+    CALL
 }

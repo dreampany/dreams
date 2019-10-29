@@ -112,6 +112,14 @@ class WordPref
         }
     }
 
+    fun commitLoadTime() {
+        setPrivately(Constants.Pref.Word.TIME_SYNC, TimeUtilKt.currentMillis())
+    }
+
+    fun getLoadTime(): Long {
+        return getPrivately(Constants.Pref.Word.TIME_SYNC, Constants.Default.LONG)
+    }
+
     fun commitSyncTime() {
         setPrivately(Constants.Pref.Word.TIME_SYNC, TimeUtilKt.currentMillis())
     }

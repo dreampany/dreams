@@ -12,7 +12,6 @@ import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -191,7 +190,7 @@ class StationsFragment
             }
         )
 
-        vm = ViewModelProviders.of(this, factory).get(StationViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(StationViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })

@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.vm
 
 import android.app.Application
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -60,19 +61,19 @@ class FeatureViewModel @Inject constructor(
             .backToMain(loadUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(request.state, request.action, true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
                 postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(request.state, request.action, MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
     }
@@ -86,19 +87,19 @@ class FeatureViewModel @Inject constructor(
             .backToMain(loadUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(request.state, request.action, true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
                 postResult(request.state, Action.GET, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(request.state, request.action, MultiException(error, ExtraException()))
             })
         addMultipleSubscription(disposable)
     }
@@ -121,16 +122,23 @@ class FeatureViewModel @Inject constructor(
 
     private fun getItemsRx(request: FeatureRequest): Maybe<List<Feature>> {
         return Maybe.create { emitter ->
-            val pairs = arrayListOf<Pair<Type, Int>>()
-            pairs.add(Pair(Type.APP, R.string.title_feature_app))
-            pairs.add(Pair(Type.NOTE, R.string.title_feature_note))
-            pairs.add(Pair(Type.WORD, R.string.title_feature_word))
-            pairs.add(Pair(Type.RADIO, R.string.title_feature_radio))
-            pairs.add(Pair(Type.VPN, R.string.title_feature_vpn))
+            val pairs = arrayListOf<Triple<Type, Subtype, Int>>()
+            pairs.add(Triple(Type.APP, Subtype.DEFAULT, R.string.title_feature_app))
+            pairs.add(Triple(Type.NOTE, Subtype.DEFAULT, R.string.title_feature_note))
+            pairs.add(Triple(Type.WORD, Subtype.DEFAULT, R.string.title_feature_word))
+            pairs.add(Triple(Type.RADIO, Subtype.DEFAULT, R.string.title_feature_radio))
+            pairs.add(Triple(Type.VPN, Subtype.DEFAULT, R.string.title_feature_vpn))
+            pairs.add(Triple(Type.VPN, Subtype.BLOCK, R.string.title_feature_call_block))
 
             val result = arrayListOf<Feature>()
             pairs.forEach { pair ->
-                result.add(Feature(pair.first, TextUtil.getString(getApplication(), pair.second)))
+                result.add(
+                    Feature(
+                        type = pair.first,
+                        subtype = pair.second,
+                        title = TextUtil.getString(getApplication(), pair.third)
+                    )
+                )
             }
             if (emitter.isDisposed) return@create
             emitter.onSuccess(result)

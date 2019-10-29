@@ -2,10 +2,7 @@ package com.dreampany.tools.api.radio
 
 import com.dreampany.tools.misc.Constants
 import retrofit2.Call
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * Created by roman on 2019-10-11
@@ -18,7 +15,7 @@ interface StationService {
     @GET(value = Constants.Api.Radio.RADIO_BROWSER_STATIONS_OF_COUNTRY)
     fun getItemsOfCountry(
         @Path(value = Constants.Station.COUNTRY_CODE) countryCode: String,
-        @Path(value = Constants.Station.LIMIT) limit: Long
+        @Query(value = Constants.Station.LIMIT) limit: Long
     ) : Call<List<RadioStation>>
 
     @GET(value = Constants.Api.Radio.RADIO_BROWSER_STATIONS_OF_TRENDS)

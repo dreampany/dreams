@@ -155,8 +155,12 @@ class LoadViewModel
 
     /*Second Layer*/
     private fun loadTracks(request: LoadRequest) {
+        val screen = configPref.getScreen(UiType.FRAGMENT)
+        val has = Constants.hasThreshold(application, screen, request.type)
+        if (!mapper.isTrackExpired(has)) {
+            return
+        }
         do {
-            val screen = configPref.getScreen(UiType.FRAGMENT)
             val threshold = Constants.getThreshold(application, screen, request.type)
             val limit = threshold * Constants.Limit.WORD_TRACK
             val startAt = wordPref.getTrackStartAt()
@@ -215,7 +219,9 @@ class LoadViewModel
             }
             AndroidUtil.sleep(100L)
         } while (network.hasInternet() && !wordPref.isTrackLoaded())
-
+        if (network.hasInternet()) {
+            mapper.commitTrackExpiredTime()
+        }
     }
 
 
@@ -281,6 +287,12 @@ class LoadViewModel
         }
 
         while (!alphaWords.isEmpty()) {
+            val screen = configPref.getScreen(UiType.FRAGMENT)
+            val has = Constants.hasThreshold(application, screen, request.type)
+            if (!mapper.isLoadExpired(has)) {
+                return
+            }
+
             val words = DataUtilKt.takeFirst(alphaWords, Constants.Count.Word.PAGE)
             if (words.isNullOrEmpty()) {
                 continue
@@ -305,6 +317,7 @@ class LoadViewModel
                 //ex.postToUi(kotlinx.coroutines.Runnable { postResult(request.action, item) })
                 AndroidUtil.sleep(100)
             }
+            mapper.commitLoadExpiredTime()
             break
         }
         if (alphaWords.isEmpty()) {

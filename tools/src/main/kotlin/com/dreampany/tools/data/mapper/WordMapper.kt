@@ -38,6 +38,16 @@ class WordMapper
     @WordItemAnnote private val uiCache: SmartCache<String, WordItem>
 ) : Mapper() {
 
+    fun commitLoadExpiredTime() {
+        pref.commitLoadTime()
+    }
+
+    fun isLoadExpired(threshold: Boolean): Boolean {
+        val lastTime = pref.getLoadTime()
+        val loadTime = getLoadTime(threshold)
+        return TimeUtil.isExpired(lastTime, loadTime)
+    }
+
     fun commitSyncExpiredTime() {
         pref.commitSyncTime()
     }
@@ -322,6 +332,14 @@ class WordMapper
             return result
         }
         return null
+    }
+
+    private fun getLoadTime(threshold: Boolean): Long {
+        if (!threshold) return Constants.Time.Word.DEAD
+        val count = pref.getSyncedCount()
+        if (count < Constants.Count.Word.FREQUENT) return Constants.Time.Word.FREQUENT
+        if (count < Constants.Count.Word.NORMAL) return Constants.Time.Word.NORMAL
+        return Constants.Time.Word.LAZY
     }
 
     private fun getSyncTime(threshold: Boolean): Long {

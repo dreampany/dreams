@@ -100,11 +100,23 @@ class VpnManager
 
     }
 
+    fun toggle(server: Server) {
+        if (isActive()) {
+            stop()
+        } else {
+            start(server)
+        }
+    }
+
     fun start(server: Server) {
         profile = loadProfile(server)
         if (profile != null) {
             startVpn(server)
         }
+    }
+
+    fun stop() {
+        stopVpn()
     }
 
     fun startOpenVpn() {
@@ -172,7 +184,7 @@ class VpnManager
     private fun receiveStatus(intent: Intent) {
         if (isActive()) {
             val statusValue = intent.getStringExtra(Constants.Vpn.STATUS)
-            val status = VpnStatus.ConnectionStatus.valueOf(statusValue);
+            val status = VpnStatus.ConnectionStatus.valueOf(statusValue)
             changeStatus(status)
         }
         try {

@@ -182,7 +182,7 @@ class VpnHomeFragment
     }
 
     override fun onStarting(server: Server) {
-        bindVpn.buttonAction.setText(R.string.vpn_connecting)
+        bindVpn.buttonAction.setText(R.string.stop)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_yellow700))
     }
 

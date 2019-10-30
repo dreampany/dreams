@@ -15,6 +15,7 @@ import de.blinkt.openvpn.core.*
 import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.InputStreamReader
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,11 +34,13 @@ class VpnManager
     interface Callback {
         fun checkVpnProfile(requestCode: Int, intent: Intent)
         fun resultOfVpn(requestCode: Int, resultCode: Int, data: Intent?)
+        fun onStarting(server: Server)
+        fun onStarted(server: Server)
+        fun onStopped(server: Server)
     }
 
     private var bound: Boolean = false
-    private var currentServer: Server? = null
-    private var connectedServer: Server? = null
+    private var server: Server? = null
     private var profile: VpnProfile? = null
     private var service: OpenVPNService? = null
 
@@ -81,7 +84,7 @@ class VpnManager
         } catch (error: Throwable) {
             Timber.e(error)
         }
-        Timber.v("Stopping Player Service")
+        Timber.v("Stopping Vpn Service")
     }
 
     fun setCallback(callback: Callback? = null) {
@@ -104,8 +107,13 @@ class VpnManager
         }
     }
 
+    fun startOpenVpn() {
+        VPNLaunchHelper.startOpenVpn(profile, context)
+    }
+
     private fun startVpn(server: Server) {
         val intent = VpnService.prepare(context)
+        this.server = server
         if (intent != null) {
             Timber.v("Starting vpn [%s]", server.id)
             VpnStatus.updateStateString(
@@ -129,8 +137,10 @@ class VpnManager
         }
     }
 
-    fun startOpenVpn() {
-        VPNLaunchHelper.startOpenVpn(profile, context)
+    private fun stopVpn() {
+        service?.management?.run {
+            stopVPN(false)
+        }
     }
 
     private fun loadProfile(server: Server): VpnProfile? {
@@ -155,16 +165,47 @@ class VpnManager
         }
     }
 
-    private fun checkStatus(): Boolean {
-        return if (connectedServer != null && connectedServer!!.host.equals(currentServer?.host)) {
-            VpnStatus.isVPNActive()
-        } else false
-
+    private fun isActive(): Boolean {
+        return VpnStatus.isVPNActive()
     }
 
     private fun receiveStatus(intent: Intent) {
-        if (checkStatus()) {
+        if (isActive()) {
+            val statusValue = intent.getStringExtra(Constants.Vpn.STATUS)
+            val status = VpnStatus.ConnectionStatus.valueOf(statusValue);
+            changeStatus(status)
+        }
+        try {
+            TimeUnit.SECONDS.sleep(1)
+            if (!VpnStatus.isVPNActive()) {
+                server?.let {
+                    callback?.onStopped(it)
+                }
+            }
+        } catch (error: InterruptedException) {
+            Timber.e(error)
+        }
 
+    }
+
+    private fun changeStatus(status: VpnStatus.ConnectionStatus) {
+        Timber.v("VPN Status %s", status)
+        when (status) {
+            VpnStatus.ConnectionStatus.LEVEL_CONNECTED -> {
+                server?.let {
+                    callback?.onStarted(it)
+                }
+            }
+            VpnStatus.ConnectionStatus.LEVEL_NOTCONNECTED -> {
+                server?.let {
+                    callback?.onStopped(it)
+                }
+            }
+            else->{
+                server?.let {
+                    callback?.onStarting(it)
+                }
+            }
         }
     }
 

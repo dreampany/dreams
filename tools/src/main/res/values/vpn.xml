@@ -418,5 +418,6 @@
     <string name="management_socket_closed">Connection to OpenVPN closed (%s)</string>
     <string name="notification_title">Super VPN - %s</string>
     <string name="servers">Servers</string>
+    <string name="vpn_connecting">Con…</string>
 
 </resources>

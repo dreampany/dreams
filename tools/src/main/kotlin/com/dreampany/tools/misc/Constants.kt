@@ -406,11 +406,13 @@ class Constants {
             const val START_VPN_PROFILE = 1
             const val OPEN_SERVER = 2
         }
+
         object Note {
             const val ADD = 1
             const val EDIT = 2
             const val VIEW = 3
         }
+
         const val SETTINGS = 5
         const val FAVORITE = 6
         const val QUIZ = 5
@@ -531,4 +533,9 @@ class Constants {
         const val DUCK_VOLUME = 40f
     }
 
+    object Vpn {
+        const val STATUS = "status"
+        const val DETAIL_STATUS = "detailstatus"
+        const val NOPROCESS = "NOPROCESS"
+    }
 }

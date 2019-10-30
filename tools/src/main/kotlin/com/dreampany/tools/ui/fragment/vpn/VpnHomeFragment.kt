@@ -166,8 +166,8 @@ class VpnHomeFragment
     override fun onClick(v: View) {
         when (v.id) {
             R.id.button_action -> {
-                mapper.getServer()?.run {
-                    vpn.start(this)
+                mapper.getServer()?.let {
+                    vpn.start(it)
                 }
             }
         }
@@ -179,6 +179,21 @@ class VpnHomeFragment
 
     override fun resultOfVpn(requestCode: Int, resultCode: Int, data: Intent?) {
         onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onStarting(server: Server) {
+        bindVpn.buttonAction.setText(R.string.vpn_connecting)
+        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_yellow700))
+    }
+
+    override fun onStarted(server: Server) {
+        bindVpn.buttonAction.setText(R.string.stop)
+        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_green700))
+    }
+
+    override fun onStopped(server: Server) {
+        bindVpn.buttonAction.setText(R.string.start)
+        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
     }
 
     private fun initUi() {
@@ -205,25 +220,6 @@ class VpnHomeFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
         //vm.updateUiState(uiState = UiState.DEFAULT)
-
-/*        statusReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-
-            }
-
-        }
-
-        trafficReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context, intent: Intent) {
-
-            }
-
-        }*/
-
-        getParent()?.run {
-/*            registerReceiver(statusReceiver, IntentFilter("de.blinkt.openvpn.VPN_STATUS"))
-            registerReceiver(trafficReceiver, IntentFilter(TotalTraffic.TRAFFIC_ACTION))*/
-        }
     }
 
     private fun processUiState(response: Response.UiResponse) {

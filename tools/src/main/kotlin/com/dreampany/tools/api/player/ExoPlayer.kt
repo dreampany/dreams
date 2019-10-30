@@ -168,7 +168,7 @@ constructor(
     }
 
     override fun onConnected() {
-        Timber.v("onConnected.")
+        Timber.v("onStarted.")
     }
 
     override fun onConnectionLost() {

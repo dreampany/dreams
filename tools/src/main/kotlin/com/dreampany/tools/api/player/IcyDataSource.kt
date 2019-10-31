@@ -10,8 +10,12 @@ import com.dreampany.tools.misc.Constants
 import com.google.android.exoplayer2.upstream.DataSpec
 import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener
-import okhttp3.*
-import okhttp3.internal.Util
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
+import okhttp3.ResponseBody
+import okhttp3.internal.closeQuietly
 import timber.log.Timber
 import java.io.IOException
 import java.io.InputStream
@@ -69,7 +73,7 @@ class IcyDataSource(
         spec = dataSpec
 
         val allowGzip = (dataSpec.flags and DataSpec.FLAG_ALLOW_GZIP) != 0
-        val url = HttpUrl.parse(dataSpec.uri.toString())
+        val url =  dataSpec.uri.toString().toHttpUrlOrNull()
         if (url == null) return -1
 
         val builder = Request.Builder()
@@ -107,10 +111,8 @@ class IcyDataSource(
             opened = false
             transferListener.onTransferEnd(this, spec, true)
         }
-        if (body != null) {
-            Util.closeQuietly(body)
-            body = null
-        }
+        body?.closeQuietly()
+        body = null
     }
 
     override fun addTransferListener(transferListener: TransferListener) {
@@ -169,16 +171,16 @@ class IcyDataSource(
         }
 
         if (!response.isSuccessful) {
-            val headers = request.headers().toMultimap()
-            throw HttpDataSource.InvalidResponseCodeException(response.code(), headers, spec)
+            val headers = request.headers.toMultimap()
+            throw HttpDataSource.InvalidResponseCodeException(response.code, headers, spec)
         }
 
-        body = response.body()
+        body = response.body
 
         if (body == null)
             return -1
 
-        headers = request.headers().toMultimap()
+        headers = request.headers.toMultimap()
         val contentType = body!!.contentType()
         val type =
             contentType?.toString()?.toLowerCase() ?: MediaUtil.getMimeType(

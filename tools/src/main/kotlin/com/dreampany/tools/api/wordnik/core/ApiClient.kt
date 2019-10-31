@@ -2,6 +2,8 @@ package com.dreampany.tools.api.wordnik.core
 
 import com.dreampany.framework.util.Json
 import okhttp3.*
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import timber.log.Timber
 import java.io.File
 
@@ -50,7 +52,7 @@ open class ApiClient(val baseUrl: String) {
     ): RequestBody {
         when {
             content is File -> return RequestBody.create(
-                MediaType.parse(mediaType), content
+                mediaType.toMediaTypeOrNull(), content
             )
             mediaType == FormDataMediaType -> {
                 var builder = FormBody.Builder()
@@ -62,7 +64,7 @@ open class ApiClient(val baseUrl: String) {
                 return builder.build()
             }
             mediaType == JsonMediaType -> return RequestBody.create(
-                MediaType.parse(mediaType), Serializer.moshi.adapter(T::class.java).toJson(content)
+                mediaType.toMediaTypeOrNull(), Serializer.moshi.adapter(T::class.java).toJson(content)
             )
             mediaType == XmlMediaType -> TODO("xml not currently supported.")
         }
@@ -109,7 +111,7 @@ open class ApiClient(val baseUrl: String) {
         requestConfig: RequestConfig,
         body: Any? = null
     ): ApiResponse<T?> {
-        val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
+        val httpUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         var urlBuilder = httpUrl.newBuilder()
             .addPathSegments(requestConfig.path.trimStart('/'))
@@ -158,29 +160,29 @@ open class ApiClient(val baseUrl: String) {
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         when {
             response.isRedirect -> return Redirection(
-                response.code(),
-                response.headers().toMultimap()
+                response.code,
+                response.headers.toMultimap()
             )
             response.isInformational -> return Informational(
-                response.message(),
-                response.code(),
-                response.headers().toMultimap()
+                response.message,
+                response.code,
+                response.headers.toMultimap()
             )
             response.isSuccessful -> return Success(
-                responseBody(response.body(), accept),
-                response.code(),
-                response.headers().toMultimap()
+                responseBody(response.body, accept),
+                response.code,
+                response.headers.toMultimap()
             )
             response.isClientError -> return ClientError(
-                response.body()?.string(),
-                response.code(),
-                response.headers().toMultimap()
+                response.body?.string(),
+                response.code,
+                response.headers.toMultimap()
             )
             else -> return ServerError(
                 null,
-                response.body()?.string(),
-                response.code(),
-                response.headers().toMultimap()
+                response.body?.string(),
+                response.code,
+                response.headers.toMultimap()
             )
         }
     }
@@ -189,7 +191,8 @@ open class ApiClient(val baseUrl: String) {
         requestConfig: RequestConfig,
         body: Any? = null
     ): ApiResponse<List<T>?> {
-        val httpUrl = HttpUrl.parse(baseUrl) ?: throw IllegalStateException("baseUrl is invalid.")
+        val httpUrl =
+            baseUrl.toHttpUrlOrNull() ?: throw IllegalStateException("baseUrl is invalid.")
 
         var urlBuilder = httpUrl.newBuilder()
             .addPathSegments(requestConfig.path.trimStart('/'))
@@ -238,29 +241,29 @@ open class ApiClient(val baseUrl: String) {
         // TODO: handle specific mapping types. e.g. Map<int, Class<?>>
         when {
             response.isRedirect -> return Redirection(
-                response.code(),
-                response.headers().toMultimap()
+                response.code,
+                response.headers.toMultimap()
             )
             response.isInformational -> return Informational(
-                response.message(),
-                response.code(),
-                response.headers().toMultimap()
+                response.message,
+                response.code,
+                response.headers.toMultimap()
             )
             response.isSuccessful -> return Success(
-                responseBodyOfList(response.body(), accept),
-                response.code(),
-                response.headers().toMultimap()
+                responseBodyOfList(response.body, accept),
+                response.code,
+                response.headers.toMultimap()
             )
             response.isClientError -> return ClientError(
-                response.body()?.string(),
-                response.code(),
-                response.headers().toMultimap()
+                response.body?.string(),
+                response.code,
+                response.headers.toMultimap()
             )
             else -> return ServerError(
                 null,
-                response.body()?.string(),
-                response.code(),
-                response.headers().toMultimap()
+                response.body?.string(),
+                response.code,
+                response.headers.toMultimap()
             )
         }
     }

@@ -1,10 +1,6 @@
 package com.dreampany.tools.ui.fragment.vpn
 
-import android.app.Activity
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
@@ -21,7 +17,6 @@ import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.ContentVpnHomeBinding
@@ -32,7 +27,6 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.ServerViewModel
-import com.dreampany.tools.util.TotalTraffic
 import cz.kinst.jakub.view.StatefulLayout
 import timber.log.Timber
 import javax.inject.Inject
@@ -60,8 +54,7 @@ class VpnHomeFragment
 
     private lateinit var vm: ServerViewModel
 
-/*    private lateinit var statusReceiver: BroadcastReceiver
-    private lateinit var trafficReceiver: BroadcastReceiver*/
+    private var server: Server? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_vpn_home
@@ -138,11 +131,11 @@ class VpnHomeFragment
                 data?.run {
                     val task = getCurrentTask<UiTask<Server>>(this)
                     task?.run {
-                        val server = task.input
-                        server?.run {
+                        task.input?.run {
                             Timber.v("Selected Server %s", this.id)
                             mapper.setServer(this)
-                            resolveUi(this)
+                            server = this
+                            resolveUi()
                             vpn.start(this)
                         }
 
@@ -166,7 +159,7 @@ class VpnHomeFragment
     override fun onClick(v: View) {
         when (v.id) {
             R.id.button_action -> {
-                mapper.getServer()?.let {
+                server?.let {
                     vpn.start(it)
                 }
             }
@@ -261,16 +254,23 @@ class VpnHomeFragment
     private fun processSingleSuccess(state: State, action: Action, uiItem: ServerItem) {
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
-        resolveUi(uiItem.item)
+        server = uiItem.item
+        resolveUi()
         vm.updateUiState(uiState = UiState.CONTENT)
 
     }
 
-    private fun resolveUi(item: Server) {
-        val cache = mapper.getServer()
-        bindVpn.buttonAction.isEnabled = cache != null
-        bindVpn.viewTitle.text = item.countryName
-        bindVpn.viewSubtitle.text = item.id
+    private fun resolveUi() {
+        bindVpn.buttonAction.isEnabled = server != null
+        if (server != null) {
+            bindVpn.viewTitle.text = server!!.countryName
+            bindVpn.viewSubtitle.text = server!!.id
+            bindVpn.viewTitle.visibility = View.VISIBLE
+            bindVpn.viewSubtitle.visibility = View.VISIBLE
+        } else {
+            bindVpn.viewTitle.visibility = View.GONE
+            bindVpn.viewSubtitle.visibility = View.GONE
+        }
     }
 
     private fun openServersUi() {

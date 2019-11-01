@@ -133,7 +133,7 @@ class ServerRepository
         return Maybe.create { emitter ->
             var result: List<Server>? = null
             var cache = mapper.getServer()
-            if (mapper.isExpired() || cache == null) {
+            if (mapper.isExpired() /*|| cache == null*/) {
                 result = remote.getItems()
             }
             if (emitter.isDisposed) return@create
@@ -141,15 +141,17 @@ class ServerRepository
                 emitter.onError(EmptyException())
             } else {
                 //extra work to save result
-                room.putItems(result!!)
-                mapper.commitExpireTime()
-                val random =
-                    if (cache != null) cache else getHighRandomItem(result!!)
-                if (random == null) {
+                if (!result.isNullOrEmpty()) {
+                    room.putItems(result)
+                    mapper.commitExpireTime()
+                    cache = getHighRandomItem(result)
+                }
+
+                if (cache == null) {
                     emitter.onError(EmptyException())
                 } else {
-                    mapper.setServer(random)
-                    emitter.onSuccess(random)
+                    mapper.setServer(cache)
+                    emitter.onSuccess(cache)
                 }
             }
         }
@@ -166,8 +168,7 @@ class ServerRepository
             if (result.isNullOrEmpty() && cache == null) {
                 emitter.onError(EmptyException())
             } else {
-                val random =
-                    if (cache != null) cache else getHighRandomItem(result!!)
+                val random = if (cache != null) cache else getHighRandomItem(result!!)
                 if (random == null) {
                     emitter.onError(EmptyException())
                 } else {

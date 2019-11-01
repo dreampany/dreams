@@ -85,7 +85,7 @@ class VpnHomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         vpn.setCallback(this)
-        request(state = State.RANDOM, single = true)
+        request(state = State.RANDOM, single = true, progress = true)
     }
 
     override fun onStopUi() {
@@ -116,6 +116,15 @@ class VpnHomeFragment
             boundService = false
             getParent()?.unbindService(connection)
         }*/
+    }
+
+    override fun onRefresh() {
+        super.onRefresh()
+        if (server == null) {
+            request(state = State.RANDOM, single = true, progress = true)
+        } else {
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

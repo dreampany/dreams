@@ -198,6 +198,10 @@ class VpnHomeFragment
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
     }
 
+    override fun onLog(log: String?) {
+        bindVpn.viewLog.text = log
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentVpnHomeBinding
         bindStatus = bind.layoutTopStatus

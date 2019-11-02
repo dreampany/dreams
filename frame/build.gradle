@@ -298,6 +298,7 @@ dependencies {
     api ('com.klinkerapps:link_builder:2.0.5') {
         exclude group: 'org.jetbrains.kotlin'
     }
+    api 'mbanje.kurt:fabbutton:1.2.4@aar'
     //api 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
 
     /* JAX-B dependencies for JDK 9+ */

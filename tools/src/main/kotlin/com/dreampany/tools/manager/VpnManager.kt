@@ -37,6 +37,7 @@ class VpnManager
         fun onStarting(server: Server)
         fun onStarted(server: Server)
         fun onStopped(server: Server)
+        fun onLog(log: String?)
     }
 
     private var bound: Boolean = false
@@ -185,6 +186,8 @@ class VpnManager
         if (isActive()) {
             val statusValue = intent.getStringExtra(Constants.Vpn.STATUS)
             val status = VpnStatus.ConnectionStatus.valueOf(statusValue)
+            val log = VpnStatus.getLastCleanLogMessage(context)
+            callback?.onLog(log)
             changeStatus(status)
         }
         try {
@@ -213,7 +216,7 @@ class VpnManager
                     callback?.onStopped(it)
                 }
             }
-            else->{
+            else -> {
                 server?.let {
                     callback?.onStarting(it)
                 }

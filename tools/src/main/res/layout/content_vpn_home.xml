@@ -17,45 +17,56 @@
         android:background="@color/material_grey200">
 
 
-        <view
-            android:id="@+id/button_action"
-            class="mbanje.kurt.fabbutton.FabButton"
-            android:layout_width="@dimen/button_size"
-            android:layout_height="@dimen/button_size"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_80sdp"
-            android:color="#ff6e9cff"
-            android:indeterminate="false"
-            android:max="100"
-            auto:srcCompat="@drawable/ic_play_circle_filled_black_24dp"
-            android:visibility="visible"
-            auto:fbb_autoStart="true"
-            auto:fbb_endBitmap="@drawable/ic_pause_circle_filled_black_24dp"
-            auto:fbb_progressColor="#ff170aff"
-            auto:fbb_progressWidthRatio="0.1"
-            auto:fbb_showEndBitmap="true"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent" />
-        <!--        <com.github.nikartm.button.FitButton
+        <!--        <mbanje.kurt.fabbutton.FabButton
                     android:id="@+id/button_action"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_width="@dimen/button_size"
+                    android:layout_height="@dimen/button_size"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_80sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:enabled="false"
-                    android:gravity="center"
-                    auto:fb_backgroundColor="@color/material_red700"
-                    auto:fb_cornerRadius="@dimen/_2sdp"
-                    auto:fb_shape="circle"
-                    auto:fb_text="@string/start"
-                    auto:fb_textColor="@color/material_white"
-                    auto:fb_textSize="@dimen/_22ssp"
+                    android:clickable="true"
+                    android:color="#ff6e9cff"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:visibility="visible"
+                    auto:fbb_autoStart="true"
+                    auto:fbb_endBitmap="@drawable/ic_pause_circle_filled_black_24dp"
+                    auto:fbb_progressColor="@color/colorAccent"
+                    auto:fbb_progressWidthRatio="0.1"
+                    auto:fbb_showEndBitmap="true"
                     auto:layout_constraintEnd_toEndOf="parent"
                     auto:layout_constraintStart_toStartOf="parent"
                     auto:layout_constraintTop_toTopOf="parent"
-                    tools:visibility="visible" />-->
+                    auto:srcCompat="@drawable/ic_play_circle_filled_black_24dp" />-->
+
+        <com.github.nikartm.button.FitButton
+            android:id="@+id/button_action"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:enabled="false"
+            android:gravity="center"
+            auto:fb_backgroundColor="@color/material_red700"
+            auto:fb_cornerRadius="@dimen/_2sdp"
+            auto:fb_shape="circle"
+            auto:fb_text="@string/start"
+            auto:fb_textColor="@color/material_white"
+            auto:fb_textSize="@dimen/_22ssp"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:layout_width="wrap_content" android:id="@+id/progress_bar"
+            android:layout_height="wrap_content" android:visibility="gone"
+            android:indeterminate="true"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toTopOf="parent"
+            auto:mpb_progressStyle="circular"
+            style="@style/Widget.MaterialProgressBar.ProgressBar" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/view_title"

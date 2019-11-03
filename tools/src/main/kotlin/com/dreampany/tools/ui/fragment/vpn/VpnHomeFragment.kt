@@ -169,7 +169,7 @@ class VpnHomeFragment
         when (v.id) {
             R.id.button_action -> {
                 server?.let {
-                    vpn.start(it)
+                    vpn.toggle(it)
                 }
             }
         }
@@ -184,16 +184,24 @@ class VpnHomeFragment
     }
 
     override fun onStarting(server: Server) {
-        bindVpn.buttonAction.setText(R.string.stop)
-        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_yellow700))
+        bindVpn.buttonAction.visibility = View.INVISIBLE
+        //bindVpn.progressBar.visibility = View.VISIBLE
+        //bindVpn.buttonAction.showProgress(true)
+        //bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_yellow700))
     }
 
     override fun onStarted(server: Server) {
+        //bindVpn.progressBar.visibility = View.GONE
+        bindVpn.buttonAction.visibility = View.VISIBLE
+        //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.stop)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_green700))
     }
 
     override fun onStopped(server: Server) {
+        //bindVpn.progressBar.visibility = View.GONE
+        bindVpn.buttonAction.visibility = View.VISIBLE
+        //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.start)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
     }

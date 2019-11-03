@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleImageView">
+        <attr name="android:src" />
+        <attr name="android:color" />
+        <attr name="android:indeterminate"/>
+        <attr name="android:progress"/>
+        <attr name="android:max"/>
+        <attr name="android:shadowDx"/>
+        <attr name="android:shadowDy"/>
+        <attr name="android:shadowRadius"/>
+        <attr name="android:shadowColor"/>
+        <attr name="android:indeterminateDuration"/>
+        <attr name="fb_progressColor" format="reference|color"/>
+        <attr name="fb_autoStart" format="boolean" />
+        <attr name="fb_animSteps" format="integer" />
+        <attr name="fb_progressWidthRatio" format="float" />
+        <attr name="fb_endBitmap" format="reference" />
+        <attr name="fb_showEndBitmap" format="boolean" />
+        <attr name="fb_hideProgressOnComplete" format="boolean" />
+        <attr name="fb_showShadow" format="boolean" />
+    </declare-styleable>
+</resources>

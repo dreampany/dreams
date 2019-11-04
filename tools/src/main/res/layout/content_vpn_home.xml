@@ -14,7 +14,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/material_grey200">
+        android:background="@color/material_grey200"
+        android:paddingStart="@dimen/_20sdp"
+        android:paddingEnd="@dimen/_20sdp">
 
 
         <!--        <mbanje.kurt.fabbutton.FabButton
@@ -44,7 +46,6 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginTop="@dimen/_80sdp"
-            android:layout_marginEnd="@dimen/_5sdp"
             android:enabled="false"
             android:gravity="center"
             auto:fb_backgroundColor="@color/material_red700"
@@ -59,14 +60,16 @@
             tools:visibility="visible" />
 
         <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:layout_width="wrap_content" android:id="@+id/progress_bar"
-            android:layout_height="wrap_content" android:visibility="gone"
+            android:id="@+id/progress_bar"
+            style="@style/Widget.MaterialProgressBar.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:indeterminate="true"
+            android:visibility="gone"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent"
-            auto:mpb_progressStyle="circular"
-            style="@style/Widget.MaterialProgressBar.ProgressBar" />
+            auto:mpb_progressStyle="circular" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/view_title"
@@ -100,9 +103,7 @@
             android:id="@+id/view_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
-            android:layout_marginEnd="@dimen/_20sdp"
             android:drawablePadding="@dimen/_5sdp"
             android:text="@string/empty"
             android:textColor="@color/material_grey800"

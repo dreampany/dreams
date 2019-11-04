@@ -97,6 +97,8 @@ class VpnHomeFragment
 
     override fun onResume() {
         super.onResume()
+        vpn.bind()
+        vpn.resolveVpn()
 /*        background = false
 
         val intent = Intent(context, OpenVPNService::class.java)
@@ -204,6 +206,7 @@ class VpnHomeFragment
         //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.start)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
+        bindVpn.viewLog.text = null
     }
 
     override fun onLog(log: String?) {

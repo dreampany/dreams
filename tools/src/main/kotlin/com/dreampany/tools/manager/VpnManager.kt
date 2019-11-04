@@ -60,14 +60,15 @@ class VpnManager
 
     fun bind() {
         if (bound) return
-        val intent = Intent(context, PlayerService::class.java)
-        context.startService(intent)
-        context.bindService(intent, this, Context.BIND_AUTO_CREATE)
-        bound = true
+        val intent = Intent(context, OpenVPNService::class.java)
+        intent.action = OpenVPNService.START_SERVICE
+        //context.startService(intent)
+        bound = context.bindService(intent, this, Context.BIND_AUTO_CREATE)
         Timber.v("Bind OpenVpn Service")
     }
 
     fun debind() {
+        if (!bound) return
         try {
             context.unbindService(this)
         } catch (error: Throwable) {
@@ -122,6 +123,25 @@ class VpnManager
 
     fun startOpenVpn() {
         VPNLaunchHelper.startOpenVpn(profile, context)
+    }
+
+    fun resolveVpn() {
+        if (isActive()) {
+            try {
+                TimeUnit.SECONDS.sleep(1)
+            } catch (error: InterruptedException) {
+                Timber.e(error)
+            }
+            if (isActive()) {
+                server?.let {
+                    callback?.onStarted(it)
+                }
+                return
+            }
+        }
+        server?.let {
+            callback?.onStopped(it)
+        }
     }
 
     private fun startVpn(server: Server) {

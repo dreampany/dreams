@@ -112,6 +112,7 @@ class VpnHomeFragment
     }
 
     override fun onPause() {
+        vpn.debind()
         super.onPause()
 /*        background = true
         if (boundService) {
@@ -186,15 +187,15 @@ class VpnHomeFragment
     }
 
     override fun onStarting(server: Server) {
-        bindVpn.buttonAction.visibility = View.INVISIBLE
+        //bindVpn.buttonAction.visibility = View.INVISIBLE
         //bindVpn.progressBar.visibility = View.VISIBLE
         //bindVpn.buttonAction.showProgress(true)
-        //bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_yellow700))
+        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_yellow700))
     }
 
     override fun onStarted(server: Server) {
         //bindVpn.progressBar.visibility = View.GONE
-        bindVpn.buttonAction.visibility = View.VISIBLE
+       // bindVpn.buttonAction.visibility = View.VISIBLE
         //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.stop)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_green700))
@@ -202,7 +203,7 @@ class VpnHomeFragment
 
     override fun onStopped(server: Server) {
         //bindVpn.progressBar.visibility = View.GONE
-        bindVpn.buttonAction.visibility = View.VISIBLE
+        //bindVpn.buttonAction.visibility = View.VISIBLE
         //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.start)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
@@ -237,6 +238,7 @@ class VpnHomeFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
         //vm.updateUiState(uiState = UiState.DEFAULT)
+
     }
 
     private fun processUiState(response: Response.UiResponse) {
@@ -291,6 +293,7 @@ class VpnHomeFragment
             bindVpn.viewSubtitle.text = server!!.id
             bindVpn.viewTitle.visibility = View.VISIBLE
             bindVpn.viewSubtitle.visibility = View.VISIBLE
+            bindVpn.viewLog.text = vpn.lastLog()
         } else {
             bindVpn.viewTitle.visibility = View.GONE
             bindVpn.viewSubtitle.visibility = View.GONE

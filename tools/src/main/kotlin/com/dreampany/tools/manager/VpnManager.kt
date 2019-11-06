@@ -144,6 +144,10 @@ class VpnManager
         }
     }
 
+    fun lastLog() : String  {
+        return VpnStatus.getLastCleanLogMessage(context)
+    }
+
     private fun startVpn(server: Server) {
         val intent = VpnService.prepare(context)
         this.server = server

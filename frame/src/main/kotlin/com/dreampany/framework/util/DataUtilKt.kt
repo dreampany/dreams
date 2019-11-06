@@ -7,6 +7,7 @@ import com.google.common.base.Strings
 import com.google.common.hash.Hashing
 import com.google.common.io.Files
 import org.apache.commons.lang3.StringUtils
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.nio.ByteBuffer
@@ -145,12 +146,17 @@ class DataUtilKt {
 
         @Synchronized
         fun <T> removeAll(list: MutableList<T>, sub: MutableList<T>?): MutableList<T>? {
-            /*sub?.run {
-                list.removeAll(this)
-            }*/
-            sub?.forEach {
-                list.remove(it)
+            try {
+                sub?.run {
+                    list.removeAll(this)
+                }
+            } catch (error : ArrayIndexOutOfBoundsException) {
+                Timber.e(error)
             }
+
+/*            sub?.forEach {
+                list.remove(it)
+            }*/
             return list
         }
 

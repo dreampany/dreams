@@ -16,8 +16,6 @@ import android.view.View
 import androidx.annotation.AttrRes
 import androidx.appcompat.widget.AppCompatImageView
 import com.dreampany.framework.R
-import mbanje.kurt.fabbutton.CircleImageView.OnFabViewListener
-
 
 /**
  * Created by roman on 2019-11-02
@@ -26,6 +24,11 @@ import mbanje.kurt.fabbutton.CircleImageView.OnFabViewListener
  * Last modified $file.lastModified
  */
 class CircleImageView : AppCompatImageView {
+
+    interface OnFabViewListener {
+        fun onProgressVisibilityChanged(visible: Boolean)
+        fun onProgressCompleted()
+    }
 
     private val animationDuration = 200
 

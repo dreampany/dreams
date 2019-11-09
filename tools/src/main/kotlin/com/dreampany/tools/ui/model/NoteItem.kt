@@ -36,7 +36,7 @@ private constructor(
     item: Note,
     @LayoutRes layoutId: Int = Constants.Default.INT,
     private var clickListener: OnClickListener? = Constants.Default.NULL
-) : BaseItem<Note, NoteItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem< NoteItem.ViewHolder, Note,String>(item, layoutId) {
 
     interface OnClickListener {
         fun onItemClicked(item: Note)
@@ -136,7 +136,7 @@ private constructor(
             //buttonFavorite.setOnClickListener(this.adapter.clickListener)
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>> bind(
             position: Int,
             item: I
         ) {

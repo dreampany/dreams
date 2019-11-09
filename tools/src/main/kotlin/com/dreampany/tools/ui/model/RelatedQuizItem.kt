@@ -34,7 +34,7 @@ class RelatedQuizItem
 private constructor(
     item: RelatedQuiz,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<RelatedQuiz, RelatedQuizItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem< RelatedQuizItem.ViewHolder,RelatedQuiz, String>(item, layoutId) {
 
     private var color: Color
     private var optionItems: ArrayList<QuizOptionItem>? = Constants.Default.NULL
@@ -146,7 +146,7 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>>
                 bind(position: Int, item: I) {
             val uiItem = item as RelatedQuizItem
             val item = uiItem.item

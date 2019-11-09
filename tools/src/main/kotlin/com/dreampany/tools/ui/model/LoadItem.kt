@@ -22,7 +22,7 @@ class LoadItem
 private constructor(
     item: Load,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<Load, LoadItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem< LoadItem.ViewHolder,Load, String>(item, layoutId) {
 
     companion object {
         fun getItem(item: Load): LoadItem {
@@ -57,7 +57,7 @@ private constructor(
         adapter: FlexibleAdapter<*>
     ) : BaseItem.ViewHolder(view, adapter) {
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>> bind(
             position: Int,
             item: I
         ) {

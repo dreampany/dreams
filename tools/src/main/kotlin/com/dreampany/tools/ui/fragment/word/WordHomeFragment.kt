@@ -68,8 +68,6 @@ class WordHomeFragment
 @Inject constructor() : BaseMenuFragment(),
     SmartAdapter.Callback<WordItem>,
     SmartAdapter.OnUiItemClickListener<WordItem, Action>,
-/*    MaterialSearchView.OnQueryTextListener,
-    MaterialSearchView.SearchViewListener,*/
     SimpleSearchView.OnQueryTextListener,
     SimpleSearchView.SearchViewListener,
     OnMenuItemClickListener<PowerMenuItem>,

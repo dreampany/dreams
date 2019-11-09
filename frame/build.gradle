@@ -181,7 +181,7 @@ dependencies {
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
     api 'com.google.firebase:firebase-core:17.2.1'
     api 'com.google.firebase:firebase-appindexing:19.0.0'
-    api 'com.google.firebase:firebase-ads:18.2.0'
+    api 'com.google.firebase:firebase-ads:18.3.0'
     api 'com.google.firebase:firebase-messaging:20.0.0'
     api 'com.google.firebase:firebase-auth:19.1.0'
     api 'com.google.firebase:firebase-database:19.2.0'

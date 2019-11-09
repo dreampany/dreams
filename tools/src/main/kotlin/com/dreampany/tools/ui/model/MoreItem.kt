@@ -27,7 +27,7 @@ class MoreItem
 private constructor(
     item: More,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<More, MoreItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem< MoreItem.ViewHolder, More,String>(item, layoutId) {
 
     companion object {
         fun getItem(item: More): MoreItem {
@@ -59,7 +59,7 @@ private constructor(
             title = view.findViewById(R.id.title)
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>>
                 bind(position: Int, item: I) {
             val moreItem = item as MoreItem
             val more = moreItem.item

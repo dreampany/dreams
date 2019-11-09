@@ -7,6 +7,7 @@
     <string name="title_feature_note">Keep Notes</string>
     <string name="title_feature_radio">Smart Radio</string>
     <string name="title_feature_call_block">Call Blocker</string>
+    <string name="title_feature_english">Learn English</string>
 
     <string name="select_language">Select Language</string>
     <string name="format_level">L: %s</string>

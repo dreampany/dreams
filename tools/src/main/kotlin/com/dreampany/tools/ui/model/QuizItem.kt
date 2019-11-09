@@ -30,7 +30,7 @@ class QuizItem
 private constructor(
     item: Quiz,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<Quiz, QuizItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem<QuizItem.ViewHolder, Quiz, String>(item, layoutId) {
 
     var color: Int = 0
 
@@ -76,12 +76,13 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as QuizItem
             val item = uiItem.item
             val subtype = item.subtype
-            val drawable = TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
+            val drawable =
+                TextDrawable.builder().buildRound(TextUtilKt.getFirst(item.title), uiItem.color)
             imageIcon.setImageDrawable(drawable)
             textTitle.text = item.title
         }

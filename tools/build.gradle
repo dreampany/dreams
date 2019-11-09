@@ -103,6 +103,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    aaptOptions {
+        noCompress 'tflite' //firebase-ml-natural-language-smart-reply-model
+    }
+
     lintOptions {
         //checkReleaseBuilds false
         //abortOnError false
@@ -149,6 +153,9 @@ dependencies {
     /* androidx arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc01'
     kapt 'androidx.room:room-compiler:2.2.1'
+
+    /* firebase */
+    implementation 'com.google.firebase:firebase-ml-natural-language-smart-reply-model:20.0.7'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.25.2'

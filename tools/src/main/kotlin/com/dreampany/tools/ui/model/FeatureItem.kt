@@ -30,7 +30,7 @@ import java.io.Serializable
 class FeatureItem private constructor(
     item: Feature,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<Feature, FeatureItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem< FeatureItem.ViewHolder, Feature, String>(item, layoutId) {
 
     var color: Int = 0
     var order: Int = 0
@@ -101,7 +101,7 @@ class FeatureItem private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
             position: Int,
             item: I
         ) {

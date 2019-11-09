@@ -1,3 +1,4 @@
+/*
 package com.dreampany.tools.ui.model
 
 import android.view.View
@@ -8,32 +9,30 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.TextMessage
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.WordAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
 
+*/
 /**
  * Created by Roman-372 on 7/17/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
-class WordItem
-private constructor(
-    item: Word,
-    @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<WordItem.ViewHolder, Word, String>(item, layoutId) {
+ *//*
 
-    var recent: Boolean = false
-    val translations: MutableMap<String, String> = mutableMapOf()
-    var translation: String? = null
+class TextMessageItem
+private constructor(
+    item: TextMessage,
+    @LayoutRes layoutId: Int = Constants.Default.INT
+) : MessageItem<TextMessage, TextMessageItem.ViewHolder, String>(item, layoutId) {
 
     companion object {
-        fun getItem(item: Word): WordItem {
-            return WordItem(item, R.layout.item_word)
+        fun getItem(item: TextMessage): TextMessageItem {
+            return TextMessageItem(item, R.layout.item_text_message_out)
         }
     }
 
@@ -45,29 +44,11 @@ private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.id.contains(constraint, true)
-    }
-
-    fun hasTranslation(language: String?): Boolean {
-        if (language == null) {
-            return false
-        }
-        return translations.containsKey(language)
-    }
-
-    fun addTranslation(language: String, translatedWord: String) {
-        translations.put(language, translatedWord)
-    }
-
-    fun getTranslationBy(language: String?): String? {
-        if (hasTranslation(language)) {
-            return translations.get(language)
-        }
-        return null
+        return item.text.contains(constraint, true)
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
-        BaseItem.ViewHolder(view, adapter) {
+        MessageItem.ViewHolder(view, adapter) {
 
         private var adapter: WordAdapter
         private var viewWord: TextView
@@ -89,14 +70,10 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
                 bind(position: Int, item: I) {
-            val uiItem = item as WordItem
+            val uiItem = item as TextMessageItem
             val item = uiItem.item
-
-            viewWord.text = item.id
-            viewPartOfSpeech.setText(item.getPartOfSpeech())
-            viewPronunciation.setText(item.pronunciation)
         }
     }
-}
+}*/

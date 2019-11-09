@@ -32,7 +32,7 @@ private constructor(
     item: QuizOption,
     @LayoutRes layoutId: Int = Constants.Default.INT,
     var state: State = State.DEFAULT
-) : BaseItem<QuizOption, QuizOptionItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem<QuizOptionItem.ViewHolder, QuizOption, String>(item, layoutId) {
 
     var color: Color
 
@@ -80,7 +80,7 @@ private constructor(
             this.adapter = adapter as QuizOptionAdapter
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
                 bind(position: Int, item: I) {
             uiItem = item as QuizOptionItem
             this.item = uiItem.item
@@ -105,7 +105,7 @@ private constructor(
             textTitle = view.findViewById(R.id.text_title)
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
             position: Int,
             item: I
         ) {
@@ -134,7 +134,7 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
             position: Int,
             item: I
         ) {

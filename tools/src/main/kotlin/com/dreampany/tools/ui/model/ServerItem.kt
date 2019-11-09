@@ -29,7 +29,7 @@ class ServerItem
 private constructor(
     item: Server,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<Server, ServerItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem< ServerItem.ViewHolder,Server, String>(item, layoutId) {
 
     companion object {
         fun getItem(item: Server): ServerItem {
@@ -82,7 +82,7 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>>
                 bind(position: Int, item: I) {
             val uiItem = item as ServerItem
             val item = uiItem.item

@@ -25,7 +25,7 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(
+abstract class BaseItem<VH : BaseItem.ViewHolder, T : Base, S : Serializable>(
     var item: T,
     @LayoutRes var layoutId: Int = Constants.Default.INT
 ) : AbstractFlexibleItem<VH>(), IFilterable<S>, Serializable {
@@ -39,7 +39,7 @@ abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as BaseItem<T, VH, S>
+        val item = other as BaseItem<VH, T, S>
         return Objects.equal(this.item, item.item)
     }
 
@@ -96,7 +96,7 @@ abstract class BaseItem<T : Base, VH : BaseItem.ViewHolder, S : Serializable>(
             return ColorUtil.getColor(getContext(), resId)
         }
 
-        abstract fun <VH : ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+        abstract fun <VH : ViewHolder, T : Base, S : Serializable , I : BaseItem<VH, T, S>> bind(
             position: Int,
             item: I
         )

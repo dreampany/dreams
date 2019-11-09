@@ -27,5 +27,6 @@ enum class Type : Parcelable {
     RADIO,
     STATION,
     SERVER,
-    CALL
+    CALL,
+    ENGLISH
 }

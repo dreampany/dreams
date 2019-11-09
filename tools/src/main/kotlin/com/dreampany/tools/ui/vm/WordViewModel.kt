@@ -269,7 +269,9 @@ class WordViewModel
 
     private fun getUiItem(request: WordRequest, store: Store): WordItem {
         val word = mapper.getItem(store, repo)
-        return getUiItem(request, word!!)
+        val item = getUiItem(request, word!!)
+        item.time = store.time
+        return item
     }
 
     private fun adjustFavorite(word: Word, item: WordItem) {

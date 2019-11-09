@@ -86,7 +86,7 @@ class WordAdapter(listener: Any? = null) : SmartAdapter<WordItem>(listener) {
         override fun compare(p0: IFlexible<*>?, p1: IFlexible<*>?): Int {
             val left = p0 as WordItem
             val right = p1 as WordItem
-            return (right.time - left.time).toInt()
+            return (left.time - right.time).toInt()
         }
     }
 

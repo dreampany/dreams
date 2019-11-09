@@ -199,7 +199,13 @@ class WordHomeFragment
 
     override fun onRefresh() {
         if (Constants.Cache.Word.HISTORY || adapter.isEmpty) {
-            request(state = State.HISTORY, action = Action.GET, single = false, progress = true, limit = Constants.Limit.Word.HISTORY)
+            request(
+                state = State.HISTORY,
+                action = Action.GET,
+                single = false,
+                progress = true,
+                limit = Constants.Limit.Word.HISTORY
+            )
             Constants.Cache.Word.HISTORY = false
         } else {
             vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
@@ -338,7 +344,7 @@ class WordHomeFragment
                     action = Action.SEARCH,
                     history = true,
                     single = true,
-                    progress = false
+                    progress = true
                 )
             }
         }
@@ -621,6 +627,7 @@ class WordHomeFragment
 
         if (item.item.hasWeight()) {
             adapter.addItemOfHistory(item)
+            bindRecycler.recycler.smoothScrollToPosition(0)
 /*            bind.setItem(item)
             bindWord.layoutWord.visibility = View.VISIBLE
             if (item.translation.isNullOrEmpty()) {
@@ -835,6 +842,9 @@ class WordHomeFragment
             input = item
         )
         openActivity(ToolsActivity::class.java, task)
+        getParent()?.run {
+            AndroidUtil.hideSoftInput(this)
+        }
     }
 
     private fun openOcr() {

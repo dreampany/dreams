@@ -338,8 +338,12 @@ class LoadViewModel
     private fun buildAlphaWords() {
         if (alphaWords.size != Constants.Count.Word.ALPHA) {
             val words = repo.getAlphaItems()
-            alphaWords.clear()
-            alphaWords.addAll(words!!)
+            try {
+                alphaWords.clear()
+                alphaWords.addAll(words!!)
+            } catch (error : Throwable) {
+                Timber.e(error)
+            }
         }
     }
 

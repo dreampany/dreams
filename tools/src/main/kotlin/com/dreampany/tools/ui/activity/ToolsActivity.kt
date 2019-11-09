@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -15,6 +16,7 @@ import com.dreampany.tools.databinding.ActivityCollapseToolsBinding
 import com.dreampany.tools.databinding.ActivityToolsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.*
+import com.dreampany.tools.ui.fragment.app.AppHomeFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
@@ -22,8 +24,8 @@ import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment
 import com.dreampany.tools.ui.fragment.vpn.VpnHomeFragment
 import com.dreampany.tools.ui.fragment.word.*
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.google.android.gms.ads.AdView
-import com.miguelcatalan.materialsearchview.MaterialSearchView
 import dagger.Lazy
 import javax.inject.Inject
 
@@ -296,7 +298,11 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
         super.onPause()
     }
 
-    override fun getSearchView(): MaterialSearchView {
+/*    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }*/
+
+    override fun getSearchView(): SimpleSearchView {
         val uiTask = getCurrentTask<UiTask<*>>(true)
         if (uiTask != null && uiTask.collapseToolbar) {
             return collapseBind.searchView

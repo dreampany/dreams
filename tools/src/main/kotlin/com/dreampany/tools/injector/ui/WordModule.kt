@@ -37,4 +37,8 @@ abstract class WordModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun relatedQuizFragment(): RelatedQuizFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun searchWordFragment(): SearchWordFragment
 }

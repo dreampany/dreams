@@ -1,5 +1,6 @@
 package com.dreampany.framework.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
@@ -200,6 +201,11 @@ abstract class BaseActivity :
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        currentFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onBackPressed() {

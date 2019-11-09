@@ -10,7 +10,7 @@
 
     <string name="select_language">Select Language</string>
     <string name="format_level">L: %s</string>
-    <string name="format_quiz_point">Point: %d / %d</string>
-    <string name="format_quiz_count">Quiz: %d / %d</string>
+    <string name="format_quiz_point" formatted="false">Point: %d / %d</string>
+    <string name="format_quiz_count" formatted="false">Quiz: %d / %d</string>
 
 </resources>

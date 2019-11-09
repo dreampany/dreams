@@ -6,7 +6,7 @@
     <string name="subtitle_favorite_words" translatable="false">Total: %d</string>
 
     <string name="title_definitions">Definitions</string>
-    <string name="word_vision">%s (%s)\n%s</string>
+    <string name="word_vision" formatted="false">%s (%s)\n%s</string>
 
     <string name="synonyms">Synonyms: %s</string>
     <string name="antonyms">Antonyms: %s</string>
@@ -21,9 +21,9 @@
     <string name="antonym_quiz">Antonym Quiz</string>
 
     <string name="notify_title_word_sync">New Word</string>
-    <string name="notify_word_translation_format">%s (%s)</string>
-    <string name="notify_word_format">%s (%s)</string>
+    <string name="notify_word_translation_format" formatted="false">%s (%s)</string>
+    <string name="notify_word_format" formatted="false">%s (%s)</string>
 
-    <string name="title_quiz_header">Select %s of (%s)</string>
-    <string name="format_word_balloon">%s [%s]\n%s</string>
+    <string name="title_quiz_header" formatted="false">Select %s of (%s)</string>
+    <string name="format_word_balloon" formatted="false">%s [%s]\n%s</string>
 </resources>

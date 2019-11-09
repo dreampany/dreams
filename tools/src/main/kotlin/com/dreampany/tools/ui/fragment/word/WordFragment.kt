@@ -32,8 +32,8 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.ui.vm.WordViewModel
+import com.ferfalk.simplesearchview.SimpleSearchView
 import com.klinker.android.link_builder.Link
-import com.miguelcatalan.materialsearchview.MaterialSearchView
 import com.skydoves.balloon.*
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
@@ -53,8 +53,8 @@ import javax.inject.Inject
 class WordFragment
 @Inject constructor() :
     BaseMenuFragment(),
-    MaterialSearchView.OnQueryTextListener,
-    MaterialSearchView.SearchViewListener,
+/*    MaterialSearchView.OnQueryTextListener,
+    MaterialSearchView.SearchViewListener,*/
     OnMenuItemClickListener<PowerMenuItem>,
     OnBalloonClickListener,
     OnBalloonOutsideTouchListener {
@@ -73,7 +73,7 @@ class WordFragment
     private lateinit var bindDef: ContentDefinitionBinding
     private lateinit var bindYandex: ContentYandexTranslationBinding
 
-    private lateinit var searchView: MaterialSearchView
+    private lateinit var searchView: SimpleSearchView
 
     private lateinit var vm: WordViewModel
 
@@ -118,7 +118,9 @@ class WordFragment
             val searchCallback = activity as SearchViewCallback?
             searchView = searchCallback!!.searchView
             val searchItem = getSearchMenuItem()
-            initSearchView(searchView, searchItem)
+            searchItem?.run {
+                initSearchView(searchView, this)
+            }
         }
         initLanguageUi()
     }
@@ -170,13 +172,13 @@ class WordFragment
         }
     }
 
-    override fun onSearchViewShown() {
+/*    override fun onSearchViewShown() {
 //toSearchMode()
     }
 
     override fun onSearchViewClosed() {
 //toScanMode()
-    }
+    }*/
 
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
@@ -281,13 +283,13 @@ class WordFragment
         vm.updateUiState(uiState = UiState.DEFAULT)
     }
 
-    private fun initSearchView(searchView: MaterialSearchView, searchItem: MenuItem?) {
+    private fun initSearchView(searchView: SimpleSearchView, searchItem: MenuItem) {
 
         searchView.setMenuItem(searchItem)
-        searchView.setSubmitOnClick(true)
+        //searchView.setSubmitOnClick(true)
 
-        searchView.setOnSearchViewListener(this)
-        searchView.setOnQueryTextListener(this)
+        //searchView.setOnSearchViewListener(this)
+        //searchView.setOnQueryTextListener(this)
     }
 
     private fun initLanguageUi() {
@@ -358,7 +360,7 @@ class WordFragment
 
         if (action === Action.GET) {
             val result = DataUtil.toStringArray(items)
-            searchView.setSuggestions(result)
+            //searchView.setSuggestions(result)
             return
         }
     }
@@ -372,7 +374,7 @@ class WordFragment
                 for (index in items.indices) {
                     suggests[index] = items[index].item.id
                 }
-                searchView.setSuggestions(suggests)
+               // searchView.setSuggestions(suggests)
             }
             return
         }

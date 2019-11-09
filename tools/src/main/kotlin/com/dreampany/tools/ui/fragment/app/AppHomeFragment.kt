@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment
+package com.dreampany.tools.ui.fragment.app
 
 import android.os.Bundle
 import android.view.LayoutInflater

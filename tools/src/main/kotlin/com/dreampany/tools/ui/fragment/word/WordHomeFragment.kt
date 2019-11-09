@@ -39,6 +39,7 @@ import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.WordAdapter
+import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.ui.vm.LoaderViewModel
@@ -161,6 +162,7 @@ class WordHomeFragment
         adjustTranslationUi()
         //vm.updateUiState(uiState = UiState.SEARCH)
         onRefresh()
+        loadRequest()
         //request(state = State.HISTORY, action = Action.GET, single = false, progress = true, limit = Constants.Limit.Word.HISTORY)
     }
 
@@ -832,6 +834,11 @@ class WordHomeFragment
         balloon?.run {
             view.showAlignTop(this)
         }
+    }
+
+    private fun loadRequest() {
+        val request = LoadRequest(type = Type.WORD, action = Action.LOAD)
+        loaderVm.request(request)
     }
 
     private fun openWordUi(item: Word) {

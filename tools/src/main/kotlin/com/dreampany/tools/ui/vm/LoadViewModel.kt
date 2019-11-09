@@ -334,6 +334,7 @@ class LoadViewModel
         }
     }
 
+    @Synchronized
     private fun buildAlphaWords() {
         if (alphaWords.size != Constants.Count.Word.ALPHA) {
             val words = repo.getAlphaItems()

@@ -22,6 +22,19 @@ constructor(
     private val mapper: StoreMapper,
     private val dao: StoreDao
 ) : StoreDataSource {
+    override fun getItems(type: Type, subtype: Subtype, state: State, limit: Long): List<Store>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsRx(
+        type: Type,
+        subtype: Subtype,
+        state: State,
+        limit: Long
+    ): Maybe<List<Store>> {
+        return dao.getItemsRx(type.name, subtype.name, state.name, limit)
+    }
+
     override fun getRandomItem(type: Type, subtype: Subtype, state: State, exclude: State): Store? {
         return dao.getRandomItem(type.name, subtype.name, state.name, exclude.name)
     }

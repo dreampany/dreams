@@ -40,6 +40,10 @@ interface StoreDataSource : DataSource<Store> {
 
     fun getItemsRx(type: Type, subtype: Subtype, state: State): Maybe<List<Store>>
 
+    fun getItems(type: Type, subtype: Subtype, state: State, limit: Long): List<Store>?
+
+    fun getItemsRx(type: Type, subtype: Subtype, state: State, limit: Long): Maybe<List<Store>>
+
     fun getRandomItem(type: Type, subtype: Subtype, state: State): Store?
 
     fun getRandomItem(type: Type, subtype: Subtype, state: State, exclude: State): Store?

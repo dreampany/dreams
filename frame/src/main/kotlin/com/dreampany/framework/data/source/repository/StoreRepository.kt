@@ -25,6 +25,19 @@ class StoreRepository
     rm: ResponseMapper,
     @Room private val room: StoreDataSource
 ) : Repository<String, Store>(rx, rm), StoreDataSource {
+    override fun getItems(type: Type, subtype: Subtype, state: State, limit: Long): List<Store>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsRx(
+        type: Type,
+        subtype: Subtype,
+        state: State,
+        limit: Long
+    ): Maybe<List<Store>> {
+        return room.getItemsRx(type, subtype, state, limit)
+    }
+
     override fun getRandomItem(type: Type, subtype: Subtype, state: State, exclude: State): Store? {
         return room.getRandomItem(type, subtype, state, exclude)
     }

@@ -250,6 +250,10 @@ class Constants {
         const val WORD_TRACK = 1000L
         const val QUIZ_OPTIONS = 4
 
+        object Word {
+            const val HISTORY = 100L
+        }
+
         object Radio {
             const val STATIONS = 100L
         }

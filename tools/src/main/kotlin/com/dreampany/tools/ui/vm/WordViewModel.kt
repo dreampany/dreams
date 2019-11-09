@@ -193,6 +193,11 @@ class WordViewModel
                 .getItemsRx(Type.WORD, Subtype.DEFAULT, State.FAVORITE)
                 .flatMap { getUiItemsOfStoresRx(request, it) }
         }
+        if (request.state == State.HISTORY) {
+            return storeRepo
+                .getItemsRx(request.type, request.subtype, request.state, request.limit)
+                .flatMap { getUiItemsOfStoresRx(request, it) }
+        }
         return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }
 
@@ -211,7 +216,7 @@ class WordViewModel
     }
 
     private fun getUiItemRx(request: WordRequest, item: Word): Maybe<WordItem> {
-        Timber.v("Word %s", item.toString())
+        //Timber.v("Word %s", item.id)
         return Maybe.create { emitter ->
             if (emitter.isDisposed) {
                 return@create
@@ -219,7 +224,8 @@ class WordViewModel
             if (request.history) {
                 if (!item.isEmpty()) {
                     wordPref.setRecentWord(item)
-                    putStore(item.id, Type.WORD, Subtype.DEFAULT, State.HISTORY)
+                    val result = putStore(item.id, request.type, request.subtype, State.HISTORY)
+                    Timber.v("Word [%s - %d] keep as history", item.id, result )
                 }
             }
             if (request.action == Action.FAVORITE) {

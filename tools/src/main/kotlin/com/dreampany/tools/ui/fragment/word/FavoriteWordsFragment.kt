@@ -10,7 +10,6 @@ import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -24,7 +23,6 @@ import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -32,6 +30,7 @@ import com.dreampany.tools.databinding.FragmentFavoriteWordsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.enums.NoteOption
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.ui.vm.WordViewModel
@@ -193,7 +192,7 @@ class FavoriteWordsFragment
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
 
-        vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(WordViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })

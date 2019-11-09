@@ -159,7 +159,7 @@ class WordHomeFragment
         toScanMode()
         adjustTranslationUi()
         vm.updateUiState(uiState = UiState.SEARCH)
-        request(suggests = true, action = Action.GET, single = false)
+        request(state = State.HISTORY, action = Action.GET, single = false, limit = Constants.Limit.Word.HISTORY)
     }
 
     override fun onStopUi() {
@@ -172,13 +172,13 @@ class WordHomeFragment
     override fun onResume() {
         super.onResume()
         initLanguageUi()
-        request(
+/*        request(
             id = bind.item?.item?.id,
             recent = true,
             action = Action.GET,
             single = true,
             progress = true
-        )
+        )*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -253,6 +253,7 @@ class WordHomeFragment
         if (!query.isNotEmpty()) {
             request(
                 id = query,
+                state = State.HISTORY,
                 action = Action.SEARCH,
                 history = true,
                 single = true,
@@ -299,7 +300,7 @@ class WordHomeFragment
 
     override fun hasBackPressed(): Boolean {
         if (searchView.onBackPressed()) {
-            //searchView.closeSearch()
+            searchView.closeSearch()
             return true
         }
         return super.hasBackPressed()
@@ -563,6 +564,14 @@ class WordHomeFragment
 
     private fun processSuccess(state: State, action: Action, items: List<WordItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
+
+        if (state == State.HISTORY) {
+            adapter.addItems(items)
+            ex.postToUi(Runnable {
+                vm.updateUiState(state, action, UiState.EXTRA)
+            }, 500L)
+            return
+        }
 
         if (action === Action.GET) {
             if (!DataUtil.isEmpty(items)) {
@@ -860,9 +869,11 @@ class WordHomeFragment
         recent: Boolean = Constants.Default.BOOLEAN,
         history: Boolean = Constants.Default.BOOLEAN,
         suggests: Boolean = Constants.Default.BOOLEAN,
+        state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN,
+        limit: Long = Constants.Default.LONG
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
         val translate = !Language.ENGLISH.equals(language)
@@ -875,9 +886,13 @@ class WordHomeFragment
             history = history,
             translate = translate,
             suggests = suggests,
+            type = Type.WORD,
+            subtype = Subtype.DEFAULT,
+            state = state,
             action = action,
             single = single,
-            progress = progress
+            progress = progress,
+            limit = limit
         )
         vm.request(request)
     }

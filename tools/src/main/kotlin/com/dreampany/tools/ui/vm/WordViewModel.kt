@@ -25,6 +25,7 @@ import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.util.Util
 import com.dreampany.translation.data.source.repository.TranslationRepository
@@ -222,9 +223,10 @@ class WordViewModel
                 return@create
             }
             if (request.history) {
-                if (!item.isEmpty()) {
+                if (item.hasWeight()) {
                     wordPref.setRecentWord(item)
                     val result = putStore(item.id, request.type, request.subtype, State.HISTORY)
+                    Constants.Cache.Word.HISTORY = true
                     Timber.v("Word [%s - %d] keep as history", item.id, result )
                 }
             }

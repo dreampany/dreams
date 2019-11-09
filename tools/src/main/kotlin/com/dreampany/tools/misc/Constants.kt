@@ -263,6 +263,12 @@ class Constants {
         }
     }
 
+    object Cache {
+        object Word {
+            var HISTORY = false
+        }
+    }
+
     object Threshold {
         const val DEFAULT = 1
         const val WORD = 3

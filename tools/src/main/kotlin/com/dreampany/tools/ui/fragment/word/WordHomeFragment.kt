@@ -66,6 +66,7 @@ import javax.inject.Inject
 class WordHomeFragment
 @Inject constructor() : BaseMenuFragment(),
     SmartAdapter.Callback<WordItem>,
+    SmartAdapter.OnUiItemClickListener<WordItem, Action>,
 /*    MaterialSearchView.OnQueryTextListener,
     MaterialSearchView.SearchViewListener,*/
     SimpleSearchView.OnQueryTextListener,
@@ -158,8 +159,9 @@ class WordHomeFragment
         initRecycler()
         toScanMode()
         adjustTranslationUi()
-        vm.updateUiState(uiState = UiState.SEARCH)
-        request(state = State.HISTORY, action = Action.GET, single = false, limit = Constants.Limit.Word.HISTORY)
+        //vm.updateUiState(uiState = UiState.SEARCH)
+        onRefresh()
+        //request(state = State.HISTORY, action = Action.GET, single = false, progress = true, limit = Constants.Limit.Word.HISTORY)
     }
 
     override fun onStopUi() {
@@ -196,8 +198,12 @@ class WordHomeFragment
     }
 
     override fun onRefresh() {
-        super.onRefresh()
-
+        if (Constants.Cache.Word.HISTORY || adapter.isEmpty) {
+            request(state = State.HISTORY, action = Action.GET, single = false, progress = true, limit = Constants.Limit.Word.HISTORY)
+            Constants.Cache.Word.HISTORY = false
+        } else {
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        }
     }
 
     override fun onClick(v: View) {
@@ -313,6 +319,14 @@ class WordHomeFragment
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    override fun onUiItemClick(view: View, item: WordItem, action: Action) {
+        openWordUi(item.item)
+    }
+
+    override fun onUiItemLongClick(view: View, item: WordItem, action: Action) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
@@ -566,7 +580,7 @@ class WordHomeFragment
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
 
         if (state == State.HISTORY) {
-            adapter.addItems(items)
+            adapter.addItemsOfHistory(items)
             ex.postToUi(Runnable {
                 vm.updateUiState(state, action, UiState.EXTRA)
             }, 500L)
@@ -605,8 +619,9 @@ class WordHomeFragment
             return
         }
 
-        if (!item.item.isEmpty()) {
-            bind.setItem(item)
+        if (item.item.hasWeight()) {
+            adapter.addItemOfHistory(item)
+/*            bind.setItem(item)
             bindWord.layoutWord.visibility = View.VISIBLE
             if (item.translation.isNullOrEmpty()) {
                 bindWord.textTranslation.visibility = View.GONE
@@ -615,7 +630,7 @@ class WordHomeFragment
             }
             //processRelated(item.getItem().getSynonyms(), item.getItem().getAntonyms());
             processDefinitions(item.item.definitions)
-            vm.updateUiState(state, action, UiState.CONTENT)
+            vm.updateUiState(state, action, UiState.CONTENT)*/
         }
     }
 

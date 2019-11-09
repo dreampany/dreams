@@ -33,7 +33,7 @@ class WordAdapter(listener: Any? = null) : SmartAdapter<WordItem>(listener) {
         return ITEM_OFFSET
     }
 
-    fun addItemsByRecent(items: List<WordItem>): Boolean {
+    fun addItemsOfHistory(items: List<WordItem>): Boolean {
         if (isEmpty) {
             return super.addItems(items)
         }
@@ -41,6 +41,10 @@ class WordAdapter(listener: Any? = null) : SmartAdapter<WordItem>(listener) {
             addItem(item, recentComparator)
         }
         return true
+    }
+
+    fun addItemOfHistory(item: WordItem): Boolean {
+        return addItem(item, recentComparator)
     }
 
     fun addItemsByAlpha(items: List<WordItem>): Boolean {

@@ -139,4 +139,9 @@ data class Word(
         if (!antonyms.isNullOrEmpty()) weight++
         return weight
     }
+
+    @Exclude
+    fun hasWeight(): Boolean {
+        return weight() > 0
+    }
 }

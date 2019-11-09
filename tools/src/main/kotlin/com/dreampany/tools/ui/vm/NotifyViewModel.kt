@@ -210,8 +210,8 @@ class NotifyViewModel
             item?.run {
                 if (request.history) {
                     if (!isEmpty()) {
-                        wordPref.setRecentWord(this)
-                        putStore(id, request.type, request.subtype, State.HISTORY)
+                        //wordPref.setRecentWord(this)
+                        //putStore(id, request.type, request.subtype, State.HISTORY)
                     }
                 }
                 val uiItem = getUiItem(request, this)

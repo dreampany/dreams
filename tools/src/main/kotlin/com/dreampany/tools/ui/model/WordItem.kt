@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
@@ -78,6 +79,14 @@ private constructor(
             viewWord = view.findViewById(R.id.text_word)
             viewPartOfSpeech = view.findViewById(R.id.text_part_of_speech)
             viewPronunciation = view.findViewById(R.id.text_pronunciation)
+
+            view.setOnClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.OPEN
+                )
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>

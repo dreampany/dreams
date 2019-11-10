@@ -14,9 +14,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/material_grey200"
-        android:paddingStart="@dimen/_20sdp"
-        android:paddingEnd="@dimen/_20sdp">
+        android:background="@color/material_grey200">
+
+        <include
+            android:id="@+id/layout_server_summary"
+            layout="@layout/content_server_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginEnd="@dimen/_20sdp"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toTopOf="parent" />
 
 
         <!--        <mbanje.kurt.fabbutton.FabButton
@@ -46,6 +56,7 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginTop="@dimen/_80sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
             android:enabled="false"
             android:gravity="center"
             auto:fb_backgroundColor="@color/material_red700"
@@ -54,10 +65,26 @@
             auto:fb_text="@string/start"
             auto:fb_textColor="@color/material_white"
             auto:fb_textSize="@dimen/_22ssp"
+            auto:layout_constraintBottom_toBottomOf="parent"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/view_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:text="@string/empty"
+            android:textColor="@color/material_grey800"
+            android:textSize="@dimen/_12ssp"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            auto:fontFamily="@font/roboto_slab_regular"
+            auto:layout_constraintBottom_toTopOf="@id/button_action"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/subtitle" />
 
         <me.zhanghai.android.materialprogressbar.MaterialProgressBar
             android:id="@+id/progress_bar"
@@ -71,47 +98,34 @@
             auto:layout_constraintTop_toTopOf="parent"
             auto:mpb_progressStyle="circular" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/view_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:drawablePadding="@dimen/_5sdp"
-            android:text="@string/empty"
-            android:textColor="@color/material_grey800"
-            android:textSize="@dimen/_14ssp"
-            auto:fontFamily="@font/roboto_slab_bold"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toBottomOf="@id/button_action" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/view_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:drawablePadding="@dimen/_5sdp"
-            android:text="@string/empty"
-            android:textColor="@color/material_grey500"
-            android:textSize="@dimen/_12ssp"
-            auto:fontFamily="@font/roboto_slab_regular"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toBottomOf="@id/view_title" />
+        <!--        <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/view_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:text="@string/empty"
+                    android:textColor="@color/material_grey500"
+                    android:textSize="@dimen/_12ssp"
+                    auto:fontFamily="@font/roboto_slab_regular"
+                    auto:layout_constraintEnd_toEndOf="parent"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toBottomOf="@id/view_title" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/view_log"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:drawablePadding="@dimen/_5sdp"
-            android:text="@string/empty"
-            android:textColor="@color/material_grey800"
-            android:textSize="@dimen/_10ssp"
-            auto:fontFamily="@font/roboto_slab_regular"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toBottomOf="@id/view_subtitle" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/view_log"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:drawablePadding="@dimen/_5sdp"
+                    android:text="@string/empty"
+                    android:textColor="@color/material_grey800"
+                    android:textSize="@dimen/_10ssp"
+                    auto:fontFamily="@font/roboto_slab_regular"
+                    auto:layout_constraintEnd_toEndOf="parent"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toBottomOf="@id/view_subtitle" />-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

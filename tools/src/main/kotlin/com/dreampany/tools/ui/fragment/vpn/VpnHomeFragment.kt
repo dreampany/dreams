@@ -18,6 +18,7 @@ import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.databinding.ContentServerSummaryBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.ContentVpnHomeBinding
 import com.dreampany.tools.databinding.FragmentVpnHomeBinding
@@ -51,6 +52,7 @@ class VpnHomeFragment
     private lateinit var bind: FragmentVpnHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindVpn: ContentVpnHomeBinding
+    private lateinit var bindServer: ContentServerSummaryBinding
 
     private lateinit var vm: ServerViewModel
 
@@ -218,6 +220,7 @@ class VpnHomeFragment
         bind = super.binding as FragmentVpnHomeBinding
         bindStatus = bind.layoutTopStatus
         bindVpn = bind.layoutVpnHome
+        bindServer = bindVpn.layoutServerSummary
 
         bindVpn.buttonAction.setOnClickListener(this)
 
@@ -289,14 +292,14 @@ class VpnHomeFragment
     private fun resolveUi() {
         bindVpn.buttonAction.isEnabled = server != null
         if (server != null) {
-            bindVpn.viewTitle.text = server!!.countryName
-            bindVpn.viewSubtitle.text = server!!.id
-            bindVpn.viewTitle.visibility = View.VISIBLE
-            bindVpn.viewSubtitle.visibility = View.VISIBLE
+            bindServer.viewCountryName.text = server!!.countryName
+            bindServer.viewIp.text = server!!.id
+            bindServer.viewCountryName.visibility = View.VISIBLE
+            bindServer.viewIp.visibility = View.VISIBLE
             bindVpn.viewLog.text = vpn.lastLog()
         } else {
-            bindVpn.viewTitle.visibility = View.GONE
-            bindVpn.viewSubtitle.visibility = View.GONE
+            bindServer.viewCountryName.visibility = View.GONE
+            bindServer.viewIp.visibility = View.GONE
         }
     }
 

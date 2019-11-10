@@ -37,7 +37,7 @@ class AppItem
 private constructor(
     item: App,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<App, AppItem.ViewHolder, String>(item, layoutId) {
+) : BaseItem< AppItem.ViewHolder,App, String>(item, layoutId) {
 
     companion object {
         fun getItem(item: App): AppItem {
@@ -123,7 +123,7 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>> bind(
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>> bind(
             position: Int,
             item: I
         ) {

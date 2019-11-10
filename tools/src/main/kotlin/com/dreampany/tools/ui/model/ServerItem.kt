@@ -90,13 +90,19 @@ private constructor(
             title.text = item.countryName
             subtitle.text = item.id
 
-            if (Quality.MEDIUM == item.quality || Quality.HIGH == item.quality) {
-                label.primaryText = getString(R.string.online)
-                label.setTriangleBackgroundColorResource(R.color.material_green500)
-            } else {
-                label.primaryText = getString(R.string.offline)
-                label.setTriangleBackgroundColorResource(R.color.material_red500)
+            var labelTextRes = R.string.low
+            var labelColorRes = R.color.material_red500
+            if (item.quality == Quality.MEDIUM) {
+                labelTextRes = R.string.medium
+                labelColorRes = R.color.material_yellow500
             }
+            if (item.quality == Quality.HIGH) {
+                labelTextRes = R.string.high
+                labelColorRes = R.color.material_green500
+            }
+
+            label.setPrimaryText(labelTextRes)
+            label.setTriangleBackgroundColorResource(labelColorRes)
         }
     }
 }

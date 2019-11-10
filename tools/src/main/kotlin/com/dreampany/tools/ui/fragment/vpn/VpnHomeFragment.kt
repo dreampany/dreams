@@ -194,15 +194,25 @@ class VpnHomeFragment
         //bindVpn.buttonAction.visibility = View.INVISIBLE
         //bindVpn.progressBar.visibility = View.VISIBLE
         //bindVpn.buttonAction.showProgress(true)
-        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_yellow700))
+        bindVpn.buttonAction.setButtonColor(
+            ColorUtil.getColor(
+                context!!,
+                R.color.material_yellow700
+            )
+        )
     }
 
     override fun onStarted(server: Server) {
         //bindVpn.progressBar.visibility = View.GONE
-       // bindVpn.buttonAction.visibility = View.VISIBLE
+        // bindVpn.buttonAction.visibility = View.VISIBLE
         //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.stop)
-        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_green700))
+        bindVpn.buttonAction.setButtonColor(
+            ColorUtil.getColor(
+                context!!,
+                R.color.material_green700
+            )
+        )
     }
 
     override fun onStopped(server: Server) {
@@ -298,26 +308,39 @@ class VpnHomeFragment
                 //val res = AndroidUtil.getDrawableRes(getParent()!!, this.toLowerCase())
                 bindServer.viewFlag.setCountryCode(this)
             }
-            if (Quality.MEDIUM == server!!.quality || Quality.HIGH == server!!.quality) {
-                bindServer.labelType.primaryText = getString(R.string.online)
-                bindServer.labelType.setTriangleBackgroundColorResource(R.color.material_green500)
-            } else {
-                bindServer.labelType.primaryText = getString(R.string.offline)
-                bindServer.labelType.setTriangleBackgroundColorResource(R.color.material_red500)
+            var labelTextRes = R.string.low
+            var labelColorRes = R.color.material_red500
+            if (server!!.quality == Quality.MEDIUM) {
+                labelTextRes = R.string.medium
+                labelColorRes = R.color.material_yellow500
             }
+            if (server!!.quality == Quality.HIGH) {
+                labelTextRes = R.string.high
+                labelColorRes = R.color.material_green500
+            }
+
+            bindServer.labelType.setPrimaryText(labelTextRes)
+            bindServer.labelType.setTriangleBackgroundColorResource(labelColorRes)
+
             bindServer.viewCountryName.text = server!!.countryName
-            bindServer.viewIp.text = server!!.id
+            bindServer.viewCity.text = getString(R.string.vpn_city, server!!.city)
+            bindServer.viewIp.text = getString(R.string.vpn_ip, server!!.id)
+            bindServer.viewSessions.text = getString(R.string.vpn_sessions, server!!.sessions)
             bindVpn.viewLog.text = vpn.lastLog()
 
             bindServer.viewFlag.visibility = View.VISIBLE
             bindServer.labelType.visibility = View.VISIBLE
             bindServer.viewCountryName.visibility = View.VISIBLE
+            bindServer.viewCity.visibility = View.VISIBLE
             bindServer.viewIp.visibility = View.VISIBLE
+            bindServer.viewSessions.visibility = View.VISIBLE
         } else {
             bindServer.viewFlag.visibility = View.INVISIBLE
             bindServer.labelType.visibility = View.INVISIBLE
             bindServer.viewCountryName.visibility = View.INVISIBLE
+            bindServer.viewCity.visibility = View.INVISIBLE
             bindServer.viewIp.visibility = View.INVISIBLE
+            bindServer.viewSessions.visibility = View.INVISIBLE
         }
     }
 

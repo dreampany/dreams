@@ -75,11 +75,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_20sdp"
+            android:gravity="center"
+            android:paddingStart="@dimen/_20sdp"
+            android:paddingEnd="@dimen/_20sdp"
             android:text="@string/empty"
             android:textColor="@color/material_grey800"
             android:textSize="@dimen/_12ssp"
-            android:paddingStart="@dimen/_20sdp"
-            android:paddingEnd="@dimen/_20sdp"
             auto:fontFamily="@font/roboto_slab_regular"
             auto:layout_constraintBottom_toTopOf="@id/button_action"
             auto:layout_constraintEnd_toEndOf="parent"
@@ -97,36 +98,6 @@
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent"
             auto:mpb_progressStyle="circular" />
-
-
-        <!--        <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/view_subtitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:text="@string/empty"
-                    android:textColor="@color/material_grey500"
-                    android:textSize="@dimen/_12ssp"
-                    auto:fontFamily="@font/roboto_slab_regular"
-                    auto:layout_constraintEnd_toEndOf="parent"
-                    auto:layout_constraintStart_toStartOf="parent"
-                    auto:layout_constraintTop_toBottomOf="@id/view_title" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/view_log"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:drawablePadding="@dimen/_5sdp"
-                    android:text="@string/empty"
-                    android:textColor="@color/material_grey800"
-                    android:textSize="@dimen/_10ssp"
-                    auto:fontFamily="@font/roboto_slab_regular"
-                    auto:layout_constraintEnd_toEndOf="parent"
-                    auto:layout_constraintStart_toStartOf="parent"
-                    auto:layout_constraintTop_toBottomOf="@id/view_subtitle" />-->
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

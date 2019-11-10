@@ -6,6 +6,7 @@ import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
@@ -13,6 +14,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
@@ -292,14 +294,30 @@ class VpnHomeFragment
     private fun resolveUi() {
         bindVpn.buttonAction.isEnabled = server != null
         if (server != null) {
+            server!!.countryCode?.run {
+                //val res = AndroidUtil.getDrawableRes(getParent()!!, this.toLowerCase())
+                bindServer.viewFlag.setCountryCode(this)
+            }
+            if (Quality.MEDIUM == server!!.quality || Quality.HIGH == server!!.quality) {
+                bindServer.labelType.primaryText = getString(R.string.online)
+                bindServer.labelType.setTriangleBackgroundColorResource(R.color.material_green500)
+            } else {
+                bindServer.labelType.primaryText = getString(R.string.offline)
+                bindServer.labelType.setTriangleBackgroundColorResource(R.color.material_red500)
+            }
             bindServer.viewCountryName.text = server!!.countryName
             bindServer.viewIp.text = server!!.id
+            bindVpn.viewLog.text = vpn.lastLog()
+
+            bindServer.viewFlag.visibility = View.VISIBLE
+            bindServer.labelType.visibility = View.VISIBLE
             bindServer.viewCountryName.visibility = View.VISIBLE
             bindServer.viewIp.visibility = View.VISIBLE
-            bindVpn.viewLog.text = vpn.lastLog()
         } else {
-            bindServer.viewCountryName.visibility = View.GONE
-            bindServer.viewIp.visibility = View.GONE
+            bindServer.viewFlag.visibility = View.INVISIBLE
+            bindServer.labelType.visibility = View.INVISIBLE
+            bindServer.viewCountryName.visibility = View.INVISIBLE
+            bindServer.viewIp.visibility = View.INVISIBLE
         }
     }
 

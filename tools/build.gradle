@@ -12,8 +12,8 @@ android {
         applicationId 'com.dreampany.tools'
         minSdkVersion 18
         targetSdkVersion 29
-        versionCode 31
-        versionName '0.0.3.1'
+        versionCode 32
+        versionName '0.0.3.2'
 
         multiDexEnabled true
 
@@ -104,7 +104,7 @@ android {
     }
 
     aaptOptions {
-        noCompress 'tflite' //firebase-ml-natural-language-smart-reply-model
+        //noCompress 'tflite' //firebase-ml-natural-language-smart-reply-model
     }
 
     lintOptions {
@@ -155,7 +155,7 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.1'
 
     /* firebase */
-    implementation 'com.google.firebase:firebase-ml-natural-language-smart-reply-model:20.0.7'
+    //implementation 'com.google.firebase:firebase-ml-natural-language-smart-reply-model:20.0.7'
 
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.25.2'
@@ -170,6 +170,7 @@ dependencies {
     implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.22'
     implementation 'com.google.android.exoplayer:exoplayer:2.10.4'
     implementation 'com.github.bassaer:chatmessageview:2.+'
+    implementation 'com.github.KaKaVip:Android-Flag-Kit:v0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

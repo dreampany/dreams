@@ -16,6 +16,7 @@ import android.speech.tts.TextToSpeech
 import android.view.Surface
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.R
@@ -44,6 +45,7 @@ class AndroidUtil {
         private var colorPrimary = -1
         private var colorPrimaryDark = -1
         private var colorAccent = -1
+        private val drawable: String = "drawable"
 
         private var uiHandler: Handler? = null
         private val backHandler: Handler? = null
@@ -661,6 +663,11 @@ class AndroidUtil {
 
         fun startService(context: Context, serviceIntent: Intent) {
             ContextCompat.startForegroundService(context, serviceIntent)
+        }
+
+        @DrawableRes
+        fun getDrawableRes(context: Activity, name:String) : Int {
+            return context.resources.getIdentifier(name, drawable, context.packageName)
         }
     }
 }

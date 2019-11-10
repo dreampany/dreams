@@ -21,35 +21,73 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_10sdp">
+            android:background="@color/material_grey100"
+            android:paddingTop="@dimen/_10sdp"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <com.haipq.android.flagkit.FlagImageView
+                android:id="@+id/view_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:visibility="invisible"
+                auto:countryCode="US"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/flag_us" />
+
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/material_grey300"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toBottomOf="@id/view_flag" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/view_country_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:drawablePadding="@dimen/_5sdp"
                 android:text="@string/empty"
-                android:textColor="@color/material_black"
-                android:textSize="@dimen/_16ssp"
+                android:textColor="@color/material_grey900"
+                android:textSize="@dimen/_14ssp"
                 auto:fontFamily="@font/roboto_slab_bold"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toTopOf="parent"
+                auto:layout_constraintTop_toBottomOf="@id/view_divider"
                 tools:text="@string/title" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/view_ip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawablePadding="@dimen/_5sdp" android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_5sdp"
                 android:text="@string/empty"
-                android:textColor="@color/material_black"
-                android:textSize="@dimen/_14ssp"
+                android:textColor="@color/material_grey800"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/view_country_name"
                 tools:text="@string/subtitle" />
 
-
+            <jp.shts.android.library.TriangleLabelView
+                android:id="@+id/label_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                auto:backgroundColor="@color/material_red700"
+                auto:corner="rightTop"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
+                auto:primaryText="@string/title"
+                auto:primaryTextColor="@color/material_white"
+                auto:primaryTextSize="@dimen/_6ssp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

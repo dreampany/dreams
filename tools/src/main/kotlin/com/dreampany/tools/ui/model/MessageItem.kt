@@ -23,13 +23,13 @@ abstract class MessageItem < VH : MessageItem.ViewHolder, T : Message, S : Seria
     abstract class ViewHolder(view: View, adapter: MessageAdapter, stickyHeader: Boolean = Constants.Default.BOOLEAN) :
         BaseItem.ViewHolder(view, adapter, stickyHeader) {
 
-/*        private var adapter: MessageAdapter
+        var adapter: MessageAdapter
         //private var time: AppCompatTextView
 
         init {
             this.adapter = adapter as MessageAdapter
             //time = view.findViewById(R.id.view_time)
-        }*/
+        }
 
 /*        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<T, VH, S>>
                 bind(position: Int, item: I) {

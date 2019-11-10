@@ -489,8 +489,9 @@ class Constants {
                 Type.VPN -> return 1
                 Type.RADIO -> return 2
                 Type.APP -> return 3
-                Type.WORD -> return 4
-                Type.NOTE -> return 5
+                Type.NOTE -> return 4
+                Type.WORD -> return 5
+                Type.ENGLISH -> return 6
                 else -> return Int.MAX_VALUE
             }
         }

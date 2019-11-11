@@ -23,7 +23,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-
 import io.reactivex.Maybe;
 import io.reactivex.internal.functions.Functions;
 import timber.log.Timber;

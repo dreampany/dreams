@@ -3,7 +3,6 @@ package com.dreampany.lca.api.cmc.model;
 import com.dreampany.framework.util.TimeUtil;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.base.Objects;
 
 import java.io.Serializable;
 

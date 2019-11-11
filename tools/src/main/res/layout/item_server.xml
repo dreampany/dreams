@@ -14,11 +14,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/_5sdp">
+            android:paddingStart="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:orientation="vertical"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintTop_toTopOf="parent">
@@ -26,8 +29,9 @@
                 <com.like.LikeButton
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_14sdp"
-                    android:layout_height="@dimen/_14sdp" android:visibility="gone"
+                    android:layout_height="@dimen/_14sdp"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone"
                     auto:icon_size="@dimen/_14sdp"
                     auto:icon_type="heart" />
 

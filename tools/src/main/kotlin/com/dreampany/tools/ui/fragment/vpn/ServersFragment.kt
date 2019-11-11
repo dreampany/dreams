@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
@@ -284,6 +285,8 @@ class ServersFragment
 
         val request = ServerRequest(
             id = id,
+            type = Type.SERVER,
+            subtype = Subtype.DEFAULT,
             action = action,
             single = single,
             progress = progress,

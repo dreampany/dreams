@@ -21,12 +21,11 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/material_grey100"
-            android:paddingTop="@dimen/_10sdp"
+            android:background="@color/material_grey50"
             android:paddingBottom="@dimen/_10sdp">
 
             <com.haipq.android.flagkit.FlagImageView
-                android:id="@+id/view_flag"
+                android:id="@+id/view_flag" android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"

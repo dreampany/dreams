@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.Quality
-import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.enums.UiState
@@ -362,6 +359,8 @@ class VpnHomeFragment
     ) {
         val request = ServerRequest(
             id = id,
+            type = Type.SERVER,
+            subtype = Subtype.DEFAULT,
             state = state,
             action = action,
             single = single,

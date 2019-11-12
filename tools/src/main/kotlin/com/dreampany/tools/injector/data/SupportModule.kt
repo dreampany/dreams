@@ -2,6 +2,7 @@ package com.dreampany.tools.injector.data
 
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
+import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.injector.annotation.*
 import com.dreampany.tools.ui.model.*
@@ -169,6 +170,48 @@ class SupportModule {
     @Provides
     @RelatedQuizItemAnnote
     fun provideRelatedQuizItemSmartCache(): SmartCache<String, RelatedQuizItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @CoinAnnote
+    fun provideCoinSmartMap(): SmartMap<String, Coin> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @CoinAnnote
+    fun provideCoinSmartCache(): SmartCache<String, Coin> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @CurrencyAnnote
+    fun provideCurrencySmartMap(): SmartMap<String, Currency> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @CurrencyAnnote
+    fun provideCurrencySmartCache(): SmartCache<String, Currency> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @QuoteAnnote
+    fun provideQuoteSmartMap(): SmartMap<String, Quote> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @QuoteAnnote
+    fun provideQuoteSmartCache(): SmartCache<String, Quote> {
         return SmartCache.newCache()
     }
 }

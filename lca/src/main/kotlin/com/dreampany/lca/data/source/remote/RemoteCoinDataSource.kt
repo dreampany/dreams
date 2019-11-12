@@ -31,7 +31,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class RemoteCoinDataSource constructor(
+class RemoteCoinDataSource
+constructor(
     val network: NetworkManager,
     val mapper: CoinMapper,
     val service: CmcService

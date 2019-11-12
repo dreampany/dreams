@@ -16,6 +16,7 @@ import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * Created by roman on 2019-10-01
@@ -38,31 +39,24 @@ data class Coin(
     var name: String? = Constants.Default.NULL,
     var symbol: String? = Constants.Default.NULL,
     var slug: String? = Constants.Default.NULL,
-    var rank: Int = Constants.Default.INT,
-
-    @ColumnInfo(name = Constants.Coin.MARKET_PAIRS)
-    private var marketPairs: Int = Constants.Default.INT,
-
     @ColumnInfo(name = Constants.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constants.Default.DOUBLE,
-
-    @ColumnInfo(name = Constants.Coin.TOTAL_SUPPLY)
-    private var totalSupply: Double = Constants.Default.DOUBLE,
-
     @ColumnInfo(name = Constants.Coin.MAX_SUPPLY)
     private var maxSupply: Double = Constants.Default.DOUBLE,
-
-    @ColumnInfo(name = Constants.Coin.LAST_UPDATED)
-    private var lastUpdated: Long = Constants.Default.LONG,
-
-    @ColumnInfo(name = Constants.Coin.DATE_ADDED)
-    private var dateAdded: Long = Constants.Default.LONG,
-
-    var tags: MutableList<String>? = Constants.Default.NULL,
-
+    @ColumnInfo(name = Constants.Coin.TOTAL_SUPPLY)
+    private var totalSupply: Double = Constants.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Coin.MARKET_PAIRS)
+    private var marketPairs: Int = Constants.Default.INT,
+    var rank: Int = Constants.Default.INT,
     @Ignore
     @Exclude
-    private var quotes: MutableMap<Currency, Quote>? = Constants.Default.NULL
+    var quotes: HashMap<Currency, Quote>? = Constants.Default.NULL,
+    var tags: ArrayList<String>? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Coin.DATE_ADDED)
+    private var dateAdded: Long = Constants.Default.LONG,
+    @ColumnInfo(name = Constants.Coin.LAST_UPDATED)
+    private var lastUpdated: Long = Constants.Default.LONG
+
 ) : Base() {
 
     @Ignore
@@ -87,16 +81,6 @@ data class Coin(
 
     override fun toString(): String {
         return "Coin ($id) == $id"
-    }
-
-    @PropertyName(Constants.Coin.MARKET_PAIRS)
-    fun setMarketPairs(marketPairs: Int) {
-        this.marketPairs = marketPairs
-    }
-
-    @PropertyName(Constants.Coin.MARKET_PAIRS)
-    fun getMarketPairs(): Int {
-        return marketPairs
     }
 
     @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
@@ -127,6 +111,16 @@ data class Coin(
     @PropertyName(Constants.Coin.MAX_SUPPLY)
     fun getMaxSupply(): Double {
         return maxSupply
+    }
+
+    @PropertyName(Constants.Coin.MARKET_PAIRS)
+    fun setMarketPairs(marketPairs: Int) {
+        this.marketPairs = marketPairs
+    }
+
+    @PropertyName(Constants.Coin.MARKET_PAIRS)
+    fun getMarketPairs(): Int {
+        return marketPairs
     }
 
     @PropertyName(Constants.Coin.LAST_UPDATED)

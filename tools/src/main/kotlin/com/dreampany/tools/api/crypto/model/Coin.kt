@@ -16,20 +16,20 @@ data class Coin(
     val slug: String,
     @SerializedName(value = Constants.Coin.CIRCULATING_SUPPLY)
     val circulatingSupply: Double,
-    @SerializedName(value = Constants.Coin.TOTAL_SUPPLY)
-    val totalSupply: Double,
     @SerializedName(value = Constants.Coin.MAX_SUPPLY)
     val maxSupply: Double,
+    @SerializedName(value = Constants.Coin.TOTAL_SUPPLY)
+    val totalSupply: Double,
     @SerializedName(value = Constants.Coin.MARKET_PAIRS)
     val marketPairs: Int,
     @SerializedName(value = Constants.Coin.RANK)
     val rank: Int,
     @SerializedName(value = Constants.Coin.QUOTE)
-    val quotes: Map<Currency, Quote>,
-    val tags: List<String>,
-    @SerializedName(value = Constants.Coin.LAST_UPDATED)
-    val lastUpdated: String,
+    val quotes: HashMap<Currency, Quote>,
+    val tags: ArrayList<String>,
     @SerializedName(value = Constants.Coin.DATE_ADDED)
-    val dateAdded: String
+    val dateAdded: String,
+    @SerializedName(value = Constants.Coin.LAST_UPDATED)
+    val lastUpdated: String
 ) {
 }

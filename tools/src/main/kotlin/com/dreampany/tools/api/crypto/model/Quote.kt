@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.model
 
-import com.dreampany.tools.api.crypto.Constants
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.google.gson.annotations.SerializedName
 
 /**

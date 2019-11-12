@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.framework.data.enums.Source
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.enums.Currency
@@ -36,7 +35,6 @@ import kotlin.collections.ArrayList
 data class Coin(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var source: Source? = Constants.Default.NULL,
     var name: String? = Constants.Default.NULL,
     var symbol: String? = Constants.Default.NULL,
     var slug: String? = Constants.Default.NULL,

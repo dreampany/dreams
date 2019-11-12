@@ -13,8 +13,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 enum class Currency(
     val type: Type,
-    var symbol: String? = Constants.Default.NULL,
-    var value: String? = Constants.Default.NULL
+    val symbol: String = Constants.Default.STRING,
+    val value: String = Constants.Default.STRING
 ) : Parcelable {
 
     AUD(),

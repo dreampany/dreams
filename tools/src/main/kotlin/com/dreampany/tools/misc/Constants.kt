@@ -370,11 +370,11 @@ class Constants {
     object Quote {
         const val ID = Constants.Key.ID
         const val CURRENCY = "currency"
-        const val DAY_VOLUME = "day_volume"
+        const val VOLUME_24H = "volume_24h"
         const val MARKET_CAP = "market_cap"
-        const val HOUR_CHANGE = "hour_change"
-        const val DAY_CHANGE = "day_change"
-        const val WEEK_CHANGE = "week_change"
+        const val CHANGE_1H = "percent_change_1h"
+        const val CHANGE_24H = "percent_change_24h"
+        const val CHANGE_7D = "percent_change_7d"
         const val LAST_UPDATED = "last_updated"
     }
 

@@ -33,16 +33,16 @@ data class Quote(
     override var id: String = Constants.Default.STRING,
     var currency: Currency = Currency.USD,
     var price: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.DAY_VOLUME)
-    private var dayVolume: Double = Constants.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Quote.VOLUME_24H)
+    private var volume24h: Double = Constants.Default.DOUBLE,
     @ColumnInfo(name = Constants.Quote.MARKET_CAP)
     private var marketCap: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.HOUR_CHANGE)
-    private var hourChange: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.DAY_CHANGE)
-    private var dayChange: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.WEEK_CHANGE)
-    private var weekChange: Double = Constants.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Quote.CHANGE_1H)
+    private var change1h: Double = Constants.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Quote.CHANGE_24H)
+    private var change24h: Double = Constants.Default.DOUBLE,
+    @ColumnInfo(name = Constants.Quote.CHANGE_7D)
+    private var change7d: Double = Constants.Default.DOUBLE,
     @ColumnInfo(name = Constants.Quote.LAST_UPDATED)
     private var lastUpdated: Long = Constants.Default.LONG
 ) : Base() {
@@ -67,14 +67,14 @@ data class Quote(
         return Objects.hashCode(id, currency)
     }
 
-    @PropertyName(Constants.Quote.DAY_VOLUME)
-    fun setDayVolume(dayVolume: Double) {
-        this.dayVolume = dayVolume
+    @PropertyName(Constants.Quote.VOLUME_24H)
+    fun setVolume24h(volume24h: Double) {
+        this.volume24h = volume24h
     }
 
-    @PropertyName(Constants.Quote.DAY_VOLUME)
-    fun getDayVolume(): Double {
-        return dayVolume
+    @PropertyName(Constants.Quote.VOLUME_24H)
+    fun getVolume24h(): Double {
+        return volume24h
     }
 
     @PropertyName(Constants.Quote.MARKET_CAP)
@@ -87,34 +87,34 @@ data class Quote(
         return marketCap
     }
 
-    @PropertyName(Constants.Quote.HOUR_CHANGE)
-    fun setHourChange(hourChange: Double) {
-        this.hourChange = hourChange
+    @PropertyName(Constants.Quote.CHANGE_1H)
+    fun setChange1h(change1h: Double) {
+        this.change1h = change1h
     }
 
-    @PropertyName(Constants.Quote.HOUR_CHANGE)
-    fun getHourChange(): Double {
-        return hourChange
+    @PropertyName(Constants.Quote.CHANGE_1H)
+    fun getChange1h(): Double {
+        return change1h
     }
 
-    @PropertyName(Constants.Quote.DAY_CHANGE)
-    fun setDayChange(dayChange: Double) {
-        this.dayChange = dayChange
+    @PropertyName(Constants.Quote.CHANGE_24H)
+    fun setChange24h(change24h: Double) {
+        this.change24h = change24h
     }
 
-    @PropertyName(Constants.Quote.DAY_CHANGE)
-    fun getDayChange(): Double {
-        return dayChange
+    @PropertyName(Constants.Quote.CHANGE_24H)
+    fun getChange24h(): Double {
+        return change24h
     }
 
-    @PropertyName(Constants.Quote.WEEK_CHANGE)
-    fun setWeekChange(weekChange: Double) {
-        this.weekChange = weekChange
+    @PropertyName(Constants.Quote.CHANGE_7D)
+    fun setChange7d(change7d: Double) {
+        this.change7d = change7d
     }
 
-    @PropertyName(Constants.Quote.WEEK_CHANGE)
-    fun getWeekChange(): Double {
-        return weekChange
+    @PropertyName(Constants.Quote.CHANGE_7D)
+    fun getChange7D(): Double {
+        return change7d
     }
 
     @PropertyName(Constants.Quote.LAST_UPDATED)

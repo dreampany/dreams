@@ -1,5 +1,6 @@
 package com.dreampany.tools.injector.data
 
+import androidx.core.util.Pair
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.enums.Currency
@@ -204,14 +205,14 @@ class SupportModule {
     @Singleton
     @Provides
     @QuoteAnnote
-    fun provideQuoteSmartMap(): SmartMap<String, Quote> {
+    fun provideQuoteSmartMap(): SmartMap<Pair<String, Currency>, Quote> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @QuoteAnnote
-    fun provideQuoteSmartCache(): SmartCache<String, Quote> {
+    fun provideQuoteSmartCache(): SmartCache<Pair<String, Currency>, Quote> {
         return SmartCache.newCache()
     }
 }

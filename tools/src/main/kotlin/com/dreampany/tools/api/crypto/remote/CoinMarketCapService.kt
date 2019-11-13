@@ -4,6 +4,7 @@ import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.model.CoinsResponse
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.HeaderMap
 import retrofit2.http.Query
 
 /**
@@ -15,8 +16,11 @@ import retrofit2.http.Query
 interface CoinMarketCapService {
     @GET(Constants.CoinMarketCap.LISTING)
     fun getListing(
-        @Query(Constants.CoinMarketCap.API_KEY) key: String,
+        @HeaderMap headers: Map<String, String>,
         @Query(Constants.CoinMarketCap.CONVERT) currencies: String,
+        @Query(Constants.CoinMarketCap.SORT) sort: String,
+        @Query(Constants.CoinMarketCap.SORT_DIRECTION) sortDirection: String,
+        @Query(Constants.CoinMarketCap.AUXILIARIES) auxiliaries: String,
         @Query(Constants.Common.START) start: Long,
         @Query(Constants.Common.LIMIT) limit: Long
     ): Call<CoinsResponse>

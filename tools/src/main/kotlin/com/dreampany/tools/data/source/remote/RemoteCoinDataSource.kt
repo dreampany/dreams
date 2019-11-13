@@ -1,16 +1,16 @@
 package com.dreampany.tools.data.source.remote
 
 import com.dreampany.framework.api.key.KeyManager
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.api.crypto.model.CoinsResponse
+import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.remote.CoinMarketCapService
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
-import com.dreampany.tools.misc.Constants
-import io.reactivex.Flowable
+import com.google.common.collect.Maps
 import io.reactivex.Maybe
 import timber.log.Timber
 import javax.inject.Singleton
@@ -32,28 +32,42 @@ constructor(
     init {
         if (BuildConfig.DEBUG) {
             keyM.setKeys(
-                Constants.Api.Coin.CMC_PRO_DREAM_DEBUG_2
+                Constants.CoinMarketCap.CMC_PRO_ROMAN_BJIT
             )
         } else {
             keyM.setKeys(
-                Constants.Api.Coin.CMC_PRO_DREAM_DEBUG_2,
-                Constants.Api.Coin.CMC_PRO_DREAM_DEBUG_1,
-                Constants.Api.Coin.CMC_PRO_ROMAN_BJIT,
-                Constants.Api.Coin.CMC_PRO_IFTE_NET,
-                Constants.Api.Coin.CMC_PRO_DREAMPANY
+                Constants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
+                Constants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
+                Constants.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
+                Constants.CoinMarketCap.CMC_PRO_IFTE_NET,
+                Constants.CoinMarketCap.CMC_PRO_DREAMPANY
             )
         }
 
     }
 
-    override fun getItems(currency: Currency, start: Long, limit: Long): List<Coin>? {
+    override fun getItems(
+        currency: Currency, sort: String,
+        sortDirection: String,
+        auxiliaries: String, start: Long, limit: Long
+    ): List<Coin>? {
         if (network.isObserving() && !network.hasInternet()) {
             return null
         }
-        for (index in 0..keyM.length/2) {
+        for (index in 0..keyM.length / 2) {
             try {
                 val key = keyM.getKey()
-                val response = service.getListing(key, currency.name, start, limit).execute()
+
+                val response =
+                    service.getListing(
+                        getHeaders(key),
+                        currency.name,
+                        sort,
+                        sortDirection,
+                        auxiliaries,
+                        start,
+                        limit
+                    ).execute()
                 if (response.isSuccessful) {
                     response.body()?.run { return mapper.getItems(data) }
                 }
@@ -65,8 +79,22 @@ constructor(
         return null
     }
 
-    override fun getItemsRx(currency: Currency, start: Long, limit: Long): Maybe<List<Coin>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getItemsRx(
+        currency: Currency, sort: String,
+        sortDirection: String,
+        auxiliaries: String, start: Long, limit: Long
+    ): Maybe<List<Coin>> {
+        return Maybe.create { emitter ->
+            val result = getItems(currency, sort, sortDirection, auxiliaries, start, limit)
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun isEmpty(): Boolean {
@@ -148,4 +176,14 @@ constructor(
     override fun getItemsRx(limit: Long): Maybe<List<Coin>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    /* private */
+    fun getHeaders(key: String): Map<String, String> {
+        val headers = Maps.newHashMap<String, String>()
+        headers.put(Constants.CoinMarketCap.ACCEPT, Constants.CoinMarketCap.ACCEPT_JSON)
+        headers.put(Constants.CoinMarketCap.ACCEPT_ENCODING, Constants.CoinMarketCap.ACCEPT_ZIP)
+        headers.put(Constants.CoinMarketCap.API_KEY, key)
+        return headers
+    }
+
 }

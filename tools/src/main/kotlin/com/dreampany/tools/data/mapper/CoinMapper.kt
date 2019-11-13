@@ -12,8 +12,10 @@ import com.dreampany.tools.injector.annotation.CoinAnnote
 import com.dreampany.tools.injector.annotation.CurrencyAnnote
 import com.dreampany.tools.injector.annotation.QuoteAnnote
 import com.google.common.collect.Maps
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.HashMap
 
 /**
  * Created by roman on 2019-11-12
@@ -32,6 +34,12 @@ class CoinMapper
     @QuoteAnnote private val quoteMap: SmartMap<Pair<String, Currency>, Quote>,
     @QuoteAnnote private val quoteCache: SmartCache<Pair<String, Currency>, Quote>
 ) {
+
+    private val coins: List<Coin>
+
+    init {
+        coins = Collections.synchronizedList(ArrayList())
+    }
 
     fun getItems(inputs: List<com.dreampany.tools.api.crypto.model.Coin>): List<Coin> {
         val result = arrayListOf<Coin>()

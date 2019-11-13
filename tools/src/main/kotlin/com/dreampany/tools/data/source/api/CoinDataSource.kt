@@ -15,12 +15,18 @@ interface CoinDataSource : DataSource<Coin> {
 
     fun getItems(
         currency: Currency,
+        sort: String,
+        sortDirection: String,
+        auxiliaries: String,
         start: Long,
         limit: Long
     ): List<Coin>?
 
     fun getItemsRx(
         currency: Currency,
+        sort: String,
+        sortDirection: String,
+        auxiliaries: String,
         start: Long,
         limit: Long
     ): Maybe<List<Coin>>

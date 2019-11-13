@@ -46,7 +46,7 @@ constructor(
 
     }
 
-    override fun getItems(currency: Currency, start: Int, limit: Int): List<Coin>? {
+    override fun getItems(currency: Currency, start: Long, limit: Long): List<Coin>? {
         if (network.isObserving() && !network.hasInternet()) {
             return null
         }
@@ -65,7 +65,7 @@ constructor(
         return null
     }
 
-    override fun getItemsRx(currency: Currency, start: Int, limit: Int): Maybe<List<Coin>> {
+    override fun getItemsRx(currency: Currency, start: Long, limit: Long): Maybe<List<Coin>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

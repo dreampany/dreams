@@ -17,7 +17,7 @@ interface CoinMarketCapService {
     fun getListing(
         @Query(Constants.CoinMarketCap.API_KEY) key: String,
         @Query(Constants.CoinMarketCap.CONVERT) currencies: String,
-        @Query(Constants.Common.START) start: Int,
-        @Query(Constants.Common.LIMIT) limit: Int
+        @Query(Constants.Common.START) start: Long,
+        @Query(Constants.Common.LIMIT) limit: Long
     ): Call<CoinsResponse>
 }

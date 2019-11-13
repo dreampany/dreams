@@ -15,4 +15,12 @@ data class CoinsResponse (
     @SerializedName(value = Constants.Common.DATA)
     val data: List<Coin>
 ){
+
+    fun isError(): Boolean {
+        return status.errorCode != 0
+    }
+
+    fun isEmpty() :Boolean {
+        return data.isEmpty()
+    }
 }

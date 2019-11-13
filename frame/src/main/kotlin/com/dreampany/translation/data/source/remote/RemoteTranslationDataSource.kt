@@ -74,7 +74,7 @@ constructor(
                 }
             } catch (error: Throwable) {
                 Timber.e(error)
-                keyM.forwardKey()
+                keyM.randomForwardKey()
             }
         }
         return null

@@ -1,5 +1,6 @@
 package com.dreampany.framework.api.key
 
+import com.dreampany.framework.util.NumberUtil
 import org.apache.commons.collections4.queue.CircularFifoQueue
 import javax.inject.Inject
 
@@ -27,6 +28,13 @@ class KeyManager
 
     fun forwardKey() {
         queue.add(queue.peek())
+    }
+
+    fun randomForwardKey() {
+        val rand = NumberUtil.nextRand((length / 2) + 1)
+        for (index in 1..rand) {
+            queue.add(queue.peek())
+        }
     }
 
     fun getKey(): String {

@@ -3,12 +3,14 @@ package com.dreampany.tools.data.source.remote
 import com.dreampany.framework.api.key.KeyManager
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.BuildConfig
+import com.dreampany.tools.api.crypto.model.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.CoinMarketCapService
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
 import com.dreampany.tools.misc.Constants
+import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
 import javax.inject.Singleton
@@ -48,13 +50,16 @@ constructor(
         if (network.isObserving() && !network.hasInternet()) {
             return null
         }
-        for (index in 0..keyM.length - 1) {
+        for (index in 0..keyM.length/2) {
             try {
                 val key = keyM.getKey()
                 val response = service.getListing(key, currency.name, start, limit).execute()
+                if (response.isSuccessful) {
+                    response.body()?.run { return mapper.getItems(data) }
+                }
             } catch (error: Throwable) {
                 Timber.e(error)
-                keyM.forwardKey()
+                keyM.randomForwardKey()
             }
         }
         return null

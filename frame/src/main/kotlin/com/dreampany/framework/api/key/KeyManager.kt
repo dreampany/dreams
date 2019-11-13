@@ -2,7 +2,6 @@ package com.dreampany.framework.api.key
 
 import org.apache.commons.collections4.queue.CircularFifoQueue
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Created by Roman-372 on 7/8/2019
@@ -10,8 +9,8 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
-class KeyManager @Inject constructor() {
+class KeyManager
+@Inject constructor() {
     private lateinit var queue: CircularFifoQueue<Int>
     private val keys = mutableListOf<String>()
     val length: Int

@@ -19,11 +19,19 @@ import timber.log.Timber
  */
 class RemoteTranslationDataSource
 constructor(
-    val network: NetworkManager,
-    val mapper: TextTranslationMapper,
-    val keyM: KeyManager,
-    val service: YandexTranslationService
+    private val network: NetworkManager,
+    private val keyM: KeyManager,
+    private val mapper: TextTranslationMapper,
+    private val service: YandexTranslationService
 ) : TranslationDataSource {
+    init {
+        keyM.setKeys(
+            Constants.Yandex.TRANSLATE_API_KEY_ROMAN_BJIT_QURAN,
+            Constants.Yandex.TRANSLATE_API_KEY_ROMAN_BJIT_WORD,
+            Constants.Yandex.TRANSLATE_API_KEY_DREAMPANY
+        )
+    }
+
     override fun delete(ts: List<TextTranslation>): List<Long> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -40,14 +48,6 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    init {
-        keyM.setKeys(
-            Constants.Yandex.TRANSLATE_API_KEY_ROMAN_BJIT_QURAN,
-            Constants.Yandex.TRANSLATE_API_KEY_ROMAN_BJIT_WORD,
-            Constants.Yandex.TRANSLATE_API_KEY_DREAMPANY
-        )
-    }
-
     override fun isExistsRx(source: String, target: String, input: String): Maybe<Boolean> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -57,6 +57,9 @@ constructor(
     }
 
     override fun getItem(source: String, target: String, input: String): TextTranslation? {
+        if (network.isObserving() && !network.hasInternet()) {
+            return null
+        }
         for (index in 0..keyM.length - 1) {
             try {
                 val key = keyM.getKey()

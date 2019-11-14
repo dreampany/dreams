@@ -1,7 +1,9 @@
 package com.dreampany.tools.data.source.api
 
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.SortDirection
 import com.dreampany.tools.data.model.Coin
 import io.reactivex.Maybe
 
@@ -15,8 +17,8 @@ interface CoinDataSource : DataSource<Coin> {
 
     fun getItems(
         currency: Currency,
-        sort: String,
-        sortDirection: String,
+        sort: CoinSort,
+        sortDirection: SortDirection,
         auxiliaries: String,
         start: Long,
         limit: Long
@@ -24,8 +26,8 @@ interface CoinDataSource : DataSource<Coin> {
 
     fun getItemsRx(
         currency: Currency,
-        sort: String,
-        sortDirection: String,
+        sort: CoinSort,
+        sortDirection: SortDirection,
         auxiliaries: String,
         start: Long,
         limit: Long

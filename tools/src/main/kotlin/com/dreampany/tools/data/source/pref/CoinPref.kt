@@ -24,6 +24,16 @@ class CoinPref
         return Constants.Pref.Coin.COIN
     }
 
+    @Synchronized
+    fun getExpireTime(currency: String, sort: String, start: Long): Long {
+        return getPrivately(Constants.Pref.Coin.EXPIRE + currency + sort + start, 0L)
+    }
+
+    @Synchronized
+    fun commitExpireTime(currency: String, sort: String, start: Long) {
+         setPrivately(Constants.Pref.Coin.EXPIRE + currency + sort + start, TimeUtilKt.currentMillis())
+    }
+
     fun setStationState(state: State) {
         setPrivately(Constants.Pref.Radio.STATION_STATE, state)
     }
@@ -37,7 +47,10 @@ class CoinPref
     }
 
     fun commitStationTime(state: State, countryCode: String) {
-        setPrivately(Constants.Pref.Radio.STATION_TIME.plus(state.name).plus(countryCode), TimeUtilKt.currentMillis())
+        setPrivately(
+            Constants.Pref.Radio.STATION_TIME.plus(state.name).plus(countryCode),
+            TimeUtilKt.currentMillis()
+        )
     }
 
     fun getStationTime(state: State): Long {
@@ -45,6 +58,9 @@ class CoinPref
     }
 
     fun getStationTime(state: State, countryCode: String): Long {
-        return getPrivately(Constants.Pref.Radio.STATION_TIME.plus(state.name).plus(countryCode), 0L)
+        return getPrivately(
+            Constants.Pref.Radio.STATION_TIME.plus(state.name).plus(countryCode),
+            0L
+        )
     }
 }

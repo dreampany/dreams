@@ -18,6 +18,8 @@ class RoomCoinDataSource(
     private val dao: CoinDao,
     private val quoteDao: CoinDao
 ) : CoinDataSource {
+
+
     override fun getItems(
         currency: Currency,
         sort: String,
@@ -45,7 +47,7 @@ class RoomCoinDataSource(
         start: Long,
         limit: Long
     ): Maybe<List<Coin>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun isEmpty(): Boolean {
@@ -57,7 +59,7 @@ class RoomCoinDataSource(
     }
 
     override fun getCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.count
     }
 
     override fun getCountRx(): Maybe<Int> {
@@ -118,5 +120,14 @@ class RoomCoinDataSource(
 
     override fun getItemsRx(limit: Long): Maybe<List<Coin>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    /* private */
+    private fun updateCache() {
+        if (!cacheLoaded || !mapper.hasCoins()) {
+            val room = dao.items
+            mapper.add(room)
+            cacheLoaded = true
+        }
     }
 }

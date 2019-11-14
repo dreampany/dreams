@@ -206,9 +206,8 @@ data class Coin(
     }
 
     fun getQuote(currency: Currency): Quote? {
-        return if (quotes != null) {
-            quotes!!.get(currency)
-        } else null
+        if (quotes.isNullOrEmpty()) return null
+       return quotes!!.get(currency)
     }
 
     @Exclude

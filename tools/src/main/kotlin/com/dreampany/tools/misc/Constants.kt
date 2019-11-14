@@ -7,6 +7,10 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.CoinSort
+import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.SortDirection
+import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.model.Feature
 import java.util.concurrent.TimeUnit
 
@@ -134,6 +138,11 @@ class Constants {
         const val STRING = Constants.Default.STRING
     }
 
+    object SortDirection {
+        const val ASCENDING = "asc"
+        const val DESCENDING = "desc"
+    }
+
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val LANGUAGE_PICKER = "language-picker"
@@ -160,6 +169,10 @@ class Constants {
             val NORMAL = TimeUnit.MINUTES.toMillis(3)
             val LAZY = TimeUnit.MINUTES.toMillis(5)
             val DEAD = TimeUnit.HOURS.toMillis(1)
+        }
+
+        object Coin {
+            val LISTING = TimeUnit.HOURS.toMillis(1)
         }
 
         fun minuteToMillis(minutes: Long): Long {
@@ -226,6 +239,7 @@ class Constants {
 
         object Coin {
             const val COIN = "coin"
+            const val EXPIRE = "expire"
         }
     }
 
@@ -557,5 +571,46 @@ class Constants {
         const val STATUS = "status"
         const val DETAIL_STATUS = "detailstatus"
         const val NOPROCESS = "NOPROCESS"
+    }
+
+    object Sort {
+/*        val comparatorOfAscOfMarketCap = object : Comparator<com.dreampany.tools.data.model.Coin> {
+            override fun compare(left: com.dreampany.tools.data.model.Coin?, right: com.dreampany.tools.data.model.Coin?
+            ): Int {
+
+            }
+
+        }*/
+
+        object Coin {
+            fun getComparator(currency: Currency, sort: CoinSort, sortDirection: com.dreampany.tools.data.enums.SortDirection) : Comparator<com.dreampany.tools.data.model.Coin> {
+                when(sort) {
+                    CoinSort.MARKET_CAP-> {
+                        return object : Comparator<com.dreampany.tools.data.model.Coin> {
+                            override fun compare(
+                                left: com.dreampany.tools.data.model.Coin,
+                                right: com.dreampany.tools.data.model.Coin
+                            ): Int {
+                                val leftQuote = left.getQuote(currency)
+                                val rightQuote = right.getQuote(currency)
+
+                                val leftCap = if (leftQuote != null) leftQuote.getMarketCap() else Default.DOUBLE
+                                val rightCap = if (rightQuote != null) rightQuote.getMarketCap() else Default.DOUBLE
+
+                                when(sortDirection) {
+                                    com.dreampany.tools.data.enums.SortDirection.ASCENDING-> {
+                                        return leftCap.compareTo(rightCap)
+                                    }
+                                    com.dreampany.tools.data.enums.SortDirection.DESCENDING->{
+                                        return rightCap.compareTo(leftCap)
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
     }
 }

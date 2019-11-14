@@ -4,8 +4,11 @@ import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.SortDirection
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
@@ -34,8 +37,8 @@ class CoinRepository
 ) : Repository<String, Coin>(rx, rm), CoinDataSource {
     override fun getItems(
         currency: Currency,
-        sort: String,
-        sortDirection: String,
+        sort: CoinSort,
+        sortDirection: SortDirection,
         auxiliaries: String,
         start: Long,
         limit: Long
@@ -53,13 +56,15 @@ class CoinRepository
 
     override fun getItemsRx(
         currency: Currency,
-        sort: String,
-        sortDirection: String,
+        sort: CoinSort,
+        sortDirection: SortDirection,
         auxiliaries: String,
         start: Long,
         limit: Long
     ): Maybe<List<Coin>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val remoteIf = getRemoteItemsIfRx(currency, sort, sortDirection, auxiliaries, start, limit)
+        val roomAny = room.getItemsRx(currency, sort, sortDirection, auxiliaries, start, limit)
+        return concatFirstRx(true, remoteIf, roomAny)
     }
 
     override fun isEmpty(): Boolean {
@@ -132,6 +137,29 @@ class CoinRepository
 
     override fun getItemsRx(limit: Long): Maybe<List<Coin>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun getRemoteItemsIfRx(currency: Currency,
+                                   sort: CoinSort,
+                                   sortDirection: SortDirection,
+                                   auxiliaries: String,
+                                   start: Long,
+                                   limit: Long): Maybe<List<Coin>> {
+        return Maybe.create { emitter ->
+            var result: List<Coin>? = null
+            if (mapper.isExpired(currency, sort, start)) {
+                result = remote.getItems(currency, sort, sortDirection, auxiliaries, start, limit)
+            }
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                //extra work to save result
+                room.putItems(result)
+                mapper.commitExpire(currency, sort, start)
+                emitter.onSuccess(result)
+            }
+        }
     }
 
 }

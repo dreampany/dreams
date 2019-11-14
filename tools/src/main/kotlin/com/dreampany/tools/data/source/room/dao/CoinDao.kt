@@ -15,6 +15,9 @@ import io.reactivex.Maybe
 @Dao
 interface CoinDao : BaseDao<Coin> {
 
+    @get:Query("select count(*) from coin")
+    val count: Int
+
     @get:Query("select * from coin")
     val itemsRx: Maybe<List<Coin>>
 }

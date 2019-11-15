@@ -276,7 +276,7 @@ class CryptoHomeFragment
     }
 
     private fun request(
-        id: String? = Constants.Default.NULL,
+        id: String = Constants.Default.STRING,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,

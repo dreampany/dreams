@@ -70,7 +70,10 @@ constructor(
                         limit
                     ).execute()
                 if (response.isSuccessful) {
-                    response.body()?.run { return mapper.getItems(data) }
+                    val res = response.body()
+                    if (res != null) {
+                        return mapper.getItems(res.data)
+                    }
                 }
             } catch (error: Throwable) {
                 Timber.e(error)
@@ -183,7 +186,7 @@ constructor(
     fun getHeaders(key: String): Map<String, String> {
         val headers = Maps.newHashMap<String, String>()
         headers.put(Constants.CoinMarketCap.ACCEPT, Constants.CoinMarketCap.ACCEPT_JSON)
-        headers.put(Constants.CoinMarketCap.ACCEPT_ENCODING, Constants.CoinMarketCap.ACCEPT_ZIP)
+        //headers.put(Constants.CoinMarketCap.ACCEPT_ENCODING, Constants.CoinMarketCap.ACCEPT_ZIP)
         headers.put(Constants.CoinMarketCap.API_KEY, key)
         return headers
     }

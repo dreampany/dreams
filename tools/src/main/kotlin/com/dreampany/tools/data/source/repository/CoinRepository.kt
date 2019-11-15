@@ -143,7 +143,7 @@ class CoinRepository
                                    limit: Long): Maybe<List<Coin>> {
         return Maybe.create { emitter ->
             var result: List<Coin>? = null
-            if (mapper.isExpired(currency, sort, order, start)) {
+            if (mapper.isExpired(currency, sort, order, start) || true) {
                 result = remote.getItems(currency, sort, order, start, limit)
             }
             if (emitter.isDisposed) return@create

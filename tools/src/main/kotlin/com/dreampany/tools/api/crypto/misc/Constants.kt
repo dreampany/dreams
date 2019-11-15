@@ -26,7 +26,7 @@ class Constants {
         const val ACCEPT_ENCODING = "Accept-Encoding"
         const val ACCEPT_JSON = "application/json"
         const val ACCEPT_ZIP = "deflate, gzip"
-        const val API_KEY = "CMC_PRO_API_KEY"
+        const val API_KEY = "X-CMC_PRO_API_KEY"
         const val CONVERT = "convert"
         const val SORT = "sort"
         const val SORT_DIRECTION = "sort_dir"

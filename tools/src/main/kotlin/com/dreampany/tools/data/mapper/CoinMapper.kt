@@ -23,6 +23,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.CoinItem
 import com.google.common.collect.Maps
 import io.reactivex.Maybe
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -108,6 +109,8 @@ class CoinMapper
     }
 
     fun getItem(input: com.dreampany.tools.api.crypto.model.Coin): Coin {
+
+        Timber.v("Resolved Coin: %s", input.name);
 
         val id = input.id.toString()
         var out: Coin? = map.get(id)

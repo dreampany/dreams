@@ -8,7 +8,7 @@ import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.data.enums.SortDirection
+import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
@@ -32,14 +32,12 @@ class CoinRepository
     private val storeRepo: StoreRepository,
     private val mapper: CoinMapper,
     @Room private val room: CoinDataSource,
-    @Firestore private val firestore: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : Repository<String, Coin>(rx, rm), CoinDataSource {
     override fun getItems(
         currency: Currency,
         sort: CoinSort,
-        sortDirection: SortDirection,
-        auxiliaries: String,
+        order: Order,
         start: Long,
         limit: Long
     ): List<Coin>? {
@@ -57,13 +55,12 @@ class CoinRepository
     override fun getItemsRx(
         currency: Currency,
         sort: CoinSort,
-        sortDirection: SortDirection,
-        auxiliaries: String,
+        order: Order,
         start: Long,
         limit: Long
     ): Maybe<List<Coin>> {
-        val remoteIf = getRemoteItemsIfRx(currency, sort, sortDirection, auxiliaries, start, limit)
-        val roomAny = room.getItemsRx(currency, sort, sortDirection, auxiliaries, start, limit)
+        val remoteIf = getRemoteItemsIfRx(currency, sort, order, start, limit)
+        val roomAny = room.getItemsRx(currency, sort, order, start, limit)
         return concatFirstRx(true, remoteIf, roomAny)
     }
 
@@ -141,14 +138,13 @@ class CoinRepository
 
     private fun getRemoteItemsIfRx(currency: Currency,
                                    sort: CoinSort,
-                                   sortDirection: SortDirection,
-                                   auxiliaries: String,
+                                   order: Order,
                                    start: Long,
                                    limit: Long): Maybe<List<Coin>> {
         return Maybe.create { emitter ->
             var result: List<Coin>? = null
-            if (mapper.isExpired(currency, sort, start)) {
-                result = remote.getItems(currency, sort, sortDirection, auxiliaries, start, limit)
+            if (mapper.isExpired(currency, sort, order, start)) {
+                result = remote.getItems(currency, sort, order, start, limit)
             }
             if (emitter.isDisposed) return@create
             if (result.isNullOrEmpty()) {
@@ -156,7 +152,7 @@ class CoinRepository
             } else {
                 //extra work to save result
                 room.putItems(result)
-                mapper.commitExpire(currency, sort, start)
+                mapper.commitExpire(currency, sort, order, start)
                 emitter.onSuccess(result)
             }
         }

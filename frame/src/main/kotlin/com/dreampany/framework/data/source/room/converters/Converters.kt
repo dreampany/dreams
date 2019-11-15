@@ -16,102 +16,102 @@ open class Converters {
     protected val gson = Gson()
     private val type = object : TypeToken<ArrayList<String>>() {}.type
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toTypeValue(type: Type?): String? {
         return if (type == null) null else type.name
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toType(value: String?): Type? {
         return if (value.isNullOrEmpty()) null else Type.valueOf(value)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toSubtypeValue(subtype: Subtype?): String? {
         return if (subtype == null) null else subtype.name
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toSubtype(value: String?): Subtype? {
         return if (value.isNullOrEmpty()) null else Subtype.valueOf(value)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toStateValue(state: State?): String? {
         return if (state == null) null else state.name
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toState(value: String?): State? {
         return if (value.isNullOrEmpty()) null else State.valueOf(value)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toString(values: ArrayList<String>?): String? {
         return if (values.isNullOrEmpty()) {
             null
         } else gson.toJson(values, type)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toList(json: String?): ArrayList<String>? {
         return if (json.isNullOrEmpty()) {
             null
         } else gson.fromJson<ArrayList<String>>(json, type)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toLanguageValue(language: Language?): String? {
         return if (language == null) null else language.name
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toLanguage(value: String?): Language? {
         return if (value.isNullOrEmpty()) null else Language.valueOf(value)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toRankValue(rank: Rank?): String? {
         return if (rank == null) null else rank.name
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toRank(value: String?): Rank? {
         return if (value.isNullOrEmpty()) null else Rank.valueOf(value)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toLevelValue(level: Level?): String? {
         return if (level == null) null else level.name
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toLevel(value: String?): Level? {
         return if (value.isNullOrEmpty()) null else Level.valueOf(value)
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toQualityValue(quality: Quality?): String? {
         return if (quality == null) null else quality.name
     }
 
-    @TypeConverter
     @Synchronized
+    @TypeConverter
     fun toQuality(value: String?): Quality? {
         return if (value.isNullOrEmpty()) null else Quality.valueOf(value)
     }

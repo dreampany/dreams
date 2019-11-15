@@ -9,9 +9,10 @@ import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.data.enums.SortDirection
+import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.model.Feature
+import com.dreampany.tools.ui.model.CoinItem
+import com.google.common.collect.Maps
 import java.util.concurrent.TimeUnit
 
 
@@ -45,6 +46,7 @@ class Constants {
         fun wordHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-home"
         fun vpnHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "vpn-home"
         fun radioHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "radio-home"
+        fun cryptoHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "crypto-home"
 
         fun favoriteNotes(context: Context): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-notes"
@@ -138,11 +140,6 @@ class Constants {
         const val STRING = Constants.Default.STRING
     }
 
-    object SortDirection {
-        const val ASCENDING = "asc"
-        const val DESCENDING = "desc"
-    }
-
     object Tag {
         const val NOTIFY_SERVICE = Constants.Tag.NOTIFY_SERVICE
         const val LANGUAGE_PICKER = "language-picker"
@@ -195,10 +192,22 @@ class Constants {
         const val WORD = "word"
         const val VPN = "vpn"
         const val RADIO = "radio"
-        const val COIN = "coin"
+        const val CRYPTO = "crypto"
+
+        object Crypto {
+            const val ID = Constants.Key.ID
+            const val CURRENCY = "currency"
+            const val VOLUME_24H = "volume_24h"
+            const val MARKET_CAP = "market_cap"
+            const val CHANGE_1H = "change_1h"
+            const val CHANGE_24H = "change_24h"
+            const val CHANGE_7D = "change_7d"
+            const val LAST_UPDATED = "last_updated"
+        }
     }
 
     object Pref {
+
         const val LEVEL = "level"
         const val LANGUAGE = "language"
         const val DEFAULT_POINT = "default_point"
@@ -237,9 +246,12 @@ class Constants {
             const val SERVER = "server"
         }
 
-        object Coin {
-            const val COIN = "coin"
+        object Crypto {
+            const val CRYPTO = "crypto"
             const val EXPIRE = "expire"
+            const val CURRENCY = "currency"
+            const val SORT = "sort"
+            const val ORDER = "order"
         }
     }
 
@@ -280,6 +292,10 @@ class Constants {
         object Vpn {
             const val SERVERS = 100L
         }
+
+        object Crypto {
+            const val LIST = 100L
+        }
     }
 
     object Cache {
@@ -318,6 +334,22 @@ class Constants {
             const val RADIO_BROWSER_STATIONS_OF_POPULAR =
                 "json/stations/topvote/{${Station.LIMIT}}"
             const val RADIO_BROWSER_STATIONS_SEARCH = "json/stations/search"
+        }
+    }
+
+    object Keys {
+        object Coin {
+            const val ID = Constants.Key.ID
+            const val MARKET_PAIRS = "market_pairs"
+            const val CIRCULATING_SUPPLY = "circulating_supply"
+            const val TOTAL_SUPPLY = "total_supply"
+            const val MAX_SUPPLY = "max_supply"
+            const val LAST_UPDATED = "last_updated"
+            const val DATE_ADDED = "date_added"
+        }
+        object Order {
+            const val ASCENDING = "asc"
+            const val DESCENDING = "desc"
         }
     }
 
@@ -374,16 +406,6 @@ class Constants {
 
     object Contact {
         const val ID = Constants.Key.ID
-    }
-
-    object Coin {
-        const val ID = Constants.Key.ID
-        const val MARKET_PAIRS = "market_pairs"
-        const val CIRCULATING_SUPPLY = "circulating_supply"
-        const val TOTAL_SUPPLY = "total_supply"
-        const val MAX_SUPPLY = "max_supply"
-        const val LAST_UPDATED = "last_updated"
-        const val DATE_ADDED = "date_added"
     }
 
     object Quote {
@@ -502,15 +524,16 @@ class Constants {
         const val BYTE_ARRAY_SIZE = 4096
     }
 
-    object Order {
+    object Orders {
         fun getOrder(type: Type): Int {
             when (type) {
-                Type.VPN -> return 1
-                Type.RADIO -> return 2
-                Type.APP -> return 3
-                Type.NOTE -> return 4
-                Type.WORD -> return 5
-                Type.ENGLISH -> return 6
+                Type.CRYPTO -> return 1
+                Type.VPN -> return 2
+                Type.RADIO -> return 3
+                Type.APP -> return 4
+                Type.NOTE -> return 5
+                Type.WORD -> return 6
+                Type.ENGLISH -> return 7
                 else -> return Int.MAX_VALUE
             }
         }
@@ -573,35 +596,94 @@ class Constants {
         const val NOPROCESS = "NOPROCESS"
     }
 
-    object Sort {
-/*        val comparatorOfAscOfMarketCap = object : Comparator<com.dreampany.tools.data.model.Coin> {
-            override fun compare(left: com.dreampany.tools.data.model.Coin?, right: com.dreampany.tools.data.model.Coin?
-            ): Int {
+    object Comparator {
 
+        object Crypto {
+            private val comparators: HashMap<Pair<CoinSort,  Order>, java.util.Comparator<Coin>> =
+                Maps.newHashMap()
+            private val uiComparators: HashMap<Pair<CoinSort,  Order>, java.util.Comparator<CoinItem>> =
+                Maps.newHashMap()
+
+            fun getComparator(
+                currency: Currency,
+                sort: CoinSort,
+                order:  Order
+            ): java.util.Comparator<Coin> {
+                val pair = Pair(sort, order)
+                if (!comparators.containsKey(pair)) {
+                    comparators.put(pair, createComparator(currency, sort, order))
+                }
+                return comparators.get(pair)!!
             }
 
-        }*/
+            fun getUiComparator(
+                currency: Currency,
+                sort: CoinSort,
+                order:  Order
+            ): java.util.Comparator<CoinItem> {
+                val pair = Pair(sort, order)
+                if (!uiComparators.containsKey(pair)) {
+                    uiComparators.put(pair, createUiComparator(currency, sort, order))
+                }
+                return uiComparators.get(pair)!!
+            }
 
-        object Coin {
-            fun getComparator(currency: Currency, sort: CoinSort, sortDirection: com.dreampany.tools.data.enums.SortDirection) : Comparator<com.dreampany.tools.data.model.Coin> {
-                when(sort) {
-                    CoinSort.MARKET_CAP-> {
-                        return object : Comparator<com.dreampany.tools.data.model.Coin> {
-                            override fun compare(
-                                left: com.dreampany.tools.data.model.Coin,
-                                right: com.dreampany.tools.data.model.Coin
+            private fun createComparator(
+                currency: Currency,
+                sort: CoinSort,
+                order:  Order
+            ): java.util.Comparator<Coin> {
+                when (sort) {
+                    CoinSort.MARKET_CAP -> {
+                        return object : java.util.Comparator<Coin> {
+                            override fun compare(left: Coin, right: Coin
                             ): Int {
                                 val leftQuote = left.getQuote(currency)
                                 val rightQuote = right.getQuote(currency)
 
-                                val leftCap = if (leftQuote != null) leftQuote.getMarketCap() else Default.DOUBLE
-                                val rightCap = if (rightQuote != null) rightQuote.getMarketCap() else Default.DOUBLE
+                                val leftCap =
+                                    if (leftQuote != null) leftQuote.getMarketCap() else Default.DOUBLE
+                                val rightCap =
+                                    if (rightQuote != null) rightQuote.getMarketCap() else Default.DOUBLE
 
-                                when(sortDirection) {
-                                    com.dreampany.tools.data.enums.SortDirection.ASCENDING-> {
+                                when (order) {
+                                     Order.ASCENDING -> {
                                         return leftCap.compareTo(rightCap)
                                     }
-                                    com.dreampany.tools.data.enums.SortDirection.DESCENDING->{
+                                    Order.DESCENDING -> {
+                                        return rightCap.compareTo(leftCap)
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+
+            private fun createUiComparator(
+                currency: Currency,
+                sort: CoinSort,
+                sortDirection: com.dreampany.tools.data.enums.Order
+            ): java.util.Comparator<CoinItem> {
+                when (sort) {
+                    CoinSort.MARKET_CAP -> {
+                        return object : java.util.Comparator<CoinItem> {
+                            override fun compare(left: CoinItem, right: CoinItem
+                            ): Int {
+                                val leftQuote = left.item.getQuote(currency)
+                                val rightQuote = right.item.getQuote(currency)
+
+                                val leftCap =
+                                    if (leftQuote != null) leftQuote.getMarketCap() else Default.DOUBLE
+                                val rightCap =
+                                    if (rightQuote != null) rightQuote.getMarketCap() else Default.DOUBLE
+
+                                when (sortDirection) {
+                                    Order.ASCENDING -> {
+                                        return leftCap.compareTo(rightCap)
+                                    }
+                                    Order.DESCENDING -> {
                                         return rightCap.compareTo(leftCap)
                                     }
                                 }
@@ -613,4 +695,9 @@ class Constants {
             }
         }
     }
+
+
+
+
+
 }

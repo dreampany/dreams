@@ -15,5 +15,5 @@ import com.dreampany.tools.data.model.Quote
 interface QuoteDao : BaseDao<Quote> {
 
     @Query("select * from quote where id = :id and currency = :currency limit 1")
-    fun getItems(id: String, currency: String): Quote
+    fun getItem(id: String, currency: String): Quote?
 }

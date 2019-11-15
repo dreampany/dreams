@@ -98,6 +98,6 @@ class TranslationModule {
         key: KeyManager,
         service: YandexTranslationService
     ): TranslationDataSource {
-        return RemoteTranslationDataSource(network, mapper, key, service)
+        return RemoteTranslationDataSource(network,  key, mapper, service)
     }
 }

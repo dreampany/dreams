@@ -36,7 +36,8 @@ abstract class ActivityModule {
             WordModule::class,
             VpnModule::class,
             RadioModule::class,
-            ServersModule::class
+            ServersModule::class,
+            CryptoModule::class
         ]
     )
     abstract fun toolsActivity(): ToolsActivity

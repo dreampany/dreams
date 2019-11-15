@@ -28,10 +28,10 @@ import kotlin.collections.HashMap
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Coin.ID],
+        value = [Constants.Keys.Coin.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Coin.ID]
+    primaryKeys = [Constants.Keys.Coin.ID]
 )
 data class Coin(
     override var time: Long = Constants.Default.LONG,
@@ -39,22 +39,22 @@ data class Coin(
     var name: String? = Constants.Default.NULL,
     var symbol: String? = Constants.Default.NULL,
     var slug: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Coin.CIRCULATING_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.CIRCULATING_SUPPLY)
     private var circulatingSupply: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Coin.MAX_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.MAX_SUPPLY)
     private var maxSupply: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Coin.TOTAL_SUPPLY)
+    @ColumnInfo(name = Constants.Keys.Coin.TOTAL_SUPPLY)
     private var totalSupply: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Coin.MARKET_PAIRS)
+    @ColumnInfo(name = Constants.Keys.Coin.MARKET_PAIRS)
     private var marketPairs: Int = Constants.Default.INT,
     var rank: Int = Constants.Default.INT,
     @Ignore
     @Exclude
     var quotes: HashMap<Currency, Quote>? = Constants.Default.NULL,
     var tags: ArrayList<String>? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Coin.DATE_ADDED)
+    @ColumnInfo(name = Constants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constants.Default.LONG,
-    @ColumnInfo(name = Constants.Coin.LAST_UPDATED)
+    @ColumnInfo(name = Constants.Keys.Coin.LAST_UPDATED)
     private var lastUpdated: Long = Constants.Default.LONG
 
 ) : Base() {
@@ -83,62 +83,62 @@ data class Coin(
         return "Coin ($id) == $id"
     }
 
-    @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.CIRCULATING_SUPPLY)
     fun setCirculatingSupply(circulatingSupply: Double) {
         this.circulatingSupply = circulatingSupply
     }
 
-    @PropertyName(Constants.Coin.CIRCULATING_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.CIRCULATING_SUPPLY)
     fun getCirculatingSupply(): Double {
         return circulatingSupply
     }
 
-    @PropertyName(Constants.Coin.TOTAL_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.TOTAL_SUPPLY)
     fun setTotalSupply(totalSupply: Double) {
         this.totalSupply = totalSupply
     }
 
-    @PropertyName(Constants.Coin.TOTAL_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.TOTAL_SUPPLY)
     fun getTotalSupply(): Double {
         return totalSupply
     }
 
-    @PropertyName(Constants.Coin.MAX_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.MAX_SUPPLY)
     fun setMaxSupply(maxSupply: Double) {
         this.maxSupply = maxSupply
     }
 
-    @PropertyName(Constants.Coin.MAX_SUPPLY)
+    @PropertyName(Constants.Keys.Coin.MAX_SUPPLY)
     fun getMaxSupply(): Double {
         return maxSupply
     }
 
-    @PropertyName(Constants.Coin.MARKET_PAIRS)
+    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
     fun setMarketPairs(marketPairs: Int) {
         this.marketPairs = marketPairs
     }
 
-    @PropertyName(Constants.Coin.MARKET_PAIRS)
+    @PropertyName(Constants.Keys.Coin.MARKET_PAIRS)
     fun getMarketPairs(): Int {
         return marketPairs
     }
 
-    @PropertyName(Constants.Coin.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Coin.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
         this.lastUpdated = lastUpdated
     }
 
-    @PropertyName(Constants.Coin.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Coin.LAST_UPDATED)
     fun getLastUpdated(): Long {
         return lastUpdated
     }
 
-    @PropertyName(Constants.Coin.DATE_ADDED)
+    @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun setDateAdded(dateAdded: Long) {
         this.dateAdded = dateAdded
     }
 
-    @PropertyName(Constants.Coin.DATE_ADDED)
+    @PropertyName(Constants.Keys.Coin.DATE_ADDED)
     fun getDateAdded(): Long {
         return dateAdded
     }
@@ -152,7 +152,7 @@ data class Coin(
         if (quotes == null) {
             quotes = Maps.newHashMap()
         }
-        quotes!![quote.currency] = quote
+        quotes?.put(quote.currency, quote)
     }
 
     @Exclude
@@ -207,7 +207,7 @@ data class Coin(
 
     fun getQuote(currency: Currency): Quote? {
         if (quotes.isNullOrEmpty()) return null
-       return quotes!!.get(currency)
+        return quotes!!.get(currency)
     }
 
     @Exclude

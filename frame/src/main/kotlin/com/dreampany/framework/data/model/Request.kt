@@ -18,7 +18,8 @@ abstract class Request<T>(
     val single: Boolean = Constants.Default.BOOLEAN,
     var important: Boolean = Constants.Default.BOOLEAN,
     var progress: Boolean = Constants.Default.BOOLEAN,
-    var input: T? = Constants.Default.NULL,
-    var limit: Long = Constants.Default.LONG
+    var start: Long = Constants.Default.LONG,
+    var limit: Long = Constants.Default.LONG,
+    var input: T? = Constants.Default.NULL
 ) {
 }

@@ -23,6 +23,7 @@ import dagger.Module
         WordModule::class,
         VpnModule::class,
         RadioModule::class,
+        CryptoModule::class,
         SupportModule::class,
         ViewModelModule::class
     ]

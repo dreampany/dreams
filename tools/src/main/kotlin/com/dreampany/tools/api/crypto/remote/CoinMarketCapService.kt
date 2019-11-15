@@ -20,7 +20,7 @@ interface CoinMarketCapService {
         @Query(Constants.CoinMarketCap.CONVERT) currencies: String,
         @Query(Constants.CoinMarketCap.SORT) sort: String,
         @Query(Constants.CoinMarketCap.SORT_DIRECTION) sortDirection: String,
-        @Query(Constants.CoinMarketCap.AUXILIARIES) auxiliaries: String,
+        //@Query(Constants.CoinMarketCap.AUXILIARIES) auxiliaries: String,
         @Query(Constants.Common.START) start: Long,
         @Query(Constants.Common.LIMIT) limit: Long
     ): Call<CoinsResponse>

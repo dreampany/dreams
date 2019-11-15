@@ -33,37 +33,58 @@ import javax.inject.Singleton
 @Module
 class RadioModule {
 
-    @StationAnnote
     @Provides
     @Singleton
+    @StationAnnote
     fun provideStationSmartMap(): SmartMap<String, Station> {
         return SmartMap.newMap()
     }
 
-    @StationAnnote
     @Provides
     @Singleton
+    @StationAnnote
     fun provideStationSmartCache(): SmartCache<String, Station> {
         return SmartCache.newCache()
     }
 
-    @StationItemAnnote
     @Provides
     @Singleton
+    @StationItemAnnote
     fun provideStationItemSmartMap(): SmartMap<String, StationItem> {
         return SmartMap.newMap()
     }
 
-    @StationItemAnnote
     @Provides
     @Singleton
+    @StationItemAnnote
     fun provideStationItemSmartCache(): SmartCache<String, StationItem> {
         return SmartCache.newCache()
     }
 
-    @StationAnnote
     @Provides
     @Singleton
+    @Room
+    fun provideRoomStationDataSource(
+        mapper: StationMapper,
+        dao: StationDao
+    ): StationDataSource {
+        return RoomStationDataSource(mapper, dao)
+    }
+
+    @Provides
+    @Singleton
+    @Remote
+    fun provideRemoteStationDataSource(
+        network: NetworkManager,
+        mapper: StationMapper,
+        service: StationService
+    ): StationDataSource {
+        return RemoteStationDataSource( network, mapper, service)
+    }
+
+    @Provides
+    @Singleton
+    @StationAnnote
     fun provideStationRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
             .client(client)
@@ -78,27 +99,5 @@ class RadioModule {
     @Singleton
     fun provideStationService(@StationAnnote retrofit: Retrofit): StationService {
         return retrofit.create(StationService::class.java);
-    }
-
-
-    @Room
-    @Provides
-    @Singleton
-    fun provideRoomStationDataSource(
-        mapper: StationMapper,
-        dao: StationDao
-    ): StationDataSource {
-        return RoomStationDataSource(mapper, dao)
-    }
-
-    @Remote
-    @Provides
-    @Singleton
-    fun provideRemoteStationDataSource(
-        network: NetworkManager,
-        mapper: StationMapper,
-        service: StationService
-    ): StationDataSource {
-        return RemoteStationDataSource( network, mapper, service)
     }
 }

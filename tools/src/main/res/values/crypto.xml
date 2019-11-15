@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="full_name">%s (%s)</string>
+    <string name="time">Time</string>
+    <string name="symbol">Symbol</string>
+    <string name="price">Price</string>
+    <string name="usd">USD</string>
+    <string name="btc">BTC</string>
+    <string name="volume_24h">Volume</string>
+    <string name="market_cap">Market Cap</string>
+    <string name="volume_24h_min">Vol</string>
+    <string name="market_cap_min">Cap</string>
+    <string name="circulating_supply">Circulating Supply</string>
+    <string name="total_supply">Total Supply</string>
+    <string name="max_supply">Max Supply</string>
+    <string name="change">Change</string>
+    <string name="change_1h">1H</string>
+    <string name="change_24h">24H</string>
+    <string name="change_7d">7D</string>
+    <string name="coin_format">%s: (%s)</string>
+    <string name="change_percent">%s%%</string>
+
+    <string name="one_hour">1H</string>
+    <string name="one_day">1D</string>
+    <string name="three_day">3D</string>
+    <string name="week">7D</string>
+    <string name="month">1M</string>
+    <string name="three_month">3M</string>
+    <string name="six_month">6M</string>
+    <string name="year">1Y</string>
+    <string name="all">All</string>
+
+</resources>

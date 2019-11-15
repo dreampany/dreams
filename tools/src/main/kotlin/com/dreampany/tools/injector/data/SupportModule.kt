@@ -173,46 +173,4 @@ class SupportModule {
     fun provideRelatedQuizItemSmartCache(): SmartCache<String, RelatedQuizItem> {
         return SmartCache.newCache()
     }
-
-    @Singleton
-    @Provides
-    @CoinAnnote
-    fun provideCoinSmartMap(): SmartMap<String, Coin> {
-        return SmartMap.newMap()
-    }
-
-    @Singleton
-    @Provides
-    @CoinAnnote
-    fun provideCoinSmartCache(): SmartCache<String, Coin> {
-        return SmartCache.newCache()
-    }
-
-    @Singleton
-    @Provides
-    @CurrencyAnnote
-    fun provideCurrencySmartMap(): SmartMap<String, Currency> {
-        return SmartMap.newMap()
-    }
-
-    @Singleton
-    @Provides
-    @CurrencyAnnote
-    fun provideCurrencySmartCache(): SmartCache<String, Currency> {
-        return SmartCache.newCache()
-    }
-
-    @Singleton
-    @Provides
-    @QuoteAnnote
-    fun provideQuoteSmartMap(): SmartMap<Pair<String, Currency>, Quote> {
-        return SmartMap.newMap()
-    }
-
-    @Singleton
-    @Provides
-    @QuoteAnnote
-    fun provideQuoteSmartCache(): SmartCache<Pair<String, Currency>, Quote> {
-        return SmartCache.newCache()
-    }
 }

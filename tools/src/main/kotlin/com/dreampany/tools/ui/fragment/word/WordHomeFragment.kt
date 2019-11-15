@@ -158,10 +158,8 @@ class WordHomeFragment
         initRecycler()
         toScanMode()
         adjustTranslationUi()
-        //vm.updateUiState(uiState = UiState.SEARCH)
         onRefresh()
         loadRequest()
-        //request(state = State.HISTORY, action = Action.GET, single = false, progress = true, limit = Constants.Limit.Word.HISTORY)
     }
 
     override fun onStopUi() {
@@ -383,7 +381,6 @@ class WordHomeFragment
     }
 
     private fun initUi() {
-        //setTitle(R.string.home)
         bind = super.binding as FragmentWordHomeBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler

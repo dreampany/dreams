@@ -8,7 +8,7 @@ import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.remote.CoinMarketCapService
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.data.enums.SortDirection
+import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
@@ -50,8 +50,8 @@ constructor(
 
     override fun getItems(
         currency: Currency, sort: CoinSort,
-        sortDirection: SortDirection,
-        auxiliaries: String, start: Long, limit: Long
+        order: Order,
+        start: Long, limit: Long
     ): List<Coin>? {
         if (network.isObserving() && !network.hasInternet()) {
             return null
@@ -65,9 +65,8 @@ constructor(
                         getHeaders(key),
                         currency.name,
                         sort.value,
-                        sortDirection.value,
-                        auxiliaries,
-                        start,
+                        order.value,
+                        start + 1,
                         limit
                     ).execute()
                 if (response.isSuccessful) {
@@ -84,11 +83,11 @@ constructor(
     override fun getItemsRx(
         currency: Currency,
         sort: CoinSort,
-        sortDirection: SortDirection,
-        auxiliaries: String, start: Long, limit: Long
+        order: Order,
+        start: Long, limit: Long
     ): Maybe<List<Coin>> {
         return Maybe.create { emitter ->
-            val result = getItems(currency, sort, sortDirection, auxiliaries, start, limit)
+            val result = getItems(currency, sort, order, start, limit)
             if (emitter.isDisposed) {
                 return@create
             }

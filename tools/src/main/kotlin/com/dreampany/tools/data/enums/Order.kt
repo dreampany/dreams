@@ -11,9 +11,9 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class SortDirection(
+enum class Order(
     val value: String
 ) : Parcelable {
-    ASCENDING(Constants.SortDirection.ASCENDING),
-    DESCENDING(Constants.SortDirection.DESCENDING)
+    ASCENDING(Constants.Keys.Order.ASCENDING),
+    DESCENDING(Constants.Keys.Order.DESCENDING)
 }

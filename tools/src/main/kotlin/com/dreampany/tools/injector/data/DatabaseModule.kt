@@ -48,6 +48,12 @@ class DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideCryptoDatabase(application: Application): CryptoDatabase {
+        return CryptoDatabase.getInstance(application)
+    }
+
+    @Provides
+    @Singleton
     fun provideNoteDao(database: NoteDatabase): NoteDao {
         return database.noteDao()
     }
@@ -80,5 +86,17 @@ class DatabaseModule {
     @Singleton
     fun provideStationDao(database: RadioDatabase): StationDao {
         return database.stationDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinDao(database: CryptoDatabase): CoinDao {
+        return database.coinDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuoteDao(database: CryptoDatabase): QuoteDao {
+        return database.quoteDao()
     }
 }

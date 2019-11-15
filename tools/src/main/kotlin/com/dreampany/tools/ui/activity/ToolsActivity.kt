@@ -17,6 +17,7 @@ import com.dreampany.tools.databinding.ActivityToolsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.*
 import com.dreampany.tools.ui.fragment.app.AppHomeFragment
+import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
@@ -55,6 +56,9 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var vpnHomeProvider: Lazy<VpnHomeFragment>
     @Inject
     internal lateinit var radioHomeProvider: Lazy<RadioHomeFragment>
+    @Inject
+    internal lateinit var cryptoHomeProvider: Lazy<CryptoHomeFragment>
+
 
     @Inject
     internal lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
@@ -74,6 +78,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var noteProvider: Lazy<NoteFragment>
     @Inject
     internal lateinit var serversProvider: Lazy<ServersFragment>
+
 
     private lateinit var bind: ActivityToolsBinding
     private lateinit var collapseBind: ActivityCollapseToolsBinding
@@ -275,6 +280,17 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         ServersFragment::class.java,
                         serversProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+            }
+            Type.CRYPTO -> {
+                if (subtype == Subtype.DEFAULT) {
+                    commitFragment(
+                        CryptoHomeFragment::class.java,
+                        cryptoHomeProvider,
                         R.id.layout,
                         uiTask
                     )

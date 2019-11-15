@@ -1,7 +1,6 @@
 package com.dreampany.lca.ui.adapter
 
-import com.dreampany.frame.ui.adapter.SmartAdapter
-import com.dreampany.frame.util.DataUtil
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.ui.model.CoinItem
 import eu.davidea.flexibleadapter.items.IFlexible

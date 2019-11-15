@@ -2,7 +2,7 @@ package com.dreampany.lca.data.source.dao
 
 import androidx.room.Dao
 import androidx.room.Query
-import com.dreampany.frame.data.source.dao.BaseDao
+import com.dreampany.framework.data.source.room.dao.BaseDao
 import com.dreampany.lca.data.model.Quote
 import io.reactivex.Maybe
 

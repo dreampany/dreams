@@ -74,6 +74,11 @@ abstract class ViewModelModule {
     @ViewModelKey(StationViewModel::class)
     abstract fun bindStationViewModel(vm: StationViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(CoinViewModel::class)
+    abstract fun bindCoinViewModel(vm: CoinViewModel): ViewModel
+
     @Singleton
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

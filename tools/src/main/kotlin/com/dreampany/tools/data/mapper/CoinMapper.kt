@@ -4,24 +4,29 @@ import android.content.Context
 import androidx.core.util.Pair
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
+import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TimeUtil
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.model.Quote
 import com.dreampany.tools.data.source.api.CoinDataSource
-import com.dreampany.tools.data.source.pref.CoinPref
+import com.dreampany.tools.data.source.pref.CryptoPref
+import com.dreampany.tools.data.source.room.dao.QuoteDao
 import com.dreampany.tools.injector.annotation.CoinAnnote
+import com.dreampany.tools.injector.annotation.CoinItemAnnote
 import com.dreampany.tools.injector.annotation.CurrencyAnnote
 import com.dreampany.tools.injector.annotation.QuoteAnnote
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.model.CoinItem
 import com.google.common.collect.Maps
 import io.reactivex.Maybe
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 /**
  * Created by roman on 2019-11-12
@@ -33,9 +38,11 @@ import kotlin.collections.HashMap
 class CoinMapper
 @Inject constructor(
     private val context: Context,
-    private val pref: CoinPref,
+    private val pref: CryptoPref,
     @CoinAnnote private val map: SmartMap<String, Coin>,
     @CoinAnnote private val cache: SmartCache<String, Coin>,
+    @CoinItemAnnote private val uiMap: SmartMap<String, CoinItem>,
+    @CoinItemAnnote private val uiCache: SmartCache<String, CoinItem>,
     @CurrencyAnnote private val currencyMap: SmartMap<String, Currency>,
     @CurrencyAnnote private val currencyCache: SmartCache<String, Currency>,
     @QuoteAnnote private val quoteMap: SmartMap<Pair<String, Currency>, Quote>,
@@ -48,26 +55,39 @@ class CoinMapper
         coins = Collections.synchronizedList(ArrayList<Coin>())
     }
 
-    fun isExpired(currency: Currency, sort: CoinSort, start: Long): Boolean {
-        val time = pref.getExpireTime(currency.name, sort.value, start)
+    fun isExpired(currency: Currency, sort: CoinSort, order: Order, start: Long): Boolean {
+        val time = pref.getExpireTime(currency, sort, order, start)
         return TimeUtil.isExpired(time, Constants.Time.Coin.LISTING)
     }
 
-    fun commitExpire(currency: Currency, sort: String, start: Long) {
-        pref.getExpireTime(currency.name, sort, start)
+    fun commitExpire(currency: Currency, sort: CoinSort, order: Order, start: Long) {
+        pref.getExpireTime(currency, sort, order, start)
+    }
+
+    fun getUiItem(id: String): CoinItem? {
+        return uiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: CoinItem) {
+        uiMap.put(id, uiItem)
     }
 
     fun getItemsRx(
-        source: CoinDataSource, currency: Currency,
-        sort: String,
-        sortDirection: String,
-        auxiliaries: String,
+        currency: Currency,
+        sort: CoinSort,
+        sortDirection: Order,
         start: Long,
-        limit: Long
+        limit: Long,
+        quoteDao: QuoteDao,
+        source: CoinDataSource
     ): Maybe<List<Coin>> {
         return Maybe.create { emitter ->
             updateCache(source)
-            /*val result = getItems(source, currency, index, limit)
+            val cache = sortedCoins(currency, sort, sortDirection)
+            val result = DataUtilKt.sub(cache, start.toInt(), limit.toInt())
+            result?.forEach {
+                bindQuote(currency, it, quoteDao)
+            }
             if (emitter.isDisposed) {
                 return@create
             }
@@ -75,7 +95,7 @@ class CoinMapper
                 emitter.onError(EmptyException())
             } else {
                 emitter.onSuccess(result)
-            }*/
+            }
         }
     }
 
@@ -153,7 +173,15 @@ class CoinMapper
         return out
     }
 
-    fun getUtc(time: String): Long {
+    private fun bindQuote(currency: Currency, coin: Coin, dao: QuoteDao) {
+        if (!coin.hasQuote(currency)) {
+            dao.getItem(coin.id, currency.name)?.run {
+                coin.addQuote(this)
+            }
+        }
+    }
+
+    private fun getUtc(time: String): Long {
         return TimeUtil.getUtcTime(time)
     }
 
@@ -168,10 +196,17 @@ class CoinMapper
         }
     }
 
-    private fun sortedCoins(sort: String, sortDirection: String): List<Coin> {
-        val result = ArrayList<Coin>(coins)
-
-        return result
+    @Synchronized
+    private fun sortedCoins(
+        currency: Currency,
+        sort: CoinSort,
+        sortDirection: Order
+    ): List<Coin> {
+        //val result = ArrayList(coins)
+        val comparator =
+            Constants.Comparator.Crypto.getComparator(currency, sort, sortDirection)
+        coins.sortWith(comparator)
+        return coins
     }
 
 

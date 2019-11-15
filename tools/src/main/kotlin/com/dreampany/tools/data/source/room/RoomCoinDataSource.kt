@@ -1,10 +1,13 @@
 package com.dreampany.tools.data.source.room
 
+import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
 import com.dreampany.tools.data.source.room.dao.CoinDao
+import com.dreampany.tools.data.source.room.dao.QuoteDao
 import io.reactivex.Maybe
 
 /**
@@ -16,15 +19,14 @@ import io.reactivex.Maybe
 class RoomCoinDataSource(
     private val mapper: CoinMapper,
     private val dao: CoinDao,
-    private val quoteDao: CoinDao
+    private val quoteDao: QuoteDao
 ) : CoinDataSource {
 
 
     override fun getItems(
         currency: Currency,
-        sort: String,
-        sortDirection: String,
-        auxiliaries: String,
+        sort: CoinSort,
+        order: Order,
         start: Long,
         limit: Long
     ): List<Coin>? {
@@ -41,13 +43,12 @@ class RoomCoinDataSource(
 
     override fun getItemsRx(
         currency: Currency,
-        sort: String,
-        sortDirection: String,
-        auxiliaries: String,
+        sort: CoinSort,
+        order: Order,
         start: Long,
         limit: Long
     ): Maybe<List<Coin>> {
-
+        return mapper.getItemsRx(currency, sort, order, start, limit, quoteDao, this)
     }
 
     override fun isEmpty(): Boolean {
@@ -120,14 +121,5 @@ class RoomCoinDataSource(
 
     override fun getItemsRx(limit: Long): Maybe<List<Coin>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    /* private */
-    private fun updateCache() {
-        if (!cacheLoaded || !mapper.hasCoins()) {
-            val room = dao.items
-            mapper.add(room)
-            cacheLoaded = true
-        }
     }
 }

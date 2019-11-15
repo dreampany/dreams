@@ -19,8 +19,8 @@ class Constants {
             "d158ff45-ef74-4562-8984-8d717f422df8" //dreampanymail@gmail.com
         const val CMC_SANDBOX = "ba266b8e-abf4-466f-84cd-38700d6eb8f0"
 
-        const val BASE_URL = "https://pro-api.coinmarketcap.com/v1"
-        const val LISTING = "/cryptocurrency/listings/latest"
+        const val BASE_URL = "https://pro-api.coinmarketcap.com/v1/"
+        const val LISTING = "cryptocurrency/listings/latest"
 
         const val ACCEPT = "Accept"
         const val ACCEPT_ENCODING = "Accept-Encoding"

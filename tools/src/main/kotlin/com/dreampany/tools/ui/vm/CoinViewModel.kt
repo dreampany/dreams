@@ -20,6 +20,7 @@ import com.dreampany.tools.ui.misc.CoinRequest
 import com.dreampany.tools.ui.model.CoinItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -101,6 +102,7 @@ class CoinViewModel
     }
 
     private fun getUiItemsRx(request: CoinRequest, items: List<Coin>): Maybe<List<CoinItem>> {
+        Timber.v("For UI items %d", items.size)
         return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
             .toList()

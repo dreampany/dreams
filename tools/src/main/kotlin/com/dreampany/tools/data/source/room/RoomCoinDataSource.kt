@@ -76,7 +76,11 @@ class RoomCoinDataSource(
     }
 
     override fun putItem(t: Coin): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mapper.add(t) //adding mapper to reuse
+        if (t.hasQuote()) {
+            quoteDao.insertOrReplace(t.getQuotesAsList()!!)
+        }
+        return dao.insertOrReplace(t)
     }
 
     override fun putItemRx(t: Coin): Maybe<Long> {
@@ -84,7 +88,9 @@ class RoomCoinDataSource(
     }
 
     override fun putItems(ts: List<Coin>): List<Long>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val result = arrayListOf<Long>()
+        ts.forEach { coin -> result.add(putItem(coin)) }
+        return result
     }
 
     override fun putItemsRx(ts: List<Coin>): Maybe<List<Long>> {

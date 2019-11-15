@@ -18,7 +18,7 @@ import java.util.Comparator
 class CoinAdapter (listener: Any? = null) : SmartAdapter<CoinItem>(listener) {
 
     fun addItems(currency: Currency, sort: CoinSort, order: Order, items: List<CoinItem>): Boolean {
-        val comparator: Comparator<IFlexible<*>> = Constants.Comparator.Crypto.getComparator(currency, sort, order)
+        val comparator: Comparator<IFlexible<*>> = Constants.Comparator.Crypto.getUiComparator(currency, sort, order)
         as Comparator<IFlexible<*>>
         return super.addItems(items, comparator)
     }

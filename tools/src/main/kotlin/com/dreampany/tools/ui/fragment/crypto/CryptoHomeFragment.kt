@@ -271,7 +271,7 @@ class CryptoHomeFragment
     }
 
     private fun processSingleSuccess(state: State, action: Action, item: CoinItem) {
-        Timber.v("Result Single Word[%s]", item.item.id)
+        Timber.v("Result Single Coin[%s]", item.item.id)
 
     }
 

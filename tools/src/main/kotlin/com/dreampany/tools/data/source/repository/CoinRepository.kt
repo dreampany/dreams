@@ -13,6 +13,7 @@ import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
 import io.reactivex.Maybe
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -151,6 +152,7 @@ class CoinRepository
                 emitter.onError(EmptyException())
             } else {
                 //extra work to save result
+                Timber.v("Room Loading %s", result.size)
                 room.putItems(result)
                 mapper.commitExpire(currency, sort, order, start)
                 emitter.onSuccess(result)

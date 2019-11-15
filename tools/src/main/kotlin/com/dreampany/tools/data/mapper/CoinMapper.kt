@@ -62,7 +62,14 @@ class CoinMapper
     }
 
     fun commitExpire(currency: Currency, sort: CoinSort, order: Order, start: Long) {
-        pref.getExpireTime(currency, sort, order, start)
+        pref.commitExpireTime(currency, sort, order, start)
+    }
+
+    @Synchronized
+    fun add(coin: Coin) {
+        if (!coins.contains(coin)) {
+            coins.add(coin)
+        }
     }
 
     fun getUiItem(id: String): CoinItem? {
@@ -191,10 +198,8 @@ class CoinMapper
     @Synchronized
     private fun updateCache(source: CoinDataSource) {
         if (source.getCount() != coins.size) {
-            source.getItems()?.forEach {
-                if (!coins.contains(it)) {
-                    coins.add(it)
-                }
+            source.getItems()?.forEach {coin->
+                add(coin)
             }
         }
     }

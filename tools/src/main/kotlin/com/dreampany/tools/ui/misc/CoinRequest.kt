@@ -15,10 +15,10 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class CoinRequest(
-    var id: String? = Constants.Default.NULL,
-    var currency: Currency? = Constants.Default.NULL,
-    var sort: CoinSort? = Constants.Default.NULL,
-    var order: Order? = Constants.Default.NULL,
+    var id: String = Constants.Default.STRING,
+    var currency: Currency = Currency.USD,
+    var sort: CoinSort = CoinSort.MARKET_CAP,
+    var order: Order = Order.DESCENDING,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,

@@ -335,6 +335,11 @@ class Constants {
                 "json/stations/topvote/{${Station.LIMIT}}"
             const val RADIO_BROWSER_STATIONS_SEARCH = "json/stations/search"
         }
+
+        object Crypto {
+            const val CoinMarketCapImageUrl =
+                "https://s2.coinmarketcap.com/static/img/coins/64x64/%s.png" //id reference
+        }
     }
 
     object Keys {

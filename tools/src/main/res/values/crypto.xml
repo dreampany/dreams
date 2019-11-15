@@ -31,4 +31,9 @@
     <string name="year">1Y</string>
     <string name="all">All</string>
 
+    <string name="with_price">Price(%s)</string>
+    <string name="with_change">Change(%s)</string>
+
+    <string name="positive_pct_format">&#43;%2.2f%%</string>
+    <string name="negative_pct_format">%2.2f%%</string>
 </resources>

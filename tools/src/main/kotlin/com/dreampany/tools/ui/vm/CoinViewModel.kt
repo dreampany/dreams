@@ -18,6 +18,7 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.CoinRepository
 import com.dreampany.tools.ui.misc.CoinRequest
 import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.util.CurrencyFormatter
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -42,7 +43,8 @@ class CoinViewModel
     private val storeRepo: StoreRepository,
     private val mapper: CoinMapper,
     private val repo: CoinRepository,
-    @Favorite private val favorites: SmartMap<String, Boolean>
+    @Favorite private val favorites: SmartMap<String, Boolean>,
+    private val formatter: CurrencyFormatter
 ) : BaseViewModel<Coin, CoinItem, UiTask<Coin>>(application, rx, ex, rm), NetworkManager.Callback {
 
     override fun clear() {
@@ -112,7 +114,7 @@ class CoinViewModel
     private fun getUiItem(request: CoinRequest, item: Coin): CoinItem {
         var uiItem: CoinItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
-            uiItem = CoinItem.getItem(item)
+            uiItem = CoinItem.getItem(formatter, request.currency, item)
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item

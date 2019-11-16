@@ -81,6 +81,10 @@ class CryptoHomeFragment
         return R.string.title_feature_crypto
     }
 
+    override fun getScreen(): String {
+        return Constants.cryptoHome(context!!)
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
@@ -103,10 +107,6 @@ class CryptoHomeFragment
             }
         }
         //initLanguageUi()
-    }
-
-    override fun getScreen(): String {
-        return Constants.cryptoHome(context!!)
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -149,6 +149,14 @@ class CryptoHomeFragment
         } else {
             vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
         }*/
+    }
+
+    override fun onQueryTextChange(newText: String): Boolean {
+        if (adapter.hasNewFilter(newText)) {
+            adapter.setFilter(newText)
+            adapter.filterItems()
+        }
+        return false
     }
 
     private fun initUi() {

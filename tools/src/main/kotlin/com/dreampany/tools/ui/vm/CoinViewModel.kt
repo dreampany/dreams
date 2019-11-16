@@ -93,9 +93,9 @@ class CoinViewModel
     private fun requestUiItemsRx(request: CoinRequest): Maybe<List<CoinItem>> {
         if (request.state == State.PAGINATED) {
             return repo.getItemsRx(
-                request.currency!!,
-                request.sort!!,
-                request.order!!,
+                request.currency,
+                request.sort,
+                request.order,
                 request.start,
                 request.limit
                 ).flatMap { getUiItemsRx(request, it) }

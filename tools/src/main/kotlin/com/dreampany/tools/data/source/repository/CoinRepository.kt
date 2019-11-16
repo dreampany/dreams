@@ -137,14 +137,16 @@ class CoinRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    private fun getRemoteItemsIfRx(currency: Currency,
-                                   sort: CoinSort,
-                                   order: Order,
-                                   start: Long,
-                                   limit: Long): Maybe<List<Coin>> {
+    private fun getRemoteItemsIfRx(
+        currency: Currency,
+        sort: CoinSort,
+        order: Order,
+        start: Long,
+        limit: Long
+    ): Maybe<List<Coin>> {
         return Maybe.create { emitter ->
             var result: List<Coin>? = null
-            if (mapper.isExpired(currency, sort, order, start) || true) {
+            if (mapper.isExpired(currency, sort, order, start)) {
                 result = remote.getItems(currency, sort, order, start, limit)
             }
             if (emitter.isDisposed) return@create
@@ -152,8 +154,9 @@ class CoinRepository
                 emitter.onError(EmptyException())
             } else {
                 //extra work to save result
-                Timber.v("Room Loading %s", result.size)
-                room.putItems(result)
+                //Timber.v("Room Loading %s", result.size)
+                val res = room.putItems(result)
+                Timber.v("Room Loading %d - %s", result.size, res?.size)
                 mapper.commitExpire(currency, sort, order, start)
                 emitter.onSuccess(result)
             }

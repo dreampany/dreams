@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.model
 
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.LayoutRes
@@ -7,7 +8,10 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
+import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.FrescoUtil
+import com.dreampany.framework.util.TimeUtilKt
+import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.model.Coin
@@ -49,7 +53,7 @@ private constructor(
     }
 
     override fun filter(constraint: String): Boolean {
-        return item.id.contains(constraint, true)
+        return item.name?.contains(constraint, true) ?: false
     }
 
     class ViewHolder(val formatter: CurrencyFormatter, view: View, adapter: FlexibleAdapter<*>) :
@@ -88,6 +92,7 @@ private constructor(
             buttonFavorite = view.findViewById(R.id.button_favorite)
             buttonAlert = view.findViewById(R.id.button_alert)
 
+            buttonFavorite.visibility = View.GONE
             buttonAlert.visibility = View.GONE
 
             btcFormat = getString(R.string.btc_format)
@@ -135,6 +140,35 @@ private constructor(
             this.hourChange.text = String.format(getString(hourFormat), hourChange)
             this.dayChange.text = String.format(getString(dayFormat), dayChange)
             this.weekChange.text = String.format(getString(weekFormat), weekChange)
+
+            val startColor = R.color.material_grey400
+            val endColor =
+                if (hourChange >= 0.0f || dayChange >= 0.0f || weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+
+
+            ViewUtil.blink(this.price, startColor, endColor)
+
+            val hourChangeColor = if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+            this.hourChange.setTextColor(ColorUtil.getColor(getContext(), hourChangeColor))
+
+            val dayChangeColor = if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+            this.dayChange.setTextColor(ColorUtil.getColor(getContext(), dayChangeColor))
+
+            val weekChangeColor = if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+            this.weekChange.setTextColor(ColorUtil.getColor(getContext(), weekChangeColor))
+
+            val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+                item.getLastUpdated(),
+                TimeUtilKt.currentMillis(),
+                DateUtils.MINUTE_IN_MILLIS
+            ) as String
+            lastUpdated.text = lastUpdatedTime
+
+            //buttonFavorite.setLiked(item.favorite)
+            //buttonFavorite.tag = coin
+
+            //buttonAlert.setLiked(uiItem.alert)
+            //buttonAlert.tag = coin
         }
     }
 }

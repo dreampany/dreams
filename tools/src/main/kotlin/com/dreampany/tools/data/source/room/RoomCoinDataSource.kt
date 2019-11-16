@@ -34,7 +34,7 @@ class RoomCoinDataSource(
     }
 
     override fun getItems(): List<Coin>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.items
     }
 
     override fun getItems(limit: Long): List<Coin>? {

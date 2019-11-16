@@ -354,9 +354,18 @@ class Constants {
             const val LAST_UPDATED = "last_updated"
             const val DATE_ADDED = "date_added"
         }
+
         object Order {
             const val ASCENDING = "asc"
             const val DESCENDING = "desc"
+        }
+
+        object Contact {
+            const val ID = Constants.Key.ID
+            const val NICK_NAME = "nick_name"
+            const val AVATAR_URL = "avatar_url"
+            const val PHONE_NUMBER = "phone_number"
+            const val COUNTRY_CODE = "country_code"
         }
     }
 

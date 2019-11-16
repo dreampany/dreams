@@ -36,7 +36,7 @@ class CoinRepository
     @Remote private val remote: CoinDataSource
 ) : Repository<String, Coin>(rx, rm), CoinDataSource {
 
-    override fun getItem(currency: Currency, id: String): Coin {
+    override fun getItem(currency: Currency, id: String): Coin? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

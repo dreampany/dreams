@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -20,20 +21,25 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Word.ID],
+        value = [Constants.Keys.Contact.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Word.ID]
+    primaryKeys = [Constants.Keys.Contact.ID]
 )
 data class Contact(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
     var name: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.Contact.NICK_NAME)
     var nickName: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.Contact.AVATAR_URL)
     var avatarUrl: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.Contact.PHONE_NUMBER)
     var phoneNumber: String? = Constants.Default.NULL,
     var email: String? = Constants.Default.NULL,
-    var address: String? = Constants.Default.NULL
+    var address: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.Contact.COUNTRY_CODE)
+    var countryCode: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -61,7 +67,7 @@ data class Contact(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Word
+        val item = other as Contact
         return Objects.equal(this.id, item.id)
     }
 

@@ -22,6 +22,9 @@ class RoomCoinDataSource(
     private val quoteDao: QuoteDao
 ) : CoinDataSource {
 
+    override fun getItem(currency: Currency, id: String): Coin {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getItems(
         currency: Currency,
@@ -33,14 +36,6 @@ class RoomCoinDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getItems(): List<Coin>? {
-        return dao.items
-    }
-
-    override fun getItems(limit: Long): List<Coin>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun getItemsRx(
         currency: Currency,
         sort: CoinSort,
@@ -49,6 +44,22 @@ class RoomCoinDataSource(
         limit: Long
     ): Maybe<List<Coin>> {
         return mapper.getItemsRx(currency, sort, order, start, limit, quoteDao, this)
+    }
+
+    override fun getItems(currency: Currency, ids: List<String>): List<Coin>? {
+        return mapper.getItems(currency, ids, quoteDao, this)
+    }
+
+    override fun getItemsRx(currency: Currency, ids: List<String>): Maybe<List<Coin>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItems(): List<Coin>? {
+        return dao.items
+    }
+
+    override fun getItems(limit: Long): List<Coin>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun isEmpty(): Boolean {

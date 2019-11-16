@@ -5,9 +5,8 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.dreampany.framework.data.enums.UiState;
 import com.dreampany.framework.data.model.Response;
-import com.dreampany.framework.misc.AppExecutors;
+import com.dreampany.framework.misc.AppExecutor;
 import com.dreampany.framework.misc.ResponseMapper;
 import com.dreampany.framework.misc.RxMapper;
 import com.dreampany.framework.misc.SmartMap;
@@ -15,6 +14,7 @@ import com.dreampany.framework.misc.exception.EmptyException;
 import com.dreampany.framework.misc.exception.ExtraException;
 import com.dreampany.framework.misc.exception.MultiException;
 import com.dreampany.framework.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.enums.UiState;
 import com.dreampany.framework.util.DataUtil;
 import com.dreampany.framework.util.TextUtil;
 import com.dreampany.framework.util.TimeUtil;
@@ -71,7 +71,7 @@ public class CoinsViewModel
     @Inject
     CoinsViewModel(@NotNull Application application,
                    @NotNull RxMapper rx,
-                   @NotNull AppExecutors ex,
+                   @NotNull AppExecutor ex,
                    @NotNull ResponseMapper rm,
                    NetworkManager network,
                    Pref pref,
@@ -100,7 +100,7 @@ public class CoinsViewModel
     }
 
     @Override
-    public void onNetworkResult(@NonNull List<Network> networks) {
+    public void onNetworks(@NonNull List<Network> networks) {
         Timber.v("onNetworkResult %d", networks.size());
         UiState state = UiState.OFFLINE;
         for (Network network : networks) {
@@ -180,7 +180,7 @@ public class CoinsViewModel
                 .backToMain(getListingRx(currency, index))
                 .doOnSubscribe(subscription -> {
                     if (!pref.isLoaded()) {
-                        updateUiState(UiState.NONE);
+                        updateUiState(UiState.DEFAULT);
                     }
                     if (progress) {
                         postProgress(true);

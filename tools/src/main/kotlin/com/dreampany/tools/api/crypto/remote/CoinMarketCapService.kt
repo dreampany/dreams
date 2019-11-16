@@ -2,6 +2,7 @@ package com.dreampany.tools.api.crypto.remote
 
 import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.model.CoinsResponse
+import com.dreampany.tools.api.crypto.model.QuotesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -24,4 +25,11 @@ interface CoinMarketCapService {
         @Query(Constants.Common.START) start: Long,
         @Query(Constants.Common.LIMIT) limit: Long
     ): Call<CoinsResponse>
+
+    @GET(Constants.CoinMarketCap.QUOTES)
+    fun getQuotes(
+        @HeaderMap headers: Map<String, String>,
+        @Query(Constants.CoinMarketCap.CONVERT) currencies: String,
+        @Query(Constants.CoinMarketCap.ID) id: String // could be comma separated multiple coin_id
+    ): Call<QuotesResponse>
 }

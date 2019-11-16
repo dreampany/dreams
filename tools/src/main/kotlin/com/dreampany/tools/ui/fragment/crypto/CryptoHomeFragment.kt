@@ -21,9 +21,6 @@ import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -112,14 +109,7 @@ class CryptoHomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
-        request(
-            state = State.PAGINATED,
-            action = Action.GET,
-            single = false,
-            progress = true,
-            start = adapter.itemCount.toLong(),
-            limit = Constants.Limit.Crypto.LIST
-        )
+        onRefresh()
     }
 
     override fun onStopUi() {
@@ -127,9 +117,15 @@ class CryptoHomeFragment
         if (searchView.isSearchOpen()) {
             searchView.closeSearch()
         }
+        vm.clear()
     }
 
     override fun onRefresh() {
+        if (adapter.isEmpty) {
+            request()
+        } else {
+            requestToUpdate()
+        }
 /*        request(
             state = State.LIST,
             action = Action.GET,
@@ -196,14 +192,7 @@ class CryptoHomeFragment
             }
 
             override fun onScrolledToBottom() {
-                request(
-                    state = State.PAGINATED,
-                    action = Action.GET,
-                    single = false,
-                    progress = true,
-                    start = adapter.itemCount.toLong(),
-                    limit = Constants.Limit.Crypto.LIST
-                )
+                request()
             }
         }
         ViewUtil.setRecycler(
@@ -283,9 +272,34 @@ class CryptoHomeFragment
 
     }
 
+    private fun request() {
+        request(
+            action = Action.PAGINATE,
+            single = false,
+            progress = true,
+            start = adapter.itemCount.toLong(),
+            limit = Constants.Limit.Crypto.LIST
+        )
+    }
+
+    private fun requestToUpdate() {
+        val visibles = adapter.getVisibleItems()
+        if (visibles.isNullOrEmpty()) return
+        val ids = arrayListOf<String>()
+        visibles.forEach {ci->
+            ids.add(ci.item.id)
+        }
+        request(
+            ids = ids,
+            action = Action.UPDATE,
+            single = false,
+            progress = true
+        )
+    }
+
     private fun request(
         id: String = Constants.Default.STRING,
-        state: State = State.DEFAULT,
+        ids: List<String>? = Constants.Default.NULL,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
@@ -297,12 +311,12 @@ class CryptoHomeFragment
         val order = cryptoPref.getOrder()
         val request = CoinRequest(
             id = id,
+            ids = ids,
             currency = currency,
             sort = sort,
             order = order,
             type = Type.COIN,
             subtype = Subtype.DEFAULT,
-            state = state,
             action = action,
             single = single,
             progress = progress,

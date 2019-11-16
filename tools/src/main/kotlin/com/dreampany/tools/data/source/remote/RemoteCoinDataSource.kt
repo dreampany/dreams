@@ -4,7 +4,6 @@ import com.dreampany.framework.api.key.KeyManager
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.remote.CoinMarketCapService
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
@@ -12,6 +11,7 @@ import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
+import com.dreampany.tools.misc.Constants
 import com.google.common.collect.Maps
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -34,18 +34,22 @@ constructor(
     init {
         if (BuildConfig.DEBUG) {
             keyM.setKeys(
-                Constants.CoinMarketCap.CMC_PRO_ROMAN_BJIT
+                com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_ROMAN_BJIT
             )
         } else {
             keyM.setKeys(
-                Constants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
-                Constants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
-                Constants.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
-                Constants.CoinMarketCap.CMC_PRO_IFTE_NET,
-                Constants.CoinMarketCap.CMC_PRO_DREAMPANY
+                com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_2,
+                com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_DREAM_DEBUG_1,
+                com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_ROMAN_BJIT,
+                com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_IFTE_NET,
+                com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_DREAMPANY
             )
         }
 
+    }
+
+    override fun getItem(currency: Currency, id: String): Coin {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItems(
@@ -100,6 +104,37 @@ constructor(
                 emitter.onSuccess(result)
             }
         }
+    }
+
+    override fun getItems(currency: Currency, ids: List<String>): List<Coin>? {
+        if (network.isObserving() && !network.hasInternet()) {
+            return null
+        }
+        for (index in 0..keyM.length / 2) {
+            try {
+                val key = keyM.getKey()
+                val response =
+                    service.getQuotes(
+                        getHeaders(key),
+                        currency.name,
+                        ids.joinToString(Constants.Sep.COMMA.toString())
+                    ).execute()
+                if (response.isSuccessful) {
+                    val res = response.body()
+                    if (res != null) {
+                        return mapper.getItems(res.data.values.toMutableList())
+                    }
+                }
+            } catch (error: Throwable) {
+                Timber.e(error)
+                keyM.randomForwardKey()
+            }
+        }
+        return null
+    }
+
+    override fun getItemsRx(currency: Currency, ids: List<String>): Maybe<List<Coin>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun isEmpty(): Boolean {
@@ -159,7 +194,28 @@ constructor(
     }
 
     override fun getItem(id: String): Coin? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (network.isObserving() && !network.hasInternet()) {
+            return null
+        }
+/*        for (index in 0..keyM.length / 2) {
+            try {
+                val key = keyM.getKey()
+
+                val response =
+                    service.getQuotes(
+                        getHeaders(key), ).execute()
+                if (response.isSuccessful) {
+                    val res = response.body()
+                    if (res != null) {
+                        return mapper.getItems(res.data)
+                    }
+                }
+            } catch (error: Throwable) {
+                Timber.e(error)
+                keyM.randomForwardKey()
+            }
+        }*/
+        return null
     }
 
     override fun getItemRx(id: String): Maybe<Coin> {
@@ -185,10 +241,14 @@ constructor(
     /* private */
     fun getHeaders(key: String): Map<String, String> {
         val headers = Maps.newHashMap<String, String>()
-        headers.put(Constants.CoinMarketCap.ACCEPT, Constants.CoinMarketCap.ACCEPT_JSON)
+        headers.put(
+            com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.ACCEPT,
+            com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.ACCEPT_JSON
+        )
         //headers.put(Constants.CoinMarketCap.ACCEPT_ENCODING, Constants.CoinMarketCap.ACCEPT_ZIP)
-        headers.put(Constants.CoinMarketCap.API_KEY, key)
+        headers.put(com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.API_KEY, key)
         return headers
     }
+
 
 }

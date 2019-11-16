@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -91,7 +92,7 @@ class CoinViewModel
     }
 
     private fun requestUiItemsRx(request: CoinRequest): Maybe<List<CoinItem>> {
-        if (request.state == State.PAGINATED) {
+        if (request.action == Action.PAGINATE) {
             return repo.getItemsRx(
                 request.currency,
                 request.sort,
@@ -99,6 +100,16 @@ class CoinViewModel
                 request.start,
                 request.limit
                 ).flatMap { getUiItemsRx(request, it) }
+        }
+        if (request.action == Action.UPDATE) {
+            if (request.single) {
+
+            } else {
+                return repo.getItemsRx(
+                    request.currency,
+                    request.ids!!
+                ).flatMap { getUiItemsRx(request, it) }
+            }
         }
         return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }

@@ -35,6 +35,11 @@ class CoinRepository
     @Room private val room: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : Repository<String, Coin>(rx, rm), CoinDataSource {
+
+    override fun getItem(currency: Currency, id: String): Coin {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getItems(
         currency: Currency,
         sort: CoinSort,
@@ -42,14 +47,6 @@ class CoinRepository
         start: Long,
         limit: Long
     ): List<Coin>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getItems(): List<Coin>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getItems(limit: Long): List<Coin>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -63,6 +60,66 @@ class CoinRepository
         val remoteIf = getRemoteItemsIfRx(currency, sort, order, start, limit)
         val roomAny = room.getItemsRx(currency, sort, order, start, limit)
         return concatFirstRx(true, remoteIf, roomAny)
+    }
+
+    override fun getItems(currency: Currency, ids: List<String>): List<Coin>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsRx(currency: Currency, ids: List<String>): Maybe<List<Coin>> {
+        return Maybe.create { emitter ->
+            val result = arrayListOf<Coin>()
+            val roomIds = arrayListOf<String>()
+            val remoteIds = arrayListOf<String>()
+            ids.forEach {id->
+                if (mapper.isExpired(currency, id)) {
+                    remoteIds.add(id)
+                } else {
+                    roomIds.add(id)
+                }
+
+               /*var coin: Coin? = null
+                if (mapper.isExpired(currency, id)) {
+                    coin = remote.getItem(id)
+                    coin?.run {
+                        room.putItem(this)
+                        mapper.commitExpire(currency, id)
+                    }
+                }
+                if (coin == null) {
+                    coin = room.getItem(id)
+                }
+                coin?.run {
+                    result.add(this)
+                }*/
+            }
+            val roomResult = room.getItems(currency, roomIds)
+            val remoteResult = remote.getItems(currency, remoteIds)
+            roomResult?.run {
+                result.addAll(this)
+                room.putItems(this)
+                forEach {
+                    mapper.commitExpire(currency, it.id)
+                }
+            }
+            remoteResult?.run {
+                result.addAll(this)
+            }
+            if (emitter.isDisposed) return@create
+            if (result.isNullOrEmpty()) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
+    }
+
+    override fun getItems(): List<Coin>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItems(limit: Long): List<Coin>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun isEmpty(): Boolean {
@@ -153,8 +210,6 @@ class CoinRepository
             if (result.isNullOrEmpty()) {
                 emitter.onError(EmptyException())
             } else {
-                //extra work to save result
-                //Timber.v("Room Loading %s", result.size)
                 val res = room.putItems(result)
                 Timber.v("Room Loading %d - %s", result.size, res?.size)
                 mapper.commitExpire(currency, sort, order, start)

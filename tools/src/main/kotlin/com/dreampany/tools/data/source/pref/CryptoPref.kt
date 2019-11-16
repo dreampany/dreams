@@ -47,6 +47,16 @@ class CryptoPref
     fun commitExpireTime(currency: Currency, sort: CoinSort, order: Order, start: Long) {
          setPrivately(Constants.Pref.Crypto.EXPIRE + currency.name + sort.name + order.name + start, TimeUtilKt.currentMillis())
     }
+
+    @Synchronized
+    fun getExpireTime( currency: Currency, id : String): Long {
+        return getPrivately(Constants.Pref.Crypto.EXPIRE + currency.name + id, 0L)
+    }
+
+    @Synchronized
+    fun commitExpireTime(currency: Currency, id : String) {
+        setPrivately(Constants.Pref.Crypto.EXPIRE + currency.name + id, TimeUtilKt.currentMillis())
+    }
 /*
     fun setStationState(state: State) {
         setPrivately(Constants.Pref.Radio.STATION_STATE, state)

@@ -58,18 +58,42 @@ class CoinMapper
 
     fun isExpired(currency: Currency, sort: CoinSort, order: Order, start: Long): Boolean {
         val time = pref.getExpireTime(currency, sort, order, start)
-        return TimeUtil.isExpired(time, Constants.Time.Coin.LISTING)
+        return TimeUtil.isExpired(time, Constants.Time.Crypto.LISTING)
     }
 
     fun commitExpire(currency: Currency, sort: CoinSort, order: Order, start: Long) {
         pref.commitExpireTime(currency, sort, order, start)
     }
 
+    fun isExpired(currency: Currency, id: String): Boolean {
+        val time = pref.getExpireTime(currency, id)
+        return TimeUtil.isExpired(time, Constants.Time.Crypto.LISTING)
+    }
+
+    fun commitExpire(currency: Currency, id: String) {
+        pref.commitExpireTime(currency, id)
+    }
+
     @Synchronized
     fun add(coin: Coin) {
         if (!coins.contains(coin)) {
             coins.add(coin)
+            map.put(coin.id, coin)
         }
+    }
+
+    fun get(id: String): Coin? {
+        return map.get(id)
+    }
+
+    fun gets(ids: List<String>): List<Coin>? {
+        val result = arrayListOf<Coin>()
+        ids.forEach { id ->
+            get(id)?.run {
+                result.add(this)
+            }
+        }
+        return result
     }
 
     fun getUiItem(id: String): CoinItem? {
@@ -78,6 +102,20 @@ class CoinMapper
 
     fun putUiItem(id: String, uiItem: CoinItem) {
         uiMap.put(id, uiItem)
+    }
+
+    fun getItem(
+        currency: Currency,
+        id: String,
+        quoteDao: QuoteDao,
+        source: CoinDataSource
+    ): Coin? {
+        updateCache(source)
+        val cache = get(id)
+        cache?.run {
+            bindQuote(currency, this, quoteDao)
+        }
+        return cache
     }
 
     fun getItemsRx(
@@ -107,6 +145,20 @@ class CoinMapper
         }
     }
 
+    fun getItems(
+        currency: Currency,
+        ids: List<String>,
+        quoteDao: QuoteDao,
+        source: CoinDataSource
+    ): List<Coin>? {
+        updateCache(source)
+        val cache = gets(ids)
+        cache?.forEach {
+            bindQuote(currency, it, quoteDao)
+        }
+        return cache
+    }
+
     fun getItems(inputs: List<com.dreampany.tools.api.crypto.model.Coin>): List<Coin> {
         val result = arrayListOf<Coin>()
         inputs.forEach { coin ->
@@ -133,9 +185,10 @@ class CoinMapper
         out.setTotalSupply(input.totalSupply)
         out.setMarketPairs(input.marketPairs)
         out.rank = input.rank
-        out.tags = input.tags
         out.quotes = getQuotes(id, input.quotes)
-
+        out.tags = input.tags
+        out.setDateAdded(getUtc(input.dateAdded))
+        out.setLastUpdated(getUtc(input.lastUpdated))
         return out
     }
 
@@ -165,7 +218,7 @@ class CoinMapper
         currency: Currency,
         input: com.dreampany.tools.api.crypto.model.Quote
     ): Quote {
-        val id = Pair.create<String, Currency>(coinId, currency)
+        val id = Pair.create(coinId, currency)
         var out: Quote? = quoteMap.get(id)
         if (out == null) {
             out = Quote(coinId)
@@ -198,7 +251,7 @@ class CoinMapper
     @Synchronized
     private fun updateCache(source: CoinDataSource) {
         if (source.getCount() != coins.size) {
-            source.getItems()?.forEach {coin->
+            source.getItems()?.forEach { coin ->
                 add(coin)
             }
         }
@@ -210,7 +263,6 @@ class CoinMapper
         sort: CoinSort,
         sortDirection: Order
     ): List<Coin> {
-        //val result = ArrayList(coins)
         val comparator =
             Constants.Comparator.Crypto.getComparator(currency, sort, sortDirection)
         coins.sortWith(comparator)

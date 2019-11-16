@@ -21,6 +21,7 @@ class Constants {
 
         const val BASE_URL = "https://pro-api.coinmarketcap.com/v1/"
         const val LISTING = "cryptocurrency/listings/latest"
+        const val QUOTES = "cryptocurrency/quotes/latest"
 
         const val ACCEPT = "Accept"
         const val ACCEPT_ENCODING = "Accept-Encoding"
@@ -31,6 +32,7 @@ class Constants {
         const val SORT = "sort"
         const val SORT_DIRECTION = "sort_dir"
         const val AUXILIARIES = "aux"
+        const val ID = "id"
     }
 
     object Common {

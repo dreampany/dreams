@@ -16,6 +16,7 @@ import com.dreampany.tools.misc.Constants
  */
 class CoinRequest(
     var id: String = Constants.Default.STRING,
+    var ids: List<String>? = Constants.Default.NULL,
     var currency: Currency = Currency.USD,
     var sort: CoinSort = CoinSort.MARKET_CAP,
     var order: Order = Order.DESCENDING,

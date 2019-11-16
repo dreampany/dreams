@@ -15,6 +15,11 @@ import io.reactivex.Maybe
  */
 interface CoinDataSource : DataSource<Coin> {
 
+    fun getItem(
+        currency: Currency,
+        id: String
+    ): Coin
+
     fun getItems(
         currency: Currency,
         sort: CoinSort,
@@ -29,5 +34,15 @@ interface CoinDataSource : DataSource<Coin> {
         order: Order,
         start: Long,
         limit: Long
+    ): Maybe<List<Coin>>
+
+    fun getItems(
+        currency: Currency,
+        ids: List<String>
+    ): List<Coin>?
+
+    fun getItemsRx(
+        currency: Currency,
+        ids: List<String>
     ): Maybe<List<Coin>>
 }

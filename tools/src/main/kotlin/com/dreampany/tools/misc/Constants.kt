@@ -138,6 +138,7 @@ class Constants {
         const val FLOAT = Constants.Default.FLOAT
         const val DOUBLE = Constants.Default.DOUBLE
         const val STRING = Constants.Default.STRING
+         val LIST = Constants.Default.LIST
     }
 
     object Tag {
@@ -168,8 +169,9 @@ class Constants {
             val DEAD = TimeUnit.HOURS.toMillis(1)
         }
 
-        object Coin {
+        object Crypto {
             val LISTING = TimeUnit.HOURS.toMillis(1)
+            val COIN = TimeUnit.MINUTES.toMillis(10)
         }
 
         fun minuteToMillis(minutes: Long): Long {

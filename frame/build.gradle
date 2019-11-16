@@ -140,7 +140,7 @@ dependencies {
 
     /* androidx support*/
     api 'androidx.multidex:multidex:2.0.1'
-    api 'androidx.core:core:1.2.0-beta01'
+    api 'androidx.core:core:1.2.0-beta02'
     //api 'androidx.core:core-ktx:1.0.2'
     //api 'androidx.navigation:navigation-fragment:2.1.0-beta02'
     //api 'androidx.navigation:navigation-ui:2.1.0-beta02'
@@ -162,9 +162,9 @@ dependencies {
 
 
     /* androidx arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc01'
-    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc01'
-    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-rc01'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc02'
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc02'
+    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-rc02'
     kapt 'androidx.room:room-compiler:2.2.1'
     api 'androidx.room:room-runtime:2.2.1'
     api 'androidx.room:room-rxjava2:2.2.1'
@@ -182,12 +182,12 @@ dependencies {
     api 'com.google.firebase:firebase-core:17.2.1'
     api 'com.google.firebase:firebase-appindexing:19.0.0'
     api 'com.google.firebase:firebase-ads:18.3.0'
-    api 'com.google.firebase:firebase-messaging:20.0.0'
+    api 'com.google.firebase:firebase-messaging:20.0.1'
     api 'com.google.firebase:firebase-auth:19.1.0'
     api 'com.google.firebase:firebase-database:19.2.0'
-    api 'com.google.firebase:firebase-firestore:21.2.1'
-    implementation 'com.google.firebase:firebase-ml-common:22.0.0'
-    implementation 'com.google.firebase:firebase-ml-vision:24.0.0'
+    api 'com.google.firebase:firebase-firestore:21.3.0'
+    implementation 'com.google.firebase:firebase-ml-common:22.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
     implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
     implementation 'com.google.firebase:firebase-ml-natural-language-translate-model:20.0.7'
 
@@ -235,7 +235,7 @@ dependencies {
     api 'com.facebook.fresco:fresco:2.0.0'
 
     /* android-iconics */
-    api ('com.mikepenz:iconics-core:4.0.1') {
+    api ('com.mikepenz:iconics-core:4.0.2') {
         exclude group: 'androidx.core'
         exclude group: 'org.jetbrains.kotlin'
     }

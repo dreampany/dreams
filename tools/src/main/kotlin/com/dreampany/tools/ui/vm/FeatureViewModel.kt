@@ -129,6 +129,7 @@ class FeatureViewModel @Inject constructor(
             pairs.add(Triple(Type.RADIO, Subtype.DEFAULT, R.string.title_feature_radio))
             pairs.add(Triple(Type.VPN, Subtype.DEFAULT, R.string.title_feature_vpn))
             pairs.add(Triple(Type.CRYPTO, Subtype.DEFAULT, R.string.title_feature_crypto))
+            pairs.add(Triple(Type.BLOCK, Subtype.DEFAULT, R.string.title_feature_block))
             //pairs.add(Triple(Type.ENGLISH, Subtype.DEFAULT, R.string.title_feature_english))
             //pairs.add(Triple(Type.CALL, Subtype.BLOCK, R.string.title_feature_call_block))
 

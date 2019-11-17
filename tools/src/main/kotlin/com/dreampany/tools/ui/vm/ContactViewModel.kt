@@ -1,9 +1,11 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.ExtraException
@@ -12,14 +14,13 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.mapper.CoinMapper
-import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.source.pref.CryptoPref
+import com.dreampany.tools.data.mapper.ContactMapper
+import com.dreampany.tools.data.model.Contact
+import com.dreampany.tools.data.source.pref.BlockPref
 import com.dreampany.tools.data.source.pref.Pref
-import com.dreampany.tools.data.source.repository.CoinRepository
-import com.dreampany.tools.ui.misc.CoinRequest
-import com.dreampany.tools.ui.model.CoinItem
-import com.dreampany.tools.util.CurrencyFormatter
+import com.dreampany.tools.data.source.repository.ContactRepository
+import com.dreampany.tools.ui.misc.ContactRequest
+import com.dreampany.tools.ui.model.ContactItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -31,7 +32,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinViewModel
+class ContactViewModel
 @Inject constructor(
     application: Application,
     rx: RxMapper,
@@ -39,14 +40,13 @@ class CoinViewModel
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
-    private val cryptoPref: CryptoPref,
+    private val blockPref: BlockPref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
-    private val mapper: CoinMapper,
-    private val repo: CoinRepository,
-    @Favorite private val favorites: SmartMap<String, Boolean>,
-    private val formatter: CurrencyFormatter
-) : BaseViewModel<Coin, CoinItem, UiTask<Coin>>(application, rx, ex, rm), NetworkManager.Callback {
+    private val mapper: ContactMapper,
+    private val repo: ContactRepository,
+    @Favorite private val favorites: SmartMap<String, Boolean>
+) : BaseViewModel<Contact, ContactItem, UiTask<Contact>>(application, rx, ex, rm), NetworkManager.Callback {
 
     override fun clear() {
         network.deObserve(this)
@@ -57,7 +57,7 @@ class CoinViewModel
 
     }
 
-    fun request(request: CoinRequest) {
+    fun request(request: ContactRequest) {
         if (request.single) {
             //requestSingle(request)
         } else {
@@ -65,7 +65,7 @@ class CoinViewModel
         }
     }
 
-    private fun requestMultiple(request: CoinRequest) {
+    private fun requestMultiple(request: ContactRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
@@ -91,30 +91,26 @@ class CoinViewModel
         addMultipleSubscription(disposable)
     }
 
-    private fun requestUiItemsRx(request: CoinRequest): Maybe<List<CoinItem>> {
-        if (request.action == Action.PAGINATE) {
-            return repo.getItemsRx(
-                request.currency,
-                request.sort,
-                request.order,
-                request.start,
-                request.limit
-                ).flatMap { getUiItemsRx(request, it) }
-        }
-        if (request.action == Action.UPDATE) {
-            if (request.single) {
-
-            } else {
-                return repo.getItemsRx(
-                    request.currency,
-                    request.ids!!
-                ).flatMap { getUiItemsRx(request, it) }
-            }
+    private fun requestUiItemsRx(request: ContactRequest): Maybe<List<ContactItem>> {
+        if (request.state == State.BLOCK) {
+            return storeRepo
+                .getItemsRx(Type.CONTACT, Subtype.DEFAULT, State.BLOCK)
+                .flatMap { getUiItemsOfStoresRx(request, it) }
         }
         return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }
 
-    private fun getUiItemsRx(request: CoinRequest, items: List<Coin>): Maybe<List<CoinItem>> {
+    private fun getUiItemsOfStoresRx(
+        request: ContactRequest,
+        items: List<Store>
+    ): Maybe<List<ContactItem>> {
+        return Flowable.fromIterable(items)
+            .map { getUiItem(request, it) }
+            .toList()
+            .toMaybe()
+    }
+
+    private fun getUiItemsRx(request: ContactRequest, items: List<Contact>): Maybe<List<ContactItem>> {
         Timber.v("For UI items %d", items.size)
         return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
@@ -122,10 +118,10 @@ class CoinViewModel
             .toMaybe()
     }
 
-    private fun getUiItem(request: CoinRequest, item: Coin): CoinItem {
-        var uiItem: CoinItem? = mapper.getUiItem(item.id)
+    private fun getUiItem(request: ContactRequest, item: Contact): ContactItem {
+        var uiItem: ContactItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
-            uiItem = CoinItem.getItem(formatter, request.currency, item)
+            uiItem = ContactItem.getItem(item)
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
@@ -133,4 +129,10 @@ class CoinViewModel
         return uiItem
     }
 
+    private fun getUiItem(request: ContactRequest, store: Store): ContactItem {
+        val contact = mapper.getItem(store, repo)
+        val item = getUiItem(request, contact!!)
+        item.time = store.time
+        return item
+    }
 }

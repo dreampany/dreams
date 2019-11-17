@@ -1,6 +1,7 @@
 package com.dreampany.tools.injector.ui
 
 import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.tools.ui.fragment.block.BlockHomeFragment
 import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,8 +13,8 @@ import dagger.android.ContributesAndroidInjector
  * Last modified $file.lastModified
  */
 @Module
-abstract class CryptoModule {
+abstract class BlockModule {
     @FragmentScope
     @ContributesAndroidInjector
-    abstract fun cryptoHomeFragment(): CryptoHomeFragment
+    abstract fun blockHomeFragment(): BlockHomeFragment
 }

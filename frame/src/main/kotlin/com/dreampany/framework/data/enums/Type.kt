@@ -29,5 +29,7 @@ enum class Type : Parcelable {
     SERVER,
     CALL,
     ENGLISH,
-    COIN
+    COIN,
+    BLOCK,
+    CONTACT
 }

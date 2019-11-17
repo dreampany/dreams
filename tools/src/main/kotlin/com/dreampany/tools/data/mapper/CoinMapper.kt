@@ -264,7 +264,7 @@ class CoinMapper
         sortDirection: Order
     ): List<Coin> {
         val comparator =
-            Constants.Comparator.Crypto.getComparator(currency, sort, sortDirection)
+            Constants.Comparators.Crypto.getComparator(currency, sort, sortDirection)
         coins.sortWith(comparator)
         return coins
     }

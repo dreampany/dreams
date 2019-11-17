@@ -11,7 +11,9 @@ import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.model.ContactItem
 import com.google.common.collect.Maps
 import java.util.concurrent.TimeUnit
 
@@ -47,6 +49,7 @@ class Constants {
         fun vpnHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "vpn-home"
         fun radioHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "radio-home"
         fun cryptoHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "crypto-home"
+        fun blockHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "block-home"
 
         fun favoriteNotes(context: Context): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-notes"
@@ -255,6 +258,10 @@ class Constants {
             const val SORT = "sort"
             const val ORDER = "order"
         }
+
+        object Block {
+            const val CONTACT = "contact"
+        }
     }
 
     object Count {
@@ -418,10 +425,6 @@ class Constants {
     object Example {
         const val DOCUMENT_ID = "document_id"
         const val EXAMPLE_ID = "example_id"
-    }
-
-    object Contact {
-        const val ID = Constants.Key.ID
     }
 
     object Quote {
@@ -612,19 +615,33 @@ class Constants {
         const val NOPROCESS = "NOPROCESS"
     }
 
-    object Comparator {
+    object Comparators {
+
+        object Block {
+            fun getUiComparator(): Comparator<ContactItem> {
+                return object : Comparator<ContactItem> {
+                    override fun compare(left: ContactItem, right: ContactItem
+                    ): Int {
+                        val leftContact = left.item
+                        val rightContact = right.item
+                        return rightContact.time.compareTo(leftContact.time)
+                    }
+
+                }
+            }
+        }
 
         object Crypto {
-            private val comparators: HashMap<Pair<CoinSort,  Order>, java.util.Comparator<Coin>> =
+            private val comparators: HashMap<Pair<CoinSort,  Order>,  Comparator<Coin>> =
                 Maps.newHashMap()
-            private val uiComparators: HashMap<Pair<CoinSort,  Order>, java.util.Comparator<CoinItem>> =
+            private val uiComparators: HashMap<Pair<CoinSort,  Order>,  Comparator<CoinItem>> =
                 Maps.newHashMap()
 
             fun getComparator(
                 currency: Currency,
                 sort: CoinSort,
                 order:  Order
-            ): java.util.Comparator<Coin> {
+            ):  Comparator<Coin> {
                 val pair = Pair(sort, order)
                 if (!comparators.containsKey(pair)) {
                     comparators.put(pair, createComparator(currency, sort, order))
@@ -636,7 +653,7 @@ class Constants {
                 currency: Currency,
                 sort: CoinSort,
                 order:  Order
-            ): java.util.Comparator<CoinItem> {
+            ):  Comparator<CoinItem> {
                 val pair = Pair(sort, order)
                 if (!uiComparators.containsKey(pair)) {
                     uiComparators.put(pair, createUiComparator(currency, sort, order))
@@ -648,10 +665,10 @@ class Constants {
                 currency: Currency,
                 sort: CoinSort,
                 order:  Order
-            ): java.util.Comparator<Coin> {
+            ):  Comparator<Coin> {
                 when (sort) {
                     CoinSort.MARKET_CAP -> {
-                        return object : java.util.Comparator<Coin> {
+                        return object :  Comparator<Coin> {
                             override fun compare(left: Coin, right: Coin
                             ): Int {
                                 val leftQuote = left.getQuote(currency)

@@ -4,7 +4,6 @@ import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.mapper.ContactMapper
-import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.data.source.api.ContactDataSource
 import com.dreampany.tools.data.source.room.RoomContactDataSource
@@ -35,7 +34,7 @@ class BlockModule {
     @Singleton
     @Provides
     @ContactAnnote
-    fun provideContactSmartCache(): SmartCache<String, Coin> {
+    fun provideContactSmartCache(): SmartCache<String, Contact> {
         return SmartCache.newCache()
     }
 

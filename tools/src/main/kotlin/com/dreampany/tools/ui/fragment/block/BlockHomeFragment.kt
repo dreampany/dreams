@@ -109,7 +109,8 @@ class BlockHomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
-        //onRefresh()
+        onRefresh()
+
     }
 
     override fun onStopUi() {
@@ -124,7 +125,7 @@ class BlockHomeFragment
         if (adapter.isEmpty) {
             request()
         } else {
-            requestToUpdate()
+            //requestToUpdate()
         }
     }
 
@@ -167,21 +168,13 @@ class BlockHomeFragment
         bind.setItems(ObservableArrayList<Any>())
         adapter = ContactAdapter(this)
         adapter.setStickyHeaders(false)
-        scroller = object : OnVerticalScrollListener() {
-            override fun onScrollingAtEnd() {
-
-            }
-
-            override fun onScrolledToBottom() {
-                request()
-            }
-        }
+        scroller = object : OnVerticalScrollListener() {}
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_coin, vm.itemOffset)
+                .addItemViewType(R.layout.item_contact, vm.itemOffset)
                 .withEdge(true),
             null,
             scroller, null
@@ -252,7 +245,7 @@ class BlockHomeFragment
 
     private fun request() {
         request(
-            action = Action.PAGINATE,
+            state = State.BLOCKED,
             single = false,
             progress = true,
             start = adapter.itemCount.toLong(),

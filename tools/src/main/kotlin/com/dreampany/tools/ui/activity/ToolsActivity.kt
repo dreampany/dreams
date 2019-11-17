@@ -17,6 +17,7 @@ import com.dreampany.tools.databinding.ActivityToolsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.*
 import com.dreampany.tools.ui.fragment.app.AppHomeFragment
+import com.dreampany.tools.ui.fragment.block.BlockHomeFragment
 import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
@@ -58,6 +59,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var radioHomeProvider: Lazy<RadioHomeFragment>
     @Inject
     internal lateinit var cryptoHomeProvider: Lazy<CryptoHomeFragment>
+    @Inject
+    internal lateinit var blockHomeProvider: Lazy<BlockHomeFragment>
 
 
     @Inject
@@ -291,6 +294,17 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         CryptoHomeFragment::class.java,
                         cryptoHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+            }
+            Type.BLOCK -> {
+                if (subtype == Subtype.DEFAULT) {
+                    commitFragment(
+                        BlockHomeFragment::class.java,
+                        blockHomeProvider,
                         R.id.layout,
                         uiTask
                     )

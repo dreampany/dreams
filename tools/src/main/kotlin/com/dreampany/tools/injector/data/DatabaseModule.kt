@@ -54,6 +54,12 @@ class DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideContactDatabase(application: Application): ContactDatabase {
+        return ContactDatabase.getInstance(application)
+    }
+
+    @Provides
+    @Singleton
     fun provideNoteDao(database: NoteDatabase): NoteDao {
         return database.noteDao()
     }
@@ -98,5 +104,11 @@ class DatabaseModule {
     @Singleton
     fun provideQuoteDao(database: CryptoDatabase): QuoteDao {
         return database.quoteDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideContactDao(database: ContactDatabase): ContactDao {
+        return database.contactDao()
     }
 }

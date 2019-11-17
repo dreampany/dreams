@@ -12,6 +12,7 @@ import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
+import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ContactMapper
@@ -46,7 +47,8 @@ class ContactViewModel
     private val mapper: ContactMapper,
     private val repo: ContactRepository,
     @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Contact, ContactItem, UiTask<Contact>>(application, rx, ex, rm), NetworkManager.Callback {
+) : BaseViewModel<Contact, ContactItem, UiTask<Contact>>(application, rx, ex, rm),
+    NetworkManager.Callback {
 
     override fun clear() {
         network.deObserve(this)
@@ -74,17 +76,17 @@ class ContactViewModel
             .backToMain(requestUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(request.state, request.action, true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
                 postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
                 postFailures(request.state, request.action, MultiException(error, ExtraException()))
             })
@@ -92,9 +94,10 @@ class ContactViewModel
     }
 
     private fun requestUiItemsRx(request: ContactRequest): Maybe<List<ContactItem>> {
-        if (request.state == State.BLOCK) {
+        if (true) return getDummy()
+        if (request.state == State.BLOCKED) {
             return storeRepo
-                .getItemsRx(Type.CONTACT, Subtype.DEFAULT, State.BLOCK)
+                .getItemsRx(Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
                 .flatMap { getUiItemsOfStoresRx(request, it) }
         }
         return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
@@ -110,7 +113,10 @@ class ContactViewModel
             .toMaybe()
     }
 
-    private fun getUiItemsRx(request: ContactRequest, items: List<Contact>): Maybe<List<ContactItem>> {
+    private fun getUiItemsRx(
+        request: ContactRequest,
+        items: List<Contact>
+    ): Maybe<List<ContactItem>> {
         Timber.v("For UI items %d", items.size)
         return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
@@ -134,5 +140,14 @@ class ContactViewModel
         val item = getUiItem(request, contact!!)
         item.time = store.time
         return item
+    }
+
+    private fun getDummy(): Maybe<List<ContactItem>> {
+        return Maybe.create { emitter ->
+            val list = arrayListOf<ContactItem>()
+            val contact = Contact(DataUtilKt.getRandId())
+            list.add(ContactItem.getItem(contact))
+            emitter.onSuccess(list)
+        }
     }
 }

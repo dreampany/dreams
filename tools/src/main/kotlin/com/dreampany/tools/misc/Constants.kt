@@ -198,6 +198,7 @@ class Constants {
         const val VPN = "vpn"
         const val RADIO = "radio"
         const val CRYPTO = "crypto"
+        const val CONTACT = "contact"
 
         object Crypto {
             const val ID = Constants.Key.ID

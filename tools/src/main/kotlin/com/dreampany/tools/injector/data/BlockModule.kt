@@ -3,13 +3,12 @@ package com.dreampany.tools.injector.data
 import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.tools.data.mapper.CoinMapper
+import com.dreampany.tools.data.mapper.ContactMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.model.Contact
-import com.dreampany.tools.data.source.api.CoinDataSource
-import com.dreampany.tools.data.source.room.RoomCoinDataSource
-import com.dreampany.tools.data.source.room.dao.CoinDao
-import com.dreampany.tools.data.source.room.dao.QuoteDao
+import com.dreampany.tools.data.source.api.ContactDataSource
+import com.dreampany.tools.data.source.room.RoomContactDataSource
+import com.dreampany.tools.data.source.room.dao.ContactDao
 import com.dreampany.tools.injector.annotation.ContactAnnote
 import com.dreampany.tools.injector.annotation.ContactItemAnnote
 import com.dreampany.tools.ui.model.ContactItem
@@ -57,11 +56,10 @@ class BlockModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomCoinDataSource(
-        mapper: CoinMapper,
-        dao: CoinDao,
-        quoteDao: QuoteDao
-    ): CoinDataSource {
-        return RoomCoinDataSource(mapper, dao, quoteDao)
+    fun provideRoomContactDataSource(
+        mapper: ContactMapper,
+        dao: ContactDao
+    ): ContactDataSource {
+        return RoomContactDataSource(mapper, dao)
     }
 }

@@ -24,6 +24,7 @@ import dagger.Module
         VpnModule::class,
         RadioModule::class,
         CryptoModule::class,
+        BlockModule::class,
         SupportModule::class,
         ViewModelModule::class
     ]

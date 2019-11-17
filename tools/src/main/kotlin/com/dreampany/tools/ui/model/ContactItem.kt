@@ -29,7 +29,7 @@ private constructor(
 
     companion object {
         fun getItem(item: Contact): ContactItem {
-            return ContactItem(item, R.layout.item_coin)
+            return ContactItem(item, R.layout.item_contact)
         }
     }
 

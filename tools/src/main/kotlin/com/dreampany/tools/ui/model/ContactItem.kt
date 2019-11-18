@@ -48,14 +48,14 @@ private constructor(
         BaseItem.ViewHolder(view, adapter) {
 
         private var adapter: ContactAdapter
-        private var icon: SimpleDraweeView
-        private var name: AppCompatTextView
+        //private var icon: SimpleDraweeView
+        //private var name: AppCompatTextView
 
         init {
             this.adapter = adapter as ContactAdapter
 
-            icon = view.findViewById(R.id.image_icon)
-            name = view.findViewById(R.id.text_name)
+            //icon = view.findViewById(R.id.image_icon)
+            //name = view.findViewById(R.id.text_name)
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>

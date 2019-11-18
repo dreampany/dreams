@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -137,10 +138,17 @@ class BlockHomeFragment
         return false
     }
 
+    override fun onClick(v: View) {
+        super.onClick(v)
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentBlockHomeBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
+
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bind.fab.setOnClickListener(this)
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
@@ -154,9 +162,6 @@ class BlockHomeFragment
             UiState.EMPTY.name,
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
-
-        ViewUtil.setSwipe(bind.layoutRefresh, this)
-        bind.fab.setOnClickListener(this)
 
         vm = ViewModelProvider(this, factory).get(ContactViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })

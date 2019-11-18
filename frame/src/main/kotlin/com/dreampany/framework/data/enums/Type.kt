@@ -31,5 +31,6 @@ enum class Type : Parcelable {
     ENGLISH,
     COIN,
     BLOCK,
-    CONTACT
+    CONTACT,
+    FEATURE
 }

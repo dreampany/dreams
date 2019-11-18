@@ -5,7 +5,9 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.api.theme.ColorManager
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
@@ -27,7 +29,9 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FeatureItem private constructor(
+class FeatureItem
+private constructor(
+    colors: ColorManager,
     item: Feature,
     @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem< FeatureItem.ViewHolder, Feature, String>(item, layoutId) {
@@ -36,12 +40,12 @@ class FeatureItem private constructor(
     var order: Int = 0
 
     init {
-        color = ColorUtil.getMaterialRandomColor()
+        color = colors.getNextColor(Type.FEATURE)
     }
 
     companion object {
-        fun getItem(item: Feature): FeatureItem {
-            return FeatureItem(item, R.layout.item_feature)
+        fun getItem(colors: ColorManager, item: Feature): FeatureItem {
+            return FeatureItem(colors, item, R.layout.item_feature)
         }
     }
 

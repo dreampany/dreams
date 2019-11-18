@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.api.theme.ColorManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
@@ -34,6 +35,7 @@ class FeatureViewModel @Inject constructor(
     rx: RxMapper,
     ex: AppExecutor,
     rm: ResponseMapper,
+    private val colors: ColorManager,
     private val network: NetworkManager,
     private val pref: Pref,
     private val storeMapper: StoreMapper,
@@ -149,7 +151,7 @@ class FeatureViewModel @Inject constructor(
     }
 
     private fun getUiItem(item: Feature): FeatureItem {
-        return FeatureItem.getItem(item).apply {
+        return FeatureItem.getItem(colors, item).apply {
             order = Constants.Orders.getOrder(this.item.type)
         }
     }

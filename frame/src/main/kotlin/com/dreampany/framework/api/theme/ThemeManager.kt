@@ -19,7 +19,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class ThemeManager @Inject constructor(
+class ThemeManager
+@Inject constructor(
     private val context: Context,
     private val pref: ConfigPref
 ) {

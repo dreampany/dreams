@@ -15,41 +15,45 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/country_list"
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                auto:ccp_autoDetectCountry="true"
+                auto:ccp_rememberLastSelection="true" />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edit_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp" />-->
-<!--            <com.scrounger.countrycurrencypicker.library.Buttons.CountryCurrencyButton
-                android:id="@+id/country_picker"
-                android:layout_width="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:hint="Phone Number"
+                android:inputType="phone" />
+
+            <com.github.nikartm.button.FitButton
+                android:id="@+id/button_save"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                auto:country_code="US"
-                auto:show_currency="false" />-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/country_code"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:padding="2dp"
-                    android:textAlignment="textEnd" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/edit_number"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:hint="Phone Number"
-                    android:inputType="phone"
-                    android:paddingHorizontal="0dp" />
-            </LinearLayout>
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:minWidth="@dimen/_100sdp"
+                android:minHeight="@dimen/_30sdp"
+                android:paddingStart="@dimen/_5sdp"
+                android:paddingEnd="@dimen/_5sdp"
+                auto:fb_backgroundColor="@color/material_grey200"
+                auto:fb_cornerRadius="@dimen/_2sdp"
+                auto:fb_text="@string/save"
+                auto:fb_textColor="@color/material_grey800"
+                auto:fb_textSize="@dimen/_14ssp"
+                tools:visibility="visible" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

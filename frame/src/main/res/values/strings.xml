@@ -62,6 +62,7 @@
 
     <string name="back_pressed">Please click BACK again to exit</string>
 
+    <string name="save">Save</string>
     <string name="save_success">Saved successfully.</string>
 
     <string name="auto_collection">Auto collection</string>

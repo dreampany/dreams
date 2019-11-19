@@ -37,6 +37,7 @@ import com.ferfalk.simplesearchview.SimpleSearchView
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import kotlinx.android.synthetic.main.content_input_number.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -267,6 +268,7 @@ class BlockHomeFragment
     private fun inputDialog() {
         MaterialDialog(context!!).show {
             customView(R.layout.content_input_number)
+            button_save.setOnClickListener(this@BlockHomeFragment)
         }
     }
     

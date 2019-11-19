@@ -8,6 +8,8 @@ import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
@@ -139,7 +141,11 @@ class BlockHomeFragment
     }
 
     override fun onClick(v: View) {
-        super.onClick(v)
+        when(v.id) {
+            R.id.fab->{
+                inputDialog()
+            }
+        }
     }
 
     private fun initUi() {
@@ -258,6 +264,12 @@ class BlockHomeFragment
         )
     }
 
+    private fun inputDialog() {
+        MaterialDialog(context!!).show {
+            customView(R.layout.content_input_number)
+        }
+    }
+    
     private fun requestToUpdate() {
         val visibles = adapter.getVisibleItems()
         if (visibles.isNullOrEmpty()) return

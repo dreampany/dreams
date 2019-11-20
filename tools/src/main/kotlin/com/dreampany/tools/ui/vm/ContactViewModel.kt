@@ -203,4 +203,41 @@ class ContactViewModel
             emitter.onSuccess(list)
         }
     }
+
+    private fun toggleBlock(id: String): Boolean {
+        val blocked = hasStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
+        if (blocked) {
+            removeStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
+            return false
+        } else {
+            putStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
+            return true
+        }
+    }
+
+    private fun toggleFavorite(id: String): Boolean {
+        val favorite = hasStore(id, Type.CONTACT, Subtype.DEFAULT, State.FAVORITE)
+        if (favorite) {
+            removeStore(id, Type.CONTACT, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, false)
+        } else {
+            putStore(id, Type.CONTACT, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, true)
+        }
+        return favorites.get(id)
+    }
+
+    private fun hasStore(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+        return storeRepo.isExists(id, type, subtype, state)
+    }
+
+    private fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.putItem(store)
+    }
+
+    private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.delete(store)
+    }
 }

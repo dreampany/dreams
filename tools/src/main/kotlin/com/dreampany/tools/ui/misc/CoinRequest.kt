@@ -15,11 +15,6 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class CoinRequest(
-    var id: String = Constants.Default.STRING,
-    var ids: List<String>? = Constants.Default.NULL,
-    var currency: Currency = Currency.USD,
-    var sort: CoinSort = CoinSort.MARKET_CAP,
-    var order: Order = Order.DESCENDING,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
@@ -30,7 +25,12 @@ class CoinRequest(
     progress: Boolean = Constants.Default.BOOLEAN,
     start: Long = Constants.Default.LONG,
     limit: Long = Constants.Default.LONG,
-    input: Coin? = Constants.Default.NULL
+    input: Coin? = Constants.Default.NULL,
+    id: String = Constants.Default.STRING,
+    ids: List<String>? = Constants.Default.NULL,
+    var currency: Currency = Currency.USD,
+    var sort: CoinSort = CoinSort.MARKET_CAP,
+    var order: Order = Order.DESCENDING
 ) : Request<Coin>(
     type = type,
     subtype = subtype,

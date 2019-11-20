@@ -12,23 +12,23 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class LoadRequest(
-    var id: String? = Constants.Default.NULL,
-    var sourceLang: String? = Constants.Default.NULL,
-    var targetLang: String? = Constants.Default.NULL,
-    var translate: Boolean = Constants.Default.BOOLEAN,
-    var recent: Boolean = Constants.Default.BOOLEAN,
-    var history: Boolean = Constants.Default.BOOLEAN,
-    var suggests: Boolean = Constants.Default.BOOLEAN,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
     source: Source = Source.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: Load? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN
-) : Request<Load>(
+    progress: Boolean = Constants.Default.BOOLEAN,
+    input: Load? = Constants.Default.NULL,
+    id: String = Constants.Default.STRING,
+    var sourceLang: String? = Constants.Default.NULL,
+    var targetLang: String? = Constants.Default.NULL,
+    var translate: Boolean = Constants.Default.BOOLEAN,
+    var recent: Boolean = Constants.Default.BOOLEAN,
+    var history: Boolean = Constants.Default.BOOLEAN,
+    var suggests: Boolean = Constants.Default.BOOLEAN
+    ) : Request<Load>(
     type = type,
     subtype = subtype,
     state = state,

@@ -142,8 +142,8 @@ class BlockHomeFragment
     }
 
     override fun onClick(v: View) {
-        when(v.id) {
-            R.id.fab->{
+        when (v.id) {
+            R.id.fab -> {
                 inputDialog()
             }
         }
@@ -268,15 +268,32 @@ class BlockHomeFragment
     private fun inputDialog() {
         MaterialDialog(context!!).show {
             customView(R.layout.content_input_number)
-            button_save.setOnClickListener(this@BlockHomeFragment)
+            button_save.setOnClickListener {
+                val code = picker_country.selectedCountryCode
+                val number = edit_phone_number.text?.toString()
+                if (code.isEmpty()) {
+
+                    return@setOnClickListener
+                }
+                if (number.isNullOrEmpty()) {
+
+                    return@setOnClickListener
+                }
+                saveNumber(picker_country.selectedCountryCode, number)
+            }
         }
     }
-    
+
+    private fun saveNumber(countryCode: String, number: String) {
+        Timber.v("CountryCode - Number [%s - %s]", countryCode, number)
+
+    }
+
     private fun requestToUpdate() {
         val visibles = adapter.getVisibleItems()
         if (visibles.isNullOrEmpty()) return
         val ids = arrayListOf<String>()
-        visibles.forEach {ci->
+        visibles.forEach { ci ->
             ids.add(ci.item.id)
         }
         request(

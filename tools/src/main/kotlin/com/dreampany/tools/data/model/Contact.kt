@@ -34,12 +34,12 @@ data class Contact(
     var nickName: String? = Constants.Default.NULL,
     @ColumnInfo(name = Constants.Keys.Contact.AVATAR_URL)
     var avatarUrl: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.Contact.COUNTRY_CODE)
+    var countryCode: String? = Constants.Default.NULL,
     @ColumnInfo(name = Constants.Keys.Contact.PHONE_NUMBER)
     var phoneNumber: String? = Constants.Default.NULL,
     var email: String? = Constants.Default.NULL,
-    var address: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Contact.COUNTRY_CODE)
-    var countryCode: String? = Constants.Default.NULL
+    var address: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -51,7 +51,7 @@ data class Contact(
 
     }
 
-    constructor(
+/*    constructor(
         id: String,
         name: String?,
         phoneNumber: String?
@@ -62,7 +62,7 @@ data class Contact(
         phoneNumber = phoneNumber
     ) {
 
-    }
+    }*/
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

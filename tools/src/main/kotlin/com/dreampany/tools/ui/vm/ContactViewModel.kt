@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
@@ -8,6 +9,7 @@ import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.model.UiTask
@@ -61,10 +63,36 @@ class ContactViewModel
 
     fun request(request: ContactRequest) {
         if (request.single) {
-            //requestSingle(request)
+            requestSingle(request)
         } else {
             requestMultiple(request)
         }
+    }
+
+    private fun requestSingle(request: ContactRequest) {
+        if (!takeAction(request.important, singleDisposable)) {
+            return
+        }
+
+        val disposable = rx
+            .backToMain(requestUiItemRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(request.state, request.action, true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(request.state, request.action, false)
+                }
+                postResult(request.state, request.action, result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(request.state, request.action, false)
+                }
+                postFailures(request.state, request.action, MultiException(error, ExtraException()))
+            })
+        addSingleSubscription(disposable)
     }
 
     private fun requestMultiple(request: ContactRequest) {
@@ -93,6 +121,10 @@ class ContactViewModel
         addMultipleSubscription(disposable)
     }
 
+    private fun requestUiItemRx(request: ContactRequest): Maybe<ContactItem> {
+        return Maybe.empty() //requestItemRx(request).flatMap { getUiItemRx(request, it) }
+    }
+
     private fun requestUiItemsRx(request: ContactRequest): Maybe<List<ContactItem>> {
         if (true) return getDummy()
         if (request.state == State.BLOCKED) {
@@ -103,6 +135,27 @@ class ContactViewModel
         return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }
 
+    private fun requestItemRx(request: ContactRequest): Maybe<Contact> {
+        if (request.action == Action.BLOCK || request.action == Action.UNBLOCK) {
+            return toggleBlock(request)
+        }
+        return repo.getItemRx(request.id)
+    }
+
+    private fun toggleBlock(request: ContactRequest): Maybe<Contact> {
+        return Maybe.create { emitter ->
+            val contact: Contact? = request.input
+
+            if (emitter.isDisposed) return@create
+            if (contact == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(contact)
+            }
+        }
+    }
+
+    /* get methods */
     private fun getUiItemsOfStoresRx(
         request: ContactRequest,
         items: List<Store>

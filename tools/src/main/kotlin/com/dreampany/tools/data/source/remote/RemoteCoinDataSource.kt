@@ -95,9 +95,7 @@ constructor(
     ): Maybe<List<Coin>> {
         return Maybe.create { emitter ->
             val result = getItems(currency, sort, order, start, limit)
-            if (emitter.isDisposed) {
-                return@create
-            }
+            if (emitter.isDisposed) return@create
             if (result.isNullOrEmpty()) {
                 emitter.onError(EmptyException())
             } else {

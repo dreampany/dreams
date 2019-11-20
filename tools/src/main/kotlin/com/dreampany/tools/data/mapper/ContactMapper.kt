@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.mapper
 
 import android.content.Context
+import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
@@ -28,7 +29,7 @@ class ContactMapper
     @ContactAnnote private val cache: SmartCache<String, Contact>,
     @ContactItemAnnote private val uiMap: SmartMap<String, ContactItem>,
     @ContactItemAnnote private val uiCache: SmartCache<String, ContactItem>
-) {
+) : Mapper() {
 
     fun getUiItem(id: String): ContactItem? {
         return uiMap.get(id)

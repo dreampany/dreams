@@ -1,9 +1,13 @@
 package com.dreampany.framework.util
 
+import com.google.i18n.phonenumbers.NumberParseException
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+import timber.log.Timber
 import java.math.BigDecimal
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
+
 
 /**
  * Created by roman on 2019-10-14
@@ -117,8 +121,19 @@ class NumberUtil {
             }
         }
 
-        fun randomBool() : Boolean {
+        fun randomBool(): Boolean {
             return random.nextBoolean()
+        }
+
+        fun isValidPhoneNumber(countryCode: String, number: String): Boolean {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            try {
+                val phone = phoneUtil.parse(number, countryCode)
+                return phoneUtil.isValidNumber(phone)
+            } catch (error: NumberParseException) {
+                Timber.e(error)
+            }
+            return false
         }
     }
 }

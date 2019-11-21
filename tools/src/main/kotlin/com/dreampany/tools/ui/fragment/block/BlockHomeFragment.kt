@@ -20,10 +20,10 @@ import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
-import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
-import com.dreampany.framework.util.ViewUtil
+import com.dreampany.framework.util.*
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.BlockType
+import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.data.source.pref.BlockPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -269,24 +269,28 @@ class BlockHomeFragment
         MaterialDialog(context!!).show {
             customView(R.layout.content_input_number)
             button_save.setOnClickListener {
-                val code = picker_country.selectedCountryCode
+                val code = picker_country.selectedCountryNameCode
                 val number = edit_phone_number.text?.toString()
                 if (code.isEmpty()) {
 
                     return@setOnClickListener
                 }
                 if (number.isNullOrEmpty()) {
-
+                    edit_phone_number.error = getString(R.string.error_empty_phone_number)
                     return@setOnClickListener
                 }
-                saveNumber(picker_country.selectedCountryCode, number)
+                if (!NumberUtil.isValidPhoneNumber(code, number)) {
+                    edit_phone_number.error = getString(R.string.error_invalid_phone_number)
+                    return@setOnClickListener
+                }
+                saveNumber(code, number)
             }
         }
     }
 
     private fun saveNumber(countryCode: String, number: String) {
         Timber.v("CountryCode - Number [%s - %s]", countryCode, number)
-
+        request(action = Action.BLOCK, single = true, progress = true, blockType = BlockType.EXACT, countryCode = countryCode, number = number)
     }
 
     private fun requestToUpdate() {
@@ -305,18 +309,19 @@ class BlockHomeFragment
     }
 
     private fun request(
-        id: String = Constants.Default.STRING,
-        ids: List<String>? = Constants.Default.NULL,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
         start: Long = Constants.Default.LONG,
-        limit: Long = Constants.Default.LONG
+        limit: Long = Constants.Default.LONG,
+        id: String? = Constants.Default.NULL,
+        ids: List<String>? = Constants.Default.NULL,
+        blockType: BlockType? = Constants.Default.NULL,
+        countryCode: String = Constants.Default.STRING,
+        number: String = Constants.Default.STRING
     ) {
         val request = ContactRequest(
-            id = id,
-            ids = ids,
             type = Type.CONTACT,
             subtype = Subtype.DEFAULT,
             state = state,
@@ -324,7 +329,12 @@ class BlockHomeFragment
             single = single,
             progress = progress,
             start = start,
-            limit = limit
+            limit = limit,
+            id = id,
+            ids = ids,
+            blockType = blockType,
+            countryCode = countryCode,
+            number = number
         )
         vm.request(request)
     }

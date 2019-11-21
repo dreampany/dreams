@@ -35,8 +35,8 @@ class ColorManager
                 0xfff06292,
                 0xffba68c8,
                 0xff9575cd,
-                0xff7986cb
-                /*0xff64b5f6,
+                0xff7986cb,
+                0xff64b5f6,
                 0xff4fc3f7,
                 0xff4dd0e1,
                 0xff4db6ac,
@@ -47,7 +47,7 @@ class ColorManager
                 0xffffd54f,
                 0xffffb74d,
                 0xffa1887f,
-                0xff90a4ae*/
+                0xff90a4ae
             ) as Collection<Int>
         )
     }

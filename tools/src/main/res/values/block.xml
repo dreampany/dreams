@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hint_phone_number">Phone Number</string>
-
+    <string name="error_empty_phone_number">Enter Phone Number</string>
+    <string name="error_invalid_phone_number">Enter Valid Phone Number</string>
 </resources>

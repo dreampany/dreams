@@ -20,20 +20,20 @@ class RelatedQuizRequest(
     state: State = State.DEFAULT,
     var resolve: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: RelatedQuiz? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
+    input: RelatedQuiz? = Constants.Default.NULL,
     var given: String? = Constants.Default.NULL
 ) : Request<RelatedQuiz>(
     type = type,
     subtype = subtype,
     state = state,
     action = action,
-    input = input,
     single = single,
     important = important,
-    progress = progress
+    progress = progress,
+    input = input
 ) {
 
 }

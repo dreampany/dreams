@@ -34,10 +34,11 @@ class LoadRequest(
     state = state,
     source = source,
     action = action,
-    input = input,
     single = single,
     important = important,
-    progress = progress
+    progress = progress,
+    input = input,
+    id = id
 ) {
 
 }

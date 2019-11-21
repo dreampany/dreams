@@ -16,15 +16,15 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class AppRequest(
-    var appType: AppType = AppType.DEFAULT,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: App? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN,
+    input: App? = Constants.Default.NULL,
+    var appType: AppType = AppType.DEFAULT
 ) : Request<App>(
     type = type,
     subtype = subtype,

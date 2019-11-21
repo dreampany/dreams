@@ -12,7 +12,6 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class ServerRequest(
-    var id: String? = Constants.Default.NULL,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
@@ -21,8 +20,9 @@ class ServerRequest(
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
+    limit: Long = Constants.Default.LONG,
     input: Server? = Constants.Default.NULL,
-    limit: Long = Constants.Default.LONG
+    id: String? = Constants.Default.NULL
 ) : Request<Server>(
     type = type,
     subtype = subtype,
@@ -32,8 +32,9 @@ class ServerRequest(
     single = single,
     important = important,
     progress = progress,
+    limit = limit,
     input = input,
-    limit = limit
+    id = id
 ) {
 
 

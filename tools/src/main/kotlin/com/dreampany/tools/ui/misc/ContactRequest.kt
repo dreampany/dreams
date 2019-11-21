@@ -25,7 +25,7 @@ class ContactRequest(
     input: Contact? = Constants.Default.NULL,
     id: String = Constants.Default.STRING,
     ids: List<String>? = Constants.Default.NULL,
-    blockType: Contact? = Constants.Default.NULL
+    var blockType: Contact? = Constants.Default.NULL
 ) : Request<Contact>(
     type = type,
     subtype = subtype,
@@ -37,7 +37,9 @@ class ContactRequest(
     progress = progress,
     start = start,
     limit = limit,
-    input = input
+    input = input,
+    id = id,
+    ids = ids
 ) {
 
 }

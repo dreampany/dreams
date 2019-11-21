@@ -19,19 +19,19 @@ class QuizRequest(
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: Quiz? = Constants.Default.NULL,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN,
+    input: Quiz? = Constants.Default.NULL
 ) : Request<Quiz>(
     type = type,
     subtype = subtype,
     state = state,
     action = action,
-    input = input,
     single = single,
     important = important,
-    progress = progress
+    progress = progress,
+    input = input
 ) {
 
 }

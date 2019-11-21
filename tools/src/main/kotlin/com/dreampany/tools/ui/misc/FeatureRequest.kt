@@ -19,13 +19,13 @@ class FeatureRequest(
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
-    input: Feature? = Constants.Default.NULL,
     important: Boolean = Constants.Default.BOOLEAN,
-    progress: Boolean = Constants.Default.BOOLEAN
+    progress: Boolean = Constants.Default.BOOLEAN,
+    input: Feature? = Constants.Default.NULL
 ) : Request<Feature>(
     action = action,
-    input = input,
     important = important,
-    progress = progress
+    progress = progress,
+    input = input
 ) {
 }

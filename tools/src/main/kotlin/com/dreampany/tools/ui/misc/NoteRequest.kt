@@ -15,9 +15,6 @@ import com.dreampany.tools.misc.Constants
  * Last modified $file.lastModified
  */
 class NoteRequest(
-    val id: String? = Constants.Default.NULL,
-    val title: String? = Constants.Default.NULL,
-    val description: String? = Constants.Default.NULL,
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
@@ -25,7 +22,10 @@ class NoteRequest(
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
-    input: Note? = Constants.Default.NULL
+    input: Note? = Constants.Default.NULL,
+    id: String? = Constants.Default.NULL,
+    val title: String? = Constants.Default.NULL,
+    val description: String? = Constants.Default.NULL
 ) : Request<Note>(
     type = type,
     subtype = subtype,
@@ -34,6 +34,7 @@ class NoteRequest(
     single = single,
     important = important,
     progress = progress,
-    input = input
+    input = input,
+    id = id
 ) {
 }

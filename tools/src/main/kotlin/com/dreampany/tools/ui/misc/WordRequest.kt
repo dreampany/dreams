@@ -23,12 +23,12 @@ class WordRequest(
     limit: Long = Constants.Default.LONG,
     input: Word? = Constants.Default.NULL,
     id: String? = Constants.Default.NULL,
-    var sourceLang: String? = Constants.Default.NULL,
-    var targetLang: String? = Constants.Default.NULL,
-    var translate: Boolean = Constants.Default.BOOLEAN,
-    var recent: Boolean = Constants.Default.BOOLEAN,
-    var history: Boolean = Constants.Default.BOOLEAN,
-    var suggests: Boolean = Constants.Default.BOOLEAN
+    val sourceLang: String? = Constants.Default.NULL,
+    val targetLang: String? = Constants.Default.NULL,
+    val translate: Boolean = Constants.Default.BOOLEAN,
+    val recent: Boolean = Constants.Default.BOOLEAN,
+    val history: Boolean = Constants.Default.BOOLEAN,
+    val suggests: Boolean = Constants.Default.BOOLEAN
 ) : Request<Word>(
     type = type,
     subtype = subtype,
@@ -39,7 +39,8 @@ class WordRequest(
     important = important,
     progress = progress,
     limit = limit,
-    input = input
+    input = input,
+    id = id
 ) {
 
 }

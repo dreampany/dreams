@@ -139,7 +139,7 @@ class ContactViewModel
         if (request.action == Action.BLOCK || request.action == Action.UNBLOCK) {
             return toggleBlock(request)
         }
-        return repo.getItemRx(request.id)
+        return repo.getItemRx(request.id!!)
     }
 
     private fun toggleBlock(request: ContactRequest): Maybe<Contact> {

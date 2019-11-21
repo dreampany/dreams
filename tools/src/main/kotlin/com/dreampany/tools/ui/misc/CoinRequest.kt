@@ -42,7 +42,9 @@ class CoinRequest(
     progress = progress,
     start = start,
     limit = limit,
-    input = input
+    input = input,
+    id = id,
+    ids = ids
 ) {
 
 }

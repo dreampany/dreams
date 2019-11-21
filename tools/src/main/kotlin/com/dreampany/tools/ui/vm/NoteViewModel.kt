@@ -204,7 +204,7 @@ class NoteViewModel
                 emitter.onError(EmptyException())
             } else {
                 putStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.TRASH)
-                removeStore(request.id, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
                 emitter.onSuccess(note)
             }
         }
@@ -218,8 +218,8 @@ class NoteViewModel
             } else {
                 val result = repo.delete(note)
                 removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.TRASH)
-                removeStore(request.id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
-                removeStore(request.id, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+                removeStore(request.id!!, Type.NOTE, Subtype.DEFAULT, State.ARCHIVED)
                 emitter.onSuccess(note)
             }
         }

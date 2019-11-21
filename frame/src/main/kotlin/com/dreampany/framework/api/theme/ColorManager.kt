@@ -3,7 +3,9 @@ package com.dreampany.framework.api.theme
 import android.content.Context
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.util.DataUtil
 import com.google.common.collect.Maps
+import timber.log.Timber
 
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,8 +35,8 @@ class ColorManager
                 0xfff06292,
                 0xffba68c8,
                 0xff9575cd,
-                0xff7986cb,
-                0xff64b5f6,
+                0xff7986cb
+                /*0xff64b5f6,
                 0xff4fc3f7,
                 0xff4dd0e1,
                 0xff4db6ac,
@@ -45,7 +47,7 @@ class ColorManager
                 0xffffd54f,
                 0xffffb74d,
                 0xffa1887f,
-                0xff90a4ae
+                0xff90a4ae*/
             ) as Collection<Int>
         )
     }
@@ -56,11 +58,15 @@ class ColorManager
             colors.put(type, mutableListOf())
         }
         val list: MutableList<Int> = colors.get(type)!!
-        val bank = mutableListOf<Int>()
-        bank.addAll(materialColors)
-        bank.removeAll(list)
+        val bank = arrayListOf<Int>()
+        materialColors.forEach {
+            if (!list.contains(it)) {
+                bank.add(it)
+            }
+        }
         val color: Int = if (bank.isEmpty()) materialColors.random(random) else bank.random(random)
         list.add(color)
+        Timber.v("COLOR %s - %s %s", bank.size, list.size, color)
         return color
     }
 }

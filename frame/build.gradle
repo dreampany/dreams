@@ -213,10 +213,10 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.6.2'
     api 'com.squareup.retrofit2:converter-jackson:2.6.2'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
-    api ('com.squareup.moshi:moshi-kotlin:1.9.1') {
+    api('com.squareup.moshi:moshi-kotlin:1.9.2') {
         exclude group: 'org.jetbrains.kotlin'
     }
-    api 'com.squareup.moshi:moshi-adapters:1.9.1'
+    api 'com.squareup.moshi:moshi-adapters:1.9.2'
 
     /* flexible adapter */
     api 'eu.davidea:flexible-adapter:5.1.0'
@@ -248,7 +248,7 @@ dependencies {
     implementation 'com.jaredrummler:android-device-names:1.1.9'
     implementation 'com.otaliastudios:cameraview:1.6.0'
     implementation 'com.github.onurkagan:ktoast:1.0.3'
-    api ('com.afollestad.material-dialogs:core:3.1.0') {
+    api('com.afollestad.material-dialogs:core:3.1.1') {
         exclude group: 'org.jetbrains.kotlin'
     }
     api ('com.afollestad.material-dialogs:input:3.1.1') {

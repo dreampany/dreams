@@ -60,10 +60,6 @@ private constructor(
         return false
     }
 
-/*    fun order(): Int {
-        return item.type.ordinal
-    }*/
-
     class ViewHolder(
         view: View,
         adapter: FlexibleAdapter<*>

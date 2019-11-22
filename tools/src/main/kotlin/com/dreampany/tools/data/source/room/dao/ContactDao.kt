@@ -23,4 +23,10 @@ interface ContactDao : BaseDao<Contact> {
 
     @get:Query("select * from contact")
     val itemsRx: Maybe<List<Contact>>
+
+    @Query("select * from contact where id = :id limit 1")
+    fun getItem(id: String): Contact?
+
+    @Query("select * from contact where id = :id limit 1")
+    fun getItemRx(id: String): Maybe<Contact>
 }

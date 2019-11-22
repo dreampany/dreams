@@ -58,6 +58,7 @@ class ContactMapper
     fun getItem(countryCode: String?, phoneNumber: String?, source: ContactDataSource): Contact? {
         if (countryCode.isNullOrEmpty() || phoneNumber.isNullOrEmpty()) return null
         val id = countryCode.plus(phoneNumber)
+        var toRoom = false
         var out: Contact? = map.get(id)
         if (out == null) {
             out = source.getItem(id)
@@ -68,10 +69,15 @@ class ContactMapper
         if (out == null) {
             out = Contact(id)
             map.put(id, out)
+            toRoom = true
         }
 
         out.countryCode = countryCode
         out.phoneNumber = phoneNumber
+
+        if (toRoom) {
+            source.putItem(out)
+        }
 
         return out
     }

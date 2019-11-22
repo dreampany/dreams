@@ -3,15 +3,12 @@ package com.dreampany.tools.data.source.repository
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.Remote
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.mapper.ContactMapper
 import com.dreampany.tools.data.model.Contact
-import com.dreampany.tools.data.source.api.CoinDataSource
 import com.dreampany.tools.data.source.api.ContactDataSource
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -60,7 +57,7 @@ class ContactRepository
     }
 
     override fun putItem(t: Contact): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.putItem(t)
     }
 
     override fun putItemRx(t: Contact): Maybe<Long> {
@@ -92,7 +89,7 @@ class ContactRepository
     }
 
     override fun getItem(id: String): Contact? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.getItem(id)
     }
 
     override fun getItemRx(id: String): Maybe<Contact> {

@@ -23,6 +23,7 @@ import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.BlockPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ContactRepository
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.misc.ContactRequest
 import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.ui.model.ContactItem
@@ -131,11 +132,11 @@ class ContactViewModel
     }
 
     private fun requestUiItemRx(request: ContactRequest): Maybe<ContactItem> {
-        return Maybe.empty() //requestItemRx(request).flatMap { getUiItemRx(request, it) }
+        return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
     private fun requestUiItemsRx(request: ContactRequest): Maybe<List<ContactItem>> {
-        if (true) return getDummy()
+        //if (true) return getDummy()
         if (request.state == State.BLOCKED) {
             return storeRepo
                 .getItemsRx(Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
@@ -146,9 +147,6 @@ class ContactViewModel
 
     private fun requestItemRx(request: ContactRequest): Maybe<Contact> {
         if (request.action == Action.BLOCK || request.action == Action.UNBLOCK) {
-            if (request.input == null) {
-                request.input = mapper.getItem(request.countryCode, request.phoneNumber, repo)
-            }
             return toggleBlock(request)
         }
         return repo.getItemRx(request.id!!)
@@ -156,9 +154,12 @@ class ContactViewModel
 
     private fun toggleBlock(request: ContactRequest): Maybe<Contact> {
         return Maybe.create { emitter ->
-            val contact: Contact? = request.input
+            var contact: Contact? = request.input
+            if (contact == null) {
+                contact = mapper.getItem(request.countryCode, request.phoneNumber, repo)
+            }
             if (contact != null) {
-                toggleBlock(contact.id)
+                val blocked = toggleBlock(contact.id)
             }
             if (emitter.isDisposed) return@create
             if (contact == null) {
@@ -170,6 +171,16 @@ class ContactViewModel
     }
 
     /* get methods */
+    private fun getUiItemRx(request: ContactRequest, item: Contact): Maybe<ContactItem> {
+        return Maybe.create { emitter ->
+            if (emitter.isDisposed) {
+                return@create
+            }
+            val uiItem = getUiItem(request, item)
+            emitter.onSuccess(uiItem)
+        }
+    }
+
     private fun getUiItemsOfStoresRx(
         request: ContactRequest,
         items: List<Store>

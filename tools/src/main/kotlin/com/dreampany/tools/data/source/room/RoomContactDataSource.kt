@@ -41,7 +41,7 @@ class RoomContactDataSource (
     }
 
     override fun putItem(t: Contact): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun putItemRx(t: Contact): Maybe<Long> {
@@ -73,11 +73,11 @@ class RoomContactDataSource (
     }
 
     override fun getItem(id: String): Contact? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItem(id)
     }
 
     override fun getItemRx(id: String): Maybe<Contact> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItemRx(id)
     }
 
     override fun getItems(): List<Contact>? {

@@ -251,7 +251,10 @@ class BlockHomeFragment
 
     private fun processSingleSuccess(state: State, action: Action, item: ContactItem) {
         Timber.v("Result Single Coin[%s]", item.item.id)
-
+        adapter.addItem(item)
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
     }
 
     private fun request() {
@@ -280,6 +283,9 @@ class BlockHomeFragment
                     return@setOnClickListener
                 }
                 saveNumber(numberCode, number)
+                ex.postToUi(kotlinx.coroutines.Runnable {
+                    dismiss()
+                })
             }
         }
     }

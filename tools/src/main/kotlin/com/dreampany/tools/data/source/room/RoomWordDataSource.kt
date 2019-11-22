@@ -151,7 +151,7 @@ class RoomWordDataSource(
     }
 
     override fun putItems(ts: List<Word>): List<Long>? {
-        val result = dao.insertOrIgnore(ts)
+        val result = dao.insertOrReplace(ts)
         return result
     }
 

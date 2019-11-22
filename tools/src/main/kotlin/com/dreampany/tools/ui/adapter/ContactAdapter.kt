@@ -19,4 +19,22 @@ class ContactAdapter (listener: Any? = null) : SmartAdapter<ContactItem>(listene
         as Comparator<IFlexible<*>>
         return super.addItems(items, comparator)
     }
+
+    fun addFavoriteItem(item: ContactItem) {
+        if (item.favorite) {
+            addItem(item)
+        } else {
+            removeItem(item)
+        }
+    }
+
+    fun addBlockItem(item: ContactItem) {
+        if (item.block) {
+            val comparator: Comparator<IFlexible<*>> = Constants.Comparators.Block.getUiComparator()
+                    as Comparator<IFlexible<*>>
+            addItem(item, comparator)
+        } else {
+            removeItem(item)
+        }
+    }
 }

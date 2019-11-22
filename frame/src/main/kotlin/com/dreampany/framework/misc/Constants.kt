@@ -113,6 +113,7 @@ class Constants {
         const val EQUAL = '='
         const val SPACE_HYPHEN_SPACE = " - "
         const val LEAF_SEPARATOR = '|'
+        const val PLUS = '+'
     }
 
     object Database {

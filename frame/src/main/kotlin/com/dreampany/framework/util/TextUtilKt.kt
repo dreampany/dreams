@@ -17,6 +17,10 @@ class TextUtilKt {
             return value.first().toString()
         }
 
+        fun takeFirst(value: String, len: Int): String {
+            return value.take(len)
+        }
+
         fun resolve(text: String? = null): String {
             if (text.isNullOrEmpty()) Constants.Default.STRING
             return text!!

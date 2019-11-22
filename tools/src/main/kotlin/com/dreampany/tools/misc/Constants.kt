@@ -121,6 +121,7 @@ class Constants {
     }
 
     object Sep {
+        const val PLUS = Constants.Sep.PLUS
         const val DOT = Constants.Sep.DOT
         const val COMMA = Constants.Sep.COMMA
         const val COMMA_SPACE = Constants.Sep.COMMA_SPACE

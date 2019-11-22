@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.api.theme.ColorManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
@@ -45,6 +46,7 @@ class ContactViewModel
     rx: RxMapper,
     ex: AppExecutor,
     rm: ResponseMapper,
+    private val colors: ColorManager,
     private val network: NetworkManager,
     private val pref: Pref,
     private val blockPref: BlockPref,
@@ -205,7 +207,7 @@ class ContactViewModel
     private fun getUiItem(request: ContactRequest, item: Contact): ContactItem {
         var uiItem: ContactItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
-            uiItem = ContactItem.getItem(item)
+            uiItem = ContactItem.getItem(colors, item)
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
@@ -286,12 +288,12 @@ class ContactViewModel
         return storeRepo.delete(store)
     }
 
-    private fun getDummy(): Maybe<List<ContactItem>> {
+/*    private fun getDummy(): Maybe<List<ContactItem>> {
         return Maybe.create { emitter ->
             val list = arrayListOf<ContactItem>()
             val contact = Contact(DataUtilKt.getRandId())
             list.add(ContactItem.getItem(contact))
             emitter.onSuccess(list)
         }
-    }
+    }*/
 }

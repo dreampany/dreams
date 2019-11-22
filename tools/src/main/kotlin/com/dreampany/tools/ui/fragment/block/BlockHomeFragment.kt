@@ -23,7 +23,6 @@ import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.BlockType
-import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.data.source.pref.BlockPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -269,21 +268,18 @@ class BlockHomeFragment
         MaterialDialog(context!!).show {
             customView(R.layout.content_input_number)
             button_save.setOnClickListener {
-                val code = picker_country.selectedCountryNameCode
+                val nameCode = picker_country.selectedCountryNameCode
+                val numberCode = picker_country.selectedCountryCode
                 val number = edit_phone_number.text?.toString()
-                if (code.isEmpty()) {
-
-                    return@setOnClickListener
-                }
                 if (number.isNullOrEmpty()) {
                     edit_phone_number.error = getString(R.string.error_empty_phone_number)
                     return@setOnClickListener
                 }
-                if (!NumberUtil.isValidPhoneNumber(code, number)) {
+                if (!NumberUtil.isValidPhoneNumber(nameCode, number)) {
                     edit_phone_number.error = getString(R.string.error_invalid_phone_number)
                     return@setOnClickListener
                 }
-                saveNumber(code, number)
+                saveNumber(numberCode, number)
             }
         }
     }
@@ -334,7 +330,7 @@ class BlockHomeFragment
             ids = ids,
             blockType = blockType,
             countryCode = countryCode,
-            number = number
+            phoneNumber = number
         )
         vm.request(request)
     }

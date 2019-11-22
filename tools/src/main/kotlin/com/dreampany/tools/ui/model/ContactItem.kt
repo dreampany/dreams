@@ -27,6 +27,8 @@ private constructor(
     @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<ContactItem.ViewHolder, Contact, String>(item, layoutId) {
 
+    var block: Boolean = false
+
     companion object {
         fun getItem(item: Contact): ContactItem {
             return ContactItem(item, R.layout.item_contact)

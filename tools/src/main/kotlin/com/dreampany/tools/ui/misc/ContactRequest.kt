@@ -27,8 +27,8 @@ class ContactRequest(
     id: String? = Constants.Default.NULL,
     ids: List<String>? = Constants.Default.NULL,
     val blockType: BlockType? = Constants.Default.NULL,
-    val countryCode: String = Constants.Default.STRING,
-    val number: String = Constants.Default.STRING
+    val countryCode: String? = Constants.Default.NULL,
+    val phoneNumber: String? = Constants.Default.NULL
 
 ) : Request<Contact>(
     type = type,

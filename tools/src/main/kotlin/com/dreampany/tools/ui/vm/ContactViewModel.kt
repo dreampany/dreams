@@ -19,11 +19,14 @@ import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ContactMapper
 import com.dreampany.tools.data.model.Contact
+import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.BlockPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ContactRepository
 import com.dreampany.tools.ui.misc.ContactRequest
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.ui.model.ContactItem
+import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -51,6 +54,12 @@ class ContactViewModel
     @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Contact, ContactItem, UiTask<Contact>>(application, rx, ex, rm),
     NetworkManager.Callback {
+
+    private val blocks: SmartMap<String, Boolean>
+
+    init {
+        blocks = SmartMap.newMap()
+    }
 
     override fun clear() {
         network.deObserve(this)
@@ -137,6 +146,9 @@ class ContactViewModel
 
     private fun requestItemRx(request: ContactRequest): Maybe<Contact> {
         if (request.action == Action.BLOCK || request.action == Action.UNBLOCK) {
+            if (request.input == null) {
+                request.input = mapper.getItem(request.countryCode, request.phoneNumber, repo)
+            }
             return toggleBlock(request)
         }
         return repo.getItemRx(request.id!!)
@@ -145,7 +157,9 @@ class ContactViewModel
     private fun toggleBlock(request: ContactRequest): Maybe<Contact> {
         return Maybe.create { emitter ->
             val contact: Contact? = request.input
-
+            if (contact != null) {
+                toggleBlock(contact.id)
+            }
             if (emitter.isDisposed) return@create
             if (contact == null) {
                 emitter.onError(EmptyException())
@@ -184,7 +198,8 @@ class ContactViewModel
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
-        //adjustFavorite(item, uiItem)
+        adjustFavorite(item, uiItem)
+        adjustBlock(item, uiItem)
         return uiItem
     }
 
@@ -195,24 +210,12 @@ class ContactViewModel
         return item
     }
 
-    private fun getDummy(): Maybe<List<ContactItem>> {
-        return Maybe.create { emitter ->
-            val list = arrayListOf<ContactItem>()
-            val contact = Contact(DataUtilKt.getRandId())
-            list.add(ContactItem.getItem(contact))
-            emitter.onSuccess(list)
-        }
+    private fun adjustFavorite(contact: Contact, item: ContactItem) {
+        item.favorite = isFavorite(contact)
     }
 
-    private fun toggleBlock(id: String): Boolean {
-        val blocked = hasStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
-        if (blocked) {
-            removeStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
-            return false
-        } else {
-            putStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
-            return true
-        }
+    private fun adjustBlock(contact: Contact, item: ContactItem) {
+        item.block = isBlocked(contact)
     }
 
     private fun toggleFavorite(id: String): Boolean {
@@ -227,6 +230,37 @@ class ContactViewModel
         return favorites.get(id)
     }
 
+    private fun toggleBlock(id: String): Boolean {
+        val blocked = hasStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
+        if (blocked) {
+            removeStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
+            return false
+        } else {
+            putStore(id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
+            return true
+        }
+    }
+
+    private fun isFavorite(contact: Contact): Boolean {
+        Timber.v("Checking favorite")
+        if (!favorites.contains(contact.id)) {
+            val favorite = hasStore(contact.id, Type.CONTACT, Subtype.DEFAULT, State.FAVORITE)
+            Timber.v("Favorite of %s %s", contact.id, favorite)
+            favorites.put(contact.id, favorite)
+        }
+        return favorites.get(contact.id)
+    }
+
+    private fun isBlocked(contact: Contact): Boolean {
+        Timber.v("Checking Block Status")
+        if (!blocks.contains(contact.id)) {
+            val blocked = hasStore(contact.id, Type.CONTACT, Subtype.DEFAULT, State.BLOCKED)
+            Timber.v("Block of [%s - %s]", contact.id, blocked)
+            blocks.put(contact.id, blocked)
+        }
+        return blocks.get(contact.id)
+    }
+
     private fun hasStore(id: String, type: Type, subtype: Subtype, state: State): Boolean {
         return storeRepo.isExists(id, type, subtype, state)
     }
@@ -239,5 +273,14 @@ class ContactViewModel
     private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
         val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.delete(store)
+    }
+
+    private fun getDummy(): Maybe<List<ContactItem>> {
+        return Maybe.create { emitter ->
+            val list = arrayListOf<ContactItem>()
+            val contact = Contact(DataUtilKt.getRandId())
+            list.add(ContactItem.getItem(contact))
+            emitter.onSuccess(list)
+        }
     }
 }

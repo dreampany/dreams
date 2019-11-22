@@ -31,14 +31,17 @@ class ContactMapper
     @ContactItemAnnote private val uiCache: SmartCache<String, ContactItem>
 ) : Mapper() {
 
+    @Synchronized
     fun getUiItem(id: String): ContactItem? {
         return uiMap.get(id)
     }
 
+    @Synchronized
     fun putUiItem(id: String, uiItem: ContactItem) {
         uiMap.put(id, uiItem)
     }
 
+    @Synchronized
     @Throws(Throwable::class)
     fun getItem(input: Store, source: ContactDataSource): Contact? {
         var out: Contact? = map.get(input.id)
@@ -47,6 +50,29 @@ class ContactMapper
             map.put(input.id, out)
         }
         if (out == null) return null
+        return out
+    }
+
+    @Synchronized
+    @Throws(Throwable::class)
+    fun getItem(countryCode: String?, phoneNumber: String?, source: ContactDataSource): Contact? {
+        if (countryCode.isNullOrEmpty() || phoneNumber.isNullOrEmpty()) return null
+        val id = countryCode.plus(phoneNumber)
+        var out: Contact? = map.get(id)
+        if (out == null) {
+            out = source.getItem(id)
+            if (out != null) {
+                map.put(id, out)
+            }
+        }
+        if (out == null) {
+            out = Contact(id)
+            map.put(id, out)
+        }
+
+        out.countryCode = countryCode
+        out.phoneNumber = phoneNumber
+
         return out
     }
 }

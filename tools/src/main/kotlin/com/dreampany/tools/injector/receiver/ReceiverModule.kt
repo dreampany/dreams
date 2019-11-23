@@ -1,5 +1,6 @@
 package com.dreampany.tools.injector.receiver
 
+import com.dreampany.tools.receiver.BlockCallReceiver
 import com.dreampany.tools.receiver.BootReceiver
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -14,4 +15,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class ReceiverModule {
     @ContributesAndroidInjector
     abstract fun bootReceiver(): BootReceiver
+
+    @ContributesAndroidInjector
+    abstract fun blockCallReceiver(): BlockCallReceiver
 }

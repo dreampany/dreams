@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment.block
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,6 +9,8 @@ import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.afollestad.assent.Permission
+import com.afollestad.assent.runWithPermissions
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.dreampany.framework.data.enums.Action
@@ -32,9 +35,14 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ContactAdapter
 import com.dreampany.tools.ui.misc.ContactRequest
 import com.dreampany.tools.ui.model.ContactItem
-import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.vm.ContactViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -67,6 +75,13 @@ class BlockHomeFragment
 
     private lateinit var vm: ContactViewModel
     private lateinit var adapter: ContactAdapter
+
+    val REQUIRED_PERMISSIONS = listOf(
+        Manifest.permission.READ_PHONE_STATE,
+        Manifest.permission.ANSWER_PHONE_CALLS,
+        Manifest.permission.READ_CALL_LOG,
+        Manifest.permission.CALL_PHONE
+    )
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_block_home
@@ -116,7 +131,6 @@ class BlockHomeFragment
         initUi()
         initRecycler()
         onRefresh()
-
     }
 
     override fun onStopUi() {
@@ -125,6 +139,11 @@ class BlockHomeFragment
             searchView.closeSearch()
         }
         vm.clear()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        requestPermissions()
     }
 
     override fun onRefresh() {
@@ -350,5 +369,13 @@ class BlockHomeFragment
             phoneNumber = number
         )
         vm.request(request)
+    }
+
+    private fun requestPermissions() {
+        if (AndroidUtil.hasMarshmallow()) {
+            Dexter.withActivity(activity)
+                .withPermissions(REQUIRED_PERMISSIONS)
+                .withListener(this).check()
+        }
     }
 }

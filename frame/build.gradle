@@ -260,10 +260,10 @@ dependencies {
     api ('com.afollestad.material-dialogs:lifecycle:3.1.0') {
         exclude group: 'org.jetbrains.kotlin'
     }
+    api 'com.afollestad:assent:2.3.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
     api 'com.github.pwittchen:reactivenetwork-rx2:3.0.6'
-    api 'com.afollestad:assent:2.3.1'
     api 'com.karumi:dexter:6.0.0'
     api 'joda-time:joda-time:2.10.5'
     api 'com.tapadoo.android:alerter:4.0.2'

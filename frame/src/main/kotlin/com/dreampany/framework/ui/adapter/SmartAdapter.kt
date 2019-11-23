@@ -67,6 +67,33 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
         }
     }
 
+    open fun addItems(items: List<T>): Boolean {
+        for (item in items) {
+            addItem(item)
+        }
+        return true
+    }
+
+    override fun toggleSelection(position: Int) {
+        super.toggleSelection(position)
+        notifyItemChanged(position)
+    }
+
+    open fun setItems(items: List<T>, comparator: Comparator<IFlexible<*>>) {
+        clear()
+        addItems(items, comparator)
+    }
+
+    open fun addItems(items: List<T>, comparator: Comparator<IFlexible<*>>): Boolean {
+        if (items.isEmpty()) {
+            return false
+        }
+        for (item in items) {
+            addItem(item, comparator)
+        }
+        return true
+    }
+
     fun addItem(item: T, comparator: Comparator<IFlexible<*>>): Boolean {
         if (contains(item)) {
             updateItem(item)
@@ -80,28 +107,6 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
         }
     }
 
-    open fun setItems(items: List<T>, comparator: Comparator<IFlexible<*>>) {
-        clear()
-        addItems(items, comparator)
-    }
-
-    open fun addItems(items: List<T>): Boolean {
-        for (item in items) {
-            addItem(item)
-        }
-        return true
-    }
-
-    open fun addItems(items: List<T>, comparator: Comparator<IFlexible<*>>): Boolean {
-        if (items.isEmpty()) {
-            return false
-        }
-        for (item in items) {
-            addItem(item, comparator)
-        }
-        return true
-    }
-
     fun removeItem(item: T) {
         super.removeItem(getPosition(item))
     }
@@ -112,10 +117,6 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
         }
     }
 
-    override fun toggleSelection(position: Int) {
-        super.toggleSelection(position)
-        notifyItemChanged(position)
-    }
 
     fun getPosition(item: T): Int {
         return getGlobalPositionOf(item)
@@ -123,6 +124,13 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
 
     fun isAnySelected(): Boolean {
         return selectedItemCount > 0
+    }
+
+    fun toggleSelection(item: T) {
+        val position = getGlobalPositionOf(item)
+        if (position >= 0) {
+            toggleSelection(position)
+        }
     }
 
     fun addSelection(item: T, selected: Boolean) {

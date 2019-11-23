@@ -16,6 +16,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -31,6 +32,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ContactAdapter
 import com.dreampany.tools.ui.misc.ContactRequest
 import com.dreampany.tools.ui.model.ContactItem
+import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.vm.ContactViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
 import cz.kinst.jakub.view.StatefulLayout
@@ -48,7 +50,8 @@ import javax.inject.Inject
  */
 @ActivityScope
 class BlockHomeFragment
-@Inject constructor() : BaseMenuFragment() {
+@Inject constructor() : BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<ContactItem, Action>{
 
     @Inject
     internal lateinit var blockPref: BlockPref
@@ -146,6 +149,14 @@ class BlockHomeFragment
                 inputDialog()
             }
         }
+    }
+
+    override fun onUiItemClick(view: View, item: ContactItem, action: Action) {
+
+    }
+
+    override fun onUiItemLongClick(view: View, item: ContactItem, action: Action) {
+         adapter.toggleSelection(item)
     }
 
     private fun initUi() {

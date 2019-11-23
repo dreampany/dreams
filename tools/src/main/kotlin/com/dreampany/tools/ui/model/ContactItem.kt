@@ -6,6 +6,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.api.theme.ColorManager
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
@@ -15,7 +16,6 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ContactAdapter
-import com.facebook.drawee.view.SimpleDraweeView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
@@ -69,18 +69,42 @@ private constructor(
 
             imageIcon = view.findViewById(R.id.image_icon)
             textTitle = view.findViewById(R.id.text_title)
+
+            view.setOnClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.CLICK
+                )
+                true
+            }
+
+            view.setOnLongClickListener {
+                this.adapter.uiItemClickListener?.onUiItemLongClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.LONG_CLICK
+                )
+                true
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as ContactItem
             val item = uiItem.item
-            val drawable = TextDrawable.builder().buildRound(
-                Constants.Sep.PLUS + TextUtilKt.getFirst(item.countryCode!!),
-                uiItem.color
-            )
-            imageIcon.setImageDrawable(drawable)
-            textTitle.text = item.phoneNumber
+
+            if (adapter.isSelected(uiItem)) {
+                imageIcon.setImageResource(R.drawable.ic_check_circle_black_24dp)
+            } else {
+                val drawable = TextDrawable.builder().buildRound(
+                    Constants.Sep.PLUS + TextUtilKt.getFirst(item.id),
+                    uiItem.color
+                )
+                imageIcon.setImageDrawable(drawable)
+            }
+
+            textTitle.text = Constants.Sep.PLUS + item.id
         }
     }
 }

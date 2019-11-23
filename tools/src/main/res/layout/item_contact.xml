@@ -21,6 +21,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_icon"
                 android:layout_width="@dimen/_25sdp"
+                auto:drawableTint="@color/material_grey700"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_marginStart="@dimen/_10sdp"
                 tools:src="@drawable/ic_favorite_black_24dp" />
@@ -30,6 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
+                android:inputType="phone"
                 android:text="@string/title"
                 android:textColor="@color/material_grey800"
                 android:textSize="14sp"

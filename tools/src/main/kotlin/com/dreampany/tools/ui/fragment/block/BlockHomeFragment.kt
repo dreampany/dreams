@@ -79,7 +79,7 @@ class BlockHomeFragment
     val REQUIRED_PERMISSIONS = listOf(
         Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.ANSWER_PHONE_CALLS,
-        Manifest.permission.READ_CALL_LOG,
+        /*Manifest.permission.READ_CALL_LOG,*/
         Manifest.permission.CALL_PHONE
     )
 

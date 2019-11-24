@@ -11,6 +11,8 @@ import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
+import com.dreampany.tools.databinding.ContentRecyclerBinding
+import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentTodoHomeBinding
 import com.dreampany.tools.misc.Constants
 import javax.inject.Inject
@@ -39,7 +41,7 @@ class TodoHomeFragment
     }
 
     override fun getMenuId(): Int {
-        return R.menu.menu_note_home
+        return R.menu.menu_todo_home
     }
 
     override fun getSearchMenuItemId(): Int {

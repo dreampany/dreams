@@ -548,8 +548,8 @@ class Constants {
     object Orders {
         fun getOrder(type: Type): Int {
             when (type) {
-                Type.CRYPTO -> return 1
-                Type.VPN -> return 2
+                Type.VPN -> return 1
+                Type.CRYPTO -> return 2
                 Type.RADIO -> return 3
                 Type.APP -> return 4
                 Type.NOTE -> return 5

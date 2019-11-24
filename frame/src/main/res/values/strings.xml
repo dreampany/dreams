@@ -46,6 +46,8 @@
     <string name="resume">Resume</string>
     <string name="playing">Playing</string>
 
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
     <string name="connecting">Connecting</string>
 
     <string name="online">Online</string>

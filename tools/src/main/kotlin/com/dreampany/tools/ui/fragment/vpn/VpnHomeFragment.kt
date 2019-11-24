@@ -11,7 +11,6 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
@@ -88,6 +87,7 @@ class VpnHomeFragment
         initUi()
         resolveUi()
         vpn.setCallback(this)
+        vm.updateUiState(uiState = UiState.EMPTY)
         request(state = State.RANDOM, single = true, progress = true)
     }
 
@@ -172,9 +172,6 @@ class VpnHomeFragment
     }
 
     override fun onStarting(server: Server) {
-        //bindVpn.buttonAction.visibility = View.INVISIBLE
-        //bindVpn.progressBar.visibility = View.VISIBLE
-        //bindVpn.buttonAction.showProgress(true)
         bindVpn.buttonAction.setButtonColor(
             ColorUtil.getColor(
                 context!!,
@@ -184,7 +181,7 @@ class VpnHomeFragment
     }
 
     override fun onStarted(server: Server) {
-        bindVpn.buttonAction.setText(R.string.stop)
+        bindVpn.buttonAction.setText(R.string.disconnect)
         bindVpn.buttonAction.setButtonColor(
             ColorUtil.getColor(
                 context!!,
@@ -194,7 +191,7 @@ class VpnHomeFragment
     }
 
     override fun onStopped(server: Server) {
-        bindVpn.buttonAction.setText(R.string.start)
+        bindVpn.buttonAction.setText(R.string.connect)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
         bindVpn.viewLog.text = null
     }
@@ -228,7 +225,6 @@ class VpnHomeFragment
         vm = ViewModelProvider(this, factory).get(ServerViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-        //vm.updateUiState(uiState = UiState.DEFAULT)
 
     }
 
@@ -281,7 +277,6 @@ class VpnHomeFragment
         bindVpn.buttonAction.isEnabled = server != null
         if (server != null) {
             server!!.countryCode?.run {
-                //val res = AndroidUtil.getDrawableRes(getParent()!!, this.toLowerCase())
                 bindServer.viewFlag.setCountryCode(this)
             }
             var labelTextRes = R.string.low
@@ -307,7 +302,7 @@ class VpnHomeFragment
             bindServer.viewFlag.visibility = View.VISIBLE
             bindServer.labelType.visibility = View.VISIBLE
             bindServer.viewCountryName.visibility = View.VISIBLE
-            bindServer.viewCity.visibility = View.VISIBLE
+            //bindServer.viewCity.visibility = View.VISIBLE
             bindServer.viewIp.visibility = View.VISIBLE
             bindServer.viewSessions.visibility = View.VISIBLE
             bindVpn.buttonAction.visibility = View.VISIBLE
@@ -319,7 +314,7 @@ class VpnHomeFragment
             bindServer.viewCity.visibility = View.INVISIBLE
             bindServer.viewIp.visibility = View.INVISIBLE
             bindServer.viewSessions.visibility = View.INVISIBLE
-            bindVpn.buttonAction   .visibility = View.INVISIBLE
+            bindVpn.buttonAction.visibility = View.INVISIBLE
             bindServer.layoutServerSummary.visibility = View.INVISIBLE
         }
     }

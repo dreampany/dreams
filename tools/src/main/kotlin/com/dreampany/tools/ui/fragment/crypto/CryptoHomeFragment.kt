@@ -126,25 +126,6 @@ class CryptoHomeFragment
         } else {
             requestToUpdate()
         }
-/*        request(
-            state = State.LIST,
-            action = Action.GET,
-            single = false,
-            progress = true,
-            start = adapter.itemCount.toLong(),
-            limit = Constants.Limit.Crypto.LIST
-        )*/
-/*        if (adapter.isEmpty) {
-            request(
-                state = State.LIST,
-                action = Action.GET,
-                single = false,
-                progress = true,
-                limit = Constants.Limit.Crypto.LIST
-            )
-        } else {
-            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
-        }*/
     }
 
     override fun onQueryTextChange(newText: String): Boolean {

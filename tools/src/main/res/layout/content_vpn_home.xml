@@ -19,7 +19,7 @@
         <include
             android:id="@+id/layout_server_summary"
             layout="@layout/content_server_summary"
-            android:layout_width="match_parent"
+            android:layout_width="match_parent" android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_20sdp"
@@ -28,31 +28,8 @@
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent" />
 
-
-        <!--        <mbanje.kurt.fabbutton.FabButton
-                    android:id="@+id/button_action"
-                    android:layout_width="@dimen/button_size"
-                    android:layout_height="@dimen/button_size"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_80sdp"
-                    android:clickable="true"
-                    android:color="#ff6e9cff"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:visibility="visible"
-                    auto:fbb_autoStart="true"
-                    auto:fbb_endBitmap="@drawable/ic_pause_circle_filled_black_24dp"
-                    auto:fbb_progressColor="@color/colorAccent"
-                    auto:fbb_progressWidthRatio="0.1"
-                    auto:fbb_showEndBitmap="true"
-                    auto:layout_constraintEnd_toEndOf="parent"
-                    auto:layout_constraintStart_toStartOf="parent"
-                    auto:layout_constraintTop_toTopOf="parent"
-                    auto:srcCompat="@drawable/ic_play_circle_filled_black_24dp" />-->
-
         <com.github.nikartm.button.FitButton
-            android:id="@+id/button_action"
+            android:id="@+id/button_action" android:visibility="gone"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
             android:layout_marginTop="@dimen/_80sdp"

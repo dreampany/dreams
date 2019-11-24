@@ -14,6 +14,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
+import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
@@ -85,41 +86,24 @@ class VpnHomeFragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        resolveUi()
         vpn.setCallback(this)
         request(state = State.RANDOM, single = true, progress = true)
     }
 
     override fun onStopUi() {
-/*        getParent()?.run {
-            unregisterReceiver(statusReceiver)
-            unregisterReceiver(trafficReceiver)
-        }*/
+
     }
 
     override fun onResume() {
         super.onResume()
         vpn.bind()
         vpn.resolveVpn()
-/*        background = false
-
-        val intent = Intent(context, OpenVPNService::class.java)
-        intent.setAction(OpenVPNService.START_SERVICE)
-        boundService =
-            getParent()?.bindService(intent, connection, Context.BIND_AUTO_CREATE) ?: false
-
-        if (!VpnStatus.isVPNActive()) {
-            //prepareVpn()
-        }*/
     }
 
     override fun onPause() {
         vpn.debind()
         super.onPause()
-/*        background = true
-        if (boundService) {
-            boundService = false
-            getParent()?.unbindService(connection)
-        }*/
     }
 
     override fun onRefresh() {
@@ -200,9 +184,6 @@ class VpnHomeFragment
     }
 
     override fun onStarted(server: Server) {
-        //bindVpn.progressBar.visibility = View.GONE
-        // bindVpn.buttonAction.visibility = View.VISIBLE
-        //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.stop)
         bindVpn.buttonAction.setButtonColor(
             ColorUtil.getColor(
@@ -213,9 +194,6 @@ class VpnHomeFragment
     }
 
     override fun onStopped(server: Server) {
-        //bindVpn.progressBar.visibility = View.GONE
-        //bindVpn.buttonAction.visibility = View.VISIBLE
-        //bindVpn.buttonAction.showProgress(false)
         bindVpn.buttonAction.setText(R.string.start)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
         bindVpn.viewLog.text = null
@@ -231,6 +209,7 @@ class VpnHomeFragment
         bindVpn = bind.layoutVpnHome
         bindServer = bindVpn.layoutServerSummary
 
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindVpn.buttonAction.setOnClickListener(this)
 
         bind.stateful.setStateView(
@@ -331,6 +310,8 @@ class VpnHomeFragment
             bindServer.viewCity.visibility = View.VISIBLE
             bindServer.viewIp.visibility = View.VISIBLE
             bindServer.viewSessions.visibility = View.VISIBLE
+            bindVpn.buttonAction.visibility = View.VISIBLE
+            bindServer.layoutServerSummary.visibility = View.VISIBLE
         } else {
             bindServer.viewFlag.visibility = View.INVISIBLE
             bindServer.labelType.visibility = View.INVISIBLE
@@ -338,6 +319,8 @@ class VpnHomeFragment
             bindServer.viewCity.visibility = View.INVISIBLE
             bindServer.viewIp.visibility = View.INVISIBLE
             bindServer.viewSessions.visibility = View.INVISIBLE
+            bindVpn.buttonAction   .visibility = View.INVISIBLE
+            bindServer.layoutServerSummary.visibility = View.INVISIBLE
         }
     }
 

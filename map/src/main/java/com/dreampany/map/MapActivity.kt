@@ -1,5 +1,6 @@
 package com.dreampany.map
 
+import android.R.attr
 import android.location.Location
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +13,13 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import timber.log.Timber
+import java.net.MalformedURLException
+import java.net.URL
+import java.util.*
 
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -25,7 +29,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationClient: FusedLocationProviderClient
     private var location: Location? = null
 
-    private val DEFAULT_ZOOM:Float = 13f
+    private val DEFAULT_ZOOM: Float = 13f
+
+    private val MOON_MAP_URL_FORMAT =
+        "https://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg"
+
+    private lateinit var moonTiles: TileOverlay
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +46,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         this.map = map
+        this.map.setMapType(GoogleMap.MAP_TYPE_NONE)
+
+        val tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
+            @Synchronized
+            override fun getTileUrl(x: Int, y: Int, zoom: Int): URL { // The moon tile coordinate system is reversed.  This is not normal.
+                val reversedY = (1 shl zoom) - attr.y - 1
+                val s: String = String.format(Locale.US, MOON_MAP_URL_FORMAT, zoom, x, reversedY)
+
+                var url: URL? = null
+                try {
+                    url = URL(s)
+                } catch (e: MalformedURLException) {
+                    throw AssertionError(e)
+                }
+                return url
+            }
+        }
+
+        moonTiles = map.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+
         updateLocationUi()
         getDeviceLocation()
         // Add a marker in Sydney and move the camera
@@ -96,11 +125,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                 LatLng(
                                     location!!.getLatitude(),
                                     location!!.getLongitude()
-                                ), DEFAULT_ZOOM)
+                                ), DEFAULT_ZOOM
+                            )
                         )
                     } else {
-                        Timber.d(  "Current location is null. Using defaults.")
-                        Timber.e(  task.exception)
+                        Timber.d("Current location is null. Using defaults.")
+                        Timber.e(task.exception)
                         //map.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM))
                         map.getUiSettings().setMyLocationButtonEnabled(false)
                     }

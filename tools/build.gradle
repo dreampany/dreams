@@ -152,7 +152,7 @@ dependencies {
 
     /* androidx arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc02'
-    kapt 'androidx.room:room-compiler:2.2.1'
+    kapt 'androidx.room:room-compiler:2.2.2'
 
     /* firebase */
     //implementation 'com.google.firebase:firebase-ml-natural-language-smart-reply-model:20.0.7'

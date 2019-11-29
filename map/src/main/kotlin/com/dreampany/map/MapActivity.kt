@@ -28,11 +28,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var placesClient: PlacesClient
     private lateinit var locationClient: FusedLocationProviderClient
     private var location: Location? = null
-
-    private val DEFAULT_ZOOM: Float = 13f
+    val htb = LatLng(33.0860, 129.7884)
+    private val DEFAULT_ZOOM: Int = 5
 
     private val MOON_MAP_URL_FORMAT =
         "https://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg"
+    private val TERRAIN_TILES = "https://api.maptiler.com/tiles/terrain-quantized-mesh/%d/%d/%d.quantized-mesh-1.0?key=g3QtLjoUDXTnW466k3VQ"
+    private val HILLSHADES_TILES = "https://api.maptiler.com/tiles/hillshades/%d/%d/%d.png?key=g3QtLjoUDXTnW466k3VQ"
 
     private lateinit var moonTiles: TileOverlay
 
@@ -52,8 +54,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             @Synchronized
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL { // The moon tile coordinate system is reversed.  This is not normal.
                 val reversedY = (1 shl zoom) - attr.y - 1
-                val s: String = String.format(Locale.US, MOON_MAP_URL_FORMAT, zoom, x, reversedY)
-
+                val s: String = String.format(Locale.US, HILLSHADES_TILES, zoom, x, y)
+                Timber.v("Tile Url - %s", s)
                 var url: URL? = null
                 try {
                     url = URL(s)
@@ -101,11 +103,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun updateLocationUi() {
         try {
             if (isAllGranted(Permission.ACCESS_FINE_LOCATION)) {
-                map.setMyLocationEnabled(true)
-                map.getUiSettings().setMyLocationButtonEnabled(true)
+                map.addMarker(MarkerOptions().position(htb).title("HTB"))
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb, DEFAULT_ZOOM.toFloat()))
+                //map.setMyLocationEnabled(true)
+                //map.getUiSettings().setMyLocationButtonEnabled(true)
             } else {
-                map.setMyLocationEnabled(false)
-                map.getUiSettings().setMyLocationButtonEnabled(false)
+                //map.setMyLocationEnabled(false)
+                //map.getUiSettings().setMyLocationButtonEnabled(false)
                 location = null
                 requestPermission()
             }
@@ -120,19 +124,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 locationClient.getLastLocation().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         location = task.result
-                        map.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                LatLng(
-                                    location!!.getLatitude(),
-                                    location!!.getLongitude()
-                                ), DEFAULT_ZOOM
-                            )
-                        )
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb, DEFAULT_ZOOM.toFloat()))
                     } else {
                         Timber.d("Current location is null. Using defaults.")
                         Timber.e(task.exception)
-                        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM))
-                        map.getUiSettings().setMyLocationButtonEnabled(false)
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb, DEFAULT_ZOOM.toFloat()))
+                       // map.getUiSettings().setMyLocationButtonEnabled(false)
                     }
                 }
             }

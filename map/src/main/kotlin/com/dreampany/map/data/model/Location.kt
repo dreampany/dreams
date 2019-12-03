@@ -1,6 +1,7 @@
 package com.dreampany.map.data.model
 
 import com.dreampany.map.misc.Constants
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -15,4 +16,7 @@ data class Location (
     @SerializedName(value = Constants.Keys.GooglePlace.LONGITUDE)
     val longitude : Double
 ){
+    fun toLatLng() : LatLng {
+        return LatLng(latitude, longitude)
+    }
 }

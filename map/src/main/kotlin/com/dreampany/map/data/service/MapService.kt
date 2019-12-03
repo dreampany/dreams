@@ -16,9 +16,9 @@ interface MapService {
 
     @GET(Constants.Api.Map.PLACE_NEARBY_SEARCH)
     fun getNearbyPlaces(
-        @Query(Constants.Keys.Map.KEY) key: String,
         @Query(Constants.Keys.Map.LOCATION) location: String,
-        @Query(Constants.Keys.Map.RADIUS) radius: Int
+        @Query(Constants.Keys.Map.RADIUS) radius: Int,
+        @Query(Constants.Keys.Map.KEY) key: String
     ): Call<GooglePlacesResponse>
 
 }

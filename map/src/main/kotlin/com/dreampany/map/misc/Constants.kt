@@ -10,12 +10,21 @@ class Constants {
 
     object Api {
         object Map {
+            const val API_KEY = "AIzaSyAohrGDTlSXg42OSlP3U2IvXmWtUiGcsbY"
             const val BASE_URL = "https://maps.googleapis.com/maps/api/"
             const val PLACE_NEARBY_SEARCH = "place/nearbysearch/json"
+        }
+
+        fun join(left: Double, right: Double, sep: Char): String {
+            return String.format("%f%s%f", left, sep, right)
         }
     }
 
     object Keys {
+        object Separators {
+            const val COMMA = ','
+        }
+
         object Response {
             const val STATUS = "status"
             const val RESULTS = "results"
@@ -34,6 +43,9 @@ class Constants {
             const val PHOTOS = "photos";
             const val PHOTO_REFERENCE = "photo_reference";
         }
+    }
 
+    object  Property {
+        const val NEARBY_RADIUS = 5000
     }
 }

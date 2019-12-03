@@ -1,4 +1,4 @@
-package com.dreampany.map
+package com.dreampany.map.ui
 
 import android.R.attr
 import android.location.Location
@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.afollestad.assent.Permission
 import com.afollestad.assent.isAllGranted
 import com.afollestad.assent.runWithPermissions
+import com.dreampany.map.GeoManager
+import com.dreampany.map.R
+import com.dreampany.map.data.model.GooglePlace
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -22,14 +25,15 @@ import java.net.URL
 import java.util.*
 
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, GeoManager.PlaceCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var placesClient: PlacesClient
     private lateinit var locationClient: FusedLocationProviderClient
     private var location: Location? = null
-    val htb = LatLng(33.0860, 129.7884)
-    private val DEFAULT_ZOOM: Int = 5
+    //val htb = LatLng(33.0860, 129.7884)
+    val htb = com.dreampany.map.data.model.Location(33.0860, 129.7884)
+    private val DEFAULT_ZOOM: Int = 10
 
     private val MOON_MAP_URL_FORMAT =
         "https://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg"
@@ -37,7 +41,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private val HILLSHADES_TILES = "https://api.maptiler.com/tiles/hillshades/%d/%d/%d.png?key=g3QtLjoUDXTnW466k3VQ"
     private val TOPO = "https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=g3QtLjoUDXTnW466k3VQ"
 
-    private lateinit var moonTiles: TileOverlay
+    private lateinit var tiles: TileOverlay
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,11 +51,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         loadMap()
     }
 
+    override fun onDestroy() {
+        tiles.clearTileCache()
+        super.onDestroy()
+    }
+
     override fun onMapReady(map: GoogleMap) {
         this.map = map
         this.map.setMapType(GoogleMap.MAP_TYPE_NONE)
 
-        val tileProvider: TileProvider = object : UrlTileProvider(256, 256) {
+        val tileProvider: TileProvider = object : UrlTileProvider(512, 512) {
             @Synchronized
             override fun getTileUrl(x: Int, y: Int, zoom: Int): URL { // The moon tile coordinate system is reversed.  This is not normal.
                 val reversedY = (1 shl zoom) - attr.y - 1
@@ -67,14 +76,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-        moonTiles = map.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
-
-        updateLocationUi()
-        getDeviceLocation()
+        tiles = map.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        updateLocation()
+        //getDeviceLocation()
         // Add a marker in Sydney and move the camera
 /*        val sydney = LatLng(-34.0, 151.0)
         map.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         map.moveCamera(CameraUpdateFactory.newLatLng(sydney))*/
+    }
+
+    override fun onPlaces(places: List<GooglePlace>) {
+        Timber.v("Places %d", places.size)
     }
 
     private fun loadMap() {
@@ -95,17 +107,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun requestPermission() {
         if (!hasPermission()) {
             runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
-                updateLocationUi()
-                getDeviceLocation()
+                updateLocation()
+                //getDeviceLocation()
             }
         }
     }
 
-    private fun updateLocationUi() {
+    private fun updateLocation() {
         try {
             if (isAllGranted(Permission.ACCESS_FINE_LOCATION)) {
-                map.addMarker(MarkerOptions().position(htb).title("HTB"))
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb, DEFAULT_ZOOM.toFloat()))
+                updateLocation(htb)
+                /*map.addMarker(MarkerOptions().position(htb.toLatLng()).title("HTB"))
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb.toLatLng(), DEFAULT_ZOOM.toFloat()))*/
                 //map.setMyLocationEnabled(true)
                 //map.getUiSettings().setMyLocationButtonEnabled(true)
             } else {
@@ -119,17 +132,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun getDeviceLocation() {
+/*    private fun getDeviceLocation() {
         try {
             if (hasPermission()) {
                 locationClient.getLastLocation().addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         location = task.result
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb, DEFAULT_ZOOM.toFloat()))
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb.toLatLng(), DEFAULT_ZOOM.toFloat()))
                     } else {
                         Timber.d("Current location is null. Using defaults.")
                         Timber.e(task.exception)
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb, DEFAULT_ZOOM.toFloat()))
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(htb.toLatLng(), DEFAULT_ZOOM.toFloat()))
                        // map.getUiSettings().setMyLocationButtonEnabled(false)
                     }
                 }
@@ -137,5 +150,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         } catch (error: SecurityException) {
             Timber.e(error)
         }
+    }*/
+
+    private fun updateLocation(location: com.dreampany.map.data.model.Location) {
+        map.addMarker(MarkerOptions().position(location.toLatLng()).title("HTB"))
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location.toLatLng(), DEFAULT_ZOOM.toFloat()))
+
+        GeoManager.nearbyPlaces(location, this)
     }
 }

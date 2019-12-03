@@ -1,5 +1,6 @@
 package com.dreampany.map.ui.model
 
+import android.graphics.Bitmap
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
@@ -12,7 +13,8 @@ import com.google.maps.android.clustering.ClusterItem
 data class MarkerItem(
     private val position: LatLng,
     private val title: String,
-    private val snippet: String
+    private val snippet: String,
+    val bitmap: Bitmap?
 ): ClusterItem {
     override fun getPosition(): LatLng {
         return position

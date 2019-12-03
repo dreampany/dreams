@@ -35,6 +35,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         "https://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg"
     private val TERRAIN_TILES = "https://api.maptiler.com/tiles/terrain-quantized-mesh/%d/%d/%d.quantized-mesh-1.0?key=g3QtLjoUDXTnW466k3VQ"
     private val HILLSHADES_TILES = "https://api.maptiler.com/tiles/hillshades/%d/%d/%d.png?key=g3QtLjoUDXTnW466k3VQ"
+    private val TOPO = "https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=g3QtLjoUDXTnW466k3VQ"
 
     private lateinit var moonTiles: TileOverlay
 

@@ -70,9 +70,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     override fun onPlaces(places: List<GooglePlace>) {
         Timber.v("Places %d", places.size)
         places.forEach { place ->
-            /*val item = MarkerItem(place.geometry.location.toLatLng(), place.name, "")
-            cluster.addItem(item)*/
-            PlaceManager.loadPhoto(placesClient, place.placeId, this)
+            val item = MarkerItem(place.geometry.location.toLatLng(), place.name, "", null)
+            cluster.addItem(item)
+            //PlaceManager.loadPhoto(placesClient, place.placeId, this)
         }
     }
 
@@ -102,7 +102,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
         cluster = ClusterManager<MarkerItem>(this, map)
         cluster.renderer = MarkerRender(applicationContext, map, cluster)
         map.setOnCameraIdleListener(cluster)
-        map.setOnCameraIdleListener(cluster)
+        map.setOnMarkerClickListener(cluster)
 
 /*        val tileProvider: TileProvider = object : UrlTileProvider(512, 512) {
             @Synchronized
@@ -178,12 +178,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
 
     private fun updateLocation(location: com.dreampany.map.data.model.Location) {
         //map.addMarker(MarkerOptions().position(location.toLatLng()).title("HTB"))
-        map.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                location.toLatLng(),
-                DEFAULT_ZOOM.toFloat()
-            )
-        )
 
         val newarkMap = GroundOverlayOptions()
             .image(BitmapDescriptorFactory.fromResource(R.drawable.ic_htb))
@@ -197,6 +191,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
 
         val item = MarkerItem(location.toLatLng(), "HTB", "", null)
         cluster.addItem(item)
+
+        map.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                location.toLatLng(),
+                DEFAULT_ZOOM.toFloat()
+            )
+        )
         PlaceManager.nearbyPlaces(location, this)
     }
 }

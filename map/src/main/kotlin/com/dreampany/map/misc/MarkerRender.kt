@@ -1,12 +1,16 @@
 package com.dreampany.map.misc
 
 import android.content.Context
+import android.graphics.*
+import com.dreampany.map.R
 import com.dreampany.map.ui.model.MarkerItem
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
+
 
 /**
  * Created by roman on 2019-12-03
@@ -14,13 +18,44 @@ import com.google.maps.android.clustering.view.DefaultClusterRenderer
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class MarkerRender(context: Context, map: GoogleMap, cluster: ClusterManager<MarkerItem>) : DefaultClusterRenderer<MarkerItem>(context, map, cluster) {
+class MarkerRender(context: Context, map: GoogleMap, cluster: ClusterManager<MarkerItem>) :
+    DefaultClusterRenderer<MarkerItem>(context, map, cluster) {
 
+    private val context: Context
+   // private val bitmap: BitmapDescriptor
+
+    init {
+        this.context = context.applicationContext
+/*        val conf = Bitmap.Config.ARGB_8888
+        val bmp = Bitmap.createBitmap(200, 200, conf)
+        val canvas1 = Canvas(bmp)
+
+        val color = Paint()
+        color.setTextSize(35f)
+        color.setColor(Color.BLACK)
+
+        canvas1.drawBitmap(
+            BitmapFactory.decodeResource(
+                context.getResources(),
+                R.drawable.ic_marker
+            ), 500f, 500f, color
+        )
+        canvas1.drawText("HTB", 30f, 40f, color);
+        bitmap = BitmapDescriptorFactory.fromBitmap(bmp)*/
+    }
 
     override fun onBeforeClusterItemRendered(item: MarkerItem, options: MarkerOptions) {
         options.title(item.title)
         options.snippet(item.snippet)
-        options.icon(BitmapDescriptorFactory.fromBitmap(item.bitmap))
+        //options.icon(BitmapDescriptorFactory.fromBitmap(item.bitmap))
+        var bitmap: Bitmap? = Constants.Api.getBitmapMarker(
+            context,
+            R.drawable.ic_tutlip,
+            item.title.first().toString()
+        )
+        bitmap = Constants.Api.resize(bitmap, 150, 150)
+        options.icon(BitmapDescriptorFactory.fromBitmap(bitmap))
+        options.anchor(0.5f, 1f)
         super.onBeforeClusterItemRendered(item, options)
     }
 }

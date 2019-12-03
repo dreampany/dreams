@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.afollestad.assent.Permission
 import com.afollestad.assent.isAllGranted
 import com.afollestad.assent.runWithPermissions
-import com.dreampany.map.GeoManager
+import com.dreampany.map.manager.GeoManager
 import com.dreampany.map.R
 import com.dreampany.map.data.model.GooglePlace
 import com.google.android.gms.location.FusedLocationProviderClient

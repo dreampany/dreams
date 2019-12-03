@@ -1,4 +1,4 @@
-package com.dreampany.map
+package com.dreampany.map.manager
 
 import com.dreampany.map.data.model.GooglePlace
 import com.dreampany.map.data.model.GooglePlacesResponse

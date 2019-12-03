@@ -1,8 +1,10 @@
-package com.dreampany.map
+package com.dreampany.map.app
 
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
+import com.dreampany.map.BuildConfig
+import com.dreampany.map.R
 import com.google.android.libraries.places.api.Places
 import timber.log.Timber
 

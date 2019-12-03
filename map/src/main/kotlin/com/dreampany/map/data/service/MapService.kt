@@ -1,6 +1,6 @@
 package com.dreampany.map.data.service
 
-import com.dreampany.map.data.model.PlacesResponse
+import com.dreampany.map.data.model.GooglePlacesResponse
 import com.dreampany.map.misc.Constants
 import retrofit2.Call
 import retrofit2.http.GET
@@ -19,6 +19,6 @@ interface MapService {
         @Query(Constants.Keys.Map.KEY) key: String,
         @Query(Constants.Keys.Map.LOCATION) location: String,
         @Query(Constants.Keys.Map.RADIUS) radius: Int
-    ): Call<PlacesResponse>
+    ): Call<GooglePlacesResponse>
 
 }

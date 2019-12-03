@@ -16,10 +16,24 @@ class Constants {
     }
 
     object Keys {
-        object Map   {
+        object Response {
+            const val STATUS = "status"
+            const val RESULTS = "results"
+        }
+
+        object Map {
             const val KEY = "key"
             const val LOCATION = "location"
             const val RADIUS = "radius"
         }
+
+        object GooglePlace {
+            const val LATITUDE = "lat"
+            const val LONGITUDE = "lng"
+            const val PLACE_ID = "place_id";
+            const val PHOTOS = "photos";
+            const val PHOTO_REFERENCE = "photo_reference";
+        }
+
     }
 }

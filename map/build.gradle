@@ -86,10 +86,14 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.libraries.places:places:2.1.0'
 
+    /* okhttp */
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+
     /* squareup */
-    api 'com.squareup.retrofit2:retrofit:2.6.2'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
-    api 'com.squareup.retrofit2:converter-gson:2.6.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.2'
 
     /* misc */
     implementation 'com.jakewharton.timber:timber:4.7.1'

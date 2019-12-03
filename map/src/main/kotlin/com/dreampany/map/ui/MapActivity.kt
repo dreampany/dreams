@@ -177,7 +177,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     }*/
 
     private fun updateLocation(location: com.dreampany.map.data.model.Location) {
-        //map.addMarker(MarkerOptions().position(location.toLatLng()).title("HTB"))
 
         val newarkMap = GroundOverlayOptions()
             .image(BitmapDescriptorFactory.fromResource(R.drawable.ic_htb))
@@ -189,7 +188,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
             )
         map.addGroundOverlay(newarkMap)
 
-        val item = MarkerItem(location.toLatLng(), "HTB", "", null)
+        val item = MarkerItem(location.toLatLng(), "KDDI HTB", "", null)
         cluster.addItem(item)
 
         map.moveCamera(

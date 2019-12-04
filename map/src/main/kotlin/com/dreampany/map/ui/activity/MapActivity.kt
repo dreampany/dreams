@@ -23,12 +23,14 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.GroundOverlayOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.maps.android.clustering.ClusterManager
 import timber.log.Timber
+import java.net.MalformedURLException
+import java.net.URL
+import java.util.*
 
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceCallback {
@@ -41,7 +43,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     private var location: Location? = null
 
     private val htb = com.dreampany.map.data.model.Location(33.0860, 129.7884)
-    private val DEFAULT_ZOOM: Int = 12
+    private val DEFAULT_ZOOM: Int = 14
 
     private val MOON_MAP_URL_FORMAT =
         "https://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg"
@@ -50,8 +52,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     private val HILLSHADES_TILES =
         "https://api.maptiler.com/tiles/hillshades/%d/%d/%d.png?key=g3QtLjoUDXTnW466k3VQ"
     private val TOPO = "https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=g3QtLjoUDXTnW466k3VQ"
+    private val HTB = "https://api.maptiler.com/tiles/49f8e0f6-0ccd-4e9f-9f4f-0789bd1f675a/%d/%d/%d.png?key=2bWoH1oxlfyPw6ComaQm"
 
-    //private lateinit var tiles: TileOverlay
+    private lateinit var tiles: TileOverlay
 
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: PlaceAdapter
@@ -66,7 +69,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     }
 
     override fun onDestroy() {
-        //tiles.clearTileCache()
+        tiles.clearTileCache()
         super.onDestroy()
     }
 
@@ -104,15 +107,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
         map.setOnCameraIdleListener(cluster)
         map.setOnMarkerClickListener(cluster)
 
-/*        val tileProvider: TileProvider = object : UrlTileProvider(512, 512) {
+        val tileProvider: TileProvider = object : UrlTileProvider(512, 512) {
             @Synchronized
             override fun getTileUrl(
                 x: Int,
                 y: Int,
                 zoom: Int
             ): URL { // The moon tile coordinate system is reversed.  This is not normal.
-                val reversedY = (1 shl zoom) - attr.y - 1
-                val s: String = String.format(Locale.US, HILLSHADES_TILES, zoom, x, y)
+                //val reversedY = (1 shl zoom) - attr.y - 1
+                val s: String = String.format(Locale.US, HTB, zoom, x, y)
                 Timber.v("Tile Url - %s", s)
                 var url: URL? = null
                 try {
@@ -122,9 +125,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
                 }
                 return url
             }
-        }*/
+        }
 
-        //tiles = map.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
+        tiles = map.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         updateLocation()
     }
 
@@ -206,7 +209,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
                 Constants.Property.GROUND_OVERLAY_WIDTH,
                 Constants.Property.GROUND_OVERLAY_HEIGHT
             )
-        map.addGroundOverlay(newarkMap)
+        //map.addGroundOverlay(newarkMap)
 
 
         var bitmap: Bitmap? = Constants.Api.getBitmapMarker(

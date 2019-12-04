@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId 'com.dreampany.map'
@@ -19,10 +19,34 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
+    signingConfigs {
+        debug {
+            storeFile file('../keystore/debug.keystore.jks')
+            keyAlias 'debug.keystore'
+            storePassword 'debug.keystore'
+            keyPassword 'debug.keystore'
+        }
+    }
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            //useProguard false
+            shrinkResources false
+            crunchPngs false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //useProguard true
+            //shrinkResources true
+            crunchPngs true
+            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 

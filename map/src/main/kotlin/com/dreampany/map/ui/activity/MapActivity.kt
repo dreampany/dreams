@@ -13,7 +13,9 @@ import com.dreampany.map.data.model.GooglePlace
 import com.dreampany.map.manager.PlaceManager
 import com.dreampany.map.misc.Constants
 import com.dreampany.map.misc.MarkerRender
+import com.dreampany.map.misc.attachSnapHelperWithListener
 import com.dreampany.map.ui.adapter.PlaceAdapter
+import com.dreampany.map.ui.adapter.SnapOnScrollListener
 import com.dreampany.map.ui.model.MarkerItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -31,7 +33,8 @@ import java.net.URL
 import java.util.*
 
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceCallback, PlaceAdapter.OnItemClickListener {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceCallback,
+    PlaceAdapter.OnItemClickListener {
 
     private lateinit var map: GoogleMap
     private lateinit var placesClient: PlacesClient
@@ -51,7 +54,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     private val HILLSHADES_TILES =
         "https://api.maptiler.com/tiles/hillshades/%d/%d/%d.png?key=g3QtLjoUDXTnW466k3VQ"
     private val TOPO = "https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=g3QtLjoUDXTnW466k3VQ"
-    private val HTB = "https://api.maptiler.com/tiles/49f8e0f6-0ccd-4e9f-9f4f-0789bd1f675a/%d/%d/%d.png?key=2bWoH1oxlfyPw6ComaQm"
+    private val HTB =
+        "https://api.maptiler.com/tiles/49f8e0f6-0ccd-4e9f-9f4f-0789bd1f675a/%d/%d/%d.png?key=2bWoH1oxlfyPw6ComaQm"
 
     private lateinit var tiles: TileOverlay
 
@@ -92,12 +96,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     }
 
     override fun onItemClick(item: GooglePlace) {
-        map.moveCamera(
-            CameraUpdateFactory.newLatLngZoom(
-                item.geometry.location.toLatLng(),
-                PLACE_TICK_ZOOM.toFloat()
-            )
-        )
+        moveCamera(item.geometry.location)
     }
 
     private fun initUi() {
@@ -105,6 +104,29 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
 
         placesClient = Places.createClient(this)
         locationClient = LocationServices.getFusedLocationProviderClient(this)
+    }
+
+    private fun initRecycler() {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        layoutManager.setSmoothScrollbarEnabled(true)
+        adapter = PlaceAdapter(this)
+        recycler.layoutManager = layoutManager
+        recycler.itemAnimator = DefaultItemAnimator()
+        recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
+        recycler.adapter = adapter
+        recycler.attachSnapHelperWithListener(
+            PagerSnapHelper(),
+            SnapOnScrollListener.Behavior.NOTIFY_ON_SCROLL,
+            object : SnapOnScrollListener.OnSnapPositionChangeListener {
+                override fun onSnapPositionChange(position: Int) {
+                    adapter.getItem(position)?.run {
+                        moveCamera(this.geometry.location)
+                    }
+
+                }
+
+            }
+        )
     }
 
     private fun initMap(map: GoogleMap) {
@@ -137,18 +159,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
 
         tiles = map.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         updateLocation()
-    }
-
-    private fun initRecycler() {
-        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        layoutManager.setSmoothScrollbarEnabled(true)
-        adapter = PlaceAdapter(this)
-        recycler.layoutManager = layoutManager
-        recycler.itemAnimator = DefaultItemAnimator()
-        recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
-        recycler.adapter = adapter
-        val snapHelper: SnapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recycler)
     }
 
     private fun loadMap() {
@@ -232,12 +242,21 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
         val item = MarkerItem(location.toLatLng(), "KDDI HTB", "", bitmap)
         cluster.addItem(item)
 
-        map.moveCamera(
+        map.animateCamera(
             CameraUpdateFactory.newLatLngZoom(
                 location.toLatLng(),
                 DEFAULT_ZOOM.toFloat()
             )
         )
         PlaceManager.nearbyPlaces(location, this)
+    }
+
+    private fun moveCamera(location: com.dreampany.map.data.model.Location) {
+        map.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                location.toLatLng(),
+                PLACE_TICK_ZOOM.toFloat()
+            )
+        )
     }
 }

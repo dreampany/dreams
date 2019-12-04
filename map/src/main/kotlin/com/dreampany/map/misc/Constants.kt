@@ -103,7 +103,7 @@ class Constants {
     }
 
     object Property {
-        const val NEARBY_RADIUS = 1000
+        const val NEARBY_RADIUS = 800
         const val GROUND_OVERLAY_WIDTH = 5000f
         const val GROUND_OVERLAY_HEIGHT = 8000f
     }

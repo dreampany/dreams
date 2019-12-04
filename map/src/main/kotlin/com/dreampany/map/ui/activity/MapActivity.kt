@@ -1,9 +1,12 @@
-package com.dreampany.map.ui
+package com.dreampany.map.ui.activity
 
 import android.graphics.Bitmap
 import android.location.Location
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.assent.Permission
 import com.afollestad.assent.isAllGranted
 import com.afollestad.assent.runWithPermissions
@@ -12,6 +15,7 @@ import com.dreampany.map.data.model.GooglePlace
 import com.dreampany.map.manager.PlaceManager
 import com.dreampany.map.misc.Constants
 import com.dreampany.map.misc.MarkerRender
+import com.dreampany.map.ui.adapter.PlaceAdapter
 import com.dreampany.map.ui.model.MarkerItem
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -21,7 +25,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.GroundOverlayOptions
-import com.google.android.gms.maps.model.TileOverlay
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.maps.android.clustering.ClusterManager
@@ -50,10 +53,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
 
     //private lateinit var tiles: TileOverlay
 
+    private lateinit var recycler: RecyclerView
+    private lateinit var adapter: PlaceAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
-        init()
+        initUi()
+        initRecycler()
         requestPermission()
         loadMap()
     }
@@ -79,19 +86,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     override fun onPlacePhoto(place: GooglePlace, bitmap: Bitmap) {
         val item = MarkerItem(place.geometry.location.toLatLng(), place.name, "", bitmap)
         cluster.addItem(item)
+        adapter.add(place)
     }
 
-    private fun loadMap() {
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-    }
+    private fun initUi() {
+        recycler = findViewById(R.id.recycler)
 
-    private fun hasPermission(): Boolean {
-        return isAllGranted(Permission.ACCESS_FINE_LOCATION)
-    }
-
-    private fun init() {
         placesClient = Places.createClient(this)
         locationClient = LocationServices.getFusedLocationProviderClient(this)
     }
@@ -126,6 +126,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
 
         //tiles = map.addTileOverlay(TileOverlayOptions().tileProvider(tileProvider))
         updateLocation()
+    }
+
+    private fun initRecycler() {
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        layoutManager.setSmoothScrollbarEnabled(true)
+        adapter = PlaceAdapter()
+        recycler.layoutManager = layoutManager
+        recycler.itemAnimator = DefaultItemAnimator()
+        //recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HO))
+        recycler.adapter = adapter
+    }
+
+    private fun loadMap() {
+        val mapFragment = supportFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+    }
+
+    private fun hasPermission(): Boolean {
+        return isAllGranted(Permission.ACCESS_FINE_LOCATION)
     }
 
     private fun requestPermission() {

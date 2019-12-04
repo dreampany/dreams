@@ -104,4 +104,9 @@ object PlaceManager {
             }
         }
     }
+
+    @Synchronized
+    fun getBitmap(placeId: String): Bitmap? {
+        return bitmaps.get(placeId)
+    }
 }

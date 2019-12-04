@@ -62,6 +62,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     private lateinit var recycler: RecyclerView
     private lateinit var adapter: PlaceAdapter
 
+    private var mapReady: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -77,6 +79,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     }
 
     override fun onMapReady(map: GoogleMap) {
+        mapReady = true
         initMap(map)
     }
 
@@ -119,10 +122,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
             SnapOnScrollListener.Behavior.NOTIFY_ON_SCROLL,
             object : SnapOnScrollListener.OnSnapPositionChangeListener {
                 override fun onSnapPositionChange(position: Int) {
-                    adapter.getItem(position)?.run {
-                        moveCamera(this.geometry.location)
+                    if (mapReady) {
+                        adapter.getItem(position)?.run {
+                            moveCamera(this.geometry.location)
+                        }
                     }
-
                 }
 
             }

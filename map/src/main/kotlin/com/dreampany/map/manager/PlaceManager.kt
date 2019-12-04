@@ -78,10 +78,12 @@ object PlaceManager {
     @Synchronized
     fun loadPhoto(client: PlacesClient, placeId: String, callback: PlaceCallback) {
         if (places.containsKey(placeId) && bitmaps.containsKey(placeId)) {
-            val place = places.get(placeId) ?: return
-            val bitmap = bitmaps.get(placeId) ?: return
-            callback.onPlacePhoto(place, bitmap)
-            return
+            val place = places.get(placeId)
+            val bitmap = bitmaps.get(placeId)
+            if (place != null && bitmap != null && !bitmap.isRecycled) {
+                callback.onPlacePhoto(place, bitmap)
+                return
+            }
         }
         val fields: List<Place.Field> = Arrays.asList(Place.Field.PHOTO_METADATAS)
         val placeRequest = FetchPlaceRequest.newInstance(placeId, fields)
@@ -92,9 +94,12 @@ object PlaceManager {
             val photoRequest = FetchPhotoRequest.builder(meta).build()
             client.fetchPhoto(photoRequest).addOnSuccessListener { photoResponse ->
                 places.get(placeId)?.run {
-                    val bitmap: Bitmap = photoResponse.getBitmap()
-                    bitmaps.put(placeId, bitmap)
-                    callback.onPlacePhoto(this, bitmap)
+                    var bitmap: Bitmap? = photoResponse.getBitmap()
+                    bitmap = Constants.Api.resize(bitmap, 150, 150)
+                    if (bitmap != null) {
+                        bitmaps.put(placeId, bitmap)
+                        callback.onPlacePhoto(this, bitmap)
+                    }
                 }
             }
         }

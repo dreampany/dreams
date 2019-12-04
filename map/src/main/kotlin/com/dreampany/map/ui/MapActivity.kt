@@ -70,9 +70,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     override fun onPlaces(places: List<GooglePlace>) {
         Timber.v("Places %d", places.size)
         places.forEach { place ->
-            val item = MarkerItem(place.geometry.location.toLatLng(), place.name, "", null)
-            cluster.addItem(item)
-            //PlaceManager.loadPhoto(placesClient, place.placeId, this)
+            //val item = MarkerItem(place.geometry.location.toLatLng(), place.name, "", null)
+            //cluster.addItem(item)
+            PlaceManager.loadPhoto(placesClient, place.placeId, this)
         }
     }
 
@@ -188,7 +188,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
             )
         map.addGroundOverlay(newarkMap)
 
-        val item = MarkerItem(location.toLatLng(), "KDDI HTB", "", null)
+
+        var bitmap: Bitmap? = Constants.Api.getBitmapMarker(
+            this,
+            R.drawable.ic_tutlip,
+            "KDDI HTB"
+        )
+
+        bitmap = Constants.Api.resize(bitmap, 150, 150)
+        val item = MarkerItem(location.toLatLng(), "KDDI HTB", "", bitmap)
         cluster.addItem(item)
 
         map.moveCamera(

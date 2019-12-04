@@ -4,9 +4,7 @@ import android.graphics.Bitmap
 import android.location.Location
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import com.afollestad.assent.Permission
 import com.afollestad.assent.isAllGranted
 import com.afollestad.assent.runWithPermissions
@@ -33,7 +31,7 @@ import java.net.URL
 import java.util.*
 
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceCallback, PlaceAdapter.OnItemClickListener {
 
     private lateinit var map: GoogleMap
     private lateinit var placesClient: PlacesClient
@@ -44,6 +42,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
 
     private val htb = com.dreampany.map.data.model.Location(33.0860, 129.7884)
     private val DEFAULT_ZOOM: Int = 14
+    private val PLACE_TICK_ZOOM: Int = 16
 
     private val MOON_MAP_URL_FORMAT =
         "https://mw1.google.com/mw-planetary/lunar/lunarmaps_v1/clem_bw/%d/%d/%d.jpg"
@@ -92,6 +91,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
         adapter.add(place)
     }
 
+    override fun onItemClick(item: GooglePlace) {
+        map.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(
+                item.geometry.location.toLatLng(),
+                PLACE_TICK_ZOOM.toFloat()
+            )
+        )
+    }
+
     private fun initUi() {
         recycler = findViewById(R.id.recycler)
 
@@ -134,11 +142,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     private fun initRecycler() {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         layoutManager.setSmoothScrollbarEnabled(true)
-        adapter = PlaceAdapter()
+        adapter = PlaceAdapter(this)
         recycler.layoutManager = layoutManager
         recycler.itemAnimator = DefaultItemAnimator()
-        //recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HO))
+        recycler.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL))
         recycler.adapter = adapter
+        val snapHelper: SnapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(recycler)
     }
 
     private fun loadMap() {

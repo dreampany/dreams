@@ -15,6 +15,18 @@ import com.rishabhharit.roundedimageview.RoundedImageView
  */
 class PlaceAdapter(listener: Any? = null) : BaseAdapter<GooglePlace, PlaceAdapter.ViewHolder>() {
 
+    interface OnItemClickListener {
+        fun onItemClick(item: GooglePlace)
+    }
+
+    var listener: OnItemClickListener? = null
+
+    init {
+        if (listener is OnItemClickListener) {
+            this.listener = listener as OnItemClickListener
+        }
+    }
+
     override fun getViewType(item: GooglePlace): Int {
         return 0
     }
@@ -39,6 +51,12 @@ class PlaceAdapter(listener: Any? = null) : BaseAdapter<GooglePlace, PlaceAdapte
             parent = itemView.findViewById(R.id.layout_parent)
             icon = itemView.findViewById(R.id.icon)
             title = itemView.findViewById(R.id.title)
+
+            parent.setOnClickListener { v: View ->
+                adapter.listener!!.onItemClick(
+                    adapter.getItem(adapterPosition)!!
+                )
+            }
         }
 
         override fun bindView(holder: ViewHolder, item: GooglePlace) {

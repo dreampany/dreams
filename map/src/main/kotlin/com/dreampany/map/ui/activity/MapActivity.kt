@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.*
 import com.afollestad.assent.Permission
 import com.afollestad.assent.isAllGranted
 import com.afollestad.assent.runWithPermissions
+import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.map.R
 import com.dreampany.map.data.model.GooglePlace
 import com.dreampany.map.manager.PlaceManager
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.common.collect.Maps
 import com.google.maps.android.clustering.ClusterManager
 import timber.log.Timber
 import java.net.MalformedURLException
@@ -63,6 +65,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     private lateinit var adapter: PlaceAdapter
 
     private var mapReady: Boolean = false
+    private val places = Maps.newConcurrentMap<LatLng, GooglePlace>();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +99,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
         val item = MarkerItem(place.geometry.location.toLatLng(), place.name, "", bitmap)
         cluster.addItem(item)
         adapter.add(place)
+        places.put(place.geometry.location.toLatLng(), place)
     }
 
     override fun onItemClick(item: GooglePlace) {
@@ -140,6 +144,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
         cluster.renderer = MarkerRender(applicationContext, map, cluster)
         map.setOnCameraIdleListener(cluster)
         map.setOnMarkerClickListener(cluster)
+        map.setOnMapLongClickListener(this::performLongPressOnMarker)
+
+       // map.s
 
         val tileProvider: TileProvider = object : UrlTileProvider(512, 512) {
             @Synchronized
@@ -262,5 +269,22 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
                 PLACE_TICK_ZOOM.toFloat()
             )
         )
+    }
+
+    private fun performLongPressOnMarker(latLng: LatLng) {
+
+        val dialog = MaterialDialog(this)
+            .title(text = latLng.toString())
+            //.message(R.string.your_message)
+
+        dialog.show()
+/*        var nearest = places.keys.first()
+        places.keys.forEach {
+            if (Constants.Api.distance(latLng, nearest) > Constants.Api.distance(latLng, it)) {
+                nearest = it
+            }
+        }
+        val place: GooglePlace = places.get(nearest)!!
+        Timber.v("Marker %s [%s-%s]", place.name, nearest.latitude, nearest.longitude)*/
     }
 }

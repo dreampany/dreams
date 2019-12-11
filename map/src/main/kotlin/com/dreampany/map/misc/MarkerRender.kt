@@ -13,6 +13,7 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.google.maps.android.ui.IconGenerator
 import com.rishabhharit.roundedimageview.RoundedImageView
+import timber.log.Timber
 
 
 /**
@@ -28,31 +29,17 @@ class MarkerRender(context: Context, map: GoogleMap, cluster: ClusterManager<Mar
     private val iconGenerator: IconGenerator
     private val icon: RoundedImageView
 
-    // private val bitmap: BitmapDescriptor
-
     init {
         this.context = context.applicationContext
         iconGenerator =  IconGenerator(this.context);
-        val iconView: View = LayoutInflater.from(context).inflate(R.layout.item_icon, null)
-        icon = iconView.findViewById(R.id.icon)
-        iconGenerator.setContentView(iconView)
+        val markerView: View = LayoutInflater.from(context).inflate(R.layout.item_icon, null)
+        icon = markerView.findViewById(R.id.icon)
+        iconGenerator.setContentView(markerView)
 
-/*        val conf = Bitmap.Config.ARGB_8888
-        val bmp = Bitmap.createBitmap(200, 200, conf)
-        val canvas1 = Canvas(bmp)
-
-        val color = Paint()
-        color.setTextSize(35f)
-        color.setColor(Color.BLACK)
-
-        canvas1.drawBitmap(
-            BitmapFactory.decodeResource(
-                context.getResources(),
-                R.drawable.ic_marker
-            ), 500f, 500f, color
-        )
-        canvas1.drawText("HTB", 30f, 40f, color);
-        bitmap = BitmapDescriptorFactory.fromBitmap(bmp)*/
+/*        markerView.setOnLongClickListener {
+            Timber.v("Clicked")
+            true
+        }*/
     }
 
     override fun shouldRenderAsCluster(cluster: Cluster<MarkerItem>): Boolean {

@@ -3,6 +3,8 @@ package com.dreampany.map.misc
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.location.Location
+import com.google.android.gms.maps.model.LatLng
 
 
 /**
@@ -54,8 +56,8 @@ class Constants {
             }
         }
 
-         fun resize(image: Bitmap?, maxWidth: Int, maxHeight: Int): Bitmap? {
-             if (image == null) return null
+        fun resize(image: Bitmap?, maxWidth: Int, maxHeight: Int): Bitmap? {
+            if (image == null) return null
             var image = image
             return if (maxHeight > 0 && maxWidth > 0) {
                 val width = image.width
@@ -74,6 +76,18 @@ class Constants {
             } else {
                 image
             }
+        }
+
+        fun distance(start: LatLng, end: LatLng): Float {
+            val result = FloatArray(3)
+            Location.distanceBetween(
+                start.latitude,
+                start.longitude,
+                end.latitude,
+                end.longitude,
+                result
+            )
+            return result.first()
         }
     }
 

@@ -65,7 +65,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, PlaceManager.PlaceC
     private lateinit var adapter: PlaceAdapter
 
     private var mapReady: Boolean = false
-    private val places = Maps.newConcurrentMap<LatLng, GooglePlace>();
+    private val places = Maps.newConcurrentMap<LatLng, GooglePlace>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

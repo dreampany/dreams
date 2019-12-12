@@ -127,7 +127,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     /* test */
-    testImplementation 'junit:junit:4.13-rc-1'
+    testImplementation 'junit:junit:4.13-rc-2'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
@@ -162,9 +162,9 @@ dependencies {
 
 
     /* androidx arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc02'
-    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc02'
-    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-rc02'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc03'
+    api 'androidx.lifecycle:lifecycle-extensions:2.2.0-rc03'
+    api 'androidx.lifecycle:lifecycle-runtime:2.2.0-rc03'
     kapt 'androidx.room:room-compiler:2.2.2'
     api 'androidx.room:room-runtime:2.2.2'
     api 'androidx.room:room-rxjava2:2.2.2'
@@ -176,17 +176,17 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.6'
     api 'com.google.android.gms:play-services-location:17.0.0'
     api 'com.google.android.gms:play-services-nearby:17.0.0'
-    api 'com.googlecode.libphonenumber:libphonenumber:8.11.0'
+    api 'com.googlecode.libphonenumber:libphonenumber:8.11.1'
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
     api 'com.google.firebase:firebase-core:17.2.1'
     api 'com.google.firebase:firebase-appindexing:19.0.0'
     api 'com.google.firebase:firebase-ads:18.3.0'
-    api 'com.google.firebase:firebase-messaging:20.0.1'
+    api 'com.google.firebase:firebase-messaging:20.1.0'
     api 'com.google.firebase:firebase-auth:19.2.0'
     api 'com.google.firebase:firebase-database:19.2.0'
-    api 'com.google.firebase:firebase-firestore:21.3.0'
+    api 'com.google.firebase:firebase-firestore:21.3.1'
     implementation 'com.google.firebase:firebase-ml-common:22.0.1'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
     implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
@@ -209,10 +209,10 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.2.2'
 
     /* squareup */
-    api 'com.squareup.retrofit2:retrofit:2.6.2'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
-    api 'com.squareup.retrofit2:converter-gson:2.6.2'
-    api 'com.squareup.retrofit2:converter-jackson:2.6.2'
+    api 'com.squareup.retrofit2:retrofit:2.7.0'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.7.0'
+    api 'com.squareup.retrofit2:converter-gson:2.7.0'
+    api 'com.squareup.retrofit2:converter-jackson:2.7.0'
     api('com.squareup.moshi:moshi-kotlin:1.9.2') {
         exclude group: 'org.jetbrains.kotlin'
     }
@@ -264,7 +264,7 @@ dependencies {
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
     api 'com.github.pwittchen:reactivenetwork-rx2:3.0.6'
-    api 'com.karumi:dexter:6.0.0'
+    api 'com.karumi:dexter:6.0.1'
     api 'joda-time:joda-time:2.10.5'
     api 'com.tapadoo.android:alerter:4.0.2'
     api 'com.jakewharton.timber:timber:4.7.1'

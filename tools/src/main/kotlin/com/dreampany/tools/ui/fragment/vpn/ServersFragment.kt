@@ -26,7 +26,6 @@ import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.pref.VpnPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
@@ -111,18 +110,12 @@ class ServersFragment
 
     override fun onResume() {
         super.onResume()
-        val filter = IntentFilter(Constants.Service.PLAYER_SERVICE_UPDATE)
-        //bindLocalCast(serviceUpdateReceiver, filter)
         if (adapter.isEmpty) {
             request(progress = true)
         }
     }
 
     override fun onPause() {
-/*        debindLocalCast(serviceUpdateReceiver)
-        if (!player.isPlaying()) {
-            player.destroy()
-        }*/
         super.onPause()
     }
 

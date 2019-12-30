@@ -1,6 +1,5 @@
 package com.dreampany.tools.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -15,12 +14,14 @@ import com.dreampany.tools.R
 import com.dreampany.tools.databinding.ActivityCollapseToolsBinding
 import com.dreampany.tools.databinding.ActivityToolsBinding
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.fragment.*
+import com.dreampany.tools.ui.fragment.AboutFragment
+import com.dreampany.tools.ui.fragment.LicenseFragment
+import com.dreampany.tools.ui.fragment.SettingsFragment
 import com.dreampany.tools.ui.fragment.app.AppHomeFragment
 import com.dreampany.tools.ui.fragment.block.BlockHomeFragment
 import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
-import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
+import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment

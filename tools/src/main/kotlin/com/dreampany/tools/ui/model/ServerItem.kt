@@ -12,8 +12,8 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ServerAdapter
-import com.dreampany.tools.ui.adapter.StationAdapter
 import com.google.common.base.Objects
+import com.haipq.android.flagkit.FlagImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import jp.shts.android.library.TriangleLabelView
@@ -30,6 +30,8 @@ private constructor(
     item: Server,
     @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem< ServerItem.ViewHolder,Server, String>(item, layoutId) {
+
+    var servers = ArrayList<Server>()
 
     companion object {
         fun getItem(item: Server): ServerItem {
@@ -63,12 +65,14 @@ private constructor(
         BaseItem.ViewHolder(view, adapter) {
 
         private val adapter: ServerAdapter
+        private val flag: FlagImageView
         private val title: AppCompatTextView
         private val subtitle: AppCompatTextView
         private var label: TriangleLabelView
 
         init {
             this.adapter = adapter as ServerAdapter
+            flag = view.findViewById(R.id.view_flag)
             title = view.findViewById(R.id.view_title)
             subtitle = view.findViewById(R.id.view_subtitle)
             label = view.findViewById(R.id.label_type)
@@ -87,6 +91,7 @@ private constructor(
             val uiItem = item as ServerItem
             val item = uiItem.item
 
+            flag.countryCode = item.countryCode
             title.text = item.countryName
             subtitle.text = item.id
 
@@ -95,8 +100,7 @@ private constructor(
             if (item.quality == Quality.MEDIUM) {
                 labelTextRes = R.string.medium
                 labelColorRes = R.color.material_yellow500
-            }
-            if (item.quality == Quality.HIGH) {
+            } else if (item.quality == Quality.HIGH) {
                 labelTextRes = R.string.high
                 labelColorRes = R.color.material_green500
             }

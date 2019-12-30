@@ -135,7 +135,6 @@ class VpnHomeFragment
                             resolveUi()
                             vpn.start(this)
                         }
-
                     }
                 }
             }
@@ -148,7 +147,6 @@ class VpnHomeFragment
                 openServersUi()
                 return true
             }
-
         }
         return super.onOptionsItemSelected(item)
     }

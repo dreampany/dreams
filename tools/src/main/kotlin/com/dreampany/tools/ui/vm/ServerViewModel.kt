@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -22,6 +23,7 @@ import com.dreampany.tools.ui.misc.StationRequest
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.model.StationItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
+import com.google.common.collect.Maps
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -86,19 +88,19 @@ class ServerViewModel
             .backToMain(requestUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(request.state, request.action, true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
                 postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(request.state, request.action, MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
     }
@@ -112,19 +114,19 @@ class ServerViewModel
             .backToMain(requestUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(request.state, request.action, true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
                 postResult(request.state, request.action, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(request.state, request.action, false)
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(request.state, request.action, MultiException(error, ExtraException()))
             })
         addMultipleSubscription(disposable)
     }
@@ -160,10 +162,40 @@ class ServerViewModel
         request: ServerRequest,
         items: List<Server>
     ): Maybe<List<ServerItem>> {
-        return Flowable.fromIterable(items)
+        return Maybe.create { emitter ->
+            val result = Maps.newHashMap<String, ServerItem>()
+            for (server in items) {
+                if (result.containsKey(server.countryCode)) {
+                     result.get(server.countryCode)?.servers?.add(server)
+                } else {
+                    val item = getUiItem(request, server)
+                    item.servers.add(server)
+                    result.put(server.countryCode, item)
+                }
+            }
+/*            val servers = Maps.newHashMap<String, Server>()
+            for (server in items) {
+                if (servers.containsKey(server.countryCode)) {
+                    val exists: Server = servers.get(server.countryCode)!!
+                    if (exists.quality!!.code < server.quality!!.code) {
+                        servers.put(server.countryCode, server)
+                    }
+                } else {
+                    servers.put(server.countryCode, server)
+                }
+            }
+            val result = ArrayList<ServerItem>()
+            servers.values.forEach { server ->
+                result.add(getUiItem(request, server))
+            }
+            */
+
+            emitter.onSuccess(result.values.toList())
+        }
+        /*return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
             .toList()
-            .toMaybe()
+            .toMaybe()*/
     }
 
     private fun getUiItem(request: ServerRequest, item: Server): ServerItem {

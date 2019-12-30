@@ -172,15 +172,14 @@ class VpnHomeFragment
     }
 
     override fun onStarting(server: Server) {
+        if (isVisible)
         bindVpn.buttonAction.setButtonColor(
-            ColorUtil.getColor(
-                context!!,
-                R.color.material_yellow700
-            )
+            ColorUtil.getColor(context!!, R.color.material_yellow700)
         )
     }
 
     override fun onStarted(server: Server) {
+        if (isVisible)
         bindVpn.buttonAction.setText(R.string.disconnect)
         bindVpn.buttonAction.setButtonColor(
             ColorUtil.getColor(
@@ -191,6 +190,7 @@ class VpnHomeFragment
     }
 
     override fun onStopped(server: Server) {
+        if (isVisible)
         bindVpn.buttonAction.setText(R.string.connect)
         bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
         bindVpn.viewLog.text = null

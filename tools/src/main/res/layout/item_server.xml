@@ -15,8 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_5sdp"
-            android:paddingBottom="@dimen/_5sdp">
+            android:paddingEnd="@dimen/_5sdp" >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -45,7 +44,7 @@
 
             <com.haipq.android.flagkit.FlagImageView
                 android:id="@+id/view_flag"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/_24sdp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_10sdp"
                 auto:countryCode="US"

@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.fragment.vpn
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.data.enums.*
@@ -77,6 +78,7 @@ class VpnHomeFragment
         super.onMenuCreated(menu, inflater)
 
         val serverItem = findMenuItemById(R.id.item_servers)
+        if (serverItem != null)
         MenuTint.colorMenuItem(
             ColorUtil.getColor(context!!, R.color.material_white),
             null, serverItem
@@ -276,6 +278,7 @@ class VpnHomeFragment
         if (server != null) {
             server!!.countryCode?.run {
                 bindServer.viewFlag.setCountryCode(this)
+                findMenuItemById(R.id.item_servers)?.icon = ContextCompat.getDrawable(context!!, Constants.Extra.getDrawableWithCountryCode(context!!, this.toLowerCase()))
             }
             var labelTextRes = R.string.low
             var labelColorRes = R.color.material_red500

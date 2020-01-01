@@ -141,7 +141,7 @@ class ServersFragment
         val uiTask = UiTask<Server>(
             type = Type.SERVER,
             action = Action.SELECTED,
-            input = item.item
+            input = item.servers.first()
         )
         forResult(uiTask, true)
     }

@@ -13,6 +13,7 @@ import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.ui.model.CoinItem
 import com.dreampany.tools.ui.model.ContactItem
 import com.google.common.collect.Maps
@@ -356,6 +357,13 @@ class Constants {
     }
 
     object Keys {
+        object Server {
+            const val ID = Constants.Key.ID
+            const val COUNTRY_NAME = "country_name"
+            const val COUNTRY_CODE = "country_code"
+            const val LOG_TYPE = "log_type"
+        }
+
         object Coin {
             const val ID = Constants.Key.ID
             const val MARKET_PAIRS = "market_pairs"
@@ -440,13 +448,6 @@ class Constants {
         const val CHANGE_24H = "percent_change_24h"
         const val CHANGE_7D = "percent_change_7d"
         const val LAST_UPDATED = "last_updated"
-    }
-
-    object Server {
-        const val ID = Constants.Key.ID
-        const val COUNTRY_NAME = "country_name"
-        const val COUNTRY_CODE = "country_code"
-        const val LOG_TYPE = "log_type"
     }
 
     object Station {
@@ -620,6 +621,27 @@ class Constants {
     }
 
     object Comparators {
+
+        object Vpn {
+            fun getServerComparator(): Comparator<Server> {
+                return object : Comparator<Server> {
+                    override fun compare(
+                        left: Server, right: Server
+                    ): Int {
+                        if (left.quality != null && right.quality != null) {
+                            if (left.quality != right.quality) {
+                                return right.quality!!.code.compareTo(left.quality!!.code)
+                            }
+                        }
+                        if (left.speed != right.speed) {
+                            return right.speed.compareTo(left.speed)
+                        }
+                        return return right.sessions.compareTo(left.sessions)
+                    }
+
+                }
+            }
+        }
 
         object Block {
             fun getUiComparator(): Comparator<ContactItem> {

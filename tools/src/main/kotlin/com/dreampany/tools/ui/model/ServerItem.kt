@@ -39,15 +39,15 @@ private constructor(
         }
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(item.id)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as ServerItem
         return Objects.equal(this.item.id, item.item.id)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(item.id)
     }
 
     override fun createViewHolder(
@@ -59,6 +59,10 @@ private constructor(
 
     override fun filter(constraint: String): Boolean {
         return item.countryName?.contains(constraint, true) ?: false
+    }
+
+    fun sortServers() {
+        servers.sortWith(Constants.Comparators.Vpn.getServerComparator())
     }
 
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :

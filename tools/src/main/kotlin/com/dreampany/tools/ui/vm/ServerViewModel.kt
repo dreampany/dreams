@@ -173,6 +173,9 @@ class ServerViewModel
                     result.put(server.countryCode, item)
                 }
             }
+            result.values.forEach {
+                it.sortServers()
+            }
 /*            val servers = Maps.newHashMap<String, Server>()
             for (server in items) {
                 if (servers.containsKey(server.countryCode)) {

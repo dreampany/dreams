@@ -20,10 +20,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Server.ID],
+        value = [Constants.Keys.Server.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Server.ID]
+    primaryKeys = [Constants.Keys.Server.ID]
 )
 data class Server(
     override var time: Long = Constants.Default.LONG,
@@ -32,15 +32,15 @@ data class Server(
     var score: Long = Constants.Default.LONG,
     var ping: Int = Constants.Default.INT,
     var speed: Int = Constants.Default.INT,
-    @ColumnInfo(name = Constants.Server.COUNTRY_NAME)
+    @ColumnInfo(name = Constants.Keys.Server.COUNTRY_NAME)
     var countryName: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Server.COUNTRY_CODE)
+    @ColumnInfo(name = Constants.Keys.Server.COUNTRY_CODE)
     var countryCode: String? = Constants.Default.NULL,
     var sessions: Int = Constants.Default.INT,
     var uptime: Long = Constants.Default.LONG,
     var users: Long = Constants.Default.LONG,
     var traffic: Long = Constants.Default.LONG,
-    @ColumnInfo(name = Constants.Server.LOG_TYPE)
+    @ColumnInfo(name = Constants.Keys.Server.LOG_TYPE)
     var logType: String? = Constants.Default.NULL,
     var operator: String? = Constants.Default.NULL,
     var message: String? = Constants.Default.NULL,
@@ -63,15 +63,15 @@ data class Server(
 
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as Server
         return Objects.equal(this.id, item.id)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
     }
 
     override fun toString(): String {

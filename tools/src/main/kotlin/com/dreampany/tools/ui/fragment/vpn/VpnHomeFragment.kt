@@ -172,28 +172,38 @@ class VpnHomeFragment
     }
 
     override fun onStarting(server: Server) {
-        if (isVisible)
-        bindVpn.buttonAction.setButtonColor(
+        if (!isVisible) return
+        bindVpn.viewHint.setText(R.string.connecting)
+        bindVpn.buttonAction.visibility = View.INVISIBLE
+        bindVpn.progressBar.visibility = View.VISIBLE
+/*        bindVpn.buttonAction.setButtonColor(
             ColorUtil.getColor(context!!, R.color.material_yellow700)
-        )
+        )*/
     }
 
     override fun onStarted(server: Server) {
-        if (isVisible)
-        bindVpn.buttonAction.setText(R.string.disconnect)
-        bindVpn.buttonAction.setButtonColor(
+        if (!isVisible) return
+        bindVpn.viewHint.setText(R.string.connected)
+        bindVpn.buttonAction.setIcon(ContextCompat.getDrawable(context!!, R.drawable.ic_close_black_24dp)!!)
+        bindVpn.buttonAction.visibility = View.VISIBLE
+        bindVpn.progressBar.visibility = View.GONE
+        //bindVpn.buttonAction.setText(R.string.disconnect)
+/*        bindVpn.buttonAction.setButtonColor(
             ColorUtil.getColor(
                 context!!,
                 R.color.material_green700
             )
-        )
+        )*/
     }
 
     override fun onStopped(server: Server) {
-        if (isVisible)
+        if (!isVisible) return
         bindVpn.buttonAction.setText(R.string.connect)
-        bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
-        bindVpn.viewLog.text = null
+        bindVpn.buttonAction.setIcon(ContextCompat.getDrawable(context!!, R.drawable.ic_vpn_lock_black_24dp)!!)
+        bindVpn.buttonAction.visibility = View.VISIBLE
+        bindVpn.progressBar.visibility = View.GONE
+        //bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
+        //bindVpn.viewLog.text = null
     }
 
     override fun onLog(log: String?) {

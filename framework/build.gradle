@@ -305,6 +305,7 @@ dependencies {
     api 'mbanje.kurt:fabbutton:1.2.4@aar'
     api 'me.zhanghai.android.materialprogressbar:library:1.6.1'
     api 'com.github.Ferfalk:SimpleSearchView:0.1.4'
+    api 'com.github.Nikoloutsos:KLoadingSpin:1.1.0'
     //api 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
 
     /* JAX-B dependencies for JDK 9+ */

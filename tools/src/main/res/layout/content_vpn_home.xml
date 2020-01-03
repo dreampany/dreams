@@ -29,27 +29,60 @@
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/view_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:gravity="center"
+            android:text="@string/connect"
+            android:textAllCaps="true"
+            android:textColor="@color/material_black"
+            android:textSize="@dimen/_15ssp"
+            auto:fontFamily="@font/roboto_slab_bold"
+            auto:layout_constraintBottom_toBottomOf="parent"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            tools:text="@string/connect" />
+
         <com.github.nikartm.button.FitButton
             android:id="@+id/button_action"
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_150sdp"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
             android:layout_marginTop="@dimen/_80sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:enabled="false"
             android:gravity="center"
             android:visibility="gone"
-            auto:fb_backgroundColor="@color/material_red700"
+            auto:fb_backgroundColor="@color/material_black"
             auto:fb_cornerRadius="@dimen/_2sdp"
+            auto:fb_icon="@drawable/ic_vpn_lock_black_24dp"
+            auto:fb_iconColor="@color/colorAccent"
+            auto:fb_iconHeight="@dimen/_45sdp"
+            auto:fb_iconWidth="@dimen/_45sdp"
             auto:fb_shape="circle"
-            auto:fb_text="@string/connect"
+            auto:fb_text="@string/empty"
             auto:fb_textAllCaps="true"
             auto:fb_textColor="@color/material_white"
             auto:fb_textSize="@dimen/_18ssp"
             auto:fb_textStyle="bold"
-            auto:layout_constraintBottom_toBottomOf="parent"
+            auto:layout_constraintBottom_toTopOf="@id/view_hint"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/progress_bar"
+            style="@style/Widget.MaterialProgressBar.ProgressBar"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginBottom="@dimen/_20sdp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            auto:layout_constraintBottom_toTopOf="@id/view_hint"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:mpb_progressStyle="circular" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/view_log"
@@ -62,23 +95,12 @@
             android:text="@string/empty"
             android:textColor="@color/material_grey800"
             android:textSize="@dimen/_12ssp"
+            android:visibility="visible"
             auto:fontFamily="@font/roboto_slab_regular"
             auto:layout_constraintBottom_toTopOf="@id/button_action"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             tools:text="@string/subtitle" />
-
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:id="@+id/progress_bar"
-            style="@style/Widget.MaterialProgressBar.ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="gone"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent"
-            auto:mpb_progressStyle="circular" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,5 +1,5 @@
 rootProject.name='android'
-include ':framework'
+include ':framework', ':frame'
 include ':simple'
 //include ':common'
 //include ':firebase'

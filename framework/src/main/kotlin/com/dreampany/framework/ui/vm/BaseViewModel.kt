@@ -38,7 +38,8 @@ import java.util.*
  * X = Ui Model Item
  * Y = UiTask<T>
  */
-abstract class BaseViewModel<T, X, Y> protected constructor(
+abstract class BaseViewModel<T, X, Y>
+protected constructor(
     application: Application,
     protected val rx: RxMapper,
     protected val ex: AppExecutor,

@@ -13,8 +13,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/_5sdp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -26,8 +25,9 @@
                 <com.like.LikeButton
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_14sdp"
-                    android:layout_height="@dimen/_14sdp" android:visibility="gone"
+                    android:layout_height="@dimen/_14sdp"
                     android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone"
                     auto:icon_size="@dimen/_14sdp"
                     auto:icon_type="heart" />
 
@@ -43,6 +43,8 @@
                 android:id="@+id/view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:drawablePadding="@dimen/_5sdp"
                 android:text="@string/title"
                 android:textColor="@color/material_grey600"
@@ -55,6 +57,8 @@
                 android:id="@+id/view_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:drawablePadding="@dimen/_5sdp"
                 android:text="@string/subtitle"
                 android:textColor="@color/material_grey500"

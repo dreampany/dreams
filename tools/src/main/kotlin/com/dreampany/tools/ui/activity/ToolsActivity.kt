@@ -24,6 +24,7 @@ import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
+import com.dreampany.tools.ui.fragment.vpn.CountriesFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment
 import com.dreampany.tools.ui.fragment.vpn.VpnHomeFragment
 import com.dreampany.tools.ui.fragment.word.*
@@ -80,8 +81,12 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
     internal lateinit var noteProvider: Lazy<NoteFragment>
+
+    /* vpn */
     @Inject
     internal lateinit var serversProvider: Lazy<ServersFragment>
+    @Inject
+    internal lateinit var countriesProvider: Lazy<CountriesFragment>
 
 
     private lateinit var bind: ActivityToolsBinding
@@ -284,6 +289,17 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         ServersFragment::class.java,
                         serversProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+            }
+            Type.COUNTRY -> {
+                if (state == State.LIST) {
+                    commitFragment(
+                        CountriesFragment::class.java,
+                        countriesProvider,
                         R.id.layout,
                         uiTask
                     )

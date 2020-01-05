@@ -8,8 +8,8 @@ import com.dreampany.framework.util.TimeUtil
 import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.RadioPref
-import com.dreampany.tools.injector.annotation.StationAnnote
-import com.dreampany.tools.injector.annotation.StationItemAnnote
+import com.dreampany.tools.injector.annote.StationAnnote
+import com.dreampany.tools.injector.annote.StationItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.StationItem
 import javax.inject.Inject

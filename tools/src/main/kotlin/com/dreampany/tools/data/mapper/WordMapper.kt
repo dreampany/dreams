@@ -13,8 +13,8 @@ import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.data.source.pref.WordPref
-import com.dreampany.tools.injector.annotation.WordAnnote
-import com.dreampany.tools.injector.annotation.WordItemAnnote
+import com.dreampany.tools.injector.annote.WordAnnote
+import com.dreampany.tools.injector.annote.WordItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Maybe

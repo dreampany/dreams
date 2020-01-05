@@ -1,11 +1,9 @@
 package com.dreampany.tools.injector.data
 
-import androidx.core.util.Pair
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.model.*
-import com.dreampany.tools.injector.annotation.*
+import com.dreampany.tools.injector.annote.*
 import com.dreampany.tools.ui.model.*
 import dagger.Module
 import dagger.Provides

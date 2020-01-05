@@ -12,8 +12,8 @@ import com.dreampany.tools.api.radio.StationService
 import com.dreampany.tools.data.source.remote.RemoteStationDataSource
 import com.dreampany.tools.data.source.room.RoomStationDataSource
 import com.dreampany.tools.data.source.room.dao.StationDao
-import com.dreampany.tools.injector.annotation.StationAnnote
-import com.dreampany.tools.injector.annotation.StationItemAnnote
+import com.dreampany.tools.injector.annote.StationAnnote
+import com.dreampany.tools.injector.annote.StationItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.StationItem
 import dagger.Module

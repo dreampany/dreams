@@ -15,6 +15,9 @@ import io.reactivex.Maybe
 @Dao
 interface ServerDao : BaseDao<Server> {
 
+    @Query("delete from server")
+    fun deleteAll()
+
     @Query("select * from server")
     fun getItems(): List<Server>?
 
@@ -26,4 +29,7 @@ interface ServerDao : BaseDao<Server> {
 
     @Query("select * from server order by random() limit 1")
     fun getRandomItemRx(): Maybe<Server>
+
+    @Query(value = "select * from server where country_code = :countryCode")
+    fun getServersRx(countryCode: String): Maybe<List<Server>>
 }

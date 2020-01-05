@@ -1,5 +1,6 @@
 package com.dreampany.framework.misc.extension
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.Constants
 
@@ -9,6 +10,18 @@ import com.dreampany.framework.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+
+fun View?.visible() {
+    this?.visibility = View.VISIBLE
+}
+
+fun View?.invisible() {
+    this?.visibility = View.INVISIBLE
+}
+
+fun View?.gone() {
+    this?.visibility = View.GONE
+}
 
 fun Fragment?.resolveText(text: String? = Constants.Default.NULL): String {
     return if (!text.isNullOrEmpty()) text else Constants.Default.STRING

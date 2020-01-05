@@ -8,8 +8,8 @@ import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.data.source.api.ContactDataSource
 import com.dreampany.tools.data.source.room.RoomContactDataSource
 import com.dreampany.tools.data.source.room.dao.ContactDao
-import com.dreampany.tools.injector.annotation.ContactAnnote
-import com.dreampany.tools.injector.annotation.ContactItemAnnote
+import com.dreampany.tools.injector.annote.ContactAnnote
+import com.dreampany.tools.injector.annote.ContactItemAnnote
 import com.dreampany.tools.ui.model.ContactItem
 import dagger.Module
 import dagger.Provides

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.misc.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.ui.vm.*
+import com.dreampany.tools.ui.vm.vpn.CountryViewModel
+import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -68,6 +70,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ServerViewModel::class)
     abstract fun bindServerViewModel(vm: ServerViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CountryViewModel::class)
+    abstract fun bindCountryViewModel(vm: CountryViewModel): ViewModel
 
     @Binds
     @IntoMap

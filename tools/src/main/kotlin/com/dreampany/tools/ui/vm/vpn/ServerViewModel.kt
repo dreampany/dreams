@@ -1,8 +1,6 @@
-package com.dreampany.tools.ui.vm
+package com.dreampany.tools.ui.vm.vpn
 
 import android.app.Application
-import com.dreampany.framework.data.enums.Quality
-import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
@@ -16,12 +14,9 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository
-import com.dreampany.tools.ui.misc.StationRequest
 import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.tools.ui.model.StationItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import com.google.common.collect.Maps
 import io.reactivex.Flowable
@@ -144,7 +139,10 @@ class ServerViewModel
     }
 
     private fun requestItemsRx(request: ServerRequest): Maybe<List<Server>> {
-        return repo.getItemsRx(request.limit);
+        if (request.id != null) {
+            return repo.getServersRx(request.id!!)
+        }
+        return repo.getItemsRx(request.limit)
     }
 
     private fun getUiItemRx(request: ServerRequest, item: Server): Maybe<ServerItem> {
@@ -162,6 +160,13 @@ class ServerViewModel
         request: ServerRequest,
         items: List<Server>
     ): Maybe<List<ServerItem>> {
+        if (request.id != null) {
+            return Flowable.fromIterable(items)
+                .map { getUiItem(request, it) }
+                .toList()
+                .toMaybe()
+        }
+
         return Maybe.create { emitter ->
             val result = Maps.newHashMap<String, ServerItem>()
             for (server in items) {
@@ -176,29 +181,8 @@ class ServerViewModel
             result.values.forEach {
                 it.sortServers()
             }
-/*            val servers = Maps.newHashMap<String, Server>()
-            for (server in items) {
-                if (servers.containsKey(server.countryCode)) {
-                    val exists: Server = servers.get(server.countryCode)!!
-                    if (exists.quality!!.code < server.quality!!.code) {
-                        servers.put(server.countryCode, server)
-                    }
-                } else {
-                    servers.put(server.countryCode, server)
-                }
-            }
-            val result = ArrayList<ServerItem>()
-            servers.values.forEach { server ->
-                result.add(getUiItem(request, server))
-            }
-            */
-
             emitter.onSuccess(result.values.toList())
         }
-        /*return Flowable.fromIterable(items)
-            .map { getUiItem(request, it) }
-            .toList()
-            .toMaybe()*/
     }
 
     private fun getUiItem(request: ServerRequest, item: Server): ServerItem {

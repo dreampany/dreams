@@ -1,6 +1,7 @@
 package com.dreampany.tools.injector.data
 
 import android.content.Context
+import com.dreampany.framework.data.model.Country
 import com.dreampany.framework.data.source.api.RemoteService
 import com.dreampany.framework.misc.Remote
 import com.dreampany.framework.misc.Room
@@ -13,8 +14,11 @@ import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.data.source.remote.RemoteServerDataSource
 import com.dreampany.tools.data.source.room.RoomServerDataSource
 import com.dreampany.tools.data.source.room.dao.ServerDao
-import com.dreampany.tools.injector.annotation.ServerAnnote
-import com.dreampany.tools.injector.annotation.ServerItemAnnote
+import com.dreampany.tools.injector.annote.CountryAnnote
+import com.dreampany.tools.injector.annote.CountryItemAnnote
+import com.dreampany.tools.injector.annote.ServerAnnote
+import com.dreampany.tools.injector.annote.ServerItemAnnote
+import com.dreampany.tools.ui.model.CountryItem
 import com.dreampany.tools.ui.model.ServerItem
 import dagger.Module
 import dagger.Provides
@@ -54,6 +58,34 @@ class VpnModule {
     @Provides
     @ServerItemAnnote
     fun provideServerItemSmartCache(): SmartCache<String, ServerItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @CountryAnnote
+    fun provideCountrySmartMap(): SmartMap<String, Country> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @CountryAnnote
+    fun provideCountrySmartCache(): SmartCache<String, Country> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @CountryItemAnnote
+    fun provideCountryItemSmartMap(): SmartMap<String, CountryItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @CountryItemAnnote
+    fun provideCountryItemSmartCache(): SmartCache<String, CountryItem> {
         return SmartCache.newCache()
     }
 

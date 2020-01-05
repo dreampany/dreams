@@ -39,6 +39,7 @@
             android:textAllCaps="true"
             android:textColor="@color/material_black"
             android:textSize="@dimen/_15ssp"
+            android:visibility="invisible"
             auto:fontFamily="@font/roboto_slab_bold"
             auto:layout_constraintBottom_toBottomOf="parent"
             auto:layout_constraintEnd_toEndOf="parent"

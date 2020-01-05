@@ -36,7 +36,6 @@ abstract class ActivityModule {
             WordModule::class,
             VpnModule::class,
             RadioModule::class,
-            ServersModule::class,
             CryptoModule::class,
             BlockModule::class
         ]

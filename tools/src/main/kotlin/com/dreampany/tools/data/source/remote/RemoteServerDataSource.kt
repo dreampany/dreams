@@ -25,11 +25,19 @@ constructor(
     private val mapper: ServerMapper,
     private val service: RemoteService
 ) : ServerDataSource {
+    override fun deleteAll() {
+
+    }
+
     override fun getRandomItem(): Server? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getRandomItemRx(): Maybe<Server> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getServersRx(countryCode: String): Maybe<List<Server>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

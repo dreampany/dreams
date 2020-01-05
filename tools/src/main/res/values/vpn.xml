@@ -422,5 +422,7 @@
     <string name="vpn_ip">IP: %s</string>
     <string name="vpn_city">City: %s</string>
     <string name="vpn_sessions">Sessions: %d</string>
+    <string name="vpn_countries">VPN Countries</string>
+    <string name="servers_count">Servers: %d</string>
 
 </resources>

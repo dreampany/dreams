@@ -8,8 +8,8 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.data.source.api.ContactDataSource
 import com.dreampany.tools.data.source.pref.BlockPref
-import com.dreampany.tools.injector.annotation.ContactAnnote
-import com.dreampany.tools.injector.annotation.ContactItemAnnote
+import com.dreampany.tools.injector.annote.ContactAnnote
+import com.dreampany.tools.injector.annote.ContactItemAnnote
 import com.dreampany.tools.ui.model.ContactItem
 import javax.inject.Inject
 import javax.inject.Singleton

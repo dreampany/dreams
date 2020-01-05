@@ -73,6 +73,9 @@ class Constants {
         fun vpnServers(context: Context): String =
             lastAppId(context) + Sep.HYPHEN + "vpn-servers"
 
+        fun vpnCountries(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "vpn-countries"
+
         fun isOn(context: Context, screen: String, type: Type): Boolean {
             when (type) {
                 Type.WORD -> {
@@ -305,6 +308,7 @@ class Constants {
 
         object Vpn {
             const val SERVERS = 100L
+            const val COUNTRIES = 50L
         }
 
         object Crypto {
@@ -484,6 +488,7 @@ class Constants {
         object Vpn {
             const val START_VPN_PROFILE = 1
             const val OPEN_SERVER = 2
+            const val OPEN_COUNTRY = 3
         }
 
         object Note {

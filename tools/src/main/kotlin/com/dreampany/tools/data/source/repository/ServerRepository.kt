@@ -35,6 +35,9 @@ class ServerRepository
     @Room private val room: ServerDataSource,
     @Remote private val remote: ServerDataSource
 ) : Repository<String, Server>(rx, rm), ServerDataSource {
+    override fun deleteAll() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun getRandomItem(): Server? {
         return null
@@ -44,6 +47,10 @@ class ServerRepository
         val remoteIf = getRemoteRandomItemIfRx()
         val roomIf = getRoomRandomItemIfRx()
         return concatSingleFirstRx(remoteIf, roomIf)
+    }
+
+    override fun getServersRx(countryCode: String): Maybe<List<Server>> {
+        return room.getServersRx(countryCode)
     }
 
     override fun isEmpty(): Boolean {
@@ -210,6 +217,7 @@ class ServerRepository
                 emitter.onError(EmptyException())
             } else {
                 //extra work to save result
+                room.deleteAll()
                 room.putItems(result)
                 mapper.commitExpireTime()
                 emitter.onSuccess(result)

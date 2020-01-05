@@ -18,12 +18,20 @@ constructor(
     private val mapper: ServerMapper,
     private val dao: ServerDao
 ) : ServerDataSource {
+    override fun deleteAll() {
+        dao.deleteAll()
+    }
+
     override fun getRandomItem(): Server? {
         return dao.getRandomItem()
     }
 
     override fun getRandomItemRx(): Maybe<Server> {
         return dao.getRandomItemRx()
+    }
+
+    override fun getServersRx(countryCode: String): Maybe<List<Server>> {
+        return dao.getServersRx(countryCode)
     }
 
     override fun isEmpty(): Boolean {

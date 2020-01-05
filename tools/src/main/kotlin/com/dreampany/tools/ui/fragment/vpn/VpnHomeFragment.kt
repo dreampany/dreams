@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.invisible
+import com.dreampany.framework.misc.extension.visible
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
@@ -27,7 +29,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.tools.ui.vm.ServerViewModel
+import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import timber.log.Timber
 import javax.inject.Inject
@@ -126,7 +128,7 @@ class VpnHomeFragment
             Constants.RequestCode.Vpn.START_VPN_PROFILE -> {
                 vpn.startOpenVpn()
             }
-            Constants.RequestCode.Vpn.OPEN_SERVER -> {
+            Constants.RequestCode.Vpn.OPEN_COUNTRY -> {
                 data?.run {
                     val task = getCurrentTask<UiTask<Server>>(this)
                     task?.run {
@@ -146,7 +148,7 @@ class VpnHomeFragment
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_servers -> {
-                openServersUi()
+                openCountriesUi()
                 return true
             }
         }
@@ -286,6 +288,7 @@ class VpnHomeFragment
     private fun resolveUi() {
         bindVpn.buttonAction.isEnabled = server != null
         if (server != null) {
+            bindVpn.viewHint.visible()
             server!!.countryCode?.run {
                 bindServer.viewFlag.setCountryCode(this)
                 findMenuItemById(R.id.item_servers)?.icon = ContextCompat.getDrawable(context!!, Constants.Extra.getDrawableWithCountryCode(context!!, this.toLowerCase()))
@@ -319,6 +322,7 @@ class VpnHomeFragment
             bindVpn.buttonAction.visibility = View.VISIBLE
             bindServer.layoutServerSummary.visibility = View.VISIBLE
         } else {
+            bindVpn.viewHint.invisible()
             bindServer.viewFlag.visibility = View.INVISIBLE
             bindServer.labelType.visibility = View.INVISIBLE
             bindServer.viewCountryName.visibility = View.INVISIBLE
@@ -330,13 +334,13 @@ class VpnHomeFragment
         }
     }
 
-    private fun openServersUi() {
+    private fun openCountriesUi() {
         val task = UiTask<Server>(
-            type = Type.SERVER,
+            type = Type.COUNTRY,
             state = State.LIST,
             action = Action.OPEN
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Vpn.OPEN_SERVER)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Vpn.OPEN_COUNTRY)
     }
 
     private fun request(

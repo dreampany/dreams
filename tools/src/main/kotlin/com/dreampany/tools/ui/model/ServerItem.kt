@@ -8,6 +8,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
+import com.dreampany.framework.util.NumberUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
@@ -72,6 +73,7 @@ private constructor(
         private val flag: FlagImageView
         private val title: AppCompatTextView
         private val subtitle: AppCompatTextView
+        private val speed: AppCompatTextView
         private var label: TriangleLabelView
 
         init {
@@ -79,6 +81,7 @@ private constructor(
             flag = view.findViewById(R.id.view_flag)
             title = view.findViewById(R.id.view_title)
             subtitle = view.findViewById(R.id.view_subtitle)
+            speed = view.findViewById(R.id.view_speed)
             label = view.findViewById(R.id.label_type)
 
             view.setOnClickListener {
@@ -98,6 +101,7 @@ private constructor(
             flag.countryCode = item.countryCode
             title.text = item.countryName
             subtitle.text = item.id
+            speed.text = NumberUtil.formatSpeed(item.speed, getString(R.string.vpn_speed))
 
             var labelTextRes = R.string.low
             var labelColorRes = R.color.material_red500

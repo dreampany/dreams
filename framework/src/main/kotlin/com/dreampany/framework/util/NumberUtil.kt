@@ -73,6 +73,12 @@ class NumberUtil {
             return String.format(Locale.getDefault(), "%,d", number)
         }
 
+        fun formatSpeed(speed: Int, formatStr: String): String {
+            var speedValue = speed.toDouble() / 1048576
+            speedValue = BigDecimal(speedValue).setScale(3, RoundingMode.UP).toDouble()
+            return String.format(formatStr, speedValue)
+        }
+
         fun nextRand(upper: Int): Int {
             return if (upper <= 0) -1 else random.nextInt(upper)
         }

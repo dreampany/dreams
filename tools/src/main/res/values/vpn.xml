@@ -424,5 +424,6 @@
     <string name="vpn_sessions">Sessions: %d</string>
     <string name="vpn_countries">VPN Countries</string>
     <string name="servers_count">Servers: %d</string>
+    <string name="vpn_speed">Speed: %.2f Mbps</string>
 
 </resources>

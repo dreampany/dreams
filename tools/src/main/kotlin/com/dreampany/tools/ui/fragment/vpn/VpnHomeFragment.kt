@@ -200,10 +200,12 @@ class VpnHomeFragment
 
     override fun onStopped(server: Server) {
         if (!isVisible) return
-        bindVpn.buttonAction.setText(R.string.connect)
+        bindVpn.viewLog.text = null
+        bindVpn.viewHint.setText(R.string.connect)
         bindVpn.buttonAction.setIcon(ContextCompat.getDrawable(context!!, R.drawable.ic_vpn_lock_black_24dp)!!)
         bindVpn.buttonAction.visibility = View.VISIBLE
         bindVpn.progressBar.visibility = View.GONE
+
         //bindVpn.buttonAction.setButtonColor(ColorUtil.getColor(context!!, R.color.material_red700))
         //bindVpn.viewLog.text = null
     }
@@ -326,7 +328,7 @@ class VpnHomeFragment
             bindServer.viewFlag.visibility = View.INVISIBLE
             bindServer.labelType.visibility = View.INVISIBLE
             bindServer.viewCountryName.visibility = View.INVISIBLE
-            bindServer.viewCity.visibility = View.INVISIBLE
+            //bindServer.viewCity.visibility = View.INVISIBLE
             bindServer.viewIp.visibility = View.INVISIBLE
             bindServer.viewSessions.visibility = View.INVISIBLE
             bindVpn.buttonAction.visibility = View.INVISIBLE

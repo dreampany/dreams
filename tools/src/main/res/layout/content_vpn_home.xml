@@ -48,8 +48,8 @@
 
         <com.github.nikartm.button.FitButton
             android:id="@+id/button_action"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
             android:layout_marginTop="@dimen/_80sdp"
             android:layout_marginBottom="@dimen/_20sdp"
             android:enabled="false"
@@ -59,8 +59,8 @@
             auto:fb_cornerRadius="@dimen/_2sdp"
             auto:fb_icon="@drawable/ic_vpn_lock_black_24dp"
             auto:fb_iconColor="@color/colorAccent"
-            auto:fb_iconHeight="@dimen/_45sdp"
-            auto:fb_iconWidth="@dimen/_45sdp"
+            auto:fb_iconHeight="@dimen/_40sdp"
+            auto:fb_iconWidth="@dimen/_40sdp"
             auto:fb_shape="circle"
             auto:fb_text="@string/empty"
             auto:fb_textAllCaps="true"

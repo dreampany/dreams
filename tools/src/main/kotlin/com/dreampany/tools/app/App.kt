@@ -146,9 +146,9 @@ class App : BaseApp() {
     private fun configAd() {
         //ad.initPoints(Util.AD_POINTS)
         val config = SmartAd.Config.Builder()
-            .bannerExpireDelay(TimeUnit.MINUTES.toMillis(1))
-            .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(10))
-            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(30))
+            .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
+            .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(5))
+            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(10))
             .enabled(!isDebug())
         ad.setConfig(config.build())
     }

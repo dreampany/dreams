@@ -7,7 +7,6 @@ import android.view.*
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
@@ -276,7 +275,7 @@ class WordFragment
         bindWord.buttonLanguage.setOnClickListener(this)
         bindYandex.textYandexPowered.setOnClickListener(this)
 
-        vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(WordViewModel::class.java)
         vm.task = uiTask
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })

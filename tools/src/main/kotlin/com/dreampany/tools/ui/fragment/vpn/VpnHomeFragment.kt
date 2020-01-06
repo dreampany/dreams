@@ -16,6 +16,7 @@ import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
+import com.dreampany.framework.util.NumberUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
@@ -58,7 +59,7 @@ class VpnHomeFragment
 
     private lateinit var vm: ServerViewModel
 
-    private var server: Server? = null
+    //private var server: Server? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_vpn_home
@@ -81,15 +82,15 @@ class VpnHomeFragment
 
         val serverItem = findMenuItemById(R.id.item_servers)
         if (serverItem != null)
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, serverItem
-        )
+            MenuTint.colorMenuItem(
+                ColorUtil.getColor(context!!, R.color.material_white),
+                null, serverItem
+            )
     }
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        resolveUi()
+        //resolveUi(null)
         vpn.setCallback(this)
         vm.updateUiState(uiState = UiState.EMPTY)
         request(state = State.RANDOM, single = true, progress = true)
@@ -112,7 +113,7 @@ class VpnHomeFragment
 
     override fun onRefresh() {
         super.onRefresh()
-        if (server == null) {
+        if (bind.item == null) {
             request(state = State.RANDOM, single = true, progress = true)
         } else {
             vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
@@ -135,9 +136,11 @@ class VpnHomeFragment
                         task.input?.run {
                             Timber.v("Selected Server %s", this.id)
                             mapper.setServer(this)
-                            server = this
-                            resolveUi()
-                            vpn.start(this)
+                            //server = this
+                            //resolveUi(null)
+                            //vpn.start(this)
+                            vpn.stop()
+                            request(state = State.RANDOM, single = true, progress = true)
                         }
                     }
                 }
@@ -157,9 +160,12 @@ class VpnHomeFragment
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.button_favorite -> {
+                request(id = bind.item.item.id, action = Action.FAVORITE, single = true)
+            }
             R.id.button_action -> {
-                server?.let {
-                    vpn.toggle(it)
+                bind.item?.item?.run {
+                    vpn.toggle(this)
                 }
             }
         }
@@ -186,7 +192,12 @@ class VpnHomeFragment
     override fun onStarted(server: Server) {
         if (!isVisible) return
         bindVpn.viewHint.setText(R.string.connected)
-        bindVpn.buttonAction.setIcon(ContextCompat.getDrawable(context!!, R.drawable.ic_close_black_24dp)!!)
+        bindVpn.buttonAction.setIcon(
+            ContextCompat.getDrawable(
+                context!!,
+                R.drawable.ic_close_black_24dp
+            )!!
+        )
         bindVpn.buttonAction.visibility = View.VISIBLE
         bindVpn.progressBar.visibility = View.GONE
         //bindVpn.buttonAction.setText(R.string.disconnect)
@@ -202,7 +213,12 @@ class VpnHomeFragment
         if (!isVisible) return
         bindVpn.viewLog.text = null
         bindVpn.viewHint.setText(R.string.connect)
-        bindVpn.buttonAction.setIcon(ContextCompat.getDrawable(context!!, R.drawable.ic_vpn_lock_black_24dp)!!)
+        bindVpn.buttonAction.setIcon(
+            ContextCompat.getDrawable(
+                context!!,
+                R.drawable.ic_vpn_lock_black_24dp
+            )!!
+        )
         bindVpn.buttonAction.visibility = View.VISIBLE
         bindVpn.progressBar.visibility = View.GONE
 
@@ -222,6 +238,7 @@ class VpnHomeFragment
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bindVpn.buttonAction.setOnClickListener(this)
+        bindServer.buttonFavorite.setOnClickListener(this)
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
@@ -281,19 +298,61 @@ class VpnHomeFragment
     private fun processSingleSuccess(state: State, action: Action, uiItem: ServerItem) {
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
-        server = uiItem.item
-        resolveUi()
+        //server = uiItem.item
+        resolveUi(uiItem)
         vm.updateUiState(uiState = UiState.CONTENT)
 
     }
 
-    private fun resolveUi() {
-        bindVpn.buttonAction.isEnabled = server != null
-        if (server != null) {
+    private fun resolveUi(item: ServerItem) {
+        bindVpn.viewHint.visible()
+        item.item.countryCode?.run {
+            bindServer.viewFlag.setCountryCode(this)
+            findMenuItemById(R.id.item_servers)?.icon = ContextCompat.getDrawable(
+                context!!,
+                Constants.Extra.getDrawableWithCountryCode(context!!, this.toLowerCase())
+            )
+        }
+        var labelTextRes = R.string.low
+        var labelColorRes = R.color.material_red500
+        if (item.item.quality == Quality.MEDIUM) {
+            labelTextRes = R.string.medium
+            labelColorRes = R.color.material_yellow500
+        }
+        else if (item.item.quality == Quality.HIGH) {
+            labelTextRes = R.string.high
+            labelColorRes = R.color.material_green500
+        }
+
+        bindServer.labelType.setPrimaryText(labelTextRes)
+        bindServer.labelType.setTriangleBackgroundColorResource(labelColorRes)
+
+        bindServer.viewCountryName.text = item.item.countryName
+        bindServer.viewCity.text = getString(R.string.vpn_city, item.item.city)
+        bindServer.viewIp.text = getString(R.string.vpn_ip, item.item.id)
+        bindServer.viewSessions.text = getString(R.string.vpn_sessions, item.item.sessions)
+        bindServer.viewSpeed.text =
+            NumberUtil.formatSpeed(item.item.speed, getString(R.string.vpn_speed))
+        bindVpn.viewLog.text = vpn.lastLog()
+        bindServer.buttonFavorite.isLiked = item?.favorite ?: false
+
+        bindServer.viewFlag.visibility = View.VISIBLE
+        bindServer.labelType.visibility = View.VISIBLE
+        bindServer.viewCountryName.visibility = View.VISIBLE
+        //bindServer.viewCity.visibility = View.VISIBLE
+        bindServer.viewIp.visibility = View.VISIBLE
+        bindServer.viewSessions.visibility = View.VISIBLE
+        bindVpn.buttonAction.visibility = View.VISIBLE
+        bindServer.layoutServerSummary.visibility = View.VISIBLE
+        //bindVpn.buttonAction.isEnabled = server != null
+        /*if (server != null) {
             bindVpn.viewHint.visible()
             server!!.countryCode?.run {
                 bindServer.viewFlag.setCountryCode(this)
-                findMenuItemById(R.id.item_servers)?.icon = ContextCompat.getDrawable(context!!, Constants.Extra.getDrawableWithCountryCode(context!!, this.toLowerCase()))
+                findMenuItemById(R.id.item_servers)?.icon = ContextCompat.getDrawable(
+                    context!!,
+                    Constants.Extra.getDrawableWithCountryCode(context!!, this.toLowerCase())
+                )
             }
             var labelTextRes = R.string.low
             var labelColorRes = R.color.material_red500
@@ -313,7 +372,10 @@ class VpnHomeFragment
             bindServer.viewCity.text = getString(R.string.vpn_city, server!!.city)
             bindServer.viewIp.text = getString(R.string.vpn_ip, server!!.id)
             bindServer.viewSessions.text = getString(R.string.vpn_sessions, server!!.sessions)
+            bindServer.viewSpeed.text =
+                NumberUtil.formatSpeed(server!!.speed, getString(R.string.vpn_speed))
             bindVpn.viewLog.text = vpn.lastLog()
+            bindServer.buttonFavorite.isLiked = item?.favorite ?: false
 
             bindServer.viewFlag.visibility = View.VISIBLE
             bindServer.labelType.visibility = View.VISIBLE
@@ -333,7 +395,7 @@ class VpnHomeFragment
             bindServer.viewSessions.visibility = View.INVISIBLE
             bindVpn.buttonAction.visibility = View.INVISIBLE
             bindServer.layoutServerSummary.visibility = View.INVISIBLE
-        }
+        }*/
     }
 
     private fun openCountriesUi() {

@@ -1,6 +1,10 @@
 package com.dreampany.tools.ui.vm.vpn
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
@@ -14,9 +18,11 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository
 import com.dreampany.tools.ui.model.ServerItem
+import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import com.google.common.collect.Maps
 import io.reactivex.Flowable
@@ -72,6 +78,18 @@ class ServerViewModel
         } else {
             requestMultiple(request)
         }
+    }
+
+    private fun toggleFavorite(id: String): Boolean {
+        val favorite = hasStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+        if (favorite) {
+            removeStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, false)
+        } else {
+            putStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            favorites.put(id, true)
+        }
+        return favorites.get(id)
     }
 
     private fun requestSingle(request: ServerRequest) {
@@ -152,6 +170,9 @@ class ServerViewModel
                 return@create
             }
             val uiItem = getUiItem(request, item)
+            if (request.action == Action.FAVORITE) {
+                toggleFavorite(item.id)
+            }
             emitter.onSuccess(uiItem)
         }
     }
@@ -171,7 +192,7 @@ class ServerViewModel
             val result = Maps.newHashMap<String, ServerItem>()
             for (server in items) {
                 if (result.containsKey(server.countryCode)) {
-                     result.get(server.countryCode)?.servers?.add(server)
+                    result.get(server.countryCode)?.servers?.add(server)
                 } else {
                     val item = getUiItem(request, server)
                     item.servers.add(server)
@@ -192,8 +213,36 @@ class ServerViewModel
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
-        //adjustFavorite(item, uiItem)
+        adjustFavorite(item, uiItem)
         //adjustTranslate(request, uiItem)
         return uiItem
+    }
+
+    private fun adjustFavorite(server: Server, item: ServerItem) {
+        item.favorite = isFavorite(server)
+    }
+
+    private fun isFavorite(server: Server): Boolean {
+        Timber.v("Checking favorite")
+        if (!favorites.contains(server.id)) {
+            val favorite = hasStore(server.id, Type.SERVER, Subtype.DEFAULT, State.FAVORITE)
+            Timber.v("Favorite of %s %s", server.id, favorite)
+            favorites.put(server.id, favorite)
+        }
+        return favorites.get(server.id)
+    }
+
+    private fun hasStore(id: String, type: Type, subtype: Subtype, state: State): Boolean {
+        return storeRepo.isExists(id, type, subtype, state)
+    }
+
+    private fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.putItem(store)
+    }
+
+    private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.delete(store)
     }
 }

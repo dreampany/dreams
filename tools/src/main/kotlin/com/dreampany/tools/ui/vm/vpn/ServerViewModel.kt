@@ -169,10 +169,10 @@ class ServerViewModel
             if (emitter.isDisposed) {
                 return@create
             }
-            val uiItem = getUiItem(request, item)
             if (request.action == Action.FAVORITE) {
                 toggleFavorite(item.id)
             }
+            val uiItem = getUiItem(request, item)
             emitter.onSuccess(uiItem)
         }
     }

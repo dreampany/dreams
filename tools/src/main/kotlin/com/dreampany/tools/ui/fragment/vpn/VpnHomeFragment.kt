@@ -90,7 +90,6 @@ class VpnHomeFragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        //resolveUi(null)
         vpn.setCallback(this)
         vm.updateUiState(uiState = UiState.EMPTY)
         request(state = State.RANDOM, single = true, progress = true)
@@ -161,7 +160,9 @@ class VpnHomeFragment
     override fun onClick(v: View) {
         when (v.id) {
             R.id.button_favorite -> {
-                request(id = bind.item.item.id, action = Action.FAVORITE, single = true)
+                bind.item?.item?.run {
+                    request(id = this.id, action = Action.FAVORITE, single = true)
+                }
             }
             R.id.button_action -> {
                 bind.item?.item?.run {

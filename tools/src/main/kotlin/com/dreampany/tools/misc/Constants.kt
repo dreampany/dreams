@@ -57,6 +57,9 @@ class Constants {
         fun favoriteNotes(context: Context): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-notes"
 
+        fun favoriteServers(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "favorite-servers"
+
         fun editNote(context: Context): String = lastAppId(context) + Sep.HYPHEN + "edit-note"
 
         fun word(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word"

@@ -426,4 +426,6 @@
     <string name="servers_count">Servers: %d</string>
     <string name="vpn_speed">Speed: %.2f Mbps</string>
 
+    <string name="title_favorite_servers">Favorite Servers</string>
+    <string name="subtitle_favorite_servers" translatable="false">Total: %d</string>
 </resources>

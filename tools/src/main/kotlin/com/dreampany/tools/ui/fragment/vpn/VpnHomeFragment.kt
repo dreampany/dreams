@@ -20,6 +20,7 @@ import com.dreampany.framework.util.NumberUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentServerSummaryBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -149,6 +150,10 @@ class VpnHomeFragment
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_favorite -> {
+                openFavoriteUi()
+                return true
+            }
             R.id.item_servers -> {
                 openCountriesUi()
                 return true
@@ -319,8 +324,7 @@ class VpnHomeFragment
         if (item.item.quality == Quality.MEDIUM) {
             labelTextRes = R.string.medium
             labelColorRes = R.color.material_yellow500
-        }
-        else if (item.item.quality == Quality.HIGH) {
+        } else if (item.item.quality == Quality.HIGH) {
             labelTextRes = R.string.high
             labelColorRes = R.color.material_green500
         }
@@ -406,6 +410,15 @@ class VpnHomeFragment
             action = Action.OPEN
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Vpn.OPEN_COUNTRY)
+    }
+
+    private fun openFavoriteUi() {
+        val task = UiTask<Server>(
+            type = Type.SERVER,
+            state = State.FAVORITE,
+            action = Action.OPEN
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.FAVORITE)
     }
 
     private fun request(

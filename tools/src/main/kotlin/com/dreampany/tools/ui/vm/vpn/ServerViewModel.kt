@@ -6,6 +6,7 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.ExtraException
@@ -21,6 +22,8 @@ import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository
+import com.dreampany.tools.ui.misc.NoteRequest
+import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
@@ -149,6 +152,11 @@ class ServerViewModel
     }
 
     private fun requestUiItemsRx(request: ServerRequest): Maybe<List<ServerItem>> {
+        if (request.action == Action.FAVORITE) {
+            return storeRepo
+                .getItemsRx(Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+                .flatMap { getUiItemsOfStoresRx(request, it) }
+        }
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
     }
 
@@ -206,6 +214,13 @@ class ServerViewModel
         }
     }
 
+    private fun getUiItemsOfStoresRx(request: ServerRequest, items: List<Store>): Maybe<List<ServerItem>> {
+        return Flowable.fromIterable(items)
+            .map { getUiItem(request, it) }
+            .toList()
+            .toMaybe()
+    }
+
     private fun getUiItem(request: ServerRequest, item: Server): ServerItem {
         var uiItem: ServerItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
@@ -216,6 +231,11 @@ class ServerViewModel
         adjustFavorite(item, uiItem)
         //adjustTranslate(request, uiItem)
         return uiItem
+    }
+
+    private fun getUiItem(request: ServerRequest, store: Store): ServerItem {
+        val note = mapper.getItem(store, repo)
+        return getUiItem(request, note!!)
     }
 
     private fun adjustFavorite(server: Server, item: ServerItem) {

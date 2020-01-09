@@ -2,6 +2,7 @@ package com.dreampany.tools.injector.ui
 
 import com.dreampany.framework.misc.FragmentScope
 import com.dreampany.tools.ui.fragment.vpn.CountriesFragment
+import com.dreampany.tools.ui.fragment.vpn.FavoriteServersFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment
 import com.dreampany.tools.ui.fragment.vpn.VpnHomeFragment
 import dagger.Module
@@ -26,4 +27,8 @@ abstract class VpnModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun countriesFragment(): CountriesFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun favoriteFragment(): FavoriteServersFragment
 }

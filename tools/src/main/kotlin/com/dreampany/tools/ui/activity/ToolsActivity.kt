@@ -25,6 +25,7 @@ import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
 import com.dreampany.tools.ui.fragment.vpn.CountriesFragment
+import com.dreampany.tools.ui.fragment.vpn.FavoriteServersFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment
 import com.dreampany.tools.ui.fragment.vpn.VpnHomeFragment
 import com.dreampany.tools.ui.fragment.word.*
@@ -87,6 +88,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var serversProvider: Lazy<ServersFragment>
     @Inject
     internal lateinit var countriesProvider: Lazy<CountriesFragment>
+    @Inject
+    internal lateinit var favoriteServersProvider: Lazy<FavoriteServersFragment>
 
 
     private lateinit var bind: ActivityToolsBinding
@@ -177,6 +180,16 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                         R.id.layout,
                         uiTask
                     )
+                    return
+                }
+                if (state == State.FAVORITE) {
+                    commitFragment(
+                        FavoriteServersFragment::class.java,
+                        favoriteServersProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
                 }
             }
             Type.RADIO -> {

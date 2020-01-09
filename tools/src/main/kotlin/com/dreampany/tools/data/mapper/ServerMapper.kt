@@ -2,11 +2,15 @@ package com.dreampany.tools.data.mapper
 
 import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.misc.Mapper
+import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.util.NetworkUtil
 import com.dreampany.framework.util.TimeUtil
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.source.api.NoteDataSource
+import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.data.source.pref.VpnPref
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.injector.annote.ServerAnnote
@@ -93,6 +97,15 @@ class ServerMapper
             }
         }
         return servers
+    }
+
+    fun getItem(input: Store, source: ServerDataSource): Server? {
+        var out: Server? = map.get(input.id)
+        if (out == null) {
+            out = source.getItem(input.id)
+            map.put(input.id, out)
+        }
+        return out
     }
 
     fun getItem(data: String?): Server? {

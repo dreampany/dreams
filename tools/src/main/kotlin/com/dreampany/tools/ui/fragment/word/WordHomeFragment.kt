@@ -159,7 +159,7 @@ class WordHomeFragment
         toScanMode()
         adjustTranslationUi()
         onRefresh()
-        loadRequest()
+        //loadRequest()
     }
 
     override fun onStopUi() {

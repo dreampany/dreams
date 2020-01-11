@@ -159,7 +159,7 @@ class WordHomeFragment
         toScanMode()
         adjustTranslationUi()
         onRefresh()
-        //loadRequest()
+        loadRequest()
     }
 
     override fun onStopUi() {
@@ -400,7 +400,9 @@ class WordHomeFragment
         )
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty, null)
+            LayoutInflater.from(context).inflate(R.layout.item_empty_words, null).apply {
+                setOnClickListener(this@WordHomeFragment)
+            }
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
@@ -500,7 +502,7 @@ class WordHomeFragment
                 processUiState(response)
             }
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
-            UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
+            UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
             }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
@@ -625,6 +627,7 @@ class WordHomeFragment
         if (item.item.hasWeight()) {
             adapter.addItemOfHistory(item)
             bindRecycler.recycler.smoothScrollToPosition(0)
+            vm.updateUiState(state, action, UiState.CONTENT)
 /*            bind.setItem(item)
             bindWord.layoutWord.visibility = View.VISIBLE
             if (item.translation.isNullOrEmpty()) {

@@ -26,4 +26,8 @@
 
     <string name="title_quiz_header" formatted="false">Select %s of (%s)</string>
     <string name="format_word_balloon" formatted="false">%s [%s]\n%s</string>
+
+    <string name="title_empty_words" translatable="false">No Words</string>
+    <string name="description_empty_words" translatable="false">It seems you have no words to see. Please search for new words.</string>
+
 </resources>

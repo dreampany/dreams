@@ -3,6 +3,7 @@ package com.dreampany.tools.data.source.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.framework.data.source.room.dao.BaseDao
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import io.reactivex.Maybe
 
@@ -17,6 +18,12 @@ interface ServerDao : BaseDao<Server> {
 
     @Query("delete from server")
     fun deleteAll()
+
+    @Query("select * from server where id = :id limit 1")
+    fun getItem(id: String): Server?
+
+    @Query("select * from server where id = :id limit 1")
+    fun getItemRx(id: String): Maybe<Server>
 
     @Query("select * from server")
     fun getItems(): List<Server>?

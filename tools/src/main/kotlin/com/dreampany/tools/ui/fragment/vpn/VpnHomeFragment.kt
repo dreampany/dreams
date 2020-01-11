@@ -81,11 +81,12 @@ class VpnHomeFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
+        val favoriteItem = findMenuItemById(R.id.item_favorite)
         val serverItem = findMenuItemById(R.id.item_servers)
-        if (serverItem != null)
+        if (favoriteItem != null && serverItem != null)
             MenuTint.colorMenuItem(
                 ColorUtil.getColor(context!!, R.color.material_white),
-                null, serverItem
+                null, favoriteItem, serverItem
             )
     }
 
@@ -129,7 +130,9 @@ class VpnHomeFragment
             Constants.RequestCode.Vpn.START_VPN_PROFILE -> {
                 vpn.startOpenVpn()
             }
-            Constants.RequestCode.Vpn.OPEN_COUNTRY -> {
+            Constants.RequestCode.FAVORITE,
+            Constants.RequestCode.Vpn.OPEN_COUNTRY,
+            Constants.RequestCode.Vpn.OPEN_SERVER -> {
                 data?.run {
                     val task = getCurrentTask<UiTask<Server>>(this)
                     task?.run {
@@ -414,7 +417,7 @@ class VpnHomeFragment
 
     private fun openFavoriteUi() {
         val task = UiTask<Server>(
-            type = Type.SERVER,
+            type = Type.VPN,
             state = State.FAVORITE,
             action = Action.OPEN
         )

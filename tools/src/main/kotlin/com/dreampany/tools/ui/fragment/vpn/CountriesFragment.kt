@@ -123,7 +123,7 @@ class CountriesFragment
                         task.input?.run {
                             Timber.v("Selected Server %s", this.id)
                             val uiTask = UiTask<Server>(
-                                type = Type.COUNTRY,
+                                type = Type.SERVER,
                                 action = Action.SELECTED,
                                 input = this
                             )

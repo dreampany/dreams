@@ -105,11 +105,11 @@ constructor(
     }
 
     override fun getItem(id: String): Server? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItem(id)
     }
 
     override fun getItemRx(id: String): Maybe<Server> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItemRx(id)
     }
 
     override fun getItems(): List<Server>? {

@@ -11,12 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
@@ -120,7 +122,12 @@ class FavoriteServersFragment
     }
 
     override fun onUiItemClick(view: View, item: ServerItem, action: Action) {
-
+        val uiTask = UiTask<Server>(
+            type = Type.SERVER,
+            action = Action.SELECTED,
+            input = item.item
+        )
+        forResult(uiTask, true)
     }
 
     override fun onUiItemLongClick(view: View, item: ServerItem, action: Action) {

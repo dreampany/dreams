@@ -84,12 +84,12 @@ class ServerViewModel
     }
 
     private fun toggleFavorite(id: String): Boolean {
-        val favorite = hasStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+        val favorite = hasStore(id, Type.SERVER, Subtype.DEFAULT, State.FAVORITE)
         if (favorite) {
-            removeStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            removeStore(id, Type.SERVER, Subtype.DEFAULT, State.FAVORITE)
             favorites.put(id, false)
         } else {
-            putStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
+            putStore(id, Type.SERVER, Subtype.DEFAULT, State.FAVORITE)
             favorites.put(id, true)
         }
         return favorites.get(id)
@@ -154,7 +154,7 @@ class ServerViewModel
     private fun requestUiItemsRx(request: ServerRequest): Maybe<List<ServerItem>> {
         if (request.action == Action.FAVORITE) {
             return storeRepo
-                .getItemsRx(Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+                .getItemsRx(Type.SERVER, Subtype.DEFAULT, State.FAVORITE)
                 .flatMap { getUiItemsOfStoresRx(request, it) }
         }
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }

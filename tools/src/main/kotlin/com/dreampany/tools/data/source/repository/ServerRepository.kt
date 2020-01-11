@@ -35,6 +35,7 @@ class ServerRepository
     @Room private val room: ServerDataSource,
     @Remote private val remote: ServerDataSource
 ) : Repository<String, Server>(rx, rm), ServerDataSource {
+
     override fun deleteAll() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -110,11 +111,11 @@ class ServerRepository
     }
 
     override fun getItem(id: String): Server? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.getItem(id)
     }
 
     override fun getItemRx(id: String): Maybe<Server> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return room.getItemRx(id)
     }
 
     override fun getItems(): List<Server>? {

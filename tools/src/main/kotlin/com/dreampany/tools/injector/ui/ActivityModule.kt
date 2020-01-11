@@ -38,7 +38,7 @@ abstract class ActivityModule {
             RadioModule::class,
             CryptoModule::class,
             BlockModule::class,
-        ResumeModule::class
+            ResumeModule::class
         ]
     )
     abstract fun toolsActivity(): ToolsActivity

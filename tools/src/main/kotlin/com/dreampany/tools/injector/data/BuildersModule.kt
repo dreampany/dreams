@@ -25,6 +25,7 @@ import dagger.Module
         RadioModule::class,
         CryptoModule::class,
         BlockModule::class,
+        ResumeModule::class,
         SupportModule::class,
         ViewModelModule::class
     ]

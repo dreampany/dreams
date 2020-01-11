@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.fragment.vpn
+package com.dreampany.tools.ui.fragment.resume
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,14 +23,19 @@ import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.ResumeAdapter
 import com.dreampany.tools.ui.adapter.ServerAdapter
+import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.misc.ServerRequest
+import com.dreampany.tools.ui.model.ResumeItem
 import com.dreampany.tools.ui.model.ServerItem
+import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -39,16 +44,16 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Created by roman on 2020-01-09
+ * Created by roman on 2020-01-11
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @ActivityScope
-class FavoriteServersFragment
+class ResumeHomeFragment
 @Inject constructor() :
     BaseMenuFragment(),
-    SmartAdapter.OnUiItemClickListener<ServerItem, Action> {
+    SmartAdapter.OnUiItemClickListener<ResumeItem, Action> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -58,8 +63,8 @@ class FavoriteServersFragment
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
-    private lateinit var adapter: ServerAdapter
-    private lateinit var vm: ServerViewModel
+    private lateinit var adapter: ResumeAdapter
+    private lateinit var vm: ResumeViewModel
     private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
@@ -74,8 +79,12 @@ class FavoriteServersFragment
         return R.id.item_search
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.title_feature_resume
+    }
+
     override fun getScreen(): String {
-        return Constants.favoriteServers(context!!)
+        return Constants.resumeHome(context!!)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
@@ -93,7 +102,6 @@ class FavoriteServersFragment
         initRecycler()
         session.track()
         request(action = Action.FAVORITE, progress = true)
-        initTitleSubtitle()
     }
 
     override fun onStopUi() {
@@ -102,9 +110,12 @@ class FavoriteServersFragment
 
     override fun onRefresh() {
         super.onRefresh()
-        request(action = Action.FAVORITE, progress = true)
+        if (adapter.isEmpty) {
+            request(progress = true)
+        } else {
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        }
     }
-
 
     override fun onQueryTextChange(newText: String): Boolean {
         if (adapter.isEmpty) return false
@@ -115,8 +126,8 @@ class FavoriteServersFragment
         return false
     }
 
-    override fun onUiItemClick(view: View, item: ServerItem, action: Action) {
-        val uiTask = UiTask<Server>(
+    override fun onUiItemClick(view: View, item: ResumeItem, action: Action) {
+        val uiTask = UiTask<Resume>(
             type = Type.SERVER,
             action = Action.SELECTED,
             input = item.item
@@ -124,13 +135,7 @@ class FavoriteServersFragment
         forResult(uiTask, true)
     }
 
-    override fun onUiItemLongClick(view: View, item: ServerItem, action: Action) {
-    }
-
-    private fun initTitleSubtitle() {
-        setTitle(R.string.title_favorite_servers)
-        val subtitle = getString(R.string.subtitle_favorite_servers, adapter.itemCount)
-        setSubtitle(subtitle)
+    override fun onUiItemLongClick(view: View, item: ResumeItem, action: Action) {
     }
 
     private fun initUi() {
@@ -145,14 +150,14 @@ class FavoriteServersFragment
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty_servers, null).apply {
-                setOnClickListener(this@FavoriteServersFragment)
+            LayoutInflater.from(context).inflate(R.layout.item_empty_resume, null).apply {
+                setOnClickListener(this@ResumeHomeFragment)
             }
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
 
-        vm = ViewModelProvider(this, factory).get(ServerViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
@@ -161,7 +166,7 @@ class FavoriteServersFragment
 
     private fun initRecycler() {
         bind.setItems(ObservableArrayList<Any>())
-        adapter = ServerAdapter(this)
+        adapter = ResumeAdapter(this)
         adapter.setStickyHeaders(false)
         scroller = object : OnVerticalScrollListener() {}
         ViewUtil.setRecycler(
@@ -196,12 +201,11 @@ class FavoriteServersFragment
             }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
-                initTitleSubtitle()
             }
         }
     }
 
-    fun processMultipleResponse(response: Response<List<ServerItem>>) {
+    fun processMultipleResponse(response: Response<List<ResumeItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
             vm.processProgress(result.state, result.action, result.loading)
@@ -209,12 +213,25 @@ class FavoriteServersFragment
             val result = response as Response.Failure<*>
             vm.processFailure(result.state, result.action, result.error)
         } else if (response is Response.Result<*>) {
-            val result = response as Response.Result<List<ServerItem>>
+            val result = response as Response.Result<List<ResumeItem>>
             processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(state: State, action: Action, items: List<ServerItem>) {
+    fun processSingleResponse(response: Response<ResumeItem>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            vm.processProgress(result.state, result.action, result.loading)
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            vm.processFailure(result.state, result.action, result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<ResumeItem>
+            processSuccess(result.state, result.action, result.data)
+        }
+    }
+
+    private fun processSuccess(state: State, action: Action, items: List<ResumeItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi(Runnable {
@@ -222,43 +239,32 @@ class FavoriteServersFragment
         }, 500L)
     }
 
-    fun processSingleResponse(response: Response<ServerItem>) {
-        if (response is Response.Progress<*>) {
-            val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
-        } else if (response is Response.Failure<*>) {
-            val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
-        } else if (response is Response.Result<*>) {
-            val result = response as Response.Result<ServerItem>
-            processSuccess(result.state, result.action, result.data)
-        }
-    }
-
-    private fun processSuccess(state: State, action: Action, item: ServerItem) {
-        //updated = true
+    private fun processSuccess(state: State, action: Action, item: ResumeItem) {
         if (action == Action.DELETE) {
             adapter.removeItem(item)
         } else {
             adapter.addItem(item)
         }
-        ex.postToUi(Runnable { vm.updateUiState(state, action, UiState.EXTRA) }, 500L)
+
+        ex.postToUi(Runnable {
+            vm.updateUiState(state, action, UiState.EXTRA)
+        }, 500L)
     }
 
     private fun request(
-        id: String? = Constants.Default.NULL,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
-        input: Server? = Constants.Default.NULL
+        input: Resume? = Constants.Default.NULL,
+        id: String? = Constants.Default.NULL
     ) {
-        val request = ServerRequest(
-            id = id,
+        val request = ResumeRequest(
             action = action,
             single = single,
             progress = progress,
-            input = input
+            input = input,
+            id = id
         )
-        vm.request(request)
+        //vm.request(request)
     }
 }

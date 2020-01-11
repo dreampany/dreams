@@ -34,7 +34,7 @@ import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.WordItem
-import com.dreampany.tools.ui.vm.WordViewModel
+import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener
 import com.skydoves.powermenu.PowerMenu

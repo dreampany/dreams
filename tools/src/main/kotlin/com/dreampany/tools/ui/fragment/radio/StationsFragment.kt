@@ -42,6 +42,7 @@ import com.dreampany.tools.ui.vm.StationViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -207,7 +208,7 @@ class StationsFragment
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
-            SmoothScrollLinearLayoutManager(context!!),
+            SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
             FlexibleItemDecoration(context!!)
                 .addItemViewType(R.layout.item_station, adapter.getItemOffset())
                 .withEdge(true),

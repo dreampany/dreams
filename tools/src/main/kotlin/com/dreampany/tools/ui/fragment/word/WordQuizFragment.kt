@@ -30,7 +30,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.QuizAdapter
 import com.dreampany.tools.ui.model.QuizItem
-import com.dreampany.tools.ui.vm.QuizViewModel
+import com.dreampany.tools.ui.vm.word.QuizViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager

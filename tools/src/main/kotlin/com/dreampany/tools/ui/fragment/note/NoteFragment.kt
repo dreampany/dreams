@@ -26,7 +26,7 @@ import com.dreampany.tools.databinding.FragmentNoteBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.ui.vm.NoteViewModel
+import com.dreampany.tools.ui.vm.note.NoteViewModel
 import timber.log.Timber
 import javax.inject.Inject
 

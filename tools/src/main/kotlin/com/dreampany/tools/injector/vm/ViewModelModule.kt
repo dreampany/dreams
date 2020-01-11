@@ -5,8 +5,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.misc.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.ui.vm.*
+import com.dreampany.tools.ui.vm.note.NoteViewModel
+import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.dreampany.tools.ui.vm.vpn.CountryViewModel
 import com.dreampany.tools.ui.vm.vpn.ServerViewModel
+import com.dreampany.tools.ui.vm.word.QuizViewModel
+import com.dreampany.tools.ui.vm.word.RelatedQuizViewModel
+import com.dreampany.tools.ui.vm.word.WordViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -90,6 +95,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ContactViewModel::class)
     abstract fun bindContactViewModel(vm: ContactViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ResumeViewModel::class)
+    abstract fun bindResumeViewModel(vm: ResumeViewModel): ViewModel
 
     @Singleton
     @Binds

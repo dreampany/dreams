@@ -43,7 +43,7 @@ import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.ui.vm.LoaderViewModel
-import com.dreampany.tools.ui.vm.WordViewModel
+import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.klinker.android.link_builder.Link
 import com.skydoves.balloon.*

@@ -31,7 +31,7 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
 import com.dreampany.tools.ui.model.QuizOptionItem
 import com.dreampany.tools.ui.model.RelatedQuizItem
-import com.dreampany.tools.ui.vm.RelatedQuizViewModel
+import com.dreampany.tools.ui.vm.word.RelatedQuizViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager

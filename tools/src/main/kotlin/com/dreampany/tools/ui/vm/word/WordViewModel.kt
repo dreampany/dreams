@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.vm
+package com.dreampany.tools.ui.vm.word
 
 import android.app.Application
 import androidx.fragment.app.Fragment

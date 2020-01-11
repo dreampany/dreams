@@ -53,6 +53,7 @@ class Constants {
         fun radioHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "radio-home"
         fun cryptoHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "crypto-home"
         fun blockHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "block-home"
+        fun resumeHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "resume-home"
 
         fun favoriteNotes(context: Context): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-notes"
@@ -209,6 +210,7 @@ class Constants {
         const val RADIO = "radio"
         const val CRYPTO = "crypto"
         const val CONTACT = "contact"
+        const val RESUME = "resume"
 
         object Crypto {
             const val ID = Constants.Key.ID
@@ -364,6 +366,10 @@ class Constants {
     }
 
     object Keys {
+        object Resume {
+            const val ID = Constants.Key.ID
+        }
+
         object Server {
             const val ID = Constants.Key.ID
             const val COUNTRY_NAME = "country_name"

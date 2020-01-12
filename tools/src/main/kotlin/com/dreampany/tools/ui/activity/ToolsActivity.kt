@@ -24,6 +24,7 @@ import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
+import com.dreampany.tools.ui.fragment.resume.ResumeHomeFragment
 import com.dreampany.tools.ui.fragment.vpn.CountriesFragment
 import com.dreampany.tools.ui.fragment.vpn.FavoriteServersFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment
@@ -64,6 +65,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var cryptoHomeProvider: Lazy<CryptoHomeFragment>
     @Inject
     internal lateinit var blockHomeProvider: Lazy<BlockHomeFragment>
+    @Inject
+    internal lateinit var resumeHomeProvider: Lazy<ResumeHomeFragment>
 
 
     @Inject
@@ -231,6 +234,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     return
                 }
             }
+
             Type.WORD -> {
                 if (state == State.HOME) {
                     commitFragment(
@@ -335,6 +339,17 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         BlockHomeFragment::class.java,
                         blockHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+            }
+            Type.RESUME -> {
+                if (state == State.HOME) {
+                    commitFragment(
+                        ResumeHomeFragment::class.java,
+                        resumeHomeProvider,
                         R.id.layout,
                         uiTask
                     )

@@ -4,21 +4,13 @@ import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ResumeDataSource
-import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.data.source.room.RoomResumeDataSource
-import com.dreampany.tools.data.source.room.RoomServerDataSource
 import com.dreampany.tools.data.source.room.dao.ResumeDao
-import com.dreampany.tools.data.source.room.dao.ServerDao
 import com.dreampany.tools.injector.annote.ResumeAnnote
 import com.dreampany.tools.injector.annote.ResumeItemAnnote
-import com.dreampany.tools.injector.annote.ServerAnnote
-import com.dreampany.tools.injector.annote.ServerItemAnnote
 import com.dreampany.tools.ui.model.ResumeItem
-import com.dreampany.tools.ui.model.ServerItem
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -56,7 +48,7 @@ class ResumeModule {
     @Singleton
     @Provides
     @ResumeItemAnnote
-    fun provideResumeItemSmartCache(): SmartCache<String, ServerItem> {
+    fun provideResumeItemSmartCache(): SmartCache<String, ResumeItem> {
         return SmartCache.newCache()
     }
 

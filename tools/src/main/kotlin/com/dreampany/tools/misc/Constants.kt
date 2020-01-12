@@ -567,11 +567,12 @@ class Constants {
             when (type) {
                 Type.VPN -> return 1
                 Type.CRYPTO -> return 2
-                Type.RADIO -> return 3
-                Type.APP -> return 4
-                Type.NOTE -> return 5
-                Type.WORD -> return 6
-                Type.ENGLISH -> return 7
+                Type.RESUME -> return 3
+                Type.RADIO -> return 4
+                Type.APP -> return 5
+                Type.NOTE -> return 6
+                Type.WORD -> return 7
+                Type.ENGLISH -> return 8
                 else -> return Int.MAX_VALUE
             }
         }

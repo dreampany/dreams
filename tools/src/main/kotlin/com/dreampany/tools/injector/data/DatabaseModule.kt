@@ -60,6 +60,12 @@ class DatabaseModule {
 
     @Provides
     @Singleton
+    fun provideResumeDatabase(application: Application): ResumeDatabase {
+        return ResumeDatabase.getInstance(application)
+    }
+
+    @Provides
+    @Singleton
     fun provideNoteDao(database: NoteDatabase): NoteDao {
         return database.noteDao()
     }
@@ -110,5 +116,11 @@ class DatabaseModule {
     @Singleton
     fun provideContactDao(database: ContactDatabase): ContactDao {
         return database.contactDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideResumeDao(database: ResumeDatabase): ResumeDao {
+        return database.resumeDao()
     }
 }

@@ -18,6 +18,7 @@ import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.ui.listener.TextChangeListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
@@ -144,14 +145,7 @@ class NoteFragment
         note?.title?.run { noteTitle = this }
         note?.description?.run { noteDescription = this }
 
-        bind.inputEditTitle.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
+        bind.inputEditTitle.addTextChangedListener(object : TextChangeListener() {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (!DataUtilKt.isEquals(noteTitle, s?.toString())) {
                     edited = true
@@ -160,15 +154,8 @@ class NoteFragment
             }
 
         })
-        bind.inputEditDescription.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        bind.inputEditDescription.addTextChangedListener(object : TextChangeListener() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!DataUtilKt.isEquals(noteDescription, s?.toString())) {
                     edited = true
                 }

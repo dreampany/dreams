@@ -5,6 +5,7 @@
 
     <string name="title_profile" translatable="false">Profile</string>
     <string name="title_skills" translatable="false">Skills</string>
+    <string name="title_experience" translatable="false">Experience</string>
 
 
     <string name="hint_name" translatable="false">Enter name</string>
@@ -13,4 +14,8 @@
     <string name="hint_email" translatable="false">Enter email</string>
     <string name="hint_current_address" translatable="false">Enter current address</string>
     <string name="hint_permanent_address" translatable="false">Enter permanent address</string>
+    <string name="hint_skill" translatable="false">Enter skill</string>
+    <string name="hint_company" translatable="false">Enter company</string>
+    <string name="hint_location" translatable="false">Enter location</string>
+    <string name="hint_description" translatable="false">Enter description</string>
 </resources>

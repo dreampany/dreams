@@ -24,6 +24,7 @@ import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
+import com.dreampany.tools.ui.fragment.resume.ResumeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeHomeFragment
 import com.dreampany.tools.ui.fragment.vpn.CountriesFragment
 import com.dreampany.tools.ui.fragment.vpn.FavoriteServersFragment
@@ -85,6 +86,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
     internal lateinit var noteProvider: Lazy<NoteFragment>
+    @Inject
+    internal lateinit var resumeProvider: Lazy<ResumeFragment>
 
     /* vpn */
     @Inject
@@ -350,6 +353,15 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         ResumeHomeFragment::class.java,
                         resumeHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+                if (action == Action.VIEW || action == Action.ADD || action == Action.EDIT) {
+                    commitFragment(
+                        ResumeFragment::class.java,
+                        resumeProvider,
                         R.id.layout,
                         uiTask
                     )

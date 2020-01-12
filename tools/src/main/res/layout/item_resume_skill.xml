@@ -21,11 +21,11 @@
         auto:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_profile_name"
+            android:id="@+id/edit_skill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:hint="@string/hint_name"
+            android:hint="@string/hint_skill"
             android:inputType="textCapWords" />
 
     </com.google.android.material.textfield.TextInputLayout>

@@ -29,6 +29,7 @@ import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.ResumeAdapter
 import com.dreampany.tools.ui.adapter.ServerAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
@@ -138,6 +139,14 @@ class ResumeHomeFragment
     override fun onUiItemLongClick(view: View, item: ResumeItem, action: Action) {
     }
 
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.fab -> {
+                openAddUi()
+            }
+        }
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentRecyclerBinding
         bindStatus = bind.layoutTopStatus
@@ -156,6 +165,8 @@ class ResumeHomeFragment
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bind.fab.show()
+        bind.fab.setImageResource(R.drawable.ic_add_black_24dp)
 
         vm = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -265,6 +276,14 @@ class ResumeHomeFragment
             input = input,
             id = id
         )
-        //vm.request(request)
+        vm.request(request)
+    }
+
+    private fun openAddUi() {
+        val task = UiTask<Resume>(
+            type = Type.RESUME,
+            action = Action.ADD
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD)
     }
 }

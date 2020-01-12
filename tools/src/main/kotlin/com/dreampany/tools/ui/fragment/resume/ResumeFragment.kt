@@ -1,0 +1,33 @@
+package com.dreampany.tools.ui.fragment.resume
+
+import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
+import com.dreampany.framework.api.session.SessionManager
+import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import javax.inject.Inject
+
+/**
+ * Created by roman on 2020-01-12
+ * Copyright (c) 2020 bjit. All rights reserved.
+ * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
+ */
+@ActivityScope
+class ResumeFragment
+@Inject constructor() :
+    BaseMenuFragment() {
+
+    @Inject
+    internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var session: SessionManager
+
+    override fun onStartUi(state: Bundle?) {
+
+    }
+
+    override fun onStopUi() {
+
+    }
+}

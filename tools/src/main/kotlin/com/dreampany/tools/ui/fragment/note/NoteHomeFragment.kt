@@ -128,9 +128,9 @@ class NoteHomeFragment
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            Constants.RequestCode.Note.ADD,
-            Constants.RequestCode.Note.EDIT,
-            Constants.RequestCode.Note.VIEW,
+            Constants.RequestCode.ADD,
+            Constants.RequestCode.EDIT,
+            Constants.RequestCode.VIEW,
             Constants.RequestCode.FAVORITE -> {
                 if (isOkay(resultCode)) {
                     data?.run {
@@ -378,7 +378,7 @@ class NoteHomeFragment
             action = Action.VIEW,
             input = note
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.VIEW)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.VIEW)
     }
 
     private fun openAddNoteUi() {
@@ -386,7 +386,7 @@ class NoteHomeFragment
             type = Type.NOTE,
             action = Action.ADD
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.ADD)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD)
     }
 
     private fun openEditNoteUi(note: Note) {
@@ -395,7 +395,7 @@ class NoteHomeFragment
             action = Action.EDIT,
             input = note
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.EDIT)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT)
     }
 
     private fun openFavoriteUi() {

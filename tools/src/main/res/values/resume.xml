@@ -3,4 +3,6 @@
     <string name="title_empty_resume" translatable="false">No Resumes</string>
     <string name="description_empty_resume" translatable="false">It seems you have not added any resumes. Click to add a resume.</string>
 
+    <string name="hint_profile_name" translatable="false">Enter name</string>
+    <string name="hint_profile_designation" translatable="false">Enter designation</string>
 </resources>

@@ -125,9 +125,9 @@ class FavoriteNotesFragment
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            Constants.RequestCode.Note.VIEW,
-            Constants.RequestCode.Note.ADD,
-            Constants.RequestCode.Note.EDIT -> {
+            Constants.RequestCode.VIEW,
+            Constants.RequestCode.ADD,
+            Constants.RequestCode.EDIT -> {
                 if (isOkay(resultCode)) {
                     ex.postToUi(
                         Runnable { request(action = Action.FAVORITE, progress = true) },
@@ -364,7 +364,7 @@ class FavoriteNotesFragment
             type = Type.NOTE,
             action = Action.ADD
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.ADD)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD)
     }
 
     private fun openEditNoteUi(note: Note) {
@@ -373,7 +373,7 @@ class FavoriteNotesFragment
             action = Action.EDIT,
             input = note
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.Note.EDIT)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT)
     }
 
     private fun openFavoriteUi() {

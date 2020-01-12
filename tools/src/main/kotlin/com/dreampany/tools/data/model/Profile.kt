@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.model
 
 import com.dreampany.framework.data.model.BaseParcel
+import com.dreampany.tools.misc.Constants
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -11,11 +12,11 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Profile(
-    var name: String? = null,
-    val designation: String? = null,
-    val phone: String? = null,
-    val email: String? = null,
-    val currentAddress: String? = null,
-    val permanentAddress: String? = null
+    var name: String? = Constants.Default.NULL,
+    val designation: String? = Constants.Default.NULL,
+    val phone: String? = Constants.Default.NULL,
+    val email: String? = Constants.Default.NULL,
+    val currentAddress: String? = Constants.Default.NULL,
+    val permanentAddress: String? = Constants.Default.NULL
 ) : BaseParcel() {
 }

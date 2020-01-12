@@ -11,15 +11,28 @@
             type="com.dreampany.tools.ui.model.ResumeItem" />
     </data>
 
-    <merge
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <merge>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/text_profile_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_profile"
+            android:textColor="@color/material_grey700"
+            android:textSize="@dimen/_16ssp"
+            auto:fontFamily="@font/roboto_slab_bold" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@color/material_grey200" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_profile_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toTopOf="parent">
@@ -29,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_profile_name"
+                android:hint="@string/hint_name"
                 android:inputType="textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -47,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_profile_designation"
+                android:hint="@string/hint_designation"
                 android:inputType="textCapWords" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -65,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_profile_designation"
+                android:hint="@string/hint_phone"
                 android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -83,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_profile_designation"
+                android:hint="@string/hint_email"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -101,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_profile_designation"
+                android:hint="@string/hint_current_address"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -119,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_profile_designation"
+                android:hint="@string/hint_permanent_address"
                 android:inputType="text" />
 
         </com.google.android.material.textfield.TextInputLayout>

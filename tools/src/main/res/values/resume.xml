@@ -5,7 +5,9 @@
 
     <string name="title_profile" translatable="false">Profile</string>
     <string name="title_skills" translatable="false">Skills</string>
-    <string name="title_experience" translatable="false">Experience</string>
+    <string name="title_experiences" translatable="false">Experiences</string>
+    <string name="title_projects" translatable="false">Projects</string>
+    <string name="title_schools" translatable="false">Schools</string>
 
 
     <string name="hint_name" translatable="false">Enter name</string>

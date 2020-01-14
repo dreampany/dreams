@@ -372,6 +372,26 @@ class Constants {
             const val ID = Constants.Key.ID
         }
 
+        object Skill {
+            const val TIME = "skill_time"
+            const val ID = "skill_id"
+        }
+
+        object Experience {
+            const val TIME = "experience_time"
+            const val ID = "experience_id"
+        }
+
+        object Project {
+            const val TIME = "project_time"
+            const val ID = "project_id"
+        }
+
+        object School {
+            const val TIME = "school_time"
+            const val ID = "school_id"
+        }
+
         object Server {
             const val ID = Constants.Key.ID
             const val COUNTRY_NAME = "country_name"

@@ -40,7 +40,19 @@
                     android:layout_marginTop="@dimen/_10sdp" />
 
                 <include
-                    layout="@layout/content_resume_experience"
+                    layout="@layout/content_resume_experiences"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp" />
+
+                <include
+                    layout="@layout/content_resume_projects"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp" />
+
+                <include
+                    layout="@layout/content_resume_schools"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp" />

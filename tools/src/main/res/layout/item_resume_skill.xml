@@ -4,13 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <data>
-
-        <variable
-            name="item"
-            type="com.dreampany.tools.ui.model.ResumeItem" />
-    </data>
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/layout_skill_item"
         android:layout_width="match_parent"

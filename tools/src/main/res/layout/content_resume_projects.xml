@@ -11,7 +11,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_resume_skills_title"
+                android:id="@+id/text_resume_projects_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
@@ -22,7 +22,7 @@
                 auto:fontFamily="@font/roboto_slab_bold" />
 
             <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/image_resume_skills_add"
+                android:id="@+id/image_resume_projects_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -38,24 +38,21 @@
             android:background="@color/material_grey200" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/layout_skills_body"
+            android:id="@+id/recycler_resume_projects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:scrollbars="none"
-            tools:itemCount="3">
-
-
-        </androidx.recyclerview.widget.RecyclerView>
+            tools:itemCount="3"/>
 
         <!--        <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/layout_skills_body"
+                    android:id="@+id/layout_experience_body"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <include
-                        layout="@layout/item_resume_skill"
+                        layout="@layout/item_resume_experience"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 

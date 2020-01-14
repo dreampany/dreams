@@ -25,6 +25,8 @@ data class Resume(
     override var id: String = Constants.Default.STRING,
     var profile: Profile? = Constants.Default.NULL,
     var skills: String? = Constants.Default.NULL,
-    var experiences: ArrayList<Experience>? = Constants.Default.NULL
+    var experiences: ArrayList<Experience>? = Constants.Default.NULL,
+    var projects: ArrayList<Project>? = Constants.Default.NULL,
+    var schools: ArrayList<School>? = Constants.Default.NULL
 ) : Base() {
 }

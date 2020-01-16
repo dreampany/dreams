@@ -16,7 +16,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:text="@string/title_schools"
+                android:text="@string/title_skills"
                 android:textColor="@color/material_grey700"
                 android:textSize="@dimen/_16ssp"
                 auto:fontFamily="@font/roboto_slab_bold" />
@@ -44,7 +44,6 @@
             android:orientation="horizontal"
             android:scrollbars="none"
             tools:itemCount="3">
-
 
         </androidx.recyclerview.widget.RecyclerView>
 

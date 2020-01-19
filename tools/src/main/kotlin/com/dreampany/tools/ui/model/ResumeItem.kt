@@ -2,23 +2,25 @@ package com.dreampany.tools.ui.model
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.data.model.Color
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
-import com.dreampany.framework.util.NumberUtil
+import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.ServerAdapter
+import com.dreampany.tools.ui.adapter.ResumeAdapter
 import com.google.common.base.Objects
-import com.haipq.android.flagkit.FlagImageView
+import com.like.LikeButton
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import jp.shts.android.library.TriangleLabelView
 import java.io.Serializable
 
 /**
@@ -33,9 +35,16 @@ private constructor(
     @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<ResumeItem.ViewHolder, Resume, String>(item, layoutId) {
 
+
+    val color: Color
+
+    init {
+        color = ColorUtil.createShadowWhiteColor()
+    }
+
     companion object {
         fun getItem(item: Resume): ResumeItem {
-            return ResumeItem(item, R.layout.item_server)
+            return ResumeItem(item, R.layout.item_resume)
         }
     }
 
@@ -64,8 +73,45 @@ private constructor(
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {
 
-        init {
+        private val adapter: ResumeAdapter
+        private val layoutRoot: CardView
+        private val textName: AppCompatTextView
+        private val textDesignation: AppCompatTextView
+        private val textDate: AppCompatTextView
+        private val buttonEdit: AppCompatImageButton
+        private val buttonFavorite: LikeButton
 
+        init {
+            this.adapter = adapter as ResumeAdapter
+
+            layoutRoot = view.findViewById(R.id.layout_root)
+            textName = view.findViewById(R.id.text_name)
+            textDesignation = view.findViewById(R.id.text_designation)
+            textDate = view.findViewById(R.id.text_date)
+            buttonEdit = view.findViewById(R.id.button_edit)
+            buttonFavorite = view.findViewById(R.id.button_favorite)
+
+            view.setOnSafeClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.VIEW
+                )
+            }
+            buttonEdit.setOnSafeClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.EDIT
+                )
+            }
+            buttonFavorite.setOnSafeClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.FAVORITE
+                )
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>>
@@ -73,6 +119,12 @@ private constructor(
             val uiItem = item as ResumeItem
             val item = uiItem.item
 
+            textName.text = item.profile?.name
+            textDesignation.text = item.profile?.designation
+            textDate.text = TimeUtilKt.getDate(item.time, Constants.Date.FORMAT_MONTH_DAY)
+            buttonFavorite.isLiked = uiItem.favorite
+
+            layoutRoot.setCardBackgroundColor(ColorUtil.getColor(getContext(), uiItem.color.primaryId))
 
         }
     }

@@ -2,9 +2,6 @@ package com.dreampany.tools.ui.vm.resume
 
 import android.app.Application
 import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Subtype
-import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
@@ -16,21 +13,13 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ResumeRepository
-import com.dreampany.tools.data.source.repository.ServerRepository
 import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.ui.misc.ResumeRequest
-import com.dreampany.tools.ui.misc.ServerRequest
-import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.ResumeItem
-import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.translation.data.source.repository.TranslationRepository
-import com.google.common.collect.Maps
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -70,7 +59,7 @@ class ResumeViewModel
         if (request.single) {
             requestSingle(request)
         } else {
-            //requestMultiple(request)
+            requestMultiple(request)
         }
     }
 
@@ -130,9 +119,10 @@ class ResumeViewModel
             Action.ADD -> {
                 return addItemRx(request).flatMap { getUiItemRx(request, it) }
             }
-/*            Action.EDIT -> {
+            Action.EDIT -> {
                 return editItemRx(request).flatMap { getUiItemRx(request, it) }
             }
+            /*
             Action.FAVORITE -> {
                 return favoriteItemRx(request).flatMap { getUiItemRx(request, it) }
             }
@@ -146,8 +136,7 @@ class ResumeViewModel
                 return deleteItemRx(request).flatMap { getUiItemRx(request, it) }
             }*/
         }
-        return Maybe.empty()
-        //return getItemRx(request).flatMap { getUiItemRx(request, it) }
+        return getItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
     private fun requestUiItemsRx(request: ResumeRequest): Maybe<List<ResumeItem>> {
@@ -160,12 +149,16 @@ class ResumeViewModel
     }
 
     private fun requestItemsRx(request: ResumeRequest): Maybe<List<Resume>> {
-        return repo.getItemsRx(request.limit)
+        return repo.getItemsRx()
+    }
+
+    private fun getItemRx(request: ResumeRequest): Maybe<Resume> {
+        return repo.getItemRx(request.id!!)
     }
 
     private fun addItemRx(request: ResumeRequest): Maybe<Resume> {
         return Maybe.create { emitter ->
-            val note = mapper.getItem(
+            val resume = mapper.getItem(
                 request.id,
                 profile = request.profile,
                 skills = request.skills,
@@ -173,11 +166,30 @@ class ResumeViewModel
                 projects = request.projects,
                 schools = request.schools
             )
-            if (note == null) {
+            if (resume == null) {
                 emitter.onError(EmptyException())
             } else {
-                repo.putItem(note)
-                emitter.onSuccess(note)
+                repo.putItem(resume)
+                emitter.onSuccess(resume)
+            }
+        }
+    }
+
+    private fun editItemRx(request: ResumeRequest): Maybe<Resume> {
+        return Maybe.create { emitter ->
+            val resume = mapper.getItem(
+                request.id,
+                profile = request.profile,
+                skills = request.skills,
+                experiences = request.experiences,
+                projects = request.projects,
+                schools = request.schools
+            )
+            if (resume == null) {
+                emitter.onError(EmptyException())
+            } else {
+                repo.putItem(resume)
+                emitter.onSuccess(resume)
             }
         }
     }

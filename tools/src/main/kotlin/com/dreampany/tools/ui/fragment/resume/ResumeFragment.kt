@@ -10,6 +10,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.isEmpty
@@ -111,6 +112,31 @@ class ResumeFragment
         return super.onOptionsItemSelected(item)
     }
 
+    override fun hasBackPressed(): Boolean {
+        if (isEditing()) {
+            if (edited) {
+                saveDialog()
+                return true
+            }
+            var task: UiTask<Resume>? = null
+            if (saved) {
+                val uiTask = getCurrentTask<UiTask<Resume>>()
+                val task = UiTask<Resume>(
+                    type = uiTask?.type ?: Type.DEFAULT,
+                    state = State.EDITED,
+                    action = uiTask?.action ?: Action.DEFAULT,
+                    input = uiTask?.input
+                )
+                forResult(task, saved)
+            } else {
+                forResult(saved)
+            }
+
+            return true
+        }
+        return false
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentResumeBinding
         val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
@@ -192,13 +218,18 @@ class ResumeFragment
 
     private fun processSuccess(state: State, action: Action, item: ResumeItem) {
         if (action == Action.ADD || action == Action.EDIT) {
-            NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_note))
+            NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_resume))
             AndroidUtil.hideSoftInput(getParent()!!)
             saved = true
-            //ex.postToUi(Runnable { forResult(saved) }, 500L)
             hasBackPressed()
             return
         }
+        bind.contentResumeProfile.editProfileName.setText(item.item.profile?.name)
+        bind.contentResumeProfile.editProfileDesignation.setText(item.item.profile?.designation)
+        bind.contentResumeProfile.editProfilePhone.setText(item.item.profile?.phone)
+        bind.contentResumeProfile.editProfileEmail.setText(item.item.profile?.email)
+        bind.contentResumeProfile.editProfileCurrentAddress.setText(item.item.profile?.currentAddress)
+        bind.contentResumeProfile.editProfilePermanentAddress.setText(item.item.profile?.permanentAddress)
         if (isEditing()) {
             //bind.inputEditTitle.setText(item.item.title)
             //bind.inputEditDescription.setText(item.item.description)

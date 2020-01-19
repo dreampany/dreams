@@ -24,23 +24,18 @@ import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.ResumeAdapter
-import com.dreampany.tools.ui.adapter.ServerAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
-import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.ResumeItem
-import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
-import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -102,7 +97,7 @@ class ResumeHomeFragment
         initUi()
         initRecycler()
         session.track()
-        request(action = Action.FAVORITE, progress = true)
+        request(progress = true)
     }
 
     override fun onStopUi() {
@@ -185,9 +180,9 @@ class ResumeHomeFragment
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
-            SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
+            SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_server, adapter.getItemOffset())
+                .addItemViewType(R.layout.item_resume, adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller,

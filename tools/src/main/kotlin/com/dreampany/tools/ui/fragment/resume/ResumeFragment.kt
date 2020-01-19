@@ -3,24 +3,31 @@ package com.dreampany.tools.ui.fragment.resume
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.afollestad.materialdialogs.MaterialDialog
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.isEmpty
+import com.dreampany.framework.misc.extension.rawText
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.TextChangeListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
+import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.databinding.FragmentNoteBinding
 import com.dreampany.tools.databinding.FragmentResumeBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.misc.NoteRequest
+import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.ResumeItem
 import com.dreampany.tools.ui.vm.note.NoteViewModel
@@ -43,6 +50,8 @@ class ResumeFragment
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var session: SessionManager
+    @Inject
+    internal lateinit var mapper: ResumeMapper
     private lateinit var bind: FragmentResumeBinding
 
     private lateinit var vm: ResumeViewModel
@@ -57,12 +66,16 @@ class ResumeFragment
         return R.menu.menu_resume
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.title_resume
+    }
+
     override fun getScreen(): String {
         return Constants.resume(context!!)
     }
 
     override fun onStartUi(state: Bundle?) {
-initUi()
+        initUi()
     }
 
     override fun onStopUi() {
@@ -84,46 +97,66 @@ initUi()
         doneItem?.isVisible = editing
     }
 
-    private fun initUi() {
-        val uiTask = getCurrentTask<UiTask<Note>>() ?: return
-        val titleRes =
-            if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
+    override fun onRefresh() {
+        super.onRefresh()
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+    }
 
-        setTitle(titleRes)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_done -> {
+                saveResume()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun initUi() {
         bind = super.binding as FragmentResumeBinding
+        val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
+        //val titleRes = if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
+
+        //setTitle(titleRes)
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
 
         vm = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
-        val note = uiTask.input
-
- /*       note?.title?.run { noteTitle = this }
-        note?.description?.run { noteDescription = this }
-
-        bind.inputEditTitle.addTextChangedListener(object : TextChangeListener() {
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (!DataUtilKt.isEquals(noteTitle, s?.toString())) {
-                    edited = true
-                }
-                noteTitle = s.toString()
-            }
-
-        })
-        bind.inputEditDescription.addTextChangedListener(object : TextChangeListener() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (!DataUtilKt.isEquals(noteDescription, s?.toString())) {
-                    edited = true
-                }
-                noteDescription = s.toString()
-            }
-        })
-        resolveUi()
         if (uiTask.action == Action.EDIT || uiTask.action == Action.VIEW) {
-            note?.run {
-                request(id = this.id, action = Action.GET, progress = true)
+            uiTask.input?.run {
+                request(action = Action.GET, progress = true, input = this)
             }
-        }*/
+        }
+
+        //val note = uiTask.input
+
+        /*       note?.title?.run { noteTitle = this }
+               note?.description?.run { noteDescription = this }
+
+               bind.inputEditTitle.addTextChangedListener(object : TextChangeListener() {
+                   override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                       if (!DataUtilKt.isEquals(noteTitle, s?.toString())) {
+                           edited = true
+                       }
+                       noteTitle = s.toString()
+                   }
+
+               })
+               bind.inputEditDescription.addTextChangedListener(object : TextChangeListener() {
+                   override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                       if (!DataUtilKt.isEquals(noteDescription, s?.toString())) {
+                           edited = true
+                       }
+                       noteDescription = s.toString()
+                   }
+               })
+               resolveUi()
+               if (uiTask.action == Action.EDIT || uiTask.action == Action.VIEW) {
+                   note?.run {
+                       request(id = this.id, action = Action.GET, progress = true)
+                   }
+               }*/
     }
 
     private fun isEditing(): Boolean {
@@ -178,6 +211,63 @@ initUi()
         }, 500L)
         if (state == State.DIALOG) {
 
+        }
+    }
+
+    private fun saveResume(): Boolean {
+        if (bind.contentResumeProfile.editProfileName.isEmpty()) {
+            bind.contentResumeProfile.editProfileName.error = getString(R.string.error_resume_name)
+            return false
+        }
+        edited = false
+        val uiTask = getCurrentTask<UiTask<Resume>>()
+        val profile = mapper.getProfileMap(
+            id = uiTask?.input?.profile?.id,
+            name = bind.contentResumeProfile.editProfileName.rawText(),
+            designation = bind.contentResumeProfile.editProfileDesignation.rawText(),
+            phone = bind.contentResumeProfile.editProfilePhone.rawText(),
+            email = bind.contentResumeProfile.editProfileEmail.rawText(),
+            currentAddress = bind.contentResumeProfile.editProfileCurrentAddress.rawText(),
+            permanentAddress = bind.contentResumeProfile.editProfilePermanentAddress.rawText()
+        )
+        uiTask?.run {
+            request(
+                state = State.DIALOG,
+                action = uiTask.action,
+                progress = true,
+                profile = profile
+            )
+        }
+        return true
+    }
+
+    private fun request(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        input: Resume? = Constants.Default.NULL,
+        profile: Map<String, Any>? = Constants.Default.NULL
+    ) {
+        val request = ResumeRequest(
+            state = state,
+            action = action,
+            single = true,
+            progress = progress,
+            profile = profile
+        )
+        vm.request(request)
+    }
+
+    private fun saveDialog() {
+        MaterialDialog(context!!).show {
+            title(R.string.dialog_title_save_resume)
+            positiveButton(res = R.string.yes, click = {
+                saveResume()
+            })
+            negativeButton(res = R.string.no, click = {
+                edited = false
+                forResult(saved)
+            })
         }
     }
 }

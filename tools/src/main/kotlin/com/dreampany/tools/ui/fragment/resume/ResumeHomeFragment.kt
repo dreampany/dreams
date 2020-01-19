@@ -128,12 +128,13 @@ class ResumeHomeFragment
     }
 
     override fun onUiItemClick(view: View, item: ResumeItem, action: Action) {
-        val uiTask = UiTask<Resume>(
+        openViewUi(item.item)
+/*        val uiTask = UiTask<Resume>(
             type = Type.SERVER,
             action = Action.SELECTED,
             input = item.item
         )
-        forResult(uiTask, true)
+        forResult(uiTask, true)*/
     }
 
     override fun onUiItemLongClick(view: View, item: ResumeItem, action: Action) {
@@ -167,6 +168,7 @@ class ResumeHomeFragment
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bind.fab.show()
         bind.fab.setImageResource(R.drawable.ic_add_black_24dp)
+        bind.fab.setOnClickListener(this)
 
         vm = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -285,5 +287,14 @@ class ResumeHomeFragment
             action = Action.ADD
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD)
+    }
+
+    private fun openViewUi(resume: Resume) {
+        val task = UiTask<Resume>(
+            type = Type.RESUME,
+            action = Action.VIEW,
+            input = resume
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.VIEW)
     }
 }

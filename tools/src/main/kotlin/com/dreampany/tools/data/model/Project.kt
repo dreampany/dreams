@@ -17,9 +17,9 @@ data class Project(
     override var time: Long = Constants.Default.LONG,
     @ColumnInfo(name = Constants.Keys.Project.ID)
     override var id: String = Constants.Default.STRING,
-    var name: String? = null,
-    val description: String? = null,
-    val from: Long = 0L,
-    val to: Long = 0L
+    var name: String? = Constants.Default.NULL,
+    var description: String? = Constants.Default.NULL,
+    var from: Long = Constants.Default.LONG,
+    var to: Long = Constants.Default.LONG
 ) : Base() {
 }

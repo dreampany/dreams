@@ -43,7 +43,9 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_name"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:nextFocusDown="@id/edit_profile_designation"
+                android:nextFocusForward="@id/edit_profile_designation" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,7 +63,9 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_designation"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:nextFocusDown="@id/edit_profile_phone"
+                android:nextFocusForward="@id/edit_profile_phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,7 +83,9 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_phone"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:nextFocusDown="@id/edit_profile_email"
+                android:nextFocusForward="@id/edit_profile_email" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,7 +103,9 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_email"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:nextFocusDown="@id/edit_profile_current_address"
+                android:nextFocusForward="@id/edit_profile_current_address" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,7 +123,9 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:hint="@string/hint_current_address"
-                android:inputType="text" />
+                android:inputType="text"
+                android:nextFocusDown="@id/edit_profile_permanent_address"
+                android:nextFocusForward="@id/edit_profile_permanent_address" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

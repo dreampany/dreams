@@ -1,6 +1,7 @@
 package com.dreampany.framework.misc.extension
 
 import android.view.View
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import com.dreampany.framework.misc.Constants
 
@@ -21,6 +22,14 @@ fun View?.invisible() {
 
 fun View?.gone() {
     this?.visibility = View.GONE
+}
+
+fun EditText?.isEmpty(): Boolean {
+    return this?.text?.trim().isNullOrEmpty() ?: false
+}
+
+fun EditText?.rawText(): String? {
+    return this?.text?.trim().toString()
 }
 
 fun Fragment?.resolveText(text: String? = Constants.Default.NULL): String {

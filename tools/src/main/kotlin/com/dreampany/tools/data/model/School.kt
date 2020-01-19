@@ -18,9 +18,13 @@ data class School(
     override var time: Long = Constants.Default.LONG,
     @ColumnInfo(name = Constants.Keys.School.ID)
     override var id: String = Constants.Default.STRING,
-    var name: String? = null,
-    val location: String? = null,
-    val degree: String? = null,
-    val description: String? = null
+    @ColumnInfo(name = Constants.Keys.School.NAME)
+    var name: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.School.LOCATION)
+    var location: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.School.DEGREE)
+    var degree: String? = Constants.Default.NULL,
+    @ColumnInfo(name = Constants.Keys.School.DESCRIPTION)
+    var description: String? = Constants.Default.NULL
 ) : Base() {
 }

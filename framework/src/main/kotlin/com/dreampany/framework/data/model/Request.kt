@@ -20,8 +20,9 @@ abstract class Request<T>(
     var progress: Boolean = Constants.Default.BOOLEAN,
     var start: Long = Constants.Default.LONG,
     var limit: Long = Constants.Default.LONG,
-    var input: T? = Constants.Default.NULL,
     var id: String? = Constants.Default.NULL,
-    var ids: List<String>? = Constants.Default.NULL
+    var ids: List<String>? = Constants.Default.NULL,
+    var input: T? = Constants.Default.NULL,
+    var inputs: List<T>? = Constants.Default.NULL
 ) {
 }

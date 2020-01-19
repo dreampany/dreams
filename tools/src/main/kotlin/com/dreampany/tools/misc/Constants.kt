@@ -372,24 +372,50 @@ class Constants {
             const val ID = Constants.Key.ID
         }
 
+        object Profile {
+            const val TIME = "profile_time"
+            const val ID = "profile_id"
+            const val NAME = "profile_name"
+            const val DESIGNATION = "profile_designation"
+            const val PHONE = "profile_phone"
+            const val EMAIL = "profile_email"
+            const val CURRENT_ADDRESS = "profile_current_address"
+            const val PERMANENT_ADDRESS = "profile_permanent_address"
+        }
+
         object Skill {
             const val TIME = "skill_time"
             const val ID = "skill_id"
+            const val TITLE = "skill_title"
         }
 
         object Experience {
             const val TIME = "experience_time"
             const val ID = "experience_id"
+            const val COMPANY = "experience_company"
+            const val LOCATION = "experience_location"
+            const val DESIGNATION = "experience_designation"
+            const val DESCRIPTION = "experience_description"
+            const val FROM = "experience_from"
+            const val TO = "experience_to"
         }
 
         object Project {
             const val TIME = "project_time"
             const val ID = "project_id"
+            const val NAME = "project_name"
+            const val DESCRIPTION = "project_description"
+            const val FROM = "project_from"
+            const val TO = "project_to"
         }
 
         object School {
             const val TIME = "school_time"
             const val ID = "school_id"
+            const val NAME = "school_name"
+            const val LOCATION = "school_location"
+            const val DEGREE = "school_degree"
+            const val DESCRIPTION = "school_description"
         }
 
         object Server {

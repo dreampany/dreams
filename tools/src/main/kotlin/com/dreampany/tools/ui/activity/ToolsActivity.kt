@@ -86,6 +86,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
     internal lateinit var noteProvider: Lazy<NoteFragment>
+
+    /* resume */
     @Inject
     internal lateinit var resumeProvider: Lazy<ResumeFragment>
 

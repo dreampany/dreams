@@ -129,13 +129,13 @@ class NoteFragment
     }
 
     private fun initUi() {
+        bind = super.binding as FragmentNoteBinding
+
         val uiTask = getCurrentTask<UiTask<Note>>() ?: return
         val titleRes =
             if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
 
         setTitle(titleRes)
-        bind = super.binding as FragmentNoteBinding
-
         vm = ViewModelProvider(this, factory).get(NoteViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })

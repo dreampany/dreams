@@ -3,7 +3,6 @@ package com.dreampany.tools.ui.misc
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
 import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
 
 /**
@@ -22,8 +21,14 @@ class ResumeRequest(
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
     limit: Long = Constants.Default.LONG,
+    id: String? = Constants.Default.NULL,
     input: Resume? = Constants.Default.NULL,
-    id: String? = Constants.Default.NULL
+    val profile: Map<String, Any>? = Constants.Default.NULL,
+    val skills: List<Map<String, Any>>? = Constants.Default.NULL,
+    val experiences: List<Map<String, Any>>? = Constants.Default.NULL,
+    val projects: List<Map<String, Any>>? = Constants.Default.NULL,
+    val schools: List<Map<String, Any>>? = Constants.Default.NULL
+
 ) : Request<Resume>(
     type = type,
     subtype = subtype,
@@ -34,8 +39,8 @@ class ResumeRequest(
     important = important,
     progress = progress,
     limit = limit,
-    input = input,
-    id = id
+    id = id,
+    input = input
 ) {
 
 

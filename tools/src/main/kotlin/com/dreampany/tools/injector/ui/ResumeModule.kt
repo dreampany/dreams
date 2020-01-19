@@ -3,6 +3,7 @@ package com.dreampany.tools.injector.ui
 import com.dreampany.framework.misc.FragmentScope
 import com.dreampany.tools.ui.fragment.resume.ResumeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeHomeFragment
+import com.dreampany.tools.ui.fragment.resume.ResumePreviewFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -22,4 +23,8 @@ class ResumeModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun resumeFragment(): ResumeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun previewFragment(): ResumePreviewFragment
 }

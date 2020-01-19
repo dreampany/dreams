@@ -1,5 +1,8 @@
 package com.dreampany.framework.misc.extension
 
+import android.provider.SyncStateContract
+import com.dreampany.framework.misc.Constants
+
 /**
  * Created by roman on 2019-10-19
  * Copyright (c) 2019 bjit. All rights reserved.
@@ -28,4 +31,8 @@ fun String.toTitle(): String {
     }
 
     return builder.toString()
+}
+
+fun String?.string(): String {
+    return if (this == null) Constants.Default.STRING else this
 }

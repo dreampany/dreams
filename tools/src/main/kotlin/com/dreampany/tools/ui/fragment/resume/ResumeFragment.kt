@@ -112,7 +112,6 @@ class ResumeFragment
                 saveDialog()
                 return true
             }
-            var task: UiTask<Resume>? = null
             if (saved) {
                 val uiTask = getCurrentTask<UiTask<Resume>>()
                 val task = UiTask<Resume>(

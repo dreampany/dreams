@@ -109,7 +109,6 @@ class NoteFragment
                 saveDialog()
                 return true
             }
-            var task: UiTask<Note>? = null
             if (saved) {
                 val uiTask = getCurrentTask<UiTask<Note>>()
                 val task = UiTask<Note>(

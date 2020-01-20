@@ -137,7 +137,7 @@ class NoteHomeFragment
                         val task = getCurrentTask<UiTask<Note>>(this)
                         task?.run {
                             if (state == State.EDITED) {
-                                ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 500L)
+                                //ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 500L)
                             }
                         }
                     }
@@ -170,10 +170,8 @@ class NoteHomeFragment
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.layout_empty,
             R.id.fab -> {
-                openAddNoteUi()
-            }
-            R.id.layout_empty -> {
                 openAddNoteUi()
             }
         }

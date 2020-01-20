@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment.resume
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -23,6 +24,7 @@ import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -104,6 +106,26 @@ class ResumeHomeFragment
         vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            Constants.RequestCode.ADD,
+            Constants.RequestCode.EDIT,
+            Constants.RequestCode.VIEW,
+            Constants.RequestCode.FAVORITE -> {
+                if (isOkay(resultCode)) {
+                    data?.run {
+                        val task = getCurrentTask<UiTask<Resume>>(this)
+                        task?.run {
+                            if (state == State.EDITED) {
+                                ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 500L)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun onRefresh() {
         super.onRefresh()
         if (adapter.isEmpty) {
@@ -137,6 +159,7 @@ class ResumeHomeFragment
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.layout_empty,
             R.id.fab -> {
                 openAddUi()
             }

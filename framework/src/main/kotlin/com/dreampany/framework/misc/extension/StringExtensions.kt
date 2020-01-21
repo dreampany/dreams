@@ -36,3 +36,10 @@ fun String.toTitle(): String {
 fun String?.string(): String {
     return if (this == null) Constants.Default.STRING else this
 }
+
+fun CharSequence?.equals(instance: CharSequence?) : Boolean {
+    if (this == instance) return true
+    if (this == null) return false
+    if (instance == null) return false
+    return this.equals(instance)
+}

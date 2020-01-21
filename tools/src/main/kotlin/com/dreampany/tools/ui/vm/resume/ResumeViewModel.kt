@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.vm.resume
 
 import android.app.Application
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
@@ -177,7 +178,7 @@ class ResumeViewModel
 
     private fun editItemRx(request: ResumeRequest): Maybe<Resume> {
         return Maybe.create { emitter ->
-            val resume = mapper.getItem(
+            val resume: Resume? = if (request.state == State.UI) request.input else  mapper.getItem(
                 request.id,
                 profile = request.profile,
                 skills = request.skills,

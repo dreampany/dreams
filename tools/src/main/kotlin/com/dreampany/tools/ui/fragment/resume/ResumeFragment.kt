@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.fragment.resume
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -17,6 +18,7 @@ import com.dreampany.framework.misc.extension.isEmpty
 import com.dreampany.framework.misc.extension.rawText
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.ui.listener.TextChangeListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
@@ -143,9 +145,19 @@ class ResumeFragment
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
         if (uiTask.action == Action.EDIT || uiTask.action == Action.VIEW) {
+            // get ui item
             uiTask.input?.run {
-                request(action = Action.GET, progress = true, input = this)
+                request(state = State.UI, action = Action.GET, progress = true, input = this)
             }
+        }
+
+        uiTask.input?.let { resume ->
+            bind.contentResumeProfile.editProfileName.addTextChangedListener(object :
+                TextChangeListener() {
+                override fun afterTextChanged(s: Editable?) {
+
+                }
+            })
         }
 
         //val note = uiTask.input
@@ -277,6 +289,7 @@ class ResumeFragment
             action = action,
             single = true,
             progress = progress,
+            input = input,
             profile = profile
         )
         vm.request(request)

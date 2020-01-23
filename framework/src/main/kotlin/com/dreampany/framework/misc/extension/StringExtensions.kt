@@ -1,6 +1,6 @@
 package com.dreampany.framework.misc.extension
 
-import android.provider.SyncStateContract
+import android.text.Editable
 import com.dreampany.framework.misc.Constants
 
 /**
@@ -37,9 +37,25 @@ fun String?.string(): String {
     return if (this == null) Constants.Default.STRING else this
 }
 
-fun CharSequence?.equals(instance: CharSequence?) : Boolean {
+fun String?.isEqual(instance: String?) : Boolean {
     if (this == instance) return true
-    if (this == null) return false
-    if (instance == null) return false
+    if (this == null || instance == null) return false
+    return this.equals(instance)
+}
+
+fun String?.isEqual(instance: CharSequence?) : Boolean {
+    if (this == instance) return true
+    if (this == null || instance == null) return false
+    return this.equals(instance)
+}
+
+fun String?.isEqual(instance: Editable?) : Boolean {
+    if (this != null) return this.equals(instance)
+    return instance!!.equals(this)
+}
+
+fun CharSequence?.isEqual(instance: CharSequence?) : Boolean {
+    if (this == instance) return true
+    if (this == null || instance == null) return false
     return this.equals(instance)
 }

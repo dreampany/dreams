@@ -15,6 +15,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.isEmpty
+import com.dreampany.framework.misc.extension.isEqual
 import com.dreampany.framework.misc.extension.rawText
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -109,7 +110,7 @@ class ResumeFragment
     }
 
     override fun hasBackPressed(): Boolean {
-        if (isEditing()) {
+       /* if (isEditing()) {
             if (edited) {
                 saveDialog()
                 return true
@@ -128,7 +129,7 @@ class ResumeFragment
             }
 
             return true
-        }
+        }*/
         return false
     }
 
@@ -155,7 +156,9 @@ class ResumeFragment
             bind.contentResumeProfile.editProfileName.addTextChangedListener(object :
                 TextChangeListener() {
                 override fun afterTextChanged(s: Editable?) {
+                    if (!DataUtilKt.isEquals(resume.profile?.name, s?.toString())) {
 
+                    }
                 }
             })
         }
@@ -188,6 +191,16 @@ class ResumeFragment
                        request(id = this.id, action = Action.GET, progress = true)
                    }
                }*/
+    }
+
+    private fun isResumeAdded(): Boolean {
+        val task: UiTask<Resume> = getCurrentTask<UiTask<Resume>>() ?: return false
+        return task.action == Action.ADD && saved
+    }
+
+    private fun isResumeEdited(): Boolean {
+        val task: UiTask<Resume> = getCurrentTask<UiTask<Resume>>() ?: return false
+        return task.action == Action.EDIT && saved
     }
 
     private fun isEditing(): Boolean {

@@ -29,7 +29,7 @@ fun EditText?.isEmpty(): Boolean {
 }
 
 fun EditText?.rawText(): String? {
-    return this?.text?.trim().toString()
+    return this?.text?.trim()?.toString()
 }
 
 fun Fragment?.resolveText(text: String? = Constants.Default.NULL): String {

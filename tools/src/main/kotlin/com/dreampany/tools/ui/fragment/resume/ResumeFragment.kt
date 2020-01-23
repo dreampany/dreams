@@ -25,6 +25,7 @@ import com.dreampany.framework.util.*
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.databinding.ContentResumeProfileBinding
 import com.dreampany.tools.databinding.FragmentResumeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.misc.ResumeRequest
@@ -51,6 +52,7 @@ class ResumeFragment
     @Inject
     internal lateinit var mapper: ResumeMapper
     private lateinit var bind: FragmentResumeBinding
+    private lateinit var   bindProfile: ContentResumeProfileBinding
 
     private lateinit var vm: ResumeViewModel
     private var edited: Boolean = false
@@ -110,31 +112,28 @@ class ResumeFragment
     }
 
     override fun hasBackPressed(): Boolean {
-       /* if (isEditing()) {
-            if (edited) {
-                saveDialog()
-                return true
-            }
-            if (saved) {
-                val uiTask = getCurrentTask<UiTask<Resume>>()
-                val task = UiTask<Resume>(
-                    type = uiTask?.type ?: Type.DEFAULT,
-                    state = State.EDITED,
-                    action = uiTask?.action ?: Action.DEFAULT,
-                    input = uiTask?.input
-                )
-                forResult(task, saved)
-            } else {
-                forResult(saved)
-            }
-
+        if (isUpdated()) {
+            saveDialog()
             return true
-        }*/
+        }
+        if (saved) {
+            val uiTask = getCurrentTask<UiTask<Resume>>()
+            val task = UiTask<Resume>(
+                type = uiTask?.type ?: Type.DEFAULT,
+                state = if (isResumeAdded()) State.ADDED else State.EDITED,
+                action = uiTask?.action ?: Action.DEFAULT,
+                input = uiTask?.input
+            )
+            forResult(task, saved)
+        } else {
+            forResult(saved)
+        }
         return false
     }
 
     private fun initUi() {
         bind = super.binding as FragmentResumeBinding
+        bindProfile = bind.contentResumeProfile
         val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
         //val titleRes = if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
 
@@ -152,7 +151,7 @@ class ResumeFragment
             }
         }
 
-        uiTask.input?.let { resume ->
+/*        uiTask.input?.let { resume ->
             bind.contentResumeProfile.editProfileName.addTextChangedListener(object :
                 TextChangeListener() {
                 override fun afterTextChanged(s: Editable?) {
@@ -161,7 +160,7 @@ class ResumeFragment
                     }
                 }
             })
-        }
+        }*/
 
         //val note = uiTask.input
 
@@ -191,6 +190,18 @@ class ResumeFragment
                        request(id = this.id, action = Action.GET, progress = true)
                    }
                }*/
+    }
+
+    private fun isUpdated() : Boolean {
+        val task: UiTask<Resume>? = getCurrentTask<UiTask<Resume>>()
+        val resume : Resume? = task?.input
+        if (!DataUtilKt.isEquals(resume?.profile?.name, bindProfile.editProfileName.rawText())) return true
+        if (!DataUtilKt.isEquals(resume?.profile?.designation, bindProfile.editProfileDesignation.rawText())) return true
+        if (!DataUtilKt.isEquals(resume?.profile?.phone, bindProfile.editProfilePhone.rawText())) return true
+        if (!DataUtilKt.isEquals(resume?.profile?.email, bindProfile.editProfileEmail.rawText())) return true
+        if (!DataUtilKt.isEquals(resume?.profile?.currentAddress, bindProfile.editProfileCurrentAddress.rawText())) return true
+        if (!DataUtilKt.isEquals(resume?.profile?.permanentAddress, bindProfile.editProfilePermanentAddress.rawText())) return true
+        return false
     }
 
     private fun isResumeAdded(): Boolean {
@@ -239,6 +250,10 @@ class ResumeFragment
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_resume))
             AndroidUtil.hideSoftInput(getParent()!!)
             saved = true
+            val uiTask = getCurrentTask<UiTask<Resume>>()
+            uiTask?.apply {
+                input = item.item
+            }
             hasBackPressed()
             return
         }
@@ -248,13 +263,6 @@ class ResumeFragment
         bind.contentResumeProfile.editProfileEmail.setText(item.item.profile?.email)
         bind.contentResumeProfile.editProfileCurrentAddress.setText(item.item.profile?.currentAddress)
         bind.contentResumeProfile.editProfilePermanentAddress.setText(item.item.profile?.permanentAddress)
-        if (isEditing()) {
-            //bind.inputEditTitle.setText(item.item.title)
-            //bind.inputEditDescription.setText(item.item.description)
-        } else {
-            //bind.textTitle.setText(item.item.title)
-            //bind.textDescription.setText(item.item.description)
-        }
         ex.postToUi(Runnable {
             vm.updateUiState(state, action, UiState.EXTRA)
         }, 500L)

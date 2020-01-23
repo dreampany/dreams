@@ -110,14 +110,20 @@ class ResumeHomeFragment
         when (requestCode) {
             Constants.RequestCode.ADD,
             Constants.RequestCode.EDIT,
-            Constants.RequestCode.VIEW,
             Constants.RequestCode.FAVORITE -> {
                 if (isOkay(resultCode)) {
                     data?.run {
                         val task = getCurrentTask<UiTask<Resume>>(this)
                         task?.run {
-                            if (state == State.EDITED) {
-                                ex.postToUi(Runnable { request(action = Action.GET, progress = true) }, 500L)
+                            if (state == State.ADDED || state == State.EDITED) {
+                                ex.postToUi(Runnable {
+                                    request(
+                                        state = State.UI,
+                                        action = Action.GET,
+                                        progress = true,
+                                        input = this.input
+                                    )
+                                }, 500L)
                             }
                         }
                     }
@@ -283,6 +289,7 @@ class ResumeHomeFragment
     }
 
     private fun request(
+        state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
@@ -290,6 +297,7 @@ class ResumeHomeFragment
         id: String? = Constants.Default.NULL
     ) {
         val request = ResumeRequest(
+            state = state,
             action = action,
             single = single,
             progress = progress,

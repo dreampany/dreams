@@ -15,6 +15,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -93,11 +94,7 @@ class ServersFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
-        val searchItem = getSearchMenuItem()
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem
-        )
+        getSearchMenuItem().toTint(context, R.color.material_white)
     }
 
     override fun onStartUi(state: Bundle?) {

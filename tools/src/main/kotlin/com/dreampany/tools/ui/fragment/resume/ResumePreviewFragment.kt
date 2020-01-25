@@ -5,13 +5,18 @@ import android.os.Bundle
 import android.print.PrintAttributes
 import android.print.PrintDocumentAdapter
 import android.print.PrintManager
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.databinding.FragmentWebBinding
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.Resume
@@ -45,6 +50,11 @@ class ResumePreviewFragment
         return R.menu.menu_resume_preview
     }
 
+    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
+        super.onMenuCreated(menu, inflater)
+        menu.findItem(R.id.item_print).toTint(context, R.color.material_white)
+    }
+
     override fun onStartUi(state: Bundle?) {
         initUi()
     }
@@ -72,7 +82,8 @@ class ResumePreviewFragment
     }
 
     private fun printResume() {
-         val printManager = activity?.getSystemService(Context.PRINT_SERVICE) as PrintManager? ?: return
+        val printManager =
+            activity?.getSystemService(Context.PRINT_SERVICE) as PrintManager? ?: return
         // Get a print adapter instance
         val printAdapter: PrintDocumentAdapter = bind.web.createPrintDocumentAdapter()
         // Create a print job with name and adapter instance

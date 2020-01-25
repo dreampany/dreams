@@ -551,9 +551,10 @@ class Constants {
         const val ADD = 1
         const val EDIT = 2
         const val VIEW = 3
+        const val PREVIEW = 4
         const val SETTINGS = 5
         const val FAVORITE = 6
-        const val QUIZ = 5
+        const val QUIZ = 7
     }
 
     object Service {

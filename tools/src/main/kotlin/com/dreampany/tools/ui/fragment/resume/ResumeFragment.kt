@@ -17,6 +17,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.isEmpty
 import com.dreampany.framework.misc.extension.isEqual
 import com.dreampany.framework.misc.extension.rawText
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.TextChangeListener
@@ -55,7 +56,6 @@ class ResumeFragment
     private lateinit var   bindProfile: ContentResumeProfileBinding
 
     private lateinit var vm: ResumeViewModel
-    private var edited: Boolean = false
     private var saved: Boolean = false
 
     override fun getLayoutId(): Int {
@@ -85,12 +85,8 @@ class ResumeFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
-        val editItem = findMenuItemById(R.id.item_edit)
-        val doneItem = findMenuItemById(R.id.item_done)
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, editItem, doneItem
-        )
+        val editItem = findMenuItemById(R.id.item_edit).toTint(context, R.color.material_white)
+        val doneItem = findMenuItemById(R.id.item_done).toTint(context, R.color.material_white)
 
         val editing = isEditing()
         editItem?.isVisible = !editing
@@ -276,7 +272,6 @@ class ResumeFragment
             bind.contentResumeProfile.editProfileName.error = getString(R.string.error_resume_name)
             return false
         }
-        edited = false
         val uiTask = getCurrentTask<UiTask<Resume>>()
         val profile = mapper.getProfileMap(
             id = uiTask?.input?.profile?.id,
@@ -292,6 +287,7 @@ class ResumeFragment
                 state = State.DIALOG,
                 action = uiTask.action,
                 progress = true,
+                input = uiTask.input,
                 profile = profile
             )
         }
@@ -323,7 +319,6 @@ class ResumeFragment
                 saveResume()
             })
             negativeButton(res = R.string.no, click = {
-                edited = false
                 forResult(saved)
             })
         }

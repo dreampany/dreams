@@ -116,6 +116,12 @@ class ResumeViewModel
     }
 
     private fun requestUiItemRx(request: ResumeRequest): Maybe<ResumeItem> {
+        if (request.state == State.UI && request.action == Action.GET) {
+            request.input?.let {
+                return getUiItemRx(request, it)
+            }
+        }
+
         when (request.action) {
             Action.ADD -> {
                 return addItemRx(request).flatMap { getUiItemRx(request, it) }
@@ -178,8 +184,8 @@ class ResumeViewModel
 
     private fun editItemRx(request: ResumeRequest): Maybe<Resume> {
         return Maybe.create { emitter ->
-            val resume: Resume? = if (request.state == State.UI) request.input else  mapper.getItem(
-                request.id,
+            val resume: Resume? = /*if (request.state == State.UI) request.input else */ mapper.getItem(
+                request.input?.id,
                 profile = request.profile,
                 skills = request.skills,
                 experiences = request.experiences,

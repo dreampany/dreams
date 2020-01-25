@@ -55,7 +55,7 @@ private constructor(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as ServerItem
+        val item = other as ResumeItem
         return Objects.equal(this.item.id, item.item.id)
     }
 
@@ -95,7 +95,7 @@ private constructor(
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition)!!,
-                    action = Action.VIEW
+                    action = Action.PREVIEW
                 )
             }
             buttonEdit.setOnSafeClickListener {

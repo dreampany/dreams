@@ -15,6 +15,7 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -88,11 +89,7 @@ class ResumeHomeFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
-        val searchItem = getSearchMenuItem()
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem
-        )
+        getSearchMenuItem().toTint(context, R.color.material_white)
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -151,13 +148,15 @@ class ResumeHomeFragment
     }
 
     override fun onUiItemClick(view: View, item: ResumeItem, action: Action) {
-        openViewUi(item.item)
-/*        val uiTask = UiTask<Resume>(
-            type = Type.SERVER,
-            action = Action.SELECTED,
-            input = item.item
-        )
-        forResult(uiTask, true)*/
+        when (action) {
+            Action.PREVIEW -> {
+                openPreviewUi(item.item)
+            }
+            Action.EDIT -> {
+                openEditUi(item.item)
+            }
+        }
+
     }
 
     override fun onUiItemLongClick(view: View, item: ResumeItem, action: Action) {
@@ -315,12 +314,21 @@ class ResumeHomeFragment
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.ADD)
     }
 
-    private fun openViewUi(resume: Resume) {
+    private fun openEditUi(resume: Resume) {
         val task = UiTask<Resume>(
             type = Type.RESUME,
-            action = Action.VIEW,
+            action = Action.EDIT,
             input = resume
         )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.VIEW)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.EDIT)
+    }
+
+    private fun openPreviewUi(resume: Resume) {
+        val task = UiTask<Resume>(
+            type = Type.RESUME,
+            action = Action.PREVIEW,
+            input = resume
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.PREVIEW)
     }
 }

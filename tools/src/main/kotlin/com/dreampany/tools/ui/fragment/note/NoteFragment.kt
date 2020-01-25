@@ -16,6 +16,7 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.TextChangeListener
@@ -69,12 +70,8 @@ class NoteFragment
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
 
-        val editItem = findMenuItemById(R.id.item_edit)
-        val doneItem = findMenuItemById(R.id.item_done)
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, editItem, doneItem
-        )
+        val editItem = findMenuItemById(R.id.item_edit).toTint(context, R.color.material_white)
+        val doneItem = findMenuItemById(R.id.item_done).toTint(context, R.color.material_white)
 
         val editing = isEditing()
         editItem?.isVisible = !editing

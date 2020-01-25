@@ -13,16 +13,15 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -31,6 +30,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.NoteOption
+import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.vm.note.NoteViewModel
 import com.skydoves.powermenu.MenuAnimation
@@ -92,12 +92,7 @@ class FavoriteNotesFragment
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
-
-        val searchItem = getSearchMenuItem()
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem
-        )
+        getSearchMenuItem().toTint(context, R.color.material_white)
     }
 
     override fun onStartUi(state: Bundle?) {

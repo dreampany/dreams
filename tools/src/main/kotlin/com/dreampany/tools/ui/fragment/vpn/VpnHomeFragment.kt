@@ -10,6 +10,7 @@ import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.invisible
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.misc.extension.visible
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -80,14 +81,8 @@ class VpnHomeFragment
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
-
-        val favoriteItem = findMenuItemById(R.id.item_favorite)
-        val serverItem = findMenuItemById(R.id.item_servers)
-        if (favoriteItem != null && serverItem != null)
-            MenuTint.colorMenuItem(
-                ColorUtil.getColor(context!!, R.color.material_white),
-                null, favoriteItem, serverItem
-            )
+        findMenuItemById(R.id.item_favorite).toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_servers).toTint(context, R.color.material_white)
     }
 
     override fun onStartUi(state: Bundle?) {

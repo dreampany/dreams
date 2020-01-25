@@ -25,6 +25,6 @@ interface ResumeDao : BaseDao<Resume> {
     @Query("select * from resume")
     fun getItems(): List<Resume>?
 
-    @Query("select * from resume")
+    @Query("select * from resume order by time desc")
     fun getItemsRx(): Maybe<List<Resume>>
 }

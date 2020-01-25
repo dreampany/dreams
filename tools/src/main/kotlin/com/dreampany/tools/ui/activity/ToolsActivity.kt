@@ -26,6 +26,7 @@ import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeHomeFragment
+import com.dreampany.tools.ui.fragment.resume.ResumePreviewFragment
 import com.dreampany.tools.ui.fragment.vpn.CountriesFragment
 import com.dreampany.tools.ui.fragment.vpn.FavoriteServersFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment
@@ -90,6 +91,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     /* resume */
     @Inject
     internal lateinit var resumeProvider: Lazy<ResumeFragment>
+    @Inject
+    internal lateinit var resumePreviewProvider: Lazy<ResumePreviewFragment>
 
     /* vpn */
     @Inject
@@ -360,14 +363,26 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     )
                     return
                 }
-                if (action == Action.VIEW || action == Action.ADD || action == Action.EDIT) {
-                    commitFragment(
-                        ResumeFragment::class.java,
-                        resumeProvider,
-                        R.id.layout,
-                        uiTask
-                    )
-                    return
+                when (action) {
+                    Action.ADD,
+                    Action.EDIT -> {
+                        commitFragment(
+                            ResumeFragment::class.java,
+                            resumeProvider,
+                            R.id.layout,
+                            uiTask
+                        )
+                        return
+                    }
+                    Action.PREVIEW -> {
+                        commitFragment(
+                            ResumePreviewFragment::class.java,
+                            resumePreviewProvider,
+                            R.id.layout,
+                            uiTask
+                        )
+                        return
+                    }
                 }
             }
         }

@@ -10,6 +10,8 @@ import androidx.annotation.ColorRes
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.dreampany.framework.R
 import com.dreampany.framework.misc.func.SafeClickListener
 
 /**
@@ -19,21 +21,23 @@ import com.dreampany.framework.misc.func.SafeClickListener
  * Last modified $file.lastModified
  */
 
-fun View.setOnSafeClickListener(
+fun View?.setOnSafeClickListener(
     onSafeClick: (View) -> Unit
-) {
-    setOnClickListener(SafeClickListener { v ->
+): View? {
+    this?.setOnClickListener(SafeClickListener { v ->
         onSafeClick(v)
     })
+    return this
 }
 
-fun View.setOnSafeClickListener(
+fun View?.setOnSafeClickListener(
     interval: Int,
     onSafeClick: (View) -> Unit
-) {
-    setOnClickListener(SafeClickListener(interval, {v->
+): View? {
+    this?.setOnClickListener(SafeClickListener(interval, { v ->
         onSafeClick(v)
     }))
+    return this
 }
 
 fun MenuItem?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): MenuItem? {
@@ -42,6 +46,18 @@ fun MenuItem?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): Menu
     return this
 }
 
-fun Int.toColor(@NonNull context: Context) : Int {
+fun Int.toColor(@NonNull context: Context): Int {
     return ContextCompat.getColor(context, this)
+}
+
+fun SwipeRefreshLayout?.bind(listener: SwipeRefreshLayout.OnRefreshListener?): SwipeRefreshLayout? {
+    this?.setColorSchemeResources(
+        R.color.colorPrimary,
+        R.color.colorAccent,
+        R.color.colorPrimaryDark
+    )
+    listener?.let {
+        this?.setOnRefreshListener(it)
+    }
+    return this
 }

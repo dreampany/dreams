@@ -11,141 +11,151 @@
             type="com.dreampany.tools.ui.model.ResumeItem" />
     </data>
 
-    <merge>
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        auto:cardCornerRadius="@dimen/_3sdp"
+        auto:elevation="@dimen/_3sdp">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/text_profile_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title_profile"
-            android:textColor="@color/material_grey700"
-            android:textSize="@dimen/_16ssp"
-            auto:fontFamily="@font/roboto_slab_bold" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_1sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:background="@color/material_grey200" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_profile_name"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent">
+            android:padding="@dimen/_5sdp"
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_profile_name"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_profile_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_profile"
+                android:textColor="@color/material_grey700"
+                android:textSize="@dimen/_16ssp"
+                auto:fontFamily="@font/roboto_slab_bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@color/material_grey200" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_profile_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_name"
-                android:inputType="textCapWords"
-                android:nextFocusDown="@id/edit_profile_designation"
-                android:nextFocusForward="@id/edit_profile_designation" />
+                android:layout_marginTop="@dimen/_5sdp"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_name"
+                    android:inputType="textCapWords"
+                    android:nextFocusDown="@id/edit_profile_designation"
+                    android:nextFocusForward="@id/edit_profile_designation" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_profile_designation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_profile_designation"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_profile_designation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_designation"
-                android:inputType="textCapWords"
-                android:nextFocusDown="@id/edit_profile_phone"
-                android:nextFocusForward="@id/edit_profile_phone" />
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_designation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_designation"
+                    android:inputType="textCapWords"
+                    android:nextFocusDown="@id/edit_profile_phone"
+                    android:nextFocusForward="@id/edit_profile_phone" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_profile_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_profile_phone"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_profile_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_phone"
-                android:inputType="phone"
-                android:nextFocusDown="@id/edit_profile_email"
-                android:nextFocusForward="@id/edit_profile_email" />
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_phone"
+                    android:inputType="phone"
+                    android:nextFocusDown="@id/edit_profile_email"
+                    android:nextFocusForward="@id/edit_profile_email" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_profile_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_profile_email"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_profile_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
-                android:nextFocusDown="@id/edit_profile_current_address"
-                android:nextFocusForward="@id/edit_profile_current_address" />
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_email"
+                    android:inputType="textEmailAddress"
+                    android:nextFocusDown="@id/edit_profile_current_address"
+                    android:nextFocusForward="@id/edit_profile_current_address" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_profile_current_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_profile_current_address"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_profile_current_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_current_address"
-                android:inputType="text"
-                android:nextFocusDown="@id/edit_profile_permanent_address"
-                android:nextFocusForward="@id/edit_profile_permanent_address" />
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_current_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_current_address"
+                    android:inputType="text"
+                    android:nextFocusDown="@id/edit_profile_permanent_address"
+                    android:nextFocusForward="@id/edit_profile_permanent_address" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_profile_permanent_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            auto:layout_constraintEnd_toEndOf="parent"
-            auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="parent">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_profile_permanent_address"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layout_profile_permanent_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_permanent_address"
-                android:inputType="text" />
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_profile_permanent_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_permanent_address"
+                    android:inputType="text" />
 
-    </merge>
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

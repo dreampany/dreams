@@ -14,10 +14,7 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
-import com.dreampany.framework.misc.extension.isEmpty
-import com.dreampany.framework.misc.extension.isEqual
-import com.dreampany.framework.misc.extension.rawText
-import com.dreampany.framework.misc.extension.toTint
+import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.TextChangeListener
@@ -131,10 +128,20 @@ class ResumeFragment
         bind = super.binding as FragmentResumeBinding
         bindProfile = bind.contentResumeProfile
         val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
-        //val titleRes = if (uiTask.action == Action.ADD) R.string.title_add_note else R.string.title_edit_note
 
-        //setTitle(titleRes)
-        ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bind.layoutRefresh.bind(this)
+        bind.contentResumeSkills.imageResumeSkillsAdd.setOnSafeClickListener {
+
+        }
+        bind.contentResumeExperiences.imageResumeExperiencesAdd.setOnSafeClickListener {
+
+        }
+        bind.contentResumeProjects.imageResumeProjectsAdd.setOnSafeClickListener {
+
+        }
+        bind.contentResumeSchools.imageResumeSchoolsAdd.setOnSafeClickListener {
+
+        }
 
         vm = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -268,19 +275,19 @@ class ResumeFragment
     }
 
     private fun saveResume(): Boolean {
-        if (bind.contentResumeProfile.editProfileName.isEmpty()) {
-            bind.contentResumeProfile.editProfileName.error = getString(R.string.error_resume_name)
+        if (bindProfile.editProfileName.isEmpty()) {
+            bindProfile.editProfileName.error = getString(R.string.error_resume_name)
             return false
         }
         val uiTask = getCurrentTask<UiTask<Resume>>()
         val profile = mapper.getProfileMap(
             id = uiTask?.input?.profile?.id,
-            name = bind.contentResumeProfile.editProfileName.rawText(),
-            designation = bind.contentResumeProfile.editProfileDesignation.rawText(),
-            phone = bind.contentResumeProfile.editProfilePhone.rawText(),
-            email = bind.contentResumeProfile.editProfileEmail.rawText(),
-            currentAddress = bind.contentResumeProfile.editProfileCurrentAddress.rawText(),
-            permanentAddress = bind.contentResumeProfile.editProfilePermanentAddress.rawText()
+            name = bindProfile.editProfileName.rawText(),
+            designation = bindProfile.editProfileDesignation.rawText(),
+            phone = bindProfile.editProfilePhone.rawText(),
+            email = bindProfile.editProfileEmail.rawText(),
+            currentAddress = bindProfile.editProfileCurrentAddress.rawText(),
+            permanentAddress = bindProfile.editProfilePermanentAddress.rawText()
         )
         uiTask?.run {
             request(

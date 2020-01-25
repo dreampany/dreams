@@ -50,6 +50,10 @@ class ResumePreviewFragment
         return R.menu.menu_resume_preview
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.preview
+    }
+
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
         menu.findItem(R.id.item_print).toTint(context, R.color.material_white)
@@ -66,7 +70,7 @@ class ResumePreviewFragment
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_print -> {
-
+                printResume()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -75,6 +79,7 @@ class ResumePreviewFragment
     private fun initUi() {
         bind = super.binding as FragmentWebBinding
         val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
+
         uiTask.input?.run {
             val content = Constants.Extra.toPrintableContent(this)
             bind.web.loadDataWithBaseURL(null, content, "text/html", "utf-8", null)

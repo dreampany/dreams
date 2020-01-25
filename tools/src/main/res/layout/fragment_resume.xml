@@ -15,8 +15,7 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="5dp">
+        android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -26,8 +25,9 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/material_grey100"
                 android:orientation="vertical"
-                android:padding="@dimen/_5sdp">
+                android:padding="@dimen/_8sdp">
 
                 <include
                     android:id="@+id/content_resume_profile"
@@ -36,24 +36,28 @@
                     android:layout_height="wrap_content" />
 
                 <include
+                    android:id="@+id/content_resume_skills"
                     layout="@layout/content_resume_skills"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp" />
 
                 <include
+                    android:id="@+id/content_resume_experiences"
                     layout="@layout/content_resume_experiences"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp" />
 
                 <include
+                    android:id="@+id/content_resume_projects"
                     layout="@layout/content_resume_projects"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp" />
 
                 <include
+                    android:id="@+id/content_resume_schools"
                     layout="@layout/content_resume_schools"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

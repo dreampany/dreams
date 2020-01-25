@@ -28,4 +28,6 @@
     <string name="dialog_title_save_resume" translatable="false">Do you want to save resume?</string>
     <string name="dialog_saved_resume" translatable="false">Resume saved successfully.</string>
 
+    <string name="preview" translatable="false">Preview</string>
+
 </resources>

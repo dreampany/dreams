@@ -12,6 +12,7 @@
     <string name="title_resume" translatable="false">Resume</string>
 
 
+    <string name="title_skill" translatable="false">Skill</string>\
     <string name="hint_name" translatable="false">Enter name</string>
     <string name="hint_designation" translatable="false">Enter designation</string>
     <string name="hint_phone" translatable="false">Enter phone</string>

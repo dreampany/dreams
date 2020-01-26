@@ -4,23 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/layout_skill_item"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        auto:layout_constraintEnd_toEndOf="parent"
-        auto:layout_constraintStart_toStartOf="parent"
-        auto:layout_constraintTop_toTopOf="parent">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_skill"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_skill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:hint="@string/hint_skill"
-            android:inputType="textCapWords" />
+            android:hint="@string/title_skill" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/image_resume_skill_remove"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            auto:srcCompat="@drawable/ic_remove_circle_black_24dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

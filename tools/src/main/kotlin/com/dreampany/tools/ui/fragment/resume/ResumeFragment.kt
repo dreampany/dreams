@@ -8,6 +8,8 @@ import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.callbacks.onCancel
+import com.afollestad.materialdialogs.customview.customView
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -50,7 +52,7 @@ class ResumeFragment
     @Inject
     internal lateinit var mapper: ResumeMapper
     private lateinit var bind: FragmentResumeBinding
-    private lateinit var   bindProfile: ContentResumeProfileBinding
+    private lateinit var bindProfile: ContentResumeProfileBinding
 
     private lateinit var vm: ResumeViewModel
     private var saved: Boolean = false
@@ -131,7 +133,7 @@ class ResumeFragment
 
         bind.layoutRefresh.bind(this)
         bind.contentResumeSkills.imageResumeSkillsAdd.setOnSafeClickListener {
-
+            showSkillUi()
         }
         bind.contentResumeExperiences.imageResumeExperiencesAdd.setOnSafeClickListener {
 
@@ -195,15 +197,39 @@ class ResumeFragment
                }*/
     }
 
-    private fun isUpdated() : Boolean {
+    private fun isUpdated(): Boolean {
         val task: UiTask<Resume>? = getCurrentTask<UiTask<Resume>>()
-        val resume : Resume? = task?.input
-        if (!DataUtilKt.isEquals(resume?.profile?.name, bindProfile.editProfileName.rawText())) return true
-        if (!DataUtilKt.isEquals(resume?.profile?.designation, bindProfile.editProfileDesignation.rawText())) return true
-        if (!DataUtilKt.isEquals(resume?.profile?.phone, bindProfile.editProfilePhone.rawText())) return true
-        if (!DataUtilKt.isEquals(resume?.profile?.email, bindProfile.editProfileEmail.rawText())) return true
-        if (!DataUtilKt.isEquals(resume?.profile?.currentAddress, bindProfile.editProfileCurrentAddress.rawText())) return true
-        if (!DataUtilKt.isEquals(resume?.profile?.permanentAddress, bindProfile.editProfilePermanentAddress.rawText())) return true
+        val resume: Resume? = task?.input
+        if (!DataUtilKt.isEquals(
+                resume?.profile?.name,
+                bindProfile.editProfileName.rawText()
+            )
+        ) return true
+        if (!DataUtilKt.isEquals(
+                resume?.profile?.designation,
+                bindProfile.editProfileDesignation.rawText()
+            )
+        ) return true
+        if (!DataUtilKt.isEquals(
+                resume?.profile?.phone,
+                bindProfile.editProfilePhone.rawText()
+            )
+        ) return true
+        if (!DataUtilKt.isEquals(
+                resume?.profile?.email,
+                bindProfile.editProfileEmail.rawText()
+            )
+        ) return true
+        if (!DataUtilKt.isEquals(
+                resume?.profile?.currentAddress,
+                bindProfile.editProfileCurrentAddress.rawText()
+            )
+        ) return true
+        if (!DataUtilKt.isEquals(
+                resume?.profile?.permanentAddress,
+                bindProfile.editProfilePermanentAddress.rawText()
+            )
+        ) return true
         return false
     }
 
@@ -221,6 +247,35 @@ class ResumeFragment
         val uiTask = getCurrentTask<UiTask<Resume>>(false)
         val action = uiTask?.action ?: Action.DEFAULT
         return action == Action.EDIT || action == Action.ADD
+    }
+
+    private fun showSkillUi() {
+        MaterialDialog(context!!).show {
+            title(res = R.string.title_skill)
+            customView(R.layout.item_resume_skill_input, scrollable = true)
+            noAutoDismiss()
+            cornerRadius(res = R.dimen._10sdp)
+            cancelOnTouchOutside(false)
+            positiveButton(R.string.save, click = { dialog ->
+
+                dialog.dismiss()
+            })
+            negativeButton(R.string.cancel, click = { dialog ->
+                dialog.dismiss()
+            })
+        }
+    }
+
+    private fun showExperienceUi() {
+
+    }
+
+    private fun showProjectUi() {
+
+    }
+
+    private fun showSchoolUi() {
+
     }
 
     private fun processUiState(response: Response.UiResponse) {

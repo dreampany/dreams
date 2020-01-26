@@ -78,19 +78,27 @@ class RelatedQuizViewModel
             .backToMain(requestUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(state = request.state, action = request.action, loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(request.state, request.action, result)
+                postResult(
+                    state = request.state,
+                    action = request.action,
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailure(request.state, request.action, MultiException(error, ExtraException()))
+                postFailure(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
             })
         addSingleSubscription(disposable)
     }
@@ -104,19 +112,23 @@ class RelatedQuizViewModel
             .backToMain(requestUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(state = request.state, action = request.action, loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
                 //postResult(request.action, result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
             })
         addMultipleSubscription(disposable)
     }
@@ -210,7 +222,8 @@ class RelatedQuizViewModel
             typePoint = mapper.getPointByType(this.item, pointMapper, pointRepo)
             totalPoint = mapper.getTotalPoint(this.item, pointMapper, pointRepo)
             typeCount = storeRepo.getCountByType(request.type, request.subtype, request.resolve)
-            totalCount = typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
+            totalCount =
+                typeCount + storeRepo.getCountByType(request.type, request.subtype, request.state)
         }
         return uiItem
     }

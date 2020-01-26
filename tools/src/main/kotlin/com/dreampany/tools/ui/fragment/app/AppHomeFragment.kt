@@ -176,10 +176,10 @@ class AppHomeFragment @Inject constructor() :
     fun processMultipleResponse(response: Response<List<AppItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(state = result.state, action =  result.action, loading =  result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state =  result.state,  action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<AppItem>>
             processSuccess(result.state, result.action, result.data)
@@ -190,7 +190,7 @@ class AppHomeFragment @Inject constructor() :
         Timber.v("Result Type[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi(Runnable {
-            vm.updateUiState(state, action, UiState.EXTRA)
+            vm.updateUiState(state =  state, action = action, uiState =  UiState.EXTRA)
         }, 500L)
     }
 }

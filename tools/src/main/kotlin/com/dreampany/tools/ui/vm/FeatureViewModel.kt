@@ -63,19 +63,29 @@ class FeatureViewModel @Inject constructor(
             .backToMain(loadUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action, true)
+                    postProgress(state = request.state,
+                        action = request.action,
+                        loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action, false)
+                    postProgress(state = request.state,
+                        action = request.action,
+                        loading = false)
                 }
-                postResult(request.state, Action.GET, result)
+                postResult(state = request.state,
+                    action = request.action,
+                    data = result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action, false)
+                    postProgress(state = request.state,
+                        action = request.action,
+                        loading = false)
                 }
-                postFailures(request.state, request.action, MultiException(error, ExtraException()))
+                postFailures(state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException()))
             })
         addSingleSubscription(disposable)
     }
@@ -89,19 +99,39 @@ class FeatureViewModel @Inject constructor(
             .backToMain(loadUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action, true)
+                    postProgress(
+                        state = request.state,
+                        action = request.action,
+                        loading = true
+                    )
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action, false)
+                    postProgress(
+                        state = request.state,
+                        action = request.action,
+                        loading = false
+                    )
                 }
-                postResult(request.state, Action.GET, result)
+                postResult(
+                    state = request.state,
+                    action = request.action,
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action, false)
+                    postProgress(
+                        state = request.state,
+                        action = request.action,
+                        loading = false
+                    )
                 }
-                postFailures(request.state, request.action, MultiException(error, ExtraException()))
+                postFailures(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
             })
         addMultipleSubscription(disposable)
     }

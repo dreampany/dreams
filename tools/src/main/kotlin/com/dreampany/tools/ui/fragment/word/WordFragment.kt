@@ -344,10 +344,14 @@ class WordFragment
     private fun processSingleResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<WordItem>
             processSingleSuccess(result.action, result.data)
@@ -373,11 +377,17 @@ class WordFragment
                 for (index in items.indices) {
                     suggests[index] = items[index].item.id
                 }
-               // searchView.setSuggestions(suggests)
+                // searchView.setSuggestions(suggests)
             }
             return
         }
-        ex.postToUi(Runnable { vm.updateUiState(state, action, UiState.EXTRA) }, 500L)
+        ex.postToUi(Runnable {
+            vm.updateUiState(
+                state = state,
+                action = action,
+                uiState = UiState.EXTRA
+            )
+        }, 500L)
     }
 
     private fun processSingleSuccess(action: Action, uiItem: WordItem) {

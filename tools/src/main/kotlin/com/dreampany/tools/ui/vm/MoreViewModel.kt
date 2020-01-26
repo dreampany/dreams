@@ -48,7 +48,7 @@ class MoreViewModel @Inject constructor(
             .doOnSubscribe { subscription -> postProgress(loading = true) }
             .subscribe(
                 { result ->
-                    postResult(State.DEFAULT, Action.GET, result)
+                    postResult(state = State.DEFAULT, action =  Action.GET, data = result)
                 },
                 { error ->
                     postFailures(error = MultiException(error, ExtraException()))

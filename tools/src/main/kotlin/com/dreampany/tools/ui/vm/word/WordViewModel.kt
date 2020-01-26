@@ -112,19 +112,23 @@ class WordViewModel
             .backToMain(requestUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(state = request.state, action = request.action, loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(request.state, request.action, result)
+                postResult(state = request.state, action = request.action, data = result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
             })
         addSingleSubscription(disposable)
     }
@@ -138,19 +142,23 @@ class WordViewModel
             .backToMain(requestUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(state = request.state, action = request.action, loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(request.state, request.action, result)
+                postResult(state = request.state, action = request.action, data = result)
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
             })
         addMultipleSubscription(disposable)
     }
@@ -164,19 +172,34 @@ class WordViewModel
             .backToMain(requestItemsOfStringRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,true)
+                    postProgress(
+                        state = request.state, action = request.action, loading = true
+                    )
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(
+                        state = request.state,
+                        action = request.action, loading = false
+                    )
                 }
-                postResultOfString(request.state, request.action, result)
+                postResultOfString(
+                    state = request.state,
+                    action = request.action, data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(request.state, request.action,false)
+                    postProgress(
+                        state = request.state,
+                        action = request.action, loading = false
+                    )
                 }
-                postFailures(request.state, request.action,MultiException(error, ExtraException()))
+                postFailures(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
             })
         addMultipleSubscription(disposable)
     }
@@ -227,7 +250,7 @@ class WordViewModel
                     wordPref.setRecentWord(item)
                     val result = putStore(item.id, request.type, request.subtype, State.HISTORY)
                     Constants.Cache.Word.HISTORY = true
-                    Timber.v("Word [%s - %d] keep as history", item.id, result )
+                    Timber.v("Word [%s - %d] keep as history", item.id, result)
                 }
             }
             if (request.action == Action.FAVORITE) {

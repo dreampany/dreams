@@ -59,7 +59,7 @@ import javax.inject.Inject
 @ActivityScope
 class BlockHomeFragment
 @Inject constructor() : BaseMenuFragment(),
-    SmartAdapter.OnUiItemClickListener<ContactItem, Action>{
+    SmartAdapter.OnUiItemClickListener<ContactItem, Action> {
 
     @Inject
     internal lateinit var blockPref: BlockPref
@@ -175,7 +175,7 @@ class BlockHomeFragment
     }
 
     override fun onUiItemLongClick(view: View, item: ContactItem, action: Action) {
-         adapter.toggleSelection(item)
+        adapter.toggleSelection(item)
     }
 
     private fun initUi() {
@@ -248,10 +248,14 @@ class BlockHomeFragment
     private fun processResponse(response: Response<List<ContactItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<ContactItem>>
             processSuccess(result.state, result.action, result.data)
@@ -261,10 +265,14 @@ class BlockHomeFragment
     private fun processSingleResponse(response: Response<ContactItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<ContactItem>
             processSingleSuccess(result.state, result.action, result.data)
@@ -275,7 +283,7 @@ class BlockHomeFragment
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi(Runnable {
-            vm.updateUiState(state, action, UiState.EXTRA)
+            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
     }
 
@@ -283,7 +291,7 @@ class BlockHomeFragment
         Timber.v("Result Single Coin[%s]", item.item.id)
         adapter.addItem(item)
         ex.postToUi(Runnable {
-            vm.updateUiState(state, action, UiState.EXTRA)
+            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
     }
 
@@ -322,7 +330,14 @@ class BlockHomeFragment
 
     private fun saveNumber(countryCode: String, number: String) {
         Timber.v("CountryCode - Number [%s - %s]", countryCode, number)
-        request(action = Action.BLOCK, single = true, progress = true, blockType = BlockType.EXACT, countryCode = countryCode, number = number)
+        request(
+            action = Action.BLOCK,
+            single = true,
+            progress = true,
+            blockType = BlockType.EXACT,
+            countryCode = countryCode,
+            number = number
+        )
     }
 
     private fun requestToUpdate() {

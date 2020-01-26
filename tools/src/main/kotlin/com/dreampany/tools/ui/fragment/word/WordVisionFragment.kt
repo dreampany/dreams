@@ -244,10 +244,10 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
     private fun processResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(state = result.state, action =  result.action, loading =  result.loading)
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state =  result.state,  action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<WordItem>
             processSuccess(result.data)

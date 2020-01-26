@@ -106,7 +106,13 @@ class RelatedQuizFragment
         subtype = uiTask.subtype
         initUi()
         initRecycler()
-        request(state = State.DEFAULT, resolve = State.PLAYED, action = Action.GET, single = true, progress = true)
+        request(
+            state = State.DEFAULT,
+            resolve = State.PLAYED,
+            action = Action.GET,
+            single = true,
+            progress = true
+        )
     }
 
     override fun onStopUi() {
@@ -129,7 +135,13 @@ class RelatedQuizFragment
                 }
                 vm.updateUiState(uiState = UiState.DEFAULT)
                 adapter.clear()
-                request(state = State.DEFAULT, resolve = State.PLAYED, action = Action.NEXT, single = true, progress = true)
+                request(
+                    state = State.DEFAULT,
+                    resolve = State.PLAYED,
+                    action = Action.NEXT,
+                    single = true,
+                    progress = true
+                )
             }
         }
     }
@@ -223,10 +235,14 @@ class RelatedQuizFragment
     private fun processSingleResponse(response: Response<RelatedQuizItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<RelatedQuizItem>
             processSingleSuccess(result.action, result.data)
@@ -278,7 +294,15 @@ class RelatedQuizFragment
         }
         val quiz = quizItem!!.item
         val given = item.item.id
-        request(state = State.DEFAULT, resolve = State.PLAYED, action = Action.SOLVE, input = quiz, single = true, progress = false, given = given)
+        request(
+            state = State.DEFAULT,
+            resolve = State.PLAYED,
+            action = Action.SOLVE,
+            input = quiz,
+            single = true,
+            progress = false,
+            given = given
+        )
     }
 
     private fun rightAnswer() {

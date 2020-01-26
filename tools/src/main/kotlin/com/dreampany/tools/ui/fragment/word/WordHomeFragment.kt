@@ -512,10 +512,14 @@ class WordHomeFragment
     private fun processResponseOfString(response: Response<List<String>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<String>>
             processSuccessOfString(result.action, result.data)
@@ -525,10 +529,14 @@ class WordHomeFragment
     private fun processResponse(response: Response<List<WordItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<WordItem>>
             processSuccess(result.state, result.action, result.data)
@@ -538,10 +546,14 @@ class WordHomeFragment
     private fun processSingleResponse(response: Response<WordItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<WordItem>
             processSingleSuccess(result.state, result.action, result.data)
@@ -587,7 +599,7 @@ class WordHomeFragment
         if (state == State.HISTORY) {
             adapter.addItemsOfHistory(items)
             ex.postToUi(Runnable {
-                vm.updateUiState(state, action, UiState.EXTRA)
+                vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
             }, 500L)
             return
         }
@@ -605,7 +617,13 @@ class WordHomeFragment
         adapter.clear()
         adapter.addItems(items)
         ex.postToUi(
-            kotlinx.coroutines.Runnable { vm.updateUiState(state, action, UiState.EXTRA) },
+            kotlinx.coroutines.Runnable {
+                vm.updateUiState(
+                    state = state,
+                    action = action,
+                    uiState = UiState.EXTRA
+                )
+            },
             500L
         )
     }
@@ -627,7 +645,7 @@ class WordHomeFragment
         if (item.item.hasWeight()) {
             adapter.addItemOfHistory(item)
             bindRecycler.recycler.smoothScrollToPosition(0)
-            vm.updateUiState(state, action, UiState.CONTENT)
+            vm.updateUiState(state = state, action = action, uiState = UiState.CONTENT)
 /*            bind.setItem(item)
             bindWord.layoutWord.visibility = View.VISIBLE
             if (item.translation.isNullOrEmpty()) {

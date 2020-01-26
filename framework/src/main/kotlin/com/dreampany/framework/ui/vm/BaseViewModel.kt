@@ -3,9 +3,7 @@ package com.dreampany.framework.ui.vm
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.NetworkState
-import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.ui.enums.UiMode
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.data.model.Event
@@ -122,7 +120,13 @@ protected constructor(
 
         networkEvent = NetworkState.NONE
         uiMode.value = UiMode.MAIN
-        uiResponse.value = Response.response(State.DEFAULT, Action.DEFAULT, UiState.DEFAULT)
+        uiResponse.value = Response.response(
+            Type.DEFAULT,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            UiState.DEFAULT
+        )
         uiMap.clear()
         uiCache.clear()
     }
@@ -390,11 +394,13 @@ protected constructor(
     }
 
     fun updateUiState(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         uiState: UiState = UiState.DEFAULT
     ) {
-        this.uiResponse.value = Response.response(state, action, uiState)
+        this.uiResponse.value = Response.response(type, subtype, state, action, uiState)
     }
 
     fun notifyUiMode() {
@@ -403,29 +409,41 @@ protected constructor(
 
     fun notifyUiState() {
         uiResponse.value?.run {
-            updateUiState(state, action, uiState)
+            updateUiState(type, subtype, state, action, uiState)
         }
     }
 
     fun postProgress(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         loading: Boolean
     ) {
-        updateUiState(state, action, if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS)
+        updateUiState(
+            type,
+            subtype,
+            state,
+            action,
+            if (loading) UiState.SHOW_PROGRESS else UiState.HIDE_PROGRESS
+        )
     }
 
     fun postFailure(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         error: Throwable
     ) {
         if (!hasSingleDisposable()) {
         }
-        rm.response(input, state, action, error)
+        rm.response(input, type, subtype, state, action, error)
     }
 
     fun postFailure(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         error: Throwable,
@@ -434,23 +452,27 @@ protected constructor(
         if (!hasSingleDisposable()) {
         }
         if (withProgress) {
-            rm.responseWithProgress(input, state, action, error)
+            rm.responseWithProgress(input, type, subtype, state, action, error)
         } else {
-            rm.response(input, state, action, error)
+            rm.response(input, type, subtype, state, action, error)
         }
     }
 
     fun postFailures(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         error: Throwable
     ) {
         if (!hasMultipleDisposable()) {
         }
-        rm.response(inputs, state, action, error)
+        rm.response(inputs, type, subtype, state, action, error)
     }
 
     fun postFailures(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         error: Throwable,
@@ -459,85 +481,115 @@ protected constructor(
         if (!hasMultipleDisposable()) {
         }
         if (withProgress) {
-            rm.responseWithProgress(inputs, state, action, error)
+            rm.responseWithProgress(inputs, type, subtype, state, action, error)
         } else {
-            rm.response(inputs, state, action, error)
+            rm.response(inputs, type, subtype, state, action, error)
         }
-    }
-
-    fun postResult(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: X) {
-        rm.response(input, state, action, data)
     }
 
     fun postResult(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT, data: X
+    ) {
+        rm.response(input, type, subtype, state, action, data)
+    }
+
+    fun postResult(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         data: X,
         withProgress: Boolean
     ) {
         if (withProgress) {
-            rm.responseWithProgress(input, state, action, data)
+            rm.responseWithProgress(input, type, subtype, state, action, data)
         } else {
-            rm.response(input, state, action, data)
+            rm.response(input, type, subtype, state, action, data)
         }
     }
 
-    fun postResult(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>) {
-        rm.response(inputs, state, action, data)
+    fun postResult(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT, data: List<X>
+    ) {
+        rm.response(inputs, type, subtype, state, action, data)
     }
 
     fun postResultOfString(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         data: List<String>
     ) {
-        rm.response(inputsOfString, state, action, data)
+        rm.response(inputsOfString, type, subtype, state, action, data)
     }
 
     fun postResult(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         data: List<X>,
         withProgress: Boolean
     ) {
         if (withProgress) {
-            rm.responseWithProgress(inputs, state, action, data)
+            rm.responseWithProgress(inputs, type, subtype, state, action, data)
         } else {
-            rm.response(inputs, state, action, data)
+            rm.response(inputs, type, subtype, state, action, data)
         }
     }
 
-    fun postEmpty(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: X?) {
-        rm.responseEmpty(input, state, action, data)
+    fun postEmpty(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT, data: X?
+    ) {
+        rm.responseEmpty(input, type, subtype, state, action, data)
     }
 
     fun postEmpty(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         data: X?,
         withProgress: Boolean
     ) {
         if (withProgress) {
-            rm.responseEmptyWithProgress(input, state, action, data)
+            rm.responseEmptyWithProgress(input, type, subtype, state, action, data)
         } else {
-            rm.responseEmpty(input, state, action, data)
+            rm.responseEmpty(input, type, subtype, state, action, data)
         }
     }
 
-    fun postEmpty(state: State = State.DEFAULT, action: Action = Action.DEFAULT, data: List<X>?) {
-        rm.responseEmpty(inputs, state, action, data)
+    fun postEmpty(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT, data: List<X>?
+    ) {
+        rm.responseEmpty(inputs, type, subtype, state, action, data)
     }
 
     fun postEmpty(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         data: List<X>?,
         withProgress: Boolean
     ) {
         if (withProgress) {
-            rm.responseEmptyWithProgress(inputs, state, action, data)
+            rm.responseEmptyWithProgress(inputs, type, subtype, state, action, data)
         } else {
-            rm.responseEmpty(inputs, state, action, data)
+            rm.responseEmpty(inputs, type, subtype, state, action, data)
         }
     }
 
@@ -546,31 +598,35 @@ protected constructor(
     }
 
     fun processProgress(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         loading: Boolean
     ) {
         if (loading) {
-            updateUiState(state, action, UiState.SHOW_PROGRESS)
+            updateUiState(type, subtype, state, action, UiState.SHOW_PROGRESS)
         } else {
-            updateUiState(state, action, UiState.HIDE_PROGRESS)
+            updateUiState(type, subtype, state, action, UiState.HIDE_PROGRESS)
         }
     }
 
     fun processFailure(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         error: Throwable
     ) {
         if (error is IOException || error.cause is IOException) {
-            updateUiState(state, action, UiState.OFFLINE)
+            updateUiState(type, subtype, state, action, UiState.OFFLINE)
         } else if (error is EmptyException) {
-            updateUiState(state, action, UiState.EMPTY)
+            updateUiState(type, subtype, state, action, UiState.EMPTY)
         } else if (error is ExtraException) {
-            updateUiState(state, action, UiState.EXTRA)
+            updateUiState(type, subtype, state, action, UiState.EXTRA)
         } else if (error is MultiException) {
             for (e in error.errors) {
-                processFailure(state, action, e)
+                processFailure(type, subtype, state, action, e)
             }
         }
     }

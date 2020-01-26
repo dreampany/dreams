@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
@@ -297,17 +298,35 @@ class ResumeFragment
     fun processSingleResponse(response: Response<ResumeItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(result.state, result.action, result.loading)
+            vm.processProgress(
+                result.type,
+                result.subtype,
+                result.state,
+                result.action,
+                result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(result.state, result.action, result.error)
+            vm.processFailure(
+                result.type,
+                result.subtype,
+                result.state,
+                result.action,
+                result.error
+            )
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<ResumeItem>
-            processSuccess(result.state, result.action, result.data)
+            processSuccess(result.type, result.subtype, result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(state: State, action: Action, item: ResumeItem) {
+    private fun processSuccess(
+        type: Type,
+        subtype: Subtype,
+        state: State,
+        action: Action,
+        item: ResumeItem
+    ) {
         if (action == Action.ADD || action == Action.EDIT) {
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_resume))
             AndroidUtil.hideSoftInput(getParent()!!)
@@ -326,7 +345,7 @@ class ResumeFragment
         bind.contentResumeProfile.editProfileCurrentAddress.setText(item.item.profile?.currentAddress)
         bind.contentResumeProfile.editProfilePermanentAddress.setText(item.item.profile?.permanentAddress)
         ex.postToUi(Runnable {
-            vm.updateUiState(state, action, UiState.EXTRA)
+            vm.updateUiState(type, subtype, state, action, UiState.EXTRA)
         }, 500L)
         if (state == State.DIALOG) {
 

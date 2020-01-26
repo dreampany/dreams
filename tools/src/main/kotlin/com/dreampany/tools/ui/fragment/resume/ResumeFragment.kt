@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.callbacks.onCancel
 import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
@@ -31,6 +32,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.ResumeItem
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
+import com.google.android.material.textfield.TextInputEditText
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -257,6 +259,8 @@ class ResumeFragment
             cornerRadius(res = R.dimen._10sdp)
             cancelOnTouchOutside(false)
             positiveButton(R.string.save, click = { dialog ->
+                val input = dialog.getCustomView().findViewById<TextInputEditText>(R.id.edit_skill)
+                val skill = input.rawText()
 
                 dialog.dismiss()
             })

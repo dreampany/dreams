@@ -78,6 +78,21 @@ class ResumeMapper
         return profile
     }
 
+    fun getSkillMap(
+        id: String? = null,
+        title: String?
+    ): Map<String, Any>? {
+        if (title.isNullOrEmpty()) return null
+        val id = id ?: DataUtilKt.getRandId()
+        val skill: HashMap<String, Any> = Maps.newHashMap<String, Any>()
+        skill.apply {
+            put(Constants.Keys.Skill.ID, id)
+            put(Constants.Keys.Skill.TIME, TimeUtilKt.currentMillis())
+            put(Constants.Keys.Skill.TITLE, title)
+        }
+        return skill
+    }
+
     fun getItem(
         id: String?,
         profile: Map<String, Any>?,

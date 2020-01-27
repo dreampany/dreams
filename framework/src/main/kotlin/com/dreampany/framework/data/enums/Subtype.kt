@@ -11,5 +11,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Subtype : Parcelable {
-    DEFAULT, RELATED, SYNONYM, ANTONYM, BLOCK, PRICE
+    DEFAULT, RELATED, SYNONYM, ANTONYM, BLOCK, PRICE,
+    SKILL, EXPERIENCE, PROJECT, SCHOOL
 }

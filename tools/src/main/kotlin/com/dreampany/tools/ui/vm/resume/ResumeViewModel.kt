@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.vm.resume
 import android.app.Application
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
@@ -173,7 +174,14 @@ class ResumeViewModel
 
     private fun addItemRx(request: ResumeRequest): Maybe<Resume> {
         return Maybe.create { emitter ->
-            val resume = mapper.getItem(
+            // need to add only skill
+            var resume : Resume? = null
+            if (request.subtype == Subtype.SKILL) {
+                resume = request.input
+                //apply skills data
+            }
+
+            resume = mapper.getItem(
                 request.id,
                 profile = request.profile,
                 skills = request.skills,
@@ -181,6 +189,7 @@ class ResumeViewModel
                 projects = request.projects,
                 schools = request.schools
             )
+
             if (resume == null) {
                 emitter.onError(EmptyException())
             } else {

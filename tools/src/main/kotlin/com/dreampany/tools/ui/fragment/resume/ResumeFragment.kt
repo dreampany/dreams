@@ -34,6 +34,7 @@ import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.ResumeItem
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.item_more.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -262,7 +263,10 @@ class ResumeFragment
             positiveButton(R.string.save, click = { dialog ->
                 val input = dialog.getCustomView().findViewById<TextInputEditText>(R.id.edit_skill)
                 val skill = input.rawText()
-
+                Timber.v("Skill %s", skill)
+                skill?.run {
+                    addSkill(this)
+                }
                 dialog.dismiss()
             })
             negativeButton(R.string.cancel, click = { dialog ->
@@ -370,9 +374,9 @@ class ResumeFragment
         uiTask?.run {
             request(
                 state = State.DIALOG,
-                action = uiTask.action,
+                action = action,
                 progress = true,
-                input = uiTask.input,
+                input = input,
                 profile = profile
             )
         }
@@ -380,19 +384,31 @@ class ResumeFragment
     }
 
     private fun request(
+        type: Type = Type.DEFAULT,
+        subtype: Subtype = Subtype.DEFAULT,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         progress: Boolean = Constants.Default.BOOLEAN,
         input: Resume? = Constants.Default.NULL,
-        profile: Map<String, Any>? = Constants.Default.NULL
+        profile: Map<String, Any>? = Constants.Default.NULL,
+        skills: List<Map<String, Any>>? = Constants.Default.NULL,
+        experiences: List<Map<String, Any>>? = Constants.Default.NULL,
+        projects: List<Map<String, Any>>? = Constants.Default.NULL,
+        schools: List<Map<String, Any>>? = Constants.Default.NULL
     ) {
         val request = ResumeRequest(
+            type = type,
+            subtype = subtype,
             state = state,
             action = action,
             single = true,
             progress = progress,
             input = input,
-            profile = profile
+            profile = profile,
+            skills = skills,
+            experiences = experiences,
+            projects = projects,
+            schools = schools
         )
         vm.request(request)
     }
@@ -406,6 +422,26 @@ class ResumeFragment
             negativeButton(res = R.string.no, click = {
                 forResult(saved)
             })
+        }
+    }
+
+    private fun addSkill(skill: String) {
+        val uiTask = getCurrentTask<UiTask<Resume>>()
+        val skillMap = mapper.getSkillMap(title = skill)
+
+        val skills = arrayListOf<Map<String, Any>>()
+        skillMap?.run {
+            skills.add(this)
+        }
+        uiTask?.run {
+            request(
+                type = Type.RESUME,
+                subtype = Subtype.SKILL,
+                action = Action.ADD,
+                progress = true,
+                input = input,
+                skills = skills
+            )
         }
     }
 }

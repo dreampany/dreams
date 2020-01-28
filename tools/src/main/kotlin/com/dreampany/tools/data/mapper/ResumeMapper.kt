@@ -3,15 +3,18 @@ package com.dreampany.tools.data.mapper
 import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
+import com.dreampany.framework.misc.extension.hash
+import com.dreampany.framework.misc.extension.hash512
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.*
-import com.dreampany.tools.data.source.pref.VpnPref
-import com.dreampany.tools.injector.annote.*
+import com.dreampany.tools.injector.annote.ProfileAnnote
+import com.dreampany.tools.injector.annote.ProfileItemAnnote
+import com.dreampany.tools.injector.annote.ResumeAnnote
+import com.dreampany.tools.injector.annote.ResumeItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ProfileItem
 import com.dreampany.tools.ui.model.ResumeItem
-import com.dreampany.tools.ui.model.ServerItem
 import com.google.common.collect.Maps
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -53,7 +56,7 @@ class ResumeMapper
         permanentAddress: String?
     ): Map<String, Any>? {
         if (name.isNullOrEmpty()) return null
-        val id = id ?: DataUtilKt.getRandId()
+        val id = id ?: id.hash()
         val profile: HashMap<String, Any> = Maps.newHashMap<String, Any>()
         profile.apply {
             put(Constants.Keys.Profile.ID, id)
@@ -83,7 +86,7 @@ class ResumeMapper
         title: String?
     ): Map<String, Any>? {
         if (title.isNullOrEmpty()) return null
-        val id = id ?: DataUtilKt.getRandId()
+        val id = id ?: title.hash512()
         val skill: HashMap<String, Any> = Maps.newHashMap<String, Any>()
         skill.apply {
             put(Constants.Keys.Skill.ID, id)
@@ -101,7 +104,7 @@ class ResumeMapper
         projects: List<Map<String, Any>>?,
         schools: List<Map<String, Any>>?
     ): Resume? {
-        val id = id ?: DataUtilKt.getRandId()
+        val id = id ?: id.hash()
         var resume = map.get(id)
         if (resume == null) {
             resume = Resume(id)
@@ -160,8 +163,12 @@ class ResumeMapper
         }
         resume.skills?.clear()
         skillsData.forEach {
-            getSkill(it)?.run {
-                resume.skills?.add(this)
+            getSkill(it)?.let { skill ->
+                resume.skills?.run {
+                    if (!contains(skill))
+                        add(skill)
+                }
+
             }
         }
     }

@@ -16,7 +16,7 @@ import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.ResumeAdapter
+import com.dreampany.tools.ui.adapter.resume.ResumeAdapter
 import com.google.common.base.Objects
 import com.like.LikeButton
 import eu.davidea.flexibleadapter.FlexibleAdapter

@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.adapter
+package com.dreampany.tools.ui.adapter.resume
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.tools.ui.model.ResumeItem

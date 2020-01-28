@@ -4,7 +4,7 @@ import android.content.Context
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.framework.util.DataUtilKt
+import com.dreampany.framework.misc.extension.hash
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.api.NoteDataSource
 import com.dreampany.tools.injector.annote.NoteAnnote
@@ -45,7 +45,7 @@ class NoteMapper
         if (title.isNullOrEmpty() || description.isNullOrEmpty()) {
             return null
         }
-        val id = id ?: DataUtilKt.getRandId()
+        val id = id ?: id.hash()
         var note = map.get(id)
         if (note == null) {
             note = Note(id)

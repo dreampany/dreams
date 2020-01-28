@@ -73,23 +73,47 @@ class ResumeViewModel
             .backToMain(requestUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading = true)
+                    postProgress(
+                        type = request.type,
+                        subtype = request.subtype,
+                        state = request.state,
+                        action = request.action,
+                        loading = true
+                    )
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(
+                        type = request.type,
+                        subtype = request.subtype,
+                        state = request.state,
+                        action = request.action,
+                        loading = false
+                    )
                 }
-                postResult(state = request.state,
+                postResult(
+                    type = request.type, subtype = request.subtype,
+                    state = request.state,
                     action = request.action,
-                    data = result)
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(
+                        type = request.type,
+                        subtype = request.subtype,
+                        state = request.state,
+                        action = request.action,
+                        loading = false
+                    )
                 }
-                postFailures(state = request.state,
+                postFailures(
+                    type = request.type, subtype = request.subtype,
+                    state = request.state,
                     action = request.action,
-                    error = MultiException(error, ExtraException()))
+                    error = MultiException(error, ExtraException())
+                )
             })
         addSingleSubscription(disposable)
     }
@@ -103,23 +127,46 @@ class ResumeViewModel
             .backToMain(requestUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =true)
+                    postProgress(
+                        type = request.type,
+                        subtype = request.subtype,
+                        state = request.state,
+                        action = request.action,
+                        loading = true
+                    )
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading = false)
+                    postProgress(
+                        type = request.type,
+                        subtype = request.subtype,
+                        state = request.state,
+                        action = request.action,
+                        loading = false
+                    )
                 }
-                postResult(state = request.state,
+                postResult(
+                    type = request.type, subtype = request.subtype, state = request.state,
                     action = request.action,
-                    data = result)
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(
+                        type = request.type,
+                        subtype = request.subtype,
+                        state = request.state,
+                        action = request.action,
+                        loading = false
+                    )
                 }
-                postFailures(state = request.state,
+                postFailures(
+                    type = request.type, subtype = request.subtype,
+                    state = request.state,
                     action = request.action,
-                    error = MultiException(error, ExtraException()))
+                    error = MultiException(error, ExtraException())
+                )
             })
         addMultipleSubscription(disposable)
     }
@@ -175,21 +222,22 @@ class ResumeViewModel
     private fun addItemRx(request: ResumeRequest): Maybe<Resume> {
         return Maybe.create { emitter ->
             // need to add only skill
-            var resume : Resume? = null
+            var resume: Resume? = null
             if (request.subtype == Subtype.SKILL) {
                 resume = request.input
-                //apply skills data
+                resume?.run {
+                    mapper.applySkills(this, request.skills)
+                }
+            } else {
+                resume = mapper.getItem(
+                    request.id,
+                    profile = request.profile,
+                    skills = request.skills,
+                    experiences = request.experiences,
+                    projects = request.projects,
+                    schools = request.schools
+                )
             }
-
-            resume = mapper.getItem(
-                request.id,
-                profile = request.profile,
-                skills = request.skills,
-                experiences = request.experiences,
-                projects = request.projects,
-                schools = request.schools
-            )
-
             if (resume == null) {
                 emitter.onError(EmptyException())
             } else {
@@ -201,14 +249,15 @@ class ResumeViewModel
 
     private fun editItemRx(request: ResumeRequest): Maybe<Resume> {
         return Maybe.create { emitter ->
-            val resume: Resume? = /*if (request.state == State.UI) request.input else */ mapper.getItem(
-                request.input?.id,
-                profile = request.profile,
-                skills = request.skills,
-                experiences = request.experiences,
-                projects = request.projects,
-                schools = request.schools
-            )
+            val resume: Resume? = /*if (request.state == State.UI) request.input else */
+                mapper.getItem(
+                    request.input?.id,
+                    profile = request.profile,
+                    skills = request.skills,
+                    experiences = request.experiences,
+                    projects = request.projects,
+                    schools = request.schools
+                )
             if (resume == null) {
                 emitter.onError(EmptyException())
             } else {

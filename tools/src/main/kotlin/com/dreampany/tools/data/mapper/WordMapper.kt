@@ -6,6 +6,7 @@ import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.extension.hash
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TimeUtil
 import com.dreampany.framework.util.TimeUtilKt
@@ -271,7 +272,7 @@ class WordMapper
                     result.add(
                         Definition(
                             time = TimeUtilKt.currentMillis(),
-                            id = if (item.id.isNullOrEmpty()) DataUtilKt.getRandId() else item.id,
+                            id = item.id ?: item.id.hash(),
                             partOfSpeech = item.partOfSpeech,
                             text = item.text,
                             url = item.wordnikUrl

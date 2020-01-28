@@ -30,7 +30,7 @@ class DataUtilKt {
         val SEMI = ":"
         val SPACE = " "
 
-        fun getRandId() :String {
+        fun getRandId(): String {
             return UUID.randomUUID().toString()
         }
 
@@ -136,11 +136,11 @@ class DataUtilKt {
             return result
         }
 
-        fun <T> takeFirst(list: ArrayList<String>?) : String? {
+        fun <T> takeFirst(list: ArrayList<String>?): String? {
             return list?.first()
         }
 
-        fun <T> takeRandom(list: ArrayList<String>?) : String? {
+        fun <T> takeRandom(list: ArrayList<String>?): String? {
             return list?.random()
         }
 
@@ -150,7 +150,7 @@ class DataUtilKt {
                 sub?.run {
                     list.removeAll(this)
                 }
-            } catch (error : ArrayIndexOutOfBoundsException) {
+            } catch (error: ArrayIndexOutOfBoundsException) {
                 Timber.e(error)
             }
 

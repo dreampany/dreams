@@ -1,14 +1,13 @@
 package com.dreampany.tools.ui.fragment.resume
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.callbacks.onCancel
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.dreampany.framework.api.session.SessionManager
@@ -21,7 +20,6 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
-import com.dreampany.framework.ui.listener.TextChangeListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
@@ -30,11 +28,11 @@ import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.databinding.ContentResumeProfileBinding
 import com.dreampany.tools.databinding.FragmentResumeBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.resume.SkillAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.ResumeItem
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.google.android.material.textfield.TextInputEditText
-import kotlinx.android.synthetic.main.item_more.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -58,6 +56,7 @@ class ResumeFragment
     private lateinit var bind: FragmentResumeBinding
     private lateinit var bindProfile: ContentResumeProfileBinding
 
+    private lateinit var skillAdapter: SkillAdapter
     private lateinit var vm: ResumeViewModel
     private var saved: Boolean = false
 
@@ -79,6 +78,7 @@ class ResumeFragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        initRecycler()
     }
 
     override fun onStopUi() {
@@ -159,46 +159,28 @@ class ResumeFragment
                 request(state = State.UI, action = Action.GET, progress = true, input = this)
             }
         }
+    }
 
-/*        uiTask.input?.let { resume ->
-            bind.contentResumeProfile.editProfileName.addTextChangedListener(object :
-                TextChangeListener() {
-                override fun afterTextChanged(s: Editable?) {
-                    if (!DataUtilKt.isEquals(resume.profile?.name, s?.toString())) {
+    private fun initRecycler() {
+        initSkillRecycler()
+        initExperienceRecycler()
+        initProjectRecycler()
+        initSchoolRecycler()
+    }
 
-                    }
-                }
-            })
-        }*/
+    private fun initSkillRecycler() {
+        bind.skills = ObservableArrayList<Any>()
+    }
 
-        //val note = uiTask.input
+    private fun initExperienceRecycler() {
+        //bind.experiences = ObservableArrayList<Any>()
+    }
 
-        /*       note?.title?.run { noteTitle = this }
-               note?.description?.run { noteDescription = this }
-
-               bind.inputEditTitle.addTextChangedListener(object : TextChangeListener() {
-                   override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                       if (!DataUtilKt.isEquals(noteTitle, s?.toString())) {
-                           edited = true
-                       }
-                       noteTitle = s.toString()
-                   }
-
-               })
-               bind.inputEditDescription.addTextChangedListener(object : TextChangeListener() {
-                   override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                       if (!DataUtilKt.isEquals(noteDescription, s?.toString())) {
-                           edited = true
-                       }
-                       noteDescription = s.toString()
-                   }
-               })
-               resolveUi()
-               if (uiTask.action == Action.EDIT || uiTask.action == Action.VIEW) {
-                   note?.run {
-                       request(id = this.id, action = Action.GET, progress = true)
-                   }
-               }*/
+    private fun initProjectRecycler() {
+        //bind.projects = ObservableArrayList<Any>()
+    }
+    private fun initSchoolRecycler() {
+        //bind.schools = ObservableArrayList<Any>()
     }
 
     private fun isUpdated(): Boolean {
@@ -332,6 +314,12 @@ class ResumeFragment
         item: ResumeItem
     ) {
         if (action == Action.ADD || action == Action.EDIT) {
+            when (subtype) {
+                Subtype.SKILL -> {
+
+                }
+            }
+
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_resume))
             AndroidUtil.hideSoftInput(getParent()!!)
             saved = true

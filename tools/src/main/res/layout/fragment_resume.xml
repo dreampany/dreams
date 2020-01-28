@@ -9,6 +9,22 @@
         <variable
             name="item"
             type="com.dreampany.tools.ui.model.ResumeItem" />
+
+        <variable
+            name="skills"
+            type="androidx.databinding.ObservableArrayList" />
+
+        <!--<variable
+            name="experiences"
+            type="androidx.databinding.ObservableArrayList" />
+
+        <variable
+            name="projects"
+            type="androidx.databinding.ObservableArrayList" />
+
+        <variable
+            name="schools"
+            type="androidx.databinding.ObservableArrayList" />-->
     </data>
 
 
@@ -40,7 +56,8 @@
                     layout="@layout/content_resume_skills"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp" />
+                    android:layout_marginTop="@dimen/_10sdp"
+                    auto:items="@{skills}" />
 
                 <include
                     android:id="@+id/content_resume_experiences"

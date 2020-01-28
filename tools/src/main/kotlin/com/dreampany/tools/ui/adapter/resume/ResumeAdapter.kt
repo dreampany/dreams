@@ -1,10 +1,7 @@
-package com.dreampany.tools.ui.adapter
+package com.dreampany.tools.ui.adapter.resume
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
-import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ResumeItem
-import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.tools.ui.model.WordItem
 import eu.davidea.flexibleadapter.items.IFlexible
 
 /**
@@ -18,7 +15,8 @@ class ResumeAdapter(listener: Any? = null) : SmartAdapter<ResumeItem>(listener) 
     private val recentComparator: Comparator<IFlexible<*>>
 
     init {
-        recentComparator = RecentComparator()
+        recentComparator =
+            RecentComparator()
     }
 
     companion object {

@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.dreampany.tools.ui.model.ResumeItem" />
+            type="com.dreampany.tools.ui.model.resume.ResumeItem" />
 
         <variable
             name="skills"

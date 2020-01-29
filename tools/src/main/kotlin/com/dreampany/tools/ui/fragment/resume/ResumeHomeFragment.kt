@@ -31,7 +31,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.resume.ResumeAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
-import com.dreampany.tools.ui.model.ResumeItem
+import com.dreampany.tools.ui.model.resume.ResumeItem
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration

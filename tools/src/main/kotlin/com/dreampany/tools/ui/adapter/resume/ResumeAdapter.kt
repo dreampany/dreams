@@ -1,7 +1,7 @@
 package com.dreampany.tools.ui.adapter.resume
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
-import com.dreampany.tools.ui.model.ResumeItem
+import com.dreampany.tools.ui.model.resume.ResumeItem
 import eu.davidea.flexibleadapter.items.IFlexible
 
 /**

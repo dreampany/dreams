@@ -14,7 +14,7 @@ import com.dreampany.tools.injector.annote.ProfileItemAnnote
 import com.dreampany.tools.injector.annote.ResumeAnnote
 import com.dreampany.tools.injector.annote.ResumeItemAnnote
 import com.dreampany.tools.ui.model.ProfileItem
-import com.dreampany.tools.ui.model.ResumeItem
+import com.dreampany.tools.ui.model.resume.ResumeItem
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

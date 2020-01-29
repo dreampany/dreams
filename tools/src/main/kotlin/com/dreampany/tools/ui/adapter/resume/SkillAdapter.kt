@@ -1,8 +1,7 @@
 package com.dreampany.tools.ui.adapter.resume
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
-import com.dreampany.tools.ui.model.ResumeItem
-import com.dreampany.tools.ui.model.SkillItem
+import com.dreampany.tools.ui.model.resume.SkillItem
 
 /**
  * Created by roman on 2020-01-15

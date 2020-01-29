@@ -15,13 +15,11 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ResumeRepository
-import com.dreampany.tools.ui.misc.NoteRequest
 import com.dreampany.tools.ui.misc.ResumeRequest
-import com.dreampany.tools.ui.model.ResumeItem
+import com.dreampany.tools.ui.model.resume.ResumeItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject

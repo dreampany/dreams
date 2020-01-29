@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.resume
 
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -42,9 +42,14 @@ private constructor(
         color = ColorUtil.createShadowWhiteColor()
     }
 
+    var skills: List<SkillItem>? = null
+
     companion object {
         fun getItem(item: Resume): ResumeItem {
-            return ResumeItem(item, R.layout.item_resume)
+            return ResumeItem(
+                item,
+                R.layout.item_resume
+            )
         }
     }
 
@@ -62,8 +67,11 @@ private constructor(
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): ResumeItem.ViewHolder {
-        return ResumeItem.ViewHolder(view, adapter)
+    ): ViewHolder {
+        return ViewHolder(
+            view,
+            adapter
+        )
     }
 
     override fun filter(constraint: String): Boolean {

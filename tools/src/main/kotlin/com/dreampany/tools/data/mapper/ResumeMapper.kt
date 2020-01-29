@@ -5,7 +5,6 @@ import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.extension.hash
 import com.dreampany.framework.misc.extension.hash512
-import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.injector.annote.ProfileAnnote
@@ -14,7 +13,7 @@ import com.dreampany.tools.injector.annote.ResumeAnnote
 import com.dreampany.tools.injector.annote.ResumeItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ProfileItem
-import com.dreampany.tools.ui.model.ResumeItem
+import com.dreampany.tools.ui.model.resume.ResumeItem
 import com.google.common.collect.Maps
 import javax.inject.Inject
 import javax.inject.Singleton

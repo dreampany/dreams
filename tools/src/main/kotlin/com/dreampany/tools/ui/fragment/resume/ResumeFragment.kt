@@ -30,7 +30,7 @@ import com.dreampany.tools.databinding.FragmentResumeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.resume.SkillAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
-import com.dreampany.tools.ui.model.ResumeItem
+import com.dreampany.tools.ui.model.resume.ResumeItem
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.google.android.material.textfield.TextInputEditText
 import timber.log.Timber

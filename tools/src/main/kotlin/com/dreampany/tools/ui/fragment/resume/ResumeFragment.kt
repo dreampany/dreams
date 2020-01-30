@@ -20,6 +20,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
@@ -28,6 +29,7 @@ import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.databinding.ContentResumeProfileBinding
 import com.dreampany.tools.databinding.FragmentResumeBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.resume.ResumeAdapter
 import com.dreampany.tools.ui.adapter.resume.SkillAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.resume.ResumeItem
@@ -73,7 +75,7 @@ class ResumeFragment
     }
 
     override fun getScreen(): String {
-        return Constants.resume(context!!)
+        return Constants.resume(context)
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -170,7 +172,9 @@ class ResumeFragment
 
     private fun initSkillRecycler() {
         bind.skills = ObservableArrayList<Any>()
-    }
+        skillAdapter = SkillAdapter(this)
+        skillAdapter.setStickyHeaders(false)
+     }
 
     private fun initExperienceRecycler() {
         //bind.experiences = ObservableArrayList<Any>()

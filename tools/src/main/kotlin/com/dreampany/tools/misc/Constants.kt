@@ -32,7 +32,7 @@ class Constants {
         fun database(name: String): String = Constants.database(name)
         fun database(name: String, type: String): String = Constants.database(name, type)
 
-        fun lastAppId(context: Context): String = Constants.lastAppId(context)
+        fun lastAppId(context: Context?): String = Constants.lastAppId(context)
         fun more(context: Context): String = Constants.more(context)
         fun about(context: Context): String = Constants.about(context)
         fun settings(context: Context): String = Constants.settings(context)
@@ -63,7 +63,7 @@ class Constants {
 
         fun editNote(context: Context): String = lastAppId(context) + Sep.HYPHEN + "edit-note"
 
-        fun resume(context: Context): String = lastAppId(context) + Sep.HYPHEN + "resume"
+        fun resume(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "resume"
 
         fun word(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word"
         fun favoriteWords(context: Context): String =

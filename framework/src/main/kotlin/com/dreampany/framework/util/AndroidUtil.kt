@@ -96,13 +96,13 @@ class AndroidUtil {
             return Thread.currentThread() === Looper.getMainLooper().getThread()
         }
 
-        fun getPackageName(context: Context): String? {
+        fun getPackageName(context: Context?): String? {
             val packageInfo = getPackageInfo(context)
             return packageInfo?.packageName
         }
 
-        fun getLastApplicationId(context: Context): String? {
-            val applicationId = getPackageName(context.getApplicationContext())
+        fun getLastApplicationId(context: Context?): String? {
+            val applicationId = getPackageName(context?.getApplicationContext())
             if (DataUtil.isEmpty(applicationId)) {
                 return null
             }
@@ -123,16 +123,17 @@ class AndroidUtil {
             return packageInfo?.versionName
         }
 
-        fun getPackageInfo(context: Context): PackageInfo? {
+        fun getPackageInfo(context: Context?): PackageInfo? {
             return getPackageInfo(context, 0)
         }
 
-        fun getPackageInfo(context: Context, flags: Int): PackageInfo? {
-            return getPackageInfo(context, context.packageName, flags)
+        fun getPackageInfo(context: Context?, flags: Int): PackageInfo? {
+            return getPackageInfo(context, context?.packageName, flags)
         }
 
-        fun getPackageInfo(context: Context, packageName: String, flags: Int): PackageInfo? {
+        fun getPackageInfo(context: Context?, packageName: String?, flags: Int): PackageInfo? {
             try {
+                if (packageName.isNullOrEmpty()) return null
                 return getPackageManager(context)?.getPackageInfo(packageName, flags)
             } catch (error: PackageManager.NameNotFoundException) {
                 Timber.e(error)
@@ -153,8 +154,8 @@ class AndroidUtil {
             return null
         }
 
-        fun getPackageManager(context: Context): PackageManager? {
-            return context.applicationContext.packageManager
+        fun getPackageManager(context: Context?): PackageManager? {
+            return context?.applicationContext?.packageManager
         }
 
         fun getInstalledApps(context: Context): List<ApplicationInfo>? {

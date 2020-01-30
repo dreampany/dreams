@@ -10,4 +10,18 @@ import com.dreampany.tools.ui.model.resume.SkillItem
  * Last modified $file.lastModified
  */
 class SkillAdapter(listener: Any? = null) : SmartAdapter<SkillItem>(listener) {
+
+    companion object {
+        private val SPAN_COUNT = 2
+        private val ITEM_OFFSET = 4
+    }
+
+
+    fun getSpanCount(): Int {
+        return SPAN_COUNT
+    }
+
+    fun getItemOffset(): Int {
+        return ITEM_OFFSET
+    }
 }

@@ -26,7 +26,9 @@ class Constants {
                 .plus(Sep.DOT).plus(type).plus(Sep.DOT).plus(Database.POST_FIX_DB)
         }
 
-        fun lastAppId(context: Context): String = AndroidUtil.getLastApplicationId(context)!!
+        fun lastAppId(context: Context?): String =
+            AndroidUtil.getLastApplicationId(context) ?: Constants.Default.STRING
+
         fun more(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
         fun about(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT
         fun settings(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.SETTINGS
@@ -163,7 +165,7 @@ class Constants {
 
     object Country {
         const val ID = Key.ID
-         val CODE_US = Locale.ENGLISH.country
+        val CODE_US = Locale.ENGLISH.country
     }
 
     object Parser {

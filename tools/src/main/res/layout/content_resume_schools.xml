@@ -53,7 +53,7 @@
                 android:id="@+id/recycler_resume_schools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:scrollbars="none"
                 tools:itemCount="3" />
         </androidx.appcompat.widget.LinearLayoutCompat>

@@ -25,6 +25,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ResumeMapper
+import com.dreampany.tools.data.model.Profile
 import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.databinding.ContentResumeProfileBinding
 import com.dreampany.tools.databinding.ContentResumeSkillsBinding
@@ -86,6 +87,13 @@ class ResumeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
+        //vm.updateUiState(uiState = UiState.SHOW_PROGRESS)
+        val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
+        if (uiTask.action == Action.EDIT || uiTask.action == Action.VIEW) {
+            uiTask.input?.run {
+                request(state = State.UI, action = Action.GET, progress = true, input = this)
+            }
+        }
     }
 
     override fun onStopUi() {
@@ -142,13 +150,11 @@ class ResumeFragment
         bindProfile = bind.contentResumeProfile
         bindSkills = bind.contentResumeSkills
 
-        val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
-
         bind.layoutRefresh.bind(this)
         bindSkills.imageResumeSkillsAdd.setOnSafeClickListener {
             showSkillUi()
         }
-        bind.contentResumeExperiences.imageResumeExperiencesAdd.setOnSafeClickListener {
+/*        bind.contentResumeExperiences.imageResumeExperiencesAdd.setOnSafeClickListener {
 
         }
         bind.contentResumeProjects.imageResumeProjectsAdd.setOnSafeClickListener {
@@ -156,18 +162,11 @@ class ResumeFragment
         }
         bind.contentResumeSchools.imageResumeSchoolsAdd.setOnSafeClickListener {
 
-        }
+        }*/
 
         vm = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-
-        if (uiTask.action == Action.EDIT || uiTask.action == Action.VIEW) {
-            // get ui item
-            uiTask.input?.run {
-                request(state = State.UI, action = Action.GET, progress = true, input = this)
-            }
-        }
     }
 
     private fun initRecycler() {
@@ -182,7 +181,11 @@ class ResumeFragment
         skillAdapter = SkillAdapter(this)
         skillAdapter.setStickyHeaders(false)
         skillScroller = object : OnVerticalScrollListener() {}
-        bindSkills.recylerSkill.apply(adapter = skillAdapter, layout = SmoothScrollLinearLayoutManager(context!!), scroller = skillScroller)
+        val layout =  SmoothScrollLinearLayoutManager(context!!)
+        layout.setAutoMeasureEnabled(true)
+        bindSkills.recylerSkill.setNestedScrollingEnabled(false)
+        //bindSkills.recylerSkill.setNestedScrollingEnabled(false)
+        bindSkills.recylerSkill.apply(adapter = skillAdapter, layout = layout, fixedSize = false, scroller = skillScroller)
      }
 
     private fun initExperienceRecycler() {
@@ -346,18 +349,20 @@ class ResumeFragment
             hasBackPressed()
             return
         }
-        bind.contentResumeProfile.editProfileName.setText(item.item.profile?.name)
-        bind.contentResumeProfile.editProfileDesignation.setText(item.item.profile?.designation)
-        bind.contentResumeProfile.editProfilePhone.setText(item.item.profile?.phone)
-        bind.contentResumeProfile.editProfileEmail.setText(item.item.profile?.email)
-        bind.contentResumeProfile.editProfileCurrentAddress.setText(item.item.profile?.currentAddress)
-        bind.contentResumeProfile.editProfilePermanentAddress.setText(item.item.profile?.permanentAddress)
-        ex.postToUi(Runnable {
-            vm.updateUiState(type, subtype, state, action, UiState.EXTRA)
-        }, 500L)
-        if (state == State.DIALOG) {
-
+        updateProfile(item.item.profile)
+        skillAdapter.clear()
+        item.skills.run {
+            skillAdapter.addItems(this)
         }
+    }
+
+    private fun updateProfile(profile: Profile?) {
+        bindProfile.editProfileName.setText(profile?.name)
+        bindProfile.editProfileDesignation.setText(profile?.designation)
+        bindProfile.editProfilePhone.setText(profile?.phone)
+        bindProfile.editProfileEmail.setText(profile?.email)
+        bindProfile.editProfileCurrentAddress.setText(profile?.currentAddress)
+        bindProfile.editProfilePermanentAddress.setText(profile?.permanentAddress)
     }
 
     private fun saveResume(): Boolean {

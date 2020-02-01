@@ -117,12 +117,13 @@ fun SwipeRefreshLayout?.bind(listener: SwipeRefreshLayout.OnRefreshListener?): S
 fun RecyclerView?.apply(
     adapter: SmartAdapter<*>,
     layout: RecyclerView.LayoutManager,
+    fixedSize: Boolean = true,
     decoration: RecyclerView.ItemDecoration? = null,
     animator: RecyclerView.ItemAnimator? = null,
     scroller: RecyclerView.OnScrollListener? = null) {
     layout.isItemPrefetchEnabled = false
     this?.apply {
-        setHasFixedSize(true)
+        setHasFixedSize(fixedSize)
         setAdapter(adapter)
         layoutManager = layout
         if (decoration != null && itemDecorationCount == 0) {

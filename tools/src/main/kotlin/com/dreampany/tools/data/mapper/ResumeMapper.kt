@@ -170,7 +170,7 @@ class ResumeMapper
         if (resume.skills.isNullOrEmpty()) {
             resume.skills = ArrayList()
         }
-        resume.skills?.clear()
+        //resume.skills?.clear()
         skillsData.forEach {
             getSkill(it)?.let { skill ->
                 resume.skills?.run {

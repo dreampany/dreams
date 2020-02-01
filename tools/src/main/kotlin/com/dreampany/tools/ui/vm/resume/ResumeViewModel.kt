@@ -282,7 +282,9 @@ class ResumeViewModel
             val uiItem = getUiItem(request, item)
             item.skills?.forEach {
                 getUiItem(request, it).run {
-                    uiItem.skills.add(this)
+                    if (!uiItem.skills.contains(this)) {
+                        uiItem.skills.add(this)
+                    }
                 }
             }
             emitter.onSuccess(uiItem)

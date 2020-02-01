@@ -7,13 +7,11 @@ import com.dreampany.framework.misc.extension.hash
 import com.dreampany.framework.misc.extension.hash512
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.*
-import com.dreampany.tools.injector.annote.ProfileAnnote
-import com.dreampany.tools.injector.annote.ProfileItemAnnote
-import com.dreampany.tools.injector.annote.ResumeAnnote
-import com.dreampany.tools.injector.annote.ResumeItemAnnote
+import com.dreampany.tools.injector.annote.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ProfileItem
 import com.dreampany.tools.ui.model.resume.ResumeItem
+import com.dreampany.tools.ui.model.resume.SkillItem
 import com.google.common.collect.Maps
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,9 +30,13 @@ class ResumeMapper
     @ResumeItemAnnote private val uiMap: SmartMap<String, ResumeItem>,
     @ResumeItemAnnote private val uiCache: SmartCache<String, ResumeItem>,
     @ProfileAnnote private val profileMap: SmartMap<String, Profile>,
-    @ProfileAnnote private val ProfileCache: SmartCache<String, Profile>,
+    @ProfileAnnote private val profileCache: SmartCache<String, Profile>,
     @ProfileItemAnnote private val profileUiMap: SmartMap<String, ProfileItem>,
-    @ProfileItemAnnote private val profileUiCache: SmartCache<String, ProfileItem>
+    @ProfileItemAnnote private val profileUiCache: SmartCache<String, ProfileItem>,
+    @SkillAnnote private val skillMap: SmartMap<String, Skill>,
+    @SkillAnnote private val skillCache: SmartCache<String, Skill>,
+    @SkillItemAnnote private val skillUiMap: SmartMap<String, SkillItem>,
+    @SkillItemAnnote private val skillUiCache: SmartCache<String, SkillItem>
 ) : Mapper() {
 
     fun putUiItem(id: String, uiItem: ResumeItem) {
@@ -43,6 +45,14 @@ class ResumeMapper
 
     fun getUiItem(id: String): ResumeItem? {
         return uiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: SkillItem) {
+        skillUiMap.put(id, uiItem)
+    }
+
+    fun getSkillUiItem(id: String): SkillItem? {
+        return skillUiMap.get(id)
     }
 
     fun getProfileMap(

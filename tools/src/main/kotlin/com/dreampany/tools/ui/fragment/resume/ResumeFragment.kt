@@ -27,6 +27,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.Resume
 import com.dreampany.tools.databinding.ContentResumeProfileBinding
+import com.dreampany.tools.databinding.ContentResumeSkillsBinding
 import com.dreampany.tools.databinding.FragmentResumeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.resume.ResumeAdapter
@@ -35,6 +36,7 @@ import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.resume.ResumeItem
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.google.android.material.textfield.TextInputEditText
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -55,9 +57,12 @@ class ResumeFragment
     internal lateinit var session: SessionManager
     @Inject
     internal lateinit var mapper: ResumeMapper
+
     private lateinit var bind: FragmentResumeBinding
     private lateinit var bindProfile: ContentResumeProfileBinding
+    private lateinit var bindSkills : ContentResumeSkillsBinding
 
+    private lateinit var skillScroller: OnVerticalScrollListener
     private lateinit var skillAdapter: SkillAdapter
     private lateinit var vm: ResumeViewModel
     private var saved: Boolean = false
@@ -135,10 +140,12 @@ class ResumeFragment
     private fun initUi() {
         bind = super.binding as FragmentResumeBinding
         bindProfile = bind.contentResumeProfile
+        bindSkills = bind.contentResumeSkills
+
         val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
 
         bind.layoutRefresh.bind(this)
-        bind.contentResumeSkills.imageResumeSkillsAdd.setOnSafeClickListener {
+        bindSkills.imageResumeSkillsAdd.setOnSafeClickListener {
             showSkillUi()
         }
         bind.contentResumeExperiences.imageResumeExperiencesAdd.setOnSafeClickListener {
@@ -174,6 +181,8 @@ class ResumeFragment
         bind.skills = ObservableArrayList<Any>()
         skillAdapter = SkillAdapter(this)
         skillAdapter.setStickyHeaders(false)
+        skillScroller = object : OnVerticalScrollListener() {}
+        bindSkills.recylerSkill.apply(adapter = skillAdapter, layout = SmoothScrollLinearLayoutManager(context!!), scroller = skillScroller)
      }
 
     private fun initExperienceRecycler() {
@@ -320,10 +329,13 @@ class ResumeFragment
         if (action == Action.ADD || action == Action.EDIT) {
             when (subtype) {
                 Subtype.SKILL -> {
-
+                    skillAdapter.clear()
+                    item.skills.run {
+                        skillAdapter.addItems(this)
+                    }
+                    return
                 }
             }
-
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_resume))
             AndroidUtil.hideSoftInput(getParent()!!)
             saved = true

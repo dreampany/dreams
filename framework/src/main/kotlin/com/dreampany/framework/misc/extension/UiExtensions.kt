@@ -16,10 +16,14 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.misc.func.SafeClickListener
+import com.dreampany.framework.ui.adapter.SmartAdapter
+import java.util.*
 
 
 /**
@@ -108,4 +112,31 @@ fun SwipeRefreshLayout?.bind(listener: SwipeRefreshLayout.OnRefreshListener?): S
         this?.setOnRefreshListener(it)
     }
     return this
+}
+
+fun RecyclerView?.apply(
+    adapter: SmartAdapter<*>,
+    layout: RecyclerView.LayoutManager,
+    decoration: RecyclerView.ItemDecoration? = null,
+    animator: RecyclerView.ItemAnimator? = null,
+    scroller: RecyclerView.OnScrollListener? = null) {
+    layout.isItemPrefetchEnabled = false
+    this?.apply {
+        setHasFixedSize(true)
+        setAdapter(adapter)
+        layoutManager = layout
+        if (decoration != null && itemDecorationCount == 0) {
+            addItemDecoration(decoration)
+        }
+        if (animator != null) {
+            itemAnimator = animator
+        } else {
+            //(Objects.requireNonNull(recycler.itemAnimator) as DefaultItemAnimator).supportsChangeAnimations = false
+            //recycler.setItemAnimator(null);
+        }
+        clearOnScrollListeners()
+        if (scroller != null) {
+            addOnScrollListener(scroller)
+        }
+    }
 }

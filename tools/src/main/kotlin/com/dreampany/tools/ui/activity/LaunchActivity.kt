@@ -18,6 +18,10 @@ class LaunchActivity : BaseActivity() {
         return R.layout.activity_launch
     }
 
+    override fun isPortrait(): Boolean {
+        return true
+    }
+
     override fun isFullScreen(): Boolean {
         return true
     }

@@ -114,6 +114,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
         return R.layout.activity_tools
     }
 
+    override fun isPortrait(): Boolean {
+        return true
+    }
+
     override fun isFullScreen(): Boolean {
         val uiTask = getCurrentTask<UiTask<*>>(true)
         return uiTask?.fullscreen ?: super.isFullScreen()

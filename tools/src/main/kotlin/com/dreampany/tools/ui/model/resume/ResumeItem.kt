@@ -42,7 +42,7 @@ private constructor(
         color = ColorUtil.createShadowWhiteColor()
     }
 
-    var skills: List<SkillItem>? = null
+    val skills: ArrayList<SkillItem> = arrayListOf()
 
     companion object {
         fun getItem(item: Resume): ResumeItem {

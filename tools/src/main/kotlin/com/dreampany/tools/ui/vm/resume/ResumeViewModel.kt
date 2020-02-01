@@ -16,10 +16,12 @@ import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.Skill
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ResumeRepository
 import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.resume.ResumeItem
+import com.dreampany.tools.ui.model.resume.SkillItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -178,6 +180,13 @@ class ResumeViewModel
 
         when (request.action) {
             Action.ADD -> {
+/*                when(request.subtype) {
+                    Subtype.SKILL-> {
+                        request.input?.let {
+                            return getUiItemRx(request, it)
+                        }
+                    }
+                }*/
                 return addItemRx(request).flatMap { getUiItemRx(request, it) }
             }
             Action.EDIT -> {
@@ -271,6 +280,11 @@ class ResumeViewModel
                             toggleFavorite(item.id)
                         }*/
             val uiItem = getUiItem(request, item)
+            item.skills?.forEach {
+                getUiItem(request, it).run {
+                    uiItem.skills.add(this)
+                }
+            }
             emitter.onSuccess(uiItem)
         }
     }
@@ -289,6 +303,18 @@ class ResumeViewModel
         var uiItem: ResumeItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
             uiItem = ResumeItem.getItem(item)
+            mapper.putUiItem(item.id, uiItem)
+        }
+        uiItem.item = item
+        //adjustFavorite(item, uiItem)
+        //adjustTranslate(request, uiItem)
+        return uiItem
+    }
+
+    private fun getUiItem(request: ResumeRequest, item: Skill): SkillItem {
+        var uiItem: SkillItem? = mapper.getSkillUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = SkillItem.getItem(item)
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item

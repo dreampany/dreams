@@ -40,6 +40,10 @@ class NavigationActivity : BaseBottomNavigationActivity() {
     private lateinit var bind: ActivityNavigationBinding
     private lateinit var loaderVm: LoaderViewModel
 
+    override fun isPortrait(): Boolean {
+        return true
+    }
+
     override fun getLayoutId(): Int {
         return R.layout.activity_navigation
     }

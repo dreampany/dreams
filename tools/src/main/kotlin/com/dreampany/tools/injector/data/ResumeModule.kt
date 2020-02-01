@@ -6,15 +6,14 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.Profile
 import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.Skill
 import com.dreampany.tools.data.source.api.ResumeDataSource
 import com.dreampany.tools.data.source.room.RoomResumeDataSource
 import com.dreampany.tools.data.source.room.dao.ResumeDao
-import com.dreampany.tools.injector.annote.ProfileAnnote
-import com.dreampany.tools.injector.annote.ProfileItemAnnote
-import com.dreampany.tools.injector.annote.ResumeAnnote
-import com.dreampany.tools.injector.annote.ResumeItemAnnote
+import com.dreampany.tools.injector.annote.*
 import com.dreampany.tools.ui.model.ProfileItem
 import com.dreampany.tools.ui.model.resume.ResumeItem
+import com.dreampany.tools.ui.model.resume.SkillItem
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -81,6 +80,34 @@ class ResumeModule {
     @Provides
     @ProfileItemAnnote
     fun provideProfileItemSmartCache(): SmartCache<String, ProfileItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @SkillAnnote
+    fun provideSkillSmartMap(): SmartMap<String, Skill> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @SkillAnnote
+    fun provideSkillSmartCache(): SmartCache<String, Skill> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @SkillItemAnnote
+    fun provideSkillItemSmartMap(): SmartMap<String, SkillItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @SkillItemAnnote
+    fun provideSkillItemSmartCache(): SmartCache<String, SkillItem> {
         return SmartCache.newCache()
     }
 

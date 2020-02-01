@@ -59,9 +59,9 @@ class ResumeHomeFragment
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
+    private lateinit var scroller: OnVerticalScrollListener
     private lateinit var adapter: ResumeAdapter
     private lateinit var vm: ResumeViewModel
-    private lateinit var scroller: OnVerticalScrollListener
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_recycler

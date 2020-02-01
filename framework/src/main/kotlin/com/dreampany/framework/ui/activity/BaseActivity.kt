@@ -1,6 +1,7 @@
 package com.dreampany.framework.ui.activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
@@ -77,6 +78,10 @@ abstract class BaseActivity :
         return R.id.toolbar
     }
 
+    open fun isPortrait() : Boolean {
+        return false
+    }
+
     open fun isFullScreen(): Boolean {
         return false
     }
@@ -133,6 +138,9 @@ abstract class BaseActivity :
         if (AndroidUtil.hasLollipop()) {
             requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         }
+        if (isPortrait()) {
+            //requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        }
         if (hasTheme()) {
             //Aesthetic.attach(this)
         }
@@ -157,7 +165,7 @@ abstract class BaseActivity :
             onStartUi(savedInstanceState)
             val screen = getScreen()
             configPref.setScreen(UiType.ACTIVITY, screen)
-            getApp()?.throwAnalytics(Constants.Event.ACTIVITY, screen)
+            getApp().throwAnalytics(Constants.Event.ACTIVITY, screen)
         }
 
         if (app.hasRate() && hasRatePermitted()) {

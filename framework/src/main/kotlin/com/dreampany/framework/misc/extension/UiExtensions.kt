@@ -1,7 +1,11 @@
 package com.dreampany.framework.misc.extension
 
 import android.content.Context
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -9,11 +13,14 @@ import androidx.annotation.ColorRes
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.misc.func.SafeClickListener
+
 
 /**
  * Created by roman on 2019-09-27
@@ -65,9 +72,25 @@ fun View?.setOnSafeClickListener(
     return this
 }
 
-fun MenuItem?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): MenuItem? {
+fun Drawable?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): Drawable? {
     if (context == null) return this
-    this?.icon?.mutate()?.setColorFilter(colorRes.toColor(context), PorterDuff.Mode.SRC_ATOP)
+/*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+    } else {
+        this?.setColorFilter(colorRes.toColor(context), PorterDuff.Mode.SRC_ATOP)
+    }*/
+    this?.setColorFilter(
+        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            colorRes.toColor(
+                context
+            ), BlendModeCompat.SRC_ATOP
+        )
+    )
+    return this
+}
+
+fun MenuItem?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): MenuItem? {
+    this?.icon?.mutate()?.toTint(context, colorRes)
     return this
 }
 

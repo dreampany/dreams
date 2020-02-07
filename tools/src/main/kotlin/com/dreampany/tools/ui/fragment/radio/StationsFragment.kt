@@ -41,7 +41,6 @@ import com.dreampany.tools.ui.model.StationItem
 import com.dreampany.tools.ui.vm.StationViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
@@ -135,11 +134,10 @@ class StationsFragment
     }
 
     override fun onRefresh() {
-        super.onRefresh()
         if (adapter.isEmpty) {
             request(progress = true)
         } else {
-            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+            vm.updateUiState(state = state!!, uiState = UiState.HIDE_PROGRESS)
         }
     }
 
@@ -175,6 +173,7 @@ class StationsFragment
         bind = super.binding as FragmentStationsBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
+        takeState()
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bind.fab.setOnClickListener(this)
@@ -195,7 +194,7 @@ class StationsFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-        vm.updateUiState(uiState =  UiState.DEFAULT)
+        vm.updateUiState(state = state!!, uiState = UiState.DEFAULT)
 
         countryCode = GeoUtil.getCountryCode(context!!)
     }
@@ -251,13 +250,17 @@ class StationsFragment
             if (this.state != result.state) {
                 return
             }
-            vm.processProgress(state = result.state,action =  result.action,loading =  result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
             if (this.state != result.state) {
                 return
             }
-            vm.processFailure(state = result.state,action =  result.action, error = result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<StationItem>>
             processSuccess(result.state, result.action, result.data)
@@ -270,13 +273,17 @@ class StationsFragment
             if (this.state != result.state) {
                 return
             }
-            vm.processProgress(state = result.state,action =  result.action,loading =  result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
             if (this.state != result.state) {
                 return
             }
-            vm.processFailure(state = result.state,action =  result.action,error =  result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<StationItem>
             processSuccess(result.state, result.action, result.data)
@@ -291,7 +298,7 @@ class StationsFragment
         adapter.addItems(items)
         updatePlaying()
         ex.postToUi(Runnable {
-            vm.updateUiState(state = state,action =  action,uiState =  UiState.EXTRA)
+            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
     }
 
@@ -306,7 +313,7 @@ class StationsFragment
         }
 
         ex.postToUi(Runnable {
-            vm.updateUiState(state = state,action =  action,uiState =  UiState.EXTRA)
+            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
     }
 
@@ -329,8 +336,6 @@ class StationsFragment
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN
     ) {
-
-        takeState()
 
         val request = StationRequest(
             id = id,

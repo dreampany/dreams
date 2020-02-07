@@ -21,7 +21,7 @@ class StationAdapter(listener: Any? = null) : SmartAdapter<StationItem>(listener
 
     companion object {
         private val SPAN_COUNT = 2
-        private val ITEM_OFFSET = 4
+        private val ITEM_OFFSET = 8
     }
 
     var playingStationId: String = Constants.Default.STRING

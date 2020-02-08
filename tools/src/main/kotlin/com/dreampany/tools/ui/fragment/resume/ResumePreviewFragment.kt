@@ -81,7 +81,7 @@ class ResumePreviewFragment
         val uiTask = getCurrentTask<UiTask<Resume>>() ?: return
 
         uiTask.input?.run {
-            val content = Constants.Extra.toPrintableContent(this)
+            val content = Constants.Extra.toPrintableContent(context!!, this)
             bind.web.loadDataWithBaseURL(null, content, "text/html", "utf-8", null)
         }
     }

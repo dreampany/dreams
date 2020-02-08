@@ -831,7 +831,7 @@ class Constants {
             return resourceId
         }
 
-        fun toPrintableContent(resume: Resume) : String {
+        fun toPrintableContent(context: Context, resume: Resume) : String {
             val html = StringBuilder()
             html.append(
                 String.format(
@@ -874,6 +874,30 @@ class Constants {
                     resume.profile?.email.string()
                 )
             )
+            if (!resume.skills.isNullOrEmpty()) {
+                val skill = StringBuilder()
+                resume.skills?.forEach {
+                    if (skill.isNotEmpty()) {
+                        skill.append(Sep.COMMA_SPACE)
+                    }
+                    skill.append(it.title)
+                }
+                html.append(
+                    String.format(
+                        "\n" +
+                                "                <tr class=\"c27\">\n" +
+                                "                    <td class=\"c26\" colspan=\"1\" rowspan=\"1\">\n" +
+                                "                        <p class=\"c6\"><span class=\"c24\">ㅡ</span></p>\n" +
+                                "                        <h1 class=\"c9\" id=\"h.61e3cm1p1fln\"><span class=\"c16\">" + context.getString(R.string.title_skills) + "</span></h1></td>\n" +
+                                "                    <td class=\"c4\" colspan=\"1\" rowspan=\"1\">\n" +
+                                "                        <p class=\"c2\"><span style=\"overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 418.00px; height: 2.67px;\"><img alt=\"\" src=\"https://lh3.googleusercontent.com/n8bZfGajkthDbPpbjeiRJ4w7rNUmj1iFxdZKCHUOVnfH9FgHVt5EBo3vOYIIoE3augYQ_DCZJUzdlStyJ5RaldVrSG36sTE0CjIot2qaiJ3YRyr2i87bt9Y9d0ngdseS9PpG0HzM\" style=\"width: 418.00px; height: 2.67px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);\" title=\"horizontal line\"></span></p>\n" +
+                                "                        <p class=\"c3\"><span class=\"c7\">%s</span></p>\n" +
+                                "                    </td>\n" +
+                                "                </tr>", skill.toString()
+                    )
+                )
+            }
+
             return html.toString()
         }
     }

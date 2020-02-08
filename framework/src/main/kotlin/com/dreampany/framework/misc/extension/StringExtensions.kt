@@ -37,25 +37,35 @@ fun String?.string(): String {
     return if (this == null) Constants.Default.STRING else this
 }
 
-fun String?.isEqual(instance: String?) : Boolean {
+fun String?.isEqual(instance: String?): Boolean {
     if (this == instance) return true
     if (this == null || instance == null) return false
     return this.equals(instance)
 }
 
-fun String?.isEqual(instance: CharSequence?) : Boolean {
+fun String?.isEqual(instance: CharSequence?): Boolean {
     if (this == instance) return true
     if (this == null || instance == null) return false
     return this.equals(instance)
 }
 
-fun String?.isEqual(instance: Editable?) : Boolean {
+fun String?.isEqual(instance: Editable?): Boolean {
     if (this != null) return this.equals(instance)
     return instance!!.equals(this)
 }
 
-fun CharSequence?.isEqual(instance: CharSequence?) : Boolean {
+fun CharSequence?.isEqual(instance: CharSequence?): Boolean {
     if (this == instance) return true
     if (this == null || instance == null) return false
     return this.equals(instance)
 }
+
+/*fun String.join(vararg items: String, sep: String): String {
+    val builder = StringBuilder()
+    for (item in items) {
+        if (builder.isNotEmpty()) builder.append(sep)
+        builder.append(item)
+    }
+    return builder.toString()
+}*/
+

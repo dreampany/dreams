@@ -11,6 +11,7 @@
             type="com.dreampany.tools.ui.model.resume.ResumeItem" />
     </data>
 
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -30,27 +31,11 @@
                 auto:srcCompat="@drawable/ic_remove_circle_black_24dp" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_company"
+                android:id="@+id/text_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="@string/hint_company"
-                android:inputType="textCapWords" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_location"
-                android:inputType="textCapWords" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_designation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_designation"
+                android:hint="@string/hint_name"
                 android:inputType="textCapWords" />
 
             <com.google.android.material.textview.MaterialTextView

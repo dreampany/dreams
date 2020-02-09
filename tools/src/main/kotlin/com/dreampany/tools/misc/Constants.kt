@@ -831,7 +831,7 @@ class Constants {
             return resourceId
         }
 
-        fun toPrintableContent(context: Context, resume: Resume) : String {
+        fun toPrintableContent(context: Context, resume: Resume): String {
             val html = StringBuilder()
             html.append(
                 String.format(
@@ -888,7 +888,9 @@ class Constants {
                                 "                <tr class=\"c27\">\n" +
                                 "                    <td class=\"c26\" colspan=\"1\" rowspan=\"1\">\n" +
                                 "                        <p class=\"c6\"><span class=\"c24\">ㅡ</span></p>\n" +
-                                "                        <h1 class=\"c9\" id=\"h.61e3cm1p1fln\"><span class=\"c16\">" + context.getString(R.string.title_skills) + "</span></h1></td>\n" +
+                                "                        <h1 class=\"c9\" id=\"h.61e3cm1p1fln\"><span class=\"c16\">" + context.getString(
+                            R.string.title_skills
+                        ) + "</span></h1></td>\n" +
                                 "                    <td class=\"c4\" colspan=\"1\" rowspan=\"1\">\n" +
                                 "                        <p class=\"c2\"><span style=\"overflow: hidden; display: inline-block; margin: 0.00px 0.00px; border: 0.00px solid #000000; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px); width: 418.00px; height: 2.67px;\"><img alt=\"\" src=\"https://lh3.googleusercontent.com/n8bZfGajkthDbPpbjeiRJ4w7rNUmj1iFxdZKCHUOVnfH9FgHVt5EBo3vOYIIoE3augYQ_DCZJUzdlStyJ5RaldVrSG36sTE0CjIot2qaiJ3YRyr2i87bt9Y9d0ngdseS9PpG0HzM\" style=\"width: 418.00px; height: 2.67px; margin-left: 0.00px; margin-top: 0.00px; transform: rotate(0.00rad) translateZ(0px); -webkit-transform: rotate(0.00rad) translateZ(0px);\" title=\"horizontal line\"></span></p>\n" +
                                 "                        <p class=\"c3\"><span class=\"c7\">%s</span></p>\n" +
@@ -897,7 +899,110 @@ class Constants {
                     )
                 )
             }
+            if (!resume.experiences.isNullOrEmpty()) {
+                html.append(
+                    "\n" +
+                            "                <tr class=\"c15\">\n" +
+                            "                    <td class=\"c26\" colspan=\"1\" rowspan=\"1\">\n" +
+                            "                        <p class=\"c6\"><span class=\"c24\">ㅡ</span></p>\n" +
+                            "                        <h1 class=\"c9\" id=\"h.tk538brb1kdf\"><span class=\"c16\">" + context.getString(
+                        R.string.title_experience
+                    ) + "</span></h1></td>\n" +
+                            "                    <td class=\"c4\" colspan=\"1\" rowspan=\"1\">\n"
+                )
+                var first = true
+                for (experience in resume.experiences!!) {
+                    html.append(
+                        java.lang.String.format(
+                            "<h2 class=\"%s\" id=\"h.u3uy0857ab2n\"><span class=\"c5\">%s </span><span class=\"c30 c5\">/ %s</span></h2>\n" +
+                                    "                        <h3 class=\"c2\" id=\"h.re1qtuma0rpm\"><span class=\"c1\">%s</span></h3>\n" +
+                                    "                        <p class=\"c32\"><span class=\"c7\">%s</span></p>\n",
+                            if (first) "c3" else "c14",
+                            experience.company,
+                            experience.location,
+                            experience.designation,
+                            experience.description
+                        )
+                    )
+                    first = false
+                }
+                html.append(
+                    "</td>\n" +
+                            "                </tr>"
+                )
+            }
 
+            if (!resume.projects.isNullOrEmpty()) {
+                html.append(
+                    "\n" +
+                            "                <tr class=\"c15\">\n" +
+                            "                    <td class=\"c26\" colspan=\"1\" rowspan=\"1\">\n" +
+                            "                        <p class=\"c6\"><span class=\"c24\">ㅡ</span></p>\n" +
+                            "                        <h1 class=\"c9\" id=\"h.tk538brb1kdf\"><span class=\"c16\">" + context.getString(
+                        R.string.title_project
+                    ) + "</span></h1></td>\n" +
+                            "                    <td class=\"c4\" colspan=\"1\" rowspan=\"1\">\n"
+                )
+                var first = true
+                for (project in resume.projects!!) {
+                    html.append(
+                        String.format(
+                            "<h2 class=\"%s\" id=\"h.u3uy0857ab2n\"><span class=\"c5\">%s </span><span class=\"c30 c5\">/ %s</span></h2>\n" +
+                                    "                        <p class=\"c32\"><span class=\"c7\">%s</span></p>\n",
+                            if (first) "c3" else "c14",
+                            project.name,
+                            project.description,
+                            project.description
+                        )
+                    )
+                    first = false
+                }
+                html.append(
+                    "</td>\n" +
+                            "                </tr>"
+                )
+            }
+
+            if (!resume.schools.isNullOrEmpty()) {
+                html.append(
+                    "\n" +
+                            "                <tr class=\"c15\">\n" +
+                            "                    <td class=\"c26\" colspan=\"1\" rowspan=\"1\">\n" +
+                            "                        <p class=\"c6\"><span class=\"c24\">ㅡ</span></p>\n" +
+                            "                        <h1 class=\"c9\" id=\"h.tk538brb1kdf\"><span class=\"c16\">" + context.getString(
+                        R.string.title_school
+                    ) + "</span></h1></td>\n" +
+                            "                    <td class=\"c4\" colspan=\"1\" rowspan=\"1\">\n"
+                )
+                var first = true
+                for (school in resume.schools!!) {
+                    html.append(
+                        java.lang.String.format(
+                            "<h2 class=\"%s\" id=\"h.u3uy0857ab2n\"><span class=\"c5\">%s </span><span class=\"c30 c5\">/ %s</span></h2>\n" +
+                                    "                        <h3 class=\"c2\" id=\"h.re1qtuma0rpm\"><span class=\"c1\">%s</span></h3>\n" +
+                                    "                        <p class=\"c32\"><span class=\"c7\">%s</span></p>\n",
+                            if (first) "c3" else "c14",
+                            school.name,
+                            school.degree,
+                            school.location,
+                            school.description
+                        )
+                    )
+                    first = false
+                }
+                html.append(
+                    "</td>\n" +
+                            "                </tr>"
+                )
+            }
+            html.append(
+                "</tbody>\n" +
+                        "</table>\n" +
+                        "<p class=\"c2 c11\"><span class=\"c30 c5\"></span></p>\n" +
+                        "</div>\n" +
+                        "</body>\n" +
+                        "</html>"
+            )
             return html.toString()
         }
     }

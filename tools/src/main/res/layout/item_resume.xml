@@ -59,8 +59,8 @@
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
-                    auto:tint="@color/material_grey800"
-                    auto:srcCompat="@drawable/ic_edit_black_24dp" />
+                    auto:srcCompat="@drawable/ic_edit_black_24dp"
+                    auto:tint="@color/material_grey800" />
 
                 <com.like.LikeButton
                     android:id="@+id/button_favorite"
@@ -68,6 +68,7 @@
                     android:layout_height="@dimen/_20sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
                     android:layout_marginBottom="@dimen/_3sdp"
+                    android:visibility="gone"
                     auto:icon_size="@dimen/_20sdp"
                     auto:icon_type="heart" />
             </androidx.appcompat.widget.LinearLayoutCompat>

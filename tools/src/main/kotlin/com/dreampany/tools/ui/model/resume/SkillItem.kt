@@ -66,13 +66,13 @@ class SkillItem private constructor(
         BaseItem.ViewHolder(view, adapter) {
 
         private val adapter: SkillAdapter
-        private val skill: MaterialTextView
         private val remove: AppCompatImageButton
+        private val skill: MaterialTextView
 
         init {
             this.adapter = adapter as SkillAdapter
+            remove = view.findViewById(R.id.button_remove)
             skill = view.findViewById(R.id.text_skill)
-            remove = view.findViewById(R.id.button_resume_skill_remove)
 
             remove.setOnSafeClickListener {
                 this.adapter.uiItemClickListener?.onUiItemClick(

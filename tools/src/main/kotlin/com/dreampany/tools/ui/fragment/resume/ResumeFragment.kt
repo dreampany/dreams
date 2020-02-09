@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
@@ -34,7 +36,7 @@ import com.dreampany.tools.ui.adapter.resume.ProjectAdapter
 import com.dreampany.tools.ui.adapter.resume.SchoolAdapter
 import com.dreampany.tools.ui.adapter.resume.SkillAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
-import com.dreampany.tools.ui.model.resume.ResumeItem
+import com.dreampany.tools.ui.model.resume.*
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.google.android.material.textfield.TextInputEditText
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -192,7 +194,16 @@ class ResumeFragment
 
     private fun initSkillRecycler() {
         bind.skills = ObservableArrayList<Any>()
-        skillAdapter = SkillAdapter(this)
+        skillAdapter = SkillAdapter(object : SmartAdapter.OnUiItemClickListener<SkillItem, Action>{
+            override fun onUiItemClick(view: View, item: SkillItem, action: Action) {
+
+            }
+
+            override fun onUiItemLongClick(view: View, item: SkillItem, action: Action) {
+            }
+
+        })
+
         skillAdapter.setStickyHeaders(false)
         skillScroller = object : OnVerticalScrollListener() {}
         val layout = SmoothScrollLinearLayoutManager(context!!)
@@ -208,7 +219,14 @@ class ResumeFragment
 
     private fun initExperienceRecycler() {
         bind.experiences = ObservableArrayList<Any>()
-        experienceAdapter = ExperienceAdapter(this)
+        experienceAdapter = ExperienceAdapter(object : SmartAdapter.OnUiItemClickListener<ExperienceItem, Action>{
+            override fun onUiItemClick(view: View, item: ExperienceItem, action: Action) {
+
+            }
+
+            override fun onUiItemLongClick(view: View, item: ExperienceItem, action: Action) {
+            }
+        })
         experienceAdapter.setStickyHeaders(false)
         experienceScroller = object : OnVerticalScrollListener() {}
         val layout = SmoothScrollLinearLayoutManager(context!!)
@@ -225,7 +243,14 @@ class ResumeFragment
 
     private fun initProjectRecycler() {
         bind.projects = ObservableArrayList<Any>()
-        projectAdapter = ProjectAdapter(this)
+        projectAdapter = ProjectAdapter(object : SmartAdapter.OnUiItemClickListener<ProjectItem, Action>{
+            override fun onUiItemClick(view: View, item: ProjectItem, action: Action) {
+
+            }
+
+            override fun onUiItemLongClick(view: View, item: ProjectItem, action: Action) {
+            }
+        })
         projectAdapter.setStickyHeaders(false)
         projectScroller = object : OnVerticalScrollListener() {}
         val layout = SmoothScrollLinearLayoutManager(context!!)
@@ -242,7 +267,14 @@ class ResumeFragment
 
     private fun initSchoolRecycler() {
         bind.schools = ObservableArrayList<Any>()
-        schoolAdapter = SchoolAdapter(this)
+        schoolAdapter = SchoolAdapter(object : SmartAdapter.OnUiItemClickListener<SchoolItem, Action>{
+            override fun onUiItemClick(view: View, item: SchoolItem, action: Action) {
+
+            }
+
+            override fun onUiItemLongClick(view: View, item: SchoolItem, action: Action) {
+            }
+        })
         schoolAdapter.setStickyHeaders(false)
         schoolScroller = object : OnVerticalScrollListener() {}
         val layout = SmoothScrollLinearLayoutManager(context!!)
@@ -383,7 +415,7 @@ class ResumeFragment
                 cancelOnTouchOutside(false)
                 positiveButton(R.string.save, click = { dialog ->
                     val parent = dialog.getCustomView()
-                    val nameInput = parent.findViewById<TextInputEditText>(R.id.edit_profile_name)
+                    val nameInput = parent.findViewById<TextInputEditText>(R.id.edit_project_name)
                     val descriptionInput = parent.findViewById<TextInputEditText>(R.id.edit_project_description)
 
                     val name = nameInput.string()
@@ -525,9 +557,22 @@ class ResumeFragment
             return
         }
         updateProfile(item.item.profile)
+
         skillAdapter.clear()
         item.skills.run {
             skillAdapter.addItems(this)
+        }
+        experienceAdapter.clear()
+        item.experiences.run {
+            experienceAdapter.addItems(this)
+        }
+        projectAdapter.clear()
+        item.projects.run {
+            projectAdapter.addItems(this)
+        }
+        schoolAdapter.clear()
+        item.schools.run {
+            schoolAdapter.addItems(this)
         }
     }
 

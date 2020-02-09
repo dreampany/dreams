@@ -2,13 +2,20 @@ package com.dreampany.tools.ui.model.resume
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
+import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Experience
 import com.dreampany.tools.data.model.Project
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.adapter.resume.ExperienceAdapter
+import com.dreampany.tools.ui.adapter.resume.ProjectAdapter
 import com.dreampany.tools.ui.model.ServerItem
+import com.google.android.material.textview.MaterialTextView
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -27,7 +34,7 @@ class ProjectItem private constructor(
 
     companion object {
         fun getItem(item: Project): ProjectItem {
-            return ProjectItem(item, 0)
+            return ProjectItem(item, R.layout.item_resume_project)
         }
     }
 
@@ -38,7 +45,7 @@ class ProjectItem private constructor(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as ServerItem
+        val item = other as ProjectItem
         return Objects.equal(this.item.id, item.item.id)
     }
 
@@ -59,16 +66,33 @@ class ProjectItem private constructor(
     class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         BaseItem.ViewHolder(view, adapter) {
 
-        init {
+        private val adapter: ProjectAdapter
+        private val remove: AppCompatImageButton
+        private val name: MaterialTextView
+        private val description: MaterialTextView
 
+        init {
+            this.adapter = adapter as ProjectAdapter
+            remove = view.findViewById(R.id.button_remove)
+            name = view.findViewById(R.id.text_name)
+            description = view.findViewById(R.id.text_description)
+
+            remove.setOnSafeClickListener {
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = view,
+                    item = this.adapter.getItem(adapterPosition)!!,
+                    action = Action.DELETE
+                )
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
                 bind(position: Int, item: I) {
-            val uiItem = item as ResumeItem
+            val uiItem = item as ProjectItem
             val item = uiItem.item
 
-
+            name.text = item.name
+            description.text = item.description
         }
     }
 }

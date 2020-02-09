@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
+    <data>
+        <variable
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
+    </data>
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,11 +55,12 @@
                 android:background="@color/material_grey200" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_resume_projects"
+                android:id="@+id/recycler_projects"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:scrollbars="none"
+                auto:items="@{items}"
                 tools:itemCount="3" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>

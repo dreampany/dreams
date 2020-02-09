@@ -49,7 +49,7 @@ fun EditText?.isEmpty(): Boolean {
     return this?.text?.trim().isNullOrEmpty() ?: false
 }
 
-fun EditText?.rawText(): String? {
+fun EditText?.string(): String? {
     return this?.text?.trim()?.toString()
 }
 

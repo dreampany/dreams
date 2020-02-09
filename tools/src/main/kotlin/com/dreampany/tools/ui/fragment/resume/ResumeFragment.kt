@@ -27,11 +27,11 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.Profile
 import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.databinding.ContentResumeProfileBinding
-import com.dreampany.tools.databinding.ContentResumeSkillsBinding
-import com.dreampany.tools.databinding.FragmentResumeBinding
+import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.resume.ResumeAdapter
+import com.dreampany.tools.ui.adapter.resume.ExperienceAdapter
+import com.dreampany.tools.ui.adapter.resume.ProjectAdapter
+import com.dreampany.tools.ui.adapter.resume.SchoolAdapter
 import com.dreampany.tools.ui.adapter.resume.SkillAdapter
 import com.dreampany.tools.ui.misc.ResumeRequest
 import com.dreampany.tools.ui.model.resume.ResumeItem
@@ -61,10 +61,19 @@ class ResumeFragment
 
     private lateinit var bind: FragmentResumeBinding
     private lateinit var bindProfile: ContentResumeProfileBinding
-    private lateinit var bindSkills : ContentResumeSkillsBinding
+    private lateinit var bindSkills: ContentResumeSkillsBinding
+    private lateinit var bindExperiences: ContentResumeExperiencesBinding
+    private lateinit var bindProjects: ContentResumeProjectsBinding
+    private lateinit var bindSchools: ContentResumeSchoolsBinding
 
     private lateinit var skillScroller: OnVerticalScrollListener
+    private lateinit var experienceScroller: OnVerticalScrollListener
+    private lateinit var projectScroller: OnVerticalScrollListener
+    private lateinit var schoolScroller: OnVerticalScrollListener
     private lateinit var skillAdapter: SkillAdapter
+    private lateinit var experienceAdapter: ExperienceAdapter
+    private lateinit var projectAdapter: ProjectAdapter
+    private lateinit var schoolAdapter: SchoolAdapter
     private lateinit var vm: ResumeViewModel
     private var saved: Boolean = false
 
@@ -149,20 +158,25 @@ class ResumeFragment
         bind = super.binding as FragmentResumeBinding
         bindProfile = bind.contentResumeProfile
         bindSkills = bind.contentResumeSkills
+        bindExperiences = bind.contentResumeExperiences
+        bindProjects = bind.contentResumeProjects
+        bindSchools = bind.contentResumeSchools
 
         bind.layoutRefresh.bind(this)
         bindSkills.imageResumeSkillsAdd.setOnSafeClickListener {
             showSkillUi()
         }
-/*        bind.contentResumeExperiences.imageResumeExperiencesAdd.setOnSafeClickListener {
-
+        bindExperiences.imageResumeExperiencesAdd.setOnSafeClickListener {
+            showExperienceUi()
         }
-        bind.contentResumeProjects.imageResumeProjectsAdd.setOnSafeClickListener {
 
+        bindProjects.imageResumeProjectsAdd.setOnSafeClickListener {
+            showProjectUi()
         }
-        bind.contentResumeSchools.imageResumeSchoolsAdd.setOnSafeClickListener {
 
-        }*/
+        bindSchools.imageResumeSchoolsAdd.setOnSafeClickListener {
+            showSchoolUi()
+        }
 
         vm = ViewModelProvider(this, factory).get(ResumeViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -181,22 +195,66 @@ class ResumeFragment
         skillAdapter = SkillAdapter(this)
         skillAdapter.setStickyHeaders(false)
         skillScroller = object : OnVerticalScrollListener() {}
-        val layout =  SmoothScrollLinearLayoutManager(context!!)
+        val layout = SmoothScrollLinearLayoutManager(context!!)
         layout.setAutoMeasureEnabled(true)
-        bindSkills.recylerSkill.setNestedScrollingEnabled(false)
-        //bindSkills.recylerSkill.setNestedScrollingEnabled(false)
-        bindSkills.recylerSkill.apply(adapter = skillAdapter, layout = layout, fixedSize = false, scroller = skillScroller)
-     }
+        bindSkills.recyclerSkill.setNestedScrollingEnabled(false)
+        bindSkills.recyclerSkill.apply(
+            adapter = skillAdapter,
+            layout = layout,
+            fixedSize = false,
+            scroller = skillScroller
+        )
+    }
 
     private fun initExperienceRecycler() {
-        //bind.experiences = ObservableArrayList<Any>()
+        bind.experiences = ObservableArrayList<Any>()
+        experienceAdapter = ExperienceAdapter(this)
+        experienceAdapter.setStickyHeaders(false)
+        experienceScroller = object : OnVerticalScrollListener() {}
+        val layout = SmoothScrollLinearLayoutManager(context!!)
+        layout.setAutoMeasureEnabled(true)
+        bindExperiences.recyclerExperiences.setNestedScrollingEnabled(false)
+        //bindSkills.recylerSkill.setNestedScrollingEnabled(false)
+        bindExperiences.recyclerExperiences.apply(
+            adapter = experienceAdapter,
+            layout = layout,
+            fixedSize = false,
+            scroller = experienceScroller
+        )
     }
 
     private fun initProjectRecycler() {
-        //bind.projects = ObservableArrayList<Any>()
+        bind.projects = ObservableArrayList<Any>()
+        projectAdapter = ProjectAdapter(this)
+        projectAdapter.setStickyHeaders(false)
+        projectScroller = object : OnVerticalScrollListener() {}
+        val layout = SmoothScrollLinearLayoutManager(context!!)
+        layout.setAutoMeasureEnabled(true)
+        bindProjects.recyclerProjects.setNestedScrollingEnabled(false)
+        //bindSkills.recylerSkill.setNestedScrollingEnabled(false)
+        bindProjects.recyclerProjects.apply(
+            adapter = projectAdapter,
+            layout = layout,
+            fixedSize = false,
+            scroller = projectScroller
+        )
     }
+
     private fun initSchoolRecycler() {
-        //bind.schools = ObservableArrayList<Any>()
+        bind.schools = ObservableArrayList<Any>()
+        schoolAdapter = SchoolAdapter(this)
+        schoolAdapter.setStickyHeaders(false)
+        schoolScroller = object : OnVerticalScrollListener() {}
+        val layout = SmoothScrollLinearLayoutManager(context!!)
+        layout.setAutoMeasureEnabled(true)
+        bindSchools.recyclerSchools.setNestedScrollingEnabled(false)
+        //bindSkills.recylerSkill.setNestedScrollingEnabled(false)
+        bindSchools.recyclerSchools.apply(
+            adapter = schoolAdapter,
+            layout = layout,
+            fixedSize = false,
+            scroller = schoolScroller
+        )
     }
 
     private fun isUpdated(): Boolean {
@@ -204,32 +262,32 @@ class ResumeFragment
         val resume: Resume? = task?.input
         if (!DataUtilKt.isEquals(
                 resume?.profile?.name,
-                bindProfile.editProfileName.rawText()
+                bindProfile.editProfileName.string()
             )
         ) return true
         if (!DataUtilKt.isEquals(
                 resume?.profile?.designation,
-                bindProfile.editProfileDesignation.rawText()
+                bindProfile.editProfileDesignation.string()
             )
         ) return true
         if (!DataUtilKt.isEquals(
                 resume?.profile?.phone,
-                bindProfile.editProfilePhone.rawText()
+                bindProfile.editProfilePhone.string()
             )
         ) return true
         if (!DataUtilKt.isEquals(
                 resume?.profile?.email,
-                bindProfile.editProfileEmail.rawText()
+                bindProfile.editProfileEmail.string()
             )
         ) return true
         if (!DataUtilKt.isEquals(
                 resume?.profile?.currentAddress,
-                bindProfile.editProfileCurrentAddress.rawText()
+                bindProfile.editProfileCurrentAddress.string()
             )
         ) return true
         if (!DataUtilKt.isEquals(
                 resume?.profile?.permanentAddress,
-                bindProfile.editProfilePermanentAddress.rawText()
+                bindProfile.editProfilePermanentAddress.string()
             )
         ) return true
         return false
@@ -252,37 +310,133 @@ class ResumeFragment
     }
 
     private fun showSkillUi() {
-        MaterialDialog(context!!).show {
-            title(res = R.string.title_skill)
-            customView(R.layout.item_resume_skill_input, scrollable = true)
-            noAutoDismiss()
-            cornerRadius(res = R.dimen._10sdp)
-            cancelOnTouchOutside(false)
-            positiveButton(R.string.save, click = { dialog ->
-                val input = dialog.getCustomView().findViewById<TextInputEditText>(R.id.edit_skill)
-                val skill = input.rawText()
-                Timber.v("Skill %s", skill)
-                skill?.run {
-                    addSkill(this)
-                }
-                dialog.dismiss()
-            })
-            negativeButton(R.string.cancel, click = { dialog ->
-                dialog.dismiss()
-            })
+        context?.run {
+            MaterialDialog(this).show {
+                title(res = R.string.title_skill)
+                customView(R.layout.item_resume_skill_input, scrollable = true)
+                noAutoDismiss()
+                cornerRadius(res = R.dimen._10sdp)
+                cancelOnTouchOutside(false)
+                positiveButton(R.string.save, click = { dialog ->
+                    val parent = dialog.getCustomView()
+                    val skillInput = parent.findViewById<TextInputEditText>(R.id.edit_skill)
+                    val skill = skillInput.string()
+                    if (skill.isNullOrEmpty()) {
+                        skillInput.error = getString(R.string.error_resume_skill)
+                        return@positiveButton
+                    }
+                    addSkill(skill)
+                    dialog.dismiss()
+                })
+                negativeButton(R.string.cancel, click = { dialog ->
+                    dialog.dismiss()
+                })
+            }
         }
     }
 
     private fun showExperienceUi() {
+        context?.run {
+            MaterialDialog(this).show {
+                title(res = R.string.title_experience)
+                customView(R.layout.item_resume_experience_input, scrollable = true)
+                noAutoDismiss()
+                cornerRadius(res = R.dimen._10sdp)
+                cancelOnTouchOutside(false)
+                positiveButton(R.string.save, click = { dialog ->
+                    val parent = dialog.getCustomView()
+                    val companyInput = parent.findViewById<TextInputEditText>(R.id.edit_experience_company)
+                    val locationInput = parent.findViewById<TextInputEditText>(R.id.edit_experience_location)
+                    val designationInput = parent.findViewById<TextInputEditText>(R.id.edit_experience_designation)
+                    val descriptionInput = parent.findViewById<TextInputEditText>(R.id.edit_experience_description)
 
+                    val company = companyInput.string()
+                    val location = locationInput.string()
+                    val designation = designationInput.string()
+                    val description = descriptionInput.string()
+
+                    if (company.isNullOrEmpty()) {
+                        companyInput.error = getString(R.string.error_resume_company)
+                        return@positiveButton
+                    }
+                    if (designation.isNullOrEmpty()) {
+                        designationInput.error = getString(R.string.error_resume_designation)
+                        return@positiveButton
+                    }
+                    addExperience(company, location, designation, description)
+                    dialog.dismiss()
+                })
+                negativeButton(R.string.cancel, click = { dialog ->
+                    dialog.dismiss()
+                })
+            }
+        }
     }
 
     private fun showProjectUi() {
+        context?.run {
+            MaterialDialog(this).show {
+                title(res = R.string.title_project)
+                customView(R.layout.item_resume_project_input, scrollable = true)
+                noAutoDismiss()
+                cornerRadius(res = R.dimen._10sdp)
+                cancelOnTouchOutside(false)
+                positiveButton(R.string.save, click = { dialog ->
+                    val parent = dialog.getCustomView()
+                    val nameInput = parent.findViewById<TextInputEditText>(R.id.edit_profile_name)
+                    val descriptionInput = parent.findViewById<TextInputEditText>(R.id.edit_project_description)
 
+                    val name = nameInput.string()
+                    val description = descriptionInput.string()
+
+                    if (name.isNullOrEmpty()) {
+                        nameInput.error = getString(R.string.error_resume_name)
+                        return@positiveButton
+                    }
+
+                    addProject(name, description)
+                    dialog.dismiss()
+                })
+                negativeButton(R.string.cancel, click = { dialog ->
+                    dialog.dismiss()
+                })
+            }
+        }
     }
 
     private fun showSchoolUi() {
+        context?.run {
+            MaterialDialog(this).show {
+                title(res = R.string.title_school)
+                customView(R.layout.item_resume_school_input, scrollable = true)
+                noAutoDismiss()
+                cornerRadius(res = R.dimen._10sdp)
+                cancelOnTouchOutside(false)
+                positiveButton(R.string.save, click = { dialog ->
+                    val parent = dialog.getCustomView()
+                    val nameInput = parent.findViewById<TextInputEditText>(R.id.edit_school_name)
+                    val locationInput = parent.findViewById<TextInputEditText>(R.id.edit_school_location)
+                    val degreeInput = parent.findViewById<TextInputEditText>(R.id.edit_school_degree)
+                    val descriptionInput = parent.findViewById<TextInputEditText>(R.id.edit_school_description)
 
+                    val name = nameInput.string()
+                    val location = locationInput.string()
+                    val degree = degreeInput.string()
+                    val description = descriptionInput.string()
+
+                    if (name.isNullOrEmpty()) {
+                        nameInput.error = getString(R.string.error_resume_name)
+                        return@positiveButton
+                    }
+
+                    addSchool(name, location, degree, description)
+                    dialog.dismiss()
+                })
+                negativeButton(R.string.cancel, click = { dialog ->
+                    dialog.dismiss()
+                })
+            }
+        }
     }
 
     private fun processUiState(response: Response.UiResponse) {
@@ -338,6 +492,27 @@ class ResumeFragment
                     }
                     return
                 }
+                Subtype.EXPERIENCE -> {
+                    experienceAdapter.clear()
+                    item.experiences.run {
+                        experienceAdapter.addItems(this)
+                    }
+                    return
+                }
+                Subtype.PROJECT -> {
+                    projectAdapter.clear()
+                    item.projects.run {
+                        projectAdapter.addItems(this)
+                    }
+                    return
+                }
+                Subtype.SCHOOL -> {
+                    schoolAdapter.clear()
+                    item.schools.run {
+                        schoolAdapter.addItems(this)
+                    }
+                    return
+                }
             }
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_resume))
             AndroidUtil.hideSoftInput(getParent()!!)
@@ -373,12 +548,12 @@ class ResumeFragment
         val uiTask = getCurrentTask<UiTask<Resume>>()
         val profile = mapper.getProfileMap(
             id = uiTask?.input?.profile?.id,
-            name = bindProfile.editProfileName.rawText(),
-            designation = bindProfile.editProfileDesignation.rawText(),
-            phone = bindProfile.editProfilePhone.rawText(),
-            email = bindProfile.editProfileEmail.rawText(),
-            currentAddress = bindProfile.editProfileCurrentAddress.rawText(),
-            permanentAddress = bindProfile.editProfilePermanentAddress.rawText()
+            name = bindProfile.editProfileName.string(),
+            designation = bindProfile.editProfileDesignation.string(),
+            phone = bindProfile.editProfilePhone.string(),
+            email = bindProfile.editProfileEmail.string(),
+            currentAddress = bindProfile.editProfileCurrentAddress.string(),
+            permanentAddress = bindProfile.editProfilePermanentAddress.string()
         )
         uiTask?.run {
             request(
@@ -434,7 +609,8 @@ class ResumeFragment
         }
     }
 
-    private fun addSkill(skill: String) {
+    private fun addSkill(skill: String?) {
+        if (skill.isNullOrEmpty()) return
         val uiTask = getCurrentTask<UiTask<Resume>>()
         val skillMap = mapper.getSkillMap(title = skill)
 
@@ -452,5 +628,86 @@ class ResumeFragment
                 skills = skills
             )
         }
+    }
+
+    private fun addExperience(
+        company: String?,
+        location: String?,
+        designation: String?,
+        description: String?
+    ) {
+        if (company.isNullOrEmpty() || designation.isNullOrEmpty()) return
+        val uiTask = getCurrentTask<UiTask<Resume>>()
+        val experienceMap = mapper.getExperienceMap(
+            company = company,
+            location = location,
+            designation = designation,
+            description = description
+        )
+
+        val experiences = arrayListOf<Map<String, Any>>()
+        experienceMap?.run {
+            experiences.add(this)
+        }
+        uiTask?.run {
+            request(
+                type = Type.RESUME,
+                subtype = Subtype.EXPERIENCE,
+                action = Action.ADD,
+                progress = true,
+                input = input,
+                experiences = experiences
+            )
+        }
+
+    }
+
+    private fun addProject(name: String?, description: String?) {
+        if (name.isNullOrEmpty()) return
+        val uiTask = getCurrentTask<UiTask<Resume>>()
+        val projectMap = mapper.getProjectMap(name = name, description = description)
+
+        val projects = arrayListOf<Map<String, Any>>()
+        projectMap?.run {
+            projects.add(this)
+        }
+        uiTask?.run {
+            request(
+                type = Type.RESUME,
+                subtype = Subtype.PROJECT,
+                action = Action.ADD,
+                progress = true,
+                input = input,
+                projects = projects
+            )
+        }
+
+    }
+
+    private fun addSchool(name: String?, location: String?, degree: String?, description: String?) {
+        if (name.isNullOrEmpty()) return
+        val uiTask = getCurrentTask<UiTask<Resume>>()
+        val schoolMap = mapper.getSchoolMap(
+            name = name,
+            location = location,
+            degree = degree,
+            description = description
+        )
+
+        val schools = arrayListOf<Map<String, Any>>()
+        schoolMap?.run {
+            schools.add(this)
+        }
+        uiTask?.run {
+            request(
+                type = Type.RESUME,
+                subtype = Subtype.SCHOOL,
+                action = Action.ADD,
+                progress = true,
+                input = input,
+                schools = schools
+            )
+        }
+
     }
 }

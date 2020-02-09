@@ -14,7 +14,7 @@
             name="skills"
             type="androidx.databinding.ObservableArrayList" />
 
-        <!--<variable
+        <variable
             name="experiences"
             type="androidx.databinding.ObservableArrayList" />
 
@@ -24,7 +24,7 @@
 
         <variable
             name="schools"
-            type="androidx.databinding.ObservableArrayList" />-->
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
 

@@ -55,12 +55,11 @@
                 android:background="@color/material_grey200" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyler_skill"
+                android:id="@+id/recycler_skill"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:scrollbars="none"
-
                 auto:items="@{items}"
                 tools:itemCount="3" />
         </androidx.appcompat.widget.LinearLayoutCompat>

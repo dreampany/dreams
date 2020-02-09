@@ -5,10 +5,9 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <data>
-
         <variable
-            name="item"
-            type="com.dreampany.tools.ui.model.resume.ResumeItem" />
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -56,11 +55,12 @@
                 android:background="@color/material_grey200" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_resume_experiences"
+                android:id="@+id/recycler_experiences"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:scrollbars="none"
+                auto:items="@{items}"
                 tools:itemCount="3" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>

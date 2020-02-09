@@ -15,13 +15,11 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Skill
+import com.dreampany.tools.data.model.*
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ResumeRepository
 import com.dreampany.tools.ui.misc.ResumeRequest
-import com.dreampany.tools.ui.model.resume.ResumeItem
-import com.dreampany.tools.ui.model.resume.SkillItem
+import com.dreampany.tools.ui.model.resume.*
 import io.reactivex.Flowable
 import io.reactivex.Maybe
 import javax.inject.Inject
@@ -235,6 +233,21 @@ class ResumeViewModel
                 resume?.run {
                     mapper.applySkills(this, request.skills)
                 }
+            } else if (request.subtype == Subtype.EXPERIENCE) {
+                resume = request.input
+                resume?.run {
+                    mapper.applyExperiences(this, request.experiences)
+                }
+            } else if (request.subtype == Subtype.PROJECT) {
+                resume = request.input
+                resume?.run {
+                    mapper.applyProjects(this, request.projects)
+                }
+            } else if (request.subtype == Subtype.SCHOOL) {
+                resume = request.input
+                resume?.run {
+                    mapper.applySchools(this, request.schools)
+                }
             } else {
                 resume = mapper.getItem(
                     request.id,
@@ -287,6 +300,27 @@ class ResumeViewModel
                     }
                 }
             }
+            item.experiences?.forEach {
+                getUiItem(request, it).run {
+                    if (!uiItem.experiences.contains(this)) {
+                        uiItem.experiences.add(this)
+                    }
+                }
+            }
+            item.projects?.forEach {
+                getUiItem(request, it).run {
+                    if (!uiItem.projects.contains(this)) {
+                        uiItem.projects.add(this)
+                    }
+                }
+            }
+            item.schools?.forEach {
+                getUiItem(request, it).run {
+                    if (!uiItem.schools.contains(this)) {
+                        uiItem.schools.add(this)
+                    }
+                }
+            }
             emitter.onSuccess(uiItem)
         }
     }
@@ -317,6 +351,42 @@ class ResumeViewModel
         var uiItem: SkillItem? = mapper.getSkillUiItem(item.id)
         if (uiItem == null) {
             uiItem = SkillItem.getItem(item)
+            mapper.putUiItem(item.id, uiItem)
+        }
+        uiItem.item = item
+        //adjustFavorite(item, uiItem)
+        //adjustTranslate(request, uiItem)
+        return uiItem
+    }
+
+    private fun getUiItem(request: ResumeRequest, item: Experience): ExperienceItem {
+        var uiItem: ExperienceItem? = mapper.getExperienceUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = ExperienceItem.getItem(item)
+            mapper.putUiItem(item.id, uiItem)
+        }
+        uiItem.item = item
+        //adjustFavorite(item, uiItem)
+        //adjustTranslate(request, uiItem)
+        return uiItem
+    }
+
+    private fun getUiItem(request: ResumeRequest, item: Project): ProjectItem {
+        var uiItem: ProjectItem? = mapper.getProjectUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = ProjectItem.getItem(item)
+            mapper.putUiItem(item.id, uiItem)
+        }
+        uiItem.item = item
+        //adjustFavorite(item, uiItem)
+        //adjustTranslate(request, uiItem)
+        return uiItem
+    }
+
+    private fun getUiItem(request: ResumeRequest, item: School): SchoolItem {
+        var uiItem: SchoolItem? = mapper.getSchoolUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = SchoolItem.getItem(item)
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item

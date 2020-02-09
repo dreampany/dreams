@@ -4,14 +4,11 @@ import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.extension.hash
-import com.dreampany.framework.misc.extension.hash512
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.*
 import com.dreampany.tools.injector.annote.*
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.ProfileItem
-import com.dreampany.tools.ui.model.resume.ResumeItem
-import com.dreampany.tools.ui.model.resume.SkillItem
+import com.dreampany.tools.ui.model.resume.*
 import com.google.common.collect.Maps
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,7 +33,19 @@ class ResumeMapper
     @SkillAnnote private val skillMap: SmartMap<String, Skill>,
     @SkillAnnote private val skillCache: SmartCache<String, Skill>,
     @SkillItemAnnote private val skillUiMap: SmartMap<String, SkillItem>,
-    @SkillItemAnnote private val skillUiCache: SmartCache<String, SkillItem>
+    @SkillItemAnnote private val skillUiCache: SmartCache<String, SkillItem>,
+    @ExperienceAnnote private val experienceMap: SmartMap<String, Experience>,
+    @ExperienceAnnote private val experienceCache: SmartCache<String, Experience>,
+    @ExperienceItemAnnote private val experienceUiMap: SmartMap<String, ExperienceItem>,
+    @ExperienceItemAnnote private val experienceUiCache: SmartCache<String, ExperienceItem>,
+    @ProjectAnnote private val projectMap: SmartMap<String, Project>,
+    @ProjectAnnote private val projectCache: SmartCache<String, Project>,
+    @ProjectItemAnnote private val projectUiMap: SmartMap<String, ProjectItem>,
+    @ProjectItemAnnote private val projectUiCache: SmartCache<String, ProjectItem>,
+    @SchoolAnnote private val schoolMap: SmartMap<String, School>,
+    @SchoolAnnote private val schoolCache: SmartCache<String, School>,
+    @SchoolItemAnnote private val schoolUiMap: SmartMap<String, SchoolItem>,
+    @SchoolItemAnnote private val schoolUiCache: SmartCache<String, SchoolItem>
 ) : Mapper() {
 
     fun putUiItem(id: String, uiItem: ResumeItem) {
@@ -53,6 +62,30 @@ class ResumeMapper
 
     fun getSkillUiItem(id: String): SkillItem? {
         return skillUiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: ExperienceItem) {
+        experienceUiMap.put(id, uiItem)
+    }
+
+    fun getExperienceUiItem(id: String): ExperienceItem? {
+        return experienceUiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: ProjectItem) {
+        projectUiMap.put(id, uiItem)
+    }
+
+    fun getProjectUiItem(id: String): ProjectItem? {
+        return projectUiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: SchoolItem) {
+        schoolUiMap.put(id, uiItem)
+    }
+
+    fun getSchoolUiItem(id: String): SchoolItem? {
+        return schoolUiMap.get(id)
     }
 
     fun getProfileMap(
@@ -95,14 +128,85 @@ class ResumeMapper
         title: String?
     ): Map<String, Any>? {
         if (title.isNullOrEmpty()) return null
-        val id = id ?: title.hash512()
-        val skill: HashMap<String, Any> = Maps.newHashMap<String, Any>()
-        skill.apply {
+        val id = id ?: id.hash()
+        val map: HashMap<String, Any> = Maps.newHashMap<String, Any>()
+        map.apply {
             put(Constants.Keys.Skill.ID, id)
             put(Constants.Keys.Skill.TIME, TimeUtilKt.currentMillis())
             put(Constants.Keys.Skill.TITLE, title)
         }
-        return skill
+        return map
+    }
+
+    fun getExperienceMap(
+        id: String? = null,
+        company: String?,
+        location: String?,
+        designation: String?,
+        description: String?
+    ): Map<String, Any>? {
+        if (company.isNullOrEmpty() || designation.isNullOrEmpty()) return null
+        val id = id ?: id.hash()
+        val map: HashMap<String, Any> = Maps.newHashMap<String, Any>()
+        map.apply {
+            put(Constants.Keys.Experience.ID, id)
+            put(Constants.Keys.Experience.TIME, TimeUtilKt.currentMillis())
+            put(Constants.Keys.Experience.COMPANY, company)
+            location?.run {
+                put(Constants.Keys.Experience.LOCATION, this)
+            }
+            put(Constants.Keys.Experience.DESIGNATION, designation)
+            description?.run {
+                put(Constants.Keys.Experience.DESCRIPTION, this)
+            }
+        }
+        return map
+    }
+
+    fun getProjectMap(
+        id: String? = null,
+        name: String?,
+        description: String?
+    ): Map<String, Any>? {
+        if (name.isNullOrEmpty()) return null
+        val id = id ?: id.hash()
+        val map: HashMap<String, Any> = Maps.newHashMap<String, Any>()
+        map.apply {
+            put(Constants.Keys.Project.ID, id)
+            put(Constants.Keys.Project.TIME, TimeUtilKt.currentMillis())
+            put(Constants.Keys.Project.NAME, name)
+            description?.run {
+                put(Constants.Keys.Project.DESCRIPTION, this)
+            }
+        }
+        return map
+    }
+
+    fun getSchoolMap(
+        id: String? = null,
+        name: String?,
+        location: String?,
+        degree: String?,
+        description: String?
+    ): Map<String, Any>? {
+        if (name.isNullOrEmpty()) return null
+        val id = id ?: id.hash()
+        val map: HashMap<String, Any> = Maps.newHashMap<String, Any>()
+        map.apply {
+            put(Constants.Keys.School.ID, id)
+            put(Constants.Keys.School.TIME, TimeUtilKt.currentMillis())
+            put(Constants.Keys.School.NAME, name)
+            location?.run {
+                put(Constants.Keys.School.LOCATION, this)
+            }
+            degree?.run {
+                put(Constants.Keys.School.DEGREE, this)
+            }
+            description?.run {
+                put(Constants.Keys.School.DESCRIPTION, this)
+            }
+        }
+        return map
     }
 
     fun getItem(
@@ -193,10 +297,13 @@ class ResumeMapper
         if (resume.experiences.isNullOrEmpty()) {
             resume.experiences = ArrayList()
         }
-        resume.experiences?.clear()
+        //resume.experiences?.clear()
         experiencesData.forEach {
-            getExperience(it)?.run {
-                resume.experiences?.add(this)
+            getExperience(it)?.let { experience ->
+                resume.experiences?.run {
+                    if (!contains(experience))
+                        add(experience)
+                }
             }
         }
     }
@@ -212,10 +319,13 @@ class ResumeMapper
         if (resume.projects.isNullOrEmpty()) {
             resume.projects = ArrayList()
         }
-        resume.projects?.clear()
+        //resume.projects?.clear()
         projectsData.forEach {
-            getProject(it)?.run {
-                resume.projects?.add(this)
+            getProject(it)?.let { project ->
+                resume.projects?.run {
+                    if (!contains(project))
+                        add(project)
+                }
             }
         }
     }
@@ -231,10 +341,13 @@ class ResumeMapper
         if (resume.schools.isNullOrEmpty()) {
             resume.schools = ArrayList()
         }
-        resume.schools?.clear()
+        //resume.schools?.clear()
         schoolsData.forEach {
-            getSchool(it)?.run {
-                resume.schools?.add(this)
+            getSchool(it)?.let {school->
+                resume.schools?.run {
+                    if (!contains(school))
+                        add(school)
+                }
             }
         }
     }

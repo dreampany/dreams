@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.resume
 
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -7,7 +7,7 @@ import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.data.model.Experience
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.resume.ResumeItem
+import com.dreampany.tools.ui.model.ServerItem
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -19,14 +19,14 @@ import java.io.Serializable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ProjectItem private constructor(
+class ExperienceItem private constructor(
     item: Experience,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<ProjectItem.ViewHolder, Experience, String>(item, layoutId) {
+) : BaseItem<ExperienceItem.ViewHolder, Experience, String>(item, layoutId) {
 
     companion object {
-        fun getItem(item: Experience): ProjectItem {
-            return ProjectItem(item, 0)
+        fun getItem(item: Experience): ExperienceItem {
+            return ExperienceItem(item, 0)
         }
     }
 
@@ -44,8 +44,11 @@ class ProjectItem private constructor(
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): ProjectItem.ViewHolder {
-        return ProjectItem.ViewHolder(view, adapter)
+    ): ViewHolder {
+        return ViewHolder(
+            view,
+            adapter
+        )
     }
 
     override fun filter(constraint: String): Boolean {

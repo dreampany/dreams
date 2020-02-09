@@ -4,16 +4,12 @@ import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.model.Profile
-import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Skill
+import com.dreampany.tools.data.model.*
 import com.dreampany.tools.data.source.api.ResumeDataSource
 import com.dreampany.tools.data.source.room.RoomResumeDataSource
 import com.dreampany.tools.data.source.room.dao.ResumeDao
 import com.dreampany.tools.injector.annote.*
-import com.dreampany.tools.ui.model.ProfileItem
-import com.dreampany.tools.ui.model.resume.ResumeItem
-import com.dreampany.tools.ui.model.resume.SkillItem
+import com.dreampany.tools.ui.model.resume.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -108,6 +104,90 @@ class ResumeModule {
     @Provides
     @SkillItemAnnote
     fun provideSkillItemSmartCache(): SmartCache<String, SkillItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ExperienceAnnote
+    fun provideExperienceSmartMap(): SmartMap<String, Experience> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ExperienceAnnote
+    fun provideExperienceSmartCache(): SmartCache<String, Experience> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ExperienceItemAnnote
+    fun provideExperienceItemSmartMap(): SmartMap<String, ExperienceItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ExperienceItemAnnote
+    fun provideExperienceItemSmartCache(): SmartCache<String, ExperienceItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ProjectAnnote
+    fun provideProjectSmartMap(): SmartMap<String, Project> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ProjectAnnote
+    fun provideProjectSmartCache(): SmartCache<String, Project> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @ProjectItemAnnote
+    fun provideProjectItemSmartMap(): SmartMap<String, ProjectItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @ProjectItemAnnote
+    fun provideProjectItemSmartCache(): SmartCache<String, ProjectItem> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @SchoolAnnote
+    fun provideSchoolSmartMap(): SmartMap<String, School> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @SchoolAnnote
+    fun provideSchoolSmartCache(): SmartCache<String, School> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @SchoolItemAnnote
+    fun provideSchoolItemSmartMap(): SmartMap<String, SchoolItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @SchoolItemAnnote
+    fun provideSchoolItemSmartCache(): SmartCache<String, SchoolItem> {
         return SmartCache.newCache()
     }
 

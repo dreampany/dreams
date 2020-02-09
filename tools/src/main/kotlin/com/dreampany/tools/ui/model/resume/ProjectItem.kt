@@ -1,41 +1,33 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.resume
 
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.framework.data.enums.Action
-import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
-import com.dreampany.framework.util.NumberUtil
-import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.Experience
+import com.dreampany.tools.data.model.Project
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.ServerAdapter
+import com.dreampany.tools.ui.model.ServerItem
 import com.google.common.base.Objects
-import com.haipq.android.flagkit.FlagImageView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
-import jp.shts.android.library.TriangleLabelView
 import java.io.Serializable
 
 /**
- * Created by roman on 2020-01-11
+ * Created by roman on 2020-01-15
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ProfileItem
-private constructor(
-    item: Resume,
+class ProjectItem private constructor(
+    item: Project,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem<ProfileItem.ViewHolder, Resume, String>(item, layoutId) {
+) : BaseItem<ProjectItem.ViewHolder, Project, String>(item, layoutId) {
 
     companion object {
-        fun getItem(item: Resume): ProfileItem {
-            return ProfileItem(item, R.layout.item_server)
+        fun getItem(item: Project): ProjectItem {
+            return ProjectItem(item, 0)
         }
     }
 
@@ -53,8 +45,11 @@ private constructor(
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): ProfileItem.ViewHolder {
-        return ProfileItem.ViewHolder(view, adapter)
+    ): ViewHolder {
+        return ViewHolder(
+            view,
+            adapter
+        )
     }
 
     override fun filter(constraint: String): Boolean {
@@ -68,9 +63,9 @@ private constructor(
 
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
                 bind(position: Int, item: I) {
-            val uiItem = item as ProfileItem
+            val uiItem = item as ResumeItem
             val item = uiItem.item
 
 

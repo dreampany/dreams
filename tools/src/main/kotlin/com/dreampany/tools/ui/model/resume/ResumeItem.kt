@@ -43,6 +43,9 @@ private constructor(
     }
 
     val skills: ArrayList<SkillItem> = arrayListOf()
+    val experiences: ArrayList<ExperienceItem> = arrayListOf()
+    val projects: ArrayList<ProjectItem> = arrayListOf()
+    val schools: ArrayList<SchoolItem> = arrayListOf()
 
     companion object {
         fun getItem(item: Resume): ResumeItem {

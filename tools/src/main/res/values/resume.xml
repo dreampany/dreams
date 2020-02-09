@@ -3,16 +3,17 @@
     <string name="title_empty_resume" translatable="false">No Resumes</string>
     <string name="description_empty_resume" translatable="false">It seems you have not added any resumes. Click to add a resume.</string>
 
+    <string name="title_resume" translatable="false">Resume</string>
     <string name="title_profile" translatable="false">Profile</string>
     <string name="title_skills" translatable="false">Skills</string>
     <string name="title_experiences" translatable="false">Experiences</string>
     <string name="title_projects" translatable="false">Projects</string>
     <string name="title_schools" translatable="false">Schools</string>
+    <string name="title_skill" translatable="false">Skill</string>
+    <string name="title_experience" translatable="false">Experience</string>
+    <string name="title_project" translatable="false">Project</string>
+    <string name="title_school" translatable="false">School</string>
 
-    <string name="title_resume" translatable="false">Resume</string>
-
-
-    <string name="title_skill" translatable="false">Skill</string>\
     <string name="hint_name" translatable="false">Enter name</string>
     <string name="hint_designation" translatable="false">Enter designation</string>
     <string name="hint_phone" translatable="false">Enter phone</string>
@@ -23,8 +24,12 @@
     <string name="hint_company" translatable="false">Enter company</string>
     <string name="hint_location" translatable="false">Enter location</string>
     <string name="hint_description" translatable="false">Enter description</string>
+    <string name="hint_degree" translatable="false">Enter degree</string>
 
     <string name="error_resume_name" translatable="false">Empty name</string>
+    <string name="error_resume_skill" translatable="false">Empty skill</string>
+    <string name="error_resume_company" translatable="false">Empty company</string>
+    <string name="error_resume_designation" translatable="false">Empty designation</string>
 
     <string name="dialog_title_save_resume" translatable="false">Do you want to save resume?</string>
     <string name="dialog_saved_resume" translatable="false">Resume saved successfully.</string>

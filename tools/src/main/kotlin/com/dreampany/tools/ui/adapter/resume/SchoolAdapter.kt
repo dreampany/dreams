@@ -1,7 +1,8 @@
 package com.dreampany.tools.ui.adapter.resume
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
-import com.dreampany.tools.ui.model.resume.SkillItem
+import com.dreampany.tools.ui.model.resume.ExperienceItem
+import com.dreampany.tools.ui.model.resume.SchoolItem
 
 /**
  * Created by roman on 2020-01-15
@@ -9,7 +10,7 @@ import com.dreampany.tools.ui.model.resume.SkillItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SkillAdapter(listener: Any? = null) : SmartAdapter<SkillItem>(listener) {
+class SchoolAdapter(listener: Any? = null) : SmartAdapter<SchoolItem>(listener) {
 
     companion object {
         private val SPAN_COUNT = 2

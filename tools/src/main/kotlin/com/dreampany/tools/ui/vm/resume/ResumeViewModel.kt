@@ -178,13 +178,6 @@ class ResumeViewModel
 
         when (request.action) {
             Action.ADD -> {
-/*                when(request.subtype) {
-                    Subtype.SKILL-> {
-                        request.input?.let {
-                            return getUiItemRx(request, it)
-                        }
-                    }
-                }*/
                 return addItemRx(request).flatMap { getUiItemRx(request, it) }
             }
             Action.EDIT -> {

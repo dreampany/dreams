@@ -1,8 +1,11 @@
 package com.dreampany.tools.data.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Ignore
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
+import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -22,4 +25,24 @@ data class Project(
     var from: Long = Constants.Default.LONG,
     var to: Long = Constants.Default.LONG
 ) : Base() {
+
+    @Ignore
+    constructor() : this(time = TimeUtilKt.currentMillis()) {
+
+    }
+
+    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as Experience
+        return Objects.equal(this.id, item.id)
+    }
 }

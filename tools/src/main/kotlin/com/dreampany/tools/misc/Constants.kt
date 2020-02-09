@@ -905,23 +905,21 @@ class Constants {
                             "                <tr class=\"c15\">\n" +
                             "                    <td class=\"c26\" colspan=\"1\" rowspan=\"1\">\n" +
                             "                        <p class=\"c6\"><span class=\"c24\">ㅡ</span></p>\n" +
-                            "                        <h1 class=\"c9\" id=\"h.tk538brb1kdf\"><span class=\"c16\">" + context.getString(
-                        R.string.title_experience
-                    ) + "</span></h1></td>\n" +
+                            "                        <h1 class=\"c9\" id=\"h.tk538brb1kdf\"><span class=\"c16\">" + context.getString(R.string.title_experience) + "</span></h1></td>\n" +
                             "                    <td class=\"c4\" colspan=\"1\" rowspan=\"1\">\n"
                 )
                 var first = true
                 for (experience in resume.experiences!!) {
                     html.append(
-                        java.lang.String.format(
+                        String.format(
                             "<h2 class=\"%s\" id=\"h.u3uy0857ab2n\"><span class=\"c5\">%s </span><span class=\"c30 c5\">/ %s</span></h2>\n" +
                                     "                        <h3 class=\"c2\" id=\"h.re1qtuma0rpm\"><span class=\"c1\">%s</span></h3>\n" +
                                     "                        <p class=\"c32\"><span class=\"c7\">%s</span></p>\n",
                             if (first) "c3" else "c14",
-                            experience.company,
-                            experience.location,
-                            experience.designation,
-                            experience.description
+                            experience.company.string(),
+                            experience.location.string(),
+                            experience.designation.string(),
+                            experience.description.string()
                         )
                     )
                     first = false
@@ -950,9 +948,9 @@ class Constants {
                             "<h2 class=\"%s\" id=\"h.u3uy0857ab2n\"><span class=\"c5\">%s </span><span class=\"c30 c5\">/ %s</span></h2>\n" +
                                     "                        <p class=\"c32\"><span class=\"c7\">%s</span></p>\n",
                             if (first) "c3" else "c14",
-                            project.name,
-                            project.description,
-                            project.description
+                            project.name.string(),
+                            project.description.string(),
+                            project.description.string()
                         )
                     )
                     first = false
@@ -982,19 +980,19 @@ class Constants {
                                     "                        <h3 class=\"c2\" id=\"h.re1qtuma0rpm\"><span class=\"c1\">%s</span></h3>\n" +
                                     "                        <p class=\"c32\"><span class=\"c7\">%s</span></p>\n",
                             if (first) "c3" else "c14",
-                            school.name,
+                            school.name.string(),
                             school.degree,
-                            school.location,
-                            school.description
+                            school.location.string(),
+                            school.description.string()
                         )
                     )
                     first = false
                 }
                 html.append(
-                    "</td>\n" +
-                            "                </tr>"
+                    "</td>\n" + "</tr>"
                 )
             }
+
             html.append(
                 "</tbody>\n" +
                         "</table>\n" +

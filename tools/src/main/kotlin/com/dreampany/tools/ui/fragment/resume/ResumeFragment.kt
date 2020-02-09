@@ -546,6 +546,8 @@ class ResumeFragment
                     return
                 }
             }
+
+            //added resume by done menu
             NotifyUtil.showInfo(getParent()!!, getString(R.string.dialog_saved_resume))
             AndroidUtil.hideSoftInput(getParent()!!)
             saved = true
@@ -557,7 +559,6 @@ class ResumeFragment
             return
         }
         updateProfile(item.item.profile)
-
         skillAdapter.clear()
         item.skills.run {
             skillAdapter.addItems(this)
@@ -600,13 +601,66 @@ class ResumeFragment
             currentAddress = bindProfile.editProfileCurrentAddress.string(),
             permanentAddress = bindProfile.editProfilePermanentAddress.string()
         )
+        val skills = arrayListOf<Map<String, Any>>()
+        val experiences = arrayListOf<Map<String, Any>>()
+        val projects = arrayListOf<Map<String, Any>>()
+        val schools = arrayListOf<Map<String, Any>>()
+
+        skillAdapter.currentItems.forEach {
+            it.item.run {
+                mapper.getSkillMap(id = id, title = title)?.run {
+                    skills.add(this)
+                }
+            }
+        }
+        experienceAdapter.currentItems.forEach {
+            it.item.run {
+                mapper.getExperienceMap(
+                    id = id,
+                    company = company,
+                    location = location,
+                    designation = designation,
+                    description = description
+                    )?.run {
+                    experiences.add(this)
+                }
+            }
+        }
+        projectAdapter.currentItems.forEach {
+            it.item.run {
+                mapper.getProjectMap(
+                    id = id,
+                    name = name,
+                    description = description
+                )?.run {
+                    projects.add(this)
+                }
+            }
+        }
+        schoolAdapter.currentItems.forEach {
+            it.item.run {
+                mapper.getSchoolMap(
+                    id = id,
+                    name = name,
+                    location = location,
+                    degree = degree,
+                    description = description
+                )?.run {
+                    schools.add(this)
+                }
+            }
+        }
         uiTask?.run {
             request(
                 state = State.DIALOG,
                 action = action,
                 progress = true,
                 input = input,
-                profile = profile
+                profile = profile,
+                skills = skills,
+                experiences = experiences,
+                projects = projects,
+                schools = schools
             )
         }
         return true

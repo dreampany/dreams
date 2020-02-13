@@ -1,7 +1,9 @@
-package com.dreampany.tools.data.model
+package com.dreampany.tools.data.model.resume
 
-import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.Index
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.misc.Constants
@@ -15,23 +17,22 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-data class Profile(
-    @ColumnInfo(name = Constants.Keys.Profile.TIME)
+@Entity(
+    indices = [Index(
+        value = [Constants.Keys.Resume.ID],
+        unique = true
+    )],
+    primaryKeys = [Constants.Keys.Resume.ID]
+)
+data class Resume(
     override var time: Long = Constants.Default.LONG,
-    @ColumnInfo(name = Constants.Keys.Profile.ID)
     override var id: String = Constants.Default.STRING,
-    @ColumnInfo(name = Constants.Keys.Profile.NAME)
-    var name: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Profile.DESIGNATION)
-    var designation: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Profile.PHONE)
-    var phone: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Profile.EMAIL)
-    var email: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Profile.CURRENT_ADDRESS)
-    var currentAddress: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Profile.PERMANENT_ADDRESS)
-    var permanentAddress: String? = Constants.Default.NULL
+    @Embedded
+    var profile: Profile? = Constants.Default.NULL,
+    var skills: ArrayList<Skill>? = Constants.Default.NULL,
+    var experiences: ArrayList<Experience>? = Constants.Default.NULL,
+    var projects: ArrayList<Project>? = Constants.Default.NULL,
+    var schools: ArrayList<School>? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -50,7 +51,7 @@ data class Profile(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Note
+        val item = other as Resume
         return Objects.equal(this.id, item.id)
     }
 }

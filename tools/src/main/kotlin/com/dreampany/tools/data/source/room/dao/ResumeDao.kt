@@ -3,8 +3,7 @@ package com.dreampany.tools.data.source.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.framework.data.source.room.dao.BaseDao
-import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.resume.Resume
 import io.reactivex.Maybe
 
 /**

@@ -33,17 +33,17 @@ data class Quote(
     override var id: String = Constants.Default.STRING,
     var currency: Currency = Currency.USD,
     var price: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.VOLUME_24H)
+    @ColumnInfo(name = Constants.Keys.Quote.VOLUME_24H)
     private var volume24h: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.MARKET_CAP)
+    @ColumnInfo(name = Constants.Keys.Quote.MARKET_CAP)
     private var marketCap: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.CHANGE_1H)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_1H)
     private var change1h: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.CHANGE_24H)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_24H)
     private var change24h: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.CHANGE_7D)
+    @ColumnInfo(name = Constants.Keys.Quote.CHANGE_7D)
     private var change7d: Double = Constants.Default.DOUBLE,
-    @ColumnInfo(name = Constants.Quote.LAST_UPDATED)
+    @ColumnInfo(name = Constants.Keys.Quote.LAST_UPDATED)
     private var lastUpdated: Long = Constants.Default.LONG
 ) : Base() {
 

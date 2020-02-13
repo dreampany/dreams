@@ -17,15 +17,15 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Word.LEFTER, Constants.Word.RIGHTER],
+        value = [Constants.Keys.Word.LEFTER, Constants.Keys.Word.RIGHTER],
         unique = true
     )],
-    primaryKeys = [Constants.Word.LEFTER, Constants.Word.RIGHTER]
+    primaryKeys = [Constants.Keys.Word.LEFTER, Constants.Keys.Word.RIGHTER]
 )
 data class Antonym(
-    @ColumnInfo(name = Constants.Word.LEFTER)
+    @ColumnInfo(name = Constants.Keys.Word.LEFTER)
     var left: String = Constants.Default.STRING,
-    @ColumnInfo(name = Constants.Word.RIGHTER)
+    @ColumnInfo(name = Constants.Keys.Word.RIGHTER)
     var right: String = Constants.Default.STRING
 ) : BaseParcel() {
 

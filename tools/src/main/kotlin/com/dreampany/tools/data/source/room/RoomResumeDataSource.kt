@@ -1,12 +1,9 @@
 package com.dreampany.tools.data.source.room
 
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.mapper.ServerMapper
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.data.source.api.ResumeDataSource
-import com.dreampany.tools.data.source.api.ServerDataSource
 import com.dreampany.tools.data.source.room.dao.ResumeDao
-import com.dreampany.tools.data.source.room.dao.ServerDao
 import io.reactivex.Maybe
 
 /**

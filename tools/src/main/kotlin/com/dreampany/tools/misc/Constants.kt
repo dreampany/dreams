@@ -13,7 +13,7 @@ import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.ui.model.CoinItem
 import com.dreampany.tools.ui.model.ContactItem
@@ -353,11 +353,11 @@ class Constants {
         object Radio {
             const val RADIO_BROWSER = "http://www.radio-browser.info/webservice/"
             const val RADIO_BROWSER_STATIONS_OF_COUNTRY =
-                "json/stations/bycountrycodeexact/{${Station.COUNTRY_CODE}}"
+                "json/stations/bycountrycodeexact/{${Keys.Station.COUNTRY_CODE}}"
             const val RADIO_BROWSER_STATIONS_OF_TRENDS =
-                "json/stations/topclick/{${Station.LIMIT}}"
+                "json/stations/topclick/{${Keys.Station.LIMIT}}"
             const val RADIO_BROWSER_STATIONS_OF_POPULAR =
-                "json/stations/topvote/{${Station.LIMIT}}"
+                "json/stations/topvote/{${Keys.Station.LIMIT}}"
             const val RADIO_BROWSER_STATIONS_SEARCH = "json/stations/search"
         }
 
@@ -368,6 +368,10 @@ class Constants {
     }
 
     object Keys {
+        object Demo {
+            const val ID = Constants.Key.ID
+        }
+
         object Resume {
             const val ID = Constants.Key.ID
         }
@@ -447,97 +451,93 @@ class Constants {
             const val PHONE_NUMBER = "phone_number"
             const val COUNTRY_CODE = "country_code"
         }
-    }
 
-    object Demo {
-        const val ID = Constants.Key.ID
-    }
-
-    object Quiz {
-        const val ID = Constants.Key.ID
-        const val TYPE = Constants.Key.TYPE
-        const val SUBTYPE = Constants.Key.SUBTYPE
-        const val LEVEL = Constants.Key.LEVEL
-        const val POINT_ID = "point_id"
-        val OptionCharArray: CharArray = CharArray(4).apply {
-            set(0, 'A')
-            set(1, 'B')
-            set(2, 'C')
-            set(3, 'D')
+        object Quiz {
+            const val ID = Constants.Key.ID
+            const val TYPE = Constants.Key.TYPE
+            const val SUBTYPE = Constants.Key.SUBTYPE
+            const val LEVEL = Constants.Key.LEVEL
+            const val POINT_ID = "point_id"
+            val OptionCharArray: CharArray = CharArray(4).apply {
+                set(0, 'A')
+                set(1, 'B')
+                set(2, 'C')
+                set(3, 'D')
+            }
         }
-    }
 
-    object Feature {
-        const val ID = Constants.Key.ID
-    }
+        object Feature {
+            const val ID = Constants.Key.ID
+        }
 
-    object App {
-        const val ID = Constants.Key.ID
-    }
+        object App {
+            const val ID = Constants.Key.ID
+        }
 
-    object Barcode {
-        const val ID = Constants.Key.ID
-    }
+        object Barcode {
+            const val ID = Constants.Key.ID
+        }
 
-    object Note {
-        const val ID = Constants.Key.ID
-    }
+        object Note {
+            const val ID = Constants.Key.ID
+        }
 
-    object Word {
-        const val ID = Constants.Key.ID
-        const val PART_OF_SPEECH = "part_of_speech"
-        const val LEFTER = "lefter"
-        const val RIGHTER = "righter"
-        const val RECENT_WORD = "recent_word"
-    }
+        object Word {
+            const val ID = Constants.Key.ID
+            const val PART_OF_SPEECH = "part_of_speech"
+            const val LEFTER = "lefter"
+            const val RIGHTER = "righter"
+            const val RECENT_WORD = "recent_word"
+        }
 
-    object Message {
-        const val ID = Constants.Key.ID
-    }
+        object Message {
+            const val ID = Constants.Key.ID
+        }
 
-    object Example {
-        const val DOCUMENT_ID = "document_id"
-        const val EXAMPLE_ID = "example_id"
-    }
+        object Example {
+            const val DOCUMENT_ID = "document_id"
+            const val EXAMPLE_ID = "example_id"
+        }
 
-    object Quote {
-        const val ID = Constants.Key.ID
-        const val CURRENCY = "currency"
-        const val VOLUME_24H = "volume_24h"
-        const val MARKET_CAP = "market_cap"
-        const val CHANGE_1H = "percent_change_1h"
-        const val CHANGE_24H = "percent_change_24h"
-        const val CHANGE_7D = "percent_change_7d"
-        const val LAST_UPDATED = "last_updated"
-    }
+        object Quote {
+            const val ID = Constants.Key.ID
+            const val CURRENCY = "currency"
+            const val VOLUME_24H = "volume_24h"
+            const val MARKET_CAP = "market_cap"
+            const val CHANGE_1H = "percent_change_1h"
+            const val CHANGE_24H = "percent_change_24h"
+            const val CHANGE_7D = "percent_change_7d"
+            const val LAST_UPDATED = "last_updated"
+        }
 
-    object Station {
-        const val ID = Constants.Key.ID
-        const val CHANGE_UUID = "change_uuid"
-        const val STATION_UUID = "station_uuid"
-        const val COUNTRY_CODE = "country_code"
-        const val NEGATIVE_VOTES = "negative_votes"
-        const val LAST_CHANGE_TIME = "last_change_time"
-        const val LAST_CHECK_OK = "last_check_ok"
-        const val LAST_CHECK_TIME = "last_check_time"
-        const val LAST_CHECK_OK_TIME = "last_check_ok_time"
-        const val CLICK_TIMESTAMP = "click_timestamp"
-        const val CLICK_COUNT = "click_count"
-        const val CLICK_TREND = "click_trend"
-        const val LIMIT = "limit"
+        object Station {
+            const val ID = Constants.Key.ID
+            const val CHANGE_UUID = "change_uuid"
+            const val STATION_UUID = "station_uuid"
+            const val COUNTRY_CODE = "country_code"
+            const val NEGATIVE_VOTES = "negative_votes"
+            const val LAST_CHANGE_TIME = "last_change_time"
+            const val LAST_CHECK_OK = "last_check_ok"
+            const val LAST_CHECK_TIME = "last_check_time"
+            const val LAST_CHECK_OK_TIME = "last_check_ok_time"
+            const val CLICK_TIMESTAMP = "click_timestamp"
+            const val CLICK_COUNT = "click_count"
+            const val CLICK_TREND = "click_trend"
+            const val LIMIT = "limit"
 
-        object Remote {
-            const val CHANGE_UUID = "changeuuid"
-            const val STATION_UUID = "stationuuid"
-            const val COUNTRY_CODE = "countrycode"
-            const val NEGATIVE_VOTES = "negativevotes"
-            const val LAST_CHANGE_TIME = "lastchangetime"
-            const val LAST_CHECK_OK = "lastcheckok"
-            const val LAST_CHECK_TIME = "lastchecktime"
-            const val LAST_CHECK_OK_TIME = "lastcheckoktime"
-            const val CLICK_TIMESTAMP = "clicktimestamp"
-            const val CLICK_COUNT = "clickcount"
-            const val CLICK_TREND = "clicktrend"
+            object Remote {
+                const val CHANGE_UUID = "changeuuid"
+                const val STATION_UUID = "stationuuid"
+                const val COUNTRY_CODE = "countrycode"
+                const val NEGATIVE_VOTES = "negativevotes"
+                const val LAST_CHANGE_TIME = "lastchangetime"
+                const val LAST_CHECK_OK = "lastcheckok"
+                const val LAST_CHECK_TIME = "lastchecktime"
+                const val LAST_CHECK_OK_TIME = "lastcheckoktime"
+                const val CLICK_TIMESTAMP = "clicktimestamp"
+                const val CLICK_COUNT = "clickcount"
+                const val CLICK_TREND = "clicktrend"
+            }
         }
     }
 

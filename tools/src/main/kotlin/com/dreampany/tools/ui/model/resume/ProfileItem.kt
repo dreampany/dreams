@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.ServerItem
 import com.google.common.base.Objects

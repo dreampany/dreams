@@ -16,9 +16,9 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Example(
-    @ColumnInfo(name = Constants.Example.DOCUMENT_ID)
+    @ColumnInfo(name = Constants.Keys.Example.DOCUMENT_ID)
     private var documentId: Long = Constants.Default.LONG,
-    @ColumnInfo(name = Constants.Example.EXAMPLE_ID)
+    @ColumnInfo(name = Constants.Keys.Example.EXAMPLE_ID)
     private var exampleId: Long = Constants.Default.LONG,
     var author: String? = Constants.Default.NULL,
     var title: String? = Constants.Default.NULL,
@@ -46,22 +46,22 @@ data class Example(
         return Objects.hashCode(documentId, exampleId)
     }
 
-    @PropertyName(value = Constants.Example.DOCUMENT_ID)
+    @PropertyName(value = Constants.Keys.Example.DOCUMENT_ID)
     fun setDocumentId(documentId: Long) {
         this.documentId = documentId
     }
 
-    @PropertyName(value = Constants.Example.DOCUMENT_ID)
+    @PropertyName(value = Constants.Keys.Example.DOCUMENT_ID)
     fun getDocumentId() : Long {
         return documentId
     }
 
-    @PropertyName(value = Constants.Example.EXAMPLE_ID)
+    @PropertyName(value = Constants.Keys.Example.EXAMPLE_ID)
     fun setExampletId(exampleId: Long) {
         this.exampleId = exampleId
     }
 
-    @PropertyName(value = Constants.Example.EXAMPLE_ID)
+    @PropertyName(value = Constants.Keys.Example.EXAMPLE_ID)
     fun getExampleId() : Long {
         return exampleId
     }

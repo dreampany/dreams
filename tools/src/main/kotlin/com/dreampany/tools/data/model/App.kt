@@ -19,10 +19,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.App.ID],
+        value = [Constants.Keys.App.ID],
         unique = true
     )],
-    primaryKeys = [Constants.App.ID]
+    primaryKeys = [Constants.Keys.App.ID]
 )
 data class App(
     override var time: Long = Constants.Default.LONG,

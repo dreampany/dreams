@@ -18,10 +18,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Note.ID],
+        value = [Constants.Keys.Note.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Note.ID]
+    primaryKeys = [Constants.Keys.Note.ID]
 )
 data class Note(
     override var time: Long = Constants.Default.LONG,

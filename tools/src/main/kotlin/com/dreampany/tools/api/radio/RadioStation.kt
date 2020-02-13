@@ -19,9 +19,9 @@ import kotlinx.android.parcel.Parcelize
 data class RadioStation(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    @SerializedName(value = Constants.Station.Remote.CHANGE_UUID)
+    @SerializedName(value = Constants.Keys.Station.Remote.CHANGE_UUID)
     var changeUuid: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Station.Remote.STATION_UUID)
+    @SerializedName(value = Constants.Keys.Station.Remote.STATION_UUID)
     var stationUuid: String? = Constants.Default.NULL,
     var name: String? = Constants.Default.NULL,
     var url: String? = Constants.Default.NULL,
@@ -32,27 +32,27 @@ data class RadioStation(
     var bitrate: Int = Constants.Default.INT,
     var tags: String? = Constants.Default.NULL,
     var country: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Station.Remote.COUNTRY_CODE)
+    @SerializedName(value = Constants.Keys.Station.Remote.COUNTRY_CODE)
     var countryCode: String? = Constants.Default.NULL,
     var state: String? = Constants.Default.NULL,
     var language: String? = Constants.Default.NULL,
     var votes: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Station.Remote.NEGATIVE_VOTES)
+    @SerializedName(value = Constants.Keys.Station.Remote.NEGATIVE_VOTES)
     var negativeVotes: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Station.Remote.CLICK_COUNT)
+    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_COUNT)
     var clickCount: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Station.Remote.CLICK_TREND)
+    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_TREND)
     var clickTrend: Int = Constants.Default.INT,
     var hls: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Station.Remote.LAST_CHECK_OK)
+    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_OK)
     var lastCheckOk: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Station.Remote.LAST_CHANGE_TIME)
+    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHANGE_TIME)
     var lastChangeTime: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Station.Remote.LAST_CHECK_TIME)
+    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_TIME)
     var lastCheckTime: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Station.Remote.LAST_CHECK_OK_TIME)
+    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_OK_TIME)
     var lastCheckOkTime: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Station.Remote.CLICK_TIMESTAMP)
+    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_TIMESTAMP)
     var clickTimestamp: String? = Constants.Default.NULL
 ) : Base() {
 

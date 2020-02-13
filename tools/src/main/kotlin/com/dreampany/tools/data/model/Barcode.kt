@@ -19,10 +19,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Barcode.ID],
+        value = [Constants.Keys.Barcode.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Barcode.ID]
+    primaryKeys = [Constants.Keys.Barcode.ID]
 )
 data class Barcode(
     override var time: Long = Constants.Default.LONG,

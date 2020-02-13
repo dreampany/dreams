@@ -20,10 +20,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Feature.ID],
+        value = [Constants.Keys.Feature.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Feature.ID]
+    primaryKeys = [Constants.Keys.Feature.ID]
 )
 data class Feature(
     override var time: Long = Constants.Default.LONG,

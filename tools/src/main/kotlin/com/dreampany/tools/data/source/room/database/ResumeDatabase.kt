@@ -6,12 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.data.model.Resume
-import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.data.source.room.converters.ResumeConverters
-import com.dreampany.tools.data.source.room.converters.VpnConverters
 import com.dreampany.tools.data.source.room.dao.ResumeDao
-import com.dreampany.tools.data.source.room.dao.ServerDao
 import com.dreampany.tools.misc.Constants
 
 /**

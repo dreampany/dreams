@@ -19,10 +19,10 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Word.ID],
+        value = [Constants.Keys.Word.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Word.ID]
+    primaryKeys = [Constants.Keys.Word.ID]
 )
 data class TextMessage(
     override var time: Long = Constants.Default.LONG,

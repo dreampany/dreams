@@ -15,11 +15,9 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.misc.Constants
 import javax.inject.Inject
 

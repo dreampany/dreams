@@ -27,8 +27,8 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.*
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.model.Profile
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Profile
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.resume.ExperienceAdapter

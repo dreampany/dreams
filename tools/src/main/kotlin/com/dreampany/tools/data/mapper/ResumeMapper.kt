@@ -5,7 +5,7 @@ import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.extension.hash
 import com.dreampany.framework.util.TimeUtilKt
-import com.dreampany.tools.data.model.*
+import com.dreampany.tools.data.model.resume.*
 import com.dreampany.tools.injector.annote.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.resume.*
@@ -241,7 +241,8 @@ class ResumeMapper
         }
         val time = profileData.get(Constants.Keys.Profile.TIME) as Long
         val id = profileData.get(Constants.Keys.Profile.ID) as String
-        val profile = Profile(time = time, id = id)
+        val profile =
+            Profile(time = time, id = id)
         profileData.get(Constants.Keys.Profile.NAME)?.run {
             profile.name = this as String
         }
@@ -361,7 +362,8 @@ class ResumeMapper
         }
         val time = skillData.get(Constants.Keys.Skill.TIME) as Long
         val id = skillData.get(Constants.Keys.Skill.ID) as String
-        val skill = Skill(time = time, id = id)
+        val skill =
+            Skill(time = time, id = id)
         skillData.get(Constants.Keys.Skill.TITLE)?.run {
             skill.title = this as String
         }
@@ -377,7 +379,10 @@ class ResumeMapper
         }
         val time = experienceData.get(Constants.Keys.Experience.TIME) as Long
         val id = experienceData.get(Constants.Keys.Experience.ID) as String
-        val experience = Experience(time = time, id = id)
+        val experience = Experience(
+            time = time,
+            id = id
+        )
         experienceData.get(Constants.Keys.Experience.COMPANY)?.run {
             experience.company = this as String
         }
@@ -408,7 +413,8 @@ class ResumeMapper
         }
         val time = projectData.get(Constants.Keys.Project.TIME) as Long
         val id = projectData.get(Constants.Keys.Project.ID) as String
-        val project = Project(time = time, id = id)
+        val project =
+            Project(time = time, id = id)
         projectData.get(Constants.Keys.Project.NAME)?.run {
             project.name = this as String
         }
@@ -433,7 +439,8 @@ class ResumeMapper
         }
         val time = schoolData.get(Constants.Keys.School.TIME) as Long
         val id = schoolData.get(Constants.Keys.School.ID) as String
-        val school = School(time = time, id = id)
+        val school =
+            School(time = time, id = id)
         schoolData.get(Constants.Keys.School.NAME)?.run {
             school.name = this as String
         }

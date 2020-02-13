@@ -23,7 +23,7 @@ import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding

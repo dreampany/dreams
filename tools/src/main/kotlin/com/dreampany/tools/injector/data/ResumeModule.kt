@@ -4,7 +4,7 @@ import com.dreampany.framework.misc.Room
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.mapper.ResumeMapper
-import com.dreampany.tools.data.model.*
+import com.dreampany.tools.data.model.resume.*
 import com.dreampany.tools.data.source.api.ResumeDataSource
 import com.dreampany.tools.data.source.room.RoomResumeDataSource
 import com.dreampany.tools.data.source.room.dao.ResumeDao

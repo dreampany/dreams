@@ -2,10 +2,10 @@ package com.dreampany.tools.data.source.room.converters
 
 import androidx.room.TypeConverter
 import com.dreampany.framework.data.source.room.converters.Converters
-import com.dreampany.tools.data.model.Experience
-import com.dreampany.tools.data.model.Project
-import com.dreampany.tools.data.model.School
-import com.dreampany.tools.data.model.Skill
+import com.dreampany.tools.data.model.resume.Experience
+import com.dreampany.tools.data.model.resume.Project
+import com.dreampany.tools.data.model.resume.School
+import com.dreampany.tools.data.model.resume.Skill
 import com.google.gson.reflect.TypeToken
 
 /**

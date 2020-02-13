@@ -23,10 +23,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(
     indices = [Index(
-        value = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Quiz.LEVEL],
+        value = [Constants.Keys.Quiz.ID, Constants.Keys.Quiz.TYPE, Constants.Keys.Quiz.SUBTYPE, Constants.Keys.Quiz.LEVEL],
         unique = true
     )],
-    primaryKeys = [Constants.Quiz.ID, Constants.Quiz.TYPE, Constants.Quiz.SUBTYPE, Constants.Quiz.LEVEL]
+    primaryKeys = [Constants.Keys.Quiz.ID, Constants.Keys.Quiz.TYPE, Constants.Keys.Quiz.SUBTYPE, Constants.Keys.Quiz.LEVEL]
 )
 data class RelatedQuiz(
     override var time: Long = Constants.Default.LONG,
@@ -37,7 +37,7 @@ data class RelatedQuiz(
     var options: ArrayList<String>? = Constants.Default.NULL,
     var answer: String? = Constants.Default.NULL,
     var given: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Quiz.POINT_ID)
+    @ColumnInfo(name = Constants.Keys.Quiz.POINT_ID)
     var pointId: String? = Constants.Default.NULL
 ) : Base() {
 

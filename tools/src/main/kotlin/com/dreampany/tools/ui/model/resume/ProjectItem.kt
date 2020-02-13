@@ -9,12 +9,9 @@ import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Experience
-import com.dreampany.tools.data.model.Project
+import com.dreampany.tools.data.model.resume.Project
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.resume.ExperienceAdapter
 import com.dreampany.tools.ui.adapter.resume.ProjectAdapter
-import com.dreampany.tools.ui.model.ServerItem
 import com.google.android.material.textview.MaterialTextView
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter

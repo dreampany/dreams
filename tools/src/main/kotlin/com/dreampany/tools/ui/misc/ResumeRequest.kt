@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.misc.Constants
 
 /**

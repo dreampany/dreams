@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.model
+package com.dreampany.tools.data.model.resume
 
 import androidx.room.ColumnInfo
 import androidx.room.Ignore
@@ -15,22 +15,14 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-data class Experience(
-    @ColumnInfo(name = Constants.Keys.Experience.TIME)
+data class Project(
+    @ColumnInfo(name = Constants.Keys.Project.TIME)
     override var time: Long = Constants.Default.LONG,
-    @ColumnInfo(name = Constants.Keys.Experience.ID)
+    @ColumnInfo(name = Constants.Keys.Project.ID)
     override var id: String = Constants.Default.STRING,
-    @ColumnInfo(name = Constants.Keys.Experience.COMPANY)
-    var company: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Experience.LOCATION)
-    var location: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Experience.DESIGNATION)
-    var designation: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Experience.DESCRIPTION)
+    var name: String? = Constants.Default.NULL,
     var description: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Experience.FROM)
     var from: Long = Constants.Default.LONG,
-    @ColumnInfo(name = Constants.Keys.Experience.TO)
     var to: Long = Constants.Default.LONG
 ) : Base() {
 

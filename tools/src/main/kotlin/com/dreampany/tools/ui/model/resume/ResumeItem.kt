@@ -14,7 +14,7 @@ import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Resume
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.resume.ResumeAdapter
 import com.google.common.base.Objects

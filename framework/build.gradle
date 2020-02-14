@@ -154,9 +154,9 @@ dependencies {
     api 'androidx.preference:preference:1.1.0'
     api 'androidx.mediarouter:mediarouter:1.1.0'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
-    api 'androidx.work:work-runtime:2.3.0'
-    api 'androidx.work:work-runtime-ktx:2.3.0'
-    api 'androidx.work:work-rxjava2:2.3.0'
+    api 'androidx.work:work-runtime:2.3.1'
+    api 'androidx.work:work-runtime-ktx:2.3.1'
+    api 'androidx.work:work-rxjava2:2.3.1'
     api 'androidx.paging:paging-runtime:2.1.1'
     api 'androidx.paging:paging-rxjava2:2.1.1'
 
@@ -176,7 +176,7 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.6'
     api 'com.google.android.gms:play-services-location:17.0.0'
     api 'com.google.android.gms:play-services-nearby:17.0.0'
-    api 'com.googlecode.libphonenumber:libphonenumber:8.11.3'
+    api 'com.googlecode.libphonenumber:libphonenumber:8.11.4'
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
@@ -286,7 +286,7 @@ dependencies {
     api 'com.github.nikartm:fit-button:1.2.1'
     api 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
     api 'com.github.ybq:Android-SpinKit:1.2.0'
-    api 'org.jsoup:jsoup:1.12.1'
+    api 'org.jsoup:jsoup:1.12.2'
     api 'de.hdodenhof:circleimageview:3.1.0'
     api 'com.github.shts:TriangleLabelView:1.1.2'
     api 'com.aurelhubert:ahbottomnavigation:2.3.4'

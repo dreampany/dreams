@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         auto:cardCornerRadius="@dimen/_2sdp"
@@ -17,7 +17,7 @@
             android:paddingStart="@dimen/_5sdp"
             android:paddingBottom="@dimen/_5sdp">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:visibility="gone" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.haipq.android.flagkit.FlagImageView
                 android:id="@+id/view_flag"
@@ -53,7 +53,7 @@
                 auto:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/flag_us" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                 auto:layout_constraintStart_toEndOf="@id/view_flag"
                 auto:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/view_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,8 +80,7 @@
                 auto:layout_constraintStart_toEndOf="@id/view_flag"
                 auto:layout_constraintTop_toBottomOf="@id/view_title" />
 
-
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/view_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,5 +106,5 @@
                 auto:primaryTextSize="@dimen/_6ssp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

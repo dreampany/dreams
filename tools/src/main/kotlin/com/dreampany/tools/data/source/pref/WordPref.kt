@@ -91,11 +91,11 @@ class WordPref
     }
 
     fun setRecentWord(word: Word) {
-        setPrivately(Constants.Word.RECENT_WORD, word)
+        setPrivately(Constants.Keys.Word.RECENT_WORD, word)
     }
 
     fun getRecentWord(): Word? {
-        return getPrivately(Constants.Word.RECENT_WORD, Word::class.java, Constants.Default.NULL)
+        return getPrivately(Constants.Keys.Word.RECENT_WORD, Word::class.java, Constants.Default.NULL)
     }
 
     fun getRecentWordRx(): Maybe<Word> {

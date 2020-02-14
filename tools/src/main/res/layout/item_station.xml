@@ -5,7 +5,7 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent" android:minHeight="@dimen/_100sdp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         auto:cardCornerRadius="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false"
@@ -13,38 +13,16 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/_80sdp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintTop_toTopOf="parent">
-
-                <com.like.LikeButton
-                    android:id="@+id/button_favorite"
-                    android:layout_width="@dimen/_14sdp"
-                    android:layout_height="@dimen/_14sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
-                    android:visibility="gone"
-                    auto:icon_size="@dimen/_14sdp"
-                    auto:icon_type="heart" />
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/button_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:text="@string/title"
                 android:textColor="@color/material_grey600"
                 android:textSize="@dimen/_12ssp"
@@ -52,7 +30,7 @@
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/view_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -77,6 +55,30 @@
                 auto:primaryText="@string/title"
                 auto:primaryTextColor="@color/material_white"
                 auto:primaryTextSize="@dimen/_6ssp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:layout_marginBottom="@dimen/_8sdp"
+                android:orientation="vertical"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintEnd_toEndOf="parent">
+
+                <com.like.LikeButton
+                    android:id="@+id/button_favorite"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    auto:icon_size="@dimen/_14sdp"
+                    auto:icon_type="heart" />
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/button_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

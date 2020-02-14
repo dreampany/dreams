@@ -20,7 +20,7 @@ class FeatureAdapter(listener: Any?) : SmartAdapter<FeatureItem>(listener) {
 
     companion object {
         private val SPAN_COUNT = 3
-        private val ITEM_OFFSET = 4
+        private val ITEM_OFFSET = 8
     }
 
     fun getSpanCount(): Int {

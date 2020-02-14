@@ -341,7 +341,7 @@ class VpnHomeFragment
         bindServer.viewSpeed.text =
             NumberUtil.formatSpeed(item.item.speed, getString(R.string.vpn_speed))
         bindVpn.viewLog.text = vpn.lastLog()
-        bindServer.buttonFavorite.isLiked = item?.favorite ?: false
+        bindServer.buttonFavorite.isLiked = item.favorite ?: false
 
         bindServer.viewFlag.visibility = View.VISIBLE
         bindServer.labelType.visibility = View.VISIBLE

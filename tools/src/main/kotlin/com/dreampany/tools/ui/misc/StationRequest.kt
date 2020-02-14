@@ -20,9 +20,9 @@ class StationRequest(
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
-    input: Station? = Constants.Default.NULL,
     limit: Long = Constants.Default.LONG,
     id: String? = Constants.Default.NULL,
+    input: Station? = Constants.Default.NULL,
     val countryCode: String? = Constants.Default.NULL
 ) : Request<Station>(
     type = type,
@@ -33,9 +33,9 @@ class StationRequest(
     single = single,
     important = important,
     progress = progress,
-    limit = limit,
+    id = id,
     input = input,
-    id = id
+    limit = limit
 ) {
 
 }

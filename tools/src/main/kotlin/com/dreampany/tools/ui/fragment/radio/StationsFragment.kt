@@ -17,6 +17,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -28,6 +29,7 @@ import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.StationMapper
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
@@ -54,7 +56,7 @@ import javax.inject.Inject
 @FragmentScope
 class StationsFragment
 @Inject constructor() : BaseMenuFragment(),
-    SmartAdapter.OnUiItemClickListener<StationItem?, Action?> {
+    SmartAdapter.OnUiItemClickListener<StationItem, Action> {
 
     @Inject
     internal lateinit var mapper: StationMapper
@@ -100,10 +102,7 @@ class StationsFragment
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem
-        )
+        searchItem.toTint(context, R.color.material_white)
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -150,15 +149,19 @@ class StationsFragment
         return false
     }
 
-    override fun onUiItemClick(view: View, item: StationItem?, action: Action?) {
-        item?.run {
-            val station = item.item
-            Timber.v("Station [%s]", station.url)
-            player.play(station)
+    override fun onUiItemClick(view: View, item: StationItem, action: Action) {
+        when (action) {
+            Action.OPEN -> {
+                Timber.v("Station [%s]", item.item.url)
+                player.play(item.item)
+            }
+            Action.FAVORITE -> {
+                performFavorite(item.item)
+            }
         }
     }
 
-    override fun onUiItemLongClick(view: View, item: StationItem?, action: Action?) {
+    override fun onUiItemLongClick(view: View, item: StationItem, action: Action) {
 
     }
 
@@ -329,12 +332,16 @@ class StationsFragment
         }
     }
 
+    private fun performFavorite(station: Station) {
+        request(id = station.id, action = Action.FAVORITE, single = true, input = station)
+    }
+
     private fun request(
-        id: String? = Constants.Default.NULL,
         action: Action = Action.DEFAULT,
-        input: Station? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN,
+        id: String? = Constants.Default.NULL,
+        input: Station? = Constants.Default.NULL
     ) {
 
         val request = StationRequest(

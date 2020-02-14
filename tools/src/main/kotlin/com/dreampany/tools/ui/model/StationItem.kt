@@ -6,12 +6,14 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.StationAdapter
 import com.google.common.base.Objects
+import com.like.LikeButton
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import jp.shts.android.library.TriangleLabelView
@@ -35,15 +37,15 @@ private constructor(
         }
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(item.id)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as StationItem
         return Objects.equal(this.item.id, item.item.id)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(item.id)
     }
 
     override fun createViewHolder(
@@ -63,20 +65,34 @@ private constructor(
         private val adapter: StationAdapter
         private val title: AppCompatTextView
         private val subtitle: AppCompatTextView
-        private var label: TriangleLabelView
+        private val label: TriangleLabelView
+        private val favorite: LikeButton
 
         init {
             this.adapter = adapter as StationAdapter
             title = view.findViewById(R.id.view_title)
             subtitle = view.findViewById(R.id.view_subtitle)
             label = view.findViewById(R.id.label_type)
+            favorite = view.findViewById(R.id.button_favorite)
 
-            view.setOnClickListener {
-                this.adapter.uiItemClickListener?.onUiItemClick(
-                    view = view,
-                    item = this.adapter.getItem(adapterPosition)!!,
-                    action = Action.OPEN
-                )
+            view.setOnSafeClickListener {
+                adapter.getItem(adapterPosition)?.run {
+                    adapter.uiItemClickListener?.onUiItemClick(
+                        view = view,
+                        item = this,
+                        action = Action.OPEN
+                    )
+                }
+            }
+
+            favorite.setOnSafeClickListener {
+                adapter.getItem(adapterPosition)?.run {
+                    adapter.uiItemClickListener?.onUiItemClick(
+                        view = view,
+                        item = this,
+                        action = Action.FAVORITE
+                    )
+                }
             }
         }
 
@@ -95,12 +111,13 @@ private constructor(
                 label.setTriangleBackgroundColorResource(R.color.material_red500)
             }
 
-
             if (adapter.isSelected(uiItem)) {
                 title.setTextColor(getColor(R.color.material_black))
             } else {
                 title.setTextColor(getColor(R.color.material_grey600))
             }
+
+            favorite.isLiked = uiItem.favorite
         }
 
         private fun getSubtitle(station: Station): String {

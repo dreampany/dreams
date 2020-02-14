@@ -24,15 +24,15 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Word.ID],
+        value = [Constants.Keys.Word.ID],
         unique = true
     )],
-    primaryKeys = [Constants.Word.ID]
+    primaryKeys = [Constants.Keys.Word.ID]
 )
 data class Word(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
+    @ColumnInfo(name = Constants.Keys.Word.PART_OF_SPEECH)
     private var partOfSpeech: String? = Constants.Default.NULL,
     var pronunciation: String? = Constants.Default.NULL,
     var definitions: ArrayList<Definition>? = Constants.Default.NULL,
@@ -68,12 +68,12 @@ data class Word(
         return Objects.hashCode(id)
     }
 
-    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    @PropertyName(value = Constants.Keys.Word.PART_OF_SPEECH)
     fun setPartOfSpeech(partOfSpeech: String?) {
         this.partOfSpeech = partOfSpeech
     }
 
-    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    @PropertyName(value = Constants.Keys.Word.PART_OF_SPEECH)
     fun getPartOfSpeech(): String? {
         return partOfSpeech
     }

@@ -21,7 +21,7 @@ import kotlinx.android.parcel.Parcelize
 data class Definition(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    @ColumnInfo(name = Constants.Word.PART_OF_SPEECH)
+    @ColumnInfo(name = Constants.Keys.Word.PART_OF_SPEECH)
     private var partOfSpeech: String? = Constants.Default.NULL,
     var text: String? = Constants.Default.NULL,
     var url: String? = Constants.Default.NULL
@@ -47,12 +47,12 @@ data class Definition(
         return Objects.hashCode(id)
     }
 
-    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    @PropertyName(value = Constants.Keys.Word.PART_OF_SPEECH)
     fun setPartOfSpeech(partOfSpeech: String?) {
         this.partOfSpeech = partOfSpeech
     }
 
-    @PropertyName(value = Constants.Word.PART_OF_SPEECH)
+    @PropertyName(value = Constants.Keys.Word.PART_OF_SPEECH)
     fun getPartOfSpeech(): String? {
         return partOfSpeech
     }

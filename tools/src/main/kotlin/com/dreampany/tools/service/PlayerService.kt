@@ -429,7 +429,7 @@ class PlayerService
 
     private fun showNotify(title: String, message: String, ticker: String) {
         val notifyIntent = Intent(this, NavigationActivity::class.java)
-        notifyIntent.putExtra(Constants.Station.STATION_UUID, station?.getStationUuid())
+        notifyIntent.putExtra(Constants.Keys.Station.STATION_UUID, station?.getStationUuid())
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         val stopIntent = Intent(this, PlayerService::class.java)

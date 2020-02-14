@@ -416,10 +416,10 @@ class NoteHomeFragment
     }
 
     private fun request(
-        id: String = Constants.Default.STRING,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
+        id: String? = Constants.Default.NULL,
         input: Note? = Constants.Default.NULL
     ) {
         val request = NoteRequest(

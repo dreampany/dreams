@@ -83,7 +83,7 @@ private constructor(
                 optionItems!!.add(
                     getOptionItem(
                         item.options!!.get(index),
-                        Constants.Quiz.OptionCharArray.get(index)
+                        Constants.Keys.Quiz.OptionCharArray.get(index)
                     )
                 )
             }

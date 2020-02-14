@@ -1,12 +1,14 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.model.UiTask
@@ -14,11 +16,17 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.StationMapper
+import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.data.source.repository.StationRepository
+import com.dreampany.tools.ui.misc.NoteRequest
+import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.misc.StationRequest
+import com.dreampany.tools.ui.model.NoteItem
+import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.model.StationItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -59,10 +67,40 @@ class StationViewModel
 
     fun request(request: StationRequest) {
         if (request.single) {
-            //requestSingle(request)
+            requestSingle(request)
         } else {
             requestMultiple(request)
         }
+    }
+
+    private fun requestSingle(request: StationRequest) {
+        if (!takeAction(request.important, singleDisposable)) {
+            return
+        }
+
+        val disposable = rx
+            .backToMain(requestUiItemRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading =true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading =false)
+                }
+                postResult(state = request.state,
+                    action = request.action,
+                    data = result)
+            }, { error ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading =false)
+                }
+                postFailures(state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException()))
+            })
+        addSingleSubscription(disposable)
     }
 
     private fun requestMultiple(request: StationRequest) {
@@ -95,6 +133,15 @@ class StationViewModel
         addMultipleSubscription(disposable)
     }
 
+    private fun requestUiItemRx(request: StationRequest): Maybe<StationItem> {
+        when (request.action) {
+            Action.FAVORITE -> {
+                return favoriteItemRx(request).flatMap { getUiItemRx(request, it) }
+            }
+        }
+        return favoriteItemRx(request).flatMap { getUiItemRx(request, it) }
+    }
+
     private fun requestUiItemsRx(request: StationRequest): Maybe<List<StationItem>> {
 /*        if (request.action == Action.FAVORITE) {
             return storeRepo
@@ -102,6 +149,17 @@ class StationViewModel
                 .flatMap { getUiItemsOfStoresRx(request, it) }
         }*/
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
+    }
+
+    private fun favoriteItemRx(request: StationRequest): Maybe<Station> {
+        return Maybe.create { emitter ->
+            request.input?.run {
+                val toggle = toggleFavorite(request.id!!)
+                emitter.onSuccess(this)
+                return@create
+            }
+            emitter.onError(EmptyException())
+        }
     }
 
     private fun requestItemsRx(request: StationRequest): Maybe<List<Station>> {
@@ -136,8 +194,18 @@ class StationViewModel
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
-        //adjustFavorite(item, uiItem)
+        adjustFavorite(item, uiItem)
         return uiItem
+    }
+
+    private fun getUiItemRx(request: StationRequest, item: Station): Maybe<StationItem> {
+        return Maybe.create { emitter ->
+            /*            if (request.action == Action.FAVORITE) {
+                            toggleFavorite(item.id)
+                        }*/
+            val uiItem = getUiItem(request, item)
+            emitter.onSuccess(uiItem)
+        }
     }
 
     private fun adjustFavorite(item: Station, uiItem: StationItem) {

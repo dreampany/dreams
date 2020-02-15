@@ -558,6 +558,7 @@ class Constants {
         const val SETTINGS = 5
         const val FAVORITE = 6
         const val QUIZ = 7
+        const val OCR = 8
     }
 
     object Service {

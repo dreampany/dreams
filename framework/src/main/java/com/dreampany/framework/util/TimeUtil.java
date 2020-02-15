@@ -138,8 +138,4 @@ public final class TimeUtil {
 
         return TextUtil.getString(context, R.string.today);
     }
-
-    public static boolean isExpired(long time, long delay) {
-        return currentTime() - time > delay;
-    }
 }

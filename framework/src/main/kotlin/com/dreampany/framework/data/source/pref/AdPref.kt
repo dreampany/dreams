@@ -35,19 +35,19 @@ class AdPref @Inject constructor(context: Context) : FramePref(context) {
     fun isBannerTimeExpired(expireTime: Long): Boolean {
         updateIfMissing(Constants.AdTime.BANNER, TimeUtil.currentTime())
         val time = getPrivately(Constants.AdTime.BANNER, 0L)
-        return TimeUtil.isExpired(time, expireTime)
+        return TimeUtilKt.isExpired(time, expireTime)
     }
 
     fun isInterstitialTimeExpired(expireTime: Long): Boolean {
         updateIfMissing(Constants.AdTime.INTERSTITIAL, TimeUtilKt.currentMillis())
         val time = getPrivately(Constants.AdTime.INTERSTITIAL, 0L)
-        return TimeUtil.isExpired(time, expireTime)
+        return TimeUtilKt.isExpired(time, expireTime)
     }
 
     fun isRewardedTimeExpired(expireTime: Long): Boolean {
         updateIfMissing(Constants.AdTime.REWARDED, TimeUtilKt.currentMillis())
         val time = getPrivately(Constants.AdTime.REWARDED, 0L)
-        return TimeUtil.isExpired(time, expireTime)
+        return TimeUtilKt.isExpired(time, expireTime)
     }
 
     private fun updateIfMissing(key: String, value: Long) {

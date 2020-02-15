@@ -7,6 +7,7 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TimeUtil
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
@@ -58,7 +59,7 @@ class CoinMapper
 
     fun isExpired(currency: Currency, sort: CoinSort, order: Order, start: Long): Boolean {
         val time = pref.getExpireTime(currency, sort, order, start)
-        return TimeUtil.isExpired(time, Constants.Time.Crypto.LISTING)
+        return TimeUtilKt.isExpired(time, Constants.Time.Crypto.LISTING)
     }
 
     fun commitExpire(currency: Currency, sort: CoinSort, order: Order, start: Long) {
@@ -67,7 +68,7 @@ class CoinMapper
 
     fun isExpired(currency: Currency, id: String): Boolean {
         val time = pref.getExpireTime(currency, id)
-        return TimeUtil.isExpired(time, Constants.Time.Crypto.LISTING)
+        return TimeUtilKt.isExpired(time, Constants.Time.Crypto.LISTING)
     }
 
     fun commitExpire(currency: Currency, id: String) {

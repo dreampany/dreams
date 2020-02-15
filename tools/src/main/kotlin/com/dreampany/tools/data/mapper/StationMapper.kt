@@ -6,6 +6,7 @@ import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.util.TimeUtil
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Station
@@ -37,12 +38,12 @@ class StationMapper
 
     fun isExpired(state: State): Boolean {
         val lastTime = pref.getStationTime(state)
-        return TimeUtil.isExpired(lastTime, Constants.Time.STATION)
+        return TimeUtilKt.isExpired(lastTime, Constants.Time.STATION)
     }
 
     fun isExpired(state: State, countryCode: String): Boolean {
         val lastTime = pref.getStationTime(state, countryCode)
-        return TimeUtil.isExpired(lastTime, Constants.Time.STATION)
+        return TimeUtilKt.isExpired(lastTime, Constants.Time.STATION)
     }
 
     fun commitStationExpiredTime(state: State) {

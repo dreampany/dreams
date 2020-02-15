@@ -92,7 +92,7 @@ class WordnikManager
         val index = indexQueue.peek()!!
         val pair = indexStatus[index]
         pair?.let {
-            if (TimeUtil.isExpired(it.left, Constants.Delay.WordnikKey)) {
+            if (TimeUtilKt.isExpired(it.left, Constants.Delay.WordnikKey)) {
                 it.setLeft(TimeUtilKt.currentMillis())
                 it.setRight(0)
             }

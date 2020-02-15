@@ -7,8 +7,6 @@ import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.extension.hash
-import com.dreampany.framework.util.DataUtilKt
-import com.dreampany.framework.util.TimeUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.*
@@ -46,7 +44,7 @@ class WordMapper
     fun isLoadExpired(threshold: Boolean): Boolean {
         val lastTime = pref.getLoadTime()
         val loadTime = getLoadTime(threshold)
-        return TimeUtil.isExpired(lastTime, loadTime)
+        return TimeUtilKt.isExpired(lastTime, loadTime)
     }
 
     fun commitSyncExpiredTime() {
@@ -56,7 +54,7 @@ class WordMapper
     fun isSyncExpired(threshold: Boolean): Boolean {
         val lastTime = pref.getSyncTime()
         val syncTime = getSyncTime(threshold)
-        return TimeUtil.isExpired(lastTime, syncTime)
+        return TimeUtilKt.isExpired(lastTime, syncTime)
     }
 
     fun commitTrackExpiredTime() {
@@ -66,7 +64,7 @@ class WordMapper
     fun isTrackExpired(threshold: Boolean): Boolean {
         val lastTime = pref.getTrackTime()
         val trackTime = getTrackTime(threshold)
-        return TimeUtil.isExpired(lastTime, trackTime)
+        return TimeUtilKt.isExpired(lastTime, trackTime)
     }
 
     fun commitFirebaseTrackExpiredTime() {
@@ -75,7 +73,7 @@ class WordMapper
 
     fun isFirebaseTrackExpired(): Boolean {
         val lastTime = firebasePref.getExceptionTime()
-        return TimeUtil.isExpired(lastTime, Constants.Time.FIREBASE)
+        return TimeUtilKt.isExpired(lastTime, Constants.Time.FIREBASE)
     }
 
     fun isExists(id: String): Boolean {

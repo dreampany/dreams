@@ -2,6 +2,7 @@ package com.dreampany.framework.api.session
 
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.util.TimeUtil
+import com.dreampany.framework.util.TimeUtilKt
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,14 +13,16 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class SessionManager @Inject constructor() {
+class SessionManager
+@Inject constructor() {
+
     var time : Long = 0L
 
     fun track() {
-        time = TimeUtil.currentTime()
+        time = System.currentTimeMillis()
     }
 
     fun isExpired() : Boolean {
-        return TimeUtil.isExpired(time, Constants.Session.EXPIRED_TIME)
+        return TimeUtilKt.isExpired(time, Constants.Session.EXPIRED_TIME)
     }
 }

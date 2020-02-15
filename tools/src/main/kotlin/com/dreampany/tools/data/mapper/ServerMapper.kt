@@ -7,6 +7,7 @@ import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.util.NetworkUtil
 import com.dreampany.framework.util.TimeUtil
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.NoteDataSource
@@ -49,7 +50,7 @@ class ServerMapper
 
     fun isExpired(): Boolean {
         val lastTime = pref.getServerTime()
-        return TimeUtil.isExpired(lastTime, Constants.Time.SERVER)
+        return TimeUtilKt.isExpired(lastTime, Constants.Time.SERVER)
     }
 
     fun commitExpireTime() {

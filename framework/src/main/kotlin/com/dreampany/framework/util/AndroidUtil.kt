@@ -559,7 +559,7 @@ class AndroidUtil {
                 try {
                     tts = TextToSpeech(context.getApplicationContext()) { status ->
                         if (status != TextToSpeech.ERROR) {
-                            tts!!.setLanguage(Locale.ENGLISH)
+                            tts?.setLanguage(Locale.ENGLISH)
                         }
                     }
                 } catch (e: IllegalArgumentException) {
@@ -570,36 +570,37 @@ class AndroidUtil {
         }
 
         fun speak(text: String?) {
-            if (tts != null && text != null) {
+            if (text.isNullOrEmpty()) return
+            tts?.run {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     val params = Bundle()
                     params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, 1f)
-                    tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+                    speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
                 } else {
                     val params = HashMap<String, String>()
                     params.put(TextToSpeech.Engine.KEY_PARAM_VOLUME, "1")
-                    tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null)
+                    speak(text, TextToSpeech.QUEUE_FLUSH, null)
                 }
             }
         }
 
         fun silentSpeak() {
-            if (tts != null) {
+            tts?.run {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    tts!!.speak("", TextToSpeech.QUEUE_FLUSH, null, null)
+                    speak("", TextToSpeech.QUEUE_FLUSH, null, null)
                 } else {
-                    tts!!.speak("", TextToSpeech.QUEUE_FLUSH, null)
+                    speak("", TextToSpeech.QUEUE_FLUSH, null)
                 }
             }
         }
 
 
         fun stopTts() {
-            if (tts != null) {
-                tts!!.stop()
-                tts!!.shutdown()
-                tts = null
+            tts?.run {
+                stop()
+                shutdown()
             }
+            tts = null
         }
 
         fun backupDatabase(context: Context, databaseName: String) {
@@ -667,7 +668,7 @@ class AndroidUtil {
         }
 
         @DrawableRes
-        fun getDrawableRes(context: Activity, name:String) : Int {
+        fun getDrawableRes(context: Activity, name: String): Int {
             return context.resources.getIdentifier(name, drawable, context.packageName)
         }
     }

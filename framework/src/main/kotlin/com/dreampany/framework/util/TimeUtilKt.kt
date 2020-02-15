@@ -17,6 +17,10 @@ class TimeUtilKt {
             return System.currentTimeMillis()
         }
 
+        fun isExpired(time: Long, delay: Long): Boolean {
+            return currentMillis() - time > delay
+        }
+
         fun getDay(): Int {
             val date = DateTime()
             return date.dayOfMonth

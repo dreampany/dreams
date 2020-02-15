@@ -14,6 +14,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BasicGridItem
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.bottomsheets.gridItems
+import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
@@ -21,6 +22,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.resolveText
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
@@ -74,6 +76,8 @@ class WordHomeFragment
     OnBalloonClickListener,
     OnBalloonOutsideTouchListener {
 
+    @Inject
+    internal lateinit var session: SessionManager
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
@@ -129,17 +133,16 @@ class WordHomeFragment
         val searchItem = getSearchMenuItem()
         val favoriteItem = menu.findItem(R.id.item_favorite)
         val settingsItem = menu.findItem(R.id.item_settings)
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem, favoriteItem, settingsItem
-        )
+        searchItem.toTint(context, R.color.material_white)
+        favoriteItem.toTint(context, R.color.material_white)
+        settingsItem.toTint(context, R.color.material_white)
 
         val activity = getParent()
 
         if (activity is SearchViewCallback) {
-            val searchCallback = activity as SearchViewCallback?
-            searchView = searchCallback!!.searchView
-            val searchItem = getSearchMenuItem()
+            (activity as SearchViewCallback).let {
+                searchView = it.searchView
+            }
             searchItem?.run {
                 initSearchView(searchView, this)
             }
@@ -160,6 +163,7 @@ class WordHomeFragment
         adjustTranslationUi()
         onRefresh()
         loadRequest()
+        session.track()
     }
 
     override fun onStopUi() {
@@ -179,6 +183,21 @@ class WordHomeFragment
             single = true,
             progress = true
         )*/
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Timber.v("onActivityResult");
+        if (searchView.onActivityResult(requestCode, resultCode, data)) {
+            return
+        }
+
+        when (requestCode) {
+            Constants.RequestCode.OCR -> {
+
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -316,21 +335,12 @@ class WordHomeFragment
         return super.hasBackPressed()
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Timber.v("onActivityResult");
-        if (searchView.onActivityResult(requestCode, resultCode, data)) {
-            return;
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
 
     override fun onUiItemClick(view: View, item: WordItem, action: Action) {
         openWordUi(item.item)
     }
 
     override fun onUiItemLongClick(view: View, item: WordItem, action: Action) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
@@ -572,11 +582,11 @@ class WordHomeFragment
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
             request(
-                bind.item?.item?.id,
                 action = Action.SEARCH,
-                history = true,
                 single = true,
-                progress = true
+                progress = true,
+                id = bind.item?.item?.id,
+                history = true
             )
             return
         }
@@ -872,7 +882,7 @@ class WordHomeFragment
 
     private fun openOcr() {
         val task = UiTask<Word>(type = Type.OCR, subtype = Subtype.DEFAULT, action = Action.OPEN)
-        openActivity(ToolsActivity::class.java, task)
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.OCR)
     }
 
     private fun openFavoriteUi() {
@@ -913,34 +923,34 @@ class WordHomeFragment
     }
 
     private fun request(
-        id: String? = Constants.Default.NULL,
-        recent: Boolean = Constants.Default.BOOLEAN,
-        history: Boolean = Constants.Default.BOOLEAN,
-        suggests: Boolean = Constants.Default.BOOLEAN,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
-        limit: Long = Constants.Default.LONG
+        limit: Long = Constants.Default.LONG,
+        id: String? = Constants.Default.NULL,
+        recent: Boolean = Constants.Default.BOOLEAN,
+        history: Boolean = Constants.Default.BOOLEAN,
+        suggests: Boolean = Constants.Default.BOOLEAN
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
         val translate = !Language.ENGLISH.equals(language)
         val id = id?.toLowerCase()
         val request = WordRequest(
-            id = id,
-            sourceLang = Language.ENGLISH.code,
-            targetLang = language.code,
-            recent = recent,
-            history = history,
-            translate = translate,
-            suggests = suggests,
             type = Type.WORD,
             subtype = Subtype.DEFAULT,
             state = state,
             action = action,
             single = single,
             progress = progress,
-            limit = limit
+            limit = limit,
+            id = id,
+            sourceLang = Language.ENGLISH.code,
+            targetLang = language.code,
+            recent = recent,
+            history = history,
+            translate = translate,
+            suggests = suggests
         )
         vm.request(request)
     }

@@ -103,8 +103,6 @@ class LoadViewModel
         }
     }
 
-
-    //region load
     private fun loadWords(request: LoadRequest) {
         when (request.source) {
             Source.FIRESTORE -> {
@@ -127,25 +125,13 @@ class LoadViewModel
                 }
             }
         }
-
-/*        if (!wordPref.isCommonLoaded() && !commonLoading) {
-            ex.postToNetwork(kotlinx.coroutines.Runnable {
-                commonLoading = true
-                loadCommons(request)
-                commonLoading = false
-                request(request)
-            })
-            return
-        }*/
-
     }
-    //endregion
 
     private fun syncWord(request: LoadRequest) {
         val rawStore = storeRepo.getItem(Type.WORD, Subtype.DEFAULT, State.RAW)
         rawStore?.run {
             Timber.v("Sync Word/.. %s", this.toString())
-            var item = mapper.getItem(this, repo)
+            val item = mapper.getItem(this, repo)
             item?.run {
                 val uiItem = getUiItem(request, this)
             }

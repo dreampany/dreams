@@ -13,10 +13,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
+import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.*
@@ -46,8 +48,11 @@ import javax.inject.Inject
  */
 @KeepName
 @ActivityScope
-class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
+class WordVisionFragment
+@Inject constructor() : BaseMenuFragment() {
 
+    @Inject
+    internal lateinit var session: SessionManager
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
@@ -74,7 +79,9 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         val clearItem = menu.findItem(R.id.item_clear)
         val doneItem = menu.findItem(R.id.item_done)
-        MenuTint.colorMenuItem(ColorUtil.getColor(context!!, R.color.material_white), null, clearItem, doneItem)
+
+        findMenuItemById(R.id.item_clear).toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_done).toTint(context, R.color.material_white)
     }
 
     override fun getScreen(): String {
@@ -86,6 +93,7 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
         runWithPermissions(Permission.CAMERA, Permission.WRITE_EXTERNAL_STORAGE) {
             createCameraSource()
         }
+        session.track()
     }
 
     override fun onStopUi() {
@@ -210,12 +218,12 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
 
     private fun onClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
-        request(text.toLowerCase(), true, true, true)
+        request(id = text.toLowerCase(),  recent = true, history =  true, suggests =  true)
     }
 
     private fun onLongClickOnText(text: String) {
         Timber.v("Clicked Word %s", text)
-        request(text.toLowerCase(), true, true, true)
+        request(id = text.toLowerCase(),  recent = true, history =  true, suggests =  true)
     }
 
     private fun clear() {
@@ -225,7 +233,7 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     private fun done() {
-        getCurrentTask<Task<*>>(false)!!.extra = texts.toString()
+        getCurrentTask<Task<*>>(false)?.extra = texts.toString()
         forResult()
     }
 
@@ -269,28 +277,28 @@ class WordVisionFragment @Inject constructor() : BaseMenuFragment() {
     }
 
     private fun request(
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
         id: String? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
         history: Boolean = Constants.Default.BOOLEAN,
-        suggests: Boolean = Constants.Default.BOOLEAN,
-        action: Action = Action.DEFAULT,
-        single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        suggests: Boolean = Constants.Default.BOOLEAN
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
         val translate = !Language.ENGLISH.equals(language)
         val id = id?.toLowerCase()
         val request = WordRequest(
+            action = action,
+            single = single,
+            progress = progress,
             id = id,
             sourceLang = Language.ENGLISH.code,
             targetLang = language.code,
             recent = recent,
             history = history,
             translate = translate,
-            suggests = suggests,
-            action = action,
-            single = single,
-            progress = progress
+            suggests = suggests
         )
         vm.request(request)
     }

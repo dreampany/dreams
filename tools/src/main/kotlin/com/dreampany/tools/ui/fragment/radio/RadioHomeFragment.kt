@@ -34,11 +34,11 @@ class RadioHomeFragment
 @Inject constructor() : BaseStateFragment<BaseFragment>() {
 
     @Inject
+    internal lateinit var session: SessionManager
+    @Inject
     internal lateinit var mapper: StationMapper
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
-    @Inject
-    internal lateinit var session: SessionManager
     @Inject
     internal lateinit var radioPref: RadioPref
     @Inject

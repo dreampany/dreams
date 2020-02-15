@@ -13,7 +13,7 @@ class SkillAdapter(listener: Any? = null) : SmartAdapter<SkillItem>(listener) {
 
     companion object {
         private val SPAN_COUNT = 2
-        private val ITEM_OFFSET = 8
+        private val ITEM_OFFSET = 4
     }
 
 

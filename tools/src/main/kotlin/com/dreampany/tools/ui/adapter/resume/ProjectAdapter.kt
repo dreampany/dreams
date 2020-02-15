@@ -14,7 +14,7 @@ class ProjectAdapter(listener: Any? = null) : SmartAdapter<ProjectItem>(listener
 
     companion object {
         private val SPAN_COUNT = 2
-        private val ITEM_OFFSET = 8
+        private val ITEM_OFFSET = 4
     }
 
 

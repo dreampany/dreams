@@ -5,15 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
-import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.FragmentScope
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
@@ -35,7 +38,6 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentStationsBinding
 import com.dreampany.tools.manager.PlayerManager
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.StationAdapter
 import com.dreampany.tools.ui.misc.StationRequest
 import com.dreampany.tools.ui.model.StationItem
@@ -52,8 +54,8 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@FragmentScope
-class StationsFragment
+@ActivityScope
+class FavoriteStationsFragment
 @Inject constructor() : BaseMenuFragment(),
     SmartAdapter.OnUiItemClickListener<StationItem, Action> {
 
@@ -76,25 +78,27 @@ class StationsFragment
     private lateinit var adapter: StationAdapter
     private lateinit var scroller: OnVerticalScrollListener
 
-    private var state: State? = null
     private lateinit var countryCode: String
-
+    private var updated: Boolean = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_stations
     }
 
     override fun getMenuId(): Int {
-        return R.menu.menu_stations
+        return R.menu.menu_search
     }
 
     override fun getSearchMenuItemId(): Int {
         return R.id.item_search
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.title_favorite_stations
+    }
+
     override fun getScreen(): String {
-        takeState()
-        return Constants.radioStations(context!!, state!!)
+        return Constants.favoriteStations(context!!)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
@@ -102,13 +106,14 @@ class StationsFragment
 
         val searchItem = getSearchMenuItem()
         searchItem.toTint(context, R.color.material_white)
-        menu.findItem(R.id.item_favorite).toTint(context, R.color.material_white)
     }
 
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
+        session.track()
         player.bind()
+        initTitleSubtitle()
     }
 
     override fun onStopUi() {
@@ -120,7 +125,7 @@ class StationsFragment
         val filter = IntentFilter(Constants.Service.PLAYER_SERVICE_UPDATE)
         bindLocalCast(serviceUpdateReceiver, filter)
         if (adapter.isEmpty) {
-            request(progress = true)
+            request(action = Action.FAVORITE,  progress = true)
         }
     }
 
@@ -132,11 +137,16 @@ class StationsFragment
         super.onPause()
     }
 
+    override fun hasBackPressed(): Boolean {
+        forResult(updated)
+        return true
+    }
+
     override fun onRefresh() {
         if (adapter.isEmpty) {
             request(progress = true)
         } else {
-            vm.updateUiState(state = state!!, uiState = UiState.HIDE_PROGRESS)
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
         }
     }
 
@@ -147,17 +157,6 @@ class StationsFragment
             adapter.filterItems()
         }
         return false
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_favorite -> {
-                openFavoriteUi()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onUiItemClick(view: View, item: StationItem, action: Action) {
@@ -176,18 +175,15 @@ class StationsFragment
 
     }
 
-    private fun takeState() {
-        if (state == null) {
-            val uiTask = getCurrentTask<UiTask<Station>>(true)
-            state = uiTask?.state ?: State.LOCAL
-        }
+    private fun initTitleSubtitle() {
+        val subtitle = getString(R.string.subtitle_favorite_stations, adapter.itemCount)
+        setSubtitle(subtitle)
     }
 
     private fun initUi() {
         bind = super.binding as FragmentStationsBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
-        takeState()
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bind.fab.setOnClickListener(this)
@@ -200,7 +196,7 @@ class StationsFragment
         bind.stateful.setStateView(
             UiState.EMPTY.name,
             LayoutInflater.from(context).inflate(R.layout.item_empty, null).apply {
-                setOnClickListener(this@StationsFragment)
+                setOnClickListener(this@FavoriteStationsFragment)
             }
         )
 
@@ -208,7 +204,7 @@ class StationsFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-        vm.updateUiState(state = state!!, uiState = UiState.DEFAULT)
+        vm.updateUiState( uiState = UiState.DEFAULT)
 
         countryCode = GeoUtil.getCountryCode(context!!)
     }
@@ -233,9 +229,6 @@ class StationsFragment
 
     private fun processUiState(response: Response.UiResponse) {
         Timber.v("UiState %s", response.uiState.name)
-        if (this.state != response.state) {
-            return
-        }
         when (response.uiState) {
             UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
             UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
@@ -253,7 +246,7 @@ class StationsFragment
             }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
-                //initTitleSubtitle()
+                initTitleSubtitle()
             }
         }
     }
@@ -261,9 +254,6 @@ class StationsFragment
     fun processMultipleResponse(response: Response<List<StationItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processProgress(
                 state = result.state,
                 action = result.action,
@@ -271,9 +261,6 @@ class StationsFragment
             )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<StationItem>>
@@ -284,9 +271,6 @@ class StationsFragment
     fun processSingleResponse(response: Response<StationItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processProgress(
                 state = result.state,
                 action = result.action,
@@ -294,9 +278,6 @@ class StationsFragment
             )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            if (this.state != result.state) {
-                return
-            }
             vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<StationItem>
@@ -305,9 +286,6 @@ class StationsFragment
     }
 
     private fun processSuccess(state: State, action: Action, items: List<StationItem>) {
-        if (this.state != state) {
-            return
-        }
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         updatePlaying()
@@ -317,9 +295,7 @@ class StationsFragment
     }
 
     private fun processSuccess(state: State, action: Action, item: StationItem) {
-        if (this.state != state) {
-            return
-        }
+        updated = true
         if (action == Action.DELETE) {
             adapter.removeItem(item)
         } else {
@@ -348,6 +324,7 @@ class StationsFragment
     }
 
     private fun request(
+        state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
@@ -356,14 +333,13 @@ class StationsFragment
     ) {
 
         val request = StationRequest(
-            id = id,
-            countryCode = countryCode,
-            state = state!!,
             action = action,
             single = single,
             progress = progress,
+            limit = Constants.Limit.Radio.STATIONS,
             input = input,
-            limit = Constants.Limit.Radio.STATIONS
+            id = id,
+            countryCode = countryCode
         )
         vm.request(request)
     }
@@ -372,14 +348,5 @@ class StationsFragment
         override fun onReceive(context: Context, intent: Intent) {
             updatePlaying()
         }
-    }
-
-    private fun openFavoriteUi() {
-        val task = UiTask<Station>(
-            type = Type.RADIO,
-            state = State.FAVORITE,
-            action = Action.OPEN
-        )
-        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.FAVORITE)
     }
 }

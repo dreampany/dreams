@@ -2,11 +2,15 @@ package com.dreampany.tools.data.mapper
 
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.misc.Mapper
+import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.util.TimeUtil
 import com.dreampany.tools.api.radio.RadioStation
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.data.source.api.NoteDataSource
+import com.dreampany.tools.data.source.api.StationDataSource
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.injector.annote.StationAnnote
 import com.dreampany.tools.injector.annote.StationItemAnnote
@@ -96,6 +100,15 @@ class StationMapper
         out.setClickTrend(input.clickTrend)
         out.setLastCheckOk(input.lastCheckOk != 0)
 
+        return out
+    }
+
+    fun getItem(input: Store, source: StationDataSource): Station? {
+        var out: Station? = map.get(input.id)
+        if (out == null) {
+            out = source.getItem(input.id)
+            map.put(input.id, out)
+        }
         return out
     }
 }

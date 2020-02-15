@@ -75,6 +75,9 @@ class Constants {
 
         fun radioStations(context: Context, state: State): String =
             lastAppId(context) + Sep.HYPHEN + "${state.name.toLowerCase()}-related-quiz"
+        fun favoriteStations(context: Context): String =
+            lastAppId(context) + Sep.HYPHEN + "favorite-stations"
+
 
         fun vpnServers(context: Context): String =
             lastAppId(context) + Sep.HYPHEN + "vpn-servers"

@@ -15,6 +15,15 @@ import io.reactivex.Maybe
 @Dao
 interface StationDao : BaseDao<Station> {
 
+    @Query("select * from station where id = :id limit 1")
+    fun getItem(id: String): Station?
+
+    @Query("select * from station where id = :id limit 1")
+    fun getItemRx(id: String): Maybe<Station>
+
+    @Query("select * from station")
+    fun getItemsRx(): Maybe<List<Station>>
+
     @Query(value = "select * from station where country_code = :countryCode limit :limit")
     fun getItemsOfCountry(countryCode: String, limit: Long): List<Station>?
 

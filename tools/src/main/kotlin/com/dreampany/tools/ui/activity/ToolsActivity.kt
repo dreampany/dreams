@@ -23,7 +23,9 @@ import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
+import com.dreampany.tools.ui.fragment.radio.FavoriteStationsFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
+import com.dreampany.tools.ui.fragment.radio.StationsFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeHomeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumePreviewFragment
@@ -87,6 +89,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var scanProvider: Lazy<ScanFragment>
     @Inject
     internal lateinit var noteProvider: Lazy<NoteFragment>
+
+    /* radio */
+    @Inject
+    internal lateinit var favoriteStationsProvider: Lazy<FavoriteStationsFragment>
 
     /* resume */
     @Inject
@@ -215,6 +221,16 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                         R.id.layout,
                         uiTask
                     )
+                    return
+                }
+                if (state == State.FAVORITE) {
+                    commitFragment(
+                        FavoriteStationsFragment::class.java,
+                        favoriteStationsProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
                 }
             }
             Type.NOTE -> {

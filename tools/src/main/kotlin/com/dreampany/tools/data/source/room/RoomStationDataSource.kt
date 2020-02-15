@@ -67,7 +67,7 @@ constructor(
     }
 
     override fun putItem(t: Station): Long {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.insertOrReplace(t)
     }
 
     override fun putItemRx(t: Station): Maybe<Long> {
@@ -92,7 +92,7 @@ constructor(
     }
 
     override fun delete(t: Station): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.delete(t)
     }
 
     override fun deleteRx(t: Station): Maybe<Int> {
@@ -108,11 +108,11 @@ constructor(
     }
 
     override fun getItem(id: String): Station? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItem(id)
     }
 
     override fun getItemRx(id: String): Maybe<Station> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItemRx(id)
     }
 
     override fun getItems(): List<Station>? {
@@ -120,7 +120,7 @@ constructor(
     }
 
     override fun getItemsRx(): Maybe<List<Station>> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getItemsRx()
     }
 
     override fun getItems(limit: Long): List<Station>? {

@@ -1,6 +1,7 @@
 package com.dreampany.tools.injector.ui
 
 import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.tools.ui.fragment.radio.FavoriteStationsFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -16,4 +17,8 @@ abstract class RadioModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [StationsModule::class, SmallPlayerModule::class])
     abstract fun homeFragment(): RadioHomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun favoritesFragment(): FavoriteStationsFragment
 }

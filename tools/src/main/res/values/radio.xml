@@ -7,4 +7,7 @@
     <string name="station_detail_bitrate">%1$1d kbps</string>
     <string name="station_detail_broken">BROKEN</string>
     <string name="subtitle_radio" formatted="false">%s (%s): %d</string>
+
+    <string name="title_favorite_stations">Favorite Stations</string>
+    <string name="subtitle_favorite_stations" translatable="false">Total: %d</string>
 </resources>

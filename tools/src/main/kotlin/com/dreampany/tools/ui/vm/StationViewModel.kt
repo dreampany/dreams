@@ -6,6 +6,7 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.EmptyException
@@ -16,17 +17,11 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.StationMapper
-import com.dreampany.tools.data.model.Note
-import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.data.source.repository.StationRepository
-import com.dreampany.tools.ui.misc.NoteRequest
-import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.misc.StationRequest
-import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.model.StationItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -143,11 +138,11 @@ class StationViewModel
     }
 
     private fun requestUiItemsRx(request: StationRequest): Maybe<List<StationItem>> {
-/*        if (request.action == Action.FAVORITE) {
+        if (request.action == Action.FAVORITE) {
             return storeRepo
-                .requestItemsRx(Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+                .getItemsRx(Type.STATION, Subtype.DEFAULT, State.FAVORITE)
                 .flatMap { getUiItemsOfStoresRx(request, it) }
-        }*/
+        }
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
     }
 
@@ -198,6 +193,11 @@ class StationViewModel
         return uiItem
     }
 
+    private fun getUiItem(request: StationRequest, store: Store): StationItem {
+        val station = mapper.getItem(store, repo)
+        return getUiItem(request, station!!)
+    }
+
     private fun getUiItemRx(request: StationRequest, item: Station): Maybe<StationItem> {
         return Maybe.create { emitter ->
             /*            if (request.action == Action.FAVORITE) {
@@ -206,6 +206,13 @@ class StationViewModel
             val uiItem = getUiItem(request, item)
             emitter.onSuccess(uiItem)
         }
+    }
+
+    private fun getUiItemsOfStoresRx(request: StationRequest, items: List<Store>): Maybe<List<StationItem>> {
+        return Flowable.fromIterable(items)
+            .map { getUiItem(request, it) }
+            .toList()
+            .toMaybe()
     }
 
     private fun adjustFavorite(item: Station, uiItem: StationItem) {
@@ -223,12 +230,12 @@ class StationViewModel
     }
 
     private fun toggleFavorite(id: String): Boolean {
-        val favorite = hasStore(id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+        val favorite = hasStore(id, Type.STATION, Subtype.DEFAULT, State.FAVORITE)
         if (favorite) {
-            removeStore(id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+            removeStore(id, Type.STATION, Subtype.DEFAULT, State.FAVORITE)
             favorites.put(id, false)
         } else {
-            putStore(id, Type.NOTE, Subtype.DEFAULT, State.FAVORITE)
+            putStore(id, Type.STATION, Subtype.DEFAULT, State.FAVORITE)
             favorites.put(id, true)
         }
         return favorites.get(id)

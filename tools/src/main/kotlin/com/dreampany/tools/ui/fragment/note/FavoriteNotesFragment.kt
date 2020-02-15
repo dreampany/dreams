@@ -86,6 +86,10 @@ class FavoriteNotesFragment
         return R.id.item_search
     }
 
+    override fun getTitleResId(): Int {
+        return R.string.title_favorite_notes
+    }
+
     override fun getScreen(): String {
         return Constants.favoriteNotes(context!!)
     }
@@ -189,7 +193,7 @@ class FavoriteNotesFragment
 
 
     private fun initTitleSubtitle() {
-        setTitle(R.string.title_favorite_notes)
+        /*setTitle(R.string.title_favorite_notes)*/
         val subtitle = getString(R.string.subtitle_favorite_notes, adapter.itemCount)
         setSubtitle(subtitle)
     }

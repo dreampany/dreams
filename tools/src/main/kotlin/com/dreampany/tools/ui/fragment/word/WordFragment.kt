@@ -14,6 +14,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.resolveText
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -105,18 +106,13 @@ class WordFragment
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-        val shareItem = menu.findItem(R.id.item_share)
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem, shareItem
-        )
+        findMenuItemById(R.id.item_share).toTint(context, R.color.material_white)
+        searchItem.toTint(context, R.color.material_white)
 
         val activity = getParent()
 
         if (activity is SearchViewCallback) {
-            val searchCallback = activity as SearchViewCallback?
-            searchView = searchCallback!!.searchView
-            val searchItem = getSearchMenuItem()
+            searchView = (activity as SearchViewCallback).searchView
             searchItem?.run {
                 initSearchView(searchView, this)
             }
@@ -137,6 +133,25 @@ class WordFragment
         if (searchView.isSearchOpen()) {
             searchView.closeSearch()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AndroidUtil.initTts(context)
+    }
+
+    override fun onPause() {
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        AndroidUtil.stopTts()
+        super.onPause()
+    }
+
+    override fun hasBackPressed(): Boolean {
+        if (searchView.onBackPressed()) {
+            searchView.closeSearch()
+            return true
+        }
+        return super.hasBackPressed()
     }
 
     override fun onRefresh() {
@@ -170,14 +185,6 @@ class WordFragment
             R.id.layout_yandex -> openYandexSite()
         }
     }
-
-/*    override fun onSearchViewShown() {
-//toSearchMode()
-    }
-
-    override fun onSearchViewClosed() {
-//toScanMode()
-    }*/
 
     override fun onQueryTextSubmit(query: String): Boolean {
         Timber.v("onQueryTextSubmit %s", query)
@@ -606,28 +613,34 @@ class WordFragment
     }
 
     private fun request(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        limit: Long = Constants.Default.LONG,
         id: String? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
         history: Boolean = Constants.Default.BOOLEAN,
-        suggests: Boolean = Constants.Default.BOOLEAN,
-        action: Action = Action.DEFAULT,
-        single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        suggests: Boolean = Constants.Default.BOOLEAN
     ) {
         val language = pref.getLanguage(Language.ENGLISH)
         val translate = !Language.ENGLISH.equals(language)
         val id = id?.toLowerCase()
         val request = WordRequest(
+            type = Type.WORD,
+            subtype = Subtype.DEFAULT,
+            state = state,
+            action = action,
+            single = single,
+            progress = progress,
+            limit = limit,
             id = id,
             sourceLang = Language.ENGLISH.code,
             targetLang = language.code,
             recent = recent,
             history = history,
             translate = translate,
-            suggests = suggests,
-            action = action,
-            single = single,
-            progress = progress
+            suggests = suggests
         )
         vm.request(request)
     }

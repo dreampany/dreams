@@ -93,6 +93,7 @@ class WordViewModel
     }
 
     fun isValid(word: String): Boolean {
+        if (word.length < 2) return false
         return repo.isValid(word)
     }
 

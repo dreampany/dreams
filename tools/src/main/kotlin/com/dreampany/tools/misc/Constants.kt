@@ -309,7 +309,7 @@ class Constants {
         const val QUIZ_OPTIONS = 4
 
         object Word {
-            const val HISTORY = 100L
+            const val HISTORY = 1000L
         }
 
         object Radio {

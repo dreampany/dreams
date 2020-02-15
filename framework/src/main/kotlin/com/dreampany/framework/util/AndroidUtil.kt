@@ -554,7 +554,8 @@ class AndroidUtil {
 
         private var tts: TextToSpeech? = null
 
-        fun initTts(context: Context) {
+        fun initTts(context: Context?) {
+            if (context == null) return
             if (tts == null) {
                 try {
                     tts = TextToSpeech(context.getApplicationContext()) { status ->

@@ -106,8 +106,8 @@ class WordHomeFragment
     private val sheetItems = ArrayList<BasicGridItem>()
 
     private var balloon: Balloon? = null
-    private var clickView: View? = null
-    private var clickWord: String? = null
+    private var clickedView: View? = null
+    private var clickedWord: String? = null
 
     private var queryText: String? = null
 
@@ -176,6 +176,7 @@ class WordHomeFragment
     override fun onResume() {
         super.onResume()
         initLanguageUi()
+        AndroidUtil.initTts(context)
 /*        request(
             id = bind.item?.item?.id,
             recent = true,
@@ -183,6 +184,19 @@ class WordHomeFragment
             single = true,
             progress = true
         )*/
+    }
+
+    override fun onPause() {
+        AndroidUtil.stopTts()
+        super.onPause()
+    }
+
+    override fun hasBackPressed(): Boolean {
+        if (searchView.onBackPressed()) {
+            searchView.closeSearch()
+            return true
+        }
+        return super.hasBackPressed()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -193,7 +207,15 @@ class WordHomeFragment
 
         when (requestCode) {
             Constants.RequestCode.OCR -> {
-
+                if (isOkay(resultCode)) {
+                    request(
+                        state = State.HISTORY,
+                        action = Action.GET,
+                        single = false,
+                        progress = true,
+                        limit = Constants.Limit.Word.HISTORY
+                    )
+                }
             }
         }
 
@@ -311,7 +333,7 @@ class WordHomeFragment
     }
 
     override fun onBalloonClick(view: View) {
-        AndroidUtil.speak(clickWord)
+        AndroidUtil.speak(clickedWord)
     }
 
     override fun onBalloonOutsideTouch(view: View, event: MotionEvent) {
@@ -326,14 +348,6 @@ class WordHomeFragment
         get() = adapter.getVisibleItems()
     override val visibleItem: WordItem?
         get() = adapter.getVisibleItem()
-
-    override fun hasBackPressed(): Boolean {
-        if (searchView.onBackPressed()) {
-            searchView.closeSearch()
-            return true
-        }
-        return super.hasBackPressed()
-    }
 
 
     override fun onUiItemClick(view: View, item: WordItem, action: Action) {
@@ -647,8 +661,8 @@ class WordHomeFragment
                 resolveText(item.item.getPartOfSpeech()),
                 resolveText(item.translation)
             )
-            showBubble(clickView!!, text)
-            clickView = null
+            showBubble(clickedView!!, text)
+            clickedView = null
             return
         }
 
@@ -787,16 +801,16 @@ class WordHomeFragment
     }
 
     private fun onClickWord(view: View, word: String) {
-        clickView = view
-        clickWord = word
+        clickedView = view
+        clickedWord = word
         showBubble(view, word)
         request(id = word, history = true, action = Action.CLICK, single = true, progress = true)
         AndroidUtil.speak(word)
     }
 
     private fun onLongClickWord(view: View, word: String) {
-        clickView = view
-        clickWord = word
+        clickedView = view
+        clickedWord = word
         searchView.clearFocus()
         request(
             id = word,

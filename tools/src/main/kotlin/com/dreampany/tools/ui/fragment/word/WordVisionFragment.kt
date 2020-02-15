@@ -1,33 +1,35 @@
 package com.dreampany.tools.ui.fragment.word
 
 import android.app.Activity
+import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.view.*
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatCheckBox
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.afollestad.assent.Permission
 import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.resolveText
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.*
 import com.dreampany.language.Language
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.FragmentWordVisionBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.misc.WordRequest
 import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.dreampany.vision.ml.CameraSource
@@ -36,8 +38,10 @@ import com.dreampany.vision.ml.GraphicOverlay
 import com.dreampany.vision.ml.ocr.TextRecognitionProcessor
 import com.google.android.gms.common.annotation.KeepName
 import com.klinker.android.link_builder.Link
+import com.skydoves.balloon.*
 import timber.log.Timber
 import java.io.IOException
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -49,7 +53,8 @@ import javax.inject.Inject
 @KeepName
 @ActivityScope
 class WordVisionFragment
-@Inject constructor() : BaseMenuFragment() {
+@Inject constructor() : BaseMenuFragment(), OnBalloonClickListener,
+    OnBalloonOutsideTouchListener {
 
     @Inject
     internal lateinit var session: SessionManager
@@ -59,14 +64,19 @@ class WordVisionFragment
     internal lateinit var pref: Pref
     private lateinit var bind: FragmentWordVisionBinding
     private var source: CameraSource? = null
-    private lateinit var preview: CameraSourcePreview
-    private lateinit var overlay: GraphicOverlay
+    private var preview: CameraSourcePreview? = null
+    private var overlay: GraphicOverlay? = null
     private lateinit var viewText: AppCompatTextView
     private lateinit var viewCheck: AppCompatCheckBox
     private val texts = StringBuilder()
     private val words = mutableListOf<String>()
 
     private lateinit var vm: WordViewModel
+
+    private var balloon: Balloon? = null
+    private var clickedView: View? = null
+    private var clickedWord: String? = null
+    private var updated: Boolean = false
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_word_vision
@@ -77,11 +87,8 @@ class WordVisionFragment
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
-        val clearItem = menu.findItem(R.id.item_clear)
-        val doneItem = menu.findItem(R.id.item_done)
-
         findMenuItemById(R.id.item_clear).toTint(context, R.color.material_white)
-        findMenuItemById(R.id.item_done).toTint(context, R.color.material_white)
+        //findMenuItemById(R.id.item_done).toTint(context, R.color.material_white)
     }
 
     override fun getScreen(): String {
@@ -103,17 +110,19 @@ class WordVisionFragment
     override fun onResume() {
         super.onResume()
         startCameraSource()
+        AndroidUtil.initTts(context)
     }
 
     override fun onPause() {
         vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
-        preview.stop()
+        preview?.stop()
+        AndroidUtil.stopTts()
         super.onPause()
     }
 
     override fun hasBackPressed(): Boolean {
-        done()
-        return false
+        forResult(updated)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -133,6 +142,14 @@ class WordVisionFragment
         vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
+    override fun onBalloonClick(view: View) {
+        AndroidUtil.speak(clickedWord)
+    }
+
+    override fun onBalloonOutsideTouch(view: View, event: MotionEvent) {
+        balloon?.dismiss()
+    }
+
     private fun initUi() {
         setTitle(TextUtil.getString(context, R.string.detected_words, 0))
         bind = super.binding as FragmentWordVisionBinding
@@ -142,7 +159,7 @@ class WordVisionFragment
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
 
-        vm = ViewModelProviders.of(this, factory).get(WordViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(WordViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processResponse(it) })
     }
@@ -165,7 +182,7 @@ class WordVisionFragment
                 if (overlay == null) {
                     Timber.d("resume: graphOverlay is null")
                 }
-                preview.start(source, overlay)
+                preview?.start(source, overlay)
             } catch (e: IOException) {
                 Timber.e(e, "Unable to start camera source.")
                 source?.release()
@@ -205,25 +222,70 @@ class WordVisionFragment
             R.color.material_white,
             object : Link.OnClickListener {
                 override fun onClick(clickedText: String) {
-                    onClickOnText(clickedText)
+                    onClickWord(view,clickedText)
                 }
             },
             object : Link.OnLongClickListener {
                 override fun onLongClick(clickedText: String) {
-                    onLongClickOnText(clickedText)
+                    onLongClickWord(view, clickedText)
                 }
             }
         )
     }
 
-    private fun onClickOnText(text: String) {
-        Timber.v("Clicked Word %s", text)
-        request(id = text.toLowerCase(),  recent = true, history =  true, suggests =  true)
+    private fun showBubble(view: View, text: String) {
+        balloon?.run {
+            if (isShowing) {
+                dismiss()
+            }
+        }
+        context?.run {
+            balloon = createBalloon(this) {
+                setArrowSize(10)
+                setWidthRatio(0.6f)
+                setHeight(70)
+                setArrowPosition(0.5f)
+                setCornerRadius(4f)
+                setAlpha(0.9f)
+                setTextTypeface(Typeface.BOLD)
+                setText(text)
+                setTextColorResource(R.color.material_white)
+                setTextSize(14.0f)
+                // setIconDrawable(ContextCompat.getDrawable(baseContext, R.drawable.ic_profile))
+                setBackgroundColorResource(R.color.colorPrimary)
+                setOnBalloonClickListener(this@WordVisionFragment)
+                setOnBalloonOutsideTouchListener(this@WordVisionFragment)
+                setArrowOrientation(ArrowOrientation.BOTTOM)
+                setBalloonAnimation(BalloonAnimation.FADE)
+                setLifecycleOwner(this@WordVisionFragment)
+            }
+        }
+
+        balloon?.run {
+            view.showAlignTop(this)
+        }
     }
 
-    private fun onLongClickOnText(text: String) {
-        Timber.v("Clicked Word %s", text)
-        request(id = text.toLowerCase(),  recent = true, history =  true, suggests =  true)
+    private fun onClickWord(view: View, word: String) {
+        clickedView = view
+        clickedWord = word
+        showBubble(view, word)
+        request(id = word, history = true, action = Action.CLICK, single = true, progress = true)
+        AndroidUtil.speak(word)
+    }
+
+    private fun onLongClickWord(view: View, word: String) {
+        clickedView = view
+        clickedWord = word
+        //searchView.clearFocus()
+        request(
+            id = word,
+            history = true,
+            action = Action.LONG_CLICK,
+            single = true,
+            progress = true
+        )
+        AndroidUtil.speak(word)
     }
 
     private fun clear() {
@@ -258,12 +320,25 @@ class WordVisionFragment
             vm.processFailure(state =  result.state,  action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<WordItem>
-            processSuccess(result.data)
+            processSuccess(result.state, result.action, result.data)
         }
     }
 
-    private fun processSuccess(item: WordItem) {
-        val result = TextUtil.getString(
+    private fun processSuccess(state: State, action: Action, item: WordItem) {
+        Timber.v("Result Single Word[%s]", item.item.id)
+        if (action == Action.CLICK) {
+            val text = getString(
+                R.string.format_word_balloon,
+                item.item.id,
+                resolveText(item.item.getPartOfSpeech()),
+                resolveText(item.translation)
+            )
+            showBubble(clickedView!!, text)
+            clickedView = null
+            updated = true
+            return
+        }
+/*        val result = TextUtil.getString(
             context!!,
             R.string.word_vision,
             item.item.id,
@@ -273,13 +348,15 @@ class WordVisionFragment
         val activity = getParent() as Activity?
         if (activity != null && result != null) {
             NotifyUtil.showInfo(activity, result)
-        }
+        }*/
     }
 
     private fun request(
+        state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
+        limit: Long = Constants.Default.LONG,
         id: String? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
         history: Boolean = Constants.Default.BOOLEAN,
@@ -289,9 +366,13 @@ class WordVisionFragment
         val translate = !Language.ENGLISH.equals(language)
         val id = id?.toLowerCase()
         val request = WordRequest(
+            type = Type.WORD,
+            subtype = Subtype.DEFAULT,
+            state = state,
             action = action,
             single = single,
             progress = progress,
+            limit = limit,
             id = id,
             sourceLang = Language.ENGLISH.code,
             targetLang = language.code,

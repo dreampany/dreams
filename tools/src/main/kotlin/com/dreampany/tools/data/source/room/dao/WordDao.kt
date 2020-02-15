@@ -15,6 +15,12 @@ import io.reactivex.Maybe
 @Dao
 interface WordDao : BaseDao<Word> {
 
+    @Query("select count(*) from word where id = :id limit 1")
+    fun getCount(id: String): Int
+
+    @Query("select count(*) from word where id = :id limit 1")
+    fun getCountRx(id: String): Maybe<Int>
+
     @Query("select * from word where id = :id limit 1")
     fun getItem(id: String): Word?
 

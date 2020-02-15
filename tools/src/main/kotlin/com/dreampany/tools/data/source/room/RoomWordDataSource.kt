@@ -50,7 +50,7 @@ class RoomWordDataSource(
     }
 
     override fun isExists(id: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dao.getCount(id) > 0
     }
 
     override fun isExists(t: Word): Boolean {

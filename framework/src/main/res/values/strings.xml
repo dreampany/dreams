@@ -70,7 +70,7 @@
     <string name="save_success">Saved successfully.</string>
 
     <string name="auto_collection">Auto collection</string>
-    <string name="detected_words">%d Words</string>
+    <string name="detected_words">%d words</string>
 
     <string name="all_rights_reserved">Copyright © 2019 Dreampany. All Rights Reserved.</string>
 </resources>

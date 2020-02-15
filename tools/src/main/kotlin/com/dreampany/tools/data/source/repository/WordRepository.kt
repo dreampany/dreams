@@ -66,9 +66,9 @@ class WordRepository
     override fun isValid(id: String): Boolean {
         if (mapper.isExists(id))
             return true
-        if (room.isExists(id)) {
+        /*if (room.isExists(id)) {
             return true
-        }
+        }*/
         return assets.isExists(id)
     }
 

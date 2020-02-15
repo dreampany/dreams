@@ -18,9 +18,10 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/material_grey300">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/layout_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +32,7 @@
                     layout="@layout/content_top_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"

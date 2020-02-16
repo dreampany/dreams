@@ -1,7 +1,7 @@
 package com.dreampany.tools.ui.adapter
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
-import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.ui.model.word.WordItem
 import eu.davidea.flexibleadapter.items.IFlexible
 
 

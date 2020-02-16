@@ -31,7 +31,7 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.RelatedQuizItem
+import com.dreampany.tools.ui.model.word.RelatedQuizItem
 import com.dreampany.tools.util.Util
 import io.reactivex.Flowable
 import io.reactivex.Maybe

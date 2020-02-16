@@ -19,7 +19,7 @@ import com.dreampany.tools.ui.misc.QuizRequest
 import com.dreampany.tools.data.model.word.Quiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
-import com.dreampany.tools.ui.model.QuizItem
+import com.dreampany.tools.ui.model.word.QuizItem
 import com.dreampany.tools.util.Util
 import io.reactivex.Flowable
 import io.reactivex.Maybe

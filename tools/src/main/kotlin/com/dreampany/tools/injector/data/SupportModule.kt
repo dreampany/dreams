@@ -9,6 +9,9 @@ import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.injector.annote.*
 import com.dreampany.tools.injector.annote.word.*
 import com.dreampany.tools.ui.model.*
+import com.dreampany.tools.ui.model.word.QuizItem
+import com.dreampany.tools.ui.model.word.RelatedQuizItem
+import com.dreampany.tools.ui.model.word.WordItem
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.dreampany.tools.ui.model.WordItem" />
+            type="com.dreampany.tools.ui.model.word.WordItem" />
     </data>
 
     <RelativeLayout

@@ -15,7 +15,7 @@ import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.injector.annote.word.WordAnnote
 import com.dreampany.tools.injector.annote.word.WordItemAnnote
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.ui.model.word.WordItem
 import io.reactivex.Maybe
 import javax.inject.Inject
 import javax.inject.Singleton

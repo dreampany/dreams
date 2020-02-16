@@ -1,6 +1,5 @@
 package com.dreampany.tools.ui.fragment.word
 
-import android.app.Activity
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
@@ -30,7 +29,7 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.FragmentWordVisionBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.misc.WordRequest
-import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.dreampany.vision.ml.CameraSource
 import com.dreampany.vision.ml.CameraSourcePreview
@@ -41,7 +40,6 @@ import com.klinker.android.link_builder.Link
 import com.skydoves.balloon.*
 import timber.log.Timber
 import java.io.IOException
-import java.util.*
 import javax.inject.Inject
 
 /**

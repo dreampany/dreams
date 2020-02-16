@@ -26,7 +26,7 @@ import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.util.Util
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable

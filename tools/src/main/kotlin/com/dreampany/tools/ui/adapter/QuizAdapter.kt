@@ -1,7 +1,7 @@
 package com.dreampany.tools.ui.adapter
 
 import com.dreampany.framework.ui.adapter.SmartAdapter
-import com.dreampany.tools.ui.model.QuizItem
+import com.dreampany.tools.ui.model.word.QuizItem
 
 
 /**

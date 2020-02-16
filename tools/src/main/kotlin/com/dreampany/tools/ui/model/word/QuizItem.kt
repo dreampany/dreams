@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.word
 
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -40,15 +40,21 @@ private constructor(
 
     companion object {
         fun getItem(item: Quiz): QuizItem {
-            return QuizItem(item, R.layout.item_quiz)
+            return QuizItem(
+                item,
+                R.layout.item_quiz
+            )
         }
     }
 
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): QuizItem.ViewHolder {
-        return QuizItem.ViewHolder(view, adapter)
+    ): ViewHolder {
+        return ViewHolder(
+            view,
+            adapter
+        )
     }
 
     override fun filter(constraint: String): Boolean {

@@ -12,6 +12,7 @@
     <string name="title_feature_block">Smart Block</string>
     <string name="title_feature_todo">Easy Todo</string>
     <string name="title_feature_resume">Resume Plus</string>
+    <string name="title_feature_question">Questions</string>
 
     <string name="select_language">Select Language</string>
     <string name="format_level">L: %s</string>

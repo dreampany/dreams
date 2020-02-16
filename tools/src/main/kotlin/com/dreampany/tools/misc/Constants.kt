@@ -239,6 +239,7 @@ class Constants {
         const val LOAD = "load"
         const val WORD = "word"
         const val VPN = "vpn"
+        const val QUESTION = "question"
 
         const val PLAYER_RETRY_TIMEOUT = "player_retry_timeout"
 
@@ -281,6 +282,12 @@ class Constants {
 
         object Block {
             const val CONTACT = "contact"
+        }
+
+        object Question {
+            const val CATEGORY = "category"
+            const val TYPE = "type"
+            const val DIFFICULT = "difficult"
         }
     }
 
@@ -551,42 +558,46 @@ class Constants {
     }
 
     object Values {
-        object QuestionCategory {
-            const val GENERAL_KNOWLEDGE = "General Knowledge"
-            const val BOOK = "Entertainment: Books"
-            const val FILM = "Entertainment: Film"
-            const val MUSIC = "Entertainment: Music"
-            const val MUSICAL_THEATRE = "Entertainment: Musicals & Theatres"
-            const val TELEVISION = "Entertainment: Television"
-            const val VIDEO_GAME = "Entertainment: Video Games"
-            const val BOARD_GAME = "Entertainment: Board Games"
-            const val SCIENCE_NATURE = "Science & Nature"
-            const val COMPUTER = "Science: Computers"
-            const val MATHEMATICS = "Science: Mathematics"
-            const val MYTHOLOGY = "Mythology"
-            const val SPORTS = "Sports"
-            const val GEOGRAPHY = "Geography"
-            const val HISTORY = "History"
-            const val POLITICS = "Politics"
-            const val ART = "Art"
-            const val CELEBRITIES = "Celebrities"
-            const val ANIMALS = "Animals"
-            const val VEHICLES = "Vehicles"
-            const val COMICS = "Entertainment: Comics"
-            const val GADGETS = "Science: Gadgets"
-            const val ANIME_MANGA = "Entertainment: Japanese Anime & Manga"
-            const val CARTOON_ANIMATION = "Entertainment: Cartoon & Animations"
-        }
 
-        object QuestionType {
-            const val TRUE_FALSE = "boolean"
-            const val MULTIPLE = "multiple"
-        }
+        object Question {
 
-        object QuestionDifficult {
-            const val EASY = "Easy"
-            const val MEDIUM = "Medium"
-            const val HARD = "Hard"
+            object Category {
+                const val GENERAL_KNOWLEDGE = "General Knowledge"
+                const val BOOK = "Entertainment: Books"
+                const val FILM = "Entertainment: Film"
+                const val MUSIC = "Entertainment: Music"
+                const val MUSICAL_THEATRE = "Entertainment: Musicals & Theatres"
+                const val TELEVISION = "Entertainment: Television"
+                const val VIDEO_GAME = "Entertainment: Video Games"
+                const val BOARD_GAME = "Entertainment: Board Games"
+                const val SCIENCE_NATURE = "Science & Nature"
+                const val COMPUTER = "Science: Computers"
+                const val MATHEMATICS = "Science: Mathematics"
+                const val MYTHOLOGY = "Mythology"
+                const val SPORTS = "Sports"
+                const val GEOGRAPHY = "Geography"
+                const val HISTORY = "History"
+                const val POLITICS = "Politics"
+                const val ART = "Art"
+                const val CELEBRITIES = "Celebrities"
+                const val ANIMALS = "Animals"
+                const val VEHICLES = "Vehicles"
+                const val COMICS = "Entertainment: Comics"
+                const val GADGETS = "Science: Gadgets"
+                const val ANIME_MANGA = "Entertainment: Japanese Anime & Manga"
+                const val CARTOON_ANIMATION = "Entertainment: Cartoon & Animations"
+            }
+
+            object Type {
+                const val TRUE_FALSE = "boolean"
+                const val MULTIPLE = "multiple"
+            }
+
+            object Difficult {
+                const val EASY = "Easy"
+                const val MEDIUM = "Medium"
+                const val HARD = "Hard"
+            }
         }
     }
 
@@ -669,6 +680,7 @@ class Constants {
                 Type.NOTE -> return 6
                 Type.WORD -> return 7
                 Type.ENGLISH -> return 8
+                Type.QUESTION -> return 9
                 else -> return Int.MAX_VALUE
             }
         }

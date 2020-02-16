@@ -8,7 +8,7 @@
 
         <variable
             name="header"
-            type="com.dreampany.tools.ui.model.QuizOptionItem" />
+            type="com.dreampany.tools.ui.model.word.QuizOptionItem" />
     </data>
 
     <androidx.cardview.widget.CardView

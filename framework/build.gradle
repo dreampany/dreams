@@ -295,7 +295,12 @@ dependencies {
     api ('com.github.skydoves:submarine:1.0.1') {
         exclude group: 'org.jetbrains.kotlin'
     }
-    api 'com.github.skydoves:powermenu:2.1.0'
+    api ('com.github.skydoves:powermenu:2.1.0') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    api ('com.github.skydoves:powerspinner:1.0.4') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
     api ('com.github.skydoves:balloon:1.0.6') {
         exclude group: 'org.jetbrains.kotlin'
     }

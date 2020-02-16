@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.word
 
 import android.content.Context
 import android.view.View
@@ -34,7 +34,7 @@ class RelatedQuizItem
 private constructor(
     item: RelatedQuiz,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem< RelatedQuizItem.ViewHolder, RelatedQuiz, String>(item, layoutId) {
+) : BaseItem<RelatedQuizItem.ViewHolder, RelatedQuiz, String>(item, layoutId) {
 
     private var color: Color
     private var optionItems: ArrayList<QuizOptionItem>? = Constants.Default.NULL
@@ -68,7 +68,10 @@ private constructor(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
-        return ViewHolder(view, adapter)
+        return ViewHolder(
+            view,
+            adapter
+        )
     }
 
     override fun filter(constraint: String): Boolean {
@@ -115,7 +118,8 @@ private constructor(
                 id = id!!,
                 header = true
             )
-        val item = QuizOptionItem.getItem(header)
+        val item =
+            QuizOptionItem.getItem(header)
         item.credit = credit
         item.totalCredit = totalCredit
         item.count = typeCount

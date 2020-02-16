@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.word
 
 import android.view.View
 import android.widget.TextView
@@ -33,7 +33,10 @@ private constructor(
 
     companion object {
         fun getItem(item: Word): WordItem {
-            return WordItem(item, R.layout.item_word)
+            return WordItem(
+                item,
+                R.layout.item_word
+            )
         }
     }
 
@@ -41,7 +44,10 @@ private constructor(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
-        return ViewHolder(view, adapter)
+        return ViewHolder(
+            view,
+            adapter
+        )
     }
 
     override fun filter(constraint: String): Boolean {

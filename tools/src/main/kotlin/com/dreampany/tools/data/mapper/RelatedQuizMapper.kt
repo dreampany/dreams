@@ -15,7 +15,7 @@ import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.data.source.api.QuizDataSource
 import com.dreampany.tools.injector.annote.word.RelatedQuizAnnote
 import com.dreampany.tools.injector.annote.word.RelatedQuizItemAnnote
-import com.dreampany.tools.ui.model.RelatedQuizItem
+import com.dreampany.tools.ui.model.word.RelatedQuizItem
 import javax.inject.Inject
 import javax.inject.Singleton
 

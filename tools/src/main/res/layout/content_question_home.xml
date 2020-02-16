@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.dreampany.tools.ui.model.question.QuestionItem" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_grey300"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" auto:cardCornerRadius="@dimen/_4sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_40sdp">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="@dimen/_140sdp"
+                android:minHeight="@dimen/_100sdp">
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </com.google.android.material.card.MaterialCardView>
+
+<!--        <com.skydoves.powerspinner.PowerSpinnerView
+            android:id="@+id/spinner_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_rectangle"
+            android:foreground="?attr/selectableItemBackground"
+            android:hint="Select your country"
+            android:padding="10dp"
+            android:textColor="@color/material_grey50"
+            android:textColorHint="@color/material_grey50"
+            android:textSize="14.5sp"
+            auto:spinner_arrow_gravity="end"
+            auto:spinner_arrow_padding="8dp"
+            auto:spinner_divider_color="@color/material_grey50"
+            auto:spinner_divider_show="true"
+            auto:spinner_divider_size="0.4dp"
+            auto:spinner_item_array="@array/question_categories"
+            auto:spinner_popup_animation="dropdown"
+            auto:spinner_popup_background="@color/material_grey400"
+            auto:spinner_popup_elevation="14dp"
+            tools:ignore="HardcodedText,UnusedAttribute" />-->
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

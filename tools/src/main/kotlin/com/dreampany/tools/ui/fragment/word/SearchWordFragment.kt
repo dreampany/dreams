@@ -33,7 +33,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.enums.NoteOption
 import com.dreampany.tools.ui.model.NoteItem
-import com.dreampany.tools.ui.model.WordItem
+import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.skydoves.powermenu.MenuAnimation
 import com.skydoves.powermenu.OnMenuItemClickListener

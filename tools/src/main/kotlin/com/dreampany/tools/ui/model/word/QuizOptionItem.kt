@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.word
 
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -49,8 +49,14 @@ private constructor(
 
     companion object {
         fun getItem(item: QuizOption): QuizOptionItem {
-            if (item.header) return QuizOptionItem(item, R.layout.item_quiz_option_header)
-            return QuizOptionItem(item, R.layout.item_quiz_option)
+            if (item.header) return QuizOptionItem(
+                item,
+                R.layout.item_quiz_option_header
+            )
+            return QuizOptionItem(
+                item,
+                R.layout.item_quiz_option
+            )
         }
     }
 
@@ -58,8 +64,14 @@ private constructor(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
-        if (item.header) return HeaderViewHolder(view, adapter)
-        return ItemViewHolder(view, adapter)
+        if (item.header) return HeaderViewHolder(
+            view,
+            adapter
+        )
+        return ItemViewHolder(
+            view,
+            adapter
+        )
     }
 
     override fun filter(constraint: String): Boolean {

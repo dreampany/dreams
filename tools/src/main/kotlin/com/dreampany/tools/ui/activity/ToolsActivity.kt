@@ -23,6 +23,7 @@ import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
+import com.dreampany.tools.ui.fragment.question.QuestionHomeFragment
 import com.dreampany.tools.ui.fragment.radio.FavoriteStationsFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
 import com.dreampany.tools.ui.fragment.radio.StationsFragment
@@ -53,6 +54,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     internal lateinit var licenseProvider: Lazy<LicenseFragment>
 
+    /* home */
     @Inject
     internal lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
@@ -71,6 +73,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var blockHomeProvider: Lazy<BlockHomeFragment>
     @Inject
     internal lateinit var resumeHomeProvider: Lazy<ResumeHomeFragment>
+    @Inject
+    internal lateinit var questionHomeProvider: Lazy<QuestionHomeFragment>
 
 
     @Inject
@@ -403,6 +407,17 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                         )
                         return
                     }
+                }
+            }
+            Type.QUESTION -> {
+                if (state == State.HOME) {
+                    commitFragment(
+                        QuestionHomeFragment::class.java,
+                        questionHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
                 }
             }
         }

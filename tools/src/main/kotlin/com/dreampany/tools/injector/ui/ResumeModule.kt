@@ -14,8 +14,7 @@ import dagger.android.ContributesAndroidInjector
  * Last modified $file.lastModified
  */
 @Module
-abstract
-class ResumeModule {
+abstract class ResumeModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun homeFragment(): ResumeHomeFragment

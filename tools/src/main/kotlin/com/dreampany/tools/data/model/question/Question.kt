@@ -34,8 +34,8 @@ data class Question(
     var type: Type? = Constants.Default.NULL,
     var difficult: Difficult? = Constants.Default.NULL,
     var question: String? = Constants.Default.NULL,
-    var answer:String? = Constants.Default.NULL,
-    var options: List<String>? = Constants.Default.NULL
+    var answer: String? = Constants.Default.NULL,
+    var options: ArrayList<String>? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore

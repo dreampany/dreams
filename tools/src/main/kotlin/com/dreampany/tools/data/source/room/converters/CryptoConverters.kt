@@ -14,7 +14,7 @@ class CryptoConverters : Converters() {
 
     @Synchronized
     @TypeConverter
-    fun toCurrencyValue(currency: Currency?): String? {
+    fun toValue(currency: Currency?): String? {
         return if (currency == null) null else currency.name
     }
 

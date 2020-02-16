@@ -217,6 +217,7 @@ class Constants {
         const val CRYPTO = "crypto"
         const val CONTACT = "contact"
         const val RESUME = "resume"
+        const val QUESTION = "question"
 
         object Crypto {
             const val ID = Constants.Key.ID

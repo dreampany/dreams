@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.question.injector
 
-import com.dreampany.tools.api.question.remote.QuestionService
+import com.dreampany.tools.api.question.remote.TriviaQuestionService
 import com.dreampany.tools.api.question.misc.Constants
 import com.dreampany.tools.api.question.misc.QuestionAnnote
 import com.google.gson.Gson
@@ -35,7 +35,7 @@ class TriviaQuestionModule {
 
     @Singleton
     @Provides
-    fun provideQuestionService(@QuestionAnnote retrofit: Retrofit): QuestionService {
-        return retrofit.create(QuestionService::class.java);
+    fun provideQuestionService(@QuestionAnnote retrofit: Retrofit): TriviaQuestionService {
+        return retrofit.create(TriviaQuestionService::class.java);
     }
 }

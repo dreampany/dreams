@@ -12,13 +12,13 @@ import retrofit2.http.Query
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface QuestionService {
+interface TriviaQuestionService {
 
     @GET(value = Constants.Api.API)
     fun getQuestions(
         @Query("amount") limit: Long,
         @Query("category") category: Int = 0,
-        @Query("difficulty") difficulty: String = "",
-        @Query("type") type: String = ""
+        @Query("type") type: String = "",
+        @Query("difficulty") difficulty: String = ""
     ): Call<TriviaQuestionsResponse>
 }

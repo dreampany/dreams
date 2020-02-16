@@ -1,11 +1,9 @@
-package com.dreampany.tools.data.source.remote
+package com.dreampany.tools.data.source.room
 
-import android.content.Context
-import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.question.remote.TriviaQuestionService
 import com.dreampany.tools.data.mapper.QuestionMapper
 import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.data.source.api.QuestionDataSource
+import com.dreampany.tools.data.source.room.dao.QuestionDao
 import io.reactivex.Maybe
 
 /**
@@ -14,12 +12,10 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RemoteQuestionDataSource
+class RoomQuestionDataSource
 constructor(
-    private val context: Context,
-    private val network: NetworkManager,
     private val mapper: QuestionMapper,
-    private val service: TriviaQuestionService
+    private val dao: QuestionDao
 ) : QuestionDataSource {
     override fun isEmpty(): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

@@ -7,10 +7,10 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.word.Quiz
 import com.dreampany.tools.data.source.api.QuizDataSource
-import com.dreampany.tools.injector.annote.QuizAnnote
-import com.dreampany.tools.injector.annote.QuizItemAnnote
+import com.dreampany.tools.injector.annote.word.QuizAnnote
+import com.dreampany.tools.injector.annote.word.QuizItemAnnote
 import com.dreampany.tools.ui.model.QuizItem
 import javax.inject.Inject
 import javax.inject.Singleton

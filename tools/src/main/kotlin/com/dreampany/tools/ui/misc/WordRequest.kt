@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.misc.Constants
 
 /**

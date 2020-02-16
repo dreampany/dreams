@@ -21,9 +21,9 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.misc.RelatedQuizRequest
-import com.dreampany.tools.data.model.Quiz
-import com.dreampany.tools.data.model.RelatedQuiz
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Quiz
+import com.dreampany.tools.data.model.word.RelatedQuiz
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants

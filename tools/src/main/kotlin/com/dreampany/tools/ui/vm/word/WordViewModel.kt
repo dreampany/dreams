@@ -21,7 +21,7 @@ import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.ui.misc.WordRequest
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository

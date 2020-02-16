@@ -68,15 +68,15 @@ data class Coin(
 
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as Coin
         return Objects.equal(this.id, item.id)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
     }
 
     override fun toString(): String {

@@ -6,7 +6,7 @@ import com.dreampany.framework.util.DataUtil
 import com.dreampany.framework.util.FileUtil
 import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.mapper.WordMapper
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
 import io.reactivex.Maybe

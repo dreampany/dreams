@@ -8,7 +8,7 @@ import com.dreampany.tools.data.model.resume.*
 import com.dreampany.tools.data.source.api.ResumeDataSource
 import com.dreampany.tools.data.source.room.RoomResumeDataSource
 import com.dreampany.tools.data.source.room.dao.ResumeDao
-import com.dreampany.tools.injector.annote.*
+import com.dreampany.tools.injector.annote.resume.*
 import com.dreampany.tools.ui.model.resume.*
 import dagger.Module
 import dagger.Provides

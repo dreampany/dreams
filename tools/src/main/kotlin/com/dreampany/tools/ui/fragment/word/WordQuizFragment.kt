@@ -22,7 +22,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.misc.QuizRequest
-import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.word.Quiz
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentWordQuizBinding

@@ -10,7 +10,7 @@ import com.dreampany.framework.misc.SmartAd
 import com.dreampany.framework.ui.activity.BaseBottomNavigationActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.databinding.ActivityNavigationBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.HomeFragment

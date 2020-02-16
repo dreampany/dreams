@@ -31,5 +31,5 @@ enum class TriviaCategory(val code: Int) {
     COMICS(30),
     GADGETS(31),
     ANIME_MANGA(32),
-    CARTOON_ANIMATION(33),
+    CARTOON_ANIMATION(33)
 }

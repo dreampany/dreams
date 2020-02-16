@@ -19,13 +19,9 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.model.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository
-import com.dreampany.tools.ui.misc.NoteRequest
-import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.tools.ui.model.WordItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import com.google.common.collect.Maps
 import io.reactivex.Flowable

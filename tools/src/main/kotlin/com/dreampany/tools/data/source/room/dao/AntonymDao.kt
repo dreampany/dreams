@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.framework.data.source.room.dao.BaseDao
-import com.dreampany.tools.data.model.Antonym
+import com.dreampany.tools.data.model.word.Antonym
 import io.reactivex.Maybe
 
 /**

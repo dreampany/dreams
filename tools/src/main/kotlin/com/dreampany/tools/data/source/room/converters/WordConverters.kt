@@ -2,8 +2,8 @@ package com.dreampany.tools.data.source.room.converters
 
 import androidx.room.TypeConverter
 import com.dreampany.framework.data.source.room.converters.Converters
-import com.dreampany.tools.data.model.Definition
-import com.dreampany.tools.data.model.Example
+import com.dreampany.tools.data.model.word.Definition
+import com.dreampany.tools.data.model.word.Example
 import com.google.gson.reflect.TypeToken
 
 /**

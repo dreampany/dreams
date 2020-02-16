@@ -8,7 +8,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.WordAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter

@@ -14,7 +14,7 @@ import com.dreampany.framework.ui.widget.TextDrawable
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TintUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.QuizOption
+import com.dreampany.tools.data.model.word.QuizOption
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter

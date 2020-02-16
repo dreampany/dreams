@@ -8,6 +8,6 @@ package com.dreampany.tools.api.question.enums
  */
 enum class TriviaType(val code: String? = null) {
     NONE(),
-    MULTIPLE("multiple"),
-    TRUE_FALSE("boolean")
+    TRUE_FALSE("boolean"),
+    MULTIPLE("multiple")
 }

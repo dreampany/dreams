@@ -5,7 +5,7 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.RelatedQuiz
+import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.misc.Constants
 
 /**

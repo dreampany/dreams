@@ -3,8 +3,7 @@ package com.dreampany.tools.data.source.api
 import android.graphics.Bitmap
 import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.framework.data.enums.Source
-import com.dreampany.tools.data.model.Word
-import com.google.firebase.firestore.FirebaseFirestoreException
+import com.dreampany.tools.data.model.word.Word
 import io.reactivex.Maybe
 
 /**

@@ -6,7 +6,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.mapper.WordMapper
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
 import io.reactivex.Maybe

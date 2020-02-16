@@ -3,7 +3,7 @@ package com.dreampany.tools.util
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.util.DataUtil
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 
 /**
  * Created by Roman-372 on 8/26/2019

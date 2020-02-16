@@ -75,6 +75,7 @@ class Constants {
 
         fun radioStations(context: Context, state: State): String =
             lastAppId(context) + Sep.HYPHEN + "${state.name.toLowerCase()}-related-quiz"
+
         fun favoriteStations(context: Context): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-stations"
 
@@ -442,6 +443,10 @@ class Constants {
             const val DATE_ADDED = "date_added"
         }
 
+        object Question {
+            const val ID = Constants.Key.ID
+        }
+
         object Order {
             const val ASCENDING = "asc"
             const val DESCENDING = "desc"
@@ -541,6 +546,46 @@ class Constants {
                 const val CLICK_COUNT = "clickcount"
                 const val CLICK_TREND = "clicktrend"
             }
+        }
+    }
+
+    object Values {
+        object QuestionCategory {
+            const val GENERAL_KNOWLEDGE = "General Knowledge"
+            const val BOOK = "Entertainment: Books"
+            const val FILM = "Entertainment: Film"
+            const val MUSIC = "Entertainment: Music"
+            const val MUSICAL_THEATRE = "Entertainment: Musicals & Theatres"
+            const val TELEVISION = "Entertainment: Television"
+            const val VIDEO_GAME = "Entertainment: Video Games"
+            const val BOARD_GAME = "Entertainment: Board Games"
+            const val SCIENCE_NATURE = "Science & Nature"
+            const val COMPUTER = "Science: Computers"
+            const val MATHEMATICS = "Science: Mathematics"
+            const val MYTHOLOGY = "Mythology"
+            const val SPORTS = "Sports"
+            const val GEOGRAPHY = "Geography"
+            const val HISTORY = "History"
+            const val POLITICS = "Politics"
+            const val ART = "Art"
+            const val CELEBRITIES = "Celebrities"
+            const val ANIMALS = "Animals"
+            const val VEHICLES = "Vehicles"
+            const val COMICS = "Entertainment: Comics"
+            const val GADGETS = "Science: Gadgets"
+            const val ANIME_MANGA = "Entertainment: Japanese Anime & Manga"
+            const val CARTOON_ANIMATION = "Entertainment: Cartoon & Animations"
+        }
+
+        object QuestionType {
+            const val TRUE_FALSE = "boolean"
+            const val MULTIPLE = "multiple"
+        }
+
+        object QuestionDifficult {
+            const val EASY = "Easy"
+            const val MEDIUM = "Medium"
+            const val HARD = "Hard"
         }
     }
 
@@ -909,7 +954,9 @@ class Constants {
                             "                <tr class=\"c15\">\n" +
                             "                    <td class=\"c26\" colspan=\"1\" rowspan=\"1\">\n" +
                             "                        <p class=\"c6\"><span class=\"c24\">ㅡ</span></p>\n" +
-                            "                        <h1 class=\"c9\" id=\"h.tk538brb1kdf\"><span class=\"c16\">" + context.getString(R.string.title_experience) + "</span></h1></td>\n" +
+                            "                        <h1 class=\"c9\" id=\"h.tk538brb1kdf\"><span class=\"c16\">" + context.getString(
+                        R.string.title_experience
+                    ) + "</span></h1></td>\n" +
                             "                    <td class=\"c4\" colspan=\"1\" rowspan=\"1\">\n"
                 )
                 var first = true

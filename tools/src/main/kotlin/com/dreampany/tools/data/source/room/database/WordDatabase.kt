@@ -6,9 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.data.model.Antonym
-import com.dreampany.tools.data.model.Synonym
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Antonym
+import com.dreampany.tools.data.model.word.Synonym
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.room.dao.AntonymDao
 import com.dreampany.tools.data.source.room.dao.SynonymDao
 import com.dreampany.tools.data.source.room.dao.WordDao

@@ -18,8 +18,8 @@ import com.dreampany.tools.data.source.remote.RemoteCoinDataSource
 import com.dreampany.tools.data.source.room.RoomCoinDataSource
 import com.dreampany.tools.data.source.room.dao.CoinDao
 import com.dreampany.tools.data.source.room.dao.QuoteDao
-import com.dreampany.tools.injector.annote.CoinAnnote
-import com.dreampany.tools.injector.annote.CoinItemAnnote
+import com.dreampany.tools.injector.annote.coin.CoinAnnote
+import com.dreampany.tools.injector.annote.coin.CoinItemAnnote
 import com.dreampany.tools.injector.annote.CurrencyAnnote
 import com.dreampany.tools.injector.annote.QuoteAnnote
 import com.dreampany.tools.ui.model.CoinItem

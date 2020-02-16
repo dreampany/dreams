@@ -9,11 +9,11 @@ import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.extension.hash
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
-import com.dreampany.tools.data.model.*
+import com.dreampany.tools.data.model.word.*
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.data.source.pref.WordPref
-import com.dreampany.tools.injector.annote.WordAnnote
-import com.dreampany.tools.injector.annote.WordItemAnnote
+import com.dreampany.tools.injector.annote.word.WordAnnote
+import com.dreampany.tools.injector.annote.word.WordItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.WordItem
 import io.reactivex.Maybe
@@ -215,7 +215,12 @@ class WordMapper
         if (input.hasSynonyms()) {
             result = ArrayList()
             input.synonyms?.forEach { item ->
-                result.add(Synonym(left = input.id, right = item))
+                result.add(
+                    Synonym(
+                        left = input.id,
+                        right = item
+                    )
+                )
             }
         }
         return result
@@ -241,7 +246,12 @@ class WordMapper
         if (input.hasAntonyms()) {
             result = ArrayList()
             input.antonyms?.forEach { item ->
-                result.add(Antonym(left = input.id, right = item))
+                result.add(
+                    Antonym(
+                        left = input.id,
+                        right = item
+                    )
+                )
             }
         }
         return result

@@ -16,11 +16,10 @@ import com.dreampany.framework.util.DataUtilKt
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.wordnik.core.ClientException
 import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.Load
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository

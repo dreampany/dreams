@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.extension.hash
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.resume.*
-import com.dreampany.tools.injector.annote.*
+import com.dreampany.tools.injector.annote.resume.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.resume.*
 import com.google.common.collect.Maps

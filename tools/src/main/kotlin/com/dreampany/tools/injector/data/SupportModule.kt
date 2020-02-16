@@ -3,7 +3,11 @@ package com.dreampany.tools.injector.data
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.tools.data.model.*
+import com.dreampany.tools.data.model.word.Quiz
+import com.dreampany.tools.data.model.word.RelatedQuiz
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.injector.annote.*
+import com.dreampany.tools.injector.annote.word.*
 import com.dreampany.tools.ui.model.*
 import dagger.Module
 import dagger.Provides

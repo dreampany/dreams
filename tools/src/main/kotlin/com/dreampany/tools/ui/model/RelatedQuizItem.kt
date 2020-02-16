@@ -16,8 +16,8 @@ import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.QuizOption
-import com.dreampany.tools.data.model.RelatedQuiz
+import com.dreampany.tools.data.model.word.QuizOption
+import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
@@ -34,7 +34,7 @@ class RelatedQuizItem
 private constructor(
     item: RelatedQuiz,
     @LayoutRes layoutId: Int = Constants.Default.INT
-) : BaseItem< RelatedQuizItem.ViewHolder,RelatedQuiz, String>(item, layoutId) {
+) : BaseItem< RelatedQuizItem.ViewHolder, RelatedQuiz, String>(item, layoutId) {
 
     private var color: Color
     private var optionItems: ArrayList<QuizOptionItem>? = Constants.Default.NULL
@@ -111,7 +111,10 @@ private constructor(
         val credit = typePoint!!.credit
         val totalCredit = totalPoint!!.credit
         val header =
-            QuizOption(id = id!!, header = true)
+            QuizOption(
+                id = id!!,
+                header = true
+            )
         val item = QuizOptionItem.getItem(header)
         item.credit = credit
         item.totalCredit = totalCredit
@@ -121,7 +124,10 @@ private constructor(
     }
 
     private fun getOptionItem(option: String, letter: Char): QuizOptionItem {
-        val item = QuizOption(id = option, letter = letter)
+        val item = QuizOption(
+            id = option,
+            letter = letter
+        )
         return QuizOptionItem.getItem(item)
     }
 

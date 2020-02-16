@@ -25,8 +25,8 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.RelatedQuizMapper
 import com.dreampany.tools.ui.misc.RelatedQuizRequest
 import com.dreampany.tools.data.mapper.WordMapper
-import com.dreampany.tools.data.model.Quiz
-import com.dreampany.tools.data.model.RelatedQuiz
+import com.dreampany.tools.data.model.word.Quiz
+import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.data.source.repository.WordRepository

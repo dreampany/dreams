@@ -13,7 +13,7 @@ import com.dreampany.framework.ui.widget.TextDrawable
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TextUtilKt
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Quiz
+import com.dreampany.tools.data.model.word.Quiz
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter

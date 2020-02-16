@@ -10,11 +10,11 @@ import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.api.PointDataSource
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.tools.data.model.Quiz
-import com.dreampany.tools.data.model.RelatedQuiz
+import com.dreampany.tools.data.model.word.Quiz
+import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.data.source.api.QuizDataSource
-import com.dreampany.tools.injector.annote.RelatedQuizAnnote
-import com.dreampany.tools.injector.annote.RelatedQuizItemAnnote
+import com.dreampany.tools.injector.annote.word.RelatedQuizAnnote
+import com.dreampany.tools.injector.annote.word.RelatedQuizItemAnnote
 import com.dreampany.tools.ui.model.RelatedQuizItem
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.util.TimeUtilKt
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.misc.Constants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties

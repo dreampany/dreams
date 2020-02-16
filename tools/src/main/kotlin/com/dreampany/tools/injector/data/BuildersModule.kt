@@ -7,16 +7,18 @@ import dagger.Module
 
 
 /**
- * Created by Hawladar Roman on 29/5/18.
- * Dreampany Ltd
- * dreampanymail@gmail.com
+ * Created by roman on 2020-01-12
+ * Copyright (c) 2020 bjit. All rights reserved.
+ * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
-
 @Module(
     includes = [
         FrameModule::class,
+        SupportModule::class,
         TranslationModule::class,
         DatabaseModule::class,
+        ViewModelModule::class,
         ApiModule::class,
         MediaModule::class,
         NoteModule::class,
@@ -26,8 +28,7 @@ import dagger.Module
         CryptoModule::class,
         BlockModule::class,
         ResumeModule::class,
-        SupportModule::class,
-        ViewModelModule::class
+        QuestionModule::class
     ]
 )
 class BuildersModule {

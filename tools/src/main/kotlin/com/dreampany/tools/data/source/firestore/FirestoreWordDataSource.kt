@@ -5,11 +5,10 @@ import com.dreampany.firebase.RxFirebaseFirestore
 import com.dreampany.framework.misc.exception.WriteException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.framework.data.enums.Source
-import com.dreampany.tools.data.model.Word
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.api.WordDataSource
 import com.dreampany.tools.misc.Constants
 import com.google.firebase.firestore.FieldPath
-import com.google.firebase.firestore.FirebaseFirestoreException
 import io.reactivex.Maybe
 
 /**

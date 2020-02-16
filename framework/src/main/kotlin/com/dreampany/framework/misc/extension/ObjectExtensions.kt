@@ -19,3 +19,7 @@ fun String?.hash512(): String {
     return Hashing.sha512().newHasher()
         .putString(this, Charsets.UTF_8).hash().toString()
 }
+
+fun Any.currentMillis() : Long {
+    return System.currentTimeMillis()
+}

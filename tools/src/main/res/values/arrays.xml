@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="question_categories">
-        <item>Any</item>
         <item>General Knowledge</item>
         <item>Entertainment: Books</item>
         <item>Entertainment: Film</item>
@@ -28,13 +27,11 @@
     </string-array>
 
     <string-array name="question_types">
-        <item>Any</item>
         <item>True / False</item>
         <item>Multiple Choice</item>
     </string-array>
 
     <string-array name="question_difficulties">
-        <item>Any</item>
         <item>Easy</item>
         <item>Medium</item>
         <item>Hard</item>

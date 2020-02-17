@@ -63,14 +63,9 @@ class QuestionHomeFragment
 
     }
 
-    private fun initCategory(fresh: Boolean = false) {
-        if (fresh) categoryItems.clear()
-        if (categoryItems.isNotEmpty()) {
-            return
-        }
-        val categories = Question.Category.values()
-        categories.forEach {category->
-            //categoryItems.add(PowerMenuItem(category, lang.equals(current), lang))
+    private fun initCategory() {
+        bindQuestion.spinnerCategory.apply {
+            lifecycleOwner = this@QuestionHomeFragment
         }
     }
 }

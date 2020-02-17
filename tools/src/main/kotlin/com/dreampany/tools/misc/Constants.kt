@@ -598,6 +598,10 @@ class Constants {
                 const val MEDIUM = "Medium"
                 const val HARD = "Hard"
             }
+
+/*            fun getValue(category: Category) : String {
+
+            }*/
         }
     }
 

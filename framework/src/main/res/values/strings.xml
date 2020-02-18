@@ -31,6 +31,7 @@
     <string name="category">Category</string>
     <string name="type">Type</string>
     <string name="difficult">Difficult</string>
+    <string name="limit">Limit</string>
     <string name="print">Print</string>
 
     <string name="empty">""</string>

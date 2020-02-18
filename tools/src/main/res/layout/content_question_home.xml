@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             auto:cardCornerRadius="@dimen/_10sdp"
             auto:cardElevation="@dimen/_4sdp">
 
@@ -41,23 +41,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             auto:cardCornerRadius="@dimen/_10sdp"
-            auto:cardElevation="@dimen/_4sdp">
+            auto:cardElevation="@dimen/_8sdp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="@dimen/_20sdp">
 
                 <com.skydoves.powerspinner.PowerSpinnerView
                     android:id="@+id/spinner_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/material_blue300"
+                    android:background="@color/colorPrimary"
                     android:hint="@string/category"
                     android:padding="10dp"
                     android:textColor="@color/material_grey50"
@@ -78,7 +78,8 @@
                     android:id="@+id/spinner_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/material_blue300"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorPrimary"
                     android:hint="@string/type"
                     android:padding="10dp"
                     android:textColor="@color/material_grey50"
@@ -93,13 +94,14 @@
                     auto:spinner_popup_animation="dropdown"
                     auto:spinner_popup_background="@color/material_grey600"
                     auto:spinner_popup_elevation="14dp"
-                    auto:spinner_preference_name="" />
+                    auto:spinner_preference_name="@string/type" />
 
                 <com.skydoves.powerspinner.PowerSpinnerView
                     android:id="@+id/spinner_difficult"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/material_blue300"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorPrimary"
                     android:hint="@string/difficult"
                     android:padding="10dp"
                     android:textColor="@color/material_grey50"
@@ -113,7 +115,30 @@
                     auto:spinner_item_array="@array/question_difficulties"
                     auto:spinner_popup_animation="dropdown"
                     auto:spinner_popup_background="@color/material_grey600"
-                    auto:spinner_popup_elevation="14dp" />
+                    auto:spinner_popup_elevation="14dp"
+                    auto:spinner_preference_name="@string/difficult" />
+
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:id="@+id/spinner_limit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@color/colorPrimary"
+                    android:hint="@string/limit"
+                    android:padding="10dp"
+                    android:textColor="@color/material_grey50"
+                    android:textColorHint="@color/material_grey50"
+                    android:textSize="14.5sp"
+                    auto:spinner_arrow_gravity="end"
+                    auto:spinner_arrow_padding="8dp"
+                    auto:spinner_divider_color="@color/material_grey50"
+                    auto:spinner_divider_show="true"
+                    auto:spinner_divider_size="0.4dp"
+                    auto:spinner_item_array="@array/question_limits"
+                    auto:spinner_popup_animation="dropdown"
+                    auto:spinner_popup_background="@color/material_grey600"
+                    auto:spinner_popup_elevation="14dp"
+                    auto:spinner_preference_name="@string/limit" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>

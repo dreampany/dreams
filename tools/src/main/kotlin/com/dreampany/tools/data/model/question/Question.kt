@@ -88,7 +88,7 @@ data class Question(
 
     @Parcelize
     enum class Type(val code: String) : Parcelable {
-        TRUE_FALSE(Constants.Values.Question.Type.TRUE_FALSE),
-        MULTIPLE(Constants.Values.Question.Type.MULTIPLE)
+        TRUE_FALSE(Constants.Values.QuestionValues.TypeValues.TRUE_FALSE),
+        MULTIPLE(Constants.Values.QuestionValues.TypeValues.MULTIPLE)
     }
 }

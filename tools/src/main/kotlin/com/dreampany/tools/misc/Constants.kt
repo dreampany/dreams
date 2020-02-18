@@ -3,6 +3,7 @@ package com.dreampany.tools.misc
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import com.dreampany.framework.data.enums.Difficult
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
@@ -15,6 +16,7 @@ import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.ui.model.CoinItem
 import com.dreampany.tools.ui.model.ContactItem
 import com.google.common.collect.Maps
@@ -559,9 +561,9 @@ class Constants {
 
     object Values {
 
-        object Question {
+        object QuestionValues {
 
-            object Category {
+            object CategoryValues {
                 const val GENERAL_KNOWLEDGE = "General Knowledge"
                 const val BOOK = "Entertainment: Books"
                 const val FILM = "Entertainment: Film"
@@ -588,15 +590,65 @@ class Constants {
                 const val CARTOON_ANIMATION = "Entertainment: Cartoon & Animations"
             }
 
-            object Type {
+            object TypeValues {
                 const val TRUE_FALSE = "boolean"
                 const val MULTIPLE = "multiple"
             }
 
-            object Difficult {
+            object DifficultValues {
                 const val EASY = "Easy"
                 const val MEDIUM = "Medium"
                 const val HARD = "Hard"
+            }
+
+            fun getCategory(value: String?): Question.Category? {
+                if (value.isNullOrEmpty()) return null
+                when (value) {
+                    CategoryValues.GENERAL_KNOWLEDGE -> return Question.Category.GENERAL_KNOWLEDGE
+                    CategoryValues.BOOK -> return Question.Category.BOOK
+                    CategoryValues.FILM -> return Question.Category.FILM
+                    CategoryValues.MUSIC -> return Question.Category.MUSIC
+                    CategoryValues.MUSICAL_THEATRE -> return Question.Category.MUSICAL_THEATRE
+                    CategoryValues.TELEVISION -> return Question.Category.TELEVISION
+                    CategoryValues.VIDEO_GAME -> return Question.Category.VIDEO_GAME
+                    CategoryValues.BOARD_GAME -> return Question.Category.BOARD_GAME
+                    CategoryValues.SCIENCE_NATURE -> return Question.Category.SCIENCE_NATURE
+                    CategoryValues.COMPUTER -> return Question.Category.COMPUTER
+                    CategoryValues.MATHEMATICS -> return Question.Category.MATHEMATICS
+                    CategoryValues.MYTHOLOGY -> return Question.Category.MYTHOLOGY
+                    CategoryValues.SPORTS -> return Question.Category.SPORTS
+                    CategoryValues.GEOGRAPHY -> return Question.Category.GEOGRAPHY
+                    CategoryValues.HISTORY -> return Question.Category.HISTORY
+                    CategoryValues.POLITICS -> return Question.Category.POLITICS
+                    CategoryValues.ART -> return Question.Category.ART
+                    CategoryValues.CELEBRITIES -> return Question.Category.CELEBRITIES
+                    CategoryValues.ANIMALS -> return Question.Category.ANIMALS
+                    CategoryValues.VEHICLES -> return Question.Category.VEHICLES
+                    CategoryValues.COMICS -> return Question.Category.COMICS
+                    CategoryValues.GADGETS -> return Question.Category.GADGETS
+                    CategoryValues.ANIME_MANGA -> return Question.Category.ANIME_MANGA
+                    CategoryValues.CARTOON_ANIMATION -> return Question.Category.CARTOON_ANIMATION
+                }
+                return null
+            }
+
+            fun getType(value: String?): Question.Type? {
+                if (value.isNullOrEmpty()) return null
+                when (value) {
+                    TypeValues.TRUE_FALSE -> return Question.Type.TRUE_FALSE
+                    TypeValues.MULTIPLE -> return Question.Type.MULTIPLE
+                }
+                return null
+            }
+
+            fun getDifficult(value: String?): Difficult? {
+                if (value.isNullOrEmpty()) return null
+                when (value) {
+                    DifficultValues.EASY -> return Difficult.EASY
+                    DifficultValues.MEDIUM -> return Difficult.MEDIUM
+                    DifficultValues.HARD -> return Difficult.HARD
+                }
+                return null
             }
 
 /*            fun getValue(category: Category) : String {

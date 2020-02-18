@@ -65,7 +65,7 @@
                 auto:backgroundTint="@color/colorPrimary"
                 auto:elevation="6dp"
                 auto:rippleColor="@color/material_white"
-                auto:srcCompat="@drawable/ic_add_black_24dp"
+                auto:srcCompat="@drawable/ic_play_arrow_black_24dp"
                 auto:tint="@color/material_white" />
 
         </RelativeLayout>

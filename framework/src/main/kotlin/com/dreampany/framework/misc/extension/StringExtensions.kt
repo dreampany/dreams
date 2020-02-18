@@ -60,6 +60,16 @@ fun CharSequence?.isEqual(instance: CharSequence?): Boolean {
     return this.equals(instance)
 }
 
+fun String?.parseInt() : Int {
+    if (this.isNullOrEmpty()) return 0
+    return this.toInt()
+}
+
+fun String?.parseLong() : Long {
+    if (this.isNullOrEmpty()) return 0L
+    return this.toLong()
+}
+
 /*fun String.join(vararg items: String, sep: String): String {
     val builder = StringBuilder()
     for (item in items) {

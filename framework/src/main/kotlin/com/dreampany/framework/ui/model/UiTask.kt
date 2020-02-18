@@ -23,6 +23,7 @@ data class UiTask<T : Base>(
     var action: Action = Action.DEFAULT,
     override var id: String? = Constants.Default.NULL,
     override var input: T? = Constants.Default.NULL,
+    override var inputs: ArrayList<T>? = Constants.Default.NULL,
     override var extra: String? = Constants.Default.NULL
-) : Task<T>(id, input, extra) {
+) : Task<T>(id, input, inputs, extra) {
 }

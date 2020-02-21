@@ -4,6 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
+    <data>
+
+        <import type="com.dreampany.tools.misc.Constants" />
+
+        <variable
+            name="item"
+            type="com.dreampany.tools.ui.model.question.QuestionItem" />
+
+        <variable
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
+
+    </data>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
@@ -27,12 +41,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <!--            <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-                            android:id="@+id/bottom_nav"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true" />-->
-
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"
@@ -47,7 +55,9 @@
                         android:id="@+id/layout_questions"
                         layout="@layout/content_questions"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        auto:item="@{item}"
+                        auto:items="@{items}" />
                 </FrameLayout>
             </cz.kinst.jakub.view.StatefulLayout>
 

@@ -1,3 +1,4 @@
+/*
 package com.dreampany.framework.ui.listener;
 
 import android.os.Handler;
@@ -5,11 +6,13 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+*/
 /**
  * Created by Hawladar Roman on 7/13/2018.
  * BJIT Group
  * hawladar.roman@bjitgroup.com
- */
+ *//*
+
 public class OnVerticalScrollListener extends RecyclerView.OnScrollListener {
 
     private int delay = 3000;
@@ -93,3 +96,4 @@ public class OnVerticalScrollListener extends RecyclerView.OnScrollListener {
     public void onScrolledToBottom() {
     }
 }
+*/

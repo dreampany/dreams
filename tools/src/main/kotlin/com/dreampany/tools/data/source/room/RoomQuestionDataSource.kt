@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.room
 
+import com.dreampany.framework.data.enums.Difficult
 import com.dreampany.tools.data.mapper.QuestionMapper
 import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.data.source.api.QuestionDataSource
@@ -81,11 +82,29 @@ constructor(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun getItems(
+        category: Question.Category?,
+        type: Question.Type?,
+        difficult: Difficult?,
+        limit: Long
+    ): List<Question>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getItems(): List<Question>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItems(limit: Long): List<Question>? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsRx(
+        category: Question.Category?,
+        type: Question.Type?,
+        difficult: Difficult?,
+        limit: Long
+    ): Maybe<List<Question>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

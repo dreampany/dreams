@@ -17,7 +17,7 @@ data class QuestionReq(
     var category: Question.Category? = null,
     var type: Question.Type? = null,
     var difficult: Difficult? = null,
-    var limit: Long? = 0L
+    var limit: Long = 0L
 ) : BaseParcel() {
 
     fun toJson(): String {

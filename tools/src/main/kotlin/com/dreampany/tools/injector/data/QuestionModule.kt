@@ -15,6 +15,8 @@ import com.dreampany.tools.data.source.remote.RemoteQuestionDataSource
 import com.dreampany.tools.data.source.room.RoomQuestionDataSource
 import com.dreampany.tools.data.source.room.dao.QuestionDao
 import com.dreampany.tools.injector.annote.question.QuestionAnnote
+import com.dreampany.tools.injector.annote.question.QuestionItemAnnote
+import com.dreampany.tools.ui.model.question.QuestionItem
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -41,7 +43,21 @@ class QuestionModule {
     @Singleton
     @Provides
     @QuestionAnnote
-    fun provideResumeSmartCache(): SmartCache<String, Question> {
+    fun provideQuestionSmartCache(): SmartCache<String, Question> {
+        return SmartCache.newCache()
+    }
+
+    @Singleton
+    @Provides
+    @QuestionItemAnnote
+    fun provideQuestionItemSmartMap(): SmartMap<String, QuestionItem> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @QuestionItemAnnote
+    fun provideQuestionItemSmartCache(): SmartCache<String, QuestionItem> {
         return SmartCache.newCache()
     }
 

@@ -55,9 +55,9 @@ class StationsFragment
     SmartAdapter.OnUiItemClickListener<StationItem, Action> {
 
     @Inject
-    internal lateinit var mapper: StationMapper
-    @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var mapper: StationMapper
     @Inject
     internal lateinit var session: SessionManager
     @Inject

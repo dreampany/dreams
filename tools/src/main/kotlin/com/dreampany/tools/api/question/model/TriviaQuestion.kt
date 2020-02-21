@@ -16,6 +16,6 @@ data class TriviaQuestion(
     @SerializedName("correct_answer")
     val answer: String,
     @SerializedName("incorrect_answers")
-    val options: List<String>
+    val options: ArrayList<String>
 ) {
 }

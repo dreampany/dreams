@@ -16,9 +16,9 @@ interface TriviaQuestionService {
 
     @GET(value = Constants.Api.API)
     fun getQuestions(
-        @Query("amount") limit: Long,
         @Query("category") category: Int = 0,
         @Query("type") type: String = "",
-        @Query("difficulty") difficulty: String = ""
+        @Query("difficulty") difficult: String = "",
+        @Query("amount") limit: Long
     ): Call<TriviaQuestionsResponse>
 }

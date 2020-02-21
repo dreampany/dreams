@@ -211,7 +211,6 @@ class WordHomeFragment
                     request(
                         state = State.HISTORY,
                         action = Action.GET,
-                        single = false,
                         progress = true,
                         limit = Constants.Limit.Word.HISTORY
                     )
@@ -444,7 +443,7 @@ class WordHomeFragment
         vm.setUiCallback(this)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputsOfString(this, Observer { this.processResponseOfString(it) })
-        vm.observeOutputs(this, Observer { this.processResponse(it) })
+        vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
@@ -550,7 +549,7 @@ class WordHomeFragment
         }
     }
 
-    private fun processResponse(response: Response<List<WordItem>>) {
+    private fun processMultipleResponse(response: Response<List<WordItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
             vm.processProgress(
@@ -943,6 +942,7 @@ class WordHomeFragment
         progress: Boolean = Constants.Default.BOOLEAN,
         limit: Long = Constants.Default.LONG,
         id: String? = Constants.Default.NULL,
+        input: Word? = Constants.Default.NULL,
         recent: Boolean = Constants.Default.BOOLEAN,
         history: Boolean = Constants.Default.BOOLEAN,
         suggests: Boolean = Constants.Default.BOOLEAN
@@ -959,6 +959,7 @@ class WordHomeFragment
             progress = progress,
             limit = limit,
             id = id,
+            input = input,
             sourceLang = Language.ENGLISH.code,
             targetLang = language.code,
             recent = recent,

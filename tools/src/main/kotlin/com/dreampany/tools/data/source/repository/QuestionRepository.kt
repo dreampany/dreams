@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.repository
 
+import com.dreampany.framework.data.enums.Difficult
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -97,12 +98,30 @@ class QuestionRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun getItems(
+        category: Question.Category?,
+        type: Question.Type?,
+        difficult: Difficult?,
+        limit: Long
+    ): List<Question>? {
+        return remote.getItems(category, type, difficult, limit)
+    }
+
     override fun getItems(): List<Question>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun getItems(limit: Long): List<Question>? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemsRx(
+        category: Question.Category?,
+        type: Question.Type?,
+        difficult: Difficult?,
+        limit: Long
+    ): Maybe<List<Question>> {
+        return remote.getItemsRx(category, type, difficult, limit)
     }
 
     override fun getItemsRx(): Maybe<List<Question>> {

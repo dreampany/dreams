@@ -115,6 +115,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     /* question */
     @Inject
     internal lateinit var questionHomeProvider: Lazy<QuestionHomeFragment>
+    @Inject
     internal lateinit var questionsProvider: Lazy<QuestionsFragment>
 
     private lateinit var bind: ActivityToolsBinding

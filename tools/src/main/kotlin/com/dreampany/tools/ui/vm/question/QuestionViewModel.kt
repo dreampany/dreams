@@ -83,16 +83,19 @@ class QuestionViewModel
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(state = request.state,
+                postResult(
+                    state = request.state,
                     action = request.action,
-                    data =result)
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(state = request.state,
+                postFailures(
+                    state = request.state,
                     action = request.action,
                     error = MultiException(error, ExtraException())
                 )
@@ -110,7 +113,12 @@ class QuestionViewModel
     }
 
     private fun requestItemsRx(request: QuestionRequest): Maybe<List<Question>> {
-        return repo.getItemsRx(request.limit)
+        return repo.getItemsRx(
+            category = request.category,
+            type = request.questionType,
+            difficult = request.difficult,
+            limit = request.limit
+        )
     }
 
     private fun getUiItemsRx(

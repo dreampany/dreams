@@ -139,3 +139,11 @@ fun Int.bindInflater(parent: ViewGroup, attachToRoot: Boolean = false): ViewData
 fun Int.isZeroOrLess(): Boolean {
     return this <= 0
 }
+
+fun Int?.resolve(): Int {
+    return if (this == null) 0 else this
+}
+
+fun Long?.resolve(): Long {
+    return if (this == null) 0L else this
+}

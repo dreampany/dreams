@@ -6,6 +6,7 @@ import com.dreampany.framework.misc.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.ui.vm.*
 import com.dreampany.tools.ui.vm.note.NoteViewModel
+import com.dreampany.tools.ui.vm.question.QuestionViewModel
 import com.dreampany.tools.ui.vm.radio.StationViewModel
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.dreampany.tools.ui.vm.vpn.CountryViewModel
@@ -101,6 +102,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ResumeViewModel::class)
     abstract fun bindResumeViewModel(vm: ResumeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(QuestionViewModel::class)
+    abstract fun bindQuestionViewModel(vm: QuestionViewModel): ViewModel
 
     @Singleton
     @Binds

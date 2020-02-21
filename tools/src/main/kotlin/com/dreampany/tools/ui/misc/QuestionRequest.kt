@@ -24,7 +24,11 @@ class QuestionRequest(
     id: String? = Constants.Default.NULL,
     ids: List<String>? = Constants.Default.NULL,
     input: Question? = Constants.Default.NULL,
-    inputs: List<Question>? = Constants.Default.NULL
+    inputs: List<Question>? = Constants.Default.NULL,
+    val category: Question.Category? = Constants.Default.NULL,
+    val questionType: Question.Type? = Constants.Default.NULL,
+    val difficult: Difficult? = Constants.Default.NULL,
+    val answer: String? = Constants.Default.NULL
 ) : Request<Question>(
     type = type,
     subtype = subtype,
@@ -36,7 +40,9 @@ class QuestionRequest(
     progress = progress,
     limit = limit,
     id = id,
-    input = input
+    ids = ids,
+    input = input,
+    inputs = inputs
 ) {
 
 

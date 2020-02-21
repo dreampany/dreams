@@ -57,9 +57,9 @@ class ServersFragment
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
-    internal lateinit var mapper: ServerMapper
-    @Inject
     internal lateinit var session: SessionManager
+    @Inject
+    internal lateinit var mapper: ServerMapper
     @Inject
     internal lateinit var vpnPref: VpnPref
 

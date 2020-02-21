@@ -289,8 +289,8 @@ class ResumeHomeFragment
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
-        input: Resume? = Constants.Default.NULL,
-        id: String? = Constants.Default.NULL
+        id: String? = Constants.Default.NULL,
+        input: Resume? = Constants.Default.NULL
     ) {
         val request = ResumeRequest(
             state = state,

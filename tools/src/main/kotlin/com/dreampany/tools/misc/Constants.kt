@@ -596,9 +596,9 @@ class Constants {
             }
 
             object DifficultValues {
-                const val EASY = "Easy"
-                const val MEDIUM = "Medium"
-                const val HARD = "Hard"
+                const val EASY = "easy"
+                const val MEDIUM = "medium"
+                const val HARD = "hard"
             }
 
             fun getCategory(value: String?): Question.Category? {

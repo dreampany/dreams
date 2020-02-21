@@ -6,6 +6,7 @@ import com.dreampany.framework.misc.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.ui.vm.*
 import com.dreampany.tools.ui.vm.note.NoteViewModel
+import com.dreampany.tools.ui.vm.radio.StationViewModel
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.dreampany.tools.ui.vm.vpn.CountryViewModel
 import com.dreampany.tools.ui.vm.vpn.ServerViewModel

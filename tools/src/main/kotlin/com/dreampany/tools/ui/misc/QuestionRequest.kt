@@ -2,16 +2,16 @@ package com.dreampany.tools.ui.misc
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.Server
+import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by roman on 2019-10-08
- * Copyright (c) 2019 bjit. All rights reserved.
+ * Created by roman on 2020-02-21
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ServerRequest(
+class QuestionRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
@@ -22,8 +22,10 @@ class ServerRequest(
     progress: Boolean = Constants.Default.BOOLEAN,
     limit: Long = Constants.Default.LONG,
     id: String? = Constants.Default.NULL,
-    input: Server? = Constants.Default.NULL
-) : Request<Server>(
+    ids: List<String>? = Constants.Default.NULL,
+    input: Question? = Constants.Default.NULL,
+    inputs: List<Question>? = Constants.Default.NULL
+) : Request<Question>(
     type = type,
     subtype = subtype,
     state = state,

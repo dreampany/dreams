@@ -21,13 +21,10 @@ import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.GeoUtil
-import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.StationMapper
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
@@ -39,7 +36,7 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.StationAdapter
 import com.dreampany.tools.ui.misc.StationRequest
 import com.dreampany.tools.ui.model.StationItem
-import com.dreampany.tools.ui.vm.StationViewModel
+import com.dreampany.tools.ui.vm.radio.StationViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager

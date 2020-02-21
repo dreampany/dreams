@@ -20,13 +20,14 @@ data class QuestionReq(
     var limit: Long? = 0L
 ) : BaseParcel() {
 
-    fun toJson() : String {
+    fun toJson(): String {
         return Gson().toJson(this)
     }
 
     companion object {
-        fun parse(json: String) : QuestionReq {
-           return Gson().fromJson(json, QuestionReq::class.java)
+        fun parse(json: String?): QuestionReq? {
+            if (json.isNullOrEmpty()) return null
+            return Gson().fromJson(json, QuestionReq::class.java)
         }
     }
 }

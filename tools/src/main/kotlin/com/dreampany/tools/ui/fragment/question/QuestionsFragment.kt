@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.databinding.*
+import com.dreampany.tools.ui.model.question.QuestionReq
 import javax.inject.Inject
 
 /**
@@ -44,5 +47,10 @@ class QuestionsFragment
         bind = super.binding as FragmentQuestionsBinding
         bindStatus = bind.layoutTopStatus
         bindQuestions = bind.layoutQuestions
+
+        val task = getCurrentTask<UiTask<Question>>() ?: return
+        val req = QuestionReq.parse(task.extra) ?: return
+
+
     }
 }

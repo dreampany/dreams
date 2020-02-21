@@ -27,12 +27,6 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <!--            <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-                            android:id="@+id/bottom_nav"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true" />-->
-
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"

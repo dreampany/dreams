@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:scrollbars="none"
-            auto:items="@{items}"
             tools:listitem="@layout/item_list" />
 
 

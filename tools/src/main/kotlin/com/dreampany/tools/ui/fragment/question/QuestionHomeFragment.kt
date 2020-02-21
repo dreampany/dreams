@@ -106,7 +106,7 @@ class QuestionHomeFragment
         val task = UiTask<Question>(
             type = Type.QUESTION,
             subtype = Subtype.DEFAULT,
-            action = Action.OPEN,
+            action = Action.SOLVE,
             extra = req.toJson()
         )
         openActivity(ToolsActivity::class.java, task)

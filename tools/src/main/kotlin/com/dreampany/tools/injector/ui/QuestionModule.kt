@@ -2,6 +2,7 @@ package com.dreampany.tools.injector.ui
 
 import com.dreampany.framework.misc.FragmentScope
 import com.dreampany.tools.ui.fragment.question.QuestionHomeFragment
+import com.dreampany.tools.ui.fragment.question.QuestionsFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -16,4 +17,8 @@ abstract class QuestionModule {
     @FragmentScope
     @ContributesAndroidInjector
     abstract fun homeFragment(): QuestionHomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector
+    abstract fun questionsFragment(): QuestionsFragment
 }

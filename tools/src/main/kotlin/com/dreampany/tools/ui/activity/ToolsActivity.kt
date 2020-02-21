@@ -24,9 +24,9 @@ import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
 import com.dreampany.tools.ui.fragment.question.QuestionHomeFragment
+import com.dreampany.tools.ui.fragment.question.QuestionsFragment
 import com.dreampany.tools.ui.fragment.radio.FavoriteStationsFragment
 import com.dreampany.tools.ui.fragment.radio.RadioHomeFragment
-import com.dreampany.tools.ui.fragment.radio.StationsFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeHomeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumePreviewFragment
@@ -41,9 +41,10 @@ import dagger.Lazy
 import javax.inject.Inject
 
 /**
- * Created by Hawladar Roman on 5/24/2018.
- * BJIT Group
+ * Created by roman on 2020-02-20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 class ToolsActivity : BaseActivity(), SearchViewCallback {
 
@@ -73,8 +74,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var blockHomeProvider: Lazy<BlockHomeFragment>
     @Inject
     internal lateinit var resumeHomeProvider: Lazy<ResumeHomeFragment>
-    @Inject
-    internal lateinit var questionHomeProvider: Lazy<QuestionHomeFragment>
+
 
 
     @Inject
@@ -112,6 +112,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     internal lateinit var favoriteServersProvider: Lazy<FavoriteServersFragment>
 
+    /* question */
+    @Inject
+    internal lateinit var questionHomeProvider: Lazy<QuestionHomeFragment>
+    internal lateinit var questionsProvider: Lazy<QuestionsFragment>
 
     private lateinit var bind: ActivityToolsBinding
     private lateinit var collapseBind: ActivityCollapseToolsBinding
@@ -266,7 +270,6 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     return
                 }
             }
-
             Type.WORD -> {
                 if (state == State.HOME) {
                     commitFragment(
@@ -414,6 +417,15 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         QuestionHomeFragment::class.java,
                         questionHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+                if (action == Action.SOLVE) {
+                    commitFragment(
+                        QuestionsFragment::class.java,
+                        questionsProvider,
                         R.id.layout,
                         uiTask
                     )

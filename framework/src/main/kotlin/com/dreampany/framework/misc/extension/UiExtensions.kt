@@ -18,6 +18,7 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.framework.R
 import com.dreampany.framework.misc.Constants
@@ -140,4 +141,10 @@ fun RecyclerView?.apply(
             addOnScrollListener(scroller)
         }
     }
+}
+
+fun SnapHelper.getSnapPosition(recycler: RecyclerView): Int {
+    val layoutManager = recycler.layoutManager ?: return RecyclerView.NO_POSITION
+    val snapView = findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
+    return layoutManager.getPosition(snapView)
 }

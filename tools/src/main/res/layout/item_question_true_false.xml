@@ -11,13 +11,14 @@
         auto:cardPreventCornerOverlap="false"
         auto:elevation="@dimen/_4sdp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/_80sdp">
+            android:minHeight="@dimen/_80sdp"
+            android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/view_title"
+                android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
@@ -30,56 +31,26 @@
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/view_subtitle"
+            <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:text="@string/subtitle"
-                android:textColor="@color/material_grey500"
-                android:textSize="@dimen/_10ssp"
-                auto:fontFamily="@font/roboto_slab_regular"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/view_title" />
-
-            <jp.shts.android.library.TriangleLabelView
-                android:id="@+id/label_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                auto:backgroundColor="@color/material_red700"
-                auto:corner="rightTop"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintTop_toTopOf="parent"
-                auto:primaryText="@string/title"
-                auto:primaryTextColor="@color/material_white"
-                auto:primaryTextSize="@dimen/_6ssp" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:orientation="vertical"
-                auto:layout_constraintBottom_toBottomOf="parent"
-                auto:layout_constraintEnd_toEndOf="parent">
+                android:orientation="vertical">
 
-                <com.like.LikeButton
-                    android:id="@+id/button_favorite"
-                    android:layout_width="@dimen/_14sdp"
-                    android:layout_height="@dimen/_14sdp"
-                    auto:icon_size="@dimen/_14sdp"
-                    auto:icon_type="heart" />
-
-                <androidx.appcompat.widget.AppCompatImageButton
-                    android:id="@+id/button_share"
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/button_1st"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone" />
+                    android:layout_height="wrap_content" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                <com.google.android.material.radiobutton.MaterialRadioButton
+                    android:id="@+id/button_2nd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </RadioGroup>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
 </layout>

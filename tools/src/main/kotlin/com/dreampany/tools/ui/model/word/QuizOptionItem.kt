@@ -108,7 +108,7 @@ private constructor(
     }
 
 
-    class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) :
+   internal class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         ViewHolder(view, adapter, stickyHeader = true) {
 
         private var textTitle: AppCompatTextView
@@ -126,7 +126,7 @@ private constructor(
         }
     }
 
-    class ItemViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter) {
+   internal class ItemViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter) {
 
         private var imageIcon: AppCompatImageView
         private var textTitle: AppCompatTextView

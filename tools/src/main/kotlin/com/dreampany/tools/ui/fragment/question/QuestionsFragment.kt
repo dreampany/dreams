@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.*
@@ -12,6 +13,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnHorizontalScrollListener
+import com.dreampany.framework.ui.listener.OnSnapScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
@@ -49,12 +51,11 @@ class QuestionsFragment
 
     private lateinit var bind: FragmentQuestionsBinding
     private lateinit var bindStatus: ContentTopStatusBinding
-    private lateinit var bindRecycler: ContentRecyclerBinding
     private lateinit var bindQuestions: ContentQuestionsBinding
 
     private lateinit var vm: QuestionViewModel
     private lateinit var adapter: QuestionAdapter
-    private lateinit var scroller: OnHorizontalScrollListener
+    private lateinit var scroller: OnSnapScrollListener
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_questions
@@ -82,18 +83,17 @@ class QuestionsFragment
 
     override fun onRefresh() {
         super.onRefresh()
-        /* if (adapter.isEmpty) {
-             request(progress = true)
-         } else {
-             vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
-         }*/
+        if (adapter.isEmpty) {
+            request(progress = true)
+        } else {
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        }
     }
 
     private fun initUi() {
         bind = super.binding as FragmentQuestionsBinding
         bindStatus = bind.layoutTopStatus
         bindQuestions = bind.layoutQuestions
-
         ViewUtil.setSwipe(bind.layoutRefresh, this)
 
         vm = ViewModelProvider(this, factory).get(QuestionViewModel::class.java)
@@ -104,20 +104,26 @@ class QuestionsFragment
 
     private fun initRecycler() {
         bind.setItems(ObservableArrayList<Any>())
-        scroller = object : OnHorizontalScrollListener() {}
+        val snapHelper = PagerSnapHelper()
+        scroller = object : OnSnapScrollListener(snapHelper) {
+            override fun onSnapChange(position: Int) {
+                //adapter.invalidateItemDecorations(1000L)
+            }
+        }
         adapter = QuestionAdapter(listener = this)
         adapter.setStickyHeaders(false)
         ViewUtil.setRecycler(
             adapter,
-            bindRecycler.recycler,
+            bindQuestions.recycler,
             SmoothScrollLinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_station, adapter.getItemOffset())
+                .withOffset(adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller,
             null
         )
+        snapHelper.attachToRecyclerView(bindQuestions.recycler)
     }
 
     private fun processUiState(response: Response.UiResponse) {
@@ -134,8 +140,8 @@ class QuestionsFragment
             UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
             UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
             UiState.EXTRA -> {
-                //response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
-                //processUiState(response)
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
             }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
@@ -179,7 +185,7 @@ class QuestionsFragment
 
     private fun processSuccess(state: State, action: Action, items: List<QuestionItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
-        //adapter.addItems(items)
+        adapter.addItems(items)
         ex.postToUi(Runnable {
             vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)

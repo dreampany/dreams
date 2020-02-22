@@ -43,26 +43,21 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/_4sdp"
-            android:layout_marginTop="@dimen/_4sdp"
-            android:layout_marginEnd="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
-            auto:cardCornerRadius="@dimen/_4sdp"
-            auto:cardElevation="@dimen/_4sdp">
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:scrollbars="none"
                 auto:items="@{items}"
                 tools:listitem="@layout/item_list" />
-        </com.google.android.material.card.MaterialCardView>
+
+            <include layout="@layout/fast_scroller" />
+        </FrameLayout>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

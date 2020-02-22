@@ -14,7 +14,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/_80sdp"
+            android:minHeight="@dimen/_240sdp"
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
@@ -25,13 +25,11 @@
                 android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
                 android:text="@string/title"
-                android:textColor="@color/material_grey600"
+                android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_12ssp"
-                auto:fontFamily="@font/roboto_slab_bold"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toTopOf="parent" />
+                auto:fontFamily="@font/roboto_slab_bold" />
 
-            <RadioGroup
+            <RadioGroup android:id="@+id/radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"

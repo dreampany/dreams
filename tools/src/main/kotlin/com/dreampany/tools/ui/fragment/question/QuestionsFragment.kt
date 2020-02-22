@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.fragment.question
 
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +11,9 @@ import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.currentPosition
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnHorizontalScrollListener
@@ -25,6 +29,7 @@ import com.dreampany.tools.databinding.FragmentQuestionsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.question.QuestionAdapter
 import com.dreampany.tools.ui.misc.QuestionRequest
+import com.dreampany.tools.ui.model.FeatureItem
 import com.dreampany.tools.ui.model.question.QuestionItem
 import com.dreampany.tools.ui.model.question.QuestionReq
 import com.dreampany.tools.ui.vm.question.QuestionViewModel
@@ -42,7 +47,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class QuestionsFragment
-@Inject constructor() : BaseMenuFragment() {
+@Inject constructor() : BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<QuestionItem, Action> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -52,10 +57,14 @@ class QuestionsFragment
     private lateinit var bind: FragmentQuestionsBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindQuestions: ContentQuestionsBinding
+    private lateinit var bindRecycler: ContentRecyclerBinding
+
 
     private lateinit var vm: QuestionViewModel
     private lateinit var adapter: QuestionAdapter
     private lateinit var scroller: OnSnapScrollListener
+
+    private lateinit var req: QuestionReq
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_questions
@@ -66,7 +75,9 @@ class QuestionsFragment
         initRecycler()
 
         val task = getCurrentTask<UiTask<Question>>() ?: return
-        val req = QuestionReq.parse(task.extra) ?: return
+        req = QuestionReq.parse(task.extra) ?: return
+
+        initTitleSubtitle()
 
         request(
             limit = req.limit,
@@ -90,11 +101,37 @@ class QuestionsFragment
         }
     }
 
+    override fun onUiItemClick(view: View, item: QuestionItem, action: Action) {
+        if (action == Action.SOLVE) {
+            item.calculatePoints()
+            adapter.addItem(item)
+        }
+
+    }
+
+    override fun onUiItemLongClick(view: View, item: QuestionItem, action: Action) {
+
+
+    }
+
+    private fun initTitleSubtitle() {
+        val title = Constants.Values.QuestionValues.getCategoryOfUi(req.category)
+        val type = Constants.Values.QuestionValues.getDifficultOfUi(req.difficult)
+        val subtitle = getString(R.string.subtitle_question_format, type, adapter.itemCount)
+        setTitle(title)
+        setSubtitle(subtitle)
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentQuestionsBinding
         bindStatus = bind.layoutTopStatus
         bindQuestions = bind.layoutQuestions
+        bindRecycler = bindQuestions.layoutRecycler
         ViewUtil.setSwipe(bind.layoutRefresh, this)
+
+        bind.fab.setOnSafeClickListener {
+            nextPage()
+        }
 
         vm = ViewModelProvider(this, factory).get(QuestionViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
@@ -114,16 +151,54 @@ class QuestionsFragment
         adapter.setStickyHeaders(false)
         ViewUtil.setRecycler(
             adapter,
-            bindQuestions.recycler,
+            bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!, RecyclerView.HORIZONTAL, false),
             FlexibleItemDecoration(context!!)
                 .withOffset(adapter.getItemOffset())
-                .withEdge(true),
+                .withLeftEdge(true)
+                .withRightEdge(true),
             null,
             scroller,
             null
         )
-        snapHelper.attachToRecyclerView(bindQuestions.recycler)
+        snapHelper.attachToRecyclerView(bindRecycler.recycler)
+    }
+
+    private fun nextPage() {
+        bindRecycler.recycler.run {
+            smoothScrollToPosition(currentPosition() + 1)
+        }
+    }
+
+    private fun request(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        limit: Long = Constants.Default.LONG,
+        id: String? = Constants.Default.NULL,
+        input: Question? = Constants.Default.NULL,
+        category: Question.Category? = Constants.Default.NULL,
+        type: Question.Type? = Constants.Default.NULL,
+        difficult: Difficult? = Constants.Default.NULL,
+        answer: String? = Constants.Default.NULL
+    ) {
+        val request = QuestionRequest(
+            type = Type.QUESTION,
+            subtype = Subtype.DEFAULT,
+            state = state,
+            action = action,
+            single = single,
+            progress = progress,
+            limit = limit,
+            id = id,
+            input = input,
+            category = category,
+            questionType = type,
+            difficult = difficult,
+            answer = answer
+        )
+        vm.request(request)
     }
 
     private fun processUiState(response: Response.UiResponse) {
@@ -145,6 +220,7 @@ class QuestionsFragment
             }
             UiState.CONTENT -> {
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
+                initTitleSubtitle()
             }
         }
     }
@@ -201,36 +277,5 @@ class QuestionsFragment
         ex.postToUi(Runnable {
             vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
-    }
-
-    private fun request(
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
-        single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN,
-        limit: Long = Constants.Default.LONG,
-        id: String? = Constants.Default.NULL,
-        input: Question? = Constants.Default.NULL,
-        category: Question.Category? = Constants.Default.NULL,
-        type: Question.Type? = Constants.Default.NULL,
-        difficult: Difficult? = Constants.Default.NULL,
-        answer: String? = Constants.Default.NULL
-    ) {
-        val request = QuestionRequest(
-            type = Type.QUESTION,
-            subtype = Subtype.DEFAULT,
-            state = state,
-            action = action,
-            single = single,
-            progress = progress,
-            limit = limit,
-            id = id,
-            input = input,
-            category = category,
-            questionType = type,
-            difficult = difficult,
-            answer = answer
-        )
-        vm.request(request)
     }
 }

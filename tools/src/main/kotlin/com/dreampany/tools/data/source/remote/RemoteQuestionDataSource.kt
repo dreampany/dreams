@@ -113,6 +113,12 @@ constructor(
                             difficult = difficult.name.toLowerCase(Locale.getDefault()),
                             limit = limit
                         )
+                    } else {
+                        callee = service.getQuestions(
+                            category = category.code,
+                            type = type.code,
+                            limit = limit
+                        )
                     }
                 } else if (difficult != null) {
                     callee = service.getQuestions(

@@ -3,6 +3,9 @@ package com.dreampany.framework.misc.extension
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
+import android.os.Build
+import android.text.Html
+import android.text.Spanned
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -14,6 +17,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import java.text.SimpleDateFormat
@@ -73,6 +77,14 @@ fun Long.expired(delay: Long): Boolean {
 
 fun <T> List<T>.secondOrNull(): T? {
     return if (size < 2) null else this[1]
+}
+
+fun <T> List<T>.thirdOrNull(): T? {
+    return if (size < 3) null else this[2]
+}
+
+fun <T> List<T>.fourthOrNull(): T? {
+    return if (size < 4) null else this[3]
 }
 
 fun Long.format(pattern: String): String {
@@ -146,4 +158,9 @@ fun Int?.resolve(): Int {
 
 fun Long?.resolve(): Long {
     return if (this == null) 0L else this
+}
+
+fun String?.toHtml(): Spanned? {
+    if (this.isNullOrEmpty()) return null
+    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
 }

@@ -47,16 +47,20 @@ class QuestionMapper
     }
 
     fun getItem(input: TriviaQuestion): Question {
-        val id = input.answer.hash512()
+        val id = input.question.hash512()
         var out: Question? = map.get(id)
         if (out == null) {
             out = Question(id)
             map.put(id, out)
+            //if (!input.options.contains(input.answer))
+            input.options.add(input.answer)
+            input.options.sort()
         }
         out.apply {
             category = Constants.Values.QuestionValues.getCategory(input.category)
             type = Constants.Values.QuestionValues.getType(input.type)
             difficult = Constants.Values.QuestionValues.getDifficult(input.difficulty)
+            question = input.question
             answer = input.answer
             options = input.options
         }

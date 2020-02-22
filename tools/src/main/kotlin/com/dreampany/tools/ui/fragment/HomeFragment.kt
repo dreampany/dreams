@@ -46,7 +46,7 @@ import javax.inject.Inject
 @ActivityScope
 class HomeFragment
 @Inject constructor(
-) : BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<FeatureItem?, Any?> {
+) : BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<FeatureItem, Action> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -89,16 +89,16 @@ class HomeFragment
         }
     }
 
-    override fun onUiItemClick(view: View, item: FeatureItem?, action: Any?) {
-        item?.run {
+    override fun onUiItemClick(view: View, item: FeatureItem, action: Action) {
+        item.run {
             Timber.v("%s", this.item.type.name)
             openUi(this)
         }
 
     }
 
-    override fun onUiItemLongClick(view: View, item: FeatureItem?, action: Any?) {
-        item?.run {
+    override fun onUiItemLongClick(view: View, item: FeatureItem, action: Action) {
+        item.run {
             Timber.v("%s", this.item.type.name)
         }
 

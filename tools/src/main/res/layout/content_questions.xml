@@ -35,29 +35,27 @@
             auto:cardElevation="@dimen/_4sdp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minWidth="@dimen/_140sdp"
                 android:minHeight="@dimen/_100sdp">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
-        <FrameLayout
+        <include
+            android:id="@+id/layout_recycler"
+            layout="@layout/content_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:scrollbars="none"
-                auto:items="@{items}"
-                tools:listitem="@layout/item_list" />
-
-            <include layout="@layout/fast_scroller" />
-        </FrameLayout>
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            auto:items="@{items}" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

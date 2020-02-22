@@ -84,16 +84,16 @@ private constructor(
                     item = this.adapter.getItem(adapterPosition)
                 )
             }*/
-            view.setOnSafeClickListener { view ->
+            view.setOnSafeClickListener {
                 this.adapter.uiItemClickListener?.onUiItemClick(
-                    view = view,
+                    view = it,
                     item = this.adapter.getItem(adapterPosition)!!,
                     action = Action.DEFAULT
                 )
             }
-            view.setOnLongClickListener { view ->
+            view.setOnLongClickListener {
                 this.adapter.uiItemClickListener?.onUiItemClick(
-                    view = view,
+                    view = it,
                     item = this.adapter.getItem(adapterPosition)!!,
                     action = Action.DEFAULT
                 )

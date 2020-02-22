@@ -98,7 +98,7 @@ class QuestionHomeFragment
         val selectedLimit = R.array.question_limits.resToStringArray(context)?.get(bindQuestion.spinnerLimit.selectedIndex)
 
         val category = Constants.Values.QuestionValues.getCategory(selectedCategory)
-        val type = Constants.Values.QuestionValues.getType(selectedType)
+        val type = Constants.Values.QuestionValues.getTypeOfUi(selectedType)
         val difficult = Constants.Values.QuestionValues.getDifficult(selectedDifficult)
         val limit = selectedLimit.parseLong()
 

@@ -563,6 +563,10 @@ class Constants {
 
         object QuestionValues {
 
+            object Misc {
+                const val ALL = "All"
+            }
+
             object CategoryValues {
                 const val GENERAL_KNOWLEDGE = "General Knowledge"
                 const val BOOK = "Entertainment: Books"
@@ -593,6 +597,11 @@ class Constants {
             object TypeValues {
                 const val TRUE_FALSE = "boolean"
                 const val MULTIPLE = "multiple"
+            }
+
+            object TypeUiValues {
+                const val TRUE_FALSE = "True / False"
+                const val MULTIPLE = "Multiple Choice"
             }
 
             object DifficultValues {
@@ -632,6 +641,45 @@ class Constants {
                 return null
             }
 
+            fun getCategoryOfUi(category: Question.Category?): String? {
+                if (category == null) return Misc.ALL
+                when (category) {
+                    Question.Category.GENERAL_KNOWLEDGE -> return CategoryValues.GENERAL_KNOWLEDGE
+                    Question.Category.BOOK -> return CategoryValues.BOOK
+                    Question.Category.FILM -> return CategoryValues.FILM
+                    Question.Category.MUSIC -> return CategoryValues.MUSIC
+                    Question.Category.MUSICAL_THEATRE -> return CategoryValues.MUSICAL_THEATRE
+                    Question.Category.TELEVISION -> return CategoryValues.TELEVISION
+                    Question.Category.VIDEO_GAME -> return CategoryValues.VIDEO_GAME
+                    Question.Category.BOARD_GAME -> return CategoryValues.BOARD_GAME
+                    Question.Category.SCIENCE_NATURE -> return CategoryValues.SCIENCE_NATURE
+                    Question.Category.COMPUTER -> return CategoryValues.COMPUTER
+                    Question.Category.MATHEMATICS -> return CategoryValues.MATHEMATICS
+                    Question.Category.MYTHOLOGY -> return CategoryValues.MYTHOLOGY
+                    Question.Category.SPORTS -> return CategoryValues.SPORTS
+                    Question.Category.GEOGRAPHY -> return CategoryValues.GEOGRAPHY
+                    Question.Category.HISTORY -> return CategoryValues.HISTORY
+                    Question.Category.POLITICS -> return CategoryValues.POLITICS
+                    Question.Category.ART -> return CategoryValues.ART
+                    Question.Category.CELEBRITIES -> return CategoryValues.CELEBRITIES
+                    Question.Category.ANIMALS -> return CategoryValues.ANIMALS
+                    Question.Category.VEHICLES -> return CategoryValues.VEHICLES
+                    Question.Category.COMICS -> return CategoryValues.COMICS
+                    Question.Category.GADGETS -> return CategoryValues.GADGETS
+                    Question.Category.ANIME_MANGA -> return CategoryValues.ANIME_MANGA
+                    Question.Category.CARTOON_ANIMATION -> return CategoryValues.CARTOON_ANIMATION
+                }
+            }
+
+            fun getTypeOfUi(value: String?): Question.Type? {
+                if (value.isNullOrEmpty()) return null
+                when (value) {
+                    TypeUiValues.TRUE_FALSE -> return Question.Type.TRUE_FALSE
+                    TypeUiValues.MULTIPLE -> return Question.Type.MULTIPLE
+                }
+                return null
+            }
+
             fun getType(value: String?): Question.Type? {
                 if (value.isNullOrEmpty()) return null
                 when (value) {
@@ -651,9 +699,14 @@ class Constants {
                 return null
             }
 
-/*            fun getValue(category: Category) : String {
-
-            }*/
+            fun getDifficultOfUi(difficult: Difficult?): String? {
+                if (difficult == null) return Misc.ALL
+                when (difficult) {
+                    Difficult.EASY -> return DifficultValues.EASY
+                    Difficult.MEDIUM -> return DifficultValues.MEDIUM
+                    Difficult.HARD -> return DifficultValues.HARD
+                }
+            }
         }
     }
 

@@ -78,7 +78,9 @@ private constructor(
             return
         }
         if (answer.equals(item.answer)) {
-            points = 10
+            points = 10L
+        } else {
+            points = 0L
         }
     }
 
@@ -122,9 +124,12 @@ private constructor(
             button2nd = view.findViewById(R.id.button_2nd)
 
             radio.setOnCheckedChangeListener { group, checkedId ->
+                val button = group.findViewById<MaterialRadioButton>(checkedId)
+                    ?: return@setOnCheckedChangeListener
                 val item =
                     this.adapter.getItem(adapterPosition) ?: return@setOnCheckedChangeListener
-                item.answer = group.findViewById<MaterialRadioButton>(checkedId).text.toString()
+
+                item.answer = button.tag.toString()
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = radio,
                     item = item,
@@ -140,10 +145,17 @@ private constructor(
             super.bind(position, item)
             val uiItem = item as QuestionItem
             val item = uiItem.item
-            radio.isEnabled = item.answer.isNullOrEmpty()
+
+            for (index in 0..radio.childCount - 1)
+                radio.getChildAt(index).isEnabled = uiItem.answer.isNullOrEmpty()
+
+            if (uiItem.answer.isNullOrEmpty())
+                radio.clearCheck()
 
             button1st.text = item.options?.first()
+            button1st.tag = item.options?.first()
             button2nd.text = item.options?.last()
+            button2nd.tag = item.options?.last()
         }
     }
 
@@ -160,6 +172,20 @@ private constructor(
             button2nd = view.findViewById(R.id.button_2nd)
             button3rd = view.findViewById(R.id.button_3rd)
             button4th = view.findViewById(R.id.button_4th)
+
+            radio.setOnCheckedChangeListener { group, checkedId ->
+                val button = group.findViewById<MaterialRadioButton>(checkedId)
+                    ?: return@setOnCheckedChangeListener
+                val item =
+                    this.adapter.getItem(adapterPosition) ?: return@setOnCheckedChangeListener
+
+                item.answer = button.tag.toString()
+                this.adapter.uiItemClickListener?.onUiItemClick(
+                    view = radio,
+                    item = item,
+                    action = Action.SOLVE
+                )
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
@@ -170,25 +196,33 @@ private constructor(
             val uiItem = item as QuestionItem
             val item = uiItem.item
 
-            radio.isEnabled = item.answer.isNullOrEmpty()
+            for (index in 0..radio.childCount - 1)
+                radio.getChildAt(index).isEnabled = uiItem.answer.isNullOrEmpty()
+
+            if (uiItem.answer.isNullOrEmpty())
+                radio.clearCheck()
 
             val first = item.options?.first()
             val second = item.options?.secondOrNull()
             val third = item.options?.thirdOrNull()
             val fourth = item.options?.fourthOrNull()
 
-            button1st.text = first
-            button2nd.text = second
+            button1st.text = first.toHtml()
+            button1st.tag = first
+            button2nd.text = second.toHtml()
+            button2nd.tag = second
             if (third.isNullOrEmpty()) {
                 button3rd.invisible()
             } else {
-                button3rd.text = third
+                button3rd.text = third.toHtml()
+                button3rd.tag = third
                 button3rd.visible()
             }
             if (fourth.isNullOrEmpty()) {
                 button4th.invisible()
             } else {
-                button4th.text = fourth
+                button4th.text = fourth.toHtml()
+                button4th.tag = fourth
                 button4th.visible()
             }
 

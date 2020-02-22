@@ -215,4 +215,8 @@ open class SmartAdapter<T : BaseItem<*, *, *>>(listener: Any?) :
         val items = getVisibleItems()
         return DataUtil.getRandomItem(items);
     }
+
+    fun isValidPosition(position: Int) : Boolean {
+        return position >= 0 && position < itemCount
+    }
 }

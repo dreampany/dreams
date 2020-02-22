@@ -160,7 +160,9 @@ fun Long?.resolve(): Long {
     return if (this == null) 0L else this
 }
 
+
 fun String?.toHtml(): Spanned? {
     if (this.isNullOrEmpty()) return null
     return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
 }
+

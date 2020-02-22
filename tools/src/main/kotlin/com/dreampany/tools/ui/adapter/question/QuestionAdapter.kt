@@ -24,4 +24,12 @@ class QuestionAdapter(listener: Any? = null) : SmartAdapter<QuestionItem>(listen
     fun getItemOffset(): Int {
         return ITEM_OFFSET
     }
+
+    fun getPoints() : Long {
+        var points = 0L
+        currentItems.forEach {
+            points += it.points
+        }
+        return points
+    }
 }

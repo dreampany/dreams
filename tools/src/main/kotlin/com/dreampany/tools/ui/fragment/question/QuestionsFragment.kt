@@ -47,7 +47,8 @@ import javax.inject.Inject
  */
 @ActivityScope
 class QuestionsFragment
-@Inject constructor() : BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<QuestionItem, Action> {
+@Inject constructor() : BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<QuestionItem, Action> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -78,7 +79,7 @@ class QuestionsFragment
         req = QuestionReq.parse(task.extra) ?: return
 
         initTitleSubtitle()
-
+        showPoints()
         request(
             limit = req.limit,
             category = req.category,
@@ -102,9 +103,11 @@ class QuestionsFragment
     }
 
     override fun onUiItemClick(view: View, item: QuestionItem, action: Action) {
+        Timber.v("onUiitemclick on")
         if (action == Action.SOLVE) {
             item.calculatePoints()
             adapter.addItem(item)
+            showPoints()
         }
 
     }
@@ -120,6 +123,11 @@ class QuestionsFragment
         val subtitle = getString(R.string.subtitle_question_format, type, adapter.itemCount)
         setTitle(title)
         setSubtitle(subtitle)
+    }
+
+    private fun showPoints() {
+        val points = adapter.getPoints()
+        bindQuestions.textPoints.text = points.toString()
     }
 
     private fun initUi() {
@@ -165,9 +173,9 @@ class QuestionsFragment
     }
 
     private fun nextPage() {
-        bindRecycler.recycler.run {
-            smoothScrollToPosition(currentPosition() + 1)
-        }
+        val next = bindRecycler.recycler.currentPosition() + 1
+        if (adapter.isValidPosition(next))
+            bindRecycler.recycler.smoothScrollToPosition(next)
     }
 
     private fun request(

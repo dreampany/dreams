@@ -4,14 +4,12 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.TextMessage
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.MessageAdapter
-import com.dreampany.tools.ui.adapter.WordAdapter
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable

@@ -6,12 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.model.question.Question
-import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.StationItem
-import com.dreampany.tools.ui.model.resume.ResumeItem
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -31,7 +27,13 @@ private constructor(
 
     companion object {
         fun getItem(item: Question): QuestionItem {
-            return QuestionItem(item, R.layout.item_station)
+            var layoutId = 0
+            if (item.type == Question.Type.TRUE_FALSE) {
+                layoutId = R.layout.item_question_true_false
+            } else if (item.type == Question.Type.MULTIPLE) {
+                layoutId = R.layout.item_question_multiple
+            }
+            return QuestionItem(item, layoutId)
         }
     }
 
@@ -46,17 +48,6 @@ private constructor(
         return Objects.equal(this.item.id, item.item.id)
     }
 
-    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
-        BaseItem.ViewHolder(view, adapter) {
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
-            position: Int,
-            item: I
-        ) {
-
-        }
-
-    }
-
     override fun createViewHolder(
         view: View?,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>?
@@ -66,5 +57,16 @@ private constructor(
 
     override fun filter(constraint: String?): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    class ViewHolder(view: View, adapter: FlexibleAdapter<*>) :
+        BaseItem.ViewHolder(view, adapter) {
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
+            position: Int,
+            item: I
+        ) {
+
+        }
+
     }
 }

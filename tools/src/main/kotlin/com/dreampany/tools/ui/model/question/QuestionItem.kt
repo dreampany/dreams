@@ -36,6 +36,10 @@ private constructor(
     var point: Point? = Constants.Default.NULL
     var totalPoints: Long = Constants.Default.LONG
 
+    fun isRightAnswer(): Boolean {
+        return point?.points.resolve() > 0L
+    }
+
     companion object {
         fun getItem(item: Question): QuestionItem {
             var layoutId = 0
@@ -81,14 +85,16 @@ private constructor(
 
         protected var adapter: QuestionAdapter
 
-        protected var textTitle: MaterialTextView
         protected var radio: RadioGroup
+        protected var textTitle: MaterialTextView
+        protected var textAnswer: MaterialTextView
 
         init {
             this.adapter = adapter as QuestionAdapter
 
-            textTitle = view.findViewById(R.id.text_title)
             radio = view.findViewById(R.id.radio)
+            textTitle = view.findViewById(R.id.text_title)
+            textAnswer = view.findViewById(R.id.text_answer)
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
@@ -99,6 +105,7 @@ private constructor(
             val item = uiItem.item
 
             textTitle.text = item.question.toHtml()
+            textAnswer.text = item.answer.toHtml()
         }
     }
 
@@ -141,6 +148,9 @@ private constructor(
             if (uiItem.given.isNullOrEmpty()) {
                 radio.clearCheck()
                 uiItem.given = null
+                textAnswer.gone()
+            } else if (!uiItem.isRightAnswer()) {
+                textAnswer.visible()
             }
 
             button1st.text = item.options?.first()
@@ -193,6 +203,9 @@ private constructor(
             if (uiItem.given.isNullOrEmpty()) {
                 radio.clearCheck()
                 uiItem.given = null
+                textAnswer.gone()
+            } else if (!uiItem.isRightAnswer()) {
+                textAnswer.visible()
             }
 
             val first = item.options?.first()

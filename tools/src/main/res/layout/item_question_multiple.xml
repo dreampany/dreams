@@ -29,7 +29,8 @@
                 android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_bold" />
 
-            <RadioGroup android:id="@+id/radio"
+            <RadioGroup
+                android:id="@+id/radio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
@@ -40,25 +41,39 @@
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/button_1st"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    auto:fontFamily="@font/roboto_slab_bold" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/button_2nd"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    auto:fontFamily="@font/roboto_slab_bold" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/button_3rd"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    auto:fontFamily="@font/roboto_slab_bold" />
 
                 <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/button_4th"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    auto:fontFamily="@font/roboto_slab_bold" />
 
             </RadioGroup>
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_8sdp"
+                android:text="@string/title"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_12ssp"
+                android:visibility="gone"
+                auto:fontFamily="@font/roboto_slab_bold" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
 </layout>

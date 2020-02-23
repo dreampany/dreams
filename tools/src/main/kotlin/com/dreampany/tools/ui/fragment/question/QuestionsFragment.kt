@@ -214,10 +214,6 @@ class QuestionsFragment
         }
     }
 
-    private fun isRightAnswer(item: QuestionItem) : Boolean {
-        return item.point?.points.resolve() > 0L
-    }
-
     private fun request(
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
@@ -323,7 +319,7 @@ class QuestionsFragment
                 vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
             }, 500L)
 
-            if (isRightAnswer(item))       {
+            if (item.isRightAnswer())       {
                 rightAnswer()
             }
         }

@@ -8,7 +8,6 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.parseLong
-import com.dreampany.framework.misc.extension.resToStringArray
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.misc.extension.singleItemOfStringResArray
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -113,7 +112,11 @@ class QuestionHomeFragment
         val category = Constants.Values.QuestionValues.getCategory(selectedCategory)
         val type = Constants.Values.QuestionValues.getTypeOfUi(selectedType)
         val difficult = Constants.Values.QuestionValues.getDifficult(selectedDifficult)
-        val limit = selectedLimit.parseLong()
+        var limit = selectedLimit.parseLong()
+
+        if (limit <= 0L) {
+            limit = Constants.Limit.Question.MIN_LIMIT
+        }
 
         val req =
             QuestionReq(category = category, type = type, difficult = difficult, limit = limit)

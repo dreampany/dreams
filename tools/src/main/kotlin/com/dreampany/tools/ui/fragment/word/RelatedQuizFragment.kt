@@ -197,8 +197,7 @@ class RelatedQuizFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_quiz_option_header, adapter.getItemOffset())
-                .addItemViewType(R.layout.item_quiz_option, adapter.getItemOffset())
+                .withOffset(adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller,

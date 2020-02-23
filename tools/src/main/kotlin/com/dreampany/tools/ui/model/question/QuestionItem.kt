@@ -6,12 +6,12 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.FeatureAdapter
 import com.dreampany.tools.ui.adapter.question.QuestionAdapter
 import com.google.android.material.radiobutton.MaterialRadioButton
 import com.google.android.material.textview.MaterialTextView
@@ -33,7 +33,8 @@ private constructor(
 ) : BaseItem<QuestionItem.ViewHolder, Question, String>(item, layoutId) {
 
     var given: String? = Constants.Default.NULL
-    var points: Long = Constants.Default.LONG
+    var point: Point? = Constants.Default.NULL
+    var totalPoints: Long = Constants.Default.LONG
 
     companion object {
         fun getItem(item: Question): QuestionItem {
@@ -72,8 +73,7 @@ private constructor(
         return false
     }
 
-
-    fun calculatePoints() {
+/*    fun calculatePoints() {
         if (given.isNullOrEmpty()) {
             return
         }
@@ -82,7 +82,7 @@ private constructor(
         } else {
             points = 0L
         }
-    }
+    }*/
 
     abstract class ViewHolder(
         view: View,

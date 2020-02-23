@@ -213,6 +213,7 @@ class QuestionViewModel
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
+        uiItem.point = mapper.getPoint(item, uiItem.given, pointMapper, pointRepo)
         adjustFavorite(item, uiItem)
         return uiItem
     }

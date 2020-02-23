@@ -26,6 +26,7 @@
             android:layout_marginStart="@dimen/_4sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_4sdp"
+            android:visibility="gone"
             auto:cardCornerRadius="@dimen/_4sdp"
             auto:cardElevation="@dimen/_4sdp">
 
@@ -50,11 +51,11 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="@dimen/_4sdp"
-            android:layout_marginBottom="@dimen/_4sdp"
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginEnd="@dimen/_4sdp"
-            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/_4sdp"
             auto:cardCornerRadius="@dimen/_4sdp"
             auto:cardElevation="@dimen/_4sdp">
 

@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.adapter.question
 
+import com.dreampany.framework.misc.extension.resolve
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.tools.ui.model.question.QuestionItem
 
@@ -28,7 +29,7 @@ class QuestionAdapter(listener: Any? = null) : SmartAdapter<QuestionItem>(listen
     fun getPoints() : Long {
         var points = 0L
         currentItems.forEach {
-            points += it.points
+            points += it.point?.points.resolve()
         }
         return points
     }

@@ -335,6 +335,10 @@ class Constants {
         object Crypto {
             const val LIST = 100L
         }
+
+        object Question {
+            const val MIN_LIMIT = 10L
+        }
     }
 
     object Cache {

@@ -296,6 +296,9 @@ class QuestionsFragment
             adapter.addItem(item)
         }*/
 
+
+        adapter.addItem(item)
+        showPoints()
         ex.postToUi(Runnable {
             vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)

@@ -105,9 +105,12 @@ class QuestionsFragment
     override fun onUiItemClick(view: View, item: QuestionItem, action: Action) {
         Timber.v("onUiitemclick on")
         if (action == Action.SOLVE) {
-            item.calculatePoints()
-            adapter.addItem(item)
-            showPoints()
+            //item.calculatePoints()
+            //adapter.addItem(item)
+            //showPoints()
+            item.given?.run {
+                performAnswer(item.item, this)
+            }
         }
 
     }
@@ -178,6 +181,17 @@ class QuestionsFragment
             bindRecycler.recycler.smoothScrollToPosition(next)
     }
 
+    private fun performAnswer(question: Question, given: String) {
+        request(
+            state = State.SOLVED,
+            action = Action.SOLVE,
+            single = true,
+            progress = false,
+            input = question,
+            given = given
+        )
+    }
+
     private fun request(
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
@@ -189,7 +203,7 @@ class QuestionsFragment
         category: Question.Category? = Constants.Default.NULL,
         type: Question.Type? = Constants.Default.NULL,
         difficult: Difficult? = Constants.Default.NULL,
-        answer: String? = Constants.Default.NULL
+        given: String? = Constants.Default.NULL
     ) {
         val request = QuestionRequest(
             type = Type.QUESTION,
@@ -204,7 +218,7 @@ class QuestionsFragment
             category = category,
             questionType = type,
             difficult = difficult,
-            answer = answer
+            given = given
         )
         vm.request(request)
     }

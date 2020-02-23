@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.model.question
 
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -34,8 +35,10 @@ data class Question(
     var type: Type? = Constants.Default.NULL,
     var difficult: Difficult? = Constants.Default.NULL,
     var question: String? = Constants.Default.NULL,
+    var options: ArrayList<String>? = Constants.Default.NULL,
     var answer: String? = Constants.Default.NULL,
-    var options: ArrayList<String>? = Constants.Default.NULL
+    @ColumnInfo(name = Constants.Keys.Common.POINT_ID)
+    var pointId: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore

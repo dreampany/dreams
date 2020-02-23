@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,7 +12,7 @@
         auto:cardPreventCornerOverlap="false"
         auto:elevation="@dimen/_5sdp">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/_40sdp"
                 tools:src="@drawable/ic_favorite_black_24dp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -45,6 +45,6 @@
                 auto:tint="@color/material_green800"
                 tools:srcCompat="@drawable/ic_check_black_24dp" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -32,8 +32,17 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:minWidth="@dimen/_140sdp"
-                android:minHeight="@dimen/_100sdp">
+                android:minHeight="@dimen/_80sdp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/text_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:textColor="@color/material_grey700"
+                    android:textSize="@dimen/_24ssp"
+                    auto:fontFamily="@font/roboto_slab_bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>

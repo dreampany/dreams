@@ -49,7 +49,8 @@ class PointMapper
         type: Type,
         subtype: Subtype,
         level: Level,
-        credit: Int,
+        points: Long,
+        extra: String?,
         source: PointDataSource
     ): Point? {
         var point: Point? = null
@@ -62,7 +63,8 @@ class PointMapper
         if (point == null) {
             point = Point(id = id, type = type, subtype = subtype, level = level)
         }
-        point.credit = credit
+        point.points = points
+        point.extra = extra
         map.put(id, point)
         return point
     }
@@ -72,16 +74,16 @@ class PointMapper
         subtype: Subtype,
         source: PointDataSource
     ): Point? {
-        val credit = source.getCredits(type, subtype)
-        var point = Point(type = type, subtype = subtype, credit = credit)
+        val credit = source.getAllPoints(type, subtype)
+        var point = Point(type = type, subtype = subtype, points = credit)
         return point
     }
 
     fun getItem(
         source: PointDataSource
     ): Point? {
-        val credit = source.getCredits()
-        var point = Point(credit = credit)
+        val credit = source.getAllPoints()
+        var point = Point(points = credit)
         return point
     }
 

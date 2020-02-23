@@ -52,7 +52,7 @@ class RelatedQuizFragment
 @Inject constructor(
 
 ) : BaseMenuFragment(),
-    SmartAdapter.OnUiItemClickListener<QuizOptionItem?, Action?> {
+    SmartAdapter.OnUiItemClickListener<QuizOptionItem, Action> {
 
     @Inject
     internal lateinit var pref: Pref
@@ -146,14 +146,14 @@ class RelatedQuizFragment
         }
     }
 
-    override fun onUiItemClick(view: View, item: QuizOptionItem?, action: Action?) {
-        item?.run {
+    override fun onUiItemClick(view: View, item: QuizOptionItem, action: Action) {
+        item.run {
             performAnswer(this)
         }
     }
 
-    override fun onUiItemLongClick(view: View, item: QuizOptionItem?, action: Action?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onUiItemLongClick(view: View, item: QuizOptionItem, action: Action) {
+
     }
 
     private fun initUi() {
@@ -178,7 +178,7 @@ class RelatedQuizFragment
             LayoutInflater.from(context).inflate(R.layout.item_empty, null)
         )
 
-        vm = ViewModelProviders.of(this, factory).get(RelatedQuizViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(RelatedQuizViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
@@ -289,20 +289,21 @@ class RelatedQuizFragment
 
     private fun performAnswer(item: QuizOptionItem) {
         Timber.v("Select %s", item.item.id)
-        if (quizItem!!.played()) {
-            return
+        quizItem?.run {
+            if (played()) return@run
+            val quiz = this.item
+            val given = item.item.id
+            request(
+                state = State.DEFAULT,
+                resolve = State.PLAYED,
+                action = Action.SOLVE,
+                single = true,
+                progress = false,
+                input = quiz,
+                given = given
+            )
         }
-        val quiz = quizItem!!.item
-        val given = item.item.id
-        request(
-            state = State.DEFAULT,
-            resolve = State.PLAYED,
-            action = Action.SOLVE,
-            input = quiz,
-            single = true,
-            progress = false,
-            given = given
-        )
+
     }
 
     private fun rightAnswer() {
@@ -338,9 +339,9 @@ class RelatedQuizFragment
         state: State = State.DEFAULT,
         resolve: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
-        input: RelatedQuiz? = Constants.Default.NULL,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
+        input: RelatedQuiz? = Constants.Default.NULL,
         given: String? = Constants.Default.NULL
     ) {
 
@@ -350,9 +351,9 @@ class RelatedQuizFragment
             state = state,
             resolve = resolve,
             action = action,
-            input = input,
             single = single,
             progress = progress,
+            input = input,
             given = given
         )
         vm.request(request)

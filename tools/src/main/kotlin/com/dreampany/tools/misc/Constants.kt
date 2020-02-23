@@ -294,7 +294,7 @@ class Constants {
     }
 
     object Count {
-        const val DEFAULT_POINT = 999
+        const val DEFAULT_POINT = 999L
 
         object Word {
             const val COMMON = 1000
@@ -381,9 +381,17 @@ class Constants {
         }
     }
 
+    object Points {
+        const val QUESTION = 10L
+    }
+
     object Keys {
         object Demo {
             const val ID = Constants.Key.ID
+        }
+
+        object Common {
+            const val POINT_ID = "point_id"
         }
 
         object Resume {
@@ -475,7 +483,6 @@ class Constants {
             const val TYPE = Constants.Key.TYPE
             const val SUBTYPE = Constants.Key.SUBTYPE
             const val LEVEL = Constants.Key.LEVEL
-            const val POINT_ID = "point_id"
             val OptionCharArray: CharArray = CharArray(4).apply {
                 set(0, 'A')
                 set(1, 'B')

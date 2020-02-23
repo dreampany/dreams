@@ -36,6 +36,14 @@ fun Int.resToStringArray(context: Context?): Array<String>? {
     return context?.resources?.getStringArray(this)
 }
 
+fun Int.singleItemOfStringResArray(context: Context?, index: Int): String? {
+    //if (context == null) return null
+    val array = context?.resources?.getStringArray(this) ?: return null
+   return if (index < 0 || index >= array.size)  null else array.get(index)
+}
+
+
+
 fun Int.dpToPx(dp: Int): Int {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), Resources.getSystem().getDisplayMetrics()

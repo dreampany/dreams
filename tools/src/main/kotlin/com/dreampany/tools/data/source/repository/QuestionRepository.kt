@@ -1,6 +1,9 @@
 package com.dreampany.tools.data.source.repository
 
 import com.dreampany.framework.data.enums.Difficult
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
@@ -130,5 +133,10 @@ class QuestionRepository
 
     override fun getItemsRx(limit: Long): Maybe<List<Question>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun putStore(id: String, type: Type, subtype: Subtype, state: State): Long {
+        val store = storeMapper.getItem(id, type, subtype, state)
+        return storeRepo.putItem(store)
     }
 }

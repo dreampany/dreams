@@ -349,5 +349,5 @@ tasks.withType(Javadoc).all {
     enabled = false
 }
 
-apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/bintrayv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/bintrayv1.gradle'

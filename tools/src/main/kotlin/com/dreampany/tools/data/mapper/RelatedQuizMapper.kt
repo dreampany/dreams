@@ -79,10 +79,10 @@ class RelatedQuizMapper
         if (quiz.answer.isNullOrEmpty() || quiz.given.isNullOrEmpty()) {
             return null
         }
-        val credit = if (quiz.answer.equals(quiz.given))
-            quiz.id.length + quiz.answer!!.length
-        else -quiz.id.length
-        val point = pointMapper.getItem(quiz.id, quiz.type, quiz.subtype, quiz.level, credit, source)
+        val points:Long = if (quiz.answer.equals(quiz.given))
+            (quiz.id.length + quiz.answer!!.length).toLong()
+        else (-quiz.id.length).toLong()
+        val point = pointMapper.getItem(quiz.id, quiz.type, quiz.subtype, quiz.level, points,quiz.given,  source)
         return point
     }
 

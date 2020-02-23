@@ -9,6 +9,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.ui.widget.TextDrawable
 import com.dreampany.framework.util.ColorUtil
@@ -17,6 +18,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.model.word.QuizOption
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.QuizOptionAdapter
+import com.google.android.material.textview.MaterialTextView
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.io.Serializable
@@ -36,8 +38,8 @@ private constructor(
 
     var color: Color
 
-    var credit: Int = Constants.Default.INT
-    var totalCredit: Int = Constants.Default.INT
+    var credit: Long = Constants.Default.LONG
+    var totalCredit: Long = Constants.Default.LONG
 
     var count: Int = Constants.Default.INT
     var totalCount: Int = Constants.Default.INT
@@ -111,7 +113,7 @@ private constructor(
    internal class HeaderViewHolder(view: View, adapter: FlexibleAdapter<*>) :
         ViewHolder(view, adapter, stickyHeader = true) {
 
-        private var textTitle: AppCompatTextView
+        private var textTitle: MaterialTextView
 
         init {
             textTitle = view.findViewById(R.id.text_title)
@@ -129,7 +131,7 @@ private constructor(
    internal class ItemViewHolder(view: View, adapter: FlexibleAdapter<*>) : ViewHolder(view, adapter) {
 
         private var imageIcon: AppCompatImageView
-        private var textTitle: AppCompatTextView
+        private var textTitle: MaterialTextView
         private var imageStatus: AppCompatImageView
 
         init {
@@ -137,10 +139,13 @@ private constructor(
             textTitle = view.findViewById(R.id.text_title)
             imageStatus = view.findViewById(R.id.image_status)
 
-            view.setOnClickListener { view ->
+            view.setOnSafeClickListener {
+                val item =
+                    this.adapter.getItem(adapterPosition) ?: return@setOnSafeClickListener
+
                 this.adapter.uiItemClickListener?.onUiItemClick(
-                    view = view,
-                    item = this.adapter.getItem(adapterPosition)!!,
+                    view = it,
+                    item = item,
                     action = Action.DEFAULT
                 )
             }

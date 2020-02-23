@@ -31,7 +31,8 @@ data class Point(
     var type: Type = Type.DEFAULT,
     var subtype: Subtype = Subtype.DEFAULT,
     var level: Level = Level.DEFAULT,
-    var credit: Int = Constants.Default.INT
+    var points: Long = Constants.Default.LONG,
+    var extra: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -42,18 +43,6 @@ data class Point(
     constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
 
     }
-
-/*    constructor(
-        type: Type,
-        subtype: Subtype,
-        credit: Int
-    ) : this(
-        time = TimeUtilKt.currentMillis(),
-        id = DataUtilKt.getRandId(),
-        type = type,
-        subtype = subtype,
-        credit = credit) {
-    }*/
 
     constructor(
         id: String,

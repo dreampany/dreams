@@ -56,12 +56,12 @@ private constructor(
 
     fun played(): Boolean {
         if (point == null) return false
-        return point!!.credit != 0
+        return point?.points != 0L
     }
 
     fun isWinner(): Boolean {
         if (point == null) return false
-        return point!!.credit > 0
+        return point!!.points > 0
     }
 
     override fun createViewHolder(
@@ -111,8 +111,8 @@ private constructor(
             item.subtype.name.toLowerCase(),
             item.id
         )
-        val credit = typePoint!!.credit
-        val totalCredit = totalPoint!!.credit
+        val credit = typePoint!!.points
+        val totalCredit = totalPoint!!.points
         val header =
             QuizOption(
                 id = id!!,
@@ -147,7 +147,7 @@ private constructor(
             imageIcon = view.findViewById(R.id.image_icon)
             textTitle = view.findViewById(R.id.text_title)
 
-            view.setOnSafeClickListener {view->
+            view.setOnSafeClickListener { view ->
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = view,
                     item = this.adapter.getItem(adapterPosition)!!,
@@ -156,7 +156,7 @@ private constructor(
             }
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>>
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as RelatedQuizItem
             val item = uiItem.item

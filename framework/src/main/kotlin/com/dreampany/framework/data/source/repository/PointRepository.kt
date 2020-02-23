@@ -25,16 +25,16 @@ class PointRepository
     rm: ResponseMapper,
     @Room private val room: PointDataSource
 ) : Repository<String, Point>(rx, rm), PointDataSource {
-    override fun getCredits(): Int {
-        return room.getCredits()
+    override fun getAllPoints(): Long {
+        return room.getAllPoints()
     }
 
-    override fun getCredits(type: Type): Int {
-        return room.getCredits(type)
+    override fun getAllPoints(type: Type): Long {
+        return room.getAllPoints(type)
     }
 
-    override fun getCredits(type: Type, subtype: Subtype): Int {
-        return room.getCredits(type, subtype)
+    override fun getAllPoints(type: Type, subtype: Subtype): Long {
+        return room.getAllPoints(type, subtype)
     }
 
     override fun getItem(id: String, type: Type, subtype: Subtype, level: Level): Point? {

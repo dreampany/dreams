@@ -10,6 +10,7 @@ import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.parseLong
 import com.dreampany.framework.misc.extension.resToStringArray
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extension.singleItemOfStringResArray
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
@@ -92,17 +93,30 @@ class QuestionHomeFragment
     }
 
     private fun openQuestionsUi() {
-        val selectedCategory = R.array.question_categories.resToStringArray(context)?.get(bindQuestion.spinnerCategory.selectedIndex)
-        val selectedType = R.array.question_types.resToStringArray(context)?.get(bindQuestion.spinnerType.selectedIndex)
-        val selectedDifficult = R.array.question_difficulties.resToStringArray(context)?.get(bindQuestion.spinnerDifficult.selectedIndex)
-        val selectedLimit = R.array.question_limits.resToStringArray(context)?.get(bindQuestion.spinnerLimit.selectedIndex)
+        val selectedCategory = R.array.question_categories.singleItemOfStringResArray(
+            context,
+            bindQuestion.spinnerCategory.selectedIndex
+        )
+        val selectedType = R.array.question_types.singleItemOfStringResArray(
+            context,
+            bindQuestion.spinnerType.selectedIndex
+        )
+        val selectedDifficult = R.array.question_difficulties.singleItemOfStringResArray(
+            context,
+            bindQuestion.spinnerDifficult.selectedIndex
+        )
+        val selectedLimit = R.array.question_limits.singleItemOfStringResArray(
+            context,
+            bindQuestion.spinnerLimit.selectedIndex
+        )
 
         val category = Constants.Values.QuestionValues.getCategory(selectedCategory)
         val type = Constants.Values.QuestionValues.getTypeOfUi(selectedType)
         val difficult = Constants.Values.QuestionValues.getDifficult(selectedDifficult)
         val limit = selectedLimit.parseLong()
 
-        val req = QuestionReq(category = category, type = type, difficult = difficult, limit = limit)
+        val req =
+            QuestionReq(category = category, type = type, difficult = difficult, limit = limit)
         val task = UiTask<Question>(
             type = Type.QUESTION,
             subtype = Subtype.DEFAULT,

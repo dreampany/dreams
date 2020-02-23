@@ -14,11 +14,11 @@ import io.reactivex.Maybe
  */
 interface PointDataSource : DataSource<Point> {
 
-    fun getCredits() : Int
+    fun getAllPoints() : Long
 
-    fun getCredits(type: Type) : Int
+    fun getAllPoints(type: Type) : Long
 
-    fun getCredits(type: Type, subtype: Subtype) : Int
+    fun getAllPoints(type: Type, subtype: Subtype) : Long
 
     fun getItem(id: String, type: Type, subtype: Subtype, level: Level): Point?
 

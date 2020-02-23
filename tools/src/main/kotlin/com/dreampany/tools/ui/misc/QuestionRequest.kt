@@ -28,7 +28,7 @@ class QuestionRequest(
     val category: Question.Category? = Constants.Default.NULL,
     val questionType: Question.Type? = Constants.Default.NULL,
     val difficult: Difficult? = Constants.Default.NULL,
-    val answer: String? = Constants.Default.NULL
+    val given: String? = Constants.Default.NULL
 ) : Request<Question>(
     type = type,
     subtype = subtype,

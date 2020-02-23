@@ -36,7 +36,7 @@ data class RelatedQuiz(
     var options: ArrayList<String>? = Constants.Default.NULL,
     var answer: String? = Constants.Default.NULL,
     var given: String? = Constants.Default.NULL,
-    @ColumnInfo(name = Constants.Keys.Quiz.POINT_ID)
+    @ColumnInfo(name = Constants.Keys.Common.POINT_ID)
     var pointId: String? = Constants.Default.NULL
 ) : Base() {
 

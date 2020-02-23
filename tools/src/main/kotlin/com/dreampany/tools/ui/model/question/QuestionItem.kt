@@ -32,8 +32,8 @@ private constructor(
     @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<QuestionItem.ViewHolder, Question, String>(item, layoutId) {
 
-    internal var answer: String? = null
-    internal var points: Long = 0L
+    var given: String? = Constants.Default.NULL
+    var points: Long = Constants.Default.LONG
 
     companion object {
         fun getItem(item: Question): QuestionItem {
@@ -74,10 +74,10 @@ private constructor(
 
 
     fun calculatePoints() {
-        if (answer.isNullOrEmpty()) {
+        if (given.isNullOrEmpty()) {
             return
         }
-        if (answer.equals(item.answer)) {
+        if (given.equals(item.answer)) {
             points = 10L
         } else {
             points = 0L
@@ -129,7 +129,7 @@ private constructor(
                 val item =
                     this.adapter.getItem(adapterPosition) ?: return@setOnCheckedChangeListener
 
-                item.answer = button.tag.toString()
+                item.given = button.tag.toString()
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = radio,
                     item = item,
@@ -147,9 +147,9 @@ private constructor(
             val item = uiItem.item
 
             for (index in 0..radio.childCount - 1)
-                radio.getChildAt(index).isEnabled = uiItem.answer.isNullOrEmpty()
+                radio.getChildAt(index).isEnabled = uiItem.given.isNullOrEmpty()
 
-            if (uiItem.answer.isNullOrEmpty())
+            if (uiItem.given.isNullOrEmpty())
                 radio.clearCheck()
 
             button1st.text = item.options?.first()
@@ -179,7 +179,7 @@ private constructor(
                 val item =
                     this.adapter.getItem(adapterPosition) ?: return@setOnCheckedChangeListener
 
-                item.answer = button.tag.toString()
+                item.given = button.tag.toString()
                 this.adapter.uiItemClickListener?.onUiItemClick(
                     view = radio,
                     item = item,
@@ -197,9 +197,9 @@ private constructor(
             val item = uiItem.item
 
             for (index in 0..radio.childCount - 1)
-                radio.getChildAt(index).isEnabled = uiItem.answer.isNullOrEmpty()
+                radio.getChildAt(index).isEnabled = uiItem.given.isNullOrEmpty()
 
-            if (uiItem.answer.isNullOrEmpty())
+            if (uiItem.given.isNullOrEmpty())
                 radio.clearCheck()
 
             val first = item.options?.first()

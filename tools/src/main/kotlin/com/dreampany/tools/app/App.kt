@@ -196,7 +196,7 @@ class App : BaseApp() {
     private fun configPoint() {
         if (!pref.hasDefaultPoint()) {
             ex.postToDisk(Runnable {
-                val point = pointMapper.getItem(Constants.Default.STRING, Type.DEFAULT, Subtype.DEFAULT, Level.DEFAULT, Constants.Count.DEFAULT_POINT, pointRepo)
+                val point = pointMapper.getItem(Constants.Default.STRING, Type.DEFAULT, Subtype.DEFAULT, Level.DEFAULT, Constants.Count.DEFAULT_POINT, null, pointRepo)
                 point?.run {
                     pointRepo.putItem(this)
                     pref.commitDefaultPoint()

@@ -1,12 +1,16 @@
 package com.dreampany.tools.ui.vm.question
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.misc.StoreMapper
+import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.model.UiTask
@@ -15,10 +19,13 @@ import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.QuestionMapper
 import com.dreampany.tools.data.model.question.Question
+import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.QuestionRepository
 import com.dreampany.tools.ui.misc.QuestionRequest
+import com.dreampany.tools.ui.misc.RelatedQuizRequest
 import com.dreampany.tools.ui.model.question.QuestionItem
+import com.dreampany.tools.ui.model.word.RelatedQuizItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -41,6 +48,8 @@ class QuestionViewModel
     private val pref: Pref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
+    private val pointMapper: PointMapper,
+    private val pointRepo: PointRepository,
     private val mapper: QuestionMapper,
     private val repo: QuestionRepository,
     private val translationRepo: TranslationRepository,
@@ -63,10 +72,44 @@ class QuestionViewModel
 
     fun request(request: QuestionRequest) {
         if (request.single) {
-            //requestSingle(request)
+            requestSingle(request)
         } else {
             requestMultiple(request)
         }
+    }
+
+    private fun requestSingle(request: QuestionRequest) {
+        if (!takeAction(request.important, singleDisposable)) {
+            return
+        }
+
+        val disposable = rx
+            .backToMain(requestUiItemRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading = true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading = false)
+                }
+                postResult(
+                    state = request.state,
+                    action = request.action,
+                    data = result
+                )
+            }, { error ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading = false)
+                }
+                postFailure(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
+            })
+        addSingleSubscription(disposable)
     }
 
     private fun requestMultiple(request: QuestionRequest) {
@@ -103,6 +146,10 @@ class QuestionViewModel
         addMultipleSubscription(disposable)
     }
 
+    private fun requestUiItemRx(request: QuestionRequest): Maybe<QuestionItem> {
+        return requestItemRx(request).flatMap { getUiItemRx(request, it) }
+    }
+
     private fun requestUiItemsRx(request: QuestionRequest): Maybe<List<QuestionItem>> {
 /*        if (request.action == Action.FAVORITE) {
             return storeRepo
@@ -112,6 +159,23 @@ class QuestionViewModel
         return requestItemsRx(request).flatMap { getUiItemsRx(request, it) }
     }
 
+    private fun requestItemRx(request: QuestionRequest): Maybe<Question> {
+        return Maybe.create { emitter ->
+            var question: Question? = null
+            when (request.action) {
+                Action.SOLVE -> {
+                    question = solveQuestion(request)
+                }
+            }
+            if (emitter.isDisposed) return@create
+            if (question == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(question)
+            }
+        }
+    }
+
     private fun requestItemsRx(request: QuestionRequest): Maybe<List<Question>> {
         return repo.getItemsRx(
             category = request.category,
@@ -119,6 +183,17 @@ class QuestionViewModel
             difficult = request.difficult,
             limit = request.limit
         )
+    }
+
+    private fun getUiItemRx(
+        request: QuestionRequest,
+        item: Question
+    ): Maybe<QuestionItem> {
+        return Maybe.create { emitter ->
+            val uiItem = getUiItem(request, item)
+            if (emitter.isDisposed) return@create
+            emitter.onSuccess(uiItem)
+        }
     }
 
     private fun getUiItemsRx(
@@ -180,5 +255,17 @@ class QuestionViewModel
     private fun removeStore(id: String, type: Type, subtype: Subtype, state: State): Int {
         val store = storeMapper.getItem(id, type, subtype, state)
         return storeRepo.delete(store)
+    }
+
+    private fun solveQuestion(request: QuestionRequest): Question? {
+        var question: Question = request.input ?: return null
+        val point = mapper.getPoint(question, request.given, pointMapper, pointRepo)
+        point?.run {
+            question.pointId = id
+            pointRepo.putItem(point)
+        }
+        repo.putStore(question.id, request.type, request.subtype, request.state)
+        //wordRepo.removeStore(id, request.type, request.subtype, request.state)
+        return question
     }
 }

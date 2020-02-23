@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.fragment.question
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.ObservableArrayList
@@ -12,11 +13,11 @@ import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.currentPosition
+import com.dreampany.framework.misc.extension.resolve
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
-import com.dreampany.framework.ui.listener.OnHorizontalScrollListener
 import com.dreampany.framework.ui.listener.OnSnapScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
@@ -29,13 +30,15 @@ import com.dreampany.tools.databinding.FragmentQuestionsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.question.QuestionAdapter
 import com.dreampany.tools.ui.misc.QuestionRequest
-import com.dreampany.tools.ui.model.FeatureItem
 import com.dreampany.tools.ui.model.question.QuestionItem
 import com.dreampany.tools.ui.model.question.QuestionReq
 import com.dreampany.tools.ui.vm.question.QuestionViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
+import nl.dionsegijn.konfetti.ParticleSystem
+import nl.dionsegijn.konfetti.models.Shape
+import nl.dionsegijn.konfetti.models.Size
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -66,6 +69,7 @@ class QuestionsFragment
     private lateinit var scroller: OnSnapScrollListener
 
     private lateinit var req: QuestionReq
+    private var particle: ParticleSystem? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_questions
@@ -192,6 +196,28 @@ class QuestionsFragment
         )
     }
 
+    private fun rightAnswer() {
+        particle = bind.konfetti.build()
+        particle?.apply {
+            addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(1000L)
+                .addShapes(Shape.RECT, Shape.CIRCLE)
+                .addSizes(Size(10))
+                .setPosition(-50f, bind.konfetti.width + 50f, -50f, -50f)
+                .streamFor(300, 3000L)
+        }
+        particle?.run {
+            bind.konfetti.start(this)
+        }
+    }
+
+    private fun isRightAnswer(item: QuestionItem) : Boolean {
+        return item.point?.points.resolve() > 0L
+    }
+
     private fun request(
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
@@ -290,17 +316,16 @@ class QuestionsFragment
     }
 
     private fun processSuccess(state: State, action: Action, item: QuestionItem) {
-        /*if (action == Action.DELETE) {
-            adapter.removeItem(item)
-        } else {
+        if (state == State.SOLVED) {
             adapter.addItem(item)
-        }*/
+            showPoints()
+            ex.postToUi(Runnable {
+                vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
+            }, 500L)
 
-
-        adapter.addItem(item)
-        showPoints()
-        ex.postToUi(Runnable {
-            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
-        }, 500L)
+            if (isRightAnswer(item))       {
+                rightAnswer()
+            }
+        }
     }
 }

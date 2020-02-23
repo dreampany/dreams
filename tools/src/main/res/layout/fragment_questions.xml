@@ -61,6 +61,11 @@
                 </FrameLayout>
             </cz.kinst.jakub.view.StatefulLayout>
 
+            <nl.dionsegijn.konfetti.KonfettiView
+                android:id="@+id/konfetti"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
                 android:layout_width="wrap_content"

@@ -73,17 +73,6 @@ private constructor(
         return false
     }
 
-/*    fun calculatePoints() {
-        if (given.isNullOrEmpty()) {
-            return
-        }
-        if (given.equals(item.answer)) {
-            points = 10L
-        } else {
-            points = 0L
-        }
-    }*/
-
     abstract class ViewHolder(
         view: View,
         adapter: FlexibleAdapter<*>,
@@ -120,8 +109,8 @@ private constructor(
         protected var button2nd: MaterialRadioButton
 
         init {
-            button1st = view.findViewById(R.id.button_1st)
-            button2nd = view.findViewById(R.id.button_2nd)
+            button1st = view.findViewById<MaterialRadioButton>(R.id.button_1st)
+            button2nd = view.findViewById<MaterialRadioButton>(R.id.button_2nd)
 
             radio.setOnCheckedChangeListener { group, checkedId ->
                 val button = group.findViewById<MaterialRadioButton>(checkedId)
@@ -149,8 +138,10 @@ private constructor(
             for (index in 0..radio.childCount - 1)
                 radio.getChildAt(index).isEnabled = uiItem.given.isNullOrEmpty()
 
-            if (uiItem.given.isNullOrEmpty())
+            if (uiItem.given.isNullOrEmpty()) {
                 radio.clearCheck()
+                uiItem.given = null
+            }
 
             button1st.text = item.options?.first()
             button1st.tag = item.options?.first()
@@ -168,10 +159,10 @@ private constructor(
         protected var button4th: MaterialRadioButton
 
         init {
-            button1st = view.findViewById(R.id.button_1st)
-            button2nd = view.findViewById(R.id.button_2nd)
-            button3rd = view.findViewById(R.id.button_3rd)
-            button4th = view.findViewById(R.id.button_4th)
+            button1st = view.findViewById<MaterialRadioButton>(R.id.button_1st)
+            button2nd = view.findViewById<MaterialRadioButton>(R.id.button_2nd)
+            button3rd = view.findViewById<MaterialRadioButton>(R.id.button_3rd)
+            button4th = view.findViewById<MaterialRadioButton>(R.id.button_4th)
 
             radio.setOnCheckedChangeListener { group, checkedId ->
                 val button = group.findViewById<MaterialRadioButton>(checkedId)
@@ -199,8 +190,10 @@ private constructor(
             for (index in 0..radio.childCount - 1)
                 radio.getChildAt(index).isEnabled = uiItem.given.isNullOrEmpty()
 
-            if (uiItem.given.isNullOrEmpty())
+            if (uiItem.given.isNullOrEmpty()) {
                 radio.clearCheck()
+                uiItem.given = null
+            }
 
             val first = item.options?.first()
             val second = item.options?.secondOrNull()

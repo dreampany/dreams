@@ -201,20 +201,24 @@ class QuestionViewModel
         items: List<Question>
     ): Maybe<List<QuestionItem>> {
         return Flowable.fromIterable(items)
-            .map { getUiItem(request, it) }
+            .map { getUiItem(request, it, true) }
             .toList()
             .toMaybe()
     }
 
-    private fun getUiItem(request: QuestionRequest, item: Question): QuestionItem {
+    private fun getUiItem(request: QuestionRequest, item: Question, fresh: Boolean = false): QuestionItem {
         var uiItem: QuestionItem? = mapper.getUiItem(item.id)
         if (uiItem == null) {
             uiItem = QuestionItem.getItem(item)
             mapper.putUiItem(item.id, uiItem)
         }
         uiItem.item = item
-        uiItem.point = mapper.getPoint(item, uiItem.given, pointMapper, pointRepo)
-        adjustFavorite(item, uiItem)
+        if (fresh) {
+            uiItem.given = null
+        } else {
+            uiItem.point = mapper.getPoint(item, uiItem.given, pointMapper, pointRepo)
+            adjustFavorite(item, uiItem)
+        }
         return uiItem
     }
 

@@ -20,66 +20,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/material_grey300">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/layout_top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include
-                    android:id="@+id/layout_top_status"
-                    layout="@layout/content_top_status"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-
-            <cz.kinst.jakub.view.StatefulLayout
-                android:id="@+id/stateful"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/layout_top">
+                android:layout_gravity="top"
+                android:background="@color/material_grey300">
 
-                <FrameLayout
+                <LinearLayout
+                    android:id="@+id/layout_top"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
                     <include
-                        android:id="@+id/layout_recycler"
-                        layout="@layout/content_recycler"
+                        android:id="@+id/layout_top_status"
+                        layout="@layout/content_top_status"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="visible"
-                        auto:items="@{items}" />
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
-                    <include
-                        android:id="@+id/layout_full_word"
-                        layout="@layout/content_full_word"
+                <cz.kinst.jakub.view.StatefulLayout
+                    android:id="@+id/stateful"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/layout_top">
+
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:visibility="gone"
-                        auto:item="@{item}" />
-                </FrameLayout>
-            </cz.kinst.jakub.view.StatefulLayout>
+                        android:layout_height="match_parent">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="@dimen/fab_margin"
-                android:tint="@color/material_white"
-                auto:backgroundTint="@color/colorPrimaryDark"
-                auto:elevation="6dp"
-                auto:rippleColor="@color/material_white"
-                auto:srcCompat="@drawable/ic_search_black_24dp"
-                auto:tint="@color/material_white" />
+                        <include
+                            android:id="@+id/layout_recycler"
+                            layout="@layout/content_recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="visible"
+                            auto:items="@{items}" />
+
+                        <include
+                            android:id="@+id/layout_full_word"
+                            layout="@layout/content_full_word"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:visibility="gone"
+                            auto:item="@{item}" />
+                    </FrameLayout>
+                </cz.kinst.jakub.view.StatefulLayout>
+
+            </RelativeLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/layout_bottom_slide"
@@ -111,6 +103,21 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </RelativeLayout>
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                android:tint="@color/material_white"
+                auto:backgroundTint="@color/colorPrimaryDark"
+                auto:elevation="6dp"
+                auto:rippleColor="@color/material_white"
+                auto:srcCompat="@drawable/ic_search_black_24dp"
+                auto:tint="@color/material_white" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

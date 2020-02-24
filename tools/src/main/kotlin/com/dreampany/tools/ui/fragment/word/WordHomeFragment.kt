@@ -22,6 +22,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.misc.extension.resolveText
+import com.dreampany.framework.misc.extension.toColor
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
@@ -499,8 +500,8 @@ class WordHomeFragment
         langMenu = PowerMenu.Builder(context)
             .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
             .addItemList(langItems)
-            .setSelectedMenuColor(ColorUtil.getColor(context!!, R.color.colorPrimary))
-            .setSelectedTextColor(Color.WHITE)
+            .setSelectedMenuColor(R.color.colorPrimary.toColor(context))
+            .setSelectedTextColor(R.color.material_white.toColor(context))
             .setOnMenuItemClickListener(this)
             .setLifecycleOwner(this)
             .setDividerHeight(1)

@@ -134,7 +134,7 @@ class WordQuizFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_quiz, adapter.getItemOffset())
+                .withOffset(adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller,
@@ -169,10 +169,14 @@ class WordQuizFragment
     fun processMultipleResponse(response: Response<List<QuizItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(state = result.state, action =  result.action, loading =  result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(state =  result.state,  action = result.action, error = result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<QuizItem>>
             processSuccess(result.state, result.action, result.data)
@@ -184,7 +188,7 @@ class WordQuizFragment
         adapter.addItems(items)
 
         ex.postToUi(Runnable {
-            vm.updateUiState( state = state, action =  action, uiState =  UiState.EXTRA)
+            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
     }
 

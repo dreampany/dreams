@@ -4,36 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_3sdp"
+        auto:cardCornerRadius="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/_2sdp">
+        auto:elevation="@dimen/_4sdp">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="@dimen/_10sdp">
+            android:padding="@dimen/_6sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_icon"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 tools:src="@drawable/ic_favorite_black_24dp" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_20sdp"
                 android:textColor="@color/material_grey900"
-                android:textSize="@dimen/_18ssp"
+                android:textSize="@dimen/_16ssp"
                 auto:fontFamily="@font/roboto_slab_bold"
                 tools:text="@string/title" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

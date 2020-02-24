@@ -27,17 +27,12 @@ import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentCountriesBinding
-import com.dreampany.tools.databinding.FragmentServersBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.CountryAdapter
-import com.dreampany.tools.ui.adapter.ServerAdapter
 import com.dreampany.tools.ui.misc.CountryRequest
-import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.CountryItem
-import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.vpn.CountryViewModel
-import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -58,9 +53,9 @@ class CountriesFragment
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
-    internal lateinit var mapper: CountryMapper
-    @Inject
     internal lateinit var session: SessionManager
+    @Inject
+    internal lateinit var mapper: CountryMapper
 
     private lateinit var bind: FragmentCountriesBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -85,6 +80,7 @@ class CountriesFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
+        session.track()
     }
 
     override fun onStopUi() {

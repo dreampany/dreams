@@ -6,22 +6,19 @@ import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
-import com.dreampany.framework.misc.extension.invisible
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.misc.extension.visible
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.NumberUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
-import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.databinding.ContentServerSummaryBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -50,6 +47,8 @@ class VpnHomeFragment
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
+    internal lateinit var session: SessionManager
+    @Inject
     internal lateinit var vpn: VpnManager
     @Inject
     internal lateinit var mapper: ServerMapper
@@ -60,8 +59,6 @@ class VpnHomeFragment
     private lateinit var bindServer: ContentServerSummaryBinding
 
     private lateinit var vm: ServerViewModel
-
-    //private var server: Server? = null
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_vpn_home
@@ -90,10 +87,11 @@ class VpnHomeFragment
         vpn.setCallback(this)
         vm.updateUiState(uiState = UiState.EMPTY)
         request(state = State.RANDOM, single = true, progress = true)
+        session.track()
     }
 
     override fun onStopUi() {
-
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onResume() {
@@ -306,7 +304,6 @@ class VpnHomeFragment
     private fun processSingleSuccess(state: State, action: Action, uiItem: ServerItem) {
         Timber.v("Result Single Server[%s]", uiItem.item.id)
         bind.setItem(uiItem)
-        //server = uiItem.item
         resolveUi(uiItem)
         vm.updateUiState(uiState = UiState.CONTENT)
 
@@ -424,20 +421,20 @@ class VpnHomeFragment
     }
 
     private fun request(
-        id: String? = Constants.Default.NULL,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
-        progress: Boolean = Constants.Default.BOOLEAN
+        progress: Boolean = Constants.Default.BOOLEAN,
+        id: String? = Constants.Default.NULL
     ) {
         val request = ServerRequest(
-            id = id,
             type = Type.SERVER,
             subtype = Subtype.DEFAULT,
             state = state,
             action = action,
             single = single,
-            progress = progress
+            progress = progress,
+            id = id
         )
         vm.request(request)
     }

@@ -141,7 +141,7 @@ class ServerRepository
         return Maybe.create { emitter ->
             var result: List<Server>? = null
             var cache = mapper.getServer()
-            if (mapper.isExpired() /*|| cache == null*/) {
+            if (mapper.isExpired() || cache == null) {
                 result = remote.getItems()
             }
             if (emitter.isDisposed) return@create
@@ -199,7 +199,11 @@ class ServerRepository
                 }
             }
             if (!parts.isNullOrEmpty()) {
-                return parts.random()
+                return parts.sortedWith(object :Comparator<Server> {
+                    override fun compare(left: Server, right: Server): Int {
+                        return right.speed - left.speed
+                    }
+                }).first()
             }
             copy.removeAll(parts)
         }

@@ -100,23 +100,27 @@ class ServerViewModel
             .backToMain(requestUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =true)
+                    postProgress(state = request.state, action = request.action, loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(state = request.state,
+                postResult(
+                    state = request.state,
                     action = request.action,
-                    data = result)
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(state = request.state,
+                postFailures(
+                    state = request.state,
                     action = request.action,
-                    error = MultiException(error, ExtraException()))
+                    error = MultiException(error, ExtraException())
+                )
             })
         addSingleSubscription(disposable)
     }
@@ -135,18 +139,22 @@ class ServerViewModel
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(state = request.state,
+                postResult(
+                    state = request.state,
                     action = request.action,
-                    data =result)
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(state = request.state,
+                postFailures(
+                    state = request.state,
                     action = request.action,
-                    error = MultiException(error, ExtraException()))
+                    error = MultiException(error, ExtraException())
+                )
             })
         addMultipleSubscription(disposable)
     }
@@ -169,8 +177,8 @@ class ServerViewModel
     }
 
     private fun requestItemsRx(request: ServerRequest): Maybe<List<Server>> {
-        if (request.id != null) {
-            return repo.getServersRx(request.id!!)
+        request.id?.run {
+            return repo.getServersRx(this)
         }
         return repo.getItemsRx(request.limit)
     }
@@ -218,7 +226,10 @@ class ServerViewModel
         }
     }
 
-    private fun getUiItemsOfStoresRx(request: ServerRequest, items: List<Store>): Maybe<List<ServerItem>> {
+    private fun getUiItemsOfStoresRx(
+        request: ServerRequest,
+        items: List<Store>
+    ): Maybe<List<ServerItem>> {
         return Flowable.fromIterable(items)
             .map { getUiItem(request, it) }
             .toList()

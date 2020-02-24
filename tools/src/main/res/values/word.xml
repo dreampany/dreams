@@ -15,10 +15,14 @@
 
     <string name="quiz">Quiz</string>
     <string name="play_quiz">Play Quiz</string>
+    <string name="solve_quiz">Solve Quiz</string>
     <string name="play_synonym_quiz">Play Synonym Quiz</string>
     <string name="play_antonym_quiz">Play Antonym Quiz</string>
     <string name="synonym_quiz">Synonym Quiz</string>
     <string name="antonym_quiz">Antonym Quiz</string>
+
+    <string name="synonym">Synonym</string>
+    <string name="antonym">Antonym</string>
 
     <string name="notify_title_word_sync">New Word</string>
     <string name="notify_word_translation_format" formatted="false">%s (%s)</string>

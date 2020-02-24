@@ -10,6 +10,7 @@ import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BasicGridItem
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
@@ -35,6 +36,7 @@ import com.dreampany.language.Language
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.word.Definition
 import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.model.word.Quiz
 import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.WordPref
@@ -44,10 +46,12 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.ui.misc.WordRequest
+import com.dreampany.tools.ui.model.word.QuizItem
 import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.ui.vm.LoaderViewModel
 import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
+import com.gaurav.gesto.OnGestureListener
 import com.klinker.android.link_builder.Link
 import com.skydoves.balloon.*
 import com.skydoves.powermenu.MenuAnimation
@@ -104,7 +108,7 @@ class WordHomeFragment
 
     private val langItems = ArrayList<PowerMenuItem>()
     private var langMenu: PowerMenu? = null
-    private val sheetItems = ArrayList<BasicGridItem>()
+    private val sheetItems = arrayListOf<BasicGridItem>()
 
     private var balloon: Balloon? = null
     private var clickedView: View? = null
@@ -392,16 +396,16 @@ class WordHomeFragment
         }
         sheetItems.add(
             BasicGridItem(
-                R.drawable.ic_play_arrow_black_24dp,
-                getString(R.string.play_quiz)
+                R.drawable.ic_play_circle_filled_black_24dp,
+                getString(R.string.synonym)
             )
         )
-/*        sheetItems.add(
+        sheetItems.add(
             BasicGridItem(
-                R.drawable.ic_play_arrow_black_24dp,
-                getString(R.string.antonym_quiz)
+                R.drawable.ic_play_circle_filled_black_24dp,
+                getString(R.string.antonym)
             )
-        )*/
+        )
     }
 
     private fun initUi() {
@@ -437,7 +441,17 @@ class WordHomeFragment
         bindWord.buttonLanguage.setOnClickListener(this)
         bind.fab.setOnClickListener(this)
         bindYandex.textYandexPowered.setOnClickListener(this)
-        bind.layoutBottomSlide.setOnClickListener(this)
+        //bind.layoutBottomSlide.setOnClickListener(this)
+
+        bind.layoutBottomSlide.setOnTouchListener(object : OnGestureListener(context!!) {
+            override fun onClick() {
+                openOptionSheet()
+            }
+
+            override fun onSwipeTop() {
+                openOptionSheet()
+            }
+        })
 
         vm = ViewModelProvider(this, factory).get(WordViewModel::class.java)
         loaderVm = ViewModelProvider(this, factory).get(LoaderViewModel::class.java)
@@ -832,8 +846,9 @@ class WordHomeFragment
     }
 
     private fun openOptionSheet() {
-        MaterialDialog(context!!, BottomSheet()).show {
-            gridItems(sheetItems) { _, index, item ->
+        MaterialDialog(context!!, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            cornerRadius(res = R.dimen._10sdp)
+            gridItems(items = sheetItems) { _, index, item ->
                 processSheetOption(index, item)
             }
 
@@ -843,7 +858,10 @@ class WordHomeFragment
     private fun processSheetOption(index: Int, item: BasicGridItem) {
         when (index) {
             0 -> {
-                openPlayUi(Subtype.RELATED)
+                openQuizUi(Subtype.SYNONYM)
+            }
+            1 -> {
+                openQuizUi(Subtype.ANTONYM)
             }
         }
     }
@@ -936,6 +954,14 @@ class WordHomeFragment
             state = State.HOME
         )
         openActivity(ToolsActivity::class.java, task, Constants.RequestCode.QUIZ)
+    }
+
+    private fun openQuizUi(subtype: Subtype) {
+        var task: UiTask<Quiz> = UiTask<Quiz>(
+            type = Type.QUIZ,
+            subtype = subtype
+        )
+        openActivity(ToolsActivity::class.java, task)
     }
 
     private fun request(

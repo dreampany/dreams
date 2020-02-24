@@ -77,8 +77,8 @@
                 android:id="@+id/layout_bottom_slide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom|center"
                 android:layout_marginBottom="@dimen/_3sdp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-                    android:text="@string/play_quiz"
+                    android:text="@string/solve_quiz"
                     android:textColor="@color/material_grey800"
                     android:textSize="@dimen/_10ssp"
                     auto:fontFamily="@font/roboto_slab_bold" />

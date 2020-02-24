@@ -106,17 +106,25 @@ class RelatedQuizFragment
         subtype = uiTask.subtype
         initUi()
         initRecycler()
-        request(
-            state = State.DEFAULT,
-            resolve = State.PLAYED,
-            action = Action.GET,
-            single = true,
-            progress = true
-        )
+        onRefresh()
     }
 
     override fun onStopUi() {
         vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+    }
+
+    override fun onRefresh() {
+        if (adapter.isEmpty) {
+            request(
+                state = State.DEFAULT,
+                resolve = State.PLAYED,
+                action = Action.GET,
+                single = true,
+                progress = true
+            )
+        } else {
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        }
     }
 
     override fun onClick(v: View) {

@@ -14,7 +14,7 @@ class QuestionAdapter(listener: Any? = null) : SmartAdapter<QuestionItem>(listen
 
     companion object {
         private val SPAN_COUNT = 2
-        private val ITEM_OFFSET = 4
+        private val ITEM_OFFSET = 6
     }
 
 

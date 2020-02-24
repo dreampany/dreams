@@ -594,13 +594,15 @@ class WordHomeFragment
     private fun processFabAction() {
         if (searchView.isSearchOpen()) {
             searchView.clearFocus()
-            request(
-                action = Action.SEARCH,
-                single = true,
-                progress = true,
-                id = bind.item?.item?.id,
-                history = true
-            )
+            bind.item?.item?.id?.run {
+                request(
+                    action = Action.SEARCH,
+                    single = true,
+                    progress = true,
+                    id = this,
+                    history = true
+                )
+            }
             return
         }
         openOcr()

@@ -71,19 +71,19 @@ class QuestionHomeFragment
         bindQuestion = bind.layoutQuestionHome
 
         bindQuestion.spinnerCategory.apply {
-            lifecycleOwner = this@QuestionHomeFragment
+            //lifecycleOwner = this@QuestionHomeFragment
         }
 
         bindQuestion.spinnerType.apply {
-            lifecycleOwner = this@QuestionHomeFragment
+            //lifecycleOwner = this@QuestionHomeFragment
         }
 
         bindQuestion.spinnerDifficult.apply {
-            lifecycleOwner = this@QuestionHomeFragment
+            //lifecycleOwner = this@QuestionHomeFragment
         }
 
         bindQuestion.spinnerLimit.apply {
-            lifecycleOwner = this@QuestionHomeFragment
+            //lifecycleOwner = this@QuestionHomeFragment
         }
 
         bind.fab.setOnSafeClickListener {

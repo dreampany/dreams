@@ -110,7 +110,7 @@ class WordQuizFragment
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty, null).apply {
+            LayoutInflater.from(context).inflate(R.layout.content_empty, null).apply {
                 //setOnClickListener(this@WordQui)
             }
         )

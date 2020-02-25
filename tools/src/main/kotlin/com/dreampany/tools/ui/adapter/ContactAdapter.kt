@@ -14,6 +14,19 @@ import java.util.*
  */
 class ContactAdapter (listener: Any? = null) : SmartAdapter<ContactItem>(listener) {
 
+    companion object {
+        private val SPAN_COUNT = 2
+        private val ITEM_OFFSET = 4
+    }
+
+    fun getSpanCount(): Int {
+        return SPAN_COUNT
+    }
+
+    fun getItemOffset(): Int {
+        return ITEM_OFFSET
+    }
+
     override fun addItems(items: List<ContactItem>): Boolean {
         val comparator: Comparator<IFlexible<*>> = Constants.Comparators.Block.getUiComparator()
         as Comparator<IFlexible<*>>

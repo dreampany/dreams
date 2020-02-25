@@ -18,7 +18,7 @@ import com.dreampany.tools.ui.fragment.AboutFragment
 import com.dreampany.tools.ui.fragment.LicenseFragment
 import com.dreampany.tools.ui.fragment.SettingsFragment
 import com.dreampany.tools.ui.fragment.app.AppHomeFragment
-import com.dreampany.tools.ui.fragment.block.BlockHomeFragment
+import com.dreampany.tools.ui.fragment.block.CallBlockHomeFragment
 import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
@@ -71,7 +71,7 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     @Inject
     internal lateinit var cryptoHomeProvider: Lazy<CryptoHomeFragment>
     @Inject
-    internal lateinit var blockHomeProvider: Lazy<BlockHomeFragment>
+    internal lateinit var callBlockHomeProvider: Lazy<CallBlockHomeFragment>
     @Inject
     internal lateinit var resumeHomeProvider: Lazy<ResumeHomeFragment>
 
@@ -373,8 +373,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
             Type.BLOCK -> {
                 if (subtype == Subtype.DEFAULT) {
                     commitFragment(
-                        BlockHomeFragment::class.java,
-                        blockHomeProvider,
+                        CallBlockHomeFragment::class.java,
+                        callBlockHomeProvider,
                         R.id.layout,
                         uiTask
                     )

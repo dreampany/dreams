@@ -252,7 +252,7 @@ class VpnHomeFragment
         )
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty, null)
+            LayoutInflater.from(context).inflate(R.layout.content_empty, null)
         )
 
         vm = ViewModelProvider(this, factory).get(ServerViewModel::class.java)

@@ -19,13 +19,12 @@ class ServerAdapter(listener: Any? = null) : SmartAdapter<ServerItem>(listener) 
     init {
         qualityComparator = QualityComparator()
     }
+    var playingStationId: String = Constants.Default.STRING
 
     companion object {
         private val SPAN_COUNT = 2
         private val ITEM_OFFSET = 4
     }
-
-    var playingStationId: String = Constants.Default.STRING
 
     fun getSpanCount(): Int {
         return SPAN_COUNT

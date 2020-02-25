@@ -177,6 +177,24 @@ class Constants {
         }
     }
 
+    object Orders {
+        fun getOrder(type: Type): Int {
+            when (type) {
+                Type.VPN -> return 1
+                Type.CRYPTO -> return 2
+                Type.RESUME -> return 3
+                Type.RADIO -> return 4
+                Type.APP -> return 5
+                Type.NOTE -> return 6
+                Type.WORD -> return 7
+                Type.ENGLISH -> return 8
+                Type.QUESTION -> return 9
+                Type.BLOCK -> return 10
+                else -> return Int.MAX_VALUE
+            }
+        }
+    }
+
     object Time {
         val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
         val SERVER = TimeUnit.DAYS.toMillis(1)
@@ -787,23 +805,6 @@ class Constants {
 
     object File {
         const val BYTE_ARRAY_SIZE = 4096
-    }
-
-    object Orders {
-        fun getOrder(type: Type): Int {
-            when (type) {
-                Type.VPN -> return 1
-                Type.CRYPTO -> return 2
-                Type.RESUME -> return 3
-                Type.RADIO -> return 4
-                Type.APP -> return 5
-                Type.NOTE -> return 6
-                Type.WORD -> return 7
-                Type.ENGLISH -> return 8
-                Type.QUESTION -> return 9
-                else -> return Int.MAX_VALUE
-            }
-        }
     }
 
     object Extension {

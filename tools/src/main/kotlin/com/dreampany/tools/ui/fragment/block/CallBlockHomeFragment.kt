@@ -2,15 +2,12 @@ package com.dreampany.tools.ui.fragment.block
 
 import android.Manifest
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.afollestad.assent.Permission
-import com.afollestad.assent.runWithPermissions
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.dreampany.framework.data.enums.Action
@@ -19,18 +16,23 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.inflate
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
-import com.dreampany.framework.util.*
+import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.NumberUtil
+import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.BlockType
+import com.dreampany.tools.data.enums.CallBlockType
 import com.dreampany.tools.data.source.pref.BlockPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
-import com.dreampany.tools.databinding.FragmentBlockHomeBinding
+import com.dreampany.tools.databinding.FragmentCallBlockHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ContactAdapter
 import com.dreampany.tools.ui.misc.ContactRequest
@@ -38,11 +40,6 @@ import com.dreampany.tools.ui.model.ContactItem
 import com.dreampany.tools.ui.vm.ContactViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -57,16 +54,16 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class BlockHomeFragment
+class CallBlockHomeFragment
 @Inject constructor() : BaseMenuFragment(),
     SmartAdapter.OnUiItemClickListener<ContactItem, Action> {
 
     @Inject
-    internal lateinit var blockPref: BlockPref
-    @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var blockPref: BlockPref
 
-    private lateinit var bind: FragmentBlockHomeBinding
+    private lateinit var bind: FragmentCallBlockHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
@@ -76,7 +73,7 @@ class BlockHomeFragment
     private lateinit var vm: ContactViewModel
     private lateinit var adapter: ContactAdapter
 
-    val REQUIRED_PERMISSIONS = listOf(
+    private val REQUIRED_PERMISSIONS = listOf(
         Manifest.permission.READ_PHONE_STATE,
         Manifest.permission.ANSWER_PHONE_CALLS,
         /*Manifest.permission.READ_CALL_LOG,*/
@@ -84,7 +81,7 @@ class BlockHomeFragment
     )
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_block_home
+        return R.layout.fragment_call_block_home
     }
 
     override fun getMenuId(): Int {
@@ -96,7 +93,7 @@ class BlockHomeFragment
     }
 
     override fun getTitleResId(): Int {
-        return R.string.title_feature_block
+        return R.string.title_feature_call_block
     }
 
     override fun getScreen(): String {
@@ -107,15 +104,11 @@ class BlockHomeFragment
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-        val favoriteItem = menu.findItem(R.id.item_favorite)
-        val settingsItem = menu.findItem(R.id.item_settings)
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem, favoriteItem, settingsItem
-        )
+        searchItem.toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_favorite).toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_settings).toTint(context, R.color.material_white)
 
         val activity = getParent()
-
         if (activity is SearchViewCallback) {
             val searchCallback = activity as SearchViewCallback?
             searchView = searchCallback!!.searchView
@@ -179,7 +172,7 @@ class BlockHomeFragment
     }
 
     private fun initUi() {
-        bind = super.binding as FragmentBlockHomeBinding
+        bind = super.binding as FragmentCallBlockHomeBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
 
@@ -188,20 +181,24 @@ class BlockHomeFragment
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
-            LayoutInflater.from(context).inflate(R.layout.item_default, null)
+            context.inflate(R.layout.item_default)
         )
         bind.stateful.setStateView(
             UiState.SEARCH.name,
-            LayoutInflater.from(context).inflate(R.layout.item_search, null)
+            context.inflate(R.layout.item_search)
         )
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty, null)
+            context.inflate(R.layout.content_empty_contacts)?.apply {
+                setOnSafeClickListener {
+
+                }
+            }
         )
 
         vm = ViewModelProvider(this, factory).get(ContactViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
-        vm.observeOutputs(this, Observer { this.processResponse(it) })
+        vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
@@ -215,7 +212,7 @@ class BlockHomeFragment
             bindRecycler.recycler,
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
-                .addItemViewType(R.layout.item_contact, vm.itemOffset)
+                .withOffset(adapter.getItemOffset())
                 .withEdge(true),
             null,
             scroller, null
@@ -238,14 +235,14 @@ class BlockHomeFragment
                 processUiState(response)
             }
             UiState.SEARCH -> bind.stateful.setState(UiState.SEARCH.name)
-            UiState.EMPTY -> bind.stateful.setState(UiState.SEARCH.name)
+            UiState.EMPTY -> bind.stateful.setState(UiState.EMPTY.name)
             UiState.ERROR -> {
             }
             UiState.CONTENT -> bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 
-    private fun processResponse(response: Response<List<ContactItem>>) {
+    private fun processMultipleResponse(response: Response<List<ContactItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
             vm.processProgress(
@@ -334,7 +331,7 @@ class BlockHomeFragment
             action = Action.BLOCK,
             single = true,
             progress = true,
-            blockType = BlockType.EXACT,
+            callBlockType = CallBlockType.EXACT,
             countryCode = countryCode,
             number = number
         )
@@ -364,7 +361,7 @@ class BlockHomeFragment
         limit: Long = Constants.Default.LONG,
         id: String? = Constants.Default.NULL,
         ids: List<String>? = Constants.Default.NULL,
-        blockType: BlockType? = Constants.Default.NULL,
+        callBlockType: CallBlockType? = Constants.Default.NULL,
         countryCode: String = Constants.Default.STRING,
         number: String = Constants.Default.STRING
     ) {
@@ -379,7 +376,7 @@ class BlockHomeFragment
             limit = limit,
             id = id,
             ids = ids,
-            blockType = blockType,
+            blockType = callBlockType,
             countryCode = countryCode,
             phoneNumber = number
         )

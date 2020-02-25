@@ -180,7 +180,7 @@ class ResumeHomeFragment
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty_resume, null).apply {
+            LayoutInflater.from(context).inflate(R.layout.content_empty_resume, null).apply {
                 setOnClickListener(this@ResumeHomeFragment)
             }
         )

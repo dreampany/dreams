@@ -51,7 +51,7 @@ fun Int.dpToPx(dp: Int): Int {
 }
 
 fun Context?.inflate(
-    @LayoutRes resId: Int, parent: ViewGroup?,
+    @LayoutRes resId: Int, parent: ViewGroup? = null,
     attachToRoot: Boolean = false
 ): View? {
     if (this == null || parent == null) return null

@@ -9,7 +9,6 @@ import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
@@ -183,7 +182,7 @@ class RelatedQuizFragment
         )
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty, null)
+            LayoutInflater.from(context).inflate(R.layout.content_empty, null)
         )
 
         vm = ViewModelProvider(this, factory).get(RelatedQuizViewModel::class.java)

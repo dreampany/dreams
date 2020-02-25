@@ -10,6 +10,6 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class BlockType : Parcelable {
+enum class CallBlockType : Parcelable {
      EXACT, PREFIX
 }

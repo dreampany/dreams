@@ -178,7 +178,7 @@ public class FavoritesFragment extends BaseMenuFragment implements SmartAdapter.
     private void initView() {
         setTitle(R.string.favourite_words);
         binding = (FragmentFavoritesBinding) super.binding;
-        binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.item_empty, null));
+        binding.stateful.setStateView(EMPTY, LayoutInflater.from(getContext()).inflate(R.layout.content_empty, null));
         ViewUtil.setText(this, R.id.text_empty, R.string.empty_favourite);
         refresh = binding.layoutRefresh;
         recycler = binding.layoutRecycler.recycler;

@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.fragment.word
 
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.view.*
@@ -22,6 +21,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.inflate
 import com.dreampany.framework.misc.extension.resolveText
 import com.dreampany.framework.misc.extension.toColor
 import com.dreampany.framework.misc.extension.toTint
@@ -46,7 +46,6 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.misc.LoadRequest
 import com.dreampany.tools.ui.misc.WordRequest
-import com.dreampany.tools.ui.model.word.QuizItem
 import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.ui.vm.LoaderViewModel
 import com.dreampany.tools.ui.vm.word.WordViewModel
@@ -182,13 +181,6 @@ class WordHomeFragment
         super.onResume()
         initLanguageUi()
         AndroidUtil.initTts(context)
-/*        request(
-            id = bind.item?.item?.id,
-            recent = true,
-            action = Action.GET,
-            single = true,
-            progress = true
-        )*/
     }
 
     override fun onPause() {
@@ -361,7 +353,6 @@ class WordHomeFragment
     override fun onUiItemLongClick(view: View, item: WordItem, action: Action) {
     }
 
-
     private val request: Runnable = object : Runnable {
         override fun run() {
             if (!queryText.isNullOrEmpty()) {
@@ -420,15 +411,15 @@ class WordHomeFragment
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
-            LayoutInflater.from(context).inflate(R.layout.item_default, null)
+            context.inflate(R.layout.item_default)
         )
         bind.stateful.setStateView(
             UiState.SEARCH.name,
-            LayoutInflater.from(context).inflate(R.layout.item_search, null)
+            context.inflate(R.layout.item_search)
         )
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty_words, null).apply {
+            context.inflate(R.layout.content_empty_words)?.apply {
                 setOnClickListener(this@WordHomeFragment)
             }
         )

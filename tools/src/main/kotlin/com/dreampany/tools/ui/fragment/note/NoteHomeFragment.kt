@@ -20,7 +20,6 @@ import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.misc.NoteRequest
@@ -211,7 +210,7 @@ class NoteHomeFragment
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty_note, null).apply {
+            LayoutInflater.from(context).inflate(R.layout.content_empty_note, null).apply {
                 setOnClickListener(this@NoteHomeFragment)
             }
         )

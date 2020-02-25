@@ -21,8 +21,6 @@ import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.ServerMapper
@@ -38,7 +36,6 @@ import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
-import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
@@ -162,7 +159,7 @@ class ServersFragment
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.item_empty, null).apply {
+            LayoutInflater.from(context).inflate(R.layout.content_empty, null).apply {
                 setOnClickListener(this@ServersFragment)
             }
         )

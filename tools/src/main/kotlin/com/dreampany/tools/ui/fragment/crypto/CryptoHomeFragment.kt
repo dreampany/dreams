@@ -13,6 +13,8 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.misc.extension.inflate
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -48,9 +50,9 @@ class CryptoHomeFragment
 @Inject constructor() : BaseMenuFragment() {
 
     @Inject
-    internal lateinit var cryptoPref: CryptoPref
-    @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var cryptoPref: CryptoPref
 
     private lateinit var bind: FragmentCryptoHomeBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -86,12 +88,9 @@ class CryptoHomeFragment
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-        val favoriteItem = menu.findItem(R.id.item_favorite)
-        val settingsItem = menu.findItem(R.id.item_settings)
-        MenuTint.colorMenuItem(
-            ColorUtil.getColor(context!!, R.color.material_white),
-            null, searchItem, favoriteItem, settingsItem
-        )
+        searchItem.toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_favorite).toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_settings).toTint(context, R.color.material_white)
 
         val activity = getParent()
 
@@ -143,15 +142,15 @@ class CryptoHomeFragment
 
         bind.stateful.setStateView(
             UiState.DEFAULT.name,
-            LayoutInflater.from(context).inflate(R.layout.item_default, null)
+            context.inflate(R.layout.item_default)
         )
         bind.stateful.setStateView(
             UiState.SEARCH.name,
-            LayoutInflater.from(context).inflate(R.layout.item_search, null)
+            context.inflate(R.layout.item_search)
         )
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            LayoutInflater.from(context).inflate(R.layout.content_empty, null)
+            context.inflate(R.layout.content_empty_crypto)
         )
 
         ViewUtil.setSwipe(bind.layoutRefresh, this)
@@ -214,10 +213,14 @@ class CryptoHomeFragment
     private fun processResponse(response: Response<List<CoinItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(state = result.state, action =  result.action, loading =  result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(state =  result.state,  action = result.action, error = result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<CoinItem>>
             processSuccess(result.state, result.action, result.data)
@@ -227,10 +230,14 @@ class CryptoHomeFragment
     private fun processSingleResponse(response: Response<CoinItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(state = result.state, action =  result.action, loading =  result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(state =  result.state,  action = result.action, error = result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<CoinItem>
             processSingleSuccess(result.state, result.action, result.data)
@@ -244,7 +251,7 @@ class CryptoHomeFragment
         val order = cryptoPref.getOrder()
         adapter.addItems(currency, sort, order, items)
         ex.postToUi(Runnable {
-            vm.updateUiState(state = state, action =  action, uiState =  UiState.EXTRA)
+            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
     }
 
@@ -267,7 +274,7 @@ class CryptoHomeFragment
         val visibles = adapter.getVisibleItems()
         if (visibles.isNullOrEmpty()) return
         val ids = arrayListOf<String>()
-        visibles.forEach {ci->
+        visibles.forEach { ci ->
             ids.add(ci.item.id)
         }
         request(

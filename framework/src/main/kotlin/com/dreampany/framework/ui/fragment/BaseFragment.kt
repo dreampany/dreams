@@ -91,6 +91,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         return childInjector
     }
 
+    open fun getScreen(): String {
+        return javaClass.simpleName
+    }
+
     open fun getLayoutId(): Int {
         return Constants.Default.INT
     }
@@ -123,10 +127,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
 
     open fun getCurrentFragment(): BaseFragment? {
         return this
-    }
-
-    open fun getScreen(): String {
-        return javaClass.simpleName
     }
 
     protected abstract fun onStartUi(state: Bundle?)

@@ -20,13 +20,17 @@ import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.ui.model.CoinItem
 import com.dreampany.tools.ui.model.ContactItem
 import com.google.common.collect.Maps
+import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.Comparator
+import kotlin.collections.HashMap
 
 
 /**
- * Created by Hawladar Roman on 29/5/18.
- * Dreampany Ltd
- * dreampanymail@gmail.com
+ * Created by roman on 2/26/20
+ * Copyright (c) 2020 bjit. All rights reserved.
+ * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 class Constants {
 
@@ -35,64 +39,85 @@ class Constants {
         fun database(name: String, type: String): String = Constants.database(name, type)
 
         fun lastAppId(context: Context?): String = Constants.lastAppId(context)
-        fun more(context: Context): String = Constants.more(context)
-        fun about(context: Context): String = Constants.about(context)
-        fun settings(context: Context): String = Constants.settings(context)
-        fun license(context: Context): String = Constants.license(context)
+        fun more(context: Context?): String = Constants.more(context)
+        fun about(context: Context?): String = Constants.about(context)
+        fun settings(context: Context?): String = Constants.settings(context)
+        fun license(context: Context?): String = Constants.license(context)
 
-        fun app(context: Context): String =
+        fun app(context: Context?): String =
             lastAppId(context) + Sep.HYPHEN + TextUtil.getString(context, R.string.app_name)
 
-        fun launch(context: Context): String = Constants.launch(context)
-        fun navigation(context: Context): String = Constants.navigation(context)
-        fun tools(context: Context): String = Constants.tools(context)
+        fun launch(context: Context?): String = Constants.launch(context)
+        fun navigation(context: Context?): String = Constants.navigation(context)
+        fun tools(context: Context?): String = Constants.tools(context)
 
-        fun home(context: Context): String = lastAppId(context) + Sep.HYPHEN + "home"
-        fun appHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "app-home"
-        fun noteHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "note-home"
-        fun wordHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-home"
-        fun vpnHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "vpn-home"
-        fun radioHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "radio-home"
-        fun cryptoHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "crypto-home"
-        fun blockHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "block-home"
-        fun resumeHome(context: Context): String = lastAppId(context) + Sep.HYPHEN + "resume-home"
+        /* feature */
+        fun home(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "home"
 
-        fun favoriteNotes(context: Context): String =
+        /* app */
+        fun appHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "app-home"
+
+        /* crypto */
+        fun cryptoHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-home"
+
+        fun cryptoInfo(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-info"
+
+        /* note */
+        fun noteHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "note-home"
+
+        fun editNote(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "edit-note"
+        fun favoriteNotes(context: Context?): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-notes"
 
-        fun favoriteServers(context: Context): String =
-            lastAppId(context) + Sep.HYPHEN + "favorite-servers"
-
-        fun editNote(context: Context): String = lastAppId(context) + Sep.HYPHEN + "edit-note"
+        /* resume */
+        fun resumeHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "resume-home"
 
         fun resume(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "resume"
 
-        fun word(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word"
-        fun favoriteWords(context: Context): String =
+        /* word */
+        fun wordHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "word-home"
+
+        fun word(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "word"
+        fun favoriteWords(context: Context?): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-words"
 
-        fun wordVision(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-vision"
-        fun wordQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "word-quiz"
-        fun relatedQuiz(context: Context): String = lastAppId(context) + Sep.HYPHEN + "related-quiz"
+        fun wordVision(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "word-vision"
+        fun wordQuiz(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "word-quiz"
+        fun relatedQuiz(context: Context?): String =
+            lastAppId(context) + Sep.HYPHEN + "related-quiz"
 
-        fun radioStations(context: Context, state: State): String =
-            lastAppId(context) + Sep.HYPHEN + "${state.name.toLowerCase()}-related-quiz"
+        /* radio */
+        fun radioHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "radio-home"
 
-        fun favoriteStations(context: Context): String =
+        fun radioStations(context: Context?, state: State): String =
+            lastAppId(context) + Sep.HYPHEN + "${state.name.toLowerCase(Locale.getDefault())}-related-quiz"
+
+        fun favoriteStations(context: Context?): String =
             lastAppId(context) + Sep.HYPHEN + "favorite-stations"
 
+        /* vpn */
+        fun vpnHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "vpn-home"
 
-        fun vpnServers(context: Context): String =
+        fun favoriteServers(context: Context?): String =
+            lastAppId(context) + Sep.HYPHEN + "favorite-servers"
+
+        fun vpnServers(context: Context?): String =
             lastAppId(context) + Sep.HYPHEN + "vpn-servers"
 
-        fun vpnCountries(context: Context): String =
+        fun vpnCountries(context: Context?): String =
             lastAppId(context) + Sep.HYPHEN + "vpn-countries"
+
+        /* block */
+        fun blockHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "block-home"
 
         fun isOn(context: Context, screen: String, type: Type): Boolean {
             when (type) {
                 Type.WORD -> {
                     when (screen) {
-                        wordHome(context), word(context), favoriteWords(context), wordVision(context),
+                        wordHome(context),
+                        word(context),
+                        favoriteWords(context),
+                        wordVision(context),
                         wordQuiz(context),
                         relatedQuiz(context) -> {
                             return true
@@ -905,7 +930,7 @@ class Constants {
         object Crypto {
             private val comparators: HashMap<Pair<CoinSort, Order>, Comparator<Coin>> =
                 Maps.newHashMap()
-            private val uiComparators: HashMap<Pair<CoinSort, Order>, Comparator<CoinItem>> =
+            private val UI_COMPARATORS: HashMap<Pair<CoinSort, Order>, Comparator<CoinItem>> =
                 Maps.newHashMap()
 
             fun getComparator(
@@ -926,10 +951,10 @@ class Constants {
                 order: Order
             ): Comparator<CoinItem> {
                 val pair = Pair(sort, order)
-                if (!uiComparators.containsKey(pair)) {
-                    uiComparators.put(pair, createUiComparator(currency, sort, order))
+                if (!UI_COMPARATORS.containsKey(pair)) {
+                    UI_COMPARATORS.put(pair, createUiComparator(currency, sort, order))
                 }
-                return uiComparators.get(pair)!!
+                return UI_COMPARATORS.get(pair)!!
             }
 
             private fun createComparator(

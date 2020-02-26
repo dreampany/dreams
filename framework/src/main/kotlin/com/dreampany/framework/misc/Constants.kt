@@ -29,14 +29,14 @@ class Constants {
         fun lastAppId(context: Context?): String =
             AndroidUtil.getLastApplicationId(context) ?: Constants.Default.STRING
 
-        fun more(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
-        fun about(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT
-        fun settings(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.SETTINGS
-        fun license(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.LICENSE
-        fun launch(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.LAUNCH
-        fun navigation(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.NAVIGATION
-        fun tools(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.TOOLS
-        fun web(context: Context): String = lastAppId(context) + Sep.HYPHEN + Tag.WEB
+        fun more(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.MORE
+        fun about(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.ABOUT
+        fun settings(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.SETTINGS
+        fun license(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.LICENSE
+        fun launch(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.LAUNCH
+        fun navigation(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.NAVIGATION
+        fun tools(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.TOOLS
+        fun web(context: Context?): String = lastAppId(context) + Sep.HYPHEN + Tag.WEB
     }
 
     object Event {

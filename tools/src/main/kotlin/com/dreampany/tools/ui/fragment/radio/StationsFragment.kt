@@ -91,7 +91,7 @@ class StationsFragment
 
     override fun getScreen(): String {
         takeState()
-        return Constants.radioStations(context!!, state!!)
+        return Constants.radioStations(context, state!!)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {

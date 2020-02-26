@@ -19,12 +19,12 @@ class StationAdapter(listener: Any? = null) : SmartAdapter<StationItem>(listener
         clickCountComparator = ClickCountComparator()
     }
 
+    var playingStationId: String = Constants.Default.STRING
+
     companion object {
         private val SPAN_COUNT = 2
         private val ITEM_OFFSET = 4
     }
-
-    var playingStationId: String = Constants.Default.STRING
 
     fun getSpanCount(): Int {
         return StationAdapter.SPAN_COUNT

@@ -568,7 +568,7 @@ class WordHomeFragment
             vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<WordItem>>
-            processSuccess(result.state, result.action, result.data)
+            processMultipleSuccess(result.state, result.action, result.data)
         }
     }
 
@@ -624,7 +624,7 @@ class WordHomeFragment
         }
     }
 
-    private fun processSuccess(state: State, action: Action, items: List<WordItem>) {
+    private fun processMultipleSuccess(state: State, action: Action, items: List<WordItem>) {
         Timber.v("Result Action[%s] Size[%s]", action.name, items.size)
 
         if (state == State.HISTORY) {

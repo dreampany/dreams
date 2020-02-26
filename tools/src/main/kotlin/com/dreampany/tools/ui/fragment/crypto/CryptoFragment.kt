@@ -3,7 +3,6 @@ package com.dreampany.tools.ui.fragment.crypto
 import android.os.Bundle
 import com.dreampany.framework.misc.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseFragment
-import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.fragment.BaseStateFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R

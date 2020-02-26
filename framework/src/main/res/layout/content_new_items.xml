@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         auto:cardBackgroundColor="@color/colorAccent"
@@ -20,7 +20,7 @@
             android:paddingStart="18dp"
             android:paddingTop="10dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/buttonNewItems"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,6 +31,6 @@
                 auto:fontFamily="@font/roboto_slab_bold" />
 
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </layout>

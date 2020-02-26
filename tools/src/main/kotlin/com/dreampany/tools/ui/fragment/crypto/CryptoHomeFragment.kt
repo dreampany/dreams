@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.fragment.crypto
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import androidx.databinding.ObservableArrayList
@@ -19,8 +18,6 @@ import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
-import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.MenuTint
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.CryptoPref
@@ -28,7 +25,7 @@ import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentCryptoHomeBinding
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.CoinAdapter
+import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
 import com.dreampany.tools.ui.misc.CoinRequest
 import com.dreampany.tools.ui.model.CoinItem
 import com.dreampany.tools.ui.vm.CoinViewModel

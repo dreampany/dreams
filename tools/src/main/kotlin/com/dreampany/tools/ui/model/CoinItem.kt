@@ -2,7 +2,6 @@ package com.dreampany.tools.ui.model
 
 import android.text.format.DateUtils
 import android.view.View
-import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +15,11 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.CoinAdapter
+import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
 import com.dreampany.tools.util.CurrencyFormatter
 import com.facebook.drawee.view.SimpleDraweeView
+import com.google.android.material.textview.MaterialTextView
+import com.google.common.base.Objects
 import com.like.LikeButton
 import eu.davidea.flexibleadapter.FlexibleAdapter
 import eu.davidea.flexibleadapter.items.IFlexible
@@ -33,53 +34,90 @@ import java.util.*
  */
 class CoinItem
 private constructor(
-    var formatter: CurrencyFormatter,
+    var type: Type,
     var currency: Currency,
     item: Coin,
+    var formatter: CurrencyFormatter,
     @LayoutRes layoutId: Int = Constants.Default.INT
 ) : BaseItem<CoinItem.ViewHolder, Coin, String>(item, layoutId) {
 
+    enum class Type {
+        ITEM, INFO, QUOTE
+    }
+
     companion object {
         fun getItem(formatter: CurrencyFormatter, currency: Currency, item: Coin): CoinItem {
-            return CoinItem(formatter, currency, item, R.layout.item_coin)
+            return CoinItem(Type.ITEM, currency, item, formatter, R.layout.item_coin)
         }
+
+        fun getInfoItem(formatter: CurrencyFormatter, currency: Currency, item: Coin): CoinItem {
+            return CoinItem(Type.INFO, currency, item, formatter, R.layout.item_coin_info)
+        }
+
+        fun getQuoteItem(formatter: CurrencyFormatter, currency: Currency, item: Coin): CoinItem {
+            return CoinItem(Type.QUOTE, currency, item, formatter, R.layout.item_coin_quote)
+        }
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(item.id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as CoinItem
+        return Objects.equal(this.item.id, item.item.id)
     }
 
     override fun createViewHolder(
         view: View,
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
-    ): CoinItem.ViewHolder {
-        return CoinItem.ViewHolder(formatter, view, adapter)
+    ): ViewHolder {
+        when (type) {
+            Type.ITEM -> return ItemViewHolder(formatter, view, adapter)
+            Type.INFO -> return InfoViewHolder(formatter, view, adapter)
+            Type.QUOTE -> return QuoteViewHolder(formatter, view, adapter)
+            else -> return QuoteViewHolder(formatter, view, adapter)
+        }
     }
 
     override fun filter(constraint: String): Boolean {
         return item.name?.contains(constraint, true) ?: false
     }
 
-    class ViewHolder(val formatter: CurrencyFormatter, view: View, adapter: FlexibleAdapter<*>) :
-        BaseItem.ViewHolder(view, adapter) {
+    abstract class ViewHolder(
+        val formatter: CurrencyFormatter,
+        view: View,
+        val adapter: CoinAdapter
+    ) : BaseItem.ViewHolder(view, adapter) {
 
-        private var adapter: CoinAdapter
+    }
+
+    internal class ItemViewHolder(
+        formatter: CurrencyFormatter,
+        view: View,
+        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
+    ) : ViewHolder(formatter, view, adapter as CoinAdapter) {
+
         private var icon: SimpleDraweeView
-        private var name: AppCompatTextView
-        private var price: AppCompatTextView
-        private var hourChange: AppCompatTextView
-        private  var dayChange: AppCompatTextView
-        private var weekChange: AppCompatTextView
-        private var marketCap: AppCompatTextView
-        private var dayVolume: AppCompatTextView
-        private var lastUpdated: AppCompatTextView
+        private var name: MaterialTextView
+        private var price: MaterialTextView
+        private var hourChange: MaterialTextView
+        private var dayChange: MaterialTextView
+        private var weekChange: MaterialTextView
+        private var marketCap: MaterialTextView
+        private var dayVolume: MaterialTextView
+        private var lastUpdated: MaterialTextView
 
-        private  var buttonFavorite: LikeButton
-        private  var buttonAlert: LikeButton
+        private var buttonFavorite: LikeButton
+        private var buttonAlert: LikeButton
 
         val btcFormat: String
         val positiveChange: Int
         val negativeChange: Int
 
         init {
-            this.adapter = adapter as CoinAdapter
-
             icon = view.findViewById(R.id.image_icon)
             name = view.findViewById(R.id.text_name)
             price = view.findViewById(R.id.text_price)
@@ -105,10 +143,12 @@ private constructor(
             val uiItem = item as CoinItem
             val item = uiItem.item
 
-            val imageUrl = String.format(Locale.ENGLISH, Constants.Api.Crypto.CoinMarketCapImageUrl, item.id)
+            val imageUrl =
+                String.format(Locale.ENGLISH, Constants.Api.Crypto.CoinMarketCapImageUrl, item.id)
             FrescoUtil.loadImage(icon, imageUrl, true)
 
-            val nameText = String.format(Locale.ENGLISH, getString(R.string.full_name), item.symbol, item.name)
+            val nameText =
+                String.format(Locale.ENGLISH, getString(R.string.full_name), item.symbol, item.name)
             name.text = nameText
 
             val currency = uiItem.currency
@@ -148,13 +188,16 @@ private constructor(
 
             ViewUtil.blink(this.price, startColor, endColor)
 
-            val hourChangeColor = if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+            val hourChangeColor =
+                if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
             this.hourChange.setTextColor(ColorUtil.getColor(getContext(), hourChangeColor))
 
-            val dayChangeColor = if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+            val dayChangeColor =
+                if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
             this.dayChange.setTextColor(ColorUtil.getColor(getContext(), dayChangeColor))
 
-            val weekChangeColor = if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+            val weekChangeColor =
+                if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
             this.weekChange.setTextColor(ColorUtil.getColor(getContext(), weekChangeColor))
 
             val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
@@ -169,6 +212,42 @@ private constructor(
 
             //buttonAlert.setLiked(uiItem.alert)
             //buttonAlert.tag = coin
+        }
+    }
+
+    internal class InfoViewHolder(
+        formatter: CurrencyFormatter,
+        view: View,
+        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
+    ) : ViewHolder(formatter, view, adapter as CoinAdapter) {
+
+        init {
+
+        }
+
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
+                bind(position: Int, item: I) {
+            val uiItem = item as CoinItem
+            val item = uiItem.item
+
+        }
+    }
+
+    internal class QuoteViewHolder(
+        formatter: CurrencyFormatter,
+        view: View,
+        adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
+    ) : ViewHolder(formatter, view, adapter as CoinAdapter) {
+
+        init {
+
+        }
+
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
+                bind(position: Int, item: I) {
+            val uiItem = item as CoinItem
+            val item = uiItem.item
+
         }
     }
 }

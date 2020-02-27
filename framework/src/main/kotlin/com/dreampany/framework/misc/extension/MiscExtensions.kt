@@ -52,7 +52,7 @@ fun Context?.inflate(
     @LayoutRes resId: Int, parent: ViewGroup? = null,
     attachToRoot: Boolean = false
 ): View? {
-    if (this == null || parent == null) return null
+    if (this == null) return null
     return LayoutInflater.from(this).inflate(resId, parent, attachToRoot)
 }
 

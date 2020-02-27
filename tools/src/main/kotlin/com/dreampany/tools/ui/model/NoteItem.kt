@@ -105,25 +105,32 @@ private constructor(
             buttonFavorite = view.findViewById(R.id.button_favorite)
 
             view.setOnSafeClickListener {
-                this.adapter.uiItemClickListener?.onUiItemClick(
-                    view = view,
-                    item = this.adapter.getItem(adapterPosition)!!,
-                    action = Action.VIEW
-                )
+                this.adapter.getItem(adapterPosition)?.let {
+                    this.adapter.uiItemClickListener?.onUiItemClick(
+                        view = view,
+                        item = it,
+                        action = Action.VIEW
+                    )
+                }
             }
+
             buttonEdit.setOnSafeClickListener {
-                this.adapter.uiItemClickListener?.onUiItemClick(
-                    view = view,
-                    item = this.adapter.getItem(adapterPosition)!!,
-                    action = Action.EDIT
-                )
+                this.adapter.getItem(adapterPosition)?.let {
+                    this.adapter.uiItemClickListener?.onUiItemClick(
+                        view = view,
+                        item = it,
+                        action = Action.EDIT
+                    )
+                }
             }
             buttonFavorite.setOnSafeClickListener {
-                this.adapter.uiItemClickListener?.onUiItemClick(
-                    view = view,
-                    item = this.adapter.getItem(adapterPosition)!!,
-                    action = Action.FAVORITE
-                )
+                this.adapter.getItem(adapterPosition)?.let {
+                    this.adapter.uiItemClickListener?.onUiItemClick(
+                        view = view,
+                        item = it,
+                        action = Action.FAVORITE
+                    )
+                }
             }
 /*            view.setOnLongClickListener {
                 this.adapter.uiItemClickListener?.onUiItemLongClick(

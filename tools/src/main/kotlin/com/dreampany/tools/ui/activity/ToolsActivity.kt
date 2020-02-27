@@ -19,6 +19,7 @@ import com.dreampany.tools.ui.fragment.LicenseFragment
 import com.dreampany.tools.ui.fragment.SettingsFragment
 import com.dreampany.tools.ui.fragment.app.AppHomeFragment
 import com.dreampany.tools.ui.fragment.block.CallBlockHomeFragment
+import com.dreampany.tools.ui.fragment.crypto.CryptoFragment
 import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
@@ -60,25 +61,31 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var aboutProvider: Lazy<AboutFragment>
     @Inject
     internal lateinit var appHomeProvider: Lazy<AppHomeFragment>
-    @Inject
-    internal lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
-    @Inject
-    internal lateinit var wordHomeProvider: Lazy<WordHomeFragment>
-    @Inject
-    internal lateinit var vpnHomeProvider: Lazy<VpnHomeFragment>
+
     @Inject
     internal lateinit var radioHomeProvider: Lazy<RadioHomeFragment>
-    @Inject
-    internal lateinit var cryptoHomeProvider: Lazy<CryptoHomeFragment>
     @Inject
     internal lateinit var callBlockHomeProvider: Lazy<CallBlockHomeFragment>
     @Inject
     internal lateinit var resumeHomeProvider: Lazy<ResumeHomeFragment>
 
+    /* crypto */
+    @Inject
+    internal lateinit var cryptoHomeProvider: Lazy<CryptoHomeFragment>
+    @Inject
+    internal lateinit var cryptoProvider: Lazy<CryptoFragment>
 
-
+    /* note */
+    @Inject
+    internal lateinit var noteHomeProvider: Lazy<NoteHomeFragment>
     @Inject
     internal lateinit var favoriteNotesProvider: Lazy<FavoriteNotesFragment>
+    @Inject
+    internal lateinit var noteProvider: Lazy<NoteFragment>
+
+    /* word */
+    @Inject
+    internal lateinit var wordHomeProvider: Lazy<WordHomeFragment>
     @Inject
     internal lateinit var wordProvider: Lazy<WordFragment>
     @Inject
@@ -91,8 +98,6 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var relatedQuizProvider: Lazy<RelatedQuizFragment>
     @Inject
     internal lateinit var scanProvider: Lazy<ScanFragment>
-    @Inject
-    internal lateinit var noteProvider: Lazy<NoteFragment>
 
     /* radio */
     @Inject
@@ -105,6 +110,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var resumePreviewProvider: Lazy<ResumePreviewFragment>
 
     /* vpn */
+    @Inject
+    internal lateinit var vpnHomeProvider: Lazy<VpnHomeFragment>
     @Inject
     internal lateinit var serversProvider: Lazy<ServersFragment>
     @Inject
@@ -360,10 +367,19 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                 }
             }
             Type.CRYPTO -> {
-                if (subtype == Subtype.DEFAULT) {
+                if (state == State.HOME) {
                     commitFragment(
                         CryptoHomeFragment::class.java,
                         cryptoHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+                if (action == Action.VIEW) {
+                    commitFragment(
+                        CryptoFragment::class.java,
+                        cryptoProvider,
                         R.id.layout,
                         uiTask
                     )

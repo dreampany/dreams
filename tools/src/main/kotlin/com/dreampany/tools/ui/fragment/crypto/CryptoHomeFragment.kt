@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.fragment.crypto
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,20 +15,26 @@ import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.misc.extension.inflate
 import com.dreampany.framework.misc.extension.toTint
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.callback.SearchViewCallback
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentCryptoHomeBinding
 import com.dreampany.tools.misc.Constants
+import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
 import com.dreampany.tools.ui.misc.CoinRequest
 import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.model.StationItem
 import com.dreampany.tools.ui.vm.CoinViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
 import cz.kinst.jakub.view.StatefulLayout
@@ -44,7 +51,8 @@ import javax.inject.Inject
  */
 @ActivityScope
 class CryptoHomeFragment
-@Inject constructor() : BaseMenuFragment() {
+@Inject constructor() : BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<CoinItem, Action> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -78,7 +86,7 @@ class CryptoHomeFragment
     }
 
     override fun getScreen(): String {
-        return Constants.cryptoHome(context!!)
+        return Constants.cryptoHome(context)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
@@ -132,6 +140,14 @@ class CryptoHomeFragment
         return false
     }
 
+    override fun onUiItemClick(view: View, item: CoinItem, action: Action) {
+        openCoinUi(item.item)
+    }
+
+    override fun onUiItemLongClick(view: View, item: CoinItem, action: Action) {
+
+    }
+
     private fun initUi() {
         bind = super.binding as FragmentCryptoHomeBinding
         bindStatus = bind.layoutTopStatus
@@ -182,6 +198,15 @@ class CryptoHomeFragment
             null,
             scroller, null
         )
+    }
+
+    private fun openCoinUi(coin: Coin) {
+        val task = UiTask<Coin>(
+            type = Type.CRYPTO,
+            action = Action.VIEW,
+            input = coin
+        )
+        openActivity(ToolsActivity::class.java, task, Constants.RequestCode.VIEW)
     }
 
     private fun processUiState(response: Response.UiResponse) {

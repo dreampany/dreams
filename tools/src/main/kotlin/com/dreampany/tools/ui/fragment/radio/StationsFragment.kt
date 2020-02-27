@@ -99,7 +99,7 @@ class StationsFragment
 
         val searchItem = getSearchMenuItem()
         searchItem.toTint(context, R.color.material_white)
-        menu.findItem(R.id.item_favorite).toTint(context, R.color.material_white)
+        findMenuItemById(R.id.item_favorite).toTint(context, R.color.material_white)
     }
 
     override fun onStartUi(state: Bundle?) {

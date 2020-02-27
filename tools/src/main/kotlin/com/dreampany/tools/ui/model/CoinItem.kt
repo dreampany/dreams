@@ -5,6 +5,7 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.extension.gone
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
@@ -138,6 +139,16 @@ private constructor(
             btcFormat = getString(R.string.btc_format)
             positiveChange = R.string.positive_pct_format
             negativeChange = R.string.negative_pct_format
+
+            view.setOnSafeClickListener {
+                this.adapter.getItem(adapterPosition)?.let {
+                    this.adapter.uiItemClickListener?.onUiItemClick(
+                        view = view,
+                        item = it,
+                        action = Action.VIEW
+                    )
+                }
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>

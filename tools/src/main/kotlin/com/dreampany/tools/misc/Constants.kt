@@ -779,11 +779,12 @@ class Constants {
         const val ADD = 1
         const val EDIT = 2
         const val VIEW = 3
-        const val PREVIEW = 4
-        const val SETTINGS = 5
-        const val FAVORITE = 6
-        const val QUIZ = 7
-        const val OCR = 8
+        const val OPEN = 4
+        const val PREVIEW = 5
+        const val SETTINGS = 6
+        const val FAVORITE = 7
+        const val QUIZ = 8
+        const val OCR = 9
     }
 
     object Service {

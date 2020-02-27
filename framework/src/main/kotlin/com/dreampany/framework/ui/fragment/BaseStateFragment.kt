@@ -14,9 +14,10 @@ import timber.log.Timber
 
 
 /**
- * Created by Hawladar Roman on 5/25/2018.
- * BJIT Group
+ * Created by roman on 2/25/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 abstract class BaseStateFragment<T : BaseFragment> : BaseMenuFragment() {
 

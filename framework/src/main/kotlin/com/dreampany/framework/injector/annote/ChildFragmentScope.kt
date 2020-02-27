@@ -1,12 +1,13 @@
-package com.dreampany.framework.misc
+package com.dreampany.framework.injector.annote
 
 import javax.inject.Scope
 
 
 /**
- * Created by Hawladar Roman on 5/23/2018.
- * Dreampany Ltd
- * dreampanymail@gmail.com
+ * Created by roman on 2019-07-09
+ * Copyright (c) 2019 bjit. All rights reserved.
+ * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 @Scope
 @Retention(AnnotationRetention.RUNTIME)

@@ -5,7 +5,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.source.api.PointDataSource
-import com.dreampany.framework.misc.PointAnnote
+import com.dreampany.framework.injector.annote.PointAnnote
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import javax.inject.Inject

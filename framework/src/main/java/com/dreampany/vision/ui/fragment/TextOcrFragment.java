@@ -17,7 +17,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 
-import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.injector.annote.ActivityScope;
 import com.dreampany.framework.ui.fragment.BaseMenuFragment;
 import com.dreampany.framework.util.AndroidUtil;
 import com.dreampany.framework.util.TextUtil;

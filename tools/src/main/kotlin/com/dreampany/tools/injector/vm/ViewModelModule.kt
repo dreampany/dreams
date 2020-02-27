@@ -2,7 +2,7 @@ package com.dreampany.tools.injector.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.framework.misc.ViewModelKey
+import com.dreampany.framework.injector.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.ui.vm.*
 import com.dreampany.tools.ui.vm.note.NoteViewModel

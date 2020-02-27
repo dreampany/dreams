@@ -1,11 +1,12 @@
 package com.dreampany.tools.injector.data
 
 import androidx.core.util.Pair
+import com.dreampany.firebase.RxFirebaseDatabase
 import com.dreampany.framework.api.key.KeyManager
-import com.dreampany.framework.misc.Remote
-import com.dreampany.framework.misc.Room
-import com.dreampany.framework.misc.SmartCache
-import com.dreampany.framework.misc.SmartMap
+import com.dreampany.framework.injector.annote.Database
+import com.dreampany.framework.injector.annote.Remote
+import com.dreampany.framework.injector.annote.Room
+import com.dreampany.framework.misc.*
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.injector.CoinMarketCapModule
 import com.dreampany.tools.api.crypto.remote.CoinMarketCapService
@@ -14,6 +15,7 @@ import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.model.Quote
 import com.dreampany.tools.data.source.api.CoinDataSource
+import com.dreampany.tools.data.source.database.DatabaseCoinDataSource
 import com.dreampany.tools.data.source.remote.RemoteCoinDataSource
 import com.dreampany.tools.data.source.room.RoomCoinDataSource
 import com.dreampany.tools.data.source.room.dao.CoinDao
@@ -117,5 +119,16 @@ class CryptoModule {
         service: CoinMarketCapService
     ): CoinDataSource {
         return RemoteCoinDataSource(network, keyM, mapper, service)
+    }
+
+    @Singleton
+    @Provides
+    @Database
+    fun provideDatabaseCoinDataSource(
+        network: NetworkManager,
+        mapper: CoinMapper,
+        database: RxFirebaseDatabase
+    ): CoinDataSource {
+        return DatabaseCoinDataSource(network, mapper, database)
     }
 }

@@ -16,10 +16,10 @@ import com.dreampany.tools.data.model.Quote
 import com.dreampany.tools.data.source.api.CoinDataSource
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.data.source.room.dao.QuoteDao
-import com.dreampany.tools.injector.annote.coin.CoinAnnote
-import com.dreampany.tools.injector.annote.coin.CoinItemAnnote
 import com.dreampany.tools.injector.annote.CurrencyAnnote
 import com.dreampany.tools.injector.annote.QuoteAnnote
+import com.dreampany.tools.injector.annote.coin.CoinAnnote
+import com.dreampany.tools.injector.annote.coin.CoinItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.CoinItem
 import com.google.common.collect.Maps
@@ -73,6 +73,14 @@ class CoinMapper
 
     fun commitExpire(currency: Currency, id: String) {
         pref.commitExpireTime(currency, id)
+    }
+
+    fun commitExpire(currency: Currency, id: String, time: Long) {
+        pref.commitExpireTime(currency, id, time)
+    }
+
+    fun hasCoin(coinId: String): Boolean {
+        return map.contains(coinId)
     }
 
     @Synchronized

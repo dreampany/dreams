@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.tools.R
 import javax.inject.Inject

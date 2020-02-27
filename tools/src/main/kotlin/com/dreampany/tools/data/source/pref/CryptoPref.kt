@@ -57,34 +57,9 @@ class CryptoPref
     fun commitExpireTime(currency: Currency, id : String) {
         setPrivately(Constants.Pref.Crypto.EXPIRE + currency.name + id, TimeUtilKt.currentMillis())
     }
-/*
-    fun setStationState(state: State) {
-        setPrivately(Constants.Pref.Radio.STATION_STATE, state)
-    }
 
-    fun getStationState(defaultState: State): State {
-        return getPrivately(Constants.Pref.Radio.STATION_STATE, State::class.java, defaultState)
+    @Synchronized
+    fun commitExpireTime(currency: Currency, id : String, time: Long) {
+        setPrivately(Constants.Pref.Crypto.EXPIRE + currency.name + id, time)
     }
-
-    fun commitStationTime(state: State) {
-        setPrivately(Constants.Pref.Radio.STATION_TIME.plus(state.name), TimeUtilKt.currentMillis())
-    }
-
-    fun commitStationTime(state: State, countryCode: String) {
-        setPrivately(
-            Constants.Pref.Radio.STATION_TIME.plus(state.name).plus(countryCode),
-            TimeUtilKt.currentMillis()
-        )
-    }
-
-    fun getStationTime(state: State): Long {
-        return getPrivately(Constants.Pref.Radio.STATION_TIME.plus(state.name), 0L)
-    }
-
-    fun getStationTime(state: State, countryCode: String): Long {
-        return getPrivately(
-            Constants.Pref.Radio.STATION_TIME.plus(state.name).plus(countryCode),
-            0L
-        )
-    }*/
 }

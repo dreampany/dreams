@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.repository
 
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.misc.ResponseMapper
-import com.dreampany.framework.misc.Room
+import com.dreampany.framework.injector.annote.Room
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.api.NoteDataSource

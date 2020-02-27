@@ -2,7 +2,7 @@ package com.dreampany.framework.ui.fragment;
 
 import android.os.Bundle;
 
-import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.injector.annote.ActivityScope;
 
 import org.jetbrains.annotations.Nullable;
 

@@ -1,7 +1,7 @@
 package com.dreampany.tools.ui.fragment.english
 
 import android.os.Bundle
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import javax.inject.Inject
 

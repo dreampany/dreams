@@ -11,7 +11,7 @@ import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R

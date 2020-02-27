@@ -17,7 +17,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.misc.extension.resolveText
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.enums.UiState

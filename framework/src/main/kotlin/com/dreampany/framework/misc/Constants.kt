@@ -116,6 +116,7 @@ class Constants {
         const val SPACE_HYPHEN_SPACE = " - "
         const val LEAF_SEPARATOR = '|'
         const val PLUS = '+'
+        const val SLASH = "/"
     }
 
     object Database {

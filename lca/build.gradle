@@ -163,20 +163,20 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     /* test */
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     /* library */
-    implementation project(':frame')
+    implementation project(':framework')
 
     /* android arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0-rc02'
-    kapt 'androidx.room:room-compiler:2.2.1'
+    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0'
+    kapt 'androidx.room:room-compiler:2.2.4'
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.25.2'
-    kapt 'com.google.dagger:dagger-android-processor:2.25.2'
+    kapt 'com.google.dagger:dagger-compiler:2.26'
+    kapt 'com.google.dagger:dagger-android-processor:2.26'
 
     /* crashlytics */
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'

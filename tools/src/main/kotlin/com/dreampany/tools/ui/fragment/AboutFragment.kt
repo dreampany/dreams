@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.dreampany.tools.R
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.TextUtil

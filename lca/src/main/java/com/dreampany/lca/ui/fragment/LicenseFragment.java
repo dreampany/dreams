@@ -6,7 +6,7 @@ import android.os.Bundle;
 import com.artitk.licensefragment.model.CustomUI;
 import com.artitk.licensefragment.model.LicenseID;
 import com.artitk.licensefragment.support.v4.RecyclerViewLicenseFragment;
-import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.injector.annote.ActivityScope;
 import com.dreampany.framework.ui.fragment.BaseFragment;
 import com.dreampany.framework.util.FragmentUtil;
 import com.dreampany.lca.R;

@@ -3,7 +3,11 @@ package com.dreampany.tools.data.source.repository
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.*
+import com.dreampany.framework.injector.annote.Database
+import com.dreampany.framework.injector.annote.Remote
+import com.dreampany.framework.injector.annote.Room
+import com.dreampany.framework.misc.ResponseMapper
+import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.enums.CoinSort
@@ -13,6 +17,8 @@ import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
 import com.dreampany.tools.data.source.api.CoinDataSource
 import io.reactivex.Maybe
+import io.reactivex.functions.Consumer
+import io.reactivex.internal.functions.Functions
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -33,6 +39,7 @@ class CoinRepository
     private val storeRepo: StoreRepository,
     private val mapper: CoinMapper,
     @Room private val room: CoinDataSource,
+    @Database private val database: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : Repository<String, Coin>(rx, rm), CoinDataSource {
 
@@ -71,27 +78,27 @@ class CoinRepository
             val result = arrayListOf<Coin>()
             val roomIds = arrayListOf<String>()
             val remoteIds = arrayListOf<String>()
-            ids.forEach {id->
+            ids.forEach { id ->
                 if (mapper.isExpired(currency, id)) {
                     remoteIds.add(id)
                 } else {
                     roomIds.add(id)
                 }
 
-               /*var coin: Coin? = null
-                if (mapper.isExpired(currency, id)) {
-                    coin = remote.getItem(id)
-                    coin?.run {
-                        room.putItem(this)
-                        mapper.commitExpire(currency, id)
-                    }
-                }
-                if (coin == null) {
-                    coin = room.getItem(id)
-                }
-                coin?.run {
-                    result.add(this)
-                }*/
+                /*var coin: Coin? = null
+                 if (mapper.isExpired(currency, id)) {
+                     coin = remote.getItem(id)
+                     coin?.run {
+                         room.putItem(this)
+                         mapper.commitExpire(currency, id)
+                     }
+                 }
+                 if (coin == null) {
+                     coin = room.getItem(id)
+                 }
+                 coin?.run {
+                     result.add(this)
+                 }*/
             }
             val roomResult = room.getItems(currency, roomIds)
             val remoteResult = remote.getItems(currency, remoteIds)
@@ -182,6 +189,13 @@ class CoinRepository
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun getItemRx(currency: Currency, id: String): Maybe<Coin> {
+        val databaseIf: Maybe<Coin> = getDatabaseItemIfRx(currency, id)
+        val remoteIf: Maybe<Coin> = getRemoteItemIfRx(currency, id)
+        val room: Maybe<Coin> = room.getItemRx(currency, id)
+        return concatSingleFirstRx(databaseIf, remoteIf, room)
+    }
+
     override fun getItemRx(id: String): Maybe<Coin> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -192,6 +206,36 @@ class CoinRepository
 
     override fun getItemsRx(limit: Long): Maybe<List<Coin>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun getDatabaseItemIfRx(currency: Currency, id: String): Maybe<Coin> {
+        val maybe: Maybe<Coin> =
+            if (mapper.isExpired(currency, id)) database.getItemRx(currency, id)
+            else Maybe.empty<Coin>()
+        return concatSingleSuccess(maybe, Consumer {
+            rx.compute(room.putItemRx(it)).subscribe(
+                Functions.emptyConsumer(),
+                Functions.emptyConsumer()
+            )
+            mapper.commitExpire(currency, it.id, it.getLastUpdated())
+        })
+    }
+
+    private fun getRemoteItemIfRx(currency: Currency, id: String): Maybe<Coin> {
+        val maybe: Maybe<Coin> =
+            if (mapper.isExpired(currency, id)) remote.getItemRx(currency, id)
+            else Maybe.empty<Coin>()
+        return concatSingleSuccess(maybe, Consumer {
+            rx.compute(room.putItemRx(it)).subscribe(
+                Functions.emptyConsumer(),
+                Functions.emptyConsumer()
+            )
+            rx.compute(database.putItemRx(it)).subscribe(
+                Functions.emptyConsumer(),
+                Functions.emptyConsumer()
+            )
+            mapper.commitExpire(currency, it.id, it.getLastUpdated())
+        })
     }
 
     private fun getRemoteItemsIfRx(

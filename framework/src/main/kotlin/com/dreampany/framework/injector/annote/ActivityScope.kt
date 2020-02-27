@@ -1,6 +1,7 @@
-package com.dreampany.framework.misc
+package com.dreampany.framework.injector.annote
 
-import javax.inject.Qualifier
+import javax.inject.Scope
+
 
 /**
  * Created by roman on 2019-07-09
@@ -8,7 +9,7 @@ import javax.inject.Qualifier
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Qualifier
+@Scope
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class PointAnnote
+annotation class ActivityScope

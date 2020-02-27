@@ -1,8 +1,7 @@
 package com.dreampany.lca.data.source.room
 
 import com.annimon.stream.Stream
-import com.dreampany.frame.misc.exception.EmptyException
-import com.dreampany.frame.util.DataUtil
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.util.DataUtil
 import com.dreampany.lca.data.enums.CoinSource
 import com.dreampany.lca.data.enums.Currency
@@ -313,7 +312,7 @@ class RoomCoinDataSource constructor(
 
     private fun bindQuote(currency: Currency, coin: Coin?) {
         if (coin != null && !coin.hasQuote(currency)) {
-            val quote = quoteDao.getItems(coin.id, currency.name)
+            val quote = quoteDao.getItem(coin.id, currency.name)
             coin.addQuote(quote)
         }
     }

@@ -4,9 +4,9 @@ import com.dreampany.framework.data.enums.Quality
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.misc.Remote
+import com.dreampany.framework.injector.annote.Remote
 import com.dreampany.framework.misc.ResponseMapper
-import com.dreampany.framework.misc.Room
+import com.dreampany.framework.injector.annote.Room
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager

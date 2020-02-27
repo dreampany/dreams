@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.dreampany.framework.data.enums.UiState;
 import com.dreampany.framework.data.model.Response;
-import com.dreampany.framework.misc.FragmentScope;
+import com.dreampany.framework.injector.annote.FragmentScope;
 import com.dreampany.framework.misc.exception.EmptyException;
 import com.dreampany.framework.misc.exception.ExtraException;
 import com.dreampany.framework.misc.exception.MultiException;

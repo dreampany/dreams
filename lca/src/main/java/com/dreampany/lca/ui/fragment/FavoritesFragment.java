@@ -16,7 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.dreampany.framework.data.enums.UiState;
 import com.dreampany.framework.data.model.Response;
-import com.dreampany.framework.misc.FragmentScope;
+import com.dreampany.framework.injector.annote.FragmentScope;
 import com.dreampany.framework.misc.exception.EmptyException;
 import com.dreampany.framework.misc.exception.ExtraException;
 import com.dreampany.framework.misc.exception.MultiException;
@@ -52,8 +52,6 @@ import javax.inject.Inject;
 import cz.kinst.jakub.view.StatefulLayout;
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration;
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager;
-
-import timber.log.Timber;
 
 /**
  * Created by Hawladar Roman on 5/29/2018.

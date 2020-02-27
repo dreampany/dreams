@@ -1,7 +1,7 @@
 package com.dreampany.tools.injector.data
 
-import com.dreampany.framework.misc.Remote
-import com.dreampany.framework.misc.Room
+import com.dreampany.framework.injector.annote.Remote
+import com.dreampany.framework.injector.annote.Room
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
 import com.dreampany.network.manager.NetworkManager

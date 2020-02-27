@@ -1,6 +1,10 @@
 package com.dreampany.translation.data.source.repository
 
 import com.dreampany.framework.data.source.repository.Repository
+import com.dreampany.framework.injector.annote.Firestore
+import com.dreampany.framework.injector.annote.Machine
+import com.dreampany.framework.injector.annote.Remote
+import com.dreampany.framework.injector.annote.Room
 import com.dreampany.framework.misc.*
 import com.dreampany.translation.data.model.TextTranslation
 import com.dreampany.translation.data.source.api.TranslationDataSource

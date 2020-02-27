@@ -1,6 +1,6 @@
 package com.dreampany.tools.injector.ui
 
-import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.tools.ui.fragment.vpn.CountriesFragment
 import com.dreampany.tools.ui.fragment.vpn.FavoriteServersFragment
 import com.dreampany.tools.ui.fragment.vpn.ServersFragment

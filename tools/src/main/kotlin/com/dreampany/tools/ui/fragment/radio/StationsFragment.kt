@@ -14,7 +14,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState

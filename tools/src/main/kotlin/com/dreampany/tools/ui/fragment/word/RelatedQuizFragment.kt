@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment

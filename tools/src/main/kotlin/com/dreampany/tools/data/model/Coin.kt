@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.extension.resolve
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.misc.Constants
@@ -213,9 +214,9 @@ data class Coin(
     @Exclude
     fun getLatestQuote(): Quote? {
         var latest: Quote? = null
-        quotes?.forEach {
-            if (latest == null || latest!!.time < it.value.time) {
-                latest = it.value
+        quotes?.forEach {entry->
+            if (latest?.time.resolve() < entry.value.time) {
+                latest = entry.value
             }
         }
         return latest

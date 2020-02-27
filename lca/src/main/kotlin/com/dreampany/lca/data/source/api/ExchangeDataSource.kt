@@ -1,6 +1,6 @@
 package com.dreampany.lca.data.source.api
 
-import com.dreampany.frame.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.lca.data.model.Exchange
 import io.reactivex.Maybe
 

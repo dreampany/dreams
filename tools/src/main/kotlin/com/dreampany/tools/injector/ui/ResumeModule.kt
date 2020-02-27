@@ -1,6 +1,6 @@
 package com.dreampany.tools.injector.ui
 
-import com.dreampany.framework.misc.FragmentScope
+import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.tools.ui.fragment.resume.ResumeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumeHomeFragment
 import com.dreampany.tools.ui.fragment.resume.ResumePreviewFragment

@@ -2,6 +2,9 @@ package com.dreampany.framework.injector.data
 
 import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.injector.annote.Favorite
+import com.dreampany.framework.injector.annote.PointAnnote
+import com.dreampany.framework.injector.annote.StoreAnnote
 import com.dreampany.framework.misc.*
 import dagger.Module
 import dagger.Provides

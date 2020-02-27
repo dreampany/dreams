@@ -23,7 +23,14 @@ class RoomCoinDataSource(
 ) : CoinDataSource {
 
     override fun getItem(currency: Currency, id: String): Coin? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (!mapper.hasCoin(id)) {
+            val room = dao.getItem(id)
+            mapper.add(room)
+        }
+        val cache = mapper.get(id)
+        if (cache == null) return null
+        bindQuote(currency, cache)
+        return cache
     }
 
     override fun getItems(
@@ -128,6 +135,10 @@ class RoomCoinDataSource(
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override fun getItemRx(currency: Currency, id: String): Maybe<Coin> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun getItemRx(id: String): Maybe<Coin> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -138,5 +149,13 @@ class RoomCoinDataSource(
 
     override fun getItemsRx(limit: Long): Maybe<List<Coin>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun bindQuote(currency: Currency, coin: Coin?) {
+        if (coin != null && !coin.hasQuote(currency)) {
+            val quote = quoteDao.getItem(coin.id, currency.name)
+            if (quote != null)
+                coin.addQuote(quote)
+        }
     }
 }

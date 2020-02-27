@@ -25,9 +25,10 @@ class CoinRequest(
     progress: Boolean = Constants.Default.BOOLEAN,
     start: Long = Constants.Default.LONG,
     limit: Long = Constants.Default.LONG,
-    input: Coin? = Constants.Default.NULL,
     id: String = Constants.Default.STRING,
     ids: List<String>? = Constants.Default.NULL,
+    input: Coin? = Constants.Default.NULL,
+    inputs: List<Coin>? = Constants.Default.NULL,
     var currency: Currency = Currency.USD,
     var sort: CoinSort = CoinSort.MARKET_CAP,
     var order: Order = Order.DESCENDING
@@ -42,9 +43,10 @@ class CoinRequest(
     progress = progress,
     start = start,
     limit = limit,
-    input = input,
     id = id,
-    ids = ids
+    ids = ids,
+    input = input,
+    inputs = inputs
 ) {
 
 }

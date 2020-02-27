@@ -174,6 +174,7 @@ class Constants {
         const val EQUAL = Constants.Sep.EQUAL
         const val SPACE_HYPHEN_SPACE = Constants.Sep.SPACE_HYPHEN_SPACE
         const val LEAF_SEPARATOR = Constants.Sep.LEAF_SEPARATOR
+        const val SLASH = Constants.Sep.SLASH
     }
 
     object Default {
@@ -499,6 +500,10 @@ class Constants {
         }
 
         object Coin {
+            const val CRYPTO = "crypto"
+            const val COINS = "coins"
+            const val QUOTES = "quotes"
+
             const val ID = Constants.Key.ID
             const val MARKET_PAIRS = "market_pairs"
             const val CIRCULATING_SUPPLY = "circulating_supply"

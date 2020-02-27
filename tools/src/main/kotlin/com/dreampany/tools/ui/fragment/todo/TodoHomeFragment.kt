@@ -5,8 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.api.session.SessionManager
-import com.dreampany.framework.misc.ActivityScope
-import com.dreampany.framework.ui.enums.UiState
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.MenuTint

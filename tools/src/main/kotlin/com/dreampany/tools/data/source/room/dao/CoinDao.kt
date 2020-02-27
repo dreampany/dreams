@@ -23,4 +23,8 @@ interface CoinDao : BaseDao<Coin> {
 
     @get:Query("select * from coin")
     val itemsRx: Maybe<List<Coin>>
+
+    @Query("select * from coin where id = :id limit 1")
+    fun getItem(id: String): Coin
+
 }

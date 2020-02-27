@@ -10,6 +10,7 @@ import com.dreampany.tools.ui.enums.MoreType
 import com.dreampany.tools.ui.model.MoreItem
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.injector.annote.Favorite
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException

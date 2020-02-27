@@ -4,15 +4,14 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.dreampany.framework.data.enums.UiState;
-import com.dreampany.framework.data.model.Response;
-import com.dreampany.framework.misc.AppExecutors;
-import com.dreampany.framework.misc.ResponseMapper;
+ import com.dreampany.framework.data.model.Response;
+ import com.dreampany.framework.misc.ResponseMapper;
 import com.dreampany.framework.misc.RxMapper;
 import com.dreampany.framework.misc.SmartMap;
 import com.dreampany.framework.misc.exception.ExtraException;
 import com.dreampany.framework.misc.exception.MultiException;
 import com.dreampany.framework.ui.adapter.SmartAdapter;
+import com.dreampany.framework.ui.enums.UiState;
 import com.dreampany.framework.util.DataUtil;
 import com.dreampany.framework.util.TextUtil;
 import com.dreampany.framework.ui.vm.BaseViewModel;

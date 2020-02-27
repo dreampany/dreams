@@ -12,7 +12,7 @@ import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.R
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.databinding.FragmentLiveTextOcrBinding
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.util.*
 import com.dreampany.vision.ml.CameraSource

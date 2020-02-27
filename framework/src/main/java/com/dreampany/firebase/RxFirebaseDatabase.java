@@ -30,11 +30,11 @@ import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
 /**
- * Created by Hawladar Roman on 6/5/2018.
- * BJIT Group
+ * Created by roman on 2/27/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
-
 @Singleton
 public class RxFirebaseDatabase {
 

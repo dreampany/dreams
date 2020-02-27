@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dreampany.framework.data.model.Task;
-import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.injector.annote.ActivityScope;
 import com.dreampany.framework.ui.fragment.BaseFragment;
 import com.dreampany.framework.ui.fragment.BaseStateFragment;
 import com.dreampany.framework.util.ColorUtil;

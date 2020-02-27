@@ -16,6 +16,7 @@ import io.reactivex.Maybe
 interface CoinDataSource : DataSource<Coin> {
 
     fun getItem(currency: Currency, id: String): Coin?
+    fun getItemRx(currency: Currency, id: String): Maybe<Coin>
 
     fun getItems(
         currency: Currency,

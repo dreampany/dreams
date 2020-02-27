@@ -23,7 +23,6 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Singleton
 class RemoteCoinDataSource
 constructor(
     private val network: NetworkManager,
@@ -50,6 +49,10 @@ constructor(
 
     override fun getItem(currency: Currency, id: String): Coin? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getItemRx(currency: Currency, id: String): Maybe<Coin> {
+        TODO("not implemented")
     }
 
     override fun getItems(

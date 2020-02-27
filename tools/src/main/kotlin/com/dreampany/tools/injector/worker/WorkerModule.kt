@@ -2,7 +2,7 @@ package com.dreampany.tools.injector.worker
 
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
-import com.dreampany.framework.misc.WorkerKey
+import com.dreampany.framework.injector.annote.WorkerKey
 import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.framework.worker.factory.WorkerInjectorFactory
 import com.dreampany.tools.worker.LoadWorker

@@ -42,8 +42,6 @@ fun Int.singleItemOfStringResArray(context: Context?, index: Int): String? {
    return if (index < 0 || index >= array.size)  null else array.get(index)
 }
 
-
-
 fun Int.dpToPx(dp: Int): Int {
     return TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, dp.toFloat(), Resources.getSystem().getDisplayMetrics()
@@ -167,7 +165,6 @@ fun Int?.resolve(): Int {
 fun Long?.resolve(): Long {
     return if (this == null) 0L else this
 }
-
 
 fun String?.toHtml(): Spanned? {
     if (this.isNullOrEmpty()) return null

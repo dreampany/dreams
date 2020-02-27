@@ -4,9 +4,10 @@ import android.os.Handler
 import android.os.HandlerThread
 
 /**
- * Created by Hawladar Roman on 5/24/2018.
- * BJIT Group
+ * Created by roman on 2019-07-09
+ * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 class HandlerManager {
     private var handler: Handler? = null

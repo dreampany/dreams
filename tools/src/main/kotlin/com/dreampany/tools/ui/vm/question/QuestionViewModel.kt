@@ -9,6 +9,7 @@ import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.PointRepository
 import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.injector.annote.Favorite
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.framework.misc.exception.ExtraException
@@ -19,13 +20,10 @@ import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.QuestionMapper
 import com.dreampany.tools.data.model.question.Question
-import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.QuestionRepository
 import com.dreampany.tools.ui.misc.QuestionRequest
-import com.dreampany.tools.ui.misc.RelatedQuizRequest
 import com.dreampany.tools.ui.model.question.QuestionItem
-import com.dreampany.tools.ui.model.word.RelatedQuizItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable
 import io.reactivex.Maybe

@@ -6,7 +6,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.framework.misc.StoreAnnote
+import com.dreampany.framework.injector.annote.StoreAnnote
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -9,9 +9,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 
 /**
- * Created by Hawladar Roman on 5/25/2018.
- * BJIT Group
+ * Created by roman on 2019-07-09
+ * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 class SingleLiveEvent<T>: MutableLiveData<T>() {
 

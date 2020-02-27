@@ -3,8 +3,8 @@ package com.dreampany.lca.data.model
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.util.TimeUtilKt
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.misc.Constants
 import com.google.common.base.Objects

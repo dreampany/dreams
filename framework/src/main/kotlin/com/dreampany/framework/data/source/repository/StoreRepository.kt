@@ -6,7 +6,7 @@ import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.api.StoreDataSource
 import com.dreampany.framework.misc.ResponseMapper
-import com.dreampany.framework.misc.Room
+import com.dreampany.framework.injector.annote.Room
 import com.dreampany.framework.misc.RxMapper
 import io.reactivex.Maybe
 import javax.inject.Inject

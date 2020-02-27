@@ -1,6 +1,6 @@
 package com.dreampany.lca.data.source.api
 
-import com.dreampany.frame.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.lca.data.enums.CoinSource
 import com.dreampany.lca.data.enums.Currency
 import com.dreampany.lca.data.model.Coin

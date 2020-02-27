@@ -4,6 +4,7 @@ import android.app.Application
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.injector.annote.Favorite
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException
@@ -13,11 +14,14 @@ import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.CoinMapper
 import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.CoinRepository
 import com.dreampany.tools.ui.misc.CoinRequest
+import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.util.CurrencyFormatter
 import io.reactivex.Flowable
 import io.reactivex.Maybe
@@ -43,8 +47,8 @@ class CoinViewModel
     private val storeRepo: StoreRepository,
     private val mapper: CoinMapper,
     private val repo: CoinRepository,
-    @Favorite private val favorites: SmartMap<String, Boolean>,
-    private val formatter: CurrencyFormatter
+    private val formatter: CurrencyFormatter,
+    @Favorite private val favorites: SmartMap<String, Boolean>
 ) : BaseViewModel<Coin, CoinItem, UiTask<Coin>>(application, rx, ex, rm), NetworkManager.Callback {
 
     override fun clear() {
@@ -58,10 +62,44 @@ class CoinViewModel
 
     fun request(request: CoinRequest) {
         if (request.single) {
-            //requestSingle(request)
+            requestSingle(request)
         } else {
             requestMultiple(request)
         }
+    }
+
+    private fun requestSingle(request: CoinRequest) {
+        if (!takeAction(request.important, singleDisposable)) {
+            return
+        }
+
+        val disposable = rx
+            .backToMain(requestUiItemRx(request))
+            .doOnSubscribe { subscription ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading = true)
+                }
+            }
+            .subscribe({ result ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading = false)
+                }
+                postResult(
+                    state = request.state,
+                    action = request.action,
+                    data = result
+                )
+            }, { error ->
+                if (request.progress) {
+                    postProgress(state = request.state, action = request.action, loading = false)
+                }
+                postFailures(
+                    state = request.state,
+                    action = request.action,
+                    error = MultiException(error, ExtraException())
+                )
+            })
+        addSingleSubscription(disposable)
     }
 
     private fun requestMultiple(request: CoinRequest) {
@@ -94,6 +132,17 @@ class CoinViewModel
         addMultipleSubscription(disposable)
     }
 
+    private fun requestUiItemRx(request: CoinRequest): Maybe<CoinItem> {
+        return requestItemRx(request).flatMap { getUiItemRx(request, it) }
+    }
+
+    private fun requestItemRx(request: CoinRequest): Maybe<Coin> {
+        request.id?.run {
+            return repo.getItemRx(request.currency, this)
+        }
+        return Maybe.empty()
+    }
+
     private fun requestUiItemsRx(request: CoinRequest): Maybe<List<CoinItem>> {
         if (request.action == Action.PAGINATE) {
             return repo.getItemsRx(
@@ -115,6 +164,20 @@ class CoinViewModel
             }
         }
         return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
+    }
+
+    private fun getUiItemRx(request: CoinRequest, item: Coin): Maybe<CoinItem> {
+        Timber.v("%s", item.toString())
+        return Maybe.create { emitter ->
+            if (emitter.isDisposed) {
+                return@create
+            }
+            if (request.action == Action.FAVORITE) {
+                //toggleFavorite(item.id)
+            }
+            val uiItem = getUiItem(request, item)
+            emitter.onSuccess(uiItem)
+        }
     }
 
     private fun getUiItemsRx(request: CoinRequest, items: List<Coin>): Maybe<List<CoinItem>> {

@@ -16,7 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.dreampany.framework.data.enums.UiState;
 import com.dreampany.framework.data.model.Response;
-import com.dreampany.framework.misc.ActivityScope;
+import com.dreampany.framework.injector.annote.ActivityScope;
 import com.dreampany.framework.misc.AppExecutors;
 import com.dreampany.framework.misc.exception.EmptyException;
 import com.dreampany.framework.misc.exception.ExtraException;

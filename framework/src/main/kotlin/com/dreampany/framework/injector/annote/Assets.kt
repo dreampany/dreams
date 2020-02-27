@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc
+package com.dreampany.framework.injector.annote
 
 import javax.inject.Qualifier
 
@@ -11,4 +11,4 @@ import javax.inject.Qualifier
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Database
+annotation class Assets

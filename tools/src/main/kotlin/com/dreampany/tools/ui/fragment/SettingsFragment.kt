@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.fragment
 
 import android.os.Bundle
 import com.dreampany.framework.api.service.JobManager
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.tools.R

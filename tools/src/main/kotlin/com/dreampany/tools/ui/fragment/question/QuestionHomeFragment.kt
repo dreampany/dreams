@@ -6,7 +6,7 @@ import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.misc.extension.parseLong
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.misc.extension.singleItemOfStringResArray

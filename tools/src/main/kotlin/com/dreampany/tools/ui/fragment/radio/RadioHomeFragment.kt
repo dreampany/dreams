@@ -10,7 +10,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.databinding.FragmentTabpagerFixedBinding
-import com.dreampany.framework.misc.ActivityScope
+import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.framework.ui.fragment.BaseStateFragment
 import com.dreampany.framework.ui.model.UiTask

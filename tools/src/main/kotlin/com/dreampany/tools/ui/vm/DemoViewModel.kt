@@ -7,6 +7,7 @@ import com.dreampany.tools.ui.model.DemoItem
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.injector.annote.Favorite
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager

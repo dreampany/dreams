@@ -1,9 +1,9 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
-import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.injector.annote.Favorite
 import com.dreampany.framework.misc.*
 import com.dreampany.framework.misc.exception.ExtraException
 import com.dreampany.framework.misc.exception.MultiException

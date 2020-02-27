@@ -9,7 +9,7 @@ import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.data.source.room.RoomStoreDataSource
 import com.dreampany.framework.data.source.room.dao.PointDao
 import com.dreampany.framework.injector.network.NetworkModule
-import com.dreampany.framework.misc.Room
+import com.dreampany.framework.injector.annote.Room
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

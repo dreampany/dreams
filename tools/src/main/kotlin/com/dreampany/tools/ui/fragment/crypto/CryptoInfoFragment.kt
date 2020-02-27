@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.framework.misc.extension.inflate
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -32,6 +33,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@FragmentScope
 class CryptoInfoFragment
 @Inject constructor() : BaseMenuFragment() {
 
@@ -56,7 +58,8 @@ class CryptoInfoFragment
     }
 
     override fun onStartUi(state: Bundle?) {
-
+        initUi()
+        initRecycler()
     }
 
     override fun onStopUi() {

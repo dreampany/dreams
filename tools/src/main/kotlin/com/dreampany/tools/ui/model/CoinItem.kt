@@ -6,6 +6,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.extension.gone
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.FrescoUtil
@@ -100,22 +102,22 @@ private constructor(
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ) : ViewHolder(formatter, view, adapter as CoinAdapter) {
 
-        private var icon: SimpleDraweeView
-        private var name: MaterialTextView
-        private var price: MaterialTextView
-        private var hourChange: MaterialTextView
-        private var dayChange: MaterialTextView
-        private var weekChange: MaterialTextView
-        private var marketCap: MaterialTextView
-        private var dayVolume: MaterialTextView
-        private var lastUpdated: MaterialTextView
+        private val icon: SimpleDraweeView
+        private val name: MaterialTextView
+        private val price: MaterialTextView
+        private val hourChange: MaterialTextView
+        private val dayChange: MaterialTextView
+        private val weekChange: MaterialTextView
+        private val marketCap: MaterialTextView
+        private val dayVolume: MaterialTextView
+        private val lastUpdated: MaterialTextView
 
-        private var buttonFavorite: LikeButton
-        private var buttonAlert: LikeButton
+        private val buttonFavorite: LikeButton
+        private val buttonAlert: LikeButton
 
-        val btcFormat: String
-        val positiveChange: Int
-        val negativeChange: Int
+        private val btcFormat: String
+        private val positiveChange: Int
+        private val negativeChange: Int
 
         init {
             icon = view.findViewById(R.id.image_icon)
@@ -130,8 +132,8 @@ private constructor(
             buttonFavorite = view.findViewById(R.id.button_favorite)
             buttonAlert = view.findViewById(R.id.button_alert)
 
-            buttonFavorite.visibility = View.GONE
-            buttonAlert.visibility = View.GONE
+            buttonFavorite.gone()
+            buttonAlert.gone()
 
             btcFormat = getString(R.string.btc_format)
             positiveChange = R.string.positive_pct_format
@@ -185,7 +187,6 @@ private constructor(
             val endColor =
                 if (hourChange >= 0.0f || dayChange >= 0.0f || weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
 
-
             ViewUtil.blink(this.price, startColor, endColor)
 
             val hourChangeColor =
@@ -207,11 +208,11 @@ private constructor(
             ) as String
             lastUpdated.text = lastUpdatedTime
 
-            //buttonFavorite.setLiked(item.favorite)
-            //buttonFavorite.tag = coin
+            buttonFavorite.setLiked(uiItem.favorite)
+            buttonFavorite.tag = item
 
-            //buttonAlert.setLiked(uiItem.alert)
-            //buttonAlert.tag = coin
+            buttonAlert.setLiked(uiItem.alert)
+            buttonAlert.tag = item
         }
     }
 
@@ -221,8 +222,46 @@ private constructor(
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ) : ViewHolder(formatter, view, adapter as CoinAdapter) {
 
-        init {
+        private val icon: SimpleDraweeView
+        private val name: MaterialTextView
+        private val price: MaterialTextView
+        private val lastUpdated: MaterialTextView
+        private val like: LikeButton
 
+        private val marketCap: View
+        private val volume: View
+
+        private val marketCapTitle: MaterialTextView
+        private val marketCapValue: MaterialTextView
+        private val volumeTitle: MaterialTextView
+        private val volumeValue: MaterialTextView
+
+        private val hourChange: MaterialTextView
+        private val dayChange: MaterialTextView
+        private val weekChange: MaterialTextView
+
+        init {
+            icon = view.findViewById(R.id.image_icon)
+            name = view.findViewById(R.id.text_name)
+            price = view.findViewById(R.id.text_price)
+            lastUpdated = view.findViewById(R.id.text_last_updated)
+            like = view.findViewById(R.id.button_favorite)
+
+            marketCap = view.findViewById(R.id.layout_market_cap)
+            volume = view.findViewById(R.id.layout_volume)
+
+            hourChange = view.findViewById(R.id.text_change_1h)
+            dayChange = view.findViewById(R.id.text_change_24h)
+            weekChange = view.findViewById(R.id.text_change_7d)
+
+            marketCapTitle = marketCap.findViewById(R.id.text_title)
+            marketCapValue = marketCap.findViewById(R.id.text_value)
+            volumeTitle = volume.findViewById(R.id.text_title)
+            volumeValue = volume.findViewById(R.id.text_value)
+
+            like.setOnSafeClickListener {
+                super.adapter.clickListener?.onClick(it)
+            }
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
@@ -239,15 +278,59 @@ private constructor(
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ) : ViewHolder(formatter, view, adapter as CoinAdapter) {
 
-        init {
+        private val circulatingSupply: View
+        private val totalSupply: View
+        private val maxSupply: View
 
+        var circulatingTitle: MaterialTextView
+        var circulatingValue: MaterialTextView
+        var totalTitle: MaterialTextView
+        var totalValue: MaterialTextView
+        var maxTitle: MaterialTextView
+        var maxValue: MaterialTextView
+
+        var lastUpdated: MaterialTextView
+
+        init {
+            circulatingSupply = view.findViewById(R.id.layout_circulating)
+            totalSupply = view.findViewById(R.id.layout_total)
+            maxSupply = view.findViewById(R.id.layout_max)
+
+            circulatingTitle = circulatingSupply.findViewById(R.id.text_title)
+            circulatingValue = circulatingSupply.findViewById(R.id.text_value)
+
+            totalTitle = totalSupply.findViewById(R.id.text_title)
+            totalValue = totalSupply.findViewById(R.id.text_value)
+
+            maxTitle = maxSupply.findViewById(R.id.text_title)
+            maxValue = maxSupply.findViewById(R.id.text_value)
+
+            lastUpdated = view.findViewById(R.id.text_last_updated)
         }
 
         override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>>
                 bind(position: Int, item: I) {
             val uiItem = item as CoinItem
             val item = uiItem.item
+            val symbol = item.symbol
 
+            val circulating = formatter.roundPrice(item.getCirculatingSupply()) + " " + symbol
+            val total = formatter.roundPrice(item.getTotalSupply()) + " " + symbol
+            val max = formatter.roundPrice(item.getMaxSupply()) + " " + symbol
+
+            circulatingTitle.setText(R.string.circulating_supply)
+            totalTitle.setText(R.string.total_supply)
+            maxTitle.setText(R.string.max_supply)
+
+            circulatingValue.text = circulating
+            totalValue.text = total
+            maxValue.text = max
+            val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+                item.getLastUpdated(),
+                TimeUtilKt.currentMillis(),
+                DateUtils.MINUTE_IN_MILLIS
+            ) as String
+            lastUpdated.text = lastUpdatedTime
         }
     }
 }

@@ -48,11 +48,41 @@ constructor(
     }
 
     override fun getItem(currency: Currency, id: String): Coin? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (network.isObserving() && !network.hasInternet()) {
+            return null
+        }
+
+        for (index in 0..keyM.length / 2) {
+            try {
+                val key = keyM.getKey()
+                val response =
+                    service.getQuotes(getHeaders(key), currency.name, id).execute()
+                if (response.isSuccessful) {
+                    val res = response.body()
+                    if (res != null) {
+                        val coin = res.data.get(id) ?: return null
+                        return mapper.getItem(coin)
+                    }
+                }
+            } catch (error: Throwable) {
+                Timber.e(error)
+                keyM.randomForwardKey()
+            }
+        }
+
+        return null
     }
 
     override fun getItemRx(currency: Currency, id: String): Maybe<Coin> {
-        TODO("not implemented")
+        return Maybe.create { emitter ->
+            val result = getItem(currency, id)
+            if (emitter.isDisposed) return@create
+            if (result == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun getItems(

@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.room
 
+import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
@@ -136,7 +137,15 @@ class RoomCoinDataSource(
     }
 
     override fun getItemRx(currency: Currency, id: String): Maybe<Coin> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return Maybe.create { emitter ->
+            val result = getItem(currency, id)
+            if (emitter.isDisposed) return@create
+            if (result == null) {
+                emitter.onError(EmptyException())
+            } else {
+                emitter.onSuccess(result)
+            }
+        }
     }
 
     override fun getItemRx(id: String): Maybe<Coin> {

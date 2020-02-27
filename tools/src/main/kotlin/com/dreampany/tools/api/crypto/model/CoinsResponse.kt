@@ -9,18 +9,18 @@ import com.google.gson.annotations.SerializedName
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class CoinsResponse (
+data class CoinsResponse(
     @SerializedName(value = Constants.Common.STATUS)
     val status: Status,
     @SerializedName(value = Constants.Common.DATA)
     val data: List<Coin>
-){
+) {
 
     fun isError(): Boolean {
         return status.errorCode != 0
     }
 
-    fun isEmpty() :Boolean {
+    fun isEmpty(): Boolean {
         return data.isEmpty()
     }
 }

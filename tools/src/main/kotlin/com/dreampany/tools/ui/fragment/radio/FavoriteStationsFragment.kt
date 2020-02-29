@@ -34,7 +34,7 @@ import com.dreampany.tools.databinding.FragmentStationsBinding
 import com.dreampany.tools.manager.PlayerManager
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.StationAdapter
-import com.dreampany.tools.ui.misc.StationRequest
+import com.dreampany.tools.ui.request.StationRequest
 import com.dreampany.tools.ui.model.StationItem
 import com.dreampany.tools.ui.vm.radio.StationViewModel
 import cz.kinst.jakub.view.StatefulLayout

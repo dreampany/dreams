@@ -22,7 +22,7 @@ import com.dreampany.tools.data.mapper.QuestionMapper
 import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.QuestionRepository
-import com.dreampany.tools.ui.misc.QuestionRequest
+import com.dreampany.tools.ui.request.QuestionRequest
 import com.dreampany.tools.ui.model.question.QuestionItem
 import com.dreampany.translation.data.source.repository.TranslationRepository
 import io.reactivex.Flowable

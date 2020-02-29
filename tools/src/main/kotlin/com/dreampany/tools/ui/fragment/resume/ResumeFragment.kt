@@ -35,7 +35,7 @@ import com.dreampany.tools.ui.adapter.resume.ExperienceAdapter
 import com.dreampany.tools.ui.adapter.resume.ProjectAdapter
 import com.dreampany.tools.ui.adapter.resume.SchoolAdapter
 import com.dreampany.tools.ui.adapter.resume.SkillAdapter
-import com.dreampany.tools.ui.misc.ResumeRequest
+import com.dreampany.tools.ui.request.ResumeRequest
 import com.dreampany.tools.ui.model.resume.*
 import com.dreampany.tools.ui.vm.resume.ResumeViewModel
 import com.google.android.material.textfield.TextInputEditText

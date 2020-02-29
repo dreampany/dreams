@@ -1,17 +1,20 @@
-package com.dreampany.tools.ui.misc
+package com.dreampany.tools.ui.request.crypto
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.word.Word
+import com.dreampany.tools.data.enums.CoinSort
+import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.Order
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by Roman-372 on 7/5/2019
+ * Created by roman on 2019-11-15
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class WordRequest(
+class CoinRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
@@ -20,16 +23,16 @@ class WordRequest(
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
+    start: Long = Constants.Default.LONG,
     limit: Long = Constants.Default.LONG,
-    id: String? = Constants.Default.NULL,
-    input: Word? = Constants.Default.NULL,
-    val sourceLang: String? = Constants.Default.NULL,
-    val targetLang: String? = Constants.Default.NULL,
-    val translate: Boolean = Constants.Default.BOOLEAN,
-    val recent: Boolean = Constants.Default.BOOLEAN,
-    val history: Boolean = Constants.Default.BOOLEAN,
-    val suggests: Boolean = Constants.Default.BOOLEAN
-) : Request<Word>(
+    id: String = Constants.Default.STRING,
+    ids: List<String>? = Constants.Default.NULL,
+    input: Coin? = Constants.Default.NULL,
+    inputs: List<Coin>? = Constants.Default.NULL,
+    var currency: Currency = Currency.USD,
+    var sort: CoinSort = CoinSort.MARKET_CAP,
+    var order: Order = Order.DESCENDING
+) : Request<Coin>(
     type = type,
     subtype = subtype,
     state = state,
@@ -38,9 +41,12 @@ class WordRequest(
     single = single,
     important = important,
     progress = progress,
+    start = start,
     limit = limit,
+    id = id,
+    ids = ids,
     input = input,
-    id = id
+    inputs = inputs
 ) {
 
 }

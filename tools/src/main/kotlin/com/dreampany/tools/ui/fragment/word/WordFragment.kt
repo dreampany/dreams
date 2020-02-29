@@ -29,7 +29,7 @@ import com.dreampany.tools.data.source.pref.WordPref
 import com.dreampany.tools.databinding.*
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
-import com.dreampany.tools.ui.misc.WordRequest
+import com.dreampany.tools.ui.request.WordRequest
 import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView

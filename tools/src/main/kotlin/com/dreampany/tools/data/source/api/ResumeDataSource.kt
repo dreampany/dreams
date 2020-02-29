@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.api
 
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.tools.data.model.resume.Resume
 
 /**
@@ -9,5 +10,5 @@ import com.dreampany.tools.data.model.resume.Resume
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface ResumeDataSource : DataSource<Resume> {
+interface ResumeDataSource : DataSource<Resume>, DataSourceRx<Resume> {
 }

@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.source.repository
+package com.dreampany.tools.data.source.repository.crypto
 
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository

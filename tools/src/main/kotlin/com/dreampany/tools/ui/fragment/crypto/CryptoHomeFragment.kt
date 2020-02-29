@@ -31,8 +31,8 @@ import com.dreampany.tools.databinding.FragmentCryptoHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
-import com.dreampany.tools.ui.misc.CoinRequest
-import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.request.crypto.CoinRequest
+import com.dreampany.tools.ui.model.crypto.CoinItem
 import com.dreampany.tools.ui.vm.crypto.CoinViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
 import cz.kinst.jakub.view.StatefulLayout

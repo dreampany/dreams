@@ -1,31 +1,37 @@
-package com.dreampany.tools.ui.misc
+package com.dreampany.tools.ui.request
 
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.Feature
+import com.dreampany.tools.data.model.word.Quiz
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by roman on 2019-08-03
+ * Created by Roman-372 on 7/5/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FeatureRequest(
+class QuizRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
     action: Action = Action.DEFAULT,
+    single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
-    input: Feature? = Constants.Default.NULL
-) : Request<Feature>(
+    input: Quiz? = Constants.Default.NULL
+) : Request<Quiz>(
+    type = type,
+    subtype = subtype,
+    state = state,
     action = action,
+    single = single,
     important = important,
     progress = progress,
     input = input
 ) {
+
 }

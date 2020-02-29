@@ -1,17 +1,18 @@
-package com.dreampany.tools.ui.misc
+package com.dreampany.tools.ui.request
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.resume.Resume
+import com.dreampany.tools.data.enums.CallBlockType
+import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by roman on 2019-10-08
+ * Created by roman on 2019-11-15
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class ResumeRequest(
+class ContactRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
@@ -20,16 +21,17 @@ class ResumeRequest(
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
+    start: Long = Constants.Default.LONG,
     limit: Long = Constants.Default.LONG,
     id: String? = Constants.Default.NULL,
-    input: Resume? = Constants.Default.NULL,
-    val profile: Map<String, Any>? = Constants.Default.NULL,
-    val skills: List<Map<String, Any>>? = Constants.Default.NULL,
-    val experiences: List<Map<String, Any>>? = Constants.Default.NULL,
-    val projects: List<Map<String, Any>>? = Constants.Default.NULL,
-    val schools: List<Map<String, Any>>? = Constants.Default.NULL
+    ids: List<String>? = Constants.Default.NULL,
+    input: Contact? = Constants.Default.NULL,
+    inputs: List<Contact>? = Constants.Default.NULL,
+    val blockType: CallBlockType? = Constants.Default.NULL,
+    val countryCode: String? = Constants.Default.NULL,
+    val phoneNumber: String? = Constants.Default.NULL
 
-) : Request<Resume>(
+) : Request<Contact>(
     type = type,
     subtype = subtype,
     state = state,
@@ -38,10 +40,12 @@ class ResumeRequest(
     single = single,
     important = important,
     progress = progress,
+    start = start,
     limit = limit,
     id = id,
-    input = input
+    ids = ids,
+    input = input,
+    inputs = inputs
 ) {
-
 
 }

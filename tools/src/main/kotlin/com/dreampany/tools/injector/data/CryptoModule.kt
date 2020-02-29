@@ -1,5 +1,6 @@
 package com.dreampany.tools.injector.data
 
+import android.content.Context
 import androidx.core.util.Pair
 import com.dreampany.firebase.RxFirebaseDatabase
 import com.dreampany.framework.api.key.KeyManager
@@ -14,17 +15,21 @@ import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.mapper.crypto.CoinMapper
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.data.model.crypto.Quote
+import com.dreampany.tools.data.model.crypto.Trade
 import com.dreampany.tools.data.source.api.crypto.CoinDataSource
 import com.dreampany.tools.data.source.database.DatabaseCoinDataSource
-import com.dreampany.tools.data.source.remote.RemoteCoinDataSource
+import com.dreampany.tools.data.source.remote.crypto.RemoteCoinDataSource
 import com.dreampany.tools.data.source.room.RoomCoinDataSource
 import com.dreampany.tools.data.source.room.dao.CoinDao
 import com.dreampany.tools.data.source.room.dao.QuoteDao
 import com.dreampany.tools.injector.annote.CurrencyAnnote
 import com.dreampany.tools.injector.annote.QuoteAnnote
 import com.dreampany.tools.injector.annote.crypto.*
-import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.model.crypto.CoinItem
+import com.dreampany.tools.ui.model.crypto.ExchangeItem
+import com.dreampany.tools.ui.model.crypto.TradeItem
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -103,56 +108,56 @@ class CryptoModule {
     @Singleton
     @Provides
     @TradeAnnote
-    fun provideTradeSmartMap(): SmartMap<String, Coin> {
+    fun provideTradeSmartMap(): SmartMap<String, Trade> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @TradeAnnote
-    fun provideTradeSmartCache(): SmartCache<String, Coin> {
+    fun provideTradeSmartCache(): SmartCache<String, Trade> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @TradeItemAnnote
-    fun provideTradeItemSmartMap(): SmartMap<String, CoinItem> {
+    fun provideTradeItemSmartMap(): SmartMap<String, TradeItem> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @TradeItemAnnote
-    fun provideTradeItemSmartCache(): SmartCache<String, CoinItem> {
+    fun provideTradeItemSmartCache(): SmartCache<String, TradeItem> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @ExchangeAnnote
-    fun provideExchangeSmartMap(): SmartMap<String, Coin> {
+    fun provideExchangeSmartMap(): SmartMap<String, Exchange> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @ExchangeAnnote
-    fun provideExchangeSmartCache(): SmartCache<String, Coin> {
+    fun provideExchangeSmartCache(): SmartCache<String, Exchange> {
         return SmartCache.newCache()
     }
 
     @Singleton
     @Provides
     @ExchangeItemAnnote
-    fun provideExchangeItemSmartMap(): SmartMap<String, CoinItem> {
+    fun provideExchangeItemSmartMap(): SmartMap<String, ExchangeItem> {
         return SmartMap.newMap()
     }
 
     @Singleton
     @Provides
     @ExchangeItemAnnote
-    fun provideExchangeItemSmartCache(): SmartCache<String, CoinItem> {
+    fun provideExchangeItemSmartCache(): SmartCache<String, ExchangeItem> {
         return SmartCache.newCache()
     }
 
@@ -172,12 +177,19 @@ class CryptoModule {
     @Provides
     @Remote
     fun provideRemoteCoinDataSource(
+        context: Context,
         network: NetworkManager,
         keyM: KeyManager,
         mapper: CoinMapper,
         service: CoinMarketCapService
     ): CoinDataSource {
-        return RemoteCoinDataSource(network, keyM, mapper, service)
+        return RemoteCoinDataSource(
+            context,
+            network,
+            keyM,
+            mapper,
+            service
+        )
     }
 
     @Singleton

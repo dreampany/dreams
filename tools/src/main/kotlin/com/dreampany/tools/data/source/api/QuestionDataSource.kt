@@ -2,6 +2,7 @@ package com.dreampany.tools.data.source.api
 
 import com.dreampany.framework.data.enums.Difficult
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.tools.data.model.question.Question
 import io.reactivex.Maybe
 
@@ -11,7 +12,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface QuestionDataSource : DataSource<Question> {
+interface QuestionDataSource : DataSource<Question>, DataSourceRx<Question> {
     fun getItems(
         category: Question.Category?,
         type: Question.Type?,

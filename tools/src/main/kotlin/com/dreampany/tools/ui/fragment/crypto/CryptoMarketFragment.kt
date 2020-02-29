@@ -25,9 +25,11 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentCryptoMarketBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
-import com.dreampany.tools.ui.misc.CoinRequest
-import com.dreampany.tools.ui.model.CoinItem
-import com.dreampany.tools.ui.vm.crypto.CoinViewModel
+import com.dreampany.tools.ui.model.crypto.CoinItem
+import com.dreampany.tools.ui.request.crypto.ExchangeRequest
+import com.dreampany.tools.ui.request.crypto.TradeRequest
+import com.dreampany.tools.ui.vm.crypto.ExchangeViewModel
+import com.dreampany.tools.ui.vm.crypto.TradeViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
 import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
@@ -55,7 +57,8 @@ class CryptoMarketFragment
     private lateinit var scroller: OnVerticalScrollListener
     private lateinit var adapter: CoinAdapter
 
-    private lateinit var vm: CoinViewModel
+    private lateinit var tvm: TradeViewModel
+    private lateinit var evm: ExchangeViewModel
     private lateinit var coin: Coin
 
     override fun getScreen(): String {
@@ -67,24 +70,30 @@ class CryptoMarketFragment
     }
 
     override fun onStartUi(state: Bundle?) {
+        val task = getCurrentTask<UiTask<Coin>>() ?: return
+        coin = task.input ?: return
         initUi()
         initRecycler()
-        onRefresh()
-        if (::coin.isInitialized)
-            setTitle(coin.name)
+        requestTrades(progress = true)
+
+        //onRefresh()
+        /*if (::coin.isInitialized)
+            setTitle(coin.name)*/
     }
 
     override fun onStopUi() {
-        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        tvm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        evm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onRefresh() {
-        if (adapter.isEmpty) {
+        /*if (adapter.isEmpty) {
             if (::coin.isInitialized)
-                request(single = true, progress = true, id = coin.id)
+                //request(single = true, progress = true, id = coin.id)
         } else {
-            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
-        }
+            tvm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+            evm.updateUiState(uiState = UiState.HIDE_PROGRESS)
+        }*/
     }
 
     private fun initUi() {
@@ -104,13 +113,12 @@ class CryptoMarketFragment
             context.inflate(R.layout.content_empty_crypto)
         )
 
-        vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
-        vm.observeUiState(this, Observer { this.processUiState(it) })
-        vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
-        vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-
-        val task = getCurrentTask<UiTask<Coin>>() ?: return
-        coin = task.input ?: return
+        tvm = ViewModelProvider(this, factory).get(TradeViewModel::class.java)
+        evm = ViewModelProvider(this, factory).get(ExchangeViewModel::class.java)
+        tvm.observeUiState(this, Observer { this.processUiState(it) })
+        evm.observeUiState(this, Observer { this.processUiState(it) })
+        //vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
+        //vm.observeOutput(this, Observer { this.processSingleResponse(it) })
     }
 
 
@@ -132,7 +140,30 @@ class CryptoMarketFragment
         )
     }
 
-    private fun request(
+    private fun requestTrades(
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        start: Long = Constants.Default.LONG,
+        limit: Long = Constants.Default.LONG,
+        id: String = Constants.Default.STRING,
+        ids: List<String>? = Constants.Default.NULL
+    ) {
+        val request = TradeRequest(
+            type = Type.TRADE,
+            subtype = Subtype.DEFAULT,
+            action = action,
+            single = single,
+            progress = progress,
+            start = start,
+            limit = limit,
+            id = id,
+            ids = ids
+        )
+        tvm.request(request)
+    }
+
+    private fun requestExchanges(
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
@@ -142,8 +173,8 @@ class CryptoMarketFragment
         ids: List<String>? = Constants.Default.NULL
     ) {
         val currency = cryptoPref.getCurrency()
-        val request = CoinRequest(
-            type = Type.COIN,
+        val request = ExchangeRequest(
+            type = Type.TRADE,
             subtype = Subtype.DEFAULT,
             action = action,
             single = single,
@@ -154,7 +185,7 @@ class CryptoMarketFragment
             ids = ids,
             currency = currency
         )
-        vm.request(request)
+        evm.request(request)
     }
 
     private fun processUiState(response: Response.UiResponse) {
@@ -183,14 +214,14 @@ class CryptoMarketFragment
     private fun processMultipleResponse(response: Response<List<CoinItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(
+/*            vm.processProgress(
                 state = result.state,
                 action = result.action,
                 loading = result.loading
-            )
+            )*/
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(state = result.state, action = result.action, error = result.error)
+            //vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<CoinItem>>
             processSuccess(result.state, result.action, result.data)
@@ -200,14 +231,14 @@ class CryptoMarketFragment
     private fun processSingleResponse(response: Response<CoinItem>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(
+           /* vm.processProgress(
                 state = result.state,
                 action = result.action,
                 loading = result.loading
-            )
+            )*/
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(state = result.state, action = result.action, error = result.error)
+            //vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<CoinItem>
             processSuccess(result.state, result.action, result.data)
@@ -215,14 +246,14 @@ class CryptoMarketFragment
     }
 
     private fun processSuccess(state: State, action: Action, item: CoinItem) {
-        val result = vm.getInfos(item)
-        adapter.addItems(result)
+        //val result = vm.getInfos(item)
+        //adapter.addItems(result)
     }
 
     private fun processSuccess(state: State, action: Action, items: List<CoinItem>) {
         adapter.addItems(items)
         ex.postToUi(Runnable {
-            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
+            //vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
     }
 }

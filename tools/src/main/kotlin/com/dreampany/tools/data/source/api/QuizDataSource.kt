@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.api
 
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.tools.data.model.word.Quiz
 
 /**
@@ -9,6 +10,6 @@ import com.dreampany.tools.data.model.word.Quiz
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface QuizDataSource : DataSource<Quiz> {
+interface QuizDataSource : DataSource<Quiz>, DataSourceRx<Quiz> {
 
 }

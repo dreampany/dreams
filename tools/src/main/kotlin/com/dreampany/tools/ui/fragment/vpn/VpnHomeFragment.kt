@@ -27,7 +27,7 @@ import com.dreampany.tools.databinding.FragmentVpnHomeBinding
 import com.dreampany.tools.manager.VpnManager
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
-import com.dreampany.tools.ui.misc.ServerRequest
+import com.dreampany.tools.ui.request.ServerRequest
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout

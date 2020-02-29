@@ -1,41 +1,44 @@
-package com.dreampany.tools.ui.misc
+package com.dreampany.tools.ui.request
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.data.model.Load
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by roman on 2019-10-12
+ * Created by Roman-372 on 7/5/2019
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class StationRequest(
+class LoadRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
-    action: Action = Action.DEFAULT,
     source: Source = Source.DEFAULT,
+    action: Action = Action.DEFAULT,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
-    limit: Long = Constants.Default.LONG,
-    id: String? = Constants.Default.NULL,
-    input: Station? = Constants.Default.NULL,
-    val countryCode: String? = Constants.Default.NULL
-) : Request<Station>(
+    input: Load? = Constants.Default.NULL,
+    id: String = Constants.Default.STRING,
+    var sourceLang: String? = Constants.Default.NULL,
+    var targetLang: String? = Constants.Default.NULL,
+    var translate: Boolean = Constants.Default.BOOLEAN,
+    var recent: Boolean = Constants.Default.BOOLEAN,
+    var history: Boolean = Constants.Default.BOOLEAN,
+    var suggests: Boolean = Constants.Default.BOOLEAN
+    ) : Request<Load>(
     type = type,
     subtype = subtype,
     state = state,
-    action = action,
     source = source,
+    action = action,
     single = single,
     important = important,
     progress = progress,
-    id = id,
     input = input,
-    limit = limit
+    id = id
 ) {
 
 }

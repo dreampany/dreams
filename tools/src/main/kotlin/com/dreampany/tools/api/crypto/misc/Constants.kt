@@ -9,6 +9,11 @@ package com.dreampany.tools.api.crypto.misc
 class Constants {
 
     object CoinMarketCap {
+        const val ACCEPT = "Accept"
+
+        const val ACCEPT_JSON = "application/json"
+
+
         const val CMC_PRO_DREAM_DEBUG_2 =
             "24532bfc-8802-4e18-937f-9b682c13df01" //dream.debug.2@gmail.com
         const val CMC_PRO_DREAM_DEBUG_1 =
@@ -36,6 +41,8 @@ class Constants {
     }
 
     object CryptoCompare {
+        const val AUTHORIZATION = "authorization"
+
         const val API_KEY_ROMAN_BJIT = "99cb2ed664b75035fe73b7f93d2e1e949c57f17f23f092260debf93ce1315c2d" //roman.bjit@gmail.com
 
         const val BASE_URL = "https://min-api.cryptocompare.com/data/"
@@ -45,6 +52,7 @@ class Constants {
         const val EXTRA_PARAMS = "extraParams"
         const val FROM_SYMBOL = "fsym"
         const val TO_SYMBOL = "tsym"
+
     }
 
     object Common {

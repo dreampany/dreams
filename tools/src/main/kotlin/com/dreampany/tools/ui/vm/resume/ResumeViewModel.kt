@@ -19,7 +19,7 @@ import com.dreampany.tools.data.mapper.ResumeMapper
 import com.dreampany.tools.data.model.resume.*
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ResumeRepository
-import com.dreampany.tools.ui.misc.ResumeRequest
+import com.dreampany.tools.ui.request.ResumeRequest
 import com.dreampany.tools.ui.model.resume.*
 import io.reactivex.Flowable
 import io.reactivex.Maybe

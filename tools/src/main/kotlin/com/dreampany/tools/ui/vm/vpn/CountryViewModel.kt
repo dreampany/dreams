@@ -18,7 +18,7 @@ import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository
-import com.dreampany.tools.ui.misc.CountryRequest
+import com.dreampany.tools.ui.request.CountryRequest
 import com.dreampany.tools.ui.model.CountryItem
 import com.google.common.collect.Maps
 import io.reactivex.Maybe

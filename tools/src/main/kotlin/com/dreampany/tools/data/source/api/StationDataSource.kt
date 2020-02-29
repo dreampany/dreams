@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.api
 
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.tools.data.model.Station
 import io.reactivex.Maybe
 
@@ -10,7 +11,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface StationDataSource : DataSource<Station> {
+interface StationDataSource : DataSource<Station>, DataSourceRx<Station> {
 
     fun getItemsOfCountry(countryCode: String, limit: Long): List<Station>?
 

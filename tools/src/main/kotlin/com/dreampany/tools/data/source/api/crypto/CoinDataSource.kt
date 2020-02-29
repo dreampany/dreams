@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.api.crypto
 
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
@@ -13,7 +14,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface CoinDataSource : DataSource<Coin> {
+interface CoinDataSource : DataSource<Coin>, DataSourceRx<Coin> {
 
     fun getItem(currency: Currency, id: String): Coin?
 

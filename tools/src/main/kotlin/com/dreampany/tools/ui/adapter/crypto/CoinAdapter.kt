@@ -5,8 +5,7 @@ import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.StationAdapter
-import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.model.crypto.CoinItem
 import eu.davidea.flexibleadapter.items.IFlexible
 import java.util.Comparator
 

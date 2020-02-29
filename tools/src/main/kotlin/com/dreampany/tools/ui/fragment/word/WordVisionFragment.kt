@@ -28,7 +28,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.databinding.FragmentWordVisionBinding
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.misc.WordRequest
+import com.dreampany.tools.ui.request.WordRequest
 import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.ui.vm.word.WordViewModel
 import com.dreampany.vision.ml.CameraSource

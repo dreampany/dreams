@@ -3,6 +3,7 @@ package com.dreampany.tools.data.source.api
 import android.graphics.Bitmap
 import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.framework.data.enums.Source
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.tools.data.model.word.Word
 import io.reactivex.Maybe
 
@@ -12,7 +13,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface WordDataSource : DataSource<Word> {
+interface WordDataSource : DataSource<Word>, DataSourceRx<Word> {
 
     fun isValid(id: String): Boolean
 

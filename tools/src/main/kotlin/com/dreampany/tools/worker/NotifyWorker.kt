@@ -8,7 +8,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.worker.factory.IWorkerFactory
 import com.dreampany.language.Language
-import com.dreampany.tools.ui.misc.WordRequest
+import com.dreampany.tools.ui.request.WordRequest
 import com.dreampany.tools.data.source.pref.Pref
 import timber.log.Timber
 import javax.inject.Inject

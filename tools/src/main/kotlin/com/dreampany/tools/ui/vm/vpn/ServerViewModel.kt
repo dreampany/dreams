@@ -18,7 +18,7 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ServerMapper
-import com.dreampany.tools.ui.misc.ServerRequest
+import com.dreampany.tools.ui.request.ServerRequest
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ServerRepository

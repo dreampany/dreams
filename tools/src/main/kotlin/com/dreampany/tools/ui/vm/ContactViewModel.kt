@@ -23,7 +23,7 @@ import com.dreampany.tools.data.model.Contact
 import com.dreampany.tools.data.source.pref.BlockPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.ContactRepository
-import com.dreampany.tools.ui.misc.ContactRequest
+import com.dreampany.tools.ui.request.ContactRequest
 import com.dreampany.tools.ui.model.ContactItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe

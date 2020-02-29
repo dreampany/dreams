@@ -12,7 +12,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface PointDataSource : DataSource<Point> {
+interface PointDataSource : DataSource<Point>, DataSourceRx<Point> {
 
     fun getAllPoints() : Long
 

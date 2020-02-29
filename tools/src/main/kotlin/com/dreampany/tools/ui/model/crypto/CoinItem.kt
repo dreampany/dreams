@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.model.crypto
 
 import android.text.format.DateUtils
 import android.view.View
@@ -49,15 +49,33 @@ private constructor(
 
     companion object {
         fun getItem(currency: Currency, item: Coin, formatter: CurrencyFormatter): CoinItem {
-            return CoinItem(Type.ITEM, currency, item, formatter, R.layout.item_coin)
+            return CoinItem(
+                Type.ITEM,
+                currency,
+                item,
+                formatter,
+                R.layout.item_coin
+            )
         }
 
         fun getInfoItem(currency: Currency, item: Coin, formatter: CurrencyFormatter): CoinItem {
-            return CoinItem(Type.INFO, currency, item, formatter, R.layout.item_coin_info)
+            return CoinItem(
+                Type.INFO,
+                currency,
+                item,
+                formatter,
+                R.layout.item_coin_info
+            )
         }
 
         fun getQuoteItem(currency: Currency, item: Coin, formatter: CurrencyFormatter): CoinItem {
-            return CoinItem(Type.QUOTE, currency, item, formatter, R.layout.item_coin_quote)
+            return CoinItem(
+                Type.QUOTE,
+                currency,
+                item,
+                formatter,
+                R.layout.item_coin_quote
+            )
         }
     }
 
@@ -77,10 +95,26 @@ private constructor(
         adapter: FlexibleAdapter<IFlexible<RecyclerView.ViewHolder>>
     ): ViewHolder {
         when (type) {
-            Type.ITEM -> return ItemViewHolder(formatter, view, adapter)
-            Type.INFO -> return InfoViewHolder(formatter, view, adapter)
-            Type.QUOTE -> return QuoteViewHolder(formatter, view, adapter)
-            else -> return QuoteViewHolder(formatter, view, adapter)
+            Type.ITEM -> return ItemViewHolder(
+                formatter,
+                view,
+                adapter
+            )
+            Type.INFO -> return InfoViewHolder(
+                formatter,
+                view,
+                adapter
+            )
+            Type.QUOTE -> return QuoteViewHolder(
+                formatter,
+                view,
+                adapter
+            )
+            else -> return QuoteViewHolder(
+                formatter,
+                view,
+                adapter
+            )
         }
     }
 

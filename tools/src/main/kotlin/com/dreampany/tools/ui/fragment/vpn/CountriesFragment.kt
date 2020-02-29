@@ -30,7 +30,7 @@ import com.dreampany.tools.databinding.FragmentCountriesBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.CountryAdapter
-import com.dreampany.tools.ui.misc.CountryRequest
+import com.dreampany.tools.ui.request.CountryRequest
 import com.dreampany.tools.ui.model.CountryItem
 import com.dreampany.tools.ui.vm.vpn.CountryViewModel
 import cz.kinst.jakub.view.StatefulLayout

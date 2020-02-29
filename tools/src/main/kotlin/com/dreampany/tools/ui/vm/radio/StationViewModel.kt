@@ -22,7 +22,7 @@ import com.dreampany.tools.data.model.Station
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.pref.RadioPref
 import com.dreampany.tools.data.source.repository.StationRepository
-import com.dreampany.tools.ui.misc.StationRequest
+import com.dreampany.tools.ui.request.StationRequest
 import com.dreampany.tools.ui.model.StationItem
 import io.reactivex.Flowable
 import io.reactivex.Maybe

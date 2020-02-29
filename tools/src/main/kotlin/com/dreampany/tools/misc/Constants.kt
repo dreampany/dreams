@@ -17,7 +17,7 @@ import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.model.question.Question
-import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.model.crypto.CoinItem
 import com.dreampany.tools.ui.model.ContactItem
 import com.google.common.collect.Maps
 import java.util.*

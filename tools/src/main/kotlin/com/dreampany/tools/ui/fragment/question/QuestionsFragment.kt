@@ -28,7 +28,7 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentQuestionsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.question.QuestionAdapter
-import com.dreampany.tools.ui.misc.QuestionRequest
+import com.dreampany.tools.ui.request.QuestionRequest
 import com.dreampany.tools.ui.model.question.QuestionItem
 import com.dreampany.tools.ui.model.question.QuestionReq
 import com.dreampany.tools.ui.vm.question.QuestionViewModel

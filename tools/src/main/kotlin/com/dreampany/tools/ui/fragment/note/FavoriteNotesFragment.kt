@@ -30,7 +30,7 @@ import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.NoteAdapter
 import com.dreampany.tools.ui.enums.NoteOption
-import com.dreampany.tools.ui.misc.NoteRequest
+import com.dreampany.tools.ui.request.NoteRequest
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.vm.note.NoteViewModel
 import com.skydoves.powermenu.MenuAnimation

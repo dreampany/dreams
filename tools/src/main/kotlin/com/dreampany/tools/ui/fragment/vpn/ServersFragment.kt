@@ -31,7 +31,7 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentServersBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ServerAdapter
-import com.dreampany.tools.ui.misc.ServerRequest
+import com.dreampany.tools.ui.request.ServerRequest
 import com.dreampany.tools.ui.model.ServerItem
 import com.dreampany.tools.ui.vm.vpn.ServerViewModel
 import cz.kinst.jakub.view.StatefulLayout

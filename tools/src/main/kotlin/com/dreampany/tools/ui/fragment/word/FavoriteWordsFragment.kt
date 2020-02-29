@@ -30,7 +30,7 @@ import com.dreampany.tools.databinding.FragmentFavoriteWordsBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.WordAdapter
 import com.dreampany.tools.ui.enums.NoteOption
-import com.dreampany.tools.ui.misc.WordRequest
+import com.dreampany.tools.ui.request.WordRequest
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.model.word.WordItem
 import com.dreampany.tools.ui.vm.word.WordViewModel

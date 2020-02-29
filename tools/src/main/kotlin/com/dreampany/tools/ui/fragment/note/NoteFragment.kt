@@ -24,7 +24,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.FragmentNoteBinding
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.misc.NoteRequest
+import com.dreampany.tools.ui.request.NoteRequest
 import com.dreampany.tools.ui.model.NoteItem
 import com.dreampany.tools.ui.vm.note.NoteViewModel
 import timber.log.Timber

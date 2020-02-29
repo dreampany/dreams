@@ -12,7 +12,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface StoreDataSource : DataSource<Store> {
+interface StoreDataSource : DataSource<Store>, DataSourceRx<Store> {
 
     fun isExists(id: String, type: Type, subtype: Subtype, state: State): Boolean
 

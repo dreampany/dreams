@@ -20,7 +20,7 @@ import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.misc.FeatureRequest
+import com.dreampany.tools.ui.request.FeatureRequest
 import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding

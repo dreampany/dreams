@@ -21,7 +21,7 @@ import com.dreampany.tools.injector.annote.QuoteAnnote
 import com.dreampany.tools.injector.annote.crypto.CoinAnnote
 import com.dreampany.tools.injector.annote.crypto.CoinItemAnnote
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.model.crypto.CoinItem
 import com.google.common.collect.Maps
 import io.reactivex.Maybe
 import timber.log.Timber

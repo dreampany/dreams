@@ -25,8 +25,8 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
-import com.dreampany.tools.ui.misc.CoinRequest
-import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.ui.request.crypto.CoinRequest
+import com.dreampany.tools.ui.model.crypto.CoinItem
 import com.dreampany.tools.ui.vm.crypto.CoinViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
@@ -67,6 +67,8 @@ class CryptoInfoFragment
     }
 
     override fun onStartUi(state: Bundle?) {
+        val task = getCurrentTask<UiTask<Coin>>() ?: return
+        coin = task.input ?: return
         initUi()
         initRecycler()
         onRefresh()
@@ -108,9 +110,6 @@ class CryptoInfoFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
-
-        val task = getCurrentTask<UiTask<Coin>>() ?: return
-        coin = task.input ?: return
     }
 
 

@@ -1,17 +1,17 @@
-package com.dreampany.tools.ui.misc
+package com.dreampany.tools.ui.request
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.question.Question
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by roman on 2020-02-21
- * Copyright (c) 2020 bjit. All rights reserved.
+ * Created by roman on 2019-10-08
+ * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class QuestionRequest(
+class ResumeRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
@@ -22,14 +22,14 @@ class QuestionRequest(
     progress: Boolean = Constants.Default.BOOLEAN,
     limit: Long = Constants.Default.LONG,
     id: String? = Constants.Default.NULL,
-    ids: List<String>? = Constants.Default.NULL,
-    input: Question? = Constants.Default.NULL,
-    inputs: List<Question>? = Constants.Default.NULL,
-    val category: Question.Category? = Constants.Default.NULL,
-    val questionType: Question.Type? = Constants.Default.NULL,
-    val difficult: Difficult? = Constants.Default.NULL,
-    val given: String? = Constants.Default.NULL
-) : Request<Question>(
+    input: Resume? = Constants.Default.NULL,
+    val profile: Map<String, Any>? = Constants.Default.NULL,
+    val skills: List<Map<String, Any>>? = Constants.Default.NULL,
+    val experiences: List<Map<String, Any>>? = Constants.Default.NULL,
+    val projects: List<Map<String, Any>>? = Constants.Default.NULL,
+    val schools: List<Map<String, Any>>? = Constants.Default.NULL
+
+) : Request<Resume>(
     type = type,
     subtype = subtype,
     state = state,
@@ -40,9 +40,7 @@ class QuestionRequest(
     progress = progress,
     limit = limit,
     id = id,
-    ids = ids,
-    input = input,
-    inputs = inputs
+    input = input
 ) {
 
 

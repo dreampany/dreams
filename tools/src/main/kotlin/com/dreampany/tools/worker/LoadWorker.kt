@@ -7,7 +7,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Source
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.worker.factory.IWorkerFactory
-import com.dreampany.tools.ui.misc.LoadRequest
+import com.dreampany.tools.ui.request.LoadRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.vm.LoadViewModel
 import timber.log.Timber

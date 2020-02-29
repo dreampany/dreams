@@ -15,7 +15,7 @@ import com.dreampany.tools.databinding.ActivityNavigationBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.fragment.HomeFragment
 import com.dreampany.tools.ui.fragment.MoreFragment
-import com.dreampany.tools.ui.misc.LoadRequest
+import com.dreampany.tools.ui.request.LoadRequest
 import com.dreampany.tools.ui.vm.LoaderViewModel
 import dagger.Lazy
 import javax.inject.Inject

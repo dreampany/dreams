@@ -14,7 +14,7 @@ import com.dreampany.framework.misc.exception.MultiException
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.model.Feature
-import com.dreampany.tools.ui.misc.FeatureRequest
+import com.dreampany.tools.ui.request.FeatureRequest
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.ui.model.FeatureItem
 import com.dreampany.framework.ui.model.UiTask

@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.api
 
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.tools.data.model.Contact
 
 /**
@@ -9,5 +10,5 @@ import com.dreampany.tools.data.model.Contact
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface ContactDataSource : DataSource<Contact> {
+interface ContactDataSource : DataSource<Contact>, DataSourceRx<Contact> {
 }

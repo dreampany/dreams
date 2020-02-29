@@ -22,7 +22,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.misc.NoteRequest
+import com.dreampany.tools.ui.request.NoteRequest
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding

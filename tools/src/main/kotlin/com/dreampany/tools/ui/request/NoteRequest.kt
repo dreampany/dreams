@@ -1,38 +1,35 @@
-package com.dreampany.tools.ui.misc
+package com.dreampany.tools.ui.request
 
-import com.dreampany.framework.data.enums.*
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.model.Load
+import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.misc.Constants
 
 /**
- * Created by Roman-372 on 7/5/2019
+ * Created by roman on 2019-08-03
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class LoadRequest(
+class NoteRequest(
     type: Type = Type.DEFAULT,
     subtype: Subtype = Subtype.DEFAULT,
     state: State = State.DEFAULT,
-    source: Source = Source.DEFAULT,
     action: Action = Action.DEFAULT,
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
-    input: Load? = Constants.Default.NULL,
-    id: String = Constants.Default.STRING,
-    var sourceLang: String? = Constants.Default.NULL,
-    var targetLang: String? = Constants.Default.NULL,
-    var translate: Boolean = Constants.Default.BOOLEAN,
-    var recent: Boolean = Constants.Default.BOOLEAN,
-    var history: Boolean = Constants.Default.BOOLEAN,
-    var suggests: Boolean = Constants.Default.BOOLEAN
-    ) : Request<Load>(
+    id: String? = Constants.Default.NULL,
+    input: Note? = Constants.Default.NULL,
+    val title: String? = Constants.Default.NULL,
+    val description: String? = Constants.Default.NULL
+) : Request<Note>(
     type = type,
     subtype = subtype,
     state = state,
-    source = source,
     action = action,
     single = single,
     important = important,
@@ -40,5 +37,4 @@ class LoadRequest(
     input = input,
     id = id
 ) {
-
 }

@@ -148,9 +148,6 @@ class Constants {
     }
 
     object Retrofit {
-        const val ACCEPT = "Accept"
-
-        const val ACCEPT_JSON = "application/json"
 
         const val CONNECTION_CLOSE = "Connection:close"
     }

@@ -1,9 +1,10 @@
-package com.dreampany.tools.data.source.remote
+package com.dreampany.tools.data.source.remote.crypto
 
+import android.content.Context
 import com.dreampany.framework.api.key.KeyManager
 import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.BuildConfig
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
@@ -24,13 +25,14 @@ import timber.log.Timber
  */
 class RemoteCoinDataSource
 constructor(
+    private val context: Context,
     private val network: NetworkManager,
     private val keyM: KeyManager,
     private val mapper: CoinMapper,
     private val service: CoinMarketCapService
 ) : CoinDataSource {
     init {
-        if (BuildConfig.DEBUG) {
+        if (AndroidUtil.isDebug(context)) {
             keyM.setKeys(
                 com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_ROMAN_BJIT
             )
@@ -43,7 +45,6 @@ constructor(
                 com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.CMC_PRO_DREAMPANY
             )
         }
-
     }
 
     override fun getItem(currency: Currency, id: String): Coin? {
@@ -55,7 +56,7 @@ constructor(
             try {
                 val key = keyM.getKey()
                 val response =
-                    service.getQuotes(getHeaders(key), currency.name, id).execute()
+                    service.getQuotes(getHeader(key), currency.name, id).execute()
                 if (response.isSuccessful) {
                     val res = response.body()
                     if (res != null) {
@@ -98,7 +99,7 @@ constructor(
 
                 val response =
                     service.getListing(
-                        getHeaders(key),
+                        getHeader(key),
                         currency.name,
                         sort.value,
                         order.value,
@@ -145,7 +146,7 @@ constructor(
                 val key = keyM.getKey()
                 val response =
                     service.getQuotes(
-                        getHeaders(key),
+                        getHeader(key),
                         currency.name,
                         ids.joinToString(Constants.Sep.COMMA.toString())
                     ).execute()
@@ -269,15 +270,13 @@ constructor(
     }
 
     /* private */
-    fun getHeaders(key: String): Map<String, String> {
-        val headers = Maps.newHashMap<String, String>()
-        headers.put(
-            com.dreampany.framework.misc.Constants.Retrofit.ACCEPT,
-            com.dreampany.framework.misc.Constants.Retrofit.ACCEPT_JSON
+    fun getHeader(key: String): Map<String, String> {
+        val header = Maps.newHashMap<String, String>()
+        header.put(
+            com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.ACCEPT,
+            com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.ACCEPT_JSON
         )
-        headers.put(com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.API_KEY, key)
-        return headers
+        header.put(com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.API_KEY, key)
+        return header
     }
-
-
 }

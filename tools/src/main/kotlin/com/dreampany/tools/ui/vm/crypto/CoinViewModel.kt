@@ -19,9 +19,9 @@ import com.dreampany.tools.data.mapper.crypto.CoinMapper
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.data.source.pref.Pref
-import com.dreampany.tools.data.source.repository.CoinRepository
-import com.dreampany.tools.ui.misc.CoinRequest
-import com.dreampany.tools.ui.model.CoinItem
+import com.dreampany.tools.data.source.repository.crypto.CoinRepository
+import com.dreampany.tools.ui.request.crypto.CoinRequest
+import com.dreampany.tools.ui.model.crypto.CoinItem
 import com.dreampany.tools.util.CurrencyFormatter
 import io.reactivex.Flowable
 import io.reactivex.Maybe

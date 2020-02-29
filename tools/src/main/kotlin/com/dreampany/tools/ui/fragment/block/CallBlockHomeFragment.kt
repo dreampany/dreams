@@ -35,7 +35,7 @@ import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentCallBlockHomeBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.ContactAdapter
-import com.dreampany.tools.ui.misc.ContactRequest
+import com.dreampany.tools.ui.request.ContactRequest
 import com.dreampany.tools.ui.model.ContactItem
 import com.dreampany.tools.ui.vm.ContactViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView

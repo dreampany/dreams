@@ -66,37 +66,27 @@ private constructor(
             when (more.type) {
                 MoreType.APPS -> {
                     icon.setImageResource(R.drawable.ic_apps_black_24dp)
-                    title.setText(
-                        TextUtil.getString(
-                            getContext(),
-                            R.string.more_apps
-                        )
-                    )
+                    title.setText(R.string.more_apps)
                 }
                 MoreType.RATE_US -> {
                     icon.setImageResource(R.drawable.ic_rate_review_black_24dp)
-                    title.setText(TextUtil.getString(getContext(), R.string.rate_us))
+                    title.setText( R.string.rate_us)
                 }
                 MoreType.FEEDBACK -> {
                     icon.setImageResource(R.drawable.ic_feedback_black_24dp)
-                    title.setText(
-                        TextUtil.getString(
-                            getContext(),
-                            R.string.title_feedback
-                        )
-                    )
+                    title.setText(R.string.title_feedback)
                 }
                 MoreType.SETTINGS -> {
                     icon.setImageResource(R.drawable.ic_settings_black_24dp)
-                    title.setText(TextUtil.getString(getContext(), R.string.settings))
+                    title.setText(R.string.settings)
                 }
                 MoreType.LICENSE -> {
                     icon.setImageResource(R.drawable.ic_security_black_24dp)
-                    title.setText(TextUtil.getString(getContext(), R.string.license))
+                    title.setText(R.string.license)
                 }
                 MoreType.ABOUT -> {
                     icon.setImageResource(R.drawable.ic_info_black_24dp)
-                    title.setText(TextUtil.getString(getContext(), R.string.about))
+                    title.setText(R.string.about)
                 }
             }
         }

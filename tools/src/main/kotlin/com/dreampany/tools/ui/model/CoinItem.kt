@@ -9,9 +9,9 @@ import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.extension.gone
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
 import com.dreampany.framework.misc.extension.setUrl
+import com.dreampany.framework.misc.extension.toColor
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
-import com.dreampany.framework.util.FrescoUtil
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
@@ -201,15 +201,15 @@ private constructor(
 
             val hourChangeColor =
                 if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-            this.hourChange.setTextColor(ColorUtil.getColor(getContext(), hourChangeColor))
+            this.hourChange.setTextColor(hourChangeColor.toColor(context))
 
             val dayChangeColor =
                 if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-            this.dayChange.setTextColor(ColorUtil.getColor(getContext(), dayChangeColor))
+            this.dayChange.setTextColor(dayChangeColor.toColor(context))
 
             val weekChangeColor =
                 if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-            this.weekChange.setTextColor(ColorUtil.getColor(getContext(), weekChangeColor))
+            this.weekChange.setTextColor(weekChangeColor.toColor(context))
 
             val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
                 item.getLastUpdated(),
@@ -282,54 +282,55 @@ private constructor(
             val imageUrl = String.format(Locale.ENGLISH, Constants.Api.Crypto.CoinMarketCapImageUrl, item.id)
             icon.setUrl(imageUrl)
 
-            /*val nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.symbol, coin.name)
+            val nameText = String.format(Locale.ENGLISH, getString(R.string.full_name), item.symbol, item.name)
             name.text = nameText
 
             val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
-                coin.getLastUpdated(),
-                TimeUtil.currentTime(),
+                item.getLastUpdated(),
+                TimeUtilKt.currentMillis(),
                 DateUtils.MINUTE_IN_MILLIS
             ) as String
             lastUpdated.text = lastUpdatedTime
 
-            val quote = coin.getQuote(item.currency)
-            if (quote != null) {
-                val price = quote.price
-                val hourChange = quote.getHourChange()
-                val dayChange = quote.getDayChange()
-                val weekChange = quote.getWeekChange()
+            /*  val quote = coin.getQuote(item.currency)
+              if (quote != null) {
+                  val price = quote.price
+                  val hourChange = quote.getHourChange()
+                  val dayChange = quote.getDayChange()
+                  val weekChange = quote.getWeekChange()
 
-                val hourFormat = if (hourChange >= 0.0f) positiveChange else negativeChange
-                val dayFormat = if (dayChange >= 0.0f) positiveChange else negativeChange
-                val weekFormat = if (weekChange >= 0.0f) positiveChange else negativeChange
+                  val hourFormat = if (hourChange >= 0.0f) positiveChange else negativeChange
+                  val dayFormat = if (dayChange >= 0.0f) positiveChange else negativeChange
+                  val weekFormat = if (weekChange >= 0.0f) positiveChange else negativeChange
 
-                this.price.text = formatter.formatPrice(price, uiItem.currency)
+                  this.price.text = formatter.formatPrice(price, uiItem.currency)
 
-                marketCapTitle.setText(R.string.market_cap)
-                volumeTitle.setText(R.string.volume_24h)
+                  marketCapTitle.setText(R.string.market_cap)
+                  volumeTitle.setText(R.string.volume_24h)
 
-                val oneHourValue = String.format(getText(hourFormat), hourChange)
-                val oneDayValue = String.format(getText(dayFormat), dayChange)
-                val weekValue = String.format(getText(weekFormat), weekChange)
+                  val oneHourValue = String.format(getText(hourFormat), hourChange)
+                  val oneDayValue = String.format(getText(dayFormat), dayChange)
+                  val weekValue = String.format(getText(weekFormat), weekChange)
 
-                marketCapValue.text = formatter.roundPrice(quote.getMarketCap(), uiItem.currency)
-                volumeValue.text = formatter.roundPrice(quote.getDayVolume(), uiItem.currency)
+                  marketCapValue.text = formatter.roundPrice(quote.getMarketCap(), uiItem.currency)
+                  volumeValue.text = formatter.roundPrice(quote.getDayVolume(), uiItem.currency)
 
-                this.hourChange.text = getItemText(R.string.coin_format, getText(R.string.one_hour), oneHourValue)
-                this.dayChange.text = getItemText(R.string.coin_format, getText(R.string.one_day), oneDayValue)
-                this.weekChange.text = getItemText(R.string.coin_format, getText(R.string.week), weekValue)
+                  this.hourChange.text = getItemText(R.string.coin_format, getText(R.string.one_hour), oneHourValue)
+                  this.dayChange.text = getItemText(R.string.coin_format, getText(R.string.one_day), oneDayValue)
+                  this.weekChange.text = getItemText(R.string.coin_format, getText(R.string.week), weekValue)
 
-                val change1hColor = if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-                val change24hColor = if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-                val change7dColor = if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                  val change1hColor = if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                  val change24hColor = if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                  val change7dColor = if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
 
-                this.hourChange.setTextColor(ColorUtil.getColor(getContext(), change1hColor))
-                this.dayChange.setTextColor(ColorUtil.getColor(getContext(), change24hColor))
-                this.weekChange.setTextColor(ColorUtil.getColor(getContext(), change7dColor))
-            }
+                  this.hourChange.setTextColor(ColorUtil.getColor(getContext(), change1hColor))
+                  this.dayChange.setTextColor(ColorUtil.getColor(getContext(), change24hColor))
+                  this.weekChange.setTextColor(ColorUtil.getColor(getContext(), change7dColor))
+              }
 
-            like.tag = coin
-            like.setLiked(item.favorite)*/
+              like.tag = coin
+              like.setLiked(item.favorite)
+              */
         }
     }
 

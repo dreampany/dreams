@@ -9,6 +9,7 @@ import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.Constants
+import com.dreampany.framework.misc.extension.toColor
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.DisplayUtil
 import com.google.common.base.Objects
@@ -36,15 +37,15 @@ abstract class BaseItem<VH : BaseItem.ViewHolder, T : Base, S : Serializable>(
     var alert: Boolean = false
     var time: Long = 0L
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(item)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as BaseItem<VH, T, S>
         return Objects.equal(this.item, item.item)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(item)
     }
 
     override fun getLayoutRes(): Int {
@@ -66,9 +67,8 @@ abstract class BaseItem<VH : BaseItem.ViewHolder, T : Base, S : Serializable>(
         stickyHeader: Boolean = Constants.Default.BOOLEAN
     ) : FlexibleViewHolder(view, adapter, stickyHeader) {
 
-        open fun getContext(): Context {
-            return view.context
-        }
+       protected val context : Context
+            get() = view.context
 
         open fun <T : Base> setTag(tag: T) {
             view.setTag(tag)
@@ -79,21 +79,21 @@ abstract class BaseItem<VH : BaseItem.ViewHolder, T : Base, S : Serializable>(
         }
 
         open fun getSpanHeight(spanCount: Int, itemOffset: Int): Int {
-            return (DisplayUtil.getScreenWidthInPx(getContext()) / spanCount) - (DisplayUtil.dpToPixels(
+            return (DisplayUtil.getScreenWidthInPx(context) / spanCount) - (DisplayUtil.dpToPixels(
                 itemOffset.toFloat()
             ) * spanCount)
         }
 
         open fun getString(@StringRes resId:Int): String {
-            return getContext().getString(resId)
+            return context.getString(resId)
         }
 
         open fun getString(@StringRes resId: Int, vararg formatArgs: Any): String {
-            return getContext().getString(resId, formatArgs)
+            return context.getString(resId, formatArgs)
         }
 
         open fun getColor(@ColorRes resId: Int): Int {
-            return ColorUtil.getColor(getContext(), resId)
+            return resId.toColor(context)
         }
 
         abstract fun <VH : ViewHolder, T : Base, S : Serializable , I : BaseItem<VH, T, S>> bind(

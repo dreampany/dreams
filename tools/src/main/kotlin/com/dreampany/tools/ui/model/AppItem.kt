@@ -129,7 +129,7 @@ private constructor(
         ) {
             val uiItem = item as AppItem
             val item = uiItem.item
-            val drawlable = uiItem.getIcon(getContext())
+            val drawlable = uiItem.getIcon(context)
             if (drawlable != null) {
                 imageIcon.setImageDrawable(drawlable)
             } else {

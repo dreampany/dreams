@@ -89,7 +89,7 @@ private constructor(
 
             flag.countryCode = item.id
             title.text = item.name
-            count.text = getContext().getString(R.string.servers_count, uiItem.count)
+            count.text = context.getString(R.string.servers_count, uiItem.count)
         }
     }
 }

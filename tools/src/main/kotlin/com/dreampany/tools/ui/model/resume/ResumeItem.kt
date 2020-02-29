@@ -10,6 +10,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extension.toColor
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TimeUtilKt
@@ -135,7 +136,7 @@ private constructor(
             textDate.text = TimeUtilKt.getDate(item.time, Constants.Date.FORMAT_MONTH_DAY)
             buttonFavorite.isLiked = uiItem.favorite
 
-            layoutRoot.setCardBackgroundColor(ColorUtil.getColor(getContext(), uiItem.color.primaryId))
+            layoutRoot.setCardBackgroundColor(uiItem.color.primaryId.toColor(context))
 
         }
     }

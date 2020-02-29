@@ -11,6 +11,7 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extension.toColor
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TimeUtilKt
@@ -36,7 +37,7 @@ private constructor(
     item: Note,
     @LayoutRes layoutId: Int = Constants.Default.INT,
     private var clickListener: OnClickListener? = Constants.Default.NULL
-) : BaseItem< NoteItem.ViewHolder, Note,String>(item, layoutId) {
+) : BaseItem<NoteItem.ViewHolder, Note, String>(item, layoutId) {
 
     interface OnClickListener {
         fun onItemClicked(item: Note)
@@ -143,7 +144,7 @@ private constructor(
             //buttonFavorite.setOnClickListener(this.adapter.clickListener)
         }
 
-        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH,T,  S>> bind(
+        override fun <VH : BaseItem.ViewHolder, T : Base, S : Serializable, I : BaseItem<VH, T, S>> bind(
             position: Int,
             item: I
         ) {
@@ -155,7 +156,7 @@ private constructor(
             textDate.text = TimeUtilKt.getDate(item.time, Constants.Date.FORMAT_MONTH_DAY)
             buttonFavorite.isLiked = uiItem.favorite
 
-            layoutRoot.setCardBackgroundColor(ColorUtil.getColor(getContext(), uiItem.color.primaryId))
+            layoutRoot.setCardBackgroundColor(uiItem.color.primaryId.toColor(context))
 
             //buttonFavorite.setTag(item)
         }

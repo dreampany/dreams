@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.mapper
+package com.dreampany.tools.data.mapper.crypto
 
 import android.content.Context
 import androidx.core.util.Pair
@@ -11,15 +11,15 @@ import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
-import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.model.Quote
-import com.dreampany.tools.data.source.api.CoinDataSource
+import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
+import com.dreampany.tools.data.source.api.crypto.CoinDataSource
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.data.source.room.dao.QuoteDao
 import com.dreampany.tools.injector.annote.CurrencyAnnote
 import com.dreampany.tools.injector.annote.QuoteAnnote
-import com.dreampany.tools.injector.annote.coin.CoinAnnote
-import com.dreampany.tools.injector.annote.coin.CoinItemAnnote
+import com.dreampany.tools.injector.annote.crypto.CoinAnnote
+import com.dreampany.tools.injector.annote.crypto.CoinItemAnnote
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.model.CoinItem
 import com.google.common.collect.Maps
@@ -168,7 +168,7 @@ class CoinMapper
         return cache
     }
 
-    fun getItems(inputs: List<com.dreampany.tools.api.crypto.model.Coin>): List<Coin> {
+    fun getItems(inputs: List<com.dreampany.tools.api.crypto.model.CryptoCoin>): List<Coin> {
         val result = arrayListOf<Coin>()
         inputs.forEach { coin ->
             result.add(getItem(coin))
@@ -176,7 +176,7 @@ class CoinMapper
         return result
     }
 
-    fun getItem(input: com.dreampany.tools.api.crypto.model.Coin): Coin {
+    fun getItem(input: com.dreampany.tools.api.crypto.model.CryptoCoin): Coin {
 
         Timber.v("Resolved Coin: %s", input.name);
 
@@ -203,7 +203,7 @@ class CoinMapper
 
     fun getQuotes(
         coinId: String,
-        input: Map<com.dreampany.tools.api.crypto.model.Currency, com.dreampany.tools.api.crypto.model.Quote>
+        input: Map<com.dreampany.tools.api.crypto.model.CryptoCurrency, com.dreampany.tools.api.crypto.model.CryptoQuote>
     ): HashMap<Currency, Quote> {
         val result = Maps.newHashMap<Currency, Quote>()
         input.forEach { entry ->
@@ -213,7 +213,7 @@ class CoinMapper
         return result
     }
 
-    fun getCurrency(input: com.dreampany.tools.api.crypto.model.Currency): Currency {
+    fun getCurrency(input: com.dreampany.tools.api.crypto.model.CryptoCurrency): Currency {
         var out: Currency? = currencyMap.get(input.name)
         if (out == null) {
             out = Currency.valueOf(input.name)
@@ -225,7 +225,7 @@ class CoinMapper
     fun getQuote(
         coinId: String,
         currency: Currency,
-        input: com.dreampany.tools.api.crypto.model.Quote
+        input: com.dreampany.tools.api.crypto.model.CryptoQuote
     ): Quote {
         val id = Pair.create(coinId, currency)
         var out: Quote? = quoteMap.get(id)

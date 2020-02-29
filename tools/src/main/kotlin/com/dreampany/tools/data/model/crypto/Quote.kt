@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.model
+package com.dreampany.tools.data.model.crypto
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -23,10 +23,10 @@ import kotlinx.android.parcel.Parcelize
 @IgnoreExtraProperties
 @Entity(
     indices = [Index(
-        value = [Constants.Database.Crypto.ID, Constants.Database.Crypto.CURRENCY],
+        value = [Constants.Keys.Quote.ID, Constants.Keys.Quote.CURRENCY],
         unique = true
     )],
-    primaryKeys = [Constants.Database.Crypto.ID, Constants.Database.Crypto.CURRENCY]
+    primaryKeys = [Constants.Keys.Quote.ID, Constants.Keys.Quote.CURRENCY]
 )
 data class Quote(
     override var time: Long = Constants.Default.LONG,
@@ -67,62 +67,62 @@ data class Quote(
         return Objects.equal(item.id, id) && Objects.equal(item.currency, currency)
     }
 
-    @PropertyName(Constants.Database.Crypto.VOLUME_24H)
+    @PropertyName(Constants.Keys.Quote.VOLUME_24H)
     fun setVolume24h(volume24h: Double) {
         this.volume24h = volume24h
     }
 
-    @PropertyName(Constants.Database.Crypto.VOLUME_24H)
+    @PropertyName(Constants.Keys.Quote.VOLUME_24H)
     fun getVolume24h(): Double {
         return volume24h
     }
 
-    @PropertyName(Constants.Database.Crypto.MARKET_CAP)
+    @PropertyName(Constants.Keys.Quote.MARKET_CAP)
     fun setMarketCap(marketCap: Double) {
         this.marketCap = marketCap
     }
 
-    @PropertyName(Constants.Database.Crypto.MARKET_CAP)
+    @PropertyName(Constants.Keys.Quote.MARKET_CAP)
     fun getMarketCap(): Double {
         return marketCap
     }
 
-    @PropertyName(Constants.Database.Crypto.CHANGE_1H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_1H)
     fun setChange1h(change1h: Double) {
         this.change1h = change1h
     }
 
-    @PropertyName(Constants.Database.Crypto.CHANGE_1H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_1H)
     fun getChange1h(): Double {
         return change1h
     }
 
-    @PropertyName(Constants.Database.Crypto.CHANGE_24H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_24H)
     fun setChange24h(change24h: Double) {
         this.change24h = change24h
     }
 
-    @PropertyName(Constants.Database.Crypto.CHANGE_24H)
+    @PropertyName(Constants.Keys.Quote.CHANGE_24H)
     fun getChange24h(): Double {
         return change24h
     }
 
-    @PropertyName(Constants.Database.Crypto.CHANGE_7D)
+    @PropertyName(Constants.Keys.Quote.CHANGE_7D)
     fun setChange7d(change7d: Double) {
         this.change7d = change7d
     }
 
-    @PropertyName(Constants.Database.Crypto.CHANGE_7D)
+    @PropertyName(Constants.Keys.Quote.CHANGE_7D)
     fun getChange7d(): Double {
         return change7d
     }
 
-    @PropertyName(Constants.Database.Crypto.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Quote.LAST_UPDATED)
     fun setLastUpdated(lastUpdated: Long) {
         this.lastUpdated = lastUpdated
     }
 
-    @PropertyName(Constants.Database.Crypto.LAST_UPDATED)
+    @PropertyName(Constants.Keys.Quote.LAST_UPDATED)
     fun getLastUpdated(): Long {
         return lastUpdated
     }

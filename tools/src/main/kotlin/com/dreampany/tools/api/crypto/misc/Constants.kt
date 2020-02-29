@@ -23,9 +23,9 @@ class Constants {
         const val LISTING = "cryptocurrency/listings/latest"
         const val QUOTES = "cryptocurrency/quotes/latest"
 
-        const val ACCEPT = "Accept"
+
         const val ACCEPT_ENCODING = "Accept-Encoding"
-        const val ACCEPT_JSON = "application/json"
+
         const val ACCEPT_ZIP = "deflate, gzip"
         const val API_KEY = "X-CMC_PRO_API_KEY"
         const val CONVERT = "convert"
@@ -33,6 +33,18 @@ class Constants {
         const val SORT_DIRECTION = "sort_dir"
         const val AUXILIARIES = "aux"
         const val ID = "id"
+    }
+
+    object CryptoCompare {
+        const val API_KEY_ROMAN_BJIT = "99cb2ed664b75035fe73b7f93d2e1e949c57f17f23f092260debf93ce1315c2d" //roman.bjit@gmail.com
+
+        const val BASE_URL = "https://min-api.cryptocompare.com/data/"
+        const val TRADES = "top/pairs"
+        const val EXCHANGES = "top/exchanges/full"
+
+        const val EXTRA_PARAMS = "extraParams"
+        const val FROM_SYMBOL = "fsym"
+        const val TO_SYMBOL = "tsym"
     }
 
     object Common {
@@ -66,5 +78,26 @@ class Constants {
         const val QUOTE = "quote"
         const val LAST_UPDATED = "last_updated"
         const val DATE_ADDED = "date_added"
+    }
+
+    object Trade {
+        const val DATA = "Data"
+        const val EXCHANGE = "exchange"
+        const val FROM_SYMBOL = "fromsymbol"
+        const val TO_SYMBOL = "tosymbol"
+        const val VOLUME_24H = "volume24h"
+        const val VOLUME_24H_TO = "volume24hTo"
+    }
+
+    object Exchange {
+        const val DATA = "Data"
+        const val EXCHANGES = "Exchanges"
+        const val MARKET = "MARKET"
+        const val FROM_SYMBOL = "FROMSYMBOL"
+        const val TO_SYMBOL = "TOSYMBOL"
+        const val PRICE = "PRICE"
+        const val VOLUME_24H = "VOLUME24HOUR"
+        const val CHANGE_24H = "CHANGE24HOUR"
+        const val CHANGE_PCT_24H = "CHANGEPCT24HOUR"
     }
 }

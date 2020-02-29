@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.model.Quote
+import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.room.converters.CryptoConverters
 import com.dreampany.tools.data.source.room.dao.CoinDao
 import com.dreampany.tools.data.source.room.dao.QuoteDao

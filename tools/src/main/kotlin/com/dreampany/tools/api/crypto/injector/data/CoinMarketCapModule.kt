@@ -1,8 +1,8 @@
-package com.dreampany.tools.api.crypto.injector
+package com.dreampany.tools.api.crypto.injector.data
 
-import com.dreampany.tools.api.crypto.misc.CoinMarketCapAnnote
+import com.dreampany.tools.api.crypto.injector.annote.CoinMarketCapAnnote
 import com.dreampany.tools.api.crypto.misc.Constants
-import com.dreampany.tools.api.crypto.remote.CoinMarketCapService
+import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

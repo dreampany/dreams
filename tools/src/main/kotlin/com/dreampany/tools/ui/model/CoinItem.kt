@@ -3,7 +3,6 @@ package com.dreampany.tools.ui.model
 import android.text.format.DateUtils
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
@@ -16,7 +15,7 @@ import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
 import com.dreampany.tools.util.CurrencyFormatter

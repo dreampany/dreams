@@ -13,7 +13,7 @@ import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.framework.misc.extension.inflate
 import com.dreampany.framework.ui.enums.UiState
-import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.ui.fragment.BaseFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
@@ -22,7 +22,7 @@ import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
-import com.dreampany.tools.databinding.FragmentRecyclerBinding
+import com.dreampany.tools.databinding.FragmentCryptoMarketBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
 import com.dreampany.tools.ui.misc.CoinRequest
@@ -34,21 +34,21 @@ import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import javax.inject.Inject
 
 /**
- * Created by roman on 2/26/20
+ * Created by roman on 29/2/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @FragmentScope
-class CryptoInfoFragment
-@Inject constructor() : BaseMenuFragment() {
+class CryptoMarketFragment
+@Inject constructor() : BaseFragment() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
     @Inject
     internal lateinit var cryptoPref: CryptoPref
 
-    private lateinit var bind: FragmentRecyclerBinding
+    private lateinit var bind: FragmentCryptoMarketBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
 
@@ -59,11 +59,11 @@ class CryptoInfoFragment
     private lateinit var coin: Coin
 
     override fun getScreen(): String {
-        return Constants.cryptoInfo(context)
+        return Constants.cryptoMarket(context)
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.fragment_recycler
+        return R.layout.fragment_crypto_market
     }
 
     override fun onStartUi(state: Bundle?) {
@@ -88,7 +88,7 @@ class CryptoInfoFragment
     }
 
     private fun initUi() {
-        bind = super.binding as FragmentRecyclerBinding
+        bind = super.binding as FragmentCryptoMarketBinding
         bindStatus = bind.layoutTopStatus
         bindRecycler = bind.layoutRecycler
 

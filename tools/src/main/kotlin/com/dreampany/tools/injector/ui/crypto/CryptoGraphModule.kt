@@ -1,6 +1,6 @@
-package com.dreampany.tools.injector.ui
+package com.dreampany.tools.injector.ui.crypto
 
-import com.dreampany.tools.ui.fragment.crypto.CryptoInfoFragment
+import com.dreampany.tools.ui.fragment.crypto.CryptoGraphFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -11,7 +11,7 @@ import dagger.android.ContributesAndroidInjector
  * Last modified $file.lastModified
  */
 @Module
-abstract class CryptoInfoModule {
+abstract class CryptoGraphModule {
     @ContributesAndroidInjector
-    abstract fun infoFragment(): CryptoInfoFragment
+    abstract fun graphFragment(): CryptoGraphFragment
 }

@@ -3,7 +3,7 @@ package com.dreampany.tools.data.source.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import com.dreampany.framework.data.source.room.dao.BaseDao
-import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.crypto.Coin
 import io.reactivex.Maybe
 
 /**

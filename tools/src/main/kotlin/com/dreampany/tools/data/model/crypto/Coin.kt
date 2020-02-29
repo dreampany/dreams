@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.model
+package com.dreampany.tools.data.model.crypto
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -148,6 +148,10 @@ class Constants {
     }
 
     object Retrofit {
+        const val ACCEPT = "Accept"
+
+        const val ACCEPT_JSON = "application/json"
+
         const val CONNECTION_CLOSE = "Connection:close"
     }
 
@@ -222,6 +226,4 @@ class Constants {
     object Api {
         const val BASE_URL = "https://google.com/"
     }
-
-
 }

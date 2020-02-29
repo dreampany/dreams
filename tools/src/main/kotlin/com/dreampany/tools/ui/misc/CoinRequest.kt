@@ -5,7 +5,7 @@ import com.dreampany.framework.data.model.Request
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
-import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.misc.Constants
 
 /**

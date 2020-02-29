@@ -89,7 +89,7 @@ class App : BaseApp() {
     override fun onCreate() {
         super.onCreate()
         if (!isDebug() && hasCrashlytics()) {
-            //configFabric()
+            configFabric()
         }
         configAd()
         //configService()

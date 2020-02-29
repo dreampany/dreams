@@ -1,4 +1,4 @@
-package com.dreampany.tools.injector.ui
+package com.dreampany.tools.injector.ui.crypto
 
 import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.tools.ui.fragment.crypto.CryptoFragment
@@ -19,6 +19,6 @@ abstract class CryptoModule {
     abstract fun cryptoHomeFragment(): CryptoHomeFragment
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = [CryptoInfoModule::class])
+    @ContributesAndroidInjector(modules = [CryptoInfoModule::class, CryptoMarketModule::class, CryptoGraphModule::class])
     abstract fun cryptoFragment(): CryptoFragment
 }

@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.vm
+package com.dreampany.tools.ui.vm.crypto
 
 import android.app.Application
 import com.dreampany.framework.data.enums.Action
@@ -15,18 +15,13 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.data.mapper.CoinMapper
-import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.data.mapper.crypto.CoinMapper
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.CoinRepository
 import com.dreampany.tools.ui.misc.CoinRequest
-import com.dreampany.tools.ui.misc.ServerRequest
 import com.dreampany.tools.ui.model.CoinItem
-import com.dreampany.tools.ui.model.ServerItem
-import com.dreampany.tools.ui.model.StationItem
 import com.dreampany.tools.util.CurrencyFormatter
 import io.reactivex.Flowable
 import io.reactivex.Maybe

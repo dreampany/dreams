@@ -8,14 +8,13 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
-import com.dreampany.tools.data.mapper.CoinMapper
-import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.model.Quote
-import com.dreampany.tools.data.source.api.CoinDataSource
+import com.dreampany.tools.data.mapper.crypto.CoinMapper
+import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
+import com.dreampany.tools.data.source.api.crypto.CoinDataSource
 import com.dreampany.tools.misc.Constants
 import io.reactivex.Maybe
 import java.util.ArrayList
-import javax.inject.Singleton
 
 /**
  * Created by roman on 2/27/20

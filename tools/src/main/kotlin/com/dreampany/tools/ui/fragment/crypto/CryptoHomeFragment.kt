@@ -23,8 +23,7 @@ import com.dreampany.framework.ui.listener.OnVerticalScrollListener
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
-import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.model.Note
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
@@ -34,8 +33,7 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
 import com.dreampany.tools.ui.misc.CoinRequest
 import com.dreampany.tools.ui.model.CoinItem
-import com.dreampany.tools.ui.model.StationItem
-import com.dreampany.tools.ui.vm.CoinViewModel
+import com.dreampany.tools.ui.vm.crypto.CoinViewModel
 import com.ferfalk.simplesearchview.SimpleSearchView
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration

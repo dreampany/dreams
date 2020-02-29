@@ -13,7 +13,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
-import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.model.question.Question
@@ -59,8 +59,9 @@ class Constants {
 
         /* crypto */
         fun cryptoHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-home"
-
         fun cryptoInfo(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-info"
+        fun cryptoMarket(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-market"
+        fun cryptoGraph(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-graph"
 
         /* note */
         fun noteHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "note-home"
@@ -264,17 +265,6 @@ class Constants {
         const val CONTACT = "contact"
         const val RESUME = "resume"
         const val QUESTION = "question"
-
-        object Crypto {
-            const val ID = Constants.Key.ID
-            const val CURRENCY = "currency"
-            const val VOLUME_24H = "volume_24h"
-            const val MARKET_CAP = "market_cap"
-            const val CHANGE_1H = "change_1h"
-            const val CHANGE_24H = "change_24h"
-            const val CHANGE_7D = "change_7d"
-            const val LAST_UPDATED = "last_updated"
-        }
     }
 
     object Pref {
@@ -355,7 +345,6 @@ class Constants {
     }
 
     object Limit {
-        const val WORD_RESOLVE = 10
         const val WORD_RECENT = 100
         const val WORD_SEARCH = 1000
         const val WORD_SUGGESTION = 10
@@ -364,6 +353,7 @@ class Constants {
         const val QUIZ_OPTIONS = 4
 
         object Word {
+            const val WORD_RESOLVE = 10
             const val HISTORY = 1000L
         }
 
@@ -513,6 +503,34 @@ class Constants {
             const val DATE_ADDED = "date_added"
         }
 
+        object Quote {
+            const val ID = Constants.Key.ID
+            const val CURRENCY = "currency"
+            const val VOLUME_24H = "volume_24h"
+            const val MARKET_CAP = "market_cap"
+            const val CHANGE_1H = "percent_change_1h"
+            const val CHANGE_24H = "percent_change_24h"
+            const val CHANGE_7D = "percent_change_7d"
+            const val LAST_UPDATED = "last_updated"
+        }
+
+        object Trade {
+            const val ID = Constants.Key.ID
+            const val FROM_SYMBOL = "from_symbol"
+            const val TO_SYMBOL = "to_symbol"
+            const val VOLUME_24H = "volume_24h"
+            const val VOLUME_24H_TO = "volume_24h_to"
+        }
+
+        object Exchange {
+            const val ID = Constants.Key.ID
+            const val FROM_SYMBOL = "from_symbol"
+            const val TO_SYMBOL = "to_symbol"
+            const val VOLUME_24H = "volume_24h"
+            const val CHANGE_24H = "change_24h"
+            const val CHANGE_PCT_24H = "change_pct_24h"
+        }
+
         object Question {
             const val ID = Constants.Key.ID
         }
@@ -574,17 +592,6 @@ class Constants {
         object Example {
             const val DOCUMENT_ID = "document_id"
             const val EXAMPLE_ID = "example_id"
-        }
-
-        object Quote {
-            const val ID = Constants.Key.ID
-            const val CURRENCY = "currency"
-            const val VOLUME_24H = "volume_24h"
-            const val MARKET_CAP = "market_cap"
-            const val CHANGE_1H = "percent_change_1h"
-            const val CHANGE_24H = "percent_change_24h"
-            const val CHANGE_7D = "percent_change_7d"
-            const val LAST_UPDATED = "last_updated"
         }
 
         object Station {

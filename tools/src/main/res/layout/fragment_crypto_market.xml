@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:background="@color/material_grey300">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/layout_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +32,38 @@
                     layout="@layout/content_top_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_top"
+                android:background="@color/white">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:visibility="gone"
+                    android:text="@string/currency_exchange"
+                    android:textColor="@color/material_black"
+                    auto:layout_constraintBottom_toBottomOf="parent"
+                    auto:layout_constraintStart_toStartOf="parent"
+                    auto:layout_constraintTop_toTopOf="parent"
+                    auto:fontFamily="@font/roboto_slab_bold" />
+
+                <!--<com.beardedhen.androidbootstrap.BootstrapDropDown
+                    android:id="@+id/drop_down_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    auto:bootstrapBrand="success"
+                    auto:bootstrapExpandDirection="down"
+                    auto:bootstrapSize="md"
+                    auto:bootstrapText="@string/usd"
+                    auto:dropdownResource="@array/coin_exchange_currencies"
+                    auto:layout_constraintEnd_toEndOf="parent"
+                    auto:layout_constraintTop_toTopOf="parent"
+                    auto:roundedCorners="true" />-->
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"

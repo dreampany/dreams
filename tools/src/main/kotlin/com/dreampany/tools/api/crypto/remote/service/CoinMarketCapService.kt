@@ -1,8 +1,8 @@
-package com.dreampany.tools.api.crypto.remote
+package com.dreampany.tools.api.crypto.remote.service
 
 import com.dreampany.tools.api.crypto.misc.Constants
-import com.dreampany.tools.api.crypto.model.CoinsResponse
-import com.dreampany.tools.api.crypto.model.QuotesResponse
+import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
+import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap

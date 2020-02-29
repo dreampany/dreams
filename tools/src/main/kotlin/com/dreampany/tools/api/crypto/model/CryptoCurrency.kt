@@ -6,7 +6,7 @@ package com.dreampany.tools.api.crypto.model
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-enum class Currency(val type: Type) {
+enum class CryptoCurrency(val type: Type) {
     AUD(),
     BDT(),
     BRL(),

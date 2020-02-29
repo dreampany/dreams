@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class Status(
+data class CryptoStatus(
     @SerializedName(value = Constants.Status.ERROR_CODE)
     val errorCode: Int,
     @SerializedName(value = Constants.Status.ERROR_MESSAGE)
@@ -18,5 +18,4 @@ data class Status(
     @SerializedName(value = Constants.Status.CREDIT_COUNT)
     val creditCount: Int,
     val timestamp: String
-) {
-}
+)

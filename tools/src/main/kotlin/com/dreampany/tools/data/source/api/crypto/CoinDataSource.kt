@@ -1,10 +1,10 @@
-package com.dreampany.tools.data.source.api
+package com.dreampany.tools.data.source.api.crypto
 
 import com.dreampany.framework.data.source.api.DataSource
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
-import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.model.crypto.Coin
 import io.reactivex.Maybe
 
 /**

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class Coin(
+data class CryptoCoin(
     val id: Long,
     val name: String,
     val symbol: String,
@@ -25,11 +25,10 @@ data class Coin(
     @SerializedName(value = Constants.Coin.RANK)
     val rank: Int,
     @SerializedName(value = Constants.Coin.QUOTE)
-    val quotes: HashMap<Currency, Quote>,
+    val quotes: HashMap<CryptoCurrency, CryptoQuote>,
     val tags: ArrayList<String>,
     @SerializedName(value = Constants.Coin.DATE_ADDED)
     val dateAdded: String,
     @SerializedName(value = Constants.Coin.LAST_UPDATED)
     val lastUpdated: String
-) {
-}
+)

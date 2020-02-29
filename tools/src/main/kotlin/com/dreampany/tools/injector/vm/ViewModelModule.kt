@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.injector.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.ui.vm.*
+import com.dreampany.tools.ui.vm.crypto.CoinViewModel
 import com.dreampany.tools.ui.vm.note.NoteViewModel
 import com.dreampany.tools.ui.vm.question.QuestionViewModel
 import com.dreampany.tools.ui.vm.radio.StationViewModel

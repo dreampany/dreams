@@ -4,18 +4,17 @@ import com.dreampany.framework.api.key.KeyManager
 import com.dreampany.framework.misc.exception.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.BuildConfig
-import com.dreampany.tools.api.crypto.remote.CoinMarketCapService
+import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
-import com.dreampany.tools.data.mapper.CoinMapper
-import com.dreampany.tools.data.model.Coin
-import com.dreampany.tools.data.source.api.CoinDataSource
+import com.dreampany.tools.data.mapper.crypto.CoinMapper
+import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.source.api.crypto.CoinDataSource
 import com.dreampany.tools.misc.Constants
 import com.google.common.collect.Maps
 import io.reactivex.Maybe
 import timber.log.Timber
-import javax.inject.Singleton
 
 /**
  * Created by roman on 2019-11-12
@@ -273,10 +272,9 @@ constructor(
     fun getHeaders(key: String): Map<String, String> {
         val headers = Maps.newHashMap<String, String>()
         headers.put(
-            com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.ACCEPT,
-            com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.ACCEPT_JSON
+            com.dreampany.framework.misc.Constants.Retrofit.ACCEPT,
+            com.dreampany.framework.misc.Constants.Retrofit.ACCEPT_JSON
         )
-        //headers.put(Constants.CoinMarketCap.ACCEPT_ENCODING, Constants.CoinMarketCap.ACCEPT_ZIP)
         headers.put(com.dreampany.tools.api.crypto.misc.Constants.CoinMarketCap.API_KEY, key)
         return headers
     }

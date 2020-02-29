@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class Quote(
+data class CryptoQuote(
     val price: Double,
     @SerializedName(value = Constants.Quote.VOLUME_24H)
     val volume24h: Double,
@@ -23,5 +23,4 @@ data class Quote(
     val change7d: Double,
     @SerializedName(value = Constants.Quote.LAST_UPDATED)
     val lastUpdated: String
-) {
-}
+)

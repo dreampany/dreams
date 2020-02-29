@@ -92,6 +92,10 @@ abstract class BaseItem<VH : BaseItem.ViewHolder, T : Base, S : Serializable>(
             return context.getString(resId, formatArgs)
         }
 
+        protected fun getFormattedString(@StringRes formatRes: Int, vararg values: Any): String {
+            return String.format(getString(formatRes), *values)
+        }
+
         open fun getColor(@ColorRes resId: Int): Int {
             return resId.toColor(context)
         }

@@ -386,8 +386,8 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     return
                 }
             }
-            Type.BLOCK -> {
-                if (subtype == Subtype.DEFAULT) {
+            Type.CALL_BLOCK -> {
+                if (state == State.HOME) {
                     commitFragment(
                         CallBlockHomeFragment::class.java,
                         callBlockHomeProvider,

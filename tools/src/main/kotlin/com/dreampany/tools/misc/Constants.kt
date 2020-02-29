@@ -215,7 +215,7 @@ class Constants {
                 Type.WORD -> return 7
                 Type.ENGLISH -> return 8
                 Type.QUESTION -> return 9
-                Type.BLOCK -> return 10
+                Type.CALL_BLOCK -> return 10
                 else -> return Int.MAX_VALUE
             }
         }

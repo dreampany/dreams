@@ -10,10 +10,12 @@ import com.dreampany.framework.misc.Constants
  * Last modified $file.lastModified
  */
 abstract class Task<T : Parcelable>(
-    open var id : String? = Constants.Default.NULL,
+    open var id: String? = Constants.Default.NULL,
+    open var ids: List<String>? = Constants.Default.NULL,
     open var input: T? = Constants.Default.NULL,
     open var inputs: ArrayList<T>? = Constants.Default.NULL,
-    open var extra: String? = Constants.Default.NULL
+    open var extra: String? = Constants.Default.NULL,
+    open var extras: List<String>? = Constants.Default.NULL
 ) : BaseParcel() {
 
 }

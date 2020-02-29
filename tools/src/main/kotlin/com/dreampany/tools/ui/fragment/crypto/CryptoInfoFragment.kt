@@ -7,23 +7,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
+import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.FragmentScope
 import com.dreampany.framework.misc.extension.inflate
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.tools.R
+import com.dreampany.tools.data.model.Coin
+import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
+import com.dreampany.tools.ui.misc.CoinRequest
 import com.dreampany.tools.ui.model.CoinItem
 import com.dreampany.tools.ui.vm.CoinViewModel
 import cz.kinst.jakub.view.StatefulLayout
 import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
+import eu.davidea.flexibleadapter.common.SmoothScrollLinearLayoutManager
 import eu.davidea.flexibleadapter.common.SmoothScrollStaggeredLayoutManager
 import javax.inject.Inject
 
@@ -39,6 +46,8 @@ class CryptoInfoFragment
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var cryptoPref: CryptoPref
 
     private lateinit var bind: FragmentRecyclerBinding
     private lateinit var bindStatus: ContentTopStatusBinding
@@ -48,6 +57,7 @@ class CryptoInfoFragment
     private lateinit var adapter: CoinAdapter
 
     private lateinit var vm: CoinViewModel
+    private lateinit var coin: Coin
 
     override fun getScreen(): String {
         return Constants.cryptoInfo(context)
@@ -60,10 +70,18 @@ class CryptoInfoFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
+        onRefresh()
     }
 
     override fun onStopUi() {
 
+    }
+
+    override fun onRefresh() {
+        if (adapter.isEmpty) {
+            if (::coin.isInitialized)
+                request(single = true, progress = true, id = coin.id)
+        }
     }
 
     private fun initUi() {
@@ -89,6 +107,9 @@ class CryptoInfoFragment
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+
+        val task = getCurrentTask<UiTask<Coin>>() ?: return
+        coin = task.input ?: return
     }
 
 
@@ -100,7 +121,7 @@ class CryptoInfoFragment
         ViewUtil.setRecycler(
             adapter,
             bindRecycler.recycler,
-            SmoothScrollStaggeredLayoutManager(context!!, adapter.getSpanCount()),
+            SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
                 .withOffset(adapter.getItemOffset())
                 .withEdge(true),
@@ -108,6 +129,31 @@ class CryptoInfoFragment
             scroller,
             null
         )
+    }
+
+    private fun request(
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        start: Long = Constants.Default.LONG,
+        limit: Long = Constants.Default.LONG,
+        id: String = Constants.Default.STRING,
+        ids: List<String>? = Constants.Default.NULL
+    ) {
+        val currency = cryptoPref.getCurrency()
+        val request = CoinRequest(
+            type = Type.COIN,
+            subtype = Subtype.DEFAULT,
+            action = action,
+            single = single,
+            progress = progress,
+            start = start,
+            limit = limit,
+            id = id,
+            ids = ids,
+            currency = currency
+        )
+        vm.request(request)
     }
 
     private fun processUiState(response: Response.UiResponse) {
@@ -168,7 +214,8 @@ class CryptoInfoFragment
     }
 
     private fun processSuccess(state: State, action: Action, item: CoinItem) {
-        adapter.addItem(item)
+        val result = vm.getInfos(item)
+        adapter.addItems(result)
     }
 
     private fun processSuccess(state: State, action: Action, items: List<CoinItem>) {

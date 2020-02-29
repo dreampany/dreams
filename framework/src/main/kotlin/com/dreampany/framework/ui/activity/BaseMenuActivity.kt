@@ -1,15 +1,18 @@
 package com.dreampany.framework.ui.activity
 
 import android.view.Menu
+import android.view.MenuInflater
 
 
 /**
- * Created by Hawladar Roman on 5/22/2018.
- * BJIT Group
+ * Created by roman on 2020-02-20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
-
 abstract class BaseMenuActivity : BaseActivity() {
+
+    protected var menu: Menu? = null
 
     open fun getMenuId(): Int {
         return 0
@@ -20,6 +23,7 @@ abstract class BaseMenuActivity : BaseActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.menu = menu
         val menuId = getMenuId()
         if (menuId != 0) { //this need clear
             menu.clear()

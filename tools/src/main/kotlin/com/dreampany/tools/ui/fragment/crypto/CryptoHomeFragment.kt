@@ -308,13 +308,13 @@ class CryptoHomeFragment
     }
 
     private fun request(
-        id: String = Constants.Default.STRING,
-        ids: List<String>? = Constants.Default.NULL,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
         start: Long = Constants.Default.LONG,
-        limit: Long = Constants.Default.LONG
+        limit: Long = Constants.Default.LONG,
+        id: String = Constants.Default.STRING,
+        ids: List<String>? = Constants.Default.NULL
     ) {
         val currency = cryptoPref.getCurrency()
         val sort = cryptoPref.getSort()

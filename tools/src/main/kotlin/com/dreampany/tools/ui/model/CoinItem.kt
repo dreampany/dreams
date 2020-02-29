@@ -3,12 +3,12 @@ package com.dreampany.tools.ui.model
 import android.text.format.DateUtils
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.extension.gone
 import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extension.setUrl
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.FrescoUtil
@@ -49,28 +49,28 @@ private constructor(
     }
 
     companion object {
-        fun getItem(formatter: CurrencyFormatter, currency: Currency, item: Coin): CoinItem {
+        fun getItem(currency: Currency, item: Coin, formatter: CurrencyFormatter): CoinItem {
             return CoinItem(Type.ITEM, currency, item, formatter, R.layout.item_coin)
         }
 
-        fun getInfoItem(formatter: CurrencyFormatter, currency: Currency, item: Coin): CoinItem {
+        fun getInfoItem(currency: Currency, item: Coin, formatter: CurrencyFormatter): CoinItem {
             return CoinItem(Type.INFO, currency, item, formatter, R.layout.item_coin_info)
         }
 
-        fun getQuoteItem(formatter: CurrencyFormatter, currency: Currency, item: Coin): CoinItem {
+        fun getQuoteItem(currency: Currency, item: Coin, formatter: CurrencyFormatter): CoinItem {
             return CoinItem(Type.QUOTE, currency, item, formatter, R.layout.item_coin_quote)
         }
     }
 
     override fun hashCode(): Int {
-        return Objects.hashCode(item.id)
+        return Objects.hashCode(item.id, type)
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as CoinItem
-        return Objects.equal(this.item.id, item.item.id)
+        return Objects.equal(this.item.id, item.item.id) && item.type == type
     }
 
     override fun createViewHolder(
@@ -156,9 +156,8 @@ private constructor(
             val uiItem = item as CoinItem
             val item = uiItem.item
 
-            val imageUrl =
-                String.format(Locale.ENGLISH, Constants.Api.Crypto.CoinMarketCapImageUrl, item.id)
-            FrescoUtil.loadImage(icon, imageUrl, true)
+            val imageUrl = String.format(Locale.ENGLISH, Constants.Api.Crypto.CoinMarketCapImageUrl, item.id)
+            icon.setUrl(imageUrl)
 
             val nameText =
                 String.format(Locale.ENGLISH, getString(R.string.full_name), item.symbol, item.name)
@@ -280,6 +279,57 @@ private constructor(
             val uiItem = item as CoinItem
             val item = uiItem.item
 
+            val imageUrl = String.format(Locale.ENGLISH, Constants.Api.Crypto.CoinMarketCapImageUrl, item.id)
+            icon.setUrl(imageUrl)
+
+            /*val nameText = String.format(Locale.ENGLISH, getText(R.string.full_name), coin.symbol, coin.name)
+            name.text = nameText
+
+            val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+                coin.getLastUpdated(),
+                TimeUtil.currentTime(),
+                DateUtils.MINUTE_IN_MILLIS
+            ) as String
+            lastUpdated.text = lastUpdatedTime
+
+            val quote = coin.getQuote(item.currency)
+            if (quote != null) {
+                val price = quote.price
+                val hourChange = quote.getHourChange()
+                val dayChange = quote.getDayChange()
+                val weekChange = quote.getWeekChange()
+
+                val hourFormat = if (hourChange >= 0.0f) positiveChange else negativeChange
+                val dayFormat = if (dayChange >= 0.0f) positiveChange else negativeChange
+                val weekFormat = if (weekChange >= 0.0f) positiveChange else negativeChange
+
+                this.price.text = formatter.formatPrice(price, uiItem.currency)
+
+                marketCapTitle.setText(R.string.market_cap)
+                volumeTitle.setText(R.string.volume_24h)
+
+                val oneHourValue = String.format(getText(hourFormat), hourChange)
+                val oneDayValue = String.format(getText(dayFormat), dayChange)
+                val weekValue = String.format(getText(weekFormat), weekChange)
+
+                marketCapValue.text = formatter.roundPrice(quote.getMarketCap(), uiItem.currency)
+                volumeValue.text = formatter.roundPrice(quote.getDayVolume(), uiItem.currency)
+
+                this.hourChange.text = getItemText(R.string.coin_format, getText(R.string.one_hour), oneHourValue)
+                this.dayChange.text = getItemText(R.string.coin_format, getText(R.string.one_day), oneDayValue)
+                this.weekChange.text = getItemText(R.string.coin_format, getText(R.string.week), weekValue)
+
+                val change1hColor = if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                val change24hColor = if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                val change7dColor = if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+
+                this.hourChange.setTextColor(ColorUtil.getColor(getContext(), change1hColor))
+                this.dayChange.setTextColor(ColorUtil.getColor(getContext(), change24hColor))
+                this.weekChange.setTextColor(ColorUtil.getColor(getContext(), change7dColor))
+            }
+
+            like.tag = coin
+            like.setLiked(item.favorite)*/
         }
     }
 

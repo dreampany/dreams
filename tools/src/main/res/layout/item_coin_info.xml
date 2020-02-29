@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <com.google.android.material.textview.MaterialTextView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         auto:cardCornerRadius="4dp"
@@ -107,5 +107,5 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.google.android.material.textview.MaterialTextView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

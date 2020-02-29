@@ -1,7 +1,9 @@
 package com.dreampany.framework.misc.extension
 
+import android.net.Uri
 import android.text.Editable
 import com.dreampany.framework.misc.Constants
+import com.facebook.common.util.UriUtil
 
 /**
  * Created by roman on 2019-10-19
@@ -68,6 +70,16 @@ fun String?.parseInt() : Int {
 fun String?.parseLong() : Long {
     if (this.isNullOrEmpty()) return 0L
     return this.toLong()
+}
+
+fun String?.toUri() : Uri? {
+    if (this == null) return null
+    return if (this.contains(Constants.Value.HTTP)) {
+        Uri.parse(this)
+    } else Uri.Builder()
+        .scheme(UriUtil.LOCAL_FILE_SCHEME)
+        .path(this)
+        .build()
 }
 
 /*fun String.join(vararg items: String, sep: String): String {

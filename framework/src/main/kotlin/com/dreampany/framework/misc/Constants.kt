@@ -134,6 +134,10 @@ class Constants {
         const val LEVEL = "level"
     }
 
+    object Value {
+        const val HTTP = "http"
+    }
+
     object Action {
         const val START_SERVICE = "start_service"
         const val STOP_SERVICE = "stop_service"

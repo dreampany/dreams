@@ -71,16 +71,20 @@ class CryptoInfoFragment
         initUi()
         initRecycler()
         onRefresh()
+        if (::coin.isInitialized)
+            setTitle(coin.name)
     }
 
     override fun onStopUi() {
-
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onRefresh() {
         if (adapter.isEmpty) {
             if (::coin.isInitialized)
                 request(single = true, progress = true, id = coin.id)
+        } else {
+            vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
         }
     }
 
@@ -98,9 +102,7 @@ class CryptoInfoFragment
 
         bind.stateful.setStateView(
             UiState.EMPTY.name,
-            context.inflate(R.layout.content_empty).apply {
-                // setOnClickListener(this@Crypto)
-            }
+            context.inflate(R.layout.content_empty_crypto)
         )
 
         vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)

@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:background="@color/material_grey300">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/layout_top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,44 +32,77 @@
                     layout="@layout/content_top_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layout_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_top"
-                android:background="@color/white">
+                android:layout_margin="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                auto:cardCornerRadius="@dimen/_4sdp"
+                auto:cardElevation="@dimen/_4sdp"
+                auto:cardPreventCornerOverlap="false">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:visibility="gone"
-                    android:text="@string/currency_exchange"
-                    android:textColor="@color/material_black"
-                    auto:layout_constraintBottom_toBottomOf="parent"
-                    auto:layout_constraintStart_toStartOf="parent"
-                    auto:layout_constraintTop_toTopOf="parent"
-                    auto:fontFamily="@font/roboto_slab_bold" />
-
-                <!--<com.beardedhen.androidbootstrap.BootstrapDropDown
-                    android:id="@+id/drop_down_currency"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    auto:bootstrapBrand="success"
-                    auto:bootstrapExpandDirection="down"
-                    auto:bootstrapSize="md"
-                    auto:bootstrapText="@string/usd"
-                    auto:dropdownResource="@array/coin_exchange_currencies"
-                    auto:layout_constraintEnd_toEndOf="parent"
-                    auto:layout_constraintTop_toTopOf="parent"
-                    auto:roundedCorners="true" />-->
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_8sdp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/trade_pairs"
+                        android:textColor="@color/material_black"
+                        android:textSize="@dimen/_14sdp"
+                        auto:fontFamily="@font/roboto_slab_bold"
+                        auto:layout_constraintBottom_toBottomOf="parent"
+                        auto:layout_constraintStart_toStartOf="parent"
+                        auto:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_from_symbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/language_en"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/trade_pairs_sep"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/button_to_symbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/usd"
+                        android:textColor="@color/material_grey700"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        auto:fontFamily="@font/roboto_slab_bold" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </com.google.android.material.card.MaterialCardView>
 
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/layout_top">
+                android:layout_below="@id/layout_top"
+                android:layout_marginTop="@dimen/_4sdp">
 
                 <FrameLayout
                     android:layout_width="match_parent"

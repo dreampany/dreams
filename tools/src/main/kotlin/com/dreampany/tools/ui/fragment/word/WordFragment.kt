@@ -99,7 +99,7 @@ class WordFragment
     }
 
     override fun getScreen(): String {
-        return Constants.word(context!!)
+        return Constants.word(context)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
@@ -304,7 +304,6 @@ class WordFragment
     }
 
     private fun openOptionsMenu(v: View) {
-//currentItem = item
         langMenu = PowerMenu.Builder(context)
             .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)
             .addItemList(langItems)

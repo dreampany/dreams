@@ -42,5 +42,6 @@
 
     <string name="market">Market</string>
     <string name="graph">Graph</string>
-    <string name="currency_exchange">Currency Exchanges</string>
+    <string name="trade_pairs">Trade Pairs</string>
+    <string name="trade_pairs_sep">-</string>
 </resources>

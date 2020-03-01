@@ -12,8 +12,8 @@ import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.ActivityScope
-import com.dreampany.framework.misc.extension.currentPosition
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extensions.currentPosition
+import com.dreampany.framework.misc.extensions.setOnSafeClickListener
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment

@@ -74,6 +74,13 @@ class NotifyViewModel
     }
 
     fun request(request: WordRequest) {
+        if (application is App) {
+            if (!application.isVisible()) {
+                Timber.v("NotifyViewModel Periodic Request denied [App is Hidden]")
+                return
+            }
+        }
+        Timber.v("NotifyViewModel Periodic Request accepted [App is visible]")
         when (request.type) {
             Type.WORD -> {
                 requestWord(request)

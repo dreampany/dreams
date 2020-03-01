@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.exception;
+package com.dreampany.framework.misc.exceptions;
 
 /**
  * Created by Hawladar Roman on 6/11/2018.

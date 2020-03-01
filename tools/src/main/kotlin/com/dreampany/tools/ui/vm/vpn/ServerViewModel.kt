@@ -10,8 +10,8 @@ import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.injector.annote.Favorite
 import com.dreampany.framework.misc.*
-import com.dreampany.framework.misc.exception.ExtraException
-import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.misc.exceptions.ExtraException
+import com.dreampany.framework.misc.exceptions.MultiException
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel

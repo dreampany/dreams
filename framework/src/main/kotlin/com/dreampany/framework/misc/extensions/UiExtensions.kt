@@ -1,11 +1,7 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.extensions
 
 import android.content.Context
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
@@ -22,7 +18,6 @@ import com.dreampany.framework.R
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.misc.func.SafeClickListener
 import com.dreampany.framework.ui.adapter.SmartAdapter
-import java.util.*
 
 
 /**

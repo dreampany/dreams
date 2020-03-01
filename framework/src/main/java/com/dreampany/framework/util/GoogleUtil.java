@@ -3,10 +3,10 @@ package com.dreampany.framework.util;
 import android.content.Context;
 
 import com.dreampany.framework.R;
-import com.dreampany.framework.misc.exception.DeviceUnsupportedException;
-import com.dreampany.framework.misc.exception.GooglePlayServicesNotInstalledException;
-import com.dreampany.framework.misc.exception.GooglePlayServicesOutDatedException;
-import com.dreampany.framework.misc.exception.UnknownErrorException;
+import com.dreampany.framework.misc.exceptions.DeviceUnsupportedException;
+import com.dreampany.framework.misc.exceptions.GooglePlayServicesNotInstalledException;
+import com.dreampany.framework.misc.exceptions.GooglePlayServicesOutDatedException;
+import com.dreampany.framework.misc.exceptions.UnknownErrorException;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 

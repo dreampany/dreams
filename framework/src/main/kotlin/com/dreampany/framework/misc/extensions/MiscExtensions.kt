@@ -1,10 +1,8 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.extensions
 
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
-import android.os.Build
-import android.text.Html
 import android.text.Spanned
 import android.util.DisplayMetrics
 import android.util.TypedValue

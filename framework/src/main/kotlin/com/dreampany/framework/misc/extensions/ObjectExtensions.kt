@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.extensions
 
 import com.google.common.hash.Hashing
 import java.util.*

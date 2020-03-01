@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extensions.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.ui.widget.TextDrawable
 import com.dreampany.framework.util.ColorUtil

@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.remote
 
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.mapper.StationMapper

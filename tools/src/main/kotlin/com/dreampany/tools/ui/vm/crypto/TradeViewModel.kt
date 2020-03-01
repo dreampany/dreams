@@ -8,14 +8,13 @@ import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.framework.misc.exception.ExtraException
-import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.misc.exceptions.ExtraException
+import com.dreampany.framework.misc.exceptions.MultiException
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.crypto.TradeMapper
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Trade
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.data.source.pref.Pref

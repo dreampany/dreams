@@ -1,6 +1,6 @@
 package com.dreampany.tools.ui.adapter.question
 
-import com.dreampany.framework.misc.extension.resolve
+import com.dreampany.framework.misc.extensions.resolve
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.tools.ui.model.question.QuestionItem
 

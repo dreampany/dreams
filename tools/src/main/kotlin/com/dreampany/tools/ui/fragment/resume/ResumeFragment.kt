@@ -18,7 +18,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.ActivityScope
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.extensions.*
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment

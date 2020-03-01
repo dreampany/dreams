@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.room
 
-import com.dreampany.framework.misc.exception.WriteException
+import com.dreampany.framework.misc.exceptions.WriteException
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.data.source.api.ServerDataSource

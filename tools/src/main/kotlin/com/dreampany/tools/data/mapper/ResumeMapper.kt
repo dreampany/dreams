@@ -3,7 +3,7 @@ package com.dreampany.tools.data.mapper
 import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.framework.misc.extension.hash
+import com.dreampany.framework.misc.extensions.hash
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.resume.*
 import com.dreampany.tools.injector.annote.resume.*

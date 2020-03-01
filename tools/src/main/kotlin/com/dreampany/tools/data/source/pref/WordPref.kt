@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.data.source.pref.FramePref
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.misc.Constants

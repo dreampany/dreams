@@ -7,7 +7,7 @@ import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.data.source.api.StoreDataSource
 import com.dreampany.framework.data.source.room.dao.StoreDao
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import io.reactivex.Maybe
 import timber.log.Timber
 

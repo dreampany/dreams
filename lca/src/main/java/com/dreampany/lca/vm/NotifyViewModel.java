@@ -7,7 +7,7 @@ import com.dreampany.framework.app.BaseApp;
 import com.dreampany.framework.misc.AppExecutors;
 import com.dreampany.framework.misc.ResponseMapper;
 import com.dreampany.framework.misc.RxMapper;
-import com.dreampany.framework.misc.exception.EmptyException;
+import com.dreampany.framework.misc.exceptions.EmptyException;
 import com.dreampany.framework.util.DataUtil;
 import com.dreampany.framework.util.TextUtil;
 import com.dreampany.framework.util.TimeUtil;

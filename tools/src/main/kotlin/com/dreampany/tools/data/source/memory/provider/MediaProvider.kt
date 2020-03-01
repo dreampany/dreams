@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.net.Uri
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.framework.util.CursorUtil
 import com.dreampany.tools.data.model.Media
 import io.reactivex.Maybe

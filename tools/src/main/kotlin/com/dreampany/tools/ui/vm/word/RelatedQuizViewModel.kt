@@ -12,9 +12,9 @@ import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.misc.exception.ExtraException
-import com.dreampany.framework.misc.exception.MultiException
+import com.dreampany.framework.misc.exceptions.EmptyException
+import com.dreampany.framework.misc.exceptions.ExtraException
+import com.dreampany.framework.misc.exceptions.MultiException
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.framework.util.DataUtilKt

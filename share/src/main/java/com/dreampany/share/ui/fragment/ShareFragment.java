@@ -12,7 +12,7 @@ import android.view.View;
 import com.dreampany.framework.data.enums.UiState;
 import com.dreampany.framework.data.model.Response;
 import com.dreampany.framework.misc.ActivityScope;
-import com.dreampany.framework.misc.exception.EmptyException;
+import com.dreampany.framework.misc.exceptions.EmptyException;
 import com.dreampany.framework.ui.fragment.BaseMenuFragment;
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener;
 import com.dreampany.framework.util.ViewUtil;

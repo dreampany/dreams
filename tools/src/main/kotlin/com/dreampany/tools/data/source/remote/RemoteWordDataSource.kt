@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.remote
 
 import android.graphics.Bitmap
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.wordnik.WordnikManager
 import com.dreampany.framework.data.enums.Source

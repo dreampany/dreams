@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.exception;
+package com.dreampany.framework.misc.exceptions;
 
 import java.util.ArrayList;
 import java.util.Arrays;

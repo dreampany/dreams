@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.remote.crypto
 
 import android.content.Context
 import com.dreampany.framework.api.key.KeyManager
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.misc.Constants

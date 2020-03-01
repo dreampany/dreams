@@ -11,7 +11,7 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.data.model.Point
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extensions.setOnSafeClickListener
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TextUtil

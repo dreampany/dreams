@@ -2,7 +2,7 @@ package com.dreampany.framework.ui.listener
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
-import com.dreampany.framework.misc.extension.getSnapPosition
+import com.dreampany.framework.misc.extensions.getSnapPosition
 
 /**
  * Created by roman on 2020-02-22

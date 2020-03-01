@@ -11,7 +11,7 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.FragmentScope
-import com.dreampany.framework.misc.extension.inflate
+import com.dreampany.framework.misc.extensions.inflate
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener

@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.extensions
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

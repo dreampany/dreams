@@ -1,7 +1,6 @@
 package com.dreampany.framework.ui.model
 
 import android.content.Context
-import android.graphics.Color
 import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
@@ -9,8 +8,7 @@ import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.misc.Constants
-import com.dreampany.framework.misc.extension.toColor
-import com.dreampany.framework.util.ColorUtil
+import com.dreampany.framework.misc.extensions.toColor
 import com.dreampany.framework.util.DisplayUtil
 import com.google.common.base.Objects
 import eu.davidea.flexibleadapter.FlexibleAdapter

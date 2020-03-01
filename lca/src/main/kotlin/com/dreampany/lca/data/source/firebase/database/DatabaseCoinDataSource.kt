@@ -5,7 +5,7 @@ import com.dreampany.firebase.RxFirebaseDatabase
 import com.dreampany.frame.misc.exception.EmptyException
 import com.dreampany.frame.util.DataUtil
 import com.dreampany.frame.util.TimeUtil
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.framework.util.DataUtil
 import com.dreampany.lca.data.enums.CoinSource
 import com.dreampany.lca.data.enums.Currency

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.extension.resolve
+import com.dreampany.framework.misc.extensions.resolve
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.misc.Constants

@@ -5,8 +5,8 @@ import com.dreampany.framework.data.misc.Mapper
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.misc.extension.hash
+import com.dreampany.framework.misc.exceptions.EmptyException
+import com.dreampany.framework.misc.extensions.hash
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.api.wordnik.model.WordnikWord
 import com.dreampany.tools.data.model.word.*

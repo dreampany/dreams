@@ -9,7 +9,7 @@ import com.dreampany.framework.misc.AppExecutors;
 import com.dreampany.framework.misc.ResponseMapper;
 import com.dreampany.framework.misc.RxMapper;
 import com.dreampany.framework.misc.SmartMap;
-import com.dreampany.framework.misc.exception.EmptyException;
+import com.dreampany.framework.misc.exceptions.EmptyException;
 import com.dreampany.framework.ui.vm.BaseViewModel;
 import com.dreampany.media.data.enums.MediaType;
 import com.dreampany.media.data.model.Apk;

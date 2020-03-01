@@ -7,7 +7,6 @@ import android.content.Context
 import android.os.Bundle
 import android.os.StrictMode
 import androidx.multidex.MultiDex
-import com.dreampany.framework.BuildConfig
 import com.dreampany.framework.R
 import com.dreampany.framework.api.service.JobManager
 import com.dreampany.framework.api.service.ServiceManager
@@ -17,6 +16,7 @@ import com.dreampany.framework.data.model.Color
 import com.dreampany.framework.misc.AppExecutor
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.misc.SmartAd
+import com.dreampany.framework.misc.extensions.isDebug
 import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TextUtil
@@ -70,8 +70,12 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     private lateinit var color: Color
 
+    open fun getScreen(): String {
+        return javaClass.simpleName
+    }
+
     open fun isDebug(): Boolean {
-        return BuildConfig.DEBUG
+        return applicationContext.isDebug()
     }
 
     open fun hasStrict(): Boolean {
@@ -82,7 +86,7 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
         return false
     }
 
-    open fun hasSoLoader():Boolean {
+    open fun hasSoLoader(): Boolean {
         return false
     }
 
@@ -132,10 +136,6 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     open fun getAdmobAppId(): Int {
         return 0
-    }
-
-    open fun getScreen(): String {
-        return javaClass.simpleName
     }
 
     open fun onOpen() {}
@@ -232,7 +232,11 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
             }
         }
         if (hasColor()) {
-            color = ColorUtil.createColor(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
+            color = ColorUtil.createColor(
+                R.color.colorPrimary,
+                R.color.colorPrimaryDark,
+                R.color.colorAccent
+            )
         }
 
         registerActivityLifecycleCallbacks(this)
@@ -306,10 +310,10 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
     }
 
     open fun throwAnalytics(event: String, screen: String, error: Throwable?) {
-        if (AndroidUtil.isDebug(applicationContext)) {
+        if (applicationContext.isDebug()) {
             return
         }
-        ex.postToNetwork(Runnable{
+        ex.postToNetwork(Runnable {
             val packageName = AndroidUtil.getPackageName(applicationContext)
             val versionCode = AndroidUtil.getVersionCode(applicationContext)
             val versionName = AndroidUtil.getVersionName(applicationContext)
@@ -347,16 +351,16 @@ abstract class BaseApp : DaggerApplication(), Application.ActivityLifecycleCallb
 
     private fun initLeakCanary(): Boolean {
         //if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            //return false
+        // This process is dedicated to LeakCanary for heap analysis.
+        // You should not init your app in this process.
+        //return false
         //}
         //LeakCanary.install(this)
         return true
     }
 
     private fun initSoLoader() {
-       // SoLoader.init(this, false)
+        // SoLoader.init(this, false)
     }
 
     private fun configRx() {

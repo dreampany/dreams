@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.database
 
 import androidx.core.util.Pair
 import com.dreampany.firebase.RxFirebaseDatabase
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.enums.CoinSort

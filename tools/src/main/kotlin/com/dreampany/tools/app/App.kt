@@ -9,16 +9,15 @@ import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.misc.PointMapper
 import com.dreampany.framework.data.source.repository.PointRepository
-import com.dreampany.tools.BuildConfig
+import com.dreampany.framework.misc.SmartAd
+import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.framework.util.PermissionUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.injector.app.DaggerAppComponent
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.service.NotifyService
-import com.dreampany.framework.misc.SmartAd
-import com.dreampany.framework.util.AndroidUtil
-import com.dreampany.framework.util.PermissionUtil
 import com.dreampany.tools.service.AppService
+import com.dreampany.tools.service.NotifyService
 import com.dreampany.tools.ui.activity.NavigationActivity
 import com.dreampany.tools.worker.LoadWorker
 import com.dreampany.tools.worker.NotifyWorker
@@ -31,15 +30,16 @@ import com.karumi.dexter.listener.single.PermissionListener
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.Runnable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
 /**
- * Created by Hawladar Roman on 5/22/2018.
- * BJIT Group
+ * Created by roman on 1/3/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 class App : BaseApp() {
 
@@ -50,8 +50,8 @@ class App : BaseApp() {
     @Inject
     internal lateinit var pointRepo: PointRepository
 
-    override fun isDebug(): Boolean {
-        return BuildConfig.DEBUG;
+    override fun getScreen(): String {
+        return Constants.app(this)
     }
 
     override fun hasCrashlytics(): Boolean {

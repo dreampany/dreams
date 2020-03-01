@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.extension.toColor
+import com.dreampany.framework.misc.extensions.toColor
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.crypto.Exchange

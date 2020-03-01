@@ -2,7 +2,6 @@ package com.dreampany.tools.ui.model
 
 import android.view.View
 import androidx.annotation.LayoutRes
-import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
@@ -10,8 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
 import com.dreampany.framework.data.model.Color
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
-import com.dreampany.framework.misc.extension.toColor
+import com.dreampany.framework.misc.extensions.setOnSafeClickListener
+import com.dreampany.framework.misc.extensions.toColor
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.ColorUtil
 import com.dreampany.framework.util.TimeUtilKt

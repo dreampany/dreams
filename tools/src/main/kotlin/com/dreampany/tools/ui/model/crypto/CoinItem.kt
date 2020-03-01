@@ -7,10 +7,10 @@ import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.misc.extension.gone
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
-import com.dreampany.framework.misc.extension.setUrl
-import com.dreampany.framework.misc.extension.toColor
+import com.dreampany.framework.misc.extensions.gone
+import com.dreampany.framework.misc.extensions.setOnSafeClickListener
+import com.dreampany.framework.misc.extensions.setUrl
+import com.dreampany.framework.misc.extensions.toColor
 import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.framework.util.ViewUtil

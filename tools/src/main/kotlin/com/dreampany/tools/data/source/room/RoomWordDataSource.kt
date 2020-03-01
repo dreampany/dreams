@@ -1,8 +1,8 @@
 package com.dreampany.tools.data.source.room
 
 import android.graphics.Bitmap
-import com.dreampany.framework.misc.exception.EmptyException
-import com.dreampany.framework.misc.exception.WriteException
+import com.dreampany.framework.misc.exceptions.EmptyException
+import com.dreampany.framework.misc.exceptions.WriteException
 import com.dreampany.framework.data.enums.Source
 import com.dreampany.tools.data.mapper.WordMapper
 import com.dreampany.tools.data.model.word.Word

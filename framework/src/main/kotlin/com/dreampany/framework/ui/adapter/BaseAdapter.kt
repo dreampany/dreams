@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.framework.misc.extension.bindInflater
-import com.dreampany.framework.misc.extension.dpToPx
-import com.dreampany.framework.misc.extension.screenWidthInPx
+import com.dreampany.framework.misc.extensions.bindInflater
+import com.dreampany.framework.misc.extensions.dpToPx
+import com.dreampany.framework.misc.extensions.screenWidthInPx
 import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList

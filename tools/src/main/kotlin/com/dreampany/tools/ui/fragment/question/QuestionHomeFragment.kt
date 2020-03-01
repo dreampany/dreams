@@ -7,9 +7,9 @@ import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.injector.annote.ActivityScope
-import com.dreampany.framework.misc.extension.parseLong
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
-import com.dreampany.framework.misc.extension.singleItemOfStringResArray
+import com.dreampany.framework.misc.extensions.parseLong
+import com.dreampany.framework.misc.extensions.setOnSafeClickListener
+import com.dreampany.framework.misc.extensions.singleItemOfStringResArray
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R

@@ -3,7 +3,7 @@ package com.dreampany.framework.data.source.repository
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.framework.util.DataUtil
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable

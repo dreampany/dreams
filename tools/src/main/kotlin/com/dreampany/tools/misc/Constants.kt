@@ -7,7 +7,7 @@ import com.dreampany.framework.data.enums.Difficult
 import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
-import com.dreampany.framework.misc.extension.string
+import com.dreampany.framework.misc.extensions.string
 import com.dreampany.framework.util.TextUtil
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.CoinSort

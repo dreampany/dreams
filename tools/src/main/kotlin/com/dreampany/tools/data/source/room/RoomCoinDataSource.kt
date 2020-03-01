@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.room
 
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order

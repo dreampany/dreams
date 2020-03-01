@@ -8,7 +8,7 @@ import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.misc.*
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.framework.data.enums.Source
 import com.dreampany.framework.injector.annote.*

@@ -2,7 +2,7 @@ package com.dreampany.tools.data.source.remote
 
 import android.content.Context
 import com.dreampany.framework.data.source.api.RemoteService
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.ServerMapper
 import com.dreampany.tools.data.model.Server

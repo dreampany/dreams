@@ -1,7 +1,7 @@
 package com.dreampany.translation.data.source.remote
 
 import com.dreampany.framework.api.key.KeyManager
-import com.dreampany.framework.misc.exception.EmptyException
+import com.dreampany.framework.misc.exceptions.EmptyException
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.translation.data.misc.TextTranslationMapper
 import com.dreampany.translation.data.model.TextTranslation

@@ -4,7 +4,7 @@ import android.content.Context
 import com.dreampany.framework.data.model.Store
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.framework.misc.extension.hash
+import com.dreampany.framework.misc.extensions.hash
 import com.dreampany.tools.data.model.Note
 import com.dreampany.tools.data.source.api.NoteDataSource
 import com.dreampany.tools.injector.annote.NoteAnnote

@@ -9,10 +9,9 @@ import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.source.api.PointDataSource
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
-import com.dreampany.framework.misc.extension.hash512
+import com.dreampany.framework.misc.extensions.hash512
 import com.dreampany.tools.api.question.model.TriviaQuestion
 import com.dreampany.tools.data.model.question.Question
-import com.dreampany.tools.data.model.word.RelatedQuiz
 import com.dreampany.tools.injector.annote.question.QuestionAnnote
 import com.dreampany.tools.injector.annote.question.QuestionItemAnnote
 import com.dreampany.tools.misc.Constants

@@ -1,4 +1,4 @@
-package com.dreampany.framework.misc.extension
+package com.dreampany.framework.misc.extensions
 
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

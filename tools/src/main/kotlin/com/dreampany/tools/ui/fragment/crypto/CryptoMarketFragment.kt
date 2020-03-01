@@ -74,7 +74,7 @@ class CryptoMarketFragment
         coin = task.input ?: return
         initUi()
         initRecycler()
-        requestTrades(progress = true)
+        requestTrades(progress = true, limit = Constants.Limit.Crypto.TRADES)
 
         //onRefresh()
         /*if (::coin.isInitialized)
@@ -149,6 +149,8 @@ class CryptoMarketFragment
         id: String = Constants.Default.STRING,
         ids: List<String>? = Constants.Default.NULL
     ) {
+        val extraParams = getString(R.string.app_name)
+        val fromSymbol = coin.symbol ?: return
         val request = TradeRequest(
             type = Type.TRADE,
             subtype = Subtype.DEFAULT,
@@ -158,7 +160,9 @@ class CryptoMarketFragment
             start = start,
             limit = limit,
             id = id,
-            ids = ids
+            ids = ids,
+            extraParams = extraParams,
+            fromSymbol = fromSymbol
         )
         tvm.request(request)
     }

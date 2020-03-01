@@ -368,6 +368,7 @@ class Constants {
 
         object Crypto {
             const val LIST = 100L
+            const val TRADES = 10L
         }
 
         object Question {

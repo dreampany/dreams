@@ -6,6 +6,8 @@ import com.dreampany.framework.injector.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.ui.vm.*
 import com.dreampany.tools.ui.vm.crypto.CoinViewModel
+import com.dreampany.tools.ui.vm.crypto.ExchangeViewModel
+import com.dreampany.tools.ui.vm.crypto.TradeViewModel
 import com.dreampany.tools.ui.vm.note.NoteViewModel
 import com.dreampany.tools.ui.vm.question.QuestionViewModel
 import com.dreampany.tools.ui.vm.radio.StationViewModel
@@ -22,9 +24,10 @@ import javax.inject.Singleton
 
 
 /**
- * Created by Hawladar Roman on 5/31/2018.
- * BJIT Group
+ * Created by roman on 29/2/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 @Module
 abstract class ViewModelModule {
@@ -93,6 +96,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CoinViewModel::class)
     abstract fun bindCoinViewModel(vm: CoinViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TradeViewModel::class)
+    abstract fun bindTradeViewModel(vm: TradeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ExchangeViewModel::class)
+    abstract fun bindExchangeViewModel(vm: ExchangeViewModel): ViewModel
 
     @Binds
     @IntoMap

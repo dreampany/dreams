@@ -91,8 +91,8 @@ class Constants {
     object Trade {
         const val DATA = "Data"
         const val EXCHANGE = "exchange"
-        const val FROM_SYMBOL = "fromsymbol"
-        const val TO_SYMBOL = "tosymbol"
+        const val FROM_SYMBOL = "fromSymbol"
+        const val TO_SYMBOL = "toSymbol"
         const val VOLUME_24H = "volume24h"
         const val VOLUME_24H_TO = "volume24hTo"
     }

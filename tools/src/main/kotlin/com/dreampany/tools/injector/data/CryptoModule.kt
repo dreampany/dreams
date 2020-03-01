@@ -12,15 +12,19 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.injector.data.CoinMarketCapModule
 import com.dreampany.tools.api.crypto.injector.data.CryptoCompareModule
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
+import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.mapper.crypto.CoinMapper
+import com.dreampany.tools.data.mapper.crypto.TradeMapper
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.model.crypto.Trade
 import com.dreampany.tools.data.source.api.crypto.CoinDataSource
+import com.dreampany.tools.data.source.api.crypto.TradeDataSource
 import com.dreampany.tools.data.source.database.DatabaseCoinDataSource
 import com.dreampany.tools.data.source.remote.crypto.RemoteCoinDataSource
+import com.dreampany.tools.data.source.remote.crypto.RemoteTradeDataSource
 import com.dreampany.tools.data.source.room.RoomCoinDataSource
 import com.dreampany.tools.data.source.room.dao.CoinDao
 import com.dreampany.tools.data.source.room.dao.QuoteDao
@@ -201,5 +205,24 @@ class CryptoModule {
         database: RxFirebaseDatabase
     ): CoinDataSource {
         return DatabaseCoinDataSource(network, mapper, database)
+    }
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideRemoteTradeDataSource(
+        context: Context,
+        network: NetworkManager,
+        keyM: KeyManager,
+        mapper: TradeMapper,
+        service: CryptoCompareService
+    ): TradeDataSource {
+        return RemoteTradeDataSource(
+            context,
+            network,
+            keyM,
+            mapper,
+            service
+        )
     }
 }

@@ -3,17 +3,12 @@ package com.dreampany.tools.data.source.repository.crypto
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.Repository
 import com.dreampany.framework.data.source.repository.StoreRepository
-import com.dreampany.framework.injector.annote.Database
-import com.dreampany.framework.injector.annote.Remote
-import com.dreampany.framework.injector.annote.Room
 import com.dreampany.framework.misc.ResponseMapper
 import com.dreampany.framework.misc.RxMapper
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.crypto.TradeMapper
 import com.dreampany.tools.data.model.crypto.Exchange
-import com.dreampany.tools.data.model.crypto.Trade
 import com.dreampany.tools.data.source.api.crypto.ExchangeDataSource
-import com.dreampany.tools.data.source.api.crypto.TradeDataSource
 import io.reactivex.Maybe
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,10 +27,7 @@ class ExchangeRepository
     private val network: NetworkManager,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
-    private val mapper: TradeMapper,
-    @Room private val room: ExchangeDataSource,
-    @Database private val database: ExchangeDataSource,
-    @Remote private val remote: ExchangeDataSource
+    private val mapper: TradeMapper
 ): Repository<String, Exchange>(rx, rm), ExchangeDataSource {
     override fun getExchanges(
         extraParams: String,

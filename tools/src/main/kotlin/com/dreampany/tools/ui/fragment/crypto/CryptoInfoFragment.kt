@@ -124,7 +124,10 @@ class CryptoInfoFragment
             SmoothScrollLinearLayoutManager(context!!),
             FlexibleItemDecoration(context!!)
                 .withOffset(adapter.getItemOffset())
-                .withEdge(true),
+                .withLeftEdge(true)
+                .withRightEdge(true)
+                .withTopEdge(true)
+            ,
             null,
             scroller,
             null

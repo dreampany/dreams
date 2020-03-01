@@ -1,6 +1,7 @@
 package com.dreampany.translation.data.source.api
 
 import com.dreampany.framework.data.source.api.DataSource
+import com.dreampany.framework.data.source.api.DataSourceRx
 import com.dreampany.translation.data.model.TextTranslation
 import io.reactivex.Maybe
 
@@ -10,7 +11,7 @@ import io.reactivex.Maybe
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface TranslationDataSource : DataSource<TextTranslation> {
+interface TranslationDataSource : DataSource<TextTranslation>, DataSourceRx<TextTranslation> {
     fun isReady(target: String): Boolean
     fun ready(target: String)
     fun isExists(source: String, target: String, input: String): Boolean

@@ -1,7 +1,6 @@
 package com.dreampany.framework.ui.activity
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem

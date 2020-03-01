@@ -13,7 +13,13 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
 
         <item name="android:windowDisablePreview">true</item>
-        <!--<item name="android:windowBackground">@color/grey_300</item>-->
+        <item name="android:windowBackground">@color/material_grey300</item>
+
+        <item name="buttonStyle">@style/Widget.AppCompat.Button.Borderless</item>
+    </style>
+
+    <style name="AppTheme" parent="BaseTheme">
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar"/>
@@ -23,10 +29,6 @@
     <style name="AppTheme.Toolbar" parent="Theme.MaterialComponents.Light.DarkActionBar">
 <!--        <item name="actionMenuTextColor">@color/material_white</item>
         <item name="android:actionMenuTextColor">@color/material_white</item>-->
-    </style>
-
-    <style name="AppTheme" parent="BaseTheme">
-        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
 
     <style name="WindowAnimationTransition">

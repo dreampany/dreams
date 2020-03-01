@@ -71,7 +71,7 @@ class ProjectItem private constructor(
         init {
             this.adapter = adapter as ProjectAdapter
             remove = view.findViewById(R.id.button_remove)
-            name = view.findViewById(R.id.text_name)
+            name = view.findViewById(R.id.text_market)
             description = view.findViewById(R.id.text_description)
 
             remove.setOnSafeClickListener {

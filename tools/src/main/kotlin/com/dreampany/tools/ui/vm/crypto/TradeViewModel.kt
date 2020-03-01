@@ -49,7 +49,7 @@ class TradeViewModel
     private val repo: TradeRepository,
     private val formatter: CurrencyFormatter,
     @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Trade, TradeItem, UiTask<Coin>>(application, rx, ex, rm),
+) : BaseViewModel<Trade, TradeItem, UiTask<Trade>>(application, rx, ex, rm),
     NetworkManager.Callback {
 
     override fun clear() {

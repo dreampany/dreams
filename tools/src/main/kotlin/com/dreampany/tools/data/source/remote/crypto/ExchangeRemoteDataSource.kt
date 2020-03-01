@@ -7,9 +7,9 @@ import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.misc.Constants
 import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
-import com.dreampany.tools.data.mapper.crypto.TradeMapper
-import com.dreampany.tools.data.model.crypto.Trade
-import com.dreampany.tools.data.source.api.crypto.TradeDataSource
+import com.dreampany.tools.data.mapper.crypto.ExchangeMapper
+import com.dreampany.tools.data.model.crypto.Exchange
+import com.dreampany.tools.data.source.api.crypto.ExchangeDataSource
 import com.google.common.collect.Maps
 import io.reactivex.Maybe
 import timber.log.Timber
@@ -20,14 +20,14 @@ import timber.log.Timber
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RemoteTradeDataSource
+class ExchangeRemoteDataSource
 constructor(
     private val context: Context,
     private val network: NetworkManager,
     private val keyM: KeyManager,
-    private val mapper: TradeMapper,
+    private val mapper: ExchangeMapper,
     private val service: CryptoCompareService
-) : TradeDataSource {
+) : ExchangeDataSource {
 
     init {
         if (AndroidUtil.isDebug(context)) {
@@ -41,18 +41,23 @@ constructor(
         }
     }
 
-    override fun getTrades(extraParams: String, fromSymbol: String, limit: Long): List<Trade>? {
+    override fun getExchanges(
+        extraParams: String,
+        fromSymbol: String,
+        toSymbol: String,
+        limit: Long
+    ): List<Exchange>? {
         if (network.isObserving() && !network.hasInternet()) {
             return null
         }
         for (index in 0..keyM.length / 2) {
             try {
                 val key = keyM.getKey()
-                val response = service.getTrades(getHeader(key), extraParams, fromSymbol, limit).execute()
+                val response = service.getExchanges(getHeader(key), extraParams, fromSymbol, toSymbol, limit).execute()
                 if (response.isSuccessful) {
                     val result = response.body()
                     if (result != null) {
-                        return mapper.getItems(result.data)
+                        return mapper.getItems(result.data.exchanges)
                     }
                 }
             } catch (error: Throwable) {
@@ -63,13 +68,14 @@ constructor(
         return null
     }
 
-    override fun getTradesRx(
+    override fun getExchangesRx(
         extraParams: String,
         fromSymbol: String,
+        toSymbol: String,
         limit: Long
-    ): Maybe<List<Trade>> {
+    ): Maybe<List<Exchange>> {
         return Maybe.create { emitter ->
-            val result = getTrades(extraParams, fromSymbol, limit)
+            val result = getExchanges(extraParams, fromSymbol, toSymbol, limit)
             if (emitter.isDisposed) return@create
             if (result == null) {
                 emitter.onError(EmptyException())
@@ -78,6 +84,7 @@ constructor(
             }
         }
     }
+
 
     /* private */
     fun getHeader(key: String): Map<String, String> {

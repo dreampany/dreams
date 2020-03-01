@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="full_name">%s (%s)</string>
+    <string name="crypto_symbol_name">%s (%s)</string>
     <string name="time">Time</string>
     <string name="symbol">Symbol</string>
     <string name="price">Price</string>
@@ -34,8 +34,8 @@
     <string name="with_price">Price(%s)</string>
     <string name="with_change">Change(%s)</string>
 
-    <string name="positive_pct_format">&#43;%2.2f%%</string>
-    <string name="negative_pct_format">%2.2f%%</string>
+    <string name="positive_ratio_format">&#43;%2.2f%%</string>
+    <string name="negative_ratio_format">%2.2f%%</string>
 
     <string name="title_empty_crypto" translatable="false">No Crypto Coins</string>
     <string name="description_empty_crypto" translatable="false">It seems you have no crypto coins to see. Please refresh for crypto coins.</string>

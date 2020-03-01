@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/material_grey700"
-            android:textSize="14sp"
+            android:textSize="@dimen/_14ssp"
             auto:fontFamily="@font/roboto_slab_regular"
             tools:text="@string/title" />
 
@@ -27,7 +27,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:textColor="@color/material_grey700"
-            android:textSize="14sp"
+            android:textSize="@dimen/_14ssp"
             auto:fontFamily="@font/roboto_slab_regular"
             tools:text="@string/title" />
     </androidx.appcompat.widget.LinearLayoutCompat>

@@ -72,8 +72,6 @@ class CryptoInfoFragment
         initUi()
         initRecycler()
         onRefresh()
-        if (::coin.isInitialized)
-            setTitle(coin.name)
     }
 
     override fun onStopUi() {

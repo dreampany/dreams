@@ -26,7 +26,7 @@
                 auto:srcCompat="@drawable/ic_android_black_24dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/text_name"
+                android:id="@+id/text_market"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
@@ -51,7 +51,7 @@
                 auto:fontFamily="@font/roboto_slab_bold"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/text_name" />
+                auto:layout_constraintTop_toBottomOf="@id/text_market" />
 
             <com.github.nikartm.button.FitButton
                 android:id="@+id/button_open"

@@ -19,7 +19,7 @@
             android:padding="@dimen/_5sdp">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_name"
+                android:id="@+id/text_market"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_2sdp"
@@ -41,7 +41,7 @@
                 android:textSize="@dimen/_8ssp"
                 auto:fontFamily="@font/roboto_slab_regular"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/text_name"
+                auto:layout_constraintTop_toBottomOf="@id/text_market"
                 tools:text="@string/hint_designation" />
 
             <androidx.appcompat.widget.LinearLayoutCompat

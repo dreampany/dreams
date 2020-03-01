@@ -16,14 +16,14 @@
             android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:padding="8dp">
+            android:padding="@dimen/_8sdp">
 
             <include
                 layout="@layout/item_coin_simple"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="@dimen/_6sdp"
                 android:layout_weight="1" />
 
             <include
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|start"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="@dimen/_8sdp" />
 
             <include
                 layout="@layout/item_coin_options"

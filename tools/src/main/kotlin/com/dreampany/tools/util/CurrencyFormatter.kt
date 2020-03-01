@@ -117,7 +117,9 @@ class CurrencyFormatter @Inject constructor(val context: Context) {
             } else {
                 symbol = java.util.Currency.getInstance(currency.name).symbol
             }
-            symbols[currency] = symbol!!
+            symbol?.run {
+                symbols[currency] = this
+            }
         }
         return symbols[currency]
     }
@@ -140,9 +142,9 @@ class CurrencyFormatter @Inject constructor(val context: Context) {
         dayChange: Double,
         currency: Currency
     ): String {
-        val coin = TextUtil.getString(context, R.string.full_name, symbol, name)
+        val coin = TextUtil.getString(context, R.string.crypto_symbol_name, symbol, name)
         val priceValue = getText(R.string.with_price, formatPrice(price, currency)!!)
-        val change = getText(R.string.with_change, getText(R.string.positive_pct_format, dayChange) as Any)
+        val change = getText(R.string.with_change, getText(R.string.positive_ratio_format, dayChange) as Any)
         val format = StringBuilder(coin!!)
         format.append(Constants.Sep.SPACE_HYPHEN_SPACE).append(priceValue)
         format.append(Constants.Sep.COMMA_SPACE).append(change)

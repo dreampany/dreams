@@ -89,7 +89,7 @@ private constructor(
             height = getSpanHeight(this.adapter.getSpanCount(), this.adapter.getItemOffset())
 
             imageIcon = view.findViewById(R.id.image_icon)
-            textName = view.findViewById(R.id.text_name)
+            textName = view.findViewById(R.id.text_market)
             textSize = view.findViewById(R.id.text_size)
             buttonOpen = view.findViewById(R.id.button_open)
             buttonDetails = view.findViewById(R.id.button_details)

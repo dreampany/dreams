@@ -15,7 +15,6 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.crypto.ExchangeMapper
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.data.source.pref.CryptoPref
 import com.dreampany.tools.data.source.pref.Pref
@@ -49,7 +48,7 @@ class ExchangeViewModel
     private val repo: ExchangeRepository,
     private val formatter: CurrencyFormatter,
     @Favorite private val favorites: SmartMap<String, Boolean>
-) : BaseViewModel<Exchange, ExchangeItem, UiTask<Coin>>(application, rx, ex, rm), NetworkManager.Callback {
+) : BaseViewModel<Exchange, ExchangeItem, UiTask<Exchange>>(application, rx, ex, rm), NetworkManager.Callback {
 
     override fun clear() {
         network.deObserve(this)

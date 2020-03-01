@@ -74,7 +74,7 @@ private constructor(
         init {
             this.adapter = adapter as SchoolAdapter
             remove = view.findViewById(R.id.button_remove)
-            name = view.findViewById(R.id.text_name)
+            name = view.findViewById(R.id.text_market)
             location = view.findViewById(R.id.text_location)
             degree = view.findViewById(R.id.text_degree)
             description = view.findViewById(R.id.text_description)

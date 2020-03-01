@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.model.crypto
 import android.text.format.DateUtils
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.model.Base
@@ -128,16 +129,18 @@ private constructor(
         val adapter: CoinAdapter
     ) : BaseItem.ViewHolder(view, adapter) {
 
-        protected val btcFormat: String
-        protected val positiveChange: Int
-        protected val negativeChange: Int
+        @StringRes
+        protected val btcFormat: Int
+        @StringRes
+        protected val positiveRatio: Int
+        @StringRes
+        protected val negativeRatio: Int
 
         init {
-            btcFormat = getString(R.string.btc_format)
-            positiveChange = R.string.positive_pct_format
-            negativeChange = R.string.negative_pct_format
+            btcFormat = R.string.btc_format
+            positiveRatio = R.string.positive_ratio_format
+            negativeRatio = R.string.negative_ratio_format
         }
-
     }
 
     internal class ItemViewHolder(
@@ -147,41 +150,33 @@ private constructor(
     ) : ViewHolder(formatter, view, adapter as CoinAdapter) {
 
         private val icon: SimpleDraweeView
-        private val name: MaterialTextView
-        private val price: MaterialTextView
-        private val hourChange: MaterialTextView
-        private val dayChange: MaterialTextView
-        private val weekChange: MaterialTextView
-        private val marketCap: MaterialTextView
-        private val dayVolume: MaterialTextView
-        private val lastUpdated: MaterialTextView
+        private val textName: MaterialTextView
+        private val textPrice: MaterialTextView
+        private val textChange1h: MaterialTextView
+        private val textChange24h: MaterialTextView
+        private val textChange7d: MaterialTextView
+        private val textMarketCap: MaterialTextView
+        private val textVolume24h: MaterialTextView
+        private val textLastUpdated: MaterialTextView
 
         private val buttonFavorite: LikeButton
         private val buttonAlert: LikeButton
 
-/*        private val btcFormat: String
-        private val positiveChange: Int
-        private val negativeChange: Int*/
-
         init {
             icon = view.findViewById(R.id.image_icon)
-            name = view.findViewById(R.id.text_name)
-            price = view.findViewById(R.id.text_price)
-            hourChange = view.findViewById(R.id.text_change_1h)
-            dayChange = view.findViewById(R.id.text_change_24h)
-            weekChange = view.findViewById(R.id.text_change_7d)
-            marketCap = view.findViewById(R.id.text_market_cap)
-            dayVolume = view.findViewById(R.id.text_volume_24h)
-            lastUpdated = view.findViewById(R.id.text_last_updated)
+            textName = view.findViewById(R.id.text_market)
+            textPrice = view.findViewById(R.id.text_price)
+            textChange1h = view.findViewById(R.id.text_change_1h)
+            textChange24h = view.findViewById(R.id.text_change_24h)
+            textChange7d = view.findViewById(R.id.text_change_7d)
+            textMarketCap = view.findViewById(R.id.text_market_cap)
+            textVolume24h = view.findViewById(R.id.text_volume_24h)
+            textLastUpdated = view.findViewById(R.id.text_last_updated)
             buttonFavorite = view.findViewById(R.id.button_favorite)
             buttonAlert = view.findViewById(R.id.button_alert)
 
             buttonFavorite.gone()
             buttonAlert.gone()
-
-/*            btcFormat = getString(R.string.btc_format)
-            positiveChange = R.string.positive_pct_format
-            negativeChange = R.string.negative_pct_format*/
 
             view.setOnSafeClickListener {
                 this.adapter.getItem(adapterPosition)?.let {
@@ -204,63 +199,68 @@ private constructor(
             icon.setUrl(imageUrl)
 
             val nameText =
-                String.format(Locale.ENGLISH, getString(R.string.full_name), item.symbol, item.name)
-            name.text = nameText
+                String.format(
+                    Locale.ENGLISH,
+                    getString(R.string.crypto_symbol_name),
+                    item.symbol,
+                    item.name
+                )
+            textName.text = nameText
 
             val currency = uiItem.currency
             val quote = item.getQuote(currency)
 
             var price = 0.0
-            var hourChange = 0.0
-            var dayChange = 0.0
-            var weekChange = 0.0
+            var change1h = 0.0
+            var change24h = 0.0
+            var change7d = 0.0
             var marketCap = 0.0
-            var dayVolume = 0.0
+            var volume24h = 0.0
             if (quote != null) {
                 price = quote.price
-                hourChange = quote.getChange1h()
-                dayChange = quote.getChange24h()
-                weekChange = quote.getChange7d()
+                change1h = quote.getChange1h()
+                change24h = quote.getChange24h()
+                change7d = quote.getChange7d()
                 marketCap = quote.getMarketCap()
-                dayVolume = quote.getVolume24h()
+                volume24h = quote.getVolume24h()
             }
 
-            this.price.text = formatter.formatPrice(price, uiItem.currency)
-            this.marketCap.text = formatter.roundPrice(marketCap, uiItem.currency)
-            this.dayVolume.text = formatter.roundPrice(dayVolume, uiItem.currency)
+            this.textPrice.text = formatter.formatPrice(price, uiItem.currency)
+            this.textMarketCap.text = formatter.roundPrice(marketCap, uiItem.currency)
+            this.textVolume24h.text = formatter.roundPrice(volume24h, uiItem.currency)
 
-            val hourFormat = if (hourChange >= 0.0f) positiveChange else negativeChange
-            val dayFormat = if (dayChange >= 0.0f) positiveChange else negativeChange
-            val weekFormat = if (weekChange >= 0.0f) positiveChange else negativeChange
+            val change1hFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
+            val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
+            val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
-            this.hourChange.text = String.format(getString(hourFormat), hourChange)
-            this.dayChange.text = String.format(getString(dayFormat), dayChange)
-            this.weekChange.text = String.format(getString(weekFormat), weekChange)
+            this.textChange1h.text = getFormattedString(change1hFormat, change1h)
+            this.textChange24h.text = getFormattedString(change24hFormat, change24h)
+            this.textChange7d.text = getFormattedString(change7dFormat, change7d)
 
             val startColor = R.color.material_grey400
             val endColor =
-                if (hourChange >= 0.0f || dayChange >= 0.0f || weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                if (change1h >= 0.0f || change24h >= 0.0f || change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
 
-            ViewUtil.blink(this.price, startColor, endColor)
+            ViewUtil.blink(this.textPrice, startColor, endColor)
 
             val hourChangeColor =
-                if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-            this.hourChange.setTextColor(getColor(hourChangeColor))
+                if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
+            this.textChange1h.setTextColor(getColor(hourChangeColor))
 
             val dayChangeColor =
-                if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-            this.dayChange.setTextColor(getColor(dayChangeColor))
+                if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
+            this.textChange24h.setTextColor(getColor(dayChangeColor))
 
             val weekChangeColor =
-                if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
-            this.weekChange.setTextColor(getColor(weekChangeColor))
+                if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
+            this.textChange7d.setTextColor(getColor(weekChangeColor))
 
             val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
                 item.getLastUpdated(),
                 TimeUtilKt.currentMillis(),
                 DateUtils.MINUTE_IN_MILLIS
             ) as String
-            lastUpdated.text = lastUpdatedTime
+            textLastUpdated.text = lastUpdatedTime
 
             buttonFavorite.setLiked(uiItem.favorite)
             buttonFavorite.tag = item
@@ -296,7 +296,7 @@ private constructor(
 
         init {
             icon = view.findViewById(R.id.image_icon)
-            name = view.findViewById(R.id.text_name)
+            name = view.findViewById(R.id.text_market)
             price = view.findViewById(R.id.text_price)
             lastUpdated = view.findViewById(R.id.text_last_updated)
             like = view.findViewById(R.id.button_favorite)
@@ -328,7 +328,12 @@ private constructor(
             icon.setUrl(imageUrl)
 
             val nameText =
-                String.format(Locale.ENGLISH, getString(R.string.full_name), item.symbol, item.name)
+                String.format(
+                    Locale.ENGLISH,
+                    getString(R.string.crypto_symbol_name),
+                    item.symbol,
+                    item.name
+                )
             name.text = nameText
 
             val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
@@ -341,39 +346,45 @@ private constructor(
             val quote = item.getQuote(uiItem.currency)
             if (quote != null) {
                 val price = quote.price
-                val hourChange = quote.getChange1h()
-                val dayChange = quote.getChange24h()
-                val weekChange = quote.getChange7d()
+                val change1h = quote.getChange1h()
+                val change24h = quote.getChange24h()
+                val change7d = quote.getChange7d()
 
-                val hourFormat = if (hourChange >= 0.0f) positiveChange else negativeChange
-                val dayFormat = if (dayChange >= 0.0f) positiveChange else negativeChange
-                val weekFormat = if (weekChange >= 0.0f) positiveChange else negativeChange
+                val hourFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
+                val dayFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
+                val weekFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
                 this.price.text = formatter.formatPrice(price, uiItem.currency)
 
                 marketCapTitle.setText(R.string.market_cap)
                 volumeTitle.setText(R.string.volume_24h)
 
-                val oneHourValue = String.format(getString(hourFormat), hourChange)
-                val oneDayValue = String.format(getString(dayFormat), dayChange)
-                val weekValue = String.format(getString(weekFormat), weekChange)
+                val oneHourValue = getFormattedString(hourFormat, change1h)
+                val oneDayValue = getFormattedString(dayFormat, change24h)
+                val weekValue = getFormattedString(weekFormat, change7d)
 
                 marketCapValue.text = formatter.roundPrice(quote.getMarketCap(), uiItem.currency)
                 volumeValue.text = formatter.roundPrice(quote.getVolume24h(), uiItem.currency)
 
-                this.hourChange.text =
-                    getFormattedString(R.string.coin_format, getString(R.string.one_hour), oneHourValue)
-                this.dayChange.text =
-                    getFormattedString(R.string.coin_format, getString(R.string.one_day), oneDayValue)
+                this.hourChange.text = getFormattedString(
+                    R.string.coin_format,
+                    getString(R.string.one_hour),
+                    oneHourValue
+                )
+                this.dayChange.text = getFormattedString(
+                    R.string.coin_format,
+                    getString(R.string.one_day),
+                    oneDayValue
+                )
                 this.weekChange.text =
                     getFormattedString(R.string.coin_format, getString(R.string.week), weekValue)
 
                 val change1hColor =
-                    if (hourChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                    if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
                 val change24hColor =
-                    if (dayChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                    if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
                 val change7dColor =
-                    if (weekChange >= 0.0f) R.color.material_green700 else R.color.material_red700
+                    if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
 
                 this.hourChange.setTextColor(change1hColor.toColor(context))
                 this.dayChange.setTextColor(change24hColor.toColor(context))
@@ -396,14 +407,14 @@ private constructor(
         private val totalSupply: View
         private val maxSupply: View
 
-        var circulatingTitle: MaterialTextView
-        var circulatingValue: MaterialTextView
-        var totalTitle: MaterialTextView
-        var totalValue: MaterialTextView
-        var maxTitle: MaterialTextView
-        var maxValue: MaterialTextView
+        private val circulatingTitle: MaterialTextView
+        private val circulatingValue: MaterialTextView
+        private val totalTitle: MaterialTextView
+        private val totalValue: MaterialTextView
+        private val maxTitle: MaterialTextView
+        private val maxValue: MaterialTextView
 
-        var lastUpdated: MaterialTextView
+        private val lastUpdated: MaterialTextView
 
         init {
             circulatingSupply = view.findViewById(R.id.layout_circulating)

@@ -3,8 +3,7 @@ package com.dreampany.lca.ui.model
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.frame.data.model.Base
-import com.dreampany.frame.ui.model.BaseItem
+import com.dreampany.framework.ui.model.BaseItem
 import com.dreampany.lca.data.model.Exchange
 import com.dreampany.lca.misc.Constants
 import eu.davidea.flexibleadapter.FlexibleAdapter

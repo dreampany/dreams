@@ -23,12 +23,14 @@ import javax.inject.Inject
 class CryptoFragment
 @Inject constructor() : BaseStateFragment<BaseFragment>() {
 
+    private lateinit var coin: Coin
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_tabpager_fixed
     }
 
     override fun onStartUi(state: Bundle?) {
-
+        initUi()
     }
 
     override fun onStopUi() {
@@ -66,5 +68,12 @@ class CryptoFragment
             input = task.input
         )
         return arrayOf<UiTask<*>>(info, market)
+    }
+
+    private fun initUi() {
+        val task = getCurrentTask<UiTask<Coin>>() ?: return
+        coin = task.input ?: return
+        if (::coin.isInitialized)
+            setTitle(getString(R.string.crypto_symbol_name, coin.symbol, coin.name))
     }
 }

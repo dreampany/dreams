@@ -2,7 +2,9 @@ package com.dreampany.tools.data.mapper.crypto
 
 import com.dreampany.framework.misc.SmartCache
 import com.dreampany.framework.misc.SmartMap
+import com.dreampany.tools.api.crypto.model.CryptoExchange
 import com.dreampany.tools.api.crypto.model.CryptoTrade
+import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.data.model.crypto.Trade
 import com.dreampany.tools.injector.annote.crypto.TradeAnnote
 import com.dreampany.tools.injector.annote.crypto.TradeItemAnnote

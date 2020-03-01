@@ -12,19 +12,19 @@
 
         <com.like.LikeButton
             android:id="@+id/button_favorite"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginBottom="5dp"
-            auto:icon_size="25dp"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            auto:icon_size="@dimen/_25sdp"
             auto:icon_type="heart"
             auto:like_drawable="@drawable/ic_favorite_red_24dp"
             auto:unlike_drawable="@drawable/ic_favorite_border_black_24dp" />
 
         <com.like.LikeButton
             android:id="@+id/button_alert"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            auto:icon_size="25dp"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            auto:icon_size="@dimen/_25sdp"
             auto:icon_type="heart"
             auto:like_drawable="@drawable/ic_add_alert_red_24dp"
             auto:unlike_drawable="@drawable/ic_add_alert_black_24dp" />

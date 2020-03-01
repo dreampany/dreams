@@ -30,8 +30,9 @@ import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentCryptoMarketBinding
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.ui.adapter.crypto.CoinAdapter
+import com.dreampany.tools.ui.adapter.crypto.ExchangeAdapter
 import com.dreampany.tools.ui.model.crypto.CoinItem
+import com.dreampany.tools.ui.model.crypto.ExchangeItem
 import com.dreampany.tools.ui.model.crypto.TradeItem
 import com.dreampany.tools.ui.request.crypto.ExchangeRequest
 import com.dreampany.tools.ui.request.crypto.TradeRequest
@@ -68,7 +69,7 @@ class CryptoMarketFragment
     private lateinit var bindRecycler: ContentRecyclerBinding
 
     private lateinit var scroller: OnVerticalScrollListener
-    private lateinit var adapter: CoinAdapter
+    private lateinit var adapter: ExchangeAdapter
 
     private lateinit var tvm: TradeViewModel
     private lateinit var evm: ExchangeViewModel
@@ -95,10 +96,6 @@ class CryptoMarketFragment
         initUi()
         initRecycler()
         requestTrades(progress = true, limit = Constants.Limit.Crypto.TRADES)
-
-        //onRefresh()
-        /*if (::coin.isInitialized)
-            setTitle(coin.name)*/
     }
 
     override fun onStopUi() {
@@ -107,13 +104,13 @@ class CryptoMarketFragment
     }
 
     override fun onRefresh() {
-        /*if (adapter.isEmpty) {
+        if (adapter.isEmpty) {
             if (::coin.isInitialized)
-                //request(single = true, progress = true, id = coin.id)
+                requestExchanges(progress = true, limit = Constants.Limit.Crypto.EXCHANGES)
         } else {
             tvm.updateUiState(uiState = UiState.HIDE_PROGRESS)
             evm.updateUiState(uiState = UiState.HIDE_PROGRESS)
-        }*/
+        }
     }
 
     override fun onItemClick(position: Int, item: PowerMenuItem) {
@@ -149,7 +146,7 @@ class CryptoMarketFragment
         tvm.observeUiState(this, Observer { this.processUiState(it) })
         evm.observeUiState(this, Observer { this.processUiState(it) })
         tvm.observeOutputs(this, Observer { this.processTradesResponse(it) })
-        //vm.observeOutput(this, Observer { this.processSingleResponse(it) })
+        evm.observeOutputs(this, Observer { this.processExchangesResponse(it) })
 
         bind.buttonFromSymbol.text = coin.symbol
     }
@@ -158,7 +155,7 @@ class CryptoMarketFragment
     private fun initRecycler() {
         bind.setItems(ObservableArrayList<Any>())
         scroller = object : OnVerticalScrollListener() {}
-        adapter = CoinAdapter(listener = this)
+        adapter = ExchangeAdapter(listener = this)
         adapter.setStickyHeaders(false)
         ViewUtil.setRecycler(
             adapter,
@@ -209,7 +206,8 @@ class CryptoMarketFragment
         id: String = Constants.Default.STRING,
         ids: List<String>? = Constants.Default.NULL
     ) {
-        val currency = cryptoPref.getCurrency()
+        val extraParams = getString(R.string.app_name)
+        val fromSymbol = coin.symbol ?: return
         val request = ExchangeRequest(
             type = Type.TRADE,
             subtype = Subtype.DEFAULT,
@@ -220,7 +218,9 @@ class CryptoMarketFragment
             limit = limit,
             id = id,
             ids = ids,
-            currency = currency
+            extraParams = extraParams,
+            fromSymbol = fromSymbol,
+            toSymbol = toSymbol
         )
         evm.request(request)
     }
@@ -265,31 +265,35 @@ class CryptoMarketFragment
         }
     }
 
-    private fun processSingleResponse(response: Response<CoinItem>) {
+    private fun processExchangesResponse(response: Response<List<ExchangeItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            /* vm.processProgress(
-                 state = result.state,
-                 action = result.action,
-                 loading = result.loading
-             )*/
+            tvm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            //vm.processFailure(state = result.state, action = result.action, error = result.error)
+            tvm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
-            val result = response as Response.Result<CoinItem>
-            processSuccess(result.state, result.action, result.data)
+            val result = response as Response.Result<List<ExchangeItem>>
+            processExchangesSuccess(result.state, result.action, result.data)
         }
-    }
-
-    private fun processSuccess(state: State, action: Action, item: CoinItem) {
-        //val result = vm.getInfos(item)
-        //adapter.addItems(result)
     }
 
     private fun processTradesSuccess(state: State, action: Action, items: List<TradeItem>) {
         tradeItems = items
         buildToSymbolItems(tradeItems)
+        requestExchanges(progress = true, limit = Constants.Limit.Crypto.EXCHANGES)
+    }
+
+    private fun processExchangesSuccess(state: State, action: Action, items: List<ExchangeItem>) {
+        adapter.clear()
+        adapter.addItems(items)
+        ex.postToUi(Runnable {
+            evm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
+        }, 500L)
     }
 
     private fun buildToSymbolItems(trades: List<TradeItem>, fresh: Boolean = false) {
@@ -329,15 +333,8 @@ class CryptoMarketFragment
             toSymbol = trade.getToSymbol() ?: return
             bind.buttonToSymbol.text = toSymbol
             buildToSymbolItems(tradeItems, true)
+            //TODO read exchanges data
+            requestExchanges(progress = true, limit = Constants.Limit.Crypto.EXCHANGES)
         }
-
-
-/*        pref.setLanguage(language)
-        initLanguageUi()
-        adjustTranslationUi()
-        buildLangItems(fresh = true)
-        if (!language.equals(Language.ENGLISH)) {
-            request(id = bind.item?.item?.id, history = true, single = true, progress = true)
-        }*/
     }
 }

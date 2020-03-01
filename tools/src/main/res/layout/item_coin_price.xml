@@ -21,16 +21,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/coin_format"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_14ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:text="@string/one_hour"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -46,16 +46,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/coin_format"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:text="@string/one_day"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -71,16 +71,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/coin_format"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:text="@string/week"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -88,6 +88,7 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
             android:orientation="horizontal">
 
             <com.google.android.material.textview.MaterialTextView
@@ -96,16 +97,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/usd_format"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:text="@string/market_cap_min"
                 android:textColor="@color/material_grey800"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -121,16 +122,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/usd_format"
                 android:textColor="@color/material_grey700"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:text="@string/volume_24h_min"
                 android:textColor="@color/material_grey800"
-                android:textSize="12sp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

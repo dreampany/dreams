@@ -30,11 +30,11 @@ import kotlinx.android.parcel.Parcelize
 data class Exchange(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var market: String? = Constants.Default.NULL,
+    var market: String = Constants.Default.STRING,
     @ColumnInfo(name = Constants.Keys.Exchange.FROM_SYMBOL)
-    private var fromSymbol: String? = Constants.Default.NULL,
+    private var fromSymbol: String = Constants.Default.STRING,
     @ColumnInfo(name = Constants.Keys.Exchange.TO_SYMBOL)
-    private var toSymbol: String? = Constants.Default.NULL,
+    private var toSymbol: String = Constants.Default.STRING,
     var price: Double = Constants.Default.DOUBLE,
     @ColumnInfo(name = Constants.Keys.Exchange.VOLUME_24H)
     private var volume24h: Double = Constants.Default.DOUBLE,
@@ -69,22 +69,22 @@ data class Exchange(
     }
 
     @PropertyName(Constants.Keys.Exchange.FROM_SYMBOL)
-    fun setFromSymbol(fromSymbol: String?) {
+    fun setFromSymbol(fromSymbol: String) {
         this.fromSymbol = fromSymbol
     }
 
     @PropertyName(Constants.Keys.Exchange.FROM_SYMBOL)
-    fun getFromSymbol(): String? {
+    fun getFromSymbol(): String {
         return fromSymbol
     }
 
     @PropertyName(Constants.Keys.Exchange.TO_SYMBOL)
-    fun setToSymbol(toSymbol: String?) {
+    fun setToSymbol(toSymbol: String) {
         this.toSymbol = toSymbol
     }
 
     @PropertyName(Constants.Keys.Exchange.TO_SYMBOL)
-    fun getToSymbol(): String? {
+    fun getToSymbol(): String {
         return toSymbol
     }
 

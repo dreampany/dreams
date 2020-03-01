@@ -15,7 +15,7 @@ import java.util.Comparator
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinAdapter (listener: Any? = null) : SmartAdapter<CoinItem>(listener) {
+class CoinAdapter(listener: Any? = null) : SmartAdapter<CoinItem>(listener) {
 
     companion object {
         private val SPAN_COUNT = 2
@@ -31,8 +31,9 @@ class CoinAdapter (listener: Any? = null) : SmartAdapter<CoinItem>(listener) {
     }
 
     fun addItems(currency: Currency, sort: CoinSort, order: Order, items: List<CoinItem>): Boolean {
-        val comparator: Comparator<IFlexible<*>> = Constants.Comparators.Crypto.getUiComparator(currency, sort, order)
-        as Comparator<IFlexible<*>>
+        val comparator: Comparator<IFlexible<*>> =
+            Constants.Comparators.Crypto.getUiComparator(currency, sort, order)
+                    as Comparator<IFlexible<*>>
         return super.addItems(items, comparator)
     }
 }

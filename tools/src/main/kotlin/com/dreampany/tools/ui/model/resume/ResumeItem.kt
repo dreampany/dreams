@@ -97,7 +97,7 @@ private constructor(
             this.adapter = adapter as ResumeAdapter
 
             layoutRoot = view.findViewById(R.id.layout_root)
-            textName = view.findViewById(R.id.text_name)
+            textName = view.findViewById(R.id.text_market)
             textDesignation = view.findViewById(R.id.text_designation)
             textDate = view.findViewById(R.id.text_date)
             buttonEdit = view.findViewById(R.id.button_edit)

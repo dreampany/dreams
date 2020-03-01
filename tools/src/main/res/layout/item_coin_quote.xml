@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="@dimen/_8sdp">
 
             <include
                 android:id="@+id/layout_circulating"
@@ -26,21 +26,21 @@
                 layout="@layout/item_coin_pair"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="@dimen/_8sdp" />
 
             <include
                 android:id="@+id/layout_max"
                 layout="@layout/item_coin_pair"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="@dimen/_8sdp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_last_updated"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/_14sdp"
                 android:gravity="center"
                 android:text="@string/time"
                 android:textColor="@color/material_grey800"

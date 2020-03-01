@@ -2,7 +2,6 @@ package com.dreampany.tools.ui.request.crypto
 
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
-import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.misc.Constants
 
@@ -27,7 +26,6 @@ class ExchangeRequest(
     ids: List<String>? = Constants.Default.NULL,
     input: Coin? = Constants.Default.NULL,
     inputs: List<Coin>? = Constants.Default.NULL,
-    var currency: Currency = Currency.USD,
     var extraParams: String = Constants.Default.STRING,
     var fromSymbol: String = Constants.Default.STRING,
     var toSymbol: String = Constants.Default.STRING

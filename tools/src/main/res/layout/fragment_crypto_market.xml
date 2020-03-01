@@ -39,8 +39,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layout_top"
-                android:layout_margin="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
                 auto:cardCornerRadius="@dimen/_4sdp"
                 auto:cardElevation="@dimen/_4sdp"
                 auto:cardPreventCornerOverlap="false">
@@ -101,8 +102,7 @@
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/layout_top"
-                android:layout_marginTop="@dimen/_4sdp">
+                android:layout_below="@id/layout_header">
 
                 <FrameLayout
                     android:layout_width="match_parent"

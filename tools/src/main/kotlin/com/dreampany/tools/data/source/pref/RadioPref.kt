@@ -21,7 +21,7 @@ class RadioPref
 ) : FramePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constants.Pref.Radio.RADIO
+        return Constants.Pref.NAME.RADIO
     }
 
     fun setStationState(state: State) {

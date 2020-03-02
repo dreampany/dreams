@@ -19,6 +19,6 @@ class LoadPref
 ) : FramePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constants.Pref.LOAD
+        return Constants.Pref.NAME.LOAD
     }
 }

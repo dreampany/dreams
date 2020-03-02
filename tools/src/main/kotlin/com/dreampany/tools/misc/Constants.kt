@@ -216,7 +216,8 @@ class Constants {
                 Type.WORD -> return 7
                 Type.ENGLISH -> return 8
                 Type.QUESTION -> return 9
-                Type.CALL_BLOCK -> return 10
+                Type.LOCK -> return 10
+                Type.BLOCK -> return 11
                 else -> return Int.MAX_VALUE
             }
         }
@@ -269,12 +270,19 @@ class Constants {
 
     object Pref {
 
+        object NAME {
+            const val CRYPTO = "crypto"
+            const val LOAD = "load"
+            const val RADIO = "radio"
+            const val VPN = "vpn"
+            const val WORD = "word"
+            const val LOCK = "lock"
+            const val BLOCK = "contact"
+        }
+
         const val LEVEL = "level"
         const val LANGUAGE = "language"
         const val DEFAULT_POINT = "default_point"
-        const val LOAD = "load"
-        const val WORD = "word"
-        const val VPN = "vpn"
         const val QUESTION = "question"
 
         const val PLAYER_RETRY_TIMEOUT = "player_retry_timeout"
@@ -299,7 +307,6 @@ class Constants {
         }
 
         object Radio {
-            const val RADIO = "radio"
             const val STATION_STATE = "station_state"
             const val STATION_TIME = "station_time"
         }
@@ -309,7 +316,6 @@ class Constants {
         }
 
         object Crypto {
-            const val CRYPTO = "crypto"
             const val EXPIRE = "expire"
             const val CURRENCY = "currency"
             const val SORT = "sort"
@@ -317,7 +323,6 @@ class Constants {
         }
 
         object Block {
-            const val CONTACT = "contact"
         }
 
         object Question {

@@ -54,7 +54,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class CallBlockHomeFragment
+class BlockHomeFragment
 @Inject constructor() : BaseMenuFragment(),
     SmartAdapter.OnUiItemClickListener<ContactItem, Action> {
 
@@ -93,11 +93,11 @@ class CallBlockHomeFragment
     }
 
     override fun getTitleResId(): Int {
-        return R.string.title_feature_call_block
+        return R.string.title_feature_block
     }
 
     override fun getScreen(): String {
-        return Constants.blockHome(context!!)
+        return Constants.blockHome(context)
     }
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {

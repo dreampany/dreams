@@ -7,18 +7,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by Roman-372 on 8/19/2019
- * Copyright (c) 2019 bjit. All rights reserved.
+ * Created by roman on 1/3/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
 @Singleton
-class BlockPref
+class LockPref
 @Inject constructor(
     context: Context
 ) : FramePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constants.Pref.NAME.BLOCK
+        return Constants.Pref.NAME.LOCK
     }
 }

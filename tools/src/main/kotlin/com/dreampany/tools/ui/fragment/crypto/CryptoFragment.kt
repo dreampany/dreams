@@ -37,6 +37,14 @@ class CryptoFragment
 
     }
 
+    override fun hasAllPages(): Boolean {
+        return true
+    }
+
+    override fun hasTabColor(): Boolean {
+        return true
+    }
+
     override fun pageTitles(): Array<String> {
         return TextUtil.getStrings(context, R.string.info, R.string.market)
     }
@@ -69,6 +77,7 @@ class CryptoFragment
         )
         return arrayOf<UiTask<*>>(info, market)
     }
+
 
     private fun initUi() {
         val task = getCurrentTask<UiTask<Coin>>() ?: return

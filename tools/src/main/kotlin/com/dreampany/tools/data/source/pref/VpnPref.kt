@@ -21,7 +21,7 @@ class VpnPref
 ) : FramePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constants.Pref.VPN
+        return Constants.Pref.NAME.VPN
     }
 
     fun commitServerTime() {

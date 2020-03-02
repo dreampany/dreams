@@ -23,7 +23,7 @@ class WordPref
 ) : FramePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constants.Pref.WORD
+        return Constants.Pref.NAME.WORD
     }
 
     fun commitTrackLoaded() {

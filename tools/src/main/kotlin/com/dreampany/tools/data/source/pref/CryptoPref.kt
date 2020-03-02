@@ -23,7 +23,7 @@ class CryptoPref
 ) : FramePref(context) {
 
     override fun getPrivateName(context: Context): String {
-        return Constants.Pref.Crypto.CRYPTO
+        return Constants.Pref.NAME.CRYPTO
     }
 
     fun getCurrency(): Currency {

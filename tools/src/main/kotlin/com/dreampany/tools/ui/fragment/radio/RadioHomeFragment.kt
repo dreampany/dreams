@@ -69,6 +69,14 @@ class RadioHomeFragment
         return Constants.radioHome(context!!)
     }
 
+    override fun hasAllPages(): Boolean {
+        return true
+    }
+
+    override fun hasTabColor(): Boolean {
+        return true
+    }
+
     override fun pageTitles(): Array<String> {
         return TextUtilKt.getStrings(context!!, R.string.local, R.string.trends, R.string.popular)
     }
@@ -98,14 +106,6 @@ class RadioHomeFragment
             state = State.POPULAR
         )
         return arrayOf<UiTask<*>>(local, trends, popular)
-    }
-
-    override fun hasAllPages(): Boolean {
-        return true
-    }
-
-    override fun hasTabColor(): Boolean {
-        return true
     }
 
 /*    override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {

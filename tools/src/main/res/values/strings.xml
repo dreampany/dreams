@@ -8,10 +8,11 @@
     <string name="title_feature_radio">Smart Radio</string>
     <string name="title_feature_english">Learn English</string>
     <string name="title_feature_crypto">Live Crypto</string>
-    <string name="title_feature_call_block">Call Block</string>
+    <string name="title_feature_block">Super Block</string>
     <string name="title_feature_todo">Easy Todo</string>
     <string name="title_feature_resume">Resume Plus</string>
     <string name="title_feature_question">Questions</string>
+    <string name="title_feature_lock">Smart Lock</string>
 
     <string name="info">Info</string>
 

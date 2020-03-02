@@ -9,9 +9,10 @@ import javax.inject.Singleton
 
 
 /**
- * Created by Hawladar Roman on 7/28/2018.
- * Dreampany Ltd
- * dreampanymail@gmail.com
+ * Created by roman on 2/3/20
+ * Copyright (c) 2020 bjit. All rights reserved.
+ * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 @Module
 class FirebaseModule {

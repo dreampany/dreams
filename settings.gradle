@@ -28,4 +28,4 @@ include ':lca'
 include ':tools'
 //include ':share-dialog'
 //include ':map'
-
+include ':adsify'

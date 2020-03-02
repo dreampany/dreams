@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.fragment.lock
 import android.os.Bundle
 import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.tools.data.source.pref.LockPref
 import javax.inject.Inject
 
 /**
@@ -14,11 +15,16 @@ import javax.inject.Inject
 @ActivityScope
 class LockHomeFragment
 @Inject constructor() : BaseMenuFragment() {
+
+    @Inject
+    internal lateinit var lockPref : LockPref
+
     override fun onStartUi(state: Bundle?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+
     }
 
     override fun onStopUi() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 }

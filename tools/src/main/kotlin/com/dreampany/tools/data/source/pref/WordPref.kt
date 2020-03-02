@@ -27,27 +27,27 @@ class WordPref
     }
 
     fun commitTrackLoaded() {
-        setPrivately(Constants.Pref.WORD_TRACK_LOADED, true)
+        setPrivately(Constants.Pref.Word.WORD_TRACK_LOADED, true)
     }
 
     fun commitCommonLoaded() {
-        setPrivately(Constants.Pref.WORD_COMMON_LOADED, true)
+        setPrivately(Constants.Pref.Word.WORD_COMMON_LOADED, true)
     }
 
     fun commitAlphaLoaded() {
-        setPrivately(Constants.Pref.WORD_ALPHA_LOADED, true)
+        setPrivately(Constants.Pref.Word.WORD_ALPHA_LOADED, true)
     }
 
     fun isTrackLoaded(): Boolean {
-        return getPrivately(Constants.Pref.WORD_TRACK_LOADED, Constants.Default.BOOLEAN)
+        return getPrivately(Constants.Pref.Word.WORD_TRACK_LOADED, Constants.Default.BOOLEAN)
     }
 
     fun isCommonLoaded(): Boolean {
-        return getPrivately(Constants.Pref.WORD_COMMON_LOADED, Constants.Default.BOOLEAN)
+        return getPrivately(Constants.Pref.Word.WORD_COMMON_LOADED, Constants.Default.BOOLEAN)
     }
 
     fun isAlphaLoaded(): Boolean {
-        return getPrivately(Constants.Pref.WORD_ALPHA_LOADED, Constants.Default.BOOLEAN)
+        return getPrivately(Constants.Pref.Word.WORD_ALPHA_LOADED, Constants.Default.BOOLEAN)
     }
 
     fun setTrackStartAt(startAt: String) {

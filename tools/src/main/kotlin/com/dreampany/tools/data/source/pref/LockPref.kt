@@ -21,4 +21,12 @@ class LockPref
     override fun getPrivateName(context: Context): String {
         return Constants.Pref.NAME.LOCK
     }
+
+    fun setPasscode(passcode: String) {
+        setPrivately(Constants.Pref.Lock.PASSCODE, passcode)
+    }
+
+    fun getPasscode(): String {
+        return getPrivately(Constants.Pref.Lock.PASSCODE, Constants.Default.STRING)
+    }
 }

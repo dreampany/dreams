@@ -287,9 +287,6 @@ class Constants {
 
         const val PLAYER_RETRY_TIMEOUT = "player_retry_timeout"
 
-        const val WORD_TRACK_LOADED = "word_track_loaded"
-        const val WORD_COMMON_LOADED = "word_common_loaded"
-        const val WORD_ALPHA_LOADED = "word_alpha_loaded"
         const val WORD_LAST = "word_last"
         const val WORD_TRACK_START_AT = "word_track_start_at"
         //const val WORD_TRACK_TIME = "word_track_time"
@@ -300,6 +297,9 @@ class Constants {
         const val UPLOAD = "upload"
 
         object Word {
+            const val WORD_TRACK_LOADED = "word_track_loaded"
+            const val WORD_COMMON_LOADED = "word_common_loaded"
+            const val WORD_ALPHA_LOADED = "word_alpha_loaded"
             const val COUNT_SYNCED = "count_synced"
             const val TIME_LOAD = "time_load"
             const val TIME_SYNC = "time_sync"
@@ -329,6 +329,10 @@ class Constants {
             const val CATEGORY = "category"
             const val TYPE = "type"
             const val DIFFICULT = "difficult"
+        }
+
+        object Lock {
+            const val PASSCODE = "passcode"
         }
     }
 

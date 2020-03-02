@@ -87,10 +87,10 @@ class RadioModule {
     @StationAnnote
     fun provideStationRetrofit(client: OkHttpClient): Retrofit {
         val retrofit = Retrofit.Builder()
-            .client(client)
-            .baseUrl(Constants.Api.Radio.RADIO_BROWSER)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(client)
+            .baseUrl(Constants.Api.Radio.RADIO_BROWSER)
             .build();
         return retrofit;
     }

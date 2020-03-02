@@ -1,9 +1,9 @@
+/*
 package com.dreampany.framework.injector.network
 
 import android.content.Context
 import com.dreampany.framework.data.source.api.RemoteService
 import com.dreampany.framework.misc.Constants
-import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -18,12 +18,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 
+*/
 /**
  * Created by roman on 2019-07-03
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Module
 class NetworkModule {
 
@@ -36,15 +38,6 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
-        val builder = GsonBuilder()
-        //builder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        //builder.setLenient()
-        return builder.create()
-    }
-
-    @Provides
-    @Singleton
     fun provideConnectionPool() : ConnectionPool {
         return ConnectionPool()
     }
@@ -52,6 +45,7 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideHttpClient(cache: Cache): OkHttpClient {
+*/
 /*        val cacheSize = 10 * 1024 * 1024 // 10 MB
         val httpCacheDirectory = File(context.getCacheDir(), "http-cache")
         val cache = Cache(httpCacheDirectory, cacheSize.toLong())
@@ -67,7 +61,8 @@ class NetworkModule {
                     .header("Cache-Control", cacheControl.toString())
                     .build()
         }
-*/
+*//*
+
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -96,4 +91,4 @@ class NetworkModule {
     fun provideRemoteService(retrofit: Retrofit): RemoteService {
         return retrofit.create(RemoteService::class.java);
     }
-}
+}*/

@@ -5,11 +5,12 @@ import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.api.PointDataSource
 import com.dreampany.framework.data.source.api.StoreDataSource
 import com.dreampany.framework.data.source.room.RoomPointDataSource
-import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.data.source.room.RoomStoreDataSource
 import com.dreampany.framework.data.source.room.dao.PointDao
-import com.dreampany.framework.injector.network.NetworkModule
+import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.injector.annote.Room
+import com.dreampany.framework.injector.http.HttpModule
+import com.dreampany.framework.injector.json.JsonModule
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,7 +22,12 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  */
 
-@Module(includes = [SupportModule::class, DatabaseModule::class, NetworkModule::class, FirebaseModule::class])
+@Module(includes = [
+    SupportModule::class,
+    DatabaseModule::class,
+    JsonModule::class,
+    HttpModule::class,
+    FirebaseModule::class])
 class FrameModule {
 
     @Singleton

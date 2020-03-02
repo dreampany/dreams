@@ -223,4 +223,9 @@ class Constants {
     object Api {
         const val BASE_URL = "https://google.com/"
     }
+
+    object Http {
+        const val READ_TIMEOUT = 80L
+        const val WRITE_TIMEOUT = 80L
+    }
 }

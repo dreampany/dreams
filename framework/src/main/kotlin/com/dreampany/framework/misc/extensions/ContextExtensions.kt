@@ -13,7 +13,7 @@ import android.content.pm.PackageManager
 
 fun Context?.isDebug(): Boolean {
     if (this == null) return true
-    var debug = false
+    var debug = true
     try {
         val appInfo = this.applicationContext.packageManager.getApplicationInfo(
             this.applicationContext.getPackageName(), 0

@@ -1,30 +1,25 @@
-package com.dreampany.framework.ui.adapter
+package com.dreampany.common
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.framework.misc.extensions.bindInflater
-import com.dreampany.framework.misc.extensions.dpToPx
-import com.dreampany.framework.misc.extensions.screenWidthInPx
-import timber.log.Timber
 import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * Created by roman on 2020-02-20
+ * Created by roman on 3/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView.Adapter<VH>() {
+abstract class Adapter<T, VH : Adapter.ViewHolder<T, VH>> : RecyclerView.Adapter<VH>() {
 
-    protected val items: MutableList<T>
+    private val items: MutableList<T>
 
     init {
-        items = Collections.synchronizedList(ArrayList())
+        items = Collections.synchronizedList(ArrayList<T>())
     }
 
     protected abstract fun getViewType(item: T): Int
@@ -48,13 +43,13 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        Timber.v("ViewHolder Binding %s", holder.toString())
+        //Timber.v("ViewHolder Binding %s", holder.toString())
         getItem(position)?.run {
-            holder.bindView(holder, this, position)
+            holder.bindView(this, holder, position)
         }
     }
 
-    open fun isEmpty(): Boolean {
+    fun isEmpty(): Boolean {
         return itemCount == 0
     }
 
@@ -122,7 +117,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView
         var position = getPosition(item)
         if (position == -1) {
             position = calculatePositionFor(item, comparator)
-            Timber.v("Calculated Position %d", position)
+            //Timber.v("Calculated Position %d", position)
             performInsert(position, listOf(item), true)
             /*items.add(item);
             notifyItemInserted(getItemCount() - 1);*/
@@ -177,7 +172,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView
         }
         // Notify range addition
         if (notify) {
-            Timber.v("addItems on position=%s itemCount=%s", position, items.size)
+            //Timber.v("addItems on position=%s itemCount=%s", position, items.size)
             notifyItemRangeInserted(position, items.size)
         }
     }
@@ -187,23 +182,9 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView
     }
 
     abstract class ViewHolder<T, VH : RecyclerView.ViewHolder>
-    protected constructor(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-
+    constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         protected val context: Context get() = itemView.context
 
-        abstract fun bindView(holder: VH, item: T, position: Int)
-
-        open fun getSpanHeight(spanCount: Int, itemOffset: Int): Int {
-            return (context.screenWidthInPx() / spanCount) - (itemOffset.dpToPx() * spanCount)
-        }
-
-        protected fun getString(@StringRes resId: Int): String {
-            return context.getString(resId)
-        }
-
-        protected fun getString(@StringRes resId: Int, vararg args: Any?): String {
-            return context.getString(resId, *args)
-        }
+        abstract fun bindView(item: T, holder: VH, position: Int)
     }
 }

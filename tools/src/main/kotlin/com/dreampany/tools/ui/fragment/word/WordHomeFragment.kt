@@ -135,8 +135,8 @@ class WordHomeFragment
         super.onMenuCreated(menu, inflater)
 
         val searchItem = getSearchMenuItem()
-        val favoriteItem = menu.findItem(R.id.item_favorite)
-        val settingsItem = menu.findItem(R.id.item_settings)
+        val favoriteItem = findMenuItemById(R.id.item_favorite)
+        val settingsItem = findMenuItemById(R.id.item_settings)
         searchItem.toTint(context, R.color.material_white)
         favoriteItem.toTint(context, R.color.material_white)
         settingsItem.toTint(context, R.color.material_white)

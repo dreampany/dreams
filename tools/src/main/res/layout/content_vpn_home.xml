@@ -71,7 +71,7 @@
             auto:layout_constraintStart_toStartOf="parent"
             tools:visibility="visible" />
 
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+<!--        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
             android:id="@+id/progress_bar"
             style="@style/Widget.MaterialProgressBar.ProgressBar"
             android:layout_width="@dimen/_80sdp"
@@ -82,7 +82,7 @@
             auto:layout_constraintBottom_toTopOf="@id/view_hint"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
-            auto:mpb_progressStyle="circular" />
+            auto:mpb_progressStyle="circular" />-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/view_log"

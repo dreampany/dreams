@@ -1,3 +1,4 @@
+/*
 package com.dreampany.framework.api.ui.fab
 
 import android.animation.Animator
@@ -19,12 +20,14 @@ import com.dreampany.framework.R
 import mbanje.kurt.fabbutton.FabUtil
 
 
+*/
 /**
  * Created by roman on 2019-11-02
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class ProgressRingView : View, FabUtil.OnFabValueCallback {
 
     private var progress: Float = 0.toFloat()
@@ -192,10 +195,12 @@ class ProgressRingView : View, FabUtil.OnFabValueCallback {
         )
     }
 
-    /**
+    */
+/**
      * Sets the progress of the progress bar.
      * @param currentProgress the current progress you want to set
-     */
+     *//*
+
     fun setProgress(currentProgress: Float) {
         this.progress = currentProgress
         // Reset the determinate animation to approach the new progress
@@ -232,10 +237,12 @@ class ProgressRingView : View, FabUtil.OnFabValueCallback {
     }
 
 
-    /**
+    */
+/**
      * Starts the progress bar animation.
      * (This is an alias of resetAnimation() so it does the same thing.)
-     */
+     *//*
+
     fun startAnimation() {
         resetAnimation()
     }
@@ -259,9 +266,11 @@ class ProgressRingView : View, FabUtil.OnFabValueCallback {
         invalidate()
     }
 
-    /**
+    */
+/**
      * Resets the animation.
-     */
+     *//*
+
     fun resetAnimation() {
         stopAnimation(false)
         // Determinate animation
@@ -306,4 +315,4 @@ class ProgressRingView : View, FabUtil.OnFabValueCallback {
             indeterminateAnimator?.start()
         }
     }
-}
+}*/

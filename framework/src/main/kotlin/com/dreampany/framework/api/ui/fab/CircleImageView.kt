@@ -1,3 +1,4 @@
+/*
 package com.dreampany.framework.api.ui.fab
 
 import android.animation.Animator
@@ -17,12 +18,14 @@ import androidx.annotation.AttrRes
 import androidx.appcompat.widget.AppCompatImageView
 import com.dreampany.framework.R
 
+*/
 /**
  * Created by roman on 2019-11-02
  * Copyright (c) 2019 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 class CircleImageView : AppCompatImageView {
 
     interface OnFabViewListener {
@@ -173,11 +176,13 @@ class CircleImageView : AppCompatImageView {
         this.showEndBitmap = showEndBitmap
     }
 
-    /**
+    */
+/**
      * sets the icon that will be shown on the fab icon
      *
      * @param resource the resource id of the icon
-     */
+     *//*
+
     fun setIcon(resource: Int, endBitmapResource: Int) {
         val srcBitmap = BitmapFactory.decodeResource(resources, resource)
         if (showEndBitmap) {
@@ -191,12 +196,14 @@ class CircleImageView : AppCompatImageView {
         }
     }
 
-    /**
+    */
+/**
      * sets the icon that will be shown on the fab icon
      *
      * @param icon the initial icon
      * @param endIcon the icon to be displayed when the progress is finished
-     */
+     *//*
+
     fun setIcon(icon: Drawable, endIcon: Drawable) {
         if (showEndBitmap) {
             setIconAnimation(icon, endIcon)
@@ -217,11 +224,13 @@ class CircleImageView : AppCompatImageView {
         crossfader?.resetTransition()
     }
 
-    /**
+    */
+/**
      * this sets the thickness of the ring as a fraction of the radius of the circle.
      *
      * @param ringWidthRatio the ratio 0-1
-     */
+     *//*
+
     fun setRingWidthRatio(ringWidthRatio: Float) {
         this.ringWidthRatio = ringWidthRatio
     }
@@ -235,11 +244,13 @@ class CircleImageView : AppCompatImageView {
         this.invalidate()
     }
 
-    /**
+    */
+/**
      * sets the color of the circle
      *
      * @param color the actual color to set to
-     */
+     *//*
+
     fun setColor(color: Int) {
         circlePaint.color = color
         ringPaint.color = color
@@ -247,11 +258,13 @@ class CircleImageView : AppCompatImageView {
         this.invalidate()
     }
 
-    /**
+    */
+/**
      * whether to show the ring or not
      *
      * @param show set flag
-     */
+     *//*
+
     fun showRing(show: Boolean) {
         progressVisible = show
         if (show) {
@@ -262,12 +275,14 @@ class CircleImageView : AppCompatImageView {
         ringAnimator.start()
     }
 
-    /**
+    */
+/**
      * this animates between the icon set in the imageview and the completed icon. does as crossfade animation
      *
      * @param show set flag
      * @param hideOnComplete if true animate outside ring out after progress complete
-     */
+     *//*
+
     fun showCompleted(show: Boolean, hideOnComplete: Boolean) {
         if (show) {
             crossfader?.startTransition(500)
@@ -280,4 +295,4 @@ class CircleImageView : AppCompatImageView {
 
         }
     }
-}
+}*/

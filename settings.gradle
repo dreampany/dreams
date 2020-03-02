@@ -1,5 +1,6 @@
 rootProject.name='android'
 include ':framework'
+include ':common'
 //include ':frame'
 //include ':common'
 //include ':firebase'
@@ -27,3 +28,4 @@ include ':lca'
 include ':tools'
 //include ':share-dialog'
 //include ':map'
+

@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -124,7 +124,8 @@ configurations.all {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    /* libs */
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     /* test */
     testImplementation 'junit:junit:4.13'

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lockui_title">Enter Pin Code</string>
+    <string name="lockui_set_title">Set Pin Code</string>
+    <string name="lockui_first_try">Wrong Pin Code: First Try</string>
+    <string name="lockui_second_try">Wrong Pin Code: Second Try</string>
+    <string name="lockui_wrong_pin">Wrong Pin code</string>
+    <string name="lockui_second_pin">Enter Pin Code Again</string>
+    <string name="lockui_try_again">Pin Codes Are Not The Same</string>
+    <string name="lockui_finger_print">Use Fingerprint</string>
+</resources>

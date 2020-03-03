@@ -1,10 +1,11 @@
-package com.dreampany.common
+package com.dreampany.common.ui.adapter
 
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.common.extensions.bindInflater
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -14,7 +15,7 @@ import kotlin.collections.ArrayList
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Adapter<T, VH : Adapter.ViewHolder<T, VH>> : RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView.Adapter<VH>() {
 
     private val items: MutableList<T>
 

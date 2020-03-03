@@ -27,6 +27,9 @@ android {
         }
     }
 
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -41,7 +44,7 @@ dependencies {
 
     /* common */
     implementation project(':common')
-    
+
     /* androidx support*/
 
 }

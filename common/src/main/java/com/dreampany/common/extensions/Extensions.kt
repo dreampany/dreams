@@ -1,4 +1,4 @@
-package com.dreampany.common
+package com.dreampany.common.extensions
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

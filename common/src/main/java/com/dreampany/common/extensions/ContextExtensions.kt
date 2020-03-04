@@ -1,7 +1,9 @@
 package com.dreampany.common.extensions
 
 import android.content.Context
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.core.content.ContextCompat
 
 /**
  * Created by roman on 3/3/20
@@ -11,4 +13,8 @@ import androidx.annotation.DimenRes
  */
 fun Context?.dimension(@DimenRes resId: Int): Float {
     return this?.resources?.getDimension(resId) ?: 0.0f
+}
+
+fun Context?.color(@ColorRes resId: Int): Int {
+    return if (this == null) 0 else ContextCompat.getColor(this, resId)
 }

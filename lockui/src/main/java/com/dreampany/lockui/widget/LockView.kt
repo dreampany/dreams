@@ -2,8 +2,11 @@ package com.dreampany.lockui.widget
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.common.extensions.color
+import com.dreampany.common.extensions.dimension
 import com.dreampany.common.misc.Constants
 import com.dreampany.lockui.R
 import com.dreampany.lockui.ui.adapter.LockAdapter
@@ -25,7 +28,15 @@ class LockView : RecyclerView {
     private var verticalSpacing: Int = 0
 
     private var textColor: Int = 0
+    private var deleteButtonPressedColor: Int = 0
     private var textSize: Int = 0
+    private var buttonSize: Int = 0
+    private var deleteButtonWidthSize: Int = 0
+    private var deleteButtonHeightSize: Int = 0
+
+    private var buttonBackgroundDrawable: Drawable? = null
+    private var deleteButtonDrawable: Drawable? = null
+    private var showDeleteButton = false
 
     private lateinit var dots: Dots
     private lateinit var lockAdapter: LockAdapter
@@ -50,7 +61,51 @@ class LockView : RecyclerView {
         val array: TypedArray = context.obtainStyledAttributes(attrs, R.styleable.lockui)
         try {
             pinLength = array.getInt(R.styleable.lockui_pinLength, DEFAULT_PIN_LENGTH)
-                   } finally {
+            horizontalSpacing = array.getDimension(
+                R.styleable.lockui_keypadHorizontalSpacing,
+                context.dimension(R.dimen.default_horizontal_spacing)
+            ) as Int
+            verticalSpacing = array.getDimension(
+                R.styleable.lockui_keypadVerticalSpacing,
+                context.dimension(R.dimen.default_vertical_spacing)
+            ) as Int
+            textColor = array.getColor(
+                R.styleable.lockui_keypadTextColor,
+                context.color(R.color.text_numberpressed)
+            )
+            textSize = array.getDimension(
+                R.styleable.lockui_keypadTextSize,
+                context.dimension(R.dimen.default_text_size)
+            ) as Int
+            buttonSize = array.getDimension(
+                R.styleable.lockui_keypadButtonSize,
+                context.dimension(R.dimen.default_button_size)
+            ) as Int
+            deleteButtonWidthSize = array.getDimension(
+                R.styleable.lockui_keypadDeleteButtonSize,
+                context.dimension(
+                    R.dimen.default_delete_button_size_width
+                )
+            ) as Int
+            deleteButtonHeightSize = array.getDimension(
+                R.styleable.lockui_keypadDeleteButtonSize,
+                context.dimension(
+                    R.dimen.default_delete_button_size_height
+                )
+            ) as Int
+
+            buttonBackgroundDrawable =
+                array.getDrawable(R.styleable.lockui_keypadButtonBackgroundDrawable)
+            deleteButtonDrawable =
+                array.getDrawable(R.styleable.lockui_keypadDeleteButtonDrawable)
+            showDeleteButton =
+                array.getBoolean(R.styleable.lockui_keypadShowDeleteButton, true)
+            deleteButtonPressedColor = array.getColor(
+                R.styleable.lockui_keypadDeleteButtonPressedColor,
+                context.color(R.color.text_numberpressed)
+            )
+
+        } finally {
             array.recycle()
         }
     }

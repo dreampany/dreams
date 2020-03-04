@@ -4,12 +4,18 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.extensions.color
 import com.dreampany.common.extensions.dimension
 import com.dreampany.common.misc.Constants
+import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.lockui.R
 import com.dreampany.lockui.ui.adapter.LockAdapter
+import com.dreampany.lockui.ui.model.Delete
+import com.dreampany.lockui.ui.model.Item
+import com.dreampany.lockui.ui.model.Number
 
 /**
  * Created by roman on 3/3/20
@@ -17,8 +23,16 @@ import com.dreampany.lockui.ui.adapter.LockAdapter
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class LockView : RecyclerView {
+class LockView : RecyclerView,
+    com.dreampany.common.ui.adapter.BaseAdapter.OnItemClickListener<Item> {
 
+    interface LockListener {
+        fun onComplete(pin: String)
+        fun onPinChange(pinLength: Int, intermediatePin: String)
+        fun onEmpty()
+    }
+
+    private val SPAN_COUNT = 3
     private val DEFAULT_PIN_LENGTH = 4
     private val DEFAULT_KEY_SET = intArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
 
@@ -39,8 +53,7 @@ class LockView : RecyclerView {
     private var showDeleteButton = false
 
     private lateinit var dots: Dots
-    private lateinit var lockAdapter: LockAdapter
-    private lateinit var pinLockAdapter: LockAdapter
+    private lateinit var adapter: LockAdapter
 
     constructor(context: Context) : this(context, null) {
     }
@@ -55,6 +68,19 @@ class LockView : RecyclerView {
         defStyleAttr
     ) {
         initUi(context, attrs)
+        updateUi(context)
+    }
+
+    override fun onItemClick(item: Item) {
+        if (item is Number) {
+            onNumberClick(item)
+        } else if (item is Delete) {
+            onDeleteClick(item)
+        }
+    }
+
+    override fun onChildItemClick(view: View, item: Item) {
+
     }
 
     private fun initUi(context: Context, attrs: AttributeSet?) {
@@ -108,9 +134,31 @@ class LockView : RecyclerView {
         } finally {
             array.recycle()
         }
+
+
     }
 
     private fun updateUi(context: Context) {
+        layoutManager = GridLayoutManager(context, SPAN_COUNT)
+
+        adapter = LockAdapter(this)
+        setAdapter(adapter)
+        addItemDecoration(
+            ItemSpaceDecoration(
+                horizontalSpacing,
+                verticalSpacing,
+                SPAN_COUNT,
+                false
+            )
+        )
+        setOverScrollMode(OVER_SCROLL_NEVER)
+    }
+
+    private fun onNumberClick(number: Number) {
+
+    }
+
+    private fun onDeleteClick(delete: Delete) {
 
     }
 }

@@ -3,6 +3,7 @@ package com.dreampany.common.ui.adapter
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.extensions.bindInflater
@@ -15,16 +16,28 @@ import kotlin.collections.ArrayList
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?) :
+    RecyclerView.Adapter<VH>() {
+
+    interface OnItemClickListener<T> {
+        fun onItemClick(item: T)
+
+        fun onChildItemClick(view: View, item: T)
+    }
 
     private val items: MutableList<T>
+    protected var listener: OnItemClickListener<T>? = null
 
     init {
         items = Collections.synchronizedList(ArrayList<T>())
+        if (listener is OnItemClickListener<*>) {
+            this.listener = listener as OnItemClickListener<T>
+        }
     }
 
     protected abstract fun getViewType(item: T): Int
 
+    @LayoutRes
     protected abstract fun getLayoutId(viewType: Int): Int
 
     protected abstract fun createViewHolder(bind: ViewDataBinding, viewType: Int): VH
@@ -46,7 +59,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView
     override fun onBindViewHolder(holder: VH, position: Int) {
         //Timber.v("ViewHolder Binding %s", holder.toString())
         getItem(position)?.run {
-            holder.bindView(this, holder, position)
+            holder.bindView(this, position)
         }
     }
 
@@ -103,14 +116,16 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView
         }
     }
 
-    open fun add(item: T) {
+    open fun add(item: T, notify: Boolean = false) {
         val position = getPosition(item)
         if (position == -1) {
             items.add(item)
-            notifyItemInserted(itemCount - 1)
+            if (notify)
+                notifyItemInserted(itemCount - 1)
         } else {
             items[position] = item
-            notifyItemChanged(position)
+            if (notify)
+                notifyItemChanged(position)
         }
     }
 
@@ -178,14 +193,12 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>> : RecyclerView
         }
     }
 
-    private fun isValidPosition(position: Int): Boolean {
-        return position >= 0 && position < itemCount
-    }
+    private fun isValidPosition(position: Int): Boolean = position >= 0 && position < itemCount
 
     abstract class ViewHolder<T, VH : RecyclerView.ViewHolder>
-    constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    protected constructor(bind: ViewDataBinding) : RecyclerView.ViewHolder(bind.root) {
         protected val context: Context get() = itemView.context
 
-        abstract fun bindView(item: T, holder: VH, position: Int)
+        abstract fun bindView(item: T, position: Int)
     }
 }

@@ -22,23 +22,15 @@ abstract class BaseActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     protected var fireOnStartUi: Boolean = true
 
-    open fun hasBinding(): Boolean {
-        return false
-    }
+    open fun isFullScreen(): Boolean = false
 
-    open fun isFullScreen(): Boolean {
-        return false
-    }
+    open fun hasBinding(): Boolean = false
 
     @LayoutRes
-    open fun getLayoutId(): Int {
-        return 0
-    }
+    open fun getLayoutId(): Int = 0
 
     @IdRes
-    open fun getToolbarId(): Int {
-        return 0
-    }
+    open fun getToolbarId(): Int = 0
 
     protected abstract fun onStartUi(state: Bundle?)
 

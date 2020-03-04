@@ -44,6 +44,14 @@
                 auto:layout_constraintRight_toRightOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/dots" />
 
+            <com.dreampany.lockui.widget.LockView
+                android:id="@+id/lock_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                auto:layout_constraintLeft_toLeftOf="parent"
+                auto:layout_constraintRight_toRightOf="parent"
+                auto:layout_constraintTop_toBottomOf="@id/attempts" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

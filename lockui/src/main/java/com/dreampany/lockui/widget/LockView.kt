@@ -52,8 +52,10 @@ class LockView : RecyclerView,
     private var deleteButtonDrawable: Drawable? = null
     private var showDeleteButton = false
 
-    private lateinit var dots: Dots
+    private var dots: Dots? = null
     private lateinit var adapter: LockAdapter
+
+    private var listener: LockListener? = null
 
     constructor(context: Context) : this(context, null) {
     }
@@ -81,6 +83,18 @@ class LockView : RecyclerView,
 
     override fun onChildItemClick(view: View, item: Item) {
 
+    }
+
+    fun setListener(listener: LockListener) {
+        this.listener = listener
+    }
+
+    fun reset() {
+        pin = Constants.Default.STRING
+        adapter.setPinLength(pin.length)
+        adapter.notifyItemChanged(adapter.itemCount - 1)
+
+        dots?.updateDot(pin.length)
     }
 
     private fun initUi(context: Context, attrs: AttributeSet?) {
@@ -134,8 +148,6 @@ class LockView : RecyclerView,
         } finally {
             array.recycle()
         }
-
-
     }
 
     private fun updateUi(context: Context) {
@@ -155,10 +167,49 @@ class LockView : RecyclerView,
     }
 
     private fun onNumberClick(number: Number) {
+        if (pin.length < pinLength) {
+            pin = pin.plus(number.number.toString())
+            dots?.updateDot(pin.length)
 
+            if (pin.length == 1) {
+                adapter.setPinLength(pin.length)
+                adapter.notifyItemChanged(adapter.itemCount - 1)
+            }
+
+            if (pin.length == pinLength)
+                listener?.onComplete(pin)
+            else
+                listener?.onPinChange(pin.length, pin)
+        } else {
+            if (showDeleteButton.not()) {
+                reset()
+                pin = pin.plus(number.number.toString())
+                dots?.updateDot(pin.length)
+                listener?.onPinChange(pin.length, pin)
+            } else {
+                listener?.onComplete(pin)
+            }
+        }
     }
 
     private fun onDeleteClick(delete: Delete) {
+        if (pin.isNotEmpty()) {
+            pin = pin.substring(0, pin.length - 1)
+            dots?.updateDot(pin.length)
 
+            if (pin.isEmpty()) {
+                adapter.setPinLength(pin.length)
+                adapter.notifyItemChanged(adapter.itemCount - 1)
+            }
+
+            if (pin.isEmpty()) {
+                listener?.onEmpty()
+                pin = Constants.Default.STRING
+            }
+            else
+                listener?.onPinChange(pin.length, pin)
+        } else {
+            listener?.onEmpty()
+        }
     }
 }

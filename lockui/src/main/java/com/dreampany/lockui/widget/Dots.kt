@@ -120,7 +120,7 @@ class Dots : LinearLayoutCompat {
         }
     }
 
-    private fun updateDot(length: Int) {
+    fun updateDot(length: Int) {
         if (dotType == DotType.FIXED) {
             if (length > 0) {
                 if (length > previousPinLength) {

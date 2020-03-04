@@ -22,6 +22,8 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
     private val NUMBER = 0
     private val DELETE = 1
 
+    private var pinLength = 0
+
     init {
         add(Number(1))
         add(Number(2))
@@ -55,6 +57,10 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
         ) else DeleteViewHolder(
             bind as ItemDeleteBinding, this
         )
+    }
+
+    fun setPinLength(pinLength: Int) {
+
     }
 
     abstract class ViewHolder(bind: ViewDataBinding) :

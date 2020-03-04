@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
@@ -95,9 +96,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(), HasAndroidInjector,
         return javaClass.simpleName
     }
 
-    open fun getLayoutId(): Int {
-        return Constants.Default.INT
-    }
+    @LayoutRes
+    open fun getLayoutId(): Int = Constants.Default.INT
 
     open fun getPrefLayoutId(): Int {
         return Constants.Default.INT

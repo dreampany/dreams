@@ -1,8 +1,10 @@
 package com.dreampany.tools.ui.fragment.lock
 
+import android.content.Intent
 import android.os.Bundle
 import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.lockui.ui.activity.PinActivity
 import com.dreampany.tools.data.source.pref.LockPref
 import javax.inject.Inject
 
@@ -17,10 +19,12 @@ class LockHomeFragment
 @Inject constructor() : BaseMenuFragment() {
 
     @Inject
-    internal lateinit var lockPref : LockPref
+    internal lateinit var lockPref: LockPref
 
     override fun onStartUi(state: Bundle?) {
 
+        val intent = Intent(getParent(), PinActivity::class.java)
+        startActivity(intent)
 
     }
 

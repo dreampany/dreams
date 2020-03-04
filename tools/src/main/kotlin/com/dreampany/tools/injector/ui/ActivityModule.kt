@@ -6,6 +6,7 @@ import com.dreampany.tools.ui.activity.ToolsActivity
 import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.activity.WebActivity
 import com.dreampany.tools.injector.ui.crypto.CryptoModule
+import com.dreampany.tools.injector.ui.lock.LockModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -39,6 +40,7 @@ abstract class ActivityModule {
             RadioModule::class,
             CryptoModule::class,
             BlockModule::class,
+            LockModule::class,
             ResumeModule::class,
             QuestionModule::class
         ]

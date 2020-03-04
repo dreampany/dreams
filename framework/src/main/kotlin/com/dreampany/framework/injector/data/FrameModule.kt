@@ -11,6 +11,7 @@ import com.dreampany.framework.data.source.room.dao.StoreDao
 import com.dreampany.framework.injector.annote.Room
 import com.dreampany.framework.injector.http.HttpModule
 import com.dreampany.framework.injector.json.JsonModule
+import com.dreampany.framework.injector.network.NetworkModule
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -27,6 +28,7 @@ import javax.inject.Singleton
     DatabaseModule::class,
     JsonModule::class,
     HttpModule::class,
+    NetworkModule::class,
     FirebaseModule::class])
 class FrameModule {
 

@@ -23,13 +23,9 @@ abstract class BaseMenuFragment : BaseFragment() {
     protected var menu: Menu? = null
     protected var inflater: MenuInflater? = null
 
-    open fun getMenuId(): Int {
-        return 0
-    }
+    open fun getMenuId(): Int = 0
 
-    open fun getSearchMenuItemId(): Int {
-        return 0
-    }
+    open fun getSearchMenuItemId(): Int = 0
 
     open fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
 

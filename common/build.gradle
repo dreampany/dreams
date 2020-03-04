@@ -54,6 +54,7 @@ dependencies {
 
     /* google */
     api 'com.google.android.material:material:1.2.0-alpha05'
+    api 'com.google.guava:guava:28.2-android'
 
     /* misc */
     api 'com.intuit.sdp:sdp-android:1.0.6'

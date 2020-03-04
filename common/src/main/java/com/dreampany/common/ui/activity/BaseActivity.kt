@@ -49,6 +49,10 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    protected fun <T : ViewDataBinding> getBinding(): T {
+        return binding as T
+    }
+
     private fun initLayout(layoutId: Int) {
         if (isFullScreen()) {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -63,4 +67,5 @@ abstract class BaseActivity : AppCompatActivity() {
         toolbar = findViewById<Toolbar>(getToolbarId())
         setSupportActionBar(toolbar)
     }
+
 }

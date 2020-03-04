@@ -28,8 +28,8 @@ class LockView : RecyclerView,
 
     interface LockListener {
         fun onComplete(pin: String)
-        fun onPinChange(pinLength: Int, intermediatePin: String)
         fun onEmpty()
+        fun onPinChange(pinLength: Int, intermediatePin: String)
     }
 
     private val SPAN_COUNT = 3
@@ -205,8 +205,7 @@ class LockView : RecyclerView,
             if (pin.isEmpty()) {
                 listener?.onEmpty()
                 pin = Constants.Default.STRING
-            }
-            else
+            } else
                 listener?.onPinChange(pin.length, pin)
         } else {
             listener?.onEmpty()

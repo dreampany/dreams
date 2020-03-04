@@ -2,9 +2,11 @@ package com.dreampany.tools.ui.fragment.lock
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.annotation.LayoutRes
 import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.lockui.ui.activity.PinActivity
+import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.LockPref
 import javax.inject.Inject
 
@@ -20,6 +22,9 @@ class LockHomeFragment
 
     @Inject
     internal lateinit var lockPref: LockPref
+
+    @LayoutRes
+    override fun getLayoutId(): Int = R.layout.fragment_lock_home
 
     override fun onStartUi(state: Bundle?) {
 

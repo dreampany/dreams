@@ -104,11 +104,11 @@ class LockView : RecyclerView,
             horizontalSpacing = array.getDimension(
                 R.styleable.lockui_keypadHorizontalSpacing,
                 context.dimension(R.dimen.default_horizontal_spacing)
-            ) as Int
+            ).toInt()
             verticalSpacing = array.getDimension(
                 R.styleable.lockui_keypadVerticalSpacing,
                 context.dimension(R.dimen.default_vertical_spacing)
-            ) as Int
+            ).toInt()
             textColor = array.getColor(
                 R.styleable.lockui_keypadTextColor,
                 context.color(R.color.text_numberpressed)
@@ -116,23 +116,23 @@ class LockView : RecyclerView,
             textSize = array.getDimension(
                 R.styleable.lockui_keypadTextSize,
                 context.dimension(R.dimen.default_text_size)
-            ) as Int
+            ).toInt()
             buttonSize = array.getDimension(
                 R.styleable.lockui_keypadButtonSize,
                 context.dimension(R.dimen.default_button_size)
-            ) as Int
+            ).toInt()
             deleteButtonWidthSize = array.getDimension(
                 R.styleable.lockui_keypadDeleteButtonSize,
                 context.dimension(
                     R.dimen.default_delete_button_size_width
                 )
-            ) as Int
+            ).toInt()
             deleteButtonHeightSize = array.getDimension(
                 R.styleable.lockui_keypadDeleteButtonSize,
                 context.dimension(
                     R.dimen.default_delete_button_size_height
                 )
-            ) as Int
+            ).toInt()
 
             buttonBackgroundDrawable =
                 array.getDrawable(R.styleable.lockui_keypadButtonBackgroundDrawable)

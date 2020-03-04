@@ -64,8 +64,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun initToolbar() {
-        toolbar = findViewById<Toolbar>(getToolbarId())
-        setSupportActionBar(toolbar)
+        val toolbarId = getToolbarId()
+        if (toolbarId != 0) {
+            toolbar = findViewById<Toolbar>(toolbarId)
+            setSupportActionBar(toolbar)
+        }
     }
 
 }

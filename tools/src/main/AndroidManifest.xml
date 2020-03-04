@@ -121,7 +121,7 @@
 
         <activity
             android:name="com.dreampany.lockui.ui.activity.PinActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
 
         <service
             android:name="com.dreampany.tools.service.NotifyService"

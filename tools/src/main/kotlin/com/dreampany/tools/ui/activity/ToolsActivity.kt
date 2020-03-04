@@ -21,6 +21,7 @@ import com.dreampany.tools.ui.fragment.app.AppHomeFragment
 import com.dreampany.tools.ui.fragment.block.BlockHomeFragment
 import com.dreampany.tools.ui.fragment.crypto.CryptoFragment
 import com.dreampany.tools.ui.fragment.crypto.CryptoHomeFragment
+import com.dreampany.tools.ui.fragment.lock.LockHomeFragment
 import com.dreampany.tools.ui.fragment.note.FavoriteNotesFragment
 import com.dreampany.tools.ui.fragment.note.NoteFragment
 import com.dreampany.tools.ui.fragment.note.NoteHomeFragment
@@ -124,6 +125,10 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
     internal lateinit var questionHomeProvider: Lazy<QuestionHomeFragment>
     @Inject
     internal lateinit var questionsProvider: Lazy<QuestionsFragment>
+
+    /* lock */
+    @Inject
+    internal lateinit var lockHomeProvider: Lazy<LockHomeFragment>
 
     private lateinit var bind: ActivityToolsBinding
     private lateinit var collapseBind: ActivityCollapseToolsBinding
@@ -391,6 +396,17 @@ class ToolsActivity : BaseActivity(), SearchViewCallback {
                     commitFragment(
                         BlockHomeFragment::class.java,
                         blockHomeProvider,
+                        R.id.layout,
+                        uiTask
+                    )
+                    return
+                }
+            }
+            Type.LOCK -> {
+                if (state == State.HOME) {
+                    commitFragment(
+                        LockHomeFragment::class.java,
+                        lockHomeProvider,
                         R.id.layout,
                         uiTask
                     )

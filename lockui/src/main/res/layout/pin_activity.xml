@@ -26,13 +26,13 @@
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toTopOf="parent" />
 
-            <com.dreampany.lockui.widget.Dots
+<!--            <com.dreampany.lockui.widget.Dots
                 android:id="@+id/dots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/title" />
+                auto:layout_constraintTop_toBottomOf="@id/title" />-->
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/attempts"
@@ -42,7 +42,7 @@
                 android:textColor="@color/text_attempts"
                 auto:layout_constraintLeft_toLeftOf="parent"
                 auto:layout_constraintRight_toRightOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/dots" />
+                auto:layout_constraintTop_toBottomOf="@id/title" />
 
             <com.dreampany.lockui.widget.LockView
                 android:id="@+id/lock_view"

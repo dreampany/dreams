@@ -13,9 +13,20 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button"
-            android:layout_width="@dimen/default_button_size"
-            android:layout_height="@dimen/default_button_size"
-            android:background="@drawable/circlebutton_selector" />
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            android:padding="0dp"
+            android:textColor="@color/material_white"
+            android:textSize="@dimen/_14ssp"
+            auto:backgroundTint="@color/button_notpressed"
+            auto:cornerRadius="@dimen/_25sdp"
+            auto:iconPadding="0dp"
+            auto:strokeColor="@color/colorAccent"
+            auto:strokeWidth=".5dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

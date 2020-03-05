@@ -22,11 +22,11 @@ class LockPref
         return Constants.Pref.NAME.LOCK
     }
 
-    fun setPasscode(passcode: String) {
-        setPrivately(Constants.Pref.Lock.PASSCODE, passcode)
+    fun commitPasscode() {
+        setPrivately(Constants.Pref.Lock.PASSCODE, true)
     }
 
-    fun getPasscode(): String {
-        return getPrivately(Constants.Pref.Lock.PASSCODE, Constants.Default.STRING)
+    fun hasPasscode(): Boolean  {
+        return getPrivately(Constants.Pref.Lock.PASSCODE, false)
     }
 }

@@ -28,7 +28,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
         private val PIN_LENGTH = 4
         private val EXTRA_SET_PIN = "set_pin"
 
-        private val RESULT_BACK_PRESSED = RESULT_FIRST_USER
+        val RESULT_BACK_PRESSED = RESULT_FIRST_USER
 
         private val PREFERENCES = "com.dreampany.lockui"
         private val KEY_PIN = "pin"

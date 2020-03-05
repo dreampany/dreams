@@ -9,8 +9,8 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.LinearLayoutCompat android:gravity="center_horizontal"
+            android:layout_width="match_parent" android:orientation="vertical"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textview.MaterialTextView
@@ -21,38 +21,28 @@
                 android:gravity="center"
                 android:text="@string/lockui_title"
                 android:textColor="@color/text_title"
-                android:textSize="@dimen/textsize_title"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toTopOf="parent" />
+                android:textSize="@dimen/textsize_title" />
 
-<!--            <com.dreampany.lockui.widget.Dots
+            <com.dreampany.lockui.widget.Dots
                 android:id="@+id/dots"
+                android:layout_margin="@dimen/dot_margintop"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                auto:layout_constraintEnd_toEndOf="parent"
-                auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/title" />-->
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/attempts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/attempts_margin_top"
-                android:textColor="@color/text_attempts"
-                auto:layout_constraintLeft_toLeftOf="parent"
-                auto:layout_constraintRight_toRightOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/title" />
+                android:textColor="@color/text_attempts" />
 
             <com.dreampany.lockui.widget.LockView
                 android:id="@+id/lock_view"
+                android:layout_margin="@dimen/lockview_margin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                auto:layout_constraintLeft_toLeftOf="parent"
-                auto:layout_constraintRight_toRightOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/attempts" />
+                android:layout_height="wrap_content"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </ScrollView>
 

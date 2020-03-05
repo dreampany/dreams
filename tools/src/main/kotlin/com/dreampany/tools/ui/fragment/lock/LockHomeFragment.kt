@@ -28,8 +28,7 @@ class LockHomeFragment
 
     override fun onStartUi(state: Bundle?) {
 
-        val intent = Intent(getParent(), PinActivity::class.java)
-        startActivity(intent)
+         startActivity(PinActivity.getIntent(context!!,true ))
 
     }
 

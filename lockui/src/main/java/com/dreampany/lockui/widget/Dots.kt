@@ -82,10 +82,10 @@ class Dots : LinearLayoutCompat {
             pinLength = array.getInt(R.styleable.lockui_pinLength, DEFAULT_PIN_LENGTH)
             dotDiameter = array.getDimension(
                 R.styleable.lockui_dotDiameter, context.dimension(R.dimen.dot_diameter)
-            ) as Int
+            ).toInt()
             dotSpacing = array.getDimension(
                 R.styleable.lockui_dotSpacing, context.dimension(R.dimen.dot_spacing)
-            ) as Int
+            ).toInt()
 
             fillDrawable =
                 array.getResourceId(R.styleable.lockui_dotFilledBackground, R.drawable.dot_filled)

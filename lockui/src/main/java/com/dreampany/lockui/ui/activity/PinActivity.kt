@@ -20,19 +20,18 @@ import com.dreampany.lockui.widget.LockView
  */
 class PinActivity : BaseActivity(), LockView.LockListener {
 
-    val RESULT_BACK_PRESSED = RESULT_FIRST_USER
-
-    private val PREFERENCES = "com.dreampany.lockui"
-    private val KEY_PIN = "pin"
-
-    private val PIN_LENGTH = 4
-
     private lateinit var bind: PinActivityBinding
     private var setPin = false
     private var firstPin = Constants.Default.STRING
 
     companion object {
-        val EXTRA_SET_PIN = "set_pin"
+        private val PIN_LENGTH = 4
+        private val EXTRA_SET_PIN = "set_pin"
+
+        private val RESULT_BACK_PRESSED = RESULT_FIRST_USER
+
+        private val PREFERENCES = "com.dreampany.lockui"
+        private val KEY_PIN = "pin"
 
         fun getIntent(context: Context, setPin: Boolean): Intent {
             val intent =
@@ -78,7 +77,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
     }
 
     private fun initUi() {
-        bind = getBinding()
+        bind = getBinding<PinActivityBinding>()
         setPin = intent.getBooleanExtra(EXTRA_SET_PIN, false)
 
         if (setPin) {
@@ -89,9 +88,13 @@ class PinActivity : BaseActivity(), LockView.LockListener {
                 setPinUi()
                 setPin = true
             } else {
-
+                // TODO Finger Print
             }
         }
+
+        bind.lockView.setDots(bind.dots)
+        bind.lockView.setListener(this)
+        bind.lockView.setPinLength(PIN_LENGTH)
     }
 
     private fun setPinUi() {

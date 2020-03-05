@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.dreampany.common.misc.func.SafeClickListener
 
 /**
  * Created by roman on 3/3/20
@@ -35,4 +36,23 @@ fun Int.inflater(parent: ViewGroup, attachToRoot: Boolean = false): View {
 
 fun Int.bindInflater(parent: ViewGroup, attachToRoot: Boolean = false): ViewDataBinding {
     return DataBindingUtil.inflate(parent.inflater(), this, parent, attachToRoot)
+}
+
+fun View?.setOnSafeClickListener(
+    onSafeClick: (View) -> Unit
+): View? {
+    this?.setOnClickListener(SafeClickListener { v ->
+        onSafeClick(v)
+    })
+    return this
+}
+
+fun View?.setOnSafeClickListener(
+    interval: Int,
+    onSafeClick: (View) -> Unit
+): View? {
+    this?.setOnClickListener(SafeClickListener(interval, { v ->
+        onSafeClick(v)
+    }))
+    return this
 }

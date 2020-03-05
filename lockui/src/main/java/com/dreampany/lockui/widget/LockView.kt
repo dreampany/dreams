@@ -85,8 +85,17 @@ class LockView : RecyclerView,
 
     }
 
+    fun setDots(dots: Dots) {
+        this.dots = dots
+    }
+
     fun setListener(listener: LockListener) {
         this.listener = listener
+    }
+
+    fun setPinLength(pinLength: Int) {
+        this.pinLength = pinLength
+        dots?.setPinLength(pinLength)
     }
 
     fun reset() {

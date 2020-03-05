@@ -2,6 +2,7 @@ package com.dreampany.lockui.ui.adapter
 
 import androidx.databinding.ViewDataBinding
 import com.dreampany.common.extensions.gone
+import com.dreampany.common.extensions.setOnSafeClickListener
 import com.dreampany.common.extensions.visible
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.lockui.R
@@ -10,6 +11,7 @@ import com.dreampany.lockui.databinding.ItemNumberBinding
 import com.dreampany.lockui.ui.model.Delete
 import com.dreampany.lockui.ui.model.Item
 import com.dreampany.lockui.ui.model.Number
+import kotlinx.android.synthetic.main.item_number.view.*
 
 /**
  * Created by roman on 3/3/20
@@ -64,14 +66,18 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
     }
 
     abstract class ViewHolder(bind: ViewDataBinding) :
-        BaseAdapter.ViewHolder<Item, ViewHolder>(bind)
+        BaseAdapter.ViewHolder<Item, ViewHolder>(bind) {
+
+    }
 
     class NumberViewHolder(private val bind: ItemNumberBinding, private val adapter: LockAdapter) :
         ViewHolder(bind) {
 
         init {
-            adapter.getItem(adapterPosition)?.run {
-                adapter.listener?.onItemClick(this)
+            bind.button.setOnSafeClickListener {
+                adapter.getItem(adapterPosition)?.run {
+                    adapter.listener?.onItemClick(this)
+                }
             }
         }
 
@@ -91,8 +97,10 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
         ViewHolder(bind) {
 
         init {
-            adapter.getItem(adapterPosition)?.run {
-                adapter.listener?.onItemClick(this)
+            bind.button.setOnSafeClickListener {
+                adapter.getItem(adapterPosition)?.run {
+                    adapter.listener?.onItemClick(this)
+                }
             }
         }
 

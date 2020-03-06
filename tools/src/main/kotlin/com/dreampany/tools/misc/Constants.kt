@@ -280,6 +280,10 @@ class Constants {
             const val BLOCK = "contact"
         }
 
+        object Service {
+            const val APP_SERVICE = "app_service"
+        }
+
         const val LEVEL = "level"
         const val LANGUAGE = "language"
         const val DEFAULT_POINT = "default_point"

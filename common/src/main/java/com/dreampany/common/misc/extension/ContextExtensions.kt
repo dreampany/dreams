@@ -43,3 +43,7 @@ fun Context?.currentUsageStats():  UsageStats? {
     }
     return sortedMap.lastEntry()?.value
 }
+
+fun Context?.wakeLock() {
+
+}

@@ -9,6 +9,7 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerService
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -31,6 +32,10 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
 
     protected abstract fun onStop()
 
+    override fun androidInjector(): AndroidInjector<Any> {
+        return serviceInjector
+    }
+
     @CallSuper
     override fun onCreate() {
         super.onCreate()
@@ -43,11 +48,8 @@ abstract class BaseService : DaggerService(), HasAndroidInjector {
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        Timber.v("${intent.component} wants to bind with the service")
         return null
-    }
-
-    override fun androidInjector(): AndroidInjector<Any> {
-        return serviceInjector
     }
 
 }

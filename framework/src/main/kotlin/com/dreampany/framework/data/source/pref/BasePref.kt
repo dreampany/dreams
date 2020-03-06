@@ -2,7 +2,6 @@ package com.dreampany.framework.data.source.pref
 
 import android.content.Context
 import com.dreampany.framework.misc.Constants
-import com.dreampany.framework.util.AndroidUtil
 import com.github.pwittchen.prefser.library.rx2.Prefser
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable

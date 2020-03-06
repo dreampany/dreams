@@ -20,4 +20,13 @@ class Constants {
         const val STRING = ""
         val LIST = Collections.emptyList<Any>()
     }
+
+    object Pref {
+        const val DEFAULT = "default"
+        const val SERVICE = "service"
+
+        object Service {
+            const val STATE = "service_state"
+        }
+    }
 }

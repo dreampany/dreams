@@ -13,7 +13,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class ServiceManager @Inject constructor(val context: Context) {
+class ServiceManager
+@Inject constructor(private val context: Context) {
     fun <T : BaseService> openService(classOfT: Class<T>) {
         val intent = Intent(context, classOfT)
         openService(intent)

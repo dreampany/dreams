@@ -7,7 +7,7 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 #-renamesourcefileattribute SourceFile
 
-#framework
+# framework
 -keep class com.dreampany.framework.data.model.** { *; }
 -keepclassmembers class com.dreampany.framework.data.model.** { *; }
 
@@ -26,7 +26,10 @@
 -keep class com.dreampany.firebase.data.model.** { *; }
 -keepclassmembers class com.dreampany.firebase.data.model.** { *; }
 
-#app
+# app
+-keep class com.dreampany.tools.service.** { *; }
+-keepclassmembers class com.dreampany.tools.service.** { *; }
+
 -keep class com.dreampany.tools.data.model.** { *; }
 -keepclassmembers class com.dreampany.tools.data.model.** { *; }
 

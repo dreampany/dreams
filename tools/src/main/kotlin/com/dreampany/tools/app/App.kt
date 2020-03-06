@@ -158,7 +158,7 @@ class App : BaseApp() {
             return false
         }
         if (!AndroidUtil.isServiceRunning(this, AppService::class)) {
-            service.openService(AppService::class.java)
+            service.openService(AppService.getStartIntent(this))
         }
         return true
     }

@@ -818,6 +818,7 @@ class Constants {
         const val PLAYER_SERVICE_UPDATE = "radio_player_state"
 
         object Command {
+            const val START = "start"
             const val RESUME = "resume"
             const val PAUSE = "pause"
             const val STOP = "stop"

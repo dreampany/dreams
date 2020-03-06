@@ -1,5 +1,6 @@
 package com.dreampany.tools.service
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -35,6 +36,7 @@ class AppService : BaseService() {
     @Inject
     internal lateinit var notify: NotifyManager
 
+    private lateinit var powerManager: PowerManager
     private var lock: PowerManager.WakeLock? = null
     private var started = false
 
@@ -48,14 +50,31 @@ class AppService : BaseService() {
     private lateinit var channelName: String
     private lateinit var channelDescription: String
 
+    private lateinit var locker: Thread
+    private var lockerRunning = false
+
+    companion object {
+        fun getStartIntent(context: Context): Intent {
+            val intent = Intent(context, AppService::class.java)
+            intent.action = Constants.Service.Command.START
+            return intent
+        }
+
+        fun getStopIntent(context: Context): Intent {
+            val intent = Intent(context, AppService::class.java)
+            intent.action = Constants.Service.Command.STOP
+            return intent
+        }
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val action = intent?.action
         if (action == null) {
             Timber.v("with a null intent. It has been probably restarted by the system.")
         } else {
             when (action) {
-                Constants.Action.START_SERVICE -> startService()
-                Constants.Action.STOP_SERVICE -> stopService()
+                Constants.Service.Command.START -> startService()
+                Constants.Service.Command.STOP -> stopService()
             }
         }
         return Service.START_STICKY
@@ -63,25 +82,37 @@ class AppService : BaseService() {
 
     override fun onStart() {
         Timber.v("The service has been created".toUpperCase(Locale.getDefault()))
+        initService()
         showNotify()
+        startLocker()
         //configWork()
     }
 
     override fun onStop() {
         Timber.v("The service has been destroyed".toUpperCase(Locale.getDefault()))
-        //hideNotify()
+        hideNotify()
+        stopLocker()
     }
 
+    private fun initService() {
+        powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+        if (lock == null)
+            lock = powerManager.newWakeLock(
+                PowerManager.PARTIAL_WAKE_LOCK,
+                AppService::javaClass.name
+            )
+    }
+
+    @SuppressLint("WakelockTimeout")
     private fun startService() {
         if (started) return
         Timber.v("Starting the foreground service task")
         started = true
         servicePref.setState(Constants.Pref.Service.APP_SERVICE, ServiceState.STARTED)
-        lock = (getSystemService(Context.POWER_SERVICE) as PowerManager).run {
-            newWakeLock(
-                PowerManager.PARTIAL_WAKE_LOCK,
-                "${AppService::class.java.simpleName}::lock"
-            ).apply {
+        lock?.run {
+            if (isHeld) {
+                Timber.v("wake lock is held")
+            } else {
                 acquire()
             }
         }
@@ -95,11 +126,12 @@ class AppService : BaseService() {
                     it.release()
                 }
             }
-            hideNotify()
             stopSelf()
         } catch (error: Throwable) {
             Timber.e(error, "Service stopped without being started: %s", error.message)
         }
+        started = false
+        servicePref.setState(Constants.Pref.Service.APP_SERVICE, ServiceState.STOPPED)
     }
 
     private fun showNotify() {
@@ -138,6 +170,36 @@ class AppService : BaseService() {
             )
         } else {
             worker.cancel(NotifyWorker::class)
+        }
+    }
+
+    private fun startLocker() {
+        Timber.v("Locker thread is staring")
+        if (::locker.isInitialized.not()) {
+            locker = object : Thread() {
+                override fun run() {
+                    while (lockerRunning && !locker.isInterrupted) {
+                        Timber.v("Locker thread is running")
+                        try {
+                            sleep(210L)
+                        } catch (error: InterruptedException) {
+                            Timber.e(error, "Locker thread is interrupted")
+                        }
+                    }
+                }
+            }
+        }
+        if (locker.isAlive.not())  {
+            lockerRunning = true
+            locker.start()
+        }
+
+    }
+
+    private fun stopLocker() {
+        if (locker.isAlive) {
+            lockerRunning = false
+            locker.interrupt()
         }
     }
 }

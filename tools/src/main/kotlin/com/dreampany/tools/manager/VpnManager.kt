@@ -8,7 +8,6 @@ import android.util.Base64
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.Server
 import com.dreampany.tools.misc.Constants
-import com.dreampany.tools.service.PlayerService
 import com.dreampany.tools.util.TotalTraffic
 import de.blinkt.openvpn.VpnProfile
 import de.blinkt.openvpn.core.*

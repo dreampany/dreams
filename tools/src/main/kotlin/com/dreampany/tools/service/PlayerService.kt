@@ -17,7 +17,6 @@ import android.os.PowerManager
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
 import android.support.v4.media.session.PlaybackStateCompat
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -82,8 +81,7 @@ class PlayerService
     }
 
     override fun onStart() {
-        notifyManager = NotificationManagerCompat.from(this)
-        init()
+        initService()
     }
 
     override fun onStop() {
@@ -94,18 +92,19 @@ class PlayerService
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent != null) {
-            if (intent.action != null) {
-                when (intent.action) {
-                    Constants.Service.Command.RESUME -> {
-                        resume()
-                    }
-                    Constants.Service.Command.PAUSE -> {
-                        pause()
-                    }
-                    Constants.Service.Command.STOP -> {
-                        stop()
-                    }
+        val action = intent?.action
+        if (action == null) {
+            Timber.v("with a null intent. It has been probably restarted by the system.")
+        } else {
+            when (action) {
+                Constants.Service.Command.RESUME -> {
+                    resume()
+                }
+                Constants.Service.Command.PAUSE -> {
+                    pause()
+                }
+                Constants.Service.Command.STOP -> {
+                    stop()
                 }
             }
             MediaButtonReceiver.handleIntent(session, intent)
@@ -260,7 +259,8 @@ class PlayerService
         return stream
     }
 
-    private fun init() {
+    private fun initService() {
+        notifyManager = NotificationManagerCompat.from(this)
         powerManager = applicationContext.getSystemService(Context.POWER_SERVICE) as PowerManager
         wifiManager = applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         audioManager = applicationContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager

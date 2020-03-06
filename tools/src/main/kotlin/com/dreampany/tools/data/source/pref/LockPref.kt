@@ -26,7 +26,15 @@ class LockPref
         setPrivately(Constants.Pref.Lock.PASSCODE, true)
     }
 
-    fun hasPasscode(): Boolean  {
+    fun hasPasscode(): Boolean {
         return getPrivately(Constants.Pref.Lock.PASSCODE, false)
+    }
+
+    fun commitServicePermitted() {
+        setPrivately(Constants.Pref.Lock.SERVICE, true)
+    }
+
+    fun isServicePermitted(): Boolean {
+        return getPrivately(Constants.Pref.Lock.SERVICE, false)
     }
 }

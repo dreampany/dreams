@@ -60,8 +60,11 @@ class Constants {
         /* crypto */
         fun cryptoHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-home"
         fun cryptoInfo(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-info"
-        fun cryptoMarket(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-market"
-        fun cryptoGraph(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "crypto-graph"
+        fun cryptoMarket(context: Context?): String =
+            lastAppId(context) + Sep.HYPHEN + "crypto-market"
+
+        fun cryptoGraph(context: Context?): String =
+            lastAppId(context) + Sep.HYPHEN + "crypto-graph"
 
         /* note */
         fun noteHome(context: Context?): String = lastAppId(context) + Sep.HYPHEN + "note-home"
@@ -293,6 +296,7 @@ class Constants {
 
         const val WORD_LAST = "word_last"
         const val WORD_TRACK_START_AT = "word_track_start_at"
+
         //const val WORD_TRACK_TIME = "word_track_time"
         const val WORD_TRACK_COUNT = "word_track_count"
         const val SERVER_TIME = "server_time"
@@ -337,6 +341,7 @@ class Constants {
 
         object Lock {
             const val PASSCODE = "passcode"
+            const val SERVICE = "service"
         }
     }
 
@@ -825,6 +830,8 @@ class Constants {
             const val NEXT = "next"
             const val PREVIOUS = "previous"
             const val MEDIA_BUTTON = Intent.ACTION_MEDIA_BUTTON
+            const val START_LOCK = "start_lock"
+            const val STOP_LOCK = "stop_lock"
         }
     }
 

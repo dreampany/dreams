@@ -10,6 +10,7 @@ import com.dreampany.common.data.source.pref.ServicePref
 import com.dreampany.framework.api.notify.NotifyManager
 import com.dreampany.framework.api.service.BaseService
 import com.dreampany.tools.R
+import com.dreampany.tools.data.source.pref.LockPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.ui.activity.NavigationActivity
@@ -32,6 +33,9 @@ class AppService : BaseService() {
 
     @Inject
     internal lateinit var servicePref: ServicePref
+
+    @Inject
+    internal lateinit var lockPref: LockPref
 
     @Inject
     internal lateinit var notify: NotifyManager
@@ -65,6 +69,18 @@ class AppService : BaseService() {
             intent.action = Constants.Service.Command.STOP
             return intent
         }
+
+        fun getStartLockIntent(context: Context): Intent {
+            val intent = Intent(context, AppService::class.java)
+            intent.action = Constants.Service.Command.START_LOCK
+            return intent
+        }
+
+        fun getStopLockIntent(context: Context): Intent {
+            val intent = Intent(context, AppService::class.java)
+            intent.action = Constants.Service.Command.STOP_LOCK
+            return intent
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -75,6 +91,8 @@ class AppService : BaseService() {
             when (action) {
                 Constants.Service.Command.START -> startService()
                 Constants.Service.Command.STOP -> stopService()
+                Constants.Service.Command.START_LOCK -> startLocker()
+                Constants.Service.Command.STOP_LOCK -> stopLocker()
             }
         }
         return Service.START_STICKY
@@ -84,7 +102,7 @@ class AppService : BaseService() {
         Timber.v("The service has been created".toUpperCase(Locale.getDefault()))
         initService()
         showNotify()
-        startLocker()
+        //startLocker()
         //configWork()
     }
 
@@ -173,15 +191,21 @@ class AppService : BaseService() {
         }
     }
 
+    /* lock */
     private fun startLocker() {
         Timber.v("Locker thread is staring")
         if (::locker.isInitialized.not()) {
             locker = object : Thread() {
                 override fun run() {
                     while (lockerRunning && !locker.isInterrupted) {
-                        Timber.v("Locker thread is running")
+                        Timber.v("Locker thread is running %d", System.currentTimeMillis())
+                        if (!lockPref.isServicePermitted()) {
+                            lockerRunning = false
+                            continue
+                        }
+                        checkLock()
                         try {
-                            sleep(210L)
+                            sleep(500L)
                         } catch (error: InterruptedException) {
                             Timber.e(error, "Locker thread is interrupted")
                         }
@@ -189,7 +213,8 @@ class AppService : BaseService() {
                 }
             }
         }
-        if (locker.isAlive.not())  {
+
+        if (locker.isAlive.not()) {
             lockerRunning = true
             locker.start()
         }
@@ -201,5 +226,9 @@ class AppService : BaseService() {
             lockerRunning = false
             locker.interrupt()
         }
+    }
+
+    private fun checkLock() {
+
     }
 }

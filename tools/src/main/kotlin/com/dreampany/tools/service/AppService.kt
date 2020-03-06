@@ -103,10 +103,10 @@ class AppService : BaseService() {
     }
 
     private fun showNotify() {
-        notifyTitle = getString(R.string.app_name)
-        contentText = getString(R.string.app_name)
-        channelName = getString(R.string.app_name)
-        channelDescription = getString(R.string.app_name)
+        notifyTitle = getString(R.string.title_notify)
+        contentText = getString(R.string.description_notify)
+        channelName = getString(R.string.title_notify_channel)
+        channelDescription = getString(R.string.description_notify_channel)
         notify.showForegroundNotification(
             this,
             notifyId,

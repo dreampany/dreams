@@ -66,8 +66,8 @@ dependencies {
     /* misc */
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
-    api 'com.afollestad.assent:core:3.0.0-RC4'
-    api 'com.afollestad.assent:rationales:3.0.0-RC4'
+    //api 'com.afollestad.assent:core:3.0.0-RC4'
+    //api 'com.afollestad.assent:rationales:3.0.0-RC4'
 
     implementation 'com.github.pwittchen:prefser-rx2:2.2.3'
 }

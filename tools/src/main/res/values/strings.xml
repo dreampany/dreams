@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Smart Tools</string>
 
+    <string name="title_notify">Smart Service</string>
+    <string name="description_notify">To enable few tasks</string>
+
+    <string name="title_notify_channel">Channel for Smart Service</string>
+    <string name="description_notify_channel">Channel to enable few tasks</string>
+
+
     <string name="title_feature_app">App Manager</string>
     <string name="title_feature_vpn">Super VPN</string>
     <string name="title_feature_word">Learn Words</string>

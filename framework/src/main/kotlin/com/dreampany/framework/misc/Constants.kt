@@ -225,7 +225,7 @@ class Constants {
     }
 
     object Http {
-        const val READ_TIMEOUT = 80L
-        const val WRITE_TIMEOUT = 80L
+        const val READ_TIMEOUT = 60L
+        const val WRITE_TIMEOUT = 60L
     }
 }

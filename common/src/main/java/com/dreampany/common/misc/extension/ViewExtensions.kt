@@ -1,4 +1,4 @@
-package com.dreampany.common.extensions
+package com.dreampany.common.misc.extension
 
 import android.view.LayoutInflater
 import android.view.View

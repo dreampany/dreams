@@ -1,4 +1,4 @@
-package com.dreampany.common.extensions
+package com.dreampany.common.misc.extension
 
 import com.google.common.hash.Hashing
 

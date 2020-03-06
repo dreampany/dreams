@@ -4,9 +4,9 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.dreampany.common.extensions.gone
-import com.dreampany.common.extensions.hash256
-import com.dreampany.common.misc.Constants
+import com.dreampany.common.misc.extension.gone
+import com.dreampany.common.misc.extension.hash256
+import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.ui.activity.BaseActivity
 import com.dreampany.lockui.R
 import com.dreampany.lockui.databinding.PinActivityBinding

@@ -1,4 +1,4 @@
-package com.dreampany.common.misc
+package com.dreampany.common.misc.constant
 
 import java.util.*
 

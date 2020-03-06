@@ -157,6 +157,7 @@ dependencies {
     /* library */
     //implementation 'com.dreampany.framework:frame:0.0.1.3'
     implementation project(':framework')
+    implementation project(':common')
     implementation project(':lockui')
 
     /* androidx arch */

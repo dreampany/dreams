@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.common.extensions.bindInflater
+import com.dreampany.common.misc.extension.bindInflater
 import java.util.*
 import kotlin.collections.ArrayList
 

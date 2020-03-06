@@ -1,9 +1,9 @@
 package com.dreampany.lockui.ui.adapter
 
 import androidx.databinding.ViewDataBinding
-import com.dreampany.common.extensions.gone
-import com.dreampany.common.extensions.setOnSafeClickListener
-import com.dreampany.common.extensions.visible
+import com.dreampany.common.misc.extension.gone
+import com.dreampany.common.misc.extension.setOnSafeClickListener
+import com.dreampany.common.misc.extension.visible
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.lockui.R
 import com.dreampany.lockui.databinding.ItemDeleteBinding
@@ -11,7 +11,6 @@ import com.dreampany.lockui.databinding.ItemNumberBinding
 import com.dreampany.lockui.ui.model.Delete
 import com.dreampany.lockui.ui.model.Item
 import com.dreampany.lockui.ui.model.Number
-import kotlinx.android.synthetic.main.item_number.view.*
 
 /**
  * Created by roman on 3/3/20

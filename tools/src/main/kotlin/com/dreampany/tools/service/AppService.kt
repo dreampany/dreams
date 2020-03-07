@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.PowerManager
 import com.dreampany.common.data.enums.ServiceState
 import com.dreampany.common.data.source.pref.ServicePref
+import com.dreampany.common.misc.extension.currentPackage
+import com.dreampany.common.misc.extension.isEquals
 import com.dreampany.framework.api.notify.NotifyManager
 import com.dreampany.framework.api.service.BaseService
 import com.dreampany.tools.R
@@ -56,6 +58,7 @@ class AppService : BaseService() {
 
     private lateinit var locker: Thread
     private var lockerRunning = false
+    private var lastPackage: String? = null
 
     companion object {
         fun getStartIntent(context: Context): Intent {
@@ -229,6 +232,18 @@ class AppService : BaseService() {
     }
 
     private fun checkLock() {
-
+        val pkg = currentPackage() ?: return
+        if (!pkg.isEquals(lastPackage)) {
+            val pkgs = lockPref.getLockedPackages()
+            if (pkgs.contains(pkg))
+                lockedAppOpened(pkg)
+        }
+        lastPackage = pkg
     }
+
+    private fun lockedAppOpened(packageName: String) {
+        Timber.v("AppService Lock Package: $packageName")
+        //startService(LockService.lockIntent(this, packageName))
+    }
+
 }

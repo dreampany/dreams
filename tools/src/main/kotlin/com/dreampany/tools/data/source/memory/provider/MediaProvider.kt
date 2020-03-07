@@ -18,16 +18,25 @@ import timber.log.Timber
  */
 abstract class MediaProvider<T : Media> {
 
+
+
     protected fun resolveQuery(
         context: Context,
         uri: Uri,
         projection: Array<String>,
         selection: String,
         selectionArgs: Array<String>,
-        sortOrder: String): Cursor? {
+        sortOrder: String
+    ): Cursor? {
 
         try {
-            return context.applicationContext.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder)
+            return context.applicationContext.contentResolver.query(
+                uri,
+                projection,
+                selection,
+                selectionArgs,
+                sortOrder
+            )
         } catch (invalidQuery: SQLiteException) {
             Timber.e("ContentProvider makes exception: %s", invalidQuery.toString())
             return null
@@ -73,14 +82,12 @@ abstract class MediaProvider<T : Media> {
     open fun getItemsRx(limit: Long): Maybe<List<T>> {
         return Maybe.create { emitter ->
             val result = getItems(limit)
-            if (emitter.isDisposed) {
-                return@create
-            }
-            if (result.isNullOrEmpty()) {
+            if (emitter.isDisposed) return@create
+
+            if (result.isNullOrEmpty())
                 emitter.onError(EmptyException())
-            } else {
+            else
                 emitter.onSuccess(result)
-            }
         }
     }
 

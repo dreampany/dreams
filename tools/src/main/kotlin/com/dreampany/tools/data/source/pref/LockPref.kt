@@ -50,6 +50,13 @@ class LockPref
         setPrivately(Constants.Pref.Lock.LOCKED_PACKAGES, json)
     }
 
+    fun removeLockedPackage(pkg: String) {
+        val packages = getLockedPackages()
+        packages.remove(pkg)
+        val json = gson.toJson(packages, type)
+        setPrivately(Constants.Pref.Lock.LOCKED_PACKAGES, json)
+    }
+
     fun getLockedPackages(): ArrayList<String> {
         val json = getPrivately(Constants.Pref.Lock.LOCKED_PACKAGES, Constants.Default.STRING)
         return if (json.isEmpty()) arrayListOf() else gson.fromJson(json, type)

@@ -80,7 +80,7 @@ abstract class MediaRepository<T : Media>(
     }
 
     override fun getItemRx(id: String): Maybe<T> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return this.memory.getItemRx(id)
     }
 
     override fun getItems(): List<T>? {
@@ -89,7 +89,6 @@ abstract class MediaRepository<T : Media>(
 
     override fun getItemsRx(): Maybe<List<T>> {
         return this.memory.getItemsRx()
-        //return concatFirstRx(true, memory)
     }
 
     override fun getItems(limit: Long): List<T>? {

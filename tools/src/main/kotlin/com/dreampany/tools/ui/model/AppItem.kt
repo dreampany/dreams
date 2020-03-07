@@ -223,9 +223,9 @@ private constructor(
             val item = uiItem.item
 
             if (uiItem.locked) {
-                buttonLock.setImageResource(R.drawable.ic_lock_open_black_24dp)
-            } else {
                 buttonLock.setImageResource(R.drawable.ic_lock_black_24dp)
+            } else {
+                buttonLock.setImageResource(R.drawable.ic_lock_open_black_24dp)
             }
         }
     }

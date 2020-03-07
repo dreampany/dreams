@@ -235,18 +235,17 @@ class WordViewModel
         if (request.recent) {
             return wordPref.getRecentWordRx()
         }
-        if (request.action == Action.SEARCH) {
-            return repo.getItemRx(request.id!!)
+        request.id?.run {
+            if (request.action == Action.SEARCH) {
+                return repo.getItemRx(this)
+            }
+            return repo.getItemRx(this)
         }
-        return repo.getItemRx(request.id!!)
+        return Maybe.empty()
     }
 
     private fun getUiItemRx(request: WordRequest, item: Word): Maybe<WordItem> {
-        //Timber.v("Word %s", item.id)
         return Maybe.create { emitter ->
-            if (emitter.isDisposed) {
-                return@create
-            }
             if (request.history) {
                 if (item.hasWeight()) {
                     wordPref.setRecentWord(item)
@@ -259,6 +258,7 @@ class WordViewModel
                 toggleFavorite(item.id)
             }
             val uiItem = getUiItem(request, item)
+            if (emitter.isDisposed) return@create
             emitter.onSuccess(uiItem)
         }
     }
@@ -338,11 +338,10 @@ class WordViewModel
         val favorite = hasStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
         if (favorite) {
             removeStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
-            favorites.put(id, false)
         } else {
             putStore(id, Type.WORD, Subtype.DEFAULT, State.FAVORITE)
-            favorites.put(id, true)
         }
+        favorites.put(id, favorite.not())
         return favorites.get(id)
     }
 

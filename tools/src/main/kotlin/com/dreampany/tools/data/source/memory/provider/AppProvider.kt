@@ -25,15 +25,16 @@ class AppProvider
         val infos = AndroidUtil.getInstalledApps(context, pm)
         val result = mutableListOf<App>()
         infos?.forEach { info ->
-            if (result.size >= limit) {
+            if (result.size >= limit)
                 return@forEach
-            }
+
             if (AndroidUtil.isValid(pm!!, info) /*&& !AndroidUtil.isSystemApp(info)*/) {
-                mapper.toItem(info, pm)?.run {
+                mapper.getItem(info, pm)?.run {
                     result.add(this)
                 }
             }
         }
+
         return result
     }
 }

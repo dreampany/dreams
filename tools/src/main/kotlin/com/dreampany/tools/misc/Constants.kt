@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Resources
 import com.dreampany.framework.data.enums.Difficult
 import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Subtype
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.misc.Constants
 import com.dreampany.framework.misc.extensions.string
@@ -13,6 +14,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.enums.Order
+import com.dreampany.tools.data.model.Feature
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.data.model.Server
@@ -34,7 +36,7 @@ import kotlin.collections.HashMap
  */
 class Constants {
 
-    companion object Screen {
+    companion object {
         fun database(name: String): String = Constants.database(name)
         fun database(name: String, type: String): String = Constants.database(name, type)
 
@@ -149,6 +151,23 @@ class Constants {
                 }
             }
             return Threshold.DEFAULT
+        }
+
+        fun getFeatures(): List<Triple<Type, Subtype, Int>> {
+            val pairs = arrayListOf<Triple<Type, Subtype, Int>>()
+            pairs.add(Triple(Type.APP, Subtype.DEFAULT, R.string.title_feature_app))
+            pairs.add(Triple(Type.NOTE, Subtype.DEFAULT, R.string.title_feature_note))
+            pairs.add(Triple(Type.WORD, Subtype.DEFAULT, R.string.title_feature_word))
+            pairs.add(Triple(Type.RADIO, Subtype.DEFAULT, R.string.title_feature_radio))
+            pairs.add(Triple(Type.VPN, Subtype.DEFAULT, R.string.title_feature_vpn))
+            pairs.add(Triple(Type.CRYPTO, Subtype.DEFAULT, R.string.title_feature_crypto))
+            pairs.add(Triple(Type.RESUME, Subtype.DEFAULT, R.string.title_feature_resume))
+            pairs.add(Triple(Type.QUESTION, Subtype.DEFAULT, R.string.title_feature_question))
+            pairs.add(Triple(Type.LOCK, Subtype.DEFAULT, R.string.title_feature_lock))
+            //pairs.add(Triple(Type.BLOCK, Subtype.DEFAULT, R.string.title_feature_block))
+            //pairs.add(Triple(Type.TODO, Subtype.DEFAULT, R.string.title_feature_todo))
+            //pairs.add(Triple(Type.ENGLISH, Subtype.DEFAULT, R.string.title_feature_english))
+            return pairs
         }
     }
 

@@ -66,7 +66,11 @@ class AppMapper
         return map.contains(item.id)
     }
 
-    fun toItem(input: ApplicationInfo?, pm: PackageManager): App? {
+    fun getItem(id: String) : App? {
+        return map.get(id)
+    }
+
+    fun getItem(input: ApplicationInfo?, pm: PackageManager): App? {
         if (input == null) {
             return null
         }

@@ -26,13 +26,13 @@ fun Context?.color(@ColorRes resId: Int): Int {
     return if (this == null) 0 else ContextCompat.getColor(this, resId)
 }
 
-fun Context?.currentTask() : ActivityManager.RunningTaskInfo? {
+fun Context?.currentTask(): ActivityManager.RunningTaskInfo? {
     val manager = this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
     return manager?.getRunningTasks(1)?.first()
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-fun Context?.currentUsageStats():  UsageStats? {
+fun Context?.currentUsageStats(): UsageStats? {
     val manager = this?.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager?
     val endMillis = System.currentTimeMillis()
     val startMillis = endMillis - TimeUnit.MINUTES.toMillis(1)
@@ -44,6 +44,9 @@ fun Context?.currentUsageStats():  UsageStats? {
     return sortedMap.lastEntry()?.value
 }
 
-fun Context?.wakeLock() {
-
+fun Context?.currentPackage(): String? {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        return currentUsageStats()?.packageName
+    }
+    return currentTask()?.topActivity?.packageName
 }

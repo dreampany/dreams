@@ -41,8 +41,10 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class AppHomeFragment @Inject constructor() :
-    BaseMenuFragment(), SmartAdapter.OnUiItemClickListener<AppItem, Action> {
+class AppHomeFragment
+@Inject constructor() :
+    BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<AppItem, Action> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory

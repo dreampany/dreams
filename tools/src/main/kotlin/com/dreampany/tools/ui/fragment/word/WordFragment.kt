@@ -168,7 +168,9 @@ class WordFragment
         when (v.id) {
             R.id.toggle_definition -> toggleDefinition()
             R.id.button_favorite -> {
-                request(id = bind.item?.item?.id, action = Action.FAVORITE, single = true)
+                bind.item?.item?.id?.run {
+                    request(id = this, action = Action.FAVORITE, single = true)
+                }
             }
 
             R.id.image_speak -> speak()

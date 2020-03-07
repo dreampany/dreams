@@ -12,3 +12,7 @@ fun String.hash256(): String {
     return Hashing.sha256().newHasher()
         .putString(this, Charsets.UTF_8).hash().toString()
 }
+
+fun String?.isEquals(value: String?): Boolean {
+    return this == value
+}

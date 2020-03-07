@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.vm
 
 import android.app.Application
+import com.dreampany.framework.data.enums.Action
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
 import com.dreampany.framework.injector.annote.Extra
@@ -24,7 +25,6 @@ import com.dreampany.tools.ui.model.AppItem
 import com.dreampany.tools.ui.request.AppRequest
 import io.reactivex.Flowable
 import io.reactivex.Maybe
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -52,19 +52,19 @@ class AppViewModel
 
     fun request(request: AppRequest) {
         if (request.single) {
-            loadSingle(request)
+            requestSingle(request)
         } else {
-            loadMultiple(request)
+            requestMultiple(request)
         }
     }
 
-    private fun loadSingle(request: AppRequest) {
+    private fun requestSingle(request: AppRequest) {
         if (!takeAction(request.important, singleDisposable)) {
             return
         }
 
         val disposable = rx
-            .backToMain(loadUiItemRx(request))
+            .backToMain(requestUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
                     postProgress(state = request.state, action = request.action, loading = true)
@@ -92,7 +92,7 @@ class AppViewModel
         addSingleSubscription(disposable)
     }
 
-    private fun loadMultiple(request: AppRequest) {
+    private fun requestMultiple(request: AppRequest) {
         if (!takeAction(request.important, multipleDisposable)) {
             return
         }
@@ -125,17 +125,23 @@ class AppViewModel
         addMultipleSubscription(disposable)
     }
 
-    private fun loadUiItemRx(request: AppRequest): Maybe<AppItem> {
-        return getItemRx(request).flatMap { getUiItemRx(request, it) }
+    private fun requestUiItemRx(request: AppRequest): Maybe<AppItem> {
+        return requestItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
     private fun loadUiItemsRx(request: AppRequest): Maybe<List<AppItem>> {
         return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }
 
-    private fun getItemRx(request: AppRequest): Maybe<App> {
-        return Maybe.create { emitter ->
+    private fun requestItemRx(request: AppRequest): Maybe<App> {
+        request.id?.run {
+            mapper.getItem(this)?.run {
+                return Maybe.create { emitter ->
+                    emitter.onSuccess(this)
+                }
+            }
         }
+        return Maybe.empty()
     }
 
     private fun getItemsRx(request: AppRequest): Maybe<List<App>> {
@@ -157,6 +163,7 @@ class AppViewModel
             }
         }
         uiItem.item = item
+        uiItem.lockStatus = request.lockStatus
         if (request.lockStatus) {
             adjustLockStatus(item, uiItem)
         }
@@ -165,7 +172,12 @@ class AppViewModel
 
     private fun getUiItemRx(request: AppRequest, item: App): Maybe<AppItem> {
         return Maybe.create { emitter ->
-            emitter.onSuccess(getUiItem(request, item))
+            if (request.action == Action.LOCK)
+                toggleLock(item.id)
+
+            val uiItem = getUiItem(request, item)
+            if (emitter.isDisposed) return@create
+            emitter.onSuccess(uiItem)
         }
     }
 
@@ -181,9 +193,23 @@ class AppViewModel
     }
 
     private fun isLocked(item: App): Boolean {
+        if (!extras.contains(item.id)) {
+            val locks = lockPref.getLockedPackages()
+            val locked = locks.contains(item.id)
+            extras.put(item.id, locked)
+        }
+        return extras.get(item.id)
+    }
+
+    private fun toggleLock(id: String): Boolean {
         val locks = lockPref.getLockedPackages()
-        val locked = locks.contains(item.id)
-        Timber.v("App Item Lock Status [%s]", locked)
-        return locked
+        val locked = locks.contains(id)
+        if (locked) {
+            lockPref.removeLockedPackage(id)
+        } else {
+            lockPref.addLockedPackage(id)
+        }
+        extras.put(id, locked.not())
+        return extras.get(id)
     }
 }

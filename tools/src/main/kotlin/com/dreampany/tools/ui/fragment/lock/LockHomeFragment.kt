@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
@@ -17,9 +18,11 @@ import com.dreampany.framework.data.enums.State
 import com.dreampany.framework.data.enums.Type
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.ActivityScope
+import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
 import com.dreampany.framework.ui.listener.OnVerticalScrollListener
+import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.ViewUtil
 import com.dreampany.lockui.ui.activity.PinActivity
 import com.dreampany.tools.R
@@ -27,7 +30,6 @@ import com.dreampany.tools.data.source.pref.LockPref
 import com.dreampany.tools.databinding.ContentRecyclerBinding
 import com.dreampany.tools.databinding.ContentTopStatusBinding
 import com.dreampany.tools.databinding.FragmentLockHomeBinding
-import com.dreampany.tools.databinding.FragmentRecyclerBinding
 import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.AppService
 import com.dreampany.tools.ui.adapter.AppAdapter
@@ -49,7 +51,9 @@ import javax.inject.Inject
  */
 @ActivityScope
 class LockHomeFragment
-@Inject constructor() : BaseMenuFragment() {
+@Inject constructor() :
+    BaseMenuFragment(),
+    SmartAdapter.OnUiItemClickListener<AppItem, Action> {
 
     private val REQUEST_CODE_USAGE = 101
     private val REQUEST_CODE_LOCK = 102
@@ -109,6 +113,24 @@ class LockHomeFragment
         }
     }
 
+    override fun onUiItemClick(view: View, item: AppItem, action: Action) {
+        when (action) {
+            Action.OPEN -> {
+                context?.run {
+                    AndroidUtil.openApplication(this, item.item.id)
+                }
+            }
+            Action.LOCK -> {
+                request(id = item.item.id, action = Action.LOCK, single = true, lockStatus = true)
+            }
+        }
+    }
+
+    override fun onUiItemLongClick(view: View, item: AppItem, action: Action) {
+
+
+    }
+
     private fun initTitleSubtitle() {
         setTitle(R.string.title_app)
         val subtitle = getString(R.string.subtitle_app, adapter.itemCount)
@@ -131,6 +153,7 @@ class LockHomeFragment
         vm = ViewModelProvider(this, factory).get(AppViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
+        vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context.hasUsagePermission()
                 .not()
@@ -174,15 +197,22 @@ class LockHomeFragment
     }
 
     private fun request(
+        state: State = State.DEFAULT,
+        action: Action = Action.DEFAULT,
+        single: Boolean = Constants.Default.BOOLEAN,
         important: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
+        id: String? = Constants.Default.NULL,
         lockStatus: Boolean = Constants.Default.BOOLEAN
 
     ) {
         val request = AppRequest(
             type = Type.APP,
+            action = action,
+            single = single,
             important = important,
             progress = progress,
+            id = id,
             lockStatus = lockStatus
         )
         vm.request(request)
@@ -214,13 +244,34 @@ class LockHomeFragment
     fun processMultipleResponse(response: Response<List<AppItem>>) {
         if (response is Response.Progress<*>) {
             val result = response as Response.Progress<*>
-            vm.processProgress(state = result.state, action =  result.action, loading =  result.loading)
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
         } else if (response is Response.Failure<*>) {
             val result = response as Response.Failure<*>
-            vm.processFailure(state =  result.state,  action = result.action, error = result.error)
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<*>) {
             val result = response as Response.Result<List<AppItem>>
             processSuccess(result.state, result.action, result.data)
+        }
+    }
+
+    private fun processSingleResponse(response: Response<AppItem>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            vm.processProgress(
+                state = result.state,
+                action = result.action,
+                loading = result.loading
+            )
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            vm.processFailure(state = result.state, action = result.action, error = result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<AppItem>
+            processSingleSuccess(result.state, result.action, result.data)
         }
     }
 
@@ -228,7 +279,12 @@ class LockHomeFragment
         Timber.v("Result Type[%s] Size[%s]", action.name, items.size)
         adapter.addItems(items)
         ex.postToUi(Runnable {
-            vm.updateUiState(state =  state, action = action, uiState =  UiState.EXTRA)
+            vm.updateUiState(state = state, action = action, uiState = UiState.EXTRA)
         }, 500L)
+    }
+
+    private fun processSingleSuccess(state: State, action: Action, item: AppItem) {
+        Timber.v("Result Single App[%s]", item.item.id)
+        adapter.addItem(item)
     }
 }

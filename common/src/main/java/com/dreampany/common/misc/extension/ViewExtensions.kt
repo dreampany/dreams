@@ -1,8 +1,12 @@
 package com.dreampany.common.misc.extension
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import androidx.annotation.AnimRes
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.dreampany.common.misc.func.SafeClickListener
@@ -13,6 +17,14 @@ import com.dreampany.common.misc.func.SafeClickListener
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+
+fun View?.isNull(): Boolean {
+    return this == null
+}
+
+fun View?.isNotNull(): Boolean {
+    return this != null
+}
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE
@@ -26,16 +38,27 @@ fun View?.gone() {
     this?.visibility = View.GONE
 }
 
-fun ViewGroup.inflater(): LayoutInflater {
-    return LayoutInflater.from(context)
+fun Context.inflater(): LayoutInflater {
+    return LayoutInflater.from(this)
 }
 
-fun Int.inflater(parent: ViewGroup, attachToRoot: Boolean = false): View {
-    return parent.inflater().inflate(this, parent, attachToRoot)
+fun ViewGroup.inflater(): LayoutInflater {
+    return context.inflater()
 }
+
+/*fun Int.inflater(parent: ViewGroup, attachToRoot: Boolean = false): View {
+    return parent.inflater().inflate(this, parent, attachToRoot)
+}*/
 
 fun Int.bindInflater(parent: ViewGroup, attachToRoot: Boolean = false): ViewDataBinding {
     return DataBindingUtil.inflate(parent.inflater(), this, parent, attachToRoot)
+}
+
+fun <T : ViewDataBinding> Context.bindInflater(
+    @LayoutRes layoutRes: Int,
+    parent: ViewGroup? = null
+): T {
+    return DataBindingUtil.inflate(inflater(), layoutRes, parent, parent != null)
 }
 
 fun View?.setOnSafeClickListener(
@@ -54,5 +77,11 @@ fun View?.setOnSafeClickListener(
     this?.setOnClickListener(SafeClickListener(interval, { v ->
         onSafeClick(v)
     }))
+    return this
+}
+
+fun View?.loadAnim(@AnimRes animRes: Int): View? {
+    if (this == null) return this
+    this.startAnimation(AnimationUtils.loadAnimation(context, animRes))
     return this
 }

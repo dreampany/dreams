@@ -5,6 +5,9 @@ import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.os.Build
+import android.view.View
+import android.view.animation.AnimationUtils
+import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.RequiresApi
@@ -18,6 +21,14 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+fun Context?.isNull(): Boolean {
+    return this == null
+}
+
+fun Context?.isNotNull(): Boolean {
+    return this != null
+}
+
 fun Context?.dimension(@DimenRes resId: Int): Float {
     return this?.resources?.getDimension(resId) ?: 0.0f
 }

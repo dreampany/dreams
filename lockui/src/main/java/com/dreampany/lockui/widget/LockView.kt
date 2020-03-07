@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.misc.extension.color
 import com.dreampany.common.misc.extension.dimension
 import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.lockui.R
 import com.dreampany.lockui.ui.adapter.LockAdapter
@@ -24,7 +25,7 @@ import com.dreampany.lockui.ui.model.Number
  * Last modified $file.lastModified
  */
 class LockView : RecyclerView,
-    com.dreampany.common.ui.adapter.BaseAdapter.OnItemClickListener<Item> {
+    BaseAdapter.OnItemClickListener<Item> {
 
     interface LockListener {
         fun onComplete(pin: String)

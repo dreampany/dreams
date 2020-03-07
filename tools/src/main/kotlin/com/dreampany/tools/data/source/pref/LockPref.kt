@@ -3,6 +3,8 @@ package com.dreampany.tools.data.source.pref
 import android.content.Context
 import com.dreampany.framework.data.source.pref.FramePref
 import com.dreampany.tools.misc.Constants
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,8 +17,11 @@ import javax.inject.Singleton
 @Singleton
 class LockPref
 @Inject constructor(
-    context: Context
+    context: Context,
+    val gson: Gson
 ) : FramePref(context) {
+
+    private val type = object : TypeToken<ArrayList<String>>() {}.type
 
     override fun getPrivateName(context: Context): String {
         return Constants.Pref.NAME.LOCK
@@ -36,5 +41,17 @@ class LockPref
 
     fun isServicePermitted(): Boolean {
         return getPrivately(Constants.Pref.Lock.SERVICE, false)
+    }
+
+    fun addLockedPackage(pkg: String) {
+        val packages = getLockedPackages()
+        packages.add(pkg)
+        val json = gson.toJson(packages, type)
+        setPrivately(Constants.Pref.Lock.LOCKED_PACKAGES, json)
+    }
+
+    fun getLockedPackages(): ArrayList<String> {
+        val json = getPrivately(Constants.Pref.Lock.LOCKED_PACKAGES, Constants.Default.STRING)
+        return if (json.isEmpty()) arrayListOf() else gson.fromJson(json, type)
     }
 }

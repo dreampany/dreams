@@ -3,6 +3,7 @@ package com.dreampany.framework.data.source.pref
 import android.content.Context
 import com.dreampany.framework.misc.Constants
 import com.github.pwittchen.prefser.library.rx2.Prefser
+import com.github.pwittchen.prefser.library.rx2.TypeToken
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 
@@ -90,6 +91,7 @@ abstract class BasePref(val context: Context) {
         return privatePref.get(key, String::class.java, defaultValue)
     }
 
+
     fun getPrivately(key: String, defaultValue: Long): Long {
         return privatePref.preferences.getLong(key, defaultValue)
     }
@@ -98,12 +100,20 @@ abstract class BasePref(val context: Context) {
         return publicPref.get(key, String::class.java, defaultValue)
     }
 
-    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T?): T {
+    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T): T {
         return publicPref.get(key, classOfT, defaultValue)
     }
 
-    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T?): T {
+    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T): T {
         return privatePref.get(key, classOfT, defaultValue)
+    }
+
+    fun <T> getPrivately(key: String, typeTokenOfT: TypeToken<T>, defaultValue: T): T {
+        return privatePref.get(key, typeTokenOfT, defaultValue)
+    }
+
+    fun <T> putPrivately(key: String, value: T) {
+        privatePref.put(key, value)
     }
 
     fun removePrivately(key: String) {

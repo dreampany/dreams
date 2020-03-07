@@ -10,7 +10,7 @@ import com.dreampany.framework.util.AndroidUtil
 import com.dreampany.framework.util.FileUtil
 import com.dreampany.tools.data.enums.AppType
 import com.dreampany.tools.data.model.App
-import com.dreampany.tools.injector.annote.AppAnnote
+import com.dreampany.tools.injector.annote.app.AppAnnote
 import javax.inject.Inject
 import javax.inject.Singleton
 

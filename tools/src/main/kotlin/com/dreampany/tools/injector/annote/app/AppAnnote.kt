@@ -1,4 +1,4 @@
-package com.dreampany.tools.injector.annote
+package com.dreampany.tools.injector.annote.app
 
 import javax.inject.Qualifier
 
@@ -11,4 +11,4 @@ import javax.inject.Qualifier
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class AppItemAnnote
+annotation class AppAnnote

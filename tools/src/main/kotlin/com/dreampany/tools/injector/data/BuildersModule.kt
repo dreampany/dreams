@@ -21,6 +21,7 @@ import dagger.Module
         ViewModelModule::class,
         ApiModule::class,
         MediaModule::class,
+        AppModule::class,
         NoteModule::class,
         WordModule::class,
         VpnModule::class,

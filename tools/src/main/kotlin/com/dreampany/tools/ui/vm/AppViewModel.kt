@@ -13,6 +13,7 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.data.mapper.AppMapper
 import com.dreampany.tools.ui.request.AppRequest
 import com.dreampany.tools.data.model.App
+import com.dreampany.tools.data.source.pref.LockPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.AppRepository
 import com.dreampany.tools.ui.model.AppItem
@@ -34,6 +35,7 @@ class AppViewModel
     rm: ResponseMapper,
     private val network: NetworkManager,
     private val pref: Pref,
+    private val lockPref: LockPref,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
     private val mapper: AppMapper,

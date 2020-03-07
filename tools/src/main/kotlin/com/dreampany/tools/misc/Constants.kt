@@ -342,6 +342,7 @@ class Constants {
         object Lock {
             const val PASSCODE = "passcode"
             const val SERVICE = "service"
+            const val LOCKED_PACKAGES = "locked_packages"
         }
     }
 

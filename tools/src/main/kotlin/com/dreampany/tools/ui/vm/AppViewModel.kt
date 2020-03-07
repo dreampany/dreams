@@ -3,22 +3,28 @@ package com.dreampany.tools.ui.vm
 import android.app.Application
 import com.dreampany.framework.data.misc.StoreMapper
 import com.dreampany.framework.data.source.repository.StoreRepository
+import com.dreampany.framework.injector.annote.Extra
 import com.dreampany.framework.injector.annote.Favorite
-import com.dreampany.framework.misc.*
+import com.dreampany.framework.misc.AppExecutor
+import com.dreampany.framework.misc.ResponseMapper
+import com.dreampany.framework.misc.RxMapper
+import com.dreampany.framework.misc.SmartMap
 import com.dreampany.framework.misc.exceptions.ExtraException
 import com.dreampany.framework.misc.exceptions.MultiException
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.AppMapper
-import com.dreampany.tools.ui.request.AppRequest
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.pref.LockPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.data.source.repository.AppRepository
 import com.dreampany.tools.ui.model.AppItem
+import com.dreampany.tools.ui.request.AppRequest
 import io.reactivex.Flowable
 import io.reactivex.Maybe
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -40,7 +46,8 @@ class AppViewModel
     private val storeRepo: StoreRepository,
     private val mapper: AppMapper,
     private val repo: AppRepository,
-    @Favorite private val favorites: SmartMap<String, Boolean>
+    @Favorite private val favorites: SmartMap<String, Boolean>,
+    @Extra private val extras: SmartMap<String, Boolean>
 ) : BaseViewModel<App, AppItem, UiTask<App>>(application, rx, ex, rm) {
 
     fun request(request: AppRequest) {
@@ -60,23 +67,27 @@ class AppViewModel
             .backToMain(loadUiItemRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =true)
+                    postProgress(state = request.state, action = request.action, loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(state = request.state,
+                postResult(
+                    state = request.state,
                     action = request.action,
-                    data =result)
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(state = request.state,
+                postFailures(
+                    state = request.state,
                     action = request.action,
-                    error = MultiException(error, ExtraException()))
+                    error = MultiException(error, ExtraException())
+                )
             })
         addSingleSubscription(disposable)
     }
@@ -89,33 +100,37 @@ class AppViewModel
             .backToMain(loadUiItemsRx(request))
             .doOnSubscribe { subscription ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =true)
+                    postProgress(state = request.state, action = request.action, loading = true)
                 }
             }
             .subscribe({ result ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postResult(state = request.state,
+                postResult(
+                    state = request.state,
                     action = request.action,
-                    data = result)
+                    data = result
+                )
             }, { error ->
                 if (request.progress) {
-                    postProgress(state = request.state, action = request.action, loading =false)
+                    postProgress(state = request.state, action = request.action, loading = false)
                 }
-                postFailures(state = request.state,
+                postFailures(
+                    state = request.state,
                     action = request.action,
-                    error = MultiException(error, ExtraException()))
+                    error = MultiException(error, ExtraException())
+                )
             })
         addMultipleSubscription(disposable)
     }
 
     private fun loadUiItemRx(request: AppRequest): Maybe<AppItem> {
-        return getItemRx(request).flatMap { getUiItemRx(it) }
+        return getItemRx(request).flatMap { getUiItemRx(request, it) }
     }
 
     private fun loadUiItemsRx(request: AppRequest): Maybe<List<AppItem>> {
-        return repo.getItemsRx().flatMap { getUiItemsRx(it) }
+        return repo.getItemsRx().flatMap { getUiItemsRx(request, it) }
     }
 
     private fun getItemRx(request: AppRequest): Maybe<App> {
@@ -129,20 +144,46 @@ class AppViewModel
         }
     }
 
-    private fun getUiItem(item: App): AppItem {
-        return AppItem.getItem(item)
+    private fun getUiItem(request: AppRequest, item: App): AppItem {
+        var uiItem: AppItem? = mapper.getUiItem(item.id)
+        if (uiItem == null) {
+            uiItem = AppItem.getItem(item, request.lockStatus)
+            mapper.putUiItem(item.id, uiItem)
+        } else {
+            if (request.lockStatus) {
+                uiItem.layoutId = R.layout.item_lock_app
+            } else {
+                uiItem.layoutId = R.layout.item_app
+            }
+        }
+        uiItem.item = item
+        if (request.lockStatus) {
+            adjustLockStatus(item, uiItem)
+        }
+        return uiItem
     }
 
-    private fun getUiItemRx(item: App): Maybe<AppItem> {
+    private fun getUiItemRx(request: AppRequest, item: App): Maybe<AppItem> {
         return Maybe.create { emitter ->
-            emitter.onSuccess(getUiItem(item))
+            emitter.onSuccess(getUiItem(request, item))
         }
     }
 
-    private fun getUiItemsRx(items: List<App>): Maybe<List<AppItem>> {
+    private fun getUiItemsRx(request: AppRequest, items: List<App>): Maybe<List<AppItem>> {
         return Flowable.fromIterable(items)
-            .map { getUiItem(it) }
+            .map { getUiItem(request, it) }
             .toList()
             .toMaybe()
+    }
+
+    private fun adjustLockStatus(item: App, uiItem: AppItem) {
+        uiItem.locked = isLocked(item)
+    }
+
+    private fun isLocked(item: App): Boolean {
+        val locks = lockPref.getLockedPackages()
+        val locked = locks.contains(item.id)
+        Timber.v("App Item Lock Status [%s]", locked)
+        return locked
     }
 }

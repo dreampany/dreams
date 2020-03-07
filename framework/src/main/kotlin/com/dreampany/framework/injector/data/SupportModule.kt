@@ -2,6 +2,7 @@ package com.dreampany.framework.injector.data
 
 import com.dreampany.framework.data.model.Point
 import com.dreampany.framework.data.model.Store
+import com.dreampany.framework.injector.annote.Extra
 import com.dreampany.framework.injector.annote.Favorite
 import com.dreampany.framework.injector.annote.PointAnnote
 import com.dreampany.framework.injector.annote.StoreAnnote
@@ -24,6 +25,13 @@ class SupportModule {
     @Provides
     @Favorite
     fun provideFavoriteSmartMap(): SmartMap<String, Boolean> {
+        return SmartMap.newMap()
+    }
+
+    @Singleton
+    @Provides
+    @Extra
+    fun provideExtraSmartMap(): SmartMap<String, Boolean> {
         return SmartMap.newMap()
     }
 

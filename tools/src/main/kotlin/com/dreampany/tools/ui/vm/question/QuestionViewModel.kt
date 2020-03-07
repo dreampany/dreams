@@ -18,6 +18,7 @@ import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.data.model.Network
 import com.dreampany.network.manager.NetworkManager
+import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.QuestionMapper
 import com.dreampany.tools.data.model.question.Question
 import com.dreampany.tools.data.source.pref.Pref
@@ -209,6 +210,12 @@ class QuestionViewModel
         if (uiItem == null) {
             uiItem = QuestionItem.getItem(item)
             mapper.putUiItem(item.id, uiItem)
+        } else {
+            if (item.type == Question.Type.TRUE_FALSE) {
+                uiItem.layoutId = R.layout.item_question_true_false
+            } else if (item.type == Question.Type.MULTIPLE) {
+                uiItem.layoutId = R.layout.item_question_multiple
+            }
         }
         uiItem.item = item
         if (fresh) {

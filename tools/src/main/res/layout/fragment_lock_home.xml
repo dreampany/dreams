@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
+    <data>
+
+        <variable
+            name="items"
+            type="androidx.databinding.ObservableArrayList" />
+    </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/layout_refresh"
@@ -12,7 +18,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/material_grey300">
 
             <LinearLayout
                 android:id="@+id/layout_top"
@@ -27,23 +34,23 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <!--            <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
-                            android:id="@+id/bottom_nav"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true" />-->
-
             <cz.kinst.jakub.view.StatefulLayout
                 android:id="@+id/stateful"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@id/layout_top">
 
-                <RelativeLayout
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                </RelativeLayout>
+                    <include
+                        android:id="@+id/layout_recycler"
+                        layout="@layout/content_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        auto:items="@{items}" />
+                </FrameLayout>
             </cz.kinst.jakub.view.StatefulLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -54,16 +61,14 @@
                 android:layout_alignParentBottom="true"
                 android:layout_gravity="bottom|end"
                 android:layout_margin="@dimen/fab_margin"
-                android:backgroundTint="@color/colorPrimary"
+                auto:backgroundTint="@color/colorPrimaryDark"
                 android:tint="@color/material_white"
                 android:visibility="gone"
-                auto:backgroundTint="@color/colorPrimary"
                 auto:elevation="6dp"
                 auto:rippleColor="@color/material_white"
-                auto:srcCompat="@drawable/ic_add_black_24dp"
+                auto:srcCompat="@drawable/ic_search_black_24dp"
                 auto:tint="@color/material_white" />
 
         </RelativeLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 </layout>

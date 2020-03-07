@@ -14,6 +14,7 @@ import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.ActivityScope
 import com.dreampany.framework.misc.extensions.currentPosition
 import com.dreampany.framework.misc.extensions.setOnSafeClickListener
+import com.dreampany.framework.misc.extensions.visible
 import com.dreampany.framework.ui.adapter.SmartAdapter
 import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
@@ -61,7 +62,6 @@ class QuestionsFragment
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindQuestions: ContentQuestionsBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
-
 
     private lateinit var vm: QuestionViewModel
     private lateinit var adapter: QuestionAdapter
@@ -262,6 +262,7 @@ class QuestionsFragment
                 processUiState(response)
             }
             UiState.CONTENT -> {
+                bindQuestions.layoutPoints.visible()
                 bind.stateful.setState(StatefulLayout.State.CONTENT)
                 initTitleSubtitle()
             }

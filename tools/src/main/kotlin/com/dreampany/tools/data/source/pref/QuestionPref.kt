@@ -29,7 +29,7 @@ class QuestionPref
     }
 
     fun getCategory(default: Question.Category) : Question.Category {
-        return getPrivately(Constants.Pref.Question.CATEGORY, Question.Category::class.java, default)
+        return getPrivately(Constants.Pref.Question.CATEGORY, Question.Category::class.java, default) ?: default
     }
 
     fun setType(type: Question.Type) {
@@ -37,7 +37,7 @@ class QuestionPref
     }
 
     fun getType(default: Question.Type) : Question.Type {
-        return getPrivately(Constants.Pref.Question.TYPE, Question.Type::class.java, default)
+        return getPrivately(Constants.Pref.Question.TYPE, Question.Type::class.java, default) ?: default
     }
 
     fun setDifficult(difficult: Difficult) {
@@ -45,6 +45,6 @@ class QuestionPref
     }
 
     fun getDifficult(default: Difficult) : Difficult {
-        return getPrivately(Constants.Pref.Question.DIFFICULT, Difficult::class.java, default)
+        return getPrivately(Constants.Pref.Question.DIFFICULT, Difficult::class.java, default) ?: default
     }
 }

@@ -32,7 +32,7 @@ class Pref
     }
 
     fun getLanguage(language: Language): Language {
-        return getPublicly(Constants.Pref.LANGUAGE, Language::class.java, language)
+        return getPublicly(Constants.Pref.LANGUAGE, Language::class.java, language) ?: language
     }
 
     fun setLevel(level: Level) {
@@ -40,7 +40,7 @@ class Pref
     }
 
     fun getLevel(level: Level): Level {
-        return getPublicly(Constants.Pref.LEVEL, Level::class.java, level)
+        return getPublicly(Constants.Pref.LEVEL, Level::class.java, level) ?: level
     }
 
     fun commitDefaultPoint() {

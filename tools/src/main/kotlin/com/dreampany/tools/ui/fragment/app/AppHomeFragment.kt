@@ -46,8 +46,10 @@ class AppHomeFragment @Inject constructor() :
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+
     @Inject
     internal lateinit var session: SessionManager
+
     private lateinit var bind: FragmentRecyclerBinding
     private lateinit var bindStatus: ContentTopStatusBinding
     private lateinit var bindRecycler: ContentRecyclerBinding
@@ -56,13 +58,9 @@ class AppHomeFragment @Inject constructor() :
     private lateinit var adapter: AppAdapter
     private lateinit var scroller: OnVerticalScrollListener
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_recycler
-    }
+    override fun getLayoutId(): Int = R.layout.fragment_recycler
 
-    override fun getScreen(): String {
-        return Constants.appHome(context!!)
-    }
+    override fun getScreen(): String = Constants.appHome(context)
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -115,7 +113,7 @@ class AppHomeFragment @Inject constructor() :
         ViewUtil.setSwipe(bind.layoutRefresh, this)
         bind.fab.setOnClickListener(this)
 
-        vm = ViewModelProviders.of(this, factory).get(AppViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(AppViewModel::class.java)
         vm.observeUiState(this, Observer { this.processUiState(it) })
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
     }

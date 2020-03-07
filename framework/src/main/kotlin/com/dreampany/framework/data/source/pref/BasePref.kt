@@ -100,15 +100,15 @@ abstract class BasePref(val context: Context) {
         return publicPref.get(key, String::class.java, defaultValue)
     }
 
-    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T): T {
+    fun <T> getPublicly(key: String, classOfT: Class<T>, defaultValue: T?): T? {
         return publicPref.get(key, classOfT, defaultValue)
     }
 
-    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T): T {
+    fun <T> getPrivately(key: String, classOfT: Class<T>, defaultValue: T?): T? {
         return privatePref.get(key, classOfT, defaultValue)
     }
 
-    fun <T> getPrivately(key: String, typeTokenOfT: TypeToken<T>, defaultValue: T): T {
+    fun <T> getPrivately(key: String, typeTokenOfT: TypeToken<T>, defaultValue: T?): T? {
         return privatePref.get(key, typeTokenOfT, defaultValue)
     }
 

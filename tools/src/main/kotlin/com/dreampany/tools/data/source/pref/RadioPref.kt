@@ -29,7 +29,7 @@ class RadioPref
     }
 
     fun getStationState(defaultState: State): State {
-        return getPrivately(Constants.Pref.Radio.STATION_STATE, State::class.java, defaultState)
+        return getPrivately(Constants.Pref.Radio.STATION_STATE, State::class.java, defaultState) ?: defaultState
     }
 
     fun commitStationTime(state: State) {

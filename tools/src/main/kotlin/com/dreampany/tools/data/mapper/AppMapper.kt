@@ -11,6 +11,10 @@ import com.dreampany.framework.util.FileUtil
 import com.dreampany.tools.data.enums.AppType
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.injector.annote.app.AppAnnote
+import com.dreampany.tools.injector.annote.app.AppItemAnnote
+import com.dreampany.tools.injector.annote.question.QuestionItemAnnote
+import com.dreampany.tools.ui.model.AppItem
+import com.dreampany.tools.ui.model.question.QuestionItem
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -25,7 +29,9 @@ class AppMapper
 @Inject constructor(
     val context: Context,
     @AppAnnote val map: SmartMap<String, App>,
-    @AppAnnote val cache: SmartCache<String, App>
+    @AppAnnote val cache: SmartCache<String, App>,
+    @AppItemAnnote private val uiMap: SmartMap<String, AppItem>,
+    @AppItemAnnote private val uiCache: SmartCache<String, AppItem>
 ) : MediaMapper {
 
     override fun getUri(): Uri? {
@@ -46,6 +52,14 @@ class AppMapper
 
     override fun getSortOrder(): String? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun getUiItem(id: String): AppItem? {
+        return uiMap.get(id)
+    }
+
+    fun putUiItem(id: String, uiItem: AppItem) {
+        uiMap.put(id, uiItem)
     }
 
     fun isExists(item: App): Boolean {

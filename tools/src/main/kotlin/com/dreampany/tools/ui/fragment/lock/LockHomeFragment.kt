@@ -4,15 +4,39 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.LayoutInflater
 import androidx.annotation.LayoutRes
+import androidx.databinding.ObservableArrayList
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.misc.extension.hasUsagePermission
 import com.dreampany.framework.api.service.ServiceManager
+import com.dreampany.framework.api.session.SessionManager
+import com.dreampany.framework.data.enums.Action
+import com.dreampany.framework.data.enums.State
+import com.dreampany.framework.data.enums.Type
+import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.injector.annote.ActivityScope
+import com.dreampany.framework.ui.enums.UiState
 import com.dreampany.framework.ui.fragment.BaseMenuFragment
+import com.dreampany.framework.ui.listener.OnVerticalScrollListener
+import com.dreampany.framework.util.ViewUtil
 import com.dreampany.lockui.ui.activity.PinActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.data.source.pref.LockPref
+import com.dreampany.tools.databinding.ContentRecyclerBinding
+import com.dreampany.tools.databinding.ContentTopStatusBinding
+import com.dreampany.tools.databinding.FragmentLockHomeBinding
+import com.dreampany.tools.databinding.FragmentRecyclerBinding
+import com.dreampany.tools.misc.Constants
 import com.dreampany.tools.service.AppService
+import com.dreampany.tools.ui.adapter.AppAdapter
+import com.dreampany.tools.ui.model.AppItem
+import com.dreampany.tools.ui.request.AppRequest
+import com.dreampany.tools.ui.vm.AppViewModel
+import cz.kinst.jakub.view.StatefulLayout
+import eu.davidea.flexibleadapter.common.FlexibleItemDecoration
+import eu.davidea.flexibleadapter.common.SmoothScrollGridLayoutManager
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -31,16 +55,34 @@ class LockHomeFragment
     private val REQUEST_CODE_LOCK = 102
 
     @Inject
+    internal lateinit var factory: ViewModelProvider.Factory
+
+    @Inject
     internal lateinit var lockPref: LockPref
 
     @Inject
+    internal lateinit var session: SessionManager
+
+    @Inject
     internal lateinit var service: ServiceManager
+
+    private lateinit var bind: FragmentLockHomeBinding
+    private lateinit var bindStatus: ContentTopStatusBinding
+    private lateinit var bindRecycler: ContentRecyclerBinding
+
+    private lateinit var vm: AppViewModel
+    private lateinit var adapter: AppAdapter
+    private lateinit var scroller: OnVerticalScrollListener
 
     @LayoutRes
     override fun getLayoutId(): Int = R.layout.fragment_lock_home
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        initRecycler()
+
+        session.track()
+        initTitleSubtitle()
     }
 
     override fun onStopUi() {
@@ -67,7 +109,29 @@ class LockHomeFragment
         }
     }
 
+    private fun initTitleSubtitle() {
+        setTitle(R.string.title_app)
+        val subtitle = getString(R.string.subtitle_app, adapter.itemCount)
+        setSubtitle(subtitle)
+    }
+
     private fun initUi() {
+        bind = super.binding as FragmentLockHomeBinding
+        bindStatus = bind.layoutTopStatus
+        bindRecycler = bind.layoutRecycler
+
+        bind.stateful.setStateView(
+            UiState.DEFAULT.name,
+            LayoutInflater.from(context).inflate(R.layout.item_default, null)
+        )
+
+        ViewUtil.setSwipe(bind.layoutRefresh, this)
+        bind.fab.setOnClickListener(this)
+
+        vm = ViewModelProvider(this, factory).get(AppViewModel::class.java)
+        vm.observeUiState(this, Observer { this.processUiState(it) })
+        vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context.hasUsagePermission()
                 .not()
         ) {
@@ -80,8 +144,26 @@ class LockHomeFragment
         }
     }
 
+    private fun initRecycler() {
+        bind.setItems(ObservableArrayList<Any>())
+        adapter = AppAdapter(this)
+        adapter.setStickyHeaders(false)
+        scroller = object : OnVerticalScrollListener() {}
+        ViewUtil.setRecycler(
+            adapter,
+            bindRecycler.recycler,
+            SmoothScrollGridLayoutManager(context!!, adapter.getSpanCount()),
+            FlexibleItemDecoration(context!!)
+                .addItemViewType(R.layout.item_lock_app, adapter.getItemOffset())
+                .withEdge(true),
+            null,
+            scroller,
+            null
+        )
+    }
+
     private fun loadUi() {
-        //TODO load all apps
+        request(progress = true, lockStatus = true)
     }
 
     private fun requestLockUi() {
@@ -89,5 +171,64 @@ class LockHomeFragment
             PinActivity.getIntent(context!!, !lockPref.hasPasscode()),
             REQUEST_CODE_LOCK
         )
+    }
+
+    private fun request(
+        important: Boolean = Constants.Default.BOOLEAN,
+        progress: Boolean = Constants.Default.BOOLEAN,
+        lockStatus: Boolean = Constants.Default.BOOLEAN
+
+    ) {
+        val request = AppRequest(
+            type = Type.APP,
+            important = important,
+            progress = progress,
+            lockStatus = lockStatus
+        )
+        vm.request(request)
+    }
+
+    private fun processUiState(response: Response.UiResponse) {
+        Timber.v("UiState %s", response.uiState.name)
+        when (response.uiState) {
+            UiState.DEFAULT -> bind.stateful.setState(UiState.DEFAULT.name)
+            UiState.SHOW_PROGRESS -> if (!bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(true)
+            }
+            UiState.HIDE_PROGRESS -> if (bind.layoutRefresh.isRefreshing()) {
+                bind.layoutRefresh.setRefreshing(false)
+            }
+            UiState.OFFLINE -> bindStatus.layoutExpandable.expand()
+            UiState.ONLINE -> bindStatus.layoutExpandable.collapse()
+            UiState.EXTRA -> {
+                response.uiState = if (adapter.isEmpty()) UiState.EMPTY else UiState.CONTENT
+                processUiState(response)
+            }
+            UiState.CONTENT -> {
+                bind.stateful.setState(StatefulLayout.State.CONTENT)
+                initTitleSubtitle()
+            }
+        }
+    }
+
+    fun processMultipleResponse(response: Response<List<AppItem>>) {
+        if (response is Response.Progress<*>) {
+            val result = response as Response.Progress<*>
+            vm.processProgress(state = result.state, action =  result.action, loading =  result.loading)
+        } else if (response is Response.Failure<*>) {
+            val result = response as Response.Failure<*>
+            vm.processFailure(state =  result.state,  action = result.action, error = result.error)
+        } else if (response is Response.Result<*>) {
+            val result = response as Response.Result<List<AppItem>>
+            processSuccess(result.state, result.action, result.data)
+        }
+    }
+
+    private fun processSuccess(state: State, action: Action, items: List<AppItem>) {
+        Timber.v("Result Type[%s] Size[%s]", action.name, items.size)
+        adapter.addItems(items)
+        ex.postToUi(Runnable {
+            vm.updateUiState(state =  state, action = action, uiState =  UiState.EXTRA)
+        }, 500L)
     }
 }

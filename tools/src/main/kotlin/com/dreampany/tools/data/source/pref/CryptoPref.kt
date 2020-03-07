@@ -27,15 +27,15 @@ class CryptoPref
     }
 
     fun getCurrency(): Currency {
-        return getPrivately(Constants.Pref.Crypto.CURRENCY, Currency::class.java, Currency.USD)
+        return getPrivately(Constants.Pref.Crypto.CURRENCY, Currency::class.java, Currency.USD) ?: Currency.USD
     }
 
     fun getSort(): CoinSort {
-        return getPrivately(Constants.Pref.Crypto.SORT, CoinSort::class.java, CoinSort.MARKET_CAP)
+        return getPrivately(Constants.Pref.Crypto.SORT, CoinSort::class.java, CoinSort.MARKET_CAP) ?: CoinSort.MARKET_CAP
     }
 
     fun getOrder(): Order {
-        return getPrivately(Constants.Pref.Crypto.ORDER, Order::class.java, Order.DESCENDING)
+        return getPrivately(Constants.Pref.Crypto.ORDER, Order::class.java, Order.DESCENDING) ?: Order.DESCENDING
     }
 
     @Synchronized

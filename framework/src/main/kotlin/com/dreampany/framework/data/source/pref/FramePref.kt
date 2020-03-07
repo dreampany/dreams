@@ -35,7 +35,7 @@ abstract class FramePref(context: Context) : BasePref(context) {
         setPrivately(Constants.Pref.RANK, rank)
     }
 
-    fun getRank(rank: Rank): Rank {
+    fun getRank(rank: Rank): Rank? {
         return getPrivately(Constants.Pref.RANK, Rank::class.java, rank)
     }
 }

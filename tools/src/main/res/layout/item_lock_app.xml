@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         auto:cardCornerRadius="@dimen/_4sdp"
-        auto:cardPreventCornerOverlap="false"
-        auto:cardElevation="@dimen/_4sdp">
+        auto:cardElevation="@dimen/_4sdp"
+        auto:cardPreventCornerOverlap="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -70,20 +70,15 @@
                 auto:layout_constraintTop_toBottomOf="@id/text_size"
                 tools:visibility="visible" />
 
-            <com.github.nikartm.button.FitButton
-                android:id="@+id/button_details"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_5sdp"
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/button_lock"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:paddingStart="@dimen/_5sdp"
-                android:paddingEnd="@dimen/_5sdp"
-                auto:fb_backgroundColor="@color/material_grey200"
-                auto:fb_cornerRadius="@dimen/_2sdp"
-                auto:fb_text="@string/details"
-                auto:fb_textColor="@color/material_grey800"
-                auto:fb_textSize="@dimen/_10ssp"
-                auto:layout_constraintStart_toEndOf="@id/button_open"
+                auto:srcCompat="@drawable/ic_lock_open_black_24dp"
+                auto:tint="@color/colorAccent"
+                auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/text_size"
                 tools:visibility="visible" />
 

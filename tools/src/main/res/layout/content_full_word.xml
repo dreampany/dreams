@@ -32,10 +32,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_word"
+            android:layout_marginTop="@dimen/_4sdp"
             android:scrollbars="none"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -45,9 +46,8 @@
                     layout="@layout/content_related"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_4"
-                    android:layout_marginTop="@dimen/dp_4"
-                    android:layout_marginEnd="@dimen/dp_4"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -56,9 +56,9 @@
                     layout="@layout/content_definition"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_4"
-                    android:layout_marginTop="@dimen/dp_4"
-                    android:layout_marginEnd="@dimen/dp_4"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -67,9 +67,9 @@
                     layout="@layout/content_example"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/dp_4"
-                    android:layout_marginTop="@dimen/dp_4"
-                    android:layout_marginEnd="@dimen/dp_4"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:layout_marginEnd="@dimen/_4sdp"
                     android:visibility="gone"
                     tools:visibility="visible" />
 
@@ -79,12 +79,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="@dimen/_32sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
                     android:visibility="visible"
                     tools:visibility="visible" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
     </RelativeLayout>

@@ -61,8 +61,10 @@ class WordFragment
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+
     @Inject
     internal lateinit var pref: Pref
+
     @Inject
     internal lateinit var wordPref: WordPref
     private lateinit var bind: FragmentWordBinding
@@ -86,21 +88,13 @@ class WordFragment
 
     private var queryText: String? = null
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_word
-    }
+    override fun getLayoutId(): Int = R.layout.fragment_word
 
-    override fun getMenuId(): Int {
-        return R.menu.menu_word
-    }
+    override fun getMenuId(): Int = R.menu.menu_word
 
-    override fun getSearchMenuItemId(): Int {
-        return R.id.item_search
-    }
+    override fun getSearchMenuItemId(): Int = R.id.item_search
 
-    override fun getScreen(): String {
-        return Constants.word(context)
-    }
+    override fun getScreen(): String = Constants.word(context)
 
     override fun onMenuCreated(menu: Menu, inflater: MenuInflater) {
         super.onMenuCreated(menu, inflater)
@@ -124,8 +118,8 @@ class WordFragment
         buildLangItems()
         initUi()
         adjustTranslationUi()
-        val uiTask = getCurrentTask<UiTask<Word>>(true)
-        request(id = uiTask?.id, single = true, progress = true)
+        val task = getCurrentTask<UiTask<Word>>(true) ?: return
+        request(id = task.id, single = true, progress = true)
     }
 
     override fun onStopUi() {

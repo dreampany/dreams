@@ -19,61 +19,90 @@
         auto:cardElevation="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8sdp">
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_word"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@{item.item.id}"
+                android:textColor="@color/material_black"
+                android:textSize="@dimen/_18ssp"
+                android:textStyle="bold"
+                auto:fontFamily="@font/roboto_slab_bold"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_part_of_speech"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@{item.item.partOfSpeech}"
+                android:textColor="@color/material_grey700"
+                android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                auto:fontFamily="@font/roboto_slab_bold"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toBottomOf="@id/text_word" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_pronunciation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:text="@{item.item.pronunciation}"
+                android:textColor="@color/material_grey700"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                auto:fontFamily="@font/roboto_slab_bold"
+                auto:layout_constraintStart_toEndOf="@id/text_part_of_speech"
+                auto:layout_constraintTop_toBottomOf="@id/text_word" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_translation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_word"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text='@{item.translation}'
+                android:textColor="@color/material_grey700"
+                android:textSize="@dimen/_12ssp"
+                auto:fontFamily="@font/roboto_slab_bold"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toBottomOf="@id/text_part_of_speech" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/text_translation"
-                android:layout_alignParentStart="true"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_part_of_speech"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
-                    android:text="@{item.item.partOfSpeech}"
-                    android:textColor="@color/material_grey700"
-                    android:textSize="@dimen/_12ssp"
-                    android:textStyle="bold"
-                    auto:fontFamily="@font/roboto_slab_bold" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/text_pronunciation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:text="@{item.item.pronunciation}"
-                    android:textColor="@color/material_grey700"
-                    android:textSize="@dimen/_14ssp"
-                    android:textStyle="bold"
-                    auto:fontFamily="@font/roboto_slab_bold" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/_4sdp"
+                auto:layout_constraintEnd_toEndOf="parent"
+                auto:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/image_speak"
                     android:layout_width="@dimen/_18sdp"
                     android:layout_height="@dimen/_18sdp"
-                    android:tint="@color/colorAccent"
-                    auto:srcCompat="@drawable/ic_keyboard_voice_black_24dp" />
+                    android:layout_marginTop="@dimen/_4sdp"
+                    auto:srcCompat="@drawable/ic_keyboard_voice_black_24dp"
+                    auto:tint="@color/colorAccent" />
 
                 <com.like.LikeButton
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_14sdp"
                     android:layout_height="@dimen/_14sdp"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
                     auto:icon_size="@dimen/_14sdp"
                     auto:icon_type="heart"
                     auto:liked="@{item.favorite}" />
@@ -82,39 +111,19 @@
                     android:id="@+id/button_language"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:minWidth="0dp"
+                    android:minHeight="0dp"
+                    android:padding="0dp"
                     android:text="@string/language_en"
-                    android:textColor="@color/material_grey700"
+                    android:textColor="@color/colorAccent"
                     android:textSize="@dimen/_14ssp"
                     android:textStyle="bold"
                     auto:fontFamily="@font/roboto_slab_bold" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_word"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="@{item.item.id}"
-                android:textColor="@color/material_black"
-                android:textSize="@dimen/_18ssp"
-                android:textStyle="bold"
-                auto:fontFamily="@font/roboto_slab_bold" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_translation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_word"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text='@{item.translation}'
-                android:textColor="@color/material_grey700"
-                android:textSize="@dimen/_12ssp"
-                auto:fontFamily="@font/roboto_slab_bold" />
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 </layout>

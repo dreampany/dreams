@@ -361,6 +361,7 @@ class WordHomeFragment
                     action = Action.SEARCH,
                     history = true,
                     single = true,
+                    important = true,
                     progress = true
                 )
             }
@@ -959,6 +960,7 @@ class WordHomeFragment
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         single: Boolean = Constants.Default.BOOLEAN,
+        important: Boolean = Constants.Default.BOOLEAN,
         progress: Boolean = Constants.Default.BOOLEAN,
         limit: Long = Constants.Default.LONG,
         id: String? = Constants.Default.NULL,
@@ -976,6 +978,7 @@ class WordHomeFragment
             state = state,
             action = action,
             single = single,
+            important = important,
             progress = progress,
             limit = limit,
             id = id,

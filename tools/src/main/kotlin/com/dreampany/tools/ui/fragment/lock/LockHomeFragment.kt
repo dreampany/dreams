@@ -86,7 +86,7 @@ class LockHomeFragment
     }
 
     override fun onStopUi() {
-
+        vm.updateUiState(uiState = UiState.HIDE_PROGRESS)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="app_description">
-    Smart Tools contains Crypto, VPN, Online Radio, Note, Words and App Manager.
+Smart Tools contains Live Crypto, VPN, Lock, Radio, Resumes and App Manager.
+
 Smart Tools is the complete package manager. It has now 8 most trendy apps. More apps are coming...
 
 # Super VPN -
@@ -12,6 +13,12 @@ Smart Tools is the complete package manager. It has now 8 most trendy apps. More
 # Live Crypto -
    * Listing prices of live crypto currencies.
    * Showing details info of each crypto currency.
+
+# Smart Lock -
+   * Lock Photos and Videos.
+   * Lock recent apps.
+   * Uninstallation Prevention.
+   * Lock incoming call.
 
 # Resume Plus - Build unlimited resumes in a minutes.
 

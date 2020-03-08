@@ -33,7 +33,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="Enter Password"
-                android:textColor="@color/material_grey400"
+                android:textColor="@color/material_grey100"
                 android:textSize="@dimen/_14ssp"
                 android:visibility="gone" />
 

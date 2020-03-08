@@ -206,7 +206,7 @@ class AppService : BaseService() {
             locker = object : Thread() {
                 override fun run() {
                     while (lockerRunning && !locker.isInterrupted) {
-                        //Timber.v("Locker thread is running %d", System.currentTimeMillis())
+                        Timber.v("Locker thread is running %d", System.currentTimeMillis())
                         if (!lockPref.isServicePermitted()) {
                             lockerRunning = false
                             continue

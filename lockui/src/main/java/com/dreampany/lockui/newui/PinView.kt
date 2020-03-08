@@ -79,7 +79,7 @@ class PinView : LinearLayoutCompat {
     }
 
     private fun initUi(context: Context) {
-        bind = context.bindInflater(R.layout.view_pin, parent = this)
+        bind = context.bindInflater<ViewPinBinding>(R.layout.view_pin, parent = this)
         pins = arrayOf(bind.pinOne, bind.pinTwo, bind.pinThree, bind.pinFour)
     }
 

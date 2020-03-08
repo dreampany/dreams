@@ -27,7 +27,7 @@ class LockView : RelativeLayout, PasswordView.Callback {
         fun onBackPressed()
     }
 
-    private var callback: LockView.Callback? = null
+    private var callback: Callback? = null
 
     private lateinit var bind: ViewLockBinding
 
@@ -76,16 +76,16 @@ class LockView : RelativeLayout, PasswordView.Callback {
         bind.pinView.addPin()
     }
 
-    override fun onPinCode(code: String) {
-        Handler().postDelayed({ checkCode(code) }, 200)
-    }
-
     override fun onDeleteKey() {
         bind.pinView.removePin()
     }
 
     override fun onBackKey() {
         callback?.onBackPressed()
+    }
+
+    override fun onPinCode(code: String) {
+        Handler().postDelayed({ checkCode(code) }, 200)
     }
 
     fun setCallback(callback: LockView.Callback) {

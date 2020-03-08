@@ -27,15 +27,13 @@ class PinActivity : BaseActivity(), LockView.LockListener {
     companion object {
         private val PIN_LENGTH = 4
         private val EXTRA_SET_PIN = "set_pin"
-
         val RESULT_BACK_PRESSED = RESULT_FIRST_USER
 
         private val PREFERENCES = "com.dreampany.lockui"
         private val KEY_PIN = "pin"
 
         fun getIntent(context: Context, setPin: Boolean): Intent {
-            val intent =
-                Intent(context, PinActivity::class.java)
+            val intent = Intent(context, PinActivity::class.java)
             intent.putExtra(EXTRA_SET_PIN, setPin)
             return intent
         }

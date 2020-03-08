@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.fragment.lock
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -10,7 +11,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.dreampany.common.misc.extension.hasOverlayPermission
 import com.dreampany.common.misc.extension.hasUsagePermission
+import com.dreampany.common.misc.extension.packageName
 import com.dreampany.framework.api.service.ServiceManager
 import com.dreampany.framework.api.session.SessionManager
 import com.dreampany.framework.data.enums.Action
@@ -56,7 +59,8 @@ class LockHomeFragment
     SmartAdapter.OnUiItemClickListener<AppItem, Action> {
 
     private val REQUEST_CODE_USAGE = 101
-    private val REQUEST_CODE_LOCK = 102
+    private val REQUEST_CODE_OVERLAY = 102
+    private val REQUEST_CODE_LOCK = 103
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -98,6 +102,14 @@ class LockHomeFragment
         when (requestCode) {
             REQUEST_CODE_USAGE -> {
                 Timber.v("Result Code %d", resultCode)
+                if (context.hasOverlayPermission().not()) {
+                    requestOverlayPermission()
+                } else {
+                    requestLockUi()
+                }
+            }
+            REQUEST_CODE_OVERLAY -> {
+                Timber.v("Result Code %d", resultCode)
                 requestLockUi()
             }
             REQUEST_CODE_LOCK -> {
@@ -105,7 +117,7 @@ class LockHomeFragment
                     lockPref.commitPasscode()
                     lockPref.commitServicePermitted()
                     context?.run {
-                        service.openService(AppService.getStartLockIntent(this))
+                        service.openService(AppService.lockIntent(this))
                     }
                     loadUi()
                 }
@@ -155,13 +167,11 @@ class LockHomeFragment
         vm.observeOutputs(this, Observer { this.processMultipleResponse(it) })
         vm.observeOutput(this, Observer { this.processSingleResponse(it) })
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && context.hasUsagePermission()
-                .not()
+        if (context.hasUsagePermission().not()
         ) {
-            startActivityForResult(
-                Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS),
-                REQUEST_CODE_USAGE
-            )
+            requestUsagePermission()
+        } else if (context.hasOverlayPermission().not()) {
+            requestOverlayPermission()
         } else {
             requestLockUi()
         }
@@ -189,11 +199,35 @@ class LockHomeFragment
         request(progress = true, lockStatus = true)
     }
 
+    private fun requestUsagePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            startActivityForResult(
+                Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS),
+                REQUEST_CODE_USAGE
+            )
+        }
+    }
+
+    private fun requestOverlayPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + context.packageName())
+            )
+            startActivityForResult(intent, REQUEST_CODE_OVERLAY)
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
+
+    }
+
     private fun requestLockUi() {
-        startActivityForResult(
-            PinActivity.getIntent(context!!, !lockPref.hasPasscode()),
-            REQUEST_CODE_LOCK
-        )
+        context?.run {
+            startActivityForResult(
+                PinActivity.getIntent(this, !lockPref.hasPasscode()),
+                REQUEST_CODE_LOCK
+            )
+        }
     }
 
     private fun request(

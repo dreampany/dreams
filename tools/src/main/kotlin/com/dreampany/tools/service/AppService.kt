@@ -61,25 +61,25 @@ class AppService : BaseService() {
     private var lastPackage: String? = null
 
     companion object {
-        fun getStartIntent(context: Context): Intent {
+        fun startIntent(context: Context): Intent {
             val intent = Intent(context, AppService::class.java)
             intent.action = Constants.Service.Command.START
             return intent
         }
 
-        fun getStopIntent(context: Context): Intent {
+        fun stopIntent(context: Context): Intent {
             val intent = Intent(context, AppService::class.java)
             intent.action = Constants.Service.Command.STOP
             return intent
         }
 
-        fun getStartLockIntent(context: Context): Intent {
+        fun lockIntent(context: Context): Intent {
             val intent = Intent(context, AppService::class.java)
             intent.action = Constants.Service.Command.START_LOCK
             return intent
         }
 
-        fun getStopLockIntent(context: Context): Intent {
+        fun unlockIntent(context: Context): Intent {
             val intent = Intent(context, AppService::class.java)
             intent.action = Constants.Service.Command.STOP_LOCK
             return intent
@@ -92,9 +92,14 @@ class AppService : BaseService() {
             Timber.v("with a null intent. It has been probably restarted by the system.")
         } else {
             when (action) {
-                Constants.Service.Command.START -> startService()
+                Constants.Service.Command.START -> {
+                    startService()
+                    if (lockPref.isServicePermitted()) startLocker()
+                }
                 Constants.Service.Command.STOP -> stopService()
-                Constants.Service.Command.START_LOCK -> startLocker()
+                Constants.Service.Command.START_LOCK -> {
+                    if (lockPref.isServicePermitted()) startLocker()
+                }
                 Constants.Service.Command.STOP_LOCK -> stopLocker()
             }
         }
@@ -201,14 +206,14 @@ class AppService : BaseService() {
             locker = object : Thread() {
                 override fun run() {
                     while (lockerRunning && !locker.isInterrupted) {
-                        Timber.v("Locker thread is running %d", System.currentTimeMillis())
+                        //Timber.v("Locker thread is running %d", System.currentTimeMillis())
                         if (!lockPref.isServicePermitted()) {
                             lockerRunning = false
                             continue
                         }
                         checkLock()
                         try {
-                            sleep(500L)
+                            sleep(800L)
                         } catch (error: InterruptedException) {
                             Timber.e(error, "Locker thread is interrupted")
                         }
@@ -243,7 +248,7 @@ class AppService : BaseService() {
 
     private fun lockedAppOpened(packageName: String) {
         Timber.v("AppService Lock Package: $packageName")
-        //startService(LockService.lockIntent(this, packageName))
+        startService(LockService.lockIntent(this, packageName))
     }
 
 }

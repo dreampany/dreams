@@ -4,6 +4,7 @@ import android.app.ActivityManager
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -23,6 +24,10 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+fun Context?.appContext(): Context? {
+    return this?.applicationContext
+}
+
 fun Context?.isNull(): Boolean {
     return this == null
 }
@@ -66,6 +71,24 @@ fun Context?.currentPackage(): String? {
 
 fun Context?.packageManager(): PackageManager? {
     return this?.applicationContext?.packageManager
+}
+
+fun Context?.packageName(): String? {
+    return appContext()?.packageName
+}
+
+/*fun Context?.packageInfo(pkg: String?) {
+
+}*/
+
+fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
+    try {
+        if (pkg.isNullOrEmpty()) return null
+        return packageManager()?.getPackageInfo(pkg, flags)
+    } catch (error: PackageManager.NameNotFoundException) {
+        //Timber.e(error)
+    }
+    return null
 }
 
 fun Context?.icon(pkg: String?): Drawable ? {

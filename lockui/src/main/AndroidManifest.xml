@@ -2,6 +2,6 @@
     package="com.dreampany.lockui" >
 
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
 </manifest>

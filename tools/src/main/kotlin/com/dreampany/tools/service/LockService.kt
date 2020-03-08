@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
@@ -47,7 +48,7 @@ class LockService : BaseService(), LockView.Callback {
         private val ACTION_UNLOCK = "action_unlock"
         private val EXTRA_PACKAGE = "extra_package"
 
-        fun getLockIntent(context: Context, pkg: String): Intent {
+        fun lockIntent(context: Context, pkg: String): Intent {
             val intent = Intent(context, LockService::class.java)
             intent.action = ACTION_LOCK
             intent.putExtra(EXTRA_PACKAGE, pkg)
@@ -66,7 +67,7 @@ class LockService : BaseService(), LockView.Callback {
                 }
                 showLock()
             }
-            ACTION_UNLOCK->{
+            ACTION_UNLOCK -> {
                 hideLock()
             }
         }
@@ -92,6 +93,8 @@ class LockService : BaseService(), LockView.Callback {
     }
 
     private fun showLock() {
+        Timber.v("Showing Lock View as Alert Window")
+        hideLock()
         try {
             lockView()
             window()?.addView(lockView, layoutParam())
@@ -141,16 +144,34 @@ class LockService : BaseService(), LockView.Callback {
     }
 
     private fun layoutParam(): WindowManager.LayoutParams? {
-        if (layoutParams == null) layoutParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.TYPE_PHONE,
-            WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
-                    or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                    or WindowManager.LayoutParams.FLAG_FULLSCREEN
-                    or WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-            PixelFormat.TRANSLUCENT
-        )
+        if (layoutParams == null) {
+            val LAYOUT_FLAG: Int
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+            } else {
+                LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
+            }
+            layoutParams = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                LAYOUT_FLAG,
+                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+                        or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        or WindowManager.LayoutParams.FLAG_FULLSCREEN
+                        or WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSLUCENT
+            )
+/*            layoutParams = WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
+                        or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                        or WindowManager.LayoutParams.FLAG_FULLSCREEN
+                        or WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
+                PixelFormat.TRANSLUCENT
+            )*/
+        }
         return layoutParams
     }
 }

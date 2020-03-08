@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_grey50"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/passcode_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <com.dreampany.lockui.newui.PinView
+                android:id="@+id/pin_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp" />
+
+            <TextView
+                android:id="@+id/prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Enter Password"
+                android:textColor="@color/material_grey400"
+                android:textSize="@dimen/_14ssp"
+                android:visibility="gone" />
+
+            <com.dreampany.lockui.newui.PasswordView
+                android:id="@+id/password_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="30dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            android:layout_above="@id/passcode_container"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            auto:srcCompat="@drawable/fingerprint" />
+
+    </RelativeLayout>
+</layout>

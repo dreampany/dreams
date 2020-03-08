@@ -47,4 +47,6 @@ dependencies {
 
     /* androidx support*/
 
+    /* misc */
+    implementation 'com.github.traex.rippleeffect:library:1.3'
 }

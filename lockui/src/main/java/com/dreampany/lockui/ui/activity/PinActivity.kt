@@ -30,7 +30,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
         val RESULT_BACK_PRESSED = RESULT_FIRST_USER
 
         private val PREFERENCES = "com.dreampany.lockui"
-        private val KEY_PIN = "pin"
+        val KEY_PIN = "pin"
 
         fun getIntent(context: Context, setPin: Boolean): Intent {
             val intent = Intent(context, PinActivity::class.java)
@@ -107,7 +107,9 @@ class PinActivity : BaseActivity(), LockView.LockListener {
         } else {
             if (pin == firstPin) {
                 writePinToSharedPreferences(pin)
-                setResult(RESULT_OK)
+                val result = Intent()
+                result.putExtra(KEY_PIN, pin)
+                setResult(RESULT_OK, result)
                 finish()
             } else {
                 shake()

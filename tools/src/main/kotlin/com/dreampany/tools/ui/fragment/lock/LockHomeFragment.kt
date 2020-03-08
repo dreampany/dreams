@@ -114,12 +114,14 @@ class LockHomeFragment
             }
             REQUEST_CODE_LOCK -> {
                 if (resultCode != PinActivity.RESULT_BACK_PRESSED) {
-                    lockPref.commitPasscode()
-                    lockPref.commitServicePermitted()
-                    context?.run {
-                        service.openService(AppService.lockIntent(this))
+                    data?.getStringExtra(PinActivity.KEY_PIN)?.run {
+                        lockPref.setPin(this)
+                        lockPref.commitServicePermitted()
+                        context?.run {
+                            service.openService(AppService.lockIntent(this))
+                        }
+                        loadUi()
                     }
-                    loadUi()
                 }
             }
         }
@@ -224,7 +226,7 @@ class LockHomeFragment
     private fun requestLockUi() {
         context?.run {
             startActivityForResult(
-                PinActivity.getIntent(this, !lockPref.hasPasscode()),
+                PinActivity.getIntent(this, lockPref.hasPin().not()),
                 REQUEST_CODE_LOCK
             )
         }

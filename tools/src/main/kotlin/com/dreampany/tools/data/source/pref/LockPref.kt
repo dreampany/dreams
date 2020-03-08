@@ -36,13 +36,17 @@ class LockPref
         return getPrivately(Constants.Pref.Lock.PIN, Constants.Default.STRING)
     }
 
-    fun commitPasscode() {
-        setPrivately(Constants.Pref.Lock.PASSCODE, true)
+    fun hasPin() : Boolean {
+        return getPin().isEmpty().not()
+    }
+
+/*    fun commitPasscode() {
+        setPrivately(Constants.Pref.Lock.PIN, true)
     }
 
     fun hasPasscode(): Boolean {
-        return getPrivately(Constants.Pref.Lock.PASSCODE, false)
-    }
+        return getPrivately(Constants.Pref.Lock.PIN, false)
+    }*/
 
     fun commitServicePermitted() {
         setPrivately(Constants.Pref.Lock.SERVICE, true)

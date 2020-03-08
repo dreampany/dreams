@@ -9,9 +9,11 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <androidx.appcompat.widget.LinearLayoutCompat android:gravity="center_horizontal"
-            android:layout_width="match_parent" android:orientation="vertical"
-            android:layout_height="wrap_content">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"
@@ -25,9 +27,9 @@
 
             <com.dreampany.lockui.widget.Dots
                 android:id="@+id/dots"
-                android:layout_margin="@dimen/dot_margintop"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dot_margintop" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/attempts"
@@ -38,9 +40,9 @@
 
             <com.dreampany.lockui.widget.LockView
                 android:id="@+id/lock_view"
-                android:layout_margin="@dimen/lockview_margin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/lockview_margin" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

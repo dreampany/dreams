@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.dreampany.common.misc.extension.icon
@@ -81,15 +80,19 @@ class LockService : BaseService(), LockView.Callback {
     }
 
     override fun onBackPressed() {
-
+        exit()
     }
 
     override fun onCorrect() {
-
+        hideLock()
     }
 
     override fun onPinCode(code: String) {
 
+    }
+
+    private fun exit() {
+        hideLock()
     }
 
     private fun showLock() {
@@ -161,16 +164,6 @@ class LockService : BaseService(), LockView.Callback {
                         or WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
                 PixelFormat.TRANSLUCENT
             )
-/*            layoutParams = WindowManager.LayoutParams(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM
-                        or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-                        or WindowManager.LayoutParams.FLAG_FULLSCREEN
-                        or WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH,
-                PixelFormat.TRANSLUCENT
-            )*/
         }
         return layoutParams
     }

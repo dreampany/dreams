@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.pref
 
 import android.content.Context
+import com.dreampany.common.misc.extension.hash256
 import com.dreampany.framework.data.source.pref.FramePref
 import com.dreampany.tools.misc.Constants
 import com.google.gson.Gson
@@ -25,6 +26,14 @@ class LockPref
 
     override fun getPrivateName(context: Context): String {
         return Constants.Pref.NAME.LOCK
+    }
+
+    fun setPin(pin: String) {
+        setPrivately(Constants.Pref.Lock.PIN, pin.hash256())
+    }
+
+    fun getPin(): String {
+        return getPrivately(Constants.Pref.Lock.PIN, Constants.Default.STRING)
     }
 
     fun commitPasscode() {

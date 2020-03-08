@@ -4,6 +4,8 @@ import android.app.ActivityManager
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -60,4 +62,18 @@ fun Context?.currentPackage(): String? {
         return currentUsageStats()?.packageName
     }
     return currentTask()?.topActivity?.packageName
+}
+
+fun Context?.packageManager(): PackageManager? {
+    return this?.applicationContext?.packageManager
+}
+
+fun Context?.icon(pkg: String?): Drawable ? {
+    if (pkg.isNullOrEmpty()) return null
+    try {
+        return packageManager()?.getApplicationIcon(pkg)
+    } catch (error: PackageManager.NameNotFoundException) {
+        //Timber.e(error)
+    }
+    return null
 }

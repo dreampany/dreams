@@ -84,7 +84,7 @@ abstract class MediaRepository<T : Media>(
     }
 
     override fun getItems(): List<T>? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return getItemsRx().blockingGet()
     }
 
     override fun getItemsRx(): Maybe<List<T>> {

@@ -96,13 +96,13 @@ class LockView : RelativeLayout, PasswordView.Callback {
         this.code = code
     }
 
-    fun setTitle(title: String) {
+    fun setTitle(title: String?) {
         this.title = title
         bind.prompt.text = title
         bind.prompt.visible()
     }
 
-    fun setIcon(drawable: Drawable) {
+    fun setIcon(drawable: Drawable?) {
         bind.icon.setImageDrawable(drawable)
     }
 

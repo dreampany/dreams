@@ -66,14 +66,16 @@ private constructor(
     var locked: Boolean = false
 
     fun getIcon(context: Context): Drawable? {
-        if (icon == null || icon!!.get() == null) {
+        if (icon?.get() == null) {
             var drawable = AndroidUtil.getApplicationIcon(context, item.id)
             if (drawable == null) {
                 drawable = ContextCompat.getDrawable(context, R.drawable.ic_android_black_24dp)
             }
-            icon = WeakReference(drawable!!)
+            drawable?.run {
+                icon = WeakReference(this)
+            }
         }
-        return icon!!.get()
+        return icon?.get()
     }
 
     override fun createViewHolder(

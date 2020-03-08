@@ -6,7 +6,9 @@ import androidx.room.Index
 import com.dreampany.framework.util.TimeUtilKt
 import com.dreampany.tools.data.enums.AppType
 import com.dreampany.tools.data.enums.MediaType
+import com.dreampany.tools.data.model.word.Word
 import com.dreampany.tools.misc.Constants
+import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -60,7 +62,7 @@ data class App(
         dateModified: Long = Constants.Default.LONG,
         appType: AppType = AppType.DEFAULT,
         versionCode: Int = Constants.Default.INT,
-        versionName: String? = Constants.Default.NULL
+        versionName: String = Constants.Default.STRING
     ) : this(
         time = TimeUtilKt.currentMillis(),
         id = id,
@@ -75,7 +77,16 @@ data class App(
         appType = appType,
         versionCode = versionCode,
         versionName = versionName
-    ) {
+    )
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as App
+        return Objects.equal(this.id, item.id)
     }
 }

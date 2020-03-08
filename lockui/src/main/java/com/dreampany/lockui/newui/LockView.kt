@@ -73,11 +73,11 @@ class LockView : RelativeLayout, PasswordView.Callback {
     }
 
     override fun onNumKey() {
-        Handler().postDelayed({ bind.pinView.addPin() }, 200)
+        Handler().postDelayed({ bind.pinView.addPin() }, 1)
     }
 
     override fun onDeleteKey() {
-        Handler().postDelayed({ bind.pinView.removePin() }, 200)
+        Handler().postDelayed({ bind.pinView.removePin() }, 1)
     }
 
     override fun onBackKey() {
@@ -120,7 +120,7 @@ class LockView : RelativeLayout, PasswordView.Callback {
 
     private fun checkCode(code: String) {
         Handler().postDelayed({ callback?.onPinCode(code) }, 200)
-        if (this.code.isNullOrEmpty()) {
+        if (!this.code.isNullOrEmpty()) {
             if (this.code.equals(code)) {
                 Handler().postDelayed({ callback?.onCorrect() }, 200)
             } else {

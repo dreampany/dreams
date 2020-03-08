@@ -22,6 +22,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
 
     private lateinit var bind: PinActivityBinding
     private var setPin = false
+    private var pin = Constants.Default.STRING
     private var firstPin = Constants.Default.STRING
 
     companion object {
@@ -32,9 +33,16 @@ class PinActivity : BaseActivity(), LockView.LockListener {
         private val PREFERENCES = "com.dreampany.lockui"
         val KEY_PIN = "pin"
 
-        fun getIntent(context: Context, setPin: Boolean): Intent {
+        fun setIntent(context: Context): Intent {
             val intent = Intent(context, PinActivity::class.java)
-            intent.putExtra(EXTRA_SET_PIN, setPin)
+            intent.putExtra(EXTRA_SET_PIN, true)
+            return intent
+        }
+
+        fun checkIntent(context: Context, pin: String): Intent {
+            val intent = Intent(context, PinActivity::class.java)
+            intent.putExtra(EXTRA_SET_PIN, false)
+            intent.putExtra(KEY_PIN, pin)
             return intent
         }
     }
@@ -81,7 +89,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
         if (setPin) {
             setPinUi()
         } else {
-            val pin = getPinFromSharedPreferences()
+            pin = intent.getStringExtra(KEY_PIN) ?: pin
             if (pin.isEmpty()) {
                 setPinUi()
                 setPin = true
@@ -106,7 +114,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
             bind.lockView.reset()
         } else {
             if (pin == firstPin) {
-                writePinToSharedPreferences(pin)
+                //writePinToSharedPreferences(pin)
                 val result = Intent()
                 result.putExtra(KEY_PIN, pin)
                 setResult(RESULT_OK, result)
@@ -121,7 +129,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
     }
 
     private fun checkPin(pin: String) {
-        if (pin.hash256().equals(getPinFromSharedPreferences())) {
+        if (pin.equals(this.pin)) {
             setResult(RESULT_OK)
             finish()
         } else {
@@ -138,7 +146,7 @@ class PinActivity : BaseActivity(), LockView.LockListener {
         animator.start()
     }
 
-    private fun writePinToSharedPreferences(pin: String) {
+/*    private fun writePinToSharedPreferences(pin: String) {
         val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_PIN, pin.hash256()).apply()
     }
@@ -146,5 +154,5 @@ class PinActivity : BaseActivity(), LockView.LockListener {
     private fun getPinFromSharedPreferences(): String {
         val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
         return prefs.getString(KEY_PIN, Constants.Default.NULL) ?: Constants.Default.STRING
-    }
+    }*/
 }

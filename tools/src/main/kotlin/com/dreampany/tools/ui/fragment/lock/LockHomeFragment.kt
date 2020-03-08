@@ -60,7 +60,8 @@ class LockHomeFragment
 
     private val REQUEST_CODE_USAGE = 101
     private val REQUEST_CODE_OVERLAY = 102
-    private val REQUEST_CODE_LOCK = 103
+    private val REQUEST_CODE_SET_LOCK = 103
+    private val REQUEST_CODE_CHECK_LOCK = 104
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -91,6 +92,7 @@ class LockHomeFragment
 
         session.track()
         initTitleSubtitle()
+        loadUi()
     }
 
     override fun onStopUi() {
@@ -112,7 +114,7 @@ class LockHomeFragment
                 Timber.v("Result Code %d", resultCode)
                 requestLockUi()
             }
-            REQUEST_CODE_LOCK -> {
+            REQUEST_CODE_SET_LOCK -> {
                 if (resultCode != PinActivity.RESULT_BACK_PRESSED) {
                     data?.getStringExtra(PinActivity.KEY_PIN)?.run {
                         lockPref.setPin(this)
@@ -120,7 +122,13 @@ class LockHomeFragment
                         context?.run {
                             service.openService(AppService.lockIntent(this))
                         }
-                        loadUi()
+                    }
+                }
+            }
+            REQUEST_CODE_CHECK_LOCK -> {
+                if (resultCode != PinActivity.RESULT_BACK_PRESSED) {
+                    context?.run {
+                        service.openService(AppService.lockIntent(this))
                     }
                 }
             }
@@ -224,11 +232,20 @@ class LockHomeFragment
     }
 
     private fun requestLockUi() {
-        context?.run {
-            startActivityForResult(
-                PinActivity.getIntent(this, lockPref.hasPin().not()),
-                REQUEST_CODE_LOCK
-            )
+        if (lockPref.hasPin()) {
+            context?.run {
+                startActivityForResult(
+                    PinActivity.checkIntent(this, lockPref.getPin()),
+                    REQUEST_CODE_CHECK_LOCK
+                )
+            }
+        } else {
+            context?.run {
+                startActivityForResult(
+                    PinActivity.setIntent(this),
+                    REQUEST_CODE_SET_LOCK
+                )
+            }
         }
     }
 

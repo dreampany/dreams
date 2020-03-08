@@ -58,19 +58,19 @@ class PasswordView : LinearLayoutCompat {
     private fun initUi(context: Context) {
         bind = context.bindInflater(R.layout.view_password, parent = this)
 
-        bind.key0.setOnSafeClickListener { keyPressed(0) }
-        bind.key1.setOnSafeClickListener { keyPressed(1) }
-        bind.key2.setOnSafeClickListener { keyPressed(2) }
-        bind.key3.setOnSafeClickListener { keyPressed(3) }
-        bind.key4.setOnSafeClickListener { keyPressed(4) }
-        bind.key5.setOnSafeClickListener { keyPressed(5) }
-        bind.key6.setOnSafeClickListener { keyPressed(6) }
-        bind.key7.setOnSafeClickListener { keyPressed(7) }
-        bind.key8.setOnSafeClickListener { keyPressed(8) }
-        bind.key9.setOnSafeClickListener { keyPressed(9) }
+        bind.key0.setOnClickListener { keyPressed(0) }
+        bind.key1.setOnClickListener { keyPressed(1) }
+        bind.key2.setOnClickListener { keyPressed(2) }
+        bind.key3.setOnClickListener { keyPressed(3) }
+        bind.key4.setOnClickListener { keyPressed(4) }
+        bind.key5.setOnClickListener { keyPressed(5) }
+        bind.key6.setOnClickListener { keyPressed(6) }
+        bind.key7.setOnClickListener { keyPressed(7) }
+        bind.key8.setOnClickListener { keyPressed(8) }
+        bind.key9.setOnClickListener { keyPressed(9) }
 
-        bind.keyBack.setOnSafeClickListener { backKey() }
-        bind.keyDelete.setOnSafeClickListener { deleteKey() }
+        bind.keyBack.setOnClickListener { backKey() }
+        bind.keyDelete.setOnClickListener { deleteKey() }
     }
 
     private fun keyPressed(key: Int) {

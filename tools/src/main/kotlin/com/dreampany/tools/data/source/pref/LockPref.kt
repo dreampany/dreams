@@ -29,7 +29,7 @@ class LockPref
     }
 
     fun setPin(pin: String) {
-        setPrivately(Constants.Pref.Lock.PIN, pin.hash256())
+        setPrivately(Constants.Pref.Lock.PIN, pin)
     }
 
     fun getPin(): String {

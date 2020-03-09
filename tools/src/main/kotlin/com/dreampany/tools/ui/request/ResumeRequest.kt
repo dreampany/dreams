@@ -21,8 +21,10 @@ class ResumeRequest(
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
     limit: Long = Constants.Default.LONG,
-    id: String? = Constants.Default.NULL,
+    id: String? = Constants.Default.STRING,
+    ids: List<String>? = Constants.Default.NULL,
     input: Resume? = Constants.Default.NULL,
+    inputs: List<Resume>? = Constants.Default.NULL,
     val profile: Map<String, Any>? = Constants.Default.NULL,
     val skills: List<Map<String, Any>>? = Constants.Default.NULL,
     val experiences: List<Map<String, Any>>? = Constants.Default.NULL,
@@ -40,8 +42,7 @@ class ResumeRequest(
     progress = progress,
     limit = limit,
     id = id,
-    input = input
-) {
-
-
-}
+    ids = ids,
+    input = input,
+    inputs = inputs
+)

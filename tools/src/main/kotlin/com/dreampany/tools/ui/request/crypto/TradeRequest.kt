@@ -23,7 +23,7 @@ class TradeRequest(
     progress: Boolean = Constants.Default.BOOLEAN,
     start: Long = Constants.Default.LONG,
     limit: Long = Constants.Default.LONG,
-    id: String = Constants.Default.STRING,
+    id: String? = Constants.Default.NULL,
     ids: List<String>? = Constants.Default.NULL,
     input: Coin? = Constants.Default.NULL,
     inputs: List<Coin>? = Constants.Default.NULL,

@@ -116,7 +116,7 @@ class LoadViewModel
             }
             Source.ASSETS -> {
                 if (!wordPref.isAlphaLoaded() && !alphaLoading) {
-                    ex.postToNetwork(Runnable {
+                    ex.postToDisk(Runnable {
                         alphaLoading = true
                         loadAlphas(request)
                         alphaLoading = false

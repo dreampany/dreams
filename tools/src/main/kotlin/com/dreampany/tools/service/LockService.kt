@@ -9,10 +9,12 @@ import android.os.Build
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.dreampany.common.misc.extension.icon
+import com.dreampany.common.misc.extension.kill
 import com.dreampany.framework.api.service.BaseService
 import com.dreampany.lockui.newui.LockView
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.AppMapper
+import com.dreampany.tools.data.mapper.LockMapper
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.pref.LockPref
 import com.dreampany.tools.data.source.repository.AppRepository
@@ -30,6 +32,9 @@ class LockService : BaseService(), LockView.Callback {
 
     @Inject
     internal lateinit var pref: LockPref
+
+    @Inject
+    internal lateinit var lockMapper: LockMapper
 
     @Inject
     internal lateinit var repo: AppRepository
@@ -84,6 +89,9 @@ class LockService : BaseService(), LockView.Callback {
     }
 
     override fun onCorrect() {
+        app?.run {
+            lockMapper.addInUnlock(id)
+        }
         hideLock()
     }
 
@@ -92,6 +100,13 @@ class LockService : BaseService(), LockView.Callback {
     }
 
     private fun exit() {
+        /*val exit =  Intent(Intent.ACTION_MAIN)
+        exit.addCategory(Intent.CATEGORY_HOME)
+        exit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        exit.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        exit.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(exit)*/
+        kill(app?.id)
         hideLock()
     }
 

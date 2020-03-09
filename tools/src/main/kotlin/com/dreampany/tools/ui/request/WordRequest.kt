@@ -22,7 +22,9 @@ class WordRequest(
     progress: Boolean = Constants.Default.BOOLEAN,
     limit: Long = Constants.Default.LONG,
     id: String? = Constants.Default.NULL,
+    ids: List<String>? = Constants.Default.NULL,
     input: Word? = Constants.Default.NULL,
+    inputs: List<Word>? = Constants.Default.NULL,
     val sourceLang: String? = Constants.Default.NULL,
     val targetLang: String? = Constants.Default.NULL,
     val translate: Boolean = Constants.Default.BOOLEAN,
@@ -39,8 +41,8 @@ class WordRequest(
     important = important,
     progress = progress,
     limit = limit,
+    id = id,
+    ids = ids,
     input = input,
-    id = id
-) {
-
-}
+    inputs = inputs
+)

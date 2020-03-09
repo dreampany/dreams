@@ -1,6 +1,7 @@
 package com.dreampany.framework.ui.activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.MenuItem
@@ -138,7 +139,7 @@ abstract class BaseActivity :
             requestWindowFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         }
         if (isPortrait()) {
-            //requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
         if (hasTheme()) {
             //Aesthetic.attach(this)

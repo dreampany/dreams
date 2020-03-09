@@ -20,8 +20,11 @@ class LoadRequest(
     single: Boolean = Constants.Default.BOOLEAN,
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
+    limit: Long = Constants.Default.LONG,
+    id: String? = Constants.Default.NULL,
+    ids: List<String>? = Constants.Default.NULL,
     input: Load? = Constants.Default.NULL,
-    id: String = Constants.Default.STRING,
+    inputs: List<Load>? = Constants.Default.NULL,
     var sourceLang: String? = Constants.Default.NULL,
     var targetLang: String? = Constants.Default.NULL,
     var translate: Boolean = Constants.Default.BOOLEAN,
@@ -37,8 +40,11 @@ class LoadRequest(
     single = single,
     important = important,
     progress = progress,
+    limit = limit,
+    id = id,
+    ids = ids,
     input = input,
-    id = id
+    inputs = inputs
 ) {
 
 }

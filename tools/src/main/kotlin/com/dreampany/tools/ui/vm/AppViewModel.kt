@@ -17,6 +17,7 @@ import com.dreampany.framework.ui.vm.BaseViewModel
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.R
 import com.dreampany.tools.data.mapper.AppMapper
+import com.dreampany.tools.data.mapper.LockMapper
 import com.dreampany.tools.data.model.App
 import com.dreampany.tools.data.source.pref.LockPref
 import com.dreampany.tools.data.source.pref.Pref
@@ -42,6 +43,7 @@ class AppViewModel
     private val network: NetworkManager,
     private val pref: Pref,
     private val lockPref: LockPref,
+    private val lockMapper: LockMapper,
     private val storeMapper: StoreMapper,
     private val storeRepo: StoreRepository,
     private val mapper: AppMapper,
@@ -194,7 +196,7 @@ class AppViewModel
 
     private fun isLocked(item: App): Boolean {
         if (!extras.contains(item.id)) {
-            val locks = lockPref.getLockedPackages()
+            val locks = lockMapper.getAllLocks()
             val locked = locks.contains(item.id)
             extras.put(item.id, locked)
         }
@@ -202,12 +204,11 @@ class AppViewModel
     }
 
     private fun toggleLock(id: String): Boolean {
-        val locks = lockPref.getLockedPackages()
-        val locked = locks.contains(id)
+        val locked = lockMapper.isLocked(id)
         if (locked) {
-            lockPref.removeLockedPackage(id)
+            lockMapper.addLock(id)
         } else {
-            lockPref.addLockedPackage(id)
+            lockMapper.deleteLock(id)
         }
         extras.put(id, locked.not())
         return extras.get(id)

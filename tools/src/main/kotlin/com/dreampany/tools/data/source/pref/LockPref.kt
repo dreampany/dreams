@@ -1,7 +1,6 @@
 package com.dreampany.tools.data.source.pref
 
 import android.content.Context
-import com.dreampany.common.misc.extension.hash256
 import com.dreampany.framework.data.source.pref.FramePref
 import com.dreampany.tools.misc.Constants
 import com.google.gson.Gson
@@ -40,14 +39,6 @@ class LockPref
         return getPin().isEmpty().not()
     }
 
-/*    fun commitPasscode() {
-        setPrivately(Constants.Pref.Lock.PIN, true)
-    }
-
-    fun hasPasscode(): Boolean {
-        return getPrivately(Constants.Pref.Lock.PIN, false)
-    }*/
-
     fun commitServicePermitted() {
         setPrivately(Constants.Pref.Lock.SERVICE, true)
     }
@@ -59,14 +50,17 @@ class LockPref
     fun addLockedPackage(pkg: String) {
         val packages = getLockedPackages()
         packages.add(pkg)
-        val json = gson.toJson(packages, type)
-        setPrivately(Constants.Pref.Lock.LOCKED_PACKAGES, json)
+        setLocks(packages)
     }
 
     fun removeLockedPackage(pkg: String) {
         val packages = getLockedPackages()
         packages.remove(pkg)
-        val json = gson.toJson(packages, type)
+        setLocks(packages)
+    }
+
+    fun setLocks(locks: MutableList<String>) {
+        val json = gson.toJson(locks, type)
         setPrivately(Constants.Pref.Lock.LOCKED_PACKAGES, json)
     }
 

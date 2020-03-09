@@ -1,5 +1,6 @@
 package com.dreampany.common.misc.extension
 
+import android.annotation.SuppressLint
 import android.app.ActivityManager
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
@@ -8,9 +9,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.view.View
-import android.view.animation.AnimationUtils
-import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.RequiresApi
@@ -73,13 +71,13 @@ fun Context?.packageManager(): PackageManager? {
     return this?.applicationContext?.packageManager
 }
 
+fun Context?.activityManager(): ActivityManager? {
+    return this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
+}
+
 fun Context?.packageName(): String? {
     return appContext()?.packageName
 }
-
-/*fun Context?.packageInfo(pkg: String?) {
-
-}*/
 
 fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
     try {
@@ -99,4 +97,10 @@ fun Context?.icon(pkg: String?): Drawable ? {
         //Timber.e(error)
     }
     return null
+}
+
+@SuppressLint("MissingPermission")
+fun Context?.kill(pkg: String?) {
+    if (pkg.isNullOrEmpty()) return
+    activityManager()?.killBackgroundProcesses(pkg)
 }

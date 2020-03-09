@@ -12,6 +12,7 @@ import com.dreampany.common.misc.extension.isEquals
 import com.dreampany.framework.api.notify.NotifyManager
 import com.dreampany.framework.api.service.BaseService
 import com.dreampany.tools.R
+import com.dreampany.tools.data.mapper.LockMapper
 import com.dreampany.tools.data.source.pref.LockPref
 import com.dreampany.tools.data.source.pref.Pref
 import com.dreampany.tools.misc.Constants
@@ -38,6 +39,9 @@ class AppService : BaseService() {
 
     @Inject
     internal lateinit var lockPref: LockPref
+
+    @Inject
+    internal lateinit var lockMapper: LockMapper
 
     @Inject
     internal lateinit var notify: NotifyManager
@@ -206,7 +210,7 @@ class AppService : BaseService() {
             locker = object : Thread() {
                 override fun run() {
                     while (lockerRunning && !locker.isInterrupted) {
-                        Timber.v("Locker thread is running %d", System.currentTimeMillis())
+                        //Timber.v("Locker thread is running %d", System.currentTimeMillis())
                         if (!lockPref.isServicePermitted()) {
                             lockerRunning = false
                             continue
@@ -239,8 +243,8 @@ class AppService : BaseService() {
     private fun checkLock() {
         val pkg = currentPackage() ?: return
         if (!pkg.isEquals(lastPackage)) {
-            val pkgs = lockPref.getLockedPackages()
-            if (pkgs.contains(pkg))
+            Timber.v("Cache %s - Current %s", lastPackage, pkg)
+            if (lockMapper.isLocked(pkg) && !lockMapper.isUnlocked(pkg))
                 lockedAppOpened(pkg)
         }
         lastPackage = pkg

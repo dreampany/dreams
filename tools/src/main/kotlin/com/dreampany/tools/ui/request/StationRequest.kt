@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.request
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.data.model.Request
 import com.dreampany.tools.data.model.Station
+import com.dreampany.tools.data.model.resume.Resume
 import com.dreampany.tools.misc.Constants
 
 /**
@@ -21,8 +22,10 @@ class StationRequest(
     important: Boolean = Constants.Default.BOOLEAN,
     progress: Boolean = Constants.Default.BOOLEAN,
     limit: Long = Constants.Default.LONG,
-    id: String? = Constants.Default.NULL,
+    id: String? = Constants.Default.STRING,
+    ids: List<String>? = Constants.Default.NULL,
     input: Station? = Constants.Default.NULL,
+    inputs: List<Station>? = Constants.Default.NULL,
     val countryCode: String? = Constants.Default.NULL
 ) : Request<Station>(
     type = type,
@@ -33,9 +36,11 @@ class StationRequest(
     single = single,
     important = important,
     progress = progress,
+    limit = limit,
     id = id,
+    ids = ids,
     input = input,
-    limit = limit
+    inputs = inputs
 ) {
 
 }

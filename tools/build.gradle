@@ -16,8 +16,8 @@ android {
         versionName '0.0.7.4'
 
         multiDexEnabled true
-
         vectorDrawables.useSupportLibrary = true
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         javaCompileOptions {
@@ -99,13 +99,17 @@ android {
     }
 
     dataBinding {
-        enabled = true
+        enabled true
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+/*    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }*/
 
     aaptOptions {
         //noCompress 'tflite' //firebase-ml-natural-language-smart-reply-model
@@ -131,8 +135,9 @@ android {
 
     applicationVariants.all { variant ->
         def appName = variant.applicationId
+        def parts = appName.split('\\.')
         variant.outputs.all {
-            outputFileName = appName + "-${variant.versionName}-${variant.buildType.name}.apk"
+            outputFileName = parts[2] + "-${variant.versionName}-${variant.buildType.name}.apk"
         }
     }
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.tutorial.TutorialActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            auto:layout_constraintGuide_percent=".8" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            auto:layout_constraintBottom_toTopOf="@id/guideline_pager"
+            auto:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:text="Join Now"
+            auto:cornerRadius="@dimen/_20sdp"
+            auto:layout_constraintEnd_toEndOf="parent"
+            auto:layout_constraintStart_toStartOf="parent"
+            auto:layout_constraintTop_toBottomOf="@id/guideline_pager" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

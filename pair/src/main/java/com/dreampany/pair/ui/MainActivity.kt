@@ -14,7 +14,6 @@ class MainActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.activity_main
 
     override fun onStartUi(state: Bundle?) {
-
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
         val navController = findNavController(R.id.nav_host_fragment)

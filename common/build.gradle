@@ -72,6 +72,7 @@ dependencies {
     api 'androidx.vectordrawable:vectordrawable:1.1.0'
     api 'androidx.recyclerview:recyclerview-selection:1.0.0'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    api 'androidx.viewpager2:viewpager2:1.0.0'
 
     /* androidx arch */
     kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0'

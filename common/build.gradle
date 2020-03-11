@@ -100,6 +100,7 @@ dependencies {
     kapt 'com.google.dagger:dagger-android-processor:2.26'
 
     /* misc */
+    api 'com.jakewharton.timber:timber:4.7.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
     //api 'com.afollestad.assent:core:3.0.0-RC4'

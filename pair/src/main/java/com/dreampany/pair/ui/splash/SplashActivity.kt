@@ -3,7 +3,7 @@ package com.dreampany.pair.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import com.dreampany.common.ui.activity.BaseActivity
+import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.pair.R
 import com.dreampany.pair.ui.tutorial.TutorialActivity
 import kotlinx.coroutines.Runnable
@@ -14,7 +14,7 @@ import kotlinx.coroutines.Runnable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SplashActivity : BaseActivity() {
+class SplashActivity : BaseInjectorActivity() {
 
     override fun getLayoutId(): Int = R.layout.splash_activity
 

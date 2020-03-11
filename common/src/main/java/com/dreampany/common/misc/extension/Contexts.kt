@@ -5,6 +5,7 @@ import android.app.ActivityManager
 import android.app.usage.UsageStats
 import android.app.usage.UsageStatsManager
 import android.content.Context
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+
 fun Context?.appContext(): Context? {
     return this?.applicationContext
 }
@@ -32,6 +34,19 @@ fun Context?.isNull(): Boolean {
 
 fun Context?.isNotNull(): Boolean {
     return this != null
+}
+
+fun Context?.isDebug(): Boolean {
+    if (this == null) return true
+    var debug = true
+    try {
+        val appInfo = this.applicationContext.packageManager.getApplicationInfo(
+            this.applicationContext.getPackageName(), 0
+        )
+        debug = (0 != (appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE))
+    } catch (ignored: PackageManager.NameNotFoundException) {
+    }
+    return debug
 }
 
 fun Context?.dimension(@DimenRes resId: Int): Float {

@@ -1,7 +1,8 @@
 package com.dreampany.pair.ui.tutorial
 
-import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.databinding.ViewDataBinding
+import com.dreampany.common.ui.adapter.BaseAdapter
+import com.dreampany.pair.R
 import com.dreampany.pair.databinding.TutorialItemBinding
 
 /**
@@ -10,26 +11,20 @@ import com.dreampany.pair.databinding.TutorialItemBinding
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class TutorialAdapter :  RecyclerView.Adapter<TutorialAdapter.ViewHolder>() {
+class TutorialAdapter(listener: Any? = null) :
+    BaseAdapter<TutorialItem, TutorialAdapter.ViewHolder>(listener) {
 
-    private val items: MutableList<>
+    override fun getLayoutId(viewType: Int): Int = R.layout.tutorial_item
 
-    override fun getItemCount(): Int {
-    }
+    override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
+        ViewHolder(bind as TutorialItemBinding)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
-    }
+    inner class ViewHolder(val bind: TutorialItemBinding) :
+        BaseAdapter.ViewHolder<TutorialItem, ViewHolder>(bind) {
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
-    }
-
-
-    inner class ViewHolder(bind: TutorialItemBinding) : RecyclerView.ViewHolder(bind.root) {
-
-        fun bind() {
-
+        override fun bindView(item: TutorialItem, position: Int) {
+            bind.text.text = item.title
         }
+
     }
 }

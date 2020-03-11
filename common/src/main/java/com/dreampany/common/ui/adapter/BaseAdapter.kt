@@ -35,7 +35,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         }
     }
 
-    protected abstract fun getViewType(item: T): Int
+    protected fun getViewType(item: T): Int = 0
 
     @LayoutRes
     protected abstract fun getLayoutId(viewType: Int): Int
@@ -57,7 +57,6 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        //Timber.v("ViewHolder Binding %s", holder.toString())
         getItem(position)?.run {
             holder.bindView(this, position)
         }

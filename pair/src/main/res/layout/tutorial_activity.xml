@@ -16,12 +16,14 @@
             auto:layout_constraintGuide_percent=".8" />
 
         <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             auto:layout_constraintBottom_toTopOf="@id/line"
             auto:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_join"
             android:layout_width="@dimen/_160sdp"
             android:layout_height="@dimen/_40sdp"
             android:text="Join Now"

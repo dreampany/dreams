@@ -97,4 +97,7 @@ dependencies {
     /* dagger */
     kapt 'com.google.dagger:dagger-compiler:2.26'
     kapt 'com.google.dagger:dagger-android-processor:2.26'
+
+    /* misc */
+    implementation 'me.relex:circleindicator:2.1.4'
 }

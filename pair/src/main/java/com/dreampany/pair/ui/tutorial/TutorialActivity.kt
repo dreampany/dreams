@@ -19,9 +19,9 @@ class TutorialActivity : BaseActivity() {
     private lateinit var bind: TutorialActivityBinding
     private lateinit var tutorialAdapter: TutorialAdapter
 
-    override fun isFullScreen(): Boolean  = true
+    override fun isFullScreen(): Boolean = true
 
-    override fun hasBinding(): Boolean  = true
+    override fun hasBinding(): Boolean = true
 
     override fun getLayoutId(): Int = R.layout.tutorial_activity
 
@@ -50,5 +50,7 @@ class TutorialActivity : BaseActivity() {
         tutorialAdapter.add(TutorialItem(R.mipmap.ic_launcher, "Hello2", "This is Hello"))
         tutorialAdapter.add(TutorialItem(R.mipmap.ic_launcher, "Hello3", "This is Hello"))
         bind.pager.adapter = tutorialAdapter
+        bind.indicator.setViewPager(bind.pager)
+        tutorialAdapter.registerAdapterDataObserver(bind.indicator.adapterDataObserver)
     }
 }

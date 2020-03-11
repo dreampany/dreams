@@ -22,6 +22,7 @@ class SplashActivity : BaseInjectorActivity() {
 
         Handler().postDelayed(Runnable {
             startActivity(Intent(this@SplashActivity, TutorialActivity::class.java))
+            this@SplashActivity.finish()
         }, 2000)
     }
 

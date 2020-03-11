@@ -2,6 +2,7 @@ package com.dreampany.pair.injector.ui
 
 import com.dreampany.common.injector.annote.ActivityScope
 import com.dreampany.pair.ui.splash.SplashActivity
+import com.dreampany.pair.ui.tutorial.TutorialActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -16,4 +17,8 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract fun splashActivity(): SplashActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun tutorialActivity(): TutorialActivity
 }

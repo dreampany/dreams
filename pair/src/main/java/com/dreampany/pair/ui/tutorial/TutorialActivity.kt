@@ -2,11 +2,10 @@ package com.dreampany.pair.ui.tutorial
 
 import android.os.Bundle
 import android.view.View
-import com.dreampany.common.ui.activity.BaseActivity
+import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.pair.R
 import com.dreampany.pair.databinding.TutorialActivityBinding
-import com.dreampany.pair.databinding.TutorialActivityBindingImpl
 
 /**
  * Created by roman on 3/10/20
@@ -14,7 +13,7 @@ import com.dreampany.pair.databinding.TutorialActivityBindingImpl
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class TutorialActivity : BaseActivity() {
+class TutorialActivity : BaseInjectorActivity() {
 
     private lateinit var bind: TutorialActivityBinding
     private lateinit var tutorialAdapter: TutorialAdapter

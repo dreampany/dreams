@@ -29,6 +29,10 @@ abstract class BaseInjectorApp : DaggerApplication(), Application.ActivityLifecy
             field = value
         }
 
+    abstract fun onOpen()
+
+    abstract fun onClose()
+
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
@@ -39,6 +43,12 @@ abstract class BaseInjectorApp : DaggerApplication(), Application.ActivityLifecy
         registerActivityLifecycleCallbacks(this)
         if (isDebug())
             Timber.plant(Timber.DebugTree())
+        onOpen()
+    }
+
+    override fun onTerminate() {
+        onClose()
+        super.onTerminate()
     }
 
     override fun onActivityCreated(activity: Activity, bundle: Bundle?) {

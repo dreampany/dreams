@@ -2,6 +2,7 @@ package com.dreampany.pair.app
 
 import com.dreampany.common.app.BaseInjectorApp
 import com.dreampany.pair.injector.app.DaggerAppComponent
+import com.facebook.drawee.backends.pipeline.Fresco
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 
@@ -15,5 +16,13 @@ class App : BaseInjectorApp() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder().application(this).build()
+    }
+
+    override fun onOpen() {
+        Fresco.initialize(this)
+    }
+
+    override fun onClose() {
+
     }
 }

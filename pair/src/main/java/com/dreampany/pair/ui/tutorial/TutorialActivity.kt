@@ -1,11 +1,15 @@
 package com.dreampany.pair.ui.tutorial
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.pair.R
 import com.dreampany.pair.databinding.TutorialActivityBinding
+import com.dreampany.pair.ui.auth.AuthActivity
+import timber.log.Timber
 
 /**
  * Created by roman on 3/10/20
@@ -32,8 +36,19 @@ class TutorialActivity : BaseInjectorActivity() {
     override fun onStopUi() {
     }
 
+    private fun onSafeClick(view: View) {
+        Timber.v("Clicked %s", view.id)
+        when (view) {
+            bind.buttonJoin -> {
+                startActivity(Intent(this, AuthActivity::class.java))
+                finish()
+            }
+        }
+    }
+
     private fun initUi() {
         bind = getBinding()
+        bind.buttonJoin.setOnSafeClickListener(this::onSafeClick)
     }
 
     private fun initRecycler() {

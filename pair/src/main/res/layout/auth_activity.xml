@@ -15,45 +15,31 @@
             android:orientation="horizontal"
             auto:layout_constraintGuide_percent=".7" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            auto:layout_constraintBottom_toTopOf="@id/line"
-            auto:layout_constraintTop_toTopOf="parent" />
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_"
+            android:id="@+id/button_register"
             android:layout_width="@dimen/_160sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:text="Join Now"
+            android:layout_height="@dimen/_44sdp"
+            android:text="Create Account"
+            android:textAllCaps="false"
             auto:cornerRadius="@dimen/_20sdp"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toBottomOf="@id/line" />
 
-
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:text="@string/skip"
+            android:id="@+id/button_login"
+            android:layout_width="@dimen/_160sdp"
+            android:layout_height="@dimen/_44sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:text="Login"
             android:textAllCaps="false"
-            android:textColor="@color/material_grey100"
-            android:textSize="@dimen/_12ssp"
-            auto:backgroundTint="@android:color/transparent"
-            auto:layout_constraintBottom_toBottomOf="parent"
-            auto:layout_constraintEnd_toEndOf="parent" />
-
-        <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
-            auto:layout_constraintBottom_toBottomOf="@id/button_skip"
+            android:textColor="@color/material_black"
+            auto:backgroundTint="@color/material_white"
+            auto:cornerRadius="@dimen/_20sdp"
+            auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
-            auto:layout_constraintTop_toTopOf="@id/button_skip" />
+            auto:layout_constraintTop_toBottomOf="@id/button_register" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

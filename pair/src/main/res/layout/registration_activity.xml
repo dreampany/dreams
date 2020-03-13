@@ -32,6 +32,29 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_20sdp">
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/drawee"
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_gravity="center"
+                        auto:placeholderImage="@mipmap/ic_launcher"
+                        auto:placeholderImageScaleType="fitXY"
+                        auto:roundAsCircle="true" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_gravity="center"
+                        auto:srcCompat="@android:drawable/ic_menu_camera" />
+
+                </FrameLayout>
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,11 +114,76 @@
                     auto:startIconDrawable="@drawable/ic_lock_black_24dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
                         android:lines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:hint="Height"
+                    auto:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                    auto:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                    auto:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                    auto:boxCornerRadiusTopStart="@dimen/_10sdp"
+                    auto:startIconDrawable="@drawable/ic_height">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@android:drawable/arrow_down_float"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:hint="Birthday"
+                    auto:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                    auto:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                    auto:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                    auto:boxCornerRadiusTopStart="@dimen/_10sdp"
+                    auto:startIconDrawable="@drawable/ic_birthday">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@android:drawable/ic_menu_my_calendar"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:hint="Location"
+                    auto:boxCornerRadiusBottomEnd="@dimen/_10sdp"
+                    auto:boxCornerRadiusBottomStart="@dimen/_10sdp"
+                    auto:boxCornerRadiusTopEnd="@dimen/_10sdp"
+                    auto:boxCornerRadiusTopStart="@dimen/_10sdp"
+                    auto:startIconDrawable="@drawable/ic_edit_location_black_24dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableEnd="@android:drawable/arrow_down_float"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,14 +200,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        auto:cardBackgroundColor="@color/material_grey100"
                         auto:cardCornerRadius="@dimen/_10sdp"
                         auto:cardElevation="@dimen/_10sdp"
                         auto:cardPreventCornerOverlap="true">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_100sdp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
+
+                            android:minHeight="@dimen/_80sdp"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatImageView
@@ -150,14 +241,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        auto:cardBackgroundColor="@color/material_grey100"
                         auto:cardCornerRadius="@dimen/_10sdp"
                         auto:cardElevation="@dimen/_10sdp"
                         auto:cardPreventCornerOverlap="true">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_100sdp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:minHeight="@dimen/_80sdp"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatImageView
@@ -194,14 +287,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        auto:cardBackgroundColor="@color/material_grey100"
                         auto:cardCornerRadius="@dimen/_10sdp"
                         auto:cardElevation="@dimen/_10sdp"
                         auto:cardPreventCornerOverlap="true">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_100sdp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:minHeight="@dimen/_80sdp"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatImageView
@@ -232,14 +327,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        auto:cardBackgroundColor="@color/material_grey100"
                         auto:cardCornerRadius="@dimen/_10sdp"
                         auto:cardElevation="@dimen/_10sdp"
                         auto:cardPreventCornerOverlap="true">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_100sdp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:minHeight="@dimen/_80sdp"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatImageView
@@ -270,14 +367,16 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        auto:cardBackgroundColor="@color/material_grey100"
                         auto:cardCornerRadius="@dimen/_10sdp"
                         auto:cardElevation="@dimen/_10sdp"
                         auto:cardPreventCornerOverlap="true">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_100sdp"
+                            android:layout_height="wrap_content"
                             android:gravity="center"
+                            android:minHeight="@dimen/_80sdp"
                             android:orientation="vertical">
 
                             <androidx.appcompat.widget.AppCompatImageView

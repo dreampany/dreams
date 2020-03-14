@@ -1,12 +1,10 @@
 package com.dreampany.pair.ui.auth.vm
 
 import android.app.Application
-import com.dreampany.common.misc.func.AppExecutor
-import com.dreampany.common.misc.func.ResponseMapper
-import com.dreampany.common.misc.func.RxMapper
 import com.dreampany.common.ui.vm.BaseViewModel
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.repo.RegistrationRepo
+import com.dreampany.pair.ui.model.UiTask
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,15 +17,13 @@ import javax.inject.Inject
 class RegistrationViewModel
 @Inject constructor(
     application: Application,
-    ex: AppExecutor,
-    rx: RxMapper,
-    rm: ResponseMapper,
     private val repo: RegistrationRepo
-) : BaseViewModel<Any>(application, ex, rx, rm) {
+) : BaseViewModel<User, User, UiTask<User>>(application) {
 
-    fun register(name: String, email: String, password: String, callback: (User) -> Unit) {
+    fun register(email: String, password: String, name: String) {
         uiScope.launch {
-
+           val user = repo.register(email, password, name)
+            //output.value = user
         }
     }
 

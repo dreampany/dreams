@@ -68,8 +68,7 @@ android {
     }
 
     applicationVariants.all { variant ->
-        def appName = variant.applicationId
-        def parts = appName.split('\\.')
+        def parts = variant.applicationId.split('\\.')
         variant.outputs.all {
             outputFileName = parts[2] + "-${variant.versionName}-${variant.buildType.name}.apk"
         }

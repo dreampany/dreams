@@ -1,12 +1,14 @@
 package com.dreampany.pair.data.source.repo
 
-import com.dreampany.common.injector.annote.Remote
+import com.dreampany.common.injector.annote.Auth
+import com.dreampany.common.injector.annote.Room
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.RxMapper
 import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.api.RegistrationDataSource
- import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,15 +26,22 @@ class RegistrationRepo
     //private val network: NetworkManager,
     //private val storeMapper: StoreMapper,
     //private val storeRepo: StoreRepository,
-    private val mappes: Mappers,
-    @Remote private val remote: RegistrationDataSource
-) :  RegistrationDataSource {
+    @Room private val room: RegistrationDataSource,
+    @Auth private val auth: RegistrationDataSource
+) : RegistrationDataSource {
     override suspend fun register(
         email: String,
         password: String,
         name: String
-    ): Deferred<User?> {
-        return remote.register(email, password, name)
+    ) = withContext(Dispatchers.IO) {
+       val remote = auth.register(email, password, name)
+        if (remote != null) {
+            room.save(remote)
+        }
+        remote
     }
 
+    override suspend fun save(user: User): Long {
+        TODO("Not yet implemented")
+    }
 }

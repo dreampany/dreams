@@ -22,8 +22,7 @@ import com.dreampany.tools.misc.Constants
 abstract class QuestionDatabase: RoomDatabase() {
 
     companion object {
-        private val DATABASE =
-            Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.QUESTION)
+        private val DATABASE = Constants.database(BuildConfig.APPLICATION_ID, Constants.Database.QUESTION)
         private var instance: QuestionDatabase? = null
 
         @Synchronized

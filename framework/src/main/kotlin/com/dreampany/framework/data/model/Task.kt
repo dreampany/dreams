@@ -16,6 +16,4 @@ abstract class Task<T : Parcelable>(
     open var inputs: ArrayList<T>? = Constants.Default.NULL,
     open var extra: String? = Constants.Default.NULL,
     open var extras: List<String>? = Constants.Default.NULL
-) : BaseParcel() {
-
-}
+) : BaseParcel()

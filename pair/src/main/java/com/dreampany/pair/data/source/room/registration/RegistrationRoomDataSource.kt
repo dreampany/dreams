@@ -1,9 +1,8 @@
-package com.dreampany.pair.data.source.remote
+package com.dreampany.pair.data.source.room.registration
 
-import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.api.RegistrationDataSource
-import kotlinx.coroutines.Deferred
+import com.dreampany.pair.data.source.room.dao.UserDao
 
 /**
  * Created by roman on 14/3/20
@@ -11,17 +10,15 @@ import kotlinx.coroutines.Deferred
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationRemoteDataSource
+class RegistrationRoomDataSource
 constructor(
-   private val mappers: Mappers
+    private val dao: UserDao
 ) : RegistrationDataSource {
     override suspend fun register(email: String, password: String, name: String): User? {
         TODO("Not yet implemented")
     }
 
     override suspend fun save(user: User): Long {
-        TODO("Not yet implemented")
+        return dao.insertOrReplace(user)
     }
-
-
 }

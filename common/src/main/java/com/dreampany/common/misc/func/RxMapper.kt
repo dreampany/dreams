@@ -1,11 +1,5 @@
 package com.dreampany.common.misc.func
 
-import androidx.lifecycle.MutableLiveData
-import io.reactivex.*
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.subjects.AsyncSubject
-import io.reactivex.subjects.PublishSubject
-import io.reactivex.subjects.ReplaySubject
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,9 +11,11 @@ import javax.inject.Singleton
  */
 @Singleton
 class RxMapper
-@Inject constructor(private val facade: RxFacade) {
+@Inject constructor(
+    private val facade: RxFacade
+) {
 
-    fun <T> toLiveData(subject: AsyncSubject<T>, disposables: CompositeDisposable): MutableLiveData<T> {
+/*    fun <T> toLiveData(subject: AsyncSubject<T>, disposables: CompositeDisposable): MutableLiveData<T> {
         val data = MutableLiveData<T>()
         val disposable = subject.subscribe({ data.setValue(it) })
         disposables.add(disposable)
@@ -41,7 +37,7 @@ class RxMapper
     }
 
 
-    /*fun backToMain(completable: Completable): Completable {
+    *//*fun backToMain(completable: Completable): Completable {
         return completable.subscribeOn(facade.io()).observeOn(facade.ui())
     }
 
@@ -51,19 +47,19 @@ class RxMapper
 
     fun <T> backToMain(maybe: Maybe<T>): Maybe<T> {
         return maybe.subscribeOn(facade.io()).observeOn(facade.ui())
-    }*/
+    }*//*
 
     fun <T> backToBack(flowable: Flowable<T>): Flowable<T> {
         return flowable.subscribeOn(facade.io()).observeOn(facade.compute())
     }
 
-    /*fun <T> backToMain(flowable: Flowable<T>): Flowable<T> {
+    *//*fun <T> backToMain(flowable: Flowable<T>): Flowable<T> {
         return flowable.subscribeOn(facade.io()).observeOn(facade.ui())
-    }*/
+    }*//*
 
-    /*fun <T> backToMain(observable: Observable<T>): Observable<T> {
+    *//*fun <T> backToMain(observable: Observable<T>): Observable<T> {
         return observable.subscribeOn(facade.io()).observeOn(facade.ui())
-    }*/
+    }*//*
 
     fun back(completable: Completable): Completable {
         return completable.subscribeOn(facade.io())
@@ -113,7 +109,7 @@ class RxMapper
         return facade.compute()
     }
 
-    /*fun ui(): Scheduler {
+    *//*fun ui(): Scheduler {
         return facade.ui()
     }*/
 }

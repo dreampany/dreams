@@ -248,7 +248,7 @@ protected constructor(
     }
 
     fun observeOutput(owner: LifecycleOwner, observer: Observer<Response<X>>) {
-        postEmpty(data = null as X)
+        postEmpty(data = null as X?)
         singleOwners.add(owner)
         output.reObserve(owner, observer)
     }

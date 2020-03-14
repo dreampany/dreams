@@ -16,3 +16,7 @@ fun String.hash256(): String {
 fun String?.isEquals(value: String?): Boolean {
     return this == value
 }
+
+fun String?.lastPart(denim: Char): String? {
+    return this?.split(denim)?.last()
+}

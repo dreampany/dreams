@@ -1,12 +1,9 @@
-package com.dreampany.pair.data.source
+package com.dreampany.pair.data.source.auth
 
 import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.api.RegistrationDataSource
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
 
 /**
  * Created by roman on 14/3/20
@@ -14,17 +11,20 @@ import kotlinx.coroutines.withContext
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationAuthDataSource(
+class RegistrationAuthDataSource
+constructor(
     val mappers: Mappers
 ) : RegistrationDataSource {
     override suspend fun register(
         email: String,
         password: String,
         name: String
-        ) = withContext(Dispatchers.IO) {
-        async {
-            doRegister(name, email, password)
-        }
+    ): User? {
+        return doRegister(name, email, password)
+    }
+
+    override suspend fun save(user: User): Long {
+        TODO("Not yet implemented")
     }
 
     private fun doRegister(

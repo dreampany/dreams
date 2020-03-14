@@ -3,6 +3,7 @@ package com.dreampany.pair.data.source.api
 import com.dreampany.pair.data.model.User
 import kotlinx.coroutines.Deferred
 
+
 /**
  * Created by roman on 14/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -14,5 +15,7 @@ interface RegistrationDataSource {
         email: String,
         password: String,
         name: String
-    ): Deferred<User?>
+    ): User?
+
+    suspend fun save(user: User): Long
 }

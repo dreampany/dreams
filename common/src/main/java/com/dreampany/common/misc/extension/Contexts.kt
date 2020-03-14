@@ -14,6 +14,9 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import com.dreampany.common.misc.constant.Constants
+import com.google.common.base.Splitter
+import com.google.common.collect.Iterables
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -104,7 +107,7 @@ fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
     return null
 }
 
-fun Context?.icon(pkg: String?): Drawable ? {
+fun Context?.icon(pkg: String?): Drawable? {
     if (pkg.isNullOrEmpty()) return null
     try {
         return packageManager()?.getApplicationIcon(pkg)
@@ -118,4 +121,10 @@ fun Context?.icon(pkg: String?): Drawable ? {
 fun Context?.kill(pkg: String?) {
     if (pkg.isNullOrEmpty()) return
     activityManager()?.killBackgroundProcesses(pkg)
+}
+
+fun Context?.lastApplicationId(): String? {
+    val applicationId = this.packageName() ?: return Constants.Default.NULL
+
+    return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId))
 }

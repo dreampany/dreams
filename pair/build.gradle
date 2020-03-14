@@ -92,13 +92,15 @@ dependencies {
     /* library */
     implementation project(':common')
 
-    /* androidx arch */
-    kapt 'androidx.lifecycle:lifecycle-compiler:2.2.0'
-    kapt 'androidx.room:room-compiler:2.2.4'
+    /* androidx lifecycle */
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+    /* androidx room */
+    kapt "androidx.room:room-compiler:$room_version"
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.26'
-    kapt 'com.google.dagger:dagger-android-processor:2.26'
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    kapt "com.google.dagger:dagger-android-processor:$dagger"
 
     /* firebase */
     implementation 'com.google.firebase:firebase-analytics:17.2.3'

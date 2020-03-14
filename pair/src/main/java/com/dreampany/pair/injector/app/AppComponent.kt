@@ -5,6 +5,7 @@ import com.dreampany.common.injector.app.AppModule
 import com.dreampany.common.injector.property.PropertyModule
 import com.dreampany.pair.app.App
 import com.dreampany.pair.injector.ui.ActivityModule
+import com.dreampany.pair.injector.ui.vm.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -23,7 +24,8 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         AppModule::class,
         PropertyModule::class,
-        ActivityModule::class
+        ActivityModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<App> {

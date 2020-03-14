@@ -2,8 +2,14 @@ package com.dreampany.pair.ui.auth
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.R
+import com.dreampany.pair.databinding.RegistrationActivityBinding
+import com.dreampany.pair.ui.auth.vm.RegistrationViewModel
+import javax.inject.Inject
 
 /**
  * Created by roman on 3/12/20
@@ -12,6 +18,12 @@ import com.dreampany.pair.R
  * Last modified $file.lastModified
  */
 class RegistrationActivity : BaseInjectorActivity() {
+
+    @Inject
+    internal lateinit var factory: ViewModelFactory
+
+    private lateinit var bind: RegistrationActivityBinding
+    private lateinit var vm: RegistrationViewModel
 
     override fun getLayoutId(): Int = R.layout.registration_activity
 
@@ -22,11 +34,25 @@ class RegistrationActivity : BaseInjectorActivity() {
     override fun onStopUi() {
     }
 
-    private fun onSafeClick(view : View) {
-
+    private fun onSafeClick(view: View) {
+        when (view) {
+            bind.buttonRegister -> {
+                register()
+            }
+        }
     }
 
-    private fun initUi () {
+    private fun initUi() {
+        bind = getBinding()
+        vm = ViewModelProvider(this, factory).get(RegistrationViewModel::class.java)
 
+        bind.buttonRegister.setOnSafeClickListener(this::onSafeClick)
+    }
+
+
+    private fun register() {
+        val name = bind.inputName.toString()
+        val email = bind.inputEmail.toString()
+        val password = bind.inputPassword.toString()
     }
 }

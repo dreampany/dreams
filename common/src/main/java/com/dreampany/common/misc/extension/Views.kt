@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import androidx.annotation.AnimRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.dreampany.common.misc.func.SafeClickListener
+import com.google.android.material.textfield.TextInputEditText
 
 /**
  * Created by roman on 3/3/20
@@ -84,4 +86,12 @@ fun View?.loadAnim(@AnimRes animRes: Int): View? {
     if (this == null) return this
     this.startAnimation(AnimationUtils.loadAnimation(context, animRes))
     return this
+}
+
+fun TextInputEditText.isEmpty() : Boolean {
+    return this.text.isNullOrEmpty()
+}
+
+fun TextInputEditText.toString() : String {
+    return this.text?.trim().toString()
 }

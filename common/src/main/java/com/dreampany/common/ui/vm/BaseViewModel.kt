@@ -15,8 +15,8 @@ import com.dreampany.common.misc.func.RxMapper
 abstract class BaseViewModel<T>
 protected constructor(
     application: Application,
-    protected val rx: RxMapper,
     protected val ex: AppExecutor,
+    protected val rx: RxMapper,
     protected val rm: ResponseMapper
 ) : AndroidViewModel(application), LifecycleOwner {
 

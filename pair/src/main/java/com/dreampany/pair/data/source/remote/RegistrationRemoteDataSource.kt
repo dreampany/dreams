@@ -2,7 +2,6 @@ package com.dreampany.pair.data.source.remote
 
 import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.source.api.RegistrationDataSource
-import com.firebase.ui.auth.data.model.User
 import kotlinx.coroutines.Deferred
 
 /**
@@ -12,20 +11,16 @@ import kotlinx.coroutines.Deferred
  * Last modified $file.lastModified
  */
 class RegistrationRemoteDataSource
-    (
-    mappers: Mappers
-
-    ): RegistrationDataSource {
-
-    override suspend fun isEmpty(): Deferred<Boolean> {
+constructor(
+   val mappers: Mappers
+) : RegistrationDataSource {
+    override suspend fun register(
+        email: String,
+        password: String,
+        name: String
+    ): Deferred<com.dreampany.pair.data.model.User?> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun putItem(user: User): Deferred<Long> {
-        TODO("Not yet implemented")
-    }
 
-    override suspend fun getItem(id: String): Deferred<User> {
-        TODO("Not yet implemented")
-    }
 }

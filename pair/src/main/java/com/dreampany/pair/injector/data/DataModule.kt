@@ -1,7 +1,9 @@
 package com.dreampany.pair.injector.data
 
-import com.dreampany.common.injector.annote.RemoteAnnote
+import com.dreampany.common.injector.annote.Auth
+import com.dreampany.common.injector.annote.Remote
 import com.dreampany.pair.data.mapper.Mappers
+import com.dreampany.pair.data.source.RegistrationAuthDataSource
 import com.dreampany.pair.data.source.api.RegistrationDataSource
 import com.dreampany.pair.data.source.remote.RegistrationRemoteDataSource
 import dagger.Module
@@ -19,7 +21,16 @@ class DataModule {
 
     @Singleton
     @Provides
-    @RemoteAnnote
+    @Auth
+    fun provideRegistrationAuthDataSource(
+        mappers: Mappers
+    ): RegistrationDataSource {
+        return RegistrationAuthDataSource(mappers)
+    }
+
+    @Singleton
+    @Provides
+    @Remote
     fun provideRegistrationRemoteDataSource(
         mappers: Mappers
     ): RegistrationDataSource {

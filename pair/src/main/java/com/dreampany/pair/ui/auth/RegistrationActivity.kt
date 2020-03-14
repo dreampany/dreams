@@ -2,6 +2,8 @@ package com.dreampany.pair.ui.auth
 
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.activity.BaseInjectorActivity
@@ -25,7 +27,13 @@ class RegistrationActivity : BaseInjectorActivity() {
     private lateinit var bind: RegistrationActivityBinding
     private lateinit var vm: RegistrationViewModel
 
+    override fun hasBinding(): Boolean = true
+
+    @LayoutRes
     override fun getLayoutId(): Int = R.layout.registration_activity
+
+    @IdRes
+    override fun getToolbarId(): Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
         initUi()

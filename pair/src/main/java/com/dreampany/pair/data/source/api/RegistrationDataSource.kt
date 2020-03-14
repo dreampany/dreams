@@ -1,7 +1,7 @@
 package com.dreampany.pair.data.source.api
 
-import com.dreampany.common.data.source.api.CoroutineDataSource
-import com.firebase.ui.auth.data.model.User
+import com.dreampany.pair.data.model.User
+import kotlinx.coroutines.Deferred
 
 /**
  * Created by roman on 14/3/20
@@ -9,6 +9,10 @@ import com.firebase.ui.auth.data.model.User
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface RegistrationDataSource : CoroutineDataSource<User> {
-
+interface RegistrationDataSource {
+    suspend fun register(
+        email: String,
+        password: String,
+        name: String
+    ): Deferred<User?>
 }

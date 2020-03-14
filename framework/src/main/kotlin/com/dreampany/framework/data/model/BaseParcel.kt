@@ -9,6 +9,5 @@ import android.os.Parcelable
  * Last modified $file.lastModified
  */
 abstract class BaseParcel : BaseSerial(), Parcelable {
-
     override fun describeContents() = 0
 }

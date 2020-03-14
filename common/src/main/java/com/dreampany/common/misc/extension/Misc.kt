@@ -9,4 +9,7 @@ import kotlinx.coroutines.Runnable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-fun Runnable?.isOnUiThread() : Boolean = Thread.currentThread() === Looper.getMainLooper().getThread()
+fun Runnable.isOnUiThread(): Boolean =
+    Thread.currentThread() === Looper.getMainLooper().getThread()
+
+fun Any.current(): Long = System.currentTimeMillis()

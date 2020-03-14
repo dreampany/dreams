@@ -1,9 +1,11 @@
 package com.dreampany.pair.data.model
 
-import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.Index
+import com.dreampany.common.data.model.Base
 import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.misc.util.Util
 import com.google.common.base.Objects
 import com.google.firebase.firestore.IgnoreExtraProperties
 import kotlinx.android.parcel.Parcelize
@@ -24,11 +26,20 @@ import kotlinx.android.parcel.Parcelize
     primaryKeys = [Constants.Keys.ID]
 )
 data class User(
-    val id: String,
-    var name: String,
-    var email: String,
-    var password: String
-) : Parcelable {
+    override var time: Long = Constants.Default.LONG,
+    override var id: String = Constants.Default.STRING,
+    var email: String? = null,
+    var name: String? = null
+) : Base() {
+
+    @Ignore
+    constructor() : this(time = Util.currentMillis()) {
+
+    }
+
+    constructor(id: String) : this(time = Util.currentMillis(), id = id) {
+
+    }
 
     override fun hashCode(): Int {
         return Objects.hashCode(id)

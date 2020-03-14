@@ -109,7 +109,7 @@ dependencies {
     //implementation 'com.google.firebase:firebase-crashlytics-ndk:17.0.0-beta01'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
     //implementation 'com.google.firebase:firebase-ads:19.0.0'
-    implementation 'com.google.firebase:firebase-auth:19.2.0'
+    implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.1'

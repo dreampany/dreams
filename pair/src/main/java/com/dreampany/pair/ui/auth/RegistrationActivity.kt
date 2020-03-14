@@ -1,6 +1,7 @@
 package com.dreampany.pair.ui.auth
 
 import android.os.Bundle
+import android.view.View
 import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.pair.R
 
@@ -15,9 +16,17 @@ class RegistrationActivity : BaseInjectorActivity() {
     override fun getLayoutId(): Int = R.layout.registration_activity
 
     override fun onStartUi(state: Bundle?) {
-
+        initUi()
     }
 
     override fun onStopUi() {
+    }
+
+    private fun onSafeClick(view : View) {
+
+    }
+
+    private fun initUi () {
+
     }
 }

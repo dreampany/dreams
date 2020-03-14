@@ -1,4 +1,4 @@
-package com.dreampany.frame.misc
+package com.dreampany.common.misc.func
 
 import androidx.lifecycle.MutableLiveData
 import io.reactivex.*
@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Created by roman on 2020-01-01
+ * Created by roman on 14/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

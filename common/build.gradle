@@ -99,6 +99,11 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.26'
     kapt 'com.google.dagger:dagger-android-processor:2.26'
 
+    /* rx */
+    api 'io.reactivex.rxjava2:rxjava:2.2.16'
+    api 'io.reactivex.rxjava2:rxkotlin:2.4.0'
+    api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
     /* misc */
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'

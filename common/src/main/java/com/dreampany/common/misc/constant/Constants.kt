@@ -21,6 +21,10 @@ class Constants {
         val LIST = Collections.emptyList<Any>()
     }
 
+    object Count {
+        const val THREAD_NETWORK = 5
+    }
+
     object Pref {
         const val DEFAULT = "default"
         const val SERVICE = "service"

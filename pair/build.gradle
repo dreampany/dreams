@@ -104,6 +104,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.3'
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
     //implementation 'com.google.firebase:firebase-crashlytics-ndk:17.0.0-beta01'
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision-face-model:19.0.0'
 
     /* misc */
     implementation 'me.relex:circleindicator:2.1.4'
@@ -115,4 +117,6 @@ dependencies {
         exclude group: 'com.facebook.fresco', module: 'memory-type-native'
         exclude group: 'com.facebook.fresco', module: 'imagepipeline-native'
     }
+    implementation 'com.github.dhaval2404:imagepicker:1.6'
+    implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
 }

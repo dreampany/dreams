@@ -1,6 +1,7 @@
 package com.dreampany.common.ui.activity
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Window
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
@@ -8,6 +9,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.dreampany.common.data.model.Task
+import com.dreampany.common.misc.constant.Constants
 import dagger.android.support.DaggerAppCompatActivity
 
 /**
@@ -21,6 +24,10 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
     private lateinit var binding: ViewDataBinding
     private lateinit var toolbar: Toolbar
     protected var fireOnStartUi: Boolean = true
+
+    //protected var currentFragment: BaseFragment? = null
+    protected var task: Task<*, *, *>? = null
+    protected var childTask: Task<*, *, *>? = null
 
     open fun isFullScreen(): Boolean = false
 
@@ -71,4 +78,30 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
         }
     }
 
+    protected fun getBundle(): Bundle? {
+        return intent.extras
+    }
+
+    protected fun <T> getIntentValue(key: String, bundle: Bundle?): T? {
+        var t: T? = null
+        if (bundle != null) {
+            t = bundle.getParcelable<Parcelable>(key) as T?
+        }
+        if (bundle != null && t == null) {
+            t = bundle.getSerializable(key) as T?
+        }
+        return t
+    }
+
+    protected fun <T> getIntentValue(key: String): T? {
+        val bundle = getBundle()
+        return getIntentValue<T>(key, bundle)
+    }
+
+    protected fun <T : Task<*, *, *>> getTask(freshTask: Boolean = false): T? {
+        if (task == null || freshTask) {
+            task = getIntentValue<T>(Constants.Keys.TASK)
+        }
+        return task as T?
+    }
 }

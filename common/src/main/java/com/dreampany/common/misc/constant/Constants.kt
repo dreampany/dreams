@@ -144,6 +144,7 @@ class Constants {
     }
 
     object Keys {
+        const val TASK = "task"
         const val ID = "id"
     }
 }

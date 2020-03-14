@@ -54,5 +54,7 @@ class RegistrationActivity : BaseInjectorActivity() {
         val name = bind.inputName.toString()
         val email = bind.inputEmail.toString()
         val password = bind.inputPassword.toString()
+
+
     }
 }

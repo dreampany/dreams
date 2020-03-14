@@ -1,7 +1,7 @@
 package com.dreampany.pair.data.source.api
 
 import com.dreampany.common.data.source.api.CoroutineDataSource
-import kotlinx.coroutines.Deferred
+import com.firebase.ui.auth.data.model.User
 
 /**
  * Created by roman on 14/3/20
@@ -9,16 +9,6 @@ import kotlinx.coroutines.Deferred
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationDataSource : CoroutineDataSource<Any> {
-    override suspend fun isEmpty(): Deferred<Boolean> {
-        TODO("Not yet implemented")
-    }
+interface RegistrationDataSource : CoroutineDataSource<User> {
 
-    override suspend fun putItem(t: Any): Deferred<Long> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getItem(id: String): Deferred<Any> {
-        TODO("Not yet implemented")
-    }
 }

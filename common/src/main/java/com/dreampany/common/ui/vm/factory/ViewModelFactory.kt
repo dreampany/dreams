@@ -1,3 +1,4 @@
+/*
 package com.dreampany.common.ui.vm.factory
 
 import androidx.lifecycle.ViewModel
@@ -7,12 +8,14 @@ import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
+*/
 /**
  * Created by roman on 14/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
- */
+ *//*
+
 @Singleton
 class ViewModelFactory
 @Inject constructor(
@@ -41,4 +44,4 @@ class ViewModelFactory
             throw RuntimeException(error)
         }
     }
-}
+}*/

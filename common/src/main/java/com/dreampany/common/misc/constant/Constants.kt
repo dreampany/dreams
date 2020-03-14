@@ -25,6 +25,11 @@ class Constants {
         const val THREAD_NETWORK = 5
     }
 
+    object Http {
+        const val READ_TIMEOUT = 60L
+        const val WRITE_TIMEOUT = 60L
+    }
+
     object Pref {
         const val DEFAULT = "default"
         const val SERVICE = "service"

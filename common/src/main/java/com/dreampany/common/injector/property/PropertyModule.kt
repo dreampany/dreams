@@ -2,6 +2,8 @@ package com.dreampany.common.injector.property
 
 import android.content.Context
 import com.dreampany.common.data.model.Property
+import com.dreampany.common.injector.http.HttpModule
+import com.dreampany.common.injector.json.JsonModule
 import com.dreampany.common.misc.extension.isDebug
 import dagger.Module
 import dagger.Provides
@@ -13,7 +15,12 @@ import javax.inject.Singleton
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Module
+@Module(
+    includes = [
+        JsonModule::class,
+        HttpModule::class
+    ]
+)
 class PropertyModule {
     @Singleton
     @Provides

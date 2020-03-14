@@ -22,8 +22,7 @@ class RegistrationViewModel
     rm: ResponseMapper
 ) : BaseViewModel<Any>(application, ex, rx, rm) {
 
-
-    fun register() {
+    fun register(name: String, email: String, password: String, callback: (Boolean) -> Unit) {
         uiScope.launch {
 
         }

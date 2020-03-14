@@ -8,6 +8,8 @@ buildscript {
     ext.room_version = '2.2.4'
     ext.dagger = '2.26'
     ext.coroutines = '1.3.4'
+    ext.okhttp = '4.4.1'
+    ext.retrofit = '2.7.2'
     repositories {
         google()
         jcenter()

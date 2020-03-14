@@ -5,6 +5,7 @@ import com.dreampany.common.misc.func.AppExecutor
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.RxMapper
 import com.dreampany.common.ui.vm.BaseViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -23,6 +24,10 @@ class RegistrationViewModel
 
 
     fun register() {
+        uiScope.launch {
 
+        }
     }
+
+
 }

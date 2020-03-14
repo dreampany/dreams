@@ -33,4 +33,8 @@ class Constants {
             const val STATE = "service_state"
         }
     }
+
+    object Keys {
+        const val ID = "id"
+    }
 }

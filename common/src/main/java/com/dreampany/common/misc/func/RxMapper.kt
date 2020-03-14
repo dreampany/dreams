@@ -41,7 +41,7 @@ class RxMapper
     }
 
 
-    fun backToMain(completable: Completable): Completable {
+    /*fun backToMain(completable: Completable): Completable {
         return completable.subscribeOn(facade.io()).observeOn(facade.ui())
     }
 
@@ -51,19 +51,19 @@ class RxMapper
 
     fun <T> backToMain(maybe: Maybe<T>): Maybe<T> {
         return maybe.subscribeOn(facade.io()).observeOn(facade.ui())
-    }
+    }*/
 
     fun <T> backToBack(flowable: Flowable<T>): Flowable<T> {
         return flowable.subscribeOn(facade.io()).observeOn(facade.compute())
     }
 
-    fun <T> backToMain(flowable: Flowable<T>): Flowable<T> {
+    /*fun <T> backToMain(flowable: Flowable<T>): Flowable<T> {
         return flowable.subscribeOn(facade.io()).observeOn(facade.ui())
-    }
+    }*/
 
-    fun <T> backToMain(observable: Observable<T>): Observable<T> {
+    /*fun <T> backToMain(observable: Observable<T>): Observable<T> {
         return observable.subscribeOn(facade.io()).observeOn(facade.ui())
-    }
+    }*/
 
     fun back(completable: Completable): Completable {
         return completable.subscribeOn(facade.io())
@@ -113,7 +113,7 @@ class RxMapper
         return facade.compute()
     }
 
-    fun ui(): Scheduler {
+    /*fun ui(): Scheduler {
         return facade.ui()
-    }
+    }*/
 }

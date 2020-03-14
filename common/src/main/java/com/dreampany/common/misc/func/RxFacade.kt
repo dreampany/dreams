@@ -1,7 +1,6 @@
 package com.dreampany.common.misc.func
 
 import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,7 +23,7 @@ class RxFacade
         return Schedulers.computation()
     }
 
-    fun ui(): Scheduler {
+/*    fun ui(): Scheduler {
         return AndroidSchedulers.mainThread()
-    }
+    }*/
 }

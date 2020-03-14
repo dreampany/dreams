@@ -5,6 +5,10 @@ import androidx.lifecycle.*
 import com.dreampany.common.misc.func.AppExecutor
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.RxMapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 
 /**
  * Created by roman on 14/3/20
@@ -24,12 +28,16 @@ protected constructor(
     protected val output: MutableLiveData<Pair<T?, Throwable?>>
     protected val outputs: MutableLiveData<Pair<List<T>?, Throwable?>>
 
+    protected val job: Job
+    protected val uiScope: CoroutineScope
     init {
         lifecycleRegistry = LifecycleRegistry(this)
         lifecycleRegistry.setCurrentState(Lifecycle.State.INITIALIZED)
 
         output = MutableLiveData()
         outputs = MutableLiveData()
+        job = SupervisorJob()
+        uiScope = CoroutineScope(Dispatchers.Main + job)
     }
 
     override fun getLifecycle(): Lifecycle {
@@ -38,6 +46,7 @@ protected constructor(
 
     override fun onCleared() {
         lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED)
+        job.cancel()
         super.onCleared()
     }
 

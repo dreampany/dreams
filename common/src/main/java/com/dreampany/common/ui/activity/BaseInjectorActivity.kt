@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.Window
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil

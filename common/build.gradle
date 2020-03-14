@@ -76,6 +76,7 @@ dependencies {
 
     /* androidx lifecycle */
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+    //api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     //api "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version"
@@ -105,6 +106,7 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$dagger"
     api "com.google.dagger:dagger:$dagger"
     api "com.google.dagger:dagger-android:$dagger"
+    api "com.google.dagger:dagger-android-support:$dagger"
 
     /* coroutines */
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
@@ -114,6 +116,14 @@ dependencies {
     //api 'io.reactivex.rxjava2:rxjava:2.2.16'
     //api 'io.reactivex.rxjava2:rxkotlin:2.4.0'
     //api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    /* okhttp */
+    api "com.squareup.okhttp3:okhttp:$okhttp"
+    api "com.squareup.okhttp3:logging-interceptor:$okhttp"
+
+    /* squareup */
+    api "com.squareup.retrofit2:retrofit:$retrofit"
+    api "com.squareup.retrofit2:converter-gson:$retrofit"
 
     /* misc */
     api 'com.jakewharton.timber:timber:4.7.1'

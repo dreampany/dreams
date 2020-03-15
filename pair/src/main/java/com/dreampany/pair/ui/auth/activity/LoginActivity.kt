@@ -1,4 +1,4 @@
-package com.dreampany.pair.ui.auth
+package com.dreampany.pair.ui.auth.activity
 
 import android.os.Bundle
 import android.view.View
@@ -16,8 +16,8 @@ import com.dreampany.pair.R
 import com.dreampany.pair.data.enums.Subtype
 import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
-import com.dreampany.pair.databinding.RegistrationActivityBinding
-import com.dreampany.pair.ui.auth.vm.RegistrationViewModel
+import com.dreampany.pair.databinding.LoginActivityBinding
+import com.dreampany.pair.ui.auth.vm.AuthViewModel
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,18 +28,18 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationActivity : BaseInjectorActivity() {
+class LoginActivity : BaseInjectorActivity() {
 
     @Inject
     internal lateinit var factory: ViewModelFactory
 
-    private lateinit var bind: RegistrationActivityBinding
-    private lateinit var vm: RegistrationViewModel
+    private lateinit var bind: LoginActivityBinding
+    private lateinit var vm: AuthViewModel
 
     override fun hasBinding(): Boolean = true
 
     @LayoutRes
-    override fun layoutId(): Int = R.layout.registration_activity
+    override fun layoutId(): Int = R.layout.login_activity
 
     @IdRes
     override fun toolbarId(): Int = R.id.toolbar
@@ -64,7 +64,7 @@ class RegistrationActivity : BaseInjectorActivity() {
 
     private fun initUi() {
         bind = getBinding()
-        vm = ViewModelProvider(this, factory).get(RegistrationViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
 
         bind.buttonRegister.setOnSafeClickListener(this::onSafeClick)
 

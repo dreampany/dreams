@@ -1,4 +1,4 @@
-package com.dreampany.pair.ui.auth
+package com.dreampany.pair.ui.auth.activity
 
 import android.content.Intent
 import android.os.Bundle

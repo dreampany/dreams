@@ -6,7 +6,7 @@ import com.dreampany.common.ui.vm.BaseViewModel
 import com.dreampany.pair.data.enums.Subtype
 import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
-import com.dreampany.pair.data.source.repo.RegistrationRepo
+import com.dreampany.pair.data.source.repo.AuthRepo
 import com.dreampany.pair.ui.model.UiTask
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,11 +18,11 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationViewModel
+class AuthViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val repo: RegistrationRepo
+    private val repo: AuthRepo
 ) : BaseViewModel<User, User, UiTask<User, Type, Subtype>, Type, Subtype>(application, rm) {
 
     fun register(email: String, password: String, name: String) {

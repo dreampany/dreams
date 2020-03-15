@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.injector.annote.ViewModelKey
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
-import com.dreampany.pair.ui.auth.vm.RegistrationViewModel
+import com.dreampany.pair.ui.auth.vm.AuthViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -24,6 +24,6 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(RegistrationViewModel::class)
-    abstract fun bindQuestionViewModel(vm: RegistrationViewModel): ViewModel
+    @ViewModelKey(AuthViewModel::class)
+    abstract fun bindQuestionViewModel(vm: AuthViewModel): ViewModel
 }

@@ -4,11 +4,11 @@ import com.dreampany.common.injector.annote.Auth
 import com.dreampany.common.injector.annote.Remote
 import com.dreampany.common.injector.annote.Room
 import com.dreampany.pair.data.mapper.Mappers
-import com.dreampany.pair.data.source.auth.RegistrationAuthDataSource
-import com.dreampany.pair.data.source.api.RegistrationDataSource
-import com.dreampany.pair.data.source.remote.RegistrationRemoteDataSource
+import com.dreampany.pair.data.source.auth.AuthAuthDataSource
+import com.dreampany.pair.data.source.api.AuthDataSource
+import com.dreampany.pair.data.source.remote.AuthRemoteDataSource
 import com.dreampany.pair.data.source.room.dao.UserDao
-import com.dreampany.pair.data.source.room.registration.RegistrationRoomDataSource
+import com.dreampany.pair.data.source.room.registration.AuthRoomDataSource
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -31,8 +31,8 @@ class DataModule {
     @Room
     fun provideRegistrationRoomDataSource(
         dao: UserDao
-    ): RegistrationDataSource {
-        return RegistrationRoomDataSource(dao)
+    ): AuthDataSource {
+        return AuthRoomDataSource(dao)
     }
 
     @Singleton
@@ -40,8 +40,8 @@ class DataModule {
     @Auth
     fun provideRegistrationAuthDataSource(
         mappers: Mappers
-    ): RegistrationDataSource {
-        return RegistrationAuthDataSource(mappers)
+    ): AuthDataSource {
+        return AuthAuthDataSource(mappers)
     }
 
     @Singleton
@@ -49,7 +49,7 @@ class DataModule {
     @Remote
     fun provideRegistrationRemoteDataSource(
         mappers: Mappers
-    ): RegistrationDataSource {
-        return RegistrationRemoteDataSource(mappers)
+    ): AuthDataSource {
+        return AuthRemoteDataSource(mappers)
     }
 }

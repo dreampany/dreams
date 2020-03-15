@@ -2,7 +2,7 @@ package com.dreampany.pair.data.source.auth
 
 import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.model.User
-import com.dreampany.pair.data.source.api.RegistrationDataSource
+import com.dreampany.pair.data.source.api.AuthDataSource
 import com.google.firebase.auth.FirebaseAuth
 import durdinapps.rxfirebase2.RxFirebaseAuth
 
@@ -12,10 +12,10 @@ import durdinapps.rxfirebase2.RxFirebaseAuth
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationAuthDataSource
+class AuthAuthDataSource
 constructor(
     val mappers: Mappers
-) : RegistrationDataSource {
+) : AuthDataSource {
     @Throws
     override suspend fun register(
         email: String,

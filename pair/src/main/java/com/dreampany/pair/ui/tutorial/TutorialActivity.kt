@@ -8,7 +8,7 @@ import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.pair.R
 import com.dreampany.pair.databinding.TutorialActivityBinding
-import com.dreampany.pair.ui.auth.AuthActivity
+import com.dreampany.pair.ui.auth.activity.AuthActivity
 import timber.log.Timber
 
 /**

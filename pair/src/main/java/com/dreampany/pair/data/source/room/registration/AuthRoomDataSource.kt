@@ -1,7 +1,7 @@
 package com.dreampany.pair.data.source.room.registration
 
 import com.dreampany.pair.data.model.User
-import com.dreampany.pair.data.source.api.RegistrationDataSource
+import com.dreampany.pair.data.source.api.AuthDataSource
 import com.dreampany.pair.data.source.room.dao.UserDao
 
 /**
@@ -10,10 +10,10 @@ import com.dreampany.pair.data.source.room.dao.UserDao
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationRoomDataSource
+class AuthRoomDataSource
 constructor(
     private val dao: UserDao
-) : RegistrationDataSource {
+) : AuthDataSource {
     override suspend fun register(email: String, password: String, name: String): User? {
         TODO("Not yet implemented")
     }

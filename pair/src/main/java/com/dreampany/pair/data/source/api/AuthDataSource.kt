@@ -10,7 +10,7 @@ import kotlinx.coroutines.Deferred
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface RegistrationDataSource {
+interface AuthDataSource {
     @Throws
     suspend fun register(
         email: String,

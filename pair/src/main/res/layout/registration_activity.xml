@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.auth.RegistrationActivity">
+    tools:context=".ui.auth.activity.RegistrationActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -407,10 +407,14 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_register"
-                    android:layout_width="@dimen/_160sdp"
-                    android:layout_height="@dimen/_44sdp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:minHeight="@dimen/_46sdp"
                     android:text="Create"
                     android:textAllCaps="false"
                     auto:cornerRadius="@dimen/_20sdp" />

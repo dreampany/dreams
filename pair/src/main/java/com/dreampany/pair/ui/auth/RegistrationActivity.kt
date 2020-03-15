@@ -18,7 +18,8 @@ import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.databinding.RegistrationActivityBinding
 import com.dreampany.pair.ui.auth.vm.RegistrationViewModel
-import com.kaopiz.kprogresshud.KProgressHUD
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -34,8 +35,6 @@ class RegistrationActivity : BaseInjectorActivity() {
 
     private lateinit var bind: RegistrationActivityBinding
     private lateinit var vm: RegistrationViewModel
-
-    private lateinit var progress: KProgressHUD
 
     override fun hasBinding(): Boolean = true
 
@@ -66,6 +65,7 @@ class RegistrationActivity : BaseInjectorActivity() {
         vm = ViewModelProvider(this, factory).get(RegistrationViewModel::class.java)
 
         bind.buttonRegister.setOnSafeClickListener(this::onSafeClick)
+
         vm.subscribe(this, Observer { this.processResponse(it) })
 
     }
@@ -84,26 +84,38 @@ class RegistrationActivity : BaseInjectorActivity() {
             bind.inputPassword.error = getString(R.string.error_password)
             return
         }
-        showProgress()
         vm.register(email, password, name)
     }
 
     private fun processResponse(response: Response<User, Type, Subtype>) {
-        hideProgress()
-    }
-
-    private fun showProgress() {
-        progress = KProgressHUD.create(this)
-            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-            .setCancellable(true)
-            .setAnimationSpeed(2)
-            .setDimAmount(0.5f)
-            .show();
-    }
-
-    private fun hideProgress() {
-        if (::progress.isInitialized && progress.isShowing) {
-            progress.dismiss()
+        if (response is Response.Progress) {
+            if (response.progress) showProgress() else hideProgress()
+        } else if (response is Response.Error) {
+            processError(response.error)
+            //vm.processFailure(state = result.state, action = result.action, error = result.error)
+        } else if (response is Response.Result<User, Type, Subtype>) {
+            Timber.v("Result [%s]", response.result.email)
+            processResult(response.result)
         }
     }
+
+    private fun processError(error: Throwable) {
+        if (error.cause is FirebaseAuthUserCollisionException) {
+            showDialogue(
+                R.string.title_dialog_registration,
+                R.string.message_dialog_account_already_used,
+                onPositiveClick = {
+
+                },
+                onNegativeClick = {
+
+                }
+            )
+        }
+    }
+
+    private fun processResult(user: User) {
+
+    }
+
 }

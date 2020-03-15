@@ -58,14 +58,14 @@ class ResponseMapper
         subtype: Y,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
-        data: T
+        result: T
     ) {
         live.value = Response.Result(
             type = type,
             subtype = subtype,
             state = state,
             action = action,
-            data = data
+            result = result
         )
     }
 
@@ -87,7 +87,7 @@ class ResponseMapper
         subtype: Y,
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
-        data: T
+        result: T
     ) {
         response(live, type, subtype, state, action, false)
         live.value = Response.Result(
@@ -95,7 +95,7 @@ class ResponseMapper
             subtype = subtype,
             state = state,
             action = action,
-            data = data
+            result = result
         )
     }
 

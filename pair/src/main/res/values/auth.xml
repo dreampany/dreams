@@ -7,4 +7,7 @@
     <string name="error_email">Enter valid email address!</string>
     <string name="error_password">Enter valid password!</string>
 
+    <string name="title_dialog_registration">Registration</string>
+    <string name="message_dialog_account_already_used">This email is already used in another account!</string>
+
 </resources>

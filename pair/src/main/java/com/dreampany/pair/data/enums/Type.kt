@@ -10,10 +10,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Type : BaseType {
-    DEFAULT, MORE, SITE, APP, SCAN,
-    NOTE, CRYPTO, HISTORY, WORD,
-    NOTEBOOK, OCR, QUIZ, VPN, RADIO,
-    STATION, SERVER, CALL, ENGLISH,
-    COIN, TRADE, EXCHANGE, BLOCK, CONTACT, FEATURE,
-    TODO, COUNTRY, RESUME, QUESTION, LOCK
+    DEFAULT, MORE, SITE, USER
 }

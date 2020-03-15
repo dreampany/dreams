@@ -8,7 +8,6 @@ import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.repo.RegistrationRepo
 import com.dreampany.pair.ui.model.UiTask
-import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -28,7 +27,7 @@ class RegistrationViewModel
 
     fun register(email: String, password: String, name: String) {
         uiScope.launch {
-
+            postProgressSingle(Type.USER, Subtype.DEFAULT, progress = true)
             var result: User? = null
             var errors: Throwable? = null
             try {
@@ -40,11 +39,9 @@ class RegistrationViewModel
             }
 
             if (errors != null) {
-
-                return@launch
-            }
-            if (result != null) {
-                return@launch
+                postSingle(Type.USER, Subtype.DEFAULT, error = errors, showProgress = true)
+            } else if (result != null) {
+                postSingle(Type.USER, Subtype.DEFAULT, result = result, showProgress = true)
             }
         }
     }

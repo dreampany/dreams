@@ -42,7 +42,7 @@ sealed class Response<T, X : BaseType, Y : BaseType> {
         val subtype: Y,
         val state: State = State.DEFAULT,
         val action: Action = Action.DEFAULT,
-        val data: T
+        val result: T
     ) : Response<T, X, Y>()
 
     data class Empty<T, X : BaseType, Y : BaseType>(
@@ -50,7 +50,7 @@ sealed class Response<T, X : BaseType, Y : BaseType> {
         val subtype: Y,
         val state: State = State.DEFAULT,
         val action: Action = Action.DEFAULT,
-        val data: T?
+        val result: T?
     ) : Response<T, X, Y>()
 
     companion object {
@@ -85,17 +85,17 @@ sealed class Response<T, X : BaseType, Y : BaseType> {
             subtype: Y,
             state: State,
             action: Action,
-            data: T
+            result: T
         ): Response<T, X, Y> =
-            Result(type, subtype, state, action, data)
+            Result(type, subtype, state, action, result)
 
         fun <T, X : BaseType, Y : BaseType> responseEmpty(
             type: X,
             subtype: Y,
             state: State = State.DEFAULT,
             action: Action = Action.DEFAULT,
-            data: T?
+            result: T?
         ): Response<T, X, Y> =
-            Empty(type, subtype, state, action, data)
+            Empty(type, subtype, state, action, result)
     }
 }

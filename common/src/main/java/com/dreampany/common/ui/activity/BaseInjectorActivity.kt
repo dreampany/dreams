@@ -2,16 +2,24 @@ package com.dreampany.common.ui.activity
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.View
 import android.view.Window
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.ui.fragment.BaseInjectorFragment
+import com.kaopiz.kprogresshud.KProgressHUD
+import com.shreyaspatil.MaterialDialog.AbstractDialog
+import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
+import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
 import dagger.android.support.DaggerAppCompatActivity
 
 /**
@@ -28,6 +36,9 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
     protected var task: Task<*, *, *>? = null
 
     protected var fragment: BaseInjectorFragment? = null
+
+    private var progress: KProgressHUD? = null
+    private var sheetDialog: BottomSheetMaterialDialog? = null
 
     open fun isFullScreen(): Boolean = false
 
@@ -56,6 +67,20 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        onStopUi()
+        hideProgress()
+        super.onDestroy()
+    }
+
     protected fun <T : ViewDataBinding> getBinding(): T {
         return binding as T
     }
@@ -67,8 +92,7 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
         if (hasBinding()) {
             binding = DataBindingUtil.setContentView(this, layoutId)
             binding.setLifecycleOwner(this)
-        }
-        else {
+        } else {
             setContentView(layoutId)
         }
     }
@@ -106,5 +130,66 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
             task = getIntentValue<T>(Constants.Keys.TASK)
         }
         return task as T?
+    }
+
+    protected fun showProgress() {
+        if (progress == null) {
+            progress = KProgressHUD.create(this)
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setCancellable(true)
+                .setAnimationSpeed(2)
+                .setDimAmount(0.5f)
+        }
+        progress?.show()
+    }
+
+    protected fun hideProgress() {
+        progress?.run {
+            if (isShowing) dismiss()
+        }
+    }
+
+    protected fun showDialogue(
+        @StringRes titleRes: Int,
+        @StringRes messageRes: Int,
+        @StringRes positiveTitleRes: Int = R.string.ok,
+        @DrawableRes positiveIconRes: Int = R.drawable.ic_done_black_24dp,
+        @StringRes negativeTitleRes: Int = R.string.cancel,
+        @DrawableRes negativeIconRes: Int = R.drawable.ic_close_black_24dp,
+        cancelable: Boolean = false,
+        onPositiveClick: () -> Unit,
+        onNegativeClick: () -> Unit
+    ) {
+        if (sheetDialog == null) {
+            sheetDialog = BottomSheetMaterialDialog.Builder(this)
+                .setTitle(getString(titleRes))
+                .setMessage(getString(messageRes))
+                .setCancelable(cancelable)
+                .setPositiveButton(
+                    getString(positiveTitleRes),
+                    positiveIconRes,
+                    { dialog: DialogInterface, which: Int ->
+                        onPositiveClick()
+                        dialog.dismiss()
+                        sheetDialog = null
+                    })
+                .setNegativeButton(
+                    getString(negativeTitleRes),
+                    negativeIconRes,
+                    { dialog: DialogInterface, which: Int ->
+                        onNegativeClick()
+                        dialog.dismiss()
+                        sheetDialog = null
+                    })
+                .build()
+        }
+        sheetDialog?.show()
+    }
+
+    protected fun hideDialog() {
+        sheetDialog?.run {
+            dismiss()
+        }
+        sheetDialog = null
     }
 }

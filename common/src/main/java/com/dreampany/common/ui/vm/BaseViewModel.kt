@@ -110,14 +110,14 @@ protected constructor(
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         error: Throwable? = null,
-        data: I? = null,
-        progress: Boolean
-    ) = if (progress) {
+        result: I? = null,
+        showProgress: Boolean
+    ) = if (showProgress) {
         error?.let { rm.responseWithProgress(output, type, subtype, state, action, it) }
-        data?.let { rm.responseWithProgress(output, type, subtype, state, action, it) }
+        result?.let { rm.responseWithProgress(output, type, subtype, state, action, it) }
     } else {
         error?.let { rm.response(output, type, subtype, state, action, it) }
-        data?.let { rm.response(output, type, subtype, state, action, it) }
+        result?.let { rm.response(output, type, subtype, state, action, it) }
     }
 
     fun postMultiple(
@@ -126,14 +126,14 @@ protected constructor(
         state: State = State.DEFAULT,
         action: Action = Action.DEFAULT,
         error: Throwable? = null,
-        data: List<I>? = null,
-        progress: Boolean
-    ) = if (progress) {
+        result: List<I>? = null,
+        showProgress: Boolean
+    ) = if (showProgress) {
         error?.let { rm.responseWithProgress(outputs, type, subtype, state, action, it) }
-        data?.let { rm.responseWithProgress(outputs, type, subtype, state, action, it) }
+        result?.let { rm.responseWithProgress(outputs, type, subtype, state, action, it) }
     } else {
         error?.let { rm.response(outputs, type, subtype, state, action, it) }
-        data?.let { rm.response(outputs, type, subtype, state, action, it) }
+        result?.let { rm.response(outputs, type, subtype, state, action, it) }
     }
 
 /*

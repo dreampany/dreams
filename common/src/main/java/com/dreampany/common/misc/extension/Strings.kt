@@ -1,6 +1,7 @@
 package com.dreampany.common.misc.extension
 
 import android.util.Patterns
+import com.dreampany.common.misc.constant.Constants
 import com.google.common.hash.Hashing
 
 /**
@@ -12,6 +13,10 @@ import com.google.common.hash.Hashing
 fun String.hash256(): String {
     return Hashing.sha256().newHasher()
         .putString(this, Charsets.UTF_8).hash().toString()
+}
+
+fun String?.string(): String {
+    return this ?: Constants.Default.STRING
 }
 
 fun String?.isEquals(value: String?): Boolean {

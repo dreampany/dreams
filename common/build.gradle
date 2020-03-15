@@ -130,6 +130,8 @@ dependencies {
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'com.shreyaspatil:MaterialDialog:2.1'
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
     //api 'com.afollestad.assent:core:3.0.0-RC4'
     //api 'com.afollestad.assent:rationales:3.0.0-RC4'
 

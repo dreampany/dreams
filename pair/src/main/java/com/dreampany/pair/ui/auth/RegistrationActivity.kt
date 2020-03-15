@@ -39,10 +39,12 @@ class RegistrationActivity : BaseInjectorActivity() {
     override fun hasBinding(): Boolean = true
 
     @LayoutRes
-    override fun getLayoutId(): Int = R.layout.registration_activity
+    override fun layoutId(): Int = R.layout.registration_activity
 
     @IdRes
-    override fun getToolbarId(): Int = R.id.toolbar
+    override fun toolbarId(): Int = R.id.toolbar
+
+    override fun homeUp(): Boolean = true
 
     override fun onStartUi(state: Bundle?) {
         initUi()

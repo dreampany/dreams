@@ -18,11 +18,11 @@ class AuthActivity : BaseInjectorActivity() {
 
     private lateinit var bind: AuthActivityBinding
 
-    override fun isFullScreen(): Boolean = true
+    override fun fullScreen(): Boolean = true
 
     override fun hasBinding(): Boolean = true
 
-    override fun getLayoutId(): Int = R.layout.auth_activity
+    override fun layoutId(): Int = R.layout.auth_activity
 
     override fun onStartUi(state: Bundle?) {
         initUi()

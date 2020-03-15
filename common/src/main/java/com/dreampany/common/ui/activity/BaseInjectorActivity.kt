@@ -2,7 +2,7 @@ package com.dreampany.common.ui.activity
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.View
+import android.view.MenuItem
 import android.view.Window
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -17,7 +17,6 @@ import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.ui.fragment.BaseInjectorFragment
 import com.kaopiz.kprogresshud.KProgressHUD
-import com.shreyaspatil.MaterialDialog.AbstractDialog
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
 import dagger.android.support.DaggerAppCompatActivity
@@ -40,15 +39,17 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null
 
-    open fun isFullScreen(): Boolean = false
+    open fun fullScreen(): Boolean = false
 
     open fun hasBinding(): Boolean = false
 
     @LayoutRes
-    open fun getLayoutId(): Int = 0
+    open fun layoutId(): Int = 0
 
     @IdRes
-    open fun getToolbarId(): Int = 0
+    open fun toolbarId(): Int = 0
+
+    open fun homeUp(): Boolean = false
 
     protected abstract fun onStartUi(state: Bundle?)
 
@@ -57,7 +58,7 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        val layoutId = getLayoutId()
+        val layoutId = layoutId()
         if (layoutId != 0) {
             initLayout(layoutId)
             initToolbar()
@@ -81,12 +82,22 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
         super.onDestroy()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     protected fun <T : ViewDataBinding> getBinding(): T {
         return binding as T
     }
 
     private fun initLayout(@LayoutRes layoutId: Int) {
-        if (isFullScreen()) {
+        if (fullScreen()) {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
         }
         if (hasBinding()) {
@@ -98,11 +109,19 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
     }
 
     private fun initToolbar() {
-        val toolbarId = getToolbarId()
+        val toolbarId = toolbarId()
         if (toolbarId != 0) {
             toolbar = findViewById<Toolbar>(toolbarId)
             setSupportActionBar(toolbar)
+            if (homeUp()) {
+                val actionBar = supportActionBar
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true)
+                    actionBar.setHomeButtonEnabled(true)
+                }
+            }
         }
+
     }
 
     protected fun getBundle(): Bundle? {

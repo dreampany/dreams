@@ -22,11 +22,11 @@ class TutorialActivity : BaseInjectorActivity() {
     private lateinit var bind: TutorialActivityBinding
     private lateinit var tutorialAdapter: TutorialAdapter
 
-    override fun isFullScreen(): Boolean = true
+    override fun fullScreen(): Boolean = true
 
     override fun hasBinding(): Boolean = true
 
-    override fun getLayoutId(): Int = R.layout.tutorial_activity
+    override fun layoutId(): Int = R.layout.tutorial_activity
 
     override fun onStartUi(state: Bundle?) {
         initUi()

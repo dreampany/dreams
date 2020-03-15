@@ -16,7 +16,7 @@ import kotlinx.coroutines.Runnable
  */
 class SplashActivity : BaseInjectorActivity() {
 
-    override fun getLayoutId(): Int = R.layout.splash_activity
+    override fun layoutId(): Int = R.layout.splash_activity
 
     override fun onStartUi(state: Bundle?) {
 

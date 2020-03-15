@@ -4,4 +4,7 @@
     <string name="email_roman_bjit">roman.bjit@gmail.com</string>
     <string name="password_roman_bjit">ROOTnet080208</string>
 
+    <string name="error_email">Enter valid email address!</string>
+    <string name="error_password">Enter valid password!</string>
+
 </resources>

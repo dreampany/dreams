@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.ui.fragment.BaseInjectorFragment
 import dagger.android.support.DaggerAppCompatActivity
 
 /**
@@ -21,13 +22,12 @@ import dagger.android.support.DaggerAppCompatActivity
  */
 abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
 
+    protected var fireOnStartUi: Boolean = true
     private lateinit var binding: ViewDataBinding
     private lateinit var toolbar: Toolbar
-    protected var fireOnStartUi: Boolean = true
-
-    //protected var currentFragment: BaseFragment? = null
     protected var task: Task<*, *, *>? = null
-    protected var childTask: Task<*, *, *>? = null
+
+    protected var fragment: BaseInjectorFragment? = null
 
     open fun isFullScreen(): Boolean = false
 
@@ -60,14 +60,17 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
         return binding as T
     }
 
-    private fun initLayout(layoutId: Int) {
+    private fun initLayout(@LayoutRes layoutId: Int) {
         if (isFullScreen()) {
             requestWindowFeature(Window.FEATURE_NO_TITLE)
         }
-        if (hasBinding())
+        if (hasBinding()) {
             binding = DataBindingUtil.setContentView(this, layoutId)
-        else
+            binding.setLifecycleOwner(this)
+        }
+        else {
             setContentView(layoutId)
+        }
     }
 
     private fun initToolbar() {

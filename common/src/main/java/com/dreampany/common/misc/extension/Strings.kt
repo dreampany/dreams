@@ -1,5 +1,6 @@
 package com.dreampany.common.misc.extension
 
+import android.util.Patterns
 import com.google.common.hash.Hashing
 
 /**
@@ -19,4 +20,8 @@ fun String?.isEquals(value: String?): Boolean {
 
 fun String?.lastPart(denim: Char): String? {
     return this?.split(denim)?.last()
+}
+
+fun String?.isEmail(): Boolean {
+    return this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
 }

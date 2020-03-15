@@ -92,6 +92,6 @@ fun TextInputEditText.isEmpty() : Boolean {
     return this.text.isNullOrEmpty()
 }
 
-fun TextInputEditText.toString() : String {
+fun TextInputEditText.string() : String {
     return this.text?.trim().toString()
 }

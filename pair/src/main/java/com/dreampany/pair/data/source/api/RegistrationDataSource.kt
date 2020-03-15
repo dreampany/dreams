@@ -11,11 +11,13 @@ import kotlinx.coroutines.Deferred
  * Last modified $file.lastModified
  */
 interface RegistrationDataSource {
+    @Throws
     suspend fun register(
         email: String,
         password: String,
         name: String
     ): User?
 
+    @Throws
     suspend fun save(user: User): Long
 }

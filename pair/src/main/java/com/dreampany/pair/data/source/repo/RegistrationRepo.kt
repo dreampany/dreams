@@ -29,6 +29,7 @@ class RegistrationRepo
     @Room private val room: RegistrationDataSource,
     @Auth private val auth: RegistrationDataSource
 ) : RegistrationDataSource {
+    @Throws
     override suspend fun register(
         email: String,
         password: String,
@@ -41,6 +42,7 @@ class RegistrationRepo
         remote
     }
 
+    @Throws
     override suspend fun save(user: User): Long {
         TODO("Not yet implemented")
     }

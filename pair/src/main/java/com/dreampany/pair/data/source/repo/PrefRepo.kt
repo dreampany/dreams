@@ -22,9 +22,33 @@ class PrefRepo
         return AppConstants.Keys.PrefKeys.PREF
     }
 
-    fun setLoggedOut(loggedOut: Boolean): Boolean {
-        setPrivately(AppConstants.Keys.PrefKeys.LOGGED_OUT, loggedOut)
-        return loggedOut
+    fun setJoinPressed(status: Boolean): Boolean {
+        setPrivately(AppConstants.Keys.PrefKeys.JOIN_PRESSED, status)
+        return status
+    }
+
+    fun isJoinPressed(): Boolean {
+        return getPrivately(
+            AppConstants.Keys.PrefKeys.JOIN_PRESSED,
+            false
+        )
+    }
+
+    fun setLoggedIn(status: Boolean): Boolean {
+        setPrivately(AppConstants.Keys.PrefKeys.LOGGED_IN, status)
+        return status
+    }
+
+    fun isLoggedIn(): Boolean {
+        return getPrivately(
+            AppConstants.Keys.PrefKeys.LOGGED_IN,
+            false
+        )
+    }
+
+    fun setLoggedOut(status: Boolean): Boolean {
+        setPrivately(AppConstants.Keys.PrefKeys.LOGGED_OUT, status)
+        return status
     }
 
     fun isLoggedOut(): Boolean {

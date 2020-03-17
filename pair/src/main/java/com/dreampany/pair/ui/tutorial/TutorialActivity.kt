@@ -1,15 +1,19 @@
 package com.dreampany.pair.ui.tutorial
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
+import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
+import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.R
 import com.dreampany.pair.databinding.TutorialActivityBinding
 import com.dreampany.pair.ui.auth.activity.AuthActivity
+import com.dreampany.pair.ui.auth.vm.AuthViewModel
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by roman on 3/10/20
@@ -19,7 +23,12 @@ import timber.log.Timber
  */
 class TutorialActivity : BaseInjectorActivity() {
 
+    @Inject
+    internal lateinit var factory: ViewModelFactory
+
     private lateinit var bind: TutorialActivityBinding
+    private lateinit var vm: AuthViewModel
+
     private lateinit var tutorialAdapter: TutorialAdapter
 
     override fun fullScreen(): Boolean = true
@@ -40,14 +49,15 @@ class TutorialActivity : BaseInjectorActivity() {
         Timber.v("Clicked %s", view.id)
         when (view) {
             bind.buttonJoin -> {
-                startActivity(Intent(this, AuthActivity::class.java))
-                finish()
+                joinPressed()
             }
         }
     }
 
     private fun initUi() {
         bind = getBinding()
+        vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+
         bind.buttonJoin.setOnSafeClickListener(this::onSafeClick)
     }
 
@@ -66,5 +76,10 @@ class TutorialActivity : BaseInjectorActivity() {
         bind.pager.adapter = tutorialAdapter
         bind.indicator.setViewPager(bind.pager)
         tutorialAdapter.registerAdapterDataObserver(bind.indicator.adapterDataObserver)
+    }
+
+    private fun joinPressed() {
+        vm.isJoinPressed()
+        open(AuthActivity::class, true)
     }
 }

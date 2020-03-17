@@ -11,7 +11,17 @@ import com.dreampany.pair.data.model.User
  */
 interface AuthDataSource {
 
-    fun loggedOut() : Boolean
+    fun setJoinPressed(status: Boolean) : Boolean
+
+    fun isJoinPressed() : Boolean
+
+    fun setLoggedIn(status: Boolean) : Boolean
+
+    fun isLoggedIn() : Boolean
+
+    fun setLoggedOut(status: Boolean) : Boolean
+
+    fun isLoggedOut() : Boolean
 
     @Throws
     suspend fun register(

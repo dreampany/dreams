@@ -14,7 +14,27 @@ class AuthRoomDataSource
 constructor(
     private val dao: UserDao
 ) : AuthDataSource {
-    override fun loggedOut(): Boolean {
+    override fun setJoinPressed(status: Boolean): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isJoinPressed(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun setLoggedIn(status: Boolean): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isLoggedIn(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun setLoggedOut(status: Boolean): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun isLoggedOut(): Boolean {
         TODO("Not yet implemented")
     }
 

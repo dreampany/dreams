@@ -128,3 +128,5 @@ fun Context?.lastApplicationId(): String? {
 
     return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId))
 }
+
+

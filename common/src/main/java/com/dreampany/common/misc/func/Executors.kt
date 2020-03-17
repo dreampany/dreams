@@ -16,7 +16,7 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class AppExecutor
+class Executors
 private constructor(
     private val ui: UiThreadExecutor,
     private val disk: DiskThreadExecutor,

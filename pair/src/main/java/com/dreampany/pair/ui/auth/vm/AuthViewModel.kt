@@ -25,8 +25,28 @@ class AuthViewModel
     private val repo: AuthRepo
 ) : BaseViewModel<User, User, UiTask<User, Type, Subtype>, Type, Subtype>(application, rm) {
 
-    fun isLoggedOut() : Boolean {
-        return repo.loggedOut()
+    fun setJoinPressed(status: Boolean) {
+        repo.setJoinPressed(status)
+    }
+
+    fun isJoinPressed(): Boolean {
+        return repo.isJoinPressed()
+    }
+
+    fun setLoggedIn(status: Boolean) {
+        repo.setLoggedIn(status)
+    }
+
+    fun isLoggedIn(): Boolean {
+        return repo.isLoggedIn()
+    }
+
+    fun setLoggedOut(status: Boolean) {
+        repo.setLoggedOut(status)
+    }
+
+    fun isLoggedOut(): Boolean {
+        return repo.isLoggedOut()
     }
 
     fun register(email: String, password: String, name: String) {

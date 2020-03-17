@@ -16,7 +16,7 @@ import com.dreampany.pair.R
 import com.dreampany.pair.data.enums.Subtype
 import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
-import com.dreampany.pair.databinding.RegistrationActivityBinding
+import com.dreampany.pair.databinding.RegisterActivityBinding
 import com.dreampany.pair.ui.auth.vm.AuthViewModel
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import timber.log.Timber
@@ -28,18 +28,18 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class RegistrationActivity : BaseInjectorActivity() {
+class RegisterActivity : BaseInjectorActivity() {
 
     @Inject
     internal lateinit var factory: ViewModelFactory
 
-    private lateinit var bind: RegistrationActivityBinding
+    private lateinit var bind: RegisterActivityBinding
     private lateinit var vm: AuthViewModel
 
     override fun hasBinding(): Boolean = true
 
     @LayoutRes
-    override fun layoutId(): Int = R.layout.registration_activity
+    override fun layoutId(): Int = R.layout.register_activity
 
     @IdRes
     override fun toolbarId(): Int = R.id.toolbar

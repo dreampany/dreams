@@ -3,6 +3,7 @@ package com.dreampany.pair.ui.auth.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.pair.R
@@ -34,7 +35,10 @@ class AuthActivity : BaseInjectorActivity() {
     private fun onSafeClick(view: View) {
         when (view) {
             bind.buttonRegister -> {
-                startActivity(Intent(this, RegistrationActivity::class.java))
+                registeredPressed()
+            }
+            bind.buttonLogin -> {
+                loginPressed()
             }
         }
     }
@@ -42,5 +46,14 @@ class AuthActivity : BaseInjectorActivity() {
     private fun initUi() {
         bind = getBinding()
         bind.buttonRegister.setOnSafeClickListener(this::onSafeClick)
+        bind.buttonLogin.setOnSafeClickListener(this::onSafeClick)
+    }
+
+    private fun registeredPressed() {
+        open(RegisterActivity::class, true)
+    }
+
+    private fun loginPressed() {
+        open(LoginActivity::class, true)
     }
 }

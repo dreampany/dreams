@@ -3,7 +3,7 @@ package com.dreampany.pair.injector.ui.activity
 import com.dreampany.common.injector.annote.ActivityScope
 import com.dreampany.pair.ui.auth.activity.AuthActivity
 import com.dreampany.pair.ui.auth.activity.LoginActivity
-import com.dreampany.pair.ui.auth.activity.RegistrationActivity
+import com.dreampany.pair.ui.auth.activity.RegisterActivity
 import com.dreampany.pair.ui.splash.SplashActivity
 import com.dreampany.pair.ui.tutorial.TutorialActivity
 import dagger.Module
@@ -31,7 +31,7 @@ abstract class ActivityModule {
 
     @ActivityScope
     @ContributesAndroidInjector
-    abstract fun registrationActivity(): RegistrationActivity
+    abstract fun registrationActivity(): RegisterActivity
 
     @ActivityScope
     @ContributesAndroidInjector

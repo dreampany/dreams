@@ -14,8 +14,27 @@ class AuthPrefDataSource
 constructor(
     private val pref: PrefRepo
 ) : AuthDataSource {
+    override fun setJoinPressed(status: Boolean): Boolean {
+        return pref.setJoinPressed(status)
+    }
 
-    override fun loggedOut(): Boolean {
+    override fun isJoinPressed(): Boolean {
+        return pref.isJoinPressed()
+    }
+
+    override fun setLoggedIn(status: Boolean): Boolean {
+        return pref.setLoggedIn(status)
+    }
+
+    override fun isLoggedIn(): Boolean {
+        return pref.isLoggedIn()
+    }
+
+    override fun setLoggedOut(status: Boolean): Boolean {
+        return pref.setLoggedOut(status)
+    }
+
+    override fun isLoggedOut(): Boolean {
         return pref.isLoggedOut()
     }
 

@@ -46,7 +46,7 @@
             android:label="@string/app_name"
             android:theme="@style/FullScreenTheme" />
         <activity
-            android:name=".ui.auth.activity.RegistrationActivity"
+            android:name=".ui.auth.activity.RegisterActivity"
             android:label="@string/title_registration" />
     </application>
 

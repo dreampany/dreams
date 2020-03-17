@@ -15,11 +15,13 @@ import androidx.databinding.ViewDataBinding
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.misc.func.Executors
 import com.dreampany.common.ui.fragment.BaseInjectorFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
 import dagger.android.support.DaggerAppCompatActivity
+import javax.inject.Inject
 
 /**
  * Created by roman on 3/3/20
@@ -28,6 +30,9 @@ import dagger.android.support.DaggerAppCompatActivity
  * Last modified $file.lastModified
  */
 abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
+
+    @Inject
+    protected lateinit var ex: Executors
 
     protected var fireOnStartUi: Boolean = true
     private lateinit var binding: ViewDataBinding

@@ -48,6 +48,7 @@ class RegisterActivity : BaseInjectorActivity() {
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        vm.checkUser()
     }
 
     override fun onStopUi() {
@@ -105,7 +106,7 @@ class RegisterActivity : BaseInjectorActivity() {
         if (error.cause is FirebaseAuthUserCollisionException) {
             showDialogue(
                 R.string.title_dialog_registration,
-                R.string.message_dialog_account_already_used,
+                message = error.message,
                 onPositiveClick = {
 
                 },

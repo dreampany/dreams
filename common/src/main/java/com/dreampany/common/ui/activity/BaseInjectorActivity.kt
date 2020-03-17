@@ -175,7 +175,8 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
 
     protected fun showDialogue(
         @StringRes titleRes: Int,
-        @StringRes messageRes: Int,
+        @StringRes messageRes: Int = 0,
+        message: String? = null,
         @StringRes positiveTitleRes: Int = R.string.ok,
         @DrawableRes positiveIconRes: Int = R.drawable.ic_done_black_24dp,
         @StringRes negativeTitleRes: Int = R.string.cancel,
@@ -187,7 +188,7 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
         if (sheetDialog == null) {
             sheetDialog = BottomSheetMaterialDialog.Builder(this)
                 .setTitle(getString(titleRes))
-                .setMessage(getString(messageRes))
+                .setMessage(message ?: getString(messageRes))
                 .setCancelable(cancellable)
                 .setPositiveButton(
                     getString(positiveTitleRes),

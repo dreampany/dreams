@@ -49,10 +49,10 @@ class AuthActivity : BaseInjectorActivity() {
     }
 
     private fun registerPressed() {
-        open(RegisterActivity::class, true)
+        open(RegisterActivity::class)
     }
 
     private fun loginPressed() {
-        open(LoginActivity::class, true)
+        open(LoginActivity::class)
     }
 }

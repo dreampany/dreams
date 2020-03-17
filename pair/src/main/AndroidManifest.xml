@@ -50,7 +50,7 @@
             android:label="@string/title_registration" />
         <activity
             android:name=".ui.auth.activity.LoginActivity"
-            android:label="@string/title_registration" />
+            android:label="@string/title_login" />
     </application>
 
 </manifest>

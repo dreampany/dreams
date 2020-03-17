@@ -8,6 +8,7 @@ import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.repo.AuthRepo
 import com.dreampany.pair.ui.model.UiTask
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
@@ -24,6 +25,15 @@ class AuthViewModel
     rm: ResponseMapper,
     private val repo: AuthRepo
 ) : BaseViewModel<User, User, UiTask<User, Type, Subtype>, Type, Subtype>(application, rm) {
+
+    fun checkUser() {
+        val auth = FirebaseAuth.getInstance()
+        val user = auth.currentUser
+        val uid = user?.uid
+        val name = user?.displayName
+        Timber.v("User Name %s %s", uid, name)
+        auth.signOut()
+    }
 
     fun setJoinPressed(status: Boolean) {
         repo.setJoinPressed(status)
@@ -77,7 +87,7 @@ class AuthViewModel
             var errors: Throwable? = null
             try {
                 result = repo.login(email, password)
-                Timber.v("Registered %s", result?.id)
+                Timber.v("Login %s", result?.id)
             } catch (error: Throwable) {
                 Timber.e(error)
                 errors = error

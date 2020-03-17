@@ -7,10 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.data.model.Response
-import com.dreampany.common.misc.extension.gone
-import com.dreampany.common.misc.extension.isEmail
-import com.dreampany.common.misc.extension.setOnSafeClickListener
-import com.dreampany.common.misc.extension.string
+import com.dreampany.common.misc.extension.*
 import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.R
@@ -19,6 +16,7 @@ import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.databinding.LoginActivityBinding
 import com.dreampany.pair.ui.auth.vm.AuthViewModel
+import com.dreampany.pair.ui.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import timber.log.Timber
 import javax.inject.Inject
@@ -79,7 +77,6 @@ class LoginActivity : BaseInjectorActivity() {
     }
 
 
-
     private fun loginPressed() {
         //vm.checkUser()
 
@@ -102,7 +99,6 @@ class LoginActivity : BaseInjectorActivity() {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-            //vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<User, Type, Subtype>) {
             Timber.v("Result [%s]", response.result.email)
             processResult(response.result)
@@ -112,8 +108,8 @@ class LoginActivity : BaseInjectorActivity() {
     private fun processError(error: Throwable) {
         if (error.cause is FirebaseAuthUserCollisionException) {
             showDialogue(
-                R.string.title_dialog_registration,
-                R.string.message_dialog_account_already_used,
+                R.string.title_dialog_login,
+                message = error.message,
                 onPositiveClick = {
 
                 },
@@ -125,7 +121,22 @@ class LoginActivity : BaseInjectorActivity() {
     }
 
     private fun processResult(user: User) {
+        goToHomeScreen()
+        /*showDialogue(
+            R.string.title_dialog_login,
+            message = user.name,
+            onPositiveClick = {
+                goToHomeScreen()
+            },
+            onNegativeClick = {
 
+            }
+        )*/
+    }
+
+    private fun goToHomeScreen() {
+        //vm.setLoggedIn(true)
+        open(HomeActivity::class, flags = clearFlags(), finishCurrent =  true)
     }
 
 }

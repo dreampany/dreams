@@ -18,3 +18,16 @@ fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) 
         }
     }
 }
+
+fun <T : Any> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: Boolean = false) {
+    this?.run {
+        startActivity(Intent(this, target.java).addFlags(flags))
+        if (finishCurrent) {
+            finish()
+        }
+    }
+}
+
+fun Activity?.clearFlags(
+): Int =
+    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK

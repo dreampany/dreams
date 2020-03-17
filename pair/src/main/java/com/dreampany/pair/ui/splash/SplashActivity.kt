@@ -3,6 +3,7 @@ package com.dreampany.pair.ui.splash
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.dreampany.common.misc.extension.clearFlags
 import com.dreampany.common.misc.extension.open
 import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
@@ -11,6 +12,7 @@ import com.dreampany.pair.ui.auth.activity.AuthActivity
 import com.dreampany.pair.ui.auth.activity.LoginActivity
 import com.dreampany.pair.ui.auth.activity.RegisterActivity
 import com.dreampany.pair.ui.auth.vm.AuthViewModel
+import com.dreampany.pair.ui.home.HomeActivity
 import com.dreampany.pair.ui.tutorial.TutorialActivity
 import kotlinx.coroutines.Runnable
 import javax.inject.Inject
@@ -47,7 +49,7 @@ class SplashActivity : BaseInjectorActivity() {
     private fun nextScreen() {
         if (vm.isJoinPressed()) {
             if (vm.isLoggedIn()) {
-                // TODO HomeActivity
+                open(HomeActivity::class, true)
             } else if (vm.isLoggedOut()) {
                 open(LoginActivity::class, true)
             } else {

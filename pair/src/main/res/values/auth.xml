@@ -10,6 +10,10 @@
     <string name="title_dialog_registration">Registration</string>
     <string name="message_dialog_account_already_used">This email is already used in another account!</string>
 
+    <string name="title_dialog_login">Login</string>
+    <string name="message_dialog_login_success">Login Successfully!</string>
+
+
     <string name="info_no_account_yet">Don’t have an account yet?</string>
     <string name="info_login">Welcome! Log into your account</string>
     <string name="info_welcome_login">Log back into your account</string>

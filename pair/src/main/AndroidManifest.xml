@@ -29,6 +29,7 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTask"
             android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,9 +48,14 @@
             android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".ui.auth.activity.RegisterActivity"
-            android:label="@string/title_registration" />
+            android:label="@string/title_registration"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.auth.activity.LoginActivity"
+            android:label="@string/title_login"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.home.HomeActivity"
             android:label="@string/title_login" />
     </application>
 

@@ -134,17 +134,14 @@ class Constants {
         const val WRITE_TIMEOUT = 60L
     }
 
-    object Pref {
-        const val DEFAULT = "default"
-        const val SERVICE = "service"
-
-        object Service {
-            const val STATE = "service_state"
-        }
-    }
-
     object Keys {
         const val TASK = "task"
         const val ID = "id"
+
+        object PrefKeys {
+            const val DEFAULT = "default"
+            const val SERVICE = "service"
+            const val SERVICE_STATE = "service_state"
+        }
     }
 }

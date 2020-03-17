@@ -1,4 +1,4 @@
-package com.dreampany.pair.injector.ui
+package com.dreampany.pair.injector.ui.activity
 
 import com.dreampany.common.injector.annote.ActivityScope
 import com.dreampany.pair.ui.auth.activity.AuthActivity

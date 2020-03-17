@@ -74,19 +74,19 @@ class LoginActivity : BaseInjectorActivity() {
 
 
     private fun register() {
-        val name = bind.inputName.string()
+        //val name = bind.inputName.string()
         val email = bind.inputEmail.string()
         val password = bind.inputPassword.string()
 
         if (!email.isEmail()) {
-            bind.inputName.error = getString(R.string.error_email)
+            //bind.inputName.error = getString(R.string.error_email)
             return
         }
         if (password.isEmpty()) {
             bind.inputPassword.error = getString(R.string.error_password)
             return
         }
-        vm.register(email, password, name)
+        //vm.register(email, password, name)
     }
 
     private fun processResponse(response: Response<User, Type, Subtype>) {

@@ -175,7 +175,7 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
         @DrawableRes positiveIconRes: Int = R.drawable.ic_done_black_24dp,
         @StringRes negativeTitleRes: Int = R.string.cancel,
         @DrawableRes negativeIconRes: Int = R.drawable.ic_close_black_24dp,
-        cancelable: Boolean = false,
+        cancellable: Boolean = false,
         onPositiveClick: () -> Unit,
         onNegativeClick: () -> Unit
     ) {
@@ -183,7 +183,7 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
             sheetDialog = BottomSheetMaterialDialog.Builder(this)
                 .setTitle(getString(titleRes))
                 .setMessage(getString(messageRes))
-                .setCancelable(cancelable)
+                .setCancelable(cancellable)
                 .setPositiveButton(
                     getString(positiveTitleRes),
                     positiveIconRes,

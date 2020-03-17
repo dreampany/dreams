@@ -1,7 +1,6 @@
 package com.dreampany.pair.data.source.repo
 
-import com.dreampany.common.injector.annote.Auth
-import com.dreampany.common.injector.annote.Room
+import com.dreampany.common.injector.annote.*
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.RxMapper
 import com.dreampany.pair.data.model.User
@@ -25,9 +24,16 @@ class AuthRepo
     //private val network: NetworkManager,
     //private val storeMapper: StoreMapper,
     //private val storeRepo: StoreRepository,
+    @Pref private val pref: AuthDataSource,
     @Room private val room: AuthDataSource,
-    @Auth private val auth: AuthDataSource
+    @Fireauth private val auth: AuthDataSource,
+    @Firestore private val store: AuthDataSource
 ) : AuthDataSource {
+
+    override fun loggedOut(): Boolean {
+        return pref.loggedOut()
+    }
+
     @Throws
     override suspend fun register(
         email: String,

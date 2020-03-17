@@ -1,7 +1,6 @@
 package com.dreampany.pair.data.source.api
 
 import com.dreampany.pair.data.model.User
-import kotlinx.coroutines.Deferred
 
 
 /**
@@ -11,6 +10,9 @@ import kotlinx.coroutines.Deferred
  * Last modified $file.lastModified
  */
 interface AuthDataSource {
+
+    fun loggedOut() : Boolean
+
     @Throws
     suspend fun register(
         email: String,

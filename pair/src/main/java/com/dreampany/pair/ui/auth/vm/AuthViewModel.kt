@@ -25,6 +25,10 @@ class AuthViewModel
     private val repo: AuthRepo
 ) : BaseViewModel<User, User, UiTask<User, Type, Subtype>, Type, Subtype>(application, rm) {
 
+    fun isLoggedOut() : Boolean {
+        return repo.loggedOut()
+    }
+
     fun register(email: String, password: String, name: String) {
         uiScope.launch {
             postProgressSingle(Type.USER, Subtype.DEFAULT, progress = true)
@@ -45,6 +49,5 @@ class AuthViewModel
             }
         }
     }
-
 
 }

@@ -14,6 +14,10 @@ class AuthRoomDataSource
 constructor(
     private val dao: UserDao
 ) : AuthDataSource {
+    override fun loggedOut(): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun register(email: String, password: String, name: String): User? {
         TODO("Not yet implemented")
     }

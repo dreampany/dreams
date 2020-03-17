@@ -21,12 +21,12 @@ annotation class Room
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Auth
+annotation class Fireauth
 
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class Database
+annotation class Firedatabase
 
 @Qualifier
 @MustBeDocumented

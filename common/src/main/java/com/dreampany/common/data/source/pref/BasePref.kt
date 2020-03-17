@@ -23,7 +23,7 @@ abstract class BasePref(val context: Context) {
     }
 
     open fun getPrivateName(context: Context): String {
-        return Constants.Pref.DEFAULT
+        return Constants.Keys.PrefKeys.DEFAULT
     }
 
     fun hasPublic(key: String): Boolean {

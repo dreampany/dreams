@@ -1,10 +1,11 @@
 package com.dreampany.pair.injector.data
 
-import com.dreampany.common.injector.annote.Auth
+import com.dreampany.common.injector.annote.Fireauth
+import com.dreampany.common.injector.annote.Firedatabase
 import com.dreampany.common.injector.annote.Remote
 import com.dreampany.common.injector.annote.Room
 import com.dreampany.pair.data.mapper.Mappers
-import com.dreampany.pair.data.source.auth.AuthAuthDataSource
+import com.dreampany.pair.data.source.auth.AuthFireauthDataSource
 import com.dreampany.pair.data.source.api.AuthDataSource
 import com.dreampany.pair.data.source.remote.AuthRemoteDataSource
 import com.dreampany.pair.data.source.room.dao.UserDao
@@ -37,11 +38,11 @@ class DataModule {
 
     @Singleton
     @Provides
-    @Auth
+    @Fireauth
     fun provideRegistrationAuthDataSource(
         mappers: Mappers
     ): AuthDataSource {
-        return AuthAuthDataSource(mappers)
+        return AuthFireauthDataSource(mappers)
     }
 
     @Singleton

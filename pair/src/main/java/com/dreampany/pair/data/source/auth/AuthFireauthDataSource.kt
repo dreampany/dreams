@@ -12,10 +12,15 @@ import durdinapps.rxfirebase2.RxFirebaseAuth
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AuthAuthDataSource
+class AuthFireauthDataSource
 constructor(
-    val mappers: Mappers
+    private val mappers: Mappers
 ) : AuthDataSource {
+
+    override fun loggedOut(): Boolean {
+        TODO("Not yet implemented")
+    }
+
     @Throws
     override suspend fun register(
         email: String,

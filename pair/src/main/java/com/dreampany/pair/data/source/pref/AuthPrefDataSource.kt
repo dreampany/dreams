@@ -1,21 +1,21 @@
-package com.dreampany.pair.data.source.remote
+package com.dreampany.pair.data.source.pref
 
-import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.api.AuthDataSource
 
 /**
- * Created by roman on 14/3/20
+ * Created by roman on 17/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AuthRemoteDataSource
+class AuthPrefDataSource
 constructor(
-   private val mappers: Mappers
+    private val pref: Pref
 ) : AuthDataSource {
+
     override fun loggedOut(): Boolean {
-        TODO("Not yet implemented")
+        return pref.
     }
 
     override suspend fun register(email: String, password: String, name: String): User? {
@@ -25,6 +25,4 @@ constructor(
     override suspend fun save(user: User): Long {
         TODO("Not yet implemented")
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.dreampany.pair.injector.data
 
+import android.content.Context
 import com.dreampany.common.injector.annote.*
 import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.source.auth.AuthFireauthDataSource
@@ -9,6 +10,7 @@ import com.dreampany.pair.data.source.repo.PrefRepo
 import com.dreampany.pair.data.source.remote.AuthRemoteDataSource
 import com.dreampany.pair.data.source.room.dao.UserDao
 import com.dreampany.pair.data.source.room.registration.AuthRoomDataSource
+import com.dreampany.pair.data.source.store.AuthFirestoreDataSource
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -60,6 +62,16 @@ class DataModule {
         mappers: Mappers
     ): AuthDataSource {
         return AuthFireauthDataSource(mappers)
+    }
+
+    @Singleton
+    @Provides
+    @Firestore
+    fun provideAuthFirestoreDataSource(
+        context: Context,
+        mappers: Mappers
+    ): AuthDataSource {
+        return AuthFirestoreDataSource(context, mappers)
     }
 
 }

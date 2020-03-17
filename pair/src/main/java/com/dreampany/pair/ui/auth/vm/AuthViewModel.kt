@@ -75,6 +75,18 @@ class AuthViewModel
             if (errors != null) {
                 postSingle(Type.USER, Subtype.DEFAULT, error = errors, showProgress = true)
             } else if (result != null) {
+                try {
+                    result = repo.login(email, password)
+                    Timber.v("Logged in %s", result?.id)
+                } catch (error: Throwable) {
+                    Timber.e(error)
+                    errors = error
+                }
+            }
+
+            if (errors != null) {
+                postSingle(Type.USER, Subtype.DEFAULT, error = errors, showProgress = true)
+            } else if (result != null) {
                 postSingle(Type.USER, Subtype.DEFAULT, result = result, showProgress = true)
             }
         }

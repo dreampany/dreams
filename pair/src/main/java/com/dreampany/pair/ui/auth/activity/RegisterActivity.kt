@@ -95,7 +95,6 @@ class RegisterActivity : BaseInjectorActivity() {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-            //vm.processFailure(state = result.state, action = result.action, error = result.error)
         } else if (response is Response.Result<User, Type, Subtype>) {
             Timber.v("Result [%s]", response.result.email)
             processResult(response.result)
@@ -118,7 +117,16 @@ class RegisterActivity : BaseInjectorActivity() {
     }
 
     private fun processResult(user: User) {
+        showDialogue(
+            R.string.title_dialog_registration,
+            message = user.name,
+            onPositiveClick = {
 
+            },
+            onNegativeClick = {
+
+            }
+        )
     }
 
 }

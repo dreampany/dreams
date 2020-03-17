@@ -143,5 +143,9 @@ class Constants {
             const val SERVICE = "service"
             const val SERVICE_STATE = "service_state"
         }
+
+        object Firestore {
+            const val PACKAGES = "packages"
+        }
     }
 }

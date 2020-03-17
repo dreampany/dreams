@@ -18,7 +18,8 @@ import kotlin.collections.HashMap
  * Last modified $file.lastModified
  */
 @Singleton
-class RxFirebaseFirestore @Inject constructor() {
+class RxFirebaseFirestore
+@Inject constructor() {
 
     private val firestore: FirebaseFirestore
 

@@ -16,5 +16,9 @@ class AppConstants {
             const val LOGGED_IN = "logged_in"
             const val LOGGED_OUT = "logged_out"
         }
+
+        object Firestore {
+            const val USERS = "users"
+        }
     }
 }

@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.data.model.Response
+import com.dreampany.common.misc.extension.gone
 import com.dreampany.common.misc.extension.isEmail
 import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.misc.extension.string
@@ -57,7 +58,7 @@ class LoginActivity : BaseInjectorActivity() {
     private fun onSafeClick(view: View) {
         when (view) {
             bind.buttonRegister -> {
-                register()
+                registerPressed()
             }
         }
     }
@@ -65,15 +66,21 @@ class LoginActivity : BaseInjectorActivity() {
     private fun initUi() {
         bind = getBinding()
         vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+        vm.subscribe(this, Observer { this.processResponse(it) })
+
 
         bind.buttonRegister.setOnSafeClickListener(this::onSafeClick)
 
-        vm.subscribe(this, Observer { this.processResponse(it) })
+        if (vm.isLoggedOut()) {
 
+        } else {
+            bind.drawee.gone()
+        }
     }
 
 
-    private fun register() {
+
+    private fun registerPressed() {
         //val name = bind.inputName.string()
         val email = bind.inputEmail.string()
         val password = bind.inputPassword.string()

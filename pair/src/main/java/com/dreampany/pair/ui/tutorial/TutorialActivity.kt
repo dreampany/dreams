@@ -79,7 +79,7 @@ class TutorialActivity : BaseInjectorActivity() {
     }
 
     private fun joinPressed() {
-        vm.isJoinPressed()
+        vm.setJoinPressed(true)
         open(AuthActivity::class, true)
     }
 }

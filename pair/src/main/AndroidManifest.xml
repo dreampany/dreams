@@ -48,6 +48,9 @@
         <activity
             android:name=".ui.auth.activity.RegisterActivity"
             android:label="@string/title_registration" />
+        <activity
+            android:name=".ui.auth.activity.LoginActivity"
+            android:label="@string/title_registration" />
     </application>
 
 </manifest>

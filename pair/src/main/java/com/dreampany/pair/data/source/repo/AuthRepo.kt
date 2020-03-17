@@ -26,8 +26,7 @@ class AuthRepo
     //private val storeRepo: StoreRepository,
     @Pref private val pref: AuthDataSource,
     @Room private val room: AuthDataSource,
-    @Fireauth private val auth: AuthDataSource,
-    @Firestore private val store: AuthDataSource
+    @Fireauth private val auth: AuthDataSource
 ) : AuthDataSource {
 
     override fun loggedOut(): Boolean {

@@ -8,6 +8,7 @@ import javax.inject.Qualifier
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
@@ -17,6 +18,11 @@ annotation class Pref
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Room
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
+annotation class Remote
 
 @Qualifier
 @MustBeDocumented
@@ -32,8 +38,3 @@ annotation class Firedatabase
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Firestore
-
-@Qualifier
-@MustBeDocumented
-@Retention(AnnotationRetention.RUNTIME)
-annotation class Remote

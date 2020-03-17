@@ -2,6 +2,7 @@ package com.dreampany.pair.data.source.pref
 
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.data.source.api.AuthDataSource
+import com.dreampany.pair.data.source.repo.PrefRepo
 
 /**
  * Created by roman on 17/3/20
@@ -11,11 +12,11 @@ import com.dreampany.pair.data.source.api.AuthDataSource
  */
 class AuthPrefDataSource
 constructor(
-    private val pref: Pref
+    private val pref: PrefRepo
 ) : AuthDataSource {
 
     override fun loggedOut(): Boolean {
-        return pref.
+        return pref.isLoggedOut()
     }
 
     override suspend fun register(email: String, password: String, name: String): User? {

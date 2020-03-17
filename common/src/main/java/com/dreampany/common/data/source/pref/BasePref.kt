@@ -34,6 +34,7 @@ abstract class BasePref(val context: Context) {
         return privatePref.contains(key)
     }
 
+    /* boolean */
     fun setPublicly(key: String, value: Boolean) {
         publicPref.put(key, value)
     }
@@ -41,6 +42,15 @@ abstract class BasePref(val context: Context) {
     fun getPublicly(key: String, defaultValue: Boolean): Boolean {
         return publicPref.preferences.getBoolean(key, defaultValue)
     }
+
+    fun setPrivately(key: String, value: Boolean) {
+        privatePref.put(key, value)
+    }
+
+    fun getPrivately(key: String, defaultValue: Boolean): Boolean {
+        return privatePref.preferences.getBoolean(key, defaultValue)
+    }
+
 
     fun setPublicly(key: String, value: Int) {
         publicPref.put(key, value)

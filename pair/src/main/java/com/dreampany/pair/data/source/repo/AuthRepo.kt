@@ -26,7 +26,7 @@ class AuthRepo
     //private val storeRepo: StoreRepository,
     @Pref private val pref: AuthDataSource,
     @Room private val room: AuthDataSource,
-    @Fireauth private val auth: AuthDataSource
+    @Fireauth private val fireauth: AuthDataSource
 ) : AuthDataSource {
     override fun setJoinPressed(status: Boolean): Boolean {
         return pref.setJoinPressed(status)
@@ -53,13 +53,21 @@ class AuthRepo
     }
 
     @Throws
+    override suspend fun login(email: String, password: String) = withContext(Dispatchers.IO) {
+        val remote = fireauth.login(email, password)
+
+        remote
+    }
+
+    @Throws
     override suspend fun register(
         email: String,
         password: String,
         name: String
     ) = withContext(Dispatchers.IO) {
-       val remote = auth.register(email, password, name)
+        val remote = fireauth.register(email, password, name)
         if (remote != null) {
+            // save in firestore and room
             room.save(remote)
         }
         remote

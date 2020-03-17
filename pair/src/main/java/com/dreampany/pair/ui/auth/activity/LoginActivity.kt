@@ -57,8 +57,8 @@ class LoginActivity : BaseInjectorActivity() {
 
     private fun onSafeClick(view: View) {
         when (view) {
-            bind.buttonRegister -> {
-                registerPressed()
+            bind.buttonLogin -> {
+                loginPressed()
             }
         }
     }
@@ -68,32 +68,31 @@ class LoginActivity : BaseInjectorActivity() {
         vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
         vm.subscribe(this, Observer { this.processResponse(it) })
 
-
-        bind.buttonRegister.setOnSafeClickListener(this::onSafeClick)
+        bind.buttonLogin.setOnSafeClickListener(this::onSafeClick)
 
         if (vm.isLoggedOut()) {
 
         } else {
             bind.drawee.gone()
+            bind.textWelcome.gone()
         }
     }
 
 
 
-    private fun registerPressed() {
-        //val name = bind.inputName.string()
+    private fun loginPressed() {
         val email = bind.inputEmail.string()
         val password = bind.inputPassword.string()
 
         if (!email.isEmail()) {
-            //bind.inputName.error = getString(R.string.error_email)
+            bind.inputEmail.error = getString(R.string.error_email)
             return
         }
         if (password.isEmpty()) {
             bind.inputPassword.error = getString(R.string.error_password)
             return
         }
-        //vm.register(email, password, name)
+        vm.login(email, password)
     }
 
     private fun processResponse(response: Response<User, Type, Subtype>) {

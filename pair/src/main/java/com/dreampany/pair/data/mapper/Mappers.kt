@@ -26,7 +26,7 @@ class Mappers
         users = Maps.newConcurrentMap()
     }
 
-    fun getUser(input: FirebaseUser, name: String): User {
+    fun getUser(input: FirebaseUser, name: String? = null): User {
         var out: User? = users.get(input.uid)
         if (out == null) {
             out = User(id = input.uid)
@@ -34,7 +34,8 @@ class Mappers
         }
         out.apply {
             this.email = input.email
-            this.name = name
+            if (name != null)
+                this.name = name
         }
         return out
     }

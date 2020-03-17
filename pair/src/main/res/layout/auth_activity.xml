@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.tutorial.TutorialActivity">
+    tools:context=".ui.auth.activity.AuthActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,7 +39,6 @@
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintStart_toStartOf="parent"
             auto:layout_constraintTop_toBottomOf="@id/button_register" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

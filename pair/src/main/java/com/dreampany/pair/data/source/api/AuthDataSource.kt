@@ -24,6 +24,12 @@ interface AuthDataSource {
     fun isLoggedOut() : Boolean
 
     @Throws
+    suspend fun login(
+        email: String,
+        password: String
+    ): User?
+
+    @Throws
     suspend fun register(
         email: String,
         password: String,

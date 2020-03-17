@@ -38,6 +38,10 @@ constructor(
         return pref.isLoggedOut()
     }
 
+    override suspend fun login(email: String, password: String): User? {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun register(email: String, password: String, name: String): User? {
         TODO("Not yet implemented")
     }

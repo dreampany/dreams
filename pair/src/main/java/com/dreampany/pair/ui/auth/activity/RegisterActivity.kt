@@ -57,7 +57,7 @@ class RegisterActivity : BaseInjectorActivity() {
     private fun onSafeClick(view: View) {
         when (view) {
             bind.buttonRegister -> {
-                register()
+                registerPressed()
             }
         }
     }
@@ -73,7 +73,7 @@ class RegisterActivity : BaseInjectorActivity() {
     }
 
 
-    private fun register() {
+    private fun registerPressed() {
         val name = bind.inputName.string()
         val email = bind.inputEmail.string()
         val password = bind.inputPassword.string()

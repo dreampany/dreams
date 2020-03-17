@@ -38,4 +38,7 @@ interface AuthDataSource {
 
     @Throws
     suspend fun save(user: User): Long
+
+    @Throws
+    suspend fun getUserByEmail(email: String): User?
 }

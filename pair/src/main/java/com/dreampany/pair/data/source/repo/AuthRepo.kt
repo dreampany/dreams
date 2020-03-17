@@ -61,26 +61,32 @@ class AuthRepo
     ) = withContext(Dispatchers.IO) {
         val user = fireauth.register(email, password, name)
         if (user != null) {
-            // save in firestore and room
             room.save(user)
             firestore.save(user)
-
         }
         user
     }
 
     @Throws
     override suspend fun login(email: String, password: String) = withContext(Dispatchers.IO) {
-        var user = fireauth.login(email, password)
+        val user = fireauth.login(email, password)
+        var fullUser: User? = null
         if (user != null) {
-
+            fullUser = room.getUserByEmail(email)
+            if (fullUser == null || fullUser.id.isEmpty()) {
+                fullUser = firestore.getUserByEmail(email)
+            }
         }
-        user
+        fullUser
     }
 
 
     @Throws
     override suspend fun save(user: User): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getUserByEmail(email: String): User? {
         TODO("Not yet implemented")
     }
 }

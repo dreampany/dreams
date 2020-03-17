@@ -19,6 +19,7 @@ class AppConstants {
 
         object Firestore {
             const val USERS = "users"
+            const val EMAIL = "email"
         }
     }
 }

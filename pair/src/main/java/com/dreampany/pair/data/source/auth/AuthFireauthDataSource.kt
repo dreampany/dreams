@@ -40,10 +40,6 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun login(email: String, password: String): User? {
-        return doLogin(email, password)
-    }
-
     @Throws
     override suspend fun register(
         email: String,
@@ -53,19 +49,16 @@ constructor(
         return doRegister(email, password, name)
     }
 
+    override suspend fun login(email: String, password: String): User? {
+        return doLogin(email, password)
+    }
+
     override suspend fun save(user: User): Long {
         TODO("Not yet implemented")
     }
 
-    @Throws
-    private fun doLogin(
-        email: String,
-        password: String
-    ): User? {
-        val auth = FirebaseAuth.getInstance()
-        val fbUser =
-            RxFirebaseAuth.signInWithEmailAndPassword(auth, email, password).blockingGet().user
-        return if (fbUser != null) mappers.getUser(fbUser) else null
+    override suspend fun getUserByEmail(email: String): User? {
+        TODO("Not yet implemented")
     }
 
     @Throws
@@ -78,6 +71,17 @@ constructor(
         val fbUser =
             RxFirebaseAuth.createUserWithEmailAndPassword(auth, email, password).blockingGet().user
         return if (fbUser != null) mappers.getUser(fbUser, name) else null
+    }
+
+    @Throws
+    private fun doLogin(
+        email: String,
+        password: String
+    ): User? {
+        val auth = FirebaseAuth.getInstance()
+        val fbUser =
+            RxFirebaseAuth.signInWithEmailAndPassword(auth, email, password).blockingGet().user
+        return if (fbUser != null) mappers.getUser(fbUser) else null
     }
 
 }

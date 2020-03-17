@@ -55,11 +55,11 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun login(email: String, password: String): User? {
+    override suspend fun register(email: String, password: String, name: String): User? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun register(email: String, password: String, name: String): User? {
+    override suspend fun login(email: String, password: String): User? {
         TODO("Not yet implemented")
     }
 
@@ -69,5 +69,14 @@ constructor(
         val userDocument = document.collection(AppConstants.Keys.Firestore.USERS).document(user.id)
         val error = RxFirestore.setDocument(userDocument, user, SetOptions.merge()).blockingGet()
         return if (error == null) -1L else 0L
+    }
+
+    override suspend fun getUserByEmail(email: String): User? {
+        val document =
+            firestore.collection(Constants.Keys.Firestore.PACKAGES).document(context.packageName)
+        val users = document.collection(AppConstants.Keys.Firestore.USERS)
+        val userQuery = users.whereEqualTo(AppConstants.Keys.Firestore.EMAIL, email).limit(1L)
+        val user = RxFirestore.getCollection(userQuery, User::class.java).blockingGet().first()
+        return user
     }
 }

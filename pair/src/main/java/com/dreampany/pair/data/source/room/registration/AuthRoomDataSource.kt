@@ -38,15 +38,19 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun login(email: String, password: String): User? {
+    override suspend fun register(email: String, password: String, name: String): User? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun register(email: String, password: String, name: String): User? {
+    override suspend fun login(email: String, password: String): User? {
         TODO("Not yet implemented")
     }
 
     override suspend fun save(user: User): Long {
         return dao.insertOrReplace(user)
+    }
+
+    override suspend fun getUserByEmail(email: String): User? {
+        return dao.getUserByEmail(email)
     }
 }

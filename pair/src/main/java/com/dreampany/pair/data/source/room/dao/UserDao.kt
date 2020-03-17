@@ -19,6 +19,9 @@ interface UserDao : BaseDao<User> {
     @Query("select * from user where id = :id limit 1")
     fun getUser(id: String): User?
 
+    @Query("select * from user where email = :email limit 1")
+    fun getUserByEmail(email: String): User?
+
     @Query("select * from user")
     fun getUsers(): List<User>?
 }

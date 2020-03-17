@@ -38,15 +38,19 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun login(email: String, password: String): User? {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun register(email: String, password: String, name: String): User? {
         TODO("Not yet implemented")
     }
 
+    override suspend fun login(email: String, password: String): User? {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun save(user: User): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getUserByEmail(email: String): User? {
         TODO("Not yet implemented")
     }
 

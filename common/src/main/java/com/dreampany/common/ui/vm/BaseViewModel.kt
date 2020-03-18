@@ -67,7 +67,6 @@ protected constructor(
     }
 
     override fun onCleared() {
-        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED)
         job.cancel()
         singleOwners.forEach {
             output.removeObservers(it)
@@ -75,6 +74,7 @@ protected constructor(
         multipleOwners.forEach {
             outputs.removeObservers(it)
         }
+        lifecycleRegistry.setCurrentState(Lifecycle.State.DESTROYED)
         super.onCleared()
     }
 

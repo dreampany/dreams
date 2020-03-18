@@ -135,7 +135,7 @@ class LoginActivity : BaseInjectorActivity() {
     }
 
     private fun goToHomeScreen() {
-        //vm.setLoggedIn(true)
+        vm.setLoggedIn(true)
         open(HomeActivity::class, flags = clearFlags(), finishCurrent =  true)
     }
 

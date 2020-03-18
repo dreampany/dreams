@@ -7,9 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.data.model.Response
-import com.dreampany.common.misc.extension.isEmail
-import com.dreampany.common.misc.extension.setOnSafeClickListener
-import com.dreampany.common.misc.extension.string
+import com.dreampany.common.misc.extension.*
 import com.dreampany.common.ui.activity.BaseInjectorActivity
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.R
@@ -18,6 +16,7 @@ import com.dreampany.pair.data.enums.Type
 import com.dreampany.pair.data.model.User
 import com.dreampany.pair.databinding.RegisterActivityBinding
 import com.dreampany.pair.ui.auth.vm.AuthViewModel
+import com.dreampany.pair.ui.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import timber.log.Timber
 import javax.inject.Inject
@@ -117,7 +116,8 @@ class RegisterActivity : BaseInjectorActivity() {
     }
 
     private fun processResult(user: User) {
-        showDialogue(
+        goToHomeScreen()
+        /*showDialogue(
             R.string.title_dialog_registration,
             message = user.name,
             onPositiveClick = {
@@ -126,7 +126,12 @@ class RegisterActivity : BaseInjectorActivity() {
             onNegativeClick = {
 
             }
-        )
+        )*/
+    }
+
+    private fun goToHomeScreen() {
+        vm.setLoggedIn(true)
+        open(HomeActivity::class, flags = clearFlags(), finishCurrent =  true)
     }
 
 }

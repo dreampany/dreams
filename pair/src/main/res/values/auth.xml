@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="name_roman_bjit">Roman Bjit</string>
-    <string name="email_roman_bjit">roman.bjit@gmail.com</string>
+    <string name="email_roman_bjit">romanbjit@gmail.com</string>
     <string name="password_roman_bjit">rootnet08</string>
 
     <string name="error_email">Enter valid email address!</string>

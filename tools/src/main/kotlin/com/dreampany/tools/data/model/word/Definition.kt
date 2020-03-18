@@ -54,21 +54,4 @@ data class Definition(
     fun getPartOfSpeech(): String? {
         return partOfSpeech
     }
-
-/*    @Exclude
-    fun getCleanText(): String? {
-        return TextUtil.stripHtml(text)
-    }*/
-
-/*    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        val item = other as Definition
-        return Objects.equal(item.partOfSpeech, partOfSpeech) && Objects.equal(item.text, text)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(partOfSpeech, text)
-    }*/
-
 }

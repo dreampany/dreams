@@ -168,11 +168,11 @@ dependencies {
     //implementation 'com.google.firebase:firebase-ml-natural-language-smart-reply-model:20.0.7'
 
     /* dagger */
-    kapt 'com.google.dagger:dagger-compiler:2.26'
-    kapt 'com.google.dagger:dagger-android-processor:2.26'
+    kapt 'com.google.dagger:dagger-compiler:2.27'
+    kapt 'com.google.dagger:dagger-android-processor:2.27'
 
     /* crashlytics */
-    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
+    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta02'
     implementation 'com.google.firebase:firebase-crashlytics-ndk:17.0.0-beta01'
 
     /* misc */

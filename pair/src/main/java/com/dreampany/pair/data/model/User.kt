@@ -1,5 +1,6 @@
 package com.dreampany.pair.data.model
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -28,8 +29,21 @@ import kotlinx.android.parcel.Parcelize
 data class User(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var email: String? = null,
-    var name: String? = null
+    var email: String? = Constants.Default.NULL,
+    var password: String? = Constants.Default.NULL,
+    var name: String? = Constants.Default.NULL,
+    @Embedded
+    var photo: Photo? = Constants.Default.NULL,
+    var gender: String? = Constants.Default.NULL,
+    var height: Int = Constants.Default.INT,
+    var birthdate: Long = Constants.Default.LONG,
+    var bio: String? = Constants.Default.NULL,
+    var interest: String? = Constants.Default.NULL,
+    var photos: List<Photo>? = Constants.Default.NULL,
+    var latitude: Double = Constants.Default.DOUBLE,
+    var longitude: Double = Constants.Default.DOUBLE,
+    var token: String? = Constants.Default.NULL,
+    var status: Boolean = Constants.Default.BOOLEAN
 ) : Base() {
 
     @Ignore

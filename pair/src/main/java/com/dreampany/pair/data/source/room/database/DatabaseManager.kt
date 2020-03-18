@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.pair.data.model.User
+import com.dreampany.pair.data.source.room.converters.Converters
 import com.dreampany.pair.data.source.room.dao.UserDao
 
 /**
@@ -15,6 +17,7 @@ import com.dreampany.pair.data.source.room.dao.UserDao
  * Last modified $file.lastModified
  */
 @Database(entities = [User::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
     companion object {

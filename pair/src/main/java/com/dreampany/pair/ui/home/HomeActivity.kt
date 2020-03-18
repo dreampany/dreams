@@ -11,6 +11,8 @@ import com.dreampany.common.ui.activity.BaseInjectorActivity
  */
 class HomeActivity : BaseInjectorActivity() {
 
+
+
     override fun onStartUi(state: Bundle?) {
 
 

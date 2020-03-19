@@ -129,4 +129,5 @@ dependencies {
     implementation 'com.github.florent37:inline-activity-result-kotlin:1.0.1'
     implementation 'com.github.FrangSierra:RxFirebase:1.5.6'
     implementation 'com.yuyakaido.android:card-stack-view:2.3.3'
+    implementation "com.github.nikartm:fit-button:1.2.1"
 }

@@ -78,7 +78,6 @@ class LoginActivity : BaseInjectorActivity() {
 
 
     private fun loginPressed() {
-        //vm.checkUser()
 
         val email = bind.inputEmail.string()
         val password = bind.inputPassword.string()

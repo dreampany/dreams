@@ -33,35 +33,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                auto:layout_constraintGuide_percent="0.3" />
-
+                auto:layout_constraintGuide_percent="0.8" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/line">
 
-                <com.google.android.material.button.MaterialButton
+                <com.github.nikartm.button.FitButton
                     android:id="@+id/buttonNo"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp" />
+                    android:layout_width="@dimen/_44sdp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:gravity="center"
+                    auto:fb_backgroundColor="@color/material_white"
+                    auto:fb_icon="@android:drawable/ic_menu_close_clear_cancel"
+                    auto:fb_iconColor="@color/material_grey400"
+                    auto:fb_iconHeight="@dimen/_24sdp"
+                    auto:fb_iconWidth="@dimen/_24sdp"
+                    auto:fb_rippleColor="#22ED7563"
+                    auto:fb_shape="circle" />
 
-                <com.google.android.material.button.MaterialButton
+                <com.github.nikartm.button.FitButton
                     android:id="@+id/button_like"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_60sdp"
-                   auto:icon="@drawable/ic_favorite_black_24dp" android:layout_marginStart="15dp" />
+                    android:layout_marginStart="@dimen/_20sdp"
+                    android:layout_marginEnd="@dimen/_20sdp"
+                    android:gravity="center"
+                    auto:fb_backgroundColor="@color/colorAccent"
+                    auto:fb_icon="@drawable/ic_favorite_black_24dp"
+                    auto:fb_iconColor="@color/material_white"
+                    auto:fb_iconHeight="@dimen/_34sdp"
+                    auto:fb_iconWidth="@dimen/_30sdp"
+                    auto:fb_rippleColor="#225BC9FA"
+                    auto:fb_shape="circle" />
 
-                <com.google.android.material.button.MaterialButton
+                <com.github.nikartm.button.FitButton
                     android:id="@+id/button_profile"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp" />
+                    android:layout_width="@dimen/_44sdp"
+                    android:layout_height="@dimen/_44sdp"
+                    android:gravity="center"
+                    auto:fb_backgroundColor="@color/material_white"
+                    auto:fb_icon="@drawable/ic_forward_black_24dp"
+                    auto:fb_iconColor="@color/material_grey400"
+                    auto:fb_iconHeight="@dimen/_22sdp"
+                    auto:fb_iconWidth="@dimen/_22sdp"
+                    auto:fb_rippleColor="#22ED7563"
+                    auto:fb_shape="circle" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

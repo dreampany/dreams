@@ -2,6 +2,7 @@ package com.dreampany.pair.ui.home
 
 import android.os.Bundle
 import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.pair.R
 
 /**
  * Created by roman on 18/3/20
@@ -11,6 +12,7 @@ import com.dreampany.common.ui.activity.BaseInjectorActivity
  */
 class HomeActivity : BaseInjectorActivity() {
 
+    override fun layoutId(): Int = R.layout.home_activity
 
 
     override fun onStartUi(state: Bundle?) {

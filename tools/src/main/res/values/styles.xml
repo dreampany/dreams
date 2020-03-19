@@ -1,10 +1,19 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme.App" parent="AppTheme">
+    <!-- application -->
+    <style name="AppTheme" parent="DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/material_grey600</item>
+    </style>
+
+    <!-- activity -->
+    <style name="FullScreenTheme" parent="NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/material_grey600</item>
     </style>
 
 </resources>

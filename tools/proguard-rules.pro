@@ -1,43 +1,21 @@
-#debugging and stack trace
-#-repackageclasses
--keepattributes SourceFile, LineNumberTable
--keepattributes *Annotation*, Signature, Exception
-#-optimizations !method/removal/parameter
--ignorewarnings
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+# Add project specific ProGuard rules here.
+# You can control the set of applied configuration files using the
+# proguardFiles setting in build.gradle.
+#
+# For more details, see
+#   http://developer.android.com/guide/developing/tools/proguard.html
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+
+# Uncomment this to preserve the line number information for
+# debugging stack traces.
+#-keepattributes SourceFile,LineNumberTable
+
+# If you keep the line number information, uncomment this to
+# hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
-# framework
--keep class com.dreampany.framework.data.model.** { *; }
--keepclassmembers class com.dreampany.framework.data.model.** { *; }
-
--keep class com.dreampany.framework.ui.model.** { *; }
--keepclassmembers class com.dreampany.framework.ui.model.** { *; }
-
--keep class com.dreampany.framework.misc.** { *; }
--keepclassmembers class com.dreampany.framework.misc.** { *; }
-
--keep class com.dreampany.translation.data.model.** { *; }
--keepclassmembers class com.dreampany.translation.data.model.** { *; }
-
--keep class com.dreampany.language.data.model.** { *; }
--keepclassmembers class com.dreampany.language.data.model.** { *; }
-
--keep class com.dreampany.firebase.data.model.** { *; }
--keepclassmembers class com.dreampany.firebase.data.model.** { *; }
-
-# app
--keep class com.dreampany.tools.service.** { *; }
--keepclassmembers class com.dreampany.tools.service.** { *; }
-
--keep class com.dreampany.tools.data.model.** { *; }
--keepclassmembers class com.dreampany.tools.data.model.** { *; }
-
--keep class com.dreampany.tools.ui.model.** { *; }
--keepclassmembers class com.dreampany.tools.ui.model.** { *; }
-
--keep class com.dreampany.tools.misc.** { *; }
--keepclassmembers class com.dreampany.tools.misc.** { *; }
-
--keep class com.dreampany.tools.api.** { *; }
--keepclassmembers class com.dreampany.tools.api.** { *; }

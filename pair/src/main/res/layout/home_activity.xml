@@ -22,18 +22,16 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/line"
+            <com.yuyakaido.android.cardstackview.CardStackView
+                android:id="@+id/cards"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                auto:layout_constraintGuide_percent="0.8" />
+                android:layout_height="match_parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
@@ -87,6 +85,6 @@
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

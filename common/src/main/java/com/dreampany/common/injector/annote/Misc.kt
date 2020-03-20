@@ -1,5 +1,6 @@
 package com.dreampany.common.injector.annote
 
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import dagger.MapKey
 import kotlin.reflect.KClass
@@ -10,8 +11,15 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+
+@MapKey
+@MustBeDocumented
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+@Retention(value = AnnotationRetention.RUNTIME)
+internal annotation class FragmentKey(val value: KClass<out Fragment>)
+
 @MapKey
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
 @Retention(AnnotationRetention.RUNTIME)
-annotation class ViewModelKey(val value: KClass<out ViewModel>)
+internal annotation class ViewModelKey(val value: KClass<out ViewModel>)

@@ -3,60 +3,81 @@
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
 
-    <string name="category_general">General</string>
-    <string name="category_about">About</string>
-    <string name="title_privacy_policy">Privacy Policy</string>
-    <string name="title_version">Version</string>
-    <string name="summary_app_version">%1$s</string>
-    <string name="key_version">version</string>
-    <string name="summary_about">We are a dream team of like-minded people, specialized in development of Android App Development creating with love.</string>
+    <string name="space">\u0020</string>
+    <string name="title">Title</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="notifications">Notifications</string>
+    <string name="more">More</string>
+    <string name="tools">Tools</string>
+    <string name="favorite">Favorite</string>
+    <string name="live">Live</string>
+    <string name="share">Share</string>
+    <string name="favorites">Favorites</string>
+    <string name="open">Open</string>
+    <string name="details">Details</string>
 
-    <string name="category_theme">Theme</string>
-    <string name="summary_primary_color">primary color</string>
-    <string name="title_primary_color">Primary Color</string>
-    <string name="summary_accent_color">accent color</string>
-    <string name="title_accent_color">Accent Color</string>
+    <string name="new_items">New Items</string>
 
-    <string name="key_notification">notification</string>
-    <string name="title_notification">Notification</string>
-    <string name="summary_notification">Enable notification</string>
+    <string name="search">Search</string>
+    <string name="done">Done</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="clear">Clear</string>
+    <string name="clear_all">Clear All</string>
+    <string name="add_all">Add All</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="view">View</string>
+    <string name="next">Next</string>
+    <string name="category">Category</string>
+    <string name="type">Type</string>
+    <string name="difficult">Difficult</string>
+    <string name="limit">Limit</string>
+    <string name="print">Print</string>
 
-    <string name="key_speak">speak</string>
-    <string name="title_speak">Text To Speech</string>
-    <string name="summary_speak">Listen text using tts engine</string>
+    <string name="empty">""</string>
+    <string name="loading">Loading…</string>
+    <string name="try_again">Try Again</string>
+    <string name="message_offline">Oops… You are offline.</string>
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="alert">Alert</string>
+    <string name="alerts">Alerts</string>
 
-    <string name="key_font_size">font_size</string>
-    <string name="title_font_size">Font Size</string>
-    <string name="summary_font_size">Select font size</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="pause">Pause</string>
+    <string name="paused">Paused</string>
+    <string name="resume">Resume</string>
+    <string name="playing">Playing</string>
 
-    <string name="key_language">language</string>
-    <string name="title_language">Language</string>
-    <string name="summary_language">Select language</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="connecting">Connecting</string>
+    <string name="connected">Connected</string>
 
-    <string name="key_country">country</string>
-    <string name="title_country">Country</string>
-    <string name="summary_country">Select country</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
 
-    <string name="key_translation">translation</string>
-    <string name="title_translation">Translation</string>
-    <string name="summary_translation">Enable translation</string>
+    <string name="low">Low</string>
+    <string name="medium">Medium</string>
+    <string name="high">High</string>
 
-    <string name="key_theme">theme</string>
-    <string name="title_theme">Theme</string>
-    <string name="summary_theme">Enable multiple theme</string>
+    <string name="local">Local</string>
+    <string name="trends">Trends</string>
+    <string name="popular">Popular</string>
 
-    <string name="key_feedback">feedback</string>
-    <string name="title_feedback">Send Feedback</string>
 
-    <string name="key_rate">rate</string>
-    <string name="title_rate">Rate Us</string>
+    <string name="back_pressed">Please click BACK again to exit</string>
 
-    <string name="key_about">about</string>
-    <string name="title_about">About</string>
+    <string name="save">Save</string>
+    <string name="save_success">Saved successfully.</string>
 
-    <string name="more_apps">More Apps</string>
-    <string name="rate_us">Rate Us</string>
-    <string name="settings">Settings</string>
-    <string name="license">License</string>
-    <string name="about">About</string>
+    <string name="auto_collection">Auto collection</string>
+    <string name="detected_words">%d words</string>
+
+    <string name="all_rights_reserved">Copyright © 2020 Dreampany. All Rights Reserved.</string>
 </resources>

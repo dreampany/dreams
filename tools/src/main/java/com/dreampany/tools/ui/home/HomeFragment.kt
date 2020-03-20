@@ -1,8 +1,8 @@
 package com.dreampany.tools.ui.home
 
 import android.os.Bundle
-import com.dreampany.common.ui.activity.InjectActivity
-import com.dreampany.tools.R
+import com.dreampany.common.ui.fragment.InjectFragment
+import javax.inject.Inject
 
 /**
  * Created by roman on 20/3/20
@@ -10,13 +10,11 @@ import com.dreampany.tools.R
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class HomeActivity : InjectActivity() {
-
-    override fun layoutId(): Int = R.layout.home_activity
+class HomeFragment
+@Inject constructor() : InjectFragment() {
 
 
     override fun onStartUi(state: Bundle?) {
-
 
     }
 

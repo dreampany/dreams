@@ -1,9 +1,9 @@
-package com.dreampany.tools.injector.app
+package com.dreampany.tools.inject.app
 
 import android.app.Application
-import com.dreampany.common.injector.app.AppModule
-import com.dreampany.common.injector.property.PropertyModule
-import com.dreampany.tools.injector.ui.activity.ActivityModule
+import com.dreampany.common.inject.app.AppModule
+import com.dreampany.common.inject.property.PropertyModule
+import com.dreampany.tools.inject.ui.activity.ActivityModule
 import com.dreampany.tools.app.App
 import dagger.BindsInstance
 import dagger.Component

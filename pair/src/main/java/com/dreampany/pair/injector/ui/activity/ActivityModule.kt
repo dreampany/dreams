@@ -1,6 +1,6 @@
 package com.dreampany.pair.injector.ui.activity
 
-import com.dreampany.common.injector.annote.ActivityScope
+import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.pair.ui.auth.activity.AuthActivity
 import com.dreampany.pair.ui.auth.activity.LoginActivity
 import com.dreampany.pair.ui.auth.activity.RegisterActivity

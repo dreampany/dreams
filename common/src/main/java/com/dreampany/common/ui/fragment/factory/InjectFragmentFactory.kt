@@ -3,6 +3,7 @@ package com.dreampany.common.ui.fragment.factory
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import timber.log.Timber
+import javax.inject.Inject
 import javax.inject.Provider
 
 /**
@@ -11,7 +12,8 @@ import javax.inject.Provider
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class InjectFragmentFactory (
+class InjectFragmentFactory
+@Inject constructor(
     private val creators: Map<Class<out Fragment>, @JvmSuppressWildcards Provider<Fragment>>
 ) : FragmentFactory() {
 

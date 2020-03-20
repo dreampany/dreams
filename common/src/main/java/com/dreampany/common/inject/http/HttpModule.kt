@@ -1,4 +1,4 @@
-package com.dreampany.common.injector.http
+package com.dreampany.common.inject.http
 
 import android.content.Context
 import com.dreampany.common.misc.constant.Constants

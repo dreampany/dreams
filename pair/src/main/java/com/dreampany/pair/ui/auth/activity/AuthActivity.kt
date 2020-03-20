@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.extension.setOnSafeClickListener
-import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.pair.R
 import com.dreampany.pair.databinding.AuthActivityBinding
 
@@ -14,7 +14,7 @@ import com.dreampany.pair.databinding.AuthActivityBinding
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AuthActivity : BaseInjectorActivity() {
+class AuthActivity : InjectActivity() {
 
     private lateinit var bind: AuthActivityBinding
 

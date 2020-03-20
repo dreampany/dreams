@@ -1,4 +1,4 @@
-package com.dreampany.common.injector.json
+package com.dreampany.common.inject.json
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

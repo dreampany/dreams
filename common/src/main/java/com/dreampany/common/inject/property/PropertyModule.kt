@@ -1,9 +1,9 @@
-package com.dreampany.common.injector.property
+package com.dreampany.common.inject.property
 
 import android.content.Context
 import com.dreampany.common.data.model.Property
-import com.dreampany.common.injector.http.HttpModule
-import com.dreampany.common.injector.json.JsonModule
+import com.dreampany.common.inject.http.HttpModule
+import com.dreampany.common.inject.json.JsonModule
 import com.dreampany.common.misc.extension.isDebug
 import dagger.Module
 import dagger.Provides

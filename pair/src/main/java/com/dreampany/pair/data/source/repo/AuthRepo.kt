@@ -1,6 +1,6 @@
 package com.dreampany.pair.data.source.repo
 
-import com.dreampany.common.injector.annote.*
+import com.dreampany.common.inject.annote.*
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.RxMapper
 import com.dreampany.pair.data.model.User

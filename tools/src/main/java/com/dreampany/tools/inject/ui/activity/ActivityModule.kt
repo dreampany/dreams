@@ -1,6 +1,9 @@
-package com.dreampany.tools.injector.ui.activity
+package com.dreampany.tools.inject.ui.activity
 
-import com.dreampany.common.injector.annote.ActivityScope
+import com.dreampany.common.inject.annote.ActivityScope
+import com.dreampany.tools.inject.ui.fragment.HostModule
+import com.dreampany.tools.ui.home.HomeActivity
+import com.dreampany.tools.ui.home.HomeFragment
 import com.dreampany.tools.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -16,4 +19,8 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract fun splash(): SplashActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [HostModule::class])
+    abstract fun home(): HomeActivity
 }

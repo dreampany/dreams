@@ -1,4 +1,4 @@
-package com.dreampany.common.injector.app
+package com.dreampany.common.inject.app
 
 import android.app.Application
 import android.content.Context

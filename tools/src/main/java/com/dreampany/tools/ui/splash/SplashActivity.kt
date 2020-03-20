@@ -1,8 +1,10 @@
 package com.dreampany.tools.ui.splash
 
 import android.os.Bundle
-import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.misc.extension.open
+import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.tools.R
+import com.dreampany.tools.ui.home.HomeActivity
 import kotlinx.coroutines.Runnable
 
 /**
@@ -11,7 +13,7 @@ import kotlinx.coroutines.Runnable
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SplashActivity : BaseInjectorActivity() {
+class SplashActivity : InjectActivity() {
 
     //@Inject
     //internal lateinit var factory: ViewModelFactory
@@ -35,6 +37,7 @@ class SplashActivity : BaseInjectorActivity() {
     }
 
     private fun nextScreen() {
+        open(HomeActivity::class, true)
 /*        if (vm.isJoinPressed()) {
             if (vm.isLoggedIn()) {
                 open(HomeActivity::class, true)

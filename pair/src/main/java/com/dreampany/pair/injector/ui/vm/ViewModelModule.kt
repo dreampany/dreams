@@ -2,7 +2,7 @@ package com.dreampany.pair.injector.ui.vm
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.common.injector.annote.ViewModelKey
+import com.dreampany.common.inject.annote.ViewModelKey
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.ui.auth.vm.AuthViewModel
 import dagger.Binds

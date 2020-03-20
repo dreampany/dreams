@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.*
-import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.R
 import com.dreampany.pair.data.enums.Subtype
@@ -27,7 +27,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class LoginActivity : BaseInjectorActivity() {
+class LoginActivity : InjectActivity() {
 
     @Inject
     internal lateinit var factory: ViewModelFactory

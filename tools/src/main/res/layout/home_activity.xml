@@ -30,7 +30,7 @@
 
             <fragment
                 android:id="@+id/nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:name="com.dreampany.common.ui.fragment.InjectHostFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 auto:defaultNavHost="true"
@@ -51,7 +51,6 @@
                 auto:layout_constraintLeft_toLeftOf="parent"
                 auto:layout_constraintRight_toRightOf="parent"
                 auto:menu="@menu/bottom_nav_menu" />
-
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

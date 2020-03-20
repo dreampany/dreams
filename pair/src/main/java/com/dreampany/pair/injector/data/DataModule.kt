@@ -1,7 +1,7 @@
 package com.dreampany.pair.injector.data
 
 import android.content.Context
-import com.dreampany.common.injector.annote.*
+import com.dreampany.common.inject.annote.*
 import com.dreampany.pair.data.mapper.Mappers
 import com.dreampany.pair.data.source.auth.AuthFireauthDataSource
 import com.dreampany.pair.data.source.api.AuthDataSource

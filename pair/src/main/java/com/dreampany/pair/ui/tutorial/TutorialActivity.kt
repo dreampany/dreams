@@ -5,7 +5,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.extension.setOnSafeClickListener
-import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.R
@@ -21,7 +21,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class TutorialActivity : BaseInjectorActivity() {
+class TutorialActivity : InjectActivity() {
 
     @Inject
     internal lateinit var factory: ViewModelFactory

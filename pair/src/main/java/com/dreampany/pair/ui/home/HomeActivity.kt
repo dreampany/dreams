@@ -1,7 +1,7 @@
 package com.dreampany.pair.ui.home
 
 import android.os.Bundle
-import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.pair.R
 
 /**
@@ -10,7 +10,7 @@ import com.dreampany.pair.R
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class HomeActivity : BaseInjectorActivity() {
+class HomeActivity : InjectActivity() {
 
     override fun layoutId(): Int = R.layout.home_activity
 

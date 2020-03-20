@@ -1,7 +1,7 @@
 package com.dreampany.tools.app
 
 import com.dreampany.common.app.BaseInjectorApp
-import com.dreampany.tools.injector.app.DaggerAppComponent
+import com.dreampany.tools.inject.app.DaggerAppComponent
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.facebook.imagepipeline.core.ImageTranscoderType

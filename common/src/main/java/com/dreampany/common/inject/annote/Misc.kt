@@ -1,4 +1,4 @@
-package com.dreampany.common.injector.annote
+package com.dreampany.common.inject.annote
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -14,12 +14,20 @@ import kotlin.reflect.KClass
 
 @MapKey
 @MustBeDocumented
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
 @Retention(value = AnnotationRetention.RUNTIME)
-internal annotation class FragmentKey(val value: KClass<out Fragment>)
+annotation class FragmentKey(val value: KClass<out Fragment>)
 
 @MapKey
 @MustBeDocumented
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
 @Retention(AnnotationRetention.RUNTIME)
-internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
+annotation class ViewModelKey(val value: KClass<out ViewModel>)

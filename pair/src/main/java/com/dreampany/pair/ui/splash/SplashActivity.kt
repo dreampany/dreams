@@ -1,16 +1,13 @@
 package com.dreampany.pair.ui.splash
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.common.misc.extension.clearFlags
 import com.dreampany.common.misc.extension.open
-import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.pair.R
 import com.dreampany.pair.ui.auth.activity.AuthActivity
 import com.dreampany.pair.ui.auth.activity.LoginActivity
-import com.dreampany.pair.ui.auth.activity.RegisterActivity
 import com.dreampany.pair.ui.auth.vm.AuthViewModel
 import com.dreampany.pair.ui.home.HomeActivity
 import com.dreampany.pair.ui.tutorial.TutorialActivity
@@ -23,7 +20,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class SplashActivity : BaseInjectorActivity() {
+class SplashActivity : InjectActivity() {
 
     @Inject
     internal lateinit var factory: ViewModelFactory

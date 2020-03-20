@@ -16,7 +16,7 @@ import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.func.Executors
-import com.dreampany.common.ui.fragment.BaseInjectorFragment
+import com.dreampany.common.ui.fragment.InjectFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
@@ -29,7 +29,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
+abstract class InjectActivity : DaggerAppCompatActivity() {
 
     @Inject
     protected lateinit var ex: Executors
@@ -39,7 +39,7 @@ abstract class BaseInjectorActivity : DaggerAppCompatActivity() {
     private lateinit var toolbar: Toolbar
     protected var task: Task<*, *, *>? = null
 
-    protected var fragment: BaseInjectorFragment? = null
+    protected var fragment: InjectFragment? = null
 
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null

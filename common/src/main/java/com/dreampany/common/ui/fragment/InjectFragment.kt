@@ -1,6 +1,5 @@
 package com.dreampany.common.ui.fragment
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.preference.PreferenceFragmentCompat
 import com.dreampany.common.data.model.Task
-import com.dreampany.common.ui.activity.BaseInjectorActivity
+import com.dreampany.common.ui.activity.InjectActivity
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -26,7 +25,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseInjectorFragment : PreferenceFragmentCompat(), HasAndroidInjector {
+abstract class InjectFragment : PreferenceFragmentCompat(), HasAndroidInjector {
 
     @Inject
     internal lateinit var injector: DispatchingAndroidInjector<Any>
@@ -107,25 +106,25 @@ abstract class BaseInjectorFragment : PreferenceFragmentCompat(), HasAndroidInje
     }
 
     protected fun setTitle(@StringRes resId: Int) {
-        if (activity is BaseInjectorActivity) {
+        if (activity is InjectActivity) {
             setTitle(resId)
         }
     }
 
     protected fun setTitle(title: String? = null) {
-        if (activity is BaseInjectorActivity) {
+        if (activity is InjectActivity) {
             setTitle(title)
         }
     }
 
     protected fun setSubtitle(@StringRes resId: Int) {
-        if (activity is BaseInjectorActivity) {
+        if (activity is InjectActivity) {
             setSubtitle(resId)
         }
     }
 
     protected fun setSubtitle(subtitle: String? = null) {
-        if (activity is BaseInjectorActivity) {
+        if (activity is InjectActivity) {
             setSubtitle(subtitle)
         }
     }

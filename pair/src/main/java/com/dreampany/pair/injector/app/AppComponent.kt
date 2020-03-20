@@ -1,8 +1,8 @@
 package com.dreampany.pair.injector.app
 
 import android.app.Application
-import com.dreampany.common.injector.app.AppModule
-import com.dreampany.common.injector.property.PropertyModule
+import com.dreampany.common.inject.app.AppModule
+import com.dreampany.common.inject.property.PropertyModule
 import com.dreampany.pair.app.App
 import com.dreampany.pair.injector.data.DataModule
 import com.dreampany.pair.injector.ui.activity.ActivityModule

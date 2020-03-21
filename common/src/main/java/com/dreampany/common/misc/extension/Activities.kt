@@ -52,7 +52,7 @@ fun <T : Fragment> AppCompatActivity?.open(fragment: T?, @IdRes parent: Int, ex:
                     .beginTransaction()
                     .replace(parent, it, it.javaClass.simpleName)
                     .addToBackStack(null)
-                    .commitNowAllowingStateLoss()
+                    .commitAllowingStateLoss()
             }
         }
     }

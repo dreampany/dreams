@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="title_feature_app">App Manager</string>
+    <string name="title_feature_vpn">Super VPN</string>
+    <string name="title_feature_word">Learn Words</string>
+    <string name="title_feature_note">Keep Notes</string>
+    <string name="title_feature_radio">Smart Radio</string>
+    <string name="title_feature_english">Learn English</string>
+    <string name="title_feature_crypto">Live Crypto</string>
+    <string name="title_feature_block">Super Block</string>
+    <string name="title_feature_todo">Easy Todo</string>
+    <string name="title_feature_resume">Resume Plus</string>
+    <string name="title_feature_question">Questions</string>
+    <string name="title_feature_lock">Smart Lock</string>
+
+    <string name="title_dialog_features">Features</string>
+    <string name="message_dialog_features_not_found">Not found!</string>
+</resources>

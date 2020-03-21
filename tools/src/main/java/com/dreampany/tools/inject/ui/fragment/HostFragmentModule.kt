@@ -6,7 +6,7 @@ import com.dreampany.common.inject.annote.FragmentKey
 import com.dreampany.common.ui.fragment.factory.InjectFragmentFactory
 import com.dreampany.tools.ui.dashboard.DashboardFragment
 import com.dreampany.tools.ui.dashboard.MoreFragment
-import com.dreampany.tools.ui.home.HomeFragment
+import com.dreampany.tools.ui.home.fragment.HomeFragment
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

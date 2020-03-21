@@ -2,8 +2,7 @@ package com.dreampany.tools.inject.ui.activity
 
 import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.tools.inject.ui.fragment.HostModule
-import com.dreampany.tools.ui.home.HomeActivity
-import com.dreampany.tools.ui.home.HomeFragment
+import com.dreampany.tools.ui.home.activity.HomeActivity
 import com.dreampany.tools.ui.splash.SplashActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

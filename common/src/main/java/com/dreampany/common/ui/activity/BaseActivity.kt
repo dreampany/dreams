@@ -82,8 +82,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        onStopUi()
         hideProgress()
+        hideDialog()
+        onStopUi()
         super.onDestroy()
     }
 

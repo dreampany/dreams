@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.home
+package com.dreampany.tools.ui.home.activity
 
 import android.os.Bundle
 import androidx.navigation.findNavController
@@ -21,6 +21,8 @@ class HomeActivity : InjectActivity() {
     private lateinit var bind: HomeActivityBinding
 
     override fun hasBinding(): Boolean = true
+
+    override fun homeUp(): Boolean = true
 
     override fun layoutId(): Int = R.layout.home_activity
 

@@ -4,7 +4,7 @@ import android.os.Bundle
 import com.dreampany.common.misc.extension.open
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.tools.R
-import com.dreampany.tools.ui.home.HomeActivity
+import com.dreampany.tools.ui.home.activity.HomeActivity
 import kotlinx.coroutines.Runnable
 
 /**

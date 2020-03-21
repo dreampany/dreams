@@ -7,20 +7,6 @@
     <string name="title_notify_channel">Channel for Smart Service</string>
     <string name="description_notify_channel">Channel to enable few tasks</string>
 
-
-    <string name="title_feature_app">App Manager</string>
-    <string name="title_feature_vpn">Super VPN</string>
-    <string name="title_feature_word">Learn Words</string>
-    <string name="title_feature_note">Keep Notes</string>
-    <string name="title_feature_radio">Smart Radio</string>
-    <string name="title_feature_english">Learn English</string>
-    <string name="title_feature_crypto">Live Crypto</string>
-    <string name="title_feature_block">Super Block</string>
-    <string name="title_feature_todo">Easy Todo</string>
-    <string name="title_feature_resume">Resume Plus</string>
-    <string name="title_feature_question">Questions</string>
-    <string name="title_feature_lock">Smart Lock</string>
-
     <string name="info">Info</string>
 
     <string name="select_language">Select Language</string>

@@ -30,7 +30,7 @@ import javax.inject.Inject
 class RegisterActivity : InjectActivity() {
 
     @Inject
-    internal lateinit var factory: ViewModelFactory
+    internal lateinit var factory: ViewModelProvider.Factory
 
     private lateinit var bind: RegisterActivityBinding
     private lateinit var vm: AuthViewModel

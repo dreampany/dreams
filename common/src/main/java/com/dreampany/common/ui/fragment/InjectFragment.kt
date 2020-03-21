@@ -54,9 +54,7 @@ abstract class InjectFragment : PreferenceFragmentCompat(), HasAndroidInjector {
 
     protected abstract fun onStopUi()
 
-    override fun androidInjector(): AndroidInjector<Any> {
-        return injector
-    }
+    override fun androidInjector(): AndroidInjector<Any> = injector
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

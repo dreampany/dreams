@@ -20,7 +20,6 @@ abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun splash(): SplashActivity
 
-    @ActivityScope
     @ContributesAndroidInjector(modules = [HostModule::class])
     abstract fun home(): HomeActivity
 }

@@ -3,8 +3,10 @@ package com.dreampany.common.ui.fragment
 import android.content.Context
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
-import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.common.ui.fragment.factory.InjectFragmentFactory
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 
@@ -14,11 +16,15 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@ActivityScope
-class InjectHostFragment : NavHostFragment() {
+class InjectHostFragment : NavHostFragment(), HasAndroidInjector {
 
     @Inject
-    protected lateinit var factory: InjectFragmentFactory
+    internal lateinit var injector: DispatchingAndroidInjector<Any>
+
+    @Inject
+    internal lateinit var factory: InjectFragmentFactory
+
+    override fun androidInjector(): AndroidInjector<Any> = injector
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

@@ -1,8 +1,8 @@
 package com.dreampany.common.ui.fragment.factory
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -14,23 +14,12 @@ import javax.inject.Provider
  */
 class InjectFragmentFactory
 @Inject constructor(
-    private val creators: Map<Class<out Fragment>, @JvmSuppressWildcards Provider<Fragment>>
+    private val providers: @JvmSuppressWildcards Map<Class<out Fragment>, Provider<Fragment>>
 ) : FragmentFactory() {
 
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {
         val fragmentClass = loadFragmentClass(classLoader, className)
-        val creator = creators[fragmentClass]
-            ?: return createFragmentAsFallback(classLoader, className)
-
-        try {
-            return creator.get()
-        } catch (error: Throwable) {
-            throw RuntimeException(error)
-        }
-    }
-
-    private fun createFragmentAsFallback(classLoader: ClassLoader, className: String): Fragment {
-        Timber.w("No creator found for class: $className. Using default constructor")
-        return super.instantiate(classLoader, className)
+        val provider = providers[fragmentClass]
+        return provider?.get() ?: super.instantiate(classLoader, className)
     }
 }

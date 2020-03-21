@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.home
 
-import android.os.Bundle
-import com.dreampany.common.ui.fragment.InjectFragment
+import androidx.fragment.app.Fragment
 import javax.inject.Inject
 
 /**
@@ -11,13 +10,8 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class HomeFragment
-@Inject constructor() : InjectFragment() {
+@Inject constructor() : Fragment() {
 
 
-    override fun onStartUi(state: Bundle?) {
 
-    }
-
-    override fun onStopUi() {
-    }
 }

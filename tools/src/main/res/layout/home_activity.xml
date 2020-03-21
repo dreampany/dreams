@@ -32,24 +32,18 @@
                 android:id="@+id/nav_host_fragment"
                 android:name="com.dreampany.common.ui.fragment.InjectHostFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 auto:defaultNavHost="true"
-                auto:layout_constraintBottom_toTopOf="@id/nav_view"
-                auto:layout_constraintLeft_toLeftOf="parent"
-                auto:layout_constraintRight_toRightOf="parent"
-                auto:layout_constraintTop_toTopOf="parent"
                 auto:navGraph="@navigation/mobile_navigation" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/nav_view"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="0dp"
                 android:background="?android:attr/windowBackground"
-                auto:layout_constraintBottom_toBottomOf="parent"
-                auto:layout_constraintLeft_toLeftOf="parent"
-                auto:layout_constraintRight_toRightOf="parent"
                 auto:menu="@menu/bottom_nav_menu" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

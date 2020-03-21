@@ -17,12 +17,13 @@ import dagger.multibindings.IntoMap
  */
 @Module
 abstract class HostFragmentModule {
-    @Binds
-    @IntoMap
-    @FragmentKey(HomeFragment::class)
-    abstract fun bindMainFragment(fragment: HomeFragment): Fragment
 
     @Binds
     abstract fun bindFactory(factory: InjectFragmentFactory): FragmentFactory
+
+    @Binds
+    @IntoMap
+    @FragmentKey(HomeFragment::class)
+    abstract fun bindHome(fragment: HomeFragment): Fragment
 
 }

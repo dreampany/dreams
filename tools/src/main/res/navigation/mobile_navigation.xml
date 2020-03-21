@@ -15,11 +15,11 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.dreampany.tools.ui.dashboard.DashboardFragment"
         android:label="@string/dashboard"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/dashboard_fragment" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.dreampany.tools.ui.dashboard.MoreFragment"
         android:label="@string/more"
-        tools:layout="@layout/home_fragment" />
+        tools:layout="@layout/more_fragment" />
 </navigation>

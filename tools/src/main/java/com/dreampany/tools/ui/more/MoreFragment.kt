@@ -1,7 +1,9 @@
 package com.dreampany.tools.ui.dashboard
 
 import android.os.Bundle
-import com.dreampany.common.ui.fragment.InjectFragment
+import com.dreampany.common.ui.fragment.BaseFragment
+import com.dreampany.tools.R
+import javax.inject.Inject
 
 /**
  * Created by roman on 20/3/20
@@ -9,13 +11,16 @@ import com.dreampany.common.ui.fragment.InjectFragment
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class MoreFragment : InjectFragment() {
+class MoreFragment
+@Inject constructor() : BaseFragment() {
 
+
+    override fun layoutId(): Int  = R.layout.more_fragment
 
     override fun onStartUi(state: Bundle?) {
 
     }
 
     override fun onStopUi() {
-     }
+    }
 }

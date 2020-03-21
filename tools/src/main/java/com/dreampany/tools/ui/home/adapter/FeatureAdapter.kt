@@ -1,13 +1,11 @@
 package com.dreampany.tools.ui.home.adapter
 
-import android.graphics.Color
 import androidx.databinding.ViewDataBinding
-import com.dreampany.common.misc.extension.color
+import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.databinding.FeatureItemBinding
-import com.dreampany.tools.ui.model.FeatureItem
+import com.dreampany.tools.ui.home.model.FeatureItem
 
 /**
  * Created by roman on 21/3/20
@@ -21,10 +19,18 @@ class FeatureAdapter(listener: Any? = null) :
     override fun layoutId(viewType: Int): Int = R.layout.feature_item
 
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
-        ViewHolder(bind as FeatureItemBinding)
+        ViewHolder(bind as FeatureItemBinding, this)
 
-    inner class ViewHolder(val bind: FeatureItemBinding) :
+    inner class ViewHolder(val bind: FeatureItemBinding, adapter: FeatureAdapter) :
         BaseAdapter.ViewHolder<FeatureItem, ViewHolder>(bind) {
+
+        init {
+            bind.root.setOnSafeClickListener {
+                adapter.getItem(adapterPosition)?.let {
+                    adapter.listener?.onItemClick(it)
+                }
+            }
+        }
 
         override fun bindView(item: FeatureItem, position: Int) {
             // bind.text.text = item.title

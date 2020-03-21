@@ -7,20 +7,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
+import com.dreampany.common.misc.extension.open
 import com.dreampany.common.ui.adapter.BaseAdapter
-import com.dreampany.common.ui.fragment.BaseFragment
 import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.databinding.HomeFragmentBinding
+import com.dreampany.tools.ui.crypto.CryptoActivity
 import com.dreampany.tools.ui.home.adapter.FeatureAdapter
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
-import com.dreampany.tools.ui.model.FeatureItem
+import com.dreampany.tools.ui.home.model.FeatureItem
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -64,7 +64,7 @@ class HomeFragment
     private fun initRecycler() {
         featureAdapter = FeatureAdapter(object : BaseAdapter.OnItemClickListener<FeatureItem> {
             override fun onItemClick(item: FeatureItem) {
-
+                openUi(item)
             }
 
             override fun onChildItemClick(view: View, item: FeatureItem) {
@@ -75,7 +75,6 @@ class HomeFragment
         recyclerLayout.orientation = RecyclerView.VERTICAL
         recyclerLayout.isSmoothScrollbarEnabled = true
 
-        bind.items = ObservableArrayList<Any>()
         bind.recycler.apply {
             setHasFixedSize(true)
             layoutManager = recyclerLayout
@@ -123,5 +122,12 @@ class HomeFragment
 
             }
         )*/
+    }
+
+    private fun openUi(item: FeatureItem) {
+        when (item.subtype) {
+            Subtype.CRYPTO -> activity.open(CryptoActivity::class)
+        }
+
     }
 }

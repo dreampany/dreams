@@ -1,6 +1,5 @@
-package com.dreampany.tools.ui.model
+package com.dreampany.tools.ui.home.model
 
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.dreampany.common.data.model.BaseParcel

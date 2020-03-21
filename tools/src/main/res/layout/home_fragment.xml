@@ -4,23 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <data>
-
-        <variable
-            name="items"
-            type="androidx.databinding.ObservableArrayList" />
-    </data>
-
-    <RelativeLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-<!--        <include
-            android:id="@+id/layout_recycler"
-            layout="@layout/content_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            auto:items="@{items}" />-->
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -29,6 +17,5 @@
             android:scrollbars="none"
             tools:itemCount="10" />
 
-    </RelativeLayout>
-
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

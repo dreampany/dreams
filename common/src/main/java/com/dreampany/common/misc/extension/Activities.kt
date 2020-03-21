@@ -2,6 +2,14 @@ package com.dreampany.common.misc.extension
 
 import android.app.Activity
 import android.content.Intent
+import androidx.annotation.IdRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.dreampany.common.misc.func.Executors
+import com.dreampany.common.ui.activity.BaseActivity
+import com.dreampany.common.ui.fragment.BaseFragment
+import kotlinx.coroutines.Runnable
 import kotlin.reflect.KClass
 
 /**
@@ -19,7 +27,7 @@ fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) 
     }
 }
 
-fun <T : Any> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: Boolean = false) {
+fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: Boolean = false) {
     this?.run {
         startActivity(Intent(this, target.java).addFlags(flags))
         if (finishCurrent) {
@@ -31,3 +39,22 @@ fun <T : Any> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: Boole
 fun Activity?.clearFlags(
 ): Int =
     Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+
+fun <T : Fragment> AppCompatActivity?.fragment(tag: String?): T? =
+    this?.supportFragmentManager?.findFragmentByTag(tag) as T?
+
+fun <T : Fragment> AppCompatActivity?.open(fragment: T?, @IdRes parent: Int, ex: Executors) {
+    val runner = Runnable {
+        this?.run {
+            if (isDestroyed || isFinishing) return@Runnable
+            fragment?.let {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(parent, it, it.javaClass.simpleName)
+                    .addToBackStack(null)
+                    .commitNowAllowingStateLoss()
+            }
+        }
+    }
+    ex.postToUi(runner)
+}

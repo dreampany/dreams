@@ -1,14 +1,12 @@
 package com.dreampany.tools.ui.home.activity
 
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.dreampany.common.ui.activity.InjectActivity
+import com.dreampany.common.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HomeActivityBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.dreampany.tools.ui.home.fragment.HomeFragment
+import dagger.Lazy
+import javax.inject.Inject
 
 /**
  * Created by roman on 20/3/20
@@ -16,17 +14,36 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class HomeActivity : InjectActivity() {
+class HomeActivity : InjectBottomNavigationActivity() {
+
+    @Inject
+    internal lateinit var home: Lazy<HomeFragment>
 
     private lateinit var bind: HomeActivityBinding
 
     override fun hasBinding(): Boolean = true
 
-    override fun homeUp(): Boolean = true
-
     override fun layoutId(): Int = R.layout.home_activity
 
     override fun toolbarId(): Int = R.id.toolbar
+
+    override fun getNavigationViewId(): Int = R.id.navigation_view
+
+    override fun selectedNavigationItemId(): Int = R.id.navigation_home
+
+    override fun onNavigationItem(navigationItemId: Int) {
+        when (navigationItemId) {
+            R.id.navigation_home -> {
+                commitFragment(HomeFragment::class, home, R.id.layout)
+            }
+            R.id.navigation_dashboard -> {
+
+            }
+            R.id.navigation_notifications -> {
+
+            }
+        }
+    }
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -35,18 +52,8 @@ class HomeActivity : InjectActivity() {
     override fun onStopUi() {
     }
 
-    private fun initUi () {
+    private fun initUi() {
         bind = getBinding()
-        val config = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home,
-                R.id.navigation_dashboard,
-                R.id.navigation_notifications
-            )
-        )
 
-        val navController = findNavController(R.id.nav_host_fragment)
-        setupActionBarWithNavController(navController, config)
-        bind.navView.setupWithNavController(navController)
     }
 }

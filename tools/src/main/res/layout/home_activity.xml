@@ -28,17 +28,15 @@
             android:orientation="vertical"
             auto:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <fragment
-                android:id="@+id/nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
+            <include
+                layout="@layout/content_frame_ad"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                auto:defaultNavHost="true"
-                auto:navGraph="@navigation/mobile_navigation" />
+                auto:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/nav_view"
+                android:id="@+id/navigation_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"

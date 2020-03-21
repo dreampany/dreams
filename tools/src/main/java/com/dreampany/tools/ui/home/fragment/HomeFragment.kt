@@ -4,9 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.data.model.Response
+import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.common.ui.fragment.BaseFragment
-import com.dreampany.common.ui.vm.factory.ViewModelFactory
-import javax.inject.Inject
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
@@ -14,6 +13,7 @@ import com.dreampany.tools.databinding.HomeFragmentBinding
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.ui.model.FeatureItem
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by roman on 20/3/20
@@ -21,11 +21,13 @@ import timber.log.Timber
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@ActivityScope
 class HomeFragment
 @Inject constructor() : BaseFragment() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+
     private lateinit var bind: HomeFragmentBinding
     private lateinit var vm: FeatureViewModel
 

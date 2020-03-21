@@ -2,12 +2,10 @@ package com.dreampany.common.ui.activity
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
@@ -16,12 +14,17 @@ import androidx.databinding.ViewDataBinding
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.misc.extension.fragment
+import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.func.Executors
+import com.dreampany.common.ui.fragment.BaseFragment
 import com.dreampany.common.ui.fragment.InjectFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
+import dagger.Lazy
 import javax.inject.Inject
+import kotlin.reflect.KClass
 
 /**
  * Created by roman on 3/3/20
@@ -37,9 +40,11 @@ abstract class BaseActivity : AppCompatActivity() {
     protected var fireOnStartUi: Boolean = true
     private lateinit var binding: ViewDataBinding
     private lateinit var toolbar: Toolbar
+    private lateinit var menu: Menu
+
     protected var task: Task<*, *, *>? = null
 
-    protected var fragment: InjectFragment? = null
+    protected var fragment: BaseFragment? = null
 
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null
@@ -51,10 +56,15 @@ abstract class BaseActivity : AppCompatActivity() {
     @LayoutRes
     open fun layoutId(): Int = 0
 
+    @MenuRes
+    open fun menuId(): Int = 0
+
     @IdRes
     open fun toolbarId(): Int = 0
 
     open fun homeUp(): Boolean = false
+
+    open fun onMenuCreated(menu: Menu) {}
 
     protected abstract fun onStartUi(state: Bundle?)
 
@@ -71,6 +81,18 @@ abstract class BaseActivity : AppCompatActivity() {
         if (fireOnStartUi) {
             onStartUi(savedInstanceState)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        this.menu = menu
+        val menuId = menuId()
+        if (menuId != 0) { //this need clear
+            menu.clear()
+            menuInflater.inflate(menuId, menu)
+            binding.root.post { onMenuCreated(menu) }
+            return true
+        }
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onResume() {
@@ -155,6 +177,17 @@ abstract class BaseActivity : AppCompatActivity() {
             task = getIntentValue<T>(Constants.Keys.TASK)
         }
         return task as T?
+    }
+
+    protected fun <T : BaseFragment> commitFragment(
+        classOfT: KClass<T>, provider: Lazy<T>, @IdRes parent: Int
+    ) {
+        var fragment: T? = fragment<T>(classOfT.simpleName)
+        if (fragment == null) {
+            fragment = provider.get()
+        }
+        open(fragment, parent, ex)
+        this.fragment = fragment
     }
 
     protected fun showProgress() {

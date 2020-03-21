@@ -41,6 +41,11 @@ android {
 
     buildTypes {
         debug {
+            crunchPngs false
+            minifyEnabled false
+            shrinkResources false
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
             jniDebuggable = true
             renderscriptDebuggable = true
             signingConfig signingConfigs.debug

@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.model
 
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.dreampany.common.data.model.BaseParcel
 import com.dreampany.tools.data.enums.Subtype
@@ -18,6 +19,8 @@ import kotlinx.android.parcel.Parcelize
 data class FeatureItem(
     val type: Type,
     val subtype: Subtype,
+    @DrawableRes
+    val iconRes: Int,
     @StringRes
     val titleRes: Int,
     val color: Int

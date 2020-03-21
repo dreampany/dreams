@@ -85,6 +85,13 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         }
     }
 
+    open fun addAll(items: List<T>, notify: Boolean) {
+        for (room in items) {
+            add(room, notify.not())
+        }
+        if (notify) notifyDataSetChanged()
+    }
+
     open fun addAll(
         items: List<T>,
         comparator: Comparator<T>?

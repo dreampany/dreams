@@ -5,12 +5,12 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
         android:id="@+id/card"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         auto:cardCornerRadius="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/_4sdp">
+        auto:cardElevation="@dimen/_4sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,15 +24,17 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toTopOf="parent"  />
+                auto:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:textColor="@color/material_grey900"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textColor="@color/material_white"
                 android:textSize="@dimen/_12ssp"
+                android:textStyle="bold"
+                auto:fontFamily="@font/roboto_slab_bold"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
                 auto:layout_constraintTop_toBottomOf="@id/image_icon"

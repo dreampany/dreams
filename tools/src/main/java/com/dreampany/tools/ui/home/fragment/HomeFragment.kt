@@ -1,15 +1,24 @@
 package com.dreampany.tools.ui.home.fragment
 
 import android.os.Bundle
+import android.view.View
+import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
+import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.fragment.BaseFragment
+import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.databinding.HomeFragmentBinding
+import com.dreampany.tools.ui.home.adapter.FeatureAdapter
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.ui.model.FeatureItem
 import timber.log.Timber
@@ -23,7 +32,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class HomeFragment
-@Inject constructor() : BaseFragment() {
+@Inject constructor() : InjectFragment() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -31,7 +40,10 @@ class HomeFragment
     private lateinit var bind: HomeFragmentBinding
     private lateinit var vm: FeatureViewModel
 
-    override fun layoutId(): Int  = R.layout.home_fragment
+    //private lateinit var scroller: OnVerticalScrollListener
+    private lateinit var featureAdapter: FeatureAdapter
+
+    override fun layoutId(): Int = R.layout.home_fragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -50,7 +62,27 @@ class HomeFragment
     }
 
     private fun initRecycler() {
+        featureAdapter = FeatureAdapter(object : BaseAdapter.OnItemClickListener<FeatureItem> {
+            override fun onItemClick(item: FeatureItem) {
 
+            }
+
+            override fun onChildItemClick(view: View, item: FeatureItem) {
+            }
+        })
+
+        val recyclerLayout = GridLayoutManager(context, 3)
+        recyclerLayout.orientation = RecyclerView.VERTICAL
+        recyclerLayout.isSmoothScrollbarEnabled = true
+
+        bind.items = ObservableArrayList<Any>()
+        bind.recycler.apply {
+            setHasFixedSize(true)
+            layoutManager = recyclerLayout
+            itemAnimator = DefaultItemAnimator()
+            adapter = featureAdapter
+            //addOnScrollListener(scroller)
+        }
     }
 
     private fun processResponse(response: Response<List<FeatureItem>, Type, Subtype>) {
@@ -78,6 +110,7 @@ class HomeFragment
     }
 
     private fun processResults(features: List<FeatureItem>) {
+        featureAdapter.addAll(features, true)
         Timber.v("")
         //goToHomeScreen()
         /*showDialogue(

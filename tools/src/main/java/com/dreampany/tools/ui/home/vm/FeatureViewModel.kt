@@ -24,7 +24,7 @@ class FeatureViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-   private val colors: Colors
+    private val colors: Colors
 ) : BaseViewModel<FeatureItem, FeatureItem, UiTask<FeatureItem, Type, Subtype>, Type, Subtype>(
     application,
     rm
@@ -40,11 +40,35 @@ class FeatureViewModel
 
     }
 
-   private suspend fun getFeatures() = withContext(Dispatchers.IO) {
+    private suspend fun getFeatures() = withContext(Dispatchers.IO) {
         val features = arrayListOf<FeatureItem>()
-        features.add(FeatureItem(Type.FEATURE, Subtype.CRYPTO, R.string.title_feature_crypto, colors.nextColor(Type.FEATURE.name)))
-        features.add(FeatureItem(Type.FEATURE, Subtype.QUESTION, R.string.title_feature_question, colors.nextColor(Type.FEATURE.name)))
-        features.add(FeatureItem(Type.FEATURE, Subtype.RADIO, R.string.title_feature_radio, colors.nextColor(Type.FEATURE.name)))
+        features.add(
+            FeatureItem(
+                Type.FEATURE,
+                Subtype.CRYPTO,
+                R.drawable.ic_crypto,
+                R.string.title_feature_crypto,
+                colors.nextColor(Type.FEATURE.name)
+            )
+        )
+        features.add(
+            FeatureItem(
+                Type.FEATURE,
+                Subtype.QUESTION,
+                R.drawable.ic_crypto,
+                R.string.title_feature_question,
+                colors.nextColor(Type.FEATURE.name)
+            )
+        )
+        features.add(
+            FeatureItem(
+                Type.FEATURE,
+                Subtype.RADIO,
+                R.drawable.ic_crypto,
+                R.string.title_feature_radio,
+                colors.nextColor(Type.FEATURE.name)
+            )
+        )
         features
     }
 

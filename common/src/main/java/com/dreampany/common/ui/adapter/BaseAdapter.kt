@@ -35,24 +35,22 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         }
     }
 
-    protected fun getViewType(item: T): Int = 0
+    protected fun viewType(item: T): Int = 0
 
     @LayoutRes
-    protected abstract fun getLayoutId(viewType: Int): Int
+    protected abstract fun layoutId(viewType: Int): Int
 
     protected abstract fun createViewHolder(bind: ViewDataBinding, viewType: Int): VH
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position) ?: return 0
-        return getViewType(item)
+        return viewType(item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val layoutId = getLayoutId(viewType)
+        val layoutId = layoutId(viewType)
         return createViewHolder(layoutId.bindInflater(parent), viewType)
     }
 
@@ -62,43 +60,24 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         }
     }
 
-    fun isEmpty(): Boolean {
-        return itemCount == 0
-    }
+    fun isEmpty(): Boolean = itemCount == 0
 
-    fun isFirst(item: T): Boolean {
-        return isFirst(getPosition(item))
-    }
 
-    fun isLast(item: T): Boolean {
-        return isLast(getPosition(item))
-    }
+    fun isFirst(item: T): Boolean = isFirst(getPosition(item))
 
-    fun isMiddle(item: T): Boolean {
-        return isMiddle(getPosition(item))
-    }
+    fun isLast(item: T): Boolean = isLast(getPosition(item))
 
-    fun isFirst(position: Int): Boolean {
-        return position == 0
-    }
+    fun isMiddle(item: T): Boolean = isMiddle(getPosition(item))
 
-    fun isLast(position: Int): Boolean {
-        return position == itemCount - 1
-    }
+    fun isFirst(position: Int): Boolean = position == 0
 
-    fun isMiddle(position: Int): Boolean {
-        return position > 0 && position < itemCount - 1
-    }
+    fun isLast(position: Int): Boolean = position == itemCount - 1
 
-    open fun getItem(position: Int): T? {
-        return if (!isValidPosition(position)) {
-            null
-        } else items[position]
-    }
+    fun isMiddle(position: Int): Boolean = position > 0 && position < itemCount - 1
 
-    open fun getPosition(item: T): Int {
-        return items.indexOf(item)
-    }
+    open fun getItem(position: Int): T? = if (!isValidPosition(position)) null else items[position]
+
+    open fun getPosition(item: T): Int = items.indexOf(item)
 
     open fun addAll(items: List<T>) {
         for (room in items) {

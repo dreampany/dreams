@@ -47,7 +47,7 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
         return if (item is Number) NUMBER else DELETE
     }
 
-    override fun getLayoutId(viewType: Int): Int {
+    override fun layoutId(viewType: Int): Int {
         return if (viewType == NUMBER) R.layout.item_number else R.layout.item_delete
     }
 

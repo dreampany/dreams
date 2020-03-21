@@ -48,9 +48,7 @@ fun ViewGroup.inflater(): LayoutInflater {
     return context.inflater()
 }
 
-/*fun Int.inflater(parent: ViewGroup, attachToRoot: Boolean = false): View {
-    return parent.inflater().inflate(this, parent, attachToRoot)
-}*/
+//fun ViewGroup.bindInflater()
 
 fun Int.bindInflater(parent: ViewGroup, attachToRoot: Boolean = false): ViewDataBinding {
     return DataBindingUtil.inflate(parent.inflater(), this, parent, attachToRoot)

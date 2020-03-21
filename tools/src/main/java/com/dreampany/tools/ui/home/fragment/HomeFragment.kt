@@ -35,6 +35,7 @@ class HomeFragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
+        initRecycler()
         vm.loadFeatures()
     }
 
@@ -46,6 +47,10 @@ class HomeFragment
         vm = ViewModelProvider(this, factory).get(FeatureViewModel::class.java)
 
         vm.subscribes(this, Observer { this.processResponse(it) })
+    }
+
+    private fun initRecycler() {
+
     }
 
     private fun processResponse(response: Response<List<FeatureItem>, Type, Subtype>) {

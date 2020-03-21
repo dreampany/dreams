@@ -11,17 +11,12 @@
             type="androidx.databinding.ObservableArrayList" />
     </data>
 
-    <RelativeLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include
-            android:id="@+id/layout_recycler"
-            layout="@layout/content_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            auto:items="@{items}" />
-
-    </RelativeLayout>
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        auto:items="@{items}"
+        tools:itemCount="10" />
 
 </layout>

@@ -14,7 +14,7 @@ import com.dreampany.pair.databinding.TutorialItemBinding
 class TutorialAdapter(listener: Any? = null) :
     BaseAdapter<TutorialItem, TutorialAdapter.ViewHolder>(listener) {
 
-    override fun getLayoutId(viewType: Int): Int = R.layout.tutorial_item
+    override fun layoutId(viewType: Int): Int = R.layout.tutorial_item
 
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as TutorialItemBinding)

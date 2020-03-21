@@ -148,4 +148,11 @@ class Constants {
             const val PACKAGES = "packages"
         }
     }
+
+    object Values {
+        object Order {
+            const val ASCENDING = "asc"
+            const val DESCENDING = "desc"
+        }
+    }
 }

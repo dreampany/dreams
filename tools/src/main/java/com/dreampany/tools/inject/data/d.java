@@ -1,11 +1,10 @@
-package com.dreampany.tools.data.source.crypto.room
+package com.dreampany.tools.inject.data;
 
 /**
- * Created by roman on 3/21/20
+ * Created by roman on 21/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CryptoRoomDataSource
-{
+public class d {
 }

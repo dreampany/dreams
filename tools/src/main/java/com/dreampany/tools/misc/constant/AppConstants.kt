@@ -8,10 +8,15 @@ package com.dreampany.tools.misc.constant
  */
 class AppConstants {
 
+    object Room {
+        const val TYPE_CRYPTO = "crypto"
+    }
+
     object Keys {
 
         object PrefKeys {
             const val PREF = "pref"
+            const val CRYPTO = "crypto"
         }
 
         object Coin {

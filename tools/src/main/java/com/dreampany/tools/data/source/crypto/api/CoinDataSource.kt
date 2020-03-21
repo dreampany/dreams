@@ -11,7 +11,7 @@ import com.dreampany.tools.data.model.crypto.Coin
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-interface CryptoDataSource {
+interface CoinDataSource {
 
     @Throws
     suspend fun getCoins(

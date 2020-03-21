@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.source.crypto.remote
+package com.dreampany.tools.data.source.crypto.database
 
 /**
  * Created by roman on 3/21/20
@@ -6,6 +6,6 @@ package com.dreampany.tools.data.source.crypto.remote
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CryptoRemoteDataSource
+class CoinFiredatabaseDataSource
 {
 }

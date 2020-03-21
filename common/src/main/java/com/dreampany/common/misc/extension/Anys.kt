@@ -1,6 +1,7 @@
 package com.dreampany.common.misc.extension
 
 import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.misc.util.Util
 
 /**
  * Created by roman on 15/3/20
@@ -15,7 +16,10 @@ fun Int?.value(): Int = this ?: 0
 fun Long?.value(): Long = this ?: 0L
 fun String?.value(): String = this ?: Constants.Default.STRING
 
-
 fun Int.isZeroOrLess(): Boolean {
     return this <= 0
+}
+
+fun Long.isExpired(delay: Long) : Boolean {
+    return Util.currentMillis() - this > delay
 }

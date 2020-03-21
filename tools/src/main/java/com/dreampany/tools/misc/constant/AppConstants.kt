@@ -1,5 +1,7 @@
 package com.dreampany.tools.misc.constant
 
+import java.util.concurrent.TimeUnit
+
 /**
  * Created by roman on 21/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -17,6 +19,13 @@ class AppConstants {
         object PrefKeys {
             const val PREF = "pref"
             const val CRYPTO = "crypto"
+
+            object Crypto {
+                const val CURRENCY = "crypto-currency"
+                const val SORT = "crypto-sort"
+                const val ORDER = "crypto-order"
+                const val EXPIRE = "crypto-expire"
+            }
         }
 
         object Coin {
@@ -55,6 +64,13 @@ class AppConstants {
             const val VOLUME_24H = "volume_24h"
             const val CHANGE_24H = "change_24h"
             const val CHANGE_PCT_24H = "change_pct_24h"
+        }
+    }
+
+    object Times {
+        object Crypto {
+            val LISTING = TimeUnit.HOURS.toMillis(1)
+            val COIN = TimeUnit.MINUTES.toMillis(10)
         }
     }
 }

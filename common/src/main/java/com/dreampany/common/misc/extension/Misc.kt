@@ -15,8 +15,6 @@ import kotlinx.coroutines.Runnable
 fun Runnable.isOnUiThread(): Boolean =
     Thread.currentThread() === Looper.getMainLooper().getThread()
 
-fun Any.current(): Long = System.currentTimeMillis()
-
 fun <T> LiveData<T>.reObserve(owner: LifecycleOwner, observer: Observer<T>) {
     removeObserver(observer)
     observe(owner, observer)

@@ -52,14 +52,12 @@ data class Coin(
     var rank: Int = Constants.Default.INT,
     @Ignore
     @Exclude
-    var quotes: HashMap<Currency, Quote>? = Constants.Default.NULL,
+    var quotes: HashMap<Currency, Quote> = Maps.newHashMap(),
     var tags: ArrayList<String>? = Constants.Default.NULL,
     @ColumnInfo(name = AppConstants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constants.Default.LONG,
     @ColumnInfo(name = AppConstants.Keys.Coin.LAST_UPDATED)
-    private var lastUpdated: Long = Constants.Default.LONG,
-    var favorite: Boolean = Constants.Default.BOOLEAN
-
+    private var lastUpdated: Long = Constants.Default.LONG
 ) : Base() {
 
     @Ignore
@@ -142,60 +140,33 @@ data class Coin(
     }
 
     @PropertyName(AppConstants.Keys.Coin.DATE_ADDED)
-    fun getDateAdded(): Long {
-        return dateAdded
-    }
+    fun getDateAdded(): Long = dateAdded
 
     @Exclude
-    fun getLastUpdatedDate(): Date {
-        return Date(getLastUpdated())
-    }
+    fun getLastUpdatedDate(): Date = Date(getLastUpdated())
 
-    fun addQuote(quote: Quote) {
-        if (quotes == null) {
-            quotes = Maps.newHashMap()
-        }
-        quotes?.put(quote.currency, quote)
-    }
+    fun addQuote(quote: Quote) = quotes.put(quote.currency, quote)
 
     @Exclude
-    fun getQuotes(): Map<Currency, Quote>? {
-        return quotes
-    }
+    fun getQuotes(): Map<Currency, Quote> = quotes
 
     @Exclude
-    fun getQuotesAsList(): List<Quote>? {
-        return if (quotes == null) {
-            null
-        } else ArrayList(quotes!!.values)
-    }
+    fun getQuotesAsList(): List<Quote> = quotes.values.toList()
 
-    fun clearQuote() {
-        quotes?.clear()
-    }
+    fun clearQuote() = quotes.clear()
 
-    fun hasQuote(): Boolean {
-        return !quotes.isNullOrEmpty()
-    }
+    fun hasQuote(): Boolean = quotes.isNotEmpty()
 
-    fun hasQuote(currency: String): Boolean {
-        return if (quotes == null) {
-            false
-        } else quotes!!.containsKey(Currency.valueOf(currency))
-    }
+    fun hasQuote(currency: String): Boolean = quotes.containsKey(Currency.valueOf(currency))
 
-    fun hasQuote(currency: Currency): Boolean {
-        return if (quotes == null) {
-            false
-        } else quotes!!.containsKey(currency)
-    }
+    fun hasQuote(currency: Currency): Boolean = quotes.containsKey(currency)
 
     fun hasQuote(currencies: Array<Currency>): Boolean {
-        if (quotes == null) {
+        if (quotes.isEmpty()) {
             return false
         }
         for (currency in currencies) {
-            if (!quotes!!.containsKey(currency)) {
+            if (!quotes.containsKey(currency)) {
                 return false
             }
         }
@@ -209,17 +180,16 @@ data class Coin(
     }
 
     fun getQuote(currency: Currency): Quote? {
-        if (quotes.isNullOrEmpty()) return null
-        return quotes!!.get(currency)
+        if (quotes.isEmpty()) return null
+        return quotes.get(currency)
     }
 
     @Exclude
     fun getLatestQuote(): Quote? {
         var latest: Quote? = null
-        quotes?.forEach { entry ->
-            if (latest?.time.value() < entry.value.time) {
+        quotes.forEach { entry ->
+            if (latest?.time.value() < entry.value.time)
                 latest = entry.value
-            }
         }
         return latest
     }

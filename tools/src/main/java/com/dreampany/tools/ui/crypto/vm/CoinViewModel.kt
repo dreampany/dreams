@@ -28,7 +28,7 @@ class CoinViewModel
 ) : BaseViewModel<Coin, Coin, UiTask<Coin, Type, Subtype>, Type, Subtype>(application, rm) {
 
 
-    fun loadCoins(start: Long, limit: Long) {
+    fun loadCoins(offset: Long, limit: Long) {
         uiScope.launch {
             postProgressMultiple(Type.COIN, Subtype.DEFAULT, progress = true)
             var result: List<Coin>? = null
@@ -37,7 +37,7 @@ class CoinViewModel
                 val currency = pref.getCurrency()
                 val sort = pref.getSort()
                 val order = pref.getOrder()
-                result = repo.getCoins(currency, sort, order, start, limit)
+                result = repo.getItems(currency, sort, order, offset, limit)
             } catch (error: Throwable) {
                 Timber.e(error)
                 errors = error
@@ -48,6 +48,5 @@ class CoinViewModel
                 postMultiple(Type.COIN, Subtype.DEFAULT, result = result, showProgress = true)
             }
         }
-
     }
 }

@@ -23,3 +23,14 @@ fun Int.isZeroOrLess(): Boolean {
 fun Long.isExpired(delay: Long) : Boolean {
     return Util.currentMillis() - this > delay
 }
+
+fun <T> sub(list: List<T>?, index: Long, limit: Long): List<T>? {
+    var limit = limit
+    if (list.isNullOrEmpty() || index < 0 || limit < 1 || list.size <= index) {
+        return null
+    }
+    if (list.size - index < limit) {
+        limit = list.size - index
+    }
+    return list.subList(index.toInt(), (index + limit).toInt())
+}

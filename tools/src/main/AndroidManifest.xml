@@ -44,7 +44,7 @@
             android:windowSoftInputMode="adjustResize" />
 
         <activity
-            android:name=".ui.crypto.CryptoActivity"
+            android:name=".ui.crypto.activity.CryptoActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:label="@string/title_feature_crypto"
             android:windowSoftInputMode="adjustResize" />

@@ -1,7 +1,8 @@
 package com.dreampany.tools.data.source.crypto.repo
 
 import com.dreampany.common.data.enums.Order
-import com.dreampany.common.inject.annote.*
+import com.dreampany.common.inject.annote.Remote
+import com.dreampany.common.inject.annote.Room
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.RxMapper
 import com.dreampany.tools.data.enums.CoinSort
@@ -31,31 +32,41 @@ class CoinRepo
     @Room private val room: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : CoinDataSource {
-    override suspend fun putCoins(coins: List<Coin>): List<Long>? {
+    override suspend fun putItem(item: Coin): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCoins(
+    override suspend fun putItems(items: List<Coin>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getItems(): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getItems(ids: List<String>, currency: Currency): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun getItems(
         currency: Currency,
         sort: CoinSort,
         order: Order,
-        start: Long,
+        offset: Long,
         limit: Long
     ) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired(currency, sort, order, start)) {
-            val result = remote.getCoins(currency, sort, order, start, limit)
+        if (mapper.isExpired(currency, sort, order, offset)) {
+            val result = remote.getItems(currency, sort, order, offset, limit)
             if (result != null) {
-
+                room.putItems(result)
             }
         }
-        room.getCoins(currency, sort, order, start, limit)
+        room.getItems(currency, sort, order, offset, limit)
     }
 
-    override suspend fun getCoins(currency: Currency, ids: List<String>): List<Coin>? {
+    override suspend fun getItem(id: String, currency: Currency): Coin? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCoin(currency: Currency, id: String): Coin? {
-        TODO("Not yet implemented")
-    }
 }

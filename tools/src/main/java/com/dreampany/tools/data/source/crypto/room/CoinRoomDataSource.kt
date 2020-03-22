@@ -21,25 +21,44 @@ constructor(
     private val dao: CoinDao,
     private val quoteDao: QuoteDao
 ) : CoinDataSource {
-    override suspend fun putCoins(coins: List<Coin>): List<Long>? {
+    @Throws
+    override suspend fun putItem(item: Coin): Long {
+        mapper.add(item)
+        if (item.hasQuote()) {
+            quoteDao.insertOrReplace(item.getQuotesAsList())
+        }
+        return dao.insertOrReplace(item)
+    }
+
+    @Throws
+    override suspend fun putItems(items: List<Coin>): List<Long>? {
+        val result = arrayListOf<Long>()
+        items.forEach { result.add(putItem(it)) }
+        return result
+    }
+
+    @Throws
+    override suspend fun getItems(): List<Coin>? = dao.items
+
+    @Throws
+    override suspend fun getItems(ids: List<String>, currency: Currency): List<Coin>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCoins(
+    @Throws
+    override suspend fun getItems(
         currency: Currency,
         sort: CoinSort,
         order: Order,
-        start: Long,
+        offset: Long,
         limit: Long
     ): List<Coin>? {
+        return mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
+    }
+
+    @Throws
+    override suspend fun getItem(id: String, currency: Currency): Coin? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCoins(currency: Currency, ids: List<String>): List<Coin>? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getCoin(currency: Currency, id: String): Coin? {
-        TODO("Not yet implemented")
-    }
 }

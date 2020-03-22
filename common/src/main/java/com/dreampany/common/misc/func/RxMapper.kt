@@ -1,5 +1,8 @@
 package com.dreampany.common.misc.func
 
+import io.reactivex.Maybe
+import io.reactivex.Scheduler
+import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -85,24 +88,12 @@ class RxMapper
         return single.subscribeOn(facade.compute())
     }
 
-    fun <T> io(single: Single<T>): Single<T> {
-        return single.subscribeOn(facade.io())
-    }
-
-    fun <T> compute(maybe: Maybe<T>): Maybe<T> {
-        return maybe.subscribeOn(facade.compute())
-    }
-
     fun <T> compute(flowable: Flowable<T>): Flowable<T> {
         return flowable.subscribeOn(facade.compute())
     }
 
     fun <T> io(flowable: Flowable<T>): Flowable<T> {
         return flowable.subscribeOn(facade.io())
-    }
-
-    fun io(): Scheduler {
-        return facade.io()
     }
 
     fun compute(): Scheduler {
@@ -112,4 +103,16 @@ class RxMapper
     *//*fun ui(): Scheduler {
         return facade.ui()
     }*/
+
+    fun io(): Scheduler {
+        return facade.io()
+    }
+
+    fun <T> io(single: Single<T>): Single<T> {
+        return single.subscribeOn(facade.io())
+    }
+
+    fun <T> compute(maybe: Maybe<T>): Maybe<T> {
+        return maybe.subscribeOn(facade.compute())
+    }
 }

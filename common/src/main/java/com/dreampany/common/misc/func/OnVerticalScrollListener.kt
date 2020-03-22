@@ -1,10 +1,10 @@
-package com.dreampany.framework.ui.listener
+package com.dreampany.common.misc.func
 
 import android.os.Handler
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Created by roman on 2020-02-22
+ * Created by roman on 3/22/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

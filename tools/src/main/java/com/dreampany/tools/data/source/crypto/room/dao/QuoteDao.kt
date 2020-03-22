@@ -1,8 +1,8 @@
 package com.dreampany.tools.data.source.crypto.room.dao
 
 import androidx.room.Dao
+import androidx.room.Query
 import com.dreampany.common.data.source.room.dao.BaseDao
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
 
 /**
@@ -13,5 +13,6 @@ import com.dreampany.tools.data.model.crypto.Quote
  */
 @Dao
 interface QuoteDao : BaseDao<Quote> {
-
+    @Query("select * from quote where id = :id and currency = :currency limit 1")
+    fun getItem(id: String, currency: String): Quote?
 }

@@ -14,22 +14,26 @@ import com.dreampany.tools.data.model.crypto.Coin
 interface CoinDataSource {
 
     @Throws
-    suspend fun putCoins(
-        coins: List<Coin>
-    ): List<Long>?
+    suspend fun putItem(item: Coin): Long
 
     @Throws
-    suspend fun getCoins(
+    suspend fun putItems(items: List<Coin>): List<Long>?
+
+    @Throws
+    suspend fun getItems(): List<Coin>?
+
+    @Throws
+    suspend fun getItem(id: String, currency: Currency): Coin?
+
+    @Throws
+    suspend fun getItems(ids: List<String>, currency: Currency): List<Coin>?
+
+    @Throws
+    suspend fun getItems(
         currency: Currency,
         sort: CoinSort,
         order: Order,
-        start: Long,
+        offset: Long,
         limit: Long
     ): List<Coin>?
-
-    @Throws
-    suspend fun getCoins(currency: Currency, ids: List<String>): List<Coin>?
-
-    @Throws
-    suspend fun getCoin(currency: Currency, id: String): Coin?
 }

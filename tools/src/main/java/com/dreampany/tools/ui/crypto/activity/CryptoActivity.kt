@@ -1,69 +1,69 @@
-package com.dreampany.tools.ui.home.fragment
+package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.model.Response
-import com.dreampany.common.inject.annote.ActivityScope
-import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.func.OnVerticalScrollListener
+import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
-import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.databinding.HomeFragmentBinding
-import com.dreampany.tools.ui.crypto.activity.CryptoActivity
-import com.dreampany.tools.ui.home.adapter.FeatureAdapter
-import com.dreampany.tools.ui.home.vm.FeatureViewModel
-import com.dreampany.tools.data.model.Feature
+import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.databinding.CryptoActivityBinding
+import com.dreampany.tools.misc.constant.AppConstants
+import com.dreampany.tools.ui.crypto.adapter.CoinAdapter
+import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Created by roman on 20/3/20
+ * Created by roman on 21/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@ActivityScope
-class HomeFragment
-@Inject constructor() : InjectFragment(), BaseAdapter.OnItemClickListener<Feature> {
+class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
 
-    private lateinit var bind: HomeFragmentBinding
-    private lateinit var vm: FeatureViewModel
+    private lateinit var bind: CryptoActivityBinding
+    private lateinit var vm: CoinViewModel
 
     private lateinit var scroller: OnVerticalScrollListener
-    private lateinit var featureAdapter: FeatureAdapter
+    private lateinit var coinAdapter: CoinAdapter
 
-    override fun layoutId(): Int = R.layout.home_fragment
+    override fun hasBinding(): Boolean = true
+
+    override fun layoutId(): Int = R.layout.crypto_activity
+
+    override fun toolbarId(): Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler()
-        vm.loadFeatures()
+        vm.loadCoins(coinAdapter.itemCount.toLong(), AppConstants.Limit.Crypto.LIST)
     }
 
     override fun onStopUi() {
     }
 
-    override fun onItemClick(item: Feature) {
+    override fun onItemClick(item: Coin) {
         openUi(item)
     }
 
-    override fun onChildItemClick(view: View, item: Feature) {
+    override fun onChildItemClick(view: View, item: Coin) {
     }
 
     private fun initUi() {
         bind = getBinding()
-        vm = ViewModelProvider(this, factory).get(FeatureViewModel::class.java)
+        vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
 
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
@@ -74,10 +74,9 @@ class HomeFragment
 
             }
         }
+        coinAdapter = CoinAdapter(this)
 
-        featureAdapter = FeatureAdapter(this)
-
-        val recyclerLayout = GridLayoutManager(context, 3)
+        val recyclerLayout = LinearLayoutManager(this)
         recyclerLayout.orientation = RecyclerView.VERTICAL
         recyclerLayout.isSmoothScrollbarEnabled = true
 
@@ -86,16 +85,16 @@ class HomeFragment
             layoutManager = recyclerLayout
             itemAnimator = DefaultItemAnimator()
             addOnScrollListener(scroller)
-            adapter = featureAdapter
+            adapter = coinAdapter
         }
     }
 
-    private fun processResponse(response: Response<List<Feature>, Type, Subtype>) {
+    private fun processResponse(response: Response<List<Coin>, Type, Subtype>) {
         if (response is Response.Progress) {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<List<Feature>, Type, Subtype>) {
+        } else if (response is Response.Result<List<Coin>, Type, Subtype>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -114,14 +113,11 @@ class HomeFragment
         )
     }
 
-    private fun processResults(features: List<Feature>) {
-        featureAdapter.addAll(features, true)
+    private fun processResults(coins: List<Coin>) {
+        coinAdapter.addAll(coins, true)
     }
 
-    private fun openUi(item: Feature) {
-        when (item.subtype) {
-            Subtype.CRYPTO -> activity.open(CryptoActivity::class)
-        }
+    private fun openUi(item: Coin) {
 
     }
 }

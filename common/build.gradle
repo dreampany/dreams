@@ -96,6 +96,7 @@ dependencies {
     //api "androidx.room:room-guava:$room_version"
     api "androidx.room:room-ktx:$room_version"
     //api "androidx.room:room-rxjava2:$room_version"
+    api 'androidx.paging:paging-runtime:2.1.2'
 
     /* androidx nav */
     //api 'androidx.navigation:navigation-fragment:2.2.1'
@@ -131,6 +132,8 @@ dependencies {
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.7'
+    implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'com.shreyaspatil:MaterialDialog:2.1'
     implementation 'com.kaopiz:kprogresshud:1.2.0'
     //api 'com.afollestad.assent:core:3.0.0-RC4'

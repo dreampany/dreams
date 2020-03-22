@@ -8,7 +8,7 @@ import com.dreampany.common.ui.vm.BaseViewModel
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.ui.home.model.FeatureItem
+import com.dreampany.tools.data.model.Feature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,7 +25,7 @@ class FeatureViewModel
     application: Application,
     rm: ResponseMapper,
     private val colors: Colors
-) : BaseViewModel<FeatureItem, FeatureItem, UiTask<FeatureItem, Type, Subtype>, Type, Subtype>(
+) : BaseViewModel<Feature, Feature, UiTask<Feature, Type, Subtype>, Type, Subtype>(
     application,
     rm
 ) {
@@ -41,9 +41,9 @@ class FeatureViewModel
     }
 
     private suspend fun getFeatures() = withContext(Dispatchers.IO) {
-        val features = arrayListOf<FeatureItem>()
+        val features = arrayListOf<Feature>()
         features.add(
-            FeatureItem(
+            Feature(
                 Type.FEATURE,
                 Subtype.CRYPTO,
                 R.drawable.ic_crypto,
@@ -52,7 +52,7 @@ class FeatureViewModel
             )
         )
         features.add(
-            FeatureItem(
+            Feature(
                 Type.FEATURE,
                 Subtype.QUESTION,
                 R.drawable.ic_crypto,
@@ -61,7 +61,7 @@ class FeatureViewModel
             )
         )
         features.add(
-            FeatureItem(
+            Feature(
                 Type.FEATURE,
                 Subtype.RADIO,
                 R.drawable.ic_crypto,

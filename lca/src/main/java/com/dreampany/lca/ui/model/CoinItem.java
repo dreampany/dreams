@@ -57,7 +57,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     }
 
     public static CoinItem getSimpleItem(@NonNull Coin coin, Currency currency) {
-        return new CoinItem(coin, currency, CoinItemType.SIMPLE, R.layout.item_coin);
+        return new CoinItem(coin, currency, CoinItemType.SIMPLE, R.layout.coin_item);
     }
 
     public static CoinItem getDetailsItem(@NonNull Coin coin, Currency currency) {
@@ -65,7 +65,7 @@ public class CoinItem extends BaseItem<Coin, CoinItem.ViewHolder> {
     }
 
     public static CoinItem getQuoteItem(@NonNull Coin coin, @NonNull Currency currency) {
-        return new CoinItem(coin, currency, CoinItemType.QUOTE, R.layout.item_coin_quote);
+        return new CoinItem(coin, currency, CoinItemType.QUOTE, R.layout.coin_quote_item);
     }
 
     public void setFormatter(CurrencyFormatter formatter) {

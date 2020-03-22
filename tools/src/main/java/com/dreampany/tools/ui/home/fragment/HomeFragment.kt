@@ -2,7 +2,6 @@ package com.dreampany.tools.ui.home.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.ObservableArrayList
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -20,7 +19,7 @@ import com.dreampany.tools.databinding.HomeFragmentBinding
 import com.dreampany.tools.ui.crypto.CryptoActivity
 import com.dreampany.tools.ui.home.adapter.FeatureAdapter
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
-import com.dreampany.tools.ui.home.model.FeatureItem
+import com.dreampany.tools.data.model.Feature
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -62,12 +61,12 @@ class HomeFragment
     }
 
     private fun initRecycler() {
-        featureAdapter = FeatureAdapter(object : BaseAdapter.OnItemClickListener<FeatureItem> {
-            override fun onItemClick(item: FeatureItem) {
+        featureAdapter = FeatureAdapter(object : BaseAdapter.OnItemClickListener<Feature> {
+            override fun onItemClick(item: Feature) {
                 openUi(item)
             }
 
-            override fun onChildItemClick(view: View, item: FeatureItem) {
+            override fun onChildItemClick(view: View, item: Feature) {
             }
         })
 
@@ -84,12 +83,12 @@ class HomeFragment
         }
     }
 
-    private fun processResponse(response: Response<List<FeatureItem>, Type, Subtype>) {
+    private fun processResponse(response: Response<List<Feature>, Type, Subtype>) {
         if (response is Response.Progress) {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<List<FeatureItem>, Type, Subtype>) {
+        } else if (response is Response.Result<List<Feature>, Type, Subtype>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -108,7 +107,7 @@ class HomeFragment
         )
     }
 
-    private fun processResults(features: List<FeatureItem>) {
+    private fun processResults(features: List<Feature>) {
         featureAdapter.addAll(features, true)
         Timber.v("")
         //goToHomeScreen()
@@ -124,7 +123,7 @@ class HomeFragment
         )*/
     }
 
-    private fun openUi(item: FeatureItem) {
+    private fun openUi(item: Feature) {
         when (item.subtype) {
             Subtype.CRYPTO -> activity.open(CryptoActivity::class)
         }

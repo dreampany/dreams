@@ -5,7 +5,7 @@ import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.FeatureItemBinding
-import com.dreampany.tools.ui.home.model.FeatureItem
+import com.dreampany.tools.data.model.Feature
 
 /**
  * Created by roman on 21/3/20
@@ -14,7 +14,7 @@ import com.dreampany.tools.ui.home.model.FeatureItem
  * Last modified $file.lastModified
  */
 class FeatureAdapter(listener: Any? = null) :
-    BaseAdapter<FeatureItem, FeatureAdapter.ViewHolder>(listener) {
+    BaseAdapter<Feature, FeatureAdapter.ViewHolder>(listener) {
 
     override fun layoutId(viewType: Int): Int = R.layout.feature_item
 
@@ -22,7 +22,7 @@ class FeatureAdapter(listener: Any? = null) :
         ViewHolder(bind as FeatureItemBinding, this)
 
     inner class ViewHolder(val bind: FeatureItemBinding, adapter: FeatureAdapter) :
-        BaseAdapter.ViewHolder<FeatureItem, ViewHolder>(bind) {
+        BaseAdapter.ViewHolder<Feature, ViewHolder>(bind) {
 
         init {
             bind.root.setOnSafeClickListener {
@@ -32,7 +32,7 @@ class FeatureAdapter(listener: Any? = null) :
             }
         }
 
-        override fun bindView(item: FeatureItem, position: Int) {
+        override fun bindView(item: Feature, position: Int) {
             // bind.text.text = item.title
             //imageIcon.setImageDrawable(drawable)
             bind.card.setBackgroundColor(item.color)

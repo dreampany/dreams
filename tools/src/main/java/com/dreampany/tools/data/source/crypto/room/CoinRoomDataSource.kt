@@ -21,6 +21,10 @@ constructor(
     private val dao: CoinDao,
     private val quoteDao: QuoteDao
 ) : CoinDataSource {
+    override suspend fun putCoins(coins: List<Coin>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getCoins(
         currency: Currency,
         sort: CoinSort,

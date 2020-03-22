@@ -1,9 +1,13 @@
 package com.dreampany.tools.ui.crypto
 
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.CryptoActivityBinding
+import com.dreampany.tools.ui.crypto.vm.CoinViewModel
+import com.dreampany.tools.ui.home.vm.FeatureViewModel
+import javax.inject.Inject
 
 /**
  * Created by roman on 21/3/20
@@ -13,7 +17,11 @@ import com.dreampany.tools.databinding.CryptoActivityBinding
  */
 class CryptoActivity : InjectActivity() {
 
+    @Inject
+    internal lateinit var factory: ViewModelProvider.Factory
+
     private lateinit var bind: CryptoActivityBinding
+    private lateinit var vm: CoinViewModel
 
     override fun hasBinding(): Boolean = true
 

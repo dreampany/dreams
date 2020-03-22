@@ -57,7 +57,8 @@ data class Coin(
     @ColumnInfo(name = AppConstants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constants.Default.LONG,
     @ColumnInfo(name = AppConstants.Keys.Coin.LAST_UPDATED)
-    private var lastUpdated: Long = Constants.Default.LONG
+    private var lastUpdated: Long = Constants.Default.LONG,
+    var favorite: Boolean = Constants.Default.BOOLEAN
 
 ) : Base() {
 
@@ -215,7 +216,7 @@ data class Coin(
     @Exclude
     fun getLatestQuote(): Quote? {
         var latest: Quote? = null
-        quotes?.forEach {entry->
+        quotes?.forEach { entry ->
             if (latest?.time.value() < entry.value.time) {
                 latest = entry.value
             }

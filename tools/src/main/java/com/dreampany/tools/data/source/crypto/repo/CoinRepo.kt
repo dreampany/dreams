@@ -31,6 +31,10 @@ class CoinRepo
     @Room private val room: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : CoinDataSource {
+    override suspend fun putCoins(coins: List<Coin>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getCoins(
         currency: Currency,
         sort: CoinSort,

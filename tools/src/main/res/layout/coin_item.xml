@@ -19,6 +19,7 @@
             android:padding="@dimen/_8sdp">
 
             <include
+                android:id="@+id/layout_simple"
                 layout="@layout/coin_simple_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
                 android:layout_weight="1" />
 
             <include
+                android:id="@+id/layout_price"
                 layout="@layout/coin_price_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,6 +36,7 @@
                 android:layout_marginEnd="@dimen/_8sdp" />
 
             <include
+                android:id="@+id/layout_options"
                 layout="@layout/coin_options_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

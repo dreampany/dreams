@@ -10,9 +10,10 @@ class CryptoConstants {
 
     object CoinMarketCap {
         const val ACCEPT = "Accept"
+        const val ACCEPT_ENCODING = "Accept-Encoding"
 
         const val ACCEPT_JSON = "application/json"
-
+        const val ACCEPT_ZIP = "deflate, gzip"
 
         const val CMC_PRO_DREAM_DEBUG_2 =
             "24532bfc-8802-4e18-937f-9b682c13df01" //dream.debug.2@gmail.com
@@ -27,11 +28,8 @@ class CryptoConstants {
         const val BASE_URL = "https://pro-api.coinmarketcap.com/v1/"
         const val LISTING = "cryptocurrency/listings/latest"
         const val QUOTES = "cryptocurrency/quotes/latest"
+        const val IMAGE_URL = "https://s2.coinmarketcap.com/static/img/coins/64x64/%s.png" //id
 
-
-        const val ACCEPT_ENCODING = "Accept-Encoding"
-
-        const val ACCEPT_ZIP = "deflate, gzip"
         const val API_KEY = "X-CMC_PRO_API_KEY"
         const val CONVERT = "convert"
         const val SORT = "sort"
@@ -52,6 +50,8 @@ class CryptoConstants {
         const val EXTRA_PARAMS = "extraParams"
         const val FROM_SYMBOL = "fsym"
         const val TO_SYMBOL = "tsym"
+
+
 
     }
 

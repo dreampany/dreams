@@ -11,7 +11,7 @@ import com.dreampany.pair.R
 
 class MainActivity : BaseActivity() {
 
-    override fun getLayoutId(): Int = R.layout.activity_main
+    override fun layoutId(): Int = R.layout.activity_main
 
     override fun onStartUi(state: Bundle?) {
         val navView: BottomNavigationView = findViewById(R.id.nav_view)

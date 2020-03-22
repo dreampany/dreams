@@ -1,6 +1,8 @@
 package com.dreampany.common.misc.extension
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ShapeDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,8 @@ import androidx.annotation.AnimRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.misc.func.SafeClickListener
 import com.google.android.material.textfield.TextInputEditText
 
@@ -92,4 +96,14 @@ fun TextInputEditText.isEmpty() : Boolean {
 
 fun TextInputEditText.string() : String {
     return this.text?.trim().toString()
+}
+
+fun RecyclerView.addDivider(dimen: Int) {
+    val divider = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+
+    divider.setDrawable(ShapeDrawable().apply {
+        intrinsicHeight = dimen
+        paint.color = Color.TRANSPARENT // note: currently (support version 28.0.0), we can not use tranparent color here, if we use transparent, we still see a small divider line. So if we want to display transparent space, we can set color = background color or we can create a custom ItemDecoration instead of DividerItemDecoration.
+    })
+    addItemDecoration(divider)
 }

@@ -16,7 +16,7 @@ import com.dreampany.tools.databinding.CoinItemBinding
 class CoinAdapter(listener: Any? = null) :
     BaseAdapter<Coin, CoinAdapter.ViewHolder>(listener) {
 
-    override fun layoutId(viewType: Int): Int = R.layout.feature_item
+    override fun layoutId(viewType: Int): Int = R.layout.coin_item
 
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as CoinItemBinding, this)

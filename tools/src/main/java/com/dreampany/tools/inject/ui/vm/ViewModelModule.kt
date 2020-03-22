@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.inject.annote.ViewModelKey
 import com.dreampany.common.ui.vm.factory.ViewModelFactory
+import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import dagger.Binds
 import dagger.Module
@@ -26,4 +27,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FeatureViewModel::class)
     abstract fun bindFeature(vm: FeatureViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CoinViewModel::class)
+    abstract fun bindCoin(vm: CoinViewModel): ViewModel
 }

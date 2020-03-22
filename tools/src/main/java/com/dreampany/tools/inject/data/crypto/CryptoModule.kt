@@ -1,13 +1,21 @@
 package com.dreampany.tools.inject.data.crypto
 
+import android.app.Application
+import android.content.Context
+import com.dreampany.common.inject.annote.Remote
 import com.dreampany.common.inject.annote.Room
+import com.dreampany.common.misc.func.Keys
+import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.inject.data.CoinMarketCapModule
 import com.dreampany.tools.api.crypto.inject.data.CryptoCompareModule
+import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
+import com.dreampany.tools.data.source.crypto.remote.CoinRemoteDataSource
 import com.dreampany.tools.data.source.crypto.room.CoinRoomDataSource
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
+import com.dreampany.tools.data.source.crypto.room.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,6 +33,25 @@ import javax.inject.Singleton
     ]
 )
 class CryptoModule {
+
+    @Provides
+    @Singleton
+    fun provideDatabase(application: Application): DatabaseManager {
+        return DatabaseManager.getInstance(application)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCoinDao(database: DatabaseManager): CoinDao {
+        return database.coinDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuoteDao(database: DatabaseManager): QuoteDao {
+        return database.quoteDao()
+    }
+
     @Singleton
     @Provides
     @Room
@@ -35,25 +62,25 @@ class CryptoModule {
     ): CoinDataSource {
         return CoinRoomDataSource(mapper, dao, quoteDao)
     }
-
-/*    @Singleton
+    @Singleton
     @Provides
     @Remote
     fun provideRemoteCoinDataSource(
         context: Context,
         network: NetworkManager,
-        keyM: KeyManager,
+        keys: Keys,
         mapper: CoinMapper,
         service: CoinMarketCapService
     ): CoinDataSource {
-        return RemoteCoinDataSource(
+        return CoinRemoteDataSource(
             context,
             network,
-            keyM,
+            keys,
             mapper,
             service
         )
     }
+/*
 
     @Singleton
     @Provides

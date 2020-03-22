@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.model.Response
-import com.dreampany.common.misc.extension.addDivider
+import com.dreampany.common.misc.extension.addDecoration
 import com.dreampany.common.misc.func.OnVerticalScrollListener
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
@@ -87,6 +87,7 @@ class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
             itemAnimator = DefaultItemAnimator()
             addOnScrollListener(scroller)
             adapter = coinAdapter
+            addDecoration(4)
         }
     }
 

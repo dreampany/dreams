@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.model
 
-import com.dreampany.tools.api.crypto.misc.Constants
+import com.dreampany.tools.api.crypto.misc.CryptoConstants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -11,16 +11,16 @@ import com.google.gson.annotations.SerializedName
  */
 data class CryptoQuote(
     val price: Double,
-    @SerializedName(value = Constants.Quote.VOLUME_24H)
+    @SerializedName(value = CryptoConstants.Quote.VOLUME_24H)
     val volume24h: Double,
-    @SerializedName(value = Constants.Quote.MARKET_CAP)
+    @SerializedName(value = CryptoConstants.Quote.MARKET_CAP)
     val marketCap: Double,
-    @SerializedName(value = Constants.Quote.CHANGE_1H)
+    @SerializedName(value = CryptoConstants.Quote.CHANGE_1H)
     val change1h: Double,
-    @SerializedName(value = Constants.Quote.CHANGE_24H)
+    @SerializedName(value = CryptoConstants.Quote.CHANGE_24H)
     val change24h: Double,
-    @SerializedName(value = Constants.Quote.CHANGE_7D)
+    @SerializedName(value = CryptoConstants.Quote.CHANGE_7D)
     val change7d: Double,
-    @SerializedName(value = Constants.Quote.LAST_UPDATED)
+    @SerializedName(value = CryptoConstants.Quote.LAST_UPDATED)
     val lastUpdated: String
 )

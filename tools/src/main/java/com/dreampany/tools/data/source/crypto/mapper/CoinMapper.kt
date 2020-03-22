@@ -3,14 +3,21 @@ package com.dreampany.tools.data.source.crypto.mapper
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.isExpired
 import com.dreampany.common.misc.extension.sub
+import com.dreampany.common.misc.extension.utc
+import com.dreampany.tools.api.crypto.model.CryptoCoin
+import com.dreampany.tools.api.crypto.model.CryptoCurrency
+import com.dreampany.tools.api.crypto.model.CryptoQuote
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.comparator.Comparators
 import com.dreampany.tools.misc.constant.AppConstants
+import com.google.common.collect.Maps
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,10 +34,14 @@ class CoinMapper
 @Inject constructor(
     private val pref: CryptoPref
 ) {
-    private val coins: MutableList<Coin>
+    private val coins: MutableMap<String, Coin>
+    private val quotes: MutableMap<Pair<String, Currency>, Quote>
+    private val currencies: MutableMap<String, Currency>
 
     init {
-        coins = Collections.synchronizedList(ArrayList<Coin>())
+        coins = Maps.newConcurrentMap()
+        quotes = Maps.newConcurrentMap()
+        currencies = Maps.newConcurrentMap()
     }
 
     fun isExpired(currency: Currency, sort: CoinSort, order: Order, start: Long): Boolean {
@@ -44,9 +55,7 @@ class CoinMapper
 
     @Synchronized
     fun add(coin: Coin) {
-        if (!coins.contains(coin)) {
-            coins.add(coin)
-        }
+        coins.put(coin.id, coin)
     }
 
     @Throws
@@ -68,6 +77,83 @@ class CoinMapper
         return result
     }
 
+    fun getItems(inputs: List<CryptoCoin>): List<Coin> {
+        val result = arrayListOf<Coin>()
+        inputs.forEach { coin ->
+            result.add(getItem(coin))
+        }
+        return result
+    }
+
+    fun getItem(input: CryptoCoin): Coin {
+
+        Timber.v("Resolved Coin: %s", input.name);
+
+        val id = input.id.toString()
+        var out: Coin? = coins.get(id)
+        if (out == null) {
+            out = Coin(id)
+            coins.put(id, out)
+        }
+        out.name = input.name
+        out.symbol = input.symbol
+        out.slug = input.slug
+        out.setCirculatingSupply(input.circulatingSupply)
+        out.setMaxSupply(input.maxSupply)
+        out.setTotalSupply(input.totalSupply)
+        out.setMarketPairs(input.marketPairs)
+        out.rank = input.rank
+        out.quotes = getQuotes(id, input.quotes)
+        out.tags = input.tags
+        out.setDateAdded(input.dateAdded.utc())
+        out.setLastUpdated(input.lastUpdated.utc())
+        return out
+    }
+
+    fun getQuotes(
+        coinId: String,
+        input: Map<CryptoCurrency, CryptoQuote>
+    ): HashMap<Currency, Quote> {
+        val result = Maps.newHashMap<Currency, Quote>()
+        input.forEach { entry ->
+            val currency = getCurrency(entry.key)
+            result.put(currency, getQuote(coinId, currency, entry.value))
+        }
+        return result
+    }
+
+    fun getQuote(
+        coinId: String,
+        currency: Currency,
+        input: CryptoQuote
+    ): Quote {
+        val id = Pair(coinId, currency)
+        var out: Quote? = quotes.get(id)
+        if (out == null) {
+            out = Quote(coinId)
+            quotes.put(id, out)
+        }
+        out.currency = currency
+        out.price = input.price
+        out.setVolume24h(input.volume24h)
+        out.setMarketCap(input.marketCap)
+        out.setChange1h(input.change1h)
+        out.setChange24h(input.change24h)
+        out.setChange7d(input.change7d)
+        out.setLastUpdated(input.lastUpdated.utc())
+
+        return out
+    }
+
+    fun getCurrency(input: CryptoCurrency): Currency {
+        var out: Currency? = currencies.get(input.name)
+        if (out == null) {
+            out = Currency.valueOf(input.name)
+            currencies.put(input.name, out)
+        }
+        return out
+    }
+
     private fun bindQuote(currency: Currency, item: Coin, dao: QuoteDao) {
         if (!item.hasQuote(currency)) {
             dao.getItem(item.id, currency.name)?.let { item.addQuote(it) }
@@ -86,10 +172,10 @@ class CoinMapper
         sort: CoinSort,
         sortDirection: Order
     ): List<Coin> {
+        val temp = ArrayList(coins.values)
         val comparator = Comparators.Crypto.getComparator(currency, sort, sortDirection)
-        coins.sortWith(comparator)
-        return coins
+        temp.sortWith(comparator)
+        return temp
     }
-
 
 }

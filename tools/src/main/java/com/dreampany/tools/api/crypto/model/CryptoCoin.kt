@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.model
 
-import com.dreampany.tools.api.crypto.misc.Constants
+import com.dreampany.tools.api.crypto.misc.CryptoConstants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -14,21 +14,21 @@ data class CryptoCoin(
     val name: String,
     val symbol: String,
     val slug: String,
-    @SerializedName(value = Constants.Coin.CIRCULATING_SUPPLY)
+    @SerializedName(value = CryptoConstants.Coin.CIRCULATING_SUPPLY)
     val circulatingSupply: Double,
-    @SerializedName(value = Constants.Coin.MAX_SUPPLY)
+    @SerializedName(value = CryptoConstants.Coin.MAX_SUPPLY)
     val maxSupply: Double,
-    @SerializedName(value = Constants.Coin.TOTAL_SUPPLY)
+    @SerializedName(value = CryptoConstants.Coin.TOTAL_SUPPLY)
     val totalSupply: Double,
-    @SerializedName(value = Constants.Coin.MARKET_PAIRS)
+    @SerializedName(value = CryptoConstants.Coin.MARKET_PAIRS)
     val marketPairs: Int,
-    @SerializedName(value = Constants.Coin.RANK)
+    @SerializedName(value = CryptoConstants.Coin.RANK)
     val rank: Int,
-    @SerializedName(value = Constants.Coin.QUOTE)
+    @SerializedName(value = CryptoConstants.Coin.QUOTE)
     val quotes: HashMap<CryptoCurrency, CryptoQuote>,
     val tags: ArrayList<String>,
-    @SerializedName(value = Constants.Coin.DATE_ADDED)
+    @SerializedName(value = CryptoConstants.Coin.DATE_ADDED)
     val dateAdded: String,
-    @SerializedName(value = Constants.Coin.LAST_UPDATED)
+    @SerializedName(value = CryptoConstants.Coin.LAST_UPDATED)
     val lastUpdated: String
 )

@@ -6,7 +6,7 @@ package com.dreampany.tools.api.crypto.misc
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class Constants {
+class CryptoConstants {
 
     object CoinMarketCap {
         const val ACCEPT = "Accept"

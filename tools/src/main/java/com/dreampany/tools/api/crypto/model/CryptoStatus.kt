@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.model
 
-import com.dreampany.tools.api.crypto.misc.Constants
+import com.dreampany.tools.api.crypto.misc.CryptoConstants
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -10,12 +10,12 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class CryptoStatus(
-    @SerializedName(value = Constants.Status.ERROR_CODE)
+    @SerializedName(value = CryptoConstants.Status.ERROR_CODE)
     val errorCode: Int,
-    @SerializedName(value = Constants.Status.ERROR_MESSAGE)
+    @SerializedName(value = CryptoConstants.Status.ERROR_MESSAGE)
     val errorMessage: String,
     val elapsed: Int,
-    @SerializedName(value = Constants.Status.CREDIT_COUNT)
+    @SerializedName(value = CryptoConstants.Status.CREDIT_COUNT)
     val creditCount: Int,
     val timestamp: String
 )

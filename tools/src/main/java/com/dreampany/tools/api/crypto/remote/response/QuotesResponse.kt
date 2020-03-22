@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.remote.response
 
-import com.dreampany.tools.api.crypto.misc.Constants
+import com.dreampany.tools.api.crypto.misc.CryptoConstants
 import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoStatus
 import com.google.gson.annotations.SerializedName
@@ -12,9 +12,9 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class QuotesResponse(
-    @SerializedName(value = Constants.Common.STATUS)
+    @SerializedName(value = CryptoConstants.Common.STATUS)
     val cryptoStatus: CryptoStatus,
-    @SerializedName(value = Constants.Common.DATA)
+    @SerializedName(value = CryptoConstants.Common.DATA)
     val data: Map<String, CryptoCoin>
 ) {
     fun isError(): Boolean {

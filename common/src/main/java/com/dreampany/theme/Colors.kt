@@ -1,4 +1,4 @@
-package com.dreampany.common.theme
+package com.dreampany.theme
 
 import com.google.common.collect.Maps
 import timber.log.Timber

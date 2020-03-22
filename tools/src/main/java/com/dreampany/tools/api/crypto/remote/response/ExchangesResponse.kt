@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.remote.response
 
-import com.dreampany.tools.api.crypto.misc.Constants
+import com.dreampany.tools.api.crypto.misc.CryptoConstants
 import com.dreampany.tools.api.crypto.model.ExchangesData
 import com.google.gson.annotations.SerializedName
 
@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName
  * Last modified $file.lastModified
  */
 data class ExchangesResponse(
-    @SerializedName(Constants.Exchange.DATA)
+    @SerializedName(CryptoConstants.Exchange.DATA)
     val data: ExchangesData
 ) {
 }

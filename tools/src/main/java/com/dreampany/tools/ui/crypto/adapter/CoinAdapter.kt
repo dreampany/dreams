@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.crypto.adapter
 
 import android.text.format.DateUtils
+import android.widget.Filterable
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.dreampany.common.data.enums.Order
@@ -40,6 +41,9 @@ class CoinAdapter(listener: Any? = null) :
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as CoinItemBinding, this)
 
+    override fun filters(constraint: CharSequence): Boolean {
+        TODO("Not yet implemented")
+    }
 
     fun setProperty(
         currency: Currency,

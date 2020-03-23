@@ -21,6 +21,10 @@ class FeatureAdapter(listener: Any? = null) :
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as FeatureItemBinding, this)
 
+    override fun filters(constraint: CharSequence): Boolean {
+        return false
+    }
+
     inner class ViewHolder(val bind: FeatureItemBinding, adapter: FeatureAdapter) :
         BaseAdapter.ViewHolder<Feature, ViewHolder>(bind) {
 
@@ -33,8 +37,6 @@ class FeatureAdapter(listener: Any? = null) :
         }
 
         override fun bindView(item: Feature, position: Int) {
-            // bind.text.text = item.title
-            //imageIcon.setImageDrawable(drawable)
             bind.card.setBackgroundColor(item.color)
             bind.imageIcon.setImageResource(item.iconRes)
             bind.textTitle.text = context.getText(item.titleRes)

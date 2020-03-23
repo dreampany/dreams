@@ -43,9 +43,10 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
         add(Delete(12))
     }
 
-    override fun getViewType(item: Item): Int {
+/*    override fun getViewType(item: Item): Int {
         return if (item is Number) NUMBER else DELETE
-    }
+    }*/
+
 
     override fun layoutId(viewType: Int): Int {
         return if (viewType == NUMBER) R.layout.item_number else R.layout.item_delete
@@ -58,6 +59,10 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
         ) else DeleteViewHolder(
             bind as ItemDeleteBinding, this
         )
+    }
+
+    override fun filters(constraint: CharSequence): Boolean {
+        return false
     }
 
     fun setPinLength(pinLength: Int) {

@@ -59,6 +59,7 @@ class CoinRepo
         if (mapper.isExpired(currency, sort, order, offset)) {
             val result = remote.getItems(currency, sort, order, offset, limit)
             if (result != null) {
+                mapper.commitExpire(currency, sort, order, offset)
                 room.putItems(result)
             }
         }

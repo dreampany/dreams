@@ -1,5 +1,9 @@
 package com.dreampany.common.misc.extension
 
+import android.animation.Animator
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ShapeDrawable
@@ -9,6 +13,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.annotation.AnimRes
+import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -100,6 +105,35 @@ fun TextInputEditText.string(): String {
 }
 
 fun RecyclerView.addDecoration(offset: Int) {
-    val decoration = FlexibleItemDecoration(context).withOffset(offset)
+    val decoration = FlexibleItemDecoration(context).withOffset(offset).withEdge(true)
     addItemDecoration(decoration)
+}
+
+fun TextView.blink(@ColorRes startColorId: Int,@ColorRes endColorId: Int) {
+    val startColor =startColorId.toColor(context)
+    val endColor = endColorId.toColor(context)
+    val animator = ObjectAnimator.ofInt(this, "textColor", startColor, endColor, startColor)
+    animator.duration = 1500
+    animator.setEvaluator(ArgbEvaluator())
+    animator.repeatMode = ValueAnimator.REVERSE
+    animator.repeatCount = ValueAnimator.RESTART
+    animator.addListener(object : Animator.AnimatorListener {
+        override fun onAnimationStart(animation: Animator) {
+
+        }
+
+        override fun onAnimationEnd(animation: Animator) {
+           setTextColor(endColor)
+        }
+
+        override fun onAnimationCancel(animation: Animator) {
+
+        }
+
+        override fun onAnimationRepeat(animation: Animator) {
+
+        }
+    })
+    animator.start()
+
 }

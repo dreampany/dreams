@@ -13,6 +13,7 @@ import android.os.Build
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.dreampany.common.misc.constant.Constants
 import com.google.common.base.Splitter
@@ -129,4 +130,6 @@ fun Context?.lastApplicationId(): String? {
     return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId))
 }
 
+fun Context.formatString(@StringRes formatRes: Int, vararg values: Any): String =
+    String.format(getString(formatRes), *values)
 

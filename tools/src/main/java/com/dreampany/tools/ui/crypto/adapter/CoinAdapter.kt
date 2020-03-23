@@ -26,13 +26,20 @@ class CoinAdapter(listener: Any? = null) :
     private lateinit var sort: CoinSort
     private lateinit var order: Order
 
-
     override fun layoutId(viewType: Int): Int = R.layout.coin_item
 
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as CoinItemBinding, this)
 
 
+    fun setProperty(currency: Currency, sort: CoinSort, order: Order, reset: Boolean = false) {
+        this.currency = currency
+        this.sort = sort
+        this.order = order
+        if (reset) {
+            clearAll()
+        }
+    }
 
     inner class ViewHolder(private val bind: CoinItemBinding, private val adapter: CoinAdapter) :
         BaseAdapter.ViewHolder<Coin, ViewHolder>(bind) {

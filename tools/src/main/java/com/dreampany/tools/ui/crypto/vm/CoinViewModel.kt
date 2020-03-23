@@ -27,7 +27,6 @@ class CoinViewModel
     private val repo: CoinRepo
 ) : BaseViewModel<Coin, Coin, UiTask<Coin, Type, Subtype>, Type, Subtype>(application, rm) {
 
-
     fun loadCoins(offset: Long, limit: Long) {
         uiScope.launch {
             postProgressMultiple(Type.COIN, Subtype.DEFAULT, progress = true)

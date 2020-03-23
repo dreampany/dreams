@@ -16,6 +16,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CryptoActivityBinding
 import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.crypto.adapter.CoinAdapter
@@ -33,6 +34,8 @@ class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+    @Inject
+    internal lateinit var cryptoPref: CryptoPref
 
     private lateinit var bind: CryptoActivityBinding
     private lateinit var vm: CoinViewModel
@@ -76,6 +79,7 @@ class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
             }
         }
         coinAdapter = CoinAdapter(this)
+        coinAdapter.setProperty(cryptoPref.getCurrency(), cryptoPref.getSort(), cryptoPref.getOrder())
 
         val recyclerLayout = LinearLayoutManager(this)
         recyclerLayout.orientation = RecyclerView.VERTICAL

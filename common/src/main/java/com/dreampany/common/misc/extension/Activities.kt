@@ -2,6 +2,7 @@ package com.dreampany.common.misc.extension
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,6 +19,13 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+fun Activity?.alive() : Boolean {
+    if (this == null) return false
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+        return !(isFinishing() || isDestroyed())
+    return !isFinishing()
+}
+
 fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) {
     this?.run {
         startActivity(Intent(this, target.java))

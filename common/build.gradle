@@ -52,6 +52,10 @@ android {
     }*/
 }
 
+androidExtensions {
+    experimental = true
+}
+
 dependencies {
     /* libs */
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -211,10 +211,10 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:4.4.1'
 
     /* squareup */
-    api 'com.squareup.retrofit2:retrofit:2.7.2'
-    api 'com.squareup.retrofit2:adapter-rxjava2:2.7.2'
-    api 'com.squareup.retrofit2:converter-gson:2.7.2'
-    api 'com.squareup.retrofit2:converter-jackson:2.7.2'
+    api 'com.squareup.retrofit2:retrofit:2.8.1'
+    api 'com.squareup.retrofit2:adapter-rxjava2:2.8.1'
+    api 'com.squareup.retrofit2:converter-gson:2.8.1'
+    api 'com.squareup.retrofit2:converter-jackson:2.8.1'
     api('com.squareup.moshi:moshi-kotlin:1.9.2') {
         exclude group: 'org.jetbrains.kotlin'
     }
@@ -270,7 +270,7 @@ dependencies {
     api 'joda-time:joda-time:2.10.5'
     api 'com.tapadoo.android:alerter:4.0.2'
     api 'com.jakewharton.timber:timber:4.7.1'
-    api 'org.apache.commons:commons-lang3:3.9'
+    api 'org.apache.commons:commons-lang3:3.10'
     api 'org.apache.commons:commons-collections4:4.4'
     api 'io.supercharge:shimmerlayout:2.1.0'
     api 'com.ethanhua:skeleton:1.1.1'

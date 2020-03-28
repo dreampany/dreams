@@ -167,6 +167,14 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         return item
     }
 
+    open fun remove(item: T): Int {
+        val position = getPosition(item)
+        if (position >= 0) {
+            removeAt(position)
+        }
+        return position
+    }
+
     open fun clearAll() {
         filtered.clear()
         notifyDataSetChanged()

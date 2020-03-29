@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
+import android.view.Menu
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +18,7 @@ import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
-import com.dreampany.tools.databinding.CryptoActivityBinding
+import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.crypto.adapter.CoinAdapter
@@ -31,7 +32,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
+class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -40,7 +41,7 @@ class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
     @Inject
     internal lateinit var formatter: CurrencyFormatter
 
-    private lateinit var bind: CryptoActivityBinding
+    private lateinit var bind: CoinsActivityBinding
     private lateinit var vm: CoinViewModel
 
     private lateinit var scroller: OnVerticalScrollListener
@@ -48,9 +49,13 @@ class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutId(): Int = R.layout.crypto_activity
+    override fun layoutRes(): Int = R.layout.coins_activity
 
     override fun toolbarId(): Int = R.id.toolbar
+
+    override fun menuRes(): Int = R.menu.menu_coins
+
+    override fun searchMenuItemId(): Int  = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -59,6 +64,15 @@ class CryptoActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onMenuCreated(menu: Menu) {
+        super.onMenuCreated(menu)
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        coinAdapter.getFilter().filter(newText)
+        return false
     }
 
     override fun onItemClick(item: Coin) {

@@ -15,7 +15,7 @@ class MoreFragment
 @Inject constructor() : BaseFragment() {
 
 
-    override fun layoutId(): Int  = R.layout.more_fragment
+    override fun layoutRes(): Int  = R.layout.more_fragment
 
     override fun onStartUi(state: Bundle?) {
 

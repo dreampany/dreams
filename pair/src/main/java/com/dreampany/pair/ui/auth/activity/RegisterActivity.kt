@@ -38,7 +38,7 @@ class RegisterActivity : InjectActivity() {
     override fun hasBinding(): Boolean = true
 
     @LayoutRes
-    override fun layoutId(): Int = R.layout.register_activity
+    override fun layoutRes(): Int = R.layout.register_activity
 
     @IdRes
     override fun toolbarId(): Int = R.id.toolbar

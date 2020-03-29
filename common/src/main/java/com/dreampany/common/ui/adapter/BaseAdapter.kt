@@ -29,7 +29,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
     protected var listener: OnItemClickListener<T>? = null
 
     init {
-        items = arrayListOf<T>()
+        items = Collections.synchronizedList(ArrayList())
         if (listener is OnItemClickListener<*>) {
             this.listener = listener as OnItemClickListener<T>
         }

@@ -17,7 +17,7 @@ import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
 import com.dreampany.tools.databinding.HomeFragmentBinding
-import com.dreampany.tools.ui.crypto.activity.CryptoActivity
+import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import com.dreampany.tools.ui.home.adapter.FeatureAdapter
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.data.model.Feature
@@ -43,7 +43,7 @@ class HomeFragment
     private lateinit var scroller: OnVerticalScrollListener
     private lateinit var featureAdapter: FeatureAdapter
 
-    override fun layoutId(): Int = R.layout.home_fragment
+    override fun layoutRes(): Int = R.layout.home_fragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
@@ -120,7 +120,7 @@ class HomeFragment
 
     private fun openUi(item: Feature) {
         when (item.subtype) {
-            Subtype.CRYPTO -> activity.open(CryptoActivity::class)
+            Subtype.CRYPTO -> activity.open(CoinsActivity::class)
         }
 
     }

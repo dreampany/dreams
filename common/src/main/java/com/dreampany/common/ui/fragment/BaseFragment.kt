@@ -13,7 +13,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.preference.PreferenceFragmentCompat
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
-import com.dreampany.common.misc.extension.isNotNull
 import com.dreampany.common.ui.activity.InjectActivity
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
@@ -37,16 +36,16 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
     private var sheetDialog: BottomSheetMaterialDialog? = null
 
     @LayoutRes
-    open fun layoutId(): Int = 0
+    open fun layoutRes(): Int = 0
 
     @XmlRes
-    open fun getPrefLayoutId(): Int = 0
+    open fun prefLayoutRes(): Int = 0
 
     @StringRes
-    open fun getTitleResId(): Int = 0
+    open fun titleRes(): Int = 0
 
     @StringRes
-    open fun getSubtitleResId(): Int = 0
+    open fun subtitleRes(): Int = 0
 
     open fun backPressed(): Boolean = false
 
@@ -60,7 +59,7 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val prefLayoutId = getPrefLayoutId()
+        val prefLayoutId = prefLayoutRes()
         if (prefLayoutId != 0) {
             addPreferencesFromResource(prefLayoutId)
         }
@@ -75,7 +74,7 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
             }
             return currentView
         }
-        val layoutId = layoutId()
+        val layoutId = layoutRes()
         if (layoutId != 0) {
             currentView = initLayout(layoutId, inflater, container, savedInstanceState)
         }
@@ -86,7 +85,7 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val titleResId = getTitleResId()
+        val titleResId = titleRes()
         if (titleResId != 0) {
             setTitle(titleResId)
         }

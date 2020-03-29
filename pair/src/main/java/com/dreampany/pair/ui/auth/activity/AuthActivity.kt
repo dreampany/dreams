@@ -22,7 +22,7 @@ class AuthActivity : InjectActivity() {
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutId(): Int = R.layout.auth_activity
+    override fun layoutRes(): Int = R.layout.auth_activity
 
     override fun onStartUi(state: Bundle?) {
         initUi()

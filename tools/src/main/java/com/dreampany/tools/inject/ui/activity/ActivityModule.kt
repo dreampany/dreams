@@ -2,7 +2,7 @@ package com.dreampany.tools.inject.ui.activity
 
 import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.tools.inject.ui.fragment.HomeModule
-import com.dreampany.tools.ui.crypto.activity.CryptoActivity
+import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import com.dreampany.tools.ui.splash.SplashActivity
 import dagger.Module
@@ -27,7 +27,7 @@ abstract class ActivityModule {
     abstract fun home(): HomeActivity
 
     @ContributesAndroidInjector
-    abstract fun crypto(): CryptoActivity
+    abstract fun coins(): CoinsActivity
 
 
 }

@@ -1,13 +1,18 @@
 package com.dreampany.common.ui.activity
 
+import android.app.SearchManager
+import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Window
+import android.view.inputmethod.EditorInfo
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -18,7 +23,6 @@ import com.dreampany.common.misc.extension.fragment
 import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.func.Executors
 import com.dreampany.common.ui.fragment.BaseFragment
-import com.dreampany.common.ui.fragment.InjectFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
@@ -32,7 +36,7 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     @Inject
     protected lateinit var ex: Executors
@@ -54,13 +58,16 @@ abstract class BaseActivity : AppCompatActivity() {
     open fun hasBinding(): Boolean = false
 
     @LayoutRes
-    open fun layoutId(): Int = 0
+    open fun layoutRes(): Int = 0
 
     @MenuRes
-    open fun menuId(): Int = 0
+    open fun menuRes(): Int = 0
 
     @IdRes
     open fun toolbarId(): Int = 0
+
+    @IdRes
+    open fun searchMenuItemId(): Int = 0
 
     open fun homeUp(): Boolean = false
 
@@ -73,7 +80,7 @@ abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        val layoutId = layoutId()
+        val layoutId = layoutRes()
         if (layoutId != 0) {
             initLayout(layoutId)
             initToolbar()
@@ -85,11 +92,14 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         this.menu = menu
-        val menuId = menuId()
-        if (menuId != 0) { //this need clear
+        val menuRes = menuRes()
+        if (menuRes != 0) { //this need clear
             menu.clear()
-            menuInflater.inflate(menuId, menu)
-            binding.root.post { onMenuCreated(menu) }
+            menuInflater.inflate(menuRes, menu)
+            binding.root.post {
+                onMenuCreated(menu)
+                initSearch()
+            }
             return true
         }
         return super.onCreateOptionsMenu(menu)
@@ -120,36 +130,30 @@ abstract class BaseActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        val searchOpened = getSearchView()?.isIconified ?: false
+        if (searchOpened) {
+            getSearchView()?.isIconified = false
+            return
+        }
+        super.onBackPressed()
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean = false
+
+    override fun onQueryTextSubmit(query: String?): Boolean = false
+
+    protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
+
+    protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId())
+
+    protected fun getSearchView() : SearchView? {
+        val view = getSearchMenuItem()?.actionView ?: return null
+        return view as SearchView
+    }
+
     protected fun <T : ViewDataBinding> getBinding(): T {
         return binding as T
-    }
-
-    private fun initLayout(@LayoutRes layoutId: Int) {
-        if (fullScreen()) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE)
-        }
-        if (hasBinding()) {
-            binding = DataBindingUtil.setContentView(this, layoutId)
-            binding.setLifecycleOwner(this)
-        } else {
-            setContentView(layoutId)
-        }
-    }
-
-    private fun initToolbar() {
-        val toolbarId = toolbarId()
-        if (toolbarId != 0) {
-            toolbar = findViewById<Toolbar>(toolbarId)
-            setSupportActionBar(toolbar)
-            if (homeUp()) {
-                val actionBar = supportActionBar
-                if (actionBar != null) {
-                    actionBar.setDisplayHomeAsUpEnabled(true)
-                    actionBar.setHomeButtonEnabled(true)
-                }
-            }
-        }
-
     }
 
     protected fun getBundle(): Bundle? {
@@ -250,5 +254,44 @@ abstract class BaseActivity : AppCompatActivity() {
             dismiss()
         }
         sheetDialog = null
+    }
+
+    private fun initLayout(@LayoutRes layoutRes: Int) {
+        if (fullScreen()) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+        }
+        if (hasBinding()) {
+            binding = DataBindingUtil.setContentView(this, layoutRes)
+            binding.setLifecycleOwner(this)
+        } else {
+            setContentView(layoutRes)
+        }
+    }
+
+    private fun initToolbar() {
+        val toolbarId = toolbarId()
+        if (toolbarId != 0) {
+            toolbar = findViewById<Toolbar>(toolbarId)
+            setSupportActionBar(toolbar)
+            if (homeUp()) {
+                val actionBar = supportActionBar
+                if (actionBar != null) {
+                    actionBar.setDisplayHomeAsUpEnabled(true)
+                    actionBar.setHomeButtonEnabled(true)
+                }
+            }
+        }
+    }
+
+    private fun initSearch() {
+        val searchView = getSearchView()
+        searchView?.let {
+            searchView.inputType = InputType.TYPE_TEXT_VARIATION_FILTER
+            searchView.imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+            searchView.queryHint = getString(R.string.search)
+            val searchManager = searchView.context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.componentName))
+            searchView.setOnQueryTextListener(this)
+        }
     }
 }

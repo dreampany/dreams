@@ -12,7 +12,7 @@ import com.dreampany.pair.R
  */
 class HomeActivity : InjectActivity() {
 
-    override fun layoutId(): Int = R.layout.home_activity
+    override fun layoutRes(): Int = R.layout.home_activity
 
 
     override fun onStartUi(state: Bundle?) {

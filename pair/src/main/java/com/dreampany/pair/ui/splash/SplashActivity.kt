@@ -26,7 +26,7 @@ class SplashActivity : InjectActivity() {
     internal lateinit var factory: ViewModelFactory
     private lateinit var vm: AuthViewModel
 
-    override fun layoutId(): Int = R.layout.splash_activity
+    override fun layoutRes(): Int = R.layout.splash_activity
 
     override fun onStartUi(state: Bundle?) {
         initUi()

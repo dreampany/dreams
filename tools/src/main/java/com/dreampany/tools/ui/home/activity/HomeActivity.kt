@@ -23,7 +23,7 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutId(): Int = R.layout.home_activity
+    override fun layoutRes(): Int = R.layout.home_activity
 
     override fun toolbarId(): Int = R.id.toolbar
 

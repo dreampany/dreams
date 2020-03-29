@@ -38,7 +38,7 @@ class LoginActivity : InjectActivity() {
     override fun hasBinding(): Boolean = true
 
     @LayoutRes
-    override fun layoutId(): Int = R.layout.login_activity
+    override fun layoutRes(): Int = R.layout.login_activity
 
     @IdRes
     override fun toolbarId(): Int = R.id.toolbar

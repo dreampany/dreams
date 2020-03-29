@@ -4,10 +4,7 @@ import android.text.format.DateUtils
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.dreampany.common.data.enums.Order
-import com.dreampany.common.misc.extension.blink
-import com.dreampany.common.misc.extension.formatString
-import com.dreampany.common.misc.extension.setOnSafeClickListener
-import com.dreampany.common.misc.extension.toColor
+import com.dreampany.common.misc.extension.*
 import com.dreampany.common.misc.util.Util
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.adapter.SearchAdapter
@@ -39,9 +36,8 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as CoinItemBinding, this)
 
-    override fun filters(constraint: CharSequence): Boolean {
-        TODO("Not yet implemented")
-    }
+    override fun filter(item: Coin, constraint: CharSequence): Boolean =
+        item.name.value().contains(constraint)
 
     fun setProperty(
         currency: Currency,

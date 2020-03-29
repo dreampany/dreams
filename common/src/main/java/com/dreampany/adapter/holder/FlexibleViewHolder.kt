@@ -25,4 +25,11 @@ abstract class FlexibleViewHolder
 //
 //        }
     }
+
+    open fun getActivationElevation(): Float = 0f
+
+    open fun toggleActivation() {
+        val position = getFlexiblePosition()
+
+    }
 }

@@ -3,8 +3,6 @@ package com.dreampany.common.ui.adapter
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +17,7 @@ import kotlin.collections.ArrayList
  * Last modified $file.lastModified
  */
 abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?) :
-    RecyclerView.Adapter<VH>(), Filterable {
+    RecyclerView.Adapter<VH>() {
 
     interface OnItemClickListener<T> {
         fun onItemClick(item: T)
@@ -28,13 +26,11 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
     }
 
     private var items: MutableList<T>
-    private var filtered: MutableList<T>
-    protected var listener: OnItemClickListener<T>? = null
+     protected var listener: OnItemClickListener<T>? = null
 
     init {
         items = arrayListOf<T>()
-        filtered = arrayListOf<T>()
-        if (listener is OnItemClickListener<*>) {
+         if (listener is OnItemClickListener<*>) {
             this.listener = listener as OnItemClickListener<T>
         }
     }
@@ -48,7 +44,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
 
     protected abstract fun filters(constraint: CharSequence): Boolean
 
-    override fun getItemCount(): Int = filtered.size
+    override fun getItemCount(): Int = items.size
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position) ?: return 0
@@ -66,7 +62,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         }
     }
 
-    override fun getFilter(): Filter {
+/*    override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(constraint: CharSequence): FilterResults {
                 if (constraint.isEmpty()) {
@@ -85,7 +81,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
                 notifyDataSetChanged()
             }
         }
-    }
+    }*/
 
     fun isEmpty(): Boolean = itemCount == 0
 
@@ -102,9 +98,9 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
     fun isMiddle(position: Int): Boolean = position > 0 && position < itemCount - 1
 
     open fun getItem(position: Int): T? =
-        if (!isValidPosition(position)) null else filtered[position]
+        if (!isValidPosition(position)) null else items[position]
 
-    open fun getPosition(item: T): Int = filtered.indexOf(item)
+    open fun getPosition(item: T): Int = items.indexOf(item)
 
     open fun addAll(items: List<T>) {
         for (room in items) {
@@ -131,11 +127,11 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
     open fun add(item: T, notify: Boolean = false) {
         val position = getPosition(item)
         if (position == -1) {
-            filtered.add(item)
+            items.add(item)
             if (notify)
                 notifyItemInserted(itemCount - 1)
         } else {
-            filtered[position] = item
+            items[position] = item
             if (notify)
                 notifyItemChanged(position)
         }
@@ -150,20 +146,20 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
             /*items.add(item);
             notifyItemInserted(getItemCount() - 1);*/
         } else {
-            filtered[position] = item
+            items[position] = item
             notifyItemChanged(position)
         }
     }
 
     open fun add(position: Int, item: T) {
-        filtered.add(position, item)
+        items.add(position, item)
         notifyItemInserted(position)
     }
 
     open fun removeAt(position: Int): T {
-        val item = filtered.removeAt(position)
+        val item = items.removeAt(position)
         notifyItemRemoved(position)
-        notifyItemRangeChanged(position, filtered.size)
+        notifyItemRangeChanged(position, items.size)
         return item
     }
 
@@ -176,7 +172,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
     }
 
     open fun clearAll() {
-        filtered.clear()
+        items.clear()
         notifyDataSetChanged()
     }
 
@@ -187,7 +183,7 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
 
     protected open fun calculatePositionFor(item: T, comparator: Comparator<T>?): Int {
         if (comparator == null) return 0
-        val sortedList: MutableList<T> = ArrayList(filtered)
+        val sortedList: MutableList<T> = ArrayList(items)
         if (!sortedList.contains(item)) sortedList.add(item)
         Collections.sort(sortedList, comparator)
         return Math.max(0, sortedList.indexOf(item))
@@ -201,9 +197,9 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         var position = position
         val itemCount = itemCount
         if (position < itemCount) {
-            this.filtered.addAll(position, items)
+            this.items.addAll(position, items)
         } else {
-            this.filtered.addAll(items)
+            this.items.addAll(items)
             position = itemCount
         }
         // Notify range addition

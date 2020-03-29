@@ -5,7 +5,6 @@ import androidx.annotation.IntRange
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.FlexibleAdapter
-import com.dreampany.ui.FlexibleAdapter
 
 /**
  * Created by roman on 28/3/20
@@ -41,26 +40,29 @@ interface IFlexible<VH : RecyclerView.ViewHolder> {
     @LayoutRes
     fun getLayoutRes(): Int
 
-    fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<VH>>): VH
+    fun createViewHolder(view: View, adapter: FlexibleAdapter<VH, IFlexible<VH>>): VH
 
     fun bindViewHolder(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
         holder: VH,
         position: Int,
         payloads: List<Any>
     )
+
     fun unbindViewHolder(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
         holder: VH,
         position: Int
     )
+
     fun onViewAttached(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
         holder: VH,
         position: Int
     )
+
     fun onViewDetached(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
         holder: VH,
         position: Int
     )

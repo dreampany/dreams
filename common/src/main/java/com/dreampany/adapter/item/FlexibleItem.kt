@@ -2,7 +2,8 @@ package com.dreampany.adapter.item
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.ui.FlexibleAdapter
+import com.dreampany.adapter.FlexibleAdapter
+
 
 /**
  * Created by roman on 28/3/20
@@ -80,17 +81,17 @@ abstract class FlexibleItem<VH : RecyclerView.ViewHolder> :
 
     abstract override fun getLayoutRes(): Int
 
-    override abstract fun createViewHolder(view: View, adapter: FlexibleAdapter<IFlexible<VH>>): VH
+    override abstract fun createViewHolder(view: View, adapter: FlexibleAdapter<VH,IFlexible<VH>>): VH
 
     override abstract fun bindViewHolder(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
         holder: VH,
         position: Int,
         payloads: List<Any>
     )
 
     override fun unbindViewHolder(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
         holder: VH,
         position: Int
     ) {
@@ -98,14 +99,14 @@ abstract class FlexibleItem<VH : RecyclerView.ViewHolder> :
     }
 
     override fun onViewAttached(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
         holder: VH,
         position: Int
     ) {
     }
 
     override fun onViewDetached(
-        adapter: FlexibleAdapter<IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
         holder: VH,
         position: Int
     ) {

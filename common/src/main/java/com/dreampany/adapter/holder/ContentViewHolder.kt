@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.FlexibleAdapter
+import com.dreampany.adapter.item.IFlexible
 
 /**
  * Created by roman on 29/3/20
@@ -16,7 +17,7 @@ abstract class ContentViewHolder : RecyclerView.ViewHolder {
     private var backupPosition = RecyclerView.NO_POSITION
     private lateinit var contentView: View
 
-    constructor(view: View, adapter: FlexibleAdapter, stickyHeader: Boolean)
+    constructor(view: View, adapter: FlexibleAdapter<ContentViewHolder, IFlexible<ContentViewHolder>>, stickyHeader: Boolean)
             : super(if (stickyHeader) FrameLayout(view.context) else view) {
 
         if (stickyHeader) {

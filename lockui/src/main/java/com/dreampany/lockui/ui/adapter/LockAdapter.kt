@@ -61,10 +61,6 @@ class LockAdapter(listener: Any? = null) : BaseAdapter<Item, LockAdapter.ViewHol
         )
     }
 
-    override fun filters(constraint: CharSequence): Boolean {
-        return false
-    }
-
     fun setPinLength(pinLength: Int) {
 
     }

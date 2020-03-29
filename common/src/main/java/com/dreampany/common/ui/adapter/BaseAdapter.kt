@@ -25,12 +25,12 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
         fun onChildItemClick(view: View, item: T)
     }
 
-    private var items: MutableList<T>
-     protected var listener: OnItemClickListener<T>? = null
+    protected val items: MutableList<T>
+    protected var listener: OnItemClickListener<T>? = null
 
     init {
         items = arrayListOf<T>()
-         if (listener is OnItemClickListener<*>) {
+        if (listener is OnItemClickListener<*>) {
             this.listener = listener as OnItemClickListener<T>
         }
     }
@@ -41,8 +41,6 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
     protected abstract fun layoutId(viewType: Int): Int
 
     protected abstract fun createViewHolder(bind: ViewDataBinding, viewType: Int): VH
-
-    protected abstract fun filters(constraint: CharSequence): Boolean
 
     override fun getItemCount(): Int = items.size
 
@@ -61,27 +59,6 @@ abstract class BaseAdapter<T, VH : BaseAdapter.ViewHolder<T, VH>>(listener: Any?
             holder.bindView(this, position)
         }
     }
-
-/*    override fun getFilter(): Filter {
-        return object : Filter() {
-            override fun performFiltering(constraint: CharSequence): FilterResults {
-                if (constraint.isEmpty()) {
-                    filtered = items
-                } else {
-                    val result = items.filter { filters(constraint)}.toMutableList()
-                    filtered = result
-                }
-                val result = FilterResults()
-                result.values = filtered
-                return result
-            }
-
-            override fun publishResults(constraint: CharSequence, results: FilterResults) {
-                filtered = results.values as MutableList<T>
-                notifyDataSetChanged()
-            }
-        }
-    }*/
 
     fun isEmpty(): Boolean = itemCount == 0
 

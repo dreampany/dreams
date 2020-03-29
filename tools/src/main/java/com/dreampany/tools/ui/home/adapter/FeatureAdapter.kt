@@ -21,10 +21,6 @@ class FeatureAdapter(listener: Any? = null) :
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as FeatureItemBinding, this)
 
-    override fun filters(constraint: CharSequence): Boolean {
-        return false
-    }
-
     inner class ViewHolder(val bind: FeatureItemBinding, adapter: FeatureAdapter) :
         BaseAdapter.ViewHolder<Feature, ViewHolder>(bind) {
 

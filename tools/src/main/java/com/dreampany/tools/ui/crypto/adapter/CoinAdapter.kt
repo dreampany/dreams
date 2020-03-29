@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.crypto.adapter
 
 import android.text.format.DateUtils
-import android.widget.Filterable
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
 import com.dreampany.common.data.enums.Order
@@ -10,8 +9,8 @@ import com.dreampany.common.misc.extension.formatString
 import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.misc.extension.toColor
 import com.dreampany.common.misc.util.Util
-import com.dreampany.common.misc.util.Util.currentMillis
 import com.dreampany.common.ui.adapter.BaseAdapter
+import com.dreampany.common.ui.adapter.SearchAdapter
 import com.dreampany.tools.R
 import com.dreampany.tools.api.crypto.misc.CryptoConstants
 import com.dreampany.tools.data.enums.CoinSort
@@ -28,8 +27,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinAdapter(listener: Any? = null) :
-    BaseAdapter<Coin, CoinAdapter.ViewHolder>(listener) {
+class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewHolder>(listener) {
 
     private lateinit var formatter: CurrencyFormatter
     private lateinit var currency: Currency

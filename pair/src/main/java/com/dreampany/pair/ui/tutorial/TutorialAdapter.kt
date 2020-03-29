@@ -19,10 +19,6 @@ class TutorialAdapter(listener: Any? = null) :
     override fun createViewHolder(bind: ViewDataBinding, viewType: Int): ViewHolder =
         ViewHolder(bind as TutorialItemBinding)
 
-    override fun filters(constraint: CharSequence): Boolean {
-        return false
-    }
-
     inner class ViewHolder(val bind: TutorialItemBinding) :
         BaseAdapter.ViewHolder<TutorialItem, ViewHolder>(bind) {
 

@@ -17,7 +17,7 @@ abstract class ContentViewHolder : RecyclerView.ViewHolder {
     private var backupPosition = RecyclerView.NO_POSITION
     private lateinit var contentView: View
 
-    constructor(view: View, adapter: FlexibleAdapter<ContentViewHolder, IFlexible<ContentViewHolder>>, stickyHeader: Boolean)
+    constructor(view: View, adapter: FlexibleAdapter<FlexibleViewHolder, IFlexible<FlexibleViewHolder>>, stickyHeader: Boolean)
             : super(if (stickyHeader) FrameLayout(view.context) else view) {
 
         if (stickyHeader) {

@@ -2,6 +2,7 @@ package com.dreampany.adapter.holder
 
 import android.view.View
 import com.dreampany.adapter.FlexibleAdapter
+import com.dreampany.adapter.item.IFlexible
 
 /**
  * Created by roman on 29/3/20
@@ -9,16 +10,15 @@ import com.dreampany.adapter.FlexibleAdapter
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class FlexibleViewHolder
-    : ContentViewHolder, View.OnClickListener {
+abstract class FlexibleViewHolder : ContentViewHolder, View.OnClickListener {
 
-    protected val adapter: FlexibleAdapter
+    protected val adapter: FlexibleAdapter<FlexibleViewHolder, IFlexible<FlexibleViewHolder>>
 
-    constructor(view: View, adapter: FlexibleAdapter) : this(view, adapter, false) {
+    constructor(view: View, adapter: FlexibleAdapter<FlexibleViewHolder, IFlexible<FlexibleViewHolder>>) : this(view, adapter, false) {
 
     }
 
-    constructor(view: View, adapter: FlexibleAdapter, stickyHeader: Boolean) : super(view, adapter, stickyHeader) {
+    constructor(view: View, adapter: FlexibleAdapter<FlexibleViewHolder, IFlexible<FlexibleViewHolder>>, stickyHeader: Boolean) : super(view, adapter, stickyHeader) {
         this.adapter = adapter
 
 //        if (adapter.cickListener != null) {

@@ -177,18 +177,18 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.6'
     api 'com.google.android.gms:play-services-location:17.0.0'
     api 'com.google.android.gms:play-services-nearby:17.0.0'
-    api 'com.googlecode.libphonenumber:libphonenumber:8.12.0'
+    api 'com.googlecode.libphonenumber:libphonenumber:8.12.1'
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'
-    api 'com.google.firebase:firebase-core:17.2.3'
-    api 'com.google.firebase:firebase-analytics:17.2.3'
+    api 'com.google.firebase:firebase-core:17.3.0'
+    api 'com.google.firebase:firebase-analytics:17.3.0'
     api 'com.google.firebase:firebase-appindexing:19.1.0'
     api 'com.google.firebase:firebase-ads:19.0.1'
-    api 'com.google.firebase:firebase-messaging:20.1.3'
+    api 'com.google.firebase:firebase-messaging:20.1.4'
     api 'com.google.firebase:firebase-auth:19.3.0'
     api 'com.google.firebase:firebase-database:19.2.1'
-    api 'com.google.firebase:firebase-firestore:21.4.1'
+    api 'com.google.firebase:firebase-firestore:21.4.2'
     implementation 'com.google.firebase:firebase-ml-common:22.0.1'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
     implementation 'com.google.firebase:firebase-ml-natural-language:22.0.0'
@@ -238,7 +238,7 @@ dependencies {
     api 'com.facebook.fresco:fresco:2.0.0'
 
     /* android-iconics */
-    api ('com.mikepenz:iconics-core:4.0.2') {
+    api('com.mikepenz:iconics-core:5.0.1') {
         exclude group: 'androidx.core'
         exclude group: 'org.jetbrains.kotlin'
     }
@@ -265,7 +265,7 @@ dependencies {
     api 'com.afollestad:assent:2.3.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
-    api 'com.github.pwittchen:reactivenetwork-rx2:3.0.7'
+    api 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
     api 'com.karumi:dexter:6.0.2'
     api 'joda-time:joda-time:2.10.5'
     api 'com.tapadoo.android:alerter:4.0.2'

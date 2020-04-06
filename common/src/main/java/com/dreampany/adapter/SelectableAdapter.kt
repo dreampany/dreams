@@ -5,9 +5,6 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.enums.Payload
 import com.dreampany.adapter.holder.FlexibleViewHolder
-import com.dreampany.ui.FlexibleLayoutManager
-import com.dreampany.ui.IFlexibleLayoutManager
-import com.dreampany.ui.Mode
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet

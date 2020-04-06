@@ -1,4 +1,4 @@
-package com.dreampany.ui;
+package com.dreampany.adapter;
 
 public interface IFlexibleLayoutManager {
 

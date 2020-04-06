@@ -1,11 +1,11 @@
-package com.dreampany.ui;
+package com.dreampany.adapter;
 
 import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static com.dreampany.ui.Mode.IDLE;
+import static com.dreampany.adapter.Mode.IDLE;
 
 @IntDef({IDLE, Mode.SINGLE, Mode.MULTI})
 @Retention(RetentionPolicy.SOURCE)

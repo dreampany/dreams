@@ -1,4 +1,4 @@
-package com.dreampany.ui;
+package com.dreampany.adapter;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;

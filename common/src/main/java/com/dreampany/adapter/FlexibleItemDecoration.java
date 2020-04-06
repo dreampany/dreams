@@ -1,4 +1,4 @@
-package com.dreampany.ui;
+package com.dreampany.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

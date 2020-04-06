@@ -20,6 +20,7 @@ interface IFlexible<VH : RecyclerView.ViewHolder> {
 
     @IntRange(from = 1)
     fun getSpanSize(spanCount: Int, position: Int): Int
+
     fun shouldNotifyChange(newItem: IFlexible<VH>): Boolean
 
     fun isSelectable(): Boolean

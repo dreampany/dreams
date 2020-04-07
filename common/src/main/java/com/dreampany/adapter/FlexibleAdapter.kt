@@ -13,8 +13,10 @@ import com.dreampany.adapter.enums.Payload
 import com.dreampany.adapter.item.IFilterable
 import com.dreampany.adapter.item.IFlexible
 import kotlinx.coroutines.Runnable
+import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 
 /**
  * Created by roman on 28/3/20
@@ -45,7 +47,7 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
 
     private var useDiffUtil = false
 
-    private var items: ArrayList<T>
+    private var items: ArrayList<T>? = null
     private var temps: ArrayList<T>? = null
     private var originals: ArrayList<T>? = null
     private var notices: ArrayList<T>? = null
@@ -62,15 +64,15 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     var hasFilter: Boolean = false
         get() = filterText.isNullOrEmpty().not()
 
-
+    var isEmpty : Boolean = false
+        get() = itemCount == 0
 
     init {
         executor = Executors.newSingleThreadExecutor()
-        items = ArrayList()
     }
 
     override fun getItemCount(): Int {
-        return 0
+        return items?.size.value()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -81,7 +83,12 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
         TODO("Not yet implemented")
     }
 
+    fun getRealItemCount() : Int = if (hasFilter) itemCount else itemCount
+
     fun hasNewFilter(filterText: CharSequence?): Boolean = oldFilterText.equals(filterText).not()
+
+    fun getCurrentItems() : List<T> = Collections.unmodifiableList(items)
+
 
 
     protected fun filterObject(item: T, filterText: CharSequence?): Boolean {
@@ -177,15 +184,15 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
 
     inner class HandlerCallback : Handler.Callback {
         override fun handleMessage(msg: Message): Boolean {
-            when(msg.what) {
+            when (msg.what) {
                 UPDATE,
-                FILTER-> {
+                FILTER -> {
                     filterTask?.running = false
                     filterTask = FilterTask(msg.what, msg.obj as ArrayList<T>?)
                     executor.execute(filterTask)
                     return true
                 }
-                LOAD_MORE_COMPLETE->{
+                LOAD_MORE_COMPLETE -> {
                     //TODO hide progress item
                     return true
                 }
@@ -219,7 +226,8 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
             return !oldItem.shouldNotifyChange(newItem)
         }
 
-        override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? = Payload.CHANGE
+        override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? =
+            Payload.CHANGE
 
     }
 }

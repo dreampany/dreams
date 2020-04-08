@@ -61,10 +61,10 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     private var endlessLoading = false
     private var filtering = false
 
-    var hasFilter: Boolean = false
+    val hasFilter: Boolean
         get() = filterText.isNullOrEmpty().not()
 
-    var isEmpty : Boolean = false
+    val isEmpty : Boolean
         get() = itemCount == 0
 
     init {
@@ -89,6 +89,12 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
 
     fun getCurrentItems() : List<T> = Collections.unmodifiableList(items)
 
+    fun getGlobalPositionOf(item: T) : Int = items?.indexOf(item) ?: -1
+    fun getCardinalPositionOf(item: T) : Int {
+        var position = getGlobalPositionOf(item)
+        //TODO reduce scrollableHeaders size
+        return position
+    }
 
 
     protected fun filterObject(item: T, filterText: CharSequence?): Boolean {

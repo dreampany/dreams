@@ -3,6 +3,7 @@ package com.dreampany.adapter.item
 import android.view.View
 import androidx.annotation.IntRange
 import androidx.annotation.LayoutRes
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.FlexibleAdapter
 
@@ -41,7 +42,7 @@ interface IFlexible<VH : RecyclerView.ViewHolder> {
     @LayoutRes
     fun getLayoutRes(): Int
 
-    fun createViewHolder(view: View, adapter: FlexibleAdapter<VH, IFlexible<VH>>): VH
+    fun <V : ViewDataBinding, T: IFlexible<VH>> createViewHolder(binding: V, adapter: FlexibleAdapter<VH, T>): VH
 
     fun bindViewHolder(
         adapter: FlexibleAdapter<VH, IFlexible<VH>>,

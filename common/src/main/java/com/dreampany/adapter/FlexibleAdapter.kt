@@ -2,21 +2,25 @@ package com.dreampany.adapter
 
 import android.os.Handler
 import android.os.Message
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.enums.Payload
 import com.dreampany.adapter.item.IFilterable
 import com.dreampany.adapter.item.IFlexible
 import kotlinx.coroutines.Runnable
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 /**
  * Created by roman on 28/3/20
@@ -52,50 +56,132 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     private var originals: ArrayList<T>? = null
     private var notices: ArrayList<T>? = null
 
+    /* view types*/
+    private lateinit var inflater: LayoutInflater
+    private val types: HashMap<Int, T>
+
     private var filterText: CharSequence? = null
         set(value) {
             field = value?.trim()
         }
     private var oldFilterText: CharSequence? = null
 
+    private var autoMap = false
     private var endlessLoading = false
     private var filtering = false
+
 
     val hasFilter: Boolean
         get() = filterText.isNullOrEmpty().not()
 
-    val isEmpty : Boolean
+    val isEmpty: Boolean
         get() = itemCount == 0
 
     init {
         executor = Executors.newSingleThreadExecutor()
+        types = HashMap()
     }
 
     override fun getItemCount(): Int {
         return items?.size.value()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        TODO("Not yet implemented")
+    override fun getItemViewType(position: Int): Int {
+        val item = getItem(position)
+        if (item == null) {
+            Timber.v("Item for ViewType not found! position=%s, items=%s", position, itemCount)
+            return 0
+        }
+        keepType(item)
+        autoMap = true
+        return item.getItemViewType()
+    }
+
+    @Throws
+    @NonNull
+    override fun onCreateViewHolder(
+        @NonNull parent: ViewGroup,
+        viewType: Int
+    ): RecyclerView.ViewHolder {
+        val item = getTypeItem(viewType)
+        if (item == null || !autoMap) {
+            throw IllegalStateException(
+                String.format(
+                    "ViewType instance not found for viewType %s. You should implement the AutoMap properly.",
+                    viewType
+                )
+            )
+        }
+
+        if (::inflater.isInitialized.not()) {
+            inflater = LayoutInflater.from(parent.context)
+        }
+        return item.createViewHolder(
+            DataBindingUtil.inflate(inflater, item.getLayoutRes(), parent, false),
+            this
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        this.onBindViewHolder(holder, position,
+            Collections.unmodifiableList(ArrayList()))
     }
 
-    fun getRealItemCount() : Int = if (hasFilter) itemCount else itemCount
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        super.onBindViewHolder(holder, position, payloads)
+    }
+
+    fun getRealItemCount(): Int = if (hasFilter) itemCount else itemCount
 
     fun hasNewFilter(filterText: CharSequence?): Boolean = oldFilterText.equals(filterText).not()
 
-    fun getCurrentItems() : List<T> = Collections.unmodifiableList(items)
+    @Nullable
+    fun getItem(position: Int): T? {
+        if (position < 0 || position >= itemCount) return null
+        return items?.get(position)
+    }
 
-    fun getGlobalPositionOf(item: T) : Int = items?.indexOf(item) ?: -1
-    fun getCardinalPositionOf(item: T) : Int {
+    fun getCurrentItems(): List<T> = Collections.unmodifiableList(items)
+
+    fun getGlobalPositionOf(item: T): Int = items?.indexOf(item) ?: -1
+
+    fun getCardinalPositionOf(item: T): Int {
         var position = getGlobalPositionOf(item)
         //TODO reduce scrollableHeaders size
         return position
     }
 
+    fun getSameTypePositionOf(item: T): Int {
+        var position = -1
+        items?.forEach {
+            if (it.getItemViewType() == item.getItemViewType()) {
+                position++
+                if (it.equals(item)) {
+                    return@forEach
+                }
+            }
+        }
+        return position
+    }
+
+    fun contains(@Nullable item: T?): Boolean = items?.contains(item) ?: false
+
+    fun calculatePositionFor(@Nullable item: T?, @Nullable comparator: Comparator<T>?): Int {
+        if (items == null || item == null || comparator == null) return 0
+        val sorted: ArrayList<T> = arrayListOf()
+        items?.let {
+            sorted.addAll(it)
+        }
+        if (!sorted.contains(item)) {
+            sorted.add(item)
+        }
+        Collections.sort(sorted, comparator)
+        return Math.max(0, sorted.indexOf(item))
+    }
 
     protected fun filterObject(item: T, filterText: CharSequence?): Boolean {
         return item is IFilterable && item.filter(filterText)
@@ -104,6 +190,14 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     @CallSuper
     protected fun onPostFilter() {
 
+    }
+
+    private fun getTypeItem(viewType: Int): T? = types.get(viewType)
+
+    private fun keepType(item: T) {
+        if (!types.containsKey(item.getItemViewType())) {
+            types.put(item.getItemViewType(), item)
+        }
     }
 
     private fun filterObject(item: T, values: ArrayList<T>): Boolean {

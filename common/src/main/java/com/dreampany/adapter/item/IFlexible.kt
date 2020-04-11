@@ -42,10 +42,13 @@ interface IFlexible<VH : RecyclerView.ViewHolder> {
     @LayoutRes
     fun getLayoutRes(): Int
 
-    fun <V : ViewDataBinding, T: IFlexible<VH>> createViewHolder(binding: V, adapter: FlexibleAdapter<VH, T>): VH
+    fun <V : ViewDataBinding, T : IFlexible<VH>> createViewHolder(
+        binding: V,
+        adapter: FlexibleAdapter<VH, T>
+    ): VH
 
-    fun bindViewHolder(
-        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
+    fun <T : IFlexible<VH>> bindViewHolder(
+        adapter: FlexibleAdapter<VH, T>,
         holder: VH,
         position: Int,
         payloads: List<Any>

@@ -29,16 +29,17 @@ import kotlin.collections.HashMap
  * Last modified $file.lastModified
  */
 class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    RecyclerView.Adapter<VH>() {
 
-    interface OnItemClickListener {
+    /*interface OnItemClickListener {
         fun onItemClick(view: View?, position: Int): Boolean
     }
 
     interface OnItemLongClickListener {
         fun onItemLongClick(view: View?, position: Int): Boolean
-    }
+    }*/
 
+    /* listeners */
     var clickListener: OnItemClickListener? = null
     var longClickListener: OnItemLongClickListener? = null
 
@@ -102,7 +103,7 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     override fun onCreateViewHolder(
         @NonNull parent: ViewGroup,
         viewType: Int
-    ): RecyclerView.ViewHolder {
+    ): VH {
         val item = getTypeItem(viewType)
         if (item == null || !autoMap) {
             throw IllegalStateException(
@@ -122,17 +123,29 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
         )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        this.onBindViewHolder(holder, position,
-            Collections.unmodifiableList(ArrayList()))
+    @Throws
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        this.onBindViewHolder(holder, position, Collections.unmodifiableList(ArrayList()))
     }
 
+    @Throws
     override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
+        holder: VH,
         position: Int,
         payloads: MutableList<Any>
     ) {
+        check(autoMap) {
+            // If everything has been set properly, this should never happen ;-)
+            "AutoMap is not active, this method cannot be called. You should implement the AutoMap properly."
+        }
+        // Bind view activation with current selection
         super.onBindViewHolder(holder, position, payloads)
+        // Bind the item
+        val item = getItem(position)
+        if (item != null) {
+            holder.itemView.setEnabled(item.isEnabled())
+            //item.bindViewHolder(this, holder, position, payloads)
+        }
     }
 
     fun getRealItemCount(): Int = if (hasFilter) itemCount else itemCount

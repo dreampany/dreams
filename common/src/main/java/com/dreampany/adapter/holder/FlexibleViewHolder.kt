@@ -1,6 +1,7 @@
 package com.dreampany.adapter.holder
 
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.FlexibleAdapter
 import com.dreampany.adapter.item.IFlexible
 
@@ -10,26 +11,35 @@ import com.dreampany.adapter.item.IFlexible
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class FlexibleViewHolder : ContentViewHolder, View.OnClickListener {
+abstract class FlexibleViewHolder<VH : RecyclerView.ViewHolder, T : IFlexible<VH>>
+    (view: View, protected val adapter: FlexibleAdapter<VH, T>) :
+    ContentViewHolder<VH, T>(view, adapter),
+    View.OnClickListener, View.OnLongClickListener {
 
-    protected val adapter: FlexibleAdapter<FlexibleViewHolder, IFlexible<FlexibleViewHolder>>
+    private var longClickSkipped = false
+    private var alreadySelected = false
 
-    constructor(view: View, adapter: FlexibleAdapter<FlexibleViewHolder, IFlexible<FlexibleViewHolder>>) : this(view, adapter, false) {
-
+    init {
+        if (adapter.clickListener != null) {
+            contentView?.setOnClickListener(this)
+        }
+        if (adapter.longClickListener != null) {
+            contentView?.setOnLongClickListener(this)
+        }
     }
 
-    constructor(view: View, adapter: FlexibleAdapter<FlexibleViewHolder, IFlexible<FlexibleViewHolder>>, stickyHeader: Boolean) : super(view, adapter, stickyHeader) {
-        this.adapter = adapter
-
-//        if (adapter.cickListener != null) {
-//
-//        }
+    override fun onClick(view: View) {
+        val position = flexiblePosition
     }
 
-    open fun getActivationElevation(): Float = 0f
+    override fun onLongClick(view: View): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    /*open fun getActivationElevation(): Float = 0f
 
     open fun toggleActivation() {
         val position = getFlexiblePosition()
 
-    }
+    }*/
 }

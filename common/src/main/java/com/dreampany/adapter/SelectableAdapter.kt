@@ -1,13 +1,12 @@
 package com.dreampany.adapter
 
 import android.os.Bundle
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.enums.Payload
 import com.dreampany.adapter.holder.FlexibleViewHolder
+import com.google.common.collect.Sets
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
 /**
  * Created by roman on 29/3/20
@@ -15,29 +14,30 @@ import kotlin.collections.HashSet
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class SelectableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class SelectableAdapter<VH : RecyclerView.ViewHolder> : RecyclerView.Adapter<VH>() {
 
     private val TAG: String = SelectableAdapter::class.java.simpleName
 
-    private val selectedPositions: MutableSet<Int>
-    private val boundViewHolders: MutableSet<FlexibleViewHolder>
+    private val positions: MutableSet<Int>
+    private val holders: MutableSet<FlexibleViewHolder<*, *>>
+
+    protected var selectAll = false
+    protected var lastItemInActionMode = false
 
     @Mode
     var mode: Int = Mode.IDLE
         get() = field
         set(value) {
             if (field == Mode.SINGLE && mode == Mode.IDLE) {
-                //clearSelection()
+                clearSelection()
                 // TODO mode
             }
             field = value
-            // TODO last item in action mode
+            lastItemInActionMode = mode != Mode.MULTI
         }
 
-    protected var recycler: RecyclerView? = null
-        get() = field
-
-    private var layoutManager: IFlexibleLayoutManager? = null
+    var recycler: RecyclerView? = null
+    var layoutManager: IFlexibleLayoutManager? = null
         get() {
             if (field == null) {
                 val layout = recycler?.layoutManager
@@ -50,13 +50,21 @@ abstract class SelectableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
             return field
         }
 
-/*    var selectedItemCount: Int
+    val allViewHolders: MutableSet<FlexibleViewHolder<*, *>>
+        get() = Collections.unmodifiableSet(holders)
+
+    val selectedItemCount: Int
         get() = selectedPositions.size
-        private set*/
+
+    val selectedPositions: ArrayList<Int>
+            get() = ArrayList(positions)
+
+    val selectedPositionsAsSet: MutableSet<Int>
+        get() = positions
 
     init {
-        selectedPositions = Collections.synchronizedSet(TreeSet())
-        boundViewHolders = HashSet()
+        positions = Collections.synchronizedSet(TreeSet())
+        holders = Sets.newHashSet()
     }
 
     abstract fun isSelectable(position: Int): Boolean
@@ -73,21 +81,21 @@ abstract class SelectableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
+        holder: VH,
         position: Int,
         payloads: List<Any>
     ) {
-        if (holder is FlexibleViewHolder) {
-            val contentView = holder.getContentView()
-            val elevation = holder.getActivationElevation()
+        if (holder is FlexibleViewHolder<*, *>) {
+            val contentView = holder.contentView
+            /*val elevation = holder.getActivationElevation()
             contentView.isActivated = isSelected(position)
             if (contentView.isActivated && elevation > 0f) {
                 ViewCompat.setElevation(contentView, elevation)
             } else if (elevation > 0f) {
                 ViewCompat.setElevation(contentView, 0f)
-            }
+            }*/
             if (holder.isRecyclable()) {
-                boundViewHolders.add(holder)
+                holders.add(holder)
             } else {
 
             }
@@ -96,41 +104,48 @@ abstract class SelectableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        if (holder is FlexibleViewHolder) {
-            val recycled: Boolean = boundViewHolders.remove(holder)
+    override fun onViewRecycled(holder: VH) {
+        if (holder is FlexibleViewHolder<*, *>) {
+            val recycled: Boolean = holders.remove(holder)
         }
     }
 
     open fun onSaveInstanceState(outState: Bundle) {
-        outState.putIntegerArrayList(TAG, getSelectedPositions())
+        outState.putIntegerArrayList(TAG, selectedPositions)
     }
 
     open fun onRestoreInstanceState(savedInstanceState: Bundle) {
         // Fix for #651 - Check nullable: it happens that the list is null in some unknown cases
         val selectedItems: ArrayList<Int>? = savedInstanceState.getIntegerArrayList(TAG)
         if (selectedItems != null) {
-            selectedPositions.addAll(selectedItems)
+            positions.addAll(selectedItems)
         }
     }
 
-    fun clearBoundViewHolders() {
-        boundViewHolders.clear()
+    fun isSelectAll(): Boolean {
+        resetActionModeFlags()
+        return selectAll
     }
 
-    fun setLayoutManager(layoutManager: IFlexibleLayoutManager) {
-        this.layoutManager = layoutManager
+    fun isLastItemInActionMode(): Boolean {
+        resetActionModeFlags()
+        return lastItemInActionMode
     }
-
-    fun getAllBoundViewHolders(): MutableSet<FlexibleViewHolder> =
-        Collections.unmodifiableSet(boundViewHolders)
-
-    fun getSelectedItemCount(): Int = selectedPositions.size
-
-    fun getSelectedPositions(): ArrayList<Int> = ArrayList(selectedPositions)
-    fun getSelectedPositionsAsSet(): MutableSet<Int> = selectedPositions
 
     fun isSelected(position: Int): Boolean = selectedPositions.contains(position)
+
+    fun clearBoundViewHolders() {
+        holders.clear()
+    }
+
+    /*fun getAllBoundViewHolders(): MutableSet<FlexibleViewHolder<*, *>> =
+        Collections.unmodifiableSet(boundViewHolders)*/
+
+    /*fun getSelectedItemCount(): Int = selectedPositions.size
+
+    fun getSelectedPositions(): ArrayList<Int> = ArrayList(selectedPositions)
+
+    fun getSelectedPositionsAsSet(): MutableSet<Int> = selectedPositions*/
 
     fun toggleSelection(position: Int) {
         if (position < 0) return
@@ -167,6 +182,10 @@ abstract class SelectableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
+    protected fun clearHolders() {
+        holders.clear()
+    }
+
     protected fun swapSelection(fromPosition: Int, toPosition: Int) {
         if (isSelected(fromPosition) && !isSelected(toPosition)) {
             removeSelection(fromPosition)
@@ -179,13 +198,22 @@ abstract class SelectableAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private fun notifySelectionChanged(positionStart: Int, itemCount: Int) {
         if (itemCount > 0) {
-            if (boundViewHolders.isEmpty()) {
+            if (holders.isEmpty()) {
                 notifyItemRangeChanged(
                     positionStart,
                     itemCount,
                     Payload.SELECTION
                 )
             }
+        }
+    }
+
+    private fun resetActionModeFlags() {
+        if (selectAll || lastItemInActionMode) {
+            recycler?.postDelayed({
+                selectAll = false
+                lastItemInActionMode = false
+            }, 200L)
         }
     }
 }

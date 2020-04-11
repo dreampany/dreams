@@ -3,7 +3,6 @@ package com.dreampany.adapter
 import android.os.Handler
 import android.os.Message
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.annotation.NonNull
@@ -29,7 +28,7 @@ import kotlin.collections.HashMap
  * Last modified $file.lastModified
  */
 class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
-    RecyclerView.Adapter<VH>() {
+    SelectableAdapter<VH>() {
 
     /*interface OnItemClickListener {
         fun onItemClick(view: View?, position: Int): Boolean
@@ -132,7 +131,7 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     override fun onBindViewHolder(
         holder: VH,
         position: Int,
-        payloads: MutableList<Any>
+        payloads: List<Any>
     ) {
         check(autoMap) {
             // If everything has been set properly, this should never happen ;-)
@@ -146,6 +145,10 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
             holder.itemView.setEnabled(item.isEnabled())
             //item.bindViewHolder(this, holder, position, payloads)
         }
+    }
+
+    override fun isSelectable(position: Int): Boolean {
+        TODO("Not yet implemented")
     }
 
     fun getRealItemCount(): Int = if (hasFilter) itemCount else itemCount
@@ -343,4 +346,6 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
             Payload.CHANGE
 
     }
+
+
 }

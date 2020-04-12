@@ -54,7 +54,7 @@ class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
     private lateinit var scroller: OnVerticalScrollListener
     private lateinit var coinAdapter: CoinAdapter
     private lateinit var fastAdapter: GenericFastAdapter
-    private lateinit var itemAdapter: GenericModelAdapter<Coin>
+    private lateinit var itemAdapter: ModelAdapter<Coin, CoinItem>
 
     override fun hasBinding(): Boolean = true
 
@@ -87,6 +87,7 @@ class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         //coinAdapter.getFilter().filter(newText)
+        itemAdapter.filter(newText)
         return false
     }
 
@@ -105,6 +106,7 @@ class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
     }
 
     private fun initRecycler(state: Bundle?) {
+        //val fastScrollIndicatorAdapter = FastScrollIndicatorAdapter<ModelIconItem>()
         itemAdapter = ModelAdapter { element: Coin ->
             CoinItem(
                 element,
@@ -113,6 +115,9 @@ class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
                 cryptoPref.getSort(),
                 cryptoPref.getOrder()
             )
+        }
+        itemAdapter.itemFilter.filterPredicate = { item: CoinItem, constraint: CharSequence? ->
+            item.coin.name.toString().contains(constraint.toString(), ignoreCase = true)
         }
         fastAdapter = FastAdapter.with(listOf(itemAdapter))
         bind.recycler.apply {

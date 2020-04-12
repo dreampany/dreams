@@ -135,6 +135,7 @@ dependencies {
     /* adapter */
     api 'com.mikepenz:fastadapter:5.0.0'
     api 'com.mikepenz:fastadapter-extensions-binding:5.0.0'
+    api 'com.mikepenz:fastadapter-extensions-scroll:5.0.0'
 
     /* misc */
     api 'com.jakewharton.timber:timber:4.7.1'

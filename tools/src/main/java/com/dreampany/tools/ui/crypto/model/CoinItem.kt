@@ -133,5 +133,4 @@ class CoinItem(
     override fun unbindView(binding: CoinItemBinding) {
 
     }
-
 }

@@ -5,7 +5,9 @@ import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -13,6 +15,9 @@ import android.widget.TextView
 import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
+import androidx.annotation.Nullable
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -90,6 +95,28 @@ fun View?.setOnSafeClickListener(
 fun View?.loadAnim(@AnimRes animRes: Int): View? {
     if (this == null) return this
     this.startAnimation(AnimationUtils.loadAnimation(context, animRes))
+    return this
+}
+
+fun MenuItem?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): MenuItem? {
+    this?.icon?.mutate()?.toTint(context, colorRes)
+    return this
+}
+
+fun Drawable?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): Drawable? {
+    if (context == null) return this
+/*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
+    } else {
+        this?.setColorFilter(colorRes.toColor(context), PorterDuff.Mode.SRC_ATOP)
+    }*/
+    this?.setColorFilter(
+        BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+            colorRes.toColor(
+                context
+            ), BlendModeCompat.SRC_ATOP
+        )
+    )
     return this
 }
 

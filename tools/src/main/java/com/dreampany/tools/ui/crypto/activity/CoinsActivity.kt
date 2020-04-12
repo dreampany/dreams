@@ -10,9 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.addDecoration
+import com.dreampany.common.misc.extension.dimension
+import com.dreampany.common.misc.extension.toTint
 import com.dreampany.common.misc.func.OnVerticalScrollListener
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.adapter.BaseAdapter
+import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
@@ -37,7 +40,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
+class CoinsActivity : InjectActivity() {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
@@ -82,7 +85,7 @@ class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
     }
 
     override fun onMenuCreated(menu: Menu) {
-        super.onMenuCreated(menu)
+         getSearchMenuItem().toTint(this, R.color.material_white)
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
@@ -91,12 +94,12 @@ class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
         return false
     }
 
-    override fun onItemClick(item: Coin) {
+    /*override fun onItemClick(item: Coin) {
         openUi(item)
     }
 
     override fun onChildItemClick(view: View, item: Coin) {
-    }
+    }*/
 
     private fun initUi() {
         bind = getBinding()
@@ -119,10 +122,19 @@ class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
         itemAdapter.itemFilter.filterPredicate = { item: CoinItem, constraint: CharSequence? ->
             item.coin.name.toString().contains(constraint.toString(), ignoreCase = true)
         }
+
         fastAdapter = FastAdapter.with(listOf(itemAdapter))
         bind.recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
+            addItemDecoration(
+                ItemSpaceDecoration(
+                    context.dimension(R.dimen.recycler_horizontal_spacing).toInt(),
+                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
+                    1,
+                    true
+                )
+            )
         }
         fastAdapter.withSavedInstanceState(state)
 

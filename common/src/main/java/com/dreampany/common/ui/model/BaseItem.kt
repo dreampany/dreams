@@ -5,7 +5,10 @@ import android.view.View
 import androidx.annotation.LayoutRes
 import com.dreampany.adapter.FlexibleAdapter
 import com.dreampany.adapter.holder.FlexibleViewHolder
+import com.dreampany.adapter.item.FlexibleItem
 import com.dreampany.adapter.item.IFlexible
+import com.dreampany.common.misc.extension.dpToPx
+import com.dreampany.common.misc.extension.screenWidth
 import com.google.common.base.Objects
 
 /**
@@ -16,13 +19,13 @@ import com.google.common.base.Objects
  */
 abstract class BaseItem<VH : BaseItem.ViewHolder<T>, T>(
     @LayoutRes var layoutId: Int = 0,
-    var item : T,
+    var item: T,
     var success: Boolean = false,
     var favorite: Boolean = false,
     var notify: Boolean = false,
     var alert: Boolean = false,
     var time: Long = 0L
-) : IFlexible<VH> {
+) : FlexibleItem<VH>() {
 
     override fun hashCode(): Int {
         return Objects.hashCode(item)
@@ -33,6 +36,17 @@ abstract class BaseItem<VH : BaseItem.ViewHolder<T>, T>(
         if (other == null || javaClass != other.javaClass) return false
         val item = other as BaseItem<VH, T>
         return Objects.equal(this.item, item.item)
+    }
+
+    override fun getLayoutRes(): Int = layoutId
+
+    override fun <T : IFlexible<VH>> bindViewHolder(
+        adapter: FlexibleAdapter<VH, T>,
+        holder: VH,
+        position: Int,
+        payloads: List<Any>
+    ) {
+        holder.bind(position, this)
     }
 
     abstract class ViewHolder<T>(
@@ -47,6 +61,9 @@ abstract class BaseItem<VH : BaseItem.ViewHolder<T>, T>(
         }
 
         protected fun <T> getTag(): T? = view.tag as T?
+
+        protected fun spanHeight(spans: Int, offset: Int): Int =
+            (context.screenWidth / spans) - (context.dpToPx(offset.toFloat()) * spans)
 
         abstract fun <VH : ViewHolder<T>, T, I : BaseItem<VH, T>> bind(
             position: Int,

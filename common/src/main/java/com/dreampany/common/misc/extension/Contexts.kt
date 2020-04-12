@@ -10,6 +10,8 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.DisplayMetrics
+import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.RequiresApi
@@ -32,6 +34,25 @@ fun Context?.appContext(): Context? {
     return this?.applicationContext
 }
 
+val Context?.appContext: Context?
+    get() = this?.applicationContext
+
+val Context?.screenWidth: Int
+    get() {
+        val dm = DisplayMetrics()
+        val wm = appContext?.getSystemService(Context.WINDOW_SERVICE) as WindowManager? ?: return 0
+        wm.defaultDisplay.getMetrics(dm)
+        return dm.widthPixels
+    }
+
+val Context?.screenHeight: Int
+    get() {
+        val dm = DisplayMetrics()
+        val wm = appContext?.getSystemService(Context.WINDOW_SERVICE) as WindowManager? ?: return 0
+        wm.defaultDisplay.getMetrics(dm)
+        return dm.heightPixels
+    }
+
 fun Context?.isNull(): Boolean {
     return this == null
 }
@@ -53,13 +74,15 @@ fun Context?.isDebug(): Boolean {
     return debug
 }
 
-fun Context?.dimension(@DimenRes resId: Int): Float {
-    return this?.resources?.getDimension(resId) ?: 0.0f
-}
+fun Context?.dimension(@DimenRes resId: Int): Float = this?.resources?.getDimension(resId) ?: 0.0f
 
-fun Context?.color(@ColorRes resId: Int): Int {
-    return if (this == null) 0 else ContextCompat.getColor(this, resId)
-}
+val Context?.density: Float
+    get() = this?.resources?.displayMetrics?.density ?: 0.0f
+
+fun Context?.dpToPx(dp: Float): Int = (dp * density).toInt()
+
+fun Context?.color(@ColorRes resId: Int): Int =
+    if (this == null) 0 else ContextCompat.getColor(this, resId)
 
 fun Context?.currentTask(): ActivityManager.RunningTaskInfo? {
     val manager = this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
@@ -86,17 +109,13 @@ fun Context?.currentPackage(): String? {
     return currentTask()?.topActivity?.packageName
 }
 
-fun Context?.packageManager(): PackageManager? {
-    return this?.applicationContext?.packageManager
-}
+fun Context?.packageManager(): PackageManager? = this?.applicationContext?.packageManager
 
 fun Context?.activityManager(): ActivityManager? {
     return this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
 }
 
-fun Context?.packageName(): String? {
-    return appContext()?.packageName
-}
+fun Context?.packageName(): String? = appContext()?.packageName
 
 fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
     try {
@@ -132,4 +151,5 @@ fun Context?.lastApplicationId(): String? {
 
 fun Context.formatString(@StringRes formatRes: Int, vararg values: Any): String =
     String.format(getString(formatRes), *values)
+
 

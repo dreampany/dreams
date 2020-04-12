@@ -30,14 +30,6 @@ import kotlin.collections.HashMap
 class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     SelectableAdapter<VH>() {
 
-    /*interface OnItemClickListener {
-        fun onItemClick(view: View?, position: Int): Boolean
-    }
-
-    interface OnItemLongClickListener {
-        fun onItemLongClick(view: View?, position: Int): Boolean
-    }*/
-
     /* listeners */
     var clickListener: OnItemClickListener? = null
     var longClickListener: OnItemLongClickListener? = null

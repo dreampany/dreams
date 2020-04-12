@@ -9,5 +9,5 @@ import com.dreampany.common.ui.model.BaseItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-open class SmartAdapter<T : BaseItem> : FlexibleAdapter() {
+open class SmartAdapter<T : BaseItem<>> : FlexibleAdapter() {
 }

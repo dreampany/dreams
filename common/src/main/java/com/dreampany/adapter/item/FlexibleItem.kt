@@ -1,5 +1,6 @@
 package com.dreampany.adapter.item
 
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.FlexibleAdapter
@@ -65,8 +66,8 @@ abstract class FlexibleItem<VH : RecyclerView.ViewHolder>(
 
     abstract override fun getLayoutRes(): Int
 
-    override abstract fun <V : ViewDataBinding, T : IFlexible<VH>> createViewHolder(
-        binding: V,
+    override abstract fun <T : IFlexible<VH>> createViewHolder(
+        binding: ViewDataBinding,
         adapter: FlexibleAdapter<VH, T>
     ): VH
 

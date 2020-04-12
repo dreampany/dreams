@@ -43,8 +43,8 @@ interface IFlexible<VH : RecyclerView.ViewHolder> {
     @LayoutRes
     fun getLayoutRes(): Int
 
-    fun <V : ViewDataBinding, T : IFlexible<VH>> createViewHolder(
-        binding: V,
+    fun < T : IFlexible<VH>> createViewHolder(
+        binding: ViewDataBinding,
         adapter: FlexibleAdapter<VH, T>
     ): VH
 

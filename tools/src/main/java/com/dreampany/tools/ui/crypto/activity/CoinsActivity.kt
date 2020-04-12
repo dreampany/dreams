@@ -22,7 +22,12 @@ import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.crypto.adapter.CoinAdapter
+import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
+import com.mikepenz.fastadapter.FastAdapter
+import com.mikepenz.fastadapter.GenericFastAdapter
+import com.mikepenz.fastadapter.adapters.GenericModelAdapter
+import com.mikepenz.fastadapter.adapters.ModelAdapter
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -32,12 +37,14 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
+class CoinsActivity : InjectActivity(), BaseAdapter.OnItemClickListener<Coin> {
 
     @Inject
     internal lateinit var factory: ViewModelProvider.Factory
+
     @Inject
     internal lateinit var cryptoPref: CryptoPref
+
     @Inject
     internal lateinit var formatter: CurrencyFormatter
 
@@ -46,6 +53,8 @@ class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
 
     private lateinit var scroller: OnVerticalScrollListener
     private lateinit var coinAdapter: CoinAdapter
+    private lateinit var fastAdapter: GenericFastAdapter
+    private lateinit var itemAdapter: GenericModelAdapter<Coin>
 
     override fun hasBinding(): Boolean = true
 
@@ -55,15 +64,21 @@ class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
 
     override fun menuRes(): Int = R.menu.menu_coins
 
-    override fun searchMenuItemId(): Int  = R.id.item_search
+    override fun searchMenuItemId(): Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        initRecycler()
-        vm.loadCoins(coinAdapter.itemCount.toLong(), AppConstants.Limit.Crypto.LIST)
+        initRecycler(state)
+        vm.loadCoins(fastAdapter.itemCount.toLong(), AppConstants.Limit.Crypto.LIST)
     }
 
     override fun onStopUi() {
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        var outState = outState
+        outState = fastAdapter.saveInstanceState(outState)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onMenuCreated(menu: Menu) {
@@ -71,7 +86,7 @@ class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        coinAdapter.getFilter().filter(newText)
+        //coinAdapter.getFilter().filter(newText)
         return false
     }
 
@@ -89,8 +104,24 @@ class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
-    private fun initRecycler() {
-        scroller = object : OnVerticalScrollListener() {
+    private fun initRecycler(state: Bundle?) {
+        itemAdapter = ModelAdapter { element: Coin ->
+            CoinItem(
+                element,
+                formatter,
+                cryptoPref.getCurrency(),
+                cryptoPref.getSort(),
+                cryptoPref.getOrder()
+            )
+        }
+        fastAdapter = FastAdapter.with(listOf(itemAdapter))
+        bind.recycler.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = fastAdapter
+        }
+        fastAdapter.withSavedInstanceState(state)
+
+        /*scroller = object : OnVerticalScrollListener() {
             override fun onScrolledToBottom() {
 
             }
@@ -109,7 +140,7 @@ class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
             addOnScrollListener(scroller)
             adapter = coinAdapter
             addDecoration(4)
-        }
+        }*/
     }
 
     private fun processResponse(response: Response<List<Coin>, Type, Subtype>) {
@@ -137,7 +168,7 @@ class CoinsActivity : InjectActivity() , BaseAdapter.OnItemClickListener<Coin>{
     }
 
     private fun processResults(coins: List<Coin>) {
-        coinAdapter.addAll(coins, true)
+        itemAdapter.add(coins)
     }
 
     private fun openUi(item: Coin) {

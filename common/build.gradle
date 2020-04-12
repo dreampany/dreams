@@ -132,6 +132,10 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:$retrofit"
     api "com.squareup.retrofit2:converter-gson:$retrofit"
 
+    /* adapter */
+    api 'com.mikepenz:fastadapter:5.0.0'
+    api 'com.mikepenz:fastadapter-extensions-binding:5.0.0'
+
     /* misc */
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'

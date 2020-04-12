@@ -1,6 +1,6 @@
 package com.dreampany.adapter.item
 
-import android.view.View
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.FlexibleAdapter
 
@@ -11,29 +11,24 @@ import com.dreampany.adapter.FlexibleAdapter
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class FlexibleItem<VH : RecyclerView.ViewHolder> :
-    IFlexible<VH> {
+abstract class FlexibleItem<VH : RecyclerView.ViewHolder>(
+    private var enabled: Boolean = true,
+    private var hidden: Boolean = true,
+    private var selectable: Boolean = true,
+    private var draggable: Boolean = true,
+    private var swipeable: Boolean = true
+) : IFlexible<VH> {
 
-    protected var mEnabled = true
-    protected var mHidden: Boolean = false
-    protected var mSelectable = true
-    protected var mDraggable: Boolean = true
-    protected var mSwipeable: Boolean = true
-
-    override fun isEnabled(): Boolean {
-        return mEnabled
-    }
+    override fun isEnabled(): Boolean = enabled
 
     override fun setEnabled(enabled: Boolean) {
-        mEnabled = enabled
+        this.enabled = enabled
     }
 
-    override fun isHidden(): Boolean {
-        return mHidden
-    }
+    override fun isHidden(): Boolean = hidden
 
     override fun setHidden(hidden: Boolean) {
-        mHidden = hidden
+        this.hidden = hidden
     }
 
     override fun getSpanSize(spanCount: Int, position: Int): Int {
@@ -44,54 +39,46 @@ abstract class FlexibleItem<VH : RecyclerView.ViewHolder> :
         return true
     }
 
-    /*--------------------*/ /* SELECTABLE METHODS */ /*--------------------*/
-    override fun isSelectable(): Boolean {
-        return mSelectable
-    }
+    override fun isSelectable(): Boolean = selectable
 
     override fun setSelectable(selectable: Boolean) {
-        mSelectable = selectable
+        this.selectable = selectable
     }
 
     override fun getBubbleText(position: Int): String {
         return (position + 1).toString()
     }
 
-    /*-------------------*/ /* TOUCHABLE METHODS */ /*-------------------*/
-    override fun isDraggable(): Boolean {
-        return mDraggable
-    }
+    override fun isDraggable(): Boolean = draggable
 
     override fun setDraggable(draggable: Boolean) {
-        mDraggable = draggable
+        this.draggable = draggable
     }
 
-    override fun isSwipeable(): Boolean {
-        return mSwipeable
-    }
+    override fun isSwipeable(): Boolean = swipeable
 
     override fun setSwipeable(swipeable: Boolean) {
-        mSwipeable = swipeable
+        this.swipeable = swipeable
     }
 
-    /*---------------------*/ /* VIEW HOLDER METHODS */ /*---------------------*/
-    override fun getItemViewType(): Int {
-        return getLayoutRes()
-    }
+    override fun getItemViewType(): Int = getLayoutRes()
 
     abstract override fun getLayoutRes(): Int
 
-    override abstract fun createViewHolder(view: View, adapter: FlexibleAdapter<VH,IFlexible<VH>>): VH
+    override abstract fun <V : ViewDataBinding, T : IFlexible<VH>> createViewHolder(
+        binding: V,
+        adapter: FlexibleAdapter<VH, T>
+    ): VH
 
-    override abstract fun bindViewHolder(
-        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
+    override abstract fun <T : IFlexible<VH>> bindViewHolder(
+        adapter: FlexibleAdapter<VH, T>,
         holder: VH,
         position: Int,
         payloads: List<Any>
     )
 
     override fun unbindViewHolder(
-        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
         holder: VH,
         position: Int
     ) {
@@ -99,14 +86,14 @@ abstract class FlexibleItem<VH : RecyclerView.ViewHolder> :
     }
 
     override fun onViewAttached(
-        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
         holder: VH,
         position: Int
     ) {
     }
 
     override fun onViewDetached(
-        adapter: FlexibleAdapter<VH,IFlexible<VH>>,
+        adapter: FlexibleAdapter<VH, IFlexible<VH>>,
         holder: VH,
         position: Int
     ) {

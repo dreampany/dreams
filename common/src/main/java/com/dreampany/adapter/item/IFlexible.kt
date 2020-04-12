@@ -25,6 +25,7 @@ interface IFlexible<VH : RecyclerView.ViewHolder> {
     fun shouldNotifyChange(newItem: IFlexible<VH>): Boolean
 
     fun isSelectable(): Boolean
+
     fun setSelectable(selectable: Boolean)
 
     fun getBubbleText(position: Int): String
@@ -71,5 +72,4 @@ interface IFlexible<VH : RecyclerView.ViewHolder> {
         holder: VH,
         position: Int
     )
-
 }

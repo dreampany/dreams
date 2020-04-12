@@ -68,7 +68,7 @@ abstract class BaseItem<VH : BaseItem.ViewHolder, T : Base, S : Serializable>(
        protected val context : Context
             get() = view.context
 
-        open fun <T : Base> setTag(tag: T) {
+        open fun <T : Base> setTag(tag: T?) {
             view.setTag(tag)
         }
 

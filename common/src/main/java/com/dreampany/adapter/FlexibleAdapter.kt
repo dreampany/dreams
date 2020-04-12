@@ -5,6 +5,7 @@ import android.os.Message
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.annotation.IntRange
 import androidx.annotation.NonNull
 import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
@@ -27,8 +28,9 @@ import kotlin.collections.HashMap
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
-    SelectableAdapter<VH>() {
+open class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>>(
+    @Nullable listeners: Any?
+) : SelectableAdapter<VH>() {
 
     /* listeners */
     var clickListener: OnItemClickListener? = null
@@ -191,6 +193,58 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
         return Math.max(0, sorted.indexOf(item))
     }
 
+    fun insertItem(@NonNull item: T): Boolean =
+        insertItem(itemCount, item)
+
+    fun insertItem(@NonNull item: T, comparator: Comparator<T>): Boolean =
+        insertItem(calculatePositionFor(item, comparator), item)
+
+    fun insertItem(@IntRange(from = 0) position: Int, @NonNull item: T): Boolean =
+        insertItems(position, listOf(item))
+
+    fun insertItems(@IntRange(from = 0) position: Int, @NonNull items: List<T>): Boolean {
+        if (items.isEmpty()) return false
+        val initialCount = getRealItemCount()
+        var position = position
+        if (position < 0) {
+            position = initialCount
+        }
+
+        performInsert(position, items, true)
+
+        return true
+    }
+
+    fun updateItem(@NonNull item: T) = updateItem(item, null)
+
+    fun updateItem(@NonNull item: T, @Nullable payload: Any?) =
+        updateItem(getGlobalPositionOf(item), item, payload)
+
+    fun updateItem(@IntRange(from = 0) position: Int, @NonNull item: T, @Nullable payload: Any?) {
+        val itemCount = itemCount
+        if (position < 0 || position >= itemCount) return
+        items?.set(position, item)
+        notifyItemChanged(position, payload)
+    }
+
+    fun addItem(@NonNull item: T): Boolean {
+        if (contains(item)) {
+            updateItem(item)
+            return true
+        } else {
+            return insertItem(item)
+        }
+    }
+
+    fun addItem(@NonNull item: T, comparator: Comparator<T>): Boolean {
+        if (contains(item)) {
+            updateItem(item)
+            return true
+        } else {
+            return insertItem(calculatePositionFor(item, comparator), item)
+        }
+    }
+
     protected fun filterObject(item: T, filterText: CharSequence?): Boolean {
         return item is IFilterable && item.filter(filterText)
     }
@@ -198,6 +252,19 @@ class FlexibleAdapter<VH : RecyclerView.ViewHolder, T : IFlexible<VH>> :
     @CallSuper
     protected fun onPostFilter() {
 
+    }
+
+    private fun performInsert(position: Int, items: List<T>, notify: Boolean) {
+        var position = position
+        val itemCount = itemCount
+        if (position < itemCount) {
+            this.items?.addAll(position, items)
+        } else {
+            this.items?.addAll(items)
+            position = itemCount
+        }
+        if (notify)
+            notifyItemRangeInserted(position, items.size)
     }
 
     private fun getTypeItem(viewType: Int): T? = types.get(viewType)

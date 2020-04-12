@@ -1,5 +1,6 @@
 package com.dreampany.common.ui.adapter
 
+import androidx.annotation.Nullable
 import com.dreampany.adapter.FlexibleAdapter
 import com.dreampany.common.ui.model.BaseItem
 
@@ -9,5 +10,7 @@ import com.dreampany.common.ui.model.BaseItem
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-open class SmartAdapter<T : BaseItem<>> : FlexibleAdapter() {
+open class SmartAdapter<VH : BaseItem.ViewHolder<T>, T : BaseItem<VH, T>>(
+    @Nullable listeners: Any?
+) : FlexibleAdapter<VH, T>(listeners) {
 }

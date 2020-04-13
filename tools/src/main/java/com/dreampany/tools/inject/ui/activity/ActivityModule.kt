@@ -14,20 +14,16 @@ import dagger.android.ContributesAndroidInjector
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Module
+@Module(
+    includes = [
+        CryptoModule::class
+    ]
+)
 abstract class ActivityModule {
     @ContributesAndroidInjector
     abstract fun splash(): SplashActivity
 
-/*    @ContributesAndroidInjector(modules = [HostModule::class])
-    abstract fun home(): HomeActivity*/
-
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class])
     abstract fun home(): HomeActivity
-
-    @ContributesAndroidInjector
-    abstract fun coins(): CoinsActivity
-
-
 }

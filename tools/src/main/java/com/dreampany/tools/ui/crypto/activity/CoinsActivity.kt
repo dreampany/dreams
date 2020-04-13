@@ -25,6 +25,7 @@ import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.crypto.adapter.CoinAdapter
+import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import com.mikepenz.fastadapter.FastAdapter
@@ -54,10 +55,9 @@ class CoinsActivity : InjectActivity() {
     private lateinit var bind: CoinsActivityBinding
     private lateinit var vm: CoinViewModel
 
-    private lateinit var scroller: OnVerticalScrollListener
-    private lateinit var coinAdapter: CoinAdapter
-    private lateinit var fastAdapter: GenericFastAdapter
-    private lateinit var itemAdapter: ModelAdapter<Coin, CoinItem>
+    //private lateinit var scroller: OnVerticalScrollListener
+    //private lateinit var coinAdapter: CoinAdapter
+    private lateinit var adapter: FastCoinAdapter
 
     override fun hasBinding(): Boolean = true
 
@@ -72,25 +72,26 @@ class CoinsActivity : InjectActivity() {
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-        vm.loadCoins(fastAdapter.itemCount.toLong(), AppConstants.Limit.Crypto.LIST)
+        vm.loadCoins(adapter.itemCount, AppConstants.Limit.Crypto.LIST)
     }
 
     override fun onStopUi() {
+        adapter.destroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         var outState = outState
-        outState = fastAdapter.saveInstanceState(outState)
+        outState = adapter.saveInstanceState(outState)
         super.onSaveInstanceState(outState)
     }
 
     override fun onMenuCreated(menu: Menu) {
-         getSearchMenuItem().toTint(this, R.color.material_white)
+        getSearchMenuItem().toTint(this, R.color.material_white)
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
         //coinAdapter.getFilter().filter(newText)
-        itemAdapter.filter(newText)
+        adapter.filter(newText)
         return false
     }
 
@@ -109,8 +110,16 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun initRecycler(state: Bundle?) {
+        if (!::adapter.isInitialized) {
+            adapter = FastCoinAdapter()
+        }
+        adapter.initRecycler(
+            state, bind.recycler, formatter, cryptoPref.getCurrency(),
+            cryptoPref.getSort(),
+            cryptoPref.getOrder()
+        )
         //val fastScrollIndicatorAdapter = FastScrollIndicatorAdapter<ModelIconItem>()
-        itemAdapter = ModelAdapter { element: Coin ->
+        /*itemAdapter = ModelAdapter { element: Coin ->
             CoinItem(
                 element,
                 formatter,
@@ -121,9 +130,9 @@ class CoinsActivity : InjectActivity() {
         }
         itemAdapter.itemFilter.filterPredicate = { item: CoinItem, constraint: CharSequence? ->
             item.coin.name.toString().contains(constraint.toString(), ignoreCase = true)
-        }
+        }*/
 
-        fastAdapter = FastAdapter.with(listOf(itemAdapter))
+        /*fastAdapter = FastAdapter.with(listOf(itemAdapter))
         bind.recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
@@ -136,7 +145,7 @@ class CoinsActivity : InjectActivity() {
                 )
             )
         }
-        fastAdapter.withSavedInstanceState(state)
+        fastAdapter.withSavedInstanceState(state)*/
 
         /*scroller = object : OnVerticalScrollListener() {
             override fun onScrolledToBottom() {
@@ -185,7 +194,7 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun processResults(coins: List<Coin>) {
-        itemAdapter.add(coins)
+
     }
 
     private fun openUi(item: Coin) {

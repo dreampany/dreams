@@ -14,9 +14,14 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import android.support.v4.media.MediaMetadataCompat
+import android.support.v4.media.session.MediaSessionCompat
+import android.support.v4.media.session.PlaybackStateCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.media.session.MediaButtonReceiver
+import com.dreampany.common.misc.extension.isDebug
 import com.dreampany.common.misc.func.NotifyManager
 import com.dreampany.common.service.InjectService
 import com.dreampany.tools.R
@@ -74,7 +79,7 @@ class PlayerService
     }
 
     override fun onStop() {
-        if (AndroidUtil.isDebug(this)) Timber.v("PlayService should be destroyed.")
+        if (isDebug) Timber.v("PlayService should be destroyed.")
         stop()
         session?.release()
         player.destroy()
@@ -225,7 +230,7 @@ class PlayerService
     }
 
     fun stop() {
-        if (AndroidUtil.isDebug(this)) Timber.v("stopping playback.")
+        if (isDebug) Timber.v("stopping playback.")
         resumeOnFocusGain = false
         cast = null
         stream = Stream()

@@ -25,7 +25,7 @@ class PropertyModule {
     @Singleton
     @Provides
     fun provideProperty(context: Context): Property {
-        val debug = context.isDebug()
+        val debug = context.isDebug
         return Property(debug)
     }
 }

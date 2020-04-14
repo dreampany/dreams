@@ -1,7 +1,6 @@
 package com.dreampany.tools.app
 
-import com.dreampany.common.app.BaseInjectorApp
-import com.dreampany.common.misc.extension.isDebug
+import com.dreampany.common.app.InjectorApp
 import com.dreampany.tools.R
 import com.dreampany.tools.inject.app.DaggerAppComponent
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -23,7 +22,7 @@ import dagger.android.DaggerApplication
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class App : BaseInjectorApp() {
+class App : InjectorApp() {
 
     private var action: Action? = null
     private var indexable: Indexable? = null

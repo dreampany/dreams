@@ -30,7 +30,7 @@ class HttpModule {
     @Singleton
     fun provideHttpClient(context: Context, pool: ConnectionPool): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
-        if (context.isDebug())
+        if (context.isDebug)
             interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         val client = OkHttpClient.Builder()

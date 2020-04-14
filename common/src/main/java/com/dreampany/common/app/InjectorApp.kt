@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseInjectorApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
+abstract class InjectorApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
 
     @Volatile
     private var refs: WeakReference<Activity>? = null
@@ -41,7 +41,7 @@ abstract class BaseInjectorApp : DaggerApplication(), Application.ActivityLifecy
     override fun onCreate() {
         super.onCreate()
         registerActivityLifecycleCallbacks(this)
-        if (isDebug())
+        if (isDebug)
             Timber.plant(Timber.DebugTree())
         onOpen()
     }

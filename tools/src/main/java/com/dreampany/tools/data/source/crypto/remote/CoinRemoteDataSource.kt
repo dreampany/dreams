@@ -32,7 +32,7 @@ constructor(
 ) : CoinDataSource {
 
     init {
-        if (context.isDebug()) {
+        if (context.isDebug) {
             keys.setKeys(CryptoConstants.CoinMarketCap.CMC_PRO_ROMAN_BJIT)
         } else {
             keys.setKeys(

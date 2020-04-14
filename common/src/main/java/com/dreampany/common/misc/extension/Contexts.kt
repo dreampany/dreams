@@ -61,7 +61,7 @@ fun Context?.isNotNull(): Boolean {
     return this != null
 }
 
-fun Context?.isDebug(): Boolean {
+/*fun Context?.isDebug(): Boolean {
     if (this == null) return true
     var debug = true
     try {
@@ -72,7 +72,21 @@ fun Context?.isDebug(): Boolean {
     } catch (ignored: PackageManager.NameNotFoundException) {
     }
     return debug
-}
+}*/
+
+val Context?.isDebug: Boolean
+    get() {
+        if (this == null) return true
+        var debug = true
+        try {
+            val appInfo = this.applicationContext.packageManager.getApplicationInfo(
+                this.applicationContext.getPackageName(), 0
+            )
+            debug = (0 != (appInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE))
+        } catch (ignored: PackageManager.NameNotFoundException) {
+        }
+        return debug
+    }
 
 fun Context?.dimension(@DimenRes resId: Int): Float = this?.resources?.getDimension(resId) ?: 0.0f
 

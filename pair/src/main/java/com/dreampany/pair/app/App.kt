@@ -1,6 +1,6 @@
 package com.dreampany.pair.app
 
-import com.dreampany.common.app.BaseInjectorApp
+import com.dreampany.common.app.InjectorApp
 import com.dreampany.pair.injector.app.DaggerAppComponent
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -15,7 +15,7 @@ import dagger.android.DaggerApplication
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class App : BaseInjectorApp() {
+class App : InjectorApp() {
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         return DaggerAppComponent.builder().application(this).build()

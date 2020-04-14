@@ -30,3 +30,5 @@ fun String?.lastPart(denim: Char): String? {
 fun String?.isEmail(): Boolean {
     return this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
 }
+
+fun String?.parseInt(): Int = this?.toInt() ?: 0

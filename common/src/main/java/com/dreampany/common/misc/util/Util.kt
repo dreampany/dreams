@@ -1,5 +1,11 @@
 package com.dreampany.common.misc.util
 
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.os.Parcelable
+import com.dreampany.common.data.model.Task
+import com.dreampany.common.misc.constant.Constants
 import java.util.*
 
 /**
@@ -24,5 +30,17 @@ object Util {
 
     fun nextRand(min: Int, max: Int): Int {
         return random.nextInt(max - min + 1) + min
+    }
+
+    fun hasOreo(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+    }
+
+    fun <T : Context> createIntent(source: T, target: Class<*>, task: Task<*, *, *>?): Intent {
+        val intent = Intent(source, target)
+        if (task != null) {
+            intent.putExtra(Constants.Keys.TASK, task as Parcelable?)
+        }
+        return intent
     }
 }

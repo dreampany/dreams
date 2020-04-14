@@ -1,24 +1,25 @@
-package com.dreampany.framework.api.notify
+package com.dreampany.common.misc.func
 
 import android.app.Service
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
 import androidx.core.app.NotificationManagerCompat
-import com.dreampany.framework.R
-import com.dreampany.framework.data.model.Task
-import com.dreampany.framework.misc.Constants
-import com.dreampany.framework.util.AndroidUtil
-import com.dreampany.framework.util.NotifyUtil
+import com.dreampany.common.R
+import com.dreampany.common.data.model.Task
+import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.misc.util.NotifyUtil
+import com.dreampany.common.misc.util.Util
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 /**
- * Created by Hawladar Roman on 7/23/2018.
- * BJIT Group
+ * Created by roman on 15/4/20
+ * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
+
 @Singleton
 class NotifyManager
 @Inject constructor(val context: Context) {
@@ -32,7 +33,7 @@ class NotifyManager
         contentText: String,
         icon: Int,
         targetClass: Class<*>?,
-        task: Task<*>?
+        task: Task<*, *, *>?
     ) {
         showNotification(
             Constants.Notify.DEFAULT_ID,
@@ -52,7 +53,7 @@ class NotifyManager
         icon: Int,
         channelId: String,
         targetClass: Class<*>?,
-        task: Task<*>?
+        task: Task<*, *, *>?
     ) {
         showNotification(
             Constants.Notify.DEFAULT_ID,
@@ -75,7 +76,7 @@ class NotifyManager
         notifyId: Int,
         channelId: String,
         targetClass: Class<*>?,
-        task: Task<*>?
+        task: Task<*, *, *>?
     ) {
         showNotification(
             notifyId,
@@ -97,7 +98,7 @@ class NotifyManager
         contentText: String,
         smallIcon: Int,
         targetClass: Class<*>?,
-        task: Task<*>?,
+        task: Task<*, *, *>?,
         channelId: String,
         channelName: String,
         channelDescription: String
@@ -139,7 +140,7 @@ class NotifyManager
         contentText: String,
         smallIcon: Int,
         targetClass: Class<*>,
-        task: Task<*>?,
+        task: Task<*, *, *>?,
         channelId: String,
         channelName: String,
         channelDescription: String
@@ -170,7 +171,7 @@ class NotifyManager
         )
 
         notification?.run {
-            if (AndroidUtil.hasOreo()) {
+            if (Util.hasOreo()) {
                 (context as Service).startForeground(notifyId, this)
             }
             else {

@@ -10,13 +10,17 @@ import androidx.annotation.StringRes
 import androidx.annotation.XmlRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceFragmentCompat
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
+import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.ui.activity.InjectActivity
+import com.dreampany.common.ui.model.UiTask
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
+import kotlin.reflect.KClass
 
 /**
  * Created by roman on 15/3/20
@@ -29,11 +33,13 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
     protected var fireOnStartUi: Boolean = true
     private lateinit var binding: ViewDataBinding
     protected var currentView: View? = null
-    protected var task: Task<*, *, *>? = null
-    protected var childTask: Task<*, *, *>? = null
+    protected var task: UiTask<*, *, *, *, *>? = null
+    protected var childTask: UiTask<*, *, *, *, *>? = null
 
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null
+
+    open fun hasBinding(): Boolean = false
 
     @LayoutRes
     open fun layoutRes(): Int = 0
@@ -77,6 +83,8 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
         val layoutId = layoutRes()
         if (layoutId != 0) {
             currentView = initLayout(layoutId, inflater, container, savedInstanceState)
+        } else {
+            currentView = super.onCreateView(inflater, container, savedInstanceState)
         }
         //currentView!!.viewTreeObserver.addOnWindowFocusChangeListener(this)
         return currentView
@@ -95,7 +103,6 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
         }
     }
 
-
     override fun onDestroyView() {
         hideProgress()
         hideDialog()
@@ -109,6 +116,7 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
         }
         super.onDestroyView()
     }
+
 
     protected fun <T : ViewDataBinding> getBinding(): T {
         return binding as T
@@ -144,13 +152,12 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        if (layoutId != 0) {
+        if (hasBinding()) {
             binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
             binding.setLifecycleOwner(this)
             return binding.root
         } else {
-            return super.onCreateView(inflater, container, savedInstanceState)
+            return inflater.inflate(layoutId, container, false)
         }
     }
 
@@ -170,7 +177,6 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
             if (isShowing) dismiss()
         }
     }
-
 
     protected fun showDialogue(
         @StringRes titleRes: Int,
@@ -217,5 +223,17 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
             dismiss()
         }
         sheetDialog = null
+    }
+
+    protected fun <F : Fragment, T : Task<*, *, *, *, *>> createFragment(clazz: KClass<F>, task: T): F {
+        val instance = clazz.java.newInstance()
+        if (instance.arguments == null) {
+            val bundle = Bundle()
+            bundle.putParcelable(Constants.Keys.TASK, task)
+            instance.arguments = bundle
+        } else {
+            instance.arguments?.putParcelable(Constants.Keys.TASK, task)
+        }
+        return instance
     }
 }

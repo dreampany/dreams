@@ -6,10 +6,7 @@ import android.os.Build
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.dreampany.common.misc.func.Executors
-import com.dreampany.common.ui.activity.BaseActivity
-import com.dreampany.common.ui.fragment.BaseFragment
 import kotlinx.coroutines.Runnable
 import kotlin.reflect.KClass
 

@@ -2,20 +2,11 @@ package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.model.Response
-import com.dreampany.common.misc.extension.addDecoration
-import com.dreampany.common.misc.extension.dimension
 import com.dreampany.common.misc.extension.toTint
-import com.dreampany.common.misc.func.OnVerticalScrollListener
 import com.dreampany.common.ui.activity.InjectActivity
-import com.dreampany.common.ui.adapter.BaseAdapter
-import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
@@ -24,14 +15,8 @@ import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.constant.AppConstants
-import com.dreampany.tools.ui.crypto.adapter.CoinAdapter
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
-import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
-import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.GenericFastAdapter
-import com.mikepenz.fastadapter.adapters.GenericModelAdapter
-import com.mikepenz.fastadapter.adapters.ModelAdapter
 import timber.log.Timber
 import javax.inject.Inject
 

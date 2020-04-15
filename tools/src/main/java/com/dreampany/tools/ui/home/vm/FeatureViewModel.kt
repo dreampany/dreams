@@ -30,7 +30,6 @@ class FeatureViewModel
     rm
 ) {
 
-
     fun loadFeatures() {
         uiScope.launch {
             postProgressMultiple(Type.FEATURE, Subtype.DEFAULT, progress = true)

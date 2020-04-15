@@ -16,6 +16,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.fragment.app.Fragment
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
@@ -46,7 +47,7 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
     private lateinit var toolbar: Toolbar
     private lateinit var menu: Menu
 
-    protected var task: Task<*, *, *>? = null
+    protected var task: Task<*, *, *, *, *>? = null
 
     protected var fragment: BaseFragment? = null
 
@@ -147,7 +148,7 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
 
     protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId())
 
-    protected fun getSearchView() : SearchView? {
+    protected fun getSearchView(): SearchView? {
         val view = getSearchMenuItem()?.actionView ?: return null
         return view as SearchView
     }
@@ -176,7 +177,7 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         return getIntentValue<T>(key, bundle)
     }
 
-    protected fun <T : Task<*, *, *>> getTask(freshTask: Boolean = false): T? {
+    protected fun <T : Task<*, *, *, *, *>> getTask(freshTask: Boolean = false): T? {
         if (task == null || freshTask) {
             task = getIntentValue<T>(Constants.Keys.TASK)
         }
@@ -192,6 +193,18 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         }
         open(fragment, parent, ex)
         this.fragment = fragment
+    }
+
+    protected fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*,*,*, *, *>): T {
+        val instance = clazz.java.newInstance()
+        if (instance.arguments == null) {
+            val bundle = Bundle()
+            bundle.putParcelable(Constants.Keys.TASK, task)
+            instance.arguments = bundle
+        } else {
+            instance.arguments?.putParcelable(Constants.Keys.TASK, task)
+        }
+        return instance
     }
 
     protected fun showProgress() {
@@ -289,7 +302,8 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
             searchView.inputType = InputType.TYPE_TEXT_VARIATION_FILTER
             searchView.imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
             searchView.queryHint = getString(R.string.search)
-            val searchManager = searchView.context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            val searchManager =
+                searchView.context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
             searchView.setSearchableInfo(searchManager.getSearchableInfo(this.componentName))
             searchView.setOnQueryTextListener(this)
         }

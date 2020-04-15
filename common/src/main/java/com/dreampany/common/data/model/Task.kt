@@ -1,8 +1,6 @@
 package com.dreampany.common.data.model
 
-import com.dreampany.common.data.enums.Action
-import com.dreampany.common.data.enums.BaseType
-import com.dreampany.common.data.enums.State
+import com.dreampany.common.data.enums.*
 import com.dreampany.common.misc.constant.Constants
 
 /**
@@ -11,18 +9,23 @@ import com.dreampany.common.misc.constant.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class Task<T : BaseParcel, X : BaseType, Y : BaseType>(
-    open var notify: Boolean = Constants.Default.BOOLEAN,
-    open var fullscreen: Boolean = Constants.Default.BOOLEAN,
-    open var collapseToolbar: Boolean = Constants.Default.BOOLEAN,
-    open var type: X,
-    open var subtype: Y,
-    open var state: State = State.DEFAULT,
-    open var action: Action = Action.DEFAULT,
+abstract class Task<
+        TYPE : BaseType,
+        SUBTYPE : BaseSubtype,
+        STATE : BaseState,
+        ACTION : BaseAction,
+        INPUT : BaseParcel>(
+    open var type: TYPE,
+    open var subtype: SUBTYPE,
+    open var state: STATE,
+    open var action: ACTION,
+    open var input: INPUT? = Constants.Default.NULL,
+    open var inputs: List<INPUT>? = Constants.Default.NULL,
     open var id: String? = Constants.Default.NULL,
     open var ids: List<String>? = Constants.Default.NULL,
-    open var input: T? = Constants.Default.NULL,
-    open var inputs: List<T>? = Constants.Default.NULL,
     open var extra: String? = Constants.Default.NULL,
-    open var extras: List<String>? = Constants.Default.NULL
+    open var extras: List<String>? = Constants.Default.NULL,
+    open var notify: Boolean = Constants.Default.BOOLEAN,
+    open var fullscreen: Boolean = Constants.Default.BOOLEAN,
+    open var collapseToolbar: Boolean = Constants.Default.BOOLEAN
 ) : BaseParcel()

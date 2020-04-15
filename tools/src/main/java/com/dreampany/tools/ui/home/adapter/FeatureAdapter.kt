@@ -5,7 +5,7 @@ import com.dreampany.common.misc.extension.setOnSafeClickListener
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.FeatureItemBinding
-import com.dreampany.tools.data.model.Feature
+import com.dreampany.tools.data.model.home.Feature
 
 /**
  * Created by roman on 21/3/20

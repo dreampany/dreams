@@ -43,4 +43,13 @@ object Util {
         }
         return intent
     }
+
+    fun sleep(time: Long): Boolean {
+        try {
+            Thread.sleep(time)
+            return true
+        } catch (ignored: InterruptedException) {
+            return false
+        }
+    }
 }

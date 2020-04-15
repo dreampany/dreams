@@ -2,12 +2,12 @@ package com.dreampany.tools.api.radio
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.dreampany.framework.misc.AppExecutor
-import com.dreampany.framework.util.AndroidUtil
+import com.dreampany.common.misc.extension.isDebug
+import com.dreampany.common.misc.func.Executors
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.player.ExoPlayer
 import com.dreampany.tools.api.player.SmartPlayer
-import com.dreampany.tools.data.source.pref.RadioPref
+import com.dreampany.tools.data.source.radio.pref.RadioPref
 import okhttp3.ConnectionPool
 import okhttp3.OkHttpClient
 import timber.log.Timber
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class RadioPlayer
 @Inject constructor(
     private val context: Context,
-    private val ex: AppExecutor,
+    private val ex: Executors,
     private val radioPref: RadioPref,
     private val network: NetworkManager,
     private val pool: ConnectionPool
@@ -104,7 +104,7 @@ class RadioPlayer
             val sessionId = player.getAudioSessionId()
             player.pause()
 
-            if (AndroidUtil.isDebug(context)) {
+            if (context.isDebug) {
                 ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
             }
 
@@ -118,7 +118,7 @@ class RadioPlayer
             val audioSessionId = player.getAudioSessionId()
             player.stop()
 
-            if (AndroidUtil.isDebug(context)) {
+            if (context.isDebug) {
                 ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
             }
 
@@ -132,7 +132,7 @@ class RadioPlayer
 
     private fun setState(state: SmartPlayer.State, audioSessionId: Int) {
         Timber.v("set state '%s'", state.name)
-        if (AndroidUtil.isDebug(context)) {
+        if (context.isDebug) {
             if (state == SmartPlayer.State.PLAYING) {
                 ex.getUiHandler().removeCallbacks(bufferCheckRunnable)
                 ex.getUiHandler().post(bufferCheckRunnable)

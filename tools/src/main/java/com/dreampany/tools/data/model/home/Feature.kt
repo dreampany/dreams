@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.model
+package com.dreampany.tools.data.model.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes

@@ -8,7 +8,7 @@ import com.dreampany.common.ui.vm.BaseViewModel
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.Subtype
 import com.dreampany.tools.data.enums.Type
-import com.dreampany.tools.data.model.Feature
+import com.dreampany.tools.data.model.home.Feature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

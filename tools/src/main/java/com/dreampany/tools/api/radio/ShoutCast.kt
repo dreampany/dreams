@@ -2,6 +2,7 @@ package com.dreampany.tools.api.radio
 
 import androidx.room.Ignore
 import com.dreampany.common.data.model.Base
+import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.util.Util
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
@@ -42,15 +43,15 @@ data class ShoutCast(
 
     }
 
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as ShoutCast
         return Objects.equal(this.id, item.id)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
     }
 
     override fun toString(): String {

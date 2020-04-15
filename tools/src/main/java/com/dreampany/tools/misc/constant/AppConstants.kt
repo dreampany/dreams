@@ -1,5 +1,7 @@
 package com.dreampany.tools.misc.constant
 
+import android.content.Intent
+import com.dreampany.common.misc.constant.Constants
 import java.util.concurrent.TimeUnit
 
 /**
@@ -67,10 +69,33 @@ class AppConstants {
         }
     }
 
+    object Notify {
+        const val FOREGROUND_ID = Constants.Notify.FOREGROUND_ID
+        const val PLAYER_FOREGROUND_ID = 104
+        const val FOREGROUND_CHANNEL_ID = Constants.Notify.FOREGROUND_CHANNEL_ID
+        const val PLAYER_FOREGROUND_CHANNEL_ID = "player_" + Constants.Notify.FOREGROUND_CHANNEL_ID
+    }
+
     object Times {
         object Crypto {
             val LISTING = TimeUnit.HOURS.toMillis(1)
             val COIN = TimeUnit.MINUTES.toMillis(10)
+        }
+
+        val NOTIFY = TimeUnit.MINUTES.toSeconds(1)
+        val SERVER = TimeUnit.DAYS.toMillis(1)
+        val STATION = TimeUnit.DAYS.toMillis(10)
+        val FIREBASE = TimeUnit.HOURS.toMillis(1)
+
+        object Word {
+            val FREQUENT = TimeUnit.MINUTES.toMillis(1)
+            val NORMAL = TimeUnit.MINUTES.toMillis(3)
+            val LAZY = TimeUnit.MINUTES.toMillis(5)
+            val DEAD = TimeUnit.HOURS.toMillis(1)
+        }
+
+        fun minuteToMillis(minutes: Long): Long {
+            return TimeUnit.MINUTES.toMillis(minutes)
         }
     }
 
@@ -78,5 +103,46 @@ class AppConstants {
         object Crypto {
             const val LIST = 100L
         }
+    }
+
+    object Service {
+        const val VPN_ADDRESS = "10.0.0.2"
+        const val VPN_ROUTE = "0.0.0.0"
+
+        const val PLAYER_SERVICE_STATE_CHANGE = "radio_player_state_change"
+        const val PLAYER_SERVICE_STATE = "radio_player_state"
+        const val PLAYER_SERVICE_UPDATE = "radio_player_state"
+
+        object Command {
+            const val START = "start"
+            const val RESUME = "resume"
+            const val PAUSE = "pause"
+            const val STOP = "stop"
+            const val NEXT = "next"
+            const val PREVIOUS = "previous"
+            const val MEDIA_BUTTON = Intent.ACTION_MEDIA_BUTTON
+            const val START_LOCK = "start_lock"
+            const val STOP_LOCK = "stop_lock"
+        }
+    }
+
+    object Extension {
+        const val M3U8 = ".m3u8"
+    }
+
+    object Header {
+        const val ICY_METADATA = "Icy-MetaData"
+        const val ICY_METADATA_OK = "1"
+        const val ACCEPT_ENCODING = "Accept-Encoding"
+        const val ACCEPT_ENCODING_IDENTITY = "identity"
+    }
+
+    object MimeType {
+        const val AUDIO_MPEG = "audio/mpeg"
+    }
+
+    object ContentType {
+        const val APPLE_MPEGURL = "application/vnd.apple.mpegurl"
+        const val X_MPEGURL = "application/x-mpegurl"
     }
 }

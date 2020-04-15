@@ -2,10 +2,9 @@ package com.dreampany.tools.api.radio
 
 import androidx.room.Ignore
 import com.dreampany.common.data.model.Base
-import com.dreampany.framework.data.model.Base
-import com.dreampany.framework.util.TimeUtilKt
-import com.dreampany.tools.data.model.Server
-import com.dreampany.tools.misc.Constants
+import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.misc.util.Util
+import com.dreampany.tools.misc.constant.RadioConstants
 import com.google.common.base.Objects
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
@@ -20,9 +19,9 @@ import kotlinx.android.parcel.Parcelize
 data class RadioStation(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    @SerializedName(value = Constants.Keys.Station.Remote.CHANGE_UUID)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.CHANGE_UUID)
     var changeUuid: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Keys.Station.Remote.STATION_UUID)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.STATION_UUID)
     var stationUuid: String? = Constants.Default.NULL,
     var name: String? = Constants.Default.NULL,
     var url: String? = Constants.Default.NULL,
@@ -33,37 +32,41 @@ data class RadioStation(
     var bitrate: Int = Constants.Default.INT,
     var tags: String? = Constants.Default.NULL,
     var country: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Keys.Station.Remote.COUNTRY_CODE)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.COUNTRY_CODE)
     var countryCode: String? = Constants.Default.NULL,
     var state: String? = Constants.Default.NULL,
     var language: String? = Constants.Default.NULL,
     var votes: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.NEGATIVE_VOTES)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.NEGATIVE_VOTES)
     var negativeVotes: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_COUNT)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_COUNT)
     var clickCount: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_TREND)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TREND)
     var clickTrend: Int = Constants.Default.INT,
     var hls: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_OK)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK)
     var lastCheckOk: Int = Constants.Default.INT,
-    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHANGE_TIME)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHANGE_TIME)
     var lastChangeTime: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_TIME)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_TIME)
     var lastCheckTime: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Keys.Station.Remote.LAST_CHECK_OK_TIME)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.LAST_CHECK_OK_TIME)
     var lastCheckOkTime: String? = Constants.Default.NULL,
-    @SerializedName(value = Constants.Keys.Station.Remote.CLICK_TIMESTAMP)
+    @SerializedName(value = RadioConstants.Keys.Station.Remote.CLICK_TIMESTAMP)
     var clickTimestamp: String? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
-    constructor() : this(time = TimeUtilKt.currentMillis()) {
+    constructor() : this(time = Util.currentMillis()) {
 
     }
 
-    constructor(id: String) : this(time = TimeUtilKt.currentMillis(), id = id) {
+    constructor(id: String) : this(time = Util.currentMillis(), id = id) {
 
+    }
+
+    override fun hashCode(): Int {
+        return Objects.hashCode(id)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -71,10 +74,6 @@ data class RadioStation(
         if (other == null || javaClass != other.javaClass) return false
         val item = other as RadioStation
         return Objects.equal(this.id, item.id)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
     }
 
     override fun toString(): String {

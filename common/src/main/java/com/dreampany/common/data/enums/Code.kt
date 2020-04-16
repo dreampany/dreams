@@ -6,7 +6,7 @@ package com.dreampany.common.data.enums
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-enum class ErrorCode(val code: Int) {
+enum class Code(val code: Int) {
     SUCCESS(200),
     BAD_REQUEST(400),
     UNAUTHORIZED(401),

@@ -1,6 +1,5 @@
 package com.dreampany.common.misc.func
 
-import com.dreampany.common.data.enums.ErrorCode
 import java.net.UnknownHostException
 
 /**
@@ -11,7 +10,7 @@ import java.net.UnknownHostException
  */
 data class SmartError(
     override val message: String? = null,
-    val code: ErrorCode? = null,
+    val code: Int? = null,
     val error: Throwable? = null
 ) : Throwable(message = message) {
 

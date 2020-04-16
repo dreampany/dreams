@@ -51,8 +51,6 @@ class CryptoConstants {
         const val FROM_SYMBOL = "fsym"
         const val TO_SYMBOL = "tsym"
 
-
-
     }
 
     object Common {

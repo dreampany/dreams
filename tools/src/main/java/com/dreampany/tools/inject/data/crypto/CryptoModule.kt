@@ -5,6 +5,7 @@ import android.content.Context
 import com.dreampany.common.inject.annote.Remote
 import com.dreampany.common.inject.annote.Room
 import com.dreampany.common.misc.func.Keys
+import com.dreampany.common.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.inject.data.CoinMarketCapModule
 import com.dreampany.tools.api.crypto.inject.data.CryptoCompareModule
@@ -68,6 +69,7 @@ class CryptoModule {
     fun provideRemoteCoinDataSource(
         context: Context,
         network: NetworkManager,
+        parser: Parser,
         keys: Keys,
         mapper: CoinMapper,
         service: CoinMarketCapService
@@ -75,6 +77,7 @@ class CryptoModule {
         return CoinRemoteDataSource(
             context,
             network,
+            parser,
             keys,
             mapper,
             service

@@ -4,6 +4,7 @@ import android.content.Context
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.isDebug
 import com.dreampany.common.misc.func.Keys
+import com.dreampany.common.misc.func.Parser
 import com.dreampany.common.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.misc.CryptoConstants
@@ -30,6 +31,7 @@ class CoinRemoteDataSource
 constructor(
     private val context: Context,
     private val network: NetworkManager,
+    private val parser: Parser,
     private val keys: Keys,
     private val mapper: CoinMapper,
     private val service: CoinMarketCapService
@@ -73,31 +75,33 @@ constructor(
         offset: Long,
         limit: Long
     ): List<Coin> {
-        /*if (network.isObserving() && !network.hasInternet()) {
-            throw
-        }*/
         for (index in 0..keys.length / 2) {
             try {
                 val key = keys.getKey()
-                val response : Response<CoinsResponse> =
-                    service.getListing(
-                        getHeader(key),
-                        currency.name,
-                        sort.value,
-                        order.value,
-                        offset + 1,
-                        limit
-                    ).execute()
+                val response: Response<CoinsResponse> = service.getListing(
+                    getHeader(key),
+                    currency.name,
+                    sort.value,
+                    order.value,
+                    offset,
+                    limit
+                ).execute()
                 if (response.isSuccessful) {
-                    val res = response.body()
-                    if (res != null) {
-                        return mapper.getItems(res.data)
-                    }
+                    val data = response.body()?.data ?: throw SmartError(code = response.code())
+                    return mapper.getItems(data)
+                } else {
+                    val error = parser.parseError(response, CoinsResponse::class)
+                    throw SmartError(
+                        message = error?.status?.errorMessage,
+                        code = error?.status?.errorCode
+                    )
                 }
             } catch (error: Throwable) {
-                if (error is UnknownHostException) {
-                    throw SmartError(message = error.message, error = error)
-                }
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
                 keys.randomForwardKey()
             }
         }

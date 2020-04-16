@@ -1,9 +1,6 @@
 package com.dreampany.tools.api.crypto.remote.response
 
-import com.dreampany.tools.api.crypto.misc.CryptoConstants
 import com.dreampany.tools.api.crypto.model.CryptoCoin
-import com.dreampany.tools.api.crypto.model.CryptoStatus
-import com.google.gson.annotations.SerializedName
 
 /**
  * Created by roman on 2019-11-12
@@ -11,18 +8,4 @@ import com.google.gson.annotations.SerializedName
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class CoinsResponse(
-    @SerializedName(value = CryptoConstants.Common.STATUS)
-    val cryptoStatus: CryptoStatus,
-    @SerializedName(value = CryptoConstants.Common.DATA)
-    val data: List<CryptoCoin>
-) {
-
-    fun isError(): Boolean {
-        return cryptoStatus.errorCode != 0
-    }
-
-    fun isEmpty(): Boolean {
-        return data.isEmpty()
-    }
-}
+class CoinsResponse : Response<List<CryptoCoin>>()

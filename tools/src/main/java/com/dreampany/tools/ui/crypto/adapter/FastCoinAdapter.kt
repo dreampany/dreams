@@ -3,13 +3,9 @@ package com.dreampany.tools.ui.crypto.adapter
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.dimension
 import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -45,15 +41,6 @@ class FastCoinAdapter(
         state: Bundle?,
         recycler: RecyclerView
     ) {
-        /*{ element: Coin ->
-            CoinItem(
-                element,
-                formatter,
-                currency,
-                sort,
-                order
-            )
-        }*/
         val list = ComparableItemListImpl(comparator = rankComparator)
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->

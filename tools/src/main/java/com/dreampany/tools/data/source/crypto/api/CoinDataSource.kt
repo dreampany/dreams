@@ -35,5 +35,5 @@ interface CoinDataSource {
         order: Order,
         offset: Long,
         limit: Long
-    ): List<Coin>?
+    ): List<Coin>
 }

@@ -4,8 +4,10 @@ import android.content.Context
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.isDebug
 import com.dreampany.common.misc.func.Keys
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.misc.CryptoConstants
+import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
@@ -14,7 +16,9 @@ import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
 import com.dreampany.tools.misc.constant.AppConstants
 import com.google.common.collect.Maps
+import retrofit2.Response
 import timber.log.Timber
+import java.net.UnknownHostException
 
 /**
  * Created by roman on 3/21/20
@@ -61,21 +65,21 @@ constructor(
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun getItems(
         currency: Currency,
         sort: CoinSort,
         order: Order,
         offset: Long,
         limit: Long
-    ): List<Coin>? {
-        if (network.isObserving() && !network.hasInternet()) {
-            return null
-        }
+    ): List<Coin> {
+        /*if (network.isObserving() && !network.hasInternet()) {
+            throw
+        }*/
         for (index in 0..keys.length / 2) {
             try {
                 val key = keys.getKey()
-
-                val response =
+                val response : Response<CoinsResponse> =
                     service.getListing(
                         getHeader(key),
                         currency.name,
@@ -91,11 +95,13 @@ constructor(
                     }
                 }
             } catch (error: Throwable) {
-                Timber.e(error)
+                if (error is UnknownHostException) {
+                    throw SmartError(message = error.message, error = error)
+                }
                 keys.randomForwardKey()
             }
         }
-        return null
+        throw SmartError()
     }
 
     override suspend fun getItem(id: String, currency: Currency): Coin? {

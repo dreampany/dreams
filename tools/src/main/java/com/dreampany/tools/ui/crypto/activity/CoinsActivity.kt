@@ -18,6 +18,7 @@ import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
+import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,7 +60,7 @@ class CoinsActivity : InjectActivity() {
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-        vm.loadCoins(adapter.itemCount, AppConstants.Limit.Crypto.LIST)
+        loadCoins()
     }
 
     override fun onStopUi() {
@@ -77,91 +78,43 @@ class CoinsActivity : InjectActivity() {
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        //coinAdapter.getFilter().filter(newText)
         adapter.filter(newText)
         return false
     }
 
-    /*override fun onItemClick(item: Coin) {
-        openUi(item)
+    private fun loadCoins() {
+        vm.loadCoins(adapter.itemCount, AppConstants.Limit.Crypto.LIST)
     }
-
-    override fun onChildItemClick(view: View, item: Coin) {
-    }*/
 
     private fun initUi() {
         bind = getBinding()
         vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
-
+        vm.setProperty(
+            formatter,
+            cryptoPref.getCurrency(),
+            cryptoPref.getSort(),
+            cryptoPref.getOrder()
+        )
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter()
+            adapter = FastCoinAdapter(scrollListener = { currentPage: Int ->
+                Timber.v("CurrentPage: %d", currentPage)
+                loadCoins()
+            })
         }
-        adapter.initRecycler(
-            state, bind.recycler, formatter, cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
-        )
-        //val fastScrollIndicatorAdapter = FastScrollIndicatorAdapter<ModelIconItem>()
-        /*itemAdapter = ModelAdapter { element: Coin ->
-            CoinItem(
-                element,
-                formatter,
-                cryptoPref.getCurrency(),
-                cryptoPref.getSort(),
-                cryptoPref.getOrder()
-            )
-        }
-        itemAdapter.itemFilter.filterPredicate = { item: CoinItem, constraint: CharSequence? ->
-            item.coin.name.toString().contains(constraint.toString(), ignoreCase = true)
-        }*/
 
-        /*fastAdapter = FastAdapter.with(listOf(itemAdapter))
-        bind.recycler.apply {
-            layoutManager = LinearLayoutManager(context)
-            adapter = fastAdapter
-            addItemDecoration(
-                ItemSpaceDecoration(
-                    context.dimension(R.dimen.recycler_horizontal_spacing).toInt(),
-                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
-                    1,
-                    true
-                )
-            )
-        }
-        fastAdapter.withSavedInstanceState(state)*/
-
-        /*scroller = object : OnVerticalScrollListener() {
-            override fun onScrolledToBottom() {
-
-            }
-        }
-        coinAdapter = CoinAdapter(this)
-        coinAdapter.setProperty(cryptoPref.getCurrency(), cryptoPref.getSort(), cryptoPref.getOrder(),formatter)
-
-        val recyclerLayout = LinearLayoutManager(this)
-        recyclerLayout.orientation = RecyclerView.VERTICAL
-        recyclerLayout.isSmoothScrollbarEnabled = true
-
-        bind.recycler.apply {
-            setHasFixedSize(true)
-            layoutManager = recyclerLayout
-            itemAnimator = DefaultItemAnimator()
-            addOnScrollListener(scroller)
-            adapter = coinAdapter
-            addDecoration(4)
-        }*/
+        adapter.initRecycler(state, bind.recycler)
     }
 
-    private fun processResponse(response: Response<Type, Subtype, State, Action, List<Coin>>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, List<CoinItem>>) {
         if (response is Response.Progress) {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<Coin>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<CoinItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -180,8 +133,8 @@ class CoinsActivity : InjectActivity() {
         )
     }
 
-    private fun processResults(coins: List<Coin>) {
-
+    private fun processResults(coins: List<CoinItem>) {
+        adapter.addItems(coins)
     }
 
     private fun openUi(item: Coin) {

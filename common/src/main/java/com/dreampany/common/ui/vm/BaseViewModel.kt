@@ -36,8 +36,9 @@ abstract class BaseViewModel<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        I : BaseParcel,
-        X : UiTask<T, S, ST, A, I>>
+        IN : BaseParcel,
+        OUT,
+        X : UiTask<T, S, ST, A, IN>>
 protected constructor(
     application: Application,
     protected val rm: ResponseMapper
@@ -49,8 +50,8 @@ protected constructor(
     protected val multipleOwners: MutableList<LifecycleOwner>
 
     //protected val status: MutableLiveData<Status>
-    protected val output: MutableLiveData<Response<T, S, ST, A, I>>
-    protected val outputs: MutableLiveData<Response<T, S, ST, A, List<I>>>
+    protected val output: MutableLiveData<Response<T, S, ST, A, OUT>>
+    protected val outputs: MutableLiveData<Response<T, S, ST, A, List<OUT>>>
 
     protected val job: Job
     protected val uiScope: CoroutineScope
@@ -95,12 +96,12 @@ protected constructor(
         })
     }*/
 
-    fun subscribe(owner: LifecycleOwner, observer: Observer<Response<T, S, ST, A, I>>) {
+    fun subscribe(owner: LifecycleOwner, observer: Observer<Response<T, S, ST, A, OUT>>) {
         singleOwners.add(owner)
         output.reObserve(owner, observer)
     }
 
-    fun subscribes(owner: LifecycleOwner, observer: Observer<Response<T, S, ST, A, List<I>>>) {
+    fun subscribes(owner: LifecycleOwner, observer: Observer<Response<T, S, ST, A, List<OUT>>>) {
         multipleOwners.add(owner)
         outputs.reObserve(owner, observer)
     }
@@ -127,7 +128,7 @@ protected constructor(
         state: ST,
         action: A,
         error: Throwable? = null,
-        result: I? = null,
+        result: OUT? = null,
         showProgress: Boolean
     ) = if (showProgress) {
         error?.let { rm.responseWithProgress(output, type, subtype, state, action, it) }
@@ -143,7 +144,7 @@ protected constructor(
         state: ST,
         action: A,
         error: Throwable? = null,
-        result: List<I>? = null,
+        result: List<OUT>? = null,
         showProgress: Boolean
     ) = if (showProgress) {
         error?.let { rm.responseWithProgress(outputs, type, subtype, state, action, it) }

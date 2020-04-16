@@ -45,6 +45,8 @@ class HomeFragment
     private lateinit var scroller: OnVerticalScrollListener
     private lateinit var featureAdapter: FeatureAdapter
 
+    override fun hasBinding(): Boolean = true
+
     override fun layoutRes(): Int = R.layout.home_fragment
 
     override fun onStartUi(state: Bundle?) {

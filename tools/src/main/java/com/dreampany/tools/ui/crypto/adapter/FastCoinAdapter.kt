@@ -1,7 +1,6 @@
 package com.dreampany.tools.ui.crypto.adapter
 
 import android.os.Bundle
-import androidx.core.app.BundleCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.enums.Order
@@ -10,11 +9,16 @@ import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.ui.crypto.model.CoinItem
-import com.mikepenz.fastadapter.FastAdapter
-import com.mikepenz.fastadapter.adapters.ModelAdapter
+import com.mikepenz.fastadapter.GenericItem
+import com.mikepenz.fastadapter.adapters.FastItemAdapter
+import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
+import com.mikepenz.fastadapter.adapters.GenericItemAdapter
+import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
+import com.mikepenz.fastadapter.ui.items.ProgressItem
+import com.mikepenz.fastadapter.utils.ComparableItemListImpl
 
 /**
  * Created by roman on 13/4/20
@@ -22,20 +26,26 @@ import com.mikepenz.fastadapter.adapters.ModelAdapter
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class FastCoinAdapter {
+class FastCoinAdapter(
+    val scrollListener : ((currentPage: Int) -> Unit)? = null
+) {
 
-    private var fastAdapter: FastAdapter<CoinItem>? = null
-    private var itemAdapter: ModelAdapter<Coin, CoinItem>? = null
+    private lateinit var scroller: EndlessRecyclerOnScrollListener
+    private lateinit var fastAdapter: GenericFastItemAdapter
+    private lateinit var itemAdapter: GenericItemAdapter
+    private lateinit var footerAdapter: GenericItemAdapter
+
+    private val rankComparator: Comparator<GenericItem>
+
+    init {
+        rankComparator = RankComparator()
+    }
 
     fun initRecycler(
         state: Bundle?,
-        recycler: RecyclerView,
-        formatter: CurrencyFormatter,
-        currency: Currency,
-        sort: CoinSort,
-        order: Order
+        recycler: RecyclerView
     ) {
-        itemAdapter = ModelAdapter { element: Coin ->
+        /*{ element: Coin ->
             CoinItem(
                 element,
                 formatter,
@@ -43,14 +53,18 @@ class FastCoinAdapter {
                 sort,
                 order
             )
+        }*/
+        val list = ComparableItemListImpl(comparator = rankComparator)
+        itemAdapter = ItemAdapter(list)
+        itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
+            if (item is CoinItem)
+                item.coin.name.toString().contains(constraint.toString(), ignoreCase = true)
+            else
+                false
         }
-        itemAdapter?.itemFilter?.filterPredicate = { item: CoinItem, constraint: CharSequence? ->
-            item.coin.name.toString().contains(constraint.toString(), ignoreCase = true)
-        }
-
-        itemAdapter?.let {
-            fastAdapter = FastAdapter.with(listOf(it))
-        }
+        footerAdapter = ItemAdapter.items()
+        fastAdapter = FastItemAdapter(itemAdapter)
+        fastAdapter.addAdapter(1, footerAdapter)
 
         recycler.apply {
             layoutManager = LinearLayoutManager(context)
@@ -63,28 +77,55 @@ class FastCoinAdapter {
                     true
                 )
             )
+
+            scrollListener?.let {
+                scroller = object : EndlessRecyclerOnScrollListener(footerAdapter) {
+                    override fun onLoadMore(currentPage: Int) {
+                        it(currentPage)
+                    }
+                }
+                addOnScrollListener(scroller)
+            }
         }
-        fastAdapter?.withSavedInstanceState(state)
+        fastAdapter.withSavedInstanceState(state)
     }
 
     fun destroy() {
-        //fastAdapter?.
-        fastAdapter = null
-        itemAdapter = null
     }
 
     fun saveInstanceState(outState: Bundle): Bundle {
-        return fastAdapter?.saveInstanceState(outState) ?: outState
+        return fastAdapter.saveInstanceState(outState) ?: outState
     }
 
     fun filter(constraint: CharSequence?) {
-        itemAdapter?.filter(constraint)
+        fastAdapter.filter(constraint)
     }
 
-    fun addItems(coins : List<Coin>) {
-        itemAdapter?.add(coins)
+    fun showScrollProgress() {
+        footerAdapter.clear()
+        val progressItem = ProgressItem()
+        progressItem.isEnabled = false
+        footerAdapter.add(progressItem)
     }
+
+    fun hideScrollProgress() {
+        footerAdapter.clear()
+    }
+
+    fun addItems(items: List<CoinItem>) {
+        fastAdapter.add(items)
+    }
+
 
     val itemCount: Long
-        get() = (fastAdapter?.itemCount ?: 0).toLong()
+        get() = (fastAdapter.itemCount ?: 0).toLong()
+
+    class RankComparator : Comparator<GenericItem> {
+        override fun compare(left: GenericItem, right: GenericItem): Int {
+            if (left is CoinItem && right is CoinItem) {
+                return left.coin.rank - right.coin.rank
+            }
+            return 0
+        }
+    }
 }

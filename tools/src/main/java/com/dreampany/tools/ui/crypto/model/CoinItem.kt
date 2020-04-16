@@ -49,7 +49,6 @@ class CoinItem(
         negativeRatio = R.string.negative_ratio_format
     }
 
-
     override val type: Int
         get() = R.id.adapter_coin_item_id
 

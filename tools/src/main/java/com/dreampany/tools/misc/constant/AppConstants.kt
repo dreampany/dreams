@@ -101,7 +101,7 @@ class AppConstants {
 
     object Limit {
         object Crypto {
-            const val LIST = 100L
+            const val LIST = 10L
         }
     }
 

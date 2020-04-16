@@ -27,7 +27,7 @@ class FeatureViewModel
     application: Application,
     rm: ResponseMapper,
     private val colors: Colors
-) : BaseViewModel<Type, Subtype, State, Action, Feature, UiTask<Type, Subtype, State, Action, Feature>>(
+) : BaseViewModel<Type, Subtype, State, Action, Feature, Feature, UiTask<Type, Subtype, State, Action, Feature>>(
     application,
     rm
 ) {

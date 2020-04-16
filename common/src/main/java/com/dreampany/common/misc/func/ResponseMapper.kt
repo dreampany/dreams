@@ -1,9 +1,7 @@
 package com.dreampany.common.misc.func
 
 import androidx.lifecycle.MutableLiveData
-import com.dreampany.common.data.enums.Action
-import com.dreampany.common.data.enums.BaseType
-import com.dreampany.common.data.enums.State
+import com.dreampany.common.data.enums.*
 import com.dreampany.common.data.model.Response
 import javax.inject.Inject
 
@@ -14,16 +12,18 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class ResponseMapper
-@Inject constructor(
+@Inject constructor() {
 
-) {
-
-    fun <T, X : BaseType, Y : BaseType> response(
-        live: MutableLiveData<Response<T, X, Y>>,
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
+    fun <T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I> response(
+        live: MutableLiveData<Response<T, S, ST, A, I>>,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
         progress: Boolean
     ) {
         live.value = Response.Progress(
@@ -35,12 +35,16 @@ class ResponseMapper
         )
     }
 
-    fun <T, X : BaseType, Y : BaseType> response(
-        live: MutableLiveData<Response<T, X, Y>>,
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
+    fun <T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I> response(
+        live: MutableLiveData<Response<T, S, ST, A, I>>,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
         error: Throwable
     ) {
         live.value = Response.Error(
@@ -52,13 +56,17 @@ class ResponseMapper
         )
     }
 
-    fun <T, X : BaseType, Y : BaseType> response(
-        live: MutableLiveData<Response<T, X, Y>>,
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
-        result: T
+    fun <T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I> response(
+        live: MutableLiveData<Response<T, S, ST, A, I>>,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
+        result: I
     ) {
         live.value = Response.Result(
             type = type,
@@ -69,25 +77,33 @@ class ResponseMapper
         )
     }
 
-    fun <T, X : BaseType, Y : BaseType> responseWithProgress(
-        live: MutableLiveData<Response<T, X, Y>>,
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
+    fun <T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I> responseWithProgress(
+        live: MutableLiveData<Response<T, S, ST, A, I>>,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
         error: Throwable
     ) {
         response(live, type, subtype, state, action, progress = false)
         live.value = Response.Error(type, subtype, state, action, error)
     }
 
-    fun <T, X : BaseType, Y : BaseType> responseWithProgress(
-        live: MutableLiveData<Response<T, X, Y>>,
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
-        result: T
+    fun <T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I> responseWithProgress(
+        live: MutableLiveData<Response<T, S, ST, A, I>>,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
+        result: I
     ) {
         response(live, type, subtype, state, action, false)
         live.value = Response.Result(
@@ -99,26 +115,34 @@ class ResponseMapper
         )
     }
 
-    fun <T, X : BaseType, Y : BaseType> responseEmpty(
-        live: MutableLiveData<Response<T, X, Y>>,
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
-        data: T?
+    fun <T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I> responseEmpty(
+        live: MutableLiveData<Response<T, S, ST, A, I>>,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
+        result: I?
     ) {
-        live.value = Response.Empty(type, subtype, state, action, data)
+        live.value = Response.Empty(type, subtype, state, action, result)
     }
 
-    fun <T, X : BaseType, Y : BaseType> responseEmptyWithProgress(
-        live: MutableLiveData<Response<T, X, Y>>,
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
-        data: T?
+    fun <T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I> responseEmptyWithProgress(
+        live: MutableLiveData<Response<T, S, ST, A, I>>,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
+        result: I?
     ) {
         response(live, type, subtype, state, action, progress = false)
-        live.value = Response.Empty(type, subtype, state, action, data)
+        live.value = Response.Empty(type, subtype, state, action, result)
     }
 }

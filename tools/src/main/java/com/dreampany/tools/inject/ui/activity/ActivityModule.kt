@@ -16,7 +16,8 @@ import dagger.android.ContributesAndroidInjector
  */
 @Module(
     includes = [
-        CryptoModule::class
+        CryptoModule::class,
+        RadioModule::class
     ]
 )
 abstract class ActivityModule {

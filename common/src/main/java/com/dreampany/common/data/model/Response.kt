@@ -1,8 +1,6 @@
 package com.dreampany.common.data.model
 
-import com.dreampany.common.data.enums.Action
-import com.dreampany.common.data.enums.BaseType
-import com.dreampany.common.data.enums.State
+import com.dreampany.common.data.enums.*
 import com.dreampany.common.ui.enums.UiState
 
 /**
@@ -11,91 +9,134 @@ import com.dreampany.common.ui.enums.UiState
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-sealed class Response<T, X : BaseType, Y : BaseType> {
+sealed class Response<
+        T : BaseType,
+        S : BaseSubtype,
+        ST : BaseState,
+        A : BaseAction,
+        I> {
 
-    data class UiResponse<X : BaseType, Y : BaseType>(
-        val type: X,
-        val subtype: Y,
-        val state: State = State.DEFAULT,
-        val action: Action = Action.DEFAULT,
+    data class UiResponse<
+            T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction>(
+        val type: T,
+        val subtype: S,
+        val state: ST,
+        val action: A,
         var uiState: UiState = UiState.DEFAULT
     )
 
-    data class Progress<T, X : BaseType, Y : BaseType>(
-        val type: X,
-        val subtype: Y,
-        val state: State = State.DEFAULT,
-        val action: Action = Action.DEFAULT,
+    data class Progress<T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I>(
+        val type: T,
+        val subtype: S,
+        val state: ST,
+        val action: A,
         val progress: Boolean
-    ) : Response<T, X, Y>()
+    ) : Response<T, S, ST, A, I>()
 
-    data class Error<T, X : BaseType, Y : BaseType>(
-        val type: X,
-        val subtype: Y,
-        val state: State = State.DEFAULT,
-        val action: Action = Action.DEFAULT,
+    data class Error<T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I>(
+        val type: T,
+        val subtype: S,
+        val state: ST,
+        val action: A,
         val error: Throwable
-    ) : Response<T, X, Y>()
+    ) : Response<T, S, ST, A, I>()
 
-    data class Result<T, X : BaseType, Y : BaseType>(
-        val type: X,
-        val subtype: Y,
-        val state: State = State.DEFAULT,
-        val action: Action = Action.DEFAULT,
-        val result: T
-    ) : Response<T, X, Y>()
+    data class Result<T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I>(
+        val type: T,
+        val subtype: S,
+        val state: ST,
+        val action: A,
+        val result: I
+    ) : Response<T, S, ST, A, I>()
 
-    data class Empty<T, X : BaseType, Y : BaseType>(
-        val type: X,
-        val subtype: Y,
-        val state: State = State.DEFAULT,
-        val action: Action = Action.DEFAULT,
-        val result: T?
-    ) : Response<T, X, Y>()
+    data class Empty<T : BaseType,
+            S : BaseSubtype,
+            ST : BaseState,
+            A : BaseAction,
+            I>(
+        val type: T,
+        val subtype: S,
+        val state: ST,
+        val action: A,
+        val result: I?
+    ) : Response<T, S, ST, A, I>()
 
     companion object {
-        fun <X : BaseType, Y : BaseType> response(
-            type: X,
-            subtype: Y,
-            state: State,
-            action: Action,
+        fun <T : BaseType,
+                S : BaseSubtype,
+                ST : BaseState,
+                A : BaseAction> response(
+            type: T,
+            subtype: S,
+            state: ST,
+            action: A,
             uiState: UiState
-        ): UiResponse<X, Y> = UiResponse(type, subtype, state, action, uiState)
+        ): UiResponse<T, S, ST, A> = UiResponse(type, subtype, state, action, uiState)
 
-        fun <T, X : BaseType, Y : BaseType> response(
-            type: X,
-            subtype: Y,
-            state: State,
-            action: Action,
+        fun <T : BaseType,
+                S : BaseSubtype,
+                ST : BaseState,
+                A : BaseAction,
+                I> response(
+            type: T,
+            subtype: S,
+            state: ST,
+            action: A,
             progress: Boolean
-        ): Response<T, X, Y> =
-            Progress(type, subtype, state, action, progress)
+        ): Response<T, S, ST, A, I> = Progress(type, subtype, state, action, progress)
 
-        fun <T, X : BaseType, Y : BaseType> response(
-            type: X,
-            subtype: Y,
-            state: State,
-            action: Action,
+        fun <T : BaseType,
+                S : BaseSubtype,
+                ST : BaseState,
+                A : BaseAction,
+                I> response(
+            type: T,
+            subtype: S,
+            state: ST,
+            action: A,
             error: Throwable
-        ): Response<T, X, Y> =
+        ): Response<T, S, ST, A, I> =
             Error(type, subtype, state, action, error)
 
-        fun <T, X : BaseType, Y : BaseType> response(
-            type: X,
-            subtype: Y,
-            state: State,
-            action: Action,
-            result: T
-        ): Response<T, X, Y> =
+        fun <T : BaseType,
+                S : BaseSubtype,
+                ST : BaseState,
+                A : BaseAction,
+                I> response(
+            type: T,
+            subtype: S,
+            state: ST,
+            action: A,
+            result: I
+        ): Response<T, S, ST, A, I> =
             Result(type, subtype, state, action, result)
 
-        fun <T, X : BaseType, Y : BaseType> responseEmpty(
-            type: X,
-            subtype: Y,
-            state: State = State.DEFAULT,
-            action: Action = Action.DEFAULT,
-            result: T?
-        ): Response<T, X, Y> =
+        fun <T : BaseType,
+                S : BaseSubtype,
+                ST : BaseState,
+                A : BaseAction,
+                I> responseEmpty(
+            type: T,
+            subtype: S,
+            state: ST,
+            action: A,
+            result: I?
+        ): Response<T, S, ST, A, I> =
             Empty(type, subtype, state, action, result)
     }
 }

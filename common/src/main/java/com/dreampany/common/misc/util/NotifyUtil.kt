@@ -63,7 +63,7 @@ class NotifyUtil {
             contentText: String,
             @DrawableRes smallIcon: Int,
             targetClass: Class<*>?,
-            task: Task<*, *, *>?,
+            task: Task<*,*,*, *, *>?,
             channel: NotificationChannel?,
             autoCancel: Boolean
         ): Notification? {

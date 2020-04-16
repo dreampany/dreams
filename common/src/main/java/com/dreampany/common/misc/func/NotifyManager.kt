@@ -33,7 +33,7 @@ class NotifyManager
         contentText: String,
         icon: Int,
         targetClass: Class<*>?,
-        task: Task<*, *, *>?
+        task: Task<*, *, *, *, *>?
     ) {
         showNotification(
             Constants.Notify.DEFAULT_ID,
@@ -53,7 +53,7 @@ class NotifyManager
         icon: Int,
         channelId: String,
         targetClass: Class<*>?,
-        task: Task<*, *, *>?
+        task: Task<*, *, *, *, *>?
     ) {
         showNotification(
             Constants.Notify.DEFAULT_ID,
@@ -76,7 +76,7 @@ class NotifyManager
         notifyId: Int,
         channelId: String,
         targetClass: Class<*>?,
-        task: Task<*, *, *>?
+        task: Task<*, *, *, *, *>?
     ) {
         showNotification(
             notifyId,
@@ -98,7 +98,7 @@ class NotifyManager
         contentText: String,
         smallIcon: Int,
         targetClass: Class<*>?,
-        task: Task<*, *, *>?,
+        task: Task<*, *, *, *, *>?,
         channelId: String,
         channelName: String,
         channelDescription: String
@@ -140,7 +140,7 @@ class NotifyManager
         contentText: String,
         smallIcon: Int,
         targetClass: Class<*>,
-        task: Task<*, *, *>?,
+        task: Task<*, *, *, *, *>?,
         channelId: String,
         channelName: String,
         channelDescription: String
@@ -173,8 +173,7 @@ class NotifyManager
         notification?.run {
             if (Util.hasOreo()) {
                 (context as Service).startForeground(notifyId, this)
-            }
-            else {
+            } else {
                 manager?.notify(notifyId, this)
             }
         }

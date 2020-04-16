@@ -17,17 +17,17 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class UiTask<
-        TYPE : BaseType,
-        SUBTYPE : BaseSubtype,
-        STATE : BaseState,
-        ACTION : BaseAction,
-        INPUT : BaseParcel>(
-    override var type: TYPE,
-    override var subtype: SUBTYPE,
-    override var state: STATE,
-    override var action: ACTION,
-    override var input: INPUT? = Constants.Default.NULL,
-    override var inputs: List<INPUT>? = Constants.Default.NULL,
+        T : BaseType,
+        S : BaseSubtype,
+        ST : BaseState,
+        A : BaseAction,
+        I : BaseParcel>(
+    override var type: T,
+    override var subtype: S,
+    override var state: ST,
+    override var action: A,
+    override var input: I? = Constants.Default.NULL,
+    override var inputs: List<I>? = Constants.Default.NULL,
     override var id: String? = Constants.Default.NULL,
     override var ids: List<String>? = Constants.Default.NULL,
     override var extra: String? = Constants.Default.NULL,
@@ -35,7 +35,7 @@ data class UiTask<
     override var notify: Boolean = Constants.Default.BOOLEAN,
     override var fullscreen: Boolean = Constants.Default.BOOLEAN,
     override var collapseToolbar: Boolean = Constants.Default.BOOLEAN
-) : Task<TYPE, SUBTYPE, STATE, ACTION, INPUT>(
+) : Task<T, S, ST, A, I>(
     type,
     subtype,
     state,

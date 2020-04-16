@@ -4,8 +4,10 @@ import android.app.Application
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.ui.model.UiTask
 import com.dreampany.common.ui.vm.BaseViewModel
-import com.dreampany.tools.data.enums.Subtype
-import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.enums.home.Action
+import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.enums.home.Subtype
+import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
@@ -25,11 +27,11 @@ class CoinViewModel
     rm: ResponseMapper,
     private val pref: CryptoPref,
     private val repo: CoinRepo
-) : BaseViewModel<Coin, Coin, UiTask<Coin, Type, Subtype>, Type, Subtype>(application, rm) {
+) : BaseViewModel<Type, Subtype, State, Action, Coin, UiTask<Type, Subtype, State, Action, Coin>>(application, rm) {
 
     fun loadCoins(offset: Long, limit: Long) {
         uiScope.launch {
-            postProgressMultiple(Type.COIN, Subtype.DEFAULT, progress = true)
+            postProgressMultiple(Type.COIN, Subtype.DEFAULT,State.DEFAULT, Action.DEFAULT, progress = true)
             var result: List<Coin>? = null
             var errors: Throwable? = null
             try {
@@ -42,9 +44,9 @@ class CoinViewModel
                 errors = error
             }
             if (errors != null) {
-                postMultiple(Type.COIN, Subtype.DEFAULT, error = errors, showProgress = true)
+                postMultiple(Type.COIN, Subtype.DEFAULT, State.DEFAULT, Action.DEFAULT, error = errors, showProgress = true)
             } else if (result != null) {
-                postMultiple(Type.COIN, Subtype.DEFAULT, result = result, showProgress = true)
+                postMultiple(Type.COIN, Subtype.DEFAULT, State.DEFAULT, Action.DEFAULT, result = result, showProgress = true)
             }
         }
     }

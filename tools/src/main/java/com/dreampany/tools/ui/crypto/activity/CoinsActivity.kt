@@ -8,8 +8,10 @@ import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.toTint
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.Subtype
-import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.enums.home.Action
+import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.enums.home.Subtype
+import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
@@ -154,12 +156,12 @@ class CoinsActivity : InjectActivity() {
         }*/
     }
 
-    private fun processResponse(response: Response<List<Coin>, Type, Subtype>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, List<Coin>>) {
         if (response is Response.Progress) {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<List<Coin>, Type, Subtype>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<Coin>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }

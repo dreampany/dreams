@@ -3,12 +3,12 @@ package com.dreampany.common.ui.vm
 import android.app.Application
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.dreampany.common.data.enums.Action
-import com.dreampany.common.data.enums.BaseType
-import com.dreampany.common.data.enums.State
+import com.dreampany.common.data.enums.*
+import com.dreampany.common.data.model.BaseParcel
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.reObserve
 import com.dreampany.common.misc.func.ResponseMapper
+import com.dreampany.common.ui.model.UiTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,7 +31,13 @@ import kotlin.collections.ArrayList
  * X = Ui Model Item
  * Y = UiTask<T>
  */
-abstract class BaseViewModel<T, I, U, X : BaseType, Y : BaseType>
+abstract class BaseViewModel<
+        T : BaseType,
+        S : BaseSubtype,
+        ST : BaseState,
+        A : BaseAction,
+        I : BaseParcel,
+        X : UiTask<T, S, ST, A, I>>
 protected constructor(
     application: Application,
     protected val rm: ResponseMapper
@@ -42,8 +48,9 @@ protected constructor(
     protected val singleOwners: MutableList<LifecycleOwner>
     protected val multipleOwners: MutableList<LifecycleOwner>
 
-    protected val output: MutableLiveData<Response<I, X, Y>>
-    protected val outputs: MutableLiveData<Response<List<I>, X, Y>>
+    //protected val status: MutableLiveData<Status>
+    protected val output: MutableLiveData<Response<T, S, ST, A, I>>
+    protected val outputs: MutableLiveData<Response<T, S, ST, A, List<I>>>
 
     protected val job: Job
     protected val uiScope: CoroutineScope
@@ -78,37 +85,47 @@ protected constructor(
         super.onCleared()
     }
 
-    fun subscribe(owner: LifecycleOwner, observer: Observer<Response<I, X, Y>>) {
+    /*fun subscribeStatus(owner: LifecycleOwner, callback: (status: Status) -> Unit) {
+        status.observe(owner, Observer { result ->
+            if (result == null) {
+                callback(Status.DEFAULT)
+            } else {
+                callback(result)
+            }
+        })
+    }*/
+
+    fun subscribe(owner: LifecycleOwner, observer: Observer<Response<T, S, ST, A, I>>) {
         singleOwners.add(owner)
         output.reObserve(owner, observer)
     }
 
-    fun subscribes(owner: LifecycleOwner, observer: Observer<Response<List<I>, X, Y>>) {
+    fun subscribes(owner: LifecycleOwner, observer: Observer<Response<T, S, ST, A, List<I>>>) {
         multipleOwners.add(owner)
         outputs.reObserve(owner, observer)
     }
 
     fun postProgressSingle(
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
         progress: Boolean
     ) = rm.response(output, type, subtype, state, action, progress)
 
     fun postProgressMultiple(
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
         progress: Boolean
     ) = rm.response(outputs, type, subtype, state, action, progress)
 
     fun postSingle(
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
         error: Throwable? = null,
         result: I? = null,
         showProgress: Boolean
@@ -121,10 +138,10 @@ protected constructor(
     }
 
     fun postMultiple(
-        type: X,
-        subtype: Y,
-        state: State = State.DEFAULT,
-        action: Action = Action.DEFAULT,
+        type: T,
+        subtype: S,
+        state: ST,
+        action: A,
         error: Throwable? = null,
         result: List<I>? = null,
         showProgress: Boolean
@@ -135,25 +152,4 @@ protected constructor(
         error?.let { rm.response(outputs, type, subtype, state, action, it) }
         result?.let { rm.response(outputs, type, subtype, state, action, it) }
     }
-
-/*
-    fun subscribe(owner: LifecycleOwner, onResult: (item: T?, error: Throwable?) -> Unit) {
-        output.observe(owner, Observer { result ->
-            if (result == null) {
-                onResult(null, NullPointerException())
-            } else {
-                onResult(result.first, result.second)
-            }
-        })
-    }
-
-    fun subscribes(owner: LifecycleOwner, onResult: (items: List<T>?, error: Throwable?) -> Unit) {
-        outputs.observe(owner, Observer { result ->
-            if (result == null) {
-                onResult(null, NullPointerException())
-            } else {
-                onResult(result.first, result.second)
-            }
-        })
-    }*/
 }

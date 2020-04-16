@@ -1,7 +1,8 @@
-package com.dreampany.tools.data.enums
+package com.dreampany.tools.data.enums.home
 
-import com.dreampany.common.data.enums.BaseType
+import com.dreampany.common.data.enums.BaseSubtype
 import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by roman on 14/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -9,6 +10,6 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class Type : BaseType {
-    DEFAULT, MORE, SITE, FEATURE, COIN
+enum class Subtype : BaseSubtype {
+    DEFAULT, CRYPTO, QUESTION, RADIO
 }

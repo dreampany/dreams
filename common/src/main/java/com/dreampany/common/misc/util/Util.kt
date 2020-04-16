@@ -36,7 +36,7 @@ object Util {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
     }
 
-    fun <T : Context> createIntent(source: T, target: Class<*>, task: Task<*, *, *>?): Intent {
+    fun <T : Context> createIntent(source: T, target: Class<*>, task: Task<*,*,*, *, *>?): Intent {
         val intent = Intent(source, target)
         if (task != null) {
             intent.putExtra(Constants.Keys.TASK, task as Parcelable?)

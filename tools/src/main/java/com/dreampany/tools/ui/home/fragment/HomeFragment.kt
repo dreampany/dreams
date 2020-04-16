@@ -14,8 +14,10 @@ import com.dreampany.common.misc.func.OnVerticalScrollListener
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.Subtype
-import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.enums.home.Action
+import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.enums.home.Subtype
+import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.databinding.HomeFragmentBinding
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import com.dreampany.tools.ui.home.adapter.FeatureAdapter
@@ -90,12 +92,12 @@ class HomeFragment
         }
     }
 
-    private fun processResponse(response: Response<List<Feature>, Type, Subtype>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, List<Feature>>) {
         if (response is Response.Progress) {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<List<Feature>, Type, Subtype>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<Feature>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }

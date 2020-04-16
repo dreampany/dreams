@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.radio.fragment
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
-import com.dreampany.common.inject.annote.FragmentScope
+import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.common.ui.fragment.InjectFragment
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@FragmentScope
+@ActivityScope
 class StationsFragment
 @Inject constructor() : InjectFragment() {
 

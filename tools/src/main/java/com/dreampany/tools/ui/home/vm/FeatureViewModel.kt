@@ -6,8 +6,10 @@ import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.ui.model.UiTask
 import com.dreampany.common.ui.vm.BaseViewModel
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.Subtype
-import com.dreampany.tools.data.enums.Type
+import com.dreampany.tools.data.enums.home.Action
+import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.enums.home.Subtype
+import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.home.Feature
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,18 +27,17 @@ class FeatureViewModel
     application: Application,
     rm: ResponseMapper,
     private val colors: Colors
-) : BaseViewModel<Feature, Feature, UiTask<Feature, Type, Subtype>, Type, Subtype>(
+) : BaseViewModel<Type, Subtype, State, Action, Feature, UiTask<Type, Subtype, State, Action, Feature>>(
     application,
     rm
 ) {
 
     fun loadFeatures() {
         uiScope.launch {
-            postProgressMultiple(Type.FEATURE, Subtype.DEFAULT, progress = true)
+            postProgressMultiple(Type.FEATURE, Subtype.DEFAULT, State.DEFAULT, Action.DEFAULT, progress = true)
             val result = getFeatures()
-            postMultiple(Type.FEATURE, Subtype.DEFAULT, result = result, showProgress = true)
+            postMultiple(Type.FEATURE, Subtype.DEFAULT, State.DEFAULT, Action.DEFAULT, result = result, showProgress = true)
         }
-
     }
 
     private suspend fun getFeatures() = withContext(Dispatchers.IO) {

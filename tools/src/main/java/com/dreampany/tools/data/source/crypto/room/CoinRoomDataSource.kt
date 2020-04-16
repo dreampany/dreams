@@ -52,7 +52,7 @@ constructor(
         order: Order,
         offset: Long,
         limit: Long
-    ): List<Coin>? {
+    ): List<Coin> {
         return mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
     }
 

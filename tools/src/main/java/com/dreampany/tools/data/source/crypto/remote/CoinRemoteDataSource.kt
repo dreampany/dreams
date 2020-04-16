@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.source.crypto.remote
 
 import android.content.Context
+import androidx.annotation.IntRange
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.isDebug
 import com.dreampany.common.misc.func.Keys
@@ -15,10 +16,8 @@ import com.dreampany.tools.data.enums.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
-import com.dreampany.tools.misc.constant.AppConstants
 import com.google.common.collect.Maps
 import retrofit2.Response
-import timber.log.Timber
 import java.net.UnknownHostException
 
 /**
@@ -72,6 +71,7 @@ constructor(
         currency: Currency,
         sort: CoinSort,
         order: Order,
+        @IntRange(from = 0, to = Long.MAX_VALUE)
         offset: Long,
         limit: Long
     ): List<Coin> {
@@ -83,7 +83,7 @@ constructor(
                     currency.name,
                     sort.value,
                     order.value,
-                    offset,
+                    offset + 1, //Coin Market Cap start from 1 - IntRange
                     limit
                 ).execute()
                 if (response.isSuccessful) {

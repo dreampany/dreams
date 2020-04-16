@@ -3,6 +3,7 @@ package com.dreampany.tools.ui.crypto.vm
 import android.app.Application
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.func.ResponseMapper
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.model.UiTask
 import com.dreampany.common.ui.vm.BaseViewModel
 import com.dreampany.tools.data.enums.CoinSort
@@ -76,7 +77,7 @@ class CoinViewModel
                 val sort = pref.getSort()
                 val order = pref.getOrder()
                 result = repo.getItems(currency, sort, order, offset, limit)
-            } catch (error: Throwable) {
+            } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
             }

@@ -4,6 +4,7 @@ import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.isExpired
 import com.dreampany.common.misc.extension.sub
 import com.dreampany.common.misc.extension.utc
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.CryptoQuote
@@ -67,13 +68,14 @@ class CoinMapper
         limit: Long,
         quoteDao: QuoteDao,
         source: CoinDataSource
-    ): List<Coin>? {
+    ): List<Coin> {
         updateCache(source)
         val cache = sortedCoins(currency, sort, sortDirection)
         val result = sub(cache, offset, limit)
         result?.forEach {
             bindQuote(currency, it, quoteDao)
         }
+        if (result.isNullOrEmpty()) throw SmartError()
         return result
     }
 

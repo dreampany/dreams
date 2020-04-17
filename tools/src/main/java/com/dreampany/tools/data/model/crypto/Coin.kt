@@ -69,9 +69,7 @@ data class Coin(
 
     }
 
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
-    }
+    override fun hashCode(): Int = Objects.hashCode(id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

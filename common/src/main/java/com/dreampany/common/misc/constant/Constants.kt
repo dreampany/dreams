@@ -130,7 +130,7 @@ class Constants {
     }
 
     object Http {
-        const val READ_TIMEOUT = 10L
+        const val READ_TIMEOUT = 20L
         const val WRITE_TIMEOUT = 10L
     }
 

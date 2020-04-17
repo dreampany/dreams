@@ -239,7 +239,7 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         if (sheetDialog == null) {
             sheetDialog = BottomSheetMaterialDialog.Builder(this)
                 .setTitle(getString(titleRes))
-                .setMessage(message ?: getString(messageRes))
+                .setMessage(message ?: if (messageRes != 0) getString(messageRes) else Constants.Default.STRING)
                 .setCancelable(cancellable)
                 .setPositiveButton(
                     getString(positiveTitleRes),

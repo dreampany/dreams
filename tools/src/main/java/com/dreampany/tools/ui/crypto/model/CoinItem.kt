@@ -17,6 +17,7 @@ import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.extension.setUrl
+import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 import java.util.*
 
@@ -47,6 +48,15 @@ class CoinItem(
         btcFormat = R.string.btc_format
         positiveRatio = R.string.positive_ratio_format
         negativeRatio = R.string.negative_ratio_format
+    }
+
+    override fun hashCode(): Int = Objects.hashCode(coin.id)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || javaClass != other.javaClass) return false
+        val item = other as CoinItem
+        return Objects.equal(this.coin.id, item.coin.id)
     }
 
     override val type: Int

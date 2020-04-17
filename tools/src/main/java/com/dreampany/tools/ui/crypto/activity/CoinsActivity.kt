@@ -43,11 +43,11 @@ class CoinsActivity : InjectActivity() {
     private lateinit var bind: CoinsActivityBinding
     private lateinit var vm: CoinViewModel
 
-    //private lateinit var scroller: OnVerticalScrollListener
-    //private lateinit var coinAdapter: CoinAdapter
     private lateinit var adapter: FastCoinAdapter
 
     override fun hasBinding(): Boolean = true
+
+    override fun homeUp(): Boolean = true
 
     override fun layoutRes(): Int = R.layout.coins_activity
 

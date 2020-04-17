@@ -75,9 +75,9 @@ constructor(
         offset: Long,
         limit: Long
     ): List<Coin> {
-        for (index in 0..keys.length / 2) {
+        for (index in 0..keys.length) {
             try {
-                val key = keys.getKey()
+                val key = keys.nextKey ?: continue
                 val response: Response<CoinsResponse> = service.getListing(
                     getHeader(key),
                     currency.name,

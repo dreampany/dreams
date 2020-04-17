@@ -37,7 +37,11 @@ class Keys
         }
     }
 
-    fun getKey(): String {
-        return keys.get(queue.peek()!!)
-    }
+    val nextKey : String?
+        get()  {
+            val index = queue.peek() ?: return null
+            val key = keys.get(index)
+            randomForwardKey()
+            return key
+        }
 }

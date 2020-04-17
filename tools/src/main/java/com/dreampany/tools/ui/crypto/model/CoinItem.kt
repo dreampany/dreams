@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.blink
 import com.dreampany.common.misc.extension.formatString
+import com.dreampany.common.misc.extension.gone
 import com.dreampany.common.misc.extension.toColor
 import com.dreampany.common.misc.util.Util
 import com.dreampany.tools.R
@@ -74,6 +75,7 @@ class CoinItem(
             )
         )
 
+        bind.layoutOptions.buttonFavorite.gone()
 
         val nameText =
             String.format(

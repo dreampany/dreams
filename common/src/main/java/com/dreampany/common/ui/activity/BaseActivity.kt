@@ -195,7 +195,7 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         this.fragment = fragment
     }
 
-    protected fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*,*,*, *, *>): T {
+    protected fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*, *, *, *, *>): T {
         val instance = clazz.java.newInstance()
         if (instance.arguments == null) {
             val bundle = Bundle()
@@ -239,7 +239,10 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         if (sheetDialog == null) {
             sheetDialog = BottomSheetMaterialDialog.Builder(this)
                 .setTitle(getString(titleRes))
-                .setMessage(message ?: if (messageRes != 0) getString(messageRes) else Constants.Default.STRING)
+                .setMessage(
+                    message
+                        ?: if (messageRes != 0) getString(messageRes) else Constants.Default.STRING
+                )
                 .setCancelable(cancellable)
                 .setPositiveButton(
                     getString(positiveTitleRes),
@@ -288,9 +291,9 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
             setSupportActionBar(toolbar)
             if (homeUp()) {
                 val actionBar = supportActionBar
-                if (actionBar != null) {
-                    actionBar.setDisplayHomeAsUpEnabled(true)
-                    actionBar.setHomeButtonEnabled(true)
+                actionBar?.apply {
+                    setDisplayHomeAsUpEnabled(true)
+                    setHomeButtonEnabled(true)
                 }
             }
         }
@@ -298,14 +301,15 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
 
     private fun initSearch() {
         val searchView = getSearchView()
-        searchView?.let {
-            searchView.inputType = InputType.TYPE_TEXT_VARIATION_FILTER
-            searchView.imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
-            searchView.queryHint = getString(R.string.search)
+        searchView?.apply {
+            inputType = InputType.TYPE_TEXT_VARIATION_FILTER
+            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+            queryHint = getString(R.string.search)
             val searchManager =
-                searchView.context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.componentName))
-            searchView.setOnQueryTextListener(this)
+                context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            setSearchableInfo(searchManager.getSearchableInfo(this@BaseActivity.componentName))
+            setOnQueryTextListener(this@BaseActivity)
+            isIconified = false
         }
     }
 }

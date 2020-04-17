@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.crypto.adapter
 
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.enums.Order
@@ -9,15 +10,20 @@ import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.CoinSort
 import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.ui.crypto.model.CoinItem
+import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
+import com.mikepenz.fastadapter.listeners.ClickEventHook
+import com.mikepenz.fastadapter.listeners.addClickListener
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 import com.mikepenz.fastadapter.utils.ComparableItemListImpl
+import timber.log.Timber
 
 /**
  * Created by roman on 13/4/20
@@ -26,7 +32,7 @@ import com.mikepenz.fastadapter.utils.ComparableItemListImpl
  * Last modified $file.lastModified
  */
 class FastCoinAdapter(
-    val scrollListener : ((currentPage: Int) -> Unit)? = null
+    val scrollListener: ((currentPage: Int) -> Unit)? = null
 ) {
 
     private lateinit var scroller: EndlessRecyclerOnScrollListener
@@ -83,6 +89,29 @@ class FastCoinAdapter(
             }
         }
         fastAdapter.withSavedInstanceState(state)
+
+        fastAdapter.onClickListener = { view, adapter, item, position ->
+            Timber.v("View %s", view.toString())
+            false
+        }
+
+        fastAdapter.addEventHook(object : ClickEventHook<CoinItem>() {
+           /* override fun onBind(holder: RecyclerView.ViewHolder): View? {
+                if (holder is CoinItemBinding.)
+
+                    return null
+            }*/
+
+            override fun onClick(
+                view: View,
+                position: Int,
+                fastAdapter: FastAdapter<CoinItem>,
+                item: CoinItem
+            ) {
+                Timber.v("View %s", view.toString())
+            }
+
+        })
     }
 
     fun destroy() {
@@ -115,7 +144,11 @@ class FastCoinAdapter(
     val itemCount: Long
         get() = (fastAdapter.itemCount ?: 0).toLong()
 
-    class CryptoComparator(private val currency: Currency, private val sort: CoinSort, private val order: Order) : Comparator<GenericItem> {
+    class CryptoComparator(
+        private val currency: Currency,
+        private val sort: CoinSort,
+        private val order: Order
+    ) : Comparator<GenericItem> {
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is CoinItem && right is CoinItem) {
                 if (sort == CoinSort.MARKET_CAP) {

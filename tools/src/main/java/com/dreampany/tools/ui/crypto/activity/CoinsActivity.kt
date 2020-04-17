@@ -106,7 +106,13 @@ class CoinsActivity : InjectActivity() {
             })
         }
 
-        adapter.initRecycler(state, bind.recycler)
+        adapter.initRecycler(
+            state,
+            bind.recycler,
+            cryptoPref.getCurrency(),
+            cryptoPref.getSort(),
+            cryptoPref.getOrder()
+        )
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, List<CoinItem>>) {

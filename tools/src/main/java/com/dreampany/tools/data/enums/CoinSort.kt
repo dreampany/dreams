@@ -14,5 +14,6 @@ import kotlinx.android.parcel.Parcelize
 enum class CoinSort(
     val value: String
 ) : Parcelable {
-    MARKET_CAP(AppConstants.Keys.Quote.MARKET_CAP)
+    MARKET_CAP(AppConstants.Keys.Quote.MARKET_CAP),
+    RANK(AppConstants.Keys.Quote.MARKET_CAP)
 }

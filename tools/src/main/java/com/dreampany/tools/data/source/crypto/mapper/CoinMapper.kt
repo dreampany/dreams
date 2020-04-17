@@ -15,7 +15,6 @@ import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
-import com.dreampany.tools.misc.comparator.Comparators
 import com.dreampany.tools.misc.constant.AppConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
@@ -172,12 +171,29 @@ class CoinMapper
     private fun sortedCoins(
         currency: Currency,
         sort: CoinSort,
-        sortDirection: Order
+        order: Order
     ): List<Coin> {
         val temp = ArrayList(coins.values)
-        val comparator = Comparators.Crypto.getComparator(currency, sort, sortDirection)
+        val comparator = CryptoComparator(currency, sort, order)
         temp.sortWith(comparator)
         return temp
+    }
+
+    class CryptoComparator(private val currency: Currency, private val sort: CoinSort, private val order: Order) : Comparator<Coin> {
+        override fun compare(left: Coin, right: Coin): Int {
+            if (sort == CoinSort.MARKET_CAP) {
+                val leftCap = left.getQuote(currency)
+                val rightCap = right.getQuote(currency)
+                if (leftCap != null && rightCap != null) {
+                    if (order == Order.ASCENDING) {
+                        return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
+                    } else {
+                        return (rightCap.getMarketCap() - leftCap.getMarketCap()).toInt()
+                    }
+                }
+            }
+            return 0
+        }
     }
 
 }

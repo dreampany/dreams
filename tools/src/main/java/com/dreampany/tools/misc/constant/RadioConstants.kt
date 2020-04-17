@@ -27,6 +27,13 @@ class RadioConstants {
 
         object PrefKeys {
             const val RADIO = "radio"
+
+            object Station {
+                const val ORDER = "order"
+                const val REVERSE = "reverse"
+                const val HIDE_BROKEN = "hide_broken"
+                const val EXPIRE = "expire"
+            }
         }
 
         object Radio {
@@ -54,7 +61,11 @@ class RadioConstants {
             const val CLICK_TIMESTAMP = "click_timestamp"
             const val CLICK_COUNT = "click_count"
             const val CLICK_TREND = "click_trend"
+            const val ORDER = "order"
+            const val REVERSE = "reverse"
+            const val OFFSET = "offset"
             const val LIMIT = "limit"
+            const val HIDE_BROKEN = "hidebroken"
 
             object Remote {
                 const val CHANGE_UUID = "changeuuid"
@@ -69,7 +80,13 @@ class RadioConstants {
                 const val CLICK_COUNT = "clickcount"
                 const val CLICK_TREND = "clicktrend"
             }
+
+            object Order {
+                const val NAME = "name"
+                const val CLICK_COUNT = "clickcount"
+            }
         }
+
 
         object Stream {
             const val TITLE = "StreamTitle"
@@ -92,5 +109,9 @@ class RadioConstants {
             const val ICY_BIT_RATE = "ice-bitrate"
             const val BIT_RATE = "bitrate"
         }
+    }
+
+    object Limits {
+        const val STATIONS = 100L
     }
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.google.common.collect.Maps
 import com.google.common.collect.Sets
 import java.math.BigDecimal
@@ -23,7 +23,9 @@ import javax.inject.Singleton
  */
 @Singleton
 class CurrencyFormatter
-@Inject constructor(val context: Context) {
+@Inject constructor(
+    private val context: Context
+) {
 
     private val formats: MutableMap<String, String>
     private val cryptos: Set<Currency>

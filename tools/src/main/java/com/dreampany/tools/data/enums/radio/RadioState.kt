@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.enums
+package com.dreampany.tools.data.enums.radio
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

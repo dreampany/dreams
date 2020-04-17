@@ -15,7 +15,6 @@ import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
-import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
@@ -36,9 +35,6 @@ class CoinsActivity : InjectActivity() {
 
     @Inject
     internal lateinit var cryptoPref: CryptoPref
-
-    @Inject
-    internal lateinit var formatter: CurrencyFormatter
 
     private lateinit var bind: CoinsActivityBinding
     private lateinit var vm: CoinViewModel
@@ -89,12 +85,6 @@ class CoinsActivity : InjectActivity() {
     private fun initUi() {
         bind = getBinding()
         vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
-        vm.setProperty(
-            formatter,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
-        )
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
 

@@ -53,6 +53,19 @@ class CryptoConstants {
 
     }
 
+    object Keys {
+        object PrefKeys {
+            const val CRYPTO = "crypto"
+
+            object Crypto {
+                const val CURRENCY = "crypto-currency"
+                const val SORT = "crypto-sort"
+                const val ORDER = "crypto-order"
+                const val EXPIRE = "crypto-expire"
+            }
+        }
+    }
+
     object Common {
         const val START = "start"
         const val LIMIT = "limit"

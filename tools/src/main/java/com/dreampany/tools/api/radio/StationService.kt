@@ -15,6 +15,10 @@ interface StationService {
     @GET(value = RadioConstants.Apis.Radio.RADIO_BROWSER_STATIONS_OF_COUNTRY)
     fun getItemsOfCountry(
         @Path(value = RadioConstants.Keys.Station.COUNTRY_CODE) countryCode: String,
+        @Query(value = RadioConstants.Keys.Station.HIDE_BROKEN) hideBroken: Boolean,
+        @Query(value = RadioConstants.Keys.Station.ORDER) order: String,
+        @Query(value = RadioConstants.Keys.Station.REVERSE) reverse: Boolean,
+        @Query(value = RadioConstants.Keys.Station.OFFSET) offset: Long,
         @Query(value = RadioConstants.Keys.Station.LIMIT) limit: Long
     ): Call<List<RadioStation>>
 

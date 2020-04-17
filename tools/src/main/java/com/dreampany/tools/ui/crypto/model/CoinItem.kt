@@ -12,8 +12,8 @@ import com.dreampany.common.misc.extension.toColor
 import com.dreampany.common.misc.util.Util
 import com.dreampany.tools.R
 import com.dreampany.tools.api.crypto.misc.CryptoConstants
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.misc.CurrencyFormatter
@@ -29,12 +29,12 @@ import java.util.*
  * Last modified $file.lastModified
  */
 class CoinItem(
-    val coin: Coin,
+    val item: Coin,
     val formatter: CurrencyFormatter,
     val currency: Currency,
     val sort: CoinSort,
     val order: Order
-    ) : ModelAbstractBindingItem<Coin, CoinItemBinding>(coin) {
+    ) : ModelAbstractBindingItem<Coin, CoinItemBinding>(item) {
 
     @StringRes
     private val btcFormat: Int
@@ -51,13 +51,13 @@ class CoinItem(
         negativeRatio = R.string.negative_ratio_format
     }
 
-    override fun hashCode(): Int = Objects.hashCode(coin.id)
+    override fun hashCode(): Int = Objects.hashCode(item.id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as CoinItem
-        return Objects.equal(this.coin.id, item.coin.id)
+        return Objects.equal(this.item.id, item.item.id)
     }
 
     override val type: Int
@@ -71,7 +71,7 @@ class CoinItem(
             String.format(
                 Locale.ENGLISH,
                 CryptoConstants.CoinMarketCap.IMAGE_URL,
-                coin.id
+                item.id
             )
         )
 
@@ -81,12 +81,12 @@ class CoinItem(
             String.format(
                 Locale.ENGLISH,
                 bind.root.context.getString(R.string.crypto_symbol_name),
-                coin.symbol,
-                coin.name
+                item.symbol,
+                item.name
             )
         bind.layoutSimple.textName.text = nameText
 
-        val quote = coin.getQuote(currency)
+        val quote = item.getQuote(currency)
 
         var price = 0.0
         var change1h = 0.0
@@ -134,7 +134,7 @@ class CoinItem(
         bind.layoutPrice.textChange7d.setTextColor(weekChangeColor.toColor(bind.root.context))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
-            coin.getLastUpdated(),
+            item.getLastUpdated(),
             Util.currentMillis(),
             DateUtils.MINUTE_IN_MILLIS
         ) as String

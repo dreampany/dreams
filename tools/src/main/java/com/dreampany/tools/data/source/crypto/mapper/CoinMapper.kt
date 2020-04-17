@@ -8,8 +8,8 @@ import com.dreampany.common.misc.func.SmartError
 import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.CryptoQuote
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
@@ -87,9 +87,7 @@ class CoinMapper
     }
 
     fun getItem(input: CryptoCoin): Coin {
-
         Timber.v("Resolved Coin: %s", input.name);
-
         val id = input.id.toString()
         var out: Coin? = coins.get(id)
         if (out == null) {

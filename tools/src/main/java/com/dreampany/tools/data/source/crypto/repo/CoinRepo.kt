@@ -5,8 +5,8 @@ import com.dreampany.common.inject.annote.Remote
 import com.dreampany.common.inject.annote.Room
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.RxMapper
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper

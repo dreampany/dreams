@@ -7,7 +7,7 @@ import androidx.room.Index
 import com.dreampany.common.data.model.Base
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.util.Util
-import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.misc.constant.AppConstants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties

@@ -1,8 +1,8 @@
 package com.dreampany.tools.misc.comparator
 
 import com.dreampany.common.data.enums.Order
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.google.common.collect.Maps
 

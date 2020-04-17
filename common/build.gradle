@@ -145,6 +145,7 @@ dependencies {
     api 'com.jakewharton.timber:timber:4.7.1'
     api 'com.intuit.sdp:sdp-android:1.0.6'
     api 'com.intuit.ssp:ssp-android:1.0.6'
+    api 'com.github.shts:TriangleLabelView:1.1.2'
     implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.8'
     implementation 'org.apache.commons:commons-collections4:4.4'
     implementation 'com.shreyaspatil:MaterialDialog:2.1'

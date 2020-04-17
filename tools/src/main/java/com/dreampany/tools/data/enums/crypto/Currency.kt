@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.enums
+package com.dreampany.tools.data.enums.crypto
 
 import android.os.Parcelable
 import com.dreampany.common.misc.constant.Constants

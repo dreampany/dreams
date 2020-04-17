@@ -56,17 +56,18 @@ class CryptoModule {
     @Singleton
     @Provides
     @Room
-    fun provideRoomDataSource(
+    fun provideCoinRoomDataSource(
         mapper: CoinMapper,
         dao: CoinDao,
         quoteDao: QuoteDao
     ): CoinDataSource {
         return CoinRoomDataSource(mapper, dao, quoteDao)
     }
+
     @Singleton
     @Provides
     @Remote
-    fun provideRemoteCoinDataSource(
+    fun provideCoinRemoteDataSource(
         context: Context,
         network: NetworkManager,
         parser: Parser,

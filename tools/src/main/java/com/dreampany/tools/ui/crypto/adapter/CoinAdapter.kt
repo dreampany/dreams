@@ -10,8 +10,8 @@ import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.adapter.SearchAdapter
 import com.dreampany.tools.R
 import com.dreampany.tools.api.crypto.misc.CryptoConstants
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
+import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.misc.CurrencyFormatter

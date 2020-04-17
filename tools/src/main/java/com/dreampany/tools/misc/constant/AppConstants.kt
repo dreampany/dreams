@@ -20,14 +20,6 @@ class AppConstants {
 
         object PrefKeys {
             const val PREF = "pref"
-            const val CRYPTO = "crypto"
-
-            object Crypto {
-                const val CURRENCY = "crypto-currency"
-                const val SORT = "crypto-sort"
-                const val ORDER = "crypto-order"
-                const val EXPIRE = "crypto-expire"
-            }
         }
 
         object Coin {
@@ -80,6 +72,10 @@ class AppConstants {
         object Crypto {
             val LISTING = TimeUnit.HOURS.toMillis(1)
             val COIN = TimeUnit.MINUTES.toMillis(10)
+        }
+
+        object RADIO {
+            val LISTING = TimeUnit.HOURS.toMillis(1)
         }
 
         val NOTIFY = TimeUnit.MINUTES.toSeconds(1)

@@ -10,5 +10,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Type : BaseType {
-    DEFAULT, MORE, SITE, FEATURE, COIN
+    DEFAULT, MORE, SITE, FEATURE, COIN, STATION
 }

@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.crypto.vm
+package com.dreampany.tools.ui.radio.vm
 
 import android.app.Application
 import com.dreampany.common.misc.func.ResponseMapper
@@ -10,10 +10,12 @@ import com.dreampany.tools.data.enums.home.State
 import com.dreampany.tools.data.enums.home.Subtype
 import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.crypto.Coin
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
-import com.dreampany.tools.data.source.crypto.repo.CoinRepo
-import com.dreampany.tools.misc.CurrencyFormatter
+import com.dreampany.tools.data.model.radio.Station
+import com.dreampany.tools.data.source.radio.pref.RadioPref
+import com.dreampany.tools.data.source.radio.repo.StationRepo
+import com.dreampany.tools.misc.constant.RadioConstants
 import com.dreampany.tools.ui.crypto.model.CoinItem
+import com.dreampany.tools.ui.radio.model.StationItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -21,46 +23,50 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- * Created by roman on 3/21/20
+ * Created by roman on 18/4/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinViewModel
+class StationViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val formatter: CurrencyFormatter,
-    private val pref: CryptoPref,
-    private val repo: CoinRepo
-) : BaseViewModel<Type, Subtype, State, Action, Coin, CoinItem, UiTask<Type, Subtype, State, Action, Coin>>(
+    private val pref: RadioPref,
+    private val repo: StationRepo
+) : BaseViewModel<Type, Subtype, State, Action, Station, StationItem, UiTask<Type, Subtype, State, Action, Station>>(
     application,
     rm
 ) {
 
-    fun loadCoins(offset: Long, limit: Long) {
+    fun loadStations(countryCode: String, offset: Long) {
         uiScope.launch {
             postProgressMultiple(
-                Type.COIN,
+                Type.STATION,
                 Subtype.DEFAULT,
                 State.DEFAULT,
                 Action.DEFAULT,
                 progress = true
             )
-            var result: List<Coin>? = null
+            var result: List<Station>? = null
             var errors: Throwable? = null
             try {
-                val currency = pref.getCurrency()
-                val sort = pref.getSort()
-                val order = pref.getOrder()
-                result = repo.getItems(currency, sort, order, offset, limit)
+                val order = pref.getStationOrder()
+                result = repo.getItemsOfCountry(
+                    countryCode,
+                    true,
+                    order,
+                    false,
+                    offset,
+                    RadioConstants.Limits.STATIONS
+                )
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
             }
             if (errors != null) {
                 postMultiple(
-                    Type.COIN,
+                    Type.STATION,
                     Subtype.DEFAULT,
                     State.DEFAULT,
                     Action.DEFAULT,
@@ -69,7 +75,7 @@ class CoinViewModel
                 )
             } else if (result != null) {
                 postMultiple(
-                    Type.COIN,
+                    Type.STATION,
                     Subtype.DEFAULT,
                     State.DEFAULT,
                     Action.DEFAULT,
@@ -80,13 +86,11 @@ class CoinViewModel
         }
     }
 
-    suspend fun List<Coin>.toItems(): List<CoinItem> {
+    suspend fun List<Station>.toItems(): List<StationItem> {
         val list = this
         return withContext(Dispatchers.IO) {
-            val currency = pref.getCurrency()
-            val sort = pref.getSort()
-            val order = pref.getOrder()
-            list.map { CoinItem(it, formatter, currency, sort, order) }
+            val order = pref.getStationOrder()
+            list.map { StationItem(it, order) }
         }
     }
 }

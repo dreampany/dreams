@@ -8,9 +8,8 @@ import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.dimension
 import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.CoinSort
-import com.dreampany.tools.data.enums.Currency
-import com.dreampany.tools.databinding.CoinItemBinding
+import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
@@ -19,7 +18,6 @@ import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
 import com.mikepenz.fastadapter.listeners.ClickEventHook
-import com.mikepenz.fastadapter.listeners.addClickListener
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
 import com.mikepenz.fastadapter.utils.ComparableItemListImpl
@@ -59,7 +57,7 @@ class FastCoinAdapter(
         itemAdapter = ItemAdapter(list)
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is CoinItem)
-                item.coin.name.toString().contains(constraint.toString(), ignoreCase = true)
+                item.item.name.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }
@@ -152,8 +150,8 @@ class FastCoinAdapter(
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is CoinItem && right is CoinItem) {
                 if (sort == CoinSort.MARKET_CAP) {
-                    val leftCap = left.coin.getQuote(currency)
-                    val rightCap = right.coin.getQuote(currency)
+                    val leftCap = left.item.getQuote(currency)
+                    val rightCap = right.item.getQuote(currency)
                     if (leftCap != null && rightCap != null) {
                         if (order == Order.ASCENDING) {
                             return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
@@ -170,7 +168,7 @@ class FastCoinAdapter(
     class RankComparator : Comparator<GenericItem> {
         override fun compare(left: GenericItem, right: GenericItem): Int {
             if (left is CoinItem && right is CoinItem) {
-                return left.coin.rank - right.coin.rank
+                return left.item.rank - right.item.rank
             }
             return 0
         }

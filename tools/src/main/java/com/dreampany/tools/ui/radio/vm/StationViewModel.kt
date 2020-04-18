@@ -42,7 +42,7 @@ class StationViewModel
         uiScope.launch {
             postProgress(true)
             var result: List<Station>? = null
-            var errors: Throwable? = null
+            var errors: SmartError? = null
             try {
                 val order = pref.getStationOrder()
                 result = repo.getItemsOfCountry(
@@ -69,7 +69,7 @@ class StationViewModel
         uiScope.launch {
             postProgress(true)
             var result: List<Station>? = null
-            var errors: Throwable? = null
+            var errors: SmartError? = null
             try {
                 result = if (state == RadioState.TRENDS) repo.getItemsOfTrends(
                     RadioConstants.Limits.STATIONS
@@ -108,7 +108,7 @@ class StationViewModel
     }
 
 
-    private fun postError(error: Throwable) {
+    private fun postError(error: SmartError) {
         postMultiple(
             RadioType.STATION,
             RadioSubtype.DEFAULT,

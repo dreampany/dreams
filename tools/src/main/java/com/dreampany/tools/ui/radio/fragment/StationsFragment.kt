@@ -35,6 +35,10 @@ class StationsFragment
 
     private lateinit var adapter: FastStationAdapter
 
+    override fun hasBinding(): Boolean = true
+
+    override fun layoutRes(): Int = R.layout.recycler_fragment
+
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
@@ -49,7 +53,11 @@ class StationsFragment
         if (task.state is RadioState) {
             when (task.state) {
                 RadioState.LOCAL -> {
-                    vm.loadStations(task.state as RadioState, context.countryCode, adapter.itemCount)
+                    vm.loadStations(
+                        task.state as RadioState,
+                        context.countryCode,
+                        adapter.itemCount
+                    )
                 }
                 RadioState.TRENDS,
                 RadioState.POPULAR -> {

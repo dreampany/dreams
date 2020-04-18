@@ -43,7 +43,7 @@ class CoinViewModel
         uiScope.launch {
             postProgress(true)
             var result: List<Coin>? = null
-            var errors: Throwable? = null
+            var errors: SmartError? = null
             try {
                 val currency = pref.getCurrency()
                 val sort = pref.getSort()
@@ -82,7 +82,7 @@ class CoinViewModel
     }
 
 
-    private fun postError(error: Throwable) {
+    private fun postError(error: SmartError) {
         postMultiple(
             CryptoType.COIN,
             CryptoSubtype.DEFAULT,

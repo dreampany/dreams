@@ -39,7 +39,8 @@
                     android:layout_height="match_parent"
                     android:alpha="0.3"
                     android:background="@android:color/black"
-                    android:fitsSystemWindows="true" />
+                    android:fitsSystemWindows="true"
+                    android:visibility="gone" />
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
@@ -55,9 +56,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:background="?attr/colorPrimary"
                     auto:tabGravity="fill"
                     auto:tabIndicatorColor="@android:color/white"
-                    auto:tabMode="fixed"
+                    auto:tabMode="scrollable"
                     auto:tabSelectedTextColor="@android:color/white"
                     auto:tabTextColor="@color/material_white" />
 

@@ -63,7 +63,7 @@
         <activity
             android:name=".ui.radio.activity.StationsActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:label="@string/title_feature_crypto"
+            android:label="@string/title_feature_radio"
             android:windowSoftInputMode="adjustResize">
 
             <meta-data

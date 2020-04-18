@@ -19,10 +19,11 @@ class StationsActivity : InjectActivity() {
 
     override fun hasBinding(): Boolean = true
 
+    override fun homeUp(): Boolean = true
+
     override fun layoutRes(): Int = R.layout.stations_activity
 
     override fun toolbarId(): Int = R.id.toolbar
-
 
     override fun onStartUi(state: Bundle?) {
         initUi()

@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class InjectorApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
+abstract class InjectApp : DaggerApplication(), Application.ActivityLifecycleCallbacks {
 
     @Volatile
     private var refs: WeakReference<Activity>? = null

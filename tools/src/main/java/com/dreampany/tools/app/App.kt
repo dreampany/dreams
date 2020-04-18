@@ -1,6 +1,7 @@
 package com.dreampany.tools.app
 
-import com.dreampany.common.app.InjectorApp
+import com.dreampany.common.app.InjectApp
+import com.dreampany.common.misc.extension.isDebug
 import com.dreampany.tools.R
 import com.dreampany.tools.inject.app.DaggerAppComponent
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -22,14 +23,13 @@ import dagger.android.DaggerApplication
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class App : InjectorApp() {
+class App : InjectApp() {
 
     private var action: Action? = null
     private var indexable: Indexable? = null
 
-    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
-        return DaggerAppComponent.builder().application(this).build()
-    }
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> =
+        DaggerAppComponent.builder().application(this).build()
 
     override fun onOpen() {
         initIndexing()
@@ -44,6 +44,7 @@ class App : InjectorApp() {
     }
 
     private fun initIndexing() {
+        if (isDebug) return
         val name = getString(R.string.app_name)
         val description = getString(R.string.app_description)
         val url = getString(R.string.app_url)
@@ -52,6 +53,7 @@ class App : InjectorApp() {
     }
 
     private fun initAd() {
+        if (isDebug) return
         MobileAds.initialize(this, getString(R.string.admob_app_id))
     }
 
@@ -71,13 +73,13 @@ class App : InjectorApp() {
     }
 
     private fun startAppIndex() {
-        //f (isDebug()) return
+        if (isDebug) return
         FirebaseAppIndex.getInstance().update(indexable)
         FirebaseUserActions.getInstance().start(action)
     }
 
     private fun stopAppIndex() {
-        //if (isDebug()) return
+        if (isDebug) return
         FirebaseUserActions.getInstance().end(action)
     }
 }

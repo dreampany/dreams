@@ -15,4 +15,6 @@ class StationPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
     override fun createFragment(position: Int): Fragment {
         return items.get(position)
     }
+
+
 }

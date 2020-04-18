@@ -5,10 +5,10 @@ import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.model.UiTask
 import com.dreampany.common.ui.vm.BaseViewModel
+import com.dreampany.tools.data.enums.crypto.CryptoSubtype
+import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
@@ -33,20 +33,14 @@ class CoinViewModel
     private val formatter: CurrencyFormatter,
     private val pref: CryptoPref,
     private val repo: CoinRepo
-) : BaseViewModel<Type, Subtype, State, Action, Coin, CoinItem, UiTask<Type, Subtype, State, Action, Coin>>(
+) : BaseViewModel<CryptoType, CryptoSubtype, State, Action, Coin, CoinItem, UiTask<CryptoType, CryptoSubtype, State, Action, Coin>>(
     application,
     rm
 ) {
 
     fun loadCoins(offset: Long, limit: Long) {
         uiScope.launch {
-            postProgressMultiple(
-                Type.COIN,
-                Subtype.DEFAULT,
-                State.DEFAULT,
-                Action.DEFAULT,
-                progress = true
-            )
+            postProgress(true)
             var result: List<Coin>? = null
             var errors: Throwable? = null
             try {
@@ -59,28 +53,14 @@ class CoinViewModel
                 errors = error
             }
             if (errors != null) {
-                postMultiple(
-                    Type.COIN,
-                    Subtype.DEFAULT,
-                    State.DEFAULT,
-                    Action.DEFAULT,
-                    error = errors,
-                    showProgress = true
-                )
+                postError(errors)
             } else if (result != null) {
-                postMultiple(
-                    Type.COIN,
-                    Subtype.DEFAULT,
-                    State.DEFAULT,
-                    Action.DEFAULT,
-                    result = result.toItems(),
-                    showProgress = true
-                )
+                postResult(result.toItems())
             }
         }
     }
 
-    suspend fun List<Coin>.toItems(): List<CoinItem> {
+   private suspend fun List<Coin>.toItems(): List<CoinItem> {
         val list = this
         return withContext(Dispatchers.IO) {
             val currency = pref.getCurrency()
@@ -88,5 +68,38 @@ class CoinViewModel
             val order = pref.getOrder()
             list.map { CoinItem(it, formatter, currency, sort, order) }
         }
+    }
+
+    private fun postProgress(progress: Boolean) {
+        postProgressMultiple(
+            CryptoType.COIN,
+            CryptoSubtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            progress = progress
+        )
+    }
+
+
+    private fun postError(error: Throwable) {
+        postMultiple(
+            CryptoType.COIN,
+            CryptoSubtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            error = error,
+            showProgress = true
+        )
+    }
+
+    private fun postResult(result: List<CoinItem>) {
+        postMultiple(
+            CryptoType.COIN,
+            CryptoSubtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            result = result,
+            showProgress = true
+        )
     }
 }

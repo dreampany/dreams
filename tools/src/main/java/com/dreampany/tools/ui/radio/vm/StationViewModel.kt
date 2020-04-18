@@ -7,9 +7,9 @@ import com.dreampany.common.ui.model.UiTask
 import com.dreampany.common.ui.vm.BaseViewModel
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.enums.radio.RadioState
+import com.dreampany.tools.data.enums.radio.RadioSubtype
+import com.dreampany.tools.data.enums.radio.RadioType
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.pref.RadioPref
 import com.dreampany.tools.data.source.radio.repo.StationRepo
@@ -33,7 +33,7 @@ class StationViewModel
     rm: ResponseMapper,
     private val pref: RadioPref,
     private val repo: StationRepo
-) : BaseViewModel<Type, Subtype, State, Action, Station, StationItem, UiTask<Type, Subtype, State, Action, Station>>(
+) : BaseViewModel<RadioType, RadioSubtype, State, Action, Station, StationItem, UiTask<RadioType, RadioSubtype, State, Action, Station>>(
     application,
     rm
 ) {
@@ -100,8 +100,8 @@ class StationViewModel
 
     private fun postProgress(progress: Boolean) {
         postProgressMultiple(
-            Type.STATION,
-            Subtype.DEFAULT,
+            RadioType.STATION,
+            RadioSubtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,
             progress = progress
@@ -111,8 +111,8 @@ class StationViewModel
 
     private fun postError(error: Throwable) {
         postMultiple(
-            Type.STATION,
-            Subtype.DEFAULT,
+            RadioType.STATION,
+            RadioSubtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,
             error = error,
@@ -122,8 +122,8 @@ class StationViewModel
 
     private fun postResult(result: List<StationItem>) {
         postMultiple(
-            Type.STATION,
-            Subtype.DEFAULT,
+            RadioType.STATION,
+            RadioSubtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,
             result = result,

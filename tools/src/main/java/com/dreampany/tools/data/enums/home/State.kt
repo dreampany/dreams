@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.enums.home
 
 import com.dreampany.common.data.enums.BaseState
+import com.dreampany.common.misc.extension.toTitle
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -11,5 +12,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class State : BaseState {
-    DEFAULT
+    DEFAULT;
+    override val title: String
+        get() = name.toTitle()
 }

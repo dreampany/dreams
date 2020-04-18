@@ -26,4 +26,6 @@ abstract class BasePagerAdapter<T : Fragment>(activity: AppCompatActivity) :
     fun addItem(item: T) {
         items.add(item)
     }
+
+    fun getItem(position: Int) : T? = items.get(position)
 }

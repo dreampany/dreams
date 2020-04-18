@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.enums.radio
 
-import android.os.Parcelable
+import com.dreampany.common.data.enums.BaseState
+import com.dreampany.common.misc.extension.toTitle
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -10,6 +11,9 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class RadioState : Parcelable {
-    LOCAL, TRENDS, POPULAR
+enum class RadioState : BaseState {
+    LOCAL, TRENDS, POPULAR;
+
+    override val title: String
+        get() = name.toTitle()
 }

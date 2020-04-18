@@ -5,6 +5,7 @@ import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.StationsActivityBinding
 import com.dreampany.tools.ui.radio.adapter.StationPagerAdapter
+import com.google.android.material.tabs.TabLayoutMediator
 
 /**
  * Created by roman on 14/4/20
@@ -42,7 +43,12 @@ class StationsActivity : InjectActivity() {
 
     private fun initPager() {
         adapter = StationPagerAdapter(this)
-
-        //adapter.
+        bind.pager.adapter = adapter
+        TabLayoutMediator(
+            bind.tabs,
+            bind.pager,
+            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+                tab.text = adapter.getTitle(position)
+            }).attach()
     }
 }

@@ -195,7 +195,7 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         this.fragment = fragment
     }
 
-    protected fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*, *, *, *, *>): T {
+   /* protected fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*, *, *, *, *>): T {
         val instance = clazz.java.newInstance()
         if (instance.arguments == null) {
             val bundle = Bundle()
@@ -205,7 +205,7 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
             instance.arguments?.putParcelable(Constants.Keys.TASK, task)
         }
         return instance
-    }
+    }*/
 
     protected fun showProgress() {
         if (progress == null) {

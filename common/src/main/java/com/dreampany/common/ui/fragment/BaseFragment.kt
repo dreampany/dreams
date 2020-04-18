@@ -225,7 +225,7 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
         sheetDialog = null
     }
 
-    protected fun <F : Fragment, T : Task<*, *, *, *, *>> createFragment(clazz: KClass<F>, task: T): F {
+    /*protected fun <F : Fragment, T : Task<*, *, *, *, *>> createFragment(clazz: KClass<F>, task: T): F {
         val instance = clazz.java.newInstance()
         if (instance.arguments == null) {
             val bundle = Bundle()
@@ -235,5 +235,5 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
             instance.arguments?.putParcelable(Constants.Keys.TASK, task)
         }
         return instance
-    }
+    }*/
 }

@@ -9,4 +9,5 @@ import android.os.Parcelable
  * Last modified $file.lastModified
  */
 interface BaseState : Parcelable {
+    val title : String
 }

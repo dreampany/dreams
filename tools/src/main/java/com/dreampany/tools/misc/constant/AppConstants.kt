@@ -95,12 +95,6 @@ class AppConstants {
         }
     }
 
-    object Limit {
-        object Crypto {
-            const val LIST = 10L
-        }
-    }
-
     object Service {
         const val VPN_ADDRESS = "10.0.0.2"
         const val VPN_ROUTE = "0.0.0.0"

@@ -1,6 +1,7 @@
 package com.dreampany.common.data.model
 
 import com.dreampany.common.data.enums.*
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.enums.UiState
 
 /**
@@ -49,7 +50,7 @@ sealed class Response<
         val subtype: S,
         val state: ST,
         val action: A,
-        val error: Throwable
+        val error: SmartError
     ) : Response<T, S, ST, A, OUT>()
 
     data class Result<T : BaseType,
@@ -109,7 +110,7 @@ sealed class Response<
             subtype: S,
             state: ST,
             action: A,
-            error: Throwable
+            error: SmartError
         ): Response<T, S, ST, A, OUT> =
             Error(type, subtype, state, action, error)
 

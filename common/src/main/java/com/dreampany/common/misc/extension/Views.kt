@@ -161,3 +161,7 @@ fun TextView.blink(@ColorRes startColorId: Int,@ColorRes endColorId: Int) {
     animator.start()
 
 }
+
+
+val ViewDataBinding.context : Context
+    get() = root.context

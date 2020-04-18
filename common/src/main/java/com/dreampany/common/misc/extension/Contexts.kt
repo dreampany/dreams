@@ -10,6 +10,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.telephony.TelephonyManager
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.annotation.ColorRes
@@ -20,6 +21,7 @@ import androidx.core.content.ContextCompat
 import com.dreampany.common.misc.constant.Constants
 import com.google.common.base.Splitter
 import com.google.common.collect.Iterables
+import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -29,7 +31,6 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-
 fun Context?.appContext(): Context? {
     return this?.applicationContext
 }
@@ -165,5 +166,70 @@ fun Context?.lastApplicationId(): String? {
 
 fun Context.formatString(@StringRes formatRes: Int, vararg values: Any): String =
     String.format(getString(formatRes), *values)
+
+val Context?.countryCode: String
+    get() {
+        if (this == null) return Locale.ENGLISH.country
+        var code: String? = null
+        val tm = this.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager?
+        if (tm != null) {
+            code = tm.simCountryIso
+            if (code.isNullOrEmpty()) {
+                if (tm.phoneType == TelephonyManager.PHONE_TYPE_CDMA) {
+                    code = getCDMACountryIso()
+                } else {
+                    code = tm.getNetworkCountryIso()
+                }
+            }
+        }
+        if (code.isNullOrEmpty()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                code = resources.configuration.getLocales().get(0).getCountry();
+            } else {
+                code = resources.configuration.locale.getCountry();
+            }
+        }
+        if (!code.isNullOrEmpty() && code.length == 2) return code.toUpperCase()
+        return Locale.ENGLISH.country
+    }
+
+@SuppressLint("PrivateApi")
+fun getCDMACountryIso(): String? {
+    try {
+        // try to get country code from SystemProperties private class
+        val systemProperties = Class.forName("android.os.SystemProperties")
+        val get = systemProperties.getMethod("get", String::class.java)
+        // get homeOperator that contain MCC + MNC
+        val homeOperator =
+            get.invoke(systemProperties, "ro.cdma.home.operator.numeric") as String
+        // first 3 chars (MCC) from homeOperator represents the country code
+        val mcc = Integer.parseInt(homeOperator.substring(0, 3))
+        // mapping just countries that actually use CDMA networks
+        when (mcc) {
+            330 -> return "PR"
+            310 -> return "US"
+            311 -> return "US"
+            312 -> return "US"
+            316 -> return "US"
+            283 -> return "AM"
+            460 -> return "CN"
+            455 -> return "MO"
+            414 -> return "MM"
+            619 -> return "SL"
+            450 -> return "KR"
+            634 -> return "SD"
+            434 -> return "UZ"
+            232 -> return "AT"
+            204 -> return "NL"
+            262 -> return "DE"
+            247 -> return "LV"
+            255 -> return "UA"
+        }
+    } catch (error: Throwable) {
+        Timber.e(error)
+    }
+    return null
+}
+
 
 

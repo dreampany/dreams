@@ -13,6 +13,7 @@ import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
 import com.dreampany.tools.misc.CurrencyFormatter
+import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,7 +39,7 @@ class CoinViewModel
     rm
 ) {
 
-    fun loadCoins(offset: Long, limit: Long) {
+    fun loadCoins(offset: Long) {
         uiScope.launch {
             postProgress(true)
             var result: List<Coin>? = null
@@ -47,7 +48,7 @@ class CoinViewModel
                 val currency = pref.getCurrency()
                 val sort = pref.getSort()
                 val order = pref.getOrder()
-                result = repo.getItems(currency, sort, order, offset, limit)
+                result = repo.getItems(currency, sort, order, offset, CryptoConstants.Limits.COINS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

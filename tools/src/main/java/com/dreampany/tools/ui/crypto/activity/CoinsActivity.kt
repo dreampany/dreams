@@ -3,21 +3,20 @@ package com.dreampany.tools.ui.crypto.activity
 import android.os.Bundle
 import android.view.Menu
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.toTint
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.home.Subtype
-import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.misc.constant.AppConstants
+import com.dreampany.tools.misc.constant.RadioConstants
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
@@ -31,9 +30,6 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class CoinsActivity : InjectActivity() {
-
-    @Inject
-    internal lateinit var factory: ViewModelProvider.Factory
 
     @Inject
     internal lateinit var cryptoPref: CryptoPref
@@ -81,12 +77,12 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount, AppConstants.Limit.Crypto.LIST)
+        vm.loadCoins(adapter.itemCount)
     }
 
     private fun initUi() {
         bind = getBinding()
-        vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
+        vm = createVm(CoinViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
@@ -118,7 +114,7 @@ class CoinsActivity : InjectActivity() {
         }
     }
 
-    private fun processError(error: Throwable) {
+    private fun processError(error: SmartError) {
         showDialogue(
             R.string.title_dialog_features,
             message = error.message,

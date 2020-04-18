@@ -8,6 +8,7 @@ import com.dreampany.common.data.model.BaseParcel
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.reObserve
 import com.dreampany.common.misc.func.ResponseMapper
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.model.UiTask
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -127,7 +128,7 @@ protected constructor(
         subtype: S,
         state: ST,
         action: A,
-        error: Throwable? = null,
+        error: SmartError? = null,
         result: OUT? = null,
         showProgress: Boolean
     ) = if (showProgress) {
@@ -143,7 +144,7 @@ protected constructor(
         subtype: S,
         state: ST,
         action: A,
-        error: Throwable? = null,
+        error: SmartError? = null,
         result: List<OUT>? = null,
         showProgress: Boolean
     ) = if (showProgress) {

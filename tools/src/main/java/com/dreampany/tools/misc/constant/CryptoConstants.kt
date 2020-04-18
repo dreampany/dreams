@@ -119,4 +119,8 @@ class CryptoConstants {
         const val CHANGE_24H = "CHANGE24HOUR"
         const val CHANGE_PCT_24H = "CHANGEPCT24HOUR"
     }
+
+    object Limits {
+        const val COINS = 100L
+    }
 }

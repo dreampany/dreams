@@ -33,7 +33,7 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
     protected var fireOnStartUi: Boolean = true
     private lateinit var binding: ViewDataBinding
     protected var currentView: View? = null
-    protected var task: UiTask<*, *, *, *, *>? = null
+    //protected var task: UiTask<*, *, *, *, *>? = null
     protected var childTask: UiTask<*, *, *, *, *>? = null
 
     private var progress: KProgressHUD? = null

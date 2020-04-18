@@ -65,14 +65,13 @@ class StationViewModel
         }
     }
 
-    fun loadStations(state: RadioState) {
+    fun loadStations(state: RadioState, offset: Long) {
         uiScope.launch {
             postProgress(true)
             var result: List<Station>? = null
             var errors: Throwable? = null
             try {
                 result = if (state == RadioState.TRENDS) repo.getItemsOfTrends(
-
                     RadioConstants.Limits.STATIONS
                 ) else
                     repo.getItemsOfPopular(

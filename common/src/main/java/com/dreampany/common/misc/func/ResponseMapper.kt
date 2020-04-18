@@ -45,7 +45,7 @@ class ResponseMapper
         subtype: S,
         state: ST,
         action: A,
-        error: Throwable
+        error: SmartError
     ) {
         live.value = Response.Error(
             type = type,
@@ -87,7 +87,7 @@ class ResponseMapper
         subtype: S,
         state: ST,
         action: A,
-        error: Throwable
+        error: SmartError
     ) {
         response(live, type, subtype, state, action, progress = false)
         live.value = Response.Error(type, subtype, state, action, error)

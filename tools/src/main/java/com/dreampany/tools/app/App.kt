@@ -9,6 +9,7 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.facebook.imagepipeline.core.ImageTranscoderType
 import com.facebook.imagepipeline.core.MemoryChunkType
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.FirebaseApp
 import com.google.firebase.appindexing.Action
 import com.google.firebase.appindexing.FirebaseAppIndex
 import com.google.firebase.appindexing.FirebaseUserActions
@@ -33,9 +34,9 @@ class App : InjectApp() {
 
     override fun onOpen() {
         initIndexing()
+        initFirebase()
         initAd()
         initFresco()
-
         startAppIndex()
     }
 
@@ -50,6 +51,10 @@ class App : InjectApp() {
         val url = getString(R.string.app_url)
         action = getAction(description, url);
         indexable = Indexables.newSimple(name, url)
+    }
+
+    private fun initFirebase() {
+        FirebaseApp.initializeApp(this)
     }
 
     private fun initAd() {

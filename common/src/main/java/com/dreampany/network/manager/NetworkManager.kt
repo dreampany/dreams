@@ -7,11 +7,16 @@ import com.dreampany.network.api.Wifi
 import com.dreampany.network.data.model.Network
 import com.github.pwittchen.reactivenetwork.library.rx2.Connectivity
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
+import com.github.pwittchen.reactivenetwork.library.rx2.internet.observing.InternetObservingSettings
+import com.github.pwittchen.reactivenetwork.library.rx2.internet.observing.strategy.SocketInternetObservingStrategy
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 /**
  * Created by Roman-372 on 7/1/2019
@@ -33,17 +38,22 @@ class NetworkManager
     }
 
     private var disposable: Disposable? = null
-    private val callbacks = mutableSetOf<Callback>()
-    private val networks = mutableListOf<Network>()
-    private var checkInternet: Boolean = false
+    private val callbacks: MutableSet<Callback>
+    private val networks: MutableList<Network>
+    private var checkInternet = false
+    private var internet = false
+        get
+
+    init {
+        callbacks = Collections.synchronizedSet(HashSet())
+        networks = Collections.synchronizedList(ArrayList())
+    }
 
     fun observe(callback: Callback, checkInternet: Boolean = false) {
         callbacks.add(callback)
         this.checkInternet = checkInternet
         if (isStarted()) {
-            ex.postToUi(Runnable {
-                postNetworks(callback)
-            })
+            ex.postToUi(Runnable { postNetworks(callback) })
             return
         }
         disposable = ReactiveNetwork.observeNetworkConnectivity(context)
@@ -118,14 +128,25 @@ class NetworkManager
             connectivity.available(),
             connectivity.toString()
         )
-        return Single.create({
-            val network = wifi.getNetwork()
+        return Single.create { emitter ->
+            val network = getNetwork()
+            network.connected = connectivity.available()
             if (connectivity.available()) {
                 if (checkInternet) {
-                    network.internet = ReactiveNetwork.checkInternetConnectivity().blockingGet()
+                    val settings = InternetObservingSettings.builder()
+                        .host("www.google.com")
+                        .strategy(SocketInternetObservingStrategy())
+                        .build()
+                    internet = ReactiveNetwork.checkInternetConnectivity(settings).blockingGet()
+                    network.internet = internet
                 }
             }
-            it.onSuccess(network)
-        })
+            if (emitter.isDisposed) return@create
+            emitter.onSuccess(network)
+        }
+    }
+
+    private fun getNetwork(): Network {
+        return Network(Network.Type.DEFAULT)
     }
 }

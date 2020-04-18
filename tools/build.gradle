@@ -62,7 +62,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             proguardFiles 'proguard-rules-crashlytics.pro'
             proguardFiles 'proguard-rules-webview.pro'
-            //proguardFiles 'proguard-rules-data-model.pro'
             proguardFiles 'proguard-rules-jni.pro'
             proguardFiles 'proguard-rules-firebase.pro'
             proguardFiles 'proguard-rules-play-service.pro'
@@ -82,7 +81,6 @@ android {
             proguardFiles 'proguard-rules-dagger.pro'
             proguardFiles 'proguard-rules-reactive-network.pro'
             proguardFiles 'proguard-rules-jackson.pro'
-            proguardFiles 'proguard-rules-butterknife.pro'
             proguardFiles 'proguard-rules-kotlin.pro'
         }
     }

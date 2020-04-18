@@ -1,6 +1,7 @@
 package com.dreampany.network.data.model
 
 import android.os.Parcelable
+import android.text.TextUtils
 import androidx.room.Entity
 import androidx.room.Index
 import com.dreampany.network.misc.Constants
@@ -19,22 +20,26 @@ import kotlinx.android.parcel.Parcelize
     indices = [Index(value = [Constants.Network.BSSID, Constants.Network.SSID], unique = true)],
     primaryKeys = [Constants.Network.BSSID, Constants.Network.SSID]
 )
-data class Network(val type: Type) : Parcelable {
+data class Network(
+    val type: Type,
+    var bssid: String = Constants.Default.STRING,
+    var ssid: String = Constants.Default.STRING,
+    var capabilities: String = Constants.Default.STRING,
+    var enabled: Boolean = Constants.Default.BOOLEAN,
+    var connected: Boolean = Constants.Default.BOOLEAN,
+    var internet: Boolean = Constants.Default.BOOLEAN
+) : Parcelable {
 
     enum class Type {
-        WIFI, HOTSPOT, BLUETOOTH;
+        DEFAULT, WIFI, HOTSPOT, BLUETOOTH
     }
 
-    var bssid: String //only for hotspot
-    var ssid: String //only for hotspot
-    var capabilities: String? = null
-    var enabled: Boolean = false
-    var connected: Boolean = false
-    var internet: Boolean = false
+    enum class Security {
+        WEP, PSK, EAP
+    }
 
-    init {
-        bssid = ""
-        ssid = ""
+    override fun hashCode(): Int {
+        return Objects.hashCode(bssid, ssid)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -44,12 +49,8 @@ data class Network(val type: Type) : Parcelable {
         return Objects.equal(bssid, item.bssid) && Objects.equal(ssid, item.ssid)
     }
 
-    override fun hashCode(): Int {
-        return Objects.hashCode(bssid, ssid)
-    }
-
     override fun toString(): String {
-        val builder = StringBuilder("network#");
+        val builder = StringBuilder("network#")
         builder.append(" type: ").append(type)
         builder.append(" bssid: ").append(bssid)
         builder.append(" ssid: ").append(ssid)
@@ -57,15 +58,14 @@ data class Network(val type: Type) : Parcelable {
         builder.append(" enabled: ").append(enabled)
         builder.append(" connected: ").append(connected)
         builder.append(" internet: ").append(internet)
-        return builder.toString();
+        return builder.toString()
     }
 
     fun isOpen(): Boolean {
-        capabilities?.let {
-            return !(it.contains(Constants.SECURITY.WEP) ||
-                    it.contains(Constants.SECURITY.PSK) ||
-                    it.contains(Constants.SECURITY.EAP))
-        }
-        return true
+        return if (!TextUtils.isEmpty(capabilities)) {
+            !(capabilities.contains(Security.WEP.name) ||
+                    capabilities.contains(Security.PSK.name) ||
+                    capabilities.contains(Security.EAP.name))
+        } else true
     }
 }

@@ -4,6 +4,8 @@
     package="com.dreampany.tools"
     android:installLocation="auto">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".app.App"
         android:allowBackup="false"

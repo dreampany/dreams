@@ -26,7 +26,8 @@ import timber.log.Timber
  * Last modified $file.lastModified
  */
 class FastStationAdapter(
-    val scrollListener: ((currentPage: Int) -> Unit)? = null
+    val scrollListener: ((currentPage: Int) -> Unit)? = null,
+    val clickListener : ((item: StationItem) -> Unit)? = null
 ) {
 
     private lateinit var scroller: EndlessRecyclerOnScrollListener
@@ -72,9 +73,14 @@ class FastStationAdapter(
         }
         fastAdapter.withSavedInstanceState(state)
 
-        fastAdapter.onClickListener = { view, adapter, item, position ->
-            Timber.v("View %s", view.toString())
-            false
+        clickListener?.let {
+            fastAdapter.onClickListener = { view, adapter, item, position ->
+                Timber.v("View %s", view.toString())
+                if (item is StationItem) {
+                    it (item)
+                }
+                false
+            }
         }
 
         fastAdapter.addEventHook(object : ClickEventHook<StationItem>() {

@@ -136,6 +136,9 @@ class StationsFragment
             adapter = FastStationAdapter(scrollListener = { currentPage: Int ->
                 Timber.v("CurrentPage: %d", currentPage)
                 loadStations()
+            }, clickListener = { item: StationItem ->
+                Timber.v("StationItem: %s", item.item.toString())
+                player.play(item.item)
             })
         }
 

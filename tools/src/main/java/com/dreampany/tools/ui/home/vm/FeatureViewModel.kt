@@ -51,7 +51,7 @@ class FeatureViewModel
                 colors.nextColor(Type.FEATURE.name)
             )
         )
-        features.add(
+        /*features.add(
             Feature(
                 Type.FEATURE,
                 Subtype.QUESTION,
@@ -59,7 +59,7 @@ class FeatureViewModel
                 R.string.title_feature_question,
                 colors.nextColor(Type.FEATURE.name)
             )
-        )
+        )*/
         features.add(
             Feature(
                 Type.FEATURE,

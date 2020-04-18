@@ -23,6 +23,7 @@ import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import com.dreampany.tools.ui.home.adapter.FeatureAdapter
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.data.model.home.Feature
+import com.dreampany.tools.ui.radio.activity.StationsActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -125,6 +126,9 @@ class HomeFragment
     private fun openUi(item: Feature) {
         when (item.subtype) {
             Subtype.CRYPTO -> activity.open(CoinsActivity::class)
+        }
+        when (item.subtype) {
+            Subtype.RADIO -> activity.open(StationsActivity::class)
         }
 
     }

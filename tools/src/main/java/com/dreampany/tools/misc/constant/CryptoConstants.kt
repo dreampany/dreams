@@ -1,4 +1,4 @@
-package com.dreampany.tools.api.crypto.misc
+package com.dreampany.tools.misc.constant
 
 /**
  * Created by roman on 2019-11-11

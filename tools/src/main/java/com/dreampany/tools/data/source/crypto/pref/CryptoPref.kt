@@ -4,10 +4,9 @@ import android.content.Context
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.data.source.pref.BasePref
 import com.dreampany.common.misc.util.Util
-import com.dreampany.tools.api.crypto.misc.CryptoConstants
+import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
-import com.dreampany.tools.misc.constant.AppConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 

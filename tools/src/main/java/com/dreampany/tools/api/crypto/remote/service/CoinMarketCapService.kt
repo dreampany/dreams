@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.crypto.remote.service
 
 import androidx.annotation.IntRange
-import com.dreampany.tools.api.crypto.misc.CryptoConstants
+import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
 import retrofit2.Call

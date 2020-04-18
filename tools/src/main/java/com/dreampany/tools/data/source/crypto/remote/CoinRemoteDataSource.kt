@@ -8,7 +8,7 @@ import com.dreampany.common.misc.func.Keys
 import com.dreampany.common.misc.func.Parser
 import com.dreampany.common.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
-import com.dreampany.tools.api.crypto.misc.CryptoConstants
+import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.enums.crypto.CoinSort

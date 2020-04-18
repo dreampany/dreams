@@ -9,7 +9,7 @@ import com.dreampany.common.misc.util.Util
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.adapter.SearchAdapter
 import com.dreampany.tools.R
-import com.dreampany.tools.api.crypto.misc.CryptoConstants
+import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin

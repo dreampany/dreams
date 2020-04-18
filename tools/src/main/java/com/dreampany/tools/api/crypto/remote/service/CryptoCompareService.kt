@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.remote.service
 
-import com.dreampany.tools.api.crypto.misc.CryptoConstants
+import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.response.ExchangesResponse
 import com.dreampany.tools.api.crypto.remote.response.TradesResponse
 import retrofit2.Call

@@ -16,7 +16,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
@@ -70,6 +69,12 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
     @IdRes
     open fun searchMenuItemId(): Int = 0
 
+    @StringRes
+    open fun titleRes(): Int = 0
+
+    @StringRes
+    open fun subtitleRes(): Int = 0
+
     open fun homeUp(): Boolean = false
 
     open fun onMenuCreated(menu: Menu) {}
@@ -81,9 +86,9 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
-        val layoutId = layoutRes()
-        if (layoutId != 0) {
-            initLayout(layoutId)
+        val layoutRes = layoutRes()
+        if (layoutRes != 0) {
+            initLayout(layoutRes)
             initToolbar()
         }
         if (fireOnStartUi) {

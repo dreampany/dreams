@@ -1,11 +1,17 @@
 package com.dreampany.tools.ui.radio.fragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.view.Menu
 import androidx.lifecycle.Observer
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.common.misc.extension.countryCode
 import com.dreampany.common.misc.extension.task
+import com.dreampany.common.misc.extension.toTint
 import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
@@ -14,6 +20,8 @@ import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.RadioSubtype
 import com.dreampany.tools.data.enums.radio.RadioType
 import com.dreampany.tools.databinding.RecyclerFragmentBinding
+import com.dreampany.tools.manager.RadioPlayerManager
+import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.radio.adapter.FastStationAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.dreampany.tools.ui.radio.vm.StationViewModel
@@ -30,6 +38,9 @@ import javax.inject.Inject
 class StationsFragment
 @Inject constructor() : InjectFragment() {
 
+    @Inject
+    internal lateinit var player: RadioPlayerManager
+
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var vm: StationViewModel
 
@@ -39,13 +50,48 @@ class StationsFragment
 
     override fun layoutRes(): Int = R.layout.recycler_fragment
 
+    override fun menuRes(): Int = R.menu.menu_stations
+
+    override fun searchMenuItemId(): Int = R.id.item_search
+
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
         loadStations()
+        player.bind()
     }
 
     override fun onStopUi() {
+        player.debind()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val filter = IntentFilter(AppConstants.Service.PLAYER_SERVICE_UPDATE)
+        bindLocalCast(serviceUpdateReceiver, filter)
+    }
+
+    override fun onPause() {
+        debindLocalCast(serviceUpdateReceiver)
+        if (!player.isPlaying()) {
+            player.destroy()
+        }
+        super.onPause()
+    }
+
+    override fun onMenuCreated(menu: Menu) {
+        getSearchMenuItem().toTint(context, R.color.material_white)
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        adapter.filter(newText)
+        return false
+    }
+
+    private val serviceUpdateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            updatePlaying()
+        }
     }
 
     private fun loadStations() {
@@ -64,6 +110,18 @@ class StationsFragment
                     vm.loadStations(task.state as RadioState, adapter.itemCount)
                 }
             }
+        }
+    }
+
+    private fun updatePlaying() {
+        if (player.isPlaying()) {
+            player.getStation()?.run {
+                /*mapper.getUiItem(this.id)?.run {
+                    adapter.setSelection(this, true)
+                }*/
+            }
+        } else {
+            //adapter.clearSelection()
         }
     }
 

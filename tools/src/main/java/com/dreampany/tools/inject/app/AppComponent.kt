@@ -6,6 +6,7 @@ import com.dreampany.common.inject.property.PropertyModule
 import com.dreampany.tools.inject.ui.activity.ActivityModule
 import com.dreampany.tools.app.App
 import com.dreampany.tools.inject.data.DataModule
+import com.dreampany.tools.inject.service.ServiceModule
 import com.dreampany.tools.inject.ui.vm.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
@@ -25,6 +26,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         AppModule::class,
         PropertyModule::class,
+        ServiceModule::class,
         ActivityModule::class,
         ViewModelModule::class,
         DataModule::class

@@ -122,8 +122,10 @@ class FastStationAdapter(
         fastAdapter.add(items)
     }
 
-
     val itemCount: Long
         get() = (fastAdapter.itemCount ?: 0).toLong()
+
+    val isEmpty : Boolean
+        get() = itemCount == 0L
 
 }

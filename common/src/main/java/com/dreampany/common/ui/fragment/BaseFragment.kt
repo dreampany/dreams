@@ -1,25 +1,30 @@
 package com.dreampany.common.ui.fragment
 
+import android.app.SearchManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.IntentFilter
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.DrawableRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.StringRes
-import androidx.annotation.XmlRes
+import android.text.InputType
+import android.view.*
+import android.view.inputmethod.EditorInfo
+import androidx.annotation.*
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
+import com.dreampany.common.misc.func.Executors
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.model.UiTask
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
+import javax.inject.Inject
 import kotlin.reflect.KClass
 
 /**
@@ -28,11 +33,17 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseFragment : PreferenceFragmentCompat() {
+abstract class BaseFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener {
+
+    @Inject
+    protected lateinit var ex: Executors
 
     protected var fireOnStartUi: Boolean = true
     private lateinit var binding: ViewDataBinding
+    private lateinit var menu: Menu
+
     protected var currentView: View? = null
+
     //protected var task: UiTask<*, *, *, *, *>? = null
     protected var childTask: UiTask<*, *, *, *, *>? = null
 
@@ -47,13 +58,21 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
     @XmlRes
     open fun prefLayoutRes(): Int = 0
 
+    @MenuRes
+    open fun menuRes(): Int = 0
+
     @StringRes
     open fun titleRes(): Int = 0
+
+    @IdRes
+    open fun searchMenuItemId(): Int = 0
 
     @StringRes
     open fun subtitleRes(): Int = 0
 
     open fun backPressed(): Boolean = false
+
+    open fun onMenuCreated(menu: Menu) {}
 
     protected abstract fun onStartUi(state: Bundle?)
 
@@ -62,6 +81,7 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
+        setHasOptionsMenu(menuRes() != 0)
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -103,6 +123,20 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        this.menu = menu
+        val menuRes = menuRes()
+        if (menuRes != 0) { //this need clear
+            menu.clear()
+            inflater.inflate(menuRes, menu)
+            binding.root.post {
+                onMenuCreated(menu)
+                initSearch()
+            }
+        }
+    }
+
     override fun onDestroyView() {
         hideProgress()
         hideDialog()
@@ -115,6 +149,29 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
             }
         }
         super.onDestroyView()
+    }
+
+    /*override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                has
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }*/
+
+    override fun onQueryTextChange(newText: String?): Boolean = false
+
+    override fun onQueryTextSubmit(query: String?): Boolean = false
+
+    protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
+
+    protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId())
+
+    protected fun getSearchView(): SearchView? {
+        val view = getSearchMenuItem()?.actionView ?: return null
+        return view as SearchView
     }
 
 
@@ -146,18 +203,15 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
         }
     }
 
-    private fun initLayout(
-        @LayoutRes layoutId: Int,
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        if (hasBinding()) {
-            binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-            binding.setLifecycleOwner(this)
-            return binding.root
-        } else {
-            return inflater.inflate(layoutId, container, false)
+    protected fun bindLocalCast(receiver: BroadcastReceiver, filter: IntentFilter) {
+        context?.let {
+            LocalBroadcastManager.getInstance(it).registerReceiver(receiver, filter)
+        }
+    }
+
+    protected fun debindLocalCast(receiver: BroadcastReceiver) {
+        context?.let {
+            LocalBroadcastManager.getInstance(it).unregisterReceiver(receiver)
         }
     }
 
@@ -223,6 +277,35 @@ abstract class BaseFragment : PreferenceFragmentCompat() {
             dismiss()
         }
         sheetDialog = null
+    }
+
+    private fun initLayout(
+        @LayoutRes layoutId: Int,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        if (hasBinding()) {
+            binding = DataBindingUtil.inflate(inflater, layoutId, container, false)
+            binding.setLifecycleOwner(this)
+            return binding.root
+        } else {
+            return inflater.inflate(layoutId, container, false)
+        }
+    }
+
+    private fun initSearch() {
+        val searchView = getSearchView()
+        searchView?.apply {
+            inputType = InputType.TYPE_TEXT_VARIATION_FILTER
+            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+            queryHint = getString(R.string.search)
+            val searchManager =
+                context.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+            setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+            setOnQueryTextListener(this@BaseFragment)
+            isIconified = false
+        }
     }
 
     /*protected fun <F : Fragment, T : Task<*, *, *, *, *>> createFragment(clazz: KClass<F>, task: T): F {

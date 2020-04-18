@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.extension.context
+import com.dreampany.common.misc.extension.gone
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
@@ -53,6 +54,8 @@ class StationItem(
             bind.labelType.primaryText = bind.context.getString(R.string.offline)
             bind.labelType.setTriangleBackgroundColorResource(R.color.material_red500)
         }
+
+        bind.buttonFavorite.gone()
 
         /*if (adapter.isSelected(uiItem)) {
             title.setTextColor(getColor(R.color.material_black))

@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
+import com.dreampany.common.misc.extension.moreApps
+import com.dreampany.common.misc.extension.rateUs
 import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
@@ -59,7 +61,7 @@ class MoreFragment
         if (!::adapter.isInitialized) {
             adapter = FastMoreAdapter(clickListener = { item: MoreItem ->
                 Timber.v("StationItem: %s", item.item.toString())
-                openUi(item.item)
+                onPressed(item.item)
             })
 
             adapter.initRecycler(
@@ -97,7 +99,25 @@ class MoreFragment
         adapter.addItems(result)
     }
 
-    private fun openUi(item: More) {
+    private fun onPressed(item: More) {
+        when (item.subtype) {
+            Subtype.APPS -> {
+                activity.moreApps(getString(R.string.id_google_play))
+            }
+            Subtype.RATE_US -> {
+                activity.rateUs()
+            }
+            Subtype.FEEDBACK -> {
+                activity.rateUs()
+                //activity.moreApps(getString(R.string.id_google_play))
+            }
+            Subtype.LICENSE -> {
+                activity.moreApps(getString(R.string.id_google_play))
+            }
+            Subtype.ABOUT -> {
+                activity.moreApps(getString(R.string.id_google_play))
+            }
+        }
 
     }
 }

@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="company">Dreampany</string>
+
+    <string name="email">dreampanymail@gmail.com</string>
+    <string name="website">http://dreampany.com/</string>
+    <string name="id_google_play">Dreampany</string>
+    <string name="id_github">dreampany</string>
+
+    <string name="title_email">Contact us</string>
+    <string name="title_website">Visit our website</string>
+    <string name="title_github">Fork us on Github</string>
+    <string name="title_play_store">Rate us on the Play Store</string>
+
     <string name="url_privacy">https://docs.google.com/document/d/e/2PACX-1vSfjpI0osWl33BPbL1FUt_5ZrMI8BEZSa3RgnK9EErlmeWm0mz7i4X2l6BF-92-Y0P_NgCaldDVERTK/pub</string>
 </resources>

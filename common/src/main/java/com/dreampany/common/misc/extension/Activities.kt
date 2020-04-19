@@ -1,13 +1,16 @@
 package com.dreampany.common.misc.extension
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dreampany.common.misc.func.Executors
 import kotlinx.coroutines.Runnable
+import timber.log.Timber
 import kotlin.reflect.KClass
 
 /**
@@ -62,4 +65,27 @@ fun <T : Fragment> AppCompatActivity?.open(fragment: T?, @IdRes parent: Int, ex:
         }
     }
     ex.postToUi(runner)
+}
+
+fun Activity?.moreApps(devId : String) {
+    if (this == null) return
+    try {
+        val uri = Uri.parse("market://search?q=pub:$devId")
+        val market = Intent(Intent.ACTION_VIEW, uri)
+        this.startActivity(market)
+    } catch (error: ActivityNotFoundException) {
+        Timber.e(error)
+    }
+}
+
+fun Activity?.rateUs() {
+    if (this == null) return
+    try {
+        val id: String = this.packageName
+        val uri = Uri.parse("market://details?id=$id")
+        val market = Intent(Intent.ACTION_VIEW, uri)
+        this.startActivity(market)
+    } catch (error: ActivityNotFoundException) {
+        Timber.e(error)
+    }
 }

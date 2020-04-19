@@ -12,19 +12,19 @@ import com.google.gson.reflect.TypeToken
  */
 open class Converter {
     protected val gson = Gson()
-    private val type = object : TypeToken<ArrayList<String>>() {}.type
+    private val type = object : TypeToken<List<String>>() {}.type
 
     @Synchronized
     @TypeConverter
-    fun toString(values: ArrayList<String>?): String? {
+    fun toString(values: List<String>?): String? {
         return if (values.isNullOrEmpty()) null
         else gson.toJson(values, type)
     }
 
     @Synchronized
     @TypeConverter
-    fun toList(json: String?): ArrayList<String>? {
+    fun toList(json: String?): List<String>? {
         return if (json.isNullOrEmpty()) null
-        else gson.fromJson<ArrayList<String>>(json, type)
+        else gson.fromJson<List<String>>(json, type)
     }
 }

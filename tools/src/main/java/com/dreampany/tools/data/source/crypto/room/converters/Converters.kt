@@ -23,20 +23,4 @@ class Converters : Converter() {
     fun toCurrency(value: String?): Currency? {
         return if (value.isNullOrEmpty()) null else Currency.valueOf(value)
     }
-
-   /* private val photoType = object : TypeToken<List<Photo>>() {}.type
-
-    @TypeConverter
-    @Synchronized
-    fun toPhotosString(photos: List<Photo>?): String? {
-        return if (photos.isNullOrEmpty()) null
-        else gson.toJson(photos, photoType)
-    }
-
-    @TypeConverter
-    @Synchronized
-    fun toDefList(json: String?): List<Photo>? {
-        return if (json.isNullOrEmpty()) null
-        else gson.fromJson(json, photoType)
-    }*/
 }

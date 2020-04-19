@@ -53,7 +53,7 @@ data class Coin(
     @Ignore
     @Exclude
     var quotes: HashMap<Currency, Quote> = Maps.newHashMap(),
-    var tags: ArrayList<String>? = Constants.Default.NULL,
+    var tags: List<String>? = Constants.Default.NULL,
     @ColumnInfo(name = AppConstants.Keys.Coin.DATE_ADDED)
     private var dateAdded: Long = Constants.Default.LONG,
     @ColumnInfo(name = AppConstants.Keys.Coin.LAST_UPDATED)

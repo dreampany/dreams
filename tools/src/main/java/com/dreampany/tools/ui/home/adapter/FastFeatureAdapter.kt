@@ -131,7 +131,7 @@ class FastFeatureAdapter(
     }
 
     val itemCount: Long
-        get() = (fastAdapter.itemCount ?: 0).toLong()
+        get() = fastAdapter.itemCount.toLong()
 
     val isEmpty : Boolean
         get() = itemCount == 0L

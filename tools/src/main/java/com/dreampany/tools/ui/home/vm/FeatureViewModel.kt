@@ -16,6 +16,7 @@ import com.dreampany.tools.ui.home.model.FeatureItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -35,8 +36,9 @@ class FeatureViewModel
 ) {
 
     fun loadFeatures() {
+        Timber.v("loadFeatures called")
         uiScope.launch {
-            postProgress(true)
+            //postProgress(true)
             val result = getFeatures()
             postResult(result.toItems())
         }
@@ -99,7 +101,7 @@ class FeatureViewModel
             State.DEFAULT,
             Action.DEFAULT,
             error = error,
-            showProgress = true
+            showProgress = false
         )
     }
 
@@ -110,7 +112,7 @@ class FeatureViewModel
             State.DEFAULT,
             Action.DEFAULT,
             result = result,
-            showProgress = true
+            showProgress = false
         )
     }
 

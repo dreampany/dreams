@@ -29,6 +29,7 @@ class FeatureItem(
         FeatureItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: FeatureItemBinding, payloads: List<Any>) {
+        bind.card.setCardBackgroundColor(item.color)
         bind.icon.setImageResource(item.iconRes)
         bind.title.text = bind.context.getText(item.titleRes)
     }

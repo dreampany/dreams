@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.adapter.SpacingItemDecoration
-import com.dreampany.common.misc.extension.dimension
-import com.dreampany.tools.R
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.more.model.MoreItem
 import com.mikepenz.fastadapter.FastAdapter
@@ -54,24 +51,6 @@ class FastMoreAdapter(
         recycler.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
-            addItemDecoration(SpacingItemDecoration(1, context.dimension(R.dimen.recycler_horizontal_spacing).toInt(), true))
-            /*addItemDecoration(
-                ItemSpaceDecoration(
-                    context.dimension(R.dimen.recycler_horizontal_spacing).toInt(),
-                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
-                    3,
-                    true
-                )
-            )*/
-
-            scrollListener?.let {
-                scroller = object : EndlessRecyclerOnScrollListener(footerAdapter) {
-                    override fun onLoadMore(currentPage: Int) {
-                        it(currentPage)
-                    }
-                }
-                addOnScrollListener(scroller)
-            }
         }
         fastAdapter.withSavedInstanceState(state)
 

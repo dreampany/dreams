@@ -36,7 +36,7 @@ class MoreViewModel
 
     fun loadMores() {
         uiScope.launch {
-            postProgress(true)
+            //postProgress(true)
             val result = getMores()
             postResult(result.toItems())
         }
@@ -108,7 +108,7 @@ class MoreViewModel
             State.DEFAULT,
             Action.DEFAULT,
             error = error,
-            showProgress = true
+            showProgress = false
         )
     }
 
@@ -119,7 +119,7 @@ class MoreViewModel
             State.DEFAULT,
             Action.DEFAULT,
             result = result,
-            showProgress = true
+            showProgress = false
         )
     }
 

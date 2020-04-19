@@ -67,7 +67,7 @@ class CoinItem(
         CoinItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: CoinItemBinding, payloads: List<Any>) {
-        bind.layoutSimple.imageIcon.setUrl(
+        bind.layoutSimple.icon.setUrl(
             String.format(
                 Locale.ENGLISH,
                 CryptoConstants.CoinMarketCap.IMAGE_URL,

@@ -45,7 +45,8 @@ class HomeFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-        vm.loadFeatures()
+        if (adapter.isEmpty)
+            vm.loadFeatures()
     }
 
     override fun onStopUi() {
@@ -53,9 +54,10 @@ class HomeFragment
 
     private fun initUi() {
         bind = getBinding()
-        vm = createVm(FeatureViewModel::class)
-
-        vm.subscribes(this, Observer { this.processResponse(it) })
+        if (!::vm.isInitialized) {
+            vm = createVm(FeatureViewModel::class)
+            vm.subscribes(this, Observer { this.processResponse(it) })
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -64,12 +66,12 @@ class HomeFragment
                 Timber.v("StationItem: %s", item.item.toString())
                 openUi(item.item)
             })
-        }
 
-        adapter.initRecycler(
-            state,
-            bind.recycler
-        )
+            adapter.initRecycler(
+                state,
+                bind.recycler
+            )
+        }
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {

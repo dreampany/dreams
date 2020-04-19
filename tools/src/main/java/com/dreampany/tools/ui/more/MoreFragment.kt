@@ -40,7 +40,8 @@ class MoreFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-        vm.loadMores()
+        if (adapter.isEmpty)
+            vm.loadMores()
     }
 
     override fun onStopUi() {
@@ -48,9 +49,10 @@ class MoreFragment
 
     private fun initUi() {
         bind = getBinding()
-        vm = createVm(MoreViewModel::class)
-
-        vm.subscribes(this, Observer { this.processResponse(it) })
+        if (!::vm.isInitialized) {
+            vm = createVm(MoreViewModel::class)
+            vm.subscribes(this, Observer { this.processResponse(it) })
+        }
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -59,12 +61,12 @@ class MoreFragment
                 Timber.v("StationItem: %s", item.item.toString())
                 openUi(item.item)
             })
-        }
 
-        adapter.initRecycler(
-            state,
-            bind.recycler
-        )
+            adapter.initRecycler(
+                state,
+                bind.recycler
+            )
+        }
     }
 
     private fun processResponse(response: Response<Type, Subtype, State, Action, List<MoreItem>>) {

@@ -138,7 +138,6 @@ class FastCoinAdapter(
         fastAdapter.add(items)
     }
 
-
     val itemCount: Long
         get() = (fastAdapter.itemCount ?: 0).toLong()
 

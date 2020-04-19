@@ -81,7 +81,7 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
         }
 
         override fun bindView(item: Coin, position: Int) {
-            bind.layoutSimple.imageIcon.setUrl(
+            bind.layoutSimple.icon.setUrl(
                 String.format(
                     Locale.ENGLISH,
                     CryptoConstants.CoinMarketCap.IMAGE_URL,

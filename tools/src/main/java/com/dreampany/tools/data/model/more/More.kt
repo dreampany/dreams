@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.model.home
+package com.dreampany.tools.data.model.more
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -15,7 +15,7 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-data class Feature(
+data class More(
     val type: Type,
     val subtype: Subtype,
     @DrawableRes
@@ -30,7 +30,7 @@ data class Feature(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Feature
+        val item = other as More
         return Objects.equal(item.type, type) && Objects.equal(item.subtype, subtype)
     }
 }

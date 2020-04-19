@@ -9,7 +9,7 @@
         android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/image_icon"
+            android:id="@+id/icon"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
             android:adjustViewBounds="true"
@@ -33,7 +33,7 @@
             android:textColor="@color/material_grey800"
             android:textSize="@dimen/_14ssp"
             auto:fontFamily="@font/roboto_slab_regular"
-            auto:layout_constraintStart_toEndOf="@id/image_icon"
+            auto:layout_constraintStart_toEndOf="@id/icon"
             auto:layout_constraintTop_toTopOf="parent"
             tools:text="@string/title" />
 
@@ -46,7 +46,7 @@
             android:textColor="@color/material_grey700"
             android:textSize="@dimen/_14ssp"
             auto:fontFamily="@font/roboto_slab_bold"
-            auto:layout_constraintStart_toEndOf="@id/image_icon"
+            auto:layout_constraintStart_toEndOf="@id/icon"
             auto:layout_constraintTop_toBottomOf="@id/text_name"
             tools:text="@string/title" />
 
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:textColor="@color/material_grey800"
             auto:fontFamily="@font/roboto_slab_regular"
-            auto:layout_constraintStart_toEndOf="@id/image_icon"
+            auto:layout_constraintStart_toEndOf="@id/icon"
             auto:layout_constraintTop_toBottomOf="@id/text_price"
             tools:text="@string/title" />
 

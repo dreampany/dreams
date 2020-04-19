@@ -31,7 +31,7 @@ import javax.inject.Inject
  */
 @ActivityScope
 class HomeFragment
-@Inject constructor() : InjectFragment(), BaseAdapter.OnItemClickListener<Feature> {
+@Inject constructor() : InjectFragment() {
 
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var vm: FeatureViewModel
@@ -49,13 +49,6 @@ class HomeFragment
     }
 
     override fun onStopUi() {
-    }
-
-    override fun onItemClick(item: Feature) {
-        openUi(item)
-    }
-
-    override fun onChildItemClick(view: View, item: Feature) {
     }
 
     private fun initUi() {

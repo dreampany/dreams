@@ -11,5 +11,5 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Subtype : BaseSubtype {
-    DEFAULT, CRYPTO, QUESTION, RADIO
+    DEFAULT, CRYPTO, QUESTION, RADIO, SETTINGS, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT
 }

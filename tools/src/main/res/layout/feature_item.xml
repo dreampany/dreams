@@ -19,7 +19,7 @@
             android:padding="@dimen/_4sdp">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/image_icon"
+                android:id="@+id/icon"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -28,7 +28,7 @@
                 auto:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_title"
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_4sdp"
@@ -38,7 +38,7 @@
                 auto:fontFamily="@font/roboto_slab_bold"
                 auto:layout_constraintEnd_toEndOf="parent"
                 auto:layout_constraintStart_toStartOf="parent"
-                auto:layout_constraintTop_toBottomOf="@id/image_icon"
+                auto:layout_constraintTop_toBottomOf="@id/icon"
                 tools:text="@string/title" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

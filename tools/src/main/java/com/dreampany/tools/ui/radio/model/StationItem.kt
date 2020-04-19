@@ -24,18 +24,9 @@ class StationItem(
     val order: StationOrder
     ) : ModelAbstractBindingItem<Station, StationItemBinding>(item) {
 
-    init {
+    override fun hashCode(): Int = item.hashCode()
 
-    }
-
-    override fun hashCode(): Int = Objects.hashCode(item.id)
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || javaClass != other.javaClass) return false
-        val item = other as StationItem
-        return Objects.equal(this.item.id, item.item.id)
-    }
+    override fun equals(other: Any?): Boolean = item.equals(other)
 
     override val type: Int
         get() = R.id.adapter_station_item_id

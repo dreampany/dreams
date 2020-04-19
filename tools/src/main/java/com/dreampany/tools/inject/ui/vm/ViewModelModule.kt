@@ -7,6 +7,7 @@ import com.dreampany.common.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.inject.ui.vm.crypto.CryptoViewModelModule
 import com.dreampany.tools.inject.ui.vm.radio.RadioViewModelModule
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
+import com.dreampany.tools.ui.more.vm.MoreViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -25,6 +26,7 @@ import javax.inject.Singleton
     ]
 )
 abstract class ViewModelModule {
+
     @Singleton
     @Binds
     abstract fun bindFactory(factory: ViewModelFactory): ViewModelProvider.Factory
@@ -33,4 +35,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FeatureViewModel::class)
     abstract fun bindFeature(vm: FeatureViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MoreViewModel::class)
+    abstract fun bindMore(vm: MoreViewModel): ViewModel
 }

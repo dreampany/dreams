@@ -3,13 +3,9 @@ package com.dreampany.tools.ui.home.fragment
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.common.misc.extension.open
-import com.dreampany.common.misc.func.OnVerticalScrollListener
 import com.dreampany.common.ui.adapter.BaseAdapter
 import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
@@ -20,7 +16,8 @@ import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.home.Feature
 import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
-import com.dreampany.tools.ui.home.adapter.FeatureAdapter
+import com.dreampany.tools.ui.home.adapter.FastFeatureAdapter
+import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.ui.radio.activity.StationsActivity
 import timber.log.Timber
@@ -39,8 +36,7 @@ class HomeFragment
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var vm: FeatureViewModel
 
-    private lateinit var scroller: OnVerticalScrollListener
-    private lateinit var featureAdapter: FeatureAdapter
+    private lateinit var adapter: FastFeatureAdapter
 
     override fun hasBinding(): Boolean = true
 
@@ -48,7 +44,7 @@ class HomeFragment
 
     override fun onStartUi(state: Bundle?) {
         initUi()
-        initRecycler()
+        initRecycler(state)
         vm.loadFeatures()
     }
 
@@ -69,34 +65,26 @@ class HomeFragment
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
-    private fun initRecycler() {
-        scroller = object : OnVerticalScrollListener() {
-            override fun onScrolledToBottom() {
-
-            }
+    private fun initRecycler(state: Bundle?) {
+        if (!::adapter.isInitialized) {
+            adapter = FastFeatureAdapter(clickListener = { item: FeatureItem ->
+                Timber.v("StationItem: %s", item.item.toString())
+                openUi(item.item)
+            })
         }
 
-        featureAdapter = FeatureAdapter(this)
-
-        val recyclerLayout = GridLayoutManager(context, 3)
-        recyclerLayout.orientation = RecyclerView.VERTICAL
-        recyclerLayout.isSmoothScrollbarEnabled = true
-
-        bind.recycler.apply {
-            setHasFixedSize(true)
-            layoutManager = recyclerLayout
-            itemAnimator = DefaultItemAnimator()
-            addOnScrollListener(scroller)
-            adapter = featureAdapter
-        }
+        adapter.initRecycler(
+            state,
+            bind.recycler
+        )
     }
 
-    private fun processResponse(response: Response<Type, Subtype, State, Action, List<Feature>>) {
+    private fun processResponse(response: Response<Type, Subtype, State, Action, List<FeatureItem>>) {
         if (response is Response.Progress) {
             if (response.progress) showProgress() else hideProgress()
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<Type, Subtype, State, Action, List<Feature>>) {
+        } else if (response is Response.Result<Type, Subtype, State, Action, List<FeatureItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -115,8 +103,8 @@ class HomeFragment
         )
     }
 
-    private fun processResults(features: List<Feature>) {
-        featureAdapter.addAll(features, true)
+    private fun processResults(result: List<FeatureItem>) {
+        adapter.addItems(result)
     }
 
     private fun openUi(item: Feature) {

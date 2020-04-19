@@ -1,16 +1,18 @@
 package com.dreampany.tools.ui.home.vm
 
 import android.app.Application
-import com.dreampany.theme.Colors
 import com.dreampany.common.misc.func.ResponseMapper
+import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.model.UiTask
 import com.dreampany.common.ui.vm.BaseViewModel
+import com.dreampany.theme.Colors
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
 import com.dreampany.tools.data.enums.home.Subtype
 import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.home.Feature
+import com.dreampany.tools.ui.home.model.FeatureItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -27,16 +29,16 @@ class FeatureViewModel
     application: Application,
     rm: ResponseMapper,
     private val colors: Colors
-) : BaseViewModel<Type, Subtype, State, Action, Feature, Feature, UiTask<Type, Subtype, State, Action, Feature>>(
+) : BaseViewModel<Type, Subtype, State, Action, Feature, FeatureItem, UiTask<Type, Subtype, State, Action, Feature>>(
     application,
     rm
 ) {
 
     fun loadFeatures() {
         uiScope.launch {
-            postProgressMultiple(Type.FEATURE, Subtype.DEFAULT, State.DEFAULT, Action.DEFAULT, progress = true)
+            postProgress(true)
             val result = getFeatures()
-            postMultiple(Type.FEATURE, Subtype.DEFAULT, State.DEFAULT, Action.DEFAULT, result = result, showProgress = true)
+            postResult(result.toItems())
         }
     }
 
@@ -70,6 +72,46 @@ class FeatureViewModel
             )
         )
         features
+    }
+
+    private suspend fun List<Feature>.toItems(): List<FeatureItem> {
+        val list = this
+        return withContext(Dispatchers.IO) {
+            list.map { FeatureItem(it) }
+        }
+    }
+
+    private fun postProgress(progress: Boolean) {
+        postProgressMultiple(
+            Type.FEATURE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            progress = progress
+        )
+    }
+
+
+    private fun postError(error: SmartError) {
+        postMultiple(
+            Type.FEATURE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            error = error,
+            showProgress = true
+        )
+    }
+
+    private fun postResult(result: List<FeatureItem>) {
+        postMultiple(
+            Type.FEATURE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            result = result,
+            showProgress = true
+        )
     }
 
 }

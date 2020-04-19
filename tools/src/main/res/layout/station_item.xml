@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         auto:cardCornerRadius="@dimen/_4sdp"
         auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/_4sdp">
+        auto:cardElevation="@dimen/_4sdp"
+        auto:cardMaxElevation="@dimen/_4sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

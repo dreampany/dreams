@@ -18,12 +18,12 @@ interface StationDataSource {
         reverse: Boolean,
         offset: Long,
         limit: Long
-    ): List<Station>
+    ): List<Station>?
 
     @Throws
-    suspend fun getItemsOfTrends(limit: Long): List<Station>
+    suspend fun getItemsOfTrends(limit: Long): List<Station>?
 
     @Throws
-    suspend fun getItemsOfPopular(limit: Long): List<Station>
+    suspend fun getItemsOfPopular(limit: Long): List<Station>?
 
 }

@@ -95,8 +95,12 @@ class MoreFragment
         )
     }
 
-    private fun processResults(result: List<MoreItem>) {
-        adapter.addItems(result)
+    private fun processResults(result: List<MoreItem>?) {
+        if (result == null) {
+
+        } else {
+            adapter.addItems(result)
+        }
     }
 
     private fun onPressed(item: More) {

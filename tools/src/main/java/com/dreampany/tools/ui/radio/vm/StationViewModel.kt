@@ -59,8 +59,8 @@ class StationViewModel
             }
             if (errors != null) {
                 postError(errors)
-            } else if (result != null) {
-                postResult(result.toItems())
+            } else {
+                postResult(result?.toItems())
             }
         }
     }
@@ -119,7 +119,7 @@ class StationViewModel
         )
     }
 
-    private fun postResult(result: List<StationItem>) {
+    private fun postResult(result: List<StationItem>?) {
         postMultiple(
             RadioType.STATION,
             RadioSubtype.DEFAULT,

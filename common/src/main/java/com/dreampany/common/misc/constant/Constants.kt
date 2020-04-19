@@ -137,6 +137,9 @@ class Constants {
     object Keys {
         const val TASK = "task"
         const val ID = "id"
+        const val TYPE = "type"
+        const val SUBTYPE = "subtype"
+        const val STATE = "state"
 
         object PrefKeys {
             const val DEFAULT = "default"

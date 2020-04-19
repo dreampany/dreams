@@ -49,14 +49,15 @@ class CoinViewModel
                 val sort = pref.getSort()
                 val order = pref.getOrder()
                 result = repo.getItems(currency, sort, order, offset, CryptoConstants.Limits.COINS)
+
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
             }
             if (errors != null) {
                 postError(errors)
-            } else if (result != null) {
-                postResult(result.toItems())
+            } else {
+                postResult(result?.toItems())
             }
         }
     }
@@ -97,7 +98,7 @@ class CoinViewModel
         )
     }
 
-    private fun postResult(result: List<CoinItem>) {
+    private fun postResult(result: List<CoinItem>?) {
         postMultiple(
             CryptoType.COIN,
             CryptoSubtype.DEFAULT,

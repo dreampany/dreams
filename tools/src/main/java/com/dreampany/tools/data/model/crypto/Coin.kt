@@ -17,8 +17,6 @@ import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.PropertyName
 import kotlinx.android.parcel.Parcelize
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 /**
  * Created by roman on 2019-10-01

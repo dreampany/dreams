@@ -67,14 +67,13 @@ class CoinMapper
         limit: Long,
         quoteDao: QuoteDao,
         source: CoinDataSource
-    ): List<Coin> {
+    ): List<Coin>? {
         updateCache(source)
         val cache = sortedCoins(currency, sort, sortDirection)
         val result = sub(cache, offset, limit)
         result?.forEach {
             bindQuote(currency, it, quoteDao)
         }
-        if (result.isNullOrEmpty()) throw SmartError()
         return result
     }
 
@@ -177,7 +176,11 @@ class CoinMapper
         return temp
     }
 
-    class CryptoComparator(private val currency: Currency, private val sort: CoinSort, private val order: Order) : Comparator<Coin> {
+    class CryptoComparator(
+        private val currency: Currency,
+        private val sort: CoinSort,
+        private val order: Order
+    ) : Comparator<Coin> {
         override fun compare(left: Coin, right: Coin): Int {
             if (sort == CoinSort.MARKET_CAP) {
                 val leftCap = left.getQuote(currency)

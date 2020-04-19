@@ -74,7 +74,7 @@ constructor(
         @IntRange(from = 0, to = Long.MAX_VALUE)
         offset: Long,
         limit: Long
-    ): List<Coin> {
+    ): List<Coin>? {
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
@@ -87,7 +87,7 @@ constructor(
                     limit
                 ).execute()
                 if (response.isSuccessful) {
-                    val data = response.body()?.data ?: throw SmartError(code = response.code())
+                    val data = response.body()?.data ?: return null
                     return mapper.getItems(data)
                 } else {
                     val error = parser.parseError(response, CoinsResponse::class)

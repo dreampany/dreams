@@ -18,8 +18,8 @@ class ResponseMapper
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            I> response(
-        live: MutableLiveData<Response<T, S, ST, A, I>>,
+            R> response(
+        live: MutableLiveData<Response<T, S, ST, A, R>>,
         type: T,
         subtype: S,
         state: ST,
@@ -39,8 +39,8 @@ class ResponseMapper
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            I> response(
-        live: MutableLiveData<Response<T, S, ST, A, I>>,
+            R> response(
+        live: MutableLiveData<Response<T, S, ST, A, R>>,
         type: T,
         subtype: S,
         state: ST,
@@ -60,13 +60,13 @@ class ResponseMapper
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            I> response(
-        live: MutableLiveData<Response<T, S, ST, A, I>>,
+            R> response(
+        live: MutableLiveData<Response<T, S, ST, A, R>>,
         type: T,
         subtype: S,
         state: ST,
         action: A,
-        result: I
+        result: R?
     ) {
         live.value = Response.Result(
             type = type,
@@ -81,8 +81,8 @@ class ResponseMapper
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            I> responseWithProgress(
-        live: MutableLiveData<Response<T, S, ST, A, I>>,
+            R> responseWithProgress(
+        live: MutableLiveData<Response<T, S, ST, A, R>>,
         type: T,
         subtype: S,
         state: ST,
@@ -97,13 +97,13 @@ class ResponseMapper
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            I> responseWithProgress(
-        live: MutableLiveData<Response<T, S, ST, A, I>>,
+            R> responseWithProgress(
+        live: MutableLiveData<Response<T, S, ST, A, R>>,
         type: T,
         subtype: S,
         state: ST,
         action: A,
-        result: I
+        result: R?
     ) {
         response(live, type, subtype, state, action, false)
         live.value = Response.Result(
@@ -115,7 +115,7 @@ class ResponseMapper
         )
     }
 
-    fun <T : BaseType,
+    /*fun <T : BaseType,
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
@@ -128,9 +128,9 @@ class ResponseMapper
         result: I?
     ) {
         live.value = Response.Empty(type, subtype, state, action, result)
-    }
+    }*/
 
-    fun <T : BaseType,
+    /*fun <T : BaseType,
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
@@ -144,5 +144,5 @@ class ResponseMapper
     ) {
         response(live, type, subtype, state, action, progress = false)
         live.value = Response.Empty(type, subtype, state, action, result)
-    }
+    }*/
 }

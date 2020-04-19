@@ -31,7 +31,7 @@ class StationRemoteDataSource(
         reverse: Boolean,
         offset: Long,
         limit: Long
-    ): List<Station> {
+    ): List<Station>? {
         try {
             val response = service.getItemsOfCountry(
                 countryCode,
@@ -42,7 +42,7 @@ class StationRemoteDataSource(
                 limit
             ).execute()
             if (response.isSuccessful) {
-                val data = response.body() ?: throw SmartError(code = response.code())
+                val data = response.body() ?: return null
                 return mapper.getItems(data)
             } else {
                 throw SmartError()
@@ -58,13 +58,11 @@ class StationRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getItemsOfTrends(limit: Long): List<Station> {
+    override suspend fun getItemsOfTrends(limit: Long): List<Station>? {
         try {
-            val response = service.getItemsOfTrends(
-                limit
-            ).execute()
+            val response = service.getItemsOfTrends(limit).execute()
             if (response.isSuccessful) {
-                val data = response.body() ?: throw SmartError(code = response.code())
+                val data = response.body() ?: return null
                 return mapper.getItems(data)
             } else {
                 throw SmartError()
@@ -80,13 +78,11 @@ class StationRemoteDataSource(
     }
 
     @Throws
-    override suspend fun getItemsOfPopular(limit: Long): List<Station> {
+    override suspend fun getItemsOfPopular(limit: Long): List<Station>? {
         try {
-            val response = service.getItemsOfPopular(
-                limit
-            ).execute()
+            val response = service.getItemsOfPopular(limit).execute()
             if (response.isSuccessful) {
-                val data = response.body() ?: throw SmartError(code = response.code())
+                val data = response.body() ?: return null
                 return mapper.getItems(data)
             } else {
                 throw SmartError()

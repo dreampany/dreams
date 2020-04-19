@@ -52,9 +52,7 @@ constructor(
         order: Order,
         offset: Long,
         limit: Long
-    ): List<Coin> {
-        return mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
-    }
+    ): List<Coin>? = mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
 
     @Throws
     override suspend fun getItem(id: String, currency: Currency): Coin? {

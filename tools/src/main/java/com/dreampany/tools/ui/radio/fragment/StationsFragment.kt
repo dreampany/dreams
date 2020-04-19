@@ -172,7 +172,11 @@ class StationsFragment
         )
     }
 
-    private fun processResults(coins: List<StationItem>) {
-        adapter.addItems(coins)
+    private fun processResults(result: List<StationItem>?) {
+        if (result == null) {
+
+        } else {
+            adapter.addItems(result)
+        }
     }
 }

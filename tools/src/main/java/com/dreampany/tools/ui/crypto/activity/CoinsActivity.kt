@@ -127,8 +127,12 @@ class CoinsActivity : InjectActivity() {
         )
     }
 
-    private fun processResults(coins: List<CoinItem>) {
-        adapter.addItems(coins)
+    private fun processResults(result: List<CoinItem>?) {
+        if (result == null) {
+
+        } else {
+            adapter.addItems(result)
+        }
     }
 
     private fun onItemPressed(view: View, item: CoinItem) {

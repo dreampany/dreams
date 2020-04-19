@@ -15,7 +15,7 @@ sealed class Response<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        OUT> {
+        R> {
 
     data class UiResponse<
             T : BaseType,
@@ -33,49 +33,49 @@ sealed class Response<
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            OUT>(
+            R>(
         val type: T,
         val subtype: S,
         val state: ST,
         val action: A,
         val progress: Boolean
-    ) : Response<T, S, ST, A, OUT>()
+    ) : Response<T, S, ST, A, R>()
 
     data class Error<T : BaseType,
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            OUT>(
+            R>(
         val type: T,
         val subtype: S,
         val state: ST,
         val action: A,
         val error: SmartError
-    ) : Response<T, S, ST, A, OUT>()
+    ) : Response<T, S, ST, A, R>()
 
     data class Result<T : BaseType,
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            OUT>(
+            R>(
         val type: T,
         val subtype: S,
         val state: ST,
         val action: A,
-        val result: OUT
-    ) : Response<T, S, ST, A, OUT>()
+        val result: R?
+    ) : Response<T, S, ST, A, R>()
 
-    data class Empty<T : BaseType,
+    /*data class Empty<T : BaseType,
             S : BaseSubtype,
             ST : BaseState,
             A : BaseAction,
-            OUT>(
+            I>(
         val type: T,
         val subtype: S,
         val state: ST,
         val action: A,
-        val result: OUT?
-    ) : Response<T, S, ST, A, OUT>()
+        val result: I?
+    ) : Response<T, S, ST, A, I>()*/
 
     companion object {
         fun <T : BaseType,
@@ -93,51 +93,51 @@ sealed class Response<
                 S : BaseSubtype,
                 ST : BaseState,
                 A : BaseAction,
-                OUT> response(
+                R> response(
             type: T,
             subtype: S,
             state: ST,
             action: A,
             progress: Boolean
-        ): Response<T, S, ST, A, OUT> = Progress(type, subtype, state, action, progress)
+        ): Response<T, S, ST, A, R> = Progress(type, subtype, state, action, progress)
 
         fun <T : BaseType,
                 S : BaseSubtype,
                 ST : BaseState,
                 A : BaseAction,
-                OUT> response(
+                R> response(
             type: T,
             subtype: S,
             state: ST,
             action: A,
             error: SmartError
-        ): Response<T, S, ST, A, OUT> =
+        ): Response<T, S, ST, A, R> =
             Error(type, subtype, state, action, error)
 
         fun <T : BaseType,
                 S : BaseSubtype,
                 ST : BaseState,
                 A : BaseAction,
-                OUT> response(
+                R> response(
             type: T,
             subtype: S,
             state: ST,
             action: A,
-            result: OUT
-        ): Response<T, S, ST, A, OUT> =
+            result: R
+        ): Response<T, S, ST, A, R> =
             Result(type, subtype, state, action, result)
 
-        fun <T : BaseType,
+        /*fun <T : BaseType,
                 S : BaseSubtype,
                 ST : BaseState,
                 A : BaseAction,
-                OUT> responseEmpty(
+                I> responseEmpty(
             type: T,
             subtype: S,
             state: ST,
             action: A,
-            result: OUT?
-        ): Response<T, S, ST, A, OUT> =
-            Empty(type, subtype, state, action, result)
+            result: I?
+        ): Response<T, S, ST, A, I> =
+            Empty(type, subtype, state, action, result)*/
     }
 }

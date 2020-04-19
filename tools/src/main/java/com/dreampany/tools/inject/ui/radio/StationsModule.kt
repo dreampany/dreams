@@ -1,4 +1,4 @@
-package com.dreampany.tools.inject.ui.fragment.radio
+package com.dreampany.tools.inject.ui.radio
 
 import com.dreampany.tools.ui.radio.fragment.StationsFragment
 import dagger.Module

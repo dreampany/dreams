@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.dreampany.common.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HomeActivityBinding
+import com.dreampany.tools.ui.more.MoreFragment
 import com.dreampany.tools.ui.home.fragment.HomeFragment
 import dagger.Lazy
 import javax.inject.Inject
@@ -18,6 +19,8 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     @Inject
     internal lateinit var home: Lazy<HomeFragment>
+    @Inject
+    internal lateinit var more: Lazy<MoreFragment>
 
     private lateinit var bind: HomeActivityBinding
 
@@ -36,11 +39,8 @@ class HomeActivity : InjectBottomNavigationActivity() {
             R.id.navigation_home -> {
                 commitFragment(HomeFragment::class, home, R.id.layout)
             }
-            R.id.navigation_dashboard -> {
-
-            }
-            R.id.navigation_notifications -> {
-
+            R.id.navigation_more -> {
+                commitFragment(MoreFragment::class, more, R.id.layout)
             }
         }
     }
@@ -54,6 +54,5 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     private fun initUi() {
         bind = getBinding()
-
     }
 }

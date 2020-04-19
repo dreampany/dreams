@@ -64,7 +64,7 @@ class FeatureViewModel
             Feature(
                 Type.FEATURE,
                 Subtype.RADIO,
-                R.drawable.ic_crypto,
+                R.drawable.ic_radio_black_24dp,
                 R.string.title_feature_radio,
                 colors.nextColor(Type.FEATURE.name)
             )

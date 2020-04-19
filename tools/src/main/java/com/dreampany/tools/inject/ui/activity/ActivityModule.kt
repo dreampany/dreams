@@ -1,8 +1,10 @@
 package com.dreampany.tools.inject.ui.activity
 
 import com.dreampany.common.inject.annote.ActivityScope
-import com.dreampany.tools.inject.ui.fragment.HomeModule
-import com.dreampany.tools.ui.crypto.activity.CoinsActivity
+import com.dreampany.tools.inject.ui.crypto.CryptoModule
+import com.dreampany.tools.inject.ui.home.HomeModule
+import com.dreampany.tools.inject.ui.more.MoreModule
+import com.dreampany.tools.inject.ui.radio.RadioModule
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import com.dreampany.tools.ui.splash.SplashActivity
 import dagger.Module
@@ -25,6 +27,6 @@ abstract class ActivityModule {
     abstract fun splash(): SplashActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [HomeModule::class])
+    @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
     abstract fun home(): HomeActivity
 }

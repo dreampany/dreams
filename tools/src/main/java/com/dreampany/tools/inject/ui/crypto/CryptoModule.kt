@@ -1,4 +1,4 @@
-package com.dreampany.tools.inject.ui.activity
+package com.dreampany.tools.inject.ui.crypto
 
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import dagger.Module

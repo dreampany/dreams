@@ -1,4 +1,4 @@
-package com.dreampany.tools.inject.ui.fragment
+package com.dreampany.tools.inject.ui.home
 
 import com.dreampany.tools.ui.home.fragment.HomeFragment
 import dagger.Module

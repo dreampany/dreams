@@ -1,6 +1,5 @@
 package com.dreampany.common.ui.fragment.factory
 
-import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import javax.inject.Inject

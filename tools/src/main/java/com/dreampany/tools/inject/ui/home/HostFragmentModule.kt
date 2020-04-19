@@ -1,12 +1,11 @@
-package com.dreampany.tools.inject.ui.fragment
+package com.dreampany.tools.inject.ui.home
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
 import com.dreampany.common.inject.annote.FragmentKey
 import com.dreampany.common.ui.fragment.factory.InjectFragmentFactory
-import com.dreampany.tools.ui.dashboard.DashboardFragment
-import com.dreampany.tools.ui.dashboard.MoreFragment
 import com.dreampany.tools.ui.home.fragment.HomeFragment
+import com.dreampany.tools.ui.more.MoreFragment
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -27,11 +26,6 @@ abstract class HostFragmentModule {
     @IntoMap
     @FragmentKey(HomeFragment::class)
     abstract fun home(fragment: HomeFragment): Fragment
-
-    @Binds
-    @IntoMap
-    @FragmentKey(DashboardFragment::class)
-    abstract fun dashboard(fragment: DashboardFragment): Fragment
 
     @Binds
     @IntoMap

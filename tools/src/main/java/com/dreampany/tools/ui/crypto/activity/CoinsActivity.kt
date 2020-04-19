@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.toTint
@@ -15,8 +16,6 @@ import com.dreampany.tools.data.enums.home.State
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
-import com.dreampany.tools.misc.constant.AppConstants
-import com.dreampany.tools.misc.constant.RadioConstants
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
@@ -88,10 +87,13 @@ class CoinsActivity : InjectActivity() {
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter(scrollListener = { currentPage: Int ->
+            adapter = FastCoinAdapter({ currentPage: Int ->
                 Timber.v("CurrentPage: %d", currentPage)
                 loadCoins()
             })
+            { view: View, item: CoinItem ->
+                Timber.v("View Clicked : $view")
+            }
         }
 
         adapter.initRecycler(

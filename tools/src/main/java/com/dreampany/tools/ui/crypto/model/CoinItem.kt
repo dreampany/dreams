@@ -75,7 +75,7 @@ class CoinItem(
             )
         )
 
-        bind.layoutOptions.buttonFavorite.gone()
+        //bind.layoutOptions.buttonFavorite.gone()
 
         val nameText =
             String.format(

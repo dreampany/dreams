@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dreampany.adapter.SpacingItemDecoration
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.dimension
-import com.dreampany.common.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.ui.crypto.model.CoinItem
-import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
@@ -70,10 +69,9 @@ class FastCoinAdapter(
             layoutManager = LinearLayoutManager(context)
             adapter = fastAdapter
             addItemDecoration(
-                ItemSpaceDecoration(
-                    context.dimension(R.dimen.recycler_horizontal_spacing).toInt(),
-                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
+                SpacingItemDecoration(
                     1,
+                    context.dimension(R.dimen.recycler_vertical_spacing).toInt(),
                     true
                 )
             )
@@ -90,22 +88,21 @@ class FastCoinAdapter(
         fastAdapter.withSavedInstanceState(state)
 
         clickListener?.let { listener ->
-            fastAdapter.onClickListener = { view, adapter, item, position ->
+            /*fastAdapter.onClickListener = { view, adapter, item, position ->
                 if (item is CoinItem)
                     view?.let {
                         listener(it, item)
                     }
                 false
-            }
-            /*fastAdapter.addClickListener<CoinItemBinding, GenericItem>(
-                { bind -> bind.layout }, { bind -> arrayListOf(bind.layoutOptions.buttonFavorite) }
+            }*/
+            fastAdapter.addClickListener<CoinItemBinding, GenericItem>(
+                { bind -> bind.root }, { bind -> arrayListOf(bind.layoutOptions.buttonFavorite) }
             )
-            { view: View, position: Int, fastAdapter: FastAdapter<GenericItem>, item: GenericItem ->
-
+            { view, position, adapter, item ->
                 if (item is CoinItem) {
                     listener(view, item)
                 }
-            }*/
+            }
         }
     }
 

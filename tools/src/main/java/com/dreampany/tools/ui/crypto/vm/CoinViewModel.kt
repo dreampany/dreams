@@ -61,6 +61,10 @@ class CoinViewModel
         }
     }
 
+    fun toggleFavorite(item: CoinItem) {
+
+    }
+
    private suspend fun List<Coin>.toItems(): List<CoinItem> {
         val list = this
         return withContext(Dispatchers.IO) {

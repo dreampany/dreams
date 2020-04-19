@@ -13,7 +13,6 @@ import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
@@ -87,13 +86,12 @@ class CoinsActivity : InjectActivity() {
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter({ currentPage: Int ->
-                Timber.v("CurrentPage: %d", currentPage)
-                loadCoins()
-            })
-            { view: View, item: CoinItem ->
-                Timber.v("View Clicked : $view")
-            }
+            adapter = FastCoinAdapter(
+                { currentPage ->
+                    Timber.v("CurrentPage: %d", currentPage)
+                    loadCoins()
+                }, this::onItemPressed
+            )
         }
 
         adapter.initRecycler(
@@ -133,7 +131,15 @@ class CoinsActivity : InjectActivity() {
         adapter.addItems(coins)
     }
 
-    private fun openUi(item: Coin) {
+    private fun onItemPressed(view: View, item: CoinItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.button_favorite -> {
 
+            }
+            else -> {
+
+            }
+        }
     }
 }

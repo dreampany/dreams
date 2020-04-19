@@ -19,7 +19,9 @@ import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.misc.CurrencyFormatter
 import com.dreampany.tools.misc.extension.setUrl
 import com.google.common.base.Objects
+import com.like.OnLikeListener
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
+import com.mikepenz.fastadapter.dsl.genericFastAdapter
 import java.util.*
 
 /**
@@ -34,7 +36,7 @@ class CoinItem(
     val currency: Currency,
     val sort: CoinSort,
     val order: Order
-    ) : ModelAbstractBindingItem<Coin, CoinItemBinding>(item) {
+) : ModelAbstractBindingItem<Coin, CoinItemBinding>(item) {
 
     @StringRes
     private val btcFormat: Int
@@ -63,8 +65,7 @@ class CoinItem(
     override val type: Int
         get() = R.id.adapter_coin_item_id
 
-    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): CoinItemBinding =
-        CoinItemBinding.inflate(inflater, parent, false)
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): CoinItemBinding = CoinItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: CoinItemBinding, payloads: List<Any>) {
         bind.layoutSimple.icon.setUrl(
@@ -74,8 +75,6 @@ class CoinItem(
                 item.id
             )
         )
-
-        //bind.layoutOptions.buttonFavorite.gone()
 
         val nameText =
             String.format(
@@ -111,9 +110,12 @@ class CoinItem(
         val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
         val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
-        bind.layoutPrice.textChange1h.text = bind.root.context.formatString(change1hFormat, change1h)
-        bind.layoutPrice.textChange24h.text = bind.root.context.formatString(change24hFormat, change24h)
-        bind.layoutPrice.textChange7d.text = bind.root.context.formatString(change7dFormat, change7d)
+        bind.layoutPrice.textChange1h.text =
+            bind.root.context.formatString(change1hFormat, change1h)
+        bind.layoutPrice.textChange24h.text =
+            bind.root.context.formatString(change24hFormat, change24h)
+        bind.layoutPrice.textChange7d.text =
+            bind.root.context.formatString(change7dFormat, change7d)
 
         val startColor = R.color.material_grey400
         val endColor =

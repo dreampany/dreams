@@ -23,6 +23,7 @@ import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.extension.fragment
 import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.func.Executors
+import com.dreampany.common.misc.util.NotifyUtil
 import com.dreampany.common.ui.fragment.BaseFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
@@ -45,6 +46,8 @@ abstract class BaseActivity : AppCompatActivity(),
     protected lateinit var ex: Executors
 
     protected var fireOnStartUi: Boolean = true
+    private var doubleBackPressedOnce: Boolean = false
+
     private lateinit var binding: ViewDataBinding
     private lateinit var toolbar: Toolbar
     private lateinit var menu: Menu
@@ -57,6 +60,12 @@ abstract class BaseActivity : AppCompatActivity(),
     private var sheetDialog: BottomSheetMaterialDialog? = null
 
     open fun fullScreen(): Boolean = false
+
+    open fun homeUp(): Boolean = false
+
+    open fun backPressed(): Boolean = false
+
+    open fun doubleBackPressed(): Boolean = false
 
     open fun hasBinding(): Boolean = false
 
@@ -77,8 +86,6 @@ abstract class BaseActivity : AppCompatActivity(),
 
     @StringRes
     open fun subtitleRes(): Int = 0
-
-    open fun homeUp(): Boolean = false
 
     open fun onMenuCreated(menu: Menu) {}
 
@@ -145,7 +152,21 @@ abstract class BaseActivity : AppCompatActivity(),
             getSearchView()?.isIconified = false
             return
         }
-        super.onBackPressed()
+
+        if (backPressed()) return
+        if (fragment?.backPressed() ?: false) return
+
+        if (doubleBackPressed()) {
+            if (doubleBackPressedOnce) {
+                finish()
+                return
+            }
+            doubleBackPressedOnce = true
+            NotifyUtil.shortToast(this, R.string.back_pressed)
+            ex.postToUi(Runnable{ doubleBackPressedOnce = false }, 2000)
+            return
+        }
+        finish()
     }
 
     override fun onRefresh() {

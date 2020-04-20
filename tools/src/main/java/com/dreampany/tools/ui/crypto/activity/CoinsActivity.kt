@@ -39,9 +39,9 @@ class CoinsActivity : InjectActivity() {
 
     private lateinit var adapter: FastCoinAdapter
 
-    override fun hasBinding(): Boolean = true
-
     override fun homeUp(): Boolean = true
+
+    override fun hasBinding(): Boolean = true
 
     override fun layoutRes(): Int = R.layout.coins_activity
 

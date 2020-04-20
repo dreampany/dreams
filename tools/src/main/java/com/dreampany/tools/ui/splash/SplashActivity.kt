@@ -15,10 +15,6 @@ import kotlinx.coroutines.Runnable
  */
 class SplashActivity : InjectActivity() {
 
-    //@Inject
-    //internal lateinit var factory: ViewModelFactory
-    //private lateinit var vm: AuthViewModel
-
     override fun layoutRes(): Int = R.layout.splash_activity
 
     override fun onStartUi(state: Bundle?) {

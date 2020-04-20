@@ -24,6 +24,8 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     private lateinit var bind: HomeActivityBinding
 
+    override fun doubleBackPressed(): Boolean = true
+
     override fun hasBinding(): Boolean = true
 
     override fun layoutRes(): Int = R.layout.home_activity

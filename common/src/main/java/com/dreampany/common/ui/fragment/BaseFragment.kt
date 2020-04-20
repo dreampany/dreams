@@ -49,6 +49,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null
 
+    open fun backPressed(): Boolean = false
+
     open fun hasBinding(): Boolean = false
 
     @LayoutRes
@@ -68,8 +70,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     @StringRes
     open fun subtitleRes(): Int = 0
-
-    open fun backPressed(): Boolean = false
 
     open fun onMenuCreated(menu: Menu) {}
 

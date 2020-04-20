@@ -1,7 +1,7 @@
 <resources>
 
     <!-- application -->
-    <style name="AppTheme" parent="DarkActionBar">
+    <style name="Theme.App" parent="DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -9,10 +9,8 @@
     </style>
 
     <!-- activity -->
-    <style name="FullScreenTheme" parent="NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Theme.Fullscreen" parent="NoActionBar">
+        <item name="android:windowFullscreen">true</item>
         <item name="android:windowBackground">@color/material_grey400</item>
     </style>
 

@@ -14,8 +14,8 @@ android {
         applicationId 'com.dreampany.tools'
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 78
-        versionName '0.0.7.8'
+        versionCode 79
+        versionName '0.0.7.9'
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
@@ -148,7 +148,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta04'
     implementation 'com.google.firebase:firebase-crashlytics-ndk:17.0.0-beta04'
     implementation 'com.google.firebase:firebase-appindexing:19.1.0'
-    implementation 'com.google.firebase:firebase-ads:19.0.1'
+    implementation 'com.google.firebase:firebase-ads:19.1.0'
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.google.firebase:firebase-firestore:21.4.2'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.2'

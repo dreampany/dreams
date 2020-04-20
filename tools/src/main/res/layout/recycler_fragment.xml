@@ -4,11 +4,10 @@
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     tools:context="${relativePackage}.${activityClass}">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         auto:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent" android:id="@+id/swipe">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -18,5 +17,5 @@
             android:scrollbars="none"
             tools:itemCount="10" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

@@ -16,6 +16,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.common.R
 import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.constant.Constants
@@ -36,7 +37,9 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
+abstract class BaseActivity : AppCompatActivity(),
+    SwipeRefreshLayout.OnRefreshListener,
+    SearchView.OnQueryTextListener {
 
     @Inject
     protected lateinit var ex: Executors
@@ -145,6 +148,10 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         super.onBackPressed()
     }
 
+    override fun onRefresh() {
+
+    }
+
     override fun onQueryTextChange(newText: String?): Boolean = false
 
     override fun onQueryTextSubmit(query: String?): Boolean = false
@@ -200,17 +207,17 @@ abstract class BaseActivity : AppCompatActivity(), SearchView.OnQueryTextListene
         this.fragment = fragment
     }
 
-   /* protected fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*, *, *, *, *>): T {
-        val instance = clazz.java.newInstance()
-        if (instance.arguments == null) {
-            val bundle = Bundle()
-            bundle.putParcelable(Constants.Keys.TASK, task)
-            instance.arguments = bundle
-        } else {
-            instance.arguments?.putParcelable(Constants.Keys.TASK, task)
-        }
-        return instance
-    }*/
+    /* protected fun <T : Fragment> createFragment(clazz: KClass<T>, task: Task<*, *, *, *, *>): T {
+         val instance = clazz.java.newInstance()
+         if (instance.arguments == null) {
+             val bundle = Bundle()
+             bundle.putParcelable(Constants.Keys.TASK, task)
+             instance.arguments = bundle
+         } else {
+             instance.arguments?.putParcelable(Constants.Keys.TASK, task)
+         }
+         return instance
+     }*/
 
     protected fun showProgress() {
         if (progress == null) {

@@ -9,9 +9,7 @@ import android.view.Menu
 import androidx.lifecycle.Observer
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
-import com.dreampany.common.misc.extension.countryCode
-import com.dreampany.common.misc.extension.task
-import com.dreampany.common.misc.extension.toTint
+import com.dreampany.common.misc.extension.*
 import com.dreampany.common.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
@@ -57,7 +55,7 @@ class StationsFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
-        loadStations()
+        onRefresh()
         player.bind()
     }
 
@@ -81,6 +79,10 @@ class StationsFragment
 
     override fun onMenuCreated(menu: Menu) {
         getSearchMenuItem().toTint(context, R.color.material_white)
+    }
+
+    override fun onRefresh() {
+        loadStations()
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
@@ -127,6 +129,7 @@ class StationsFragment
 
     private fun initUi() {
         bind = getBinding()
+        bind.swipe.init(this)
         vm = createVm(StationViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
@@ -135,7 +138,7 @@ class StationsFragment
         if (!::adapter.isInitialized) {
             adapter = FastStationAdapter(scrollListener = { currentPage: Int ->
                 Timber.v("CurrentPage: %d", currentPage)
-                loadStations()
+                onRefresh()
             }, clickListener = { item: StationItem ->
                 Timber.v("StationItem: %s", item.item.toString())
                 player.play(item.item)
@@ -150,7 +153,7 @@ class StationsFragment
 
     private fun processResponse(response: Response<RadioType, RadioSubtype, State, Action, List<StationItem>>) {
         if (response is Response.Progress) {
-            if (response.progress) showProgress() else hideProgress()
+            bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
         } else if (response is Response.Result<RadioType, RadioSubtype, State, Action, List<StationItem>>) {

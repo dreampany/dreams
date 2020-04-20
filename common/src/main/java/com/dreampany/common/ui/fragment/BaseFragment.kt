@@ -12,12 +12,10 @@ import androidx.annotation.*
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.common.R
-import com.dreampany.common.data.model.Task
-import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.func.Executors
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.common.ui.model.UiTask
@@ -25,7 +23,6 @@ import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
 import javax.inject.Inject
-import kotlin.reflect.KClass
 
 /**
  * Created by roman on 15/3/20
@@ -33,7 +30,9 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseFragment : PreferenceFragmentCompat(), SearchView.OnQueryTextListener {
+abstract class BaseFragment : PreferenceFragmentCompat(),
+    SwipeRefreshLayout.OnRefreshListener,
+    SearchView.OnQueryTextListener {
 
     @Inject
     protected lateinit var ex: Executors
@@ -160,6 +159,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(), SearchView.OnQueryText
         }
         return super.onOptionsItemSelected(item)
     }*/
+
+    override fun onRefresh() {
+
+    }
 
     override fun onQueryTextChange(newText: String?): Boolean = false
 

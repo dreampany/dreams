@@ -31,5 +31,6 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
         super.onCreate(savedInstanceState)
     }
 
-    protected fun <T : ViewModel> createVm(clazz: KClass<T>) : T = ViewModelProvider(this, factory).get(clazz.java)
+    protected fun <T : ViewModel> createVm(clazz: KClass<T>): T =
+        ViewModelProvider(this, factory).get(clazz.java)
 }

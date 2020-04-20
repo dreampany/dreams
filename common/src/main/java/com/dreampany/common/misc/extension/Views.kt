@@ -21,8 +21,10 @@ import androidx.core.graphics.BlendModeCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.common.misc.func.SafeClickListener
 import com.dreampany.adapter.FlexibleItemDecoration
+import com.dreampany.common.R
 import com.google.android.material.textfield.TextInputEditText
 
 /**
@@ -133,8 +135,8 @@ fun RecyclerView.addDecoration(offset: Int) {
     addItemDecoration(decoration)
 }
 
-fun TextView.blink(@ColorRes startColorId: Int,@ColorRes endColorId: Int) {
-    val startColor =startColorId.toColor(context)
+fun TextView.blink(@ColorRes startColorId: Int, @ColorRes endColorId: Int) {
+    val startColor = startColorId.toColor(context)
     val endColor = endColorId.toColor(context)
     val animator = ObjectAnimator.ofInt(this, "textColor", startColor, endColor, startColor)
     animator.duration = 1500
@@ -147,7 +149,7 @@ fun TextView.blink(@ColorRes startColorId: Int,@ColorRes endColorId: Int) {
         }
 
         override fun onAnimationEnd(animation: Animator) {
-           setTextColor(endColor)
+            setTextColor(endColor)
         }
 
         override fun onAnimationCancel(animation: Animator) {
@@ -163,5 +165,55 @@ fun TextView.blink(@ColorRes startColorId: Int,@ColorRes endColorId: Int) {
 }
 
 
-val ViewDataBinding.context : Context
+val ViewDataBinding.context: Context
     get() = root.context
+
+fun SwipeRefreshLayout?.init(
+    listener: SwipeRefreshLayout.OnRefreshListener,
+    @ColorRes vararg colorResIds: Int
+) {
+    this?.apply {
+        //setColorSchemeResources(colorResIds)
+        setOnRefreshListener(listener)
+        setColorSchemeResources(
+            R.color.material_red500,
+            R.color.material_pink500,
+            R.color.material_purple500,
+            R.color.material_deeppurple500,
+            R.color.material_indigo500,
+            R.color.material_blue500,
+            R.color.material_lightblue500,
+            R.color.material_cyan500,
+            R.color.material_teal500,
+            R.color.material_green500,
+            R.color.material_lightgreen500,
+            R.color.material_lime500,
+            R.color.material_yellow500,
+            R.color.material_amber500,
+            R.color.material_orange500,
+            R.color.material_deeporange500,
+            R.color.material_brown500,
+            R.color.material_grey500,
+            R.color.material_bluegrey400
+        )
+    }
+}
+
+fun SwipeRefreshLayout?.refresh(refresh: Boolean) = if (refresh) this.showRefresh()
+else this.hideRefresh()
+
+fun SwipeRefreshLayout?.showRefresh() = this?.apply {
+    if (!isRefreshing)
+        post({
+            isRefreshing = true
+        })
+
+}
+
+fun SwipeRefreshLayout?.hideRefresh() = this?.apply {
+    if (isRefreshing)
+        post({
+            isRefreshing = false
+        })
+
+}

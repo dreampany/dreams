@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!--<item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>-->
+    <style name="Base.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@style/AnimTheme</item>
     </style>
 
-    <style name="Transparent" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Base.Transparent" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -17,12 +15,18 @@
         <item name="android:windowAnimationStyle">@style/AnimTheme</item>
     </style>
 
-    <style name="DarkActionBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <style name="Base.DarkActionBar" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="android:windowAnimationStyle">@style/AnimTheme</item>
     </style>
+
+    <style name="NoActionBar" parent="Base.NoActionBar" />
+
+    <style name="Transparent" parent="Base.Transparent" />
+
+    <style name="DarkActionBar" parent="Base.DarkActionBar" />
 
     <!-- animation -->
     <style name="AnimTheme" parent="@android:style/Animation.Activity">

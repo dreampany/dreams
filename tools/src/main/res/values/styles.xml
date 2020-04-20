@@ -5,13 +5,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/material_grey400</item>
+        <item name="android:textColorPrimary">@color/material_black</item>
+        <item name="android:textColorSecondary">@color/material_grey500</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
     <!-- activity -->
     <style name="Theme.Fullscreen" parent="NoActionBar">
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@color/material_grey400</item>
+        <item name="android:textColorPrimary">@color/material_black</item>
+        <item name="android:textColorSecondary">@color/material_grey500</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
     </style>
 
 </resources>

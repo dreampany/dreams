@@ -3,10 +3,11 @@ package com.dreampany.tools.data.source.crypto.pref
 import android.content.Context
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.data.source.pref.BasePref
+import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.util.Util
-import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.misc.constant.CryptoConstants
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -28,26 +29,50 @@ class CryptoPref
 
     @Synchronized
     fun getCurrency(): Currency {
-        return getPrivately(CryptoConstants.Keys.PrefKeys.Crypto.CURRENCY, Currency::class.java, Currency.USD) ?: Currency.USD
+        return getPrivately(
+            CryptoConstants.Keys.PrefKeys.Crypto.CURRENCY,
+            Currency::class.java,
+            Currency.USD
+        )
     }
 
     @Synchronized
     fun getSort(): CoinSort {
-        return getPrivately(CryptoConstants.Keys.PrefKeys.Crypto.SORT, CoinSort::class.java, CoinSort.MARKET_CAP) ?: CoinSort.MARKET_CAP
+        return getPrivately(
+            CryptoConstants.Keys.PrefKeys.Crypto.SORT,
+            CoinSort::class.java,
+            CoinSort.MARKET_CAP
+        )
     }
 
     @Synchronized
     fun getOrder(): Order {
-        return getPrivately(CryptoConstants.Keys.PrefKeys.Crypto.ORDER, Order::class.java, Order.DESCENDING) ?: Order.DESCENDING
+        return getPrivately(
+            CryptoConstants.Keys.PrefKeys.Crypto.ORDER,
+            Order::class.java,
+            Order.DESCENDING
+        )
     }
 
     @Synchronized
-    fun getExpireTime(currency: Currency, sort: CoinSort, order: Order, start: Long): Long {
-        return getPrivately(CryptoConstants.Keys.PrefKeys.Crypto.EXPIRE + currency.name + sort.name + order.name + start, 0L)
+    fun getExpireTime(currency: Currency, sort: CoinSort, order: Order, offset: Long): Long {
+        val key = StringBuilder(CryptoConstants.Keys.PrefKeys.Crypto.EXPIRE).apply {
+            append(currency.name)
+            append(sort.name)
+            append(order.name)
+            append(offset)
+        }
+        return getPrivately(key.toString(), Constants.Default.LONG)
     }
 
     @Synchronized
-    fun commitExpireTime(currency: Currency, sort: CoinSort, order: Order, start: Long) {
-        setPrivately(CryptoConstants.Keys.PrefKeys.Crypto.EXPIRE + currency.name + sort.name + order.name + start, Util.currentMillis())
+    fun commitExpireTime(currency: Currency, sort: CoinSort, order: Order, offset: Long) {
+        val key = StringBuilder(CryptoConstants.Keys.PrefKeys.Crypto.EXPIRE).apply {
+            append(currency.name)
+            append(sort.name)
+            append(order.name)
+            append(offset)
+        }
+        setPrivately(key.toString(), Util.currentMillis())
     }
 }

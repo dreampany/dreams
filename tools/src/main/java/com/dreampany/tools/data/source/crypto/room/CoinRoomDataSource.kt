@@ -15,8 +15,7 @@ import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinRoomDataSource
-constructor(
+class CoinRoomDataSource(
     private val mapper: CoinMapper,
     private val dao: CoinDao,
     private val quoteDao: QuoteDao

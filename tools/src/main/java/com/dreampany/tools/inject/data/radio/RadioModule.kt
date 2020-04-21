@@ -1,6 +1,8 @@
 package com.dreampany.tools.inject.data.radio
 
+import android.app.Application
 import com.dreampany.common.inject.annote.Remote
+import com.dreampany.common.inject.annote.Room
 import com.dreampany.common.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.radio.RadioBrowserModule
@@ -8,6 +10,9 @@ import com.dreampany.tools.api.radio.StationService
 import com.dreampany.tools.data.source.radio.api.StationDataSource
 import com.dreampany.tools.data.source.radio.mapper.StationMapper
 import com.dreampany.tools.data.source.radio.remote.StationRemoteDataSource
+import com.dreampany.tools.data.source.radio.room.StationRoomDataSource
+import com.dreampany.tools.data.source.radio.room.dao.StationDao
+import com.dreampany.tools.data.source.radio.room.database.DatabaseManager
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -25,6 +30,22 @@ import javax.inject.Singleton
 )
 class RadioModule {
 
+    @Provides
+    @Singleton
+    fun provideDatabase(application: Application): DatabaseManager = DatabaseManager.getInstance(application)
+
+    @Provides
+    @Singleton
+    fun provideStationDao(database: DatabaseManager): StationDao = database.stationDao()
+
+    @Singleton
+    @Provides
+    @Room
+    fun provideStationRoomDataSource(
+        mapper: StationMapper,
+        dao: StationDao
+    ): StationDataSource = StationRoomDataSource(mapper, dao)
+
     @Singleton
     @Provides
     @Remote
@@ -33,12 +54,5 @@ class RadioModule {
         parser: Parser,
         mapper: StationMapper,
         service: StationService
-    ): StationDataSource {
-        return StationRemoteDataSource(
-            network,
-            parser,
-            mapper,
-            service
-        )
-    }
+    ): StationDataSource = StationRemoteDataSource(network, parser, mapper, service)
 }

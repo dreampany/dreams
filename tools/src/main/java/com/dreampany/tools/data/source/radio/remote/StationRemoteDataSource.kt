@@ -6,8 +6,8 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.radio.StationService
 import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
-import com.dreampany.tools.data.source.radio.mapper.StationMapper
 import com.dreampany.tools.data.source.radio.api.StationDataSource
+import com.dreampany.tools.data.source.radio.mapper.StationMapper
 import java.net.UnknownHostException
 
 /**
@@ -22,6 +22,17 @@ class StationRemoteDataSource(
     private val mapper: StationMapper,
     private val service: StationService
 ) : StationDataSource {
+    override suspend fun putItem(item: Station): Long {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun putItems(items: List<Station>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getItems(): List<Station>? {
+        TODO("Not yet implemented")
+    }
 
     @Throws
     override suspend fun getItemsOfCountry(

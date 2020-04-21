@@ -37,21 +37,16 @@ class CryptoModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(application: Application): DatabaseManager {
-        return DatabaseManager.getInstance(application)
-    }
+    fun provideDatabase(application: Application): DatabaseManager =
+        DatabaseManager.getInstance(application)
 
     @Provides
     @Singleton
-    fun provideCoinDao(database: DatabaseManager): CoinDao {
-        return database.coinDao()
-    }
+    fun provideCoinDao(database: DatabaseManager): CoinDao = database.coinDao()
 
     @Provides
     @Singleton
-    fun provideQuoteDao(database: DatabaseManager): QuoteDao {
-        return database.quoteDao()
-    }
+    fun provideQuoteDao(database: DatabaseManager): QuoteDao = database.quoteDao()
 
     @Singleton
     @Provides
@@ -60,9 +55,7 @@ class CryptoModule {
         mapper: CoinMapper,
         dao: CoinDao,
         quoteDao: QuoteDao
-    ): CoinDataSource {
-        return CoinRoomDataSource(mapper, dao, quoteDao)
-    }
+    ): CoinDataSource = CoinRoomDataSource(mapper, dao, quoteDao)
 
     @Singleton
     @Provides
@@ -74,16 +67,7 @@ class CryptoModule {
         keys: Keys,
         mapper: CoinMapper,
         service: CoinMarketCapService
-    ): CoinDataSource {
-        return CoinRemoteDataSource(
-            context,
-            network,
-            parser,
-            keys,
-            mapper,
-            service
-        )
-    }
+    ): CoinDataSource = CoinRemoteDataSource(context, network, parser, keys, mapper, service)
 /*
 
     @Singleton

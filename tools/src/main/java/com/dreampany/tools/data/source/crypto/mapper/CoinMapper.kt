@@ -4,7 +4,6 @@ import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.isExpired
 import com.dreampany.common.misc.extension.sub
 import com.dreampany.common.misc.extension.utc
-import com.dreampany.common.misc.func.SmartError
 import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.CryptoQuote
@@ -44,19 +43,17 @@ class CoinMapper
         currencies = Maps.newConcurrentMap()
     }
 
-    fun isExpired(currency: Currency, sort: CoinSort, order: Order, start: Long): Boolean {
-        val time = pref.getExpireTime(currency, sort, order, start)
+    fun isExpired(currency: Currency, sort: CoinSort, order: Order, offset: Long): Boolean {
+        val time = pref.getExpireTime(currency, sort, order, offset)
         return time.isExpired(AppConstants.Times.Crypto.LISTING)
     }
 
-    fun commitExpire(currency: Currency, sort: CoinSort, order: Order, start: Long) {
-        pref.commitExpireTime(currency, sort, order, start)
-    }
+    fun commitExpire(currency: Currency, sort: CoinSort, order: Order, offset: Long) =
+        pref.commitExpireTime(currency, sort, order, offset)
+
 
     @Synchronized
-    fun add(coin: Coin) {
-        coins.put(coin.id, coin)
-    }
+    fun add(coin: Coin) = coins.put(coin.id, coin)
 
     @Throws
     suspend fun getItems(

@@ -3,6 +3,7 @@ package com.dreampany.tools.data.source.radio.mapper
 import com.dreampany.common.misc.extension.isExpired
 import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.enums.radio.RadioState
+import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.pref.RadioPref
 import com.dreampany.tools.misc.constant.AppConstants
@@ -27,24 +28,59 @@ class StationMapper
         stations = Maps.newConcurrentMap()
     }
 
-    fun isExpired(state: RadioState): Boolean {
+    @Synchronized
+    fun isExpired(
+        state: RadioState
+    ): Boolean {
         val time = pref.getExpireTime(state)
         return time.isExpired(AppConstants.Times.RADIO.LISTING)
     }
 
-    fun isExpired(state: RadioState, countryCode: String): Boolean {
-        val time = pref.getExpireTime(state, countryCode)
+    @Synchronized
+    fun isExpired(
+        state: RadioState, order: StationOrder, reverse: Boolean,
+        offset: Long
+    ): Boolean {
+        val time = pref.getExpireTime(state, order, reverse, offset)
         return time.isExpired(AppConstants.Times.RADIO.LISTING)
     }
 
-    fun commitExpire(state: RadioState) = pref.commitExpireTime(state)
+    @Synchronized
+    fun isExpired(
+        state: RadioState,
+        countryCode: String,
+        order: StationOrder,
+        reverse: Boolean,
+        offset: Long
+    ): Boolean {
+        val time = pref.getExpireTime(state, countryCode, order, reverse, offset)
+        return time.isExpired(AppConstants.Times.RADIO.LISTING)
+    }
 
-    fun commitExpire(state: RadioState, countryCode: String)  = pref.commitExpireTime(state, countryCode)
+    @Synchronized
+    fun commitExpire(
+        state: RadioState
+    ) = pref.commitExpireTime(state)
+
+    @Synchronized
+    fun commitExpire(
+        state: RadioState, order: StationOrder,
+        reverse: Boolean,
+        offset: Long
+    ) = pref.commitExpireTime(state, order, reverse, offset)
+
+    @Synchronized
+    fun commitExpire(
+        state: RadioState, countryCode: String, order: StationOrder,
+        reverse: Boolean,
+        offset: Long
+    ) = pref.commitExpireTime(state, countryCode, order, reverse, offset)
 
 
     @Synchronized
     fun add(station: Station) = stations.put(station.id, station)
 
+    @Synchronized
     fun getItems(inputs: List<RadioStation>): List<Station> {
         val result = arrayListOf<Station>()
         inputs.forEach { rs ->
@@ -53,6 +89,7 @@ class StationMapper
         return result
     }
 
+    @Synchronized
     fun getItem(input: RadioStation): Station {
         var out: Station? = stations.get(input.id)
         if (out == null) {

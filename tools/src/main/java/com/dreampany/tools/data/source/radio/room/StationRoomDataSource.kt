@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.radio.room
 
+import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.api.StationDataSource
@@ -33,6 +34,8 @@ class StationRoomDataSource(
     @Throws
     override suspend fun getItems(): List<Station>? = dao.items
 
+    override suspend fun getItems(countryCode: String): List<Station>? = dao.getItems(countryCode)
+
     override suspend fun getItemsOfCountry(
         countryCode: String,
         hideBroken: Boolean,
@@ -40,9 +43,7 @@ class StationRoomDataSource(
         reverse: Boolean,
         offset: Long,
         limit: Long
-    ): List<Station>? {
-        TODO("Not yet implemented")
-    }
+    ): List<Station>? = mapper.getItems(RadioState.LOCAL, countryCode, hideBroken, order, reverse, offset, limit, this)
 
     override suspend fun getItemsOfTrends(limit: Long): List<Station>? {
         TODO("Not yet implemented")

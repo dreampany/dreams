@@ -73,6 +73,7 @@ class RadioPref
     fun commitExpireTime(
         state: RadioState,
         countryCode: String,
+        hideBroken: Boolean,
         order: StationOrder,
         reverse: Boolean,
         offset: Long
@@ -80,6 +81,7 @@ class RadioPref
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
             append(state.name)
             append(countryCode)
+            append(hideBroken)
             append(order.name)
             append(reverse)
             append(offset)
@@ -115,11 +117,12 @@ class RadioPref
 
     @Synchronized
     fun getExpireTime(
-        state: RadioState, countryCode: String, order: StationOrder, reverse: Boolean, offset: Long
+        state: RadioState, countryCode: String, hideBroken: Boolean, order: StationOrder, reverse: Boolean, offset: Long
     ): Long {
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
             append(state.name)
             append(countryCode)
+            append(hideBroken)
             append(order.name)
             append(reverse)
             append(offset)

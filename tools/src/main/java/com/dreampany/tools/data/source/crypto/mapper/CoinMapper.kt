@@ -43,11 +43,13 @@ class CoinMapper
         currencies = Maps.newConcurrentMap()
     }
 
+    @Synchronized
     fun isExpired(currency: Currency, sort: CoinSort, order: Order, offset: Long): Boolean {
         val time = pref.getExpireTime(currency, sort, order, offset)
         return time.isExpired(AppConstants.Times.Crypto.LISTING)
     }
 
+    @Synchronized
     fun commitExpire(currency: Currency, sort: CoinSort, order: Order, offset: Long) =
         pref.commitExpireTime(currency, sort, order, offset)
 
@@ -56,6 +58,7 @@ class CoinMapper
     fun add(coin: Coin) = coins.put(coin.id, coin)
 
     @Throws
+    @Synchronized
     suspend fun getItems(
         currency: Currency,
         sort: CoinSort,
@@ -74,6 +77,7 @@ class CoinMapper
         return result
     }
 
+    @Synchronized
     fun getItems(inputs: List<CryptoCoin>): List<Coin> {
         val result = arrayListOf<Coin>()
         inputs.forEach { coin ->
@@ -82,6 +86,7 @@ class CoinMapper
         return result
     }
 
+    @Synchronized
     fun getItem(input: CryptoCoin): Coin {
         Timber.v("Resolved Coin: %s", input.name);
         val id = input.id.toString()
@@ -105,6 +110,7 @@ class CoinMapper
         return out
     }
 
+    @Synchronized
     fun getQuotes(
         coinId: String,
         input: Map<CryptoCurrency, CryptoQuote>
@@ -117,6 +123,7 @@ class CoinMapper
         return result
     }
 
+    @Synchronized
     fun getQuote(
         coinId: String,
         currency: Currency,
@@ -140,6 +147,7 @@ class CoinMapper
         return out
     }
 
+    @Synchronized
     fun getCurrency(input: CryptoCurrency): Currency {
         var out: Currency? = currencies.get(input.name)
         if (out == null) {
@@ -149,6 +157,7 @@ class CoinMapper
         return out
     }
 
+    @Synchronized
     private fun bindQuote(currency: Currency, item: Coin, dao: QuoteDao) {
         if (!item.hasQuote(currency)) {
             dao.getItem(item.id, currency.name)?.let { item.addQuote(it) }
@@ -156,12 +165,17 @@ class CoinMapper
     }
 
     @Throws
+    @Synchronized
     private suspend fun updateCache(source: CoinDataSource) {
         if (coins.isEmpty()) {
-            source.getItems()?.forEach { add(it) }
+            source.getItems()?.let {
+                if (it.isNotEmpty())
+                    it.forEach { add(it) }
+            }
         }
     }
 
+    @Synchronized
     private fun sortedCoins(
         currency: Currency,
         sort: CoinSort,

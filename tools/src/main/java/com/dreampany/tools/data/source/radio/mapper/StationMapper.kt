@@ -1,15 +1,25 @@
 package com.dreampany.tools.data.source.radio.mapper
 
 import com.dreampany.common.misc.extension.isExpired
+import com.dreampany.common.misc.extension.sub
 import com.dreampany.tools.api.radio.RadioStation
 import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
+import com.dreampany.tools.data.source.radio.api.StationDataSource
 import com.dreampany.tools.data.source.radio.pref.RadioPref
 import com.dreampany.tools.misc.constant.AppConstants
 import com.google.common.collect.Maps
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.collections.ArrayList
+import kotlin.collections.List
+import kotlin.collections.MutableMap
+import kotlin.collections.arrayListOf
+import kotlin.collections.forEach
+import kotlin.collections.isNotEmpty
+import kotlin.collections.sortWith
 
 /**
  * Created by roman on 18/4/20
@@ -38,22 +48,14 @@ class StationMapper
 
     @Synchronized
     fun isExpired(
-        state: RadioState, order: StationOrder, reverse: Boolean,
-        offset: Long
-    ): Boolean {
-        val time = pref.getExpireTime(state, order, reverse, offset)
-        return time.isExpired(AppConstants.Times.RADIO.LISTING)
-    }
-
-    @Synchronized
-    fun isExpired(
         state: RadioState,
         countryCode: String,
+        hideBroken: Boolean,
         order: StationOrder,
         reverse: Boolean,
         offset: Long
     ): Boolean {
-        val time = pref.getExpireTime(state, countryCode, order, reverse, offset)
+        val time = pref.getExpireTime(state, countryCode, hideBroken, order, reverse, offset)
         return time.isExpired(AppConstants.Times.RADIO.LISTING)
     }
 
@@ -64,21 +66,33 @@ class StationMapper
 
     @Synchronized
     fun commitExpire(
-        state: RadioState, order: StationOrder,
+        state: RadioState, countryCode: String, hideBroken: Boolean, order: StationOrder,
         reverse: Boolean,
         offset: Long
-    ) = pref.commitExpireTime(state, order, reverse, offset)
-
-    @Synchronized
-    fun commitExpire(
-        state: RadioState, countryCode: String, order: StationOrder,
-        reverse: Boolean,
-        offset: Long
-    ) = pref.commitExpireTime(state, countryCode, order, reverse, offset)
+    ) = pref.commitExpireTime(state, countryCode, hideBroken, order, reverse, offset)
 
 
     @Synchronized
     fun add(station: Station) = stations.put(station.id, station)
+
+
+    @Throws
+    @Synchronized
+    suspend fun getItems(
+        state: RadioState,
+        countryCode: String,
+        hideBroken: Boolean,
+        order: StationOrder,
+        reverse: Boolean,
+        offset: Long,
+        limit: Long,
+        source: StationDataSource
+    ): List<Station>? {
+        val items = source.getItems(countryCode) ?: return null
+        val cache = sortedStations(items, order, reverse)
+        val result = sub(cache, offset, limit)
+        return result
+    }
 
     @Synchronized
     fun getItems(inputs: List<RadioStation>): List<Station> {
@@ -127,4 +141,47 @@ class StationMapper
         }
         return out
     }*/
+
+    @Throws
+    @Synchronized
+    private suspend fun updateCache(source: StationDataSource) {
+        if (stations.isEmpty()) {
+            source.getItems()?.let {
+                if (it.isNotEmpty())
+                    it.forEach { add(it) }
+            }
+        }
+    }
+
+    @Synchronized
+    private fun sortedStations(
+        items : List<Station>,
+        order: StationOrder,
+        reverse: Boolean
+    ): List<Station> {
+        val temp = ArrayList(items)
+        val comparator = StationComparator(order, reverse)
+        temp.sortWith(comparator)
+        return temp
+    }
+
+    class StationComparator(
+        private val order: StationOrder,
+        private val reverse: Boolean
+    ) : Comparator<Station> {
+        override fun compare(left: Station, right: Station): Int {
+            if (order == StationOrder.NAME) {
+                val leftName = left.name
+                val rightName = right.name
+                if (leftName != null && rightName != null) {
+                    if (reverse) {
+                        return rightName.compareTo(leftName)
+                    } else {
+                        return leftName.compareTo(rightName)
+                    }
+                }
+            }
+            return 0
+        }
+    }
 }

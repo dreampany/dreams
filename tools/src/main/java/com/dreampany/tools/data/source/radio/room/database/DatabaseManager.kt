@@ -17,7 +17,7 @@ import com.dreampany.tools.misc.constant.AppConstants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Station::class], version = 1)
+@Database(entities = [Station::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 

@@ -43,6 +43,10 @@ class StationRepo
         TODO("Not yet implemented")
     }
 
+    override suspend fun getItems(countryCode: String): List<Station>? {
+        TODO("Not yet implemented")
+    }
+
     @Throws
     override suspend fun getItemsOfCountry(
         countryCode: String,
@@ -52,11 +56,11 @@ class StationRepo
         offset: Long,
         limit: Long
     ) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired(RadioState.LOCAL, countryCode, order, reverse, offset)) {
+        if (mapper.isExpired(RadioState.LOCAL, countryCode, hideBroken, order, reverse, offset)) {
             val result =
                 remote.getItemsOfCountry(countryCode, hideBroken, order, reverse, offset, limit)
             if (!result.isNullOrEmpty()) {
-                mapper.commitExpire(RadioState.LOCAL, countryCode, order, reverse, offset)
+                mapper.commitExpire(RadioState.LOCAL, countryCode, hideBroken, order, reverse, offset)
                 room.putItems(result)
             }
         }
@@ -65,25 +69,25 @@ class StationRepo
 
     @Throws
     override suspend fun getItemsOfTrends(limit: Long) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired(RadioState.TRENDS)) {
+        /*if (mapper.isExpired(RadioState.TRENDS)) {
             val result = remote.getItemsOfTrends(limit)
             if (!result.isNullOrEmpty()) {
                 mapper.commitExpire(RadioState.TRENDS)
                 room.putItems(result)
             }
-        }
-        room.getItemsOfTrends(limit)
+        }*/
+        remote.getItemsOfTrends(limit)
     }
 
     @Throws
     override suspend fun getItemsOfPopular(limit: Long) = withContext(Dispatchers.IO) {
-        if (mapper.isExpired(RadioState.POPULAR)) {
+        /*if (mapper.isExpired(RadioState.POPULAR)) {
             val result = remote.getItemsOfPopular(limit)
             if (!result.isNullOrEmpty()) {
                 mapper.commitExpire(RadioState.POPULAR)
                 room.putItems(result)
             }
-        }
-        room.getItemsOfPopular(limit)
+        }*/
+        remote.getItemsOfPopular(limit)
     }
 }

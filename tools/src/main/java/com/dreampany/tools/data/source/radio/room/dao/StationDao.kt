@@ -18,4 +18,7 @@ interface StationDao : BaseDao<Station> {
 
     @get:Query("select * from station")
     val items: List<Station>?
+
+    @Query("select * from station where country_code = :countryCode")
+    fun getItems(countryCode: String): List<Station>?
 }

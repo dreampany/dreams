@@ -45,11 +45,7 @@ class StationRoomDataSource(
         limit: Long
     ): List<Station>? = mapper.getItems(RadioState.LOCAL, countryCode, hideBroken, order, reverse, offset, limit, this)
 
-    override suspend fun getItemsOfTrends(limit: Long): List<Station>? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getItemsOfTrends(limit: Long): List<Station>? = dao.getItemsOfTrends(limit)
 
-    override suspend fun getItemsOfPopular(limit: Long): List<Station>? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getItemsOfPopular(limit: Long): List<Station>? = dao.getItemsOfPopular(limit)
 }

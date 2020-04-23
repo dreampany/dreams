@@ -21,4 +21,10 @@ interface StationDao : BaseDao<Station> {
 
     @Query("select * from station where country_code = :countryCode order by last_check_ok_time desc limit :limit")
     fun getItems(countryCode: String, limit: Long): List<Station>?
+
+    @Query("select * from station order by click_count desc limit :limit")
+    fun getItemsOfTrends(limit: Long): List<Station>?
+
+    @Query("select * from station order by votes desc limit :limit")
+    fun getItemsOfPopular(limit: Long): List<Station>?
 }

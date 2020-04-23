@@ -69,25 +69,25 @@ class StationRepo
 
     @Throws
     override suspend fun getItemsOfTrends(limit: Long) = withContext(Dispatchers.IO) {
-        /*if (mapper.isExpired(RadioState.TRENDS)) {
+        if (mapper.isExpired(RadioState.TRENDS)) {
             val result = remote.getItemsOfTrends(limit)
             if (!result.isNullOrEmpty()) {
                 mapper.commitExpire(RadioState.TRENDS)
                 room.putItems(result)
             }
-        }*/
-        remote.getItemsOfTrends(limit)
+        }
+        room.getItemsOfTrends(limit)
     }
 
     @Throws
     override suspend fun getItemsOfPopular(limit: Long) = withContext(Dispatchers.IO) {
-        /*if (mapper.isExpired(RadioState.POPULAR)) {
+        if (mapper.isExpired(RadioState.POPULAR)) {
             val result = remote.getItemsOfPopular(limit)
             if (!result.isNullOrEmpty()) {
                 mapper.commitExpire(RadioState.POPULAR)
                 room.putItems(result)
             }
-        }*/
-        remote.getItemsOfPopular(limit)
+        }
+        room.getItemsOfPopular(limit)
     }
 }

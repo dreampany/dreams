@@ -22,7 +22,7 @@ interface StationDataSource {
     suspend fun getItems(): List<Station>?
 
     @Throws
-    suspend fun getItems(countryCode: String): List<Station>?
+    suspend fun getItems(countryCode: String, limit: Long): List<Station>?
 
     @Throws
     suspend fun getItemsOfCountry(

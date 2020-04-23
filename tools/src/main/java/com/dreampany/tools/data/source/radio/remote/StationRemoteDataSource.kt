@@ -34,7 +34,7 @@ class StationRemoteDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItems(countryCode: String): List<Station>? {
+    override suspend fun getItems(countryCode: String, limit: Long): List<Station>? {
         TODO("Not yet implemented")
     }
 

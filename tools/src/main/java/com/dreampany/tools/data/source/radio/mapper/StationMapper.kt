@@ -88,7 +88,7 @@ class StationMapper
         limit: Long,
         source: StationDataSource
     ): List<Station>? {
-        val items = source.getItems(countryCode) ?: return null
+        val items = source.getItems(countryCode, limit) ?: return null
         val cache = sortedStations(items, order, reverse)
         val result = sub(cache, offset, limit)
         return result

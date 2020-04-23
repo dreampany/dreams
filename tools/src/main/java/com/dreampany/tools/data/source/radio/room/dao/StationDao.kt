@@ -16,9 +16,9 @@ interface StationDao : BaseDao<Station> {
     @get:Query("select count(*) from station")
     val count: Int
 
-    @get:Query("select * from station")
+    @get:Query("select * from station order by last_check_ok_time desc")
     val items: List<Station>?
 
-    @Query("select * from station where country_code = :countryCode")
-    fun getItems(countryCode: String): List<Station>?
+    @Query("select * from station where country_code = :countryCode order by last_check_ok_time desc limit :limit")
+    fun getItems(countryCode: String, limit: Long): List<Station>?
 }

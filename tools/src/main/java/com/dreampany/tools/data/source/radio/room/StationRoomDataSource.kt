@@ -34,7 +34,7 @@ class StationRoomDataSource(
     @Throws
     override suspend fun getItems(): List<Station>? = dao.items
 
-    override suspend fun getItems(countryCode: String): List<Station>? = dao.getItems(countryCode)
+    override suspend fun getItems(countryCode: String, limit: Long): List<Station>? = dao.getItems(countryCode, limit)
 
     override suspend fun getItemsOfCountry(
         countryCode: String,

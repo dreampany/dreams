@@ -5,4 +5,4 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    auto:popupTheme="@style/AppTheme.PopupOverlay" />
+    auto:popupTheme="@style/PopupOverlay" />

@@ -13,10 +13,7 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import androidx.annotation.ColorRes
-import androidx.annotation.DimenRes
-import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import com.dreampany.common.misc.constant.Constants
 import com.google.common.base.Splitter
@@ -54,13 +51,11 @@ val Context?.screenHeight: Int
         return dm.heightPixels
     }
 
-fun Context?.isNull(): Boolean {
-    return this == null
-}
+val Context?.isNull: Boolean
+    get() = this == null
 
-fun Context?.isNotNull(): Boolean {
-    return this != null
-}
+val Context?.isNotNull: Boolean
+    get() = this != null
 
 /*fun Context?.isDebug(): Boolean {
     if (this == null) return true
@@ -98,6 +93,9 @@ fun Context?.dpToPx(dp: Float): Int = (dp * density).toInt()
 
 fun Context?.color(@ColorRes resId: Int): Int =
     if (this == null) 0 else ContextCompat.getColor(this, resId)
+
+@ColorInt
+fun Int.toColor(context: Context): Int = ContextCompat.getColor(context, this)
 
 fun Context?.currentTask(): ActivityManager.RunningTaskInfo? {
     val manager = this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?

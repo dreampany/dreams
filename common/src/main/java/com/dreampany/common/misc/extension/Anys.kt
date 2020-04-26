@@ -25,7 +25,7 @@ fun Int.isZeroOrLess(): Boolean {
     return this <= 0
 }
 
-fun Long.isExpired(delay: Long) : Boolean {
+fun Long.isExpired(delay: Long): Boolean {
     return Util.currentMillis() - this > delay
 }
 
@@ -41,10 +41,4 @@ fun <T> sub(list: List<T>?, index: Long, limit: Long): List<T>? {
 }
 
 @ColorInt
-fun Int.toColor(context: Context): Int {
-    return ContextCompat.getColor(context, this)
-}
-
-fun String.toColor(): Int {
-    return Color.parseColor(this)
-}
+fun String.toColor(): Int = Color.parseColor(this)

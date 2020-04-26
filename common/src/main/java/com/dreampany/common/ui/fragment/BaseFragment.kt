@@ -16,9 +16,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.preference.PreferenceFragmentCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dreampany.common.R
+import com.dreampany.common.data.model.Task
 import com.dreampany.common.misc.func.Executors
-import com.dreampany.common.ui.activity.InjectActivity
-import com.dreampany.common.ui.model.UiTask
+import com.dreampany.common.ui.activity.BaseActivity
+import com.dreampany.common.ui.callback.Callback
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
 import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface
@@ -30,7 +31,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseFragment : PreferenceFragmentCompat(),
+abstract class BaseFragment : PreferenceFragmentCompat(), Callback,
     SwipeRefreshLayout.OnRefreshListener,
     SearchView.OnQueryTextListener {
 
@@ -43,8 +44,11 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     protected var currentView: View? = null
 
-    //protected var task: UiTask<*, *, *, *, *>? = null
-    protected var childTask: UiTask<*, *, *, *, *>? = null
+    protected var task: Task<*, *, *, *, *>? = null
+    protected var childTask: Task<*, *, *, *, *>? = null
+
+    protected var activityCallback: Callback? = null
+    protected var fragmentCallback: Callback? = null
 
     private var progress: KProgressHUD? = null
     private var sheetDialog: BottomSheetMaterialDialog? = null
@@ -112,6 +116,14 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.let {
+            if (it is Callback) activityCallback = it
+        }
+
+        parentFragment?.let {
+            if (it is Callback) fragmentCallback = it
+        }
+
         val titleResId = titleRes()
         if (titleResId != 0) {
             setTitle(titleResId)
@@ -160,6 +172,10 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
         return super.onOptionsItemSelected(item)
     }*/
 
+    override fun onTask(task: Task<*, *, *, *, *>) {
+
+    }
+
     override fun onRefresh() {
 
     }
@@ -183,25 +199,25 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
     }
 
     protected fun setTitle(@StringRes resId: Int) {
-        if (activity is InjectActivity) {
+        if (activity is BaseActivity) {
             setTitle(resId)
         }
     }
 
     protected fun setTitle(title: String? = null) {
-        if (activity is InjectActivity) {
+        if (activity is BaseActivity) {
             setTitle(title)
         }
     }
 
     protected fun setSubtitle(@StringRes resId: Int) {
-        if (activity is InjectActivity) {
+        if (activity is BaseActivity) {
             setSubtitle(resId)
         }
     }
 
     protected fun setSubtitle(subtitle: String? = null) {
-        if (activity is InjectActivity) {
+        if (activity is BaseActivity) {
             setSubtitle(subtitle)
         }
     }

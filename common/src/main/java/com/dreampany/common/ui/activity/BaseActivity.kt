@@ -3,7 +3,6 @@ package com.dreampany.common.ui.activity
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
@@ -24,6 +23,7 @@ import com.dreampany.common.misc.extension.fragment
 import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.func.Executors
 import com.dreampany.common.misc.util.NotifyUtil
+import com.dreampany.common.ui.callback.Callback
 import com.dreampany.common.ui.fragment.BaseFragment
 import com.kaopiz.kprogresshud.KProgressHUD
 import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog
@@ -38,7 +38,7 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseActivity : AppCompatActivity(),
+abstract class BaseActivity : AppCompatActivity(), Callback,
     SwipeRefreshLayout.OnRefreshListener,
     SearchView.OnQueryTextListener {
 
@@ -169,6 +169,10 @@ abstract class BaseActivity : AppCompatActivity(),
         finish()
     }
 
+    override fun onTask(task: Task<*, *, *, *, *>) {
+
+    }
+
     override fun onRefresh() {
 
     }
@@ -190,7 +194,7 @@ abstract class BaseActivity : AppCompatActivity(),
         return binding as T
     }
 
-    protected fun getBundle(): Bundle? {
+    /*protected fun getBundle(): Bundle? {
         return intent.extras
     }
 
@@ -210,12 +214,12 @@ abstract class BaseActivity : AppCompatActivity(),
         return getIntentValue<T>(key, bundle)
     }
 
-    protected fun <T : Task<*, *, *, *, *>> getTask(freshTask: Boolean = false): T? {
+    protected fun getTask(freshTask: Boolean = false): T? {
         if (task == null || freshTask) {
             task = getIntentValue<T>(Constants.Keys.TASK)
         }
         return task as T?
-    }
+    }*/
 
     protected fun <T : BaseFragment> commitFragment(
         classOfT: KClass<T>, provider: Lazy<T>, @IdRes parent: Int

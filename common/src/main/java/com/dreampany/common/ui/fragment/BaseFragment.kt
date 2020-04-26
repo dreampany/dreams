@@ -44,8 +44,8 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     protected var currentView: View? = null
 
-    protected var task: Task<*, *, *, *, *>? = null
-    protected var childTask: Task<*, *, *, *, *>? = null
+    //protected var task: Task<*, *, *, *, *>? = null
+    //protected var childTask: Task<*, *, *, *, *>? = null
 
     protected var activityCallback: Callback? = null
     protected var fragmentCallback: Callback? = null

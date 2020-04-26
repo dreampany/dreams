@@ -52,7 +52,7 @@ abstract class BaseActivity : AppCompatActivity(),
     private lateinit var toolbar: Toolbar
     private lateinit var menu: Menu
 
-    protected var task: Task<*, *, *, *, *>? = null
+    //protected var task: Task<*, *, *, *, *>? = null
 
     protected var fragment: BaseFragment? = null
 

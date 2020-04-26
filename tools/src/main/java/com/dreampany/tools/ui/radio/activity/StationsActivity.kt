@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.dreampany.common.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.StationsActivityBinding
+import com.dreampany.tools.misc.extension.setUrl
 import com.dreampany.tools.ui.radio.adapter.StationPagerAdapter
 import com.dreampany.tools.ui.radio.model.StationItem
 import com.google.android.material.tabs.TabLayoutMediator
@@ -37,7 +38,7 @@ class StationsActivity : InjectActivity() {
 
     override fun <T> onItem(item: T) {
          if (item is StationItem) {
-             bind.icon
+             bind.icon.setUrl(item.item.favicon)
          }
     }
 

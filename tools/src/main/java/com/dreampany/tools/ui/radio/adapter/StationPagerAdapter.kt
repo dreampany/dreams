@@ -25,11 +25,7 @@ class StationPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
         addItems()
     }
 
-    override fun createFragment(position: Int): Fragment {
-        return items.get(position)
-    }
-
-    fun getTitle(position : Int) : String {
+    override fun getTitle(position : Int) : String {
         val fragment = getItem(position) ?: return Constants.Default.STRING
         val task = fragment.task ?: return Constants.Default.STRING
         if (task.state is RadioState) {

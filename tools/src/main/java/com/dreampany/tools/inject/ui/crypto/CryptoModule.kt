@@ -18,6 +18,6 @@ abstract class CryptoModule {
     abstract fun coins(): CoinsActivity
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = [CoinInfoModule::class])
+    @ContributesAndroidInjector(modules = [CoinModule::class])
     abstract fun coin(): CoinActivity
 }

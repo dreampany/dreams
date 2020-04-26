@@ -6,15 +6,20 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.misc.extension.init
+import com.dreampany.common.misc.extension.open
 import com.dreampany.common.misc.extension.refresh
 import com.dreampany.common.misc.extension.toTint
 import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.activity.InjectActivity
+import com.dreampany.common.ui.model.UiTask
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.crypto.CryptoAction
+import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
@@ -145,6 +150,9 @@ class CoinsActivity : InjectActivity() {
     private fun onItemPressed(view: View, item: CoinItem) {
         Timber.v("Pressed $view")
         when (view.id) {
+            R.id.layout -> {
+                openCoinUi(item)
+            }
             R.id.button_favorite -> {
 
             }
@@ -152,5 +160,16 @@ class CoinsActivity : InjectActivity() {
 
             }
         }
+    }
+
+    private fun openCoinUi(item: CoinItem) {
+        val task = UiTask(
+            CryptoType.COIN,
+            CryptoSubtype.DEFAULT,
+            CryptoState.DEFAULT,
+            CryptoAction.VIEW,
+            item.item
+        )
+        open(CoinActivity::class, task)
     }
 }

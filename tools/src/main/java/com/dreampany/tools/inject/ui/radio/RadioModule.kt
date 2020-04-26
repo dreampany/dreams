@@ -1,7 +1,6 @@
 package com.dreampany.tools.inject.ui.radio
 
 import com.dreampany.common.inject.annote.ActivityScope
-import com.dreampany.tools.inject.ui.radio.StationsModule
 import com.dreampany.tools.ui.radio.activity.StationsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

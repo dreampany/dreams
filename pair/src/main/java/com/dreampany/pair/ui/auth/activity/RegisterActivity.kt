@@ -64,7 +64,7 @@ class RegisterActivity : InjectActivity() {
 
     private fun initUi() {
         bind = getBinding()
-        vm = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
+        vm = createVm(AuthViewModel::class)
 
         bind.buttonRegister.setOnSafeClickListener(this::onSafeClick)
 
@@ -131,7 +131,7 @@ class RegisterActivity : InjectActivity() {
 
     private fun goToHomeScreen() {
         vm.setLoggedIn(true)
-        open(HomeActivity::class, flags = clearFlags(), finishCurrent =  true)
+        open(HomeActivity::class, flags = clearFlags, finishCurrent =  true)
     }
 
 }

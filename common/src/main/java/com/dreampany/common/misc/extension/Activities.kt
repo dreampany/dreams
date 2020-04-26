@@ -5,9 +5,12 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Parcelable
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.dreampany.common.data.model.Task
+import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.func.Executors
 import kotlinx.coroutines.Runnable
 import timber.log.Timber
@@ -19,7 +22,7 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-fun Activity?.alive() : Boolean {
+fun Activity?.alive(): Boolean {
     if (this == null) return false
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
         return !(isFinishing() || isDestroyed())
@@ -35,6 +38,17 @@ fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) 
     }
 }
 
+fun <T : Any> Activity?.open(target: KClass<T>, task : Task<*, *, *, *, *>, finishCurrent: Boolean = false) {
+    this?.run {
+        val intent = Intent(this, target.java)
+        intent.putExtra(Constants.Keys.TASK, task as Parcelable)
+        startActivity(intent)
+        if (finishCurrent) {
+            finish()
+        }
+    }
+}
+
 fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: Boolean = false) {
     this?.run {
         startActivity(Intent(this, target.java).addFlags(flags))
@@ -44,9 +58,8 @@ fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: 
     }
 }
 
-fun Activity?.clearFlags(
-): Int =
-    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+val Activity?.clearFlags: Int
+    get() = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
 
 fun <T : Fragment> AppCompatActivity?.fragment(tag: String?): T? =
     this?.supportFragmentManager?.findFragmentByTag(tag) as T?
@@ -67,7 +80,7 @@ fun <T : Fragment> AppCompatActivity?.open(fragment: T?, @IdRes parent: Int, ex:
     ex.postToUi(runner)
 }
 
-fun Activity?.moreApps(devId : String) {
+fun Activity?.moreApps(devId: String) {
     if (this == null) return
     try {
         val uri = Uri.parse("market://search?q=pub:$devId")

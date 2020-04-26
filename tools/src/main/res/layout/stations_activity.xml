@@ -26,7 +26,7 @@
                 auto:titleEnabled="false"
                 tools:ignore="NewApi">
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/icon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

@@ -14,7 +14,7 @@ import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinItemBinding
-import com.dreampany.tools.misc.CurrencyFormatter
+import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.misc.extension.setUrl
 import java.util.*
 

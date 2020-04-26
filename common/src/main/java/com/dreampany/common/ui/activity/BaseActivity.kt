@@ -38,9 +38,9 @@ import kotlin.reflect.KClass
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseActivity : AppCompatActivity(), Callback,
+abstract class BaseActivity : AppCompatActivity(),
     SwipeRefreshLayout.OnRefreshListener,
-    SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener, Callback {
 
     @Inject
     protected lateinit var ex: Executors
@@ -169,10 +169,6 @@ abstract class BaseActivity : AppCompatActivity(), Callback,
         finish()
     }
 
-    override fun onTask(task: Task<*, *, *, *, *>) {
-
-    }
-
     override fun onRefresh() {
 
     }
@@ -180,6 +176,12 @@ abstract class BaseActivity : AppCompatActivity(), Callback,
     override fun onQueryTextChange(newText: String?): Boolean = false
 
     override fun onQueryTextSubmit(query: String?): Boolean = false
+
+    override fun onTask(task: Task<*, *, *, *, *>) {}
+
+    override fun <T> onItem(item: T) {
+
+    }
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
 

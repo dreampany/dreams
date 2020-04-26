@@ -96,6 +96,11 @@ class StationsFragment
         }
     }
 
+    private fun onStationClicked(item: StationItem) {
+        activityCallback?.onItem(item)
+        player.play(item.item)
+    }
+
     private fun loadStations() {
         val task = task ?: return
         if (task.state is RadioState) {
@@ -141,7 +146,7 @@ class StationsFragment
                 onRefresh()
             }, clickListener = { item: StationItem ->
                 Timber.v("StationItem: %s", item.item.toString())
-                player.play(item.item)
+                onStationClicked(item)
             })
         }
 

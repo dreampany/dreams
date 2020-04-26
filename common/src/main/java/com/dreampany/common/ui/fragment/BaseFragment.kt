@@ -31,9 +31,9 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class BaseFragment : PreferenceFragmentCompat(), Callback,
+abstract class BaseFragment : PreferenceFragmentCompat(),
     SwipeRefreshLayout.OnRefreshListener,
-    SearchView.OnQueryTextListener {
+    SearchView.OnQueryTextListener, Callback {
 
     @Inject
     protected lateinit var ex: Executors
@@ -172,10 +172,6 @@ abstract class BaseFragment : PreferenceFragmentCompat(), Callback,
         return super.onOptionsItemSelected(item)
     }*/
 
-    override fun onTask(task: Task<*, *, *, *, *>) {
-
-    }
-
     override fun onRefresh() {
 
     }
@@ -183,6 +179,14 @@ abstract class BaseFragment : PreferenceFragmentCompat(), Callback,
     override fun onQueryTextChange(newText: String?): Boolean = false
 
     override fun onQueryTextSubmit(query: String?): Boolean = false
+
+    override fun onTask(task: Task<*, *, *, *, *>) {
+
+    }
+
+    override fun <T> onItem(item: T) {
+
+    }
 
     protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
 

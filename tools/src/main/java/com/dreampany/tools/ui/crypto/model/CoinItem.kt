@@ -7,7 +7,6 @@ import androidx.annotation.StringRes
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.blink
 import com.dreampany.common.misc.extension.formatString
-import com.dreampany.common.misc.extension.gone
 import com.dreampany.common.misc.extension.toColor
 import com.dreampany.common.misc.util.Util
 import com.dreampany.tools.R
@@ -16,12 +15,10 @@ import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinItemBinding
-import com.dreampany.tools.misc.CurrencyFormatter
+import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.misc.extension.setUrl
 import com.google.common.base.Objects
-import com.like.OnLikeListener
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
-import com.mikepenz.fastadapter.dsl.genericFastAdapter
 import java.util.*
 
 /**

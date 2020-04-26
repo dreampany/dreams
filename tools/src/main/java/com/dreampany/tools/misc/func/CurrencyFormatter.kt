@@ -1,4 +1,4 @@
-package com.dreampany.tools.misc
+package com.dreampany.tools.misc.func
 
 import android.content.Context
 import androidx.annotation.StringRes

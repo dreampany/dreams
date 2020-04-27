@@ -48,7 +48,7 @@ initPager()
             bind.tabs,
             bind.pager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-               // tab.text = adapter.getTitle(position)
+                tab.text = adapter.getTitle(position)
             }).attach()
     }
 }

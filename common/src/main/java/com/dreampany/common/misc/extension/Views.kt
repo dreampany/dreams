@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.viewbinding.ViewBinding
 import com.dreampany.common.misc.func.SafeClickListener
 import com.dreampany.adapter.FlexibleItemDecoration
 import com.dreampany.common.R
@@ -165,7 +166,7 @@ fun TextView.blink(@ColorRes startColorId: Int, @ColorRes endColorId: Int) {
 }
 
 
-val ViewDataBinding.context: Context
+val ViewBinding.context: Context
     get() = root.context
 
 fun SwipeRefreshLayout?.init(
@@ -215,5 +216,4 @@ fun SwipeRefreshLayout?.hideRefresh() = this?.apply {
         post({
             isRefreshing = false
         })
-
 }

@@ -44,4 +44,6 @@
     <string name="graph">Graph</string>
     <string name="trade_pairs">Trade Pairs</string>
     <string name="trade_pairs_sep">-</string>
+
+    <string name="title_coin_info">Info</string>
 </resources>

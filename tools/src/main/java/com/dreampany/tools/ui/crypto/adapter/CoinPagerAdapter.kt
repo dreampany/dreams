@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.dreampany.common.ui.adapter.BasePagerAdapter
 import com.dreampany.common.ui.model.UiTask
+import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
@@ -23,7 +24,7 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
     }
 
     private fun addItems() {
-        val task = UiTask(
+        val info = UiTask(
             CryptoType.COIN,
             CryptoSubtype.INFO,
             CryptoState.DEFAULT,
@@ -33,8 +34,9 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
         addItem(
             com.dreampany.common.misc.extension.createFragment(
                 CoinInfoFragment::class,
-                task
-            )
+                info
+            ),
+            R.string.title_coin_info
         )
     }
 }

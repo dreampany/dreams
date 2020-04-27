@@ -23,6 +23,7 @@
                 android:orientation="horizontal">
 
                 <include
+                    android:id="@+id/layout_simple"
                     layout="@layout/coin_simple_item"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

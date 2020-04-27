@@ -1,5 +1,6 @@
 package com.dreampany.common.ui.adapter
 
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -15,11 +16,11 @@ abstract class BasePagerAdapter<T : Fragment>(val activity: AppCompatActivity) :
     FragmentStateAdapter(activity) {
 
     protected val items: ArrayList<T>
-    protected val titles: Map<T, Int>
+    protected val titles: MutableMap<T, Int>
 
     init {
-        items = ArrayList()
-        titles = HashMap()
+        items = arrayListOf()
+        titles = mutableMapOf()
     }
 
     override fun getItemCount(): Int = items.size
@@ -34,6 +35,11 @@ abstract class BasePagerAdapter<T : Fragment>(val activity: AppCompatActivity) :
 
     fun addItem(item: T) {
         items.add(item)
+    }
+
+    fun addItem(item: T, @StringRes titleRes : Int) {
+        items.add(item)
+        titles.put(item, titleRes)
     }
 
     fun getItem(position: Int): T? = items.get(position)

@@ -4,8 +4,11 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.databinding.ViewDataBinding
+import androidx.viewbinding.ViewBinding
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.blink
+import com.dreampany.common.misc.extension.context
 import com.dreampany.common.misc.extension.formatString
 import com.dreampany.common.misc.extension.toColor
 import com.dreampany.common.misc.util.Util
@@ -14,7 +17,9 @@ import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
+import com.dreampany.tools.databinding.CoinQuoteItemBinding
 import com.dreampany.tools.misc.func.CurrencyFormatter
 import com.dreampany.tools.misc.extension.setUrl
 import com.google.common.base.Objects
@@ -28,12 +33,44 @@ import java.util.*
  * Last modified $file.lastModified
  */
 class CoinItem(
+    val itemType: ItemType,
     val item: Coin,
     val formatter: CurrencyFormatter,
     val currency: Currency,
     val sort: CoinSort,
     val order: Order
-) : ModelAbstractBindingItem<Coin, CoinItemBinding>(item) {
+) : ModelAbstractBindingItem<Coin, ViewBinding>(item) {
+
+    enum class ItemType {
+        ITEM, INFO, QUOTE
+    }
+
+    companion object {
+        fun getItem(
+            item: Coin,
+            formatter: CurrencyFormatter,
+            currency: Currency,
+            sort: CoinSort,
+            order: Order
+        ): CoinItem = CoinItem(ItemType.ITEM, item, formatter, currency, sort, order)
+
+        fun getInfoItem(
+            item: Coin,
+            formatter: CurrencyFormatter,
+            currency: Currency,
+            sort: CoinSort,
+            order: Order
+        ): CoinItem = CoinItem(ItemType.INFO, item, formatter, currency, sort, order)
+
+        fun getQuoteItem(
+            item: Coin,
+            formatter: CurrencyFormatter,
+            currency: Currency,
+            sort: CoinSort,
+            order: Order
+        ): CoinItem = CoinItem(ItemType.QUOTE, item, formatter, currency, sort, order)
+
+    }
 
     @StringRes
     private val btcFormat: Int
@@ -50,21 +87,43 @@ class CoinItem(
         negativeRatio = R.string.negative_ratio_format
     }
 
-    override fun hashCode(): Int = Objects.hashCode(item.id)
+    override fun hashCode(): Int = Objects.hashCode(itemType, item.id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as CoinItem
-        return Objects.equal(this.item.id, item.item.id)
+        return item.itemType == itemType && Objects.equal(this.item.id, item.item.id)
     }
 
     override val type: Int
         get() = R.id.adapter_coin_item_id
 
-    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): CoinItemBinding = CoinItemBinding.inflate(inflater, parent, false)
+    override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ViewBinding {
+        when (itemType) {
+            ItemType.ITEM -> return CoinItemBinding.inflate(inflater, parent, false)
+            ItemType.INFO -> return CoinInfoItemBinding.inflate(inflater, parent, false)
+            ItemType.QUOTE -> return CoinQuoteItemBinding.inflate(inflater, parent, false)
+        }
+    }
 
-    override fun bindView(bind: CoinItemBinding, payloads: List<Any>) {
+
+    override fun bindView(bind: ViewBinding, payloads: List<Any>) {
+        if (bind is CoinItemBinding) {
+            bindItem(bind)
+        } else if (bind is CoinInfoItemBinding) {
+            bindItem(bind)
+        } else if (bind is CoinQuoteItemBinding) {
+            bindItem(bind)
+        }
+
+    }
+
+    override fun unbindView(binding: ViewBinding) {
+
+    }
+
+    private fun bindItem(bind: CoinItemBinding) {
         bind.layoutSimple.icon.setUrl(
             String.format(
                 Locale.ENGLISH,
@@ -108,11 +167,11 @@ class CoinItem(
         val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
 
         bind.layoutPrice.textChange1h.text =
-            bind.root.context.formatString(change1hFormat, change1h)
+            bind.context.formatString(change1hFormat, change1h)
         bind.layoutPrice.textChange24h.text =
-            bind.root.context.formatString(change24hFormat, change24h)
+            bind.context.formatString(change24hFormat, change24h)
         bind.layoutPrice.textChange7d.text =
-            bind.root.context.formatString(change7dFormat, change7d)
+            bind.context.formatString(change7dFormat, change7d)
 
         val startColor = R.color.material_grey400
         val endColor =
@@ -122,15 +181,15 @@ class CoinItem(
 
         val hourChangeColor =
             if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange1h.setTextColor(hourChangeColor.toColor(bind.root.context))
+        bind.layoutPrice.textChange1h.setTextColor(hourChangeColor.toColor(bind.context))
 
         val dayChangeColor =
             if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange24h.setTextColor(dayChangeColor.toColor(bind.root.context))
+        bind.layoutPrice.textChange24h.setTextColor(dayChangeColor.toColor(bind.context))
 
         val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange7d.setTextColor(weekChangeColor.toColor(bind.root.context))
+        bind.layoutPrice.textChange7d.setTextColor(weekChangeColor.toColor(bind.context))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),
@@ -140,7 +199,75 @@ class CoinItem(
         bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
     }
 
-    override fun unbindView(binding: CoinItemBinding) {
+    private fun bindItem(bind: CoinInfoItemBinding) {
+        bind.layoutSimple.icon.setUrl(
+            String.format(
+                Locale.ENGLISH,
+                CryptoConstants.CoinMarketCap.IMAGE_URL,
+                item.id
+            )
+        )
+        val nameText =
+            String.format(
+                Locale.ENGLISH,
+                bind.root.context.getString(R.string.crypto_symbol_name),
+                item.symbol,
+                item.name
+            )
+        bind.layoutSimple.textName.text = nameText
+
+        val quote = item.getQuote(currency)
+
+        var price = 0.0
+        var change1h = 0.0
+        var change24h = 0.0
+        var change7d = 0.0
+        var marketCap = 0.0
+        var volume24h = 0.0
+        if (quote != null) {
+            price = quote.price
+            change1h = quote.getChange1h()
+            change24h = quote.getChange24h()
+            change7d = quote.getChange7d()
+            marketCap = quote.getMarketCap()
+            volume24h = quote.getVolume24h()
+        }
+
+        bind.layoutSimple.textPrice.text = formatter.formatPrice(price, currency)
+
+        val change1hFormat = if (change1h >= 0.0f) positiveRatio else negativeRatio
+        val change24hFormat = if (change24h >= 0.0f) positiveRatio else negativeRatio
+        val change7dFormat = if (change7d >= 0.0f) positiveRatio else negativeRatio
+
+        bind.textChange1h.text =
+            bind.context.formatString(change1hFormat, change1h)
+        bind.textChange24h.text =
+            bind.context.formatString(change24hFormat, change24h)
+        bind.textChange7d.text =
+            bind.context.formatString(change7dFormat, change7d)
+
+        val hourChangeColor =
+            if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
+        bind.textChange1h.setTextColor(hourChangeColor.toColor(bind.context))
+
+        val dayChangeColor =
+            if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
+        bind.textChange24h.setTextColor(dayChangeColor.toColor(bind.context))
+
+        val weekChangeColor =
+            if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
+        bind.textChange7d.setTextColor(weekChangeColor.toColor(bind.context))
+
+        val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+            item.getLastUpdated(),
+            Util.currentMillis(),
+            DateUtils.MINUTE_IN_MILLIS
+        ) as String
+
+        bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+    }
+
+    private fun bindItem(bind: CoinQuoteItemBinding) {
 
     }
 }

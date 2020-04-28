@@ -54,8 +54,6 @@ class CoinRoomDataSource(
     ): List<Coin>? = mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
 
     @Throws
-    override suspend fun getItem(id: String, currency: Currency): Coin? {
-        TODO("Not yet implemented")
-    }
-
+    override suspend fun getItem(id: String, currency: Currency): Coin? =
+        mapper.getItem(id, currency, quoteDao, this)
 }

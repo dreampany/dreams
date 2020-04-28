@@ -87,6 +87,22 @@ class CoinMapper
         return result
     }
 
+    @Throws
+    @Synchronized
+    suspend fun getItem(
+        id: String,
+        currency: Currency,
+        quoteDao: QuoteDao,
+        source: CoinDataSource
+    ): Coin? {
+        updateCache(source)
+        val result = coins.get(id)
+        result?.let {
+            bindQuote(currency, it, quoteDao)
+        }
+        return result
+    }
+
     @Synchronized
     fun getItems(inputs: List<CryptoCoin>): List<Coin> {
         val result = arrayListOf<Coin>()

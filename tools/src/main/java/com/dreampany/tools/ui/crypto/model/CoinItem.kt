@@ -31,7 +31,8 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinItem private constructor(
+class CoinItem
+private constructor(
     val itemType: ItemType,
     val item: Coin,
     val formatter: CurrencyFormatter,
@@ -96,7 +97,13 @@ class CoinItem private constructor(
     }
 
     override val type: Int
-        get() = R.id.adapter_coin_item_id
+        get() {
+            when (itemType) {
+                ItemType.ITEM -> return R.id.adapter_coin_item_id
+                ItemType.INFO -> return R.id.adapter_coin_info_item_id
+                ItemType.QUOTE -> return R.id.adapter_coin_quote_item_id
+            }
+        }
 
     override fun createBinding(inflater: LayoutInflater, parent: ViewGroup?): ViewBinding {
         when (itemType) {
@@ -115,7 +122,6 @@ class CoinItem private constructor(
         } else if (bind is CoinQuoteItemBinding) {
             bindItem(bind)
         }
-
     }
 
     override fun unbindView(binding: ViewBinding) {

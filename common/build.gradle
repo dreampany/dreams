@@ -153,6 +153,5 @@ dependencies {
     implementation 'com.kaopiz:kprogresshud:1.2.0'
     //api 'com.afollestad.assent:core:3.0.0-RC4'
     //api 'com.afollestad.assent:rationales:3.0.0-RC4'
-
     implementation 'com.github.pwittchen:prefser-rx2:2.2.3'
 }

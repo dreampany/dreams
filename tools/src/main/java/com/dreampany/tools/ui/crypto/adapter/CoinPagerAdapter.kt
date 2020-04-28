@@ -20,20 +20,21 @@ import com.dreampany.tools.ui.crypto.fragment.CoinInfoFragment
  */
 class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
-    fun addItems(input : Coin) {
+    fun addItems(input: Coin) {
         val info = UiTask(
             CryptoType.COIN,
             CryptoSubtype.INFO,
             CryptoState.DEFAULT,
             CryptoAction.DEFAULT,
-            null
+            input
         )
         addItem(
             com.dreampany.common.misc.extension.createFragment(
                 CoinInfoFragment::class,
                 info
             ),
-            R.string.title_coin_info
+            R.string.title_coin_info,
+            true
         )
     }
 }

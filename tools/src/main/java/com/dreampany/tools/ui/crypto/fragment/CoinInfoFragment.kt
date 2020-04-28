@@ -6,13 +6,18 @@ import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.common.misc.extension.init
 import com.dreampany.common.misc.extension.refresh
+import com.dreampany.common.misc.extension.task
 import com.dreampany.common.misc.func.SmartError
 import com.dreampany.common.ui.fragment.InjectFragment
+import com.dreampany.common.ui.model.UiTask
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.crypto.CryptoAction
+import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
@@ -37,6 +42,7 @@ class CoinInfoFragment
     private lateinit var bind: RecyclerFragmentBinding
     private lateinit var vm: CoinViewModel
     private lateinit var adapter: FastCoinAdapter
+    private lateinit var input: Coin
 
     override fun hasBinding(): Boolean = true
 
@@ -45,6 +51,9 @@ class CoinInfoFragment
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
+        val task: UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> =
+            (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
+        input = task.input ?: return
         onRefresh()
     }
 
@@ -63,7 +72,8 @@ class CoinInfoFragment
     }
 
     private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount)
+        if (::input.isInitialized)
+            vm.loadCoin(input.id)
     }
 
     private fun initUi() {

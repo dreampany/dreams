@@ -40,6 +40,7 @@ class CoinActivity : InjectActivity() {
         initPager()
         val task : UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
         input = task.input ?: return
+        setTitle(input.name)
         loadUi()
     }
 

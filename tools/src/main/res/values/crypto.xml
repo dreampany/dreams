@@ -46,4 +46,5 @@
     <string name="trade_pairs_sep">-</string>
 
     <string name="title_coin_info">Info</string>
+    <string name="join_text">%s %s</string>
 </resources>

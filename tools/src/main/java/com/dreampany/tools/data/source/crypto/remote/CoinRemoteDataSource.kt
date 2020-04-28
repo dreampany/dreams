@@ -10,6 +10,7 @@ import com.dreampany.common.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.response.CoinsResponse
+import com.dreampany.tools.api.crypto.remote.response.QuotesResponse
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
@@ -109,7 +110,35 @@ constructor(
     }
 
     override suspend fun getItem(id: String, currency: Currency): Coin? {
-        TODO("Not yet implemented")
+        for (index in 0..keys.length) {
+            try {
+                val key = keys.nextKey ?: continue
+                val response: Response<QuotesResponse> = service.getQuotes(
+                    getHeader(key),
+                    currency.name,
+                    id
+                ).execute()
+                if (response.isSuccessful) {
+                    val data = response.body()?.data ?: return null
+                    val inputData = data.get(id) ?: return null
+                    return mapper.getItem(inputData)
+                } else {
+                    val error = parser.parseError(response, QuotesResponse::class)
+                    throw SmartError(
+                        message = error?.status?.errorMessage,
+                        code = error?.status?.errorCode
+                    )
+                }
+            } catch (error: Throwable) {
+                if (error is SmartError) throw error
+                if (error is UnknownHostException) throw SmartError(
+                    message = error.message,
+                    error = error
+                )
+                keys.randomForwardKey()
+            }
+        }
+        throw SmartError()
     }
 
     fun getHeader(key: String): Map<String, String> {

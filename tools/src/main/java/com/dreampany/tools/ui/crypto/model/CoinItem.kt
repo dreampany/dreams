@@ -4,7 +4,6 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.databinding.ViewDataBinding
 import androidx.viewbinding.ViewBinding
 import com.dreampany.common.data.enums.Order
 import com.dreampany.common.misc.extension.blink
@@ -32,7 +31,7 @@ import java.util.*
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinItem(
+class CoinItem private constructor(
     val itemType: ItemType,
     val item: Coin,
     val formatter: CurrencyFormatter,
@@ -207,14 +206,14 @@ class CoinItem(
                 item.id
             )
         )
-        val nameText =
+        val name =
             String.format(
                 Locale.ENGLISH,
                 bind.root.context.getString(R.string.crypto_symbol_name),
                 item.symbol,
                 item.name
             )
-        bind.layoutSimple.textName.text = nameText
+        bind.layoutSimple.textName.text = name
 
         val quote = item.getQuote(currency)
 
@@ -268,6 +267,26 @@ class CoinItem(
     }
 
     private fun bindItem(bind: CoinQuoteItemBinding) {
+        val symbol = item.symbol
+        val circulating = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getCirculatingSupply()), symbol)
 
+        val total = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getTotalSupply()), symbol)
+        val max = bind.context.getString(R.string.join_text, formatter.roundPrice(item.getMaxSupply()), symbol)
+
+        bind.layoutCirculating.title.setText(R.string.circulating_supply)
+        bind.layoutTotal.title.setText(R.string.total_supply)
+        bind.layoutMax.title.setText(R.string.max_supply)
+
+        bind.layoutCirculating.textValue.text = circulating
+        bind.layoutTotal.textValue.text = total
+        bind.layoutMax.textValue.text = max
+
+        val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
+            item.getLastUpdated(),
+            Util.currentMillis(),
+            DateUtils.MINUTE_IN_MILLIS
+        ) as String
+
+        bind.textLastUpdated.text = lastUpdatedTime
     }
 }

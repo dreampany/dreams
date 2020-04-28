@@ -62,17 +62,50 @@ class CoinViewModel
         }
     }
 
+    fun loadCoin(id: String) {
+        uiScope.launch {
+            postProgress(true)
+            var result: Coin? = null
+            var errors: SmartError? = null
+            try {
+                val currency = pref.getCurrency()
+                result = repo.getItem(id, currency)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
     fun toggleFavorite(item: CoinItem) {
 
     }
 
-   private suspend fun List<Coin>.toItems(): List<CoinItem> {
-        val list = this
+    private suspend fun List<Coin>.toItems(): List<CoinItem> {
+        val input = this
         return withContext(Dispatchers.IO) {
             val currency = pref.getCurrency()
             val sort = pref.getSort()
             val order = pref.getOrder()
-            list.map { CoinItem(it, formatter, currency, sort, order) }
+            input.map { CoinItem.getItem(it, formatter, currency, sort, order) }
+        }
+    }
+
+    private suspend fun Coin.toItems(): List<CoinItem> {
+        val input = this
+        return withContext(Dispatchers.IO) {
+            val currency = pref.getCurrency()
+            val sort = pref.getSort()
+            val order = pref.getOrder()
+            val result = arrayListOf<CoinItem>()
+            result.add(CoinItem.getInfoItem(input, formatter, currency, sort, order))
+            result.add(CoinItem.getQuoteItem(input, formatter, currency, sort, order))
+            result
         }
     }
 

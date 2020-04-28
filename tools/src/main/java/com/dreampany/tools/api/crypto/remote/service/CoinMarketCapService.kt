@@ -33,6 +33,6 @@ interface CoinMarketCapService {
     fun getQuotes(
         @HeaderMap headers: Map<String, String>,
         @Query(CryptoConstants.CoinMarketCap.CONVERT) currencies: String,
-        @Query(CryptoConstants.CoinMarketCap.ID) id: String // could be comma separated multiple coin_id
+        @Query(CryptoConstants.CoinMarketCap.ID) ids: String // could be comma separated multiple coin_id
     ): Call<QuotesResponse>
 }

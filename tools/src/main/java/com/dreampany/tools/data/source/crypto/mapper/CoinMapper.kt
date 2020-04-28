@@ -53,6 +53,16 @@ class CoinMapper
     fun commitExpire(currency: Currency, sort: CoinSort, order: Order, offset: Long) =
         pref.commitExpireTime(currency, sort, order, offset)
 
+    @Synchronized
+    fun isExpired(id: String, currency: Currency): Boolean {
+        val time = pref.getExpireTime(id, currency)
+        return time.isExpired(AppConstants.Times.Crypto.COIN)
+    }
+
+    @Synchronized
+    fun commitExpire(id: String, currency: Currency) =
+        pref.commitExpireTime(id, currency)
+
 
     @Synchronized
     fun add(coin: Coin) = coins.put(coin.id, coin)

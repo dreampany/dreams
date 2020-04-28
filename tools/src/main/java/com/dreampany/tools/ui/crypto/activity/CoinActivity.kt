@@ -1,8 +1,15 @@
 package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
+import com.dreampany.common.misc.extension.task
 import com.dreampany.common.ui.activity.InjectActivity
+import com.dreampany.common.ui.model.UiTask
 import com.dreampany.tools.R
+import com.dreampany.tools.data.enums.crypto.CryptoAction
+import com.dreampany.tools.data.enums.crypto.CryptoState
+import com.dreampany.tools.data.enums.crypto.CryptoSubtype
+import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.databinding.CoinActivityBinding
 import com.dreampany.tools.ui.crypto.adapter.CoinPagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -18,6 +25,7 @@ class CoinActivity : InjectActivity() {
     private lateinit var bind: CoinActivityBinding
     private lateinit var adapter: CoinPagerAdapter
 
+    private lateinit var input : Coin
 
     override fun hasBinding(): Boolean = true
 
@@ -26,13 +34,17 @@ class CoinActivity : InjectActivity() {
     override fun layoutRes(): Int = R.layout.coin_activity
 
     override fun toolbarId(): Int = R.id.toolbar
-    
-    override fun onStartUi(state: Bundle?) {initUi()
-initPager()
+
+    override fun onStartUi(state: Bundle?) {
+        initUi()
+        initPager()
+        val task : UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
+        input = task.input ?: return
+        loadUi()
     }
 
     override fun onStopUi() {
-     }
+    }
 
     private fun initUi() {
         bind = getBinding()
@@ -50,5 +62,9 @@ initPager()
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()
+    }
+
+    private fun loadUi() {
+        adapter.addItems(input)
     }
 }

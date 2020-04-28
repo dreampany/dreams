@@ -66,8 +66,16 @@ class CoinRepo
         room.getItems(currency, sort, order, offset, limit)
     }
 
-    override suspend fun getItem(id: String, currency: Currency): Coin? {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun getItem(id: String, currency: Currency) = withContext(Dispatchers.IO) {
+        if (mapper.isExpired(id, currency)) {
+            val result = remote.getItem(id, currency)
+            if (result != null) {
+                mapper.commitExpire(id, currency)
+                room.putItem(result)
+            }
+        }
+        room.getItem(id, currency)
     }
 
 }

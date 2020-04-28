@@ -70,8 +70,8 @@ class AppConstants {
 
     object Times {
         object Crypto {
-            val LISTING = TimeUnit.HOURS.toMillis(1)
-            val COIN = TimeUnit.MINUTES.toMillis(10)
+            val LISTING = TimeUnit.MINUTES.toMillis(30)
+            val COIN = TimeUnit.MINUTES.toMillis(5)
         }
 
         object RADIO {

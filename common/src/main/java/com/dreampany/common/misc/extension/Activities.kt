@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.os.Parcelable
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
@@ -80,6 +81,15 @@ fun <T : Fragment> AppCompatActivity?.open(fragment: T?, @IdRes parent: Int, ex:
     ex.postToUi(runner)
 }
 
+val AppCompatActivity?.bundle: Bundle?
+    get() = this?.intent?.extras
+
+val AppCompatActivity?.task: Task<*, *, *, *, *>?
+    get() {
+        val bundle = this.bundle ?: return null
+        return bundle.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
+    }
+
 fun Activity?.moreApps(devId: String) {
     if (this == null) return
     try {
@@ -102,3 +112,4 @@ fun Activity?.rateUs() {
         Timber.e(error)
     }
 }
+

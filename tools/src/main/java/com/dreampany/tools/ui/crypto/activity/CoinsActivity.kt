@@ -41,7 +41,6 @@ class CoinsActivity : InjectActivity() {
 
     private lateinit var bind: CoinsActivityBinding
     private lateinit var vm: CoinViewModel
-
     private lateinit var adapter: FastCoinAdapter
 
     override fun homeUp(): Boolean = true

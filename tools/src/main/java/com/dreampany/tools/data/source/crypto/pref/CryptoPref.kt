@@ -75,4 +75,22 @@ class CryptoPref
         }
         setPrivately(key.toString(), Util.currentMillis())
     }
+
+    @Synchronized
+    fun getExpireTime(id: String, currency: Currency): Long {
+        val key = StringBuilder(CryptoConstants.Keys.PrefKeys.Crypto.EXPIRE).apply {
+            append(id)
+            append(currency.name)
+        }
+        return getPrivately(key.toString(), Constants.Default.LONG)
+    }
+
+    @Synchronized
+    fun commitExpireTime(id: String, currency: Currency) {
+        val key = StringBuilder(CryptoConstants.Keys.PrefKeys.Crypto.EXPIRE).apply {
+            append(id)
+            append(currency.name)
+        }
+        setPrivately(key.toString(), Util.currentMillis())
+    }
 }

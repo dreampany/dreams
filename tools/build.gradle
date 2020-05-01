@@ -84,6 +84,7 @@ android {
             proguardFiles 'proguard-rules-reactive-network.pro'
             proguardFiles 'proguard-rules-jackson.pro'
             proguardFiles 'proguard-rules-kotlin.pro'
+            proguardFiles 'proguard-rules-rx.pro'
         }
     }
 

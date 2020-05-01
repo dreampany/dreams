@@ -4,6 +4,7 @@ import com.dreampany.common.app.InjectApp
 import com.dreampany.common.misc.extension.isDebug
 import com.dreampany.tools.R
 import com.dreampany.tools.inject.app.DaggerAppComponent
+import com.dreampany.tools.manager.AdManager
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.facebook.imagepipeline.core.ImageTranscoderType
@@ -17,6 +18,8 @@ import com.google.firebase.appindexing.Indexable
 import com.google.firebase.appindexing.builders.Indexables
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * Created by roman on 3/11/20
@@ -25,6 +28,9 @@ import dagger.android.DaggerApplication
  * Last modified $file.lastModified
  */
 class App : InjectApp() {
+
+    @Inject
+    internal lateinit var ad: AdManager
 
     private var action: Action? = null
     private var indexable: Indexable? = null
@@ -58,8 +64,15 @@ class App : InjectApp() {
     }
 
     private fun initAd() {
-        if (isDebug) return
+        //if (isDebug) return
         MobileAds.initialize(this, getString(R.string.admob_app_id))
+        //ad.initPoints(Util.AD_POINTS)
+        val config = AdManager.Config.Builder()
+            .bannerExpireDelay(TimeUnit.MINUTES.toMillis(0))
+            .interstitialExpireDelay(TimeUnit.MINUTES.toMillis(5))
+            .rewardedExpireDelay(TimeUnit.MINUTES.toMillis(10))
+            .enabled(!isDebug)
+        ad.setConfig(config.build())
     }
 
     private fun initFresco() {

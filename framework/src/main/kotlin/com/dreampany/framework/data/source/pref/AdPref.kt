@@ -14,7 +14,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class AdPref @Inject constructor(context: Context) : FramePref(context) {
+class AdPref
+@Inject constructor(context: Context) : FramePref(context) {
 
     override fun getPrivateName(context: Context): String {
         return Constants.Pref.AD

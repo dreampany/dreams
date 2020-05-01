@@ -3,8 +3,6 @@ package com.dreampany.common.misc.constant
 import android.content.Context
 import com.dreampany.common.misc.extension.lastApplicationId
 import com.dreampany.common.misc.extension.lastPart
-import com.google.common.base.Splitter
-import com.google.common.collect.Iterables
 import java.util.*
 
 /**
@@ -86,12 +84,6 @@ class Constants {
         const val FOREGROUND_CHANNEL_ID = "foreground_channel_id"
     }
 
-    object Ad {
-        const val BANNER = "banner"
-        const val INTERSTITIAL = "interstitial"
-        const val REWARDED = "rewarded"
-    }
-
     object Default {
         val NULL = null
         const val BOOLEAN = false
@@ -144,11 +136,18 @@ class Constants {
         object PrefKeys {
             const val DEFAULT = "default"
             const val SERVICE = "service"
+            const val AD = "ad"
             const val SERVICE_STATE = "service_state"
         }
 
         object Firestore {
             const val PACKAGES = "packages"
+        }
+
+        object Ad {
+            const val BANNER = "banner"
+            const val INTERSTITIAL = "interstitial"
+            const val REWARDED = "rewarded"
         }
     }
 

@@ -47,7 +47,7 @@ public class SmartAd {
 
     private static final int BANNER_MULTIPLIER = 1;
     private static final int INTERSTITIAL_MULTIPLIER = 2;
-    private static final int REWARDED_MULTIPLIER = 4;
+    private static final int REWARDED_MULTIPLIER = 3;
 
     private int points;
     private Config config;

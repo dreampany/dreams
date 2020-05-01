@@ -18,5 +18,3 @@
 -dontwarn org.reactivestreams.**
 -dontwarn java.util.concurrent.flow.**
 -dontwarn java.util.concurrent.**
-
--keep class java.util.concurrent.flow.** { *; }

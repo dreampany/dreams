@@ -97,12 +97,12 @@ class CoinInfoFragment
         )
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, State, Action, List<CoinItem>>) {
+    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, State, Action, List<CoinItem>>) {
+        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }

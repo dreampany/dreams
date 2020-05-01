@@ -29,7 +29,8 @@ class StationPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
         val fragment = getItem(position) ?: return Constants.Default.STRING
         val task = fragment.task ?: return Constants.Default.STRING
         if (task.state is RadioState) {
-            return task.state.value
+            val state : RadioState = task.state as RadioState
+            return state.title
         }
         return Constants.Default.STRING
     }

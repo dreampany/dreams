@@ -14,6 +14,6 @@ import kotlinx.android.parcel.Parcelize
 enum class RadioState : BaseState {
     LOCAL, TRENDS, POPULAR;
 
-    override val value: String
-        get() = name.toTitle()
+    override val value: String get() = name
+    val title: String get() = name.toTitle()
 }

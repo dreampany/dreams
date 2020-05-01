@@ -14,5 +14,6 @@ import kotlinx.android.parcel.Parcelize
 enum class CryptoState : BaseState {
     DEFAULT, FAVORITE;
 
-    override val value: String get() = name.toTitle()
+    override val value: String get() = name
+    val title : String get() = name.toTitle()
 }

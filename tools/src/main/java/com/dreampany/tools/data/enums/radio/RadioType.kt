@@ -10,5 +10,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class RadioType : BaseType {
-    DEFAULT, STATION
+    DEFAULT, STATION;
+    override val value: String get() = name
 }

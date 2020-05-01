@@ -119,7 +119,7 @@ class Constants {
     }
 
     object Room {
-        const val TYPE_FRAME = "frame"
+        const val TYPE_FRAMEWORK = "framework"
         const val TYPE_TRANSLATION = "translation"
         const val TYPE_DEFAULT = "default"
         const val POST_FIX_DB = "db"

@@ -110,7 +110,7 @@ class CoinViewModel
             var errors: SmartError? = null
             var favorite: Boolean = false
             try {
-                favorite = repo.isFavorite(input)
+                favorite = repo.toggleFavorite(input)
                 result = input
             } catch (error: SmartError) {
                 Timber.e(error)

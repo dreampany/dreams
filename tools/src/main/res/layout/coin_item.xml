@@ -8,8 +8,8 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="@dimen/_4sdp"
-        auto:cardElevation="@dimen/_4sdp"
+        auto:cardCornerRadius="@dimen/_2sdp"
+        auto:cardElevation="@dimen/_2sdp"
         auto:cardPreventCornerOverlap="false">
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -23,7 +23,7 @@
                 android:id="@+id/layout_simple"
                 layout="@layout/coin_simple_item"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="top|start"
                 android:layout_marginEnd="@dimen/_6sdp"
                 android:layout_weight="1" />

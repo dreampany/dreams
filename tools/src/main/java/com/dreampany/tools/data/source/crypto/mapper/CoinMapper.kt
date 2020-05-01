@@ -89,6 +89,32 @@ class CoinMapper
     }
 
     @Throws
+    suspend fun insertFavorite(coin: Coin): Boolean {
+        favorites.put(coin.id, true)
+        val store = storeMapper.getItem(
+            coin.id,
+            CryptoType.COIN.value,
+            CryptoSubtype.DEFAULT.value,
+            CryptoState.FAVORITE.value
+        )
+        store?.let { storeRepo.insert(it) }
+        return true
+    }
+
+    @Throws
+    suspend fun deleteFavorite(coin: Coin): Boolean {
+        favorites.put(coin.id, false)
+        val store = storeMapper.getItem(
+            coin.id,
+            CryptoType.COIN.value,
+            CryptoSubtype.DEFAULT.value,
+            CryptoState.FAVORITE.value
+        )
+        store?.let { storeRepo.delete(it) }
+        return false
+    }
+
+    @Throws
     @Synchronized
     suspend fun getItems(
         currency: Currency,
@@ -134,12 +160,12 @@ class CoinMapper
         source: CoinDataSource
     ): List<Coin>? {
         updateCache(source)
-        val ids = storeRepo.getItems(
+        val stores = storeRepo.getStores(
             CryptoType.COIN.value,
             CryptoSubtype.DEFAULT.value,
             CryptoState.FAVORITE.value
         )
-        val outputs = ids?.mapNotNull { input -> coins.get(input) }
+        val outputs = stores?.mapNotNull { input -> coins.get(input.id) }
         var result: List<Coin>? = null
         outputs?.let {
             result = sortedCoins(it, currency, sort, sortDirection)

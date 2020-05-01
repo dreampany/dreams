@@ -21,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/coin_format"
                 android:textColor="@color/material_grey700"
-                android:textSize="@dimen/_14ssp"
+                android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />
 
             <com.google.android.material.textview.MaterialTextView

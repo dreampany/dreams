@@ -26,12 +26,14 @@ constructor(
     ): Boolean = dao.getCount(id, type, subtype, state) > 0
 
     @Throws
-    override suspend fun putItem(item: Store): Long = dao.insertOrReplace(item)
+    override suspend fun insert(item: Store): Long = dao.insertOrReplace(item)
 
     @Throws
-    override suspend fun getItem(id: String, type: String, subtype: String, state: String): Store? =
+    override suspend fun getStore(id: String, type: String, subtype: String, state: String): Store? =
         dao.getItem(id, type, subtype, state)
 
-    override suspend fun getItems(type: String, subtype: String, state: String): List<String>? =
+    @Throws override suspend fun getStores(type: String, subtype: String, state: String): List<Store>? =
         dao.getItems(type, subtype, state)
+
+    @Throws  override suspend fun delete(store: Store): Int = dao.delete(store)
 }

@@ -13,11 +13,14 @@ interface StoreDataSource {
     suspend fun isExists(id: String, type: String, subtype: String, state: String): Boolean
 
     @Throws
-    suspend fun putItem(item: Store): Long
+    suspend fun insert(item: Store): Long
 
     @Throws
-    suspend fun getItem(id: String, type: String, subtype: String, state: String): Store?
+    suspend fun getStore(id: String, type: String, subtype: String, state: String): Store?
 
     @Throws
-    suspend fun getItems(type: String, subtype: String, state: String): List<String>?
+    suspend fun getStores(type: String, subtype: String, state: String): List<Store>?
+
+    @Throws
+    suspend fun delete(store: Store): Int
 }

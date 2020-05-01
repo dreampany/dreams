@@ -37,6 +37,10 @@ class CoinRepo
         room.isFavorite(input)
     }
 
+    override suspend fun toggleFavorite(input: Coin)= withContext(Dispatchers.IO) {
+        room.toggleFavorite(input)
+    }
+
     @Throws
     override suspend fun putItem(input: Coin): Long {
         TODO("Not yet implemented")

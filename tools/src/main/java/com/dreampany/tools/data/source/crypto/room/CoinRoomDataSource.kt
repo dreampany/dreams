@@ -24,6 +24,17 @@ class CoinRoomDataSource(
     override suspend fun isFavorite(input: Coin): Boolean = mapper.isFavorite(input)
 
     @Throws
+    override suspend fun toggleFavorite(input: Coin): Boolean {
+        val favorite = isFavorite(input)
+        if (favorite) {
+            mapper.deleteFavorite(input)
+        } else {
+            mapper.insertFavorite(input)
+        }
+        return favorite.not()
+    }
+
+    @Throws
     override suspend fun putItem(input: Coin): Long {
         mapper.add(input)
         if (input.hasQuote()) {

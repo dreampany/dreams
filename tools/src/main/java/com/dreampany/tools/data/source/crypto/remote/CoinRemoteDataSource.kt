@@ -55,6 +55,10 @@ constructor(
         TODO("Not yet implemented")
     }
 
+    override suspend fun toggleFavorite(input: Coin): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun putItem(input: Coin): Long {
         TODO("Not yet implemented")
     }

@@ -2,7 +2,6 @@ package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.common.data.model.Response
@@ -32,7 +31,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinsActivity : InjectActivity() {
+class FavoriteCoinsActivity : InjectActivity() {
 
     @Inject
     internal lateinit var cryptoPref: CryptoPref
@@ -49,7 +48,7 @@ class CoinsActivity : InjectActivity() {
 
     override fun toolbarId(): Int = R.id.toolbar
 
-    override fun menuRes(): Int = R.menu.menu_coins
+    override fun menuRes(): Int = R.menu.menu_favorite_coins
 
     override fun searchMenuItemId(): Int = R.id.item_search
 
@@ -71,17 +70,6 @@ class CoinsActivity : InjectActivity() {
 
     override fun onMenuCreated(menu: Menu) {
         getSearchMenuItem().toTint(this, R.color.material_white)
-        findMenuItemById(R.id.item_favorites).toTint(this, R.color.material_white)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_favorites -> {
-                openFavoritesUi()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
@@ -94,15 +82,14 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount)
+        vm.loadFavoriteCoins()
     }
 
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
         vm = createVm(CoinViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -124,18 +111,7 @@ class CoinsActivity : InjectActivity() {
         )
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
-        if (response is Response.Progress) {
-            bind.swipe.refresh(response.progress)
-        } else if (response is Response.Error) {
-            processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
-            Timber.v("Result [%s]", response.result)
-            processResult(response.result)
-        }
-    }
-
-    private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
@@ -159,14 +135,6 @@ class CoinsActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: CoinItem?) {
-        if (result == null) {
-
-        } else {
-            adapter.addItem(result)
-        }
-    }
-
     private fun processResults(result: List<CoinItem>?) {
         if (result == null) {
 
@@ -182,18 +150,13 @@ class CoinsActivity : InjectActivity() {
                 openCoinUi(item)
             }
             R.id.button_favorite -> {
-                onFavoriteClicked(item)
+
             }
             else -> {
 
             }
         }
     }
-
-    private fun onFavoriteClicked(item : CoinItem) {
-        vm.toggleFavorite(item.item)
-    }
-
 
     private fun openCoinUi(item: CoinItem) {
         val task = UiTask(
@@ -204,9 +167,5 @@ class CoinsActivity : InjectActivity() {
             item.item
         )
         open(CoinActivity::class, task)
-    }
-
-    private fun openFavoritesUi() {
-        open(FavoriteCoinsActivity::class)
     }
 }

@@ -24,6 +24,9 @@ interface StoreDao : BaseDao<Store> {
     @Query("select * from store where id = :id and type = :type and subtype = :subtype and state = :state limit 1")
     fun getItem(id: String, type: String, subtype: String, state: String): Store?
 
-    @Query("select id from store where type = :type and subtype = :subtype and state = :state")
-    fun getItems(type: String, subtype: String, state: String): List<String>?
+    @Query("select * from store where type = :type and subtype = :subtype and state = :state")
+    fun getItems(type: String, subtype: String, state: String): List<Store>?
+
+    /*@Query("delete from store where id = :id and type = :type and subtype = :subtype and state = :state")
+    fun delete(id: String, type: String, subtype: String, state: String): Int*/
 }

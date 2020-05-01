@@ -3,6 +3,7 @@ package com.dreampany.tools.inject.ui.crypto
 import com.dreampany.common.inject.annote.ActivityScope
 import com.dreampany.tools.ui.crypto.activity.CoinActivity
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
+import com.dreampany.tools.ui.crypto.activity.FavoriteCoinsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -20,4 +21,7 @@ abstract class CryptoModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [CoinModule::class])
     abstract fun coin(): CoinActivity
+
+    @ContributesAndroidInjector
+    abstract fun favorites(): FavoriteCoinsActivity
 }

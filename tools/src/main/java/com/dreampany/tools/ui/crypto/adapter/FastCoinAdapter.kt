@@ -128,6 +128,10 @@ class FastCoinAdapter(
         footerAdapter.clear()
     }
 
+    fun addItem(item: CoinItem) {
+        fastAdapter.add(item)
+    }
+
     fun addItems(items: List<CoinItem>) {
         fastAdapter.add(items)
     }

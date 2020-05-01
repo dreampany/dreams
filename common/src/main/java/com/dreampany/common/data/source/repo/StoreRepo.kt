@@ -25,6 +25,7 @@ class StoreRepo
     private val mapper: StoreMapper,
     @Room private val room: StoreDataSource
 ) : StoreDataSource {
+    @Throws
     override suspend fun isExists(
         id: String,
         type: String,
@@ -34,17 +35,26 @@ class StoreRepo
         room.isExists(id, type, subtype, state)
     }
 
-    override suspend fun putItem(item: Store) = withContext(Dispatchers.IO) {
-        room.putItem(item)
+    @Throws
+    override suspend fun insert(item: Store) = withContext(Dispatchers.IO) {
+        room.insert(item)
     }
 
-    override suspend fun getItem(id: String, type: String, subtype: String, state: String) =
+    @Throws
+    override suspend fun getStore(id: String, type: String, subtype: String, state: String) =
         withContext(Dispatchers.IO) {
-            room.getItem(id, type, subtype, state)
+            room.getStore(id, type, subtype, state)
         }
 
-    override suspend fun getItems(type: String, subtype: String, state: String) =
+    @Throws
+    override suspend fun getStores(type: String, subtype: String, state: String) =
         withContext(Dispatchers.IO) {
-            room.getItems(type, subtype, state)
+            room.getStores(type, subtype, state)
+        }
+
+    @Throws
+    override suspend fun delete(store: Store) =
+        withContext(Dispatchers.IO) {
+            room.delete(store)
         }
 }

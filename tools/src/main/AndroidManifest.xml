@@ -79,6 +79,22 @@
         </activity>
 
         <activity
+            android:name=".ui.crypto.activity.FavoriteCoinsActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:label="@string/title_feature_crypto"
+            android:windowSoftInputMode="adjustResize">
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
+
+        <activity
             android:name=".ui.radio.activity.StationsActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:label="@string/title_feature_radio"

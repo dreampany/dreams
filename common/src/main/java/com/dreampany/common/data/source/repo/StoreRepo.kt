@@ -30,15 +30,21 @@ class StoreRepo
         type: String,
         subtype: String,
         state: String
-    )= withContext(Dispatchers.IO) {
+    ) = withContext(Dispatchers.IO) {
         room.isExists(id, type, subtype, state)
     }
 
-    override suspend fun putItem(item: Store)= withContext(Dispatchers.IO) {
+    override suspend fun putItem(item: Store) = withContext(Dispatchers.IO) {
         room.putItem(item)
     }
 
-    override suspend fun getItem(id: String, type: String, subtype: String, state: String)= withContext(Dispatchers.IO) {
-        room.getItem(id, type, subtype, state)
-    }
+    override suspend fun getItem(id: String, type: String, subtype: String, state: String) =
+        withContext(Dispatchers.IO) {
+            room.getItem(id, type, subtype, state)
+        }
+
+    override suspend fun getItems(type: String, subtype: String, state: String) =
+        withContext(Dispatchers.IO) {
+            room.getItems(type, subtype, state)
+        }
 }

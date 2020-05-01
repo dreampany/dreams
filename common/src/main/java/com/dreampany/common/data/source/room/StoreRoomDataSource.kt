@@ -31,4 +31,7 @@ constructor(
     @Throws
     override suspend fun getItem(id: String, type: String, subtype: String, state: String): Store? =
         dao.getItem(id, type, subtype, state)
+
+    override suspend fun getItems(type: String, subtype: String, state: String): List<String>? =
+        dao.getItems(type, subtype, state)
 }

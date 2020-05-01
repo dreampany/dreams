@@ -32,24 +32,33 @@ class CoinRepo
     @Room private val room: CoinDataSource,
     @Remote private val remote: CoinDataSource
 ) : CoinDataSource {
-    override suspend fun putItem(item: Coin): Long {
-        TODO("Not yet implemented")
+    @Throws
+    override suspend fun isFavorite(input: Coin) = withContext(Dispatchers.IO) {
+        room.isFavorite(input)
     }
 
-    override suspend fun putItems(items: List<Coin>): List<Long>? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getItems(): List<Coin>? {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getItems(ids: List<String>, currency: Currency): List<Coin>? {
+    @Throws
+    override suspend fun putItem(input: Coin): Long {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getItems(
+    override suspend fun insert(inputs: List<Coin>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun getCoins(): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun getCoins(ids: List<String>, currency: Currency): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun getCoins(
         currency: Currency,
         sort: CoinSort,
         order: Order,
@@ -57,25 +66,34 @@ class CoinRepo
         limit: Long
     ) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(currency, sort, order, offset)) {
-            val result = remote.getItems(currency, sort, order, offset, limit)
+            val result = remote.getCoins(currency, sort, order, offset, limit)
             if (!result.isNullOrEmpty()) {
                 mapper.commitExpire(currency, sort, order, offset)
-                room.putItems(result)
+                room.insert(result)
             }
         }
-        room.getItems(currency, sort, order, offset, limit)
+        room.getCoins(currency, sort, order, offset, limit)
     }
 
     @Throws
-    override suspend fun getItem(id: String, currency: Currency) = withContext(Dispatchers.IO) {
+    override suspend fun getCoin(id: String, currency: Currency) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(id, currency)) {
-            val result = remote.getItem(id, currency)
+            val result = remote.getCoin(id, currency)
             if (result != null) {
                 mapper.commitExpire(id, currency)
                 room.putItem(result)
             }
         }
-        room.getItem(id, currency)
+        room.getCoin(id, currency)
+    }
+
+    @Throws
+    override suspend fun getFavoriteCoins(
+        currency: Currency,
+        sort: CoinSort,
+        order: Order
+    ) = withContext(Dispatchers.IO) {
+        room.getFavoriteCoins(currency, sort, order)
     }
 
 }

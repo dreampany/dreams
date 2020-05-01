@@ -51,24 +51,28 @@ constructor(
         }
     }
 
-    override suspend fun putItem(item: Coin): Long {
+    override suspend fun isFavorite(input: Coin): Boolean {
         TODO("Not yet implemented")
     }
 
-    override suspend fun putItems(items: List<Coin>): List<Long>? {
+    override suspend fun putItem(input: Coin): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItems(): List<Coin>? {
+    override suspend fun insert(inputs: List<Coin>): List<Long>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getItems(ids: List<String>, currency: Currency): List<Coin>? {
+    override suspend fun getCoins(): List<Coin>? {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getCoins(ids: List<String>, currency: Currency): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getItems(
+    override suspend fun getCoins(
         currency: Currency,
         sort: CoinSort,
         order: Order,
@@ -109,7 +113,7 @@ constructor(
         throw SmartError()
     }
 
-    override suspend fun getItem(id: String, currency: Currency): Coin? {
+    override suspend fun getCoin(id: String, currency: Currency): Coin? {
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue
@@ -139,6 +143,14 @@ constructor(
             }
         }
         throw SmartError()
+    }
+
+    override suspend fun getFavoriteCoins(
+        currency: Currency,
+        sort: CoinSort,
+        order: Order
+    ): List<Coin>? {
+        TODO("Not yet implemented")
     }
 
     fun getHeader(key: String): Map<String, String> {

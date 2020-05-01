@@ -10,7 +10,6 @@ import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Coin
-import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.repo.CoinRepo
 import com.dreampany.tools.misc.func.CurrencyFormatter
@@ -34,7 +33,6 @@ class CoinViewModel
     rm: ResponseMapper,
     private val formatter: CurrencyFormatter,
     private val pref: CryptoPref,
-    private val mapper: CoinMapper,
     private val repo: CoinRepo
 ) : BaseViewModel<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin, CoinItem, UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>>(
     application,
@@ -43,14 +41,14 @@ class CoinViewModel
 
     fun loadCoins(offset: Long) {
         uiScope.launch {
-            postProgress(true)
+            postProgressMultiple(true)
             var result: List<Coin>? = null
             var errors: SmartError? = null
             try {
                 val currency = pref.getCurrency()
                 val sort = pref.getSort()
                 val order = pref.getOrder()
-                result = repo.getItems(currency, sort, order, offset, CryptoConstants.Limits.COINS)
+                result = repo.getCoins(currency, sort, order, offset, CryptoConstants.Limits.COINS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -65,12 +63,34 @@ class CoinViewModel
 
     fun loadCoin(id: String) {
         uiScope.launch {
-            postProgress(true)
+            postProgressSingle(true)
             var result: Coin? = null
             var errors: SmartError? = null
             try {
                 val currency = pref.getCurrency()
-                result = repo.getItem(id, currency)
+                result = repo.getCoin(id, currency)
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItems())
+            }
+        }
+    }
+
+    fun loadFavoriteCoins() {
+        uiScope.launch {
+            postProgressMultiple(true)
+            var result: List<Coin>? = null
+            var errors: SmartError? = null
+            try {
+                val currency = pref.getCurrency()
+                val sort = pref.getSort()
+                val order = pref.getOrder()
+                result = repo.getFavoriteCoins(currency, sort, order)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -85,12 +105,12 @@ class CoinViewModel
 
     fun toggleFavorite(input: Coin) {
         uiScope.launch {
-            postProgress(true)
+            postProgressSingle(true)
             var result: Coin? = null
             var errors: SmartError? = null
             var favorite: Boolean = false
             try {
-                favorite = mapper.hasFavorite(input)
+                favorite = repo.isFavorite(input)
                 result = input
             } catch (error: SmartError) {
                 Timber.e(error)
@@ -137,7 +157,17 @@ class CoinViewModel
         }
     }
 
-    private fun postProgress(progress: Boolean) {
+    private fun postProgressSingle(progress: Boolean) {
+        postProgressSingle(
+            CryptoType.COIN,
+            CryptoSubtype.DEFAULT,
+            CryptoState.DEFAULT,
+            CryptoAction.DEFAULT,
+            progress = progress
+        )
+    }
+
+    private fun postProgressMultiple(progress: Boolean) {
         postProgressMultiple(
             CryptoType.COIN,
             CryptoSubtype.DEFAULT,

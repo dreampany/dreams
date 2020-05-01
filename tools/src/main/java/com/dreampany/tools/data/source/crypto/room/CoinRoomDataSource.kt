@@ -21,31 +21,34 @@ class CoinRoomDataSource(
     private val quoteDao: QuoteDao
 ) : CoinDataSource {
     @Throws
-    override suspend fun putItem(item: Coin): Long {
-        mapper.add(item)
-        if (item.hasQuote()) {
-            quoteDao.insertOrReplace(item.getQuotesAsList())
+    override suspend fun isFavorite(input: Coin): Boolean = mapper.isFavorite(input)
+
+    @Throws
+    override suspend fun putItem(input: Coin): Long {
+        mapper.add(input)
+        if (input.hasQuote()) {
+            quoteDao.insertOrReplace(input.getQuotesAsList())
         }
-        return dao.insertOrReplace(item)
+        return dao.insertOrReplace(input)
     }
 
     @Throws
-    override suspend fun putItems(items: List<Coin>): List<Long>? {
+    override suspend fun insert(inputs: List<Coin>): List<Long>? {
         val result = arrayListOf<Long>()
-        items.forEach { result.add(putItem(it)) }
+        inputs.forEach { result.add(putItem(it)) }
         return result
     }
 
     @Throws
-    override suspend fun getItems(): List<Coin>? = dao.items
+    override suspend fun getCoins(): List<Coin>? = dao.items
 
     @Throws
-    override suspend fun getItems(ids: List<String>, currency: Currency): List<Coin>? {
+    override suspend fun getCoins(ids: List<String>, currency: Currency): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getItems(
+    override suspend fun getCoins(
         currency: Currency,
         sort: CoinSort,
         order: Order,
@@ -54,6 +57,13 @@ class CoinRoomDataSource(
     ): List<Coin>? = mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
 
     @Throws
-    override suspend fun getItem(id: String, currency: Currency): Coin? =
+    override suspend fun getCoin(id: String, currency: Currency): Coin? =
         mapper.getItem(id, currency, quoteDao, this)
+
+    @Throws
+    override suspend fun getFavoriteCoins(
+        currency: Currency,
+        sort: CoinSort,
+        order: Order
+    ): List<Coin>? = mapper.getFavoriteItems(currency, sort, order, quoteDao, this)
 }

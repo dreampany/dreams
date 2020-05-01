@@ -75,7 +75,7 @@ class CoinMapper
     fun add(coin: Coin) = coins.put(coin.id, coin)
 
     @Throws
-    suspend fun hasFavorite(coin: Coin): Boolean {
+    suspend fun isFavorite(coin: Coin): Boolean {
         if (!favorites.containsKey(coin.id)) {
             val favorite = storeRepo.isExists(
                 coin.id,
@@ -100,7 +100,7 @@ class CoinMapper
         source: CoinDataSource
     ): List<Coin>? {
         updateCache(source)
-        val cache = sortedCoins(currency, sort, sortDirection)
+        val cache = sortedCoins(coins.values.toList(), currency, sort, sortDirection)
         val result = sub(cache, offset, limit)
         result?.forEach {
             bindQuote(currency, it, quoteDao)
@@ -119,6 +119,32 @@ class CoinMapper
         updateCache(source)
         val result = coins.get(id)
         result?.let {
+            bindQuote(currency, it, quoteDao)
+        }
+        return result
+    }
+
+    @Throws
+    @Synchronized
+    suspend fun getFavoriteItems(
+        currency: Currency,
+        sort: CoinSort,
+        sortDirection: Order,
+        quoteDao: QuoteDao,
+        source: CoinDataSource
+    ): List<Coin>? {
+        updateCache(source)
+        val ids = storeRepo.getItems(
+            CryptoType.COIN.value,
+            CryptoSubtype.DEFAULT.value,
+            CryptoState.FAVORITE.value
+        )
+        val outputs = ids?.mapNotNull { input -> coins.get(input) }
+        var result: List<Coin>? = null
+        outputs?.let {
+            result = sortedCoins(it, currency, sort, sortDirection)
+        }
+        result?.forEach {
             bindQuote(currency, it, quoteDao)
         }
         return result
@@ -215,7 +241,7 @@ class CoinMapper
     @Synchronized
     private suspend fun updateCache(source: CoinDataSource) {
         if (coins.isEmpty()) {
-            source.getItems()?.let {
+            source.getCoins()?.let {
                 if (it.isNotEmpty())
                     it.forEach { add(it) }
             }
@@ -224,11 +250,12 @@ class CoinMapper
 
     @Synchronized
     private fun sortedCoins(
+        inputs: List<Coin>,
         currency: Currency,
         sort: CoinSort,
         order: Order
     ): List<Coin> {
-        val temp = ArrayList(coins.values)
+        val temp = ArrayList(inputs)
         val comparator = CryptoComparator(currency, sort, order)
         temp.sortWith(comparator)
         return temp

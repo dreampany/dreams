@@ -21,7 +21,7 @@ class SplashActivity : InjectActivity() {
         initUi()
         ex.postToUi(Runnable {
             nextScreen()
-        }, 0L)
+        }, 1000L)
     }
 
     override fun onStopUi() {

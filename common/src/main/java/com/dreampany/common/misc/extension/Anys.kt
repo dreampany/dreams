@@ -1,10 +1,7 @@
 package com.dreampany.common.misc.extension
 
-import android.content.Context
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import androidx.annotation.Nullable
-import androidx.core.content.ContextCompat
 import com.dreampany.common.misc.constant.Constants
 import com.dreampany.common.misc.util.Util
 

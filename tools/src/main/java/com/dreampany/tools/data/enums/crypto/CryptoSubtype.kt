@@ -11,5 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class CryptoSubtype : BaseSubtype {
-    DEFAULT, INFO
+    DEFAULT, INFO;
+
+    override val value: String get() = name
 }

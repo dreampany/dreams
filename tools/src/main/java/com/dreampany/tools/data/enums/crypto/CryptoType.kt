@@ -2,6 +2,7 @@ package com.dreampany.tools.data.enums.crypto
 
 import com.dreampany.common.data.enums.BaseType
 import kotlinx.android.parcel.Parcelize
+
 /**
  * Created by roman on 14/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
@@ -10,5 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class CryptoType : BaseType {
-    DEFAULT, COIN
+    DEFAULT, COIN;
+
+    override val value: String get() = name
 }

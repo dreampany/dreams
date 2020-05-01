@@ -1,6 +1,5 @@
 package com.dreampany.tools.ui.more.vm
 
-import android.app.Activity
 import android.app.Application
 import com.dreampany.common.misc.func.ResponseMapper
 import com.dreampany.common.misc.func.SmartError

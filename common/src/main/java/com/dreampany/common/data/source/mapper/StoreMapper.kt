@@ -12,7 +12,8 @@ import javax.inject.Singleton
  * Last modified $file.lastModified
  */
 @Singleton
-class StoreMapper @Inject constructor() {
+class StoreMapper
+@Inject constructor() {
 
     private val stores: MutableMap<String, Store>
 

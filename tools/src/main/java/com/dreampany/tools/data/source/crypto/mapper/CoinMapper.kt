@@ -1,13 +1,16 @@
 package com.dreampany.tools.data.source.crypto.mapper
 
 import com.dreampany.common.data.enums.Order
+import com.dreampany.common.data.source.mapper.StoreMapper
+import com.dreampany.common.data.source.repo.StoreRepo
 import com.dreampany.common.misc.extension.isExpired
 import com.dreampany.common.misc.extension.sub
 import com.dreampany.common.misc.extension.utc
+import com.dreampany.common.misc.extension.value
 import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.CryptoQuote
-import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.*
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.crypto.Quote
@@ -31,16 +34,20 @@ import kotlin.collections.ArrayList
 @Singleton
 class CoinMapper
 @Inject constructor(
+    private val storeMapper: StoreMapper,
+    private val storeRepo: StoreRepo,
     private val pref: CryptoPref
 ) {
     private val coins: MutableMap<String, Coin>
     private val quotes: MutableMap<Pair<String, Currency>, Quote>
     private val currencies: MutableMap<String, Currency>
+    private val favorites: MutableMap<String, Boolean>
 
     init {
         coins = Maps.newConcurrentMap()
         quotes = Maps.newConcurrentMap()
         currencies = Maps.newConcurrentMap()
+        favorites = Maps.newConcurrentMap()
     }
 
     @Synchronized
@@ -66,6 +73,20 @@ class CoinMapper
 
     @Synchronized
     fun add(coin: Coin) = coins.put(coin.id, coin)
+
+    @Throws
+    suspend fun hasFavorite(coin: Coin): Boolean {
+        if (!favorites.containsKey(coin.id)) {
+            val favorite = storeRepo.isExists(
+                coin.id,
+                CryptoType.COIN.value,
+                CryptoSubtype.DEFAULT.value,
+                CryptoState.FAVORITE.value
+            )
+            favorites.put(coin.id, favorite)
+        }
+        return favorites.get(coin.id).value()
+    }
 
     @Throws
     @Synchronized

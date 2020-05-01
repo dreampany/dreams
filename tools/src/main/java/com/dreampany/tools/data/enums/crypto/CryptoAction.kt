@@ -13,4 +13,5 @@ import kotlinx.android.parcel.Parcelize
 enum class CryptoAction : BaseAction {
     DEFAULT, VIEW;
 
+    override val value: String get() = name
 }

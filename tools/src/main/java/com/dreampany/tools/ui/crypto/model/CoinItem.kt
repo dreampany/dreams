@@ -38,7 +38,8 @@ private constructor(
     val formatter: CurrencyFormatter,
     val currency: Currency,
     val sort: CoinSort,
-    val order: Order
+    val order: Order,
+    var favorite: Boolean
 ) : ModelAbstractBindingItem<Coin, ViewBinding>(item) {
 
     enum class ItemType {
@@ -51,24 +52,27 @@ private constructor(
             formatter: CurrencyFormatter,
             currency: Currency,
             sort: CoinSort,
-            order: Order
-        ): CoinItem = CoinItem(ItemType.ITEM, item, formatter, currency, sort, order)
+            order: Order,
+            favorite: Boolean = false
+        ): CoinItem = CoinItem(ItemType.ITEM, item, formatter, currency, sort, order, favorite)
 
         fun getInfoItem(
             item: Coin,
             formatter: CurrencyFormatter,
             currency: Currency,
             sort: CoinSort,
-            order: Order
-        ): CoinItem = CoinItem(ItemType.INFO, item, formatter, currency, sort, order)
+            order: Order,
+            favorite: Boolean = false
+        ): CoinItem = CoinItem(ItemType.INFO, item, formatter, currency, sort, order, favorite)
 
         fun getQuoteItem(
             item: Coin,
             formatter: CurrencyFormatter,
             currency: Currency,
             sort: CoinSort,
-            order: Order
-        ): CoinItem = CoinItem(ItemType.QUOTE, item, formatter, currency, sort, order)
+            order: Order,
+            favorite: Boolean = false
+        ): CoinItem = CoinItem(ItemType.QUOTE, item, formatter, currency, sort, order, favorite)
 
     }
 

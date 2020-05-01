@@ -11,5 +11,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class Action : BaseAction {
-    DEFAULT
+    DEFAULT;
+    override val value: String get() = name
 }

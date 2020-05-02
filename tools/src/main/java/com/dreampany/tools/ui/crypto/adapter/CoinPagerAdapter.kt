@@ -10,7 +10,8 @@ import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.model.crypto.Coin
-import com.dreampany.tools.ui.crypto.fragment.CoinInfoFragment
+import com.dreampany.tools.ui.crypto.fragment.InfoFragment
+import com.dreampany.tools.ui.crypto.fragment.MarketFragment
 
 /**
  * Created by roman on 27/4/20
@@ -28,12 +29,27 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
             CryptoAction.DEFAULT,
             input
         )
+        val market = UiTask(
+            CryptoType.COIN,
+            CryptoSubtype.MARKET,
+            CryptoState.DEFAULT,
+            CryptoAction.DEFAULT,
+            input
+        )
         addItem(
             com.dreampany.common.misc.extension.createFragment(
-                CoinInfoFragment::class,
+                InfoFragment::class,
                 info
             ),
             R.string.title_coin_info,
+            true
+        )
+        addItem(
+            com.dreampany.common.misc.extension.createFragment(
+                MarketFragment::class,
+                market
+            ),
+            R.string.title_coin_market,
             true
         )
     }

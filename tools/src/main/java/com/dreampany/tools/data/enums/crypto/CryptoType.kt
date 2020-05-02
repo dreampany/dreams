@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class CryptoType : BaseType {
-    DEFAULT, COIN;
+    DEFAULT, COIN, TRADE, EXCHANGE;
 
     override val value: String get() = name
 }

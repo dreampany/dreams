@@ -175,4 +175,5 @@ dependencies {
     implementation 'com.github.nikartm:fit-button:1.2.1'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'com.google.android.exoplayer:exoplayer:2.10.4'
+    implementation 'com.github.skydoves:powermenu:2.1.2'
 }

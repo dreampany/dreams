@@ -122,5 +122,7 @@ class CryptoConstants {
 
     object Limits {
         const val COINS = 100L
+        const val TRADES = 10L
+        const val EXCHANGES = 10L
     }
 }

@@ -2,8 +2,11 @@
 <resources>
     <item name="adapter_feature_item_id" type="id" />
     <item name="adapter_more_item_id" type="id" />
+
     <item name="adapter_coin_item_id" type="id" />
     <item name="adapter_coin_info_item_id" type="id" />
     <item name="adapter_coin_quote_item_id" type="id" />
+    <item name="adapter_exchange_item_id" type="id" />
+
     <item name="adapter_station_item_id" type="id" />
 </resources>

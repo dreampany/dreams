@@ -109,7 +109,7 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount)
+        vm.loadCoins(adapter.itemCount.toLong())
     }
 
     private fun initUi() {

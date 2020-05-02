@@ -46,7 +46,10 @@ class FastCoinAdapter(
         rankComparator = RankComparator()
     }
 
-    val isEmpty: Boolean get() = fastAdapter.itemCount == 0
+    val itemCount: Int
+        get() = fastAdapter.itemCount
+
+    val isEmpty: Boolean get() = itemCount == 0
 
     fun initRecycler(
         state: Bundle?,
@@ -159,9 +162,6 @@ class FastCoinAdapter(
     fun addItems(items: List<CoinItem>) {
         fastAdapter.add(items)
     }
-
-    val itemCount: Long
-        get() = (fastAdapter.itemCount ?: 0).toLong()
 
     class CryptoComparator(
         private val currency: Currency,

@@ -298,9 +298,9 @@ class CoinMapper
                 val rightCap = right.getQuote(currency)
                 if (leftCap != null && rightCap != null) {
                     if (order == Order.ASCENDING) {
-                        return (leftCap.getMarketCap() - rightCap.getMarketCap()).toInt()
+                        return leftCap.getMarketCap().compareTo(rightCap.getMarketCap())
                     } else {
-                        return (rightCap.getMarketCap() - leftCap.getMarketCap()).toInt()
+                        return rightCap.getMarketCap().compareTo(leftCap.getMarketCap())
                     }
                 }
             }

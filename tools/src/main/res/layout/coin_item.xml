@@ -42,7 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|start"
-                android:clickable="false" />
+                android:clickable="false"
+                android:visibility="gone" />
 
             <!--            <com.like.LikeButton
                             android:id="@+id/button_like"

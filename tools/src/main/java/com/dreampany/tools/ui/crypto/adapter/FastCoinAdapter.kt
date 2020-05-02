@@ -10,6 +10,7 @@ import com.dreampany.common.misc.extension.dimension
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
+import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.mikepenz.fastadapter.GenericItem
@@ -44,6 +45,8 @@ class FastCoinAdapter(
     init {
         rankComparator = RankComparator()
     }
+
+    val isEmpty: Boolean get() = fastAdapter.itemCount == 0
 
     fun initRecycler(
         state: Bundle?,
@@ -103,6 +106,16 @@ class FastCoinAdapter(
                     listener(view, item)
                 }
             }
+
+            fastAdapter.addClickListener<CoinInfoItemBinding, GenericItem>(
+                { bind -> bind.root },
+                { bind -> arrayListOf(bind.buttonFavorite) }
+            )
+            { view, position, adapter, item ->
+                if (item is CoinItem) {
+                    listener(view, item)
+                }
+            }
         }
     }
 
@@ -134,6 +147,12 @@ class FastCoinAdapter(
         if (position >= 0) {
             fastAdapter.set(position, item)
             //fastAdapter.notifyAdapterItemChanged(position)
+        }
+    }
+
+    fun updateItems(items: List<CoinItem>) {
+        items.forEach {
+            updateItem(it)
         }
     }
 

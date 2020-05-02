@@ -209,7 +209,7 @@ private constructor(
         ) as String
         bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
 
-        bind.layoutOptions.buttonFavorite.isLiked = favorite
+        //bind.layoutOptions.buttonFavorite.isLiked = favorite
     }
 
     private fun bindItem(bind: CoinInfoItemBinding) {
@@ -278,6 +278,7 @@ private constructor(
         ) as String
 
         bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+        bind.buttonFavorite.isLiked = favorite
     }
 
     private fun bindItem(bind: CoinQuoteItemBinding) {

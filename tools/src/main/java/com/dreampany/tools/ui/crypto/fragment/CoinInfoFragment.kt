@@ -1,6 +1,7 @@
 package com.dreampany.tools.ui.crypto.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.common.data.model.Response
 import com.dreampany.common.inject.annote.ActivityScope
@@ -69,6 +70,19 @@ class CoinInfoFragment
         loadCoins()
     }
 
+    private fun onItemPressed(view: View, item: CoinItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.button_favorite -> {
+                onFavoriteClicked(item)
+            }
+        }
+    }
+
+    private fun onFavoriteClicked(item: CoinItem) {
+        vm.toggleFavorite(item.item, CoinItem.ItemType.INFO)
+    }
+
     private fun loadCoins() {
         if (::input.isInitialized)
             vm.loadCoin(input.id)
@@ -78,12 +92,13 @@ class CoinInfoFragment
         bind = getBinding()
         bind.swipe.init(this)
         vm = createVm(CoinViewModel::class)
-        vm.subscribes(this, Observer { this.processResponse(it) })
+        vm.subscribe(this, Observer { this.processResponse(it) })
+        vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter()
+            adapter = FastCoinAdapter(clickListener = this::onItemPressed)
         }
 
         adapter.initRecycler(
@@ -95,7 +110,18 @@ class CoinInfoFragment
         )
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+        if (response is Response.Progress) {
+            bind.swipe.refresh(response.progress)
+        } else if (response is Response.Error) {
+            processError(response.error)
+        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+            Timber.v("Result [%s]", response.result)
+            processResult(response.result)
+        }
+    }
+
+    private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
@@ -119,11 +145,19 @@ class CoinInfoFragment
         )
     }
 
-    private fun processResults(result: List<CoinItem>?) {
-        if (result == null) {
+    private fun processResult(result: CoinItem?) {
+        if (result != null) {
+            adapter.updateItem(result)
+        }
+    }
 
-        } else {
-            adapter.addItems(result)
+    private fun processResults(result: List<CoinItem>?) {
+        if (result != null) {
+            if (adapter.isEmpty) {
+                adapter.addItems(result)
+            } else {
+                adapter.updateItems(result)
+            }
         }
     }
 }

@@ -103,7 +103,7 @@ class CoinViewModel
         }
     }
 
-    fun toggleFavorite(input: Coin) {
+    fun toggleFavorite(input: Coin, itemType: CoinItem.ItemType) {
         uiScope.launch {
             postProgressSingle(true)
             var result: Coin? = null
@@ -119,7 +119,7 @@ class CoinViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem(favorite), state = CryptoState.FAVORITE)
+                postResult(result?.toItem( itemType, favorite), state = CryptoState.FAVORITE)
             }
         }
     }
@@ -151,13 +151,23 @@ class CoinViewModel
         }
     }
 
-    private suspend fun Coin.toItem(favorite: Boolean): CoinItem {
+    private suspend fun Coin.toItem(itemType: CoinItem.ItemType, favorite: Boolean): CoinItem {
         val input = this
         return withContext(Dispatchers.IO) {
             val currency = pref.getCurrency()
             val sort = pref.getSort()
             val order = pref.getOrder()
-            CoinItem.getItem(input, formatter, currency, sort, order, favorite = favorite)
+            when(itemType) {
+                CoinItem.ItemType.ITEM-> {
+                    CoinItem.getItem(input, formatter, currency, sort, order, favorite = favorite)
+                }
+                CoinItem.ItemType.INFO-> {
+                    CoinItem.getInfoItem(input, formatter, currency, sort, order, favorite = favorite)
+                }
+                CoinItem.ItemType.QUOTE-> {
+                    CoinItem.getQuoteItem(input, formatter, currency, sort, order, favorite = favorite)
+                }
+            }
         }
     }
 

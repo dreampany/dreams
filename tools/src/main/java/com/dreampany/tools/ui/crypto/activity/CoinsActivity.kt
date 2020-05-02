@@ -93,6 +93,21 @@ class CoinsActivity : InjectActivity() {
         loadCoins()
     }
 
+    private fun onItemPressed(view: View, item: CoinItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+                openCoinUi(item)
+            }
+            R.id.button_favorite -> {
+                onFavoriteClicked(item)
+            }
+            else -> {
+
+            }
+        }
+    }
+
     private fun loadCoins() {
         vm.loadCoins(adapter.itemCount)
     }
@@ -175,23 +190,8 @@ class CoinsActivity : InjectActivity() {
         }
     }
 
-    private fun onItemPressed(view: View, item: CoinItem) {
-        Timber.v("Pressed $view")
-        when (view.id) {
-            R.id.layout -> {
-                openCoinUi(item)
-            }
-            R.id.button_favorite -> {
-                onFavoriteClicked(item)
-            }
-            else -> {
-
-            }
-        }
-    }
-
     private fun onFavoriteClicked(item : CoinItem) {
-        vm.toggleFavorite(item.item)
+        vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
     }
 
 

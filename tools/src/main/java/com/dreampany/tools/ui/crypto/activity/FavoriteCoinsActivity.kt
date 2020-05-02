@@ -82,7 +82,10 @@ class FavoriteCoinsActivity : InjectActivity() {
     }
 
     private fun loadCoins() {
-        vm.loadFavoriteCoins()
+        if (adapter.isEmpty)
+            vm.loadFavoriteCoins()
+        else
+            bind.swipe.refresh(false)
     }
 
     private fun initUi() {

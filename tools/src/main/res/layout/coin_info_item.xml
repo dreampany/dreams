@@ -35,7 +35,6 @@
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_14sdp"
                     android:layout_height="@dimen/_14sdp"
-                    android:visibility="gone"
                     auto:icon_size="@dimen/_14sdp"
                     auto:icon_type="heart" />
 

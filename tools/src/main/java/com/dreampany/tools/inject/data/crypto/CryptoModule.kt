@@ -10,9 +10,16 @@ import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.inject.data.CoinMarketCapModule
 import com.dreampany.tools.api.crypto.inject.data.CryptoCompareModule
 import com.dreampany.tools.api.crypto.remote.service.CoinMarketCapService
+import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
 import com.dreampany.tools.data.source.crypto.api.CoinDataSource
+import com.dreampany.tools.data.source.crypto.api.ExchangeDataSource
+import com.dreampany.tools.data.source.crypto.api.TradeDataSource
 import com.dreampany.tools.data.source.crypto.mapper.CoinMapper
+import com.dreampany.tools.data.source.crypto.mapper.ExchangeMapper
+import com.dreampany.tools.data.source.crypto.mapper.TradeMapper
 import com.dreampany.tools.data.source.crypto.remote.CoinRemoteDataSource
+import com.dreampany.tools.data.source.crypto.remote.ExchangeRemoteDataSource
+import com.dreampany.tools.data.source.crypto.remote.TradeRemoteDataSource
 import com.dreampany.tools.data.source.crypto.room.CoinRoomDataSource
 import com.dreampany.tools.data.source.crypto.room.dao.CoinDao
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
@@ -68,6 +75,30 @@ class CryptoModule {
         mapper: CoinMapper,
         service: CoinMarketCapService
     ): CoinDataSource = CoinRemoteDataSource(context, network, parser, keys, mapper, service)
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideTradeRemoteDataSource(
+        context: Context,
+        network: NetworkManager,
+        parser: Parser,
+        keys: Keys,
+        mapper: TradeMapper,
+        service: CryptoCompareService
+    ): TradeDataSource = TradeRemoteDataSource(context, network, parser, keys, mapper, service)
+
+    @Singleton
+    @Provides
+    @Remote
+    fun provideExchangeRemoteDataSource(
+        context: Context,
+        network: NetworkManager,
+        parser: Parser,
+        keys: Keys,
+        mapper: ExchangeMapper,
+        service: CryptoCompareService
+    ): ExchangeDataSource = ExchangeRemoteDataSource(context, network, parser, keys, mapper, service)
 /*
 
     @Singleton

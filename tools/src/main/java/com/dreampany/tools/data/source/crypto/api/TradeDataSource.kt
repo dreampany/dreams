@@ -9,5 +9,6 @@ import com.dreampany.tools.data.model.crypto.Trade
  * Last modified $file.lastModified
  */
 interface TradeDataSource {
-    fun getTrades(fromSymbol: String, extraParams: String, limit: Long): List<Trade>?
+    @Throws
+    suspend fun getTrades(fromSymbol: String, extraParams: String, limit: Long): List<Trade>?
 }

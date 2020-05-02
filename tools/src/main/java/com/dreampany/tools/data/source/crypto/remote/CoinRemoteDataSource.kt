@@ -51,6 +51,16 @@ constructor(
         }
     }
 
+    private fun getHeader(key: String): Map<String, String> {
+        val header = Maps.newHashMap<String, String>()
+        header.put(
+            CryptoConstants.CoinMarketCap.ACCEPT,
+            CryptoConstants.CoinMarketCap.ACCEPT_JSON
+        )
+        header.put(CryptoConstants.CoinMarketCap.API_KEY, key)
+        return header
+    }
+
     override suspend fun isFavorite(input: Coin): Boolean {
         TODO("Not yet implemented")
     }
@@ -155,15 +165,5 @@ constructor(
         order: Order
     ): List<Coin>? {
         TODO("Not yet implemented")
-    }
-
-    fun getHeader(key: String): Map<String, String> {
-        val header = Maps.newHashMap<String, String>()
-        header.put(
-            CryptoConstants.CoinMarketCap.ACCEPT,
-            CryptoConstants.CoinMarketCap.ACCEPT_JSON
-        )
-        header.put(CryptoConstants.CoinMarketCap.API_KEY, key)
-        return header
     }
 }

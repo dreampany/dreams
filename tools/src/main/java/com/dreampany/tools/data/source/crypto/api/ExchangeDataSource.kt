@@ -9,7 +9,7 @@ import com.dreampany.tools.data.model.crypto.Exchange
  * Last modified $file.lastModified
  */
 interface ExchangeDataSource {
-    fun getExchanges(
+    suspend fun getExchanges(
         fromSymbol: String,
         toSymbol: String,
         extraParams: String,

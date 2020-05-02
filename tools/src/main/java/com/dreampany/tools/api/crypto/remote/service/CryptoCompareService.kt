@@ -18,17 +18,17 @@ interface CryptoCompareService {
     @GET(CryptoConstants.CryptoCompare.TRADES)
     fun getTrades(
         @HeaderMap headers: Map<String, String>,
-        @Query(CryptoConstants.CryptoCompare.EXTRA_PARAMS) extraParams: String,
         @Query(CryptoConstants.CryptoCompare.FROM_SYMBOL) fromSymbol: String,
+        @Query(CryptoConstants.CryptoCompare.EXTRA_PARAMS) extraParams: String,
         @Query(CryptoConstants.Common.LIMIT) limit: Long
     ): Call<TradesResponse>
 
     @GET(CryptoConstants.CryptoCompare.EXCHANGES)
     fun getExchanges(
         @HeaderMap headers: Map<String, String>,
-        @Query(CryptoConstants.CryptoCompare.EXTRA_PARAMS) extraParams: String,
         @Query(CryptoConstants.CryptoCompare.FROM_SYMBOL) fromSymbol: String,
         @Query(CryptoConstants.CryptoCompare.TO_SYMBOL) toSymbol: String,
+        @Query(CryptoConstants.CryptoCompare.EXTRA_PARAMS) extraParams: String,
         @Query(CryptoConstants.Common.LIMIT) limit: Long
     ): Call<ExchangesResponse>
 }

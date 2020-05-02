@@ -31,7 +31,7 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 @ActivityScope
-class CoinInfoFragment
+class CoinGraphFragment
 @Inject constructor() : InjectFragment() {
 
     @Inject

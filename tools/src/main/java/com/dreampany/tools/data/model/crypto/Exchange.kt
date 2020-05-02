@@ -54,9 +54,7 @@ data class Exchange(
 
     }
 
-    override fun hashCode(): Int {
-        return Objects.hashCode(id)
-    }
+    override fun hashCode(): Int = Objects.hashCode(id)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -65,9 +63,7 @@ data class Exchange(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String {
-        return "Exchange ($id) == $id"
-    }
+    override fun toString(): String = "Exchange ($id) == $id"
 
     @PropertyName(AppConstants.Keys.Exchange.FROM_SYMBOL)
     fun setFromSymbol(fromSymbol: String) {

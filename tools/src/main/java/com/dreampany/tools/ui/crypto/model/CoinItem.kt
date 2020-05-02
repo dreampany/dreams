@@ -100,6 +100,8 @@ private constructor(
         return item.itemType == itemType && Objects.equal(this.item.id, item.item.id)
     }
 
+    override var identifier: Long = hashCode().toLong()
+
     override val type: Int
         get() {
             when (itemType) {
@@ -206,6 +208,8 @@ private constructor(
             DateUtils.MINUTE_IN_MILLIS
         ) as String
         bind.layoutSimple.textLastUpdated.text = lastUpdatedTime
+
+        bind.layoutOptions.buttonFavorite.isLiked = favorite
     }
 
     private fun bindItem(bind: CoinInfoItemBinding) {

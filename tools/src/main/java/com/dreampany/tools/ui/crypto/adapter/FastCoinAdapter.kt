@@ -128,8 +128,13 @@ class FastCoinAdapter(
         footerAdapter.clear()
     }
 
-    fun addItem(item: CoinItem) {
-        fastAdapter.add(item)
+    fun updateItem(item: CoinItem) {
+        var position = fastAdapter.getAdapterPosition(item)
+        position = fastAdapter.getGlobalPosition(position)
+        if (position >= 0) {
+            fastAdapter.set(position, item)
+            //fastAdapter.notifyAdapterItemChanged(position)
+        }
     }
 
     fun addItems(items: List<CoinItem>) {

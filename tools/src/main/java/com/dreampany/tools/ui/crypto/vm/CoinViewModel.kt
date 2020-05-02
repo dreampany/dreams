@@ -130,7 +130,10 @@ class CoinViewModel
             val currency = pref.getCurrency()
             val sort = pref.getSort()
             val order = pref.getOrder()
-            input.map { CoinItem.getItem(it, formatter, currency, sort, order) }
+            input.map { input ->
+                val favorite = repo.isFavorite(input)
+                CoinItem.getItem(input, formatter, currency, sort, order, favorite)
+            }
         }
     }
 
@@ -141,8 +144,9 @@ class CoinViewModel
             val sort = pref.getSort()
             val order = pref.getOrder()
             val result = arrayListOf<CoinItem>()
-            result.add(CoinItem.getInfoItem(input, formatter, currency, sort, order))
-            result.add(CoinItem.getQuoteItem(input, formatter, currency, sort, order))
+            val favorite = repo.isFavorite(input)
+            result.add(CoinItem.getInfoItem(input, formatter, currency, sort, order, favorite))
+            result.add(CoinItem.getQuoteItem(input, formatter, currency, sort, order, favorite))
             result
         }
     }

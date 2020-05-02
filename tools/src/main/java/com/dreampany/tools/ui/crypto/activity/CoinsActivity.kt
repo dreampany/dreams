@@ -163,7 +163,7 @@ class CoinsActivity : InjectActivity() {
         if (result == null) {
 
         } else {
-            adapter.addItem(result)
+            adapter.updateItem(result)
         }
     }
 

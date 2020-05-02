@@ -97,7 +97,7 @@ class FavoriteCoinsActivity : InjectActivity() {
             adapter = FastCoinAdapter(
                 { currentPage ->
                     Timber.v("CurrentPage: %d", currentPage)
-                    onRefresh()
+                    //onRefresh()
                 }, this::onItemPressed
             )
         }

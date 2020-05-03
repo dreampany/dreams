@@ -227,7 +227,7 @@ class MarketFragment
 
     private fun processTradeSelection(trade: Trade) {
         if (!toSymbol.equals(trade.getToSymbol())) {
-            toSymbol = trade.getToSymbol() ?: return
+            toSymbol = trade.getToSymbol()
             bind.buttonToSymbol.text = toSymbol
             buildToSymbolItems(true)
             loadExchanges()

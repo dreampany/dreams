@@ -51,10 +51,10 @@ class StationsActivity : InjectActivity() {
 
     private fun initPager() {
         adapter = StationPagerAdapter(this)
-        bind.pager.adapter = adapter
+        bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
             bind.tabs,
-            bind.pager,
+            bind.layoutPager.pager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = adapter.getTitle(position)
             }).attach()

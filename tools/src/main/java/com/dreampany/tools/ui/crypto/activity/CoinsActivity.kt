@@ -20,6 +20,7 @@ import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.CoinsActivityBinding
+import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
@@ -33,6 +34,8 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class CoinsActivity : InjectActivity() {
+    @Inject
+    internal lateinit var ad: AdManager
 
     @Inject
     internal lateinit var cryptoPref: CryptoPref
@@ -56,11 +59,23 @@ class CoinsActivity : InjectActivity() {
     override fun onStartUi(state: Bundle?) {
         initUi()
         initRecycler(state)
+        initAd()
         onRefresh()
+        ad.loadBanner(this.javaClass.simpleName)
     }
 
     override fun onStopUi() {
         adapter.destroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ad.resumeBanner(this.javaClass.simpleName)
+    }
+
+    override fun onPause() {
+        ad.pauseBanner(this.javaClass.simpleName)
+        super.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -108,8 +123,14 @@ class CoinsActivity : InjectActivity() {
         }
     }
 
-    private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount.toLong())
+    private fun initAd() {
+        ad.initAd(
+            this,
+            this.javaClass.simpleName,
+            findViewById(R.id.adview),
+            R.string.interstitial_ad_unit_id,
+            R.string.rewarded_ad_unit_id
+        )
     }
 
     private fun initUi() {
@@ -132,11 +153,15 @@ class CoinsActivity : InjectActivity() {
 
         adapter.initRecycler(
             state,
-            bind.recycler,
+            bind.layoutRecycler.recycler,
             cryptoPref.getCurrency(),
             cryptoPref.getSort(),
             cryptoPref.getOrder()
         )
+    }
+
+    private fun loadCoins() {
+        vm.loadCoins(adapter.itemCount.toLong())
     }
 
     private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {

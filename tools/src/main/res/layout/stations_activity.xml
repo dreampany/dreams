@@ -67,11 +67,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
+        <include
+            android:id="@+id/layout_pager"
+            layout="@layout/content_pager_ad"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            auto:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

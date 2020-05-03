@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.crypto.activity
+package com.dreampany.tools.ui.note.activity
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,23 +7,22 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.extension.init
-import com.dreampany.framework.misc.extension.open
 import com.dreampany.framework.misc.extension.refresh
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
-import com.dreampany.tools.databinding.CoinsActivityBinding
+import com.dreampany.tools.data.enums.note.NoteAction
+import com.dreampany.tools.data.enums.note.NoteState
+import com.dreampany.tools.data.enums.note.NoteSubtype
+import com.dreampany.tools.data.enums.note.NoteType
+import com.dreampany.tools.data.source.note.pref.NotePref
+import com.dreampany.tools.databinding.NotesActivityBinding
 import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
-import com.dreampany.tools.ui.crypto.model.CoinItem
-import com.dreampany.tools.ui.crypto.vm.CoinViewModel
+import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
+import com.dreampany.tools.ui.note.model.NoteItem
+import com.dreampany.tools.ui.note.vm.NoteViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,25 +32,23 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class CoinsActivity : InjectActivity() {
+class NotesActivity : InjectActivity() {
     @Inject
     internal lateinit var ad: AdManager
 
     @Inject
-    internal lateinit var cryptoPref: CryptoPref
+    internal lateinit var notePref: NotePref
 
-    private lateinit var bind: CoinsActivityBinding
-    private lateinit var vm: CoinViewModel
-    private lateinit var adapter: FastCoinAdapter
+    private lateinit var bind: NotesActivityBinding
+    private lateinit var vm: NoteViewModel
+    private lateinit var adapter: FastNoteAdapter
 
     override fun homeUp(): Boolean = true
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutRes(): Int = R.layout.coins_activity
-
-    override fun menuRes(): Int = R.menu.menu_coins
-
+    override fun layoutRes(): Int = R.layout.notes_activity
+    override fun menuRes(): Int = R.menu.menu_notes
     override fun toolbarId(): Int = R.id.toolbar
     override fun searchMenuItemId(): Int = R.id.item_search
 
@@ -104,14 +101,18 @@ class CoinsActivity : InjectActivity() {
     }
 
     override fun onRefresh() {
-        loadCoins()
+        if (adapter.isEmpty) {
+            loadNotes()
+            return
+        }
+        bind.swipe.refresh(false)
     }
 
-    private fun onItemPressed(view: View, item: CoinItem) {
+    private fun onItemPressed(view: View, item: NoteItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openCoinUi(item)
+                openUi(item)
             }
             R.id.button_favorite -> {
                 onFavoriteClicked(item)
@@ -135,14 +136,14 @@ class CoinsActivity : InjectActivity() {
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
-        vm = createVm(CoinViewModel::class)
+        vm = createVm(NoteViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter(
+            adapter = FastNoteAdapter(
                 { currentPage ->
                     Timber.v("CurrentPage: %d", currentPage)
                     onRefresh()
@@ -152,34 +153,31 @@ class CoinsActivity : InjectActivity() {
 
         adapter.initRecycler(
             state,
-            bind.layoutRecycler.recycler,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
+            bind.layoutRecycler.recycler
         )
     }
 
-    private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount.toLong())
+    private fun loadNotes() {
+        vm.loadNotes()
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+    private fun processResponse(response: Response<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+        } else if (response is Response.Result<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
     }
 
-    private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponses(response: Response<NoteType, NoteSubtype, NoteState, NoteAction, List<NoteItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+        } else if (response is Response.Result<NoteType, NoteSubtype, NoteState, NoteAction, List<NoteItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -202,39 +200,35 @@ class CoinsActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: CoinItem?) {
-        if (result == null) {
-
-        } else {
+    private fun processResult(result: NoteItem?) {
+        if (result != null) {
             adapter.updateItem(result)
         }
     }
 
-    private fun processResults(result: List<CoinItem>?) {
-        if (result == null) {
-
-        } else {
+    private fun processResults(result: List<NoteItem>?) {
+        if (result != null) {
             adapter.addItems(result)
         }
     }
 
-    private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
+    private fun onFavoriteClicked(item: NoteItem) {
+        vm.toggleFavorite(item.input)
     }
 
 
-    private fun openCoinUi(item: CoinItem) {
+    private fun openUi(item: NoteItem) {
         val task = UiTask(
-            CryptoType.COIN,
-            CryptoSubtype.DEFAULT,
-            CryptoState.DEFAULT,
-            CryptoAction.VIEW,
-            item.item
+            NoteType.NOTE,
+            NoteSubtype.DEFAULT,
+            NoteState.DEFAULT,
+            NoteAction.VIEW,
+            item.input
         )
-        open(CoinActivity::class, task)
+        //open(CoinActivity::class, task)
     }
 
     private fun openFavoritesUi() {
-        open(FavoriteCoinsActivity::class)
+        // open(FavoriteCoinsActivity::class)
     }
 }

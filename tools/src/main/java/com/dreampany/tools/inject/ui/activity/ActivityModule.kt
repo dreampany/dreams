@@ -4,6 +4,7 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.tools.inject.ui.crypto.CryptoModule
 import com.dreampany.tools.inject.ui.home.HomeModule
 import com.dreampany.tools.inject.ui.more.MoreModule
+import com.dreampany.tools.inject.ui.note.NoteModule
 import com.dreampany.tools.inject.ui.radio.RadioModule
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import com.dreampany.tools.ui.splash.SplashActivity
@@ -19,7 +20,8 @@ import dagger.android.ContributesAndroidInjector
 @Module(
     includes = [
         CryptoModule::class,
-        RadioModule::class
+        RadioModule::class,
+        NoteModule::class
     ]
 )
 abstract class ActivityModule {

@@ -36,6 +36,10 @@ class RadioConstants {
             }
         }
 
+        object Room {
+            const val TYPE_RADIO = "radio"
+        }
+
         object Radio {
             const val STATION_STATE = "station_state"
             const val STATION_TIME = "station_time"

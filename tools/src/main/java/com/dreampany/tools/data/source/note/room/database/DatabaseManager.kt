@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.source.radio.room.database
+package com.dreampany.tools.data.source.note.room.database
 
 import android.content.Context
 import androidx.room.Database
@@ -6,19 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.tools.data.model.radio.Station
-import com.dreampany.tools.data.source.radio.room.converters.Converters
-import com.dreampany.tools.data.source.radio.room.dao.StationDao
-import com.dreampany.tools.misc.constant.AppConstants
-import com.dreampany.tools.misc.constant.RadioConstants
+import com.dreampany.tools.data.model.note.Note
+import com.dreampany.tools.data.source.note.room.converters.Converters
+import com.dreampany.tools.data.source.note.room.dao.NoteDao
+import com.dreampany.tools.misc.constant.NoteConstants
 
 /**
- * Created by roman on 21/4/20
+ * Created by roman on 14/3/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [Station::class], version = 2)
+@Database(entities = [Note::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class DatabaseManager : RoomDatabase() {
 
@@ -32,7 +31,7 @@ abstract class DatabaseManager : RoomDatabase() {
             if (memoryOnly) {
                 builder = Room.inMemoryDatabaseBuilder(context, DatabaseManager::class.java)
             } else {
-                val DATABASE = Constants.database(context, RadioConstants.Keys.Room.TYPE_RADIO)
+                val DATABASE = Constants.database(context, NoteConstants.Keys.Room.TYPE_NOTE)
                 builder = Room.databaseBuilder(context, DatabaseManager::class.java, DATABASE)
             }
 
@@ -54,5 +53,5 @@ abstract class DatabaseManager : RoomDatabase() {
         }
     }
 
-    abstract fun stationDao(): StationDao
+    abstract fun noteDao(): NoteDao
 }

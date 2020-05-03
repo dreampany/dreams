@@ -2,6 +2,7 @@ package com.dreampany.tools.inject.data
 
 import com.dreampany.framework.inject.data.StoreModule
 import com.dreampany.tools.inject.data.crypto.CryptoModule
+import com.dreampany.tools.inject.data.note.NoteModule
 import com.dreampany.tools.inject.data.radio.RadioModule
 import dagger.Module
 
@@ -15,7 +16,8 @@ import dagger.Module
     includes = [
         StoreModule::class,
         CryptoModule::class,
-        RadioModule::class
+        RadioModule::class,
+        NoteModule::class
     ]
 )
 class DataModule {

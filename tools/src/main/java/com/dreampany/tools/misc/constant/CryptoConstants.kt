@@ -64,6 +64,10 @@ class CryptoConstants {
                 const val EXPIRE = "crypto-expire"
             }
         }
+
+        object Room {
+            const val TYPE_CRYPTO = "crypto"
+        }
     }
 
     object Common {

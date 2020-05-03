@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.enums.home
+package com.dreampany.tools.data.enums.note
 
 import com.dreampany.framework.data.enums.BaseSubtype
 import kotlinx.android.parcel.Parcelize
@@ -10,8 +10,8 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class Subtype : BaseSubtype {
-    DEFAULT, CRYPTO, QUESTION, RADIO, NOTE, SETTINGS, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT;
+enum class NoteSubtype : BaseSubtype {
+    DEFAULT, INFO, MARKET;
 
     override val value: String get() = name
 }

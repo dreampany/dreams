@@ -12,10 +12,6 @@ import java.util.concurrent.TimeUnit
  */
 class AppConstants {
 
-    object Room {
-        const val TYPE_CRYPTO = "crypto"
-    }
-
     object Keys {
 
         object PrefKeys {
@@ -58,6 +54,10 @@ class AppConstants {
             const val VOLUME_24H = "volume_24h"
             const val CHANGE_24H = "change_24h"
             const val CHANGE_PCT_24H = "change_pct_24h"
+        }
+
+        object Note {
+
         }
     }
 

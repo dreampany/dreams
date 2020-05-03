@@ -20,6 +20,7 @@ class CoinRoomDataSource(
     private val dao: CoinDao,
     private val quoteDao: QuoteDao
 ) : CoinDataSource {
+
     @Throws
     override suspend fun isFavorite(input: Coin): Boolean = mapper.isFavorite(input)
 

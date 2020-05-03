@@ -81,7 +81,7 @@ class MarketFragment
     }
 
     override fun onRefresh() {
-        if (trades?.isEmpty().value()) {
+        if (trades?.isEmpty() ?: true) {
             loadTrades()
             return
         } else if (adapter.isEmpty) {

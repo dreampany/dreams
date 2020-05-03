@@ -3,6 +3,8 @@ package com.dreampany.tools.ui.crypto.model
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import com.dreampany.common.misc.extension.color
+import com.dreampany.common.misc.extension.context
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.crypto.Exchange
 import com.dreampany.tools.databinding.ExchangeItemBinding
@@ -62,7 +64,18 @@ private constructor(
 
 
     override fun bindView(bind: ExchangeItemBinding, payloads: List<Any>) {
+        bind.textMarket.text = item.market
+        bind.textPrice.text = formatter.format(item.getToSymbol(), item.price)
+        bind.textVolume24h.text = formatter.format(item.getToSymbol(), item.getVolume24h())
 
+        val changePct24hString =
+            if (item.getChangePct24h() >= 0.0f) positiveRatio else negativeRatio
+        val changePct24hColor =
+            if (item.getChangePct24h() >= 0.0f) R.color.material_green500 else R.color.material_red500
+
+        bind.textChangePct24h.text =
+            bind.context.getString(changePct24hString, item.getChangePct24h())
+        bind.textChangePct24h.setTextColor(bind.context.color(changePct24hColor))
     }
 
     override fun unbindView(binding: ExchangeItemBinding) {

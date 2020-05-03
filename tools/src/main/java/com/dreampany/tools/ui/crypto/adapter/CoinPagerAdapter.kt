@@ -2,8 +2,8 @@ package com.dreampany.tools.ui.crypto.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.dreampany.common.ui.adapter.BasePagerAdapter
-import com.dreampany.common.ui.model.UiTask
+import com.dreampany.framework.ui.adapter.BasePagerAdapter
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState
@@ -37,7 +37,7 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
             input
         )
         addItem(
-            com.dreampany.common.misc.extension.createFragment(
+            com.dreampany.framework.misc.extension.createFragment(
                 InfoFragment::class,
                 info
             ),
@@ -45,7 +45,7 @@ class CoinPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>
             true
         )
         addItem(
-            com.dreampany.common.misc.extension.createFragment(
+            com.dreampany.framework.misc.extension.createFragment(
                 MarketFragment::class,
                 market
             ),

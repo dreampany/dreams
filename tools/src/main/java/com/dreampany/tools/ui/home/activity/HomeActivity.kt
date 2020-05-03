@@ -1,7 +1,7 @@
 package com.dreampany.tools.ui.home.activity
 
 import android.os.Bundle
-import com.dreampany.common.ui.activity.InjectBottomNavigationActivity
+import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HomeActivityBinding
 import com.dreampany.tools.manager.AdManager

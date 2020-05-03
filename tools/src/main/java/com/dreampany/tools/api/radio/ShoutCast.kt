@@ -1,9 +1,9 @@
 package com.dreampany.tools.api.radio
 
 import androidx.room.Ignore
-import com.dreampany.common.data.model.Base
-import com.dreampany.common.misc.constant.Constants
-import com.dreampany.common.misc.util.Util
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.util.Util
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 

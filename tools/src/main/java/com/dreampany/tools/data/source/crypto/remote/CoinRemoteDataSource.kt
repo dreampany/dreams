@@ -2,11 +2,11 @@ package com.dreampany.tools.data.source.crypto.remote
 
 import android.content.Context
 import androidx.annotation.IntRange
-import com.dreampany.common.data.enums.Order
-import com.dreampany.common.misc.extension.isDebug
-import com.dreampany.common.misc.func.Keys
-import com.dreampany.common.misc.func.Parser
-import com.dreampany.common.misc.func.SmartError
+import com.dreampany.framework.data.enums.Order
+import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.func.Keys
+import com.dreampany.framework.misc.func.Parser
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.api.crypto.remote.response.CoinsResponse

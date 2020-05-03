@@ -1,7 +1,7 @@
 package com.dreampany.tools.inject.ui.vm.crypto
 
 import androidx.lifecycle.ViewModel
-import com.dreampany.common.inject.annote.ViewModelKey
+import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
 import com.dreampany.tools.ui.crypto.vm.ExchangeViewModel
 import com.dreampany.tools.ui.crypto.vm.TradeViewModel

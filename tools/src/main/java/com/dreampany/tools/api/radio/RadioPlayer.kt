@@ -2,8 +2,8 @@ package com.dreampany.tools.api.radio
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.dreampany.common.misc.extension.isDebug
-import com.dreampany.common.misc.func.Executors
+import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.func.Executors
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.player.ExoPlayer
 import com.dreampany.tools.api.player.SmartPlayer

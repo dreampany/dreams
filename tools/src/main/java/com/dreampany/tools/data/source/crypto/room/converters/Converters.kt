@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.crypto.room.converters
 
 import androidx.room.TypeConverter
-import com.dreampany.common.data.source.room.converter.Converter
+import com.dreampany.framework.data.source.room.converter.Converter
 import com.dreampany.tools.data.enums.crypto.Currency
 
 /**

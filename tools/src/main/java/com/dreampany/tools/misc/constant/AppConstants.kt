@@ -1,7 +1,7 @@
 package com.dreampany.tools.misc.constant
 
 import android.content.Intent
-import com.dreampany.common.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constants
 import java.util.concurrent.TimeUnit
 
 /**

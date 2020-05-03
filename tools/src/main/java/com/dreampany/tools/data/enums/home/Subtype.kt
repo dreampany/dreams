@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.enums.home
 
-import com.dreampany.common.data.enums.BaseSubtype
+import com.dreampany.framework.data.enums.BaseSubtype
 import kotlinx.android.parcel.Parcelize
 
 /**

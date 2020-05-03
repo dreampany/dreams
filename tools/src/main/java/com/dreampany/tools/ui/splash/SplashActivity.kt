@@ -1,8 +1,8 @@
 package com.dreampany.tools.ui.splash
 
 import android.os.Bundle
-import com.dreampany.common.misc.extension.open
-import com.dreampany.common.ui.activity.InjectActivity
+import com.dreampany.framework.misc.extension.open
+import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import kotlinx.coroutines.Runnable

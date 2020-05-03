@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
-import com.dreampany.common.misc.extension.bindInflater
-import com.dreampany.common.misc.extension.loadAnim
+import com.dreampany.framework.misc.extension.bindInflater
+import com.dreampany.framework.misc.extension.loadAnim
 import com.dreampany.lockui.R
 import com.dreampany.lockui.databinding.ViewPinBinding
 

@@ -2,7 +2,7 @@ package com.dreampany.tools.ui.home.model
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.common.misc.extension.context
+import com.dreampany.framework.misc.extension.context
 import com.dreampany.tools.R
 import com.dreampany.tools.data.model.home.Feature
 import com.dreampany.tools.databinding.FeatureItemBinding

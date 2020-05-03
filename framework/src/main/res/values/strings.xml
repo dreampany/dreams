@@ -1,10 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">frame</string>
+    <string name="app_name">common</string>
+
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
     <string name="space">\u0020</string>
     <string name="title">Title</string>
     <string name="subtitle">Subtitle</string>
     <string name="home">Home</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="notifications">Notifications</string>
     <string name="more">More</string>
     <string name="tools">Tools</string>
     <string name="favorite">Favorite</string>

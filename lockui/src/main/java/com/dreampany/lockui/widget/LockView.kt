@@ -7,11 +7,11 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dreampany.common.misc.extension.color
-import com.dreampany.common.misc.extension.dimension
-import com.dreampany.common.misc.constant.Constants
-import com.dreampany.common.ui.adapter.BaseAdapter
-import com.dreampany.common.ui.misc.ItemSpaceDecoration
+import com.dreampany.framework.misc.extension.color
+import com.dreampany.framework.misc.extension.dimension
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.ui.adapter.BaseAdapter
+import com.dreampany.framework.ui.misc.ItemSpaceDecoration
 import com.dreampany.lockui.R
 import com.dreampany.lockui.ui.adapter.LockAdapter
 import com.dreampany.lockui.ui.model.Delete

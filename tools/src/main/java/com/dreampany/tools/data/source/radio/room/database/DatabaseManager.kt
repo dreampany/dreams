@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.dreampany.common.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.data.source.radio.room.converters.Converters
 import com.dreampany.tools.data.source.radio.room.dao.StationDao

@@ -1,8 +1,8 @@
 package com.dreampany.tools.data.source.crypto.repo
 
-import com.dreampany.common.inject.annote.Remote
-import com.dreampany.common.misc.func.ResponseMapper
-import com.dreampany.common.misc.func.RxMapper
+import com.dreampany.framework.inject.annote.Remote
+import com.dreampany.framework.misc.func.ResponseMapper
+import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.data.source.crypto.api.ExchangeDataSource
 import com.dreampany.tools.data.source.crypto.mapper.ExchangeMapper
 import kotlinx.coroutines.Dispatchers

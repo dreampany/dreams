@@ -1,7 +1,7 @@
 package com.dreampany.tools.inject.ui.vm.radio
 
 import androidx.lifecycle.ViewModel
-import com.dreampany.common.inject.annote.ViewModelKey
+import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.tools.ui.radio.vm.StationViewModel
 import dagger.Binds
 import dagger.Module

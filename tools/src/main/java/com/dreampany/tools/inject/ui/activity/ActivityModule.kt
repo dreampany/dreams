@@ -1,6 +1,6 @@
 package com.dreampany.tools.inject.ui.activity
 
-import com.dreampany.common.inject.annote.ActivityScope
+import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.tools.inject.ui.crypto.CryptoModule
 import com.dreampany.tools.inject.ui.home.HomeModule
 import com.dreampany.tools.inject.ui.more.MoreModule

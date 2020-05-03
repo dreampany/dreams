@@ -2,7 +2,7 @@ package com.dreampany.tools.data.model.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.dreampany.common.data.model.BaseParcel
+import com.dreampany.framework.data.model.BaseParcel
 import com.dreampany.tools.data.enums.home.Subtype
 import com.dreampany.tools.data.enums.home.Type
 import com.google.common.base.Objects

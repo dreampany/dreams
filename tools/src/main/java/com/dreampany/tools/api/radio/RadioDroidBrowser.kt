@@ -1,7 +1,7 @@
 package com.dreampany.tools.api.radio
 
-import com.dreampany.common.misc.constant.Constants
-import com.dreampany.common.misc.constant.Constants.Sep.LEAF_SEPARATOR
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constants.Sep.LEAF_SEPARATOR
 
 
 /**

@@ -2,8 +2,8 @@ package com.dreampany.tools.inject.ui.home
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import com.dreampany.common.inject.annote.FragmentKey
-import com.dreampany.common.ui.fragment.factory.InjectFragmentFactory
+import com.dreampany.framework.inject.annote.FragmentKey
+import com.dreampany.framework.ui.fragment.factory.InjectFragmentFactory
 import com.dreampany.tools.ui.home.fragment.HomeFragment
 import com.dreampany.tools.ui.more.MoreFragment
 import dagger.Binds

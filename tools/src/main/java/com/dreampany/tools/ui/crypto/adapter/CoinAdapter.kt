@@ -3,11 +3,11 @@ package com.dreampany.tools.ui.crypto.adapter
 import android.text.format.DateUtils
 import androidx.annotation.StringRes
 import androidx.databinding.ViewDataBinding
-import com.dreampany.common.data.enums.Order
-import com.dreampany.common.misc.extension.*
-import com.dreampany.common.misc.util.Util
-import com.dreampany.common.ui.adapter.BaseAdapter
-import com.dreampany.common.ui.adapter.SearchAdapter
+import com.dreampany.framework.data.enums.Order
+import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.util.Util
+import com.dreampany.framework.ui.adapter.BaseAdapter
+import com.dreampany.framework.ui.adapter.SearchAdapter
 import com.dreampany.tools.R
 import com.dreampany.tools.misc.constant.CryptoConstants
 import com.dreampany.tools.data.enums.crypto.CoinSort

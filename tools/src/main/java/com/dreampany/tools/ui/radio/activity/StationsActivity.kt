@@ -1,7 +1,7 @@
 package com.dreampany.tools.ui.radio.activity
 
 import android.os.Bundle
-import com.dreampany.common.ui.activity.InjectActivity
+import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.StationsActivityBinding
 import com.dreampany.tools.misc.extension.setUrl

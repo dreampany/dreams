@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import com.dreampany.common.ui.activity.BaseActivity
+import com.dreampany.framework.ui.activity.BaseActivity
 import com.dreampany.lockui.R
 import com.dreampany.lockui.databinding.LockActivityBinding
 

@@ -1,8 +1,8 @@
 package com.dreampany.tools.ui.home.adapter
 
 import androidx.databinding.ViewDataBinding
-import com.dreampany.common.misc.extension.setOnSafeClickListener
-import com.dreampany.common.ui.adapter.BaseAdapter
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.ui.adapter.BaseAdapter
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.FeatureItemBinding
 import com.dreampany.tools.data.model.home.Feature

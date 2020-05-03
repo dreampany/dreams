@@ -1,6 +1,6 @@
 package com.dreampany.tools.misc.comparator
 
-import com.dreampany.common.data.enums.Order
+import com.dreampany.framework.data.enums.Order
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin

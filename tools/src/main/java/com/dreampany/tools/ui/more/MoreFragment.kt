@@ -2,11 +2,11 @@ package com.dreampany.tools.ui.more
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.dreampany.common.data.model.Response
-import com.dreampany.common.inject.annote.ActivityScope
-import com.dreampany.common.misc.extension.moreApps
-import com.dreampany.common.misc.extension.rateUs
-import com.dreampany.common.ui.fragment.InjectFragment
+import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.extension.moreApps
+import com.dreampany.framework.misc.extension.rateUs
+import com.dreampany.framework.ui.fragment.InjectFragment
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State

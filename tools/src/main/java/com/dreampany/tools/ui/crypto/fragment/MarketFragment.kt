@@ -4,12 +4,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
-import com.dreampany.common.data.model.Response
-import com.dreampany.common.inject.annote.ActivityScope
-import com.dreampany.common.misc.extension.*
-import com.dreampany.common.misc.func.SmartError
-import com.dreampany.common.ui.fragment.InjectFragment
-import com.dreampany.common.ui.model.UiTask
+import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.func.SmartError
+import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState
@@ -162,9 +162,12 @@ class MarketFragment
     }
 
     private fun processError(error: SmartError) {
+        val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
+        val message =
+            if (error.hostError) getString(R.string.message_no_internet) else error.message
         showDialogue(
-            R.string.title_dialog_features,
-            message = error.message,
+            titleRes,
+            message = message,
             onPositiveClick = {
 
             },

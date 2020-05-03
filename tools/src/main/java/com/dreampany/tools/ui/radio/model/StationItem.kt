@@ -3,14 +3,13 @@ package com.dreampany.tools.ui.radio.model
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.dreampany.common.misc.constant.Constants
-import com.dreampany.common.misc.extension.context
-import com.dreampany.common.misc.extension.gone
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.extension.context
+import com.dreampany.framework.misc.extension.gone
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.radio.StationOrder
 import com.dreampany.tools.data.model.radio.Station
 import com.dreampany.tools.databinding.StationItemBinding
-import com.google.common.base.Objects
 import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
 
 /**

@@ -3,8 +3,7 @@ package com.dreampany.lockui.newui
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.LinearLayoutCompat
-import com.dreampany.common.misc.extension.bindInflater
-import com.dreampany.common.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extension.bindInflater
 import com.dreampany.lockui.R
 import com.dreampany.lockui.databinding.ViewPasswordBinding
 

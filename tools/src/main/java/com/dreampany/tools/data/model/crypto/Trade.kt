@@ -4,9 +4,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
-import com.dreampany.common.data.model.Base
-import com.dreampany.common.misc.constant.Constants
-import com.dreampany.common.misc.util.Util
+import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.misc.constant.AppConstants
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties

@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.enums.crypto
 
-import com.dreampany.common.data.enums.BaseAction
+import com.dreampany.framework.data.enums.BaseAction
 import kotlinx.android.parcel.Parcelize
 
 /**

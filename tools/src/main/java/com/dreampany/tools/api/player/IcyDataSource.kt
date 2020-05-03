@@ -1,8 +1,8 @@
 package com.dreampany.tools.api.player
 
 import android.net.Uri
-import com.dreampany.common.misc.util.MediaUtil
-import com.dreampany.common.misc.util.Util
+import com.dreampany.framework.misc.util.MediaUtil
+import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.api.radio.Mapper
 import com.dreampany.tools.api.radio.ShoutCast
 import com.dreampany.tools.api.radio.Stream

@@ -1,10 +1,10 @@
 package com.dreampany.tools.data.source.crypto.repo
 
-import com.dreampany.common.data.enums.Order
-import com.dreampany.common.inject.annote.Remote
-import com.dreampany.common.inject.annote.Room
-import com.dreampany.common.misc.func.ResponseMapper
-import com.dreampany.common.misc.func.RxMapper
+import com.dreampany.framework.data.enums.Order
+import com.dreampany.framework.inject.annote.Remote
+import com.dreampany.framework.inject.annote.Room
+import com.dreampany.framework.misc.func.ResponseMapper
+import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.model.crypto.Coin

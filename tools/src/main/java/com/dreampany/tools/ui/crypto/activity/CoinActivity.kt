@@ -1,9 +1,9 @@
 package com.dreampany.tools.ui.crypto.activity
 
 import android.os.Bundle
-import com.dreampany.common.misc.extension.task
-import com.dreampany.common.ui.activity.InjectActivity
-import com.dreampany.common.ui.model.UiTask
+import com.dreampany.framework.misc.extension.task
+import com.dreampany.framework.ui.activity.InjectActivity
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState

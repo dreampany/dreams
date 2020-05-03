@@ -5,8 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
-import com.dreampany.common.misc.extension.dimension
-import com.dreampany.common.ui.misc.ItemSpaceDecoration
+import com.dreampany.framework.misc.extension.dimension
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.mikepenz.fastadapter.FastAdapter

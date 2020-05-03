@@ -2,10 +2,10 @@ package com.dreampany.tools.ui.radio.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.dreampany.common.misc.constant.Constants
-import com.dreampany.common.misc.extension.task
-import com.dreampany.common.ui.adapter.BasePagerAdapter
-import com.dreampany.common.ui.model.UiTask
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.extension.task
+import com.dreampany.framework.ui.adapter.BasePagerAdapter
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.RadioSubtype
@@ -44,7 +44,7 @@ class StationPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
                 Action.DEFAULT
             )
             addItem(
-                com.dreampany.common.misc.extension.createFragment(
+                com.dreampany.framework.misc.extension.createFragment(
                     StationsFragment::class,
                     task
                 )

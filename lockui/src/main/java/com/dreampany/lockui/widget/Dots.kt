@@ -7,7 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.IntDef
 import androidx.appcompat.widget.LinearLayoutCompat
-import com.dreampany.common.misc.extension.dimension
+import com.dreampany.framework.misc.extension.dimension
 import com.dreampany.lockui.R
 
 /**

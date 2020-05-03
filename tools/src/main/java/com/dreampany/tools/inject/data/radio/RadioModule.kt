@@ -1,9 +1,9 @@
 package com.dreampany.tools.inject.data.radio
 
 import android.app.Application
-import com.dreampany.common.inject.annote.Remote
-import com.dreampany.common.inject.annote.Room
-import com.dreampany.common.misc.func.Parser
+import com.dreampany.framework.inject.annote.Remote
+import com.dreampany.framework.inject.annote.Room
+import com.dreampany.framework.misc.func.Parser
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.radio.RadioBrowserModule
 import com.dreampany.tools.api.radio.StationService

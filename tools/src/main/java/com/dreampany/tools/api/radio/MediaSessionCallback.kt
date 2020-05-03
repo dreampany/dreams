@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.session.MediaSessionCompat
 import android.view.KeyEvent
-import com.dreampany.common.api.cast.CastManager
+import com.dreampany.framework.api.cast.CastManager
 import com.dreampany.tools.misc.constant.RadioConstants
 import com.dreampany.tools.service.RadioPlayerService
 

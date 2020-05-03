@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.enums.crypto
 
 import android.os.Parcelable
-import com.dreampany.common.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constants
 import kotlinx.android.parcel.Parcelize
 
 /**

@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import android.view.KeyEvent
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
-import com.dreampany.common.misc.extension.bindInflater
-import com.dreampany.common.misc.extension.visible
+import com.dreampany.framework.misc.extension.bindInflater
+import com.dreampany.framework.misc.extension.visible
 import com.dreampany.lockui.R
 import com.dreampany.lockui.databinding.ViewLockBinding
 

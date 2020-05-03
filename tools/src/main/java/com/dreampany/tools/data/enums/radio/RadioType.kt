@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.enums.radio
 
-import com.dreampany.common.data.enums.BaseType
+import com.dreampany.framework.data.enums.BaseType
 import kotlinx.android.parcel.Parcelize
 /**
  * Created by roman on 14/3/20

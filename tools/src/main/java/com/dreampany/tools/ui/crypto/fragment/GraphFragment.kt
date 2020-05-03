@@ -2,14 +2,14 @@ package com.dreampany.tools.ui.crypto.fragment
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import com.dreampany.common.data.model.Response
-import com.dreampany.common.inject.annote.ActivityScope
-import com.dreampany.common.misc.extension.init
-import com.dreampany.common.misc.extension.refresh
-import com.dreampany.common.misc.extension.task
-import com.dreampany.common.misc.func.SmartError
-import com.dreampany.common.ui.fragment.InjectFragment
-import com.dreampany.common.ui.model.UiTask
+import com.dreampany.framework.data.model.Response
+import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.extension.init
+import com.dreampany.framework.misc.extension.refresh
+import com.dreampany.framework.misc.extension.task
+import com.dreampany.framework.misc.func.SmartError
+import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState

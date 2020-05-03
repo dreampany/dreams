@@ -1,10 +1,10 @@
 package com.dreampany.tools.data.source.crypto.pref
 
 import android.content.Context
-import com.dreampany.common.data.enums.Order
-import com.dreampany.common.data.source.pref.BasePref
-import com.dreampany.common.misc.constant.Constants
-import com.dreampany.common.misc.util.Util
+import com.dreampany.framework.data.enums.Order
+import com.dreampany.framework.data.source.pref.BasePref
+import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.misc.constant.CryptoConstants

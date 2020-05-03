@@ -1,8 +1,8 @@
 package com.dreampany.framework.ui.vm.factory;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
 
 import java.util.Map;
 
@@ -11,9 +11,10 @@ import javax.inject.Provider;
 import javax.inject.Singleton;
 
 /**
- * Created by Hawladar Roman on 1/6/18.
- * Dreampany Ltd
- * dreampanymail@gmail.com
+ * Created by roman on 14/3/20
+ * Copyright (c) 2020 bjit. All rights reserved.
+ * hawladar.roman@bjitgroup.com
+ * Last modified $file.lastModified
  */
 @Singleton
 public class ViewModelFactory implements ViewModelProvider.Factory {

@@ -1,8 +1,8 @@
 package com.dreampany.tools.inject.app
 
 import android.app.Application
-import com.dreampany.common.inject.app.AppModule
-import com.dreampany.common.inject.property.PropertyModule
+import com.dreampany.framework.inject.app.AppModule
+import com.dreampany.framework.inject.property.PropertyModule
 import com.dreampany.tools.inject.ui.activity.ActivityModule
 import com.dreampany.tools.app.App
 import com.dreampany.tools.inject.data.DataModule

@@ -1,6 +1,6 @@
 package com.dreampany.tools.misc.constant
 
-import com.dreampany.common.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constants
 
 /**
  * Created by roman on 15/4/20

@@ -1,7 +1,7 @@
 package com.dreampany.tools.data.source.radio.remote
 
-import com.dreampany.common.misc.func.Parser
-import com.dreampany.common.misc.func.SmartError
+import com.dreampany.framework.misc.func.Parser
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.radio.StationService
 import com.dreampany.tools.data.enums.radio.StationOrder

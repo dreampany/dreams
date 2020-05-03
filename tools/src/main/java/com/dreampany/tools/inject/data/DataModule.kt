@@ -1,6 +1,6 @@
 package com.dreampany.tools.inject.data
 
-import com.dreampany.common.inject.data.StoreModule
+import com.dreampany.framework.inject.data.StoreModule
 import com.dreampany.tools.inject.data.crypto.CryptoModule
 import com.dreampany.tools.inject.data.radio.RadioModule
 import dagger.Module

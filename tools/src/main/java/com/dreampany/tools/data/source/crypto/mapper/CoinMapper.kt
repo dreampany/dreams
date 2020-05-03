@@ -1,12 +1,12 @@
 package com.dreampany.tools.data.source.crypto.mapper
 
-import com.dreampany.common.data.enums.Order
-import com.dreampany.common.data.source.mapper.StoreMapper
-import com.dreampany.common.data.source.repo.StoreRepo
-import com.dreampany.common.misc.extension.isExpired
-import com.dreampany.common.misc.extension.sub
-import com.dreampany.common.misc.extension.utc
-import com.dreampany.common.misc.extension.value
+import com.dreampany.framework.data.enums.Order
+import com.dreampany.framework.data.source.mapper.StoreMapper
+import com.dreampany.framework.data.source.repo.StoreRepo
+import com.dreampany.framework.misc.extension.isExpired
+import com.dreampany.framework.misc.extension.sub
+import com.dreampany.framework.misc.extension.utc
+import com.dreampany.framework.misc.extension.value
 import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.api.crypto.model.CryptoCurrency
 import com.dreampany.tools.api.crypto.model.CryptoQuote

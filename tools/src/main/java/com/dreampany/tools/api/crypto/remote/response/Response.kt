@@ -1,6 +1,6 @@
 package com.dreampany.tools.api.crypto.remote.response
 
-import com.dreampany.common.data.enums.Code
+import com.dreampany.framework.data.enums.Code
 
 /**
  * Created by roman on 17/4/20

@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import androidx.annotation.StringRes
-import com.dreampany.common.data.source.pref.AdPref
-import com.dreampany.common.misc.extension.gone
-import com.dreampany.common.misc.extension.visible
-import com.dreampany.common.misc.structure.MutablePair
-import com.dreampany.common.misc.util.Util
+import com.dreampany.framework.data.source.pref.AdPref
+import com.dreampany.framework.misc.extension.gone
+import com.dreampany.framework.misc.extension.visible
+import com.dreampany.framework.misc.structure.MutablePair
+import com.dreampany.framework.misc.util.Util
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView

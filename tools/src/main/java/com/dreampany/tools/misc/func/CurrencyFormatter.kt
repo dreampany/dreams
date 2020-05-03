@@ -2,7 +2,7 @@ package com.dreampany.tools.misc.func
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.dreampany.common.misc.constant.Constants
+import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.Currency
 import com.google.common.collect.Maps

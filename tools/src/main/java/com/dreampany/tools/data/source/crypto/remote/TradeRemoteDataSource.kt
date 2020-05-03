@@ -1,10 +1,10 @@
 package com.dreampany.tools.data.source.crypto.remote
 
 import android.content.Context
-import com.dreampany.common.misc.extension.isDebug
-import com.dreampany.common.misc.func.Keys
-import com.dreampany.common.misc.func.Parser
-import com.dreampany.common.misc.func.SmartError
+import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.func.Keys
+import com.dreampany.framework.misc.func.Parser
+import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.crypto.remote.service.CryptoCompareService
 import com.dreampany.tools.data.model.crypto.Trade

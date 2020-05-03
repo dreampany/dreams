@@ -1,6 +1,6 @@
 package com.dreampany.tools.data.source.radio.room.converters
 
-import com.dreampany.common.data.source.room.converter.Converter
+import com.dreampany.framework.data.source.room.converter.Converter
 
 /**
  * Created by roman on 21/4/20

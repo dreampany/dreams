@@ -21,11 +21,11 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.media.session.MediaButtonReceiver
-import com.dreampany.common.misc.extension.isDebug
-import com.dreampany.common.misc.extension.value
-import com.dreampany.common.misc.func.NotifyManager
-import com.dreampany.common.misc.util.NotifyUtil
-import com.dreampany.common.service.InjectService
+import com.dreampany.framework.misc.extension.isDebug
+import com.dreampany.framework.misc.extension.value
+import com.dreampany.framework.misc.func.NotifyManager
+import com.dreampany.framework.misc.util.NotifyUtil
+import com.dreampany.framework.service.InjectService
 import com.dreampany.tools.R
 import com.dreampany.tools.api.player.SmartPlayer
 import com.dreampany.tools.api.radio.MediaSessionCallback

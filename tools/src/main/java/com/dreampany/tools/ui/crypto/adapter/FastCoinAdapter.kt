@@ -5,8 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
-import com.dreampany.common.data.enums.Order
-import com.dreampany.common.misc.extension.dimension
+import com.dreampany.framework.data.enums.Order
+import com.dreampany.framework.misc.extension.dimension
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CoinSort
 import com.dreampany.tools.data.enums.crypto.Currency

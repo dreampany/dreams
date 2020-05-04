@@ -14,8 +14,9 @@ val Any?.isQ: Boolean
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
     }
 
+/*
 val Any?.isQ: Boolean
     get() {
         if (this == null) return false
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-    }
+    }*/

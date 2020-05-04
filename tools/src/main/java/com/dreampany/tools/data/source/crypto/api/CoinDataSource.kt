@@ -20,7 +20,7 @@ interface CoinDataSource {
     suspend fun toggleFavorite(input: Coin): Boolean
 
     @Throws
-    suspend fun putItem(input: Coin): Long
+    suspend fun insertItem(input: Coin): Long
 
     @Throws
     suspend fun insert(inputs: List<Coin>): List<Long>?

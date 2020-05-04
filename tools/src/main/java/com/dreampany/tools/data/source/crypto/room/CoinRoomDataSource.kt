@@ -36,7 +36,7 @@ class CoinRoomDataSource(
     }
 
     @Throws
-    override suspend fun putItem(input: Coin): Long {
+    override suspend fun insertItem(input: Coin): Long {
         mapper.add(input)
         if (input.hasQuote()) {
             quoteDao.insertOrReplace(input.getQuotesAsList())
@@ -47,7 +47,7 @@ class CoinRoomDataSource(
     @Throws
     override suspend fun insert(inputs: List<Coin>): List<Long>? {
         val result = arrayListOf<Long>()
-        inputs.forEach { result.add(putItem(it)) }
+        inputs.forEach { result.add(insertItem(it)) }
         return result
     }
 

@@ -15,35 +15,38 @@ class NoteRoomDataSource(
     private val mapper: NoteMapper,
     private val dao: NoteDao
 ) : NoteDataSource {
-    override suspend fun isFavorite(input: Note): Boolean {
-        TODO("Not yet implemented")
-    }
+    override suspend fun isFavorite(input: Note): Boolean = mapper.isFavorite(input)
 
     override suspend fun toggleFavorite(input: Note): Boolean {
-        TODO("Not yet implemented")
+        val favorite = isFavorite(input)
+        if (favorite) {
+            mapper.deleteFavorite(input)
+        } else {
+            mapper.insertFavorite(input)
+        }
+        return favorite.not()
     }
 
+    @Throws
     override suspend fun insertItem(input: Note): Long {
-        TODO("Not yet implemented")
+        mapper.add(input)
+        return dao.insertOrReplace(input)
     }
 
     override suspend fun insert(inputs: List<Note>): List<Long>? {
-        TODO("Not yet implemented")
+        val result = arrayListOf<Long>()
+        inputs.forEach { result.add(insertItem(it)) }
+        return result
     }
 
-    override suspend fun getNotes(): List<Note>? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getNotes(): List<Note>? = dao.items
 
     override suspend fun getNotes(ids: List<String>): List<Note>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getNote(id: String): Note? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getNote(id: String): Note? =
+        mapper.getItem(id, this)
 
-    override suspend fun getFavoriteNotes(): List<Note>? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getFavoriteNotes(): List<Note>? = mapper.getFavoriteItems(this)
 }

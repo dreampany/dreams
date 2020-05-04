@@ -38,8 +38,8 @@ class NoteRepo
     }
 
     @Throws
-    override suspend fun insertItem(input: Note): Long {
-        TODO("Not yet implemented")
+    override suspend fun insertItem(input: Note) = withContext(Dispatchers.IO) {
+        room.insertItem(input)
     }
 
     @Throws

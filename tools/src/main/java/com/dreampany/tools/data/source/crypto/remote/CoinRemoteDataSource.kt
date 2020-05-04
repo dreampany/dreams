@@ -69,7 +69,7 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun putItem(input: Coin): Long {
+    override suspend fun insertItem(input: Coin): Long {
         TODO("Not yet implemented")
     }
 

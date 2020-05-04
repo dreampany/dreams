@@ -42,7 +42,7 @@ class CoinRepo
     }
 
     @Throws
-    override suspend fun putItem(input: Coin): Long {
+    override suspend fun insertItem(input: Coin): Long {
         TODO("Not yet implemented")
     }
 
@@ -85,7 +85,7 @@ class CoinRepo
             val result = remote.getCoin(id, currency)
             if (result != null) {
                 mapper.commitExpire(id, currency)
-                room.putItem(result)
+                room.insertItem(result)
             }
         }
         room.getCoin(id, currency)

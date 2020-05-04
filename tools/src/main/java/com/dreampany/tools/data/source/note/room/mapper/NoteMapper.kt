@@ -3,18 +3,14 @@ package com.dreampany.tools.data.source.note.room.mapper
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.extension.randomId
-import com.dreampany.framework.misc.extension.utc
 import com.dreampany.framework.misc.extension.value
-import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.data.enums.note.NoteState
 import com.dreampany.tools.data.enums.note.NoteSubtype
 import com.dreampany.tools.data.enums.note.NoteType
-import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.api.NoteDataSource
 import com.dreampany.tools.data.source.note.pref.NotePref
 import com.google.common.collect.Maps
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -53,6 +49,13 @@ class NoteMapper
         note.title = title
         note.description = description
         return note
+    }
+
+    @Synchronized
+    suspend fun getItem(id: String, source: NoteDataSource): Note? {
+        updateCache(source)
+        val result = notes.get(id)
+        return result
     }
 
     @Throws

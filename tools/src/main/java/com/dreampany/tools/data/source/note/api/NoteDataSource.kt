@@ -16,7 +16,7 @@ interface NoteDataSource {
     suspend fun toggleFavorite(input: Note): Boolean
 
     @Throws
-    suspend fun putItem(input: Note): Long
+    suspend fun insertItem(input: Note): Long
 
     @Throws
     suspend fun insert(inputs: List<Note>): List<Long>?

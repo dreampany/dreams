@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class NoteAction : BaseAction {
-    DEFAULT, VIEW;
+    DEFAULT, VIEW, ADD, EDIT;
 
     override val value: String get() = name
 }

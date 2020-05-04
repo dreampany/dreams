@@ -55,3 +55,9 @@ fun String.toTitle(): String {
 
     return builder.toString()
 }
+
+val CharSequence?.value : String
+    get() = if (this == null) Constants.Default.STRING else this.toString()
+
+val CharSequence?.trimValue : String
+    get() = if (this == null) Constants.Default.STRING else this.trim().toString()

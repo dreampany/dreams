@@ -23,7 +23,7 @@ class NoteRoomDataSource(
         TODO("Not yet implemented")
     }
 
-    override suspend fun putItem(input: Note): Long {
+    override suspend fun insertItem(input: Note): Long {
         TODO("Not yet implemented")
     }
 

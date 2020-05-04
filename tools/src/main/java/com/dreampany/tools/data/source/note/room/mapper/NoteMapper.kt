@@ -2,14 +2,19 @@ package com.dreampany.tools.data.source.note.room.mapper
 
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
+import com.dreampany.framework.misc.extension.randomId
+import com.dreampany.framework.misc.extension.utc
 import com.dreampany.framework.misc.extension.value
+import com.dreampany.tools.api.crypto.model.CryptoCoin
 import com.dreampany.tools.data.enums.note.NoteState
 import com.dreampany.tools.data.enums.note.NoteSubtype
 import com.dreampany.tools.data.enums.note.NoteType
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.api.NoteDataSource
 import com.dreampany.tools.data.source.note.pref.NotePref
 import com.google.common.collect.Maps
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -36,6 +41,19 @@ class NoteMapper
 
     @Synchronized
     fun add(input: Note) = notes.put(input.id, input)
+
+    @Synchronized
+    fun getItem(id: String?, title: String, description: String?): Note? {
+        val id = id ?: randomId()
+        var note = notes.get(id)
+        if (note == null) {
+            note = Note(id)
+            notes.put(id, note)
+        }
+        note.title = title
+        note.description = description
+        return note
+    }
 
     @Throws
     suspend fun isFavorite(input: Note): Boolean {
@@ -88,7 +106,7 @@ class NoteMapper
             NoteSubtype.DEFAULT.value,
             NoteState.FAVORITE.value
         )
-        val outputs = stores?.mapNotNull { input ->  notes.get(input.id) }
+        val outputs = stores?.mapNotNull { input -> notes.get(input.id) }
         var result: List<Note>? = null
         /*outputs?.let {
             result = sortedCoins(it, currency, sort, sortDirection)

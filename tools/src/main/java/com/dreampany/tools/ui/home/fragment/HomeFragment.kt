@@ -18,6 +18,7 @@ import com.dreampany.tools.ui.crypto.activity.CoinsActivity
 import com.dreampany.tools.ui.home.adapter.FastFeatureAdapter
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
+import com.dreampany.tools.ui.note.activity.NotesActivity
 import com.dreampany.tools.ui.radio.activity.StationsActivity
 import timber.log.Timber
 import javax.inject.Inject
@@ -112,6 +113,7 @@ class HomeFragment
         when (item.subtype) {
             Subtype.CRYPTO -> activity.open(CoinsActivity::class)
             Subtype.RADIO -> activity.open(StationsActivity::class)
+            Subtype.NOTE -> activity.open(NotesActivity::class)
         }
     }
 }

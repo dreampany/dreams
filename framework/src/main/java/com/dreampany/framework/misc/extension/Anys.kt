@@ -4,6 +4,7 @@ import android.graphics.Color
 import androidx.annotation.ColorInt
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
+import java.util.*
 
 /**
  * Created by roman on 15/3/20
@@ -16,6 +17,7 @@ fun Boolean?.value(): Boolean = this ?: false
 fun Int?.value(): Int = this ?: 0
 
 fun Long?.value(): Long = this ?: 0L
+
 fun String?.value(): String = this ?: Constants.Default.STRING
 
 fun Int.isZeroOrLess(): Boolean {
@@ -39,3 +41,5 @@ fun <T> sub(list: List<T>?, index: Long, limit: Long): List<T>? {
 
 @ColorInt
 fun String.toColor(): Int = Color.parseColor(this)
+
+fun randomId() : String = UUID.randomUUID().toString()

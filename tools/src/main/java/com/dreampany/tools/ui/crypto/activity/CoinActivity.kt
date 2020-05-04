@@ -36,10 +36,10 @@ class CoinActivity : InjectActivity() {
     override fun toolbarId(): Int = R.id.toolbar
 
     override fun onStartUi(state: Bundle?) {
-        initUi()
-        initPager()
         val task : UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin> = (task ?: return) as UiTask<CryptoType, CryptoSubtype, CryptoState, CryptoAction, Coin>
         input = task.input ?: return
+        initUi()
+        initPager()
         setTitle(input.name)
         loadUi()
     }

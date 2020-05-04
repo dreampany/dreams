@@ -12,7 +12,7 @@ import com.dreampany.tools.data.enums.note.NoteType
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.data.source.note.repo.NoteRepo
-import com.dreampany.tools.misc.func.CurrencyFormatter
+import com.dreampany.tools.data.source.note.room.mapper.NoteMapper
 import com.dreampany.tools.ui.note.model.NoteItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +30,7 @@ class NoteViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val formatter: CurrencyFormatter,
+    private val mapper: NoteMapper,
     private val pref: NotePref,
     private val repo: NoteRepo
 ) : BaseViewModel<NoteType, NoteSubtype, NoteState, NoteAction, Note, NoteItem, UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>>(
@@ -115,6 +115,33 @@ class NoteViewModel
                 postError(errors)
             } else {
                 postResult(result?.toItem(favorite), state = NoteState.FAVORITE)
+            }
+        }
+    }
+
+    fun saveNote(id: String?, title: String, description: String?) {
+        uiScope.launch {
+            postProgressSingle(true)
+            var result: Note? = null
+            var errors: SmartError? = null
+            var favorite: Boolean = false
+            try {
+                val input = mapper.getItem(id, title, description)
+                input?.let {
+                    val commitResult = repo.insertItem(it)
+                    if (commitResult > 0L) {
+                        result = it
+                    }
+                }
+                result?.let { favorite = repo.toggleFavorite(it) }
+            } catch (error: SmartError) {
+                Timber.e(error)
+                errors = error
+            }
+            if (errors != null) {
+                postError(errors)
+            } else {
+                postResult(result?.toItem(favorite))
             }
         }
     }

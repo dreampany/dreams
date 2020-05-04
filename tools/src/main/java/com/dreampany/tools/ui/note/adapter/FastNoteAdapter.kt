@@ -47,7 +47,7 @@ class FastNoteAdapter(
         itemAdapter = ItemAdapter.items()
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is NoteItem)
-                item.item.name.toString().contains(constraint.toString(), ignoreCase = true)
+                item.input.title.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }

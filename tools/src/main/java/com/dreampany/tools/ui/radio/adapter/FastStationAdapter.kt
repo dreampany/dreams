@@ -35,6 +35,11 @@ class FastStationAdapter(
     private lateinit var itemAdapter: GenericItemAdapter
     private lateinit var footerAdapter: GenericItemAdapter
 
+    val itemCount: Int
+        get() = fastAdapter.itemCount
+
+    val isEmpty: Boolean get() = itemCount == 0
+
     fun initRecycler(
         state: Bundle?,
         recycler: RecyclerView
@@ -106,7 +111,7 @@ class FastStationAdapter(
     }
 
     fun saveInstanceState(outState: Bundle): Bundle {
-        return fastAdapter.saveInstanceState(outState) ?: outState
+        return fastAdapter.saveInstanceState(outState)
     }
 
     fun filter(constraint: CharSequence?) {
@@ -127,11 +132,5 @@ class FastStationAdapter(
     fun addItems(items: List<StationItem>) {
         fastAdapter.add(items)
     }
-
-    val itemCount: Long
-        get() = (fastAdapter.itemCount ?: 0).toLong()
-
-    val isEmpty : Boolean
-        get() = itemCount == 0L
 
 }

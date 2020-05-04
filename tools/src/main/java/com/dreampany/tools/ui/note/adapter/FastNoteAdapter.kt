@@ -110,7 +110,7 @@ class FastNoteAdapter(
     }
 
     fun saveInstanceState(outState: Bundle): Bundle {
-        return fastAdapter.saveInstanceState(outState) ?: outState
+        return fastAdapter.saveInstanceState(outState)
     }
 
     fun filter(constraint: CharSequence?) {

@@ -110,12 +110,12 @@ class StationsFragment
                     vm.loadStations(
                         task.state as RadioState,
                         context.countryCode,
-                        adapter.itemCount
+                        adapter.itemCount.toLong()
                     )
                 }
                 RadioState.TRENDS,
                 RadioState.POPULAR -> {
-                    vm.loadStations(task.state as RadioState, adapter.itemCount)
+                    vm.loadStations(task.state as RadioState, adapter.itemCount.toLong())
                 }
             }
         }

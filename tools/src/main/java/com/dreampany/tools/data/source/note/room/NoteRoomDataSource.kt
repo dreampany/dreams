@@ -33,20 +33,24 @@ class NoteRoomDataSource(
         return dao.insertOrReplace(input)
     }
 
+    @Throws
     override suspend fun insert(inputs: List<Note>): List<Long>? {
         val result = arrayListOf<Long>()
         inputs.forEach { result.add(insertItem(it)) }
         return result
     }
 
-    override suspend fun getNotes(): List<Note>? = dao.items
+    @Throws
+    override suspend fun getNotes(): List<Note>? = mapper.getItems(dao)
 
     override suspend fun getNotes(ids: List<String>): List<Note>? {
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun getNote(id: String): Note? =
         mapper.getItem(id, this)
 
+    @Throws
     override suspend fun getFavoriteNotes(): List<Note>? = mapper.getFavoriteItems(this)
 }

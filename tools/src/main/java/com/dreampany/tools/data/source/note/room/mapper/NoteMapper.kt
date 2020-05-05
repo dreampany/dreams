@@ -1,15 +1,23 @@
 package com.dreampany.tools.data.source.note.room.mapper
 
+import com.dreampany.framework.data.enums.Order
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.extension.randomId
+import com.dreampany.framework.misc.extension.sub
 import com.dreampany.framework.misc.extension.value
+import com.dreampany.tools.data.enums.crypto.CoinSort
+import com.dreampany.tools.data.enums.crypto.Currency
 import com.dreampany.tools.data.enums.note.NoteState
 import com.dreampany.tools.data.enums.note.NoteSubtype
 import com.dreampany.tools.data.enums.note.NoteType
+import com.dreampany.tools.data.model.crypto.Coin
 import com.dreampany.tools.data.model.note.Note
+import com.dreampany.tools.data.source.crypto.api.CoinDataSource
+import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.data.source.note.api.NoteDataSource
 import com.dreampany.tools.data.source.note.pref.NotePref
+import com.dreampany.tools.data.source.note.room.dao.NoteDao
 import com.google.common.collect.Maps
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -100,6 +108,15 @@ class NoteMapper
 
     @Throws
     @Synchronized
+    fun getItems(
+        dao: NoteDao
+    ): List<Note>? {
+        updateCache(dao)
+        return ArrayList(notes.values)
+    }
+
+    @Throws
+    @Synchronized
     suspend fun getFavoriteItems(
         source: NoteDataSource
     ): List<Note>? {
@@ -125,6 +142,17 @@ class NoteMapper
     private suspend fun updateCache(source: NoteDataSource) {
         if (notes.isEmpty()) {
             source.getNotes()?.let {
+                if (it.isNotEmpty())
+                    it.forEach { add(it) }
+            }
+        }
+    }
+
+    @Throws
+    @Synchronized
+    private fun updateCache(dao: NoteDao) {
+        if (notes.isEmpty()) {
+            dao.items?.let {
                 if (it.isNotEmpty())
                     it.forEach { add(it) }
             }

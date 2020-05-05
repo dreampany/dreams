@@ -48,8 +48,8 @@ class NoteRepo
     }
 
     @Throws
-    override suspend fun getNotes(): List<Note>? {
-        TODO("Not yet implemented")
+    override suspend fun getNotes() = withContext(Dispatchers.IO) {
+        room.getNotes()
     }
 
     @Throws

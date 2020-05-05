@@ -1,5 +1,6 @@
 package com.dreampany.tools.inject.ui.note
 
+import com.dreampany.tools.ui.note.activity.NoteActivity
 import com.dreampany.tools.ui.note.activity.NotesActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -14,4 +15,7 @@ import dagger.android.ContributesAndroidInjector
 abstract class NoteModule {
     @ContributesAndroidInjector
     abstract fun notes(): NotesActivity
+
+    @ContributesAndroidInjector
+    abstract fun note(): NoteActivity
 }

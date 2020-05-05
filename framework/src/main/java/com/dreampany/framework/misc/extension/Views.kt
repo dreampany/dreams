@@ -55,14 +55,11 @@ fun View?.gone() {
     this?.visibility = View.GONE
 }
 
-fun Context.inflater(): LayoutInflater {
-    return LayoutInflater.from(this)
-}
+fun Context.inflater(): LayoutInflater = LayoutInflater.from(this)
 
-fun ViewGroup.inflater(): LayoutInflater {
-    return context.inflater()
-}
+fun ViewGroup.inflater(): LayoutInflater = context.inflater()
 
+fun Context.inflate(@LayoutRes layoutRes: Int): View = inflater().inflate(layoutRes, null)
 //fun ViewGroup.bindInflater()
 
 fun Int.bindInflater(parent: ViewGroup, attachToRoot: Boolean = false): ViewDataBinding {

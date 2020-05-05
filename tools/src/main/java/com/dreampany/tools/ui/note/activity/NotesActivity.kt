@@ -6,13 +6,11 @@ import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.extension.init
-import com.dreampany.framework.misc.extension.refresh
-import com.dreampany.framework.misc.extension.setOnSafeClickListener
-import com.dreampany.framework.misc.extension.toTint
+import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.note.NoteAction
 import com.dreampany.tools.data.enums.note.NoteState
@@ -114,7 +112,7 @@ class NotesActivity : InjectActivity() {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openUi(item)
+                openNoteUi(item)
             }
             R.id.button_favorite -> {
                 onFavoriteClicked(item)
@@ -141,7 +139,7 @@ class NotesActivity : InjectActivity() {
         bind.fab.setOnSafeClickListener {
             openAddNoteUi()
         }
-
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_note)
         vm = createVm(NoteViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
@@ -216,6 +214,16 @@ class NotesActivity : InjectActivity() {
         if (result != null) {
             adapter.addItems(result)
         }
+
+        if (adapter.isEmpty) {
+            bind.stateful.setState(StatefulLayout.State.EMPTY)
+        } else {
+            bind.stateful.setState(StatefulLayout.State.CONTENT)
+        }
+    }
+
+    private fun onFavoriteClicked(item: NoteItem) {
+        vm.toggleFavorite(item.input)
     }
 
     private fun openAddNoteUi() {
@@ -226,15 +234,21 @@ class NotesActivity : InjectActivity() {
             NoteAction.ADD,
             null as Note?
         )
-        //open(CoinActivity::class, task)
+        open(NoteActivity::class, task)
     }
 
-    private fun onFavoriteClicked(item: NoteItem) {
-        vm.toggleFavorite(item.input)
+    private fun openEditNoteUi() {
+        val task = UiTask(
+            NoteType.NOTE,
+            NoteSubtype.DEFAULT,
+            NoteState.DEFAULT,
+            NoteAction.ADD,
+            null as Note?
+        )
+        open(NoteActivity::class, task)
     }
 
-
-    private fun openUi(item: NoteItem) {
+    private fun openNoteUi(item: NoteItem) {
         val task = UiTask(
             NoteType.NOTE,
             NoteSubtype.DEFAULT,
@@ -242,7 +256,7 @@ class NotesActivity : InjectActivity() {
             NoteAction.VIEW,
             item.input
         )
-        //open(CoinActivity::class, task)
+        open(NoteActivity::class, task)
     }
 
     private fun openFavoritesUi() {

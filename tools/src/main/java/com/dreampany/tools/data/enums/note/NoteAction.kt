@@ -14,4 +14,13 @@ enum class NoteAction : BaseAction {
     DEFAULT, VIEW, ADD, EDIT;
 
     override val value: String get() = name
+
+    val toState : NoteState get() {
+        when(this) {
+            VIEW-> return NoteState.VIEWED
+            ADD-> return NoteState.ADDED
+            EDIT-> return NoteState.EDITED
+        }
+        return NoteState.DEFAULT
+    }
 }

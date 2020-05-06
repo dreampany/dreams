@@ -21,7 +21,9 @@ class NoteConstants {
         }
     }
 
-
+    object Date {
+        const val FORMAT_MONTH_DAY = "dd MMMM"
+    }
 
     object Limits {
         const val NOTES = 100L

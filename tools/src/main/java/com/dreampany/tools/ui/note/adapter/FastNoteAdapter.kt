@@ -2,6 +2,7 @@ package com.dreampany.tools.ui.note.adapter
 
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dreampany.adapter.SpacingItemDecoration
@@ -9,6 +10,7 @@ import com.dreampany.framework.misc.extension.dimension
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.CoinInfoItemBinding
 import com.dreampany.tools.databinding.CoinItemBinding
+import com.dreampany.tools.databinding.NoteItemBinding
 import com.dreampany.tools.ui.note.model.NoteItem
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
@@ -47,7 +49,7 @@ class FastNoteAdapter(
         itemAdapter = ItemAdapter.items()
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is NoteItem)
-                item.input.title.toString().contains(constraint.toString(), ignoreCase = true)
+                item.input.title.contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }
@@ -56,7 +58,7 @@ class FastNoteAdapter(
         fastAdapter.addAdapter(1, footerAdapter)
 
         recycler.apply {
-            layoutManager = LinearLayoutManager(context)
+            layoutManager = GridLayoutManager(context, 2)
             adapter = fastAdapter
             addItemDecoration(
                 SpacingItemDecoration(
@@ -85,8 +87,14 @@ class FastNoteAdapter(
                     }
                 false
             }*/
-            fastAdapter.addClickListener<CoinItemBinding, GenericItem>(
-                { bind -> bind.root }, { bind -> arrayListOf(bind.layoutOptions.buttonFavorite) }
+            fastAdapter.addClickListener<NoteItemBinding, GenericItem>(
+                { bind -> bind.root },
+                { bind ->
+                    arrayListOf(
+                        bind.buttonEdit,
+                        bind.buttonFavorite
+                    )
+                }
             )
             { view, position, adapter, item ->
                 if (item is NoteItem) {

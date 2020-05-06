@@ -8,15 +8,15 @@
         android:id="@+id/layout_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        auto:cardCornerRadius="3dp"
-        auto:cardPreventCornerOverlap="false"
-        auto:elevation="@dimen/_2sdp">
+        auto:cardCornerRadius="@dimen/_2sdp"
+        auto:cardElevation="@dimen/_2sdp"
+        auto:cardPreventCornerOverlap="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/_100sdp"
-            android:padding="@dimen/_5sdp">
+            android:padding="@dimen/_4sdp">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_title"
@@ -51,6 +51,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
+                android:minHeight="@dimen/_14sdp"
+                android:paddingEnd="@dimen/_4sdp"
+                android:paddingBottom="@dimen/_4sdp"
                 auto:layout_constraintBottom_toBottomOf="parent"
                 auto:layout_constraintEnd_toEndOf="parent">
 
@@ -59,8 +62,6 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
                     android:tint="@color/material_grey800"
                     auto:srcCompat="@drawable/ic_edit_black_24dp" />
 
@@ -68,8 +69,7 @@
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
-                    android:layout_marginEnd="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_3sdp"
+                    android:layout_marginStart="@dimen/_6sdp"
                     auto:icon_size="@dimen/_12sdp"
                     auto:icon_type="heart" />
             </androidx.appcompat.widget.LinearLayoutCompat>

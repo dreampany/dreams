@@ -12,8 +12,8 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class NoteState : BaseState {
-    DEFAULT, FAVORITE;
+    DEFAULT, FAVORITE, VIEWED, ADDED, EDITED;
 
     override val value: String get() = name
-    val title : String get() = name.toTitle()
+    val title: String get() = name.toTitle()
 }

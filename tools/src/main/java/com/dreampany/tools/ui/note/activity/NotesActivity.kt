@@ -33,6 +33,9 @@ import javax.inject.Inject
  * Last modified $file.lastModified
  */
 class NotesActivity : InjectActivity() {
+
+    private val REQUEST_NOTE = 101
+
     @Inject
     internal lateinit var ad: AdManager
 
@@ -234,7 +237,7 @@ class NotesActivity : InjectActivity() {
             NoteAction.ADD,
             null as Note?
         )
-        open(NoteActivity::class, task)
+        open(NoteActivity::class, task, REQUEST_NOTE)
     }
 
     private fun openEditNoteUi() {
@@ -245,7 +248,7 @@ class NotesActivity : InjectActivity() {
             NoteAction.ADD,
             null as Note?
         )
-        open(NoteActivity::class, task)
+        open(NoteActivity::class, task, REQUEST_NOTE)
     }
 
     private fun openNoteUi(item: NoteItem) {
@@ -256,7 +259,7 @@ class NotesActivity : InjectActivity() {
             NoteAction.VIEW,
             item.input
         )
-        open(NoteActivity::class, task)
+        open(NoteActivity::class, task, REQUEST_NOTE)
     }
 
     private fun openFavoritesUi() {

@@ -2,11 +2,13 @@ package com.dreampany.framework.misc.extension
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -39,7 +41,11 @@ fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) 
     }
 }
 
-fun <T : Any> Activity?.open(target: KClass<T>, task : Task<*, *, *, *, *>, finishCurrent: Boolean = false) {
+fun <T : Any> Activity?.open(
+    target: KClass<T>,
+    task: Task<*, *, *, *, *>,
+    finishCurrent: Boolean = false
+) {
     this?.run {
         val intent = Intent(this, target.java)
         intent.putExtra(Constants.Keys.TASK, task as Parcelable)
@@ -50,12 +56,29 @@ fun <T : Any> Activity?.open(target: KClass<T>, task : Task<*, *, *, *, *>, fini
     }
 }
 
+fun <T : Any> Activity?.open(target: KClass<T>, task: Task<*, *, *, *, *>, requestCode: Int) {
+    this?.run {
+        val intent = Intent(this, target.java)
+        intent.putExtra(Constants.Keys.TASK, task as Parcelable)
+        startActivityForResult(intent, requestCode)
+    }
+}
+
 fun <T : Activity> Activity?.open(target: KClass<T>, flags: Int, finishCurrent: Boolean = false) {
     this?.run {
         startActivity(Intent(this, target.java).addFlags(flags))
         if (finishCurrent) {
             finish()
         }
+    }
+}
+
+fun Activity?.close(task: Task<*, *, *, *, *>? = null) {
+    this?.run {
+        val intent = Intent()
+        task?.let { intent.putExtra(Constants.Keys.TASK, it as Parcelable) }
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 }
 
@@ -81,10 +104,10 @@ fun <T : Fragment> AppCompatActivity?.open(fragment: T?, @IdRes parent: Int, ex:
     ex.postToUi(runner)
 }
 
-val AppCompatActivity?.bundle: Bundle?
+val Activity?.bundle: Bundle?
     get() = this?.intent?.extras
 
-val AppCompatActivity?.task: Task<*, *, *, *, *>?
+val Activity?.task: Task<*, *, *, *, *>?
     get() {
         val bundle = this.bundle ?: return null
         return bundle.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
@@ -112,4 +135,14 @@ fun Activity?.rateUs() {
         Timber.e(error)
     }
 }
+
+fun Activity?.hideKeyboard() {
+    val view = this?.currentFocus ?: return
+    Runnable {
+        val imm: InputMethodManager = (this.getSystemService(Context.INPUT_METHOD_SERVICE)
+            ?: return@Runnable) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }.run()
+}
+
 

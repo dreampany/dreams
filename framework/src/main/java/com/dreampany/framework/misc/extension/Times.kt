@@ -4,6 +4,7 @@ import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 
 /**
  * Created by roman on 3/22/20
@@ -22,3 +23,11 @@ fun String.utc(): Long {
         return 0L
     }
 }
+
+fun Long.format(pattern: String) : String {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = this
+    val format = SimpleDateFormat(pattern, Locale.getDefault())
+   return format.format(calendar.time)
+}
+

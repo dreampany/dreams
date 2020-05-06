@@ -154,6 +154,22 @@
 
         </activity>
 
+        <activity
+            android:name=".ui.note.activity.FavoriteNotesActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:label="@string/title_favorite_notes"
+            android:windowSoftInputMode="adjustResize">
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
+
         <service android:name=".service.RadioPlayerService">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />

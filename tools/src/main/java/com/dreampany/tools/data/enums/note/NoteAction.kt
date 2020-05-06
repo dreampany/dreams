@@ -15,12 +15,13 @@ enum class NoteAction : BaseAction {
 
     override val value: String get() = name
 
-    val toState : NoteState get() {
-        when(this) {
-            VIEW-> return NoteState.VIEWED
-            ADD-> return NoteState.ADDED
-            EDIT-> return NoteState.EDITED
-        }
-        return NoteState.DEFAULT
-    }
+    /*val toState: NoteState
+        get() {
+            when (this) {
+                VIEW -> return NoteState.VIEWED
+                ADD -> return NoteState.ADDED
+                EDIT -> return NoteState.EDITED
+            }
+            return NoteState.DEFAULT
+        }*/
 }

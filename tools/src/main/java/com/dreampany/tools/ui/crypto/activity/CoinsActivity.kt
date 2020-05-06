@@ -13,13 +13,14 @@ import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
+import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
-import com.dreampany.tools.databinding.CoinsActivityBinding
+import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
@@ -40,7 +41,7 @@ class CoinsActivity : InjectActivity() {
     @Inject
     internal lateinit var cryptoPref: CryptoPref
 
-    private lateinit var bind: CoinsActivityBinding
+    private lateinit var bind: RecyclerActivityBinding
     private lateinit var vm: CoinViewModel
     private lateinit var adapter: FastCoinAdapter
 
@@ -48,10 +49,8 @@ class CoinsActivity : InjectActivity() {
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutRes(): Int = R.layout.coins_activity
-
+    override fun layoutRes(): Int = R.layout.recycler_activity
     override fun menuRes(): Int = R.menu.menu_coins
-
     override fun toolbarId(): Int = R.id.toolbar
     override fun searchMenuItemId(): Int = R.id.item_search
 
@@ -135,6 +134,7 @@ class CoinsActivity : InjectActivity() {
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coin)
         vm = createVm(CoinViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })
@@ -211,10 +211,14 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun processResults(result: List<CoinItem>?) {
-        if (result == null) {
-
-        } else {
+        if (result != null) {
             adapter.addItems(result)
+        }
+
+        if (adapter.isEmpty) {
+            bind.stateful.setState(StatefulLayout.State.EMPTY)
+        } else {
+            bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 

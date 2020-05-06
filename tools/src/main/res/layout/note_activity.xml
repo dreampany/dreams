@@ -17,7 +17,9 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include android:id="@+id/layout_note" layout="@layout/note_content_frame_ad" />
+        <include
+            android:id="@+id/layout_note"
+            layout="@layout/note_content_frame_ad" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

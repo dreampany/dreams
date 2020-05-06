@@ -74,7 +74,7 @@ class NoteViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem(favorite))
+                postResult(result?.toItem(favorite), NoteState.LOADED)
             }
         }
     }
@@ -122,6 +122,7 @@ class NoteViewModel
     fun saveNote(id: String?, title: String, description: String?) {
         uiScope.launch {
             postProgressSingle(true)
+            val state = if (id.isNullOrEmpty()) NoteState.ADDED else NoteState.EDITED
             var result: Note? = null
             var errors: SmartError? = null
             var favorite: Boolean = false
@@ -141,7 +142,7 @@ class NoteViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItem(favorite))
+                postResult(result?.toItem(favorite), state)
             }
         }
     }

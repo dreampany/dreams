@@ -5,7 +5,7 @@
     tools:context="${relativePackage}.${activityClass}">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/layout_root"
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         auto:cardCornerRadius="@dimen/_2sdp"
@@ -65,7 +65,7 @@
                     android:tint="@color/material_grey800"
                     auto:srcCompat="@drawable/ic_edit_black_24dp" />
 
-                <com.like.LikeButton
+                <com.like.LikeButton android:visibility="gone"
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"

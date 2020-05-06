@@ -91,8 +91,7 @@ class FastNoteAdapter(
                 { bind -> bind.root },
                 { bind ->
                     arrayListOf(
-                        bind.buttonEdit,
-                        bind.buttonFavorite
+                        bind.buttonEdit
                     )
                 }
             )
@@ -102,15 +101,15 @@ class FastNoteAdapter(
                 }
             }
 
-            fastAdapter.addClickListener<CoinInfoItemBinding, GenericItem>(
+           /* fastAdapter.addClickListener<CoinInfoItemBinding, GenericItem>(
                 { bind -> bind.root },
-                { bind -> arrayListOf(bind.buttonFavorite) }
+                { bind -> arrayListOf(bind.bu) }
             )
             { view, position, adapter, item ->
                 if (item is NoteItem) {
                     listener(view, item)
                 }
-            }
+            }*/
         }
     }
 
@@ -142,6 +141,8 @@ class FastNoteAdapter(
         if (position >= 0) {
             fastAdapter.set(position, item)
             //fastAdapter.notifyAdapterItemChanged(position)
+        } else {
+            fastAdapter.add(item)
         }
     }
 

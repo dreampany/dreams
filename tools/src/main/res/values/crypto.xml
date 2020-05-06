@@ -49,4 +49,8 @@
     <string name="title_coin_market">Market</string>
     <string name="join_text">%s %s</string>
     <string name="title_favorite_coins">Favorite Coins</string>
+
+    <string name="title_empty_coin" translatable="false">No Coins</string>
+    <string name="message_empty_coin" translatable="false">It seems you have no internet connection. Please ensure internet connectivity first.</string>
+
 </resources>

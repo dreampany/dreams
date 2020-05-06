@@ -1,5 +1,6 @@
 package com.dreampany.tools.inject.ui.note
 
+import com.dreampany.tools.ui.note.activity.FavoriteNotesActivity
 import com.dreampany.tools.ui.note.activity.NoteActivity
 import com.dreampany.tools.ui.note.activity.NotesActivity
 import dagger.Module
@@ -18,4 +19,7 @@ abstract class NoteModule {
 
     @ContributesAndroidInjector
     abstract fun note(): NoteActivity
+
+    @ContributesAndroidInjector
+    abstract fun favorites(): FavoriteNotesActivity
 }

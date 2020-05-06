@@ -1,5 +1,6 @@
 package com.dreampany.tools.ui.note.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,7 +19,7 @@ import com.dreampany.tools.data.enums.note.NoteSubtype
 import com.dreampany.tools.data.enums.note.NoteType
 import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.pref.NotePref
-import com.dreampany.tools.databinding.NotesActivityBinding
+import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
 import com.dreampany.tools.ui.note.model.NoteItem
@@ -42,7 +43,7 @@ class NotesActivity : InjectActivity() {
     @Inject
     internal lateinit var notePref: NotePref
 
-    private lateinit var bind: NotesActivityBinding
+    private lateinit var bind: RecyclerActivityBinding
     private lateinit var vm: NoteViewModel
     private lateinit var adapter: FastNoteAdapter
 
@@ -50,7 +51,7 @@ class NotesActivity : InjectActivity() {
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutRes(): Int = R.layout.notes_activity
+    override fun layoutRes(): Int = R.layout.recycler_activity
     override fun menuRes(): Int = R.menu.menu_notes
     override fun toolbarId(): Int = R.id.toolbar
     override fun searchMenuItemId(): Int = R.id.item_search
@@ -111,17 +112,32 @@ class NotesActivity : InjectActivity() {
         bind.swipe.refresh(false)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_NOTE) {
+            val task: UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note> =
+                (data.task ?: return) as UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>
+            when (task.state) {
+                NoteState.ADDED,
+                NoteState.EDITED -> {
+                    val input = task.input ?: return
+                    vm.loadNote(input.id)
+                }
+            }
+        }
+    }
+
     private fun onItemPressed(view: View, item: NoteItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
                 openNoteUi(item)
             }
+            R.id.button_edit -> {
+                openEditNoteUi(item)
+            }
             R.id.button_favorite -> {
                 onFavoriteClicked(item)
-            }
-            else -> {
-
             }
         }
     }
@@ -139,6 +155,7 @@ class NotesActivity : InjectActivity() {
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
+        bind.fab.visible()
         bind.fab.setOnSafeClickListener {
             openAddNoteUi()
         }
@@ -240,13 +257,13 @@ class NotesActivity : InjectActivity() {
         open(NoteActivity::class, task, REQUEST_NOTE)
     }
 
-    private fun openEditNoteUi() {
+    private fun openEditNoteUi(item: NoteItem) {
         val task = UiTask(
             NoteType.NOTE,
             NoteSubtype.DEFAULT,
             NoteState.DEFAULT,
-            NoteAction.ADD,
-            null as Note?
+            NoteAction.EDIT,
+            item.input
         )
         open(NoteActivity::class, task, REQUEST_NOTE)
     }

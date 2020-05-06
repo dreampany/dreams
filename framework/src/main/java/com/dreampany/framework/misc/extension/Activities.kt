@@ -104,18 +104,23 @@ fun <T : Fragment> AppCompatActivity?.open(fragment: T?, @IdRes parent: Int, ex:
     ex.postToUi(runner)
 }
 
-val Activity?.bundle: Bundle?
-    get() = this?.intent?.extras
+val Intent?.bundle: Bundle? get() = this?.extras
+
+val Activity?.bundle: Bundle? get() = this?.intent?.bundle
+
+val Bundle?.task: Task<*, *, *, *, *>?
+    get() = this?.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
+
+val Intent?.task: Task<*, *, *, *, *>?
+    get() = this.bundle.task
 
 val Activity?.task: Task<*, *, *, *, *>?
-    get() {
-        val bundle = this.bundle ?: return null
-        return bundle.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
-    }
+    get() = this.bundle?.getParcelable<Parcelable>(Constants.Keys.TASK) as Task<*, *, *, *, *>?
 
 fun Activity?.moreApps(devId: String) {
     if (this == null) return
     try {
+        val intent = Intent()
         val uri = Uri.parse("market://search?q=pub:$devId")
         val market = Intent(Intent.ACTION_VIEW, uri)
         this.startActivity(market)

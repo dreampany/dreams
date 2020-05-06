@@ -43,11 +43,12 @@ class NoteActivity : InjectActivity() {
     private lateinit var bind: NoteActivityBinding
     private lateinit var vm: NoteViewModel
 
-    private lateinit var action: NoteAction
+    private var action: NoteAction = NoteAction.DEFAULT
     private var input: Note? = null
 
-    private var edited: Boolean = false
-    private var saved: Boolean = false
+    private var changed: Boolean = false
+    private var state: NoteState = NoteState.DEFAULT
+
     private var noteTitle: String = Constants.Default.STRING
     private var noteDescription: String = Constants.Default.STRING
 
@@ -90,7 +91,7 @@ class NoteActivity : InjectActivity() {
         val doneItem = findMenuItemById(R.id.item_done).toTint(this, R.color.material_white)
         //resolveTask()
         editItem?.isVisible = !isEdit
-        doneItem?.isVisible = isEdit
+        //doneItem?.isVisible = isEdit
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -109,17 +110,17 @@ class NoteActivity : InjectActivity() {
 
     override fun onBackPressed() {
         if (isEdit) {
-            if (edited) {
+            if (changed) {
                 saveDialog()
                 return
             }
-            if (saved) {
+            if (state == NoteState.ADDED || state == NoteState.EDITED) {
                 val currentTask: UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note> =
                     (task ?: return) as UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>
                 val task = UiTask(
                     currentTask.type,
                     currentTask.subtype,
-                    currentTask.action.toState,
+                    state,
                     currentTask.action,
                     input
                 )
@@ -132,7 +133,7 @@ class NoteActivity : InjectActivity() {
     }
 
     private fun resolveTask() {
-        if (::action.isInitialized) return
+        //if (::action.isInitialized) return
         val task: UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note> =
             (task ?: return) as UiTask<NoteType, NoteSubtype, NoteState, NoteAction, Note>
         action = task.action
@@ -180,7 +181,7 @@ class NoteActivity : InjectActivity() {
         bind.layoutNote.inputEditTitle.addTextChangedListener(object : TextChangeListener() {
             override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (noteTitle != s.trimValue) {
-                    edited = true
+                    changed = true
                 }
                 noteTitle = s.trimValue
             }
@@ -189,7 +190,7 @@ class NoteActivity : InjectActivity() {
         bind.layoutNote.inputEditDescription.addTextChangedListener(object : TextChangeListener() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (noteDescription != s.trimValue) {
-                    edited = true
+                    changed = true
                 }
                 noteDescription = s.trimValue
             }
@@ -209,7 +210,7 @@ class NoteActivity : InjectActivity() {
             processError(response.error)
         } else if (response is Response.Result<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {
             Timber.v("Result [%s]", response.result)
-            processResult(response.result)
+            processResult(response.state, response.result)
         }
     }
 
@@ -230,14 +231,27 @@ class NoteActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: NoteItem?) {
+    private fun processResult(state: NoteState, result: NoteItem?) {
         if (result == null) return
-        if (isEdit) {
-            NotifyUtil.shortToast(this, R.string.dialog_saved_note)
-            hideKeyboard()
-            saved = true
-            //onBackPressed()
-            return
+        this.state = state
+        input = result.input
+        changed = false
+        when (state) {
+            NoteState.LOADED -> {
+                if (isEdit) {
+                    bind.layoutNote.inputEditTitle.setText(result.input.title)
+                    bind.layoutNote.inputEditDescription.setText(result.input.description)
+                } else {
+                    bind.layoutNote.textTitle.setText(result.input.title)
+                    bind.layoutNote.textDescription.setText(result.input.description)
+                }
+            }
+            NoteState.ADDED,
+            NoteState.EDITED -> {
+                NotifyUtil.shortToast(this, R.string.dialog_saved_note)
+                hideKeyboard()
+                input = result.input
+            }
         }
     }
 
@@ -252,6 +266,7 @@ class NoteActivity : InjectActivity() {
     }
 
     private fun switchToEdit() {
+        if (action == NoteAction.EDIT) return
         action = NoteAction.EDIT
         bind.layoutNote.inputEditTitle.setText(input?.title)
         bind.layoutNote.inputEditDescription.setText(input?.description)
@@ -267,7 +282,6 @@ class NoteActivity : InjectActivity() {
             bind.layoutNote.inputEditDescription.error = getString(R.string.error_description_note)
             return false
         }
-        edited = false
         vm.saveNote(input?.id, noteTitle, noteDescription)
         return true
     }
@@ -279,7 +293,6 @@ class NoteActivity : InjectActivity() {
                 saveNote()
             },
             onNegativeClick = {
-                edited = false
                 onBackPressed()
             }
         )

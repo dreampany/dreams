@@ -65,8 +65,7 @@ class NoteViewModel
             var favorite: Boolean = false
             try {
                 result = repo.getNote(id)
-                result?.let { favorite = repo.toggleFavorite(it) }
-
+                result?.let { favorite = repo.isFavorite(it) }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

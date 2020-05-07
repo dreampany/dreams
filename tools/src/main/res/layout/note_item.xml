@@ -65,11 +65,12 @@
                     android:tint="@color/material_grey800"
                     auto:srcCompat="@drawable/ic_edit_black_24dp" />
 
-                <com.like.LikeButton android:visibility="gone"
+                <com.like.LikeButton
                     android:id="@+id/button_favorite"
                     android:layout_width="@dimen/_12sdp"
                     android:layout_height="@dimen/_12sdp"
                     android:layout_marginStart="@dimen/_6sdp"
+                    android:visibility="gone"
                     auto:icon_size="@dimen/_12sdp"
                     auto:icon_type="heart" />
             </androidx.appcompat.widget.LinearLayoutCompat>

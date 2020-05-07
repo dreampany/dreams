@@ -54,6 +54,7 @@
                     android:layout_margin="@dimen/fab_margin"
                     android:backgroundTint="?attr/colorAccent"
                     android:tint="@color/material_white"
+                    android:visibility="gone"
                     auto:backgroundTint="?attr/colorAccent"
                     auto:elevation="6dp"
                     auto:rippleColor="@color/material_white"

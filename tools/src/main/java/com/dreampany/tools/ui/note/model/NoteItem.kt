@@ -56,4 +56,6 @@ private constructor(
     override fun unbindView(binding: NoteItemBinding) {
 
     }
+
+    val favoriteRes: Int get() = if (favorite) R.drawable.ic_favorite_black_24dp else R.drawable.ic_favorite_border_black_24dp
 }

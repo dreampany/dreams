@@ -87,15 +87,21 @@ class NoteActivity : InjectActivity() {
     }
 
     override fun onMenuCreated(menu: Menu) {
+        val favItem = findMenuItemById(R.id.item_favorite).toTint(this, R.color.material_white)
         val editItem = findMenuItemById(R.id.item_edit).toTint(this, R.color.material_white)
         val doneItem = findMenuItemById(R.id.item_done).toTint(this, R.color.material_white)
         //resolveTask()
+        favItem?.isVisible = action != NoteAction.ADD
         editItem?.isVisible = !isEdit
         //doneItem?.isVisible = isEdit
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_favorite -> {
+                input?.let { vm.toggleFavorite(it) }
+                return true
+            }
             R.id.item_edit -> {
                 switchToEdit()
                 return true
@@ -237,6 +243,12 @@ class NoteActivity : InjectActivity() {
         input = result.input
         changed = false
         when (state) {
+            NoteState.FAVORITE -> {
+                findMenuItemById(R.id.item_favorite)?.let {
+                    it.setIcon(result.favoriteRes)
+                    it.toTint(this, R.color.material_white)
+                }
+            }
             NoteState.LOADED -> {
                 if (isEdit) {
                     bind.layoutNote.inputEditTitle.setText(result.input.title)
@@ -244,6 +256,10 @@ class NoteActivity : InjectActivity() {
                 } else {
                     bind.layoutNote.textTitle.setText(result.input.title)
                     bind.layoutNote.textDescription.setText(result.input.description)
+                }
+                findMenuItemById(R.id.item_favorite)?.let {
+                    it.setIcon(result.favoriteRes)
+                    it.toTint(this, R.color.material_white)
                 }
             }
             NoteState.ADDED,

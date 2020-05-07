@@ -66,9 +66,11 @@ class CoinViewModel
             postProgressSingle(true)
             var result: Coin? = null
             var errors: SmartError? = null
+            var favorite: Boolean = false
             try {
                 val currency = pref.getCurrency()
                 result = repo.getCoin(id, currency)
+                result?.let { favorite = repo.isFavorite(it) }
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -76,7 +78,7 @@ class CoinViewModel
             if (errors != null) {
                 postError(errors)
             } else {
-                postResult(result?.toItems())
+                postResult(result?.toItems(favorite))
             }
         }
     }
@@ -137,14 +139,13 @@ class CoinViewModel
         }
     }
 
-    private suspend fun Coin.toItems(): List<CoinItem> {
+    private suspend fun Coin.toItems(favorite: Boolean): List<CoinItem> {
         val input = this
         return withContext(Dispatchers.IO) {
             val currency = pref.getCurrency()
             val sort = pref.getSort()
             val order = pref.getOrder()
             val result = arrayListOf<CoinItem>()
-            val favorite = repo.isFavorite(input)
             result.add(CoinItem.getInfoItem(input, formatter, currency, sort, order, favorite))
             result.add(CoinItem.getQuoteItem(input, formatter, currency, sort, order, favorite))
             result

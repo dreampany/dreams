@@ -39,9 +39,6 @@ import javax.inject.Inject
  */
 class FavoriteNotesActivity : InjectActivity() {
 
-    @Inject
-    internal lateinit var cryptoPref: CryptoPref
-
     private lateinit var bind: RecyclerActivityBinding
     private lateinit var vm: NoteViewModel
     private lateinit var adapter: FastNoteAdapter

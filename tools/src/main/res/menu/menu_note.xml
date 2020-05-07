@@ -3,6 +3,13 @@
     xmlns:auto="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/item_favorite"
+        android:icon="@drawable/ic_favorite_border_black_24dp"
+        android:iconTint="@color/material_white"
+        android:title="@string/favorites"
+        auto:showAsAction="ifRoom" />
+
+    <item
         android:id="@+id/item_edit"
         android:icon="@drawable/ic_edit_black_24dp"
         android:iconTint="@color/material_white"

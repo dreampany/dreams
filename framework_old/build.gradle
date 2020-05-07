@@ -177,7 +177,7 @@ dependencies {
     api 'com.google.code.gson:gson:2.8.6'
     api 'com.google.android.gms:play-services-location:17.0.0'
     api 'com.google.android.gms:play-services-nearby:17.0.0'
-    api 'com.googlecode.libphonenumber:libphonenumber:8.12.2'
+    api 'com.googlecode.libphonenumber:libphonenumber:8.12.3'
 
     /* firebase */
     api 'com.firebase:firebase-jobdispatcher:0.8.6'

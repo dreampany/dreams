@@ -69,7 +69,11 @@ class NoteActivity : InjectActivity() {
         resolveTask()
         initUi()
         initAd()
-        onRefresh()
+        input?.run {
+            ex.postToUi(Runnable {
+                vm.loadNote(id)
+            })
+        }
         ad.loadBanner(this.javaClass.simpleName)
     }
 
@@ -202,11 +206,6 @@ class NoteActivity : InjectActivity() {
             }
         })
         resolveUi()
-        if (action == NoteAction.EDIT || action == NoteAction.VIEW) {
-            input?.run {
-                vm.loadNote(id)
-            }
-        }
     }
 
     private fun processResponse(response: Response<NoteType, NoteSubtype, NoteState, NoteAction, NoteItem>) {

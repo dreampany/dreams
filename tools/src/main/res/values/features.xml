@@ -13,6 +13,7 @@
     <string name="title_feature_resume">Resume Plus</string>
     <string name="title_feature_question">Questions</string>
     <string name="title_feature_lock">Smart Lock</string>
+    <string name="title_feature_history">Wiki History</string>
 
     <string name="title_dialog_features">Features</string>
     <string name="message_dialog_features_not_found">Not found!</string>

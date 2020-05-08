@@ -82,6 +82,15 @@ class FeatureViewModel
                 colors.nextColor(Type.FEATURE.name)
             )
         )
+        features.add(
+            Feature(
+                Type.FEATURE,
+                Subtype.HISTORY,
+                R.drawable.ic_history_black_24dp,
+                R.string.title_feature_history,
+                colors.nextColor(Type.FEATURE.name)
+            )
+        )
         features
     }
 

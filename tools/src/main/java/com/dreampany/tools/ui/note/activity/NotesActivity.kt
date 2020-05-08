@@ -21,7 +21,6 @@ import com.dreampany.tools.data.model.note.Note
 import com.dreampany.tools.data.source.note.pref.NotePref
 import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.ui.crypto.activity.FavoriteCoinsActivity
 import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
 import com.dreampany.tools.ui.note.model.NoteItem
 import com.dreampany.tools.ui.note.vm.NoteViewModel
@@ -160,7 +159,7 @@ class NotesActivity : InjectActivity() {
         bind.fab.setOnSafeClickListener {
             openAddNoteUi()
         }
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_note)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_notes)
         vm = createVm(NoteViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })
         vm.subscribes(this, Observer { this.processResponses(it) })

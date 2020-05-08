@@ -134,7 +134,7 @@ class NoteMapper
         result?.forEach {
             //bindQuote(currency, it, quoteDao)
         }
-        return result
+        return outputs
     }
 
     @Throws

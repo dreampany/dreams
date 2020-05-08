@@ -14,22 +14,15 @@ import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.crypto.CryptoAction
-import com.dreampany.tools.data.enums.crypto.CryptoState
-import com.dreampany.tools.data.enums.crypto.CryptoSubtype
-import com.dreampany.tools.data.enums.crypto.CryptoType
 import com.dreampany.tools.data.enums.note.NoteAction
 import com.dreampany.tools.data.enums.note.NoteState
 import com.dreampany.tools.data.enums.note.NoteSubtype
 import com.dreampany.tools.data.enums.note.NoteType
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.databinding.RecyclerActivityBinding
-import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.note.adapter.FastNoteAdapter
 import com.dreampany.tools.ui.note.model.NoteItem
 import com.dreampany.tools.ui.note.vm.NoteViewModel
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Created by roman on 21/3/20
@@ -94,7 +87,7 @@ class FavoriteNotesActivity : InjectActivity() {
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_note)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_favorite_notes)
 
         vm = createVm(NoteViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })

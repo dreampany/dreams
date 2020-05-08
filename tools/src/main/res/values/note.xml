@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_empty_note" translatable="false">No Notes</string>
-    <string name="message_empty_note" translatable="false">It seems you have not added any notes yet. Click to add a new note.</string>
+    <string name="title_empty_notes" translatable="false">No Notes</string>
+    <string name="message_empty_notes" translatable="false">It seems you have not added any notes yet. Click to add a new note.</string>
+
+    <string name="title_empty_favorite_notes" translatable="false">No Favorite Notes</string>
+    <string name="message_empty_favorite_notes" translatable="false">It seems you have not made any favorite note yet.</string>
 
     <string name="hint_title_edit_note" translatable="false">Add Title...</string>
     <string name="hint_description_edit_note" translatable="false">Add Description...</string>

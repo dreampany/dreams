@@ -92,7 +92,7 @@ class FavoriteCoinsActivity : InjectActivity() {
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coin)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_favorite_coins)
 
         vm = createVm(CoinViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })

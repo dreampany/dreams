@@ -4,7 +4,6 @@ import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Pattern
 
 /**
  * Created by roman on 3/22/20
@@ -13,6 +12,10 @@ import java.util.regex.Pattern
  * Last modified $file.lastModified
  */
 private val UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+
+val Calendar.day: Int get() = this.get(Calendar.DAY_OF_MONTH)
+val Calendar.month: Int get() = this.get(Calendar.MONTH)
+val Calendar.year: Int get() = this.get(Calendar.YEAR)
 
 fun String.utc(): Long {
     val format = SimpleDateFormat(UTC_PATTERN, Locale.getDefault())
@@ -24,10 +27,26 @@ fun String.utc(): Long {
     }
 }
 
-fun Long.format(pattern: String) : String {
+fun Long.format(pattern: String): String {
     val calendar = Calendar.getInstance()
     calendar.timeInMillis = this
     val format = SimpleDateFormat(pattern, Locale.getDefault())
-   return format.format(calendar.time)
+    return format.format(calendar.time)
 }
+
+fun String.calendar(pattern: String): Calendar? {
+    val format = SimpleDateFormat(pattern, Locale.getDefault())
+    try {
+        val date = format.parse(this) ?: return null
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = date.time
+        return calendar
+    } catch (error: ParseException) {
+    }
+    return null
+}
+
+fun String.getDay(pattern: String): Int = calendar(pattern)?.day ?: 0
+
+fun String.getMonth(pattern: String): Int = calendar(pattern)?.month ?: 0
 

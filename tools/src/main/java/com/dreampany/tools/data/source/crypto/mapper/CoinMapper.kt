@@ -18,6 +18,7 @@ import com.dreampany.tools.data.source.crypto.api.CoinDataSource
 import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.crypto.room.dao.QuoteDao
 import com.dreampany.tools.misc.constant.AppConstants
+import com.dreampany.tools.misc.constant.CryptoConstants
 import com.google.common.collect.Maps
 import timber.log.Timber
 import java.util.*
@@ -53,7 +54,7 @@ class CoinMapper
     @Synchronized
     fun isExpired(currency: Currency, sort: CoinSort, order: Order, offset: Long): Boolean {
         val time = pref.getExpireTime(currency, sort, order, offset)
-        return time.isExpired(AppConstants.Times.Crypto.LISTING)
+        return time.isExpired(CryptoConstants.Times.Crypto.LISTING)
     }
 
     @Synchronized
@@ -63,7 +64,7 @@ class CoinMapper
     @Synchronized
     fun isExpired(id: String, currency: Currency): Boolean {
         val time = pref.getExpireTime(id, currency)
-        return time.isExpired(AppConstants.Times.Crypto.COIN)
+        return time.isExpired(CryptoConstants.Times.Crypto.COIN)
     }
 
     @Synchronized
@@ -267,7 +268,7 @@ class CoinMapper
     @Synchronized
     private suspend fun updateCache(source: CoinDataSource) {
         if (coins.isEmpty()) {
-            source.getCoins()?.let {
+            source.gets()?.let {
                 if (it.isNotEmpty())
                     it.forEach { add(it) }
             }

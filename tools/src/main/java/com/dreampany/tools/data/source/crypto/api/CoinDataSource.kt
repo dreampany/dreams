@@ -20,33 +20,33 @@ interface CoinDataSource {
     suspend fun toggleFavorite(input: Coin): Boolean
 
     @Throws
-    suspend fun insertItem(input: Coin): Long
+    suspend fun getFavoriteCoins(
+        currency: Currency,
+        sort: CoinSort,
+        order: Order
+    ): List<Coin>?
 
     @Throws
-    suspend fun insert(inputs: List<Coin>): List<Long>?
+    suspend fun put(input: Coin): Long
 
     @Throws
-    suspend fun getCoins(): List<Coin>?
+    suspend fun put(inputs: List<Coin>): List<Long>?
 
     @Throws
-    suspend fun getCoin(id: String, currency: Currency): Coin?
+    suspend fun get(id: String, currency: Currency): Coin?
 
     @Throws
-    suspend fun getCoins(ids: List<String>, currency: Currency): List<Coin>?
+    suspend fun gets(): List<Coin>?
 
     @Throws
-    suspend fun getCoins(
+    suspend fun gets(ids: List<String>, currency: Currency): List<Coin>?
+
+    @Throws
+    suspend fun gets(
         currency: Currency,
         sort: CoinSort,
         order: Order,
         offset: Long,
         limit: Long
-    ): List<Coin>?
-
-    @Throws
-    suspend fun getFavoriteCoins(
-        currency: Currency,
-        sort: CoinSort,
-        order: Order
     ): List<Coin>?
 }

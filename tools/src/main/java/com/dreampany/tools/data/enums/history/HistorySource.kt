@@ -11,5 +11,6 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class HistorySource : Parcelable {
-   DEFAULT, WIKIPEDIA
+   DEFAULT, WIKIPEDIA;
+   val value: String get() = name
 }

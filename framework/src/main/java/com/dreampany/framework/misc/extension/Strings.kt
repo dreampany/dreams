@@ -23,12 +23,17 @@ fun String?.isEquals(value: String?): Boolean {
     return this == value
 }
 
-fun String?.lastPart(denim: Char): String? {
-    return this?.split(denim)?.last()
-}
+fun String?.lastPart(denim: Char): String? = this?.split(denim)?.last()
+fun String?.firstPart(denim: Char): String? = this?.split(denim)?.first()
 
 fun String?.isEmail(): Boolean {
     return this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
+}
+
+fun String.append(vararg suffixes : String) : String {
+    val builder = StringBuilder(this)
+    suffixes.forEach { builder.append(it) }
+    return builder.toString()
 }
 
 fun String?.parseInt(): Int = this?.toInt() ?: 0
@@ -56,8 +61,8 @@ fun String.toTitle(): String {
     return builder.toString()
 }
 
-val CharSequence?.value : String
+val CharSequence?.value: String
     get() = if (this == null) Constants.Default.STRING else this.toString()
 
-val CharSequence?.trimValue : String
+val CharSequence?.trimValue: String
     get() = if (this == null) Constants.Default.STRING else this.trim().toString()

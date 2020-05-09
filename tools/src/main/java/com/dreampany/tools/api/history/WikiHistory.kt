@@ -9,4 +9,4 @@ package com.dreampany.tools.api.history
 class WikiHistory(val year: String,
                   val text: String,
                   val html: String,
-                  val links: MutableList<WikiLink>)
+                  val links: List<WikiLink>)

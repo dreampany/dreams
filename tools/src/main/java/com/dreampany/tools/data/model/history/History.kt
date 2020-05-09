@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
 import com.dreampany.framework.data.model.Base
+import com.dreampany.framework.data.model.Link
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.history.HistorySource
@@ -40,7 +41,8 @@ data class History(
     var year: Int = Constants.Default.INT,
     var text: String? = Constants.Default.NULL,
     var html: String? = Constants.Default.NULL,
-    var url: String? = Constants.Default.NULL
+    var url: String? = Constants.Default.NULL,
+    var links : List<Link>? = Constants.Default.NULL
 ) : Base() {
 
     @Ignore
@@ -80,7 +82,5 @@ data class History(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String {
-        return "History ($id) == $id"
-    }
+    override fun toString(): String = "History ($id) == $id"
 }

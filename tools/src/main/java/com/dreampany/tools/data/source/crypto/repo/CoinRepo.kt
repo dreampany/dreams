@@ -42,27 +42,27 @@ class CoinRepo
     }
 
     @Throws
-    override suspend fun insertItem(input: Coin): Long {
+    override suspend fun put(input: Coin): Long {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun insert(inputs: List<Coin>): List<Long>? {
+    override suspend fun put(inputs: List<Coin>): List<Long>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getCoins(): List<Coin>? {
+    override suspend fun gets(): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getCoins(ids: List<String>, currency: Currency): List<Coin>? {
+    override suspend fun gets(ids: List<String>, currency: Currency): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getCoins(
+    override suspend fun gets(
         currency: Currency,
         sort: CoinSort,
         order: Order,
@@ -70,25 +70,25 @@ class CoinRepo
         limit: Long
     ) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(currency, sort, order, offset)) {
-            val result = remote.getCoins(currency, sort, order, offset, limit)
+            val result = remote.gets(currency, sort, order, offset, limit)
             if (!result.isNullOrEmpty()) {
                 mapper.commitExpire(currency, sort, order, offset)
-                room.insert(result)
+                room.put(result)
             }
         }
-        room.getCoins(currency, sort, order, offset, limit)
+        room.gets(currency, sort, order, offset, limit)
     }
 
     @Throws
-    override suspend fun getCoin(id: String, currency: Currency) = withContext(Dispatchers.IO) {
+    override suspend fun get(id: String, currency: Currency) = withContext(Dispatchers.IO) {
         if (mapper.isExpired(id, currency)) {
-            val result = remote.getCoin(id, currency)
+            val result = remote.get(id, currency)
             if (result != null) {
                 mapper.commitExpire(id, currency)
-                room.insertItem(result)
+                room.put(result)
             }
         }
-        room.getCoin(id, currency)
+        room.get(id, currency)
     }
 
     @Throws

@@ -12,5 +12,8 @@ import retrofit2.http.Path
  */
 interface MuffinService {
     @GET(Constants.Api.HISTORY_MUFFIN_LABS_DAY_MONTH)
-    fun getWikiHistory(@Path(Constants.Keys.DAY) day: Int, @Path(Constants.Keys.MONTH) month: Int): Call<WikiHistoryResponse>
+    fun getWikiHistory(
+        @Path(Constants.Keys.MONTH) month: Int,
+        @Path(Constants.Keys.DAY) day: Int
+    ): Call<WikiHistoryResponse>
 }

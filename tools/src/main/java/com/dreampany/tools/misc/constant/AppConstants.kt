@@ -55,10 +55,6 @@ class AppConstants {
             const val CHANGE_24H = "change_24h"
             const val CHANGE_PCT_24H = "change_pct_24h"
         }
-
-        object Note {
-
-        }
     }
 
     object Notify {
@@ -69,10 +65,6 @@ class AppConstants {
     }
 
     object Times {
-        object Crypto {
-            val LISTING = TimeUnit.MINUTES.toMillis(30)
-            val COIN = TimeUnit.MINUTES.toMillis(5)
-        }
 
         object RADIO {
             val LISTING = TimeUnit.HOURS.toMillis(1)

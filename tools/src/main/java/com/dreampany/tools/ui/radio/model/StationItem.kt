@@ -76,6 +76,6 @@ class StationItem(
         station.state?.run {
             subtitle.add(this)
         }
-        return subtitle.joinToString(separator = Constants.Sep.SPACE)
+        return subtitle.joinToString(separator = Constants.Sep.SPACE.toString())
     }
 }

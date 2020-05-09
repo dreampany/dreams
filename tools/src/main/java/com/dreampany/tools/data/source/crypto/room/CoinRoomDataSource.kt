@@ -36,7 +36,14 @@ class CoinRoomDataSource(
     }
 
     @Throws
-    override suspend fun insertItem(input: Coin): Long {
+    override suspend fun getFavoriteCoins(
+        currency: Currency,
+        sort: CoinSort,
+        order: Order
+    ): List<Coin>? = mapper.getFavoriteItems(currency, sort, order, quoteDao, this)
+
+    @Throws
+    override suspend fun put(input: Coin): Long {
         mapper.add(input)
         if (input.hasQuote()) {
             quoteDao.insertOrReplace(input.getQuotesAsList())
@@ -45,37 +52,30 @@ class CoinRoomDataSource(
     }
 
     @Throws
-    override suspend fun insert(inputs: List<Coin>): List<Long>? {
+    override suspend fun put(inputs: List<Coin>): List<Long>? {
         val result = arrayListOf<Long>()
-        inputs.forEach { result.add(insertItem(it)) }
+        inputs.forEach { result.add(put(it)) }
         return result
     }
 
     @Throws
-    override suspend fun getCoins(): List<Coin>? = dao.items
+    override suspend fun get(id: String, currency: Currency): Coin? =
+        mapper.getItem(id, currency, quoteDao, this)
 
     @Throws
-    override suspend fun getCoins(ids: List<String>, currency: Currency): List<Coin>? {
+    override suspend fun gets(): List<Coin>? = dao.items
+
+    @Throws
+    override suspend fun gets(ids: List<String>, currency: Currency): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getCoins(
+    override suspend fun gets(
         currency: Currency,
         sort: CoinSort,
         order: Order,
         offset: Long,
         limit: Long
     ): List<Coin>? = mapper.getItems(currency, sort, order, offset, limit, quoteDao, this)
-
-    @Throws
-    override suspend fun getCoin(id: String, currency: Currency): Coin? =
-        mapper.getItem(id, currency, quoteDao, this)
-
-    @Throws
-    override suspend fun getFavoriteCoins(
-        currency: Currency,
-        sort: CoinSort,
-        order: Order
-    ): List<Coin>? = mapper.getFavoriteItems(currency, sort, order, quoteDao, this)
 }

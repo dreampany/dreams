@@ -48,7 +48,7 @@ class CoinViewModel
                 val currency = pref.getCurrency()
                 val sort = pref.getSort()
                 val order = pref.getOrder()
-                result = repo.getCoins(currency, sort, order, offset, CryptoConstants.Limits.COINS)
+                result = repo.gets(currency, sort, order, offset, CryptoConstants.Limits.COINS)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -69,7 +69,7 @@ class CoinViewModel
             var favorite: Boolean = false
             try {
                 val currency = pref.getCurrency()
-                result = repo.getCoin(id, currency)
+                result = repo.get(id, currency)
                 result?.let { favorite = repo.isFavorite(it) }
             } catch (error: SmartError) {
                 Timber.e(error)

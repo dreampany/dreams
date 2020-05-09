@@ -100,7 +100,7 @@ class Constants {
         const val DOT = '.'
         const val COMMA = ','
         const val COMMA_SPACE = ", "
-        const val SPACE = " "
+        const val SPACE = ' '
         const val HYPHEN = '-'
         const val SEMI_COLON = ';'
         const val EQUAL = '='

@@ -69,24 +69,24 @@ constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun insertItem(input: Coin): Long {
+    override suspend fun put(input: Coin): Long {
         TODO("Not yet implemented")
     }
 
-    override suspend fun insert(inputs: List<Coin>): List<Long>? {
+    override suspend fun put(inputs: List<Coin>): List<Long>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCoins(): List<Coin>? {
+    override suspend fun gets(): List<Coin>? {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCoins(ids: List<String>, currency: Currency): List<Coin>? {
+    override suspend fun gets(ids: List<String>, currency: Currency): List<Coin>? {
         TODO("Not yet implemented")
     }
 
     @Throws
-    override suspend fun getCoins(
+    override suspend fun gets(
         currency: Currency,
         sort: CoinSort,
         order: Order,
@@ -127,7 +127,7 @@ constructor(
         throw SmartError()
     }
 
-    override suspend fun getCoin(id: String, currency: Currency): Coin? {
+    override suspend fun get(id: String, currency: Currency): Coin? {
         for (index in 0..keys.length) {
             try {
                 val key = keys.nextKey ?: continue

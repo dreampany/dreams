@@ -1,4 +1,4 @@
-package com.dreampany.tools.inject.data.radio
+package com.dreampany.tools.inject.data
 
 import android.app.Application
 import com.dreampany.framework.inject.annote.Remote

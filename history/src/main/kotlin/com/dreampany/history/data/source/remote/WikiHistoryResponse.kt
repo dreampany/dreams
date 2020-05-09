@@ -6,6 +6,7 @@ package com.dreampany.history.data.source.remote
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-data class WikiHistoryResponse(val date: String, val url: String, val data: WikiHistoryData) {
-
-}
+data class WikiHistoryResponse(
+    val date: String,
+    val url: String,
+    val data: WikiHistoryData)

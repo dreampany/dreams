@@ -36,5 +36,4 @@ class CoinMarketCapModule {
     fun provideCoinMarketCapService(@CoinMarketCapAnnote retrofit: Retrofit): CoinMarketCapService {
         return retrofit.create(CoinMarketCapService::class.java);
     }
-
 }

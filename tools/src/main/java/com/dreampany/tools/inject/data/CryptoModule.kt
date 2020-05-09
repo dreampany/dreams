@@ -1,4 +1,4 @@
-package com.dreampany.tools.inject.data.crypto
+package com.dreampany.tools.inject.data
 
 import android.app.Application
 import android.content.Context

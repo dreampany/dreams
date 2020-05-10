@@ -52,9 +52,9 @@ class CoinsActivity : InjectActivity() {
     override fun searchMenuItemId(): Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
+        initAd()
         initUi()
         initRecycler(state)
-        initAd()
         onRefresh()
         ad.loadBanner(this.javaClass.simpleName)
     }

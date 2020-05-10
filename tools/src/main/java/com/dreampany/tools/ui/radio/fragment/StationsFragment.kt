@@ -20,6 +20,7 @@ import com.dreampany.tools.data.enums.radio.RadioAction
 import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.RadioSubtype
 import com.dreampany.tools.data.enums.radio.RadioType
+import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.manager.RadioPlayerManager
 import com.dreampany.tools.misc.constant.AppConstants
@@ -42,14 +43,14 @@ class StationsFragment
     @Inject
     internal lateinit var player: RadioPlayerManager
 
-    private lateinit var bind: RecyclerFragmentBinding
+    private lateinit var bind: RecyclerChildFragmentBinding
     private lateinit var vm: StationViewModel
 
     private lateinit var adapter: FastStationAdapter
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutRes(): Int = R.layout.recycler_fragment
+    override fun layoutRes(): Int = R.layout.recycler_child_fragment
 
     override fun menuRes(): Int = R.menu.menu_stations
 
@@ -138,7 +139,7 @@ class StationsFragment
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
+        //bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
         vm = createVm(StationViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
@@ -193,9 +194,9 @@ class StationsFragment
         }
 
         if (adapter.isEmpty) {
-            bind.stateful.setState(StatefulLayout.State.EMPTY)
+            //bind.stateful.setState(StatefulLayout.State.EMPTY)
         } else {
-            bind.stateful.setState(StatefulLayout.State.CONTENT)
+           // bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 }

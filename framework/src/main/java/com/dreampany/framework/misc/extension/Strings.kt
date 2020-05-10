@@ -1,6 +1,8 @@
 package com.dreampany.framework.misc.extension
 
+import android.text.Spanned
 import android.util.Patterns
+import androidx.core.text.HtmlCompat
 import com.dreampany.framework.misc.constant.Constants
 import com.google.common.hash.Hashing
 
@@ -10,25 +12,18 @@ import com.google.common.hash.Hashing
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-fun String.hash256(): String {
-    return Hashing.sha256().newHasher()
-        .putString(this, Charsets.UTF_8).hash().toString()
-}
+fun String.hash256(): String = Hashing.sha256().newHasher()
+    .putString(this, Charsets.UTF_8).hash().toString()
 
-fun String?.string(): String {
-    return this ?: Constants.Default.STRING
-}
+fun String?.string(): String = this ?: Constants.Default.STRING
 
-fun String?.isEquals(value: String?): Boolean {
-    return this == value
-}
+fun String?.isEquals(value: String?): Boolean = this == value
 
 fun String?.lastPart(denim: Char): String? = this?.split(denim)?.last()
+
 fun String?.firstPart(denim: Char): String? = this?.split(denim)?.first()
 
-fun String?.isEmail(): Boolean {
-    return this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
-}
+fun String?.isEmail(): Boolean = this?.let { Patterns.EMAIL_ADDRESS.matcher(it).matches() } ?: false
 
 fun String.append(vararg suffixes : String) : String {
     val builder = StringBuilder(this)
@@ -66,3 +61,5 @@ val CharSequence?.value: String
 
 val CharSequence?.trimValue: String
     get() = if (this == null) Constants.Default.STRING else this.trim().toString()
+
+val String?.html: Spanned get() = HtmlCompat.fromHtml(this.string(), HtmlCompat.FROM_HTML_MODE_COMPACT)

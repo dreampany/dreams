@@ -1,19 +1,15 @@
-package com.dreampany.tools.ui.radio.vm
+package com.dreampany.tools.ui.history.vm
 
 import android.app.Application
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.framework.ui.vm.BaseViewModel
-import com.dreampany.tools.data.enums.radio.RadioAction
-import com.dreampany.tools.data.enums.radio.RadioState
-import com.dreampany.tools.data.enums.radio.RadioSubtype
-import com.dreampany.tools.data.enums.radio.RadioType
-import com.dreampany.tools.data.model.radio.Station
-import com.dreampany.tools.data.source.radio.pref.RadioPref
-import com.dreampany.tools.data.source.radio.repo.StationRepo
-import com.dreampany.tools.misc.constant.RadioConstants
-import com.dreampany.tools.ui.radio.model.StationItem
+import com.dreampany.tools.data.enums.history.*
+import com.dreampany.tools.data.model.history.History
+import com.dreampany.tools.data.source.history.pref.HistoryPref
+import com.dreampany.tools.data.source.history.repo.HistoryRepo
+import com.dreampany.tools.ui.history.model.HistoryItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,32 +22,26 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class StationViewModel
+class HistoryViewModel
 @Inject constructor(
     application: Application,
     rm: ResponseMapper,
-    private val pref: RadioPref,
-    private val repo: StationRepo
-) : BaseViewModel<RadioType, RadioSubtype, RadioState, RadioAction, Station, StationItem, UiTask<RadioType, RadioSubtype, RadioState, RadioAction, Station>>(
+    private val pref: HistoryPref,
+    private val repo: HistoryRepo
+) : BaseViewModel<HistoryType, HistorySubtype, HistoryState, HistoryAction, History, HistoryItem, UiTask<HistoryType, HistorySubtype, HistoryState, HistoryAction, History>>(
     application,
     rm
 ) {
 
-    fun loadStations(state: RadioState, countryCode: String, offset: Long) {
+    fun loadHistories(subtype: HistorySubtype, month: Int, day: Int) {
         uiScope.launch {
             postProgress(true)
-            var result: List<Station>? = null
+            var result: List<History>? = null
             var errors: SmartError? = null
             try {
-                val order = pref.getStationOrder()
-                result = repo.getItemsOfCountry(
-                    countryCode,
-                    true,
-                    order,
-                    false,
-                    offset,
-                    RadioConstants.Limits.STATIONS
-                )
+                val source = HistorySource.WIKIPEDIA
+                val type = HistoryType.HISTORY
+                result = repo.gets(source, type, subtype, month, day)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error
@@ -64,7 +54,7 @@ class StationViewModel
         }
     }
 
-    fun loadStations(state: RadioState, offset: Long) {
+    /*fun loadStations(state: RadioState, offset: Long) {
         uiScope.launch {
             postProgress(true)
             var result: List<Station>? = null
@@ -86,22 +76,21 @@ class StationViewModel
                 postResult(result.toItems())
             }
         }
-    }
+    }*/
 
-    private suspend fun List<Station>.toItems(): List<StationItem> {
+    private suspend fun List<History>.toItems(): List<HistoryItem> {
         val list = this
         return withContext(Dispatchers.IO) {
-            val order = pref.getStationOrder()
-            list.map { StationItem(it, order) }
+            list.map { HistoryItem(it) }
         }
     }
 
     private fun postProgress(progress: Boolean) {
         postProgressMultiple(
-            RadioType.STATION,
-            RadioSubtype.DEFAULT,
-            RadioState.DEFAULT,
-            RadioAction.DEFAULT,
+            HistoryType.HISTORY,
+            HistorySubtype.DEFAULT,
+            HistoryState.DEFAULT,
+            HistoryAction.DEFAULT,
             progress = progress
         )
     }
@@ -109,21 +98,21 @@ class StationViewModel
 
     private fun postError(error: SmartError) {
         postMultiple(
-            RadioType.STATION,
-            RadioSubtype.DEFAULT,
-            RadioState.DEFAULT,
-            RadioAction.DEFAULT,
+            HistoryType.HISTORY,
+            HistorySubtype.DEFAULT,
+            HistoryState.DEFAULT,
+            HistoryAction.DEFAULT,
             error = error,
             showProgress = true
         )
     }
 
-    private fun postResult(result: List<StationItem>?) {
+    private fun postResult(result: List<HistoryItem>?) {
         postMultiple(
-            RadioType.STATION,
-            RadioSubtype.DEFAULT,
-            RadioState.DEFAULT,
-            RadioAction.DEFAULT,
+            HistoryType.HISTORY,
+            HistorySubtype.DEFAULT,
+            HistoryState.DEFAULT,
+            HistoryAction.DEFAULT,
             result = result,
             showProgress = true
         )

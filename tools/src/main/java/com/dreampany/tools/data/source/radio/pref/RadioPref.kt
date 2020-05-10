@@ -33,7 +33,7 @@ class RadioPref
             RadioConstants.Keys.PrefKeys.Station.ORDER,
             StationOrder::class.java,
             StationOrder.NAME
-        ) ?: StationOrder.NAME
+        )
     }
 
     @Synchronized
@@ -53,7 +53,7 @@ class RadioPref
     @Synchronized
     fun commitExpireTime(state: RadioState) {
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.name)
+            append(state.value)
         }
         setPrivately(key.toString(), Util.currentMillis())
     }
@@ -61,8 +61,8 @@ class RadioPref
     @Synchronized
     fun commitExpireTime(state: RadioState, order: StationOrder, reverse: Boolean, offset: Long) {
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.name)
-            append(order.name)
+            append(state.value)
+            append(order.value)
             append(reverse)
             append(offset)
         }
@@ -79,10 +79,10 @@ class RadioPref
         offset: Long
     ) {
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.name)
+            append(state.value)
             append(countryCode)
             append(hideBroken)
-            append(order.name)
+            append(order.value)
             append(reverse)
             append(offset)
         }
@@ -94,7 +94,7 @@ class RadioPref
         state: RadioState
     ): Long {
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.name)
+            append(state.value)
         }
         return getPrivately(key.toString(), Constants.Default.LONG)
     }
@@ -107,8 +107,8 @@ class RadioPref
         offset: Long
     ): Long {
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.name)
-            append(order.name)
+            append(state.value)
+            append(order.value)
             append(reverse)
             append(offset)
         }
@@ -120,10 +120,10 @@ class RadioPref
         state: RadioState, countryCode: String, hideBroken: Boolean, order: StationOrder, reverse: Boolean, offset: Long
     ): Long {
         val key = StringBuilder(RadioConstants.Keys.Radio.STATION_TIME).apply {
-            append(state.name)
+            append(state.value)
             append(countryCode)
             append(hideBroken)
-            append(order.name)
+            append(order.value)
             append(reverse)
             append(offset)
         }

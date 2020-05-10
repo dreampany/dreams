@@ -170,6 +170,24 @@
 
         </activity>
 
+        <activity
+            android:name=".ui.history.activity.HistoriesActivity"
+            android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
+            android:label="@string/title_feature_radio"
+            android:windowSoftInputMode="adjustResize">
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
+
+
+
         <service android:name=".service.RadioPlayerService">
             <intent-filter>
                 <action android:name="android.intent.action.MEDIA_BUTTON" />

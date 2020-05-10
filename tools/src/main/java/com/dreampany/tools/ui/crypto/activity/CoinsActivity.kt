@@ -200,9 +200,7 @@ class CoinsActivity : InjectActivity() {
     }
 
     private fun processResult(result: CoinItem?) {
-        if (result == null) {
-
-        } else {
+        if (result != null) {
             adapter.updateItem(result)
         }
     }

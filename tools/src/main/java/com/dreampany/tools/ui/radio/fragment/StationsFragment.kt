@@ -12,9 +12,11 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.home.Action
 import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.enums.radio.RadioAction
 import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.RadioSubtype
 import com.dreampany.tools.data.enums.radio.RadioType
@@ -136,6 +138,7 @@ class StationsFragment
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_stations)
         vm = createVm(StationViewModel::class)
         vm.subscribes(this, Observer { this.processResponse(it) })
     }
@@ -153,16 +156,16 @@ class StationsFragment
 
         adapter.initRecycler(
             state,
-            bind.recycler
+            bind.layoutRecycler.recycler
         )
     }
 
-    private fun processResponse(response: Response<RadioType, RadioSubtype, State, Action, List<StationItem>>) {
+    private fun processResponse(response: Response<RadioType, RadioSubtype, RadioState, RadioAction, List<StationItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<RadioType, RadioSubtype, State, Action, List<StationItem>>) {
+        } else if (response is Response.Result<RadioType, RadioSubtype, RadioState, RadioAction, List<StationItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -185,10 +188,14 @@ class StationsFragment
     }
 
     private fun processResults(result: List<StationItem>?) {
-        if (result == null) {
-
-        } else {
+        if (result != null) {
             adapter.addItems(result)
+        }
+
+        if (adapter.isEmpty) {
+            bind.stateful.setState(StatefulLayout.State.EMPTY)
+        } else {
+            bind.stateful.setState(StatefulLayout.State.CONTENT)
         }
     }
 }

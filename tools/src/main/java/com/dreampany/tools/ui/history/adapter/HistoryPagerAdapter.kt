@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.radio.adapter
+package com.dreampany.tools.ui.history.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -19,7 +19,7 @@ import com.dreampany.tools.ui.radio.fragment.StationsFragment
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class StationPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
+class HistoryPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragment>(activity) {
 
     init {
         addItems()
@@ -37,20 +37,18 @@ class StationPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
 
     private fun addItems() {
         RadioState.values().forEach { state ->
-            if (state != RadioState.DEFAULT) {
-                val task = UiTask<RadioType, RadioSubtype, RadioState, Action, Station>(
-                    RadioType.STATION,
-                    RadioSubtype.DEFAULT,
-                    state,
-                    Action.DEFAULT
+            val task = UiTask<RadioType, RadioSubtype, RadioState, Action, Station>(
+                RadioType.STATION,
+                RadioSubtype.DEFAULT,
+                state,
+                Action.DEFAULT
+            )
+            addItem(
+                com.dreampany.framework.misc.extension.createFragment(
+                    StationsFragment::class,
+                    task
                 )
-                addItem(
-                    com.dreampany.framework.misc.extension.createFragment(
-                        StationsFragment::class,
-                        task
-                    )
-                )
-            }
+            )
         }
     }
 }

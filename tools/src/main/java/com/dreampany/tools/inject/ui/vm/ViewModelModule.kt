@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dreampany.framework.inject.annote.ViewModelKey
 import com.dreampany.framework.ui.vm.factory.ViewModelFactory
 import com.dreampany.tools.inject.ui.vm.crypto.CryptoViewModelModule
+import com.dreampany.tools.inject.ui.vm.history.HistoryViewModelModule
 import com.dreampany.tools.inject.ui.vm.note.NoteViewModelModule
 import com.dreampany.tools.inject.ui.vm.radio.RadioViewModelModule
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
@@ -24,7 +25,8 @@ import javax.inject.Singleton
     includes = [
         CryptoViewModelModule::class,
         RadioViewModelModule::class,
-        NoteViewModelModule::class
+        NoteViewModelModule::class,
+        HistoryViewModelModule::class
     ]
 )
 abstract class ViewModelModule {

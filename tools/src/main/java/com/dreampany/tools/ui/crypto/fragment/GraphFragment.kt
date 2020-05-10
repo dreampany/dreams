@@ -88,7 +88,7 @@ class GraphFragment
 
         adapter.initRecycler(
             state,
-            bind.recycler,
+            bind.layoutRecycler.recycler,
             cryptoPref.getCurrency(),
             cryptoPref.getSort(),
             cryptoPref.getOrder()

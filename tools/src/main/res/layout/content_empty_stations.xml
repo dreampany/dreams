@@ -23,7 +23,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_empty_coins"
+                android:text="@string/title_empty_stations"
                 android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_14ssp"
                 auto:fontFamily="@font/roboto_slab_bold" />
@@ -31,7 +31,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/message_empty_coins"
+                android:text="@string/message_empty_stations"
                 android:textColor="@color/material_grey800"
                 android:textSize="@dimen/_12ssp"
                 auto:fontFamily="@font/roboto_slab_regular" />

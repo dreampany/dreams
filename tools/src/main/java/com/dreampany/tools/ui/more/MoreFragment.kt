@@ -66,7 +66,7 @@ class MoreFragment
 
             adapter.initRecycler(
                 state,
-                bind.recycler
+                bind.layoutRecycler.recycler
             )
         }
     }

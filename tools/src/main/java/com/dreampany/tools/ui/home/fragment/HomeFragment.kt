@@ -69,7 +69,7 @@ class HomeFragment
 
             adapter.initRecycler(
                 state,
-                bind.recycler
+                bind.layoutRecycler.recycler
             )
         }
     }

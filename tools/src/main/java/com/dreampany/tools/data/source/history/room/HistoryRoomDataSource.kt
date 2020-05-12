@@ -64,9 +64,7 @@ class HistoryRoomDataSource(
         state: HistoryState,
         month: Int,
         day: Int
-    ): List<History>? {
-        TODO("Not yet implemented")
-    }
+    ): List<History>? = dao.getItems(source, state, month, day)
 
     /*@Throws
 

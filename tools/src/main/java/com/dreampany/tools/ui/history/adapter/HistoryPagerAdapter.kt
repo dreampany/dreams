@@ -37,18 +37,25 @@ class HistoryPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
 
     private fun addItems() {
         HistoryState.values().forEach { state ->
-            val task = UiTask<HistoryType, HistorySubtype, HistoryState, HistoryAction, History>(
-                HistoryType.HISTORY,
-                HistorySubtype.DEFAULT,
-                state,
-                HistoryAction.DEFAULT
-            )
-            addItem(
-                com.dreampany.framework.misc.extension.createFragment(
-                    HistoriesFragment::class,
-                    task
-                )
-            )
+            when(state) {
+                HistoryState.EVENT,
+                HistoryState.BIRTH,
+                HistoryState.DEATH->{
+                    val task = UiTask<HistoryType, HistorySubtype, HistoryState, HistoryAction, History>(
+                        HistoryType.HISTORY,
+                        HistorySubtype.DEFAULT,
+                        state,
+                        HistoryAction.DEFAULT
+                    )
+                    addItem(
+                        com.dreampany.framework.misc.extension.createFragment(
+                            HistoriesFragment::class,
+                            task
+                        )
+                    )
+                }
+            }
+
         }
     }
 }

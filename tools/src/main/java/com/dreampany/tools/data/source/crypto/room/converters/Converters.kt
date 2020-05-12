@@ -14,13 +14,13 @@ class Converters : Converter() {
 
     @Synchronized
     @TypeConverter
-    fun toValue(currency: Currency?): String? {
-        return if (currency == null) null else currency.name
+    fun toString(input: Currency?): String? {
+        return if (input == null) null else input.name
     }
 
     @Synchronized
     @TypeConverter
-    fun toCurrency(value: String?): Currency? {
-        return if (value.isNullOrEmpty()) null else Currency.valueOf(value)
+    fun toCurrency(input: String?): Currency? {
+        return if (input.isNullOrEmpty()) null else Currency.valueOf(input)
     }
 }

@@ -14,7 +14,7 @@ import java.util.*
 private val UTC_PATTERN: String = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
 val Calendar.day: Int get() = this.get(Calendar.DAY_OF_MONTH)
-val Calendar.month: Int get() = this.get(Calendar.MONTH)
+val Calendar.month: Int get() = this.get(Calendar.MONTH).inc()
 val Calendar.year: Int get() = this.get(Calendar.YEAR)
 
 fun currentDay() : Int = Calendar.getInstance().day

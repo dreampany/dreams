@@ -1,8 +1,5 @@
 package com.dreampany.tools.ui.history.fragment
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import androidx.lifecycle.Observer
@@ -16,18 +13,10 @@ import com.dreampany.tools.data.enums.history.HistoryAction
 import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.enums.history.HistorySubtype
 import com.dreampany.tools.data.enums.history.HistoryType
-import com.dreampany.tools.data.enums.home.Action
-import com.dreampany.tools.data.enums.home.State
-import com.dreampany.tools.data.enums.radio.RadioState
-import com.dreampany.tools.data.enums.radio.RadioSubtype
-import com.dreampany.tools.data.enums.radio.RadioType
-import com.dreampany.tools.databinding.RecyclerFragmentBinding
+import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
 import com.dreampany.tools.ui.history.adapter.FastHistoryAdapter
 import com.dreampany.tools.ui.history.model.HistoryItem
 import com.dreampany.tools.ui.history.vm.HistoryViewModel
-import com.dreampany.tools.ui.radio.adapter.FastStationAdapter
-import com.dreampany.tools.ui.radio.model.StationItem
-import com.dreampany.tools.ui.radio.vm.StationViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,7 +30,7 @@ import javax.inject.Inject
 class HistoriesFragment
 @Inject constructor() : InjectFragment() {
 
-    private lateinit var bind: RecyclerFragmentBinding
+    private lateinit var bind: RecyclerChildFragmentBinding
     private lateinit var vm: HistoryViewModel
 
     private lateinit var adapter: FastHistoryAdapter

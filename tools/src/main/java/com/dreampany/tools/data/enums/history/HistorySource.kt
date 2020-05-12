@@ -1,6 +1,7 @@
 package com.dreampany.tools.data.enums.history
 
 import android.os.Parcelable
+import com.dreampany.framework.data.enums.BaseEnum
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -10,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class HistorySource : Parcelable {
+enum class HistorySource : BaseEnum {
    DEFAULT, WIKIPEDIA;
-   val value: String get() = name
+   override val value: String get() = name
 }

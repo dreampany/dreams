@@ -36,13 +36,17 @@ class HistoryRoomDataSource(
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun put(input: History): Long {
-        TODO("Not yet implemented")
+        mapper.add(input)
+        return dao.insertOrReplace(input)
     }
 
+    @Throws
     override suspend fun put(inputs: List<History>): List<Long>? {
-        TODO("Not yet implemented")
-    }
+        val result = arrayListOf<Long>()
+        inputs.forEach { result.add(put(it)) }
+        return result    }
 
     override suspend fun get(id: String): History? {
         TODO("Not yet implemented")

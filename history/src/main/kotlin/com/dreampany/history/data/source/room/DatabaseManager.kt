@@ -18,8 +18,8 @@ import com.dreampany.history.misc.Constants
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-@Database(entities = [History::class, ImageLink::class], version = 3)
-@TypeConverters(Converters::class)
+@Database(entities = [History::class, ImageLink::class], version = 4)
+@TypeConverters(Conterverts::class)
 abstract class DatabaseManager : RoomDatabase() {
 
     companion object {

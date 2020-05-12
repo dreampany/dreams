@@ -40,7 +40,6 @@ class HistoryViewModel
             var errors: SmartError? = null
             try {
                 val source = HistorySource.WIKIPEDIA
-                val type = HistoryType.HISTORY
                 result = repo.gets(source, state, month, day)
             } catch (error: SmartError) {
                 Timber.e(error)

@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.dreampany.framework.data.model.Link
 import com.dreampany.framework.data.source.room.converter.Converter
 import com.dreampany.tools.data.enums.history.HistorySource
+import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.enums.history.HistorySubtype
 import com.dreampany.tools.data.enums.history.HistoryType
 import com.google.gson.reflect.TypeToken
@@ -20,7 +21,7 @@ class Converters : Converter() {
     @Synchronized
     @TypeConverter
     fun toString(input: HistorySource?): String? {
-        return if (input == null) null else input.name
+        return if (input == null) null else input.value
     }
 
     @Synchronized
@@ -32,7 +33,7 @@ class Converters : Converter() {
     @Synchronized
     @TypeConverter
     fun toString(input: HistoryType?): String? {
-        return if (input == null) null else input.name
+        return if (input == null) null else input.value
     }
 
     @Synchronized
@@ -44,13 +45,25 @@ class Converters : Converter() {
     @Synchronized
     @TypeConverter
     fun toString(input: HistorySubtype?): String? {
-        return if (input == null) null else input.name
+        return if (input == null) null else input.value
     }
 
     @Synchronized
     @TypeConverter
     fun toSubtype(input: String?): HistorySubtype? {
         return if (input.isNullOrEmpty()) null else HistorySubtype.valueOf(input)
+    }
+
+    @Synchronized
+    @TypeConverter
+    fun toString(input: HistoryState?): String? {
+        return if (input == null) null else input.value
+    }
+
+    @Synchronized
+    @TypeConverter
+    fun toState(input: String?): HistoryState? {
+        return if (input.isNullOrEmpty()) null else HistoryState.valueOf(input)
     }
 
     @Synchronized

@@ -37,7 +37,7 @@
             android:layout_height="24dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/ic_close_black_24dp"
+            auto:srcCompat="@drawable/ic_close_black_24dp"
             auto:layout_constraintBottom_toBottomOf="parent"
             auto:layout_constraintEnd_toStartOf="@+id/guideline3"
             auto:layout_constraintTop_toTopOf="parent" />
@@ -49,7 +49,7 @@
             android:layout_marginEnd="20dp"
             android:clickable="true"
             android:focusable="true"
-            android:src="@drawable/re"
+            auto:srcCompat="@drawable/ic_refresh_black_24dp"
             auto:layout_constraintBottom_toBottomOf="parent"
             auto:layout_constraintEnd_toEndOf="parent"
             auto:layout_constraintTop_toTopOf="parent" />

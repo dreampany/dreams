@@ -184,7 +184,7 @@
         <activity
             android:name=".ui.history.activity.HistoriesActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
-            android:label="@string/title_feature_radio"
+            android:label="@string/title_feature_history"
             android:windowSoftInputMode="adjustResize">
 
             <meta-data

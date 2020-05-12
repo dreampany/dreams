@@ -48,7 +48,7 @@ class HistoriesFragment
 
     override fun hasBinding(): Boolean = true
 
-    override fun layoutRes(): Int = R.layout.recycler_fragment
+    override fun layoutRes(): Int = R.layout.recycler_child_fragment
 
     override fun menuRes(): Int = R.menu.menu_histories
 
@@ -78,8 +78,8 @@ class HistoriesFragment
 
     private fun loadHistories() {
         val task = task ?: return
-        if (task.subtype is HistorySubtype) {
-            vm.loadHistories(task.subtype as HistorySubtype, currentMonth(), currentDay())
+        if (task.state is HistoryState) {
+            vm.loadHistories(task.state as HistoryState, currentMonth(), currentDay())
         }
     }
 

@@ -6,7 +6,7 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.extension.task
 import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.tools.data.enums.home.Action
+import com.dreampany.tools.data.enums.radio.RadioAction
 import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.RadioSubtype
 import com.dreampany.tools.data.enums.radio.RadioType
@@ -38,11 +38,11 @@ class StationPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
     private fun addItems() {
         RadioState.values().forEach { state ->
             if (state != RadioState.DEFAULT) {
-                val task = UiTask<RadioType, RadioSubtype, RadioState, Action, Station>(
+                val task = UiTask<RadioType, RadioSubtype, RadioState, RadioAction, Station>(
                     RadioType.STATION,
                     RadioSubtype.DEFAULT,
                     state,
-                    Action.DEFAULT
+                    RadioAction.DEFAULT
                 )
                 addItem(
                     com.dreampany.framework.misc.extension.createFragment(

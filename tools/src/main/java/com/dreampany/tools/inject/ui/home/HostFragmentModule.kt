@@ -5,7 +5,7 @@ import androidx.fragment.app.FragmentFactory
 import com.dreampany.framework.inject.annote.FragmentKey
 import com.dreampany.framework.ui.fragment.factory.InjectFragmentFactory
 import com.dreampany.tools.ui.home.fragment.HomeFragment
-import com.dreampany.tools.ui.more.MoreFragment
+import com.dreampany.tools.ui.more.fragment.MoreFragment
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

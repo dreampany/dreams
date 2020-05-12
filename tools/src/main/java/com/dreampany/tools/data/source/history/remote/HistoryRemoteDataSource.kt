@@ -7,8 +7,7 @@ import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.network.manager.NetworkManager
 import com.dreampany.tools.api.history.MuffinService
 import com.dreampany.tools.data.enums.history.HistorySource
-import com.dreampany.tools.data.enums.history.HistorySubtype
-import com.dreampany.tools.data.enums.history.HistoryType
+import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.api.HistoryDataSource
 import com.dreampany.tools.data.source.history.mapper.HistoryMapper
@@ -64,8 +63,7 @@ constructor(
     @Throws
     override suspend fun gets(
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         month: Int,
         day: Int
     ): List<History>? {
@@ -73,8 +71,8 @@ constructor(
             val response = service.getWikiHistory(month, day).execute()
             if (response.isSuccessful) {
                 val body = response.body() ?: return null
-                val data = body.data ?: return null
-                return mapper.gets(data, source, type, subtype, body.date, body.url)
+                val data = body.data
+                return mapper.gets(data, source, state, body.date, body.url)
             } else {
                 throw SmartError()
             }

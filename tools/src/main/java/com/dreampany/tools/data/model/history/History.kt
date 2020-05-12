@@ -8,8 +8,7 @@ import com.dreampany.framework.data.model.Link
 import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.history.HistorySource
-import com.dreampany.tools.data.enums.history.HistorySubtype
-import com.dreampany.tools.data.enums.history.HistoryType
+import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.model.crypto.Coin
 import com.google.common.base.Objects
 import com.google.firebase.database.IgnoreExtraProperties
@@ -34,8 +33,7 @@ data class History(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
     var source: HistorySource = HistorySource.DEFAULT,
-    var type: HistoryType = HistoryType.DEFAULT,
-    var subtype: HistorySubtype = HistorySubtype.DEFAULT,
+    var state: HistoryState = HistoryState.DEFAULT,
     var day: Int = Constants.Default.INT,
     var month: Int = Constants.Default.INT,
     var year: Int = Constants.Default.INT,
@@ -57,8 +55,7 @@ data class History(
     constructor(
         id: String,
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         day: Int,
         month: Int,
         year: Int
@@ -66,8 +63,7 @@ data class History(
         time = Util.currentMillis(),
         id = id,
         source = source,
-        type = type,
-        subtype = subtype,
+        state = state,
         day = day,
         month = month,
         year = year

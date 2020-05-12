@@ -1,4 +1,4 @@
-package com.dreampany.tools.ui.more
+package com.dreampany.tools.ui.more.fragment
 
 import android.os.Bundle
 import androidx.lifecycle.Observer

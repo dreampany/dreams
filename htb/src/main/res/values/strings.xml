@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">htb</string>
+    <string name="com_twitter_sdk_android_CONSUMER_KEY" translatable="false">bTwICJF5TDHyUwE12RSphExfp</string>
+    <string name="com_twitter_sdk_android_CONSUMER_SECRET" translatable="false">thMhDanjZx3R1El4N305nfM4kspETWeIMPEdhWdOOqO9x1ZbvQ</string>
+</resources>

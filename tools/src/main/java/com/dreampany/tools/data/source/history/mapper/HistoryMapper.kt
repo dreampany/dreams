@@ -13,7 +13,6 @@ import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.enums.history.HistorySubtype
 import com.dreampany.tools.data.enums.history.HistoryType
 import com.dreampany.tools.data.model.history.History
-import com.dreampany.tools.data.source.crypto.pref.CryptoPref
 import com.dreampany.tools.data.source.history.api.HistoryDataSource
 import com.dreampany.tools.data.source.history.pref.HistoryPref
 import com.dreampany.tools.misc.constant.HistoryConstants
@@ -46,23 +45,21 @@ class HistoryMapper
     @Synchronized
     fun isExpired(
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         month: Int,
         day: Int
     ): Boolean {
-        val time = pref.getExpireTime(source, type, subtype, month, day)
+        val time = pref.getExpireTime(source, state, month, day)
         return time.isExpired(HistoryConstants.Times.HISTORIES)
     }
 
     @Synchronized
     fun commitExpire(
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         month: Int,
         day: Int
-    ) = pref.commitExpireTime(source, type, subtype, month, day)
+    ) = pref.commitExpireTime(source, state, month, day)
 
     /* @Synchronized
     fun isExpired(id: String, currency: Currency): Boolean {
@@ -141,20 +138,19 @@ class HistoryMapper
     fun gets(
         input: WikiHistoryData,
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         date: String,
         url: String
     ): List<History>? {
-        when (subtype) {
-            HistorySubtype.EVENT -> {
-                return gets(input.events, source, type, subtype, date, url)
+        when (state) {
+            HistoryState.EVENT -> {
+                return gets(input.events, source, state, date, url)
             }
-            HistorySubtype.BIRTH -> {
-                return gets(input.births, source, type, subtype, date, url)
+            HistoryState.BIRTH -> {
+                return gets(input.births, source, state, date, url)
             }
-            HistorySubtype.DEATH -> {
-                return gets(input.deaths, source, type, subtype, date, url)
+            HistoryState.DEATH -> {
+                return gets(input.deaths, source, state, date, url)
             }
         }
         return null
@@ -164,15 +160,14 @@ class HistoryMapper
     fun gets(
         inputs: List<WikiHistory>?,
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         date: String,
         url: String
     ): List<History>? {
         if (inputs.isNullOrEmpty()) return null
         val result = arrayListOf<History>()
         inputs.forEach { rs ->
-            result.add(get(rs, source, type, subtype, date, url))
+            result.add(get(rs, source, state, date, url))
         }
         return result
     }
@@ -181,8 +176,7 @@ class HistoryMapper
     fun get(
         input: WikiHistory,
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         date: String,
         url: String
     ): History {
@@ -190,15 +184,14 @@ class HistoryMapper
         val day = date.getDay(HistoryConstants.Date.FORMAT_MONTH_DAY)
         val month = date.getMonth(HistoryConstants.Date.FORMAT_MONTH_DAY)
         val year = input.year.firstPart(Constants.Sep.SPACE)?.toIntOrNull() ?: Constants.Default.INT
-        val id = subtype.value.append(year.toString(), month.toString(), day.toString())
+        val id = state.value.append(year.toString(), month.toString(), day.toString())
         var out: History? = histories.get(id)
         if (out == null) {
             out = History(id)
             histories.put(id, out)
         }
         out.source = source
-        out.type = type
-        out.subtype = subtype
+        out.state = state
         out.day = day
         out.month = month
         out.year = year

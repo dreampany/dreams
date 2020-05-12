@@ -155,7 +155,7 @@ class AdManager
 
     @SuppressLint("MissingPermission")
     fun pauseBanner(screenId: String) {
-        if (!pref.isBannerExpired(config!!.bannerExpireDelay)) {
+        if (!pref.isBannerExpired(config.bannerExpireDelay)) {
             return
         }
         if (!banners.containsKey(screenId)) {

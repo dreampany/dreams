@@ -5,7 +5,7 @@ import com.dreampany.framework.ui.activity.InjectBottomNavigationActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HomeActivityBinding
 import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.ui.more.MoreFragment
+import com.dreampany.tools.ui.more.fragment.MoreFragment
 import com.dreampany.tools.ui.home.fragment.HomeFragment
 import dagger.Lazy
 import javax.inject.Inject

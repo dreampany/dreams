@@ -19,13 +19,13 @@ import com.mikepenz.fastadapter.binding.ModelAbstractBindingItem
  * Last modified $file.lastModified
  */
 class StationItem(
-    val item: Station,
+    val input: Station,
     val order: StationOrder
-    ) : ModelAbstractBindingItem<Station, StationItemBinding>(item) {
+    ) : ModelAbstractBindingItem<Station, StationItemBinding>(input) {
 
-    override fun hashCode(): Int = item.hashCode()
+    override fun hashCode(): Int = input.hashCode()
 
-    override fun equals(other: Any?): Boolean = item.equals(other)
+    override fun equals(other: Any?): Boolean = input.equals(other)
 
     override val type: Int
         get() = R.id.adapter_station_item_id
@@ -34,10 +34,10 @@ class StationItem(
         StationItemBinding.inflate(inflater, parent, false)
 
     override fun bindView(bind: StationItemBinding, payloads: List<Any>) {
-        bind.viewTitle.text = item.name
-        bind.viewSubtitle.text = getSubtitle(bind.context, item)
+        bind.viewTitle.text = input.name
+        bind.viewSubtitle.text = getSubtitle(bind.context, input)
 
-        if (item.getLastCheckOk()) {
+        if (input.getLastCheckOk()) {
             bind.labelType.primaryText = bind.context.getString(R.string.online)
             bind.labelType.setTriangleBackgroundColorResource(R.color.material_green500)
         } else {

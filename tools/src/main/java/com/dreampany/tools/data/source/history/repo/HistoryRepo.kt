@@ -5,8 +5,7 @@ import com.dreampany.framework.inject.annote.Room
 import com.dreampany.framework.misc.func.ResponseMapper
 import com.dreampany.framework.misc.func.RxMapper
 import com.dreampany.tools.data.enums.history.HistorySource
-import com.dreampany.tools.data.enums.history.HistorySubtype
-import com.dreampany.tools.data.enums.history.HistoryType
+import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.api.HistoryDataSource
 import com.dreampany.tools.data.source.history.mapper.HistoryMapper
@@ -32,11 +31,11 @@ class HistoryRepo
     @Room private val room: HistoryDataSource,
     @Remote private val remote: HistoryDataSource
 ) : HistoryDataSource {
-    override suspend fun isFavorite(input: History)= withContext(Dispatchers.IO) {
+    override suspend fun isFavorite(input: History) = withContext(Dispatchers.IO) {
         room.isFavorite(input)
     }
 
-    override suspend fun toggleFavorite(input: History)= withContext(Dispatchers.IO) {
+    override suspend fun toggleFavorite(input: History) = withContext(Dispatchers.IO) {
         room.toggleFavorite(input)
     }
 
@@ -64,20 +63,20 @@ class HistoryRepo
         TODO("Not yet implemented")
     }
 
+    @Throws
     override suspend fun gets(
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         month: Int,
         day: Int
-    )= withContext(Dispatchers.IO) {
-        if (mapper.isExpired(source, type, subtype, month, day)) {
-            val result = remote.gets(source, type, subtype, month, day)
+    ) = withContext(Dispatchers.IO) {
+        if (mapper.isExpired(source, state, month, day)) {
+            val result = remote.gets(source, state, month, day)
             if (!result.isNullOrEmpty()) {
-                mapper.commitExpire(source, type, subtype, month, day)
+                mapper.commitExpire(source, state, month, day)
                 room.put(result)
             }
         }
-        room.gets(source, type, subtype, month, day)
+        room.gets(source, state, month, day)
     }
 }

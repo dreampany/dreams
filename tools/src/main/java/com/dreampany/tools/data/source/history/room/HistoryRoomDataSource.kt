@@ -1,8 +1,7 @@
 package com.dreampany.tools.data.source.history.room
 
 import com.dreampany.tools.data.enums.history.HistorySource
-import com.dreampany.tools.data.enums.history.HistorySubtype
-import com.dreampany.tools.data.enums.history.HistoryType
+import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.data.source.history.api.HistoryDataSource
 import com.dreampany.tools.data.source.history.mapper.HistoryMapper
@@ -18,6 +17,8 @@ class HistoryRoomDataSource(
     private val mapper: HistoryMapper,
     private val dao: HistoryDao
 ) : HistoryDataSource {
+
+    @Throws
     override suspend fun isFavorite(input: History): Boolean = mapper.isFavorite(input)
 
     @Throws
@@ -56,8 +57,7 @@ class HistoryRoomDataSource(
 
     override suspend fun gets(
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         month: Int,
         day: Int
     ): List<History>? {

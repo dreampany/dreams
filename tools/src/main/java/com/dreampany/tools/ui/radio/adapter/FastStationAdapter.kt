@@ -47,7 +47,7 @@ class FastStationAdapter(
         itemAdapter = ItemAdapter.items()
         itemAdapter.itemFilter.filterPredicate = { item: GenericItem, constraint: CharSequence? ->
             if (item is StationItem)
-                item.item.name.toString().contains(constraint.toString(), ignoreCase = true)
+                item.input.name.toString().contains(constraint.toString(), ignoreCase = true)
             else
                 false
         }

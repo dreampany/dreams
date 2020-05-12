@@ -1,7 +1,6 @@
 package com.dreampany.tools.inject.ui.more
 
-import com.dreampany.tools.ui.home.fragment.HomeFragment
-import com.dreampany.tools.ui.more.MoreFragment
+import com.dreampany.tools.ui.more.fragment.MoreFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

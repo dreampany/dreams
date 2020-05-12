@@ -3,11 +3,10 @@ package com.dreampany.tools.data.source.history.pref
 import android.content.Context
 import com.dreampany.framework.data.source.pref.BasePref
 import com.dreampany.framework.misc.constant.Constants
-import com.dreampany.framework.misc.extension.append
+import com.dreampany.framework.misc.extension.join
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.data.enums.history.HistorySource
-import com.dreampany.tools.data.enums.history.HistorySubtype
-import com.dreampany.tools.data.enums.history.HistoryType
+import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.misc.constant.HistoryConstants
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -31,25 +30,33 @@ class HistoryPref
     @Synchronized
     fun getExpireTime(
         source: HistorySource,
-        type: HistoryType,
-        subtype: HistorySubtype,
+        state: HistoryState,
         month: Int,
         day: Int
     ): Long {
-        val key = HistoryConstants.Keys.PrefKeys.History.EXPIRE.append(
-            source.value, type.value, subtype.value, month.toString(), day.toString()
+        val key = join(
+            HistoryConstants.Keys.PrefKeys.History.EXPIRE,
+            source.value,
+            state.value,
+            month.toString(),
+            day.toString()
         )
         return getPrivately(key, Constants.Default.LONG)
     }
 
     @Synchronized
-    fun commitExpireTime(source: HistorySource,
-                         type: HistoryType,
-                         subtype: HistorySubtype,
-                         month: Int,
-                         day: Int) {
-        val key = HistoryConstants.Keys.PrefKeys.History.EXPIRE.append(
-            source.value, type.value, subtype.value, month.toString(), day.toString()
+    fun commitExpireTime(
+        source: HistorySource,
+        state: HistoryState,
+        month: Int,
+        day: Int
+    ) {
+        val key = join(
+            HistoryConstants.Keys.PrefKeys.History.EXPIRE,
+            source.value,
+            state.value,
+            month.toString(),
+            day.toString()
         )
         setPrivately(key, Util.currentMillis())
     }

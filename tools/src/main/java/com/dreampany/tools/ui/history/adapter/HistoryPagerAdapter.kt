@@ -6,12 +6,12 @@ import com.dreampany.framework.misc.constant.Constants
 import com.dreampany.framework.misc.extension.task
 import com.dreampany.framework.ui.adapter.BasePagerAdapter
 import com.dreampany.framework.ui.model.UiTask
-import com.dreampany.tools.data.enums.home.Action
-import com.dreampany.tools.data.enums.radio.RadioState
-import com.dreampany.tools.data.enums.radio.RadioSubtype
-import com.dreampany.tools.data.enums.radio.RadioType
-import com.dreampany.tools.data.model.radio.Station
-import com.dreampany.tools.ui.radio.fragment.StationsFragment
+import com.dreampany.tools.data.enums.history.HistoryAction
+import com.dreampany.tools.data.enums.history.HistoryState
+import com.dreampany.tools.data.enums.history.HistorySubtype
+import com.dreampany.tools.data.enums.history.HistoryType
+import com.dreampany.tools.data.model.history.History
+import com.dreampany.tools.ui.history.fragment.HistoriesFragment
 
 /**
  * Created by roman on 16/4/20
@@ -28,24 +28,24 @@ class HistoryPagerAdapter(activity: AppCompatActivity) : BasePagerAdapter<Fragme
     override fun getTitle(position : Int) : String {
         val fragment = getItem(position) ?: return Constants.Default.STRING
         val task = fragment.task ?: return Constants.Default.STRING
-        if (task.state is RadioState) {
-            val state : RadioState = task.state as RadioState
+        if (task.state is HistoryState) {
+            val state : HistoryState = task.state as HistoryState
             return state.title
         }
         return Constants.Default.STRING
     }
 
     private fun addItems() {
-        RadioState.values().forEach { state ->
-            val task = UiTask<RadioType, RadioSubtype, RadioState, Action, Station>(
-                RadioType.STATION,
-                RadioSubtype.DEFAULT,
+        HistoryState.values().forEach { state ->
+            val task = UiTask<HistoryType, HistorySubtype, HistoryState, HistoryAction, History>(
+                HistoryType.HISTORY,
+                HistorySubtype.DEFAULT,
                 state,
-                Action.DEFAULT
+                HistoryAction.DEFAULT
             )
             addItem(
                 com.dreampany.framework.misc.extension.createFragment(
-                    StationsFragment::class,
+                    HistoriesFragment::class,
                     task
                 )
             )

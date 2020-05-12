@@ -55,7 +55,7 @@ class StationsActivity : InjectActivity() {
 
     override fun <T> onItem(item: T) {
          if (item is StationItem) {
-             bind.icon.setUrl(item.item.favicon)
+             bind.icon.setUrl(item.input.favicon)
          }
     }
 

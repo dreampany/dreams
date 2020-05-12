@@ -12,16 +12,12 @@ import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
-import com.dreampany.stateful.StatefulLayout
 import com.dreampany.tools.R
-import com.dreampany.tools.data.enums.home.Action
-import com.dreampany.tools.data.enums.home.State
 import com.dreampany.tools.data.enums.radio.RadioAction
 import com.dreampany.tools.data.enums.radio.RadioState
 import com.dreampany.tools.data.enums.radio.RadioSubtype
 import com.dreampany.tools.data.enums.radio.RadioType
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
-import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.manager.RadioPlayerManager
 import com.dreampany.tools.misc.constant.AppConstants
 import com.dreampany.tools.ui.radio.adapter.FastStationAdapter
@@ -102,7 +98,7 @@ class StationsFragment
 
     private fun onStationClicked(item: StationItem) {
         activityCallback?.onItem(item)
-        player.play(item.item)
+        player.play(item.input)
     }
 
     private fun loadStations() {
@@ -150,7 +146,7 @@ class StationsFragment
                 Timber.v("CurrentPage: %d", currentPage)
                 onRefresh()
             }, clickListener = { item: StationItem ->
-                Timber.v("StationItem: %s", item.item.toString())
+                Timber.v("StationItem: %s", item.input.toString())
                 onStationClicked(item)
             })
         }

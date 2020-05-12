@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class HistoryState : BaseState {
-    DEFAULT, FAVORITE;
+    DEFAULT, FAVORITE, EVENT, BIRTH, DEATH;
 
     override val value: String get() = name
     val title : String get() = name.toTitle()

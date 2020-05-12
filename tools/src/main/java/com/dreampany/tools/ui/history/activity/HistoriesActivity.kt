@@ -4,10 +4,11 @@ import android.os.Bundle
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.tools.R
 import com.dreampany.tools.databinding.HistoriesActivityBinding
-import com.dreampany.tools.misc.extension.setUrl
-import com.dreampany.tools.ui.radio.adapter.StationPagerAdapter
-import com.dreampany.tools.ui.radio.model.StationItem
+import com.dreampany.tools.manager.AdManager
+import com.dreampany.tools.ui.history.adapter.HistoryPagerAdapter
+import com.dreampany.tools.ui.history.model.HistoryItem
 import com.google.android.material.tabs.TabLayoutMediator
+import javax.inject.Inject
 
 /**
  * Created by roman on 14/4/20
@@ -17,14 +18,17 @@ import com.google.android.material.tabs.TabLayoutMediator
  */
 class HistoriesActivity : InjectActivity() {
 
+    @Inject
+    internal lateinit var ad: AdManager
+
     private lateinit var bind: HistoriesActivityBinding
-    private lateinit var adapter: StationPagerAdapter
+    private lateinit var adapter: HistoryPagerAdapter
 
     override fun hasBinding(): Boolean = true
 
     override fun homeUp(): Boolean = true
 
-    override fun layoutRes(): Int = R.layout.stations_activity
+    override fun layoutRes(): Int = R.layout.histories_activity
 
     override fun toolbarId(): Int = R.id.toolbar
 
@@ -37,20 +41,17 @@ class HistoriesActivity : InjectActivity() {
     }
 
     override fun <T> onItem(item: T) {
-         if (item is StationItem) {
-             bind.icon.setUrl(item.item.favicon)
+         if (item is HistoryItem) {
+             //bind.icon.setUrl(item.item.favicon)
          }
     }
 
     private fun initUi() {
         bind = getBinding()
-        //vm = ViewModelProvider(this, factory).get(CoinViewModel::class.java)
-
-        //vm.subscribes(this, Observer { this.processResponse(it) })
     }
 
     private fun initPager() {
-        adapter = StationPagerAdapter(this)
+        adapter = HistoryPagerAdapter(this)
         bind.layoutPager.pager.adapter = adapter
         TabLayoutMediator(
             bind.tabs,

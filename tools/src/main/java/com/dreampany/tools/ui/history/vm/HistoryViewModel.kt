@@ -33,7 +33,7 @@ class HistoryViewModel
     rm
 ) {
 
-    fun loadHistories(subtype: HistorySubtype, month: Int, day: Int) {
+    fun loadHistories(state: HistoryState, month: Int, day: Int) {
         uiScope.launch {
             postProgress(true)
             var result: List<History>? = null
@@ -41,7 +41,7 @@ class HistoryViewModel
             try {
                 val source = HistorySource.WIKIPEDIA
                 val type = HistoryType.HISTORY
-                result = repo.gets(source, type, subtype, month, day)
+                result = repo.gets(source, state, month, day)
             } catch (error: SmartError) {
                 Timber.e(error)
                 errors = error

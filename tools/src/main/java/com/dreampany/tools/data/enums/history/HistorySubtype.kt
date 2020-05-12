@@ -11,7 +11,7 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 enum class HistorySubtype : BaseSubtype {
-    DEFAULT, EVENT, BIRTH, DEATH;
+    DEFAULT;
 
     override val value: String get() = name
 }

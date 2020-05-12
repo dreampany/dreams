@@ -15,6 +15,7 @@ import com.dreampany.tools.data.enums.home.Type
 import com.dreampany.tools.data.model.home.Feature
 import com.dreampany.tools.databinding.RecyclerFragmentBinding
 import com.dreampany.tools.ui.crypto.activity.CoinsActivity
+import com.dreampany.tools.ui.history.activity.HistoriesActivity
 import com.dreampany.tools.ui.home.adapter.FastFeatureAdapter
 import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
@@ -114,6 +115,7 @@ class HomeFragment
             Subtype.CRYPTO -> activity.open(CoinsActivity::class)
             Subtype.RADIO -> activity.open(StationsActivity::class)
             Subtype.NOTE -> activity.open(NotesActivity::class)
+            Subtype.HISTORY -> activity.open(HistoriesActivity::class)
         }
     }
 }

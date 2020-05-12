@@ -63,3 +63,9 @@ val CharSequence?.trimValue: String
     get() = if (this == null) Constants.Default.STRING else this.trim().toString()
 
 val String?.html: Spanned get() = HtmlCompat.fromHtml(this.string(), HtmlCompat.FROM_HTML_MODE_COMPACT)
+
+fun join(vararg values: String) : String {
+    val builder = StringBuilder()
+    values.forEach { builder.append(it) }
+    return builder.toString()
+}

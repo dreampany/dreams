@@ -50,7 +50,7 @@ abstract class BaseActivity : AppCompatActivity(),
 
     private lateinit var binding: ViewDataBinding
     private lateinit var toolbar: Toolbar
-    private lateinit var menu: Menu
+    private var menu: Menu? = null
 
     //protected var task: Task<*, *, *, *, *>? = null
 
@@ -183,7 +183,7 @@ abstract class BaseActivity : AppCompatActivity(),
 
     }
 
-    protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu.findItem(menuItemId)
+    protected fun findMenuItemById(menuItemId: Int): MenuItem? = menu?.findItem(menuItemId)
 
     protected fun getSearchMenuItem(): MenuItem? = findMenuItemById(searchMenuItemId())
 

@@ -38,9 +38,7 @@ data class Network(
         WEP, PSK, EAP
     }
 
-    override fun hashCode(): Int {
-        return Objects.hashCode(bssid, ssid)
-    }
+    override fun hashCode(): Int = Objects.hashCode(bssid, ssid)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

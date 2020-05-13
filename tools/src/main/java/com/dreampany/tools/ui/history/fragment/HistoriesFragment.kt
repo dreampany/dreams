@@ -2,21 +2,30 @@ package com.dreampany.tools.ui.history.fragment
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.View
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.tools.R
 import com.dreampany.tools.data.enums.history.HistoryAction
 import com.dreampany.tools.data.enums.history.HistoryState
 import com.dreampany.tools.data.enums.history.HistorySubtype
 import com.dreampany.tools.data.enums.history.HistoryType
+import com.dreampany.tools.data.enums.home.Action
+import com.dreampany.tools.data.enums.home.State
+import com.dreampany.tools.data.enums.home.Subtype
+import com.dreampany.tools.data.enums.home.Type
+import com.dreampany.tools.data.model.history.History
 import com.dreampany.tools.databinding.RecyclerChildFragmentBinding
+import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.history.adapter.FastHistoryAdapter
 import com.dreampany.tools.ui.history.model.HistoryItem
 import com.dreampany.tools.ui.history.vm.HistoryViewModel
+import com.dreampany.tools.ui.web.WebActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -65,6 +74,21 @@ class HistoriesFragment
         return false
     }
 
+    private fun onItemPressed(view: View, item: HistoryItem) {
+        Timber.v("Pressed $view")
+        when (view.id) {
+            R.id.layout -> {
+                openWeb(item.input.url)
+            }
+            /*R.id.button_favorite -> {
+                onFavoriteClicked(item)
+            }*/
+            else -> {
+
+            }
+        }
+    }
+
     private fun loadHistories() {
         val task = task ?: return
         if (task.state is HistoryState) {
@@ -81,9 +105,7 @@ class HistoriesFragment
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastHistoryAdapter(clickListener = { item: HistoryItem ->
-
-            })
+            adapter = FastHistoryAdapter(this::onItemPressed)
         }
 
         adapter.initRecycler(
@@ -124,5 +146,21 @@ class HistoriesFragment
         if (result != null) {
             adapter.addItems(result)
         }
+    }
+
+    fun openWeb(url: String?) {
+        if (url.isNullOrEmpty()) {
+            //TODO
+            return
+        }
+        val task = UiTask(
+            Type.SITE,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.DEFAULT,
+            null as History?,
+            url = url
+        )
+        open(WebActivity::class, task)
     }
 }

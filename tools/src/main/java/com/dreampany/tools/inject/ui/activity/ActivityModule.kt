@@ -9,6 +9,7 @@ import com.dreampany.tools.inject.ui.note.NoteModule
 import com.dreampany.tools.inject.ui.radio.RadioModule
 import com.dreampany.tools.ui.home.activity.HomeActivity
 import com.dreampany.tools.ui.splash.SplashActivity
+import com.dreampany.tools.ui.web.WebActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -33,4 +34,7 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
     abstract fun home(): HomeActivity
+
+    @ContributesAndroidInjector
+    abstract fun web(): WebActivity
 }

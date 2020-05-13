@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.viewbinding.ViewBinding
 import com.dreampany.framework.data.enums.Order
-import com.dreampany.framework.misc.extension.blink
-import com.dreampany.framework.misc.extension.context
-import com.dreampany.framework.misc.extension.formatString
-import com.dreampany.framework.misc.extension.toColor
+import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.tools.R
 import com.dreampany.tools.misc.constant.CryptoConstants
@@ -192,15 +189,15 @@ private constructor(
 
         val hourChangeColor =
             if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange1h.setTextColor(hourChangeColor.toColor(bind.context))
+        bind.layoutPrice.textChange1h.setTextColor(bind.color(hourChangeColor))
 
         val dayChangeColor =
             if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange24h.setTextColor(dayChangeColor.toColor(bind.context))
+        bind.layoutPrice.textChange24h.setTextColor(bind.color(dayChangeColor))
 
         val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.layoutPrice.textChange7d.setTextColor(weekChangeColor.toColor(bind.context))
+        bind.layoutPrice.textChange7d.setTextColor(bind.color(weekChangeColor))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),
@@ -261,15 +258,15 @@ private constructor(
 
         val hourChangeColor =
             if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.textChange1h.setTextColor(hourChangeColor.toColor(bind.context))
+        bind.textChange1h.setTextColor(bind.color(hourChangeColor))
 
         val dayChangeColor =
             if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.textChange24h.setTextColor(dayChangeColor.toColor(bind.context))
+        bind.textChange24h.setTextColor(bind.color(dayChangeColor))
 
         val weekChangeColor =
             if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-        bind.textChange7d.setTextColor(weekChangeColor.toColor(bind.context))
+        bind.textChange7d.setTextColor(bind.color(weekChangeColor))
 
         val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
             item.getLastUpdated(),

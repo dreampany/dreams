@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
@@ -35,13 +36,8 @@ import com.google.android.material.textfield.TextInputEditText
  * Last modified $file.lastModified
  */
 
-fun View?.isNull(): Boolean {
-    return this == null
-}
-
-fun View?.isNotNull(): Boolean {
-    return this != null
-}
+val View?.isNull: Boolean get() = this == null
+val View?.isNotNull: Boolean get() = this != null
 
 fun View?.visible() {
     this?.visibility = View.VISIBLE
@@ -53,6 +49,14 @@ fun View?.invisible() {
 
 fun View?.gone() {
     this?.visibility = View.GONE
+}
+
+fun View?.enable() {
+    this?.isEnabled = true
+}
+
+fun View?.disable() {
+    this?.isEnabled = false
 }
 
 fun Context.inflater(): LayoutInflater = LayoutInflater.from(this)
@@ -103,18 +107,16 @@ fun MenuItem?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): Menu
     return this
 }
 
+fun ImageView?.toTint(@ColorRes colorRes: Int): ImageView? {
+    this?.setColorFilter(this.context.color(colorRes))
+    return this
+}
+
 fun Drawable?.toTint(@Nullable context: Context?, @ColorRes colorRes: Int): Drawable? {
     if (context == null) return this
-/*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-
-    } else {
-        this?.setColorFilter(colorRes.toColor(context), PorterDuff.Mode.SRC_ATOP)
-    }*/
     this?.setColorFilter(
         BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
-            colorRes.toColor(
-                context
-            ), BlendModeCompat.SRC_ATOP
+            context.color(colorRes), BlendModeCompat.SRC_ATOP
         )
     )
     return this
@@ -133,9 +135,9 @@ fun RecyclerView.addDecoration(offset: Int) {
     addItemDecoration(decoration)
 }
 
-fun TextView.blink(@ColorRes startColorId: Int, @ColorRes endColorId: Int) {
-    val startColor = startColorId.toColor(context)
-    val endColor = endColorId.toColor(context)
+fun TextView.blink(@ColorRes startColorRes: Int, @ColorRes endColorRes: Int) {
+    val startColor = context.color(startColorRes)
+    val endColor = context.color(endColorRes)
     val animator = ObjectAnimator.ofInt(this, "textColor", startColor, endColor, startColor)
     animator.duration = 1500
     animator.setEvaluator(ArgbEvaluator())
@@ -162,9 +164,9 @@ fun TextView.blink(@ColorRes startColorId: Int, @ColorRes endColorId: Int) {
 
 }
 
+val ViewBinding.context: Context get() = root.context
 
-val ViewBinding.context: Context
-    get() = root.context
+fun ViewBinding.color(@ColorRes resId: Int) : Int = context.color(resId)
 
 fun SwipeRefreshLayout?.init(
     listener: SwipeRefreshLayout.OnRefreshListener,

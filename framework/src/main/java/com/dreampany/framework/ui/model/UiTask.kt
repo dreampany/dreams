@@ -32,6 +32,7 @@ data class UiTask<
     override var ids: List<String>? = Constants.Default.NULL,
     override var extra: String? = Constants.Default.NULL,
     override var extras: List<String>? = Constants.Default.NULL,
+    override var url: String? = Constants.Default.NULL,
     override var notify: Boolean = Constants.Default.BOOLEAN,
     override var fullscreen: Boolean = Constants.Default.BOOLEAN,
     override var collapseToolbar: Boolean = Constants.Default.BOOLEAN
@@ -46,6 +47,7 @@ data class UiTask<
     ids,
     extra,
     extras,
+    url,
     notify,
     fullscreen,
     collapseToolbar

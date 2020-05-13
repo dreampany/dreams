@@ -136,15 +136,15 @@ class CoinAdapter(listener: Any? = null) : SearchAdapter<Coin, CoinAdapter.ViewH
 
             val hourChangeColor =
                 if (change1h >= 0.0f) R.color.material_green700 else R.color.material_red700
-            bind.layoutPrice.textChange1h.setTextColor(hourChangeColor.toColor(context))
+            bind.layoutPrice.textChange1h.setTextColor(context.color(hourChangeColor))
 
             val dayChangeColor =
                 if (change24h >= 0.0f) R.color.material_green700 else R.color.material_red700
-            bind.layoutPrice.textChange24h.setTextColor(dayChangeColor.toColor(context))
+            bind.layoutPrice.textChange24h.setTextColor(context.color(dayChangeColor))
 
             val weekChangeColor =
                 if (change7d >= 0.0f) R.color.material_green700 else R.color.material_red700
-            bind.layoutPrice.textChange7d.setTextColor(weekChangeColor.toColor(context))
+            bind.layoutPrice.textChange7d.setTextColor(context.color(weekChangeColor))
 
             val lastUpdatedTime = DateUtils.getRelativeTimeSpanString(
                 item.getLastUpdated(),

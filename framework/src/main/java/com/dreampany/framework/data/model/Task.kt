@@ -25,6 +25,7 @@ abstract class Task<
     open var ids: List<String>? = Constants.Default.NULL,
     open var extra: String? = Constants.Default.NULL,
     open var extras: List<String>? = Constants.Default.NULL,
+    open var url: String? = Constants.Default.NULL,
     open var notify: Boolean = Constants.Default.BOOLEAN,
     open var fullscreen: Boolean = Constants.Default.BOOLEAN,
     open var collapseToolbar: Boolean = Constants.Default.BOOLEAN

@@ -8,17 +8,13 @@ import com.dreampany.framework.misc.extension.dimension
 import com.dreampany.framework.ui.misc.ItemSpaceDecoration
 import com.dreampany.tools.R
 import com.dreampany.tools.ui.history.model.HistoryItem
-import com.dreampany.tools.ui.radio.model.StationItem
-import com.mikepenz.fastadapter.FastAdapter
 import com.mikepenz.fastadapter.GenericItem
 import com.mikepenz.fastadapter.adapters.FastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericFastItemAdapter
 import com.mikepenz.fastadapter.adapters.GenericItemAdapter
 import com.mikepenz.fastadapter.adapters.ItemAdapter
-import com.mikepenz.fastadapter.listeners.ClickEventHook
 import com.mikepenz.fastadapter.scroll.EndlessRecyclerOnScrollListener
 import com.mikepenz.fastadapter.ui.items.ProgressItem
-import timber.log.Timber
 
 /**
  * Created by roman on 13/4/20
@@ -27,7 +23,7 @@ import timber.log.Timber
  * Last modified $file.lastModified
  */
 class FastHistoryAdapter(
-    val clickListener : ((item: HistoryItem) -> Unit)? = null
+    val clickListener : ((view: View, item: HistoryItem) -> Unit)? = null
 ) {
 
     private lateinit var scroller: EndlessRecyclerOnScrollListener
@@ -69,33 +65,23 @@ class FastHistoryAdapter(
         }
         fastAdapter.withSavedInstanceState(state)
 
-        clickListener?.let {
+        clickListener?.let { listener ->
             fastAdapter.onClickListener = { view, adapter, item, position ->
-                Timber.v("View %s", view.toString())
-                if (item is HistoryItem) {
-                    it (item)
-                }
+                if (item is HistoryItem)
+                    view?.let {
+                        listener(it, item)
+                    }
                 false
             }
+            /*fastAdapter.addClickListener<HistoryItemBinding, GenericItem>(
+                { bind -> bind.root }, { bind -> arrayListOf(bind.layoutOptions.buttonFavorite) }
+            )
+            { view, position, adapter, item ->
+                if (item is HistoryItem) {
+                    listener(view, item)
+                }
+            }*/
         }
-
-        fastAdapter.addEventHook(object : ClickEventHook<StationItem>() {
-            /* override fun onBind(holder: RecyclerView.ViewHolder): View? {
-                 if (holder is CoinItemBinding.)
-
-                     return null
-             }*/
-
-            override fun onClick(
-                view: View,
-                position: Int,
-                fastAdapter: FastAdapter<StationItem>,
-                item: StationItem
-            ) {
-                Timber.v("View %s", view.toString())
-            }
-
-        })
     }
 
     fun destroy() {

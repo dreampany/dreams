@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="wifi_band_title" translatable="false">"2.4/5 GHz"</string>
+    <string name="wifi_band_2ghz" translatable="false">"2.4 GHz"</string>
+    <string name="wifi_band_5ghz" translatable="false">"5 GHz"</string>
+
+</resources>

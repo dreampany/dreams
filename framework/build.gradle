@@ -143,6 +143,10 @@ dependencies {
     api 'com.mikepenz:fastadapter-extensions-ui:5.0.0'
     api 'com.mikepenz:fastadapter-extensions-utils:5.0.0'
 
+    /* apache */
+    api 'org.apache.commons:commons-lang3:3.10'
+    api 'org.apache.commons:commons-collections4:4.4'
+
     /* misc */
     //api 'org.apache.commons:commons-lang3:3.10'
     //api 'org.apache.commons:commons-collections4:4.4'

@@ -1,4 +1,6 @@
-package com.dreampany.network.data.model.wifi.band
+package com.dreampany.wifi.data.model.band
+
+import kotlinx.android.parcel.Parcelize
 
 /**
  * Created by roman on 14/5/20
@@ -6,6 +8,7 @@ package com.dreampany.network.data.model.wifi.band
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
+@Parcelize
 class WifiChannels5GHZ : WifiChannels(range, channels) {
     companion object {
         private val range: Pair<Int, Int> = Pair(4900, 5899)

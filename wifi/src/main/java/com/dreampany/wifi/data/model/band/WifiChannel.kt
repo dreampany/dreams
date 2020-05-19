@@ -1,4 +1,4 @@
-package com.dreampany.network.data.model.wifi.band
+package com.dreampany.wifi.data.model.band
 
 import com.google.common.base.Objects
 import org.apache.commons.lang3.builder.CompareToBuilder

@@ -133,6 +133,7 @@ dependencies {
 
     /* library */
     implementation project(':framework')
+    implementation project(':wifi')
 
     /* androidx lifecycle */
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"

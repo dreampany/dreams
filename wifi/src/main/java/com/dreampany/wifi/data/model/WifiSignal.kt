@@ -1,8 +1,7 @@
-package com.dreampany.network.data.model.wifi
+package com.dreampany.wifi.data.model
 
-import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.network.data.model.wifi.band.WifiBand
-import com.dreampany.network.data.model.wifi.band.WifiChannel
+import android.os.Parcelable
+import com.dreampany.wifi.data.model.band.WifiBand
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 import org.apache.commons.lang3.builder.ToStringBuilder
@@ -21,7 +20,27 @@ data class WifiSignal(
     val band: WifiBand,
     val level: Int,
     val is80211mc: Boolean
-) : BaseParcel() {
+) : Parcelable {
+
+    companion object {
+        fun getBand(frequency: Int): WifiBand =
+            WifiBand.values().find { it.channels.inRange(frequency) } ?: WifiBand.GHZ2
+    }
+
+    constructor(
+        primaryFrequency: Int,
+        centerFrequency: Int,
+        width: WifiWidth,
+        level: Int,
+        is80211mc: Boolean
+    ) : this(
+        primaryFrequency,
+        centerFrequency,
+        width,
+        getBand(primaryFrequency),
+        level,
+        is80211mc
+    )
 
     override fun hashCode(): Int = Objects.hashCode(primaryFrequency, width)
 
@@ -29,10 +48,11 @@ data class WifiSignal(
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
         val item = other as WifiSignal
-        return Objects.equal(primaryFrequency, item.primaryFrequency) && Objects.equal(width, item.width)
+        return Objects.equal(primaryFrequency, item.primaryFrequency) &&
+                Objects.equal(width, item.width)
     }
 
     override fun toString(): String = ToStringBuilder.reflectionToString(this)
-
     val frequencyStart: Int get() = centerFrequency - width.frequencyWidthHalf
+    val frequencyEnd: Int get() = centerFrequency + width.frequencyWidthHalf
 }

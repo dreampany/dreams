@@ -1,5 +1,6 @@
-package com.dreampany.network.data.model.wifi.band
+package com.dreampany.wifi.data.model.band
 
+import android.os.Parcelable
 import kotlin.math.roundToInt
 
 /**
@@ -8,10 +9,10 @@ import kotlin.math.roundToInt
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-open class WifiChannels(
+abstract class WifiChannels(
     private val range: Pair<Int, Int>,
     private val channels: List<Pair<WifiChannel, WifiChannel>>
-) {
+) : Parcelable {
     fun inRange(frequency: Int): Boolean =
         frequency >= range.first && frequency <= range.second
 

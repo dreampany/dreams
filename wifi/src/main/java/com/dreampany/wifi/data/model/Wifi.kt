@@ -1,8 +1,7 @@
-package com.dreampany.network.data.model.wifi
+package com.dreampany.wifi.data.model
 
-import com.dreampany.framework.data.model.BaseParcel
-import com.dreampany.network.data.model.Network
-import com.dreampany.network.misc.Constants
+import android.os.Parcelable
+import com.dreampany.wifi.misc.Constants
 import com.google.common.base.Objects
 import kotlinx.android.parcel.Parcelize
 
@@ -17,7 +16,7 @@ data class Wifi(
     var bssid: String = Constants.Default.STRING,
     var ssid: String = Constants.Default.STRING,
     var capabilities: String = Constants.Default.STRING
-) : BaseParcel() {
+) : Parcelable {
 
     override fun hashCode(): Int = Objects.hashCode(bssid, ssid)
 

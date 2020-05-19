@@ -1,4 +1,4 @@
-package com.dreampany.network.data.model.wifi
+package com.dreampany.wifi.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

@@ -10,6 +10,12 @@ import com.dreampany.wifi.data.model.Wifi
  */
 interface ScanService {
     interface ScanCallback {
-        fun onResult(wifi : Wifi)
+        fun onResult(wifi: Wifi)
     }
+
+    val isScanning: Boolean
+    fun start()
+    fun startScan()
+    fun stopScan()
+    fun stop()
 }

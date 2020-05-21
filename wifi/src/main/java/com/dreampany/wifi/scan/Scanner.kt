@@ -14,11 +14,16 @@ class Scanner(
     private val handler: Handler
 ) : ScanService {
 
-    override val isScanning: Boolean
-        get() = TODO("Not yet implemented")
+    private val periodicScan: PeriodicScan
+
+    init {
+        periodicScan = PeriodicScan(this, handler)
+    }
+
+    override val isScanning: Boolean get() = periodicScan.scanning
 
     override fun start() {
-        TODO("Not yet implemented")
+        repo.enable
     }
 
     override fun startScan() {
@@ -34,6 +39,13 @@ class Scanner(
     }
 
     override fun takeScanResults() {
-        TODO("Not yet implemented")
+         try {
+             if (repo.startScan) {
+                 val result = repo.scanResults
+                 val wifiInfo = repo.wifiInfo
+             }
+         } catch (error : Throwable) {}
     }
+
+
 }

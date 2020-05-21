@@ -171,7 +171,7 @@ class NotifyManager
         )
 
         notification?.run {
-            if (Util.hasOreo()) {
+            if (Util.isMinO()) {
                 (context as Service).startForeground(notifyId, this)
             } else {
                 manager?.notify(notifyId, this)

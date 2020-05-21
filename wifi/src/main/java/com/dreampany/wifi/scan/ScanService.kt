@@ -18,4 +18,5 @@ interface ScanService {
     fun startScan()
     fun stopScan()
     fun stop()
+    fun takeScanResults()
 }

@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dreampany.wifi" />
+    package="com.dreampany.wifi" >
+
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+</manifest>

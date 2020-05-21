@@ -20,13 +20,9 @@ fun Long?.value(): Long = this ?: 0L
 
 fun String?.value(): String = this ?: Constants.Default.STRING
 
-fun Int.isZeroOrLess(): Boolean {
-    return this <= 0
-}
+fun Int.isZeroOrLess(): Boolean = this <= 0
 
-fun Long.isExpired(delay: Long): Boolean {
-    return Util.currentMillis() - this > delay
-}
+fun Long.isExpired(delay: Long): Boolean = Util.currentMillis() - this > delay
 
 fun <T> sub(list: List<T>?, index: Long, limit: Long): List<T>? {
     var limit = limit

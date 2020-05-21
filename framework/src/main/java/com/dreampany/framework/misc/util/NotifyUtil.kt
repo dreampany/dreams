@@ -36,7 +36,7 @@ class NotifyUtil {
             channelDescription: String,
             channelImportance: Int
         ): NotificationChannel? {
-            if (!Util.hasOreo()) {
+            if (!Util.isMinO()) {
                 return null
             }
             val channel = NotificationChannel(channelId, channelName, channelImportance)
@@ -48,7 +48,7 @@ class NotifyUtil {
             context: Context,
             channelId: String
         ): Boolean {
-            if (!Util.hasOreo()) {
+            if (!Util.isMinO()) {
                 return false
             }
             val manager = context.getSystemService(NotificationManager::class.java)
@@ -69,7 +69,7 @@ class NotifyUtil {
         ): Notification? {
             val appContext = context.applicationContext
             var builder: NotificationCompat.Builder? = null
-            if (Util.hasOreo()) {
+            if (Util.isMinO()) {
                 val manager = NotificationManagerCompat.from(appContext)
                 channel?.run {
                     manager.createNotificationChannel(this)

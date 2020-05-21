@@ -12,10 +12,30 @@ import kotlinx.coroutines.Runnable
 class PeriodicScan(
     private val service: ScanService,
     private val handler: Handler,
-
+    var scanning: Boolean = false
 ) : Runnable {
+
     private val DELAY_INITIAL = 1L
     private val DELAY_INTERVAL = 1000L
 
-    private val
+    override fun run() {
+        service.start()
+        service.takeScanResults()
+        nextRun(5 * DELAY_INTERVAL)
+    }
+
+    fun start() {
+        nextRun(DELAY_INITIAL)
+    }
+
+    fun stop() {
+        handler.removeCallbacks(this)
+        scanning = false
+    }
+
+    private fun nextRun(delayInitial: Long) {
+        stop()
+        handler.postDelayed(this, delayInitial)
+        scanning = true
+    }
 }

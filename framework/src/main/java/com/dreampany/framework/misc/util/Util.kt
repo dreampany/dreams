@@ -32,8 +32,12 @@ object Util {
         return random.nextInt(max - min + 1) + min
     }
 
-    fun hasOreo(): Boolean {
+    fun isMinO(): Boolean {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+    }
+
+    fun isMinQ(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
     }
 
     fun <T : Context> createIntent(source: T, target: Class<*>, task: Task<*,*,*, *, *>?): Intent {

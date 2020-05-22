@@ -6,7 +6,7 @@ package com.dreampany.wifi.misc
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class Config {
+class Config() {
     private val SIZE_MIN = 1024
     private val SIZE_MAX = 4096
 

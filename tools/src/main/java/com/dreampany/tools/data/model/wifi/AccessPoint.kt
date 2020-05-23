@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.source.wifi;
+package com.dreampany.tools.data.model.wifi
 
 /**
  * Created by roman on 23/5/20
@@ -6,5 +6,5 @@ package com.dreampany.tools.data.source.wifi;
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-public class d {
+class AccessPoint {
 }

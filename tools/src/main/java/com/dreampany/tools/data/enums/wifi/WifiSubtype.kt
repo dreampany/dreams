@@ -1,4 +1,4 @@
-package com.dreampany.tools.data.enums.home
+package com.dreampany.tools.data.enums.wifi
 
 import com.dreampany.framework.data.enums.BaseSubtype
 import kotlinx.android.parcel.Parcelize
@@ -10,8 +10,8 @@ import kotlinx.android.parcel.Parcelize
  * Last modified $file.lastModified
  */
 @Parcelize
-enum class Subtype : BaseSubtype {
-    DEFAULT, WIFI, CRYPTO, QUESTION, RADIO, NOTE, HISTORY, SETTINGS, APPS, RATE_US, FEEDBACK, INVITE, LICENSE, ABOUT;
+enum class WifiSubtype : BaseSubtype {
+    DEFAULT;
 
     override val value: String get() = name
 }

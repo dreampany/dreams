@@ -1,7 +1,7 @@
-package com.dreampany.wifi.data;
+package com.dreampany.tools.data.source.wifi;
 
 /**
- * Created by roman on 14/5/20
+ * Created by roman on 23/5/20
  * Copyright (c) 2020 bjit. All rights reserved.
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified

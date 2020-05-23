@@ -1,5 +1,6 @@
 package com.dreampany.framework.ui.model
 
+import android.os.Parcelable
 import com.dreampany.framework.data.enums.BaseAction
 import com.dreampany.framework.data.enums.BaseState
 import com.dreampany.framework.data.enums.BaseSubtype
@@ -21,7 +22,7 @@ data class UiTask<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        I : BaseParcel>(
+        I : Parcelable>(
     override var type: T,
     override var subtype: S,
     override var state: ST,

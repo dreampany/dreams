@@ -2,6 +2,7 @@ package com.dreampany.wifi.scan
 
 import android.os.Handler
 import com.dreampany.wifi.data.source.WifiRepo
+import com.dreampany.wifi.misc.Config
 
 /**
  * Created by roman on 21/5/20
@@ -14,9 +15,12 @@ class Scanner(
     private val handler: Handler
 ) : ScanService {
 
+
+    private val cache: Cache
     private val periodicScan: PeriodicScan
 
     init {
+        cache = Cache(Config())
         periodicScan = PeriodicScan(this, handler)
     }
 
@@ -27,24 +31,25 @@ class Scanner(
     }
 
     override fun startScan() {
-        TODO("Not yet implemented")
+        periodicScan.start()
     }
 
     override fun stopScan() {
-        TODO("Not yet implemented")
+        periodicScan.stop()
     }
 
     override fun stop() {
-        TODO("Not yet implemented")
+        repo.disable
     }
 
     override fun takeScanResults() {
          try {
              if (repo.startScan) {
-                 val result = repo.scanResults
-                 val wifiInfo = repo.wifiInfo
+                 cache.add(repo.scanResults, repo.wifiInfo)
              }
          } catch (error : Throwable) {}
+
+
     }
 
 

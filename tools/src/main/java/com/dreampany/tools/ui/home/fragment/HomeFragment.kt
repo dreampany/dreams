@@ -88,7 +88,8 @@ class HomeFragment
 
     private fun processError(error: SmartError) {
         val titleRes = if (error.hostError) R.string.title_no_internet else R.string.title_error
-        val message = if (error.hostError) getString(R.string.message_no_internet) else error.message
+        val message =
+            if (error.hostError) getString(R.string.message_no_internet) else error.message
         showDialogue(
             titleRes,
             messageRes = R.string.message_unknown,
@@ -103,9 +104,7 @@ class HomeFragment
     }
 
     private fun processResults(result: List<FeatureItem>?) {
-        if (result == null) {
-
-        } else {
+        if (result != null) {
             adapter.addItems(result)
         }
     }

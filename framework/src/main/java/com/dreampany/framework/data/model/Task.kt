@@ -1,5 +1,6 @@
 package com.dreampany.framework.data.model
 
+import android.os.Parcelable
 import com.dreampany.framework.data.enums.*
 import com.dreampany.framework.misc.constant.Constants
 
@@ -14,7 +15,7 @@ abstract class Task<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        I : BaseParcel>(
+        I : Parcelable>(
     open var type: T,
     open var subtype: S,
     open var state: ST,

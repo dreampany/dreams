@@ -49,6 +49,15 @@ class FeatureViewModel
         features.add(
             Feature(
                 Type.FEATURE,
+                Subtype.WIFI,
+                R.drawable.ic_signal_wifi_4_bar,
+                R.string.title_feature_wifi,
+                colors.nextColor(Type.FEATURE.name)
+            )
+        )
+        features.add(
+            Feature(
+                Type.FEATURE,
                 Subtype.CRYPTO,
                 R.drawable.ic_crypto,
                 R.string.title_feature_crypto,

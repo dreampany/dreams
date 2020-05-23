@@ -1,6 +1,7 @@
 package com.dreampany.framework.ui.vm
 
 import android.app.Application
+import android.os.Parcelable
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.dreampany.framework.data.enums.*
@@ -37,7 +38,7 @@ abstract class BaseViewModel<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        IN : BaseParcel,
+        IN : Parcelable,
         OUT,
         X : UiTask<T, S, ST, A, IN>>
 protected constructor(

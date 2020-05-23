@@ -133,7 +133,7 @@ dependencies {
 
     /* library */
     implementation project(':framework')
-    implementation project(':wifi')
+    //implementation project(':wifi')
 
     /* androidx lifecycle */
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
@@ -180,5 +180,5 @@ dependencies {
     implementation 'org.jsoup:jsoup:1.13.1'
     implementation 'com.github.delight-im:Android-AdvancedWebView:v3.0.0'
     implementation 'io.karn:notify:1.3.0'
-    //implementation 'com.isupatches:wisefy:4.0'
+    implementation 'com.isupatches:wisefy:4.0.0'
 }

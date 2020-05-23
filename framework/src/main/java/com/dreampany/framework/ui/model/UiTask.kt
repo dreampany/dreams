@@ -22,7 +22,7 @@ data class UiTask<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        I : Parcelable>(
+        I : BaseParcel>(
     override var type: T,
     override var subtype: S,
     override var state: ST,

@@ -15,7 +15,7 @@ abstract class Task<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        I : Parcelable>(
+        I : BaseParcel>(
     open var type: T,
     open var subtype: S,
     open var state: ST,

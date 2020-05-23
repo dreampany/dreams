@@ -18,7 +18,7 @@ class ScanServiceFactory private constructor() {
         fun instance(activity: Activity, handler: Handler): Scanner {
             val manager = activity.application.getSystemService(Context.WIFI_SERVICE) as WifiManager
             val repo = WifiRepo(WeakReference(activity), WeakReference(manager))
-            return Scanner(repo)
+            return Scanner(repo, handler)
         }
     }
 }

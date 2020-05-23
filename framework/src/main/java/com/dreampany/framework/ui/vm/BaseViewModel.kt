@@ -38,7 +38,7 @@ abstract class BaseViewModel<
         S : BaseSubtype,
         ST : BaseState,
         A : BaseAction,
-        IN : Parcelable,
+        IN : BaseParcel,
         OUT,
         X : UiTask<T, S, ST, A, IN>>
 protected constructor(

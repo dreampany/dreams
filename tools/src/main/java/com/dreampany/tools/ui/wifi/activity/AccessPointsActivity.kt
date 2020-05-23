@@ -22,6 +22,7 @@ import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
 import com.dreampany.tools.ui.crypto.vm.CoinViewModel
+import com.dreampany.tools.ui.wifi.vm.WifiViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -39,7 +40,7 @@ class AccessPointsActivity : InjectActivity() {
     internal lateinit var wifiPref: WifiPref
 
     private lateinit var bind: RecyclerActivityBinding
-    private lateinit var vm: CoinViewModel
+    //private lateinit var vm: WifiViewModel
     private lateinit var adapter: FastCoinAdapter
 
     override fun homeUp(): Boolean = true
@@ -47,9 +48,9 @@ class AccessPointsActivity : InjectActivity() {
     override fun hasBinding(): Boolean = true
 
     override fun layoutRes(): Int = R.layout.recycler_activity
-    override fun menuRes(): Int = R.menu.menu_coins
+    //override fun menuRes(): Int = R.menu.menu_coins
     override fun toolbarId(): Int = R.id.toolbar
-    override fun searchMenuItemId(): Int = R.id.item_search
+    //override fun searchMenuItemId(): Int = R.id.item_search
 
     override fun onStartUi(state: Bundle?) {
         initAd()

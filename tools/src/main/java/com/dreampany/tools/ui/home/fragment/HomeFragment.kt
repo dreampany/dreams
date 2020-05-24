@@ -21,6 +21,7 @@ import com.dreampany.tools.ui.home.model.FeatureItem
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.ui.note.activity.NotesActivity
 import com.dreampany.tools.ui.radio.activity.StationsActivity
+import com.dreampany.tools.ui.wifi.activity.WifisActivity
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -111,6 +112,7 @@ class HomeFragment
 
     private fun openUi(item: Feature) {
         when (item.subtype) {
+            Subtype.WIFI -> activity.open(WifisActivity::class)
             Subtype.CRYPTO -> activity.open(CoinsActivity::class)
             Subtype.RADIO -> activity.open(StationsActivity::class)
             Subtype.NOTE -> activity.open(NotesActivity::class)

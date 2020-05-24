@@ -1,14 +1,18 @@
 package com.dreampany.tools.ui.wifi.activity
 
 import android.os.Bundle
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
 import com.dreampany.framework.misc.extension.init
+import com.dreampany.framework.misc.extension.open
 import com.dreampany.framework.misc.extension.refresh
 import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.misc.func.SmartError
+import com.dreampany.framework.misc.util.Util
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.stateful.StatefulLayout
@@ -17,11 +21,16 @@ import com.dreampany.tools.data.enums.crypto.CryptoAction
 import com.dreampany.tools.data.enums.crypto.CryptoState
 import com.dreampany.tools.data.enums.crypto.CryptoSubtype
 import com.dreampany.tools.data.enums.crypto.CryptoType
+import com.dreampany.tools.data.enums.wifi.WifiAction
+import com.dreampany.tools.data.enums.wifi.WifiState
+import com.dreampany.tools.data.enums.wifi.WifiSubtype
+import com.dreampany.tools.data.enums.wifi.WifiType
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
-import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
+import com.dreampany.tools.ui.wifi.adapter.FastWifiAdapter
+import com.dreampany.tools.ui.wifi.model.WifiItem
 import com.dreampany.tools.ui.wifi.vm.WifiViewModel
 import timber.log.Timber
 import javax.inject.Inject
@@ -41,7 +50,7 @@ class WifisActivity : InjectActivity() {
 
     private lateinit var bind: RecyclerActivityBinding
     private lateinit var vm: WifiViewModel
-    private lateinit var adapter: FastCoinAdapter
+    private lateinit var adapter: FastWifiAdapter
 
     override fun homeUp(): Boolean = true
 
@@ -101,17 +110,17 @@ class WifisActivity : InjectActivity() {
     }
 
     override fun onRefresh() {
-        loadCoins()
+        loadWifis()
     }
 
-    private fun onItemPressed(view: View, item: CoinItem) {
+    private fun onItemPressed(view: View, item: WifiItem) {
         Timber.v("Pressed $view")
         when (view.id) {
             R.id.layout -> {
-                openCoinUi(item)
+               // openCoinUi(item)
             }
             R.id.button_favorite -> {
-                onFavoriteClicked(item)
+                //onFavoriteClicked(item)
             }
             else -> {
 
@@ -132,15 +141,15 @@ class WifisActivity : InjectActivity() {
     private fun initUi() {
         bind = getBinding()
         bind.swipe.init(this)
-        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
-        //vm = createVm(CoinViewModel::class)
+        bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_wifis)
+        vm = createVm(WifiViewModel::class)
         //vm.subscribe(this, Observer { this.processResponse(it) })
-        //vm.subscribes(this, Observer { this.processResponses(it) })
+        vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
         if (!::adapter.isInitialized) {
-            adapter = FastCoinAdapter(
+            adapter = FastWifiAdapter(
                 { currentPage ->
                     Timber.v("CurrentPage: %d", currentPage)
                     onRefresh()
@@ -148,36 +157,37 @@ class WifisActivity : InjectActivity() {
             )
         }
 
-        /*adapter.initRecycler(
+        adapter.initRecycler(
             state,
-            bind.layoutRecycler.recycler,
-            cryptoPref.getCurrency(),
-            cryptoPref.getSort(),
-            cryptoPref.getOrder()
-        )*/
+            bind.layoutRecycler.recycler
+        )
     }
 
-    private fun loadCoins() {
-        //vm.loadCoins(adapter.itemCount.toLong())
+    private fun loadWifis() {
+        vm.loadWifis(adapter.itemCount.toLong(), {
+            if (Util.isMinQ()) {
+                open(Settings.Panel.ACTION_WIFI, 0)
+            }
+        })
     }
 
-    private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+    private fun processResponse(response: Response<WifiType, WifiSubtype, WifiState, WifiAction, WifiItem>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
+        } else if (response is Response.Result<WifiType, WifiSubtype, WifiState, WifiAction, WifiItem>) {
             Timber.v("Result [%s]", response.result)
             processResult(response.result)
         }
     }
 
-    private fun processResponses(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+    private fun processResponses(response: Response<WifiType, WifiSubtype, WifiState, WifiAction, List<WifiItem>>) {
         if (response is Response.Progress) {
             bind.swipe.refresh(response.progress)
         } else if (response is Response.Error) {
             processError(response.error)
-        } else if (response is Response.Result<CryptoType, CryptoSubtype, CryptoState, CryptoAction, List<CoinItem>>) {
+        } else if (response is Response.Result<WifiType, WifiSubtype, WifiState, WifiAction, List<WifiItem>>) {
             Timber.v("Result [%s]", response.result)
             processResults(response.result)
         }
@@ -200,13 +210,13 @@ class WifisActivity : InjectActivity() {
         )
     }
 
-    private fun processResult(result: CoinItem?) {
+    private fun processResult(result: WifiItem?) {
         if (result != null) {
             adapter.updateItem(result)
         }
     }
 
-    private fun processResults(result: List<CoinItem>?) {
+    private fun processResults(result: List<WifiItem>?) {
         if (result != null) {
             adapter.addItems(result)
         }

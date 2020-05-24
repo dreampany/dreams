@@ -32,6 +32,13 @@ fun Activity?.alive(): Boolean {
     return !isFinishing()
 }
 
+fun Activity?.open(action: String, requestCode: Int) {
+    this?.run {
+        val intent = Intent(action)
+        startActivityForResult(intent, requestCode)
+    }
+}
+
 fun <T : Any> Activity?.open(target: KClass<T>, finishCurrent: Boolean = false) {
     this?.run {
         startActivity(Intent(this, target.java))

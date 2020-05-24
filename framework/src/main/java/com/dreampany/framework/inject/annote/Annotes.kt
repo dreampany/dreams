@@ -17,6 +17,11 @@ annotation class Pref
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
+annotation class Memory
+
+@Qualifier
+@MustBeDocumented
+@Retention(AnnotationRetention.RUNTIME)
 annotation class Room
 
 @Qualifier

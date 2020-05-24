@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.lifecycle.Observer
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.extension.*
+import com.dreampany.framework.misc.extension.init
+import com.dreampany.framework.misc.extension.refresh
+import com.dreampany.framework.misc.extension.toTint
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.ui.activity.InjectActivity
 import com.dreampany.framework.ui.model.UiTask
@@ -21,6 +22,7 @@ import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
+import com.dreampany.tools.ui.wifi.vm.WifiViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -30,7 +32,7 @@ import javax.inject.Inject
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AccessPointsActivity : InjectActivity() {
+class WifisActivity : InjectActivity() {
     @Inject
     internal lateinit var ad: AdManager
 
@@ -38,7 +40,7 @@ class AccessPointsActivity : InjectActivity() {
     internal lateinit var wifiPref: WifiPref
 
     private lateinit var bind: RecyclerActivityBinding
-    //private lateinit var vm: WifiViewModel
+    private lateinit var vm: WifiViewModel
     private lateinit var adapter: FastCoinAdapter
 
     override fun homeUp(): Boolean = true

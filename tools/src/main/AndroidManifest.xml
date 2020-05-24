@@ -200,7 +200,7 @@
         </activity>
 
         <activity
-            android:name=".ui.wifi.activity.AccessPointsActivity"
+            android:name=".ui.wifi.activity.WifisActivity"
             android:configChanges="orientation|screenSize|keyboard|keyboardHidden|screenLayout"
             android:label="@string/title_feature_crypto"
             android:windowSoftInputMode="adjustResize">

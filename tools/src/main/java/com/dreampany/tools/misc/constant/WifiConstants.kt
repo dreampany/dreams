@@ -24,9 +24,7 @@ class WifiConstants {
     }
 
     object Limits {
-        const val COINS = 100L
-        const val TRADES = 10L
-        const val EXCHANGES = 10L
+        const val WIFIS = 10L
     }
 
     object Times {

@@ -15,7 +15,8 @@ import dagger.Module
         CryptoModule::class,
         RadioModule::class,
         NoteModule::class,
-        HistoryModule::class
+        HistoryModule::class,
+        WifiModule::class
     ]
 )
 class DataModule {

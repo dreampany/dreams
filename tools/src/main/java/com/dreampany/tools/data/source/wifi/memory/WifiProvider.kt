@@ -70,13 +70,11 @@ class WifiProvider
         @SuppressLint("MissingPermission")
         get() {
             try {
-                if (manager.get()?.startScan() ?: false) {
-                    return manager.get()?.scanResults ?: Collections.emptyList()
-                }
+                return manager.get()?.scanResults ?: Collections.emptyList()
             } catch (error: Throwable) {
                 Timber.e(error)
+                return Collections.emptyList()
             }
-            return Collections.emptyList()
         }
 
     val wifiInfo: WifiInfo?

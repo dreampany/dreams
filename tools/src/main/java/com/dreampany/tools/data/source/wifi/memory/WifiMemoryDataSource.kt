@@ -1,8 +1,8 @@
 package com.dreampany.tools.data.source.wifi.memory
 
-import android.content.Context
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
+import com.dreampany.tools.data.source.wifi.mapper.WifiMapper
 
 /**
  * Created by roman on 24/5/20
@@ -12,6 +12,7 @@ import com.dreampany.tools.data.source.wifi.api.WifiDataSource
  */
 class WifiMemoryDataSource
 constructor(
+    private val mapper: WifiMapper,
     private val provider: WifiProvider
 ) : WifiDataSource {
 
@@ -27,7 +28,9 @@ constructor(
 
     @Throws
     override suspend fun gets(callback: () -> Unit): List<Wifi>? {
-        TODO("Not yet implemented")
+        provider.enable(callback)
+        provider.startScan
+        return mapper.gets(provider.scanResults)
     }
 
 

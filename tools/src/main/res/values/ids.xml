@@ -13,4 +13,6 @@
     <item name="adapter_note_item_id" type="id" />
 
     <item name="adapter_history_item_id" type="id" />
+
+    <item name="adapter_wifi_item_id" type="id" />
 </resources>

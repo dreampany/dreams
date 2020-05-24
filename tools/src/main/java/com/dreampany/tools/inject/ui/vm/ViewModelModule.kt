@@ -8,6 +8,7 @@ import com.dreampany.tools.inject.ui.vm.crypto.CryptoViewModelModule
 import com.dreampany.tools.inject.ui.vm.history.HistoryViewModelModule
 import com.dreampany.tools.inject.ui.vm.note.NoteViewModelModule
 import com.dreampany.tools.inject.ui.vm.radio.RadioViewModelModule
+import com.dreampany.tools.inject.ui.vm.wifi.WifiViewModelModule
 import com.dreampany.tools.ui.home.vm.FeatureViewModel
 import com.dreampany.tools.ui.more.vm.MoreViewModel
 import dagger.Binds
@@ -26,7 +27,8 @@ import javax.inject.Singleton
         CryptoViewModelModule::class,
         RadioViewModelModule::class,
         NoteViewModelModule::class,
-        HistoryViewModelModule::class
+        HistoryViewModelModule::class,
+        WifiViewModelModule::class
     ]
 )
 abstract class ViewModelModule {

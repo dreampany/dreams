@@ -12,8 +12,23 @@ import com.dreampany.tools.data.source.wifi.api.WifiDataSource
  */
 class WifiMemoryDataSource
 constructor(
-    private val context: Context
+    private val provider: WifiProvider
 ) : WifiDataSource {
+
+    @Throws
+    override suspend fun put(input: Wifi): Long {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun put(inputs: List<Wifi>): List<Long>? {
+        TODO("Not yet implemented")
+    }
+
+    @Throws
+    override suspend fun gets(callback: () -> Unit): List<Wifi>? {
+        TODO("Not yet implemented")
+    }
 
 
     @Throws

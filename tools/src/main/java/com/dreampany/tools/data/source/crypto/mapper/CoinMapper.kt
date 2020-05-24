@@ -180,8 +180,8 @@ class CoinMapper
     @Synchronized
     fun getItems(inputs: List<CryptoCoin>): List<Coin> {
         val result = arrayListOf<Coin>()
-        inputs.forEach { coin ->
-            result.add(getItem(coin))
+        inputs.forEach { input ->
+            result.add(getItem(input))
         }
         return result
     }

@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.source.wifi.mapper
 
+import android.net.wifi.ScanResult
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.extension.sub
@@ -8,16 +9,11 @@ import com.dreampany.tools.data.source.wifi.api.WifiDataSource
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
 import com.google.common.collect.Maps
 import org.apache.commons.lang3.builder.CompareToBuilder
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.collections.ArrayList
-import kotlin.collections.List
-import kotlin.collections.MutableMap
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
-import kotlin.collections.sortWith
-import kotlin.collections.toList
 
 /**
  * Created by roman on 24/5/20
@@ -55,6 +51,30 @@ class WifiMapper
         return result
     }
 
+    @Synchronized
+    fun gets(inputs: List<ScanResult>): List<Wifi> {
+        val result = arrayListOf<Wifi>()
+        inputs.forEach { input ->
+            result.add(get(input))
+        }
+        return result
+    }
+
+    @Synchronized
+    fun get(input: ScanResult): Wifi {
+        Timber.v("Resolved Wifi: %s", input.BSSID);
+        val id = input.BSSID + input.SSID
+        var out: Wifi? = wifis.get(id)
+        if (out == null) {
+            out = Wifi(id)
+            wifis.put(id, out)
+        }
+        out.bssid = input.BSSID
+        out.ssid = input.SSID
+        out.capabilities = input.capabilities
+        return out
+    }
+
     @Throws
     @Synchronized
     private suspend fun updateCache(source: WifiDataSource, callback: () -> Unit) {
@@ -80,7 +100,7 @@ class WifiMapper
     ) : Comparator<Wifi> {
         override fun compare(left: Wifi, right: Wifi): Int = CompareToBuilder()
             .append(left.bssid, right.bssid)
-            .append(left.level, right.level)
+            //.append(left.level, right.level)
             .toComparison()
     }
 }

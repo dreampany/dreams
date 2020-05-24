@@ -28,7 +28,8 @@ data class Wifi(
     override var id: String = Constants.Default.STRING,
     var ssid : String = Constants.Default.STRING,
     var bssid : String = Constants.Default.STRING,
-    var capabilities : String = Constants.Default.STRING,
+    var capabilities : String = Constants.Default.STRING
+    /*,
     var level : Int = Constants.Default.INT,
     var frequency : Int = Constants.Default.INT,
     var channelWidth : Int = Constants.Default.INT,
@@ -37,7 +38,7 @@ data class Wifi(
     var timestamp : Long = Constants.Default.LONG,
     var venueName : String = Constants.Default.STRING,
     var operatorFriendlyName : String = Constants.Default.STRING,
-    var carrierName : String = Constants.Default.STRING
+    var carrierName : String = Constants.Default.STRING*/
 ): Base() {
 
     @Ignore
@@ -60,9 +61,9 @@ data class Wifi(
 
     override fun toString(): String = "Wifi ($id) == $id"
 
-    val is2GHz : Boolean
+   /* val is2GHz : Boolean
         get() = frequency > 2400 && frequency < 2500
 
     val is5GHz : Boolean
-        get() = frequency > 4900 && frequency < 5900
+        get() = frequency > 4900 && frequency < 5900*/
 }

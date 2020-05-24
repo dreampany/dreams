@@ -1,8 +1,9 @@
 package com.dreampany.tools.data.source.wifi.room
 
-import android.content.Context
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
+import com.dreampany.tools.data.source.wifi.mapper.WifiMapper
+import com.dreampany.tools.data.source.wifi.room.dao.WifiDao
 
 /**
  * Created by roman on 24/5/20
@@ -12,23 +13,28 @@ import com.dreampany.tools.data.source.wifi.api.WifiDataSource
  */
 class WifiRoomDataSource
 constructor(
-    private val context: Context
+    private val mapper: WifiMapper,
+    private val dao: WifiDao
 ) : WifiDataSource {
+
+    @Throws
     override suspend fun put(input: Wifi): Long {
-        TODO("Not yet implemented")
+        mapper.add(input)
+        return dao.insertOrReplace(input)
     }
 
+    @Throws
     override suspend fun put(inputs: List<Wifi>): List<Long>? {
-        TODO("Not yet implemented")
+        val result = arrayListOf<Long>()
+        inputs.forEach { result.add(put(it)) }
+        return result
     }
 
-    override suspend fun gets(callback: () -> Unit): List<Wifi>? {
-        TODO("Not yet implemented")
-    }
+    @Throws
+    override suspend fun gets(callback: () -> Unit): List<Wifi>? = dao.items
 
 
     @Throws
-    override suspend fun gets(offset: Long, limit: Long, callback: () -> Unit): List<Wifi>? {
-        TODO("Not yet implemented")
-    }
+    override suspend fun gets(offset: Long, limit: Long, callback: () -> Unit): List<Wifi>? =
+        mapper.gets(this, offset, limit, callback)
 }

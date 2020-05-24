@@ -5,7 +5,9 @@ import android.content.Context
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
+import com.dreampany.adapter.value
 import com.dreampany.framework.misc.util.Util
+import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
@@ -68,10 +70,13 @@ class WifiProvider
         @SuppressLint("MissingPermission")
         get() {
             try {
-                return manager.get()?.scanResults ?: Collections.emptyList()
+                if (manager.get()?.startScan() ?: false) {
+                    return manager.get()?.scanResults ?: Collections.emptyList()
+                }
             } catch (error: Throwable) {
-                return Collections.emptyList()
+                Timber.e(error)
             }
+            return Collections.emptyList()
         }
 
     val wifiInfo: WifiInfo?

@@ -59,6 +59,7 @@ abstract class BaseFragment : PreferenceFragmentCompat(),
 
     @LayoutRes
     open fun layoutRes(): Int = 0
+    //@get:LayoutRes abstract val layoutRes: Int
 
     @XmlRes
     open fun prefLayoutRes(): Int = 0

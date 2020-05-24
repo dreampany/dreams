@@ -1,9 +1,6 @@
 package com.dreampany.tools.data.source.wifi.api
 
-import com.dreampany.framework.data.enums.Order
-import com.dreampany.tools.data.enums.crypto.CoinSort
-import com.dreampany.tools.data.enums.crypto.Currency
-import com.dreampany.tools.data.model.crypto.Coin
+import com.dreampany.tools.data.model.wifi.Wifi
 
 /**
  * Created by roman on 23/5/20
@@ -13,5 +10,5 @@ import com.dreampany.tools.data.model.crypto.Coin
  */
 interface WifiDataSource {
     @Throws
-    suspend fun gets(): List<Coin>?
+    suspend fun gets(): List<Wifi>?
 }

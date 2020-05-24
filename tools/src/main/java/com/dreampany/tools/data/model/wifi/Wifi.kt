@@ -6,5 +6,5 @@ package com.dreampany.tools.data.model.wifi
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-class AccessPoint {
+class Wifi {
 }

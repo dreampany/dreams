@@ -2,7 +2,7 @@
 <resources>
 
     <string name="title_feature_app">App Manager</string>
-    <string name="title_feature_wifi">Wifi Analyzer</string>
+    <string name="title_feature_wifi">Wifi Analyser</string>
     <string name="title_feature_vpn">Super VPN</string>
     <string name="title_feature_word">Learn Words</string>
     <string name="title_feature_note">Keep Notes</string>

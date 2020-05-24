@@ -21,8 +21,6 @@ import com.dreampany.tools.databinding.RecyclerActivityBinding
 import com.dreampany.tools.manager.AdManager
 import com.dreampany.tools.ui.crypto.adapter.FastCoinAdapter
 import com.dreampany.tools.ui.crypto.model.CoinItem
-import com.dreampany.tools.ui.crypto.vm.CoinViewModel
-import com.dreampany.tools.ui.wifi.vm.WifiViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -133,9 +131,9 @@ class AccessPointsActivity : InjectActivity() {
         bind = getBinding()
         bind.swipe.init(this)
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_coins)
-        vm = createVm(CoinViewModel::class)
-        vm.subscribe(this, Observer { this.processResponse(it) })
-        vm.subscribes(this, Observer { this.processResponses(it) })
+        //vm = createVm(CoinViewModel::class)
+        //vm.subscribe(this, Observer { this.processResponse(it) })
+        //vm.subscribes(this, Observer { this.processResponses(it) })
     }
 
     private fun initRecycler(state: Bundle?) {
@@ -148,17 +146,17 @@ class AccessPointsActivity : InjectActivity() {
             )
         }
 
-        adapter.initRecycler(
+        /*adapter.initRecycler(
             state,
             bind.layoutRecycler.recycler,
             cryptoPref.getCurrency(),
             cryptoPref.getSort(),
             cryptoPref.getOrder()
-        )
+        )*/
     }
 
     private fun loadCoins() {
-        vm.loadCoins(adapter.itemCount.toLong())
+        //vm.loadCoins(adapter.itemCount.toLong())
     }
 
     private fun processResponse(response: Response<CryptoType, CryptoSubtype, CryptoState, CryptoAction, CoinItem>) {
@@ -219,7 +217,7 @@ class AccessPointsActivity : InjectActivity() {
     }
 
     private fun onFavoriteClicked(item: CoinItem) {
-        vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
+        //vm.toggleFavorite(item.item, CoinItem.ItemType.ITEM)
     }
 
 

@@ -23,21 +23,12 @@ import kotlinx.android.parcel.Parcelize
     )],
     primaryKeys = [Constants.Keys.ID]
 )
-data class Wifi(
+data class WifiSignal(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
     var ssid : String = Constants.Default.STRING,
     var bssid : String = Constants.Default.STRING,
-    var capabilities : String = Constants.Default.STRING,
-    var level : Int = Constants.Default.INT,
-    var frequency : Int = Constants.Default.INT,
-    var channelWidth : Int = Constants.Default.INT,
-    var centerFreq0 : Int = Constants.Default.INT,
-    var centerFreq1 : Int = Constants.Default.INT,
-    var timestamp : Long = Constants.Default.LONG,
-    var venueName : String = Constants.Default.STRING,
-    var operatorFriendlyName : String = Constants.Default.STRING,
-    var carrierName : String = Constants.Default.STRING
+    var capabilities : String = Constants.Default.STRING
 ): Base() {
 
     @Ignore
@@ -54,15 +45,9 @@ data class Wifi(
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val item = other as Wifi
+        val item = other as WifiSignal
         return Objects.equal(this.id, item.id)
     }
 
     override fun toString(): String = "Wifi ($id) == $id"
-
-    val is2GHz : Boolean
-        get() = frequency > 2400 && frequency < 2500
-
-    val is5GHz : Boolean
-        get() = frequency > 4900 && frequency < 5900
 }

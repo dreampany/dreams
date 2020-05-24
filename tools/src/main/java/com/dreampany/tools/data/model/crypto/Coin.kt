@@ -76,9 +76,7 @@ data class Coin(
         return Objects.equal(this.id, item.id)
     }
 
-    override fun toString(): String {
-        return "Coin ($id) == $id"
-    }
+    override fun toString(): String = "Coin ($id) == $id"
 
     @PropertyName(AppConstants.Keys.Coin.CIRCULATING_SUPPLY)
     fun setCirculatingSupply(circulatingSupply: Double) {

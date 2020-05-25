@@ -6,6 +6,7 @@ import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.net.wifi.WifiManager
 import com.dreampany.adapter.value
+import com.dreampany.framework.misc.extension.isMinQ
 import com.dreampany.framework.misc.util.Util
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -89,7 +90,7 @@ class WifiProvider
 
     @SuppressLint("MissingPermission")
     private fun enableWifi(callback: () -> Unit): Boolean {
-        if (Util.isMinQ()) {
+        if (isMinQ) {
             //activity.get().open(Settings.Panel.ACTION_WIFI, 0)
             callback()
             return true
@@ -99,7 +100,7 @@ class WifiProvider
 
     @SuppressLint("MissingPermission")
     private fun disableWifi(callback: () -> Unit): Boolean {
-        if (Util.isMinQ()) {
+        if (isMinQ) {
             //activity.get().open(Settings.Panel.ACTION_WIFI, 0)
             callback()
             return true

@@ -7,12 +7,15 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.os.Build
 import android.widget.Toast
 import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.dreampany.framework.data.model.Task
+import com.dreampany.framework.misc.extension.isMinO
 
 /**
  * Created by roman on 15/4/20
@@ -30,13 +33,14 @@ class NotifyUtil {
             Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun createNotificationChannel(
             channelId: String,
             channelName: String,
             channelDescription: String,
             channelImportance: Int
         ): NotificationChannel? {
-            if (!Util.isMinO()) {
+            if (!isMinO) {
                 return null
             }
             val channel = NotificationChannel(channelId, channelName, channelImportance)
@@ -44,15 +48,16 @@ class NotifyUtil {
             return channel
         }
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun deleteNotificationChannel(
             context: Context,
             channelId: String
         ): Boolean {
-            if (!Util.isMinO()) {
+            if (!isMinO) {
                 return false
             }
             val manager = context.getSystemService(NotificationManager::class.java)
-            manager!!.deleteNotificationChannel(channelId)
+            manager?.deleteNotificationChannel(channelId)
             return true
         }
 
@@ -69,7 +74,7 @@ class NotifyUtil {
         ): Notification? {
             val appContext = context.applicationContext
             var builder: NotificationCompat.Builder? = null
-            if (Util.isMinO()) {
+            if (isMinO) {
                 val manager = NotificationManagerCompat.from(appContext)
                 channel?.run {
                     manager.createNotificationChannel(this)

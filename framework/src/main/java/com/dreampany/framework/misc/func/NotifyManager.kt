@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.dreampany.framework.R
 import com.dreampany.framework.data.model.Task
 import com.dreampany.framework.misc.constant.Constants
+import com.dreampany.framework.misc.extension.isMinO
 import com.dreampany.framework.misc.util.NotifyUtil
 import com.dreampany.framework.misc.util.Util
 import javax.inject.Inject
@@ -171,7 +172,7 @@ class NotifyManager
         )
 
         notification?.run {
-            if (Util.isMinO()) {
+            if (isMinO) {
                 (context as Service).startForeground(notifyId, this)
             } else {
                 manager?.notify(notifyId, this)

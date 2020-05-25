@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.location.LocationManager
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.util.DisplayMetrics
@@ -28,10 +29,6 @@ import java.util.concurrent.TimeUnit
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-fun Context?.appContext(): Context? {
-    return this?.applicationContext
-}
-
 val Context?.appContext: Context?
     get() = this?.applicationContext
 
@@ -123,18 +120,18 @@ fun Context?.currentPackage(): String? {
     return currentTask()?.topActivity?.packageName
 }
 
-fun Context?.packageManager(): PackageManager? = this?.applicationContext?.packageManager
+val Context?.packageManager: PackageManager? get() = this?.applicationContext?.packageManager
 
-fun Context?.activityManager(): ActivityManager? {
-    return this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
-}
+val Context?.activityManager: ActivityManager?
+    get() = this?.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
 
-fun Context?.packageName(): String? = appContext()?.packageName
+
+val Context?.packageName: String? get() = appContext?.packageName
 
 fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
     try {
         if (pkg.isNullOrEmpty()) return null
-        return packageManager()?.getPackageInfo(pkg, flags)
+        return packageManager?.getPackageInfo(pkg, flags)
     } catch (error: PackageManager.NameNotFoundException) {
         //Timber.e(error)
     }
@@ -144,7 +141,7 @@ fun Context?.packageInfo(pkg: String?, flags: Int): PackageInfo? {
 fun Context?.icon(pkg: String?): Drawable? {
     if (pkg.isNullOrEmpty()) return null
     try {
-        return packageManager()?.getApplicationIcon(pkg)
+        return packageManager?.getApplicationIcon(pkg)
     } catch (error: PackageManager.NameNotFoundException) {
         //Timber.e(error)
     }
@@ -154,11 +151,11 @@ fun Context?.icon(pkg: String?): Drawable? {
 @SuppressLint("MissingPermission")
 fun Context?.kill(pkg: String?) {
     if (pkg.isNullOrEmpty()) return
-    activityManager()?.killBackgroundProcesses(pkg)
+    activityManager?.killBackgroundProcesses(pkg)
 }
 
 fun Context?.lastApplicationId(): String? {
-    val applicationId = this.packageName() ?: return Constants.Default.NULL
+    val applicationId = this.packageName ?: return Constants.Default.NULL
 
     return Iterables.getLast(Splitter.on(Constants.Sep.DOT).trimResults().split(applicationId))
 }
@@ -230,5 +227,7 @@ fun getCDMACountryIso(): String? {
     return null
 }
 
+val Context?.locationManager : LocationManager?
+    get() = this?.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
 
 

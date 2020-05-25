@@ -36,10 +36,6 @@ object Util {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
     }
 
-    fun isMinQ(): Boolean {
-        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
-    }
-
     fun <T : Context> createIntent(source: T, target: Class<*>, task: Task<*,*,*, *, *>?): Intent {
         val intent = Intent(source, target)
         if (task != null) {

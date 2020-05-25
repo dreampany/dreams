@@ -6,11 +6,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
+import com.afollestad.assent.Permission
+import com.afollestad.assent.runWithPermissions
 import com.dreampany.framework.data.model.Response
-import com.dreampany.framework.misc.extension.init
-import com.dreampany.framework.misc.extension.open
-import com.dreampany.framework.misc.extension.refresh
-import com.dreampany.framework.misc.extension.toTint
+import com.dreampany.framework.misc.extension.*
 import com.dreampany.framework.misc.func.SmartError
 import com.dreampany.framework.misc.util.Util
 import com.dreampany.framework.ui.activity.InjectActivity
@@ -164,11 +163,13 @@ class WifisActivity : InjectActivity() {
     }
 
     private fun loadWifis() {
-        vm.loadWifis(adapter.itemCount.toLong(), {
-            if (Util.isMinQ()) {
-                open(Settings.Panel.ACTION_WIFI, 0)
-            }
-        })
+        runWithPermissions(Permission.ACCESS_FINE_LOCATION) {
+            vm.loadWifis(adapter.itemCount.toLong(), {
+                if (isMinQ) {
+                    open(Settings.Panel.ACTION_WIFI, 0)
+                }
+            })
+        }
     }
 
     private fun processResponse(response: Response<WifiType, WifiSubtype, WifiState, WifiAction, WifiItem>) {

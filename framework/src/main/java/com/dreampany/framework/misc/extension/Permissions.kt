@@ -5,9 +5,12 @@ import android.app.AppOpsManager
 import android.app.AppOpsManager.MODE_ALLOWED
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Build
 import android.os.Process
 import android.provider.Settings
+import androidx.annotation.RequiresApi
+import androidx.core.location.LocationManagerCompat
 
 /**
  * Created by roman on 3/3/20
@@ -16,35 +19,62 @@ import android.provider.Settings
  * Last modified $file.lastModified
  */
 
+val isMinLollipop: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+
+val isMinM: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+
+val isMinN: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+val isMinO: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+val isMinQ: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+
 fun Context?.hasManifest(permission: String): Boolean {
-    val info = packageInfo(packageName(), PackageManager.GET_PERMISSIONS)
+    val info = packageInfo(packageName, PackageManager.GET_PERMISSIONS)
     return info?.requestedPermissions?.contains(permission) ?: false
 }
 
-fun Context?.hasOverlayPermission(): Boolean {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+val Context?.hasOverlayPermission: Boolean
+    @RequiresApi(Build.VERSION_CODES.M)
+    get() = if (isMinM) {
         Settings.canDrawOverlays(this)
     } else {
         hasManifest(SYSTEM_ALERT_WINDOW)
     }
-}
 
 
-fun Context?.hasUsagePermission(): Boolean {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        val appOps =
-            this?.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager? ?: return false
-        val pkg = packageName() ?: return false
-        val mode = appOps.checkOpNoThrow(
-            AppOpsManager.OPSTR_GET_USAGE_STATS,
-            Process.myUid(), pkg
-        )
-        return mode == MODE_ALLOWED
-    } else {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            hasManifest(PACKAGE_USAGE_STATS)
+val Context?.hasUsagePermission: Boolean
+    get() {
+        if (isMinLollipop) {
+            val appOps =
+                this?.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager? ?: return false
+            val pkg = packageName ?: return false
+            val mode = appOps.checkOpNoThrow(
+                AppOpsManager.OPSTR_GET_USAGE_STATS,
+                Process.myUid(), pkg
+            )
+            return mode == MODE_ALLOWED
         } else {
-            hasManifest(GET_TASKS)
+            return if (isMinM) {
+                hasManifest(PACKAGE_USAGE_STATS)
+            } else {
+                hasManifest(GET_TASKS)
+            }
         }
     }
-}
+
+val Context?.hasLocationPermission: Boolean
+    get() {
+        if (isMinM) {
+            val location = locationManager ?: return false
+            return LocationManagerCompat.isLocationEnabled(location)
+        } else {
+           return hasManifest(ACCESS_FINE_LOCATION) || hasManifest(ACCESS_COARSE_LOCATION)
+        }
+    }
+

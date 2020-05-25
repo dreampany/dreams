@@ -18,4 +18,7 @@
     <string name="channel_rating_heading_count">"Access Point Count"</string>
     <string name="channel_short_name">"CH"</string>
 
+    <string name="format_ssid_bssid">%s (%s)</string>
+    <string name="format_dBm">%ddBm</string>
+
 </resources>

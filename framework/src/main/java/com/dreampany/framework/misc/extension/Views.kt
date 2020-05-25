@@ -13,10 +13,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.AnimRes
-import androidx.annotation.ColorRes
-import androidx.annotation.LayoutRes
-import androidx.annotation.Nullable
+import androidx.annotation.*
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.databinding.DataBindingUtil
@@ -167,6 +164,8 @@ fun TextView.blink(@ColorRes startColorRes: Int, @ColorRes endColorRes: Int) {
 val ViewBinding.context: Context get() = root.context
 
 fun ViewBinding.color(@ColorRes resId: Int) : Int = context.color(resId)
+
+fun ViewBinding.string(@StringRes resId: Int) : String = context.getString(resId)
 
 fun SwipeRefreshLayout?.init(
     listener: SwipeRefreshLayout.OnRefreshListener,

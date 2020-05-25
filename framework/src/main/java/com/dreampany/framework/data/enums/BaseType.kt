@@ -9,5 +9,5 @@ import android.os.Parcelable
  * Last modified $file.lastModified
  */
 interface BaseType : Parcelable {
-    val value : String
+    val value: String
 }

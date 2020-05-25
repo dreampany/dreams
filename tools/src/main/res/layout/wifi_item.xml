@@ -4,169 +4,217 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="${relativePackage}.${activityClass}">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        auto:cardCornerRadius="@dimen/_2sdp"
+        auto:cardElevation="@dimen/_2sdp"
+        auto:cardPreventCornerOverlap="false">
 
-        <!-- Column 1 -->
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="@dimen/_24sdp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone" />
+            android:padding="@dimen/_4sdp">
 
-        <!-- Column 2 -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent" android:orientation="vertical"
-            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/icon"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                auto:layout_constraintBottom_toBottomOf="parent"
+                auto:layout_constraintStart_toStartOf="parent"
+                auto:layout_constraintTop_toTopOf="parent"
+                auto:srcCompat="@drawable/ic_signal_wifi_4_bar" />
 
-            <!-- Row 1 -->
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_ssid"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginStart="56dp"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="@color/material_grey800"
+                android:textSize="@dimen/_12ssp"
+                auto:fontFamily="@font/roboto_slab_bold"
+                auto:layout_constraintStart_toEndOf="@id/icon"
+                auto:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/title" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/groupIndicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:layout_gravity="center_vertical"
-                    android:visibility="gone"/>
+            <!-- <android.support.constraint.Guideline
+                 android:id="@+id/guideline"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:orientation="vertical"
+                 auto:layout_constraintGuide_begin="20dp" />-->
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ssid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:textStyle="bold"/>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+    <!-- <androidx.appcompat.widget.LinearLayoutCompat
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal">
 
-            <!-- Row 2 -->
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/attachPopup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+         &lt;!&ndash; Column 1 &ndash;&gt;
+         <com.google.android.material.textview.MaterialTextView
+             android:layout_width="@dimen/_24sdp"
+             android:layout_height="wrap_content"
+             android:visibility="gone" />
 
-                <!-- Column 1 -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/_4sdp"
-                    android:orientation="vertical">
+         &lt;!&ndash; Column 2 &ndash;&gt;
+         <androidx.appcompat.widget.LinearLayoutCompat
+             android:layout_width="match_parent" android:orientation="vertical"
+             android:layout_height="wrap_content">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/level"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
+             &lt;!&ndash; Row 1 &ndash;&gt;
+             <androidx.appcompat.widget.LinearLayoutCompat
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/levelImage"
-                        android:layout_width="@dimen/_36sdp"
-                        android:layout_height="@dimen/_36sdp"
-                        android:layout_gravity="center_vertical"
-                        android:contentDescription="@null"/>
+                 <androidx.appcompat.widget.AppCompatImageView
+                     android:id="@+id/groupIndicator"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:contentDescription="@null"
+                     android:layout_gravity="center_vertical"
+                     android:visibility="gone"/>
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                 <com.google.android.material.textview.MaterialTextView
+                     android:id="@+id/ssid"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_vertical"
+                     android:textStyle="bold"/>
+             </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <!-- Column 2 -->
-                <androidx.appcompat.widget.LinearLayoutCompat
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+             &lt;!&ndash; Row 2 &ndash;&gt;
+             <androidx.appcompat.widget.LinearLayoutCompat
+                 android:id="@+id/attachPopup"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:orientation="horizontal">
 
-                    <!-- Row 1 -->
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                 &lt;!&ndash; Column 1 &ndash;&gt;
+                 <androidx.appcompat.widget.LinearLayoutCompat
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginEnd="@dimen/_4sdp"
+                     android:orientation="vertical">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_4sdp"
-                            android:text="@string/channel_short_name"
-                            android:textColor="@color/material_grey500"
-                            android:textStyle="bold"/>
+                     <com.google.android.material.textview.MaterialTextView
+                         android:id="@+id/level"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"/>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/channel"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_4sdp"
-                            android:textColor="#00BCD4"
-                            android:textStyle="bold"/>
+                     <androidx.appcompat.widget.AppCompatImageView
+                         android:id="@+id/levelImage"
+                         android:layout_width="@dimen/_36sdp"
+                         android:layout_height="@dimen/_36sdp"
+                         android:layout_gravity="center_vertical"
+                         android:contentDescription="@null"/>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/primaryFrequency"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_4sdp"
-                            android:textColor="#0097A7"/>
+                 </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/distance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#009688"
-                            android:textStyle="bold"/>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                 &lt;!&ndash; Column 2 &ndash;&gt;
+                 <androidx.appcompat.widget.LinearLayoutCompat
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:orientation="vertical">
 
-                    <!-- Row 2 -->
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                     &lt;!&ndash; Row 1 &ndash;&gt;
+                     <androidx.appcompat.widget.LinearLayoutCompat
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/channel_frequency_range"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_4sdp"
-                            android:textColor="#0097A7"/>
+                         <com.google.android.material.textview.MaterialTextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginEnd="@dimen/_4sdp"
+                             android:text="@string/channel_short_name"
+                             android:textColor="@color/material_grey500"
+                             android:textStyle="bold"/>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/width"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/_4sdp"
-                            android:textColor="#0097A7"/>
+                         <com.google.android.material.textview.MaterialTextView
+                             android:id="@+id/channel"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginEnd="@dimen/_4sdp"
+                             android:textColor="#00BCD4"
+                             android:textStyle="bold"/>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/vendorShort"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"/>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                         <com.google.android.material.textview.MaterialTextView
+                             android:id="@+id/primaryFrequency"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginEnd="@dimen/_4sdp"
+                             android:textColor="#0097A7"/>
 
-                    <!-- Row 3 -->
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                         <com.google.android.material.textview.MaterialTextView
+                             android:id="@+id/distance"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:textColor="#009688"
+                             android:textStyle="bold"/>
+                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/securityImage"
-                            android:layout_width="@dimen/_12sdp"
-                            android:layout_height="@dimen/_4sdp"
-                            android:layout_marginEnd="@dimen/_4sdp"
-                            android:layout_gravity="center_vertical"
-                            android:contentDescription="@null"/>
+                     &lt;!&ndash; Row 2 &ndash;&gt;
+                     <androidx.appcompat.widget.LinearLayoutCompat
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:id="@+id/capabilities"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#607D8B"
-                            android:textStyle="italic"/>
-                    </androidx.appcompat.widget.LinearLayoutCompat>
-                </androidx.appcompat.widget.LinearLayoutCompat>
-            </androidx.appcompat.widget.LinearLayoutCompat>
+                         <com.google.android.material.textview.MaterialTextView
+                             android:id="@+id/channel_frequency_range"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginEnd="@dimen/_4sdp"
+                             android:textColor="#0097A7"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                         <com.google.android.material.textview.MaterialTextView
+                             android:id="@+id/width"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginEnd="@dimen/_4sdp"
+                             android:textColor="#0097A7"/>
+
+                         <com.google.android.material.textview.MaterialTextView
+                             android:id="@+id/vendorShort"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:visibility="gone"/>
+                     </androidx.appcompat.widget.LinearLayoutCompat>
+
+                     &lt;!&ndash; Row 3 &ndash;&gt;
+                     <androidx.appcompat.widget.LinearLayoutCompat
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal">
+
+                         <androidx.appcompat.widget.AppCompatImageView
+                             android:id="@+id/securityImage"
+                             android:layout_width="@dimen/_12sdp"
+                             android:layout_height="@dimen/_4sdp"
+                             android:layout_marginEnd="@dimen/_4sdp"
+                             android:layout_gravity="center_vertical"
+                             android:contentDescription="@null"/>
+
+                         <com.google.android.material.textview.MaterialTextView
+                             android:id="@+id/capabilities"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:textColor="#607D8B"
+                             android:textStyle="italic"/>
+                     </androidx.appcompat.widget.LinearLayoutCompat>
+                 </androidx.appcompat.widget.LinearLayoutCompat>
+             </androidx.appcompat.widget.LinearLayoutCompat>
+
+         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+     </androidx.appcompat.widget.LinearLayoutCompat>-->
 
 </layout>

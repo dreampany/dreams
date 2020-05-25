@@ -8,4 +8,7 @@
     <color name="contentBackground">@color/material_white</color>
     <color name="contentText">@color/material_black</color>
 
+    <color name="error">@color/material_red500</color>
+    <color name="warning">@color/material_amber500</color>
+    <color name="success">@color/material_green500</color>
 </resources>

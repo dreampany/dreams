@@ -4,6 +4,7 @@ import android.net.wifi.ScanResult
 import com.dreampany.framework.data.source.mapper.StoreMapper
 import com.dreampany.framework.data.source.repo.StoreRepo
 import com.dreampany.framework.misc.extension.sub
+import com.dreampany.tools.data.model.wifi.Signal
 import com.dreampany.tools.data.model.wifi.Wifi
 import com.dreampany.tools.data.source.wifi.api.WifiDataSource
 import com.dreampany.tools.data.source.wifi.pref.WifiPref
@@ -72,6 +73,7 @@ class WifiMapper
         out.bssid = input.BSSID
         out.ssid = input.SSID
         out.capabilities = input.capabilities
+        out.signal = Signal(input.frequency, input.level, false)
         return out
     }
 
@@ -96,11 +98,10 @@ class WifiMapper
         return temp
     }
 
-    class WifiComparator(
-    ) : Comparator<Wifi> {
+    class WifiComparator : Comparator<Wifi> {
         override fun compare(left: Wifi, right: Wifi): Int = CompareToBuilder()
-            .append(left.bssid, right.bssid)
-            //.append(left.level, right.level)
+            //.append(left.bssid, right.bssid)
+            .append(left.signal?.level, right.signal?.level)
             .toComparison()
     }
 }

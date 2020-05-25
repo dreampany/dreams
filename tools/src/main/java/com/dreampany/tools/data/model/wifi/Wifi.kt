@@ -1,5 +1,6 @@
 package com.dreampany.tools.data.model.wifi
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.Index
@@ -26,9 +27,11 @@ import kotlinx.android.parcel.Parcelize
 data class Wifi(
     override var time: Long = Constants.Default.LONG,
     override var id: String = Constants.Default.STRING,
-    var ssid : String = Constants.Default.STRING,
-    var bssid : String = Constants.Default.STRING,
-    var capabilities : String = Constants.Default.STRING
+    var ssid: String = Constants.Default.STRING,
+    var bssid: String = Constants.Default.STRING,
+    var capabilities: String = Constants.Default.STRING,
+    @Embedded
+    var signal: Signal? = Constants.Default.NULL
     /*,
     var level : Int = Constants.Default.INT,
     var frequency : Int = Constants.Default.INT,
@@ -39,7 +42,7 @@ data class Wifi(
     var venueName : String = Constants.Default.STRING,
     var operatorFriendlyName : String = Constants.Default.STRING,
     var carrierName : String = Constants.Default.STRING*/
-): Base() {
+) : Base() {
 
     @Ignore
     constructor() : this(time = Util.currentMillis()) {
@@ -61,9 +64,9 @@ data class Wifi(
 
     override fun toString(): String = "Wifi ($id) == $id"
 
-   /* val is2GHz : Boolean
-        get() = frequency > 2400 && frequency < 2500
+    /* val is2GHz : Boolean
+         get() = frequency > 2400 && frequency < 2500
 
-    val is5GHz : Boolean
-        get() = frequency > 4900 && frequency < 5900*/
+     val is5GHz : Boolean
+         get() = frequency > 4900 && frequency < 5900*/
 }

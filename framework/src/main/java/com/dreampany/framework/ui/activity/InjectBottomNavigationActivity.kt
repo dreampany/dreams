@@ -11,13 +11,17 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
  * hawladar.roman@bjitgroup.com
  * Last modified $file.lastModified
  */
-abstract class InjectBottomNavigationActivity : InjectActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+abstract class InjectBottomNavigationActivity : InjectActivity(),
+    BottomNavigationView.OnNavigationItemSelectedListener {
 
     @IdRes
     private var currentNavigationItemId: Int = 0
 
-    @IdRes
-    open fun getNavigationViewId(): Int = 0
+    /*@IdRes
+    open fun getNavigationViewId(): Int = 0*/
+
+    @get:IdRes
+    abstract val navigationViewId: Int
 
     @IdRes
     open fun selectedNavigationItemId(): Int = 0
@@ -27,7 +31,7 @@ abstract class InjectBottomNavigationActivity : InjectActivity(), BottomNavigati
     override fun onCreate(savedInstanceState: Bundle?) {
         fireOnStartUi = false
         super.onCreate(savedInstanceState)
-        val navigationView = findViewById<BottomNavigationView>(getNavigationViewId())
+        val navigationView = findViewById<BottomNavigationView>(navigationViewId)
         navigationView?.setOnNavigationItemSelectedListener(this)
         setSelectedItem(selectedNavigationItemId())
         onStartUi(savedInstanceState)
@@ -46,7 +50,7 @@ abstract class InjectBottomNavigationActivity : InjectActivity(), BottomNavigati
 
     fun setSelectedItem(navigationItemId: Int) {
         if (navigationItemId != 0) {
-            val navView = findViewById<BottomNavigationView>(getNavigationViewId())
+            val navView = findViewById<BottomNavigationView>(navigationViewId)
             navView?.post { navView.selectedItemId = navigationItemId }
         }
     }

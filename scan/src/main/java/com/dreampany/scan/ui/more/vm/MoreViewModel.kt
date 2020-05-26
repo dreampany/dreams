@@ -92,7 +92,7 @@ class MoreViewModel
 
     private fun postProgress(progress: Boolean) {
         postProgressMultiple(
-            Type.FEATURE,
+            Type.MORE,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,
@@ -103,7 +103,7 @@ class MoreViewModel
 
     private fun postError(error: SmartError) {
         postMultiple(
-            Type.FEATURE,
+            Type.MORE,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,
@@ -114,7 +114,7 @@ class MoreViewModel
 
     private fun postResult(result: List<MoreItem>) {
         postMultiple(
-            Type.FEATURE,
+            Type.MORE,
             Subtype.DEFAULT,
             State.DEFAULT,
             Action.DEFAULT,

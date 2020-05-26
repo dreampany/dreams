@@ -77,12 +77,12 @@ class App : InjectApp() {
 
     private fun initFresco() {
         Fresco.initialize(
-            this, ImagePipelineConfig.newBuilder(this)
+            this/*, ImagePipelineConfig.newBuilder(this)
                 .setMemoryChunkType(MemoryChunkType.BUFFER_MEMORY)
                 .setImageTranscoderType(ImageTranscoderType.JAVA_TRANSCODER)
                 .experiment()
                 .setNativeCodeDisabled(true)
-                .build()
+                .build()*/
         )
     }
 

@@ -86,6 +86,8 @@ dependencies {
     api 'androidx.recyclerview:recyclerview-selection:1.0.0'
     api 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
     api 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    api 'androidx.navigation:navigation-fragment-ktx:2.3.0-alpha06'
+    api 'androidx.navigation:navigation-ui-ktx:2.3.0-alpha06'
 
     /* androidx lifecycle */
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"

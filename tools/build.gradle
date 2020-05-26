@@ -21,7 +21,7 @@ android {
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     signingConfigs {
@@ -118,9 +118,7 @@ android {
     }
 }
 
-androidExtensions {
-    experimental = true
-}
+androidExtensions { experimental = true }
 
 dependencies {
     /* libs */

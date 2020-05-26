@@ -132,6 +132,7 @@ dependencies {
 
     /* library */
     implementation project(':framework')
+    implementation project(':opencv-430')
 
     /* androidx lifecycle */
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"

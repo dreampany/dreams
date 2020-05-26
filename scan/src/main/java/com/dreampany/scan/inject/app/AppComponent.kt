@@ -4,6 +4,8 @@ import android.app.Application
 import com.dreampany.framework.inject.app.AppModule
 import com.dreampany.framework.inject.property.PropertyModule
 import com.dreampany.scan.app.App
+import com.dreampany.scan.inject.ui.activity.ActivityModule
+import com.dreampany.scan.inject.ui.vm.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjector
@@ -21,7 +23,9 @@ import javax.inject.Singleton
     modules = [
         AndroidSupportInjectionModule::class,
         AppModule::class,
-        PropertyModule::class
+        PropertyModule::class,
+        ActivityModule::class,
+        ViewModelModule::class
     ]
 )
 interface AppComponent : AndroidInjector<App> {

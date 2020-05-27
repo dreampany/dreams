@@ -2,8 +2,16 @@ package com.dreampany.scan.ui.home.fragment
 
 import android.os.Bundle
 import com.dreampany.framework.inject.annote.ActivityScope
+import com.dreampany.framework.misc.extension.open
+import com.dreampany.framework.misc.extension.setOnSafeClickListener
+import com.dreampany.framework.misc.extension.visible
 import com.dreampany.framework.ui.fragment.InjectFragment
+import com.dreampany.framework.ui.model.UiTask
 import com.dreampany.scan.R
+import com.dreampany.scan.data.enums.home.Action
+import com.dreampany.scan.data.enums.home.State
+import com.dreampany.scan.data.enums.home.Subtype
+import com.dreampany.scan.data.enums.home.Type
 import com.dreampany.scan.databinding.RecyclerFragmentBinding
 import javax.inject.Inject
 
@@ -38,6 +46,10 @@ class HomeFragment
 
     private fun initUi() {
         bind = getBinding()
+
+        bind.fab.setImageResource(R.drawable.ic_photo_camera_black_48dp)
+        bind.fab.visible()
+        bind.fab.setOnSafeClickListener { openScanUi() }
         /*if (!::vm.isInitialized) {
             vm = createVm(FeatureViewModel::class)
             vm.subscribes(this, Observer { this.processResponse(it) })
@@ -101,4 +113,15 @@ class HomeFragment
             Subtype.HISTORY -> activity.open(HistoriesActivity::class)
         }
     }*/
+
+    private fun openScanUi() {
+        val task = UiTask(
+            Type.CAMERA,
+            Subtype.DEFAULT,
+            State.DEFAULT,
+            Action.SCAN,
+            null
+        )
+        //open(NoteActivity::class, task, REQUEST_NOTE)
+    }
 }

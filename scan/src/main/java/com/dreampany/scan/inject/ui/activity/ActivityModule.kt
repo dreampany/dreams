@@ -3,6 +3,7 @@ package com.dreampany.scan.inject.ui.activity
 import com.dreampany.framework.inject.annote.ActivityScope
 import com.dreampany.scan.inject.ui.home.HomeModule
 import com.dreampany.scan.inject.ui.more.MoreModule
+import com.dreampany.scan.ui.camera.CameraActivity
 import com.dreampany.scan.ui.home.activity.HomeActivity
 import com.dreampany.scan.ui.splash.SplashActivity
 import dagger.Module
@@ -22,4 +23,8 @@ abstract class ActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = [HomeModule::class, MoreModule::class])
     abstract fun home(): HomeActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract fun camera(): CameraActivity
 }

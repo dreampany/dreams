@@ -37,12 +37,9 @@ class HomeActivity : InjectBottomNavigationActivity() {
 
     override fun toolbarId(): Int = R.id.toolbar
 
-    //override fun getNavigationViewId(): Int = R.id.navigation_view
+    override val navigationViewId: Int get() = R.id.navigation_view
 
-    override val navigationViewId: Int
-        get() = R.id.navigation_view
-
-    override fun selectedNavigationItemId(): Int = R.id.navigation_home
+    override val selectedNavigationItemId: Int get() = R.id.navigation_home
 
     override fun onNavigationItem(navigationItemId: Int) {
         when (navigationItemId) {

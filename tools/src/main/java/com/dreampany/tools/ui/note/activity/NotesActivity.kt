@@ -156,9 +156,7 @@ class NotesActivity : InjectActivity() {
         bind = getBinding()
         bind.swipe.init(this)
         bind.fab.visible()
-        bind.fab.setOnSafeClickListener {
-            openAddNoteUi()
-        }
+        bind.fab.setOnSafeClickListener { openAddNoteUi() }
         bind.stateful.setStateView(StatefulLayout.State.EMPTY, R.layout.content_empty_notes)
         vm = createVm(NoteViewModel::class)
         vm.subscribe(this, Observer { this.processResponse(it) })

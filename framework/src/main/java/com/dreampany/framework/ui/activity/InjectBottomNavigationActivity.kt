@@ -17,14 +17,11 @@ abstract class InjectBottomNavigationActivity : InjectActivity(),
     @IdRes
     private var currentNavigationItemId: Int = 0
 
-    /*@IdRes
-    open fun getNavigationViewId(): Int = 0*/
-
     @get:IdRes
     abstract val navigationViewId: Int
 
-    @IdRes
-    open fun selectedNavigationItemId(): Int = 0
+    @get:IdRes
+    abstract val selectedNavigationItemId: Int
 
     protected abstract fun onNavigationItem(navigationItemId: Int)
 
@@ -33,7 +30,7 @@ abstract class InjectBottomNavigationActivity : InjectActivity(),
         super.onCreate(savedInstanceState)
         val navigationView = findViewById<BottomNavigationView>(navigationViewId)
         navigationView?.setOnNavigationItemSelectedListener(this)
-        setSelectedItem(selectedNavigationItemId())
+        setSelectedItem(selectedNavigationItemId)
         onStartUi(savedInstanceState)
         //getApp().throwAnalytics(Constants.Event.ACTIVITY, getScreen())
     }

@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 29
@@ -38,9 +39,7 @@ android {
         }
     }
 
-    dataBinding {
-        enabled true
-    }
+    dataBinding { enabled true }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -50,9 +49,7 @@ android {
     kotlinOptions { jvmTarget = JavaVersion.VERSION_1_8.toString() }
 }
 
-androidExtensions {
-    experimental = true
-}
+androidExtensions { experimental = true }
 
 dependencies {
     /* libs */

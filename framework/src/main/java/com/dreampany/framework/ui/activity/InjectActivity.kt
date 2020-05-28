@@ -38,6 +38,7 @@ abstract class InjectActivity : BaseActivity(), HasAndroidInjector {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.setLifecycleOwner(this)
+        initToolbar()
         onStartUi(savedInstanceState)
     }
 

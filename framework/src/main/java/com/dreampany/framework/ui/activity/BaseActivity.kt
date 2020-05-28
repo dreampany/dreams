@@ -96,8 +96,8 @@ abstract class BaseActivity : AppCompatActivity(),
         }
         if (!createdByChild && layoutRes != 0) {
             setContentView(layoutRes)
+            initToolbar()
         }
-        initToolbar()
         if (!createdByChild) {
             onStartUi(savedInstanceState)
         }
@@ -311,7 +311,7 @@ abstract class BaseActivity : AppCompatActivity(),
         }*/
     }
 
-    private fun initToolbar() {
+    protected fun initToolbar() {
         if (toolbarId != 0) {
             toolbar = findViewById<Toolbar>(toolbarId)
             setSupportActionBar(toolbar)
